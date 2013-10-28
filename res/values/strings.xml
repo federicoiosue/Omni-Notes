@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Omni Notes</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="add_note">Add Note</string>
+
+</resources>

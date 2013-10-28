@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="@string/add_note"
+        android:visible="true"/>
+    
+<!--     <item -->
+<!--         android:id="@+id/about" -->
+<!--         android:icon="@android:drawable/ic_menu_help" -->
+<!--         android:orderInCategory="200" -->
+<!--         android:showAsAction="always" -->
+<!--         android:title="@string/about" -->
+<!--         android:visible="true"/> -->
+    
+<!--     <item -->
+<!--         android:id="@+id/back" -->
+<!--         android:icon="@android:drawable/ic_menu_revert" -->
+<!--         android:orderInCategory="300" -->
+<!--         android:showAsAction="always" -->
+<!--         android:title="@string/back" -->
+<!--         android:visible="false"/> -->
+   
+
+</menu>
