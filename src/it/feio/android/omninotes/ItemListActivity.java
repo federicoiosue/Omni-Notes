@@ -1,11 +1,12 @@
-package it.feio.android.sharednotes;
+package it.feio.android.omninotes;
 
-import com.example.sharednotes.R;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.R;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.MenuItem;
 
 
 /**
@@ -24,7 +25,7 @@ import android.view.MenuInflater;
  * {@link ItemListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class ItemListActivity extends FragmentActivity
+public class ItemListActivity extends BaseFragmentActivity
         implements ItemListFragment.Callbacks {
 
     /**
@@ -61,12 +62,22 @@ public class ItemListActivity extends FragmentActivity
      */
     @Override
     public void onItemSelected(String id) {
-        if (mTwoPane) {
+        editNote(id);
+    }
+    
+    
+    private void editNote(String id) {
+    	if (id == null) {
+    		Log.d(Constants.TAG, "Adding new note");
+    	} else {
+    		Log.d(Constants.TAG, "Editing note with id: " + id);
+    	}
+    	if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ItemDetailFragment.ARG_ITEM_ID, id);
+            arguments.putString(Constants.INTENT_KEY, id);
             ItemDetailFragment fragment = new ItemDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -77,17 +88,29 @@ public class ItemListActivity extends FragmentActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-            detailIntent.putExtra(ItemDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(Constants.INTENT_KEY, id);
             startActivity(detailIntent);
         }
-    }
+	}
+
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		menu.findItem(R.id.add).setVisible(true);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.add:
+				editNote(null);
+				break;
+		}
+		return super.onMenuItemSelected(featureId, item);
+	}
     
     
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+    
 }

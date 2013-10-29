@@ -7,23 +7,20 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/add_note"
-        android:visible="true"/>
-    
-<!--     <item -->
-<!--         android:id="@+id/about" -->
-<!--         android:icon="@android:drawable/ic_menu_help" -->
-<!--         android:orderInCategory="200" -->
-<!--         android:showAsAction="always" -->
-<!--         android:title="@string/about" -->
-<!--         android:visible="true"/> -->
-    
-<!--     <item -->
-<!--         android:id="@+id/back" -->
-<!--         android:icon="@android:drawable/ic_menu_revert" -->
-<!--         android:orderInCategory="300" -->
-<!--         android:showAsAction="always" -->
-<!--         android:title="@string/back" -->
-<!--         android:visible="false"/> -->
-   
+        android:visible="false"/>
+    <item
+        android:id="@+id/save"
+        android:icon="@android:drawable/ic_menu_save"
+        android:orderInCategory="200"
+        android:showAsAction="always"
+        android:title="@string/save"
+        android:visible="false"/>
+    <item
+        android:id="@+id/delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:orderInCategory="300"
+        android:showAsAction="always"
+        android:title="@string/delete"
+        android:visible="false"/>
 
 </menu>

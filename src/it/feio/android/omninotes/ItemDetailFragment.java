@@ -1,14 +1,17 @@
-package it.feio.android.sharednotes;
+package it.feio.android.omninotes;
 
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.DbHelper;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.sharednotes.R;
-import com.example.sharednotes.dummy.DummyContent;
+import it.feio.android.omninotes.R;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -17,16 +20,8 @@ import com.example.sharednotes.dummy.DummyContent;
  * on handsets.
  */
 public class ItemDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ITEM_ID = "item_id";
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private DummyContent.DummyItem mItem;
+    private Note note;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -39,12 +34,11 @@ public class ItemDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-        }
+		if (getArguments().containsKey(Constants.INTENT_KEY)
+				&& getArguments().getString(Constants.INTENT_KEY) != null) {
+			DbHelper db = new DbHelper(getActivity().getApplicationContext());
+			note = db.getNote(Integer.parseInt(getArguments().getString(Constants.INTENT_KEY)));
+		}
     }
 
     @Override
@@ -52,9 +46,10 @@ public class ItemDetailFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.content);
+        if (note != null) {
+        	((TextView) rootView.findViewById(R.id.timestamp)).append(note.getTimestamp());
+        	((EditText) rootView.findViewById(R.id.title)).setText(note.getTitle());
+        	((EditText) rootView.findViewById(R.id.content)).setText(note.getContent());
         }
 
         return rootView;

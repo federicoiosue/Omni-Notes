@@ -1,4 +1,4 @@
-package it.feio.android.sharednotes.utils;
+package it.feio.android.omninotes.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

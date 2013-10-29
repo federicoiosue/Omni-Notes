@@ -1,4 +1,4 @@
-package it.feio.android.sharednotes.utils;
+package it.feio.android.omninotes.utils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

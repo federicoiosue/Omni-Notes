@@ -1,6 +1,6 @@
-package it.feio.android.sharednotes.async;
+package it.feio.android.omninotes.async;
 
-import it.feio.android.sharednotes.utils.Constants;
+import it.feio.android.omninotes.utils.Constants;
 import java.lang.ref.WeakReference;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,7 +9,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 
-public class NoteTask extends AsyncTask<String, Void, Bitmap> {
+public class LoadNoteTask extends AsyncTask<String, Void, Bitmap> {
 
 	private final Context ctx;
 	private final WeakReference<ImageView> imageViewReference;
@@ -17,7 +17,7 @@ public class NoteTask extends AsyncTask<String, Void, Bitmap> {
 	private int reqWidth;
 	private int reqHeight;
 
-	public NoteTask(Context ctx, ImageView imageView) {
+	public LoadNoteTask(Context ctx, ImageView imageView) {
 		this.ctx = ctx;
 		imageViewReference = new WeakReference<ImageView>(imageView);
 	}

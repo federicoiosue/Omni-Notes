@@ -1,4 +1,4 @@
-package com.example.sharednotes.dummy;
+package it.feio.android.omninotes.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;

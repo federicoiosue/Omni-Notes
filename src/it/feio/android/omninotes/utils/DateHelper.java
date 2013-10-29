@@ -1,4 +1,4 @@
-package it.feio.android.sharednotes.utils;
+package it.feio.android.omninotes.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,7 +18,7 @@ public class DateHelper {
 	
 	public static String getDateString(Date d) {
 		String dateString = "";
-		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT);
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EU);
 		dateString = sdf.format(d);
 		return dateString;
 	}

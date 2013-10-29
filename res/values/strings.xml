@@ -4,5 +4,13 @@
     <string name="app_name">Omni Notes</string>
     <string name="title_item_detail">Item Detail</string>
     <string name="add_note">Add Note</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="timestamp">Timestamp</string>
+    <string name="last_update">Last update: </string>
+    <string name="note_updated">Note updated</string>
+    <string name="note_deleted">Note deleted</string>
 
 </resources>
