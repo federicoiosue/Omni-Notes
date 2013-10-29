@@ -2,6 +2,7 @@ package it.feio.android.omninotes;
 
 import java.util.List;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.utils.DbHelper;
 import android.app.Activity;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ public class ItemListFragment extends ListFragment {
 	 */
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 
-	ArrayAdapter<?> adapter;
+	NoteAdapter adapter;
 	/**
 	 * A callback interface that all activities containing this fragment must implement. This mechanism allows activities to be notified of item selections.
 	 */
@@ -65,13 +66,10 @@ public class ItemListFragment extends ListFragment {
 		// Trying to get available notes. If no note has been created yet some dummy content is used
 		DbHelper db = new DbHelper(getActivity().getApplicationContext());
 		List<Note> notes = db.getAllNotes();
-//		if (notes.size() > 0) {
-			adapter = new ArrayAdapter<Note>(getActivity().getApplicationContext(),
-					android.R.layout.simple_list_item_activated_1, android.R.id.text1, notes);
-//		} else {
-//			adapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-//					android.R.layout.simple_list_item_activated_1, android.R.id.text1, DummyContent.ITEMS);
-//		}		
+//		adapter = new ArrayAdapter<Note>(getActivity().getApplicationContext(),
+//				android.R.layout.simple_list_item_activated_1, android.R.id.text1, notes);
+			adapter = new NoteAdapter(getActivity().getApplicationContext(), notes);
+		
 		setListAdapter(adapter);	
 	}
 

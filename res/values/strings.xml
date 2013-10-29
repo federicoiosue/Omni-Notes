@@ -12,5 +12,8 @@
     <string name="last_update">Last update: </string>
     <string name="note_updated">Note updated</string>
     <string name="note_deleted">Note deleted</string>
+    <string name="note">Note</string>
+    <string name="note_title">Note title</string>
+    <string name="note_timestamp">Note timestamp</string>
 
 </resources>
