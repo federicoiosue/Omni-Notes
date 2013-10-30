@@ -5,8 +5,11 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import it.feio.android.omninotes.R;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -61,6 +64,7 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.save).setVisible(true);
+		menu.findItem(R.id.share).setVisible(true);
 		menu.findItem(R.id.delete).setVisible(true);
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -94,6 +98,9 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		switch (item.getItemId()) {
 			case R.id.save:
 				saveNote();
+				break;
+			case R.id.share:
+				shareNote();
 				break;
 			case R.id.delete:
 				deleteNote();
@@ -172,5 +179,23 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 
 		// Go back on stack
         goHome();
+	}
+	
+	
+	private void shareNote() {
+		// Changed fields
+		String title = ((EditText)findViewById(R.id.title)).getText().toString();
+		String content = ((EditText)findViewById(R.id.content)).getText().toString();
+
+		// Definition of shared content
+		String text = title + System.getProperty("line.separator") + content
+				+ System.getProperty("line.separator") + System.getProperty("line.separator")
+				+ getResources().getString(R.string.shared_content_sign);
+		
+		// Prepare sharing intent
+		Intent shareIntent = new Intent(Intent.ACTION_SEND);
+		shareIntent.setType("*/*");		
+		shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
 	}
 }

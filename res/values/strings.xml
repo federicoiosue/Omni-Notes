@@ -7,6 +7,7 @@
     <string name="title">Title</string>
     <string name="content">Content</string>
     <string name="save">Save</string>
+    <string name="share">Share</string>
     <string name="delete">Delete</string>
     <string name="timestamp">Timestamp</string>
     <string name="last_update">Last update: </string>    
@@ -18,5 +19,7 @@
     <string name="note">Note</string>
     <string name="note_title">Note title</string>
     <string name="note_timestamp">Note timestamp</string>
+    <string name="share_message_chooser">Share with</string>
+    <string name="shared_content_sign">Shared using OmniNote!</string>
 
 </resources>

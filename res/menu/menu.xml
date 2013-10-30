@@ -16,9 +16,16 @@
         android:title="@string/save"
         android:visible="false"/>
     <item
+        android:id="@+id/share"
+        android:icon="@android:drawable/ic_menu_share"
+        android:orderInCategory="300"
+        android:showAsAction="always"
+        android:title="@string/share"
+        android:visible="false"/>
+    <item
         android:id="@+id/delete"
         android:icon="@android:drawable/ic_menu_delete"
-        android:orderInCategory="300"
+        android:orderInCategory="400"
         android:showAsAction="always"
         android:title="@string/delete"
         android:visible="false"/>
