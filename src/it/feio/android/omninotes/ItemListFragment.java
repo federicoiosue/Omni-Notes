@@ -3,11 +3,21 @@ package it.feio.android.omninotes;
 import java.util.List;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
+import android.view.ActionMode;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -34,6 +44,7 @@ public class ItemListFragment extends ListFragment {
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 
 	NoteAdapter adapter;
+	ActionMode mActionMode;
 	/**
 	 * A callback interface that all activities containing this fragment must implement. This mechanism allows activities to be notified of item selections.
 	 */
@@ -49,7 +60,6 @@ public class ItemListFragment extends ListFragment {
 	 * A dummy implementation of the {@link Callbacks} interface that does nothing. Used only when this fragment is not attached to an activity.
 	 */
 	private static Callbacks sDummyCallbacks = new Callbacks() {
-
 		@Override
 		public void onItemSelected(String id) {}
 	};
@@ -63,11 +73,9 @@ public class ItemListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Trying to get available notes. If no note has been created yet some dummy content is used
+		// Trying to get available notes
 		DbHelper db = new DbHelper(getActivity().getApplicationContext());
 		List<Note> notes = db.getAllNotes();
-//		adapter = new ArrayAdapter<Note>(getActivity().getApplicationContext(),
-//				android.R.layout.simple_list_item_activated_1, android.R.id.text1, notes);
 			adapter = new NoteAdapter(getActivity().getApplicationContext(), notes);
 		
 		setListAdapter(adapter);	
@@ -82,6 +90,29 @@ public class ItemListFragment extends ListFragment {
 			setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
 		}
 	}
+ 
+	
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+ 
+        // Called when user long-clicks on a note in the list 
+        OnItemLongClickListener listener = new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
+                Log.d(Constants.TAG, "Long clicked note at posizion " + position);
+                view.setSelected(true);
+                if (mActionMode != null) {
+                    return false;
+                }
+                // Start the CAB using the ActionMode.Callback defined above
+                mActionMode = getActivity().startActionMode(mActionModeCallback);
+                view.setSelected(true);
+                return true;               
+            }
+        };
+    }
+    
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -98,7 +129,6 @@ public class ItemListFragment extends ListFragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-
 		// Reset the active callbacks interface to the dummy implementation.
 		mCallbacks = sDummyCallbacks;
 	}
@@ -109,7 +139,6 @@ public class ItemListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-//		mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
 		mCallbacks.onItemSelected( String.valueOf( ((Note)adapter.getItem(position)).get_id() ) );
 	}
 
@@ -120,6 +149,12 @@ public class ItemListFragment extends ListFragment {
 			// Serialize and persist the activated item position.
 			outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
 		}
+	}
+
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		Log.d(Constants.TAG, "Contextual menu creation");
 	}
 
 	/**
@@ -141,4 +176,47 @@ public class ItemListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
+	
+	
+	
+	/**
+	 * CAB activation
+	 */
+	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+	    // Called when the action mode is created; startActionMode() was called
+	    @Override
+	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+	        // Inflate a menu resource providing context menu items
+	        MenuInflater inflater = mode.getMenuInflater();
+	        inflater.inflate(R.menu.menu, menu);
+	        return true;
+	    }
+
+	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
+	    // may be called multiple times if the mode is invalidated.
+	    @Override
+	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+	        return false; // Return false if nothing is done
+	    }
+
+	    // Called when the user selects a contextual menu item
+	    @Override
+	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+	        switch (item.getItemId()) {
+//	            case R.id.menu_share:
+//	                shareCurrentItem();
+//	                mode.finish(); // Action picked, so close the CAB
+//	                return true;
+	            default:
+	                return false;
+	        }
+	    }
+
+	    // Called when the user exits the action mode
+	    @Override
+	    public void onDestroyActionMode(ActionMode mode) {
+	        mActionMode = null;
+	    }
+	};
 }

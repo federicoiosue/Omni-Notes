@@ -4,6 +4,8 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import it.feio.android.omninotes.R;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -103,24 +105,41 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 
 	private void deleteNote() {
 		
-		int _id = Integer.parseInt(getIntent().getStringExtra(Constants.INTENT_KEY));
-		// Simply return to the previous activity/fragment if it was a new note
-		if (_id == 0) {
-			super.onBackPressed();
-		}
+		// Confirm dialog creation
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
+				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						int _id = Integer.parseInt(getIntent().getStringExtra(Constants.INTENT_KEY));
+						// Simply return to the previous activity/fragment if it was a new note
+						if (_id == 0) {
+							goHome();
+						}
+						
+						// Create note object
+						Note note = new Note();
+						note.set_id(_id);
+						
+						// Deleting note using DbHelper
+						DbHelper db = new DbHelper(getApplicationContext());
+						db.deleteNote(note);		
+						
+						// Informs the user about update
+						Log.d(Constants.TAG, "Deleted note with id '" + _id + "'");
+						Toast.makeText(getApplicationContext(), getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
+				        goHome();
+					}
+				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int id) {}
+				});
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
 		
-		// Create note object
-		Note note = new Note();
-		note.set_id(_id);
 		
-		// Deleting note using DbHelper
-		DbHelper db = new DbHelper(this);
-		db.deleteNote(note);		
-		
-		// Informs the user about update
-		Log.d(Constants.TAG, "Deleted note with id '" + _id + "'");
-		Toast.makeText(this, getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
-        goHome();
 	}
 
 
