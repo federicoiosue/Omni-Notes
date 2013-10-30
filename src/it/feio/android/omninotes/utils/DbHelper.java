@@ -36,6 +36,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
+	
 	// Creating Tables
 	@Override
 	public void onCreate(SQLiteDatabase db) {
@@ -52,20 +53,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 	
 	
-	// Adding new note
-//	public void addNote(Note note) {
-//		SQLiteDatabase db = this.getWritableDatabase();
-//		 
-//	    ContentValues values = new ContentValues();
-//	    values.put(KEY_TIMESTAMP, Calendar.getInstance().getTimeInMillis());
-//	    values.put(KEY_TITLE, note.getTitle());
-//	    values.put(KEY_CONTENT, note.getContent());
-//	 
-//	    // Inserting Row
-//	    db.insert(TABLE_NAME, null, values);
-//	    db.close(); // Closing database connection
-//	}
-	
 	// Inserting or updating single note
 	public long updateNote(Note note) {
 		long res;
@@ -74,6 +61,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	    ContentValues values = new ContentValues();
 	    values.put(KEY_TITLE, note.getTitle());
 	    values.put(KEY_CONTENT, note.getContent());
+	    values.put(KEY_TIMESTAMP, Calendar.getInstance().getTimeInMillis());
 
 		// Updating row
 		if (note.get_id() != 0) {
@@ -90,6 +78,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		return res;
 	}
 	 
+	
 	// Getting single note
 	public Note getNote(int id) {
 		SQLiteDatabase db = getReadableDatabase();
@@ -104,6 +93,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	    return note;
 	}
 	 
+	
 	// Getting All notes
 	public List<Note> getAllNotes() {
 		List<Note> noteList = new ArrayList<Note>();
@@ -129,6 +119,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	    return noteList;
 	}
 	 
+	
 	// Getting notes count
 	public int getNotesCount() {
 		String countQuery = "SELECT * FROM " + TABLE_NAME;
@@ -138,6 +129,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return cursor.getCount();
 	}
 	 
+	
 	// Deleting single note
 	public void deleteNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
