@@ -78,14 +78,14 @@ public class ItemDetailActivity extends BaseFragmentActivity {
                 // http://developer.android.com/design/patterns/navigation.html#up-vs-back
                 //
                 goHome();
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
 
-	private void goHome() {
+	private boolean goHome() {
 		NavUtils.navigateUpTo(this, new Intent(this, ItemListActivity.class));		
+        return true;
 	}
 
 
@@ -112,13 +112,14 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						int _id = Integer.parseInt(getIntent().getStringExtra(Constants.INTENT_KEY));
 						// Simply return to the previous activity/fragment if it was a new note
-						if (_id == 0) {
+						if (getIntent().getStringExtra(Constants.INTENT_KEY) == null) {
 							goHome();
+							return;
 						}
 						
-						// Create note object
+						// Create note object						
+						int _id = Integer.parseInt(getIntent().getStringExtra(Constants.INTENT_KEY));
 						Note note = new Note();
 						note.set_id(_id);
 						
@@ -130,6 +131,7 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 						Log.d(Constants.TAG, "Deleted note with id '" + _id + "'");
 						Toast.makeText(getApplicationContext(), getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
 				        goHome();
+						return;
 					}
 				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 
@@ -164,12 +166,11 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		DbHelper db = new DbHelper(this);
 		long _id = db.updateNote(note);
 		
-		// Go back on stack
-//		super.onBackPressed();	
-		
 		// Informs the user about update
 		Log.d(Constants.TAG, "New note saved with title '" + note.getTitle() + "' and id '" + _id + "'");
 		Toast.makeText(this, getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT).show();
+
+		// Go back on stack
         goHome();
 	}
 }
