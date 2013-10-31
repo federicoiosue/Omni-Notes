@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -22,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import android.widget.ListView;
 
@@ -81,8 +84,9 @@ public class ItemListFragment extends ListFragment {
 		// Trying to get available notes
 		DbHelper db = new DbHelper(getActivity().getApplicationContext());
 		List<Note> notes = db.getAllNotes();
-			adapter = new NoteAdapter(getActivity().getApplicationContext(), notes);
-		
+		adapter = new NoteAdapter(getActivity().getApplicationContext(), notes);		
+//		adapter = new ArrayAdapter<Note>(getActivity(), android.R.layout.simple_list_item_activated_1, notes);
+//		adapter = new NoteAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, notes);
 		setListAdapter(adapter);	
 	}
 
@@ -102,8 +106,9 @@ public class ItemListFragment extends ListFragment {
 
 		final ListView listView = getListView();
         
-        // Called when user long-clicks on a note in the list 
-//		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+//		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//        // Called when user long-clicks on a note in the list 
+//		listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 //
 //			@Override
 //			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
@@ -127,13 +132,15 @@ public class ItemListFragment extends ListFragment {
 		        // such as update the title in the CAB
 		    	Log.d(Constants.TAG, "Multiselection: selected element " + position);
 		    	final int checkedCount = getListView().getCheckedItemCount();
-		    	if (checked) 
+		    	if (checked) {
 		    		selectedNotes.add(adapter.getItem(position));
-		    	else 
+		    		adapter.addSelectedItem(position);
+			    	getListView().getChildAt(position).setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+		    	} else { 
 		    		selectedNotes.remove(adapter.getItem(position));
-//		    	getListView().getChildAt(position).setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
-//		    	getListView().getRootView().setSelected(true);
-		    	getListView().getChildAt(position).setBackgroundColor(Color.RED);
+		    		adapter.removeSelectedItem(position);
+		    		getListView().getChildAt(position).setBackgroundColor(getResources().getColor(R.color.list_bg));
+		    	}
 		        
 		        switch (checkedCount)
 		        {
@@ -211,6 +218,29 @@ public class ItemListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView listView, View view, int position, long id) {
 		super.onListItemClick(listView, view, position, id);
+		
+		SparseBooleanArray checked = listView.getCheckedItemPositions();
+	    boolean hasCheckedElement = false;
+	    for (int i = 0; i < checked.size() && !hasCheckedElement; i++) {
+	        hasCheckedElement = checked.valueAt(i);
+	    }
+		
+	    if (mActionMode != null) {
+
+		    if (hasCheckedElement) {
+		        if (mActionMode == null) {
+//		        	mActionMode = ((SherlockFragmentActivity) getActivity()).startActionMode(new MyActionMode());
+		        	mActionMode.invalidate();
+		        } else {
+		        	mActionMode.invalidate();
+		        }
+		    } else {
+		        if (mActionMode != null) {
+		        	mActionMode.finish();
+		        }
+		    }
+		    return;
+		}
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
@@ -257,45 +287,45 @@ public class ItemListFragment extends ListFragment {
 	/**
 	 * CAB activation
 	 */
-//	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-//
-//	    // Called when the action mode is created; startActionMode() was called
-//	    @Override
-//	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-//	        // Inflate a menu resource providing context menu items
-//	        MenuInflater inflater = mode.getMenuInflater();
-//	        inflater.inflate(R.menu.menu, menu);
-//	        return true;
-//	    }
-//
-//	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
-//	    // may be called multiple times if the mode is invalidated.
-//	    @Override
-//	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-//	    	Log.d(Constants.TAG, "CAB preparation");
-//			menu.findItem(R.id.delete).setVisible(true);
-//	        return true; // Return false if nothing is done
-//	    }
-//
-//	    // Called when the user selects a contextual menu item
-//	    @Override
-//	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-//	        switch (item.getItemId()) {
-////	            case R.id.menu_share:
-////	                shareCurrentItem();
-////	                mode.finish(); // Action picked, so close the CAB
-////	                return true;
-//	            default:
-//	                return false;
-//	        }
-//	    }
-//
-//	    // Called when the user exits the action mode
-//	    @Override
-//	    public void onDestroyActionMode(ActionMode mode) {
-//	        mActionMode = null;
-//	    }
-//	};
+	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+	    // Called when the action mode is created; startActionMode() was called
+	    @Override
+	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+	        // Inflate a menu resource providing context menu items
+	        MenuInflater inflater = mode.getMenuInflater();
+	        inflater.inflate(R.menu.menu, menu);
+	        return true;
+	    }
+
+	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
+	    // may be called multiple times if the mode is invalidated.
+	    @Override
+	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+	    	Log.d(Constants.TAG, "CAB preparation");
+			menu.findItem(R.id.delete).setVisible(true);
+	        return true; // Return false if nothing is done
+	    }
+
+	    // Called when the user selects a contextual menu item
+	    @Override
+	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+	        switch (item.getItemId()) {
+//	            case R.id.menu_share:
+//	                shareCurrentItem();
+//	                mode.finish(); // Action picked, so close the CAB
+//	                return true;
+	            default:
+	                return false;
+	        }
+	    }
+
+	    // Called when the user exits the action mode
+	    @Override
+	    public void onDestroyActionMode(ActionMode mode) {
+	        mActionMode = null;
+	    }
+	};
 
 	
 	
