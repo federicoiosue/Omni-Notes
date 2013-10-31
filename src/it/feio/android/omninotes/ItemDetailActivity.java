@@ -147,8 +147,6 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 				});
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
-		
-		
 	}
 
 

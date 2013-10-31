@@ -1,12 +1,18 @@
 package it.feio.android.omninotes;
 
+import java.util.HashSet;
 import java.util.List;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.ActionMode;
@@ -16,9 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
+import android.widget.Toast;
 import android.widget.ListView;
 
 /**
@@ -45,6 +49,7 @@ public class ItemListFragment extends ListFragment {
 
 	NoteAdapter adapter;
 	ActionMode mActionMode;
+	HashSet<Note> selectedNotes = new HashSet<Note>();
 	/**
 	 * A callback interface that all activities containing this fragment must implement. This mechanism allows activities to be notified of item selections.
 	 */
@@ -84,7 +89,6 @@ public class ItemListFragment extends ListFragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
 		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
 			setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
@@ -95,22 +99,93 @@ public class ItemListFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
- 
+
+		final ListView listView = getListView();
+        
         // Called when user long-clicks on a note in the list 
-        OnItemLongClickListener listener = new OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
-                Log.d(Constants.TAG, "Long clicked note at posizion " + position);
-                view.setSelected(true);
-                if (mActionMode != null) {
-                    return false;
-                }
-                // Start the CAB using the ActionMode.Callback defined above
-                mActionMode = getActivity().startActionMode(mActionModeCallback);
-                view.setSelected(true);
-                return true;               
-            }
-        };
+//		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+//
+//			@Override
+//			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
+//				Log.d(Constants.TAG, "Long clicked note at position " + position);
+//				if (mActionMode != null) {
+//					return false;
+//				}
+//				// Start the CAB using the ActionMode.Callback defined above
+//				mActionMode = getActivity().startActionMode(mActionModeCallback);
+//				view.setSelected(true);
+//				return true;
+//			}
+//		});
+		
+		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		listView.setMultiChoiceModeListener(new ListView.MultiChoiceModeListener() {
+
+		    @Override
+			public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+		        // Here you can do something when items are selected/de-selected,
+		        // such as update the title in the CAB
+		    	Log.d(Constants.TAG, "Multiselection: selected element " + position);
+		    	final int checkedCount = getListView().getCheckedItemCount();
+		    	if (checked) 
+		    		selectedNotes.add(adapter.getItem(position));
+		    	else 
+		    		selectedNotes.remove(adapter.getItem(position));
+//		    	getListView().getChildAt(position).setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+//		    	getListView().getRootView().setSelected(true);
+		    	getListView().getChildAt(position).setBackgroundColor(Color.RED);
+		        
+		        switch (checkedCount)
+		        {
+		            case 0:
+		                mode.setTitle(null);
+		                break;
+		            case 1:
+		                mode.setTitle(getResources().getString(R.string.one_item_selected));
+		                break;
+		            default:
+		                mode.setTitle(checkedCount + " " + getResources().getString(R.string.more_items_selected));
+		                break;
+		        }
+		    }
+
+		    @Override
+		    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+		        // Respond to clicks on the actions in the CAB
+		        switch (item.getItemId()) {
+		            case R.id.delete:
+		                deleteSelectedNotes();
+		                mode.finish(); // Action picked, so close the CAB
+		                return true;
+		            default:
+		                return false;
+		        }
+		    }
+
+			@Override
+		    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+		        // Inflate the menu for the CAB
+		        MenuInflater inflater = mode.getMenuInflater();
+		        inflater.inflate(R.menu.menu, menu);
+		        return true;
+		    }
+
+		    @Override
+		    public void onDestroyActionMode(ActionMode mode) {
+		        // Here you can make any necessary updates to the activity when
+		        // the CAB is removed. By default, selected items are deselected/unchecked.
+		    	Log.d(Constants.TAG, "Closed multiselection contextual menu" );
+		    }
+
+		    @Override
+		    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+		        // Here you can perform updates to the CAB due to
+		        // an invalidate() request
+		    	Log.d(Constants.TAG, "CAB preparation");
+				menu.findItem(R.id.delete).setVisible(true);
+		        return true;
+		    }
+		});
     }
     
 
@@ -163,8 +238,8 @@ public class ItemListFragment extends ListFragment {
 	public void setActivateOnItemClick(boolean activateOnItemClick) {
 		// When setting CHOICE_MODE_SINGLE, ListView will automatically
 		// give items the 'activated' state when touched.
-		getListView().setChoiceMode(
-				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
+//		getListView().setChoiceMode(
+//				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
 	}
 
 	private void setActivatedPosition(int position) {
@@ -182,41 +257,130 @@ public class ItemListFragment extends ListFragment {
 	/**
 	 * CAB activation
 	 */
-	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+//	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+//
+//	    // Called when the action mode is created; startActionMode() was called
+//	    @Override
+//	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+//	        // Inflate a menu resource providing context menu items
+//	        MenuInflater inflater = mode.getMenuInflater();
+//	        inflater.inflate(R.menu.menu, menu);
+//	        return true;
+//	    }
+//
+//	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
+//	    // may be called multiple times if the mode is invalidated.
+//	    @Override
+//	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+//	    	Log.d(Constants.TAG, "CAB preparation");
+//			menu.findItem(R.id.delete).setVisible(true);
+//	        return true; // Return false if nothing is done
+//	    }
+//
+//	    // Called when the user selects a contextual menu item
+//	    @Override
+//	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+//	        switch (item.getItemId()) {
+////	            case R.id.menu_share:
+////	                shareCurrentItem();
+////	                mode.finish(); // Action picked, so close the CAB
+////	                return true;
+//	            default:
+//	                return false;
+//	        }
+//	    }
+//
+//	    // Called when the user exits the action mode
+//	    @Override
+//	    public void onDestroyActionMode(ActionMode mode) {
+//	        mActionMode = null;
+//	    }
+//	};
 
-	    // Called when the action mode is created; startActionMode() was called
-	    @Override
-	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-	        // Inflate a menu resource providing context menu items
-	        MenuInflater inflater = mode.getMenuInflater();
-	        inflater.inflate(R.menu.menu, menu);
-	        return true;
-	    }
+	
+	
+    public void deleteSelectedNotes() {
+		for (Note note : selectedNotes) {
+			// Deleting note using DbHelper
+			DbHelper db = new DbHelper(getActivity().getApplicationContext());
+			db.deleteNote(note);
 
-	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
-	    // may be called multiple times if the mode is invalidated.
-	    @Override
-	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-	        return false; // Return false if nothing is done
-	    }
+			// Update adapter content
+			adapter.remove(note);
+			
+			// Informs the user about update
+			Log.d(Constants.TAG, "Deleted note with id '" + note.get_id() + "'");
+		}
+		// Emtpy data structure
+		selectedNotes.clear();
+		// Refresh view
+		getListView().invalidateViews();
+		// Advice to user
+		Toast.makeText(getActivity().getApplicationContext(),
+				getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
+	}
+    
+    
+	public void deleteSelectedNotesConfirmed() {
+		for (Long itemId : getListView().getCheckedItemIds()) {
 
-	    // Called when the user selects a contextual menu item
-	    @Override
-	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-	        switch (item.getItemId()) {
-//	            case R.id.menu_share:
-//	                shareCurrentItem();
-//	                mode.finish(); // Action picked, so close the CAB
-//	                return true;
-	            default:
-	                return false;
-	        }
-	    }
+			Log.i(Constants.TAG, "Deleting element " + itemId);
+			// Create note object
+//			int _id = Integer.parseInt(getIntent().getStringExtra(Constants.INTENT_KEY));
+//			Note note = new Note();
+//			note.set_id(_id);
+			//
+			// Deleting note using DbHelper
+//			DbHelper db = new DbHelper(getActivity().getApplicationContext());
+//			db.deleteNote(note);
 
-	    // Called when the user exits the action mode
-	    @Override
-	    public void onDestroyActionMode(ActionMode mode) {
-	        mActionMode = null;
-	    }
-	};
+			// Informs the user about update
+			// Log.d(Constants.TAG, "Deleted note with id '" + _id + "'");
+		}
+		Toast.makeText(getActivity().getApplicationContext(),
+				getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
+		return;
+	}
+}
+
+
+
+
+
+
+class MyAlertDialogFragment extends DialogFragment {
+	ListFragment listFragment;
+
+    public MyAlertDialogFragment(ListFragment listFragment) {
+    	this.listFragment = listFragment;
+	}
+
+	public static MyAlertDialogFragment newInstance(ListFragment listFragment, int title) {
+        MyAlertDialogFragment frag = new MyAlertDialogFragment(listFragment);
+        Bundle args = new Bundle();
+        args.putInt("title", title);
+        frag.setArguments(args);
+        return frag;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        int title = getArguments().getInt("title");
+
+        return new AlertDialog.Builder(getActivity())
+                .setTitle(title)
+                .setPositiveButton(R.string.confirm,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        	((ItemListFragment) listFragment).deleteSelectedNotesConfirmed();
+                        }
+                    }
+                )
+                .setNegativeButton(R.string.cancel,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {}
+                    }
+                )
+                .create();
+    }
 }

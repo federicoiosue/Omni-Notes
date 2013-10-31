@@ -21,5 +21,7 @@
     <string name="note_timestamp">Note timestamp</string>
     <string name="share_message_chooser">Share with</string>
     <string name="shared_content_sign">Shared using OmniNote!</string>
+    <string name="one_item_selected">One item selected</string>
+    <string name="more_items_selected">items selected</string>
 
 </resources>
