@@ -107,6 +107,10 @@ public class ItemListActivity extends BaseFragmentActivity
 			case R.id.add:
 				editNote(null);
 				break;
+			case R.id.settings:
+				Intent settingsIntent = new Intent(this, SettingsActivity.class);
+	            startActivity(settingsIntent);
+				break;
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}

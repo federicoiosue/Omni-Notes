@@ -29,5 +29,10 @@
         android:showAsAction="always"
         android:title="@string/delete"
         android:visible="false"/>
+    <item
+        android:id="@+id/settings"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:orderInCategory="999"
+        android:title="@string/settings"/>
 
 </menu>

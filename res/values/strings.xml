@@ -2,6 +2,9 @@
 <resources>
 
     <string name="app_name">Omni Notes</string>
+    <string name="dev_site">https://bitbucket.org/dashboard/overview</string>
+    <string name="dev_googleplus">https://plus.google.com/102629628248642947234/posts</string>
+    
     <string name="title_item_detail">Item Detail</string>
     <string name="add_note">Add Note</string>
     <string name="title">Title</string>
@@ -23,5 +26,9 @@
     <string name="shared_content_sign">Shared using OmniNote!</string>
     <string name="one_item_selected">One item selected</string>
     <string name="more_items_selected">items selected</string>
+    
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
 
 </resources>
