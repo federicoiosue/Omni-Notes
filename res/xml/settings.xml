@@ -2,12 +2,20 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory
-        android:key="category_user"
+        android:key="about"
         android:title="@string/about" >
         <Preference
             android:defaultValue="true"
             android:key="about"
             android:summary="@string/about"
             android:title="@string/about" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_other"
+        android:title="@string/settings_category_other" >
+        <Preference
+            android:key="reset_all_data"
+            android:title="@string/settings_reset_all_data" >
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
