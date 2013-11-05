@@ -182,9 +182,10 @@ public class ItemListFragment extends ListFragment {
 		        // Here you can make any necessary updates to the activity when
 		        // the CAB is removed. By default, selected items are deselected/unchecked.
 		    	for (int i = 0; i < getListView().getChildCount(); i++) {
-			    	adapter.removeSelectedItem(i);
+			    	adapter.removeSelectedItem(i);			    	
 		    		getListView().getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));					
 				}
+		    	selectedNotes.clear();
 		    	Log.d(Constants.TAG, "Closed multiselection contextual menu" );
 		    }
 
