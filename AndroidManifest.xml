@@ -34,6 +34,15 @@
             android:name="it.feio.android.omninotes.SettingsActivity"
             android:label="@string/settings" >
         </activity>
+        <activity
+            android:name="it.feio.android.omninotes.AboutActivity"
+            android:label="@string/title_activity_about"
+            android:parentActivityName="it.feio.android.omninotes.ItemListActivity"
+            android:theme="@style/Theme.Transparent" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.feio.android.omninotes.ItemListActivity" />
+        </activity>
     </application>
 
 </manifest>

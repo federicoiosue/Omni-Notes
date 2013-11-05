@@ -4,7 +4,7 @@
     <string name="app_name">Omni Notes</string>
     <string name="dev_site">https://bitbucket.org/dashboard/overview</string>
     <string name="dev_googleplus">https://plus.google.com/102629628248642947234/posts</string>
-    
+    <string name="dev_github">https://github.com/arnesottolo</string>
     <string name="title_item_detail">Item Detail</string>
     <string name="add_note">Add Note</string>
     <string name="title">Title</string>
@@ -13,7 +13,7 @@
     <string name="share">Share</string>
     <string name="delete">Delete</string>
     <string name="timestamp">Timestamp</string>
-    <string name="last_update">Last update: </string>    
+    <string name="last_update">Last update: </string>
     <string name="delete_note_confirmation">Confirm note deletion?</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
@@ -26,12 +26,22 @@
     <string name="shared_content_sign">Shared using OmniNote!</string>
     <string name="one_item_selected">One item selected</string>
     <string name="more_items_selected">items selected</string>
-    
+    <string name="sort">Sort</string>
+
     <!-- Settings -->
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="settings_category_other">Other</string>
     <string name="settings_reset_all_data">Reset default data</string>
     <string name="reset_all_data_confirmation">Proceed clearing all application data?</string>
+    <string name="title_activity_about">AboutActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <!-- About -->
+    <string name="follow_author">Follow the author</string>
+    <string name="click_to_support">Click banner to support development</string>
+    
+
 
 </resources>
