@@ -9,15 +9,13 @@ import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 
-public class AboutActivity extends FragmentActivity {
+public class AboutActivity extends BaseFragmentActivity {
 
 	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi") @Override
