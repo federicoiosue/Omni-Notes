@@ -47,13 +47,13 @@ public class AboutActivity extends FragmentActivity {
 				startActivity(intent);
 			}
 		});
-		ImageView github = (ImageView) findViewById(R.id.github);
-		github.setOnClickListener(new OnClickListener() {
+		ImageView bitbucket = (ImageView) findViewById(R.id.bitbucket);
+		bitbucket.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Log.i(Constants.TAG, "Github clicked");
+				Log.i(Constants.TAG, "Bitbucket clicked");
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(getResources().getString(R.string.dev_github)));
+				intent.setData(Uri.parse(getResources().getString(R.string.dev_bitbucket)));
 				startActivity(intent);
 			}
 		});

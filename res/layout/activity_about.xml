@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:layout_height="300dp"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:layout_width="wrap_content"
+    android:layout_height="250dp"
     android:gravity="center_vertical|center_horizontal"
     android:orientation="vertical" >
 
@@ -28,11 +29,11 @@
             android:src="@drawable/googleplus" />
 
         <ImageView
-            android:id="@+id/github"
+            android:id="@+id/bitbucket"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="25dp"
-            android:src="@drawable/github" />
+            android:src="@drawable/bitbucket" />
     </LinearLayout>
 
     <TextView
@@ -42,6 +43,17 @@
         android:layout_gravity="center"
         android:layout_margin="15dp"
         android:text="@string/click_to_support"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/admob_id"
+        ads:loadAdOnCreate="true"
+        ads:testDevices="@string/admob_id_test"
+        android:gravity="center_horizontal" >
+    </com.google.ads.AdView>
 
 </LinearLayout>
