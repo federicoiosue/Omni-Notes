@@ -66,6 +66,7 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		menu.findItem(R.id.save).setVisible(true);
 		menu.findItem(R.id.share).setVisible(true);
 		menu.findItem(R.id.delete).setVisible(true);
+		menu.findItem(R.id.sort).setVisible(false);
 		return super.onPrepareOptionsMenu(menu);
 	}
 	

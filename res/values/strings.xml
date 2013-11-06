@@ -5,7 +5,7 @@
     <string name="dev_site">https://bitbucket.org/dashboard/overview</string>
     <string name="dev_googleplus">https://plus.google.com/102629628248642947234/posts</string>
     <string name="dev_github">https://github.com/arnesottolo</string>
-    <string name="title_item_detail">Item Detail</string>
+    <string name="title_item_detail">Edit Note</string>
     <string name="add_note">Add Note</string>
     <string name="title">Title</string>
     <string name="content">Content</string>
@@ -27,6 +27,7 @@
     <string name="one_item_selected">One item selected</string>
     <string name="more_items_selected">items selected</string>
     <string name="sort">Sort</string>
+    <string name="select_sorting_column">Select sorting column</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

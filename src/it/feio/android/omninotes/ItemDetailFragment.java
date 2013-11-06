@@ -47,7 +47,7 @@ public class ItemDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_item_detail, container, false);
 
         if (note != null) {
-        	((TextView) rootView.findViewById(R.id.timestamp)).append(note.getTimestamp());
+        	((TextView) rootView.findViewById(R.id.last_modification)).append(note.getlastModification());
         	((EditText) rootView.findViewById(R.id.title)).setText(note.getTitle());
         	((EditText) rootView.findViewById(R.id.content)).setText(note.getContent());
         }

@@ -65,20 +65,6 @@ public class SettingsActivity extends PreferenceActivity {
 
 		});
 
-
-		// Evento di pressione sul pulsante di About
-		Preference about = findPreference("about");
-		about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-			@Override
-			public boolean onPreferenceClick(Preference preference) {
-				Log.i(Constants.TAG, "About clicked");
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(getResources().getString(R.string.dev_googleplus)));
-				startActivity(intent);
-				return false;
-			}
-		});
 	}
 
 }

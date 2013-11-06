@@ -6,26 +6,26 @@ public class Note {
 	private int _id;
 	private String title;
 	private String content;
-	private String timestamp;
+	private String lastModification;
 
 
 	public Note() {}
 	
 
-	public Note(String timestamp, String title, String content) {
+	public Note(String lastModification, String title, String content) {
 		super();
 		this.title = title;
 		this.content = content;
-		this.timestamp = timestamp;
+		this.lastModification = lastModification;
 	}
 	
 
-	public Note(int _id, String timestamp, String title, String content) {
+	public Note(int _id, String lastModification, String title, String content) {
 		super();
 		this._id = _id;
 		this.title = title;
 		this.content = content;
-		this.timestamp = timestamp;
+		this.lastModification = lastModification;
 	}
 
 
@@ -54,12 +54,12 @@ public class Note {
 		this.content = content;
 	}
 
-	public String getTimestamp() {
-		return timestamp;
+	public String getlastModification() {
+		return lastModification;
 	}
 
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
+	public void setlastModification(String lastModification) {
+		this.lastModification = lastModification;
 	}
 	
 	

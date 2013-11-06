@@ -17,14 +17,14 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/note_timestamp"
+        android:id="@+id/note_last_modification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/note_title"
         android:layout_alignParentRight="true"
         android:gravity="right|bottom"
         android:text="@string/note_timestamp"
-        android:textColor="@color/list_note_timestamp"
+        android:textColor="@color/list_note_last_modification"
         android:textSize="12sp"
         android:padding="3dp" />
 

@@ -38,9 +38,9 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 //		View rowView = inflater.inflate(android.R.layout.simple_list_item_activated_1, parent, false);
 		
 		TextView title = (TextView) rowView.findViewById(R.id.note_title);
-		TextView timestamp = (TextView) rowView.findViewById(R.id.note_timestamp);
+		TextView lastModification = (TextView) rowView.findViewById(R.id.note_last_modification);
 		title.setText(values.get(position).getTitle());
-		timestamp.setText(values.get(position).getTimestamp());
+		lastModification.setText(values.get(position).getlastModification());
 		
 		if (selectedItems.get(position) != null) {
 			rowView.setBackgroundColor(context.getResources().getColor(R.color.list_bg_selected));

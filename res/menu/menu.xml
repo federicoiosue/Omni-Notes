@@ -26,7 +26,7 @@
         android:id="@+id/delete"
         android:icon="@android:drawable/ic_menu_delete"
         android:orderInCategory="400"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/delete"
         android:visible="false"/>
     <item

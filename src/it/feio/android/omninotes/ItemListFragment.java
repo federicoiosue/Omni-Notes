@@ -82,6 +82,10 @@ public class ItemListFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 
 		// Trying to get available notes
+		initNotesList();
+	}
+
+	public void initNotesList() {
 		DbHelper db = new DbHelper(getActivity().getApplicationContext());
 		List<Note> notes = db.getAllNotes();
 		adapter = new NoteAdapter(getActivity().getApplicationContext(), notes);		
