@@ -19,18 +19,20 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Database name
 	private static final String DATABASE_NAME = "omni-notes";
 	// Database version
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 6;
 	// Notes table name
 	private static final String TABLE_NAME = "notes";
 	// Notes table columns
 	private static final String KEY_ID = "id";	
-	private static final String KEY_LAST_MODIFICATION = "last_modification";	
-	private static final String KEY_TITLE = "title";	
+	public static final String KEY_CREATION = "creation";	
+	public static final String KEY_LAST_MODIFICATION = "last_modification";	
+	public static final String KEY_TITLE = "title";	
 	private static final String KEY_CONTENT = "content";	
 	private static final String KEY_ATTACHMENT = "attachment";	// Actually not implemented
 	// Creation query
 	private static final String TABLE_CREATE = 	"CREATE TABLE " + TABLE_NAME + " (" + 
 												KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+												KEY_CREATION + " LONG, " +
 												KEY_LAST_MODIFICATION + " LONG, " +
 												KEY_TITLE + " TEXT, " +
 												KEY_CONTENT + " TEXT);";
@@ -39,6 +41,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static LinkedHashMap<String, String> getSortableColumns() {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
 		map.put("KEY_TITLE", KEY_TITLE);
+        map.put("KEY_CREATION", KEY_CREATION);
         map.put("KEY_LAST_MODIFICATION", KEY_LAST_MODIFICATION);
         return map;
     }
@@ -86,6 +89,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			
 		// Inserting new note
 		} else {
+			values.put(KEY_CREATION, Calendar.getInstance().getTimeInMillis());
 		    res = db.insert(TABLE_NAME, null, values);
 			Log.d(Constants.TAG, "Saved new note titled '" + note.getTitle() + "' with id: " + res);
 		}
@@ -97,13 +101,13 @@ public class DbHelper extends SQLiteOpenHelper {
 	public Note getNote(int id) {
 		SQLiteDatabase db = getReadableDatabase();
 		 
-	    Cursor cursor = db.query(TABLE_NAME, new String[] { KEY_ID,
+	    Cursor cursor = db.query(TABLE_NAME, new String[] { KEY_ID, KEY_CREATION,
 	    		KEY_LAST_MODIFICATION, KEY_TITLE, KEY_CONTENT }, KEY_ID + "=?",
 	            new String[] { String.valueOf(id) }, null, null, null, null);
 	    if (cursor != null)
 	        cursor.moveToFirst();
 
-	    Note note = new Note(Integer.parseInt(cursor.getString(0)), DateHelper.getDateString(cursor.getLong(1)), cursor.getString(2), cursor.getString(3));
+	    Note note = new Note(Integer.parseInt(cursor.getString(0)), DateHelper.getDateString(cursor.getLong(1)), DateHelper.getDateString(cursor.getLong(2)), cursor.getString(3), cursor.getString(4));
 	    return note;
 	}
 	 
@@ -127,9 +131,10 @@ public class DbHelper extends SQLiteOpenHelper {
 	        do {
 	            Note note = new Note();
 	            note.set_id(Integer.parseInt(cursor.getString(0)));
-	            note.setlastModification(DateHelper.getDateString(cursor.getLong(1)));
-	            note.setTitle(cursor.getString(2));
-	            note.setContent(cursor.getString(3));
+	            note.setCreation(DateHelper.getDateString(cursor.getLong(1)));
+	            note.setlastModification(DateHelper.getDateString(cursor.getLong(2)));
+	            note.setTitle(cursor.getString(3));
+	            note.setContent(cursor.getString(4));
 	            // Adding note to list
 	            noteList.add(note);
 	        } while (cursor.moveToNext());

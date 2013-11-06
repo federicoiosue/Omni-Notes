@@ -22,12 +22,19 @@
         android:padding="16dp" />
 
     <TextView
+        android:id="@+id/creation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:gravity="left"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
         android:id="@+id/last_modification"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:gravity="right"
-        android:text="@string/last_update"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </LinearLayout>

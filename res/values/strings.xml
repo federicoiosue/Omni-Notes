@@ -13,7 +13,8 @@
     <string name="share">Share</string>
     <string name="delete">Delete</string>
     <string name="timestamp">Timestamp</string>
-    <string name="last_update">Last update: </string>
+    <string name="creation">Created on </string>
+    <string name="last_update">Updated on </string>
     <string name="delete_note_confirmation">Confirm note deletion?</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>

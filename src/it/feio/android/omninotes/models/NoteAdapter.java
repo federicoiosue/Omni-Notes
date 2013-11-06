@@ -2,11 +2,16 @@ package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.R.color;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.DbHelper;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.provider.CalendarContract.Colors;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,10 +43,17 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 //		View rowView = inflater.inflate(android.R.layout.simple_list_item_activated_1, parent, false);
 		
 		TextView title = (TextView) rowView.findViewById(R.id.note_title);
-		TextView lastModification = (TextView) rowView.findViewById(R.id.note_last_modification);
+		TextView date = (TextView) rowView.findViewById(R.id.note_date);
 		title.setText(values.get(position).getTitle());
-		lastModification.setText(values.get(position).getlastModification());
 		
+		// Choosing if it must be shown creation date or last modification depending on sorting criteria
+		String sort_column = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PREF_SORTING_COLUMN, "");
+		if (sort_column.equals(DbHelper.KEY_CREATION))
+			date.setText(context.getString(R.string.creation) + " " + values.get(position).getCreation());
+		else 
+			date.setText(context.getString(R.string.last_update) + " " + values.get(position).getlastModification());
+		
+		// Highlighted if is part of multiselection of notes
 		if (selectedItems.get(position) != null) {
 			rowView.setBackgroundColor(context.getResources().getColor(R.color.list_bg_selected));
 		} else {

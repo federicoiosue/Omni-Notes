@@ -6,25 +6,28 @@ public class Note {
 	private int _id;
 	private String title;
 	private String content;
+	private String creation;
 	private String lastModification;
 
 
 	public Note() {}
 	
 
-	public Note(String lastModification, String title, String content) {
+	public Note(String creation, String lastModification, String title, String content) {
 		super();
 		this.title = title;
 		this.content = content;
+		this.creation = creation;
 		this.lastModification = lastModification;
 	}
 	
 
-	public Note(int _id, String lastModification, String title, String content) {
+	public Note(int _id, String creation, String lastModification, String title, String content) {
 		super();
 		this._id = _id;
 		this.title = title;
 		this.content = content;
+		this.creation = creation;
 		this.lastModification = lastModification;
 	}
 
@@ -52,6 +55,14 @@ public class Note {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getCreation() {
+		return creation;
+	}
+
+	public void setCreation(String creation) {
+		this.creation = creation;
 	}
 
 	public String getlastModification() {

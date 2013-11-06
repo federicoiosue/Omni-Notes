@@ -162,9 +162,11 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		// New note object
 		Note note = new Note();
 		// If it's an editing operation also _id field will be filled
-		if (getIntent().getExtras().containsKey(Constants.INTENT_KEY)) {
-			note.set_id(getIntent().getIntExtra(Constants.INTENT_KEY, 0));
+		int id = 0;
+		if (getIntent().getExtras().containsKey(Constants.INTENT_KEY) && getIntent().getStringExtra(Constants.INTENT_KEY) != null) {
+			id = Integer.parseInt(getIntent().getStringExtra(Constants.INTENT_KEY));
 		}
+		note.set_id(id);
 		note.setTitle(title);
 		note.setContent(content);
 		
