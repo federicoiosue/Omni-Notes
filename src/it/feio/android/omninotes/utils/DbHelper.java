@@ -97,6 +97,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		    res = db.insert(TABLE_NAME, null, values);
 			Log.d(Constants.TAG, "Saved new note titled '" + note.getTitle() + "' with id: " + res);
 		}
+	    db.close();
 		return res;
 	}
 	
@@ -134,6 +135,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	        cursor.moveToFirst();
 
 	    Note note = new Note(Integer.parseInt(cursor.getString(0)), DateHelper.getDateString(cursor.getLong(1)), DateHelper.getDateString(cursor.getLong(2)), cursor.getString(3), cursor.getString(4));
+
+	    db.close();
 	    return note;
 	}
 	 
@@ -171,6 +174,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	            noteList.add(note);
 	        } while (cursor.moveToNext());
 	    }
+	    
+	    db.close();
 	 
 	    return noteList;
 	}
@@ -182,6 +187,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
+	    db.close();
         return cursor.getCount();
 	}
 	 
