@@ -2,46 +2,46 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/add"
+        android:id="@+id/menu_add"
         android:icon="@android:drawable/ic_menu_add"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/add_note"
         android:visible="false"/>
     <item
-        android:id="@+id/save"
+        android:id="@+id/menu_save"
         android:icon="@android:drawable/ic_menu_save"
         android:orderInCategory="200"
         android:showAsAction="always"
         android:title="@string/save"
         android:visible="false"/>
     <item
-        android:id="@+id/share"
+        android:id="@+id/menu_share"
         android:icon="@android:drawable/ic_menu_share"
         android:orderInCategory="300"
         android:showAsAction="always"
         android:title="@string/share"
         android:visible="false"/>
     <item
-        android:id="@+id/delete"
+        android:id="@+id/menu_delete"
         android:icon="@android:drawable/ic_menu_delete"
         android:orderInCategory="400"
         android:showAsAction="ifRoom"
         android:title="@string/delete"
         android:visible="false"/>
     <item
-        android:id="@+id/sort"
+        android:id="@+id/menu_sort"
         android:icon="@android:drawable/ic_menu_sort_alphabetically"
         android:orderInCategory="500"
         android:showAsAction="always"
         android:title="@string/sort"/>
     <item
-        android:id="@+id/settings"
+        android:id="@+id/menu_settings"
         android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="998"
         android:title="@string/settings"/>
     <item
-        android:id="@+id/about"
+        android:id="@+id/menu_about"
         android:icon="@android:drawable/ic_menu_info_details"
         android:orderInCategory="999"
         android:title="@string/about"/>

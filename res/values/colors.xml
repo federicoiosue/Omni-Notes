@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="navigation_bg">#dd111111</color>
     <color name="list_bg">#ee336699</color>
     <color name="list_bg_pressed">#88336699</color>
     <color name="list_bg_selected">#88ff0000</color>

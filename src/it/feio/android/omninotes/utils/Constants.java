@@ -11,7 +11,8 @@ public interface Constants {
 	final String DATE_FORMAT_ISO8601  = "YYYY-MM-DD HH:MM:SS.SSS";
 
     final String INTENT_KEY = "note_id";
-    
+
+    final String PREF_NAVIGATION = "navigation";
     final String PREF_SORTING_COLUMN = "sorting_column";
     final String PREF_SORTING_ORDER = "sorting_direction";
 

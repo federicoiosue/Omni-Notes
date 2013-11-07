@@ -164,7 +164,7 @@ public class ItemListFragment extends ListFragment {
 		    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		        // Respond to clicks on the actions in the CAB
 		        switch (item.getItemId()) {
-		            case R.id.delete:
+		            case R.id.menu_delete:
 		                deleteSelectedNotes();
 		                mode.finish(); // Action picked, so close the CAB
 		                return true;
@@ -198,7 +198,7 @@ public class ItemListFragment extends ListFragment {
 		        // Here you can perform updates to the CAB due to
 		        // an invalidate() request
 		    	Log.d(Constants.TAG, "CAB preparation");
-				menu.findItem(R.id.delete).setVisible(true);
+				menu.findItem(R.id.menu_delete).setVisible(true);
 		        return true;
 		    }
 		});

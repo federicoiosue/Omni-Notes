@@ -4,15 +4,27 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.utils.Constants;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 
-public class BaseFragmentActivity extends FragmentActivity {
+public class BaseFragmentActivity extends FragmentActivity  {
 	
 	private final boolean TEST = false;
 
@@ -38,6 +50,7 @@ public class BaseFragmentActivity extends FragmentActivity {
 			StrictMode.enableDefaults();
 			GoogleAnalytics.getInstance(this).setDryRun(true);
 		}
+		
 		super.onCreate(savedInstanceState);
 	}
 
@@ -57,4 +70,22 @@ public class BaseFragmentActivity extends FragmentActivity {
 		// Google Analytics
 		EasyTracker.getInstance(this).activityStop(this);
 	}
+
+	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_settings:
+				Intent settingsIntent = new Intent(this, SettingsActivity.class);
+	            startActivity(settingsIntent);
+				break;
+			case R.id.menu_about:
+				Intent aboutIntent = new Intent(this, AboutActivity.class);
+	            startActivity(aboutIntent);
+				break;
+		}
+		return super.onMenuItemSelected(featureId, item);
+	}	
+	
+	
 }

@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import it.feio.android.omninotes.R;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -12,9 +13,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 
 /**
@@ -34,15 +42,20 @@ import android.view.MenuItem;
  * to listen for item selections.
  */
 public class ItemListActivity extends BaseFragmentActivity
-        implements ItemListFragment.Callbacks {
+        implements ItemListFragment.Callbacks, OnItemClickListener {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
+	private CharSequence mTitle;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private String[] mNavigationArray;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
 
-    @Override
+    @SuppressLint("NewApi") @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
@@ -61,7 +74,43 @@ public class ItemListActivity extends BaseFragmentActivity
                     .setActivateOnItemClick(true);
         }
 
-        // TODO: If exposing deep links into your app, handle intents here.
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		// Set the adapter for the list view
+		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
+		mDrawerList.setAdapter(new ArrayAdapter<String>(getApplicationContext(),
+				R.layout.drawer_list_item, mNavigationArray));
+		mDrawerList.setOnItemClickListener(this);
+
+        // ActionBarDrawerToggle ties together the the proper interactions
+        // between the sliding drawer and the action bar app icon
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description for accessibility */
+                R.string.drawer_close  /* "close drawer" description for accessibility */
+                ) {
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView) {
+            	mTitle = getActionBar().getTitle();
+                getActionBar().setTitle(getApplicationContext().getString(R.string.app_name));
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        	getActionBar().setHomeButtonEnabled(true);
+        
     }
 
     /**
@@ -103,14 +152,29 @@ public class ItemListActivity extends BaseFragmentActivity
 
     
 	private void sortNotes() {
-//		onCreateDialogSingleChoice().show();
 		onCreateDialog().show();
 	}
+	
+	 @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+          return true;
+        }
+        // Handle your other action bar items...
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.add).setVisible(true);
+
+        // If the nav drawer is open, hide action items related to the content view
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		menu.findItem(R.id.menu_add).setVisible(!drawerOpen);
+        menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -118,19 +182,11 @@ public class ItemListActivity extends BaseFragmentActivity
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.add:
+			case R.id.menu_add:
 				editNote(null);
 				break;
-			case R.id.sort:
+			case R.id.menu_sort:
 				sortNotes();
-				break;
-			case R.id.settings:
-				Intent settingsIntent = new Intent(this, SettingsActivity.class);
-	            startActivity(settingsIntent);
-				break;
-			case R.id.about:
-				Intent aboutIntent = new Intent(this, AboutActivity.class);
-	            startActivity(aboutIntent);
 				break;
 		}
 		return super.onMenuItemSelected(featureId, item);
@@ -188,6 +244,46 @@ public class ItemListActivity extends BaseFragmentActivity
 		}
 		text.trim();
 		return text;
+	}
+	
+	
+	
+
+	
+
+	@Override
+	public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
+		String navigation = adapterView.getAdapter().getItem(position).toString();
+		Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
+		selectNavigationItem(position);
+		PreferenceManager.getDefaultSharedPreferences(this).edit().putString(Constants.PREF_NAVIGATION, navigation).commit();
+	}
+
+
+	/** Swaps fragments in the main content view */
+	@SuppressLint("NewApi") 
+	private void selectNavigationItem(int position) {
+	    // Create a new fragment and specify the planet to show based on position
+//	    Fragment fragment = new Fragment();
+//	    Bundle args = new Bundle();
+//	    args.putInt(Fragment., position);
+//	    fragment.setArguments(args);
+//
+//	    // Insert the fragment by replacing any existing fragment
+//	    FragmentManager fragmentManager = getFragmentManager();
+//	    fragmentManager.beginTransaction()
+//	                   .replace(R.id.content_frame, fragment)
+//	                   .commit();
+
+	    // Highlight the selected item, update the title, and close the drawer
+	    mDrawerList.setItemChecked(position, true);
+	    mTitle = mNavigationArray[position];
+	    mDrawerLayout.closeDrawer(mDrawerList);
+
+	 // enable ActionBar app icon to behave as action to toggle nav drawer
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
+//        getActionBar().setHomeButtonEnabled(true);
+
 	}
     
 }

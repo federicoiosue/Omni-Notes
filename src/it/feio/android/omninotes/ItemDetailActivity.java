@@ -63,10 +63,10 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.save).setVisible(true);
-		menu.findItem(R.id.share).setVisible(true);
-		menu.findItem(R.id.delete).setVisible(true);
-		menu.findItem(R.id.sort).setVisible(false);
+		menu.findItem(R.id.menu_save).setVisible(true);
+		menu.findItem(R.id.menu_share).setVisible(true);
+		menu.findItem(R.id.menu_delete).setVisible(true);
+		menu.findItem(R.id.menu_sort).setVisible(false);
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
@@ -97,13 +97,13 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.save:
+			case R.id.menu_save:
 				saveNote();
 				break;
-			case R.id.share:
+			case R.id.menu_share:
 				shareNote();
 				break;
-			case R.id.delete:
+			case R.id.menu_delete:
 				deleteNote();
 				break;
 		}
