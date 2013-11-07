@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.ListFragment;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -81,6 +82,12 @@ public class ItemListActivity extends BaseFragmentActivity
 		mDrawerList.setAdapter(new ArrayAdapter<String>(getApplicationContext(),
 				R.layout.drawer_list_item, mNavigationArray));
 		mDrawerList.setOnItemClickListener(this);
+		
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        	getActionBar().setHomeButtonEnabled(true);
+        
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
@@ -102,16 +109,14 @@ public class ItemListActivity extends BaseFragmentActivity
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-        
-
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        // enable ActionBar app icon to behave as action to toggle nav drawer
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-        	getActionBar().setHomeButtonEnabled(true);
         
-    }
+        CharSequence title = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREF_NAVIGATION, "");
+        setTitle(title);
+
+    }    
+    
 
     /**
      * Callback method from {@link ItemListFragment.Callbacks}
@@ -171,9 +176,13 @@ public class ItemListActivity extends BaseFragmentActivity
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 
+		// Setting the conditions to show determinate items in CAB
         // If the nav drawer is open, hide action items related to the content view
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.menu_add).setVisible(!drawerOpen);
+        // If archived notes are shown the "add new note" item must be hidden
+        boolean archived = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREF_NAVIGATION, "").equals(getResources().getStringArray(R.array.navigation_list)[1]);
+        
+		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && !archived);
         menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -257,6 +266,7 @@ public class ItemListActivity extends BaseFragmentActivity
 		Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 		selectNavigationItem(position);
 		PreferenceManager.getDefaultSharedPreferences(this).edit().putString(Constants.PREF_NAVIGATION, navigation).commit();
+		((ItemListFragment) getSupportFragmentManager().findFragmentById(R.id.item_list)).initNotesList();
 	}
 
 

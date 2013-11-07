@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -89,8 +90,6 @@ public class ItemListFragment extends ListFragment {
 		DbHelper db = new DbHelper(getActivity().getApplicationContext());
 		List<Note> notes = db.getAllNotes();
 		adapter = new NoteAdapter(getActivity().getApplicationContext(), notes);		
-//		adapter = new ArrayAdapter<Note>(getActivity(), android.R.layout.simple_list_item_activated_1, notes);
-//		adapter = new NoteAdapter(getActivity(), android.R.layout.simple_list_item_activated_1, notes);
 		setListAdapter(adapter);	
 	}
 
@@ -109,23 +108,6 @@ public class ItemListFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
 
 		final ListView listView = getListView();
-        
-//		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//        // Called when user long-clicks on a note in the list 
-//		listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//
-//			@Override
-//			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long id) {
-//				Log.d(Constants.TAG, "Long clicked note at position " + position);
-//				if (mActionMode != null) {
-//					return false;
-//				}
-//				// Start the CAB using the ActionMode.Callback defined above
-//				mActionMode = getActivity().startActionMode(mActionModeCallback);
-//				view.setSelected(true);
-//				return true;
-//			}
-//		});
 		
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 		listView.setMultiChoiceModeListener(new ListView.MultiChoiceModeListener() {
@@ -168,6 +150,14 @@ public class ItemListFragment extends ListFragment {
 		                deleteSelectedNotes();
 		                mode.finish(); // Action picked, so close the CAB
 		                return true;
+		            case R.id.menu_archive:
+		                archiveSelectedNotes(true);
+		                mode.finish(); // Action picked, so close the CAB
+		                return true;
+		            case R.id.menu_unarchive:
+		                archiveSelectedNotes(false);
+		                mode.finish(); // Action picked, so close the CAB
+		                return true;
 		            default:
 		                return false;
 		        }
@@ -198,6 +188,9 @@ public class ItemListFragment extends ListFragment {
 		        // Here you can perform updates to the CAB due to
 		        // an invalidate() request
 		    	Log.d(Constants.TAG, "CAB preparation");
+		    	boolean archived = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString(Constants.PREF_NAVIGATION, "").equals(getResources().getStringArray(R.array.navigation_list)[1]);
+				menu.findItem(R.id.menu_archive).setVisible(!archived);
+				menu.findItem(R.id.menu_unarchive).setVisible(archived);
 				menu.findItem(R.id.menu_delete).setVisible(true);
 		        return true;
 		    }
@@ -292,10 +285,12 @@ public class ItemListFragment extends ListFragment {
 	}
 	
 	
+		
 	
 	
-	
-	
+    /**
+     * Batch note deletion 
+     */
     public void deleteSelectedNotes() {
 		for (Note note : selectedNotes) {
 			// Deleting note using DbHelper
@@ -316,68 +311,98 @@ public class ItemListFragment extends ListFragment {
 		Toast.makeText(getActivity().getApplicationContext(),
 				getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
 	}
-    
-    
-	public void deleteSelectedNotesConfirmed() {
-		for (Long itemId : getListView().getCheckedItemIds()) {
-
-			Log.i(Constants.TAG, "Deleting element " + itemId);
-			// Create note object
-//			int _id = Integer.parseInt(getIntent().getStringExtra(Constants.INTENT_KEY));
-//			Note note = new Note();
-//			note.set_id(_id);
-			//
+	
+    /**
+     * Batch note archiviation 
+     */
+    public void archiveSelectedNotes(boolean archive) {
+    	String archivedStatus = archive ? getResources().getText(R.string.note_archived).toString() : getResources().getText(R.string.note_unarchived).toString();
+		for (Note note : selectedNotes) {
 			// Deleting note using DbHelper
-//			DbHelper db = new DbHelper(getActivity().getApplicationContext());
-//			db.deleteNote(note);
+			DbHelper db = new DbHelper(getActivity().getApplicationContext());
+			note.setArchived(archive);
+			db.updateNote(note);
 
+			// Update adapter content
+			adapter.remove(note);
+			
 			// Informs the user about update
-			// Log.d(Constants.TAG, "Deleted note with id '" + _id + "'");
+			Log.d(Constants.TAG, "Note with id '" + note.get_id() + "' " + archivedStatus);
 		}
-		Toast.makeText(getActivity().getApplicationContext(),
-				getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
-		return;
+		// Emtpy data structure
+		selectedNotes.clear();
+		// Refresh view
+		getListView().invalidateViews();
+		// Advice to user
+		Toast.makeText(getActivity().getApplicationContext(), archivedStatus, Toast.LENGTH_SHORT).show();
 	}
-}
+    
+    
+    
+//	public void deleteSelectedNotesConfirmed() {
+//		for (Long itemId : getListView().getCheckedItemIds()) {
+//
+//			Log.i(Constants.TAG, "Deleting element " + itemId);
+//			// Create note object
+////			int _id = Integer.parseInt(getIntent().getStringExtra(Constants.INTENT_KEY));
+////			Note note = new Note();
+////			note.set_id(_id);
+//			//
+//			// Deleting note using DbHelper
+////			DbHelper db = new DbHelper(getActivity().getApplicationContext());
+////			db.deleteNote(note);
+//
+//			// Informs the user about update
+//			// Log.d(Constants.TAG, "Deleted note with id '" + _id + "'");
+//		}
+//		Toast.makeText(getActivity().getApplicationContext(),
+//				getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
+//		return;
+//	}
+//}
 
 
 
 
 
 
-class MyAlertDialogFragment extends DialogFragment {
-	ListFragment listFragment;
-
-    public MyAlertDialogFragment(ListFragment listFragment) {
-    	this.listFragment = listFragment;
-	}
-
-	public static MyAlertDialogFragment newInstance(ListFragment listFragment, int title) {
-        MyAlertDialogFragment frag = new MyAlertDialogFragment(listFragment);
-        Bundle args = new Bundle();
-        args.putInt("title", title);
-        frag.setArguments(args);
-        return frag;
-    }
-
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        int title = getArguments().getInt("title");
-
-        return new AlertDialog.Builder(getActivity())
-                .setTitle(title)
-                .setPositiveButton(R.string.confirm,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                        	((ItemListFragment) listFragment).deleteSelectedNotesConfirmed();
-                        }
-                    }
-                )
-                .setNegativeButton(R.string.cancel,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {}
-                    }
-                )
-                .create();
-    }
+//class MyAlertDialogFragment extends DialogFragment {
+//	ListFragment listFragment;
+//
+//    public MyAlertDialogFragment(ListFragment listFragment) {
+//    	this.listFragment = listFragment;
+//	}
+//
+//	public static MyAlertDialogFragment newInstance(ListFragment listFragment, int title) {
+//        MyAlertDialogFragment frag = new MyAlertDialogFragment(listFragment);
+//        Bundle args = new Bundle();
+//        args.putInt("title", title);
+//        frag.setArguments(args);
+//        return frag;
+//    }
+//
+//    @Override
+//    public Dialog onCreateDialog(Bundle savedInstanceState) {
+//        int title = getArguments().getInt("title");
+//
+//        return new AlertDialog.Builder(getActivity())
+//                .setTitle(title)
+//                .setPositiveButton(R.string.confirm,
+//                    new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int whichButton) {
+//                        	((ItemListFragment) listFragment).deleteSelectedNotesConfirmed();
+//                        }
+//                    }
+//                )
+//                .setNegativeButton(R.string.cancel,
+//                    new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int whichButton) {}
+//                    }
+//                )
+//                .create();
+//    }
+    
+    
+    
+    
 }

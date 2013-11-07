@@ -82,6 +82,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	    values.put(KEY_TITLE, note.getTitle());
 	    values.put(KEY_CONTENT, note.getContent());
 	    values.put(KEY_LAST_MODIFICATION, Calendar.getInstance().getTimeInMillis());
+	    values.put(KEY_ARCHIVED, note.isArchived());
 
 		// Updating row
 		if (note.get_id() != 0) {
@@ -100,26 +101,26 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 	
 	
-	// Archiving single note
-	public long archiveNote(Note note) {
-		long res;
-		SQLiteDatabase db = this.getWritableDatabase();
-		 
-	    ContentValues values = new ContentValues();
-	    values.put(KEY_TITLE, note.getTitle());
-	    values.put(KEY_CONTENT, note.getContent());
-	    values.put(KEY_LAST_MODIFICATION, Calendar.getInstance().getTimeInMillis());
-	    values.put(KEY_ARCHIVED, 1);
-
-		// Updating row
-		values.put(KEY_ID, note.get_id());
-		res = db.update(TABLE_NAME, values, KEY_ID + " = ?",
-				new String[] { String.valueOf(note.get_id()) });
-		Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
-			
-		
-		return res;
-	}
+//	// Archiving single note
+//	public long archiveNote(Note note) {
+//		long res;
+//		SQLiteDatabase db = this.getWritableDatabase();
+//		 
+//	    ContentValues values = new ContentValues();
+//	    values.put(KEY_TITLE, note.getTitle());
+//	    values.put(KEY_CONTENT, note.getContent());
+//	    values.put(KEY_LAST_MODIFICATION, Calendar.getInstance().getTimeInMillis());
+//	    values.put(KEY_ARCHIVED, 1);
+//
+//		// Updating row
+//		values.put(KEY_ID, note.get_id());
+//		res = db.update(TABLE_NAME, values, KEY_ID + " = ?",
+//				new String[] { String.valueOf(note.get_id()) });
+//		Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
+//			
+//		
+//		return res;
+//	}
 	 
 	
 	// Getting single note
@@ -146,11 +147,11 @@ public class DbHelper extends SQLiteOpenHelper {
 		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, KEY_TITLE);
 		
 		// Checking if archived notes must be shown
-		boolean archived = prefs.getString(Constants.PREF_NAVIGATION, "").equals(ctx.getResources().getStringArray(R.array.navigation_list)[0]) ? true : false;
+		boolean archived = prefs.getString(Constants.PREF_NAVIGATION, "").equals(ctx.getResources().getStringArray(R.array.navigation_list)[1]) ? true : false;
 		
 	    // Select All Query
 	    String selectQuery = "SELECT * FROM " + TABLE_NAME + 
-	    					(archived ? " WHERE " + KEY_ARCHIVED + "=1 " : "") + 
+	    					" WHERE " + KEY_ARCHIVED + (archived ? " = 1 " : " = 0 ") + 
 	    					" ORDER BY " + sort_column;
 	    Log.d(Constants.TAG, "Select notes query: " + selectQuery);
 	    

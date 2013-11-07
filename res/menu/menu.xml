@@ -23,6 +23,20 @@
         android:title="@string/share"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_archive"
+        android:icon="@drawable/ic_archive_dark"
+        android:orderInCategory="350"
+        android:showAsAction="ifRoom"
+        android:title="@string/archive"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_unarchive"
+        android:icon="@drawable/ic_unarchive_dark"
+        android:orderInCategory="380"
+        android:showAsAction="ifRoom"
+        android:title="@string/unarchive"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_delete"
         android:icon="@android:drawable/ic_menu_delete"
         android:orderInCategory="400"
@@ -34,7 +48,8 @@
         android:icon="@android:drawable/ic_menu_sort_alphabetically"
         android:orderInCategory="500"
         android:showAsAction="always"
-        android:title="@string/sort"/>
+        android:title="@string/sort"
+        android:visible="false"/>
     <item
         android:id="@+id/menu_settings"
         android:icon="@android:drawable/ic_menu_preferences"

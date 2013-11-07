@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -66,7 +67,11 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		menu.findItem(R.id.menu_save).setVisible(true);
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_delete).setVisible(true);
-		menu.findItem(R.id.menu_sort).setVisible(false);
+		
+		boolean archived = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREF_NAVIGATION, "").equals(getResources().getStringArray(R.array.navigation_list)[1]);
+		menu.findItem(R.id.menu_archive).setVisible(!archived);
+		menu.findItem(R.id.menu_unarchive).setVisible(archived);
+		
 		return super.onPrepareOptionsMenu(menu);
 	}
 	
@@ -98,10 +103,16 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_save:
-				saveNote();
+				saveNote(false);
 				break;
 			case R.id.menu_share:
 				shareNote();
+				break;
+			case R.id.menu_archive:
+				saveNote(true);
+				break;
+			case R.id.menu_unarchive:
+				saveNote(false);
 				break;
 			case R.id.menu_delete:
 				deleteNote();
@@ -151,7 +162,12 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 	}
 
 
-	private void saveNote() {
+	
+	/**
+	 * Save new notes, modify them or archive
+	 * @param archive Boolean flag used to archive note
+	 */
+	private void saveNote(boolean archive) {
 		// Changed fields
 		String title = ((EditText)findViewById(R.id.title)).getText().toString();
 		String content = ((EditText)findViewById(R.id.content)).getText().toString();
@@ -169,6 +185,7 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		note.set_id(id);
 		note.setTitle(title);
 		note.setContent(content);
+		note.setArchived(archive);
 		
 		// Saving changes to the note
 		DbHelper db = new DbHelper(this);

@@ -8,6 +8,7 @@ public class Note {
 	private String content;
 	private String creation;
 	private String lastModification;
+	private boolean archived;
 
 
 	public Note() {}
@@ -74,6 +75,16 @@ public class Note {
 	}
 	
 	
+	public boolean isArchived() {
+		return archived;
+	}
+
+
+	public void setArchived(boolean archived) {
+		this.archived = archived;
+	}
+
+
 	public String toString(){
 		return getTitle();
 	}

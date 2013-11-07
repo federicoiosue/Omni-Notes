@@ -17,6 +17,8 @@
     <string name="content">Content</string>
     <string name="save">Save</string>
     <string name="share">Share</string>
+    <string name="archive">Archive</string>
+    <string name="unarchive">Restore from archive</string>
     <string name="delete">Delete</string>
     <string name="timestamp">Timestamp</string>
     <string name="creation">Created on </string>
@@ -25,6 +27,8 @@
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="note_updated">Note updated</string>
+    <string name="note_archived">Note archived</string>
+    <string name="note_unarchived">Note restored from archive</string>
     <string name="note_deleted">Note deleted</string>
     <string name="note">Note</string>
     <string name="note_title">Note title</string>

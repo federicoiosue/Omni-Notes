@@ -87,5 +87,9 @@ public class BaseFragmentActivity extends FragmentActivity  {
 		return super.onMenuItemSelected(featureId, item);
 	}	
 	
+	protected boolean navigationArchived() {
+		return PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREF_NAVIGATION, "").equals(getResources().getStringArray(R.array.navigation_list)[1]);		
+	}
+	
 	
 }
