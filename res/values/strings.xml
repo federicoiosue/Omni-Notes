@@ -40,7 +40,7 @@
     <string name="one_item_selected">One item selected</string>
     <string name="more_items_selected">items selected</string>
     <string name="sort">Sort</string>
-    <string name="select_sorting_column">Select sorting column</string>
+    <string name="select_sorting_column">Sort by</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

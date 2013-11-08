@@ -43,8 +43,17 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 //		View rowView = inflater.inflate(android.R.layout.simple_list_item_activated_1, parent, false);
 		
 		TextView title = (TextView) rowView.findViewById(R.id.note_title);
+		TextView content = (TextView) rowView.findViewById(R.id.note_content);
 		TextView date = (TextView) rowView.findViewById(R.id.note_date);
+		
+		// Get text for title and content views
 		title.setText(values.get(position).getTitle());
+		int maxContentTextLength = 15;
+		String noteContent = values.get(position).getContent().split(System.getProperty("line.separator"))[0];
+		String suffix = values.get(position).getContent().length() > maxContentTextLength ? " ..." : "";
+		String contentText = noteContent + suffix;
+							
+		content.setText(contentText);
 		
 		// Choosing if it must be shown creation date or last modification depending on sorting criteria
 		String sort_column = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PREF_SORTING_COLUMN, "");

@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/menu_add"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_action_new"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/add_note"
         android:visible="false"/>
     <item
         android:id="@+id/menu_share"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@drawable/ic_action_share"
         android:orderInCategory="300"
         android:showAsAction="always"
         android:title="@string/share"
@@ -31,14 +31,14 @@
         android:visible="false"/>
     <item
         android:id="@+id/menu_delete"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@drawable/ic_action_discard"
         android:orderInCategory="400"
         android:showAsAction="ifRoom"
         android:title="@string/delete"
         android:visible="false"/>
     <item
         android:id="@+id/menu_sort"
-        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:icon="@drawable/ic_action_sort_by_size"
         android:orderInCategory="500"
         android:showAsAction="always"
         android:title="@string/sort"
