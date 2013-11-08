@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="@drawable/note_selector" >
+    android:layout_margin="8dp"
+    android:background="@drawable/note_selector"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/note_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:gravity="top|start"
         android:padding="10dp"
         android:text="@string/note_title"
         android:textColor="@color/list_note_title"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/note_date"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/note_title"
-        android:layout_alignParentRight="true"
-        android:gravity="right|bottom"
-        android:text="@string/note_timestamp"
-        android:textColor="@color/list_note_last_modification"
-        android:textSize="12sp"
-        android:padding="3dp" />
+        android:orientation="vertical" >
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/note_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:padding="3dp"
+            android:text="@string/note_timestamp"
+            android:textColor="@color/list_note_last_modification"
+            android:textSize="7sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

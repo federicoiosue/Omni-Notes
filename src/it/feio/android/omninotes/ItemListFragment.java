@@ -123,11 +123,11 @@ public class ItemListFragment extends ListFragment {
 		    	if (checked) {
 		    		selectedNotes.add(adapter.getItem(position));
 		    		adapter.addSelectedItem(position);
-			    	getListView().getChildAt(position).setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+		    		getListView().getChildAt(position - getListView().getFirstVisiblePosition()).setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
 		    	} else { 
 		    		selectedNotes.remove(adapter.getItem(position));
 		    		adapter.removeSelectedItem(position);
-		    		getListView().getChildAt(position).setBackgroundColor(getResources().getColor(R.color.list_bg));
+		    		getListView().getChildAt(position - getListView().getFirstVisiblePosition()).setBackgroundColor(getResources().getColor(R.color.list_bg));
 		    	}
 		        
 		        switch (checkedCount)
@@ -177,11 +177,9 @@ public class ItemListFragment extends ListFragment {
 		    public void onDestroyActionMode(ActionMode mode) {
 		        // Here you can make any necessary updates to the activity when
 		        // the CAB is removed. By default, selected items are deselected/unchecked.
-		    	for (int i = 0; i < getListView().getChildCount(); i++) {
-			    	adapter.removeSelectedItem(i);			    	
-		    		getListView().getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));					
-				}
 		    	selectedNotes.clear();
+		    	adapter.clearSelectedItems();
+		    	listView.clearChoices();
 		    	Log.d(Constants.TAG, "Closed multiselection contextual menu" );
 		    }
 
