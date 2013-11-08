@@ -9,13 +9,6 @@
         android:title="@string/add_note"
         android:visible="false"/>
     <item
-        android:id="@+id/menu_save"
-        android:icon="@android:drawable/ic_menu_save"
-        android:orderInCategory="200"
-        android:showAsAction="always"
-        android:title="@string/save"
-        android:visible="false"/>
-    <item
         android:id="@+id/menu_share"
         android:icon="@android:drawable/ic_menu_share"
         android:orderInCategory="300"

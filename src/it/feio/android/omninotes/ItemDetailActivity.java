@@ -5,11 +5,8 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import it.feio.android.omninotes.R;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
@@ -64,7 +61,6 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.menu_save).setVisible(true);
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		
@@ -87,7 +83,7 @@ public class ItemDetailActivity extends BaseFragmentActivity {
                 //
                 // http://developer.android.com/design/patterns/navigation.html#up-vs-back
                 //
-                goHome();
+            	saveNote(false);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -102,9 +98,6 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_save:
-				saveNote(false);
-				break;
 			case R.id.menu_share:
 				shareNote();
 				break;
@@ -172,6 +165,13 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		String title = ((EditText)findViewById(R.id.title)).getText().toString();
 		String content = ((EditText)findViewById(R.id.content)).getText().toString();
 		
+		// Check if some text has ben inserted or is an empty note
+		if ((title + content).length() == 0) {
+			Log.d(Constants.TAG, "Empty note not saved");
+			Toast.makeText(this, getResources().getText(R.string.empty_note_not_saved), Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		// Logging operation
 		Log.d(Constants.TAG, "Saving new note titled: " + title);
 		
@@ -191,9 +191,9 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		DbHelper db = new DbHelper(this);
 		long _id = db.updateNote(note);
 		
-		// Informs the user about update
+		// Logs update
 		Log.d(Constants.TAG, "New note saved with title '" + note.getTitle() + "' and id '" + _id + "'");
-		Toast.makeText(this, getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT).show();
+//		Toast.makeText(this, getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT).show();
 
 		// Go back on stack
         goHome();
@@ -204,6 +204,13 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		// Changed fields
 		String title = ((EditText)findViewById(R.id.title)).getText().toString();
 		String content = ((EditText)findViewById(R.id.content)).getText().toString();
+		
+		// Check if some text has ben inserted or is an empty note
+		if ((title + content).length() == 0) {
+			Log.d(Constants.TAG, "Empty note not shared");
+			Toast.makeText(this, getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT).show();
+			return;
+		}
 
 		// Definition of shared content
 		String text = title + System.getProperty("line.separator") + content

@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:gravity="left"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="@style/Text.Small" />
 
     <TextView
         android:id="@+id/last_modification"
@@ -35,6 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:gravity="right"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="@style/Text.Small"/>
 
 </LinearLayout>

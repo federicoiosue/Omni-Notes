@@ -27,6 +27,8 @@
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="note_updated">Note updated</string>
+    <string name="empty_note_not_saved">Empty note not saved</string>
+    <string name="empty_note_not_shared">Empty note not shareable</string>
     <string name="note_archived">Note archived</string>
     <string name="note_unarchived">Note restored from archive</string>
     <string name="note_deleted">Note deleted</string>
