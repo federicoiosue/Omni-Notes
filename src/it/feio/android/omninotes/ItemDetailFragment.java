@@ -49,7 +49,7 @@ public class ItemDetailFragment extends Fragment {
         if (note != null) {
         	((EditText) rootView.findViewById(R.id.title)).setText(note.getTitle());
         	((EditText) rootView.findViewById(R.id.content)).setText(note.getContent());
-        	((TextView) rootView.findViewById(R.id.creation)).append(getString(R.string.creation) + " " + note.getlastModificationShort());        	
+        	((TextView) rootView.findViewById(R.id.creation)).append(getString(R.string.creation) + " " + note.getCreationShort());        	
         	((TextView) rootView.findViewById(R.id.last_modification)).append(getString(R.string.last_update) + " " + note.getlastModificationShort());
         }
 

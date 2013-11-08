@@ -1,18 +1,12 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.R.color;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.provider.CalendarContract.Colors;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

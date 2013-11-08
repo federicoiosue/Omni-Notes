@@ -35,16 +35,18 @@
 
         <TextView
             android:id="@+id/creation"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:gravity="left"
             android:textAppearance="@style/Text.Small" />
 
         <TextView
             android:id="@+id/last_modification"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:gravity="right"
             android:textAppearance="@style/Text.Small" />
     </LinearLayout>
 

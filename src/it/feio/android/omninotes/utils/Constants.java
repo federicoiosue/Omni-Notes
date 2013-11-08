@@ -9,7 +9,7 @@ public interface Constants {
 	
 	final String DATE_FORMAT_EU = "dd/MM/yyyy HH:mm";
 	final String DATE_FORMAT_ISO8601  = "YYYY-MM-DD HH:MM:SS.SSS";
-	final String DATE_FORMAT_SHORT  = "d MMM";
+	final String DATE_FORMAT_SHORT  = "d MMM HH:mm";
 
     final String INTENT_KEY = "note_id";
 
