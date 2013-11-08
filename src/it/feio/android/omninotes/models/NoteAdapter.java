@@ -49,9 +49,9 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// Choosing if it must be shown creation date or last modification depending on sorting criteria
 		String sort_column = PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PREF_SORTING_COLUMN, "");
 		if (sort_column.equals(DbHelper.KEY_CREATION))
-			date.setText(context.getString(R.string.creation) + " " + values.get(position).getCreation());
+			date.setText(context.getString(R.string.creation) + " " + values.get(position).getCreationShort());
 		else 
-			date.setText(context.getString(R.string.last_update) + " " + values.get(position).getlastModification());
+			date.setText(context.getString(R.string.last_update) + " " + values.get(position).getlastModificationShort());
 		
 		// Highlighted if is part of multiselection of notes
 		if (selectedItems.get(position) != null) {

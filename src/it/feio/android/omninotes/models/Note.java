@@ -1,5 +1,11 @@
 package it.feio.android.omninotes.models;
 
+import it.feio.android.omninotes.utils.Constants;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import com.google.analytics.tracking.android.Log;
+
 
 public class Note {
 
@@ -66,8 +72,34 @@ public class Note {
 		this.creation = creation;
 	}
 
+	public String getCreationShort() {
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EU);
+		Date d;
+		try {
+			d = sdf.parse(creation);
+		} catch (ParseException e) {
+			Log.e(e);
+			return creation;
+		}
+		sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SHORT);
+		return sdf.format(d);
+	}
+
 	public String getlastModification() {
 		return lastModification;
+	}
+
+	public String getlastModificationShort() {
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EU);
+		Date d;
+		try {
+			d = sdf.parse(lastModification);
+		} catch (ParseException e) {
+			Log.e(e);
+			return lastModification;
+		}
+		sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SHORT);
+		return sdf.format(d);
 	}
 
 	public void setlastModification(String lastModification) {
