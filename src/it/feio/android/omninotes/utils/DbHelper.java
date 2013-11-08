@@ -82,7 +82,9 @@ public class DbHelper extends SQLiteOpenHelper {
 	    values.put(KEY_TITLE, note.getTitle());
 	    values.put(KEY_CONTENT, note.getContent());
 	    values.put(KEY_LAST_MODIFICATION, Calendar.getInstance().getTimeInMillis());
-	    values.put(KEY_ARCHIVED, note.isArchived());
+	    boolean navigationArchived = PreferenceManager.getDefaultSharedPreferences(ctx).getString(Constants.PREF_NAVIGATION, "").equals(ctx.getResources().getStringArray(R.array.navigation_list)[1]);
+	    boolean archive = note.isArchived() != null ? note.isArchived() : navigationArchived;
+	    values.put(KEY_ARCHIVED, archive);
 
 		// Updating row
 		if (note.get_id() != 0) {

@@ -83,17 +83,22 @@ public class ItemDetailActivity extends BaseFragmentActivity {
                 //
                 // http://developer.android.com/design/patterns/navigation.html#up-vs-back
                 //
-            	saveNote(false);
+            	saveNote(null);
         }
         return super.onOptionsItemSelected(item);
     }
 
 
 	private boolean goHome() {
-		NavUtils.navigateUpTo(this, new Intent(this, ItemListActivity.class));		
+//		NavUtils.navigateUpTo(this, new Intent(this, ItemListActivity.class));	
+		NavUtils.navigateUpFromSameTask(this);		
         return true;
 	}
 
+	@Override
+	public void onBackPressed() {
+		saveNote(null);
+	}
 
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
@@ -160,7 +165,7 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 	 * Save new notes, modify them or archive
 	 * @param archive Boolean flag used to archive note
 	 */
-	private void saveNote(boolean archive) {
+	private void saveNote(Boolean archive) {
 		// Changed fields
 		String title = ((EditText)findViewById(R.id.title)).getText().toString();
 		String content = ((EditText)findViewById(R.id.content)).getText().toString();
@@ -173,7 +178,7 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		}
 		
 		// Logging operation
-		Log.d(Constants.TAG, "Saving new note titled: " + title);
+		Log.d(Constants.TAG, "Saving new note titled: " + title + " (archive var: " + archive + ")");
 		
 		// New note object
 		Note note = new Note();

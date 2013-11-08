@@ -14,7 +14,7 @@ public class Note {
 	private String content;
 	private String creation;
 	private String lastModification;
-	private boolean archived;
+	private Boolean archived;
 
 
 	public Note() {}
@@ -107,12 +107,12 @@ public class Note {
 	}
 	
 	
-	public boolean isArchived() {
+	public Boolean isArchived() {
 		return archived;
 	}
 
 
-	public void setArchived(boolean archived) {
+	public void setArchived(Boolean archived) {
 		this.archived = archived;
 	}
 
