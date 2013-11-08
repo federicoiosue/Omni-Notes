@@ -24,6 +24,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -196,6 +198,34 @@ public class ItemListFragment extends ListFragment {
 				menu.findItem(R.id.menu_settings).setVisible(false);				
 		        return true;
 		    }
+		});
+		
+		listView.setOnScrollListener(new OnScrollListener() {
+			int mLastFirstVisibleItem = 0;
+			/*
+			 * @see android.widget.AbsListView.OnScrollListener#onScrollStateChanged(android.widget.AbsListView, int)
+			 */
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {}
+
+			/*
+			 * @see android.widget.AbsListView.OnScrollListener#onScroll(android.widget.AbsListView, int, int, int)
+			 */
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+					int totalItemCount) {
+				if (view.getId() == listView.getId()) {
+					final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
+
+					if (currentFirstVisibleItem > mLastFirstVisibleItem) {
+						getActivity().getActionBar().hide();
+					} else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
+						getActivity().getActionBar().show();
+					}
+
+					mLastFirstVisibleItem = currentFirstVisibleItem;
+				}
+			}
 		});
     }
     
