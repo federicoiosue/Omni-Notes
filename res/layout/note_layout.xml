@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-    android:background="@drawable/note_selector"
+    android:background="@drawable/bg_card"
     android:orientation="vertical" >
 
     <TextView
