@@ -43,9 +43,10 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// Get text for title and content views
 		title.setText(values.get(position).getTitle());
 		int maxContentTextLength = 40;
-		String noteContent = values.get(position).getContent().split(System.getProperty("line.separator"))[0];
-		String suffix = values.get(position).getContent().length() > maxContentTextLength ? " ..." : "";
-		String contentText = suffix.length() > 0 ? noteContent.substring(0, maxContentTextLength) + suffix : noteContent;
+		// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
+		String[] noteContent = values.get(position).getContent().split(System.lineSeparator());
+		String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..." : "";
+		String contentText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0].substring(0, maxContentTextLength) : noteContent[0]) + suffix : noteContent[0];
 							
 		content.setText(contentText);
 		
