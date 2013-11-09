@@ -70,10 +70,6 @@ public class BaseFragmentActivity extends FragmentActivity  {
 				Intent settingsIntent = new Intent(this, SettingsActivity.class);
 	            startActivity(settingsIntent);
 				break;
-			case R.id.menu_about:
-				Intent aboutIntent = new Intent(this, AboutActivity.class);
-	            startActivity(aboutIntent);
-				break;
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}	

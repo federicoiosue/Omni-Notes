@@ -1,7 +1,6 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.utils.Constants;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -12,11 +11,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.widget.TextView;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -64,7 +59,18 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 
 		});
+		
+
+		// Popup About
+				Preference about = findPreference("settings_about");
+				about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+					@Override
+					public boolean onPreferenceClick(Preference arg0) {
+						Intent aboutIntent = new Intent(context, AboutActivity.class);
+				        startActivity(aboutIntent);
+						return false;
+					}					
+				});
 
 	}
-
 }

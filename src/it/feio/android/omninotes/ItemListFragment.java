@@ -192,7 +192,6 @@ public class ItemListFragment extends ListFragment {
 				menu.findItem(R.id.menu_archive).setVisible(!archived);
 				menu.findItem(R.id.menu_unarchive).setVisible(archived);
 				menu.findItem(R.id.menu_delete).setVisible(true);
-				menu.findItem(R.id.menu_about).setVisible(false);
 				menu.findItem(R.id.menu_settings).setVisible(false);				
 		        return true;
 		    }
