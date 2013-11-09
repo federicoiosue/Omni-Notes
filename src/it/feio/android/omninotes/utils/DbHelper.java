@@ -91,6 +91,10 @@ public class DbHelper extends SQLiteOpenHelper {
 			values.put(KEY_ID, note.get_id());
 			res = db.update(TABLE_NAME, values, KEY_ID + " = ?",
 					new String[] { String.valueOf(note.get_id()) });
+			// Importing data from csv without existing note in db
+			if (res == 0) {
+				res = db.insert(TABLE_NAME, null, values);
+			}			
 			Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
 			
 		// Inserting new note
@@ -159,9 +163,11 @@ public class DbHelper extends SQLiteOpenHelper {
 		// Checking if archived notes must be shown
 		boolean archived = prefs.getString(Constants.PREF_NAVIGATION, "").equals(ctx.getResources().getStringArray(R.array.navigation_list)[1]) ? true : false;
 		
+		String whereCondition = checkNavigation ? " WHERE " + KEY_ARCHIVED + (archived ? " = 1 " : " = 0 ") : "";
+				
 	    // Select All Query
 	    String selectQuery = "SELECT * FROM " + TABLE_NAME + 
-	    					" WHERE " + KEY_ARCHIVED + (archived ? " = 1 " : " = 0 ") + 
+	    					whereCondition +
 	    					" ORDER BY " + sort_column;
 	    Log.d(Constants.TAG, "Select notes query: " + selectQuery);
 	    
@@ -177,6 +183,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	            note.setlastModification(DateHelper.getDateString(cursor.getLong(2)));
 	            note.setTitle(cursor.getString(3));
 	            note.setContent(cursor.getString(4));
+	            note.setArchived("1".equals(cursor.getString(5)));
 	            // Adding note to list
 	            noteList.add(note);
 	        } while (cursor.moveToNext());

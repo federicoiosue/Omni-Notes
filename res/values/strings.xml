@@ -61,6 +61,7 @@
     <string name="import_success">File imported successfully</string>
     <string name="import_fail">File import failed</string>
     <string name="file_not_exists">File to be imported doesn\'t exists</string>
+    <string name="import_warning">Importing data could overwrite current notes. Proceed?</string>
     
     
     

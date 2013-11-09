@@ -54,15 +54,35 @@ public class SettingsActivity extends PreferenceActivity {
 		importData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-				try {
-					ImportExportExcel importExportExcel = new ImportExportExcel(context);
-					if (importExportExcel.importDataFromCSV())
-						Toast.makeText(context, getString(R.string.import_success), Toast.LENGTH_LONG).show();
-					else
-						Toast.makeText(context, getString(R.string.import_fail), Toast.LENGTH_LONG).show();
-				} catch (Exception e) {
-					Toast.makeText(context, getString(R.string.import_fail), Toast.LENGTH_LONG).show();				
-				}
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+
+				// set dialog message
+				alertDialogBuilder.setMessage(getString(R.string.import_warning))
+						.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+							public void onClick(DialogInterface dialog, int id) {
+								try {
+									ImportExportExcel importExportExcel = new ImportExportExcel(context);
+									if (importExportExcel.importDataFromCSV())
+										Toast.makeText(context, getString(R.string.import_success), Toast.LENGTH_LONG).show();
+									else
+										Toast.makeText(context, getString(R.string.import_fail), Toast.LENGTH_LONG).show();
+								} catch (Exception e) {
+									Toast.makeText(context, getString(R.string.import_fail), Toast.LENGTH_LONG).show();				
+								}
+							}
+						}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+
+				// show it
+				alertDialog.show();
 				return false;
 			}					
 		});
