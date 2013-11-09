@@ -90,7 +90,7 @@ public class ItemListFragment extends ListFragment {
 
 	public void initNotesList() {
 		DbHelper db = new DbHelper(getActivity().getApplicationContext());
-		List<Note> notes = db.getAllNotes();
+		List<Note> notes = db.getAllNotes(true);
 		adapter = new NoteAdapter(getActivity().getApplicationContext(), notes);		
 		setListAdapter(adapter);	
 	}
@@ -192,7 +192,6 @@ public class ItemListFragment extends ListFragment {
 				menu.findItem(R.id.menu_archive).setVisible(!archived);
 				menu.findItem(R.id.menu_unarchive).setVisible(archived);
 				menu.findItem(R.id.menu_delete).setVisible(true);
-				menu.findItem(R.id.menu_about).setVisible(false);
 				menu.findItem(R.id.menu_settings).setVisible(false);				
 		        return true;
 		    }

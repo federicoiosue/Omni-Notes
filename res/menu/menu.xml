@@ -47,11 +47,7 @@
         android:id="@+id/menu_settings"
         android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="998"
-        android:title="@string/settings"/>
-    <item
-        android:id="@+id/menu_about"
-        android:icon="@android:drawable/ic_menu_info_details"
-        android:orderInCategory="999"
-        android:title="@string/about"/>
+        android:title="@string/settings"
+        android:visible="false"/>
 
 </menu>

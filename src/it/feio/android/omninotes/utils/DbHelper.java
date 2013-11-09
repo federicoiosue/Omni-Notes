@@ -143,8 +143,13 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 	 
 	
-	// Getting All notes
-	public List<Note> getAllNotes() {
+	/**
+	 * Getting All notes
+	 * @param checkNavigation Tells if navigation status (notes, archived) must
+	 * 			be kept in consideration or if all notes have to be retrieved
+	 * @return Notes list
+	 */
+	public List<Note> getAllNotes(boolean checkNavigation) {
 		List<Note> noteList = new ArrayList<Note>();
 		
 		// Getting sorting criteria from preferences
@@ -199,6 +204,15 @@ public class DbHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 	    db.delete(TABLE_NAME, KEY_ID + " = ?",
 	            new String[] { String.valueOf(note.get_id()) });
+	    db.close();
+	}
+	
+
+	
+	// Clears completelly the database
+	public void clear() {
+	    SQLiteDatabase db = this.getWritableDatabase();
+	    db.execSQL("DELETE FROM " + TABLE_NAME);
 	    db.close();
 	}
 	
