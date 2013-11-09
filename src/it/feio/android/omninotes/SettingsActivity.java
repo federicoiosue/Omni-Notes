@@ -1,6 +1,9 @@
 package it.feio.android.omninotes;
 
+import java.util.Calendar;
+
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ImportExportExcel;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -12,6 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -25,6 +29,28 @@ public class SettingsActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
+		
+
+		// Export notes
+		Preference export = findPreference("settings_export_data");
+		export.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
+				try {
+					ImportExportExcel importExportExcel = new ImportExportExcel(context);
+					String fileName = Constants.EXPORT_FILE_NAME + ".csv";
+					if (importExportExcel.exportDataToCSV(fileName))
+						Toast.makeText(context, getString(R.string.export_success), Toast.LENGTH_LONG).show();
+					else
+						Toast.makeText(context, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
+				} catch (Exception e) {
+					Toast.makeText(context, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
+				
+				}
+				return false;
+			}					
+		});
+		
 
 		// Evento di pressione sul pulsante di reset delle impostazioni
 		Preference resetData = findPreference("reset_all_data");
@@ -62,15 +88,15 @@ public class SettingsActivity extends PreferenceActivity {
 		
 
 		// Popup About
-				Preference about = findPreference("settings_about");
-				about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-					@Override
-					public boolean onPreferenceClick(Preference arg0) {
-						Intent aboutIntent = new Intent(context, AboutActivity.class);
-				        startActivity(aboutIntent);
-						return false;
-					}					
-				});
+		Preference about = findPreference("settings_about");
+		about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
+				Intent aboutIntent = new Intent(context, AboutActivity.class);
+		        startActivity(aboutIntent);
+				return false;
+			}					
+		});
 
 	}
 }

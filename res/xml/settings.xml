@@ -2,6 +2,18 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory
+        android:key="category_sync_import_export"
+        android:title="@string/settings_sync_import_export" >
+        <Preference
+            android:key="settings_export_data"
+            android:title="@string/settings_export" >
+        </Preference>
+        <Preference
+            android:key="settings_import_data"
+            android:title="@string/settings_import" >
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory
         android:key="category_other"
         android:title="@string/settings_category_other" >
         <Preference

@@ -90,7 +90,7 @@ public class ItemListFragment extends ListFragment {
 
 	public void initNotesList() {
 		DbHelper db = new DbHelper(getActivity().getApplicationContext());
-		List<Note> notes = db.getAllNotes();
+		List<Note> notes = db.getAllNotes(true);
 		adapter = new NoteAdapter(getActivity().getApplicationContext(), notes);		
 		setListAdapter(adapter);	
 	}
