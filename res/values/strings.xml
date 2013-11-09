@@ -5,6 +5,8 @@
     <string name="admob_id">ca-app-pub-6447226512493573/7510385645</string>
     <string name="admob_id_test">TEST_EMULATOR, 9463A9DD59201409D6D43336C02E7FA0</string>   
     
+    <string name="logo">Logo</string>
+    <string name="copyleft">Copyleft Feio 2013</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="dev_googleplus">https://plus.google.com/102629628248642947234/posts</string>

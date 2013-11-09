@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
 public class AboutActivity extends BaseFragmentActivity {
@@ -33,6 +36,12 @@ public class AboutActivity extends BaseFragmentActivity {
 		} else {
 			getWindow().getDecorView().getRootView().setBackground(bg);
 		}
+		
+		// Version printing
+		TextView copyleft = (TextView) findViewById(R.id.copyleft);
+		try {
+			copyleft.append("   " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+		} catch (NameNotFoundException e) {}
 				
 		// Icons click management
 		ImageView googleplus = (ImageView) findViewById(R.id.googleplus);
