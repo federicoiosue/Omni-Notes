@@ -17,8 +17,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/CustomActionBarTheme" >
-        <activity
-            android:name="it.feio.android.omninotes.ItemListActivity" >
+        <activity android:name="it.feio.android.omninotes.ItemListActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,11 +35,14 @@
         <activity
             android:name="it.feio.android.omninotes.SettingsActivity"
             android:label="@string/settings" >
+            android:parentActivityName="it.feio.android.omninotes.ItemListActivity" 
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ItemListActivity" />
         </activity>
         <activity
             android:name="it.feio.android.omninotes.AboutActivity"
             android:label="@string/title_activity_about"
-            android:parentActivityName="it.feio.android.omninotes.ItemListActivity"
             android:theme="@style/Theme.Transparent" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

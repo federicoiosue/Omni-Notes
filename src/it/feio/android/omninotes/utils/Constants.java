@@ -16,6 +16,7 @@ public interface Constants {
     final String PREF_NAVIGATION = "navigation";
     final String PREF_SORTING_COLUMN = "sorting_column";
     final String PREF_SORTING_ORDER = "sorting_direction";
-
+    
+    final String EXPORT_FILE_PATH = StorageManager.getStorageDir().getAbsolutePath();
     final String EXPORT_FILE_NAME = TAG;
 }

@@ -184,6 +184,7 @@ public class ItemListActivity extends BaseFragmentActivity
         
 		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && !archived);
         menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
+        menu.findItem(R.id.menu_settings).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
 

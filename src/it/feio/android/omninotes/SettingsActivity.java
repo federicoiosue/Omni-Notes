@@ -1,8 +1,7 @@
 package it.feio.android.omninotes;
 
-import java.util.Calendar;
-
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.DbHelper;
 import it.feio.android.omninotes.utils.ImportExportExcel;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -14,6 +13,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -29,7 +29,7 @@ public class SettingsActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
-		
+
 
 		// Export notes
 		Preference export = findPreference("settings_export_data");
@@ -38,14 +38,30 @@ public class SettingsActivity extends PreferenceActivity {
 			public boolean onPreferenceClick(Preference arg0) {
 				try {
 					ImportExportExcel importExportExcel = new ImportExportExcel(context);
-					String fileName = Constants.EXPORT_FILE_NAME + ".csv";
-					if (importExportExcel.exportDataToCSV(fileName))
-						Toast.makeText(context, getString(R.string.export_success), Toast.LENGTH_LONG).show();
+					if (importExportExcel.exportDataToCSV())
+						Toast.makeText(context, getString(R.string.export_success) + " " + Constants.EXPORT_FILE_PATH, Toast.LENGTH_LONG).show();
 					else
 						Toast.makeText(context, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
 				} catch (Exception e) {
-					Toast.makeText(context, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
-				
+					Toast.makeText(context, getString(R.string.export_fail), Toast.LENGTH_LONG).show();				
+				}
+				return false;
+			}					
+		});
+
+		// Import notes
+		Preference importData = findPreference("settings_import_data");
+		importData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
+				try {
+					ImportExportExcel importExportExcel = new ImportExportExcel(context);
+					if (importExportExcel.importDataFromCSV())
+						Toast.makeText(context, getString(R.string.import_success), Toast.LENGTH_LONG).show();
+					else
+						Toast.makeText(context, getString(R.string.import_fail), Toast.LENGTH_LONG).show();
+				} catch (Exception e) {
+					Toast.makeText(context, getString(R.string.import_fail), Toast.LENGTH_LONG).show();				
 				}
 				return false;
 			}					
@@ -67,6 +83,8 @@ public class SettingsActivity extends PreferenceActivity {
 							public void onClick(DialogInterface dialog, int id) {
 								PreferenceManager.getDefaultSharedPreferences(context).edit().clear()
 										.commit();
+								DbHelper db = new DbHelper(context);
+								db.clear();
 								Log.i(Constants.TAG, "Settings back to default");
 							}
 						}).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -98,5 +116,12 @@ public class SettingsActivity extends PreferenceActivity {
 			}					
 		});
 
+	}
+	
+
+
+	@Override
+	public void onBackPressed() {	
+		NavUtils.navigateUpFromSameTask(this);		
 	}
 }
