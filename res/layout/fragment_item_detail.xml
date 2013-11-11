@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp" >
 
-    <EditText
+    <com.neopixl.pixlui.components.edittext.EditText
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_card"
         android:hint="@string/title"
+        pixlui:typeface="RobotoSlab-Bold.ttf"
         android:inputType="textCapSentences" >
 
         <requestFocus />
-    </EditText>
+    </com.neopixl.pixlui.components.edittext.EditText>
 
-    <EditText
+    <com.neopixl.pixlui.components.edittext.EditText
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        pixlui:typeface="RobotoSlab-Regular.ttf"
         android:inputType="textCapSentences|textMultiLine" 
         android:layout_weight="1"
         android:background="@drawable/bg_card"
@@ -35,19 +38,21 @@
         android:paddingBottom="5dp"
         android:paddingTop="5dp" >
 
-        <TextView
+        <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/creation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+        pixlui:typeface="RobotoSlab-Light.ttf"
             android:gravity="left"
             android:textAppearance="@style/Text.Small" />
 
-        <TextView
+        <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/last_modification"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+        pixlui:typeface="RobotoSlab-Light.ttf"
             android:gravity="right"
             android:textAppearance="@style/Text.Small" />
     </LinearLayout>

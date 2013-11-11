@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
     android:background="@drawable/bg_card"
     android:orientation="vertical" >
 
-    <TextView
+    <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/note_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="top|start"
         android:padding="5dp"
         android:text="@string/note_title"
+        android:textAppearance="@style/Text.Big"
         android:textColor="@color/list_note_title"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        pixlui:typeface="RobotoSlab-Bold.ttf" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <TextView
+        <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/note_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -30,17 +31,19 @@
             android:layout_weight="1"
             android:padding="2dp"
             android:text="@string/note_timestamp"
+            android:textAppearance="@style/Text.Normal"
             android:textColor="@color/list_note_title"
-            android:textSize="12sp" />
+            pixlui:typeface="RobotoSlab-Light.ttf" />
 
-        <TextView
+        <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/note_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:padding="2dp"
             android:text="@string/note_timestamp"
-            android:textAppearance="@style/Text.Small" />
+            android:textAppearance="@style/Text.Small"
+            pixlui:typeface="RobotoSlab-Light.ttf" />
     </LinearLayout>
 
 </LinearLayout>

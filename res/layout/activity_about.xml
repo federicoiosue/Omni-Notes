@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_vertical|center_horizontal"
@@ -29,16 +30,17 @@
             android:gravity="left"
             android:orientation="vertical" >
 
-            <TextView
+            <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/app_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="15dp"
                 android:text="@string/app_name"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="@style/Text.Big"
+                pixlui:typeface="RobotoSlab-Bold.ttf" />
 
-            <TextView
+            <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/copyleft"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -48,14 +50,15 @@
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
+    <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/follow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="15dp"
         android:text="@string/follow_author"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        pixlui:typeface="RobotoSlab-Regular.ttf" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -90,13 +93,14 @@
         android:gravity="center_horizontal" >
     </com.google.ads.AdView>
 
-    <TextView
+    <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/support"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="15dp"
         android:text="@string/click_to_support"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="@style/Text.Small"
+        pixlui:typeface="RobotoSlab-Light.ttf" />
 
 </LinearLayout>

@@ -1,10 +1,11 @@
-
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.neopixl.pixlui.components.textview.TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:gravity="center_vertical"
-    android:textAppearance="@android:style/TextAppearance.Medium"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:textColor="@color/drawer_text" />
+    android:textAppearance="@style/Text.Big"
+    android:textColor="@color/drawer_text"
+    pixlui:typeface="RobotoSlab-Bold.ttf" />
