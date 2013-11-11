@@ -20,22 +20,45 @@ public class Note {
 	public Note() {}
 	
 
-	public Note(String creation, String lastModification, String title, String content) {
+	public Note(String creation, String lastModification, String title, String content, Boolean archived) {
 		super();
 		this.title = title;
 		this.content = content;
 		this.creation = creation;
 		this.lastModification = lastModification;
+		this.archived = archived;
 	}
 	
 
-	public Note(int _id, String creation, String lastModification, String title, String content) {
+	public Note(int _id, String creation, String lastModification, String title, String content, Boolean archived) {
 		super();
 		this._id = _id;
 		this.title = title;
 		this.content = content;
 		this.creation = creation;
 		this.lastModification = lastModification;
+		this.archived = archived;
+	}
+	
+
+	public Note(String creation, String lastModification, String title, String content, Integer archived) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.creation = creation;
+		this.lastModification = lastModification;
+		this.archived = archived == 1 ? true : false;
+	}
+	
+
+	public Note(int _id, String creation, String lastModification, String title, String content, Integer archived) {
+		super();
+		this._id = _id;
+		this.title = title;
+		this.content = content;
+		this.creation = creation;
+		this.lastModification = lastModification;
+		this.archived = archived == 1 ? true : false;
 	}
 
 

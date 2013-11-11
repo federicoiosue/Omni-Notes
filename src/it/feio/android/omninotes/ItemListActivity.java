@@ -8,6 +8,7 @@ import it.feio.android.omninotes.R;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.SearchView;
 
 
 /**
@@ -70,9 +72,8 @@ public class ItemListActivity extends BaseFragmentActivity
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((ItemListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.item_list))
-                    .setActivateOnItemClick(true);
+			((ItemListFragment) getSupportFragmentManager().findFragmentById(R.id.item_list))
+					.setActivateOnItemClick(true);
         }
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -181,10 +182,20 @@ public class ItemListActivity extends BaseFragmentActivity
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
         // If archived notes are shown the "add new note" item must be hidden
         boolean archived = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREF_NAVIGATION, "").equals(getResources().getStringArray(R.array.navigation_list)[1]);
-        
+
+		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && !archived);
         menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
         menu.findItem(R.id.menu_settings).setVisible(!drawerOpen);
+        
+     // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+               (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+        
 		return super.onPrepareOptionsMenu(menu);
 	}
 

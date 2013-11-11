@@ -82,8 +82,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	    values.put(KEY_TITLE, note.getTitle());
 	    values.put(KEY_CONTENT, note.getContent());
 	    values.put(KEY_LAST_MODIFICATION, Calendar.getInstance().getTimeInMillis());
-	    boolean navigationArchived = PreferenceManager.getDefaultSharedPreferences(ctx).getString(Constants.PREF_NAVIGATION, "").equals(ctx.getResources().getStringArray(R.array.navigation_list)[1]);
-	    boolean archive = note.isArchived() != null ? note.isArchived() : navigationArchived;
+//	    boolean navigationArchived = PreferenceManager.getDefaultSharedPreferences(ctx).getString(Constants.PREF_NAVIGATION, "").equals(ctx.getResources().getStringArray(R.array.navigation_list)[1]);
+	    boolean archive = note.isArchived() != null ? note.isArchived() : false;
 	    values.put(KEY_ARCHIVED, archive);
 
 		// Updating row
@@ -135,12 +135,12 @@ public class DbHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = getReadableDatabase();
 		 
 	    Cursor cursor = db.query(TABLE_NAME, new String[] { KEY_ID, KEY_CREATION,
-	    		KEY_LAST_MODIFICATION, KEY_TITLE, KEY_CONTENT }, KEY_ID + "=?",
+	    		KEY_LAST_MODIFICATION, KEY_TITLE, KEY_CONTENT, KEY_ARCHIVED }, KEY_ID + "=?",
 	            new String[] { String.valueOf(id) }, null, null, null, null);
 	    if (cursor != null)
 	        cursor.moveToFirst();
 
-	    Note note = new Note(Integer.parseInt(cursor.getString(0)), DateHelper.getDateString(cursor.getLong(1)), DateHelper.getDateString(cursor.getLong(2)), cursor.getString(3), cursor.getString(4));
+	    Note note = new Note(Integer.parseInt(cursor.getString(0)), DateHelper.getDateString(cursor.getLong(1)), DateHelper.getDateString(cursor.getLong(2)), cursor.getString(3), cursor.getString(4), cursor.getInt(5));
 
 	    db.close();
 	    return note;
@@ -222,6 +222,50 @@ public class DbHelper extends SQLiteOpenHelper {
 	    db.execSQL("DELETE FROM " + TABLE_NAME);
 	    db.close();
 	}
+	
+	
+	/**
+	 * Getting All notes
+	 * @param checkNavigation Tells if navigation status (notes, archived) must
+	 * 			be kept in consideration or if all notes have to be retrieved
+	 * @return Notes list
+	 */
+	public List<Note> getMatchingNotes(String pattern) {
+		List<Note> noteList = new ArrayList<Note>();
+		
+		// Getting sorting criteria from preferences
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, KEY_TITLE);
+				
+	    // Select All Query
+	    String selectQuery = "SELECT * FROM " + TABLE_NAME + 
+	    					" WHERE " + KEY_TITLE + " LIKE '%" + pattern + "%' " +
+	    					" OR " + KEY_CONTENT + " LIKE '%" + pattern + "%' " +
+	    					" ORDER BY " + sort_column;
+	    Log.d(Constants.TAG, "Select notes query: " + selectQuery);
+	    
+	    SQLiteDatabase db = this.getReadableDatabase();
+	    Cursor cursor = db.rawQuery(selectQuery, null);
+	 
+	    // Looping through all rows and adding to list
+	    if (cursor.moveToFirst()) {
+	        do {
+	            Note note = new Note();
+	            note.set_id(Integer.parseInt(cursor.getString(0)));
+	            note.setCreation(DateHelper.getDateString(cursor.getLong(1)));
+	            note.setlastModification(DateHelper.getDateString(cursor.getLong(2)));
+	            note.setTitle(cursor.getString(3));
+	            note.setContent(cursor.getString(4));
+	            note.setArchived("1".equals(cursor.getString(5)));
+	            // Adding note to list
+	            noteList.add(note);
+	        } while (cursor.moveToNext());
+	    }
+	    
+	    db.close();
+	 
+	    return noteList;
+	} 
 	
 	
 	

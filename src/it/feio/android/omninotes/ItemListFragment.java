@@ -1,5 +1,6 @@
 package it.feio.android.omninotes;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import it.feio.android.omninotes.models.Note;
@@ -7,13 +8,10 @@ import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.graphics.Color;
+import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -26,8 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import android.widget.ListView;
 
@@ -89,10 +85,29 @@ public class ItemListFragment extends ListFragment {
 	}
 
 	public void initNotesList() {
-		DbHelper db = new DbHelper(getActivity().getApplicationContext());
-		List<Note> notes = db.getAllNotes(true);
+		List<Note> notes;
+		if (Intent.ACTION_SEARCH.equals(getActivity().getIntent().getAction())) {
+			notes = handleIntent(getActivity().getIntent());
+		} else {
+			DbHelper db = new DbHelper(getActivity().getApplicationContext());
+			notes = db.getAllNotes(true);
+			getActivity().getActionBar().setTitle(getActivity().getString(R.string.search));
+		}
 		adapter = new NoteAdapter(getActivity().getApplicationContext(), notes);		
 		setListAdapter(adapter);	
+	}
+	
+
+	private List<Note> handleIntent(Intent intent) {
+		List<Note> notesList = new ArrayList<Note>();
+		// Get the intent, verify the action and get the query
+		String pattern = intent.getStringExtra(SearchManager.QUERY);
+		Log.d(Constants.TAG, "Search launched");
+		DbHelper db = new DbHelper(getActivity());
+		notesList = db.getMatchingNotes(pattern);
+		Log.d(Constants.TAG, "Found " + notesList.size() + " elements matching");
+		return notesList;
+
 	}
 
 	@Override

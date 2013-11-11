@@ -55,4 +55,8 @@ public class ItemDetailFragment extends Fragment {
 
         return rootView;
     }
+    
+    public Note getNote(){
+    	return note;
+    }
 }

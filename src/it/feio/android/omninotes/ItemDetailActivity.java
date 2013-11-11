@@ -47,14 +47,11 @@ public class ItemDetailActivity extends BaseFragmentActivity {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(Constants.INTENT_KEY,
-                    getIntent().getStringExtra(Constants.INTENT_KEY));
-            ItemDetailFragment fragment = new ItemDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.item_detail_container, fragment)
-                    .commit();
+			Bundle arguments = new Bundle();
+			arguments.putString(Constants.INTENT_KEY, getIntent().getStringExtra(Constants.INTENT_KEY));
+			ItemDetailFragment fragment = new ItemDetailFragment();
+			fragment.setArguments(arguments);
+			getSupportFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();
         }
     }
 
@@ -90,7 +87,6 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 
 
 	private boolean goHome() {
-//		NavUtils.navigateUpTo(this, new Intent(this, ItemListActivity.class));	
 		NavUtils.navigateUpFromSameTask(this);		
         return true;
 	}
@@ -170,6 +166,14 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		String title = ((EditText)findViewById(R.id.title)).getText().toString();
 		String content = ((EditText)findViewById(R.id.content)).getText().toString();
 		
+		Note note;		
+		Note noteEdited = ((ItemDetailFragment)getSupportFragmentManager().findFragmentById(R.id.item_detail_container)).getNote();
+		if(noteEdited != null) {
+			note = noteEdited;
+		} else {
+			note = new Note();
+		}
+		
 		// Check if some text has ben inserted or is an empty note
 		if ((title + content).length() == 0) {
 			Log.d(Constants.TAG, "Empty note not saved");
@@ -180,17 +184,10 @@ public class ItemDetailActivity extends BaseFragmentActivity {
 		// Logging operation
 		Log.d(Constants.TAG, "Saving new note titled: " + title + " (archive var: " + archive + ")");
 		
-		// New note object
-		Note note = new Note();
-		// If it's an editing operation also _id field will be filled
-		int id = 0;
-		if (getIntent().getExtras().containsKey(Constants.INTENT_KEY) && getIntent().getStringExtra(Constants.INTENT_KEY) != null) {
-			id = Integer.parseInt(getIntent().getStringExtra(Constants.INTENT_KEY));
-		}
-		note.set_id(id);
+		note.set_id(note.get_id());
 		note.setTitle(title);
 		note.setContent(content);
-		note.setArchived(archive);
+		note.setArchived(archive != null ? archive : note.isArchived());
 		
 		// Saving changes to the note
 		DbHelper db = new DbHelper(this);

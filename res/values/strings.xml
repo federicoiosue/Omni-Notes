@@ -16,6 +16,8 @@
     <string name="title_item_detail">Edit Note</string>
     <string name="add_note">Add Note</string>
     <string name="title">Title</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Search</string>
     <string name="content">Content</string>
     <string name="save">Save</string>
     <string name="share">Share</string>
@@ -68,7 +70,7 @@
     <!-- About -->
     <string name="follow_author">Follow the author</string>
     <string name="click_to_support">Click the banner to support development</string>
-    
-
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
