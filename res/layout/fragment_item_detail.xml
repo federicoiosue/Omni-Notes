@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_height="match_parent"
+    android:background="@color/gray_bg"
     android:orientation="vertical"
     android:padding="10dp" >
 
