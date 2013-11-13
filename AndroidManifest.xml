@@ -19,9 +19,13 @@
         android:theme="@style/CustomActionBarTheme" >
         <meta-data
             android:name="android.app.default_searchable"
-            android:value="it.feio.android.omninotes.SearchableActivity" />
+            android:value="it.feio.android.omninotes.ListActivity" />
 
-        <activity android:name="it.feio.android.omninotes.ItemListActivity" >
+
+        <!-- List -->
+        <activity
+            android:name="it.feio.android.omninotes.ListActivity"
+            android:label="@string/title_activity_list" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,44 +39,41 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
+
+        <!-- Detail -->
         <activity
-            android:name="it.feio.android.omninotes.ItemDetailActivity"
+            android:name="it.feio.android.omninotes.DetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName="it.feio.android.omninotes.ItemListActivity" >
+            android:parentActivityName="it.feio.android.omninotes.ListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ItemListActivity" />
+                android:value=".ListActivity" />
         </activity>
+        
+        <!-- Settings -->
         <activity
             android:name="it.feio.android.omninotes.SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName="it.feio.android.omninotes.ItemListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ItemListActivity" />
+                android:value=".ListActivity" />
         </activity>
+
+        <!-- About -->
         <activity
             android:name="it.feio.android.omninotes.AboutActivity"
             android:label="@string/title_activity_about"
             android:theme="@style/Theme.Transparent" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="it.feio.android.omninotes.ItemListActivity" />
+                android:value="it.feio.android.omninotes.ListActivity" />
         </activity>
 
         <!-- AdMob -->
         <activity
             android:name="com.google.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
-        <activity
-            android:name="it.feio.android.omninotes.ListActivity"
-            android:label="@string/title_activity_list" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

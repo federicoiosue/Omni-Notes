@@ -17,7 +17,10 @@ public class Note {
 	private Boolean archived;
 
 
-	public Note() {}
+	public Note() {
+		super();
+		this.archived = false;
+	}
 	
 
 	public Note(String creation, String lastModification, String title, String content, Boolean archived) {
@@ -137,6 +140,11 @@ public class Note {
 
 	public void setArchived(Boolean archived) {
 		this.archived = archived;
+	}
+
+
+	public void setArchived(int archived) {
+		this.archived = archived == 1 ? true : false;
 	}
 
 

@@ -12,6 +12,7 @@ public interface Constants {
 	final String DATE_FORMAT_SHORT  = "d MMM HH:mm";
 
     final String INTENT_KEY = "note_id";
+    final String INTENT_NOTE = "note";
 
     final String PREF_NAVIGATION = "navigation";
     final String PREF_SORTING_COLUMN = "sorting_column";
