@@ -10,7 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" >
     </ListView>
-    
+
     <ListView
         android:id="@+id/left_drawer"
         android:layout_width="180dp"
@@ -20,5 +20,6 @@
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp" />
+
 
 </android.support.v4.widget.DrawerLayout>

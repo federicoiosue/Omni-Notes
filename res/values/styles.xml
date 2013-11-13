@@ -46,5 +46,7 @@
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">@color/list_note_dates</item>
     </style>
+    
+    
 
 </resources>

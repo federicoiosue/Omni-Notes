@@ -27,6 +27,8 @@
     <string name="save">Save</string>
     <string name="share">Share</string>
     <string name="archive">Archive</string>
+    <string name="undo">Undo</string>
+    <string name="undo_message">Undo delete</string>
     <string name="unarchive">Restore from archive</string>
     <string name="delete">Delete</string>
     <string name="timestamp">Timestamp</string>

@@ -79,6 +79,8 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 		listView.setMultiChoiceModeListener(new ListView.MultiChoiceModeListener() {
 
+			private ActionMode actionMode;
+
 			@Override
 			public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
 				// Here you can do something when items are selected/de-selected,
@@ -117,7 +119,6 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				switch (item.getItemId()) {
 					case R.id.menu_delete:
 						deleteSelectedNotes();
-						mode.finish(); // Action picked, so close the CAB
 						return true;
 					case R.id.menu_archive:
 						archiveSelectedNotes(true);
@@ -137,6 +138,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				// Inflate the menu for the CAB
 				MenuInflater inflater = mode.getMenuInflater();
 				inflater.inflate(R.menu.menu, menu);
+				mActionMode = mode;
 				return true;
 			}
 
@@ -459,24 +461,44 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 * Batch note deletion
 	 */
 	public void deleteSelectedNotes() {
-		for (Note note : selectedNotes) {
-			// Deleting note using DbHelper
-			DbHelper db = new DbHelper(this);
-			db.deleteNote(note);
 
-			// Update adapter content
-			adapter.remove(note);
+		// Confirm dialog creation
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
+				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
-			// Informs the user about update
-			Log.d(Constants.TAG, "Deleted note with id '" + note.get_id() + "'");
-		}
-		// Emtpy data structure
-		selectedNotes.clear();
-		// Refresh view
-		((ListView) findViewById(R.id.notesList)).invalidateViews();
-		// Advice to user
-		Toast.makeText(this, getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						for (Note note : selectedNotes) {
+							// Deleting note using DbHelper
+							DbHelper db = new DbHelper(getApplicationContext());
+							db.deleteNote(note);
+
+							// Update adapter content
+							adapter.remove(note);
+
+							// Informs the user about update
+							Log.d(Constants.TAG, "Deleted note with id '" + note.get_id() + "'");
+						}
+						// Refresh view
+						((ListView) findViewById(R.id.notesList)).invalidateViews();
+						// Advice to user
+						Toast.makeText(getApplicationContext(),
+								getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
+						mActionMode.finish(); // Action picked, so close the CAB
+					}
+				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						mActionMode.finish(); // Action picked, so close the CAB
+					}
+				});
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+
 	}
+	
 
 	/**
 	 * Batch note archiviation

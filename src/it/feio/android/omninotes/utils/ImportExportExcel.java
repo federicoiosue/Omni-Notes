@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
