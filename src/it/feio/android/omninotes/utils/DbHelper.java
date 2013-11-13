@@ -44,13 +44,13 @@ public class DbHelper extends SQLiteOpenHelper {
 												KEY_ARCHIVED + " INTEGER);";
 	
 	
-	public static LinkedHashMap<String, String> getSortableColumns() {
-		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("KEY_TITLE", KEY_TITLE);
-        map.put("KEY_CREATION", KEY_CREATION);
-        map.put("KEY_LAST_MODIFICATION", KEY_LAST_MODIFICATION);
-        return map;
-    }
+//	public static LinkedHashMap<String, String> getSortableColumns() {
+//		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+//		map.put("KEY_TITLE", KEY_TITLE);
+//        map.put("KEY_CREATION", KEY_CREATION);
+//        map.put("KEY_LAST_MODIFICATION", KEY_LAST_MODIFICATION);
+//        return map;
+//    }
 	
 	private final Context ctx;
 

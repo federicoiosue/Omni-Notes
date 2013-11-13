@@ -358,30 +358,19 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	public Dialog onCreateDialog() {
 		final Context ctx = this;
 
-		// Source of the data in the DIalog
-		LinkedHashMap<String, String> map = DbHelper.getSortableColumns();
-		final ArrayList<String> arrayList = new ArrayList<String>();
-
-		// Iterate through map to get sortable columns to show in dialog
-		for (String key : map.keySet()) {
-			arrayList.add(map.get(key));
-		}
-
-		// Creates a cloned list to rename elements in human readable format
-		ArrayList<String> clonedList = new ArrayList<String>(arrayList.size());
-		for (String element : arrayList) {
-			clonedList.add(dbColumnsToText(element));
-		}
-
+		//  Two array are used, one with db columns and a corrispective with column names human readables
+		final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
+		final String[] arrayDialog = getResources().getStringArray(R.array.sortable_columns_human_readable);
+		
 		// Dialog and events creation
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.select_sorting_column).setItems(
-				clonedList.toArray(new String[clonedList.size()]), new DialogInterface.OnClickListener() {
+		builder.setTitle(R.string.select_sorting_column).setItems(arrayDialog,
+				new DialogInterface.OnClickListener() {
 
 					// On choosing the new criteria will be saved into preferences and listview redesigned
 					public void onClick(DialogInterface dialog, int which) {
 						PreferenceManager.getDefaultSharedPreferences(ctx).edit()
-								.putString(Constants.PREF_SORTING_COLUMN, (String) arrayList.get(which))
+								.putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which])
 								.commit();
 						initNotesList();
 					}

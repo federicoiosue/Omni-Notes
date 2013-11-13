@@ -1,5 +1,6 @@
 package it.feio.android.omninotes;
 
+import java.io.File;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import it.feio.android.omninotes.utils.ImportExportExcel;
@@ -13,7 +14,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -39,7 +39,7 @@ public class SettingsActivity extends PreferenceActivity {
 				try {
 					ImportExportExcel importExportExcel = new ImportExportExcel(context);
 					if (importExportExcel.exportDataToCSV())
-						Toast.makeText(context, getString(R.string.export_success) + " " + Constants.EXPORT_FILE_PATH, Toast.LENGTH_LONG).show();
+						Toast.makeText(context, getString(R.string.export_success) + " " + Constants.EXPORT_FILE_PATH + File.separator + Constants.EXPORT_FILE_NAME + ".csv", Toast.LENGTH_LONG).show();
 					else
 						Toast.makeText(context, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
 				} catch (Exception e) {

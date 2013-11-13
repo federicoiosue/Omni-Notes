@@ -200,7 +200,7 @@ public class DetailActivity extends BaseActivity {
 		
 		// Logs update
 		Log.d(Constants.TAG, "New note saved with title '" + note.getTitle() + "' and id '" + _id + "'");
-//		Toast.makeText(this, getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT).show();
 
 		// Go back on stack
         goHome();
