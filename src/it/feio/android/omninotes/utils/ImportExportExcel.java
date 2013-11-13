@@ -114,11 +114,11 @@ public class ImportExportExcel {
 					continue;
 				}
 
-				lineBuf.append(line).append(System.lineSeparator());
+				lineBuf.append(line).append(System.getProperty("line.separator"));
 				if (line.lastIndexOf("\";") != line.length() - 2) {
 					continue;
 				} 
-				line = lineBuf.substring(1, lineBuf.length() - 2).toString();
+				line = lineBuf.substring(1, lineBuf.length() - 3).toString();
 				lineBuf.setLength(0);
 				
 				
