@@ -1,11 +1,25 @@
-<com.neopixl.pixlui.components.textview.TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    android:id="@android:id/text1"
-    android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:gravity="center_vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:textAppearance="@style/Text.Big"
-    android:textColor="@color/drawer_text"
-    pixlui:typeface="RobotoSlab-Bold.ttf" />
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical" >
+
+    <ImageView
+        android:id="@+id/icon"
+        android:contentDescription="@string/drawer_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:paddingLeft="16dp" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="16dp"
+        android:textAppearance="@style/Text.Big"
+        android:textColor="@color/drawer_text"
+        pixlui:typeface="RobotoSlab-Bold.ttf" />
+
+</LinearLayout>

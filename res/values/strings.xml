@@ -8,6 +8,7 @@
     <string name="copyleft">Copyleft Feio 2013</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_icon">Navigation icon</string>
     <string name="dev_googleplus">https://plus.google.com/102629628248642947234/posts</string>
     <string name="dev_github">https://github.com/arnesottolo</string>
     <string name="dev_bitbucket">https://bitbucket.org/feio/</string>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.models.ParcelableNote;
@@ -19,6 +20,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -31,7 +33,6 @@ import android.widget.AdapterView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -39,8 +40,9 @@ import android.widget.Toast;
 public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 	private CharSequence mTitle;
+	String[] mNavigationArray;
+	TypedArray mNavigationIconsArray;
 	private ActionBarDrawerToggle mDrawerToggle;
-	private String[] mNavigationArray;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	NoteAdapter adapter;
@@ -61,7 +63,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				Constants.PREF_NAVIGATION, "");
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
 	}
-		
+
 
 	@Override
 	protected void onResume() {
@@ -193,19 +195,24 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				}
 			}
 		});
-		
+
 		listView.setOnItemClickListener(this);
 
 	}
 
 	@SuppressLint("NewApi")
 	private void initNavigationDrawer() {
+
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
 		// Set the adapter for the list view
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
-		mDrawerList.setAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.drawer_list_item,
-				mNavigationArray));
+		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
+		mDrawerList
+				.setAdapter(new NavigationDrawerItemAdapter(this, mNavigationArray, mNavigationIconsArray));
+
+		// Set click events
 		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -216,9 +223,10 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
 						.putString(Constants.PREF_NAVIGATION, navigation).commit();
 				initNotesList();
-			}});
+			}
+		});
 
-		// enable ActionBar app icon to behave as action to toggle nav drawer
+		// Enable ActionBar app icon to behave as action to toggle nav drawer
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 			getActionBar().setHomeButtonEnabled(true);
@@ -250,18 +258,18 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setDisplayShowTitleEnabled(true);
 	}
-	
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
-	    super.onPostCreate(savedInstanceState);
-	    // Sync the toggle state after onRestoreInstanceState has occurred.
-	    mDrawerToggle.syncState();
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-	    super.onConfigurationChanged(newConfig);
-	    mDrawerToggle.onConfigurationChanged(newConfig);
+		super.onConfigurationChanged(newConfig);
+		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
 	@Override
@@ -311,18 +319,18 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	}
 
 
-//	private void editNote(String id) {
-//		if (id == null) {
-//			Log.d(Constants.TAG, "Adding new note");
-//		} else {
-//			Log.d(Constants.TAG, "Editing note with id: " + id);
-//		}
-//		
-//		Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-//		detailIntent.putExtra(Constants.INTENT_KEY, id);
-//		startActivity(detailIntent);
-//		
-//	}
+	// private void editNote(String id) {
+	// if (id == null) {
+	// Log.d(Constants.TAG, "Adding new note");
+	// } else {
+	// Log.d(Constants.TAG, "Editing note with id: " + id);
+	// }
+	//
+	// Intent detailIntent = new Intent(this, ItemDetailActivity.class);
+	// detailIntent.putExtra(Constants.INTENT_KEY, id);
+	// startActivity(detailIntent);
+	//
+	// }
 	private void editNote(Note note) {
 		if (note.get_id() == 0) {
 			Log.d(Constants.TAG, "Adding new note");
@@ -420,18 +428,18 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		text.trim();
 		return text;
 	}
-	
-	 @Override
-   public boolean onOptionsItemSelected(MenuItem item) {
-       // Pass the event to ActionBarDrawerToggle, if it returns
-       // true, then it has handled the app icon touch event
-       if (mDrawerToggle.onOptionsItemSelected(item)) {
-         return true;
-       }
-       // Handle your other action bar items...
 
-       return super.onOptionsItemSelected(item);
-   }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Pass the event to ActionBarDrawerToggle, if it returns
+		// true, then it has handled the app icon touch event
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		// Handle your other action bar items...
+
+		return super.onOptionsItemSelected(item);
+	}
 
 
 	/** Swaps fragments in the main content view */
