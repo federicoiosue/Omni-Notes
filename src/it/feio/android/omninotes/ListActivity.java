@@ -58,9 +58,19 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 		CharSequence title = PreferenceManager.getDefaultSharedPreferences(this).getString(
 				Constants.PREF_NAVIGATION, "");
-		setTitle(title);
+		setTitle(title == null ? getString(R.string.title_activity_list) : title);
 
 	}
+	
+	
+
+	@Override
+	protected void onResume() {
+		initNotesList();
+		super.onResume();
+	}
+
+
 
 	private void initListView() {
 		final ListView listView = (ListView) findViewById(R.id.notesList);
@@ -197,7 +207,17 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
 		mDrawerList.setAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.drawer_list_item,
 				mNavigationArray));
-		mDrawerList.setOnItemClickListener(this);
+		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				String navigation = mDrawerList.getAdapter().getItem(position).toString();
+				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
+				selectNavigationItem(position);
+				PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
+						.putString(Constants.PREF_NAVIGATION, navigation).commit();
+				initNotesList();
+			}});
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -272,12 +292,6 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
-//		String navigation = adapterView.getAdapter().getItem(position).toString();
-//		Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
-//		selectNavigationItem(position);
-//		PreferenceManager.getDefaultSharedPreferences(this).edit()
-//				.putString(Constants.PREF_NAVIGATION, navigation).commit();
-//		initNotesList();
 		Note note = adapter.getItem(position);
 		editNote(note);
 	}
@@ -355,10 +369,10 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		List<Note> notes;
 		if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
 			notes = handleIntent(getIntent());
+			getActionBar().setTitle(getString(R.string.search));
 		} else {
 			DbHelper db = new DbHelper(getApplicationContext());
 			notes = db.getAllNotes(true);
-			getActionBar().setTitle(getString(R.string.search));
 		}
 		adapter = new NoteAdapter(getApplicationContext(), notes);
 		((ListView) findViewById(R.id.notesList)).setAdapter(adapter);
