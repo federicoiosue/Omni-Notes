@@ -226,7 +226,8 @@ public class DetailActivity extends BaseActivity {
 		
 		// Prepare sharing intent
 		Intent shareIntent = new Intent(Intent.ACTION_SEND);
-		shareIntent.setType("*/*");		
+		shareIntent.setType("text/plain");
+//		shareIntent.setType("*/*");		
 		shareIntent.putExtra(Intent.EXTRA_TEXT, text);
 		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
 	}
