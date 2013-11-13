@@ -18,6 +18,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -59,10 +60,8 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		CharSequence title = PreferenceManager.getDefaultSharedPreferences(this).getString(
 				Constants.PREF_NAVIGATION, "");
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
-
 	}
-	
-	
+		
 
 	@Override
 	protected void onResume() {
@@ -248,6 +247,21 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowTitleEnabled(true);
+	}
+	
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+	    super.onPostCreate(savedInstanceState);
+	    // Sync the toggle state after onRestoreInstanceState has occurred.
+	    mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+	    mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
 	@Override

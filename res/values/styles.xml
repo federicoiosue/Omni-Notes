@@ -2,21 +2,22 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme"
-           parent="@style/Theme.AppCompat.Light">
-<!--         <item name="android:actionBarStyle">@style/MyActionBar</item> -->
+    <style name="CustomActionBarTheme" parent="@style/Theme.AppCompat.Light">
+
+        <!-- <item name="android:actionBarStyle">@style/MyActionBar</item> -->
+
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
 
     <!-- ActionBar styles -->
-    <style name="MyActionBar"
-           parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/abc_ab_transparent_light_holo</item>
+        <item name="homeAsUpIndicator">@drawable/ic_drawer</item>
 
         <!-- Support library compatibility -->
         <item name="background">@drawable/abc_ab_transparent_light_holo</item>

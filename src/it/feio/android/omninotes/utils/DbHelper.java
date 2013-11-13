@@ -1,5 +1,6 @@
 package it.feio.android.omninotes.utils;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -12,8 +13,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.ImageView;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -266,8 +269,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	 
 	    return noteList;
 	} 
-	
-	
 	
 	
 	

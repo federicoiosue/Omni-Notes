@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:contentDescription="@string/logo"
             android:src="@drawable/logo" />
 
@@ -38,6 +38,7 @@
                 android:layout_marginTop="15dp"
                 android:text="@string/app_name"
                 android:textAppearance="@style/Text.Big"
+                android:textColor="@color/gray_bg"
                 pixlui:typeface="RobotoSlab-Bold.ttf" />
 
             <com.neopixl.pixlui.components.textview.TextView
@@ -46,7 +47,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
                 android:text="@string/copyleft"
-                android:textAppearance="@style/Text.Small" />
+                android:textAppearance="@style/Text.Small"
+                android:textColor="@color/gray_bg" />
         </LinearLayout>
     </LinearLayout>
 
@@ -101,6 +103,7 @@
         android:layout_margin="15dp"
         android:text="@string/click_to_support"
         android:textAppearance="@style/Text.Small"
+        android:textColor="@color/gray_bg"
         pixlui:typeface="RobotoSlab-Light.ttf" />
 
 </LinearLayout>
