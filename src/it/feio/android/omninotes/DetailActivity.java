@@ -27,7 +27,7 @@ import android.widget.Toast;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link ItemDetailFragment}.
  */
-public class DetailActivity extends BaseFragmentActivity {
+public class DetailActivity extends BaseActivity {
     private Note note;
 
     @Override
