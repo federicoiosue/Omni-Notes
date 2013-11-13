@@ -3,8 +3,7 @@
 
     <string name="app_name">Omni Notes</string>
     <string name="admob_id">ca-app-pub-6447226512493573/7510385645</string>
-    <string name="admob_id_test">TEST_EMULATOR, 9463A9DD59201409D6D43336C02E7FA0</string>   
-    
+    <string name="admob_id_test">TEST_EMULATOR, 9463A9DD59201409D6D43336C02E7FA0</string>
     <string name="logo">Logo</string>
     <string name="copyleft">Copyleft Feio 2013</string>
     <string name="drawer_open">Open navigation drawer</string>
@@ -54,7 +53,6 @@
     <string name="reset_all_data_confirmation">Proceed clearing all application data?</string>
     <string name="title_activity_about">AboutActivity</string>
     <string name="action_settings">Settings</string>
-    
     <string name="settings_sync_import_export">Synch and Backups</string>
     <string name="settings_export">Export notes into csv</string>
     <string name="settings_import">Import notes from csv</string>
@@ -64,13 +62,12 @@
     <string name="import_fail">File import failed</string>
     <string name="file_not_exists">File to be imported doesn\'t exists</string>
     <string name="import_warning">Importing data could overwrite current notes. Proceed?</string>
-    
-    
-    
+
     <!-- About -->
     <string name="follow_author">Follow the author</string>
     <string name="click_to_support">Click the banner to support development</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_list">ListActivity</string>
 
 </resources>

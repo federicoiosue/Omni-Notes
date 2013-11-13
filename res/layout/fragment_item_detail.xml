@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_bg"
     android:orientation="vertical"
@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_card"
         android:hint="@string/title"
-        pixlui:typeface="RobotoSlab-Bold.ttf"
-        android:inputType="textCapSentences" >
+        android:inputType="textCapSentences"
+        pixlui:typeface="RobotoSlab-Bold.ttf" >
 
         <requestFocus />
     </com.neopixl.pixlui.components.edittext.EditText>
@@ -24,13 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        pixlui:typeface="RobotoSlab-Regular.ttf"
-        android:inputType="textCapSentences|textMultiLine" 
         android:layout_weight="1"
         android:background="@drawable/bg_card"
         android:hint="@string/content"
+        android:inputType="textCapSentences|textMultiLine"
         android:padding="16dp"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        pixlui:typeface="RobotoSlab-Regular.ttf" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,18 +44,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-        pixlui:typeface="RobotoSlab-Light.ttf"
             android:gravity="left"
-            android:textAppearance="@style/Text.Small" />
+            android:textAppearance="@style/Text.Small"
+            pixlui:typeface="RobotoSlab-Light.ttf" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/last_modification"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-        pixlui:typeface="RobotoSlab-Light.ttf"
             android:gravity="right"
-            android:textAppearance="@style/Text.Small" />
+            android:textAppearance="@style/Text.Small"
+            pixlui:typeface="RobotoSlab-Light.ttf" />
     </LinearLayout>
 
 </LinearLayout>

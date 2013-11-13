@@ -44,7 +44,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		title.setText(values.get(position).getTitle());
 		int maxContentTextLength = 40;
 		// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
-		String[] noteContent = values.get(position).getContent().split(System.lineSeparator());
+		String[] noteContent = values.get(position).getContent().split(System.getProperty("line.separator"));
 		String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..." : "";
 		String contentText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0].substring(0, maxContentTextLength) : noteContent[0]) + suffix : noteContent[0];
 							
