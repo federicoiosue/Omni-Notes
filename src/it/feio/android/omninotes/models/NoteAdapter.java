@@ -34,7 +34,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.note_layout, parent, false);
-//		View rowView = inflater.inflate(android.R.layout.simple_list_item_activated_1, parent, false);
 		
 		TextView title = (TextView) rowView.findViewById(R.id.note_title);
 		TextView content = (TextView) rowView.findViewById(R.id.note_content);
@@ -58,11 +57,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			date.setText(context.getString(R.string.last_update) + " " + values.get(position).getlastModificationShort());
 		
 		// Highlighted if is part of multiselection of notes
-		if (selectedItems.get(position) != null) {
-			rowView.setBackgroundColor(context.getResources().getColor(R.color.list_bg_selected));
-		} else {
-			rowView.setBackgroundColor(context.getResources().getColor(R.color.list_bg));
-		}
+//		if (selectedItems.get(position) != null) {
+//			rowView.setBackgroundColor(context.getResources().getColor(R.color.list_bg_selected));
+//		} else {
+//			rowView.setBackgroundColor(context.getResources().getColor(R.color.list_bg));
+//		}
 		return rowView;
 	}
 

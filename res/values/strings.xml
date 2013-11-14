@@ -53,6 +53,7 @@
     <string name="more_items_selected">items selected</string>
     <string name="sort">Sort</string>
     <string name="select_sorting_column">Sort by</string>
+    <string name="tap_to_undo">Tap to undo</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

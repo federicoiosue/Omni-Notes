@@ -3,7 +3,7 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp"
+    android:layout_margin="5dp"
     android:background="@drawable/bg_card"
     android:orientation="vertical" >
 
@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="top|start"
-        android:padding="5dp"
         android:text="@string/note_title"
         android:textAppearance="@style/Text.Big"
         android:textColor="@color/list_note_title"

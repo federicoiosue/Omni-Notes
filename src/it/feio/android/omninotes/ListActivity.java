@@ -9,8 +9,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
+import com.haarman.listviewanimations.itemmanipulation.contextualundo.ContextualUndoAdapter;
+import com.haarman.listviewanimations.itemmanipulation.contextualundo.ContextualUndoAdapter.DeleteItemCallback;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
-import com.haarman.listviewanimations.swinginadapters.prepared.SwingRightInAnimationAdapter;
 import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
@@ -19,7 +20,6 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import it.feio.android.omninotes.R;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -51,7 +51,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ListView listView;
-	NoteAdapter adapter;
+	NoteAdapter mAdapter;
 	ActionMode mActionMode;
 	HashSet<Note> selectedNotes = new HashSet<Note>();
 
@@ -96,7 +96,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
 	    	}
 			selectedNotes.clear();
-			adapter.clearSelectedItems();
+			mAdapter.clearSelectedItems();
 			listView.clearChoices();
 			mActionMode = null;
 			Log.d(Constants.TAG, "Closed multiselection contextual menu");
@@ -144,14 +144,14 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
      * @param position
      */
 	private void toggleListViewItem(View view, int position) {
-		Note note = adapter.getItem(position);
+		Note note = mAdapter.getItem(position);
 		if (!selectedNotes.contains(note)) {
 			selectedNotes.add(note);
-			adapter.addSelectedItem(position);
+			mAdapter.addSelectedItem(position);
 			view.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
 		} else {
 			selectedNotes.remove(note);
-			adapter.removeSelectedItem(position);
+			mAdapter.removeSelectedItem(position);
 			view.setBackgroundColor(getResources().getColor(R.color.list_bg));
 		}
 		if (selectedNotes.size() == 0)
@@ -361,7 +361,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
 		// If no CAB just note editing
 		if (mActionMode == null) { 
-			Note note = adapter.getItem(position);
+			Note note = mAdapter.getItem(position);
 			editNote(note);
 			return;
 		}
@@ -413,8 +413,6 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 * @return
 	 */
 	public Dialog onCreateDialog() {
-		final Context ctx = this;
-
 		//  Two array are used, one with db columns and a corrispective with column names human readables
 		final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
 		final String[] arrayDialog = getResources().getStringArray(R.array.sortable_columns_human_readable);
@@ -434,6 +432,11 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		return builder.create();
 	}
 
+	
+	
+	/**
+	 * Notes list adapter initialization and association to view
+	 */
 	public void initNotesList() {
 		List<Note> notes;
 		if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
@@ -443,19 +446,34 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			DbHelper db = new DbHelper(getApplicationContext());
 			notes = db.getAllNotes(true);
 		}
-		adapter = new NoteAdapter(getApplicationContext(), notes);
+		mAdapter = new NoteAdapter(getApplicationContext(), notes);
 
 		// Enables or note notes list animation depending on settings
-		if (prefs.getBoolean("settings_enable_animations", true)) {
-			SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(
-					adapter);
-			// Assign the ListView to the AnimationAdapter and vice versa
-			swingBottomInAnimationAdapter.setAbsListView(listView);
-			listView.setAdapter(swingBottomInAnimationAdapter);
-		} else {
-			listView.setAdapter(adapter);
-		}
+//		if (prefs.getBoolean("settings_enable_animations", true)) {
+//			SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(
+//					mAdapter);
+//			// Assign the ListView to the AnimationAdapter and vice versa
+//			swingBottomInAnimationAdapter.setAbsListView(listView);
+//			listView.setAdapter(swingBottomInAnimationAdapter);
+//		} else {
+//			listView.setAdapter(mAdapter);
+//		}
 
+		// Somewhere in your adapter creation code
+		ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton);
+		adapter.setAbsListView(listView);
+		listView.setAdapter(adapter);
+		adapter.setDeleteItemCallback(new DeleteItemCallback() {
+			
+			@Override
+			public void deleteItem(int position) {
+				Log.d(Constants.TAG, "Swipe deleting note " + position);
+				deleteNote(mAdapter.getItem(position));				
+//			    mAdapter.notifyDataSetChanged();
+//			    listView.invalidateViews();
+				initNotesList();
+			}
+		});
 		
 	}
 	
@@ -501,15 +519,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						for (Note note : selectedNotes) {
-							// Deleting note using DbHelper
-							DbHelper db = new DbHelper(getApplicationContext());
-							db.deleteNote(note);
-
-							// Update adapter content
-							adapter.remove(note);
-
-							// Informs the user about update
-							Log.d(Constants.TAG, "Deleted note with id '" + note.get_id() + "'");
+							deleteNote(note);
 						}
 						// Refresh view
 						((ListView) findViewById(R.id.notesList)).invalidateViews();
@@ -532,6 +542,23 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	
 
 	/**
+	 * Single note deletion
+	 * @param note Note to be deleted
+	 */
+	protected void deleteNote(Note note) {
+		// Deleting note using DbHelper
+		DbHelper db = new DbHelper(getApplicationContext());
+		db.deleteNote(note);
+
+		// Update adapter content
+		mAdapter.remove(note);
+
+		// Informs about update
+		Log.d(Constants.TAG, "Deleted note with id '" + note.get_id() + "'");
+	}
+
+
+	/**
 	 * Batch note archiviation
 	 */
 	public void archiveSelectedNotes(boolean archive) {
@@ -544,7 +571,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			db.updateNote(note);
 
 			// Update adapter content
-			adapter.remove(note);
+			mAdapter.remove(note);
 
 			// Informs the user about update
 			Log.d(Constants.TAG, "Note with id '" + note.get_id() + "' " + archivedStatus);
