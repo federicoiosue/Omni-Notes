@@ -5,7 +5,7 @@
     android:versionName="3.1.0" >
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="7"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,7 +23,7 @@
 
         <!-- List -->
         <activity
-            android:name="it.feio.android.omninotes1.ListActivity"
+            android:name="it.feio.android.omninotes.ListActivity"
             android:label="@string/title_activity_list" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +41,7 @@
 
         <!-- Detail -->
         <activity
-            android:name="it.feio.android.omninotes1.DetailActivity"
+            android:name="it.feio.android.omninotes.DetailActivity"
             android:label="@string/title_item_detail"
             android:parentActivityName=".ListActivity" >
             <meta-data
@@ -51,13 +51,13 @@
 
         <!-- Settings -->
         <activity
-            android:name="it.feio.android.omninotes1.SettingsActivity"
+            android:name="it.feio.android.omninotes.SettingsActivity"
             android:label="@string/settings">
         </activity>
 
         <!-- About -->
         <activity
-            android:name="it.feio.android.omninotes1.AboutActivity"
+            android:name="it.feio.android.omninotes.AboutActivity"
             android:label="@string/title_activity_about"
             android:parentActivityName=".ItemListActivity"
             android:theme="@style/Theme.Transparent" >

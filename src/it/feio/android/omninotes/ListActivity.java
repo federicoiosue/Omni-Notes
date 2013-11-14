@@ -31,11 +31,11 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AbsListView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -58,7 +58,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);
 
-//		initNavigationDrawer();
+		initNavigationDrawer();
 		initListView();
 		initNotesList();
 
@@ -89,6 +89,10 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		public void onDestroyActionMode(ActionMode mode) {
 			// Here you can make any necessary updates to the activity when
 			// the CAB is removed. By default, selected items are deselected/unchecked.
+
+	    	for (int i=0; i < listView.getChildCount(); i++) {
+	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
+	    	}
 			selectedNotes.clear();
 			adapter.clearSelectedItems();
 			listView.clearChoices();
@@ -131,23 +135,48 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			}
 		}
     };
+    
+    
+    /**
+     * Manage check/uncheck of notes in list during multiple selection phase
+     * @param view
+     * @param position
+     */
+    private void toggleListViewItem(View view, int position){
+    	Note note = adapter.getItem(position);
+    	 if (!selectedNotes.contains(note)) {
+				selectedNotes.add(note);
+				adapter.addSelectedItem(position);
+				view.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+			} else {
+				selectedNotes.remove(note);
+				adapter.removeSelectedItem(position);
+				view.setBackgroundColor(getResources().getColor(R.color.list_bg));
+			}
+    }
+    
 
+	/**
+	 * Notes list initialization. Data, actions and callback are defined here.
+	 */
 	private void initListView() {
 		listView = (ListView) findViewById(R.id.notesList);
 		
-		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		listView.setItemsCanFocus(false);
 		
-		listView.setOnLongClickListener(new OnLongClickListener() {
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			
 			@Override
-			public boolean onLongClick(View v) {
+			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
 				if (mActionMode != null) {
 		            return false;
 		        }
 
 		        // Start the CAB using the ActionMode.Callback defined above
 		        startActionMode(new ModeCallback());
-		        listView.setSelected(true);
+		        toggleListViewItem(view, position);
+		        
 		        return true;
 			}
 		});
@@ -281,6 +310,10 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		};
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		
+//		if (savedInstanceState == null) {
+//            selectItem(0);
+//        }
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -327,8 +360,15 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 
 	@Override
-	public boolean onOptionsItemSelected(int featureId, MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case android.R.id.home:				 
+	            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+	                mDrawerLayout.closeDrawer(mDrawerList);
+	            } else {
+	                mDrawerLayout.openDrawer(mDrawerList);
+	            }
+	            break;
 			case R.id.menu_add:
 				editNote(new Note());
 				break;
@@ -336,13 +376,26 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				sortNotes();
 				break;
 		}
-		return super.onOptionsItemSelected(featureId, item);
+		return super.onOptionsItemSelected(item);
 	}
+
+    
 
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
-		Note note = adapter.getItem(position);
-		editNote(note);
+		// If no CAB just note editing
+		if (mActionMode == null) { 
+			Note note = adapter.getItem(position);
+			editNote(note);
+			return;
+		}
+
+		// If in CAB mode 
+        toggleListViewItem(view, position);
+//		SparseBooleanArray checked = listView.getCheckedItemPositions();
+//		for (int i = 0; i < checked.size(); i++) {
+//	        checked.valueAt(i);
+//	    }
 	}
 
 
@@ -451,7 +504,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// Highlight the selected item, update the title, and close the drawer
 		mDrawerList.setItemChecked(position, true);
 		mTitle = mNavigationArray[position];
-//		mDrawerLayout.closeDrawer(mDrawerList);
+		mDrawerLayout.closeDrawer(mDrawerList);
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
 		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);

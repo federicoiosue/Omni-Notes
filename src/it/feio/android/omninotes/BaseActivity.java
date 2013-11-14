@@ -16,7 +16,7 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 
 
-public class BaseActivity extends SherlockFragmentActivity  {
+public class BaseActivity extends SherlockActivity  {
 	
 	private final boolean TEST = false;
 
@@ -63,17 +63,20 @@ public class BaseActivity extends SherlockFragmentActivity  {
 		EasyTracker.getInstance(this).activityStop(this);
 	}
 
+
 	
-	public boolean onOptionsItemSelected(int featureId, MenuItem item) {
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_settings:
 				Intent settingsIntent = new Intent(this, SettingsActivity.class);
 	            startActivity(settingsIntent);
 				break;
 		}
-		return super.onMenuItemSelected(featureId, item);
-	}	
-	
+		return super.onOptionsItemSelected(item);
+	}
+
+
 	protected boolean navigationArchived() {
 		return PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREF_NAVIGATION, "").equals(getResources().getStringArray(R.array.navigation_list)[1]);		
 	}
