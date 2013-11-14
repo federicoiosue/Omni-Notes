@@ -3,6 +3,7 @@ package it.feio.android.omninotes;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.ActionMode.Callback;
 import com.actionbarsherlock.view.Menu;
@@ -31,6 +32,8 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.view.View.OnLayoutChangeListener;
 import android.widget.AdapterView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
@@ -167,6 +170,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		listView.setItemsCanFocus(false);
 		
+		// Note long click to start CAB mode
 		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			
 			@Override
@@ -185,56 +189,15 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		});
 		
 		
-		
-//		listView.setMultiChoiceModeListener(new ListView.MultiChoiceModeListener() {
-//
-//			private ActionMode actionMode;
-//
-//			@Override
-//			public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-//				// Here you can do something when items are selected/de-selected,
-//				// such as update the title in the CAB
-//				Log.d(Constants.TAG, "Multiselection: selected element " + position);
-//				final int checkedCount = listView.getCheckedItemCount();
-//				if (checked) {
-//					selectedNotes.add(adapter.getItem(position));
-//					adapter.addSelectedItem(position);
-//					listView.getChildAt(position - listView.getFirstVisiblePosition()).setBackgroundColor(
-//							getResources().getColor(R.color.list_bg_selected));
-//				} else {
-//					selectedNotes.remove(adapter.getItem(position));
-//					adapter.removeSelectedItem(position);
-//					listView.getChildAt(position - listView.getFirstVisiblePosition()).setBackgroundColor(
-//							getResources().getColor(R.color.list_bg));
-//				}
-//
-//				switch (checkedCount) {
-//					case 0:
-//						mode.setTitle(null);
-//						break;
-//					case 1:
-//						mode.setTitle(getResources().getString(R.string.one_item_selected));
-//						break;
-//					default:
-//						mode.setTitle(checkedCount + " "
-//								+ getResources().getString(R.string.more_items_selected));
-//						break;
-//				}
-//			}
-//
-//			
-//		});
-
+		// Note list scrolling hide actionbar effect
 		listView.setOnScrollListener(new OnScrollListener() {
 
 			int mLastFirstVisibleItem = 0;
-
 			/*
 			 * @see android.widget.AbsListView.OnScrollListener#onScrollStateChanged(android.widget.AbsListView, int)
 			 */
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {}
-
 			/*
 			 * @see android.widget.AbsListView.OnScrollListener#onScroll(android.widget.AbsListView, int, int, int)
 			 */
@@ -249,18 +212,19 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 					} else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
 						getSupportActionBar().show();
 					}
-
 					mLastFirstVisibleItem = currentFirstVisibleItem;
 				}
 			}
 		});
 
+		// Note single click listener managed by the activity itself
 		listView.setOnItemClickListener(this);
 
 	}
+	
 
 	/**
-	 * 
+	 * Initialization of compatibility navigation drawer
 	 */
 	@SuppressLint("NewApi")
 	private void initNavigationDrawer() {
@@ -339,7 +303,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(final Menu menu) {
 
 		super.onCreateOptionsMenu(menu);
 
@@ -360,9 +324,20 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				Log.d(Constants.TAG, "Search focus");
+				menu.findItem(R.id.menu_add).setVisible(!hasFocus);
+				menu.findItem(R.id.menu_sort).setVisible(!hasFocus);
+				
+			}
+		});
 
 		return super.onCreateOptionsMenu(menu);
 	}
+	
 
 
 	@Override
@@ -477,8 +452,14 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		adapter = new NoteAdapter(getApplicationContext(), notes);
 		((ListView) findViewById(R.id.notesList)).setAdapter(adapter);
 	}
+	
+	
 
-
+	/**
+	 * Handle search intent
+	 * @param intent
+	 * @return
+	 */
 	private List<Note> handleIntent(Intent intent) {
 		List<Note> notesList = new ArrayList<Note>();
 		// Get the intent, verify the action and get the query
@@ -491,33 +472,6 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 	}
 
-	/**
-	 * Conversion from database table name to human readable
-	 * 
-	 * @param string
-	 * @return
-	 */
-//	private String dbColumnsToText(String string) {
-//		String text = "";
-//		String[] array = string.split("_");
-//		for (String word : array) {
-//			text += Character.toUpperCase(word.charAt(0)) + word.substring(1) + " ";
-//		}
-//		text.trim();
-//		return text;
-//	}
-
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		// Pass the event to ActionBarDrawerToggle, if it returns
-//		// true, then it has handled the app icon touch event
-//		if (mDrawerToggle.onOptionsItemSelected(item)) {
-//			return true;
-//		}
-//		// Handle your other action bar items...
-//
-//		return super.onOptionsItemSelected(item);
-//	}
 
 
 	/** Swaps fragments in the main content view */
@@ -526,11 +480,6 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		mDrawerList.setItemChecked(position, true);
 		mTitle = mNavigationArray[position];
 		mDrawerLayout.closeDrawer(mDrawerList);
-
-		// enable ActionBar app icon to behave as action to toggle nav drawer
-		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		// getSupportActionBar().setHomeButtonEnabled(true);
-
 	}
 
 	/**

@@ -52,7 +52,7 @@
         <!-- Settings -->
         <activity
             android:name="it.feio.android.omninotes.SettingsActivity"
-            android:label="@string/settings">
+            android:label="@string/settings" >
         </activity>
 
         <!-- About -->
