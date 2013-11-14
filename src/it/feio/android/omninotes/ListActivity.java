@@ -142,18 +142,20 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
      * @param view
      * @param position
      */
-    private void toggleListViewItem(View view, int position){
-    	Note note = adapter.getItem(position);
-    	 if (!selectedNotes.contains(note)) {
-				selectedNotes.add(note);
-				adapter.addSelectedItem(position);
-				view.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
-			} else {
-				selectedNotes.remove(note);
-				adapter.removeSelectedItem(position);
-				view.setBackgroundColor(getResources().getColor(R.color.list_bg));
-			}
-    }
+	private void toggleListViewItem(View view, int position) {
+		Note note = adapter.getItem(position);
+		if (!selectedNotes.contains(note)) {
+			selectedNotes.add(note);
+			adapter.addSelectedItem(position);
+			view.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+		} else {
+			selectedNotes.remove(note);
+			adapter.removeSelectedItem(position);
+			view.setBackgroundColor(getResources().getColor(R.color.list_bg));
+		}
+		if (selectedNotes.size() == 0)
+			mActionMode.finish();
+	}
     
 
 	/**
@@ -176,6 +178,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		        // Start the CAB using the ActionMode.Callback defined above
 		        startActionMode(new ModeCallback());
 		        toggleListViewItem(view, position);
+		        setCabTitle();
 		        
 		        return true;
 			}
@@ -256,6 +259,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 	}
 
+	/**
+	 * 
+	 */
 	@SuppressLint("NewApi")
 	private void initNavigationDrawer() {
 
@@ -392,10 +398,25 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 		// If in CAB mode 
         toggleListViewItem(view, position);
-//		SparseBooleanArray checked = listView.getCheckedItemPositions();
-//		for (int i = 0; i < checked.size(); i++) {
-//	        checked.valueAt(i);
-//	    }
+        setCabTitle();
+	}
+
+
+	private void setCabTitle() {
+		if (mActionMode == null)
+			return;
+		switch (selectedNotes.size()) {
+			case 0:
+				mActionMode.setTitle(null);
+				break;
+			case 1:
+				mActionMode.setTitle(getResources().getString(R.string.one_item_selected));
+				break;
+			default:
+				mActionMode.setTitle(selectedNotes.size() + " "
+						+ getResources().getString(R.string.more_items_selected));
+				break;
+		}		
 	}
 
 
