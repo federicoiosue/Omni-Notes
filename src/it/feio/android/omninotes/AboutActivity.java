@@ -1,6 +1,8 @@
 package it.feio.android.omninotes;
 
+import com.actionbarsherlock.view.MenuItem;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.R;
 import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
@@ -10,12 +12,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 
 public class AboutActivity extends BaseActivity {
 
@@ -77,7 +77,7 @@ public class AboutActivity extends BaseActivity {
 				//
 				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 				//
-				NavUtils.navigateUpFromSameTask(this);
+//				NavUtils.navigateUpFromSameTask(this);
 				return true;
 		}
 		return super.onOptionsItemSelected(item);

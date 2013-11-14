@@ -4,6 +4,7 @@ import java.io.File;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import it.feio.android.omninotes.utils.ImportExportExcel;
+import it.feio.android.omninotes.R;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;

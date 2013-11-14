@@ -1,5 +1,7 @@
 package it.feio.android.omninotes;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.utils.Constants;
@@ -12,8 +14,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +36,7 @@ public class DetailActivity extends BaseActivity {
         setContentView(R.layout.fragment_item_detail);
 
         // Show the Up button in the action bar.
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initNote();
     }
@@ -75,22 +75,6 @@ public class DetailActivity extends BaseActivity {
 	}
 	
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // This ID represents the Home or Up button. In the case of this
-                // activity, the Up button is shown. Use NavUtils to allow users
-                // to navigate up one level in the application structure. For
-                // more details, see the Navigation pattern on Android Design:
-                //
-                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-                //
-            	saveNote(null);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
 	private boolean goHome() {
 		NavUtils.navigateUpFromSameTask(this);		
@@ -103,8 +87,18 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case android.R.id.home:
+	            // This ID represents the Home or Up button. In the case of this
+	            // activity, the Up button is shown. Use NavUtils to allow users
+	            // to navigate up one level in the application structure. For
+	            // more details, see the Navigation pattern on Android Design:
+	            //
+	            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+	            //
+	        	saveNote(null);
+	        	break;
 			case R.id.menu_share:
 				shareNote();
 				break;
@@ -118,7 +112,7 @@ public class DetailActivity extends BaseActivity {
 				deleteNote();
 				break;
 		}
-		return super.onMenuItemSelected(featureId, item);
+		return super.onOptionsItemSelected(item);
 	}
 
 

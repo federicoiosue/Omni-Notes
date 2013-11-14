@@ -2,14 +2,20 @@ package it.feio.android.omninotes;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.ActionMode.Callback;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView;
 import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
+import it.feio.android.omninotes.R;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.annotation.SuppressLint;
@@ -24,17 +30,13 @@ import android.content.res.TypedArray;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AbsListView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 public class ListActivity extends BaseActivity implements OnItemClickListener {
@@ -45,6 +47,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	private ActionBarDrawerToggle mDrawerToggle;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
+	private ListView listView;
 	NoteAdapter adapter;
 	ActionMode mActionMode;
 	HashSet<Note> selectedNotes = new HashSet<Note>();
@@ -71,102 +74,156 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		super.onResume();
 	}
 
+	private final class ModeCallback implements Callback {
+		 
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			// Inflate the menu for the CAB
+			MenuInflater inflater = mode.getMenuInflater();
+			inflater.inflate(R.menu.menu, menu);
+			mActionMode = mode;
+			return true;
+		}
 
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			// Here you can make any necessary updates to the activity when
+			// the CAB is removed. By default, selected items are deselected/unchecked.
 
+	    	for (int i=0; i < listView.getChildCount(); i++) {
+	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
+	    	}
+			selectedNotes.clear();
+			adapter.clearSelectedItems();
+			listView.clearChoices();
+			mActionMode = null;
+			Log.d(Constants.TAG, "Closed multiselection contextual menu");
+		}
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			// Here you can perform updates to the CAB due to
+			// an invalidate() request
+			Log.d(Constants.TAG, "CAB preparation");
+			boolean archived = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+					.getString(Constants.PREF_NAVIGATION, "")
+					.equals(getResources().getStringArray(R.array.navigation_list)[1]);
+			menu.findItem(R.id.menu_archive).setVisible(!archived);
+			menu.findItem(R.id.menu_unarchive).setVisible(archived);
+			menu.findItem(R.id.menu_delete).setVisible(true);
+			menu.findItem(R.id.menu_settings).setVisible(false);
+			return true;
+		}
+
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			// Respond to clicks on the actions in the CAB
+			switch (item.getItemId()) {
+				case R.id.menu_delete:
+					deleteSelectedNotes();
+					return true;
+				case R.id.menu_archive:
+					archiveSelectedNotes(true);
+					mode.finish(); // Action picked, so close the CAB
+					return true;
+				case R.id.menu_unarchive:
+					archiveSelectedNotes(false);
+					mode.finish(); // Action picked, so close the CAB
+					return true;
+				default:
+					return false;
+			}
+		}
+    };
+    
+    
+    /**
+     * Manage check/uncheck of notes in list during multiple selection phase
+     * @param view
+     * @param position
+     */
+	private void toggleListViewItem(View view, int position) {
+		Note note = adapter.getItem(position);
+		if (!selectedNotes.contains(note)) {
+			selectedNotes.add(note);
+			adapter.addSelectedItem(position);
+			view.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+		} else {
+			selectedNotes.remove(note);
+			adapter.removeSelectedItem(position);
+			view.setBackgroundColor(getResources().getColor(R.color.list_bg));
+		}
+		if (selectedNotes.size() == 0)
+			mActionMode.finish();
+	}
+    
+
+	/**
+	 * Notes list initialization. Data, actions and callback are defined here.
+	 */
 	private void initListView() {
-		final ListView listView = (ListView) findViewById(R.id.notesList);
-
-		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-		listView.setMultiChoiceModeListener(new ListView.MultiChoiceModeListener() {
-
-			private ActionMode actionMode;
-
+		listView = (ListView) findViewById(R.id.notesList);
+		
+		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		listView.setItemsCanFocus(false);
+		
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+			
 			@Override
-			public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-				// Here you can do something when items are selected/de-selected,
-				// such as update the title in the CAB
-				Log.d(Constants.TAG, "Multiselection: selected element " + position);
-				final int checkedCount = listView.getCheckedItemCount();
-				if (checked) {
-					selectedNotes.add(adapter.getItem(position));
-					adapter.addSelectedItem(position);
-					listView.getChildAt(position - listView.getFirstVisiblePosition()).setBackgroundColor(
-							getResources().getColor(R.color.list_bg_selected));
-				} else {
-					selectedNotes.remove(adapter.getItem(position));
-					adapter.removeSelectedItem(position);
-					listView.getChildAt(position - listView.getFirstVisiblePosition()).setBackgroundColor(
-							getResources().getColor(R.color.list_bg));
-				}
+			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
+				if (mActionMode != null) {
+		            return false;
+		        }
 
-				switch (checkedCount) {
-					case 0:
-						mode.setTitle(null);
-						break;
-					case 1:
-						mode.setTitle(getResources().getString(R.string.one_item_selected));
-						break;
-					default:
-						mode.setTitle(checkedCount + " "
-								+ getResources().getString(R.string.more_items_selected));
-						break;
-				}
-			}
-
-			@Override
-			public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-				// Respond to clicks on the actions in the CAB
-				switch (item.getItemId()) {
-					case R.id.menu_delete:
-						deleteSelectedNotes();
-						return true;
-					case R.id.menu_archive:
-						archiveSelectedNotes(true);
-						mode.finish(); // Action picked, so close the CAB
-						return true;
-					case R.id.menu_unarchive:
-						archiveSelectedNotes(false);
-						mode.finish(); // Action picked, so close the CAB
-						return true;
-					default:
-						return false;
-				}
-			}
-
-			@Override
-			public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-				// Inflate the menu for the CAB
-				MenuInflater inflater = mode.getMenuInflater();
-				inflater.inflate(R.menu.menu, menu);
-				mActionMode = mode;
-				return true;
-			}
-
-			@Override
-			public void onDestroyActionMode(ActionMode mode) {
-				// Here you can make any necessary updates to the activity when
-				// the CAB is removed. By default, selected items are deselected/unchecked.
-				selectedNotes.clear();
-				adapter.clearSelectedItems();
-				listView.clearChoices();
-				Log.d(Constants.TAG, "Closed multiselection contextual menu");
-			}
-
-			@Override
-			public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-				// Here you can perform updates to the CAB due to
-				// an invalidate() request
-				Log.d(Constants.TAG, "CAB preparation");
-				boolean archived = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-						.getString(Constants.PREF_NAVIGATION, "")
-						.equals(getResources().getStringArray(R.array.navigation_list)[1]);
-				menu.findItem(R.id.menu_archive).setVisible(!archived);
-				menu.findItem(R.id.menu_unarchive).setVisible(archived);
-				menu.findItem(R.id.menu_delete).setVisible(true);
-				menu.findItem(R.id.menu_settings).setVisible(false);
-				return true;
+		        // Start the CAB using the ActionMode.Callback defined above
+		        startActionMode(new ModeCallback());
+		        toggleListViewItem(view, position);
+		        setCabTitle();
+		        
+		        return true;
 			}
 		});
+		
+		
+		
+//		listView.setMultiChoiceModeListener(new ListView.MultiChoiceModeListener() {
+//
+//			private ActionMode actionMode;
+//
+//			@Override
+//			public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+//				// Here you can do something when items are selected/de-selected,
+//				// such as update the title in the CAB
+//				Log.d(Constants.TAG, "Multiselection: selected element " + position);
+//				final int checkedCount = listView.getCheckedItemCount();
+//				if (checked) {
+//					selectedNotes.add(adapter.getItem(position));
+//					adapter.addSelectedItem(position);
+//					listView.getChildAt(position - listView.getFirstVisiblePosition()).setBackgroundColor(
+//							getResources().getColor(R.color.list_bg_selected));
+//				} else {
+//					selectedNotes.remove(adapter.getItem(position));
+//					adapter.removeSelectedItem(position);
+//					listView.getChildAt(position - listView.getFirstVisiblePosition()).setBackgroundColor(
+//							getResources().getColor(R.color.list_bg));
+//				}
+//
+//				switch (checkedCount) {
+//					case 0:
+//						mode.setTitle(null);
+//						break;
+//					case 1:
+//						mode.setTitle(getResources().getString(R.string.one_item_selected));
+//						break;
+//					default:
+//						mode.setTitle(checkedCount + " "
+//								+ getResources().getString(R.string.more_items_selected));
+//						break;
+//				}
+//			}
+//
+//			
+//		});
 
 		listView.setOnScrollListener(new OnScrollListener() {
 
@@ -188,9 +245,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 					final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
 
 					if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-						getActionBar().hide();
+						getSupportActionBar().hide();
 					} else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-						getActionBar().show();
+						getSupportActionBar().show();
 					}
 
 					mLastFirstVisibleItem = currentFirstVisibleItem;
@@ -202,6 +259,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 	}
 
+	/**
+	 * 
+	 */
 	@SuppressLint("NewApi")
 	private void initNavigationDrawer() {
 
@@ -229,9 +289,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		});
 
 		// Enable ActionBar app icon to behave as action to toggle nav drawer
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-			getActionBar().setHomeButtonEnabled(true);
+			getSupportActionBar().setHomeButtonEnabled(true);
 
 
 		// ActionBarDrawerToggle ties together the the proper interactions
@@ -244,21 +304,25 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		) {
 
 			public void onDrawerClosed(View view) {
-				getActionBar().setTitle(mTitle);
+				getSupportActionBar().setTitle(mTitle);
 				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
 
 			public void onDrawerOpened(View drawerView) {
-				mTitle = getActionBar().getTitle();
-				getActionBar().setTitle(getApplicationContext().getString(R.string.app_name));
+				mTitle = getSupportActionBar().getTitle();
+				getSupportActionBar().setTitle(getApplicationContext().getString(R.string.app_name));
 				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
 		};
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
+		
+//		if (savedInstanceState == null) {
+//            selectItem(0);
+//        }
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setDisplayShowTitleEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowTitleEnabled(true);
 	}
 
 	@Override
@@ -302,8 +366,15 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 
 	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case android.R.id.home:				 
+	            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+	                mDrawerLayout.closeDrawer(mDrawerList);
+	            } else {
+	                mDrawerLayout.openDrawer(mDrawerList);
+	            }
+	            break;
 			case R.id.menu_add:
 				editNote(new Note());
 				break;
@@ -311,28 +382,44 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				sortNotes();
 				break;
 		}
-		return super.onMenuItemSelected(featureId, item);
+		return super.onOptionsItemSelected(item);
 	}
+
+    
 
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
-		Note note = adapter.getItem(position);
-		editNote(note);
+		// If no CAB just note editing
+		if (mActionMode == null) { 
+			Note note = adapter.getItem(position);
+			editNote(note);
+			return;
+		}
+
+		// If in CAB mode 
+        toggleListViewItem(view, position);
+        setCabTitle();
 	}
 
 
-	// private void editNote(String id) {
-	// if (id == null) {
-	// Log.d(Constants.TAG, "Adding new note");
-	// } else {
-	// Log.d(Constants.TAG, "Editing note with id: " + id);
-	// }
-	//
-	// Intent detailIntent = new Intent(this, ItemDetailActivity.class);
-	// detailIntent.putExtra(Constants.INTENT_KEY, id);
-	// startActivity(detailIntent);
-	//
-	// }
+	private void setCabTitle() {
+		if (mActionMode == null)
+			return;
+		switch (selectedNotes.size()) {
+			case 0:
+				mActionMode.setTitle(null);
+				break;
+			case 1:
+				mActionMode.setTitle(getResources().getString(R.string.one_item_selected));
+				break;
+			default:
+				mActionMode.setTitle(selectedNotes.size() + " "
+						+ getResources().getString(R.string.more_items_selected));
+				break;
+		}		
+	}
+
+
 	private void editNote(Note note) {
 		if (note.get_id() == 0) {
 			Log.d(Constants.TAG, "Adding new note");
@@ -382,7 +469,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		List<Note> notes;
 		if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
 			notes = handleIntent(getIntent());
-			getActionBar().setTitle(getString(R.string.search));
+			getSupportActionBar().setTitle(getString(R.string.search));
 		} else {
 			DbHelper db = new DbHelper(getApplicationContext());
 			notes = db.getAllNotes(true);
@@ -410,27 +497,27 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 * @param string
 	 * @return
 	 */
-	private String dbColumnsToText(String string) {
-		String text = "";
-		String[] array = string.split("_");
-		for (String word : array) {
-			text += Character.toUpperCase(word.charAt(0)) + word.substring(1) + " ";
-		}
-		text.trim();
-		return text;
-	}
+//	private String dbColumnsToText(String string) {
+//		String text = "";
+//		String[] array = string.split("_");
+//		for (String word : array) {
+//			text += Character.toUpperCase(word.charAt(0)) + word.substring(1) + " ";
+//		}
+//		text.trim();
+//		return text;
+//	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Pass the event to ActionBarDrawerToggle, if it returns
-		// true, then it has handled the app icon touch event
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-		// Handle your other action bar items...
-
-		return super.onOptionsItemSelected(item);
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		// Pass the event to ActionBarDrawerToggle, if it returns
+//		// true, then it has handled the app icon touch event
+//		if (mDrawerToggle.onOptionsItemSelected(item)) {
+//			return true;
+//		}
+//		// Handle your other action bar items...
+//
+//		return super.onOptionsItemSelected(item);
+//	}
 
 
 	/** Swaps fragments in the main content view */
@@ -441,8 +528,8 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		mDrawerLayout.closeDrawer(mDrawerList);
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
-		// getActionBar().setDisplayHomeAsUpEnabled(true);
-		// getActionBar().setHomeButtonEnabled(true);
+		// getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		// getSupportActionBar().setHomeButtonEnabled(true);
 
 	}
 
@@ -514,4 +601,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// Advice to user
 		Toast.makeText(this, archivedStatus, Toast.LENGTH_SHORT).show();
 	}
+
+
 }
+
+
+

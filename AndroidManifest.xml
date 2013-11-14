@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="6"
-    android:versionName="3.0.0" >
+    android:versionCode="7"
+    android:versionName="3.1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,7 +19,7 @@
         android:theme="@style/CustomActionBarTheme" >
         <meta-data
             android:name="android.app.default_searchable"
-            android:value="it.feio.android.omninotes.ListActivity" />
+            android:value=".ListActivity" />
 
         <!-- List -->
         <activity
@@ -43,7 +43,7 @@
         <activity
             android:name="it.feio.android.omninotes.DetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName="it.feio.android.omninotes.ListActivity" >
+            android:parentActivityName=".ListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListActivity" />
@@ -59,11 +59,11 @@
         <activity
             android:name="it.feio.android.omninotes.AboutActivity"
             android:label="@string/title_activity_about"
-            android:parentActivityName="it.feio.android.omninotes.ItemListActivity"
+            android:parentActivityName=".ItemListActivity"
             android:theme="@style/Theme.Transparent" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="it.feio.android.omninotes.ListActivity" />
+                android:value=".ListActivity" />
         </activity>
 
         <!-- AdMob -->
