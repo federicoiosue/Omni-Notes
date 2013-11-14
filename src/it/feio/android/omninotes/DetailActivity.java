@@ -67,7 +67,7 @@ public class DetailActivity extends BaseActivity {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		
-		boolean archived = PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREF_NAVIGATION, "").equals(getResources().getStringArray(R.array.navigation_list)[1]);
+		boolean archived = prefs.getString(Constants.PREF_NAVIGATION, "").equals(getResources().getStringArray(R.array.navigation_list)[1]);
 		menu.findItem(R.id.menu_archive).setVisible(!archived);
 		menu.findItem(R.id.menu_unarchive).setVisible(archived);
 		

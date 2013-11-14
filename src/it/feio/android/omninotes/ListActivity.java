@@ -3,13 +3,14 @@ package it.feio.android.omninotes;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.ActionMode.Callback;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
+import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+import com.haarman.listviewanimations.swinginadapters.prepared.SwingRightInAnimationAdapter;
 import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
@@ -33,7 +34,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.view.View.OnLayoutChangeListener;
 import android.widget.AdapterView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
@@ -65,8 +65,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		initListView();
 		initNotesList();
 
-		CharSequence title = PreferenceManager.getDefaultSharedPreferences(this).getString(
-				Constants.PREF_NAVIGATION, "");
+		CharSequence title = prefs.getString(Constants.PREF_NAVIGATION, "");
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
 	}
 
@@ -108,8 +107,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			// Here you can perform updates to the CAB due to
 			// an invalidate() request
 			Log.d(Constants.TAG, "CAB preparation");
-			boolean archived = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-					.getString(Constants.PREF_NAVIGATION, "")
+			boolean archived = prefs.getString(Constants.PREF_NAVIGATION, "")
 					.equals(getResources().getStringArray(R.array.navigation_list)[1]);
 			menu.findItem(R.id.menu_archive).setVisible(!archived);
 			menu.findItem(R.id.menu_unarchive).setVisible(archived);
@@ -246,8 +244,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				String navigation = mDrawerList.getAdapter().getItem(position).toString();
 				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(position);
-				PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit()
-						.putString(Constants.PREF_NAVIGATION, navigation).commit();
+				prefs.edit().putString(Constants.PREF_NAVIGATION, navigation).commit();
 				initNotesList();
 			}
 		});
@@ -311,8 +308,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// If the nav drawer is open, hide action items related to the content view
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 		// If archived notes are shown the "add new note" item must be hidden
-		boolean archived = PreferenceManager.getDefaultSharedPreferences(this)
-				.getString(Constants.PREF_NAVIGATION, "")
+		boolean archived = prefs.getString(Constants.PREF_NAVIGATION, "")
 				.equals(getResources().getStringArray(R.array.navigation_list)[1]);
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
@@ -322,19 +318,18 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 		// Associate searchable configuration with the SearchView
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+		final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-		searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
-			
+		// Expands the widget hiding other actionbar icons
+		searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {			
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				Log.d(Constants.TAG, "Search focus");
 				menu.findItem(R.id.menu_add).setVisible(!hasFocus);
 				menu.findItem(R.id.menu_sort).setVisible(!hasFocus);
-				
+//				searchView.setIconified(!hasFocus);
 			}
 		});
-
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -431,8 +426,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 					// On choosing the new criteria will be saved into preferences and listview redesigned
 					public void onClick(DialogInterface dialog, int which) {
-						PreferenceManager.getDefaultSharedPreferences(ctx).edit()
-								.putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which])
+						prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which])
 								.commit();
 						initNotesList();
 					}
@@ -450,7 +444,19 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			notes = db.getAllNotes(true);
 		}
 		adapter = new NoteAdapter(getApplicationContext(), notes);
-		((ListView) findViewById(R.id.notesList)).setAdapter(adapter);
+
+		// Enables or note notes list animation depending on settings
+		if (prefs.getBoolean("settings_enable_animations", true)) {
+			SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(
+					adapter);
+			// Assign the ListView to the AnimationAdapter and vice versa
+			swingBottomInAnimationAdapter.setAbsListView(listView);
+			listView.setAdapter(swingBottomInAnimationAdapter);
+		} else {
+			listView.setAdapter(adapter);
+		}
+
+		
 	}
 	
 	

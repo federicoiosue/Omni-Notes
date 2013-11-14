@@ -10,6 +10,7 @@ import com.google.analytics.tracking.android.Tracker;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
@@ -20,6 +21,7 @@ public class BaseActivity extends SherlockActivity  {
 	private final boolean TEST = false;
 
 	protected Tracker tracker;
+	protected SharedPreferences prefs;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -41,6 +43,9 @@ public class BaseActivity extends SherlockActivity  {
 			StrictMode.enableDefaults();
 			GoogleAnalytics.getInstance(this).setDryRun(true);
 		}
+
+		// Preloads shared preferences for all derived classes
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		super.onCreate(savedInstanceState);
 	}

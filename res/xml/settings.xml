@@ -14,6 +14,14 @@
         </Preference>
     </PreferenceCategory>
     <PreferenceCategory
+        android:key="category_graphic"
+        android:title="@string/settings_category_graphic" >
+        <CheckBoxPreference
+            android:key="settings_enable_animations"
+            android:title="@string/settings_enable_animations" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+    <PreferenceCategory
         android:key="category_other"
         android:title="@string/settings_category_other" >
         <Preference
