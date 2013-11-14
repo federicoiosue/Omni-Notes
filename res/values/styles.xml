@@ -5,7 +5,7 @@
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme" parent="@style/Theme.AppCompat.Light">
+    <style name="CustomActionBarTheme" parent="@style/Theme.Sherlock.Light">
 
         <!-- <item name="android:actionBarStyle">@style/MyActionBar</item> -->
 
@@ -15,12 +15,12 @@
     </style>
 
     <!-- ActionBar styles -->
-    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/abc_ab_transparent_light_holo</item>
+    <style name="MyActionBar" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/abs__ab_transparent_light_holo</item>
         <item name="homeAsUpIndicator">@drawable/ic_drawer</item>
 
         <!-- Support library compatibility -->
-        <item name="background">@drawable/abc_ab_transparent_light_holo</item>
+        <item name="background">@drawable/abs__ab_transparent_light_holo</item>
     </style>
 
     <style name="Theme.Transparent" parent="@android:style/Theme.Dialog">

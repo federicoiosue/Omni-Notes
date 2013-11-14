@@ -1,5 +1,7 @@
 package it.feio.android.omninotes;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.utils.Constants;
@@ -10,10 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +35,7 @@ public class DetailActivity extends BaseActivity {
         setContentView(R.layout.fragment_item_detail);
 
         // Show the Up button in the action bar.
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initNote();
     }
@@ -93,7 +92,7 @@ public class DetailActivity extends BaseActivity {
 
 
 	private boolean goHome() {
-		NavUtils.navigateUpFromSameTask(this);		
+//		NavUtils.navigateUpFromSameTask(this);		
         return true;
 	}
 
@@ -103,7 +102,7 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	public boolean onOptionsItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_share:
 				shareNote();
@@ -118,7 +117,7 @@ public class DetailActivity extends BaseActivity {
 				deleteNote();
 				break;
 		}
-		return super.onMenuItemSelected(featureId, item);
+		return super.onOptionsItemSelected(featureId, item);
 	}
 
 

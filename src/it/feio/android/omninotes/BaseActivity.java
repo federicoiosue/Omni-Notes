@@ -1,21 +1,22 @@
 package it.feio.android.omninotes;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 
-public class BaseActivity extends Activity  {
+public class BaseActivity extends SherlockFragmentActivity  {
 	
 	private final boolean TEST = false;
 
@@ -24,7 +25,7 @@ public class BaseActivity extends Activity  {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -63,8 +64,7 @@ public class BaseActivity extends Activity  {
 	}
 
 	
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	public boolean onOptionsItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_settings:
 				Intent settingsIntent = new Intent(this, SettingsActivity.class);
