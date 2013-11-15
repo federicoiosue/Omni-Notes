@@ -34,6 +34,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -185,7 +187,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		});
 		
 		
-		// Note list scrolling hide actionbar effect
+		// Note list scrolling hide actionbar effect (deactivate for conflicts with listviewanimation library)
 //		listView.setOnScrollListener(new OnScrollListener() {
 //
 //			int mLastFirstVisibleItem = 0;

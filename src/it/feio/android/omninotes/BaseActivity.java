@@ -1,5 +1,6 @@
 package it.feio.android.omninotes;
 
+import java.util.Locale;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -11,6 +12,7 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
@@ -35,9 +37,9 @@ public class BaseActivity extends SherlockActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		/*
-		 * In esecuzioni di test viene abilitato lo StrictMode per il debug delle operazioni onerose sul thread principale e viene inibito l'invio di dati a GA
+		 * Executing the application in test will activate ScrictMode to debug heavy 
+		 * i/o operations on main thread and data sending to GA will be disabled
 		 */
 		if (TEST) {
 			StrictMode.enableDefaults();
@@ -46,6 +48,9 @@ public class BaseActivity extends SherlockActivity {
 
 		// Preloads shared preferences for all derived classes
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		
+		// Checks selected locale or default one
+		checkLocale();
 
 		super.onCreate(savedInstanceState);
 	}
@@ -91,6 +96,19 @@ public class BaseActivity extends SherlockActivity {
 		if (prefs.getBoolean("settings_enable_info", true)) {
 			Toast.makeText(getApplicationContext(), text, duration).show();
 		}
+	}
+	
+	/**
+	 * Set custom locale on application start
+	 */
+	protected void checkLocale(){
+		String languageToLoad = prefs.getString("settings_language", Locale.getDefault().getCountry());		
+		Locale locale = new Locale(languageToLoad);
+		Locale.setDefault(locale);
+		Configuration config = new Configuration();
+		config.locale = locale;
+		getBaseContext().getResources().updateConfiguration(config,
+				getBaseContext().getResources().getDisplayMetrics());
 	}
 
 }

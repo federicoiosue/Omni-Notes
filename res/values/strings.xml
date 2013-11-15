@@ -77,6 +77,7 @@
     <string name="settings_category_interface">Interface</string>
     <string name="settings_enable_animations">Enable animations</string>
     <string name="settings_enable_info">Enable info popups</string>
+    <string name="settings_choose_language">Choose language</string>
 
     <!-- About -->
     <string name="follow_author">Follow the author</string>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Omni Notes</string>
+    
+    <string name="drawer_open">Abrir el menú de navegación</string>
+    <string name="drawer_close">Cierre el menú de navegación</string>
+    <string name="drawer_icon">Icono de navegación</string>
+    <string name="title_item_list">Notas</string>
+    <string name="title_item_detail">Editar Nota</string>
+    <string name="add_note">Añadir notas</string>
+    <string name="title">Titular</string>
+    <string name="title_activity_search">Buscar</string>
+    <string name="title_activity_list">Omni Notes</string>
+    <string name="search">Buscar</string>
+    <string name="search_hint">Buscar título y contenido</string>
+    <string name="content">Contenido</string>
+    <string name="save">Salvar</string>
+    <string name="share">Cuota</string>
+    <string name="archive">Archivar</string>
+    <string name="undo">Cancelar</string>
+    <string name="undo_message">Undelete</string>
+    <string name="unarchive">Restaurar desde archivo</string>
+    <string name="delete">Borre</string>
+    <string name="timestamp">Fecha</string>
+    <string name="creation">Creado el</string>
+    <string name="last_update">Actualizado el</string>
+    <string name="delete_note_confirmation">Confirme la eliminación?</string>
+    <string name="confirm">Confirme</string>
+    <string name="cancel">Cancelar</string>
+    <string name="note_updated">Nota actualizada</string>
+    <string name="empty_note_not_saved">Nota en blanco no salvos</string>
+    <string name="empty_note_not_shared">Nota en blanco no puede ser compartida</string>
+    <string name="note_archived">Nota archivada</string>
+    <string name="note_unarchived">Nota recupera de archivo</string>
+    <string name="note_deleted">Nota cancelada</string>
+    <string name="note">Notas</string>
+    <string name="note_title">Titulo nota</string>
+    <string name="note_timestamp">Fecha nota</string>
+    <string name="share_message_chooser">Compartir en</string>
+    <string name="shared_content_sign">Compartido con OmniNote!</string>
+    <string name="one_item_selected">Una nota seleccionada</string>
+    <string name="more_items_selected">notas seleccionadas</string>
+    <string name="sort">Ordenar</string>
+    <string name="select_sorting_column">Ordenar por</string>
+    <string name="tap_to_undo">Clic para cancelar</string>
+
+    <!-- Settings -->
+    <string name="settings">Configuración</string>
+    <string name="settings_about">Info</string>
+    <string name="settings_category_other">Màs</string>
+    <string name="settings_reset_all_data">Borre todos los datos</string>
+    <string name="reset_all_data_confirmation">Proceder a la eliminación de todos los datos de la aplicación?</string>
+    <string name="title_activity_about">Info</string>
+    <string name="action_settings">Configuración</string>
+    <string name="settings_sync_import_export">Backup</string>
+    <string name="settings_export">Esporta le nota en el archivo CSV</string>
+    <string name="settings_import">Importar notas desde un archivo CSV</string>
+    <string name="export_success">Notas exportadas correctamente en</string>
+    <string name="export_fail">Nota exportación falló</string>
+    <string name="import_success">Notas importadas correctamente</string>
+    <string name="import_fail">Importación de notas falló</string>
+    <string name="file_not_exists">Archivo de notas de importar no encontrado</string>
+    <string name="import_warning">Importando las notas existentes se sobrescribirán. Continuar?</string>
+    <string name="settings_category_gestures">Gestos</string>
+    <string name="settings_enable_swype">Habilitar swype</string>
+    <string name="settings_category_interface">Interfaz</string>
+    <string name="settings_enable_animations">Activar animaciones</string>
+    <string name="settings_enable_info">Activar popup</string>
+    <string name="settings_choose_language">Elija el idioma</string>
+
+    <!-- About -->
+    <string name="follow_author">Follow el autor</string>
+    <string name="click_to_support">Haga clic en el banner para apoyar el desarrollo</string>
+
+</resources>

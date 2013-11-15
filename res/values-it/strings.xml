@@ -29,7 +29,7 @@
     <string name="confirm">Conferma</string>
     <string name="cancel">Annulla</string>
     <string name="note_updated">Nota aggiornata</string>
-    <string name="empty_note_not_saved">Nuova vuota non salvata</string>
+    <string name="empty_note_not_saved">Nota vuota non salvata</string>
     <string name="empty_note_not_shared">Nota vuota non condivisibile</string>
     <string name="note_archived">Nota archiviata</string>
     <string name="note_unarchived">Nota recuperata dall\'archivio</string>
@@ -43,6 +43,7 @@
     <string name="more_items_selected">note selezionate</string>
     <string name="sort">Ordina</string>
     <string name="select_sorting_column">Ordina per</string>
+    <string name="tap_to_undo">Premi per annullare</string>
 
     <!-- Settings -->
     <string name="settings">Impostazioni</string>
@@ -61,6 +62,12 @@
     <string name="import_fail">Importazione note fallita</string>
     <string name="file_not_exists">File con le note da importare non trovato</string>
     <string name="import_warning">Importando il file le attuali note verranno sovrascritte. Continuare?</string>
+    <string name="settings_category_gestures">Gestures</string>
+    <string name="settings_enable_swype">Abilita swype</string>
+    <string name="settings_category_interface">Interfaccia</string>
+    <string name="settings_enable_animations">Abilita animazioni</string>
+    <string name="settings_enable_info">Abilita popup</string>
+    <string name="settings_choose_language">Seleziona la lingua</string>
 
     <!-- About -->
     <string name="follow_author">Segui l\'autore</string>
