@@ -8,7 +8,10 @@ import com.actionbarsherlock.view.ActionMode.Callback;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnActionExpandListener;
 import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.widget.SearchView.OnCloseListener;
+import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 import com.haarman.listviewanimations.itemmanipulation.contextualundo.ContextualUndoAdapter;
 import com.haarman.listviewanimations.itemmanipulation.contextualundo.ContextualUndoAdapter.DeleteItemCallback;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
@@ -33,6 +36,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.AdapterView;
 import android.widget.AbsListView.OnScrollListener;
@@ -63,18 +67,18 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 		initNavigationDrawer();
 		initListView();
-		initNotesList();
+		initNotesList(getIntent());
 
 		CharSequence title = prefs.getString(Constants.PREF_NAVIGATION, "");
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
 	}
 
 
-	@Override
-	protected void onResume() {
-		initNotesList();
-		super.onResume();
-	}
+//	@Override
+//	protected void onResume() {
+//		initNotesList(getIntent());
+//		super.onResume();
+//	}
 
 	private final class ModeCallback implements Callback {
 		 
@@ -245,7 +249,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(position);
 				prefs.edit().putString(Constants.PREF_NAVIGATION, navigation).commit();
-				initNotesList();
+				initNotesList(getIntent());
 			}
 		});
 
@@ -300,7 +304,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(final Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
 
 		super.onCreateOptionsMenu(menu);
 
@@ -316,10 +320,25 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_settings).setVisible(!drawerOpen);
 
+		// Initialization of SearchView
+		initSearchView(menu);
+		
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+
+
+	/**
+	 * SearchView initialization.
+	 * It's a little complex because it's not using SearchManager but is implementing on its own.
+	 * @param menu
+	 */
+	private void initSearchView(final Menu menu) {
 		// Associate searchable configuration with the SearchView
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
 		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		
 		// Expands the widget hiding other actionbar icons
 		searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {			
 			@Override
@@ -327,12 +346,73 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				Log.d(Constants.TAG, "Search focus");
 				menu.findItem(R.id.menu_add).setVisible(!hasFocus);
 				menu.findItem(R.id.menu_sort).setVisible(!hasFocus);
-//				searchView.setIconified(!hasFocus);
+//						searchView.setIconified(!hasFocus);
 			}
 		});
-		return super.onCreateOptionsMenu(menu);
+
+
+		
+		
+		MenuItem menuItem = menu.findItem(R.id.menu_search);
+
+		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+		if (currentapiVersion >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			menuItem.setOnActionExpandListener(new OnActionExpandListener() {
+
+				@Override
+				public boolean onMenuItemActionCollapse(MenuItem item) {
+					// Reinitialize notes list to all notes when search is collapsed
+					Log.i(Constants.TAG, "onMenuItemActionCollapse " + item.getItemId());
+					initNotesList(getIntent());
+					return true; 
+				}
+
+				@Override
+				public boolean onMenuItemActionExpand(MenuItem item) {
+					Log.i(Constants.TAG, "onMenuItemActionExpand " + item.getItemId());
+					return true;
+				}
+			});
+		} else {
+			// Do something for phones running an SDK before froyo
+			searchView.setOnCloseListener(new OnCloseListener() {
+
+				@Override
+				public boolean onClose() {
+					Log.i(Constants.TAG, "mSearchView on close ");
+					return false;
+				}
+			});
+		}
+		
+		
+		
+		
+		
+		
+		
+//		searchView.setOnQueryTextListener(new OnQueryTextListener() {
+//			@Override
+//			public boolean onQueryTextSubmit(String query) {
+//				Log.d(Constants.TAG, "Search submitted");
+//				Intent searchIntent = new Intent();
+//				searchIntent.setAction(Intent.ACTION_SEARCH);
+//				searchIntent.putExtra(SearchManager.QUERY, query);
+//				initNotesList(searchIntent);
+//				return false;
+//			}
+//			@Override
+//			public boolean onQueryTextChange(String newText) {
+//				return false;
+//			}
+//		});
 	}
-	
+
+
+	private Object collapse() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 	@Override
@@ -426,21 +506,26 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 					public void onClick(DialogInterface dialog, int which) {
 						prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which])
 								.commit();
-						initNotesList();
+						initNotesList(getIntent());
 					}
 				});
 		return builder.create();
 	}
 
-	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		Log.d(Constants.TAG, "onNewIntent");
+		initNotesList(intent);
+		super.onNewIntent(intent);
+	}
 	
 	/**
 	 * Notes list adapter initialization and association to view
 	 */
-	public void initNotesList() {
+	public void initNotesList(Intent intent) {
 		List<Note> notes;
-		if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
-			notes = handleIntent(getIntent());
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			notes = handleIntent(intent);
 			getSupportActionBar().setTitle(getString(R.string.search));
 		} else {
 			DbHelper db = new DbHelper(getApplicationContext());
@@ -456,10 +541,10 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 //			swingBottomInAnimationAdapter.setAbsListView(listView);
 //			listView.setAdapter(swingBottomInAnimationAdapter);
 //		} else {
-//			listView.setAdapter(mAdapter);
+			listView.setAdapter(mAdapter);
 //		}
 
-		// Somewhere in your adapter creation code
+		// Swype actions
 		ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton);
 		adapter.setAbsListView(listView);
 		listView.setAdapter(adapter);
@@ -471,10 +556,13 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				deleteNote(mAdapter.getItem(position));				
 //			    mAdapter.notifyDataSetChanged();
 //			    listView.invalidateViews();
-				initNotesList();
+				initNotesList(getIntent());
 			}
 		});
-		
+
+		// Refresh view
+//		listView.invalidateViews();
+//		mAdapter.notifyDataSetChanged();
 	}
 	
 	
@@ -495,7 +583,24 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		return notesList;
 
 	}
+	
+	
 
+	/**
+	 * Handle search intent
+	 * @param intent
+	 * @return
+	 */
+	private List<Note> searchNotes(String pattern) {
+		List<Note> notesList = new ArrayList<Note>();
+		// Get the intent, verify the action and get the query
+		Log.d(Constants.TAG, "Search launched");
+		DbHelper db = new DbHelper(this);
+		notesList = db.getMatchingNotes(pattern);
+		Log.d(Constants.TAG, "Found " + notesList.size() + " elements matching");
+		return notesList;
+
+	}
 
 
 	/** Swaps fragments in the main content view */

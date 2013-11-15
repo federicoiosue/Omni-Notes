@@ -24,7 +24,8 @@
         <!-- List -->
         <activity
             android:name="it.feio.android.omninotes.ListActivity"
-            android:label="@string/title_activity_list" >
+            android:label="@string/title_activity_list"
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
