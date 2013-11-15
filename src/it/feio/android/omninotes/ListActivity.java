@@ -449,6 +449,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		Intent detailIntent = new Intent(this, DetailActivity.class);
 		detailIntent.putExtra(Constants.INTENT_NOTE, new ParcelableNote(note));
 		startActivity(detailIntent);
+		if (prefs.getBoolean("settings_enable_animations", true)) {
+			overridePendingTransition(R.animator.slide_back_left, R.animator.slide_back_right);
+		}
 	}
 
 

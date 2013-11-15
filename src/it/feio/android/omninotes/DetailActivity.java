@@ -11,7 +11,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.widget.EditText;
@@ -77,7 +76,10 @@ public class DetailActivity extends BaseActivity {
 
 
 	private boolean goHome() {
-		NavUtils.navigateUpFromSameTask(this);		
+		NavUtils.navigateUpFromSameTask(this);	
+		if (prefs.getBoolean("settings_enable_animations", true)) {
+			overridePendingTransition(R.animator.slide_right, R.animator.slide_left);	
+		}
         return true;
 	}
 
