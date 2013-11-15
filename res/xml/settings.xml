@@ -13,10 +13,20 @@
             android:title="@string/settings_import" >
         </Preference>
     </PreferenceCategory>
+    <!-- <PreferenceCategory -->
+    <!-- android:key="category_gestures" -->
+    <!-- android:title="@string/settings_category_gestures" > -->
+    <!-- <CheckBoxPreference -->
+    <!-- android:key="settings_enable_swype" -->
+    <!-- android:defaultValue="true" -->
+    <!-- android:title="@string/settings_enable_swype" > -->
+    <!-- </CheckBoxPreference> -->
+    <!-- </PreferenceCategory> -->
     <PreferenceCategory
-        android:key="category_graphic"
-        android:title="@string/settings_category_graphic" >
+        android:key="category_animations"
+        android:title="@string/settings_category_animations" >
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="settings_enable_animations"
             android:title="@string/settings_enable_animations" >
         </CheckBoxPreference>
@@ -33,4 +43,5 @@
             android:title="@string/settings_about" >
         </Preference>
     </PreferenceCategory>
-</PreferenceScreen>
+
+</PreferenceScreen>

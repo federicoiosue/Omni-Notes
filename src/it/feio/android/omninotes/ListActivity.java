@@ -11,9 +11,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnActionExpandListener;
 import com.actionbarsherlock.widget.SearchView;
 import com.actionbarsherlock.widget.SearchView.OnCloseListener;
-import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
-import com.haarman.listviewanimations.itemmanipulation.contextualundo.ContextualUndoAdapter;
-import com.haarman.listviewanimations.itemmanipulation.contextualundo.ContextualUndoAdapter.DeleteItemCallback;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
 import it.feio.android.omninotes.models.Note;
@@ -36,12 +33,9 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.AdapterView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AbsListView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -67,18 +61,18 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 		initNavigationDrawer();
 		initListView();
-		initNotesList(getIntent());
+//		initNotesList(getIntent());
 
 		CharSequence title = prefs.getString(Constants.PREF_NAVIGATION, "");
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
 	}
 
 
-//	@Override
-//	protected void onResume() {
-//		initNotesList(getIntent());
-//		super.onResume();
-//	}
+	@Override
+	protected void onResume() {
+		initNotesList(getIntent());
+		super.onResume();
+	}
 
 	private final class ModeCallback implements Callback {
 		 
@@ -192,32 +186,32 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		
 		
 		// Note list scrolling hide actionbar effect
-		listView.setOnScrollListener(new OnScrollListener() {
-
-			int mLastFirstVisibleItem = 0;
-			/*
-			 * @see android.widget.AbsListView.OnScrollListener#onScrollStateChanged(android.widget.AbsListView, int)
-			 */
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {}
-			/*
-			 * @see android.widget.AbsListView.OnScrollListener#onScroll(android.widget.AbsListView, int, int, int)
-			 */
-			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-					int totalItemCount) {
-				if (view.getId() == listView.getId()) {
-					final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
-
-					if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-						getSupportActionBar().hide();
-					} else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-						getSupportActionBar().show();
-					}
-					mLastFirstVisibleItem = currentFirstVisibleItem;
-				}
-			}
-		});
+//		listView.setOnScrollListener(new OnScrollListener() {
+//
+//			int mLastFirstVisibleItem = 0;
+//			/*
+//			 * @see android.widget.AbsListView.OnScrollListener#onScrollStateChanged(android.widget.AbsListView, int)
+//			 */
+//			@Override
+//			public void onScrollStateChanged(AbsListView view, int scrollState) {}
+//			/*
+//			 * @see android.widget.AbsListView.OnScrollListener#onScroll(android.widget.AbsListView, int, int, int)
+//			 */
+//			@Override
+//			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+//					int totalItemCount) {
+//				if (view.getId() == listView.getId()) {
+//					final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
+//
+//					if (currentFirstVisibleItem > mLastFirstVisibleItem) {
+//						getSupportActionBar().hide();
+//					} else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
+//						getSupportActionBar().show();
+//					}
+//					mLastFirstVisibleItem = currentFirstVisibleItem;
+//				}
+//			}
+//		});
 
 		// Note single click listener managed by the activity itself
 		listView.setOnItemClickListener(this);
@@ -351,8 +345,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		});
 
 
-		
-		
+		// Sets events on searchView closing to restore full notes list
 		MenuItem menuItem = menu.findItem(R.id.menu_search);
 
 		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
@@ -380,38 +373,12 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				@Override
 				public boolean onClose() {
 					Log.i(Constants.TAG, "mSearchView on close ");
+					initNotesList(getIntent());
 					return false;
 				}
 			});
 		}
 		
-		
-		
-		
-		
-		
-		
-//		searchView.setOnQueryTextListener(new OnQueryTextListener() {
-//			@Override
-//			public boolean onQueryTextSubmit(String query) {
-//				Log.d(Constants.TAG, "Search submitted");
-//				Intent searchIntent = new Intent();
-//				searchIntent.setAction(Intent.ACTION_SEARCH);
-//				searchIntent.putExtra(SearchManager.QUERY, query);
-//				initNotesList(searchIntent);
-//				return false;
-//			}
-//			@Override
-//			public boolean onQueryTextChange(String newText) {
-//				return false;
-//			}
-//		});
-	}
-
-
-	private Object collapse() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 
@@ -514,6 +481,8 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 	@Override
 	protected void onNewIntent(Intent intent) {
+		if (Intent.ACTION_MAIN.equals(intent.getAction()))
+			return;
 		Log.d(Constants.TAG, "onNewIntent");
 		initNotesList(intent);
 		super.onNewIntent(intent);
@@ -533,36 +502,32 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		}
 		mAdapter = new NoteAdapter(getApplicationContext(), notes);
 
+
 		// Enables or note notes list animation depending on settings
-//		if (prefs.getBoolean("settings_enable_animations", true)) {
-//			SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(
-//					mAdapter);
-//			// Assign the ListView to the AnimationAdapter and vice versa
-//			swingBottomInAnimationAdapter.setAbsListView(listView);
-//			listView.setAdapter(swingBottomInAnimationAdapter);
+//		if (prefs.getBoolean("settings_enable_swype", true)) {
+//			ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton);
+//			adapter.setAbsListView(listView);
+//			listView.setAdapter(adapter);
+//			adapter.setDeleteItemCallback(new DeleteItemCallback() {
+//				
+//				@Override
+//				public void deleteItem(int position) {
+//					Log.d(Constants.TAG, "Swipe deleting note " + position);
+//					deleteNote(mAdapter.getItem(position));	
+//					initNotesList(getIntent());
+//				}
+//			});
 //		} else {
-			listView.setAdapter(mAdapter);
+//			listView.setAdapter(mAdapter);
 //		}
-
-		// Swype actions
-		ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton);
-		adapter.setAbsListView(listView);
-		listView.setAdapter(adapter);
-		adapter.setDeleteItemCallback(new DeleteItemCallback() {
-			
-			@Override
-			public void deleteItem(int position) {
-				Log.d(Constants.TAG, "Swipe deleting note " + position);
-				deleteNote(mAdapter.getItem(position));				
-//			    mAdapter.notifyDataSetChanged();
-//			    listView.invalidateViews();
-				initNotesList(getIntent());
-			}
-		});
-
-		// Refresh view
-//		listView.invalidateViews();
-//		mAdapter.notifyDataSetChanged();
+		if (prefs.getBoolean("settings_enable_animations", true)) {
+		    SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+		    // Assign the ListView to the AnimationAdapter and vice versa
+		    swingBottomInAnimationAdapter.setAbsListView(listView);
+		    listView.setAdapter(swingBottomInAnimationAdapter);
+		} else {
+			listView.setAdapter(mAdapter);
+		}
 	}
 	
 	
@@ -576,24 +541,6 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		List<Note> notesList = new ArrayList<Note>();
 		// Get the intent, verify the action and get the query
 		String pattern = intent.getStringExtra(SearchManager.QUERY);
-		Log.d(Constants.TAG, "Search launched");
-		DbHelper db = new DbHelper(this);
-		notesList = db.getMatchingNotes(pattern);
-		Log.d(Constants.TAG, "Found " + notesList.size() + " elements matching");
-		return notesList;
-
-	}
-	
-	
-
-	/**
-	 * Handle search intent
-	 * @param intent
-	 * @return
-	 */
-	private List<Note> searchNotes(String pattern) {
-		List<Note> notesList = new ArrayList<Note>();
-		// Get the intent, verify the action and get the query
 		Log.d(Constants.TAG, "Search launched");
 		DbHelper db = new DbHelper(this);
 		notesList = db.getMatchingNotes(pattern);
