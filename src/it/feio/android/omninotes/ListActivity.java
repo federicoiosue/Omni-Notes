@@ -356,6 +356,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				public boolean onMenuItemActionCollapse(MenuItem item) {
 					// Reinitialize notes list to all notes when search is collapsed
 					Log.i(Constants.TAG, "onMenuItemActionCollapse " + item.getItemId());
+					getIntent().setAction(Intent.ACTION_MAIN);
 					initNotesList(getIntent());
 					return true; 
 				}
@@ -373,6 +374,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				@Override
 				public boolean onClose() {
 					Log.i(Constants.TAG, "mSearchView on close ");
+					getIntent().setAction(Intent.ACTION_MAIN);
 					initNotesList(getIntent());
 					return false;
 				}
@@ -483,8 +485,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	protected void onNewIntent(Intent intent) {
 		if (Intent.ACTION_MAIN.equals(intent.getAction()))
 			return;
+		setIntent(intent);
 		Log.d(Constants.TAG, "onNewIntent");
-		initNotesList(intent);
+//		initNotesList(intent);
 		super.onNewIntent(intent);
 	}
 	
