@@ -31,45 +31,62 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		this.values = values;
 	}
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.note_layout, parent, false);
 
-		TextView title = (TextView) rowView.findViewById(R.id.note_title);
-		TextView content = (TextView) rowView.findViewById(R.id.note_content);
-		TextView date = (TextView) rowView.findViewById(R.id.note_date);
+	@Override
+	public View getView(int position, View v, ViewGroup parent) {     
+		
+		// Keeps reference to avoid future findViewById()
+        NotesViewHolder viewHolder;
+	
+        if (v == null) {
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			v = inflater.inflate(R.layout.note_layout, parent, false);
+			
+        	viewHolder = new NotesViewHolder();
+            viewHolder.title = (TextView) v.findViewById(R.id.note_title);
+            viewHolder.content = (TextView) v.findViewById(R.id.note_content);
+            viewHolder.date = (TextView) v.findViewById(R.id.note_date);
+            
+            v.setTag(viewHolder);
+        } else {
+        	viewHolder = (NotesViewHolder) v.getTag();
+        }
 
 		// Get text for title and content views
-		title.setText(values.get(position).getTitle());
-		int maxContentTextLength = 40;
-		// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
-		String[] noteContent = values.get(position).getContent().split(System.getProperty("line.separator"));
-		String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..."
-				: "";
-		String contentText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0]
-				.substring(0, maxContentTextLength) : noteContent[0])
-				+ suffix
-				: noteContent[0];
+        Note note = values.get(position);
+        if (note != null) {
+        	viewHolder.title.setText(note.getTitle());
+        	
+        	int maxContentTextLength = 40;
+    		// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
+    		String[] noteContent = values.get(position).getContent().split(System.getProperty("line.separator"));
+    		String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..."
+    				: "";
+    		String contentText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0]
+    				.substring(0, maxContentTextLength) : noteContent[0])
+    				+ suffix
+    				: noteContent[0];
 
-		content.setText(contentText);
+    		viewHolder.content.setText(contentText);
 
-		// Choosing if it must be shown creation date or last modification depending on sorting criteria
-		String sort_column = PreferenceManager.getDefaultSharedPreferences(context).getString(
-				Constants.PREF_SORTING_COLUMN, "");
-		if (sort_column.equals(DbHelper.KEY_CREATION))
-			date.setText(context.getString(R.string.creation) + " " + values.get(position).getCreationShort());
-		else
-			date.setText(context.getString(R.string.last_update) + " "
-					+ values.get(position).getlastModificationShort());
-
-		// Highlighted if is part of multiselection of notes
-		// if (selectedItems.get(position) != null) {
-		// rowView.setBackgroundColor(context.getResources().getColor(R.color.list_bg_selected));
-		// } else {
-		// rowView.setBackgroundColor(context.getResources().getColor(R.color.list_bg));
-		// }
-		return rowView;
+    		// Choosing if it must be shown creation date or last modification depending on sorting criteria
+    		String sort_column = PreferenceManager.getDefaultSharedPreferences(context).getString(
+    				Constants.PREF_SORTING_COLUMN, "");
+    		if (sort_column.equals(DbHelper.KEY_CREATION))
+    			viewHolder.date.setText(context.getString(R.string.creation) + " " + values.get(position).getCreationShort());
+    		else
+    			viewHolder.date.setText(context.getString(R.string.last_update) + " "
+    					+ values.get(position).getlastModificationShort());
+        }
+        
+		return v;
+	}
+	
+	
+	static class NotesViewHolder {
+	    TextView title;
+	    TextView content;
+	    TextView date;
 	}
 
 	public HashMap<Integer, Boolean> getSelectedItems() {
