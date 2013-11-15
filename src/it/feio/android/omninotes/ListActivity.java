@@ -450,7 +450,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		detailIntent.putExtra(Constants.INTENT_NOTE, new ParcelableNote(note));
 		startActivity(detailIntent);
 		if (prefs.getBoolean("settings_enable_animations", true)) {
-			overridePendingTransition(R.animator.slide_back_left, R.animator.slide_back_right);
+			overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
 		}
 	}
 
@@ -582,8 +582,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 						// Refresh view
 						((ListView) findViewById(R.id.notesList)).invalidateViews();
 						// Advice to user
-						Toast.makeText(getApplicationContext(),
-								getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
+						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
 						mActionMode.finish(); // Action picked, so close the CAB
 					}
 				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -639,7 +638,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// Refresh view
 		((ListView) findViewById(R.id.notesList)).invalidateViews();
 		// Advice to user
-		Toast.makeText(this, archivedStatus, Toast.LENGTH_SHORT).show();
+		showToast(archivedStatus, Toast.LENGTH_SHORT);
 	}
 
 

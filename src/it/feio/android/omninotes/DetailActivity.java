@@ -78,7 +78,7 @@ public class DetailActivity extends BaseActivity {
 	private boolean goHome() {
 		NavUtils.navigateUpFromSameTask(this);	
 		if (prefs.getBoolean("settings_enable_animations", true)) {
-			overridePendingTransition(R.animator.slide_right, R.animator.slide_left);	
+			overridePendingTransition(R.animator.slide_left, R.animator.slide_right);	
 		}
         return true;
 	}
@@ -144,7 +144,7 @@ public class DetailActivity extends BaseActivity {
 						
 						// Informs the user about update
 						Log.d(Constants.TAG, "Deleted note with id '" + _id + "'");
-						Toast.makeText(getApplicationContext(), getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
+						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
 				        goHome();
 						return;
 					}
@@ -178,7 +178,7 @@ public class DetailActivity extends BaseActivity {
 		// Check if some text has ben inserted or is an empty note
 		if ((title + content).length() == 0) {
 			Log.d(Constants.TAG, "Empty note not saved");
-			Toast.makeText(this, getResources().getText(R.string.empty_note_not_saved), Toast.LENGTH_SHORT).show();
+			showToast(getResources().getText(R.string.empty_note_not_saved), Toast.LENGTH_SHORT);
 			return;
 		}
 		
@@ -196,7 +196,7 @@ public class DetailActivity extends BaseActivity {
 		
 		// Logs update
 		Log.d(Constants.TAG, "New note saved with title '" + note.getTitle() + "' and id '" + _id + "'");
-		Toast.makeText(this, getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT).show();
+		showToast(getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT);
 
 		// Go back on stack
         goHome();
@@ -211,7 +211,7 @@ public class DetailActivity extends BaseActivity {
 		// Check if some text has ben inserted or is an empty note
 		if ((title + content).length() == 0) {
 			Log.d(Constants.TAG, "Empty note not shared");
-			Toast.makeText(this, getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT).show();
+			showToast(getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT);
 			return;
 		}
 

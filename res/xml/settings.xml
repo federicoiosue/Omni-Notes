@@ -23,12 +23,17 @@
     <!-- </CheckBoxPreference> -->
     <!-- </PreferenceCategory> -->
     <PreferenceCategory
-        android:key="category_animations"
-        android:title="@string/settings_category_animations" >
+        android:key="category_interface"
+        android:title="@string/settings_category_interface" >
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="settings_enable_animations"
             android:title="@string/settings_enable_animations" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="settings_enable_info"
+            android:title="@string/settings_enable_info" >
         </CheckBoxPreference>
     </PreferenceCategory>
     <PreferenceCategory
