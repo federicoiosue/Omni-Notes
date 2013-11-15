@@ -3,13 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <!-- <ListView -->
+    <!-- android:id="@+id/notesList" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="match_parent" -->
+    <!-- android:background="@drawable/abs__ab_transparent_light_holo" -->
+    <!-- android:layout_alignParentLeft="true" -->
+    <!-- android:layout_alignParentTop="true" > -->
+    <!-- </ListView> -->
+
     <ListView
         android:id="@+id/notesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/abs__ab_transparent_light_holo"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+        android:background="@color/gray_bg"
+        android:clipToPadding="false"
+        android:divider="@null"
+        android:dividerHeight="16dp"
+        android:fadingEdge="none"
+        android:padding="8dp"
+        android:scrollbarStyle="outsideOverlay" >
     </ListView>
 
     <ListView

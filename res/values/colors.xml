@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="navigation_bg">#eeffffff</color>
-    <color name="gray_bg">#e5e5e5</color>    
+    <color name="gray_bg">#e2e2e2</color>    
     <color name="list_bg">#eeffffff</color>
     <color name="list_bg_pressed">#88336699</color>
     <color name="list_bg_selected">#9933B5E5</color>
