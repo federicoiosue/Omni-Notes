@@ -38,7 +38,7 @@
     <string name="note_title">Titulo nota</string>
     <string name="note_timestamp">Fecha nota</string>
     <string name="share_message_chooser">Compartir en</string>
-    <string name="shared_content_sign">Compartido con OmniNote!</string>
+    <string name="shared_content_sign">--\nCompartido con Omni Note!</string>
     <string name="one_item_selected">Una nota seleccionada</string>
     <string name="more_items_selected">notas seleccionadas</string>
     <string name="sort">Ordenar</string>

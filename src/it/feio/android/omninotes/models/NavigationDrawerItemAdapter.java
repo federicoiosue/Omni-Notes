@@ -57,7 +57,7 @@ public class NavigationDrawerItemAdapter extends BaseAdapter {
 		// Set the results into TextViews
 		txtTitle.setText(mTitle[position]);
 		if (convertView != null && checked)
-			txtTitle.setTextAppearance(context, R.style.Drawer_Selected);
+			txtTitle.setTextColor(context.getResources().getColor(R.color.drawer_text_selected));
 
 		// Set the results into ImageView
 		imgIcon.setImageResource(mIcon.getResourceId(position, 0));

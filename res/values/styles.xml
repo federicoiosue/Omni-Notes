@@ -29,20 +29,18 @@
     </style>
 
     <style name="Text.Big" parent="android:attr/textAppearanceSmall">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/list_note_title</item>
     </style>
 
     <style name="Text.Normal" parent="android:attr/textAppearanceSmall">
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">#ffaaaaaa</item>
     </style>
 
     <style name="Text.Small" parent="android:attr/textAppearanceSmall">
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/list_note_dates</item>
     </style>
-    
-    
 
 </resources>
