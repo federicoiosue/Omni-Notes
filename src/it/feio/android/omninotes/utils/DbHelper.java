@@ -164,7 +164,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, KEY_TITLE);
 		
 		// Checking if archived notes must be shown
-		boolean archived = prefs.getString(Constants.PREF_NAVIGATION, "").equals(ctx.getResources().getStringArray(R.array.navigation_list)[1]) ? true : false;
+//		boolean archived = prefs.getString(Constants.PREF_NAVIGATION, "").equals(ctx.getResources().getStringArray(R.array.navigation_list)[1]) ? true : false;
+		boolean archived = prefs.getInt(Constants.PREF_NAVIGATION, 0) == 1 ? true : false;
 		
 		String whereCondition = checkNavigation ? " WHERE " + KEY_ARCHIVED + (archived ? " = 1 " : " = 0 ") : "";
 				

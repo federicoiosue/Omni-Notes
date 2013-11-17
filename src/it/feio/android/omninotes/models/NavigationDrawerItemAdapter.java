@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 public class NavigationDrawerItemAdapter extends BaseAdapter {
 
@@ -45,6 +46,7 @@ public class NavigationDrawerItemAdapter extends BaseAdapter {
 
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View itemView = inflater.inflate(R.layout.drawer_list_item, parent, false);
+		boolean checked = ((ListView)parent).isItemChecked(position);
 
 		// Locate the TextViews in drawer_list_item.xml
 		txtTitle = (TextView) itemView.findViewById(R.id.title);
@@ -54,6 +56,8 @@ public class NavigationDrawerItemAdapter extends BaseAdapter {
 
 		// Set the results into TextViews
 		txtTitle.setText(mTitle[position]);
+		if (convertView != null && checked)
+			txtTitle.setTextAppearance(context, R.style.Drawer_Selected);
 
 		// Set the results into ImageView
 		imgIcon.setImageResource(mIcon.getResourceId(position, 0));

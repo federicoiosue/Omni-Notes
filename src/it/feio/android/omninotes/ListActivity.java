@@ -65,7 +65,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		initListView();
 //		initNotesList(getIntent());
 
-		CharSequence title = prefs.getString(Constants.PREF_NAVIGATION, "");
+		CharSequence title = getResources().getStringArray(R.array.navigation_list)[prefs.getInt(Constants.PREF_NAVIGATION, 0)];
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
 	}
 
@@ -244,7 +244,8 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				String navigation = mDrawerList.getAdapter().getItem(position).toString();
 				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(position);
-				prefs.edit().putString(Constants.PREF_NAVIGATION, navigation).commit();
+				prefs.edit().putInt(Constants.PREF_NAVIGATION, position).commit();
+		        mDrawerList.setItemChecked(position, true);
 				initNotesList(getIntent());
 			}
 		});
@@ -308,8 +309,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// If the nav drawer is open, hide action items related to the content view
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 		// If archived notes are shown the "add new note" item must be hidden
-		boolean archived = prefs.getString(Constants.PREF_NAVIGATION, "")
-				.equals(getResources().getStringArray(R.array.navigation_list)[1]);
+		boolean archived = prefs.getInt(Constants.PREF_NAVIGATION, 0) == 1;
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && !archived);
