@@ -164,8 +164,9 @@ public class SettingsActivity extends PreferenceActivity {
 				config.locale = locale;
 				getBaseContext().getResources().updateConfiguration(config,
 						getBaseContext().getResources().getDisplayMetrics());
-//				startActivity(new Intent(getApplicationContext(), ListActivity.class));
-				restartActivity();
+				PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_language", value.toString()).commit();
+				startActivity(new Intent(getApplicationContext(), ListActivity.class));
+//				restartActivity();
 				return false;
 			}
 		});

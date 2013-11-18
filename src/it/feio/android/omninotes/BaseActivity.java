@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 public class BaseActivity extends SherlockActivity {
 
-	private final boolean TEST = false;
+	private final boolean TEST = true;
 
 	protected Tracker tracker;
 	protected SharedPreferences prefs;
@@ -48,9 +48,6 @@ public class BaseActivity extends SherlockActivity {
 
 		// Preloads shared preferences for all derived classes
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		
-		// Checks selected locale or default one
-//		checkLocale();
 
 		super.onCreate(savedInstanceState);
 	}
