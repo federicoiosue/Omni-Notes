@@ -65,7 +65,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		initListView();
 //		initNotesList(getIntent());
 
-		CharSequence title = getResources().getStringArray(R.array.navigation_list)[prefs.getInt(Constants.PREF_NAVIGATION, 0)];
+		CharSequence title = getResources().getStringArray(R.array.navigation_list)[Integer.parseInt(prefs.getString(Constants.PREF_NAVIGATION, "0"))];
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
 	}
 
@@ -107,8 +107,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			// Here you can perform updates to the CAB due to
 			// an invalidate() request
 			Log.d(Constants.TAG, "CAB preparation");
-			boolean archived = prefs.getString(Constants.PREF_NAVIGATION, "")
-					.equals(getResources().getStringArray(R.array.navigation_list)[1]);
+			boolean archived = "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
 			menu.findItem(R.id.menu_archive).setVisible(!archived);
 			menu.findItem(R.id.menu_unarchive).setVisible(archived);
 			menu.findItem(R.id.menu_delete).setVisible(true);
@@ -244,7 +243,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				String navigation = mDrawerList.getAdapter().getItem(position).toString();
 				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(position);
-				prefs.edit().putInt(Constants.PREF_NAVIGATION, position).commit();
+				prefs.edit().putString(Constants.PREF_NAVIGATION, String.valueOf(position)).commit();
 		        mDrawerList.setItemChecked(position, true);
 				initNotesList(getIntent());
 			}
@@ -309,7 +308,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// If the nav drawer is open, hide action items related to the content view
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 		// If archived notes are shown the "add new note" item must be hidden
-		boolean archived = prefs.getInt(Constants.PREF_NAVIGATION, 0) == 1;
+		boolean archived = "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && !archived);

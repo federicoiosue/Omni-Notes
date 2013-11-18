@@ -87,8 +87,7 @@ public class BaseActivity extends SherlockActivity {
 
 
 	protected boolean navigationArchived() {
-		return PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREF_NAVIGATION, "")
-				.equals(getResources().getStringArray(R.array.navigation_list)[1]);
+		return "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
 	}
 
 
