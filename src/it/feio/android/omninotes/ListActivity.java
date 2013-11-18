@@ -34,8 +34,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -223,7 +221,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	/**
 	 * Initialization of compatibility navigation drawer
 	 */
-	@SuppressLint("NewApi")
+	@SuppressLint({ "NewApi", "Recycle" })
 	private void initNavigationDrawer() {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -234,7 +232,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
 		mDrawerList
 				.setAdapter(new NavigationDrawerItemAdapter(this, mNavigationArray, mNavigationIconsArray));
-
+		
 		// Set click events
 		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
 

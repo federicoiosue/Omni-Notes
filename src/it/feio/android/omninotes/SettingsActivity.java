@@ -30,7 +30,6 @@ public class SettingsActivity extends PreferenceActivity {
 	public final static String KEEP_USER_DATA = "settings_keep_user_data";
 	public final static String ALLOW_GEOLOCATION = "settings_allow_geolocation";
 	public final static String ALLOW_MOBILE_DATA = "settings_allow_mobile_data";
-	final Context context = this;
 	final Activity activity = this;
 
 	@Override
@@ -46,17 +45,17 @@ public class SettingsActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
 				try {
-					ImportExportExcel importExportExcel = new ImportExportExcel(context);
+					ImportExportExcel importExportExcel = new ImportExportExcel(activity);
 					if (importExportExcel.exportDataToCSV())
 						Toast.makeText(
-								context,
+								activity,
 								getString(R.string.export_success) + " " + Constants.EXPORT_FILE_PATH
 										+ File.separator + Constants.EXPORT_FILE_NAME + ".csv",
 								Toast.LENGTH_LONG).show();
 					else
-						Toast.makeText(context, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
+						Toast.makeText(activity, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
 				} catch (Exception e) {
-					Toast.makeText(context, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
+					Toast.makeText(activity, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
 				}
 				return false;
 			}
@@ -68,7 +67,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 
 				// set dialog message
 				alertDialogBuilder.setMessage(getString(R.string.import_warning)).setCancelable(false)
@@ -76,15 +75,15 @@ public class SettingsActivity extends PreferenceActivity {
 
 							public void onClick(DialogInterface dialog, int id) {
 								try {
-									ImportExportExcel importExportExcel = new ImportExportExcel(context);
+									ImportExportExcel importExportExcel = new ImportExportExcel(activity);
 									if (importExportExcel.importDataFromCSV())
-										Toast.makeText(context, getString(R.string.import_success),
+										Toast.makeText(activity, getString(R.string.import_success),
 												Toast.LENGTH_LONG).show();
 									else
-										Toast.makeText(context, getString(R.string.import_fail),
+										Toast.makeText(activity, getString(R.string.import_fail),
 												Toast.LENGTH_LONG).show();
 								} catch (Exception e) {
-									Toast.makeText(context, getString(R.string.import_fail),
+									Toast.makeText(activity, getString(R.string.import_fail),
 											Toast.LENGTH_LONG).show();
 								}
 							}
@@ -111,16 +110,16 @@ public class SettingsActivity extends PreferenceActivity {
 
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 
 				// set dialog message
 				alertDialogBuilder.setMessage(getString(R.string.reset_all_data_confirmation))
 						.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
 							public void onClick(DialogInterface dialog, int id) {
-								PreferenceManager.getDefaultSharedPreferences(context).edit().clear()
+								PreferenceManager.getDefaultSharedPreferences(activity).edit().clear()
 										.commit();
-								DbHelper db = new DbHelper(context);
+								DbHelper db = new DbHelper(activity);
 								db.clear();
 								Log.i(Constants.TAG, "Settings back to default");
 							}
@@ -148,7 +147,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-				Intent aboutIntent = new Intent(context, AboutActivity.class);
+				Intent aboutIntent = new Intent(activity, AboutActivity.class);
 				startActivity(aboutIntent);
 				return false;
 			}

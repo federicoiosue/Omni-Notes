@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,9 +20,9 @@ import android.widget.Toast;
 public class ImportExportExcel {
 	DbHelper db;
 
-	Context context;
+	Activity context;
 
-	public ImportExportExcel(Context context) {
+	public ImportExportExcel(Activity context) {
 		this.context = context;
 	}
 

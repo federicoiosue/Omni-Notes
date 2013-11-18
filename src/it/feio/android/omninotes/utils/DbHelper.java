@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.NoteAdapter;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -54,9 +56,9 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	private final Context ctx;
 
-	public DbHelper(Context context) {
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		this.ctx = context;
+	public DbHelper(Context ctx) {
+		super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
+		this.ctx = ctx;
 	}
 
 	
@@ -77,41 +79,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	// Inserting or updating single note
-	public long updateNote(Note note) {
-		long res;
-		SQLiteDatabase db = this.getWritableDatabase();
-		 
-	    ContentValues values = new ContentValues();
-	    values.put(KEY_TITLE, note.getTitle());
-	    values.put(KEY_CONTENT, note.getContent());
-	    values.put(KEY_LAST_MODIFICATION, Calendar.getInstance().getTimeInMillis());
-	    boolean archive = note.isArchived() != null ? note.isArchived() : false;
-	    values.put(KEY_ARCHIVED, archive);
-
-		// Updating row
-		if (note.get_id() != 0) {
-			values.put(KEY_ID, note.get_id());
-			res = db.update(TABLE_NAME, values, KEY_ID + " = ?",
-					new String[] { String.valueOf(note.get_id()) });
-			// Importing data from csv without existing note in db
-			if (res == 0) {
-				res = db.insert(TABLE_NAME, null, values);
-			}			
-			Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
-			
-		// Inserting new note
-		} else {
-			values.put(KEY_CREATION, Calendar.getInstance().getTimeInMillis());
-		    res = db.insert(TABLE_NAME, null, values);
-			Log.d(Constants.TAG, "Saved new note titled '" + note.getTitle() + "' with id: " + res);
-		}
-	    db.close();
-		return res;
-	}
-	
-	
-//	// Archiving single note
-//	public long archiveNote(Note note) {
+	public void updateNote(Note note) {
 //		long res;
 //		SQLiteDatabase db = this.getWritableDatabase();
 //		 
@@ -119,17 +87,32 @@ public class DbHelper extends SQLiteOpenHelper {
 //	    values.put(KEY_TITLE, note.getTitle());
 //	    values.put(KEY_CONTENT, note.getContent());
 //	    values.put(KEY_LAST_MODIFICATION, Calendar.getInstance().getTimeInMillis());
-//	    values.put(KEY_ARCHIVED, 1);
+//	    boolean archive = note.isArchived() != null ? note.isArchived() : false;
+//	    values.put(KEY_ARCHIVED, archive);
 //
 //		// Updating row
-//		values.put(KEY_ID, note.get_id());
-//		res = db.update(TABLE_NAME, values, KEY_ID + " = ?",
-//				new String[] { String.valueOf(note.get_id()) });
-//		Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
+//		if (note.get_id() != 0) {
+//			values.put(KEY_ID, note.get_id());
+//			res = db.update(TABLE_NAME, values, KEY_ID + " = ?",
+//					new String[] { String.valueOf(note.get_id()) });
+//			// Importing data from csv without existing note in db
+//			if (res == 0) {
+//				res = db.insert(TABLE_NAME, null, values);
+//			}			
+//			Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
 //			
-//		
+//		// Inserting new note
+//		} else {
+//			values.put(KEY_CREATION, Calendar.getInstance().getTimeInMillis());
+//		    res = db.insert(TABLE_NAME, null, values);
+//			Log.d(Constants.TAG, "Saved new note titled '" + note.getTitle() + "' with id: " + res);
+//		}
+//	    db.close();
 //		return res;
-//	}
+		new UpdateNoteAsync(this).execute(note);
+	}
+	
+	
 	 
 	
 	// Getting single note
@@ -154,7 +137,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * 			be kept in consideration or if all notes have to be retrieved
 	 * @return Notes list
 	 */
-	public List<Note> getAllNotes(boolean checkNavigation) {
+	public List getAllNotes(boolean checkNavigation) {
 		List<Note> noteList = new ArrayList<Note>();
 		
 		// Getting sorting criteria from preferences
@@ -174,6 +157,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	    SQLiteDatabase db = this.getWritableDatabase();
 	    Cursor cursor = db.rawQuery(selectQuery, null);
 	 
+//	    ctx.startManagingCursor(cursor);
+	    
 	    // Looping through all rows and adding to list
 	    if (cursor.moveToFirst()) {
 	        do {
@@ -189,9 +174,13 @@ public class DbHelper extends SQLiteOpenHelper {
 	        } while (cursor.moveToNext());
 	    }
 	    
+	    cursor.close();
 	    db.close();
 	 
 	    return noteList;
+		
+
+//		new GetAllNotesAsync(ctx, this, mAdapter).execute(checkNavigation);
 	}
 	 
 	
@@ -269,7 +258,116 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	
+	private class UpdateNoteAsync extends AsyncTask<Note, Void, Long> {
+
+		private DbHelper dbHelper;
+
+		private UpdateNoteAsync(DbHelper dbHelper) {
+			this.dbHelper = dbHelper;
+		}
+
+		@Override
+		protected Long doInBackground(Note... notes) {
+			Note note = notes[0];
+			long res;
+			SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+			ContentValues values = new ContentValues();
+			values.put(KEY_TITLE, note.getTitle());
+			values.put(KEY_CONTENT, note.getContent());
+			values.put(KEY_LAST_MODIFICATION, Calendar.getInstance().getTimeInMillis());
+			boolean archive = note.isArchived() != null ? note.isArchived() : false;
+			values.put(KEY_ARCHIVED, archive);
+
+			// Updating row
+			if (note.get_id() != 0) {
+				values.put(KEY_ID, note.get_id());
+				res = db.update(TABLE_NAME, values, KEY_ID + " = ?",
+						new String[] { String.valueOf(note.get_id()) });
+				// Importing data from csv without existing note in db
+				if (res == 0) {
+					res = db.insert(TABLE_NAME, null, values);
+				}
+				Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
+
+				// Inserting new note
+			} else {
+				values.put(KEY_CREATION, Calendar.getInstance().getTimeInMillis());
+				res = db.insert(TABLE_NAME, null, values);
+				Log.d(Constants.TAG, "Saved new note titled '" + note.getTitle() + "' with id: " + res);
+			}
+			db.close();
+			return res;
+		}
+	}
 	
+	
+	
+	private class GetAllNotesAsync extends AsyncTask<Boolean, Void, List> {
+
+		private Context ctx;
+		private DbHelper dbHelper;
+		private NoteAdapter mAdapter;
+
+		private GetAllNotesAsync(Context ctx, DbHelper dbHelper, NoteAdapter mAdapter) {
+			this.ctx = ctx;
+			this.dbHelper = dbHelper;
+			this.mAdapter = mAdapter;
+		}
+
+		@Override
+		protected List doInBackground(Boolean... args) {
+			Boolean checkNavigation = args[0];
+			long res;
+
+			List<Note> noteList = new ArrayList<Note>();
+
+			// Getting sorting criteria from preferences
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+			String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, KEY_TITLE);
+
+			// Checking if archived notes must be shown
+			boolean archived = "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
+			String whereCondition = checkNavigation ? " WHERE " + KEY_ARCHIVED
+					+ (archived ? " = 1 " : " = 0 ") : "";
+
+			// Select All Query
+			String selectQuery = "SELECT * FROM " + TABLE_NAME + whereCondition + " ORDER BY " + sort_column;
+			Log.d(Constants.TAG, "Select notes query: " + selectQuery);
+
+			SQLiteDatabase db = dbHelper.getReadableDatabase();
+			Cursor cursor = db.rawQuery(selectQuery, null);
+
+			// ctx.startManagingCursor(cursor);
+
+			// Looping through all rows and adding to list
+			if (cursor.moveToFirst()) {
+				do {
+					Note note = new Note();
+					note.set_id(Integer.parseInt(cursor.getString(0)));
+					note.setCreation(cursor.getLong(1));
+					note.setLastModification(cursor.getLong(2));
+					note.setTitle(cursor.getString(3));
+					note.setContent(cursor.getString(4));
+					note.setArchived("1".equals(cursor.getString(5)));
+					// Adding note to list
+					noteList.add(note);
+				} while (cursor.moveToNext());
+			}
+
+			cursor.close();
+			db.close();
+
+			return noteList;
+		}
+
+		@Override
+		protected void onPostExecute(List noteList) {
+			mAdapter = new NoteAdapter(ctx, noteList);
+		}
+
+
+	}
 	
 	
 	

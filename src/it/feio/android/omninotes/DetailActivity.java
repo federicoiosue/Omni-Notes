@@ -186,10 +186,11 @@ public class DetailActivity extends BaseActivity {
 		
 		// Saving changes to the note
 		DbHelper db = new DbHelper(this);
-		long _id = db.updateNote(note);
+		db.updateNote(note);
 		
 		// Logs update
-		Log.d(Constants.TAG, "New note saved with title '" + note.getTitle() + "' and id '" + _id + "'");
+//		Log.d(Constants.TAG, "New note saved with title '" + note.getTitle() + "' and id '" + _id + "'");
+		Log.d(Constants.TAG, "New note saved with title '" + note.getTitle() + "'");
 		showToast(getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT);
 
 		// Go back on stack
