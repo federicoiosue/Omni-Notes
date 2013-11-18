@@ -1,10 +1,8 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.utils.Constants;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import com.google.analytics.tracking.android.Log;
+import java.util.Calendar;
 
 
 public class Note {
@@ -12,8 +10,8 @@ public class Note {
 	private int _id;
 	private String title;
 	private String content;
-	private String creation;
-	private String lastModification;
+	private Long creation;
+	private Long lastModification;
 	private Boolean archived;
 
 
@@ -23,7 +21,7 @@ public class Note {
 	}
 	
 
-	public Note(String creation, String lastModification, String title, String content, Boolean archived) {
+	public Note(Long creation, Long lastModification, String title, String content, Boolean archived) {
 		super();
 		this.title = title;
 		this.content = content;
@@ -33,7 +31,7 @@ public class Note {
 	}
 	
 
-	public Note(int _id, String creation, String lastModification, String title, String content, Boolean archived) {
+	public Note(int _id, Long creation, Long lastModification, String title, String content, Boolean archived) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -44,7 +42,7 @@ public class Note {
 	}
 	
 
-	public Note(String creation, String lastModification, String title, String content, Integer archived) {
+	public Note(Long creation, Long lastModification, String title, String content, Integer archived) {
 		super();
 		this.title = title;
 		this.content = content;
@@ -54,7 +52,7 @@ public class Note {
 	}
 	
 
-	public Note(int _id, String creation, String lastModification, String title, String content, Integer archived) {
+	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -90,46 +88,52 @@ public class Note {
 		this.content = content;
 	}
 
-	public String getCreation() {
+	public Long getCreation() {
 		return creation;
 	}
 
-	public void setCreation(String creation) {
+	public void setCreation(Long creation) {
 		this.creation = creation;
 	}
 
-	public String getCreationShort() {
-		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EU);
-		Date d;
+	public void setCreation(String creation) {
+		Long creationLong;
 		try {
-			d = sdf.parse(creation);
-		} catch (ParseException e) {
-			Log.e(e);
-			return creation;
+			creationLong = Long.parseLong(creation);
+		} catch (NumberFormatException e) {
+			creationLong = null;
 		}
-		sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SHORT);
-		return sdf.format(d);
+		this.creation = creationLong;
 	}
 
-	public String getlastModification() {
+	public String getCreationShort() {
+		Calendar.getInstance().setTimeInMillis(creation);
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SHORT);
+		return sdf.format(Calendar.getInstance().getTimeInMillis());
+	}
+
+	public Long getLastModification() {
 		return lastModification;
 	}
 
-	public String getlastModificationShort() {
-		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EU);
-		Date d;
-		try {
-			d = sdf.parse(lastModification);
-		} catch (ParseException e) {
-			Log.e(e);
-			return lastModification;
-		}
-		sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SHORT);
-		return sdf.format(d);
+	public String getLastModificationShort() {
+		Calendar.getInstance().setTimeInMillis(lastModification);
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SHORT);
+		return sdf.format(Calendar.getInstance().getTimeInMillis());
 	}
 
-	public void setlastModification(String lastModification) {
+	public void setLastModification(Long lastModification) {
 		this.lastModification = lastModification;
+	}
+
+	public void setLastModification(String lastModification) {
+		Long lastModificationLong;
+		try {
+			lastModificationLong = Long.parseLong(lastModification);
+		} catch (NumberFormatException e) {
+			lastModificationLong = null;
+		}
+		this.lastModification = lastModificationLong;
 	}
 	
 	

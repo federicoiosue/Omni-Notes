@@ -59,7 +59,7 @@ public class ImportExportExcel {
 				for (Note note : notesList) {
 					csvValues = "\"" + note.get_id() + "\",";
 					csvValues += "\"" + note.getCreation() + "\",";
-					csvValues += "\"" + note.getlastModification() + "\",";
+					csvValues += "\"" + note.getLastModification() + "\",";
 					csvValues += "\"" + textEncode(note.getTitle()) + "\",";
 					csvValues += "\"" + textEncode(note.getContent()) + "\",";
 					csvValues += "\"" + note.isArchived() + "\";\n";
@@ -126,8 +126,8 @@ public class ImportExportExcel {
 				// Creation of note
 				note = new Note();
 				note.set_id(Integer.parseInt(insertValues[0]));
-				note.setCreation(insertValues[1]);
-				note.setlastModification(insertValues[2]);
+				note.setCreation(Long.parseLong(insertValues[1]));
+				note.setLastModification(Long.parseLong(insertValues[2]));
 				note.setTitle(textDecode(insertValues[3]));
 				note.setContent(textDecode(insertValues[4]));
 				note.setArchived(Boolean.parseBoolean(insertValues[5]));

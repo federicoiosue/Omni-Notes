@@ -142,8 +142,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	    if (cursor != null)
 	        cursor.moveToFirst();
 
-	    Note note = new Note(Integer.parseInt(cursor.getString(0)), DateHelper.getDateString(cursor.getLong(1)), DateHelper.getDateString(cursor.getLong(2)), cursor.getString(3), cursor.getString(4), cursor.getInt(5));
-
+	    Note note = new Note(Integer.parseInt(cursor.getString(0)), cursor.getLong(1), cursor.getLong(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5));
 	    db.close();
 	    return note;
 	}
@@ -180,8 +179,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	        do {
 	            Note note = new Note();
 	            note.set_id(Integer.parseInt(cursor.getString(0)));
-	            note.setCreation(DateHelper.getDateString(cursor.getLong(1)));
-	            note.setlastModification(DateHelper.getDateString(cursor.getLong(2)));
+	            note.setCreation(cursor.getLong(1));
+	            note.setLastModification(cursor.getLong(2));
 	            note.setTitle(cursor.getString(3));
 	            note.setContent(cursor.getString(4));
 	            note.setArchived("1".equals(cursor.getString(5)));
@@ -253,8 +252,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	        do {
 	            Note note = new Note();
 	            note.set_id(Integer.parseInt(cursor.getString(0)));
-	            note.setCreation(DateHelper.getDateString(cursor.getLong(1)));
-	            note.setlastModification(DateHelper.getDateString(cursor.getLong(2)));
+	            note.setCreation(cursor.getLong(1));
+	            note.setLastModification(cursor.getLong(2));
 	            note.setTitle(cursor.getString(3));
 	            note.setContent(cursor.getString(4));
 	            note.setArchived("1".equals(cursor.getString(5)));

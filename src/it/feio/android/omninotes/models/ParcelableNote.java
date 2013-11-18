@@ -20,7 +20,7 @@ public class ParcelableNote implements Parcelable {
 		note = new Note();
 		note.set_id(in.readInt());
 		note.setCreation(in.readString());
-		note.setlastModification(in.readString());
+		note.setLastModification(in.readString());
 		note.setTitle(in.readString());
 		note.setContent(in.readString());
 		note.setArchived(in.readInt());
@@ -40,8 +40,8 @@ public class ParcelableNote implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
 		parcel.writeInt(note.get_id());
-		parcel.writeString(note.getCreation());
-		parcel.writeString(note.getlastModification());
+		parcel.writeString(String.valueOf(note.getCreation()));
+		parcel.writeString(String.valueOf(note.getLastModification()));
 		parcel.writeString(note.getTitle());
 		parcel.writeString(note.getContent());
 		parcel.writeInt(note.isArchived() ? 1 : 0);

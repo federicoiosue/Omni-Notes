@@ -42,13 +42,6 @@ public class DetailActivity extends BaseActivity {
 
 
 	private void initNote() {
-//		if (getArguments().containsKey(Constants.INTENT_KEY)
-//				&& getArguments().getString(Constants.INTENT_KEY) != null) {
-//			DbHelper db = new DbHelper(getActivity().getApplicationContext());
-//			note = db.getNote(Integer.parseInt(getArguments().getString(Constants.INTENT_KEY)));
-//		}
-		
-		
 		ParcelableNote parcelableNote = (ParcelableNote) getIntent().getParcelableExtra(Constants.INTENT_NOTE);
 		note = parcelableNote.getNote();
 		
@@ -56,7 +49,7 @@ public class DetailActivity extends BaseActivity {
         	((EditText) findViewById(R.id.title)).setText(note.getTitle());
         	((EditText) findViewById(R.id.content)).setText(note.getContent());
         	((TextView) findViewById(R.id.creation)).append(getString(R.string.creation) + " " + note.getCreationShort());        	
-        	((TextView) findViewById(R.id.last_modification)).append(getString(R.string.last_update) + " " + note.getlastModificationShort());
+        	((TextView) findViewById(R.id.last_modification)).append(getString(R.string.last_update) + " " + note.getLastModificationShort());
         }
 	}
 
@@ -179,7 +172,8 @@ public class DetailActivity extends BaseActivity {
 		if ((title + content).length() == 0) {
 			Log.d(Constants.TAG, "Empty note not saved");
 			showToast(getResources().getText(R.string.empty_note_not_saved), Toast.LENGTH_SHORT);
-			return;
+	        goHome();
+	        return;
 		}
 		
 		// Logging operation

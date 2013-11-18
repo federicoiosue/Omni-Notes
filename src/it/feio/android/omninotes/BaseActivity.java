@@ -50,7 +50,7 @@ public class BaseActivity extends SherlockActivity {
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		// Checks selected locale or default one
-		checkLocale();
+//		checkLocale();
 
 		super.onCreate(savedInstanceState);
 	}

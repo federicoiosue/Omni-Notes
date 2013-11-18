@@ -61,7 +61,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			date.setText(context.getString(R.string.creation) + " " + values.get(position).getCreationShort());
 		else
 			date.setText(context.getString(R.string.last_update) + " "
-					+ values.get(position).getlastModificationShort());
+					+ values.get(position).getLastModificationShort());
 
 		// Highlighted if is part of multiselection of notes
 		if (selectedItems.get(position) != null) {
