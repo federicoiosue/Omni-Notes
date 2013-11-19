@@ -29,7 +29,8 @@ public class StorageManager {
 	}
 	
 	public static String getStorageDir() {
-		return Environment.getExternalStorageDirectory() + File.separator + Constants.TAG + File.separator;
+//		return Environment.getExternalStorageDirectory() + File.separator + Constants.TAG + File.separator;
+		return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 	}
 	
 	public static String getDataStorageDir() {		
