@@ -1,5 +1,6 @@
 package it.feio.android.omninotes.utils;
 
+import it.feio.android.omninotes.BaseActivity;
 import java.io.File;
 
 import android.os.Environment;
@@ -27,7 +28,13 @@ public class StorageManager {
 		return mExternalStorageAvailable && mExternalStorageWriteable;
 	}
 	
-	public static File getStorageDir() {
-		return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+	public static String getStorageDir() {
+		return Environment.getExternalStorageDirectory() + File.separator + Constants.TAG + File.separator;
 	}
+	
+	public static String getDataStorageDir() {		
+		return Environment.getDataDirectory() + File.separator + "data" + File.separator + BaseActivity.class.getPackage().getName() + File.separator;
+	}
+	
+
 }

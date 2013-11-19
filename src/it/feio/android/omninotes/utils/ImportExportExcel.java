@@ -12,21 +12,26 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
 public class ImportExportExcel {
-	DbHelper db;
+	
+	private DbHelper db;
+	private Context context;
+	private boolean silentMode = false;
 
-	Activity context;
-
-	public ImportExportExcel(Activity context) {
+	public ImportExportExcel(Context context) {
 		this.context = context;
 	}
 
-	public Boolean exportDataToCSV() {
+	public ImportExportExcel(DbHelper db) {
+		this.db = db;
+		this.silentMode = true;
+	}
+
+	public Boolean exportDataToCSV(String path) {
 
 		Log.e("excel", "in exportDatabasecsv()");
 		Boolean returnCode = false;
@@ -36,11 +41,13 @@ public class ImportExportExcel {
 
 		try {
 
-			db = new DbHelper(context);
-			db.getWritableDatabase();
+			if (db == null) {
+				db = new DbHelper(context);
+				db.getReadableDatabase();
+			}
 
 			String fileName = Constants.EXPORT_FILE_NAME + ".csv";
-			File outFile = new File(Constants.EXPORT_FILE_PATH, fileName);
+			File outFile = new File(path, fileName);
 			FileWriter fileWriter = new FileWriter(outFile, false);
 			Log.e("after FileWriter :file name", outFile.toString());
 			BufferedWriter out = new BufferedWriter(fileWriter);
@@ -82,15 +89,16 @@ public class ImportExportExcel {
 		return returnCode;
 	}
 
-	public boolean importDataFromCSV() {
+	public boolean importDataFromCSV(String path) {
 		boolean returnCode = false;
 		boolean flag_is_header = true;
 
 		String fileName = Constants.EXPORT_FILE_NAME + ".csv";
-		File file = new File(Constants.EXPORT_FILE_PATH, fileName);
+		File file = new File(path, fileName);
 		if (!file.exists()) {
 			Log.w(Constants.TAG, "File to import doesn't exists");
-			Toast.makeText(context, context.getString(R.string.file_not_exists), Toast.LENGTH_SHORT).show();
+			if (!silentMode)
+				Toast.makeText(context, context.getString(R.string.file_not_exists), Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		BufferedReader bufRdr = null;
@@ -102,8 +110,10 @@ public class ImportExportExcel {
 		String line = null;
 
 		try {
-			db = new DbHelper(context);
-			db.getWritableDatabase();
+			if (db == null) {
+				db = new DbHelper(context);
+				db.getWritableDatabase();
+			}
 			StringBuffer lineBuf = new StringBuffer();
 			Note note;
 			while ((line = bufRdr.readLine()) != null) {

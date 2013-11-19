@@ -5,6 +5,7 @@ import java.util.Locale;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import it.feio.android.omninotes.utils.ImportExportExcel;
+import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.R;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -44,19 +45,39 @@ public class SettingsActivity extends PreferenceActivity {
 
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-				try {
-					ImportExportExcel importExportExcel = new ImportExportExcel(activity);
-					if (importExportExcel.exportDataToCSV())
-						Toast.makeText(
-								activity,
-								getString(R.string.export_success) + " " + Constants.EXPORT_FILE_PATH
-										+ File.separator + Constants.EXPORT_FILE_NAME + ".csv",
-								Toast.LENGTH_LONG).show();
-					else
-						Toast.makeText(activity, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
-				} catch (Exception e) {
-					Toast.makeText(activity, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
-				}
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+
+				// set dialog message
+				alertDialogBuilder.setMessage(getString(R.string.export_warning)).setCancelable(false)
+						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+							public void onClick(DialogInterface dialog, int id) {
+								try {
+									ImportExportExcel importExportExcel = new ImportExportExcel(activity);
+									if (importExportExcel.exportDataToCSV(StorageManager.getStorageDir()))
+										Toast.makeText(
+												activity,
+												getString(R.string.export_success) + " " + StorageManager.getStorageDir()
+														+ File.separator + Constants.EXPORT_FILE_NAME + ".csv",
+												Toast.LENGTH_LONG).show();
+									else
+										Toast.makeText(activity, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
+								} catch (Exception e) {
+									Toast.makeText(activity, getString(R.string.export_fail), Toast.LENGTH_LONG).show();
+								}
+							}
+						}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+
+				// show it
+				alertDialog.show();
 				return false;
 			}
 		});
@@ -76,7 +97,7 @@ public class SettingsActivity extends PreferenceActivity {
 							public void onClick(DialogInterface dialog, int id) {
 								try {
 									ImportExportExcel importExportExcel = new ImportExportExcel(activity);
-									if (importExportExcel.importDataFromCSV())
+									if (importExportExcel.importDataFromCSV(StorageManager.getStorageDir()))
 										Toast.makeText(activity, getString(R.string.import_success),
 												Toast.LENGTH_LONG).show();
 									else
@@ -165,17 +186,11 @@ public class SettingsActivity extends PreferenceActivity {
 				getBaseContext().getResources().updateConfiguration(config,
 						getBaseContext().getResources().getDisplayMetrics());
 				PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_language", value.toString()).commit();
+				finish();
 				startActivity(new Intent(getApplicationContext(), ListActivity.class));
-//				restartActivity();
 				return false;
 			}
 		});
 
-	}
-
-	private void restartActivity() {
-		Intent intent = getIntent();
-		finish();
-		startActivity(intent);
 	}
 }

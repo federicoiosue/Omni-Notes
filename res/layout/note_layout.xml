@@ -28,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_weight="1"
-            android:padding="2dp"
             android:text="@string/note_timestamp"
             android:textAppearance="@style/Text.Normal"
             android:textColor="@color/list_note_title"
@@ -39,7 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:padding="2dp"
             android:text="@string/note_timestamp"
             android:textAppearance="@style/Text.Small"
             pixlui:typeface="RobotoSlab-Light.ttf" />

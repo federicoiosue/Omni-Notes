@@ -62,6 +62,7 @@
     <string name="import_fail">Importazione note fallita</string>
     <string name="file_not_exists">File con le note da importare non trovato</string>
     <string name="import_warning">Importando il file le attuali note verranno sovrascritte. Continuare?</string>
+    <string name="export_warning">L\'esportazione sovrascriverà la precedente. Procedere?</string>
     <string name="settings_category_gestures">Gestures</string>
     <string name="settings_enable_swype">Abilita swype</string>
     <string name="settings_category_interface">Interfaccia</string>

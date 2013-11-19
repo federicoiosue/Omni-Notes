@@ -72,6 +72,7 @@
     <string name="import_fail">File import failed</string>
     <string name="file_not_exists">File to be imported doesn\'t exists</string>
     <string name="import_warning">Importing data could overwrite current notes. Proceed?</string>
+    <string name="export_warning">Exported file will overwrite the previous one. Proceed?</string>
     <string name="settings_category_gestures">Gestures</string>
     <string name="settings_enable_swype">Enable swype</string>
     <string name="settings_category_interface">Interface</string>
