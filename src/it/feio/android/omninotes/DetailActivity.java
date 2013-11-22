@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,15 +28,23 @@ import android.widget.Toast;
  * more than a {@link ItemDetailFragment}.
  */
 public class DetailActivity extends BaseActivity {
-    private Note note;
+    
+	private final int HEIGHT_FULLSCREEN_LIMIT = 350;
+	private Note note;
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);     
         setContentView(R.layout.fragment_item_detail);
+        
+        if (getWindowManager().getDefaultDisplay().getHeight() < HEIGHT_FULLSCREEN_LIMIT) {
+        	getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);     	
+        }
 
         // Show the Up button in the action bar.
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+        	getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initNote();
     }
