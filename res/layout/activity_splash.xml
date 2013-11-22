@@ -21,7 +21,7 @@
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         android:text="@string/copyleft"
-        android:textColor="#165468"
+        android:textColor="#98b2ba"
         android:textSize="12dp" />
 
 </RelativeLayout>
