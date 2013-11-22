@@ -74,6 +74,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	@Override
 	protected void onResume() {
 		initNotesList(getIntent());
+		initNavigationDrawer();
 		super.onResume();
 	}
 
