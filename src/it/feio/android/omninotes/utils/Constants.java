@@ -4,6 +4,9 @@ public interface Constants {
 
 	final String TAG = "Omni Notes";
 	final String PREFS_FILE_NAME = "omni-notes.prefs";
+	
+	// Splash screen timer
+	static int SPLASH_TIME_OUT = 2000;
 
 	final String DEV_EMAIL = "federico.iosue@gmail.com";
 	
