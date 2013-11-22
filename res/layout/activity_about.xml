@@ -52,58 +52,72 @@
         </LinearLayout>
     </LinearLayout>
 
+<!--     <com.neopixl.pixlui.components.textview.TextView -->
+<!--         android:id="@+id/follow" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_gravity="center" -->
+<!--         android:layout_margin="15dp" -->
+<!--         android:text="@string/follow_author" -->
+<!--         android:textAppearance="?android:attr/textAppearanceMedium" -->
+<!--         pixlui:typeface="RobotoSlab-Regular.ttf" /> -->
+
+    <!-- <LinearLayout -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_gravity="center" -->
+    <!-- android:gravity="center" -->
+    <!-- android:orientation="horizontal" > -->
+
+
+    <!-- <ImageView -->
+    <!-- android:id="@+id/googleplus" -->
+    <!-- android:layout_width="50dp" -->
+    <!-- android:layout_height="50dp" -->
+    <!-- android:src="@drawable/googleplus" /> -->
+
+
+    <!-- <ImageView -->
+    <!-- android:id="@+id/bitbucket" -->
+    <!-- android:layout_width="50dp" -->
+    <!-- android:layout_height="50dp" -->
+    <!-- android:layout_marginLeft="25dp" -->
+    <!-- android:src="@drawable/bitbucket" /> -->
+    <!-- </LinearLayout> -->
+
     <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/follow"
+        android:id="@+id/site"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="15dp"
+        android:layout_margin="30dp"
         android:text="@string/follow_author"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        pixlui:typeface="RobotoSlab-Regular.ttf" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:id="@+id/googleplus"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/googleplus" />
-
-        <ImageView
-            android:id="@+id/bitbucket"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="25dp"
-            android:src="@drawable/bitbucket" />
-    </LinearLayout>
-
-    <com.google.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/admob_id"
-        ads:loadAdOnCreate="true"
-        ads:testDevices="@string/admob_id_test"
-        android:gravity="center_horizontal" >
-    </com.google.ads.AdView>
-
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/support"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="15dp"
-        android:text="@string/click_to_support"
-        android:textAppearance="@style/Text.Small"
+        android:textAppearance="@style/Text.Big"
         android:textColor="@color/gray_bg"
         pixlui:typeface="RobotoSlab-Light.ttf" />
+
+    <!-- <com.google.ads.AdView -->
+    <!-- android:id="@+id/adView" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_margin="15dp" -->
+    <!-- ads:adSize="BANNER" -->
+    <!-- ads:adUnitId="@string/admob_id" -->
+    <!-- ads:loadAdOnCreate="true" -->
+    <!-- ads:testDevices="@string/admob_id_test" -->
+    <!-- android:gravity="center_horizontal" > -->
+    <!-- </com.google.ads.AdView> -->
+
+
+    <!-- <com.neopixl.pixlui.components.textview.TextView -->
+    <!-- android:id="@+id/support" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_gravity="center" -->
+    <!-- android:layout_margin="15dp" -->
+    <!-- android:text="@string/click_to_support" -->
+    <!-- android:textAppearance="@style/Text.Small" -->
+    <!-- android:textColor="@color/gray_bg" -->
+    <!-- pixlui:typeface="RobotoSlab-Light.ttf" /> -->
 
 </LinearLayout>

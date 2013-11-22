@@ -1,7 +1,6 @@
 package it.feio.android.omninotes;
 
 import com.actionbarsherlock.view.MenuItem;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.R;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,10 +10,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
-import android.util.Log;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AboutActivity extends BaseActivity {
@@ -42,27 +41,18 @@ public class AboutActivity extends BaseActivity {
 			copyleft.append("   " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
 		} catch (NameNotFoundException e) {}
 				
-		// Icons click management
-		ImageView googleplus = (ImageView) findViewById(R.id.googleplus);
-		googleplus.setOnClickListener(new OnClickListener() {
+		// Site click management
+		TextView site = (TextView) findViewById(R.id.site);
+		site.setOnClickListener(new OnClickListener() {
+			
 			@Override
 			public void onClick(View v) {
-				Log.i(Constants.TAG, "Google+ clicked");
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(getResources().getString(R.string.dev_googleplus)));
-				startActivity(intent);
+				Intent i = new Intent(Intent.ACTION_VIEW, 
+					       Uri.parse(getString(R.string.dev_site)));
+					startActivity(i);				
 			}
 		});
-		ImageView bitbucket = (ImageView) findViewById(R.id.bitbucket);
-		bitbucket.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.i(Constants.TAG, "Bitbucket clicked");
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(getResources().getString(R.string.dev_bitbucket)));
-				startActivity(intent);
-			}
-		});
+		
 	}
 
 
