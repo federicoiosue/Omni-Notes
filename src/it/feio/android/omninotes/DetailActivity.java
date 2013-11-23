@@ -1,5 +1,7 @@
 package it.feio.android.omninotes;
 
+import java.util.Calendar;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -91,6 +93,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 			((TextView) findViewById(R.id.last_modification))
 					.append(getString(R.string.last_update) + " "
 							+ note.getLastModificationShort());
+			if (note.getAlarm() != null){				
+				((TextView) findViewById(R.id.datetime)).setText(initAlarm( Long.parseLong(note.getAlarm()) ));
+			}
 		}
 	}
 
@@ -313,28 +318,6 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		newFragment.show(getSupportFragmentManager(), Constants.TAG);
 	}
 
-	/**
-	 * Conversione da stringa a array contenente ora e minuti
-	 * 
-	 * @param timeString
-	 * @return
-	 */
-//	public int[] stringToTime(String timeString) {
-//		int hour;
-//		int minute;
-//		if (timeString.length() == 0) {
-//			hour = 0;
-//			minute = 0;
-//		} else {
-//			hour = Integer
-//					.parseInt(timeString.split(Constants.TIME_SEPARATOR)[0]);
-//			minute = Integer.parseInt(timeString
-//					.split(Constants.TIME_SEPARATOR)[1]);
-//		}
-//
-//		int[] time = { hour, minute };
-//		return time;
-//	}
 
 	@Override
 	public void onDateSet(DatePicker v, int year, int month, int day) {
@@ -352,6 +335,25 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
 				Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
 				Constants.DATE_FORMAT_SHORT_TIME).getTimeInMillis();
+	}
+	
+	
+	/**
+	 * Used to set acual alarm state when initializing a note to be edited
+	 * @param alarmDateTime
+	 * @return
+	 */
+	private String initAlarm(long alarmDateTime) {
+		this.alarmDateTime = alarmDateTime;
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(alarmDateTime);
+		alarmDate = DateHelper.onDateSet(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH),
+				Constants.DATE_FORMAT_SHORT_DATE);
+		alarmTime = DateHelper.onTimeSet(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
+				Constants.DATE_FORMAT_SHORT_TIME);
+		String dateTimeText = getString(R.string.alarm_set_on) + " " + alarmDate
+				+ " " + getString(R.string.at_time) + " " + alarmTime;
+		return dateTimeText;
 	}
 
 
