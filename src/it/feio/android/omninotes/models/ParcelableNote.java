@@ -24,6 +24,7 @@ public class ParcelableNote implements Parcelable {
 		note.setTitle(in.readString());
 		note.setContent(in.readString());
 		note.setArchived(in.readInt());
+		note.setAlarm(in.readString());
 	}
 
 	/*
@@ -35,7 +36,8 @@ public class ParcelableNote implements Parcelable {
 	}
 
 	/*
-	 * Actual object Serialization/flattening happens here. You need to individually Parcel each property of your object.
+	 * Actual object Serialization/flattening happens here. You need to
+	 * individually Parcel each property of your object.
 	 */
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
@@ -45,10 +47,13 @@ public class ParcelableNote implements Parcelable {
 		parcel.writeString(note.getTitle());
 		parcel.writeString(note.getContent());
 		parcel.writeInt(note.isArchived() ? 1 : 0);
+		parcel.writeString(note.getAlarm());
 	}
 
 	/*
-	 * Parcelable interface must also have a static field called CREATOR, which is an object implementing the Parcelable.Creator interface. Used to un-marshal or de-serialize object from Parcel.
+	 * Parcelable interface must also have a static field called CREATOR, which
+	 * is an object implementing the Parcelable.Creator interface. Used to
+	 * un-marshal or de-serialize object from Parcel.
 	 */
 	public static final Parcelable.Creator<ParcelableNote> CREATOR = new Parcelable.Creator<ParcelableNote>() {
 

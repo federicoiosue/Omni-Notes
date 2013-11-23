@@ -13,6 +13,7 @@ public class Note {
 	private Long creation;
 	private Long lastModification;
 	private Boolean archived;
+	private String alarm;
 
 
 	public Note() {
@@ -21,17 +22,18 @@ public class Note {
 	}
 	
 
-	public Note(Long creation, Long lastModification, String title, String content, Boolean archived) {
+	public Note(Long creation, Long lastModification, String title, String content, Boolean archived, String alarm) {
 		super();
 		this.title = title;
 		this.content = content;
 		this.creation = creation;
 		this.lastModification = lastModification;
 		this.archived = archived;
+		this.alarm = alarm;
 	}
 	
 
-	public Note(int _id, Long creation, Long lastModification, String title, String content, Boolean archived) {
+	public Note(int _id, Long creation, Long lastModification, String title, String content, Boolean archived, String alarm) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -39,20 +41,22 @@ public class Note {
 		this.creation = creation;
 		this.lastModification = lastModification;
 		this.archived = archived;
+		this.alarm = alarm;
 	}
 	
 
-	public Note(Long creation, Long lastModification, String title, String content, Integer archived) {
+	public Note(Long creation, Long lastModification, String title, String content, Integer archived, String alarm) {
 		super();
 		this.title = title;
 		this.content = content;
 		this.creation = creation;
 		this.lastModification = lastModification;
 		this.archived = archived == 1 ? true : false;
+		this.alarm = alarm;
 	}
 	
 
-	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived) {
+	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived, String alarm) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -60,6 +64,7 @@ public class Note {
 		this.creation = creation;
 		this.lastModification = lastModification;
 		this.archived = archived == 1 ? true : false;
+		this.alarm = alarm;
 	}
 
 
@@ -149,6 +154,16 @@ public class Note {
 
 	public void setArchived(int archived) {
 		this.archived = archived == 1 ? true : false;
+	}
+
+
+	public String getAlarm() {
+		return alarm;
+	}
+
+
+	public void setAlarm(String alarm) {
+		this.alarm = alarm;
 	}
 
 

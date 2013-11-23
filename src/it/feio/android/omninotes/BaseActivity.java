@@ -1,7 +1,7 @@
 package it.feio.android.omninotes;
 
 import java.util.Locale;
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -19,7 +19,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 
-public class BaseActivity extends SherlockActivity {
+public class BaseActivity extends SherlockFragmentActivity {
 
 	private final boolean TEST = true;
 

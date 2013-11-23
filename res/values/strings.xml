@@ -2,18 +2,19 @@
 <resources>
 
     <string name="app_name">Omni Notes</string>
-    
     <string name="admob_id">ca-app-pub-6447226512493573/7510385645</string>
     <string name="admob_id_test">TEST_EMULATOR, 9463A9DD59201409D6D43336C02E7FA0</string>
-    
     <string name="logo">Logo</string>
     <string name="copyleft">Copyleft Feio 2013</string>
-    
     <string name="dev_site">http://www.iosue.it/federico</string>
     <string name="dev_googleplus">https://plus.google.com/102629628248642947234/posts</string>
     <string name="dev_github">https://github.com/arnesottolo</string>
     <string name="dev_bitbucket">https://bitbucket.org/feio/</string>
-    
+
+    <!-- Formats -->
+    <string name="datetime_format">mm</string>
+
+    <!-- Activities -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="drawer_icon">Navigation icon</string>
@@ -55,6 +56,8 @@
     <string name="sort">Sort</string>
     <string name="select_sorting_column">Sort by</string>
     <string name="tap_to_undo">Tap to undo</string>
+    <string name="alarm_set_on">Alarm set on</string>
+    <string name="at_time">at time</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
