@@ -42,6 +42,24 @@
             android:title="@string/settings_enable_info" >
         </CheckBoxPreference>
     </PreferenceCategory>
+    
+    
+    <PreferenceCategory
+        android:key="category_notifications"
+        android:title="@string/settings_category_notifications" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="settings_enable_sound"
+            android:title="@string/settings_enable_sound" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="settings_enable_vibration"
+            android:title="@string/settings_enable_vibration" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+    
+    
     <PreferenceCategory
         android:key="category_other"
         android:title="@string/settings_category_other" >

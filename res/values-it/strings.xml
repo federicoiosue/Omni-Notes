@@ -44,6 +44,8 @@
     <string name="sort">Ordina</string>
     <string name="select_sorting_column">Ordina per</string>
     <string name="tap_to_undo">Premi per annullare</string>
+    <string name="alarm_set_on">Allarme impostato per il</string>
+    <string name="at_time">alle</string>
 
     <!-- Settings -->
     <string name="settings">Impostazioni</string>
@@ -69,6 +71,9 @@
     <string name="settings_enable_animations">Abilita animazioni</string>
     <string name="settings_enable_info">Abilita popup</string>
     <string name="settings_choose_language">Seleziona la lingua</string>
+    <string name="settings_category_notifications">Notifiche</string>
+    <string name="settings_enable_sound">Abilita suoneria</string>
+    <string name="settings_enable_vibration">Abilita vibrazione</string>
 
     <!-- About -->
     <string name="follow_author">Segui l\'autore</string>

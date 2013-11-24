@@ -12,8 +12,11 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -58,14 +61,25 @@ public class AlarmReceiver extends BroadcastReceiver {
 				+ DateHelper.getString(Long.parseLong(note.getAlarm()),
 						Constants.DATE_FORMAT_SHORT_TIME);
 		String text = note.getTitle().length() > 0 && note.getContent().length() > 0 ? note.getContent() : alarmText;
+		
+		// Notification building
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				ctx).setSmallIcon(R.drawable.ic_stat_notification_icon)
 				.setContentTitle(title).setContentText(text)
 				.setAutoCancel(true);
-
-		Intent intent = new Intent(ctx, DetailActivity.class);
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		// Impostazione suoneria
+		if (prefs.getBoolean("settings_notification_sound", true))
+			mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+		
+		// Impostazione vibrazione
+		long[] pattern = {500,500};		
+		if (prefs.getBoolean("settings_notification_vibration", true))
+			mBuilder.setVibrate(pattern);
 
 		// Next create the bundle and initialize it
+		Intent intent = new Intent(ctx, DetailActivity.class);
 		Bundle bundle = new Bundle();
 
 		// Add the parameters to bundle as

@@ -57,7 +57,7 @@
     <string name="select_sorting_column">Sort by</string>
     <string name="tap_to_undo">Tap to undo</string>
     <string name="alarm_set_on">Alarm set on</string>
-    <string name="at_time">at time</string>
+    <string name="at_time">at</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -83,6 +83,9 @@
     <string name="settings_enable_animations">Enable animations</string>
     <string name="settings_enable_info">Enable info popups</string>
     <string name="settings_choose_language">Choose language</string>
+    <string name="settings_category_notifications">Notifications</string>
+    <string name="settings_enable_sound">Enable ringtone</string>
+    <string name="settings_enable_vibration">Enable vibration</string>
 
     <!-- About -->
     <string name="follow_author">Follow the author</string>
