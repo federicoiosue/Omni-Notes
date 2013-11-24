@@ -7,15 +7,38 @@
     android:background="@drawable/bg_card"
     android:orientation="vertical" >
 
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/note_title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top|start"
-        android:text="@string/note_title"
-        android:textAppearance="@style/Text.Big"
-        android:textColor="@color/list_note_title"
-        pixlui:typeface="RobotoSlab-Bold.ttf" />
+        android:orientation="horizontal" >
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/note_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="top|start"
+            android:text="@string/note_title"
+            android:textAppearance="@style/Text.Big"
+            android:textColor="@color/list_note_title"
+            pixlui:typeface="RobotoSlab-Bold.ttf" />
+
+        <ImageView
+            android:id="@+id/archivedIcon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="right|top"
+            android:src="@drawable/ic_archive_dark"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/alarmIcon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="right|top"
+            android:src="@drawable/ic_reminder_dark"
+            android:visibility="invisible" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
