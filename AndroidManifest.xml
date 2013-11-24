@@ -21,7 +21,7 @@
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".ListActivity" />
-        
+
         <!-- Splash screen -->
         <activity
             android:name="it.feio.android.omninotes.SplashScreenActivity"
@@ -30,7 +30,7 @@
             android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
- 
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -40,11 +40,13 @@
             android:name="it.feio.android.omninotes.ListActivity"
             android:label="@string/title_activity_list"
             android:launchMode="singleTop" >
-<!--             <intent-filter> -->
-<!--                 <action android:name="android.intent.action.MAIN" /> -->
 
-<!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
-<!--             </intent-filter> -->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -85,6 +87,10 @@
         <activity
             android:name="com.google.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+
+        <!-- Broadcast receiver -->
+        <receiver android:name="it.feio.android.omninotes.receiver.AlarmReceiver" >
+        </receiver>
     </application>
 
 </manifest>

@@ -6,7 +6,7 @@ public interface Constants {
 	final String PREFS_FILE_NAME = "omni-notes.prefs";
 	
 	// Splash screen timer
-	static int SPLASH_TIME_OUT = 2000;
+	static int SPLASH_TIME_OUT = 1400;
 
 	final String DEV_EMAIL = "federico.iosue@gmail.com";
 
@@ -16,7 +16,7 @@ public interface Constants {
 	final String DATE_FORMAT_EU = "dd/MM/yyyy HH:mm";
 	final String DATE_FORMAT_ISO8601  = "YYYY-MM-DD HH:mm:SS.SSS";
 	final String DATE_FORMAT_SHORT  = "d MMM HH:mm";
-	final String DATE_FORMAT_SHORT_DATE  = "d MMM";
+	final String DATE_FORMAT_SHORT_DATE  = "d MMM yyyy";
 	final String DATE_FORMAT_SHORT_TIME  = "HH" + TIME_SEPARATOR + "mm";
 	
     final String INTENT_KEY = "note_id";

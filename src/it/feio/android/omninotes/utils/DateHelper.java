@@ -15,17 +15,16 @@ import android.util.Log;
  */
 public class DateHelper {
 
-	public static String getDateString(long date) {
+	public static String getString(long date, String format) {
 		Date d = new Date(date);
-		return getDateString(d);
+		return getString(d, format);
 	}
 	
-	public static String getDateString(Date d) {
-		String dateString = "";
-		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EU);
-		dateString = sdf.format(d);
-		return dateString;
+	public static String getString(Date d, String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		return sdf.format(d);
 	}
+	
 	
 	public static Calendar getDateFromString(String str, String format) {
 		Calendar cal = Calendar.getInstance();
@@ -34,6 +33,9 @@ public class DateHelper {
 			cal.setTime(sdf.parse(str));
 		} catch (ParseException e) {
 			Log.e(Constants.TAG, "Malformed datetime string" + e.getMessage());
+
+		} catch (NullPointerException e) {
+			Log.d(Constants.TAG, "Date or time not set");
 		}
 		return cal;
 	}
@@ -93,4 +95,5 @@ public class DateHelper {
 		cal.set(Calendar.MINUTE, cTime.get(Calendar.MINUTE));
 		return cal;		
 	}
+	
 }

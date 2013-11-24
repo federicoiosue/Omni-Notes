@@ -2,13 +2,14 @@ package it.feio.android.omninotes;
 
 import java.util.Calendar;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ParcelableNote;
-import it.feio.android.omninotes.receiver.AlarmReciever;
+import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DateHelper;
 import it.feio.android.omninotes.utils.DatePickerFragment;
@@ -22,16 +23,23 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextSwitcher;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ViewSwitcher.ViewFactory;
 
 /**
  * An activity representing a single Item detail screen. This activity is only
@@ -45,7 +53,10 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		OnTimeSetListener {
 
 	private final int HEIGHT_FULLSCREEN_LIMIT = 350;
+	
+	private SherlockFragmentActivity mActivity;
 	private Note note;
+	private ImageView reminder, reminder_delete;
 	private TextView datetime;
 	private long alarmDateTime = -1;
 	private String alarmDate, alarmTime;
@@ -53,7 +64,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_item_detail);
+		setContentView(R.layout.activity_detail);
+		
+		mActivity = this;
 
 		if (getWindowManager().getDefaultDisplay().getHeight() < HEIGHT_FULLSCREEN_LIMIT) {
 			getWindow().setSoftInputMode(
@@ -64,8 +77,17 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		if (getSupportActionBar() != null)
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		datetime = (TextView) findViewById(R.id.datetime);
-		datetime.setOnClickListener(new OnClickListener() {
+		// Views initialization
+		initViews();
+		
+		// Note initialization
+		initNote();
+	}
+
+	private void initViews() {
+		
+		reminder = (ImageView) findViewById(R.id.reminder);
+		reminder.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// Timepicker will be automatically called after date is
@@ -75,8 +97,19 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 			}
 		});
 
-		// Note initialization
-		initNote();
+		reminder_delete = (ImageView) findViewById(R.id.reminder_delete);
+		reminder_delete.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				alarmDate = "";
+				alarmTime = "";
+				alarmDateTime = -1;
+				datetime.setText("");
+				reminder_delete.setVisibility(View.INVISIBLE);
+			}
+		});
+		
+		datetime = (TextView) findViewById(R.id.datetime);
 	}
 
 	private void initNote() {
@@ -94,7 +127,8 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 					.append(getString(R.string.last_update) + " "
 							+ note.getLastModificationShort());
 			if (note.getAlarm() != null){				
-				((TextView) findViewById(R.id.datetime)).setText(initAlarm( Long.parseLong(note.getAlarm()) ));
+				datetime.setText(initAlarm( Long.parseLong(note.getAlarm()) ));
+				reminder_delete.setVisibility(View.VISIBLE);
 			}
 		}
 	}
@@ -264,7 +298,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	}
 
 	private void setAlarm() {
-		Intent intent = new Intent(this, AlarmReciever.class);
+		Intent intent = new Intent(this, AlarmReceiver.class);
 		intent.putExtra(Constants.INTENT_NOTE, new ParcelableNote(note));
 		PendingIntent sender = PendingIntent.getBroadcast(this, Constants.INTENT_ALARM_CODE, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
@@ -327,14 +361,20 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 
 	@Override
 	public void onTimeSet(TimePicker v, int hour, int minute) {
+		
+		// Creation of string rapresenting alarm time		
 		alarmTime = DateHelper.onTimeSet(hour, minute,
 				Constants.DATE_FORMAT_SHORT_TIME);
 		datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate
 				+ " " + getString(R.string.at_time) + " " + alarmTime);
 
+		// Setting alarm time in milliseconds
 		alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
 				Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
 				Constants.DATE_FORMAT_SHORT_TIME).getTimeInMillis();
+		
+		// Shows icon to remove alarm
+		reminder_delete.setVisibility(View.VISIBLE);
 	}
 	
 	
@@ -354,6 +394,15 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		String dateTimeText = getString(R.string.alarm_set_on) + " " + alarmDate
 				+ " " + getString(R.string.at_time) + " " + alarmTime;
 		return dateTimeText;
+	}
+	
+	
+	public String getAlarmDate(){
+		return alarmDate;
+	}
+	
+	public String getAlarmTime(){
+		return alarmTime;
 	}
 
 

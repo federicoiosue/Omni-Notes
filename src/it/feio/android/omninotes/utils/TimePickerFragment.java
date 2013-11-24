@@ -34,10 +34,7 @@ public class TimePickerFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		
-		TextView datetime = (TextView) mActivity.findViewById(R.id.datetime);
-		Calendar cal = DateHelper.getDateFromString(datetime.getText().toString(), Constants.DATE_FORMAT_SHORT);
-//		int hour = mActivity.stringToTime(timer_label.getText().toString())[0];
-//		int minute = mActivity.stringToTime(timer_label.getText().toString())[1];
+		Calendar cal = DateHelper.getDateFromString(mActivity.getAlarmTime(), Constants.DATE_FORMAT_SHORT_TIME);
 		int hour = cal.get(Calendar.HOUR_OF_DAY);
 		int minute = cal.get(Calendar.MINUTE);
 
@@ -45,10 +42,4 @@ public class TimePickerFragment extends DialogFragment {
 		return new TimePickerDialog(mActivity, mListener, hour, minute, true);
 	}
 
-	// @Override
-	// public void onTimeSet(TimePicker view, int hour, int minute) {
-	// //
-	// ((TextView)getActivity().findViewById(R.id.timer_label)).setText("fava");
-	// // getActivity().seta
-	// }
 }
