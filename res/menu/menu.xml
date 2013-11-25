@@ -38,6 +38,13 @@
         android:title="@string/unarchive"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_attachment"
+        android:icon="@drawable/ic_action_attachment"
+        android:orderInCategory="390"
+        android:showAsAction="ifRoom"
+        android:title="@string/attachment"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_action_discard"
         android:orderInCategory="400"

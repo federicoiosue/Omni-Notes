@@ -21,7 +21,7 @@
     <string name="undo">Annulla</string>
     <string name="undo_message">Annulla cancellazione</string>
     <string name="unarchive">Ripristina da archivio</string>
-    <string name="delete">Cancella</string>
+    <string name="delete">Cancella nota</string>
     <string name="timestamp">Orario</string>
     <string name="creation">Creata il</string>
     <string name="last_update">Aggiornata il</string>

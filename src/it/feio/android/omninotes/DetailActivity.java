@@ -1,35 +1,53 @@
 package it.feio.android.omninotes;
 
+import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.neopixl.pixlui.components.textview.TextView;
 
+import it.feio.android.omninotes.models.ImageAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
+import it.feio.android.omninotes.utils.BitmapDecoder;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.DatePickerFragment;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.date.TimePickerFragment;
 import it.feio.android.omninotes.R;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -46,17 +64,29 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		OnTimeSetListener {
 
 	private final int HEIGHT_FULLSCREEN_LIMIT = 350;
+	private static final int TAKE_PHOTO = 1;
+	private static final int GALLERY = 2;
+	
+	private SherlockFragmentActivity mActivity;
 	
 	private Note note;
 	private ImageView reminder, reminder_delete;
 	private TextView datetime;
 	private long alarmDateTime = -1;
 	private String alarmDate, alarmTime;
+	public Uri imageUri;
+	private Object bitmap;
+	private int photoQuality;
+	private ImageAdapter mImageAdapter;
+	private GridView mGridView;
+	private List<Uri> imageUris = new ArrayList<Uri>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
+		
+		mActivity = this;
 
 		if (getWindowManager().getDefaultDisplay().getHeight() < HEIGHT_FULLSCREEN_LIMIT) {
 			getWindow().setSoftInputMode(
@@ -75,6 +105,16 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	}
 
 	private void initViews() {
+		
+		mImageAdapter = new ImageAdapter(mActivity, imageUris);
+		mGridView = (GridView) findViewById(R.id.gridview);
+	    mGridView.setAdapter(new ImageAdapter(this));
+
+	    mGridView.setOnItemClickListener(new OnItemClickListener() {
+	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+	            Toast.makeText(mActivity, "" + position, Toast.LENGTH_SHORT).show();
+	        }
+	    });
 		
 		reminder = (ImageView) findViewById(R.id.reminder);
 		reminder.setOnClickListener(new OnClickListener() {
@@ -126,6 +166,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.menu_share).setVisible(true);
+		menu.findItem(R.id.menu_attachment).setVisible(true);
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		menu.findItem(R.id.menu_discard_changes).setVisible(true);
 
@@ -172,6 +213,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		case R.id.menu_unarchive:
 			saveNote(false);
 			break;
+		case R.id.menu_attachment:
+			showAttachmentDialog();
+			break;
 		case R.id.menu_delete:
 			deleteNote();
 			break;
@@ -182,6 +226,98 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void showAttachmentDialog() {
+		AlertDialog.Builder attachmentDialogBuilder = new AlertDialog.Builder(this);
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.attachment_dialog,
+				(ViewGroup) findViewById(R.id.layout_root));
+		attachmentDialogBuilder.setView(layout);
+		TextView cameraSelection = (TextView) layout.findViewById(R.id.camera);
+		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
+		TextView gallerySelection = (TextView) layout.findViewById(R.id.gallery);
+		gallerySelection.setOnClickListener(new AttachmentOnClickListener());
+		attachmentDialogBuilder.show();
+	}
+	
+	
+	/**
+	 * Manages clicks on attachment dialog
+	 */
+	private class AttachmentOnClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.camera:
+				ContentValues values = new ContentValues();
+				values.put(MediaStore.Images.Media.TITLE, "New Picture");
+				values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+				imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+				startActivityForResult(intent, TAKE_PHOTO);
+//				imgSrcDialog.dismiss();
+				break;
+			case R.id.gallery:
+				Intent galleryIntent = new Intent();
+				galleryIntent.setType("image/*");
+				galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+				galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
+				startActivityForResult(galleryIntent, GALLERY);
+//				imgSrcDialog.dismiss();
+				break;
+			}
+
+		}
+	}
+
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+		// Recupero immagini
+		BufferedInputStream stream = null;
+		if (resultCode == Activity.RESULT_OK) {
+			switch (requestCode) {
+				case TAKE_PHOTO:
+//					try {
+//						bitmap = BitmapDecoder.decodeSampledFromUri(this, imageUri, photoQuality,
+//								photoQuality);
+//
+//						fotoView.setImageBitmap(bitmap);
+//						imageChanged = true;
+//					} catch (FileNotFoundException e) {
+//						e.printStackTrace();
+//					}
+					break;
+				case GALLERY:
+					try {
+//						if (bitmap != null) {
+//							bitmap.recycle();
+//						}
+//						bitmap = BitmapDecoder.decodeSampledFromUri(this, intent.getData(), photoQuality,
+//								photoQuality);
+//						fotoView.setImageBitmap(bitmap);
+//						imageChanged = true;
+//					} catch (FileNotFoundException e) {
+//						Log.e(Constants.TAG, "Errore foto galleria");
+					} finally {
+						if (stream != null) {
+							try {
+								stream.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+					break;
+			}
+		}
+	}
+
+
+	
+	
 	private void deleteNote() {
 
 		// Confirm dialog creation

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/camera"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@android:drawable/ic_menu_camera"
+        android:drawablePadding="3dp"
+        android:text="@string/camera"
+        android:textSize="25sp"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/gallery"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@android:drawable/ic_menu_gallery"
+        android:drawablePadding="3dp"
+        android:text="@string/galery"
+        android:textSize="25sp"
+        android:padding="10dp"/>
+
+</LinearLayout>

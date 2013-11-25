@@ -33,7 +33,7 @@
     <string name="undo">Undo</string>
     <string name="undo_message">Undo delete</string>
     <string name="unarchive">Restore from archive</string>
-    <string name="delete">Delete</string>
+    <string name="delete">Delete note</string>
     <string name="timestamp">Timestamp</string>
     <string name="creation">Created on </string>
     <string name="last_update">Updated on </string>
@@ -59,6 +59,9 @@
     <string name="alarm_set_on">Alarm set on</string>
     <string name="at_time">at</string>
     <string name="discard_changes">Discard changes</string>
+    <string name="attachment">Attachment</string>
+    <string name="camera">Camera</string>
+    <string name="galery">Gallery</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
