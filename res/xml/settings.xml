@@ -68,6 +68,10 @@
             android:title="@string/settings_reset_all_data" >
         </Preference>
         <Preference
+            android:key="settings_changelog"
+            android:title="@string/settings_changelog" >
+        </Preference>
+        <Preference
             android:key="settings_about"
             android:title="@string/settings_about" >
         </Preference>

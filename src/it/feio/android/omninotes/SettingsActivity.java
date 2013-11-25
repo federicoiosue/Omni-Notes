@@ -2,6 +2,10 @@ package it.feio.android.omninotes;
 
 import java.io.File;
 import java.util.Locale;
+
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+
+import it.feio.android.omninotes.utils.ChangelogFragment;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.DbHelper;
 import it.feio.android.omninotes.utils.ImportExportExcel;
@@ -26,7 +30,7 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends SherlockPreferenceActivity {
 
 	public final static String KEEP_USER_DATA = "settings_keep_user_data";
 	public final static String ALLOW_GEOLOCATION = "settings_allow_geolocation";
@@ -120,6 +124,21 @@ public class SettingsActivity extends PreferenceActivity {
 
 				// show it
 				alertDialog.show();
+				return false;
+			}
+		});
+
+
+		// Changelog 
+		Preference changelog = findPreference("settings_changelog");
+		changelog.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
+				Intent changelogIntent = new Intent(activity, ChangelogActivity.class);
+				startActivity(changelogIntent);
+//				ChangelogFragment cf = new ChangelogFragment();
+//				cf.show(getFragmentManager(), Constants.TAG);
 				return false;
 			}
 		});

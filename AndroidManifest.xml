@@ -92,6 +92,13 @@
         <!-- Broadcast receiver -->
         <receiver android:name="it.feio.android.omninotes.receiver.AlarmReceiver" >
         </receiver>
+
+        <activity
+            android:name="it.feio.android.omninotes.ChangelogActivity"
+            android:label="@string/title_activity_changelog" 
+            android:theme="@style/Theme.Transparent" >
+            
+        </activity>
     </application>
 
 </manifest>

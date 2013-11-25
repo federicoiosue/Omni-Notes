@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog bulletedList="true">
+
+    <changelogversion versionName="3.2.1 - 3.2.2 - 3.2.3" changeDate="Nov 17,2013">
+		<changelogtext>Splashscreen added</changelogtext>
+		<changelogtext>Fixed layout for small phones</changelogtext>
+		<changelogtext>INFO section in settings</changelogtext>
+		<changelogtext>Removed Ads</changelogtext>
+    </changelogversion>
+    
+    <changelogversion versionName="3.2.1 - 3.2.2 - 3.2.3" changeDate="Nov 17,2013">
+		<changelogtext>Bugfixed and graphic adjustments</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="3.2.0" changeDate="Nov 15,2013">
+		<changelogtext>Spanish localization</changelogtext>
+		<changelogtext>Added animations</changelogtext>
+		<changelogtext>Notes list more cards-like</changelogtext>
+		<changelogtext>Fixed issues when searching</changelogtext>
+		<changelogtext>Performance improvements</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="3.1.0" changeDate="Nov 14,2013">
+            <changelogtext>Drastically reduced minimum Android version to 2.2</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="3.0.0" changeDate="Nov 13,2013">
+		<changelogtext>Out of closed BETA!</changelogtext>
+		<changelogtext>Totally rewritten to achieve compatibility with tablet format</changelogtext>
+		<changelogtext>Italian localization</changelogtext>
+		<changelogtext>Confirmation on batch deleting</changelogtext>
+		<changelogtext>Fix Whatsapp sharing</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="2.2.0" changeDate="Nov 11,2013">
+        <changelogtext>Note searching</changelogtext>
+		<changelogtext>New font Roboto Slab</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="2.1.0" changeDate="Nov 9,2013">
+		<changelogtext>New export and import functions using csv file</changelogtext>
+		<changelogtext>Settings revisited</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="2.0.0" changeDate="Nov 8,2013">
+		<changelogtext>New export and import functions using csv file</changelogtext>
+		<changelogtext>Settings revisited</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.1.0" changeDate="Nov 6,2013">
+            <changelogtext>Funzioni basilari come inserimento, cancellazione (anche di gruppo), ordinamento in diversi modi e condivisione delle note.</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="1.0.0" changeDate="Nov 6,2013">
+            <changelogtext>Initial commit</changelogtext>
+    </changelogversion>
+
+</changelog>
