@@ -45,6 +45,13 @@
         android:title="@string/delete"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_discard_changes"
+        android:icon="@drawable/ic_action_undo"
+        android:orderInCategory="450"
+        android:showAsAction="ifRoom"
+        android:title="@string/discard_changes"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_sort"
         android:icon="@drawable/ic_action_sort_by_size"
         android:orderInCategory="500"

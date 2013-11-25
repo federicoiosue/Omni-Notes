@@ -127,6 +127,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_delete).setVisible(true);
+		menu.findItem(R.id.menu_discard_changes).setVisible(true);
 
 		boolean archived = note.isArchived();
 		menu.findItem(R.id.menu_archive).setVisible(!archived);
@@ -173,6 +174,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 			break;
 		case R.id.menu_delete:
 			deleteNote();
+			break;
+		case R.id.menu_discard_changes:
+			goHome();
 			break;
 		}
 		return super.onOptionsItemSelected(item);

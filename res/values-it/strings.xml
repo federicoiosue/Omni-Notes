@@ -46,6 +46,7 @@
     <string name="tap_to_undo">Premi per annullare</string>
     <string name="alarm_set_on">Allarme impostato per il</string>
     <string name="at_time">alle</string>
+    <string name="discard_changes">Annulla modifiche</string>
 
     <!-- Settings -->
     <string name="settings">Impostazioni</string>

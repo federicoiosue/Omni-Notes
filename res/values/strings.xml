@@ -58,6 +58,7 @@
     <string name="tap_to_undo">Tap to undo</string>
     <string name="alarm_set_on">Alarm set on</string>
     <string name="at_time">at</string>
+    <string name="discard_changes">Discard changes</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

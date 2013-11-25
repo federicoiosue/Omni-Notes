@@ -46,6 +46,7 @@
     <string name="tap_to_undo">Clic para cancelar</string>
     <string name="alarm_set_on">Alarma establecido en el</string>
     <string name="at_time">a las</string>
+    <string name="discard_changes">Descartar los cambios</string>
 
     <!-- Settings -->
     <string name="settings">Configuración</string>
