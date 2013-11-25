@@ -5,7 +5,7 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.DateHelper;
+import it.feio.android.omninotes.utils.date.DateHelper;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

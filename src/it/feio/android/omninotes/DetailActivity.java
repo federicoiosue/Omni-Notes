@@ -2,7 +2,6 @@ package it.feio.android.omninotes;
 
 import java.util.Calendar;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -11,10 +10,10 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.DateHelper;
-import it.feio.android.omninotes.utils.DatePickerFragment;
-import it.feio.android.omninotes.utils.DbHelper;
-import it.feio.android.omninotes.utils.TimePickerFragment;
+import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DatePickerFragment;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.utils.date.TimePickerFragment;
 import it.feio.android.omninotes.R;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -23,23 +22,17 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextSwitcher;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.ViewSwitcher.ViewFactory;
 
 /**
  * An activity representing a single Item detail screen. This activity is only
@@ -54,7 +47,6 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 
 	private final int HEIGHT_FULLSCREEN_LIMIT = 350;
 	
-	private SherlockFragmentActivity mActivity;
 	private Note note;
 	private ImageView reminder, reminder_delete;
 	private TextView datetime;
@@ -65,8 +57,6 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
-		
-		mActivity = this;
 
 		if (getWindowManager().getDefaultDisplay().getHeight() < HEIGHT_FULLSCREEN_LIMIT) {
 			getWindow().setSoftInputMode(

@@ -3,7 +3,7 @@ package it.feio.android.omninotes;
 import java.io.File;
 import java.util.Locale;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.DbHelper;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.ImportExportExcel;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.R;
@@ -15,14 +15,9 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -33,6 +28,7 @@ public class SettingsActivity extends PreferenceActivity {
 	public final static String ALLOW_MOBILE_DATA = "settings_allow_mobile_data";
 	final Activity activity = this;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -1,6 +1,7 @@
-package it.feio.android.omninotes.utils;
+package it.feio.android.omninotes.utils.date;
 
 import it.feio.android.omninotes.DetailActivity;
+import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Calendar;
 
