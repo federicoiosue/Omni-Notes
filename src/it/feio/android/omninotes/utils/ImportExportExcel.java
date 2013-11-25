@@ -1,6 +1,7 @@
 package it.feio.android.omninotes.utils;
 
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 
 import java.io.BufferedReader;

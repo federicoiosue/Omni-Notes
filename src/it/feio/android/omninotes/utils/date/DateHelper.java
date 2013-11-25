@@ -1,4 +1,6 @@
-package it.feio.android.omninotes.utils;
+package it.feio.android.omninotes.utils.date;
+
+import it.feio.android.omninotes.utils.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

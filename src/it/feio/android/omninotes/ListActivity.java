@@ -17,7 +17,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.DbHelper;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.R;
 import android.os.Bundle;
 import android.annotation.SuppressLint;

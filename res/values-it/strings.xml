@@ -21,7 +21,7 @@
     <string name="undo">Annulla</string>
     <string name="undo_message">Annulla cancellazione</string>
     <string name="unarchive">Ripristina da archivio</string>
-    <string name="delete">Cancella</string>
+    <string name="delete">Cancella nota</string>
     <string name="timestamp">Orario</string>
     <string name="creation">Creata il</string>
     <string name="last_update">Aggiornata il</string>
@@ -46,6 +46,7 @@
     <string name="tap_to_undo">Premi per annullare</string>
     <string name="alarm_set_on">Allarme impostato per il</string>
     <string name="at_time">alle</string>
+    <string name="discard_changes">Annulla modifiche</string>
 
     <!-- Settings -->
     <string name="settings">Impostazioni</string>

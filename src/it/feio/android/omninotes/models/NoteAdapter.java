@@ -2,7 +2,7 @@ package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.DbHelper;
+import it.feio.android.omninotes.db.DbHelper;
 import java.util.HashMap;
 import java.util.List;
 import android.content.Context;
@@ -10,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;

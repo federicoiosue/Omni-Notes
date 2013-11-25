@@ -21,7 +21,7 @@
     <string name="undo">Cancelar</string>
     <string name="undo_message">Undelete</string>
     <string name="unarchive">Restaurar desde archivo</string>
-    <string name="delete">Borre</string>
+    <string name="delete">Borre nota</string>
     <string name="timestamp">Fecha</string>
     <string name="creation">Creado el</string>
     <string name="last_update">Actualizado el</string>
@@ -46,6 +46,7 @@
     <string name="tap_to_undo">Clic para cancelar</string>
     <string name="alarm_set_on">Alarma establecido en el</string>
     <string name="at_time">a las</string>
+    <string name="discard_changes">Descartar los cambios</string>
 
     <!-- Settings -->
     <string name="settings">Configuración</string>

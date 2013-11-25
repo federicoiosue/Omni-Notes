@@ -19,6 +19,17 @@
         <requestFocus />
     </com.neopixl.pixlui.components.edittext.EditText>
 
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="30dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -51,13 +62,12 @@
                 android:src="@drawable/ic_reminder_dark" />
 
             <com.neopixl.pixlui.components.textview.TextView
-            android:id="@+id/datetime"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textAppearance="@style/Text.Small"
-            pixlui:typeface="RobotoSlab-Thin.ttf" />
-
+                android:id="@+id/datetime"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textAppearance="@style/Text.Small"
+                pixlui:typeface="RobotoSlab-Thin.ttf" />
 
             <ImageView
                 android:id="@+id/reminder_delete"

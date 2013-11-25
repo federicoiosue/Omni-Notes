@@ -1,13 +1,17 @@
-package it.feio.android.omninotes.utils;
+package it.feio.android.omninotes.db;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.AssetUtils;
+import it.feio.android.omninotes.utils.Constants;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
@@ -17,10 +21,12 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	// Database name
 	private static final String DATABASE_NAME = "omni-notes";
-	// Database version
-	private static final int DATABASE_VERSION = 11;
+	// Database version aligned if possible to software version
+	private static final int DATABASE_VERSION = 400;
 	// Notes table name
 	private static final String TABLE_NAME = "notes";
+	// Sql query file directory
+    private static final String SQL_DIR = "sql" ;
 	// Notes table columns
 	private static final String KEY_ID = "id";
 	public static final String KEY_CREATION = "creation";
@@ -31,20 +37,11 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String KEY_ALARM = "alarm";
 	private static final String KEY_ATTACHMENT = "attachment"; // Actually not
 																// implemented
-	// Creation query
-	private static final String TABLE_CREATE = "CREATE TABLE " + TABLE_NAME
-			+ " (" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ KEY_CREATION + " LONG, " + KEY_LAST_MODIFICATION + " LONG, "
-			+ KEY_TITLE + " TEXT, " + KEY_CONTENT + " TEXT, " + KEY_ARCHIVED
-			+ " INTEGER," + KEY_ALARM + " LONG );";
+	// Queries    
+    private static final String CREATE_QUERY = "create.sql";
+    private static final String UPGRADE_QUERY_PREFIX = "upgrade-";    
+    private static final String UPGRADE_QUERY_SUFFIX = ".sql";
 
-	// public static LinkedHashMap<String, String> getSortableColumns() {
-	// LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-	// map.put("KEY_TITLE", KEY_TITLE);
-	// map.put("KEY_CREATION", KEY_CREATION);
-	// map.put("KEY_LAST_MODIFICATION", KEY_LAST_MODIFICATION);
-	// return map;
-	// }
 
 	private final Context ctx;
 
@@ -53,21 +50,52 @@ public class DbHelper extends SQLiteOpenHelper {
 		this.ctx = ctx;
 	}
 
+	
 	// Creating Tables
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(TABLE_CREATE);
+		try {
+            Log.i(Constants.TAG, "Database creation");
+            execSqlFile(CREATE_QUERY, db);
+        } catch( IOException exception ) {
+            throw new RuntimeException("Database creation failed", exception);
+        }
 	}
 
+	
 	// Upgrading database
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// Drop older table if existed
-		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-		// Create tables again
-		onCreate(db);
+        Log.i(Constants.TAG, "Upgrading database version from " + oldVersion + " to " + newVersion );
+        try {
+            for( String sqlFile : AssetUtils.list(SQL_DIR, ctx.getAssets())) {
+                if ( sqlFile.startsWith(UPGRADE_QUERY_PREFIX)) {
+                    int fileVersion = Integer.parseInt(sqlFile.substring(UPGRADE_QUERY_PREFIX.length(),  sqlFile.length() - UPGRADE_QUERY_SUFFIX.length())); 
+                    if ( fileVersion > oldVersion && fileVersion <= newVersion ) {
+                        execSqlFile( sqlFile, db );
+                    }
+                }
+            }
+            Log.i(Constants.TAG, "Database upgrade successful");
+        } catch( IOException exception ) {
+            throw new RuntimeException("Database upgrade failed", exception );
+        }
 	}
+	
+	
+	protected void execSqlFile(String sqlFile, SQLiteDatabase db ) throws SQLException, IOException {
+        Log.i(Constants.TAG, "  exec sql file: {}" + sqlFile );
+        for( String sqlInstruction : SqlParser.parseSqlFile( SQL_DIR + "/" + sqlFile, ctx.getAssets())) {
+        	Log.v(Constants.TAG, "    sql: {}" + sqlInstruction );
+        	try {
+        		db.execSQL(sqlInstruction);
+        	} catch (Exception e) {
+        		Log.e(Constants.TAG, "Error creating table: " + sqlInstruction);
+        	}
+        }
+    }
 
+	
 	// Inserting or updating single note
 	public long updateNote(Note note) {
 		long res;
@@ -132,7 +160,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 *            consideration or if all notes have to be retrieved
 	 * @return Notes list
 	 */
-	public List getAllNotes(boolean checkNavigation) {
+	public List<Note> getAllNotes(boolean checkNavigation) {
 		List<Note> noteList = new ArrayList<Note>();
 
 		// Getting sorting criteria from preferences
@@ -154,8 +182,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
-
-		// ctx.startManagingCursor(cursor);
 
 		// Looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
