@@ -12,11 +12,4 @@ public class ChangelogActivity extends Activity {
 		setContentView(R.layout.activity_changelog);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.changelog, menu);
-		return true;
-	}
-
 }
