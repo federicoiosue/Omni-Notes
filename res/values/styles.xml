@@ -19,13 +19,20 @@
         <item name="background">@drawable/abs__ab_transparent_light_holo</item>
     </style>
 
-    <style name="Theme.Transparent" parent="@android:style/Theme.Dialog">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/about_bg</item>
+<!--     <style name="Theme.Transparent" parent="@android:style/Theme.Dialog"> -->
+<!--         <item name="android:windowIsTranslucent">true</item> -->
+<!--         <item name="android:windowBackground">@color/about_bg</item> -->
+<!--         <item name="android:windowContentOverlay">@null</item> -->
+<!--         <item name="android:windowNoTitle">true</item> -->
+<!--         <item name="android:windowIsFloating">true</item> -->
+<!--         <item name="android:backgroundDimEnabled">false</item> -->
+<!--     </style> -->
+    <style name="Theme.Transparent" parent="@android:style/Theme.Dialog">        
+        <item name="android:windowBackground">@drawable/bg_card</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
     <style name="Text.Big" parent="android:attr/textAppearanceSmall">

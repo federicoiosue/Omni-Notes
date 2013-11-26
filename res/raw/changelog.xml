@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <changelogversion versionName="3.2.1 - 3.2.2 - 3.2.3" changeDate="Nov 17,2013">
+    <changelogversion versionName="3.2.4" changeDate="Nov 22,2013">
 		<changelogtext>Splashscreen added</changelogtext>
 		<changelogtext>Fixed layout for small phones</changelogtext>
 		<changelogtext>INFO section in settings</changelogtext>
 		<changelogtext>Removed Ads</changelogtext>
     </changelogversion>
     
-    <changelogversion versionName="3.2.1 - 3.2.2 - 3.2.3" changeDate="Nov 17,2013">
+    <changelogversion versionName="3.2.3" changeDate="Nov 18,2013">
+		<changelogtext>Bugfixes</changelogtext>
+    </changelogversion>
+    
+    <changelogversion versionName="3.2.1 - 3.2.2" changeDate="Nov 17,2013">
 		<changelogtext>Bugfixed and graphic adjustments</changelogtext>
     </changelogversion>
 
@@ -48,7 +52,7 @@
     </changelogversion>
 
     <changelogversion versionName="1.1.0" changeDate="Nov 6,2013">
-            <changelogtext>Funzioni basilari come inserimento, cancellazione (anche di gruppo), ordinamento in diversi modi e condivisione delle note.</changelogtext>
+            <changelogtext>Basical functions available: inserting, deleting (batch mode too), sorting with various criteria and notes sharing</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="1.0.0" changeDate="Nov 6,2013">

@@ -70,18 +70,28 @@
         <!-- Settings -->
         <activity
             android:name="it.feio.android.omninotes.SettingsActivity"
-            android:label="@string/settings" >
+            android:label="@string/settings"
+            android:parentActivityName=".ListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
+        </activity>
+
+        <!-- Changelog -->
+        <activity
+            android:name="it.feio.android.omninotes.ChangelogActivity"
+            android:label="@string/settings_changelog"
+            android:parentActivityName=".SettingsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SettingsActivity" />
         </activity>
 
         <!-- About -->
         <activity
             android:name="it.feio.android.omninotes.AboutActivity"
             android:label="@string/title_activity_about"
-            android:parentActivityName=".ItemListActivity"
             android:theme="@style/Theme.Transparent" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
         </activity>
 
         <!-- AdMob -->
@@ -92,13 +102,6 @@
         <!-- Broadcast receiver -->
         <receiver android:name="it.feio.android.omninotes.receiver.AlarmReceiver" >
         </receiver>
-
-        <activity
-            android:name="it.feio.android.omninotes.ChangelogActivity"
-            android:label="@string/title_activity_changelog" 
-            android:theme="@style/Theme.Transparent" >
-            
-        </activity>
     </application>
 
 </manifest>
