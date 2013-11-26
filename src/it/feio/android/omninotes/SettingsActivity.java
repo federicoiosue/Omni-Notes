@@ -5,7 +5,6 @@ import java.util.Locale;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 
-import it.feio.android.omninotes.utils.ChangelogFragment;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.ImportExportExcel;

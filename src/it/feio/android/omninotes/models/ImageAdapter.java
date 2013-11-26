@@ -1,6 +1,9 @@
 package it.feio.android.omninotes.models;
 
-import java.util.ArrayList;
+import it.feio.android.omninotes.utils.BitmapDecoder;
+
+import java.io.FileNotFoundException;
+import java.util.List;
 
 import android.content.Context;
 import android.net.Uri;
@@ -22,21 +25,15 @@ public class ImageAdapter extends BaseAdapter {
 //			R.drawable.sample_0, R.drawable.sample_1, R.drawable.sample_2,
 //			R.drawable.sample_3, R.drawable.sample_4, R.drawable.sample_5,
 //			R.drawable.sample_6, R.drawable.sample_7 };
-	private String[] urls = { R.drawable.sample_2, R.drawable.sample_3,
-			R.drawable.sample_4, R.drawable.sample_5, R.drawable.sample_6,
-			R.drawable.sample_7, R.drawable.sample_0, R.drawable.sample_1,
-			R.drawable.sample_2, R.drawable.sample_3, R.drawable.sample_4,
-			R.drawable.sample_5, R.drawable.sample_6, R.drawable.sample_7,
-			R.drawable.sample_0, R.drawable.sample_1, R.drawable.sample_2,
-			R.drawable.sample_3, R.drawable.sample_4, R.drawable.sample_5,
-			R.drawable.sample_6, R.drawable.sample_7 };
+	private List<Uri> imageList;
 
-	public ImageAdapter(Context mContext, ArrayList<Uri>) {
+	public ImageAdapter(Context mContext, List<Uri> imageList) {
 		this.mContext = mContext;
+		this.imageList = imageList;
 	}
 
 	public int getCount() {
-		return urls.length;
+		return imageList.size();
 	}
 
 	public Object getItem(int position) {
@@ -61,7 +58,12 @@ public class ImageAdapter extends BaseAdapter {
 		}
 
 //		imageView.setImageResource(mThumbIds[position]);
-		imageView.setImageBitmap(bm)(mThumbIds[position]);
+		try {
+			imageView.setImageBitmap(BitmapDecoder.decodeSampledFromUri(mContext, imageList.get(position), 50, 50));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return imageView;
 	}
 }

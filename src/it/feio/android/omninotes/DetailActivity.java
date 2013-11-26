@@ -23,6 +23,7 @@ import it.feio.android.omninotes.utils.date.DatePickerFragment;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.date.TimePickerFragment;
 import it.feio.android.omninotes.R;
+import android.R.anim;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -79,7 +80,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	private int photoQuality;
 	private ImageAdapter mImageAdapter;
 	private GridView mGridView;
-	private List<Uri> imageUris = new ArrayList<Uri>();
+	private List<Uri> imageList = new ArrayList<Uri>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +107,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 
 	private void initViews() {
 		
-		mImageAdapter = new ImageAdapter(mActivity, imageUris);
+//		mImageAdapter = new ImageAdapter(mActivity, imageUris);
 		mGridView = (GridView) findViewById(R.id.gridview);
-	    mGridView.setAdapter(new ImageAdapter(this));
+	    mGridView.setAdapter(new ImageAdapter(this, imageList));
 
 	    mGridView.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -232,9 +233,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		View layout = inflater.inflate(R.layout.attachment_dialog,
 				(ViewGroup) findViewById(R.id.layout_root));
 		attachmentDialogBuilder.setView(layout);
-		TextView cameraSelection = (TextView) layout.findViewById(R.id.camera);
+		android.widget.TextView cameraSelection = (android.widget.TextView) layout.findViewById(R.id.camera);
 		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
-		TextView gallerySelection = (TextView) layout.findViewById(R.id.gallery);
+		android.widget.TextView gallerySelection = (android.widget.TextView) layout.findViewById(R.id.gallery);
 		gallerySelection.setOnClickListener(new AttachmentOnClickListener());
 		attachmentDialogBuilder.show();
 	}
