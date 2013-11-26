@@ -9,6 +9,8 @@ public interface Constants {
 	static int SPLASH_TIME_OUT = 1400;
 
 	final String DEV_EMAIL = "federico.iosue@gmail.com";
+	
+	final int THUMBNAIL_SIZE = 300;  
 
 	final String DATE_SEPARATOR = "/";
 	final String TIME_SEPARATOR = ":";

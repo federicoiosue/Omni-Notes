@@ -41,11 +41,13 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -81,6 +83,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	private ImageAdapter mImageAdapter;
 	private GridView mGridView;
 	private List<Uri> imageList = new ArrayList<Uri>();
+	private AlertDialog attachmentDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,15 +110,42 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 
 	private void initViews() {
 		
-//		mImageAdapter = new ImageAdapter(mActivity, imageUris);
+		// Initialzation of gridview for images
+		mImageAdapter = new ImageAdapter(mActivity, imageList);
 		mGridView = (GridView) findViewById(R.id.gridview);
-	    mGridView.setAdapter(new ImageAdapter(this, imageList));
-
+	    mGridView.setAdapter(mImageAdapter);
+	    // Click events for images in gridview (zooms image)
 	    mGridView.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 	            Toast.makeText(mActivity, "" + position, Toast.LENGTH_SHORT).show();
 	        }
 	    });
+	    // Long click events for images in gridview	(removes image)
+	    mGridView.setOnItemLongClickListener(new OnItemLongClickListener() {			
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View v, final int position, long id) {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+				alertDialogBuilder.setMessage(R.string.confirm_image_deletion).setCancelable(false)
+						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								imageList.remove(position);
+								mImageAdapter.notifyDataSetChanged();
+							}
+						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
+//				imgSrcDialog.dismiss();
+				return false;
+			}
+		});
 		
 		reminder = (ImageView) findViewById(R.id.reminder);
 		reminder.setOnClickListener(new OnClickListener() {
@@ -214,8 +244,8 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		case R.id.menu_unarchive:
 			saveNote(false);
 			break;
-		case R.id.menu_attachment:
-			showAttachmentDialog();
+		case R.id.menu_attachment:			
+			this.attachmentDialog = showAttachmentDialog(); 
 			break;
 		case R.id.menu_delete:
 			deleteNote();
@@ -227,17 +257,17 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void showAttachmentDialog() {
-		AlertDialog.Builder attachmentDialogBuilder = new AlertDialog.Builder(this);
+	private AlertDialog showAttachmentDialog() {
+		AlertDialog.Builder attachmentDialog = new AlertDialog.Builder(this);
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.attachment_dialog,
 				(ViewGroup) findViewById(R.id.layout_root));
-		attachmentDialogBuilder.setView(layout);
+		attachmentDialog.setView(layout);
 		android.widget.TextView cameraSelection = (android.widget.TextView) layout.findViewById(R.id.camera);
 		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
 		android.widget.TextView gallerySelection = (android.widget.TextView) layout.findViewById(R.id.gallery);
 		gallerySelection.setOnClickListener(new AttachmentOnClickListener());
-		attachmentDialogBuilder.show();
+		return attachmentDialog.show();
 	}
 	
 	
@@ -257,7 +287,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 				startActivityForResult(intent, TAKE_PHOTO);
-//				imgSrcDialog.dismiss();
+				attachmentDialog.dismiss();
 				break;
 			case R.id.gallery:
 				Intent galleryIntent = new Intent();
@@ -265,7 +295,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 				galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
 				galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
 				startActivityForResult(galleryIntent, GALLERY);
-//				imgSrcDialog.dismiss();
+				attachmentDialog.dismiss();
 				break;
 			}
 
@@ -290,9 +320,10 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 //					} catch (FileNotFoundException e) {
 //						e.printStackTrace();
 //					}
+					imageList.add(imageUri);
+					mImageAdapter.notifyDataSetChanged();
 					break;
 				case GALLERY:
-					try {
 //						if (bitmap != null) {
 //							bitmap.recycle();
 //						}
@@ -302,15 +333,8 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 //						imageChanged = true;
 //					} catch (FileNotFoundException e) {
 //						Log.e(Constants.TAG, "Errore foto galleria");
-					} finally {
-						if (stream != null) {
-							try {
-								stream.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						}
-					}
+					imageList.add(intent.getData());
+					mImageAdapter.notifyDataSetChanged();
 					break;
 			}
 		}

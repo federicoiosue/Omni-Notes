@@ -1,12 +1,14 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.utils.BitmapDecoder;
+import it.feio.android.omninotes.utils.Constants;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,16 +17,6 @@ import android.widget.ImageView;
 
 public class ImageAdapter extends BaseAdapter {
 	private Context mContext;
-
-	// references to our images
-//	private Integer[] mThumbIds = { R.drawable.sample_2, R.drawable.sample_3,
-//			R.drawable.sample_4, R.drawable.sample_5, R.drawable.sample_6,
-//			R.drawable.sample_7, R.drawable.sample_0, R.drawable.sample_1,
-//			R.drawable.sample_2, R.drawable.sample_3, R.drawable.sample_4,
-//			R.drawable.sample_5, R.drawable.sample_6, R.drawable.sample_7,
-//			R.drawable.sample_0, R.drawable.sample_1, R.drawable.sample_2,
-//			R.drawable.sample_3, R.drawable.sample_4, R.drawable.sample_5,
-//			R.drawable.sample_6, R.drawable.sample_7 };
 	private List<Uri> imageList;
 
 	public ImageAdapter(Context mContext, List<Uri> imageList) {
@@ -59,10 +51,9 @@ public class ImageAdapter extends BaseAdapter {
 
 //		imageView.setImageResource(mThumbIds[position]);
 		try {
-			imageView.setImageBitmap(BitmapDecoder.decodeSampledFromUri(mContext, imageList.get(position), 50, 50));
+			imageView.setImageBitmap(BitmapDecoder.decodeSampledFromUri(mContext, imageList.get(position), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(Constants.TAG, "Image not found");
 		}
 		return imageView;
 	}

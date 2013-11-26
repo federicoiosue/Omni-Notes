@@ -62,6 +62,8 @@
     <string name="attachment">Attachment</string>
     <string name="camera">Camera</string>
     <string name="galery">Gallery</string>
+    <string name="confirm_image_deletion">Confirm image deletion</string>
+    <string name="galery">Gallery</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
