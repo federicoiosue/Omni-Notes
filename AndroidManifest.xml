@@ -62,7 +62,7 @@
             android:name="it.feio.android.omninotes.DetailActivity"
             android:label="@string/title_item_detail"
             android:parentActivityName=".ListActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan" >
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListActivity" />

@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 public class ImageAdapter extends BaseAdapter {
@@ -28,8 +27,8 @@ public class ImageAdapter extends BaseAdapter {
 		return imageList.size();
 	}
 
-	public Object getItem(int position) {
-		return null;
+	public Uri getItem(int position) {
+		return imageList.get(position);
 	}
 
 	public long getItemId(int position) {
@@ -42,14 +41,12 @@ public class ImageAdapter extends BaseAdapter {
 		if (convertView == null) { // if it's not recycled, initialize some
 									// attributes
 			imageView = new ImageView(mContext);
-			imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+//			imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			imageView.setPadding(8, 8, 8, 8);
 		} else {
 			imageView = (ImageView) convertView;
 		}
 
-//		imageView.setImageResource(mThumbIds[position]);
 		try {
 			imageView.setImageBitmap(BitmapDecoder.decodeSampledFromUri(mContext, imageList.get(position), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 		} catch (FileNotFoundException e) {

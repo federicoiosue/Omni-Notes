@@ -1,8 +1,6 @@
 package it.feio.android.omninotes;
 
 import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -16,18 +14,15 @@ import it.feio.android.omninotes.models.ImageAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
-import it.feio.android.omninotes.utils.BitmapDecoder;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.DatePickerFragment;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.date.TimePickerFragment;
 import it.feio.android.omninotes.R;
-import android.R.anim;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -41,7 +36,6 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
@@ -66,7 +60,6 @@ import android.widget.Toast;
 public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		OnTimeSetListener {
 
-	private final int HEIGHT_FULLSCREEN_LIMIT = 350;
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
 	
@@ -91,11 +84,6 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		setContentView(R.layout.activity_detail);
 		
 		mActivity = this;
-
-		if (getWindowManager().getDefaultDisplay().getHeight() < HEIGHT_FULLSCREEN_LIMIT) {
-			getWindow().setSoftInputMode(
-					WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-		}
 
 		// Show the Up button in the action bar.
 		if (getSupportActionBar() != null)
@@ -187,10 +175,15 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 			((TextView) findViewById(R.id.last_modification))
 					.append(getString(R.string.last_update) + " "
 							+ note.getLastModificationShort());
-			if (note.getAlarm() != null){				
-				datetime.setText(initAlarm( Long.parseLong(note.getAlarm()) ));
+			if (note.getAlarm() != null) {
+				datetime.setText(initAlarm(Long.parseLong(note.getAlarm())));
 				reminder_delete.setVisibility(View.VISIBLE);
 			}
+
+			// If a new note is being edited the keyboard will not be shown on activity start
+//			getWindow().setSoftInputMode(
+//					WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
 		}
 	}
 
