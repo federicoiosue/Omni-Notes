@@ -104,7 +104,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	    // Click events for images in gridview (zooms image)
 	    mGridView.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-	            Toast.makeText(mActivity, "" + position, Toast.LENGTH_SHORT).show();
+	        	Uri uri = ((Attachment)parent.getAdapter().getItem(position)).getUri();
+	            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+	            startActivity(intent);
 	        }
 	    });
 	    // Long click events for images in gridview	(removes image)
