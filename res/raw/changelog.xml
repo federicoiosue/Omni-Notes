@@ -20,6 +20,7 @@
 		<changelogtext>[b]New! [/b]Attachments to notes using camera or gallery images</changelogtext>
 		<changelogtext>[b]New! [/b]A remainder can be set to receive notes notifications</changelogtext>
 		<changelogtext>[b]New! [/b]Added changelog screen in preferences</changelogtext>
+		<changelogtext>[b]New! [/b]Removed language choosing from preferences, system locale will be used automatically instead</changelogtext>
 		<changelogtext>Lot of bugs fixes and improvements</changelogtext>
     </changelogversion>
 
