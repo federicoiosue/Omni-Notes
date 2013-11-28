@@ -15,7 +15,6 @@ import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnim
 import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
-import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.R;
@@ -450,7 +449,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		}
 
 		Intent detailIntent = new Intent(this, DetailActivity.class);
-		detailIntent.putExtra(Constants.INTENT_NOTE, new ParcelableNote(note));
+		detailIntent.putExtra(Constants.INTENT_NOTE, note);
 		startActivity(detailIntent);
 		if (prefs.getBoolean("settings_enable_animations", true)) {
 			overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);

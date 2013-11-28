@@ -1,6 +1,5 @@
 package it.feio.android.omninotes;
 
-import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -13,7 +12,6 @@ import com.neopixl.pixlui.components.textview.TextView;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
@@ -39,7 +37,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -73,8 +70,6 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	private long alarmDateTime = -1;
 	private String alarmDate, alarmTime;
 	public Uri imageUri;
-	private Object bitmap;
-	private int photoQuality;
 	private AttachmentAdapter mAttachmentAdapter;
 	private GridView mGridView;
 	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
@@ -163,9 +158,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	}
 
 	private void initNote() {
-		ParcelableNote parcelableNote = (ParcelableNote) getIntent()
-				.getParcelableExtra(Constants.INTENT_NOTE);
-		note = parcelableNote.getNote();
+		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);
 
 		if (note.get_id() != 0) {
 			((EditText) findViewById(R.id.title)).setText(note.getTitle());
@@ -182,14 +175,15 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 			}
 			
 			// Retrieve attachments
-			DbHelper db = new DbHelper(getApplicationContext());
-			attachmentsList = db.getNoteAttachments(note);
+//			DbHelper db = new DbHelper(getApplicationContext());
+//			attachmentsList = db.getNoteAttachments(note);
 
 			// If a new note is being edited the keyboard will not be shown on activity start
 //			getWindow().setSoftInputMode(
 //					WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		}
-		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);
+		mAttachmentAdapter = new AttachmentAdapter(mActivity, note.getAttachmentsList());
+//		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);
 	}
 
 	@Override
@@ -307,9 +301,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
 		// Fetch uri from activities, store into adapter and refresh adapter
-		BufferedInputStream stream = null;
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 				case TAKE_PHOTO:
@@ -440,7 +432,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	
 	private void setAlarm() {
 		Intent intent = new Intent(this, AlarmReceiver.class);
-		intent.putExtra(Constants.INTENT_NOTE, new ParcelableNote(note));
+		intent.putExtra(Constants.INTENT_NOTE, note);
 		PendingIntent sender = PendingIntent.getBroadcast(this, Constants.INTENT_ALARM_CODE, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 		AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);

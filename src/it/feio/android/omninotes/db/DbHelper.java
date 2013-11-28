@@ -172,6 +172,10 @@ public class DbHelper extends SQLiteOpenHelper {
 		Note note = new Note(Integer.parseInt(cursor.getString(0)),
 				cursor.getLong(1), cursor.getLong(2), cursor.getString(3),
 				cursor.getString(4), cursor.getInt(5), cursor.getString(6));
+		
+		// Add eventual attachments uri
+		note.setAttachmentsList(getNoteAttachments(note));
+		
 		db.close();
 		return note;
 	}
@@ -217,7 +221,9 @@ public class DbHelper extends SQLiteOpenHelper {
 				note.setTitle(cursor.getString(3));
 				note.setContent(cursor.getString(4));
 				note.setArchived("1".equals(cursor.getString(5)));
-				note.setAlarm(cursor.getString(6));
+				note.setAlarm(cursor.getString(6));				
+				// Add eventual attachments uri
+				note.setAttachmentsList(getNoteAttachments(note));
 				// Adding note to list
 				noteList.add(note);
 			} while (cursor.moveToNext());
@@ -322,8 +328,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				attachmentsList.add(new Attachment(Integer.valueOf(cursor.getInt(0)), Uri.parse(cursor.getString(1))));
 			} while (cursor.moveToNext());
 		}
-		return attachmentsList;
-		
+		return attachmentsList;		
 	}
 
 	// private class UpdateNoteAsync extends AsyncTask<Note, Void, Long> {

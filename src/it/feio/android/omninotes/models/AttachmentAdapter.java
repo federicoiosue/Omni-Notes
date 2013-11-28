@@ -4,6 +4,7 @@ import it.feio.android.omninotes.utils.BitmapDecoder;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -15,7 +16,7 @@ import android.widget.ImageView;
 
 public class AttachmentAdapter extends BaseAdapter {
 	private Context mContext;
-	private List<Attachment> attachmentsList;
+	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
 
 	public AttachmentAdapter(Context mContext, List<Attachment> attachmentsList) {
 		this.mContext = mContext;

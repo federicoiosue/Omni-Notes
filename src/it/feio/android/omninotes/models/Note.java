@@ -2,15 +2,14 @@ package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.utils.Constants;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import android.net.Uri;
 
-
-public class Note {
+public class Note implements Parcelable {
 
 	private int _id;
 	private String title;
@@ -19,7 +18,7 @@ public class Note {
 	private Long lastModification;
 	private Boolean archived;
 	private String alarm;
-	private List<Attachment> attachmentsList;
+	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
 
 
 	public Note() {
@@ -71,6 +70,17 @@ public class Note {
 		this.lastModification = lastModification;
 		this.archived = archived == 1 ? true : false;
 		this.alarm = alarm;
+	}
+
+	private Note(Parcel in) {
+		set_id(in.readInt());
+		setCreation(in.readString());
+		setLastModification(in.readString());
+		setTitle(in.readString());
+		setContent(in.readString());
+		setArchived(in.readInt());
+		setAlarm(in.readString());
+		in.readList(attachmentsList, Attachment.class.getClassLoader());
 	}
 
 
@@ -186,4 +196,39 @@ public class Note {
 	public String toString(){
 		return getTitle();
 	}
+
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+
+	@Override
+	public void writeToParcel(Parcel parcel, int flags) {
+		parcel.writeInt(get_id());
+		parcel.writeString(String.valueOf(getCreation()));
+		parcel.writeString(String.valueOf(getLastModification()));
+		parcel.writeString(getTitle());
+		parcel.writeString(getContent());
+		parcel.writeInt(isArchived() ? 1 : 0);
+		parcel.writeString(getAlarm());
+		parcel.writeList(getAttachmentsList());
+	}
+
+	/*
+	 * Parcelable interface must also have a static field called CREATOR, which
+	 * is an object implementing the Parcelable.Creator interface. Used to
+	 * un-marshal or de-serialize object from Parcel.
+	 */
+	public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<Note>() {
+
+		public Note createFromParcel(Parcel in) {
+			return new Note(in);
+		}
+
+		public Note[] newArray(int size) {
+			return new Note[size];
+		}
+	};
 }

@@ -3,7 +3,6 @@ package it.feio.android.omninotes.receiver;
 import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
 
@@ -34,9 +33,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			wl.acquire();
 
 			// You can do the processing here update the widget/remote views.
-			Bundle extras = intent.getExtras();
-			Note note = ((ParcelableNote) extras
-					.getParcelable(Constants.INTENT_NOTE)).getNote();
+			Note note = (Note) intent.getExtras().getParcelable(Constants.INTENT_NOTE);
 
 			createNotification(ctx, note);
 
@@ -83,7 +80,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		Bundle bundle = new Bundle();
 
 		// Add the parameters to bundle as
-		bundle.putParcelable(Constants.INTENT_NOTE, new ParcelableNote(note));
+		bundle.putParcelable(Constants.INTENT_NOTE, note);
 		// Add this bundle to the intent
 		intent.putExtras(bundle);
 		// Sets the Activity to start in a new, empty task
