@@ -54,13 +54,18 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 		content.setText(contentText);
 
-		// Evaluates the archived state and the presence of ana alarm
+		// Evaluates the archived state...
 		ImageView archiveIcon = (ImageView)rowView.findViewById(R.id.archivedIcon);
 		int archiveIconVisibility = values.get(position).isArchived() ? View.VISIBLE : View.INVISIBLE;
 		archiveIcon.setVisibility(archiveIconVisibility);
+		// ... the presence of an alarm
 		ImageView alarmIcon = (ImageView)rowView.findViewById(R.id.alarmIcon);
 		int alarmIconVisibility = values.get(position).getAlarm() != null ? View.VISIBLE : View.INVISIBLE;
 		alarmIcon.setVisibility(alarmIconVisibility);
+		// ... or attachments to show relative icon indicators	
+		ImageView attachmentIcon = (ImageView)rowView.findViewById(R.id.attachmentIcon);
+		int attachmentIconVisibility = values.get(position).getAttachmentsList().size() > 0 ? View.VISIBLE : View.INVISIBLE;
+		attachmentIcon.setVisibility(attachmentIconVisibility);
 		
 		// Choosing if it must be shown creation date or last modification depending on sorting criteria
 		String sort_column = PreferenceManager.getDefaultSharedPreferences(context).getString(

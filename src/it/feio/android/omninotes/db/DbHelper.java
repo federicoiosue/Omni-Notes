@@ -304,6 +304,10 @@ public class DbHelper extends SQLiteOpenHelper {
 				note.setContent(cursor.getString(4));
 				note.setArchived("1".equals(cursor.getString(5)));
 				note.setAlarm(cursor.getString(6));
+				
+				// Add eventual attachments uri
+				note.setAttachmentsList(getNoteAttachments(note));
+				
 				// Adding note to list
 				noteList.add(note);
 			} while (cursor.moveToNext());

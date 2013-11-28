@@ -38,6 +38,14 @@
             android:layout_gravity="right|top"
             android:src="@drawable/ic_archive_dark"
             android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/attachmentIcon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="right|top"
+            android:src="@drawable/ic_action_attachment"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout

@@ -67,8 +67,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	private Note note;
 	private ImageView reminder, reminder_delete;
 	private TextView datetime;
+	private String dateTimeText = "";
 	private long alarmDateTime = -1;
-	private String alarmDate, alarmTime;
+	private String alarmDate = "", alarmTime = "";
 	public Uri imageUri;
 	private AttachmentAdapter mAttachmentAdapter;
 	private GridView mGridView;
@@ -135,8 +136,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		reminder.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// Timepicker will be automatically called after date is
-				// inserted by user
+				// Timepicker will be automatically called after date is inserted by user
 				showTimePickerDialog(v);
 				showDatePickerDialog(v);
 			}
@@ -153,8 +153,12 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 				reminder_delete.setVisibility(View.INVISIBLE);
 			}
 		});
+		// Checks if an alarm is set to show deletion icon
+		if (dateTimeText.length() > 0)
+			reminder_delete.setVisibility(View.VISIBLE);
 		
 		datetime = (TextView) findViewById(R.id.datetime);
+		datetime.setText(dateTimeText);
 	}
 
 	private void initNote() {
@@ -170,20 +174,14 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 					.append(getString(R.string.last_update) + " "
 							+ note.getLastModificationShort());
 			if (note.getAlarm() != null) {
-				datetime.setText(initAlarm(Long.parseLong(note.getAlarm())));
-				reminder_delete.setVisibility(View.VISIBLE);
+				dateTimeText = initAlarm(Long.parseLong(note.getAlarm()));
 			}
 			
-			// Retrieve attachments
-//			DbHelper db = new DbHelper(getApplicationContext());
-//			attachmentsList = db.getNoteAttachments(note);
-
 			// If a new note is being edited the keyboard will not be shown on activity start
 //			getWindow().setSoftInputMode(
 //					WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		}
 		mAttachmentAdapter = new AttachmentAdapter(mActivity, note.getAttachmentsList());
-//		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);
 	}
 
 	@Override
