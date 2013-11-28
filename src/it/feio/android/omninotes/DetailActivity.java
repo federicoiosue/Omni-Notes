@@ -406,13 +406,19 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		}
 
 		// Logging operation
-		Log.d(Constants.TAG, "Saving new note titled: " + title
-				+ " (archive var: " + archive + ")");
+		Log.d(Constants.TAG, "Saving new note titled: " + title + " (archive var: " + archive + ")");
 
 		note.set_id(note.get_id());
 		note.setTitle(title);
 		note.setContent(content);
 		note.setArchived(archive != null ? archive : note.isArchived());
+		// Saves reminder and set  AlarmManager
+		if (alarmDateTime != -1) {
+			if (!String.valueOf(alarmDateTime).equals(note.getAlarm())) {
+				setAlarm();
+			}
+			note.setAlarm(String.valueOf(alarmDateTime));		
+		}
 		note.setAlarm(alarmDateTime != -1 ? String.valueOf(alarmDateTime): null);
 		note.setAttachmentsList(attachmentsList);
 
@@ -420,10 +426,6 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		DbHelper db = new DbHelper(this);
 		db.updateNote(note);
 		
-		// Save alarm
-		if (alarmDateTime != -1)
-			setAlarm();
-
 		// Logs update
 		Log.d(Constants.TAG, "New note saved with title '" + note.getTitle()
 				+ "'");
@@ -441,9 +443,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		PendingIntent sender = PendingIntent.getBroadcast(this, Constants.INTENT_ALARM_CODE, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 		AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-		am.set(AlarmManager.RTC_WAKEUP, alarmDateTime, sender);
-		
+		am.set(AlarmManager.RTC_WAKEUP, alarmDateTime, sender);		
 	}
+	
 
 	private void shareNote() {
 		// Changed fields
