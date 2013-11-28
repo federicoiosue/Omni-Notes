@@ -185,7 +185,8 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 //			getWindow().setSoftInputMode(
 //					WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		}
-		mAttachmentAdapter = new AttachmentAdapter(mActivity, note.getAttachmentsList());
+		attachmentsList = note.getAttachmentsList();
+		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);
 	}
 
 	@Override
