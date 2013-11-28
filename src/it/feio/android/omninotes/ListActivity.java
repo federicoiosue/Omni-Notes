@@ -59,7 +59,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		setContentView(R.layout.activity_list);
 		
 		// Checks selected locale or default one
-		checkLocale();
+//		checkLocale();
 
 		initNavigationDrawer();
 		initListView();

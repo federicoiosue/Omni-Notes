@@ -189,22 +189,22 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 		});
 		
 		// Languages 
-		Preference lang = findPreference("settings_language");
-		lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object value) {
-				Locale locale = new Locale(value.toString());
-				Configuration config = new Configuration();
-				config.locale = locale;
-				getBaseContext().getResources().updateConfiguration(config,
-						getBaseContext().getResources().getDisplayMetrics());
-				PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_language", value.toString()).commit();
-				finish();
-				startActivity(new Intent(getApplicationContext(), ListActivity.class));
-				return false;
-			}
-		});
+//		Preference lang = findPreference("settings_language");
+//		lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+//			
+//			@Override
+//			public boolean onPreferenceChange(Preference preference, Object value) {
+//				Locale locale = new Locale(value.toString());
+//				Configuration config = new Configuration();
+//				config.locale = locale;
+//				getBaseContext().getResources().updateConfiguration(config,
+//						getBaseContext().getResources().getDisplayMetrics());
+//				PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_language", value.toString()).commit();
+//				finish();
+//				startActivity(new Intent(getApplicationContext(), ListActivity.class));
+//				return false;
+//			}
+//		});
 
 	}
 }

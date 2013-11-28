@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
+    <changelogversion versionName="3.9.0beta" changeDate="Nov 28,2013">
+		<changelogtext>[b]New! [/b]Attachments to notes using camera or gallery images</changelogtext>
+		<changelogtext>[b]New! [/b]A remainder can be set to receive notes notifications</changelogtext>
+		<changelogtext>[b]New! [/b]Added changelog screen in preferences</changelogtext>
+		<changelogtext>Lot of bugs fixes and improvements</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="3.2.4" changeDate="Nov 22,2013">
-		<changelogtext>Splashscreen added</changelogtext>
+		<changelogtext>[b]New! [/b]Splashscreen added</changelogtext>
+		<changelogtext>[b]New! [/b]Totally removed Ads</changelogtext>
 		<changelogtext>Fixed layout for small phones</changelogtext>
 		<changelogtext>INFO section in settings</changelogtext>
-		<changelogtext>Removed Ads</changelogtext>
     </changelogversion>
     
     <changelogversion versionName="3.2.3" changeDate="Nov 18,2013">
@@ -17,8 +24,8 @@
     </changelogversion>
 
     <changelogversion versionName="3.2.0" changeDate="Nov 15,2013">
-		<changelogtext>Spanish localization</changelogtext>
-		<changelogtext>Added animations</changelogtext>
+		<changelogtext>[b]New! [/b]Spanish localization</changelogtext>
+		<changelogtext>[b]New! [/b]Added animations</changelogtext>
 		<changelogtext>Notes list more cards-like</changelogtext>
 		<changelogtext>Fixed issues when searching</changelogtext>
 		<changelogtext>Performance improvements</changelogtext>
@@ -30,15 +37,15 @@
 
     <changelogversion versionName="3.0.0" changeDate="Nov 13,2013">
 		<changelogtext>Out of closed BETA!</changelogtext>
+		<changelogtext>[b]New! [/b]Italian localization</changelogtext>
+		<changelogtext>[b]New! [/b]Confirmation on batch deleting</changelogtext>
 		<changelogtext>Totally rewritten to achieve compatibility with tablet format</changelogtext>
-		<changelogtext>Italian localization</changelogtext>
-		<changelogtext>Confirmation on batch deleting</changelogtext>
 		<changelogtext>Fix Whatsapp sharing</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="2.2.0" changeDate="Nov 11,2013">
-        <changelogtext>Note searching</changelogtext>
-		<changelogtext>New font Roboto Slab</changelogtext>
+        <changelogtext>[b]New! [/b]Note searching</changelogtext>
+		<changelogtext>[b]New! [/b]New font Roboto Slab</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="2.1.0" changeDate="Nov 9,2013">

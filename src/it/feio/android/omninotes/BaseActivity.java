@@ -97,14 +97,14 @@ public class BaseActivity extends SherlockFragmentActivity {
 	/**
 	 * Set custom locale on application start
 	 */
-	protected void checkLocale(){
-		String languageToLoad = prefs.getString("settings_language", Locale.getDefault().getCountry());		
-		Locale locale = new Locale(languageToLoad);
-		Locale.setDefault(locale);
-		Configuration config = new Configuration();
-		config.locale = locale;
-		getBaseContext().getResources().updateConfiguration(config,
-				getBaseContext().getResources().getDisplayMetrics());
-	}
+//	protected void checkLocale(){
+//		String languageToLoad = prefs.getString("settings_language", Locale.getDefault().getCountry());		
+//		Locale locale = new Locale(languageToLoad);
+//		Locale.setDefault(locale);
+//		Configuration config = new Configuration();
+//		config.locale = locale;
+//		getBaseContext().getResources().updateConfiguration(config,
+//				getBaseContext().getResources().getDisplayMetrics());
+//	}
 
 }
