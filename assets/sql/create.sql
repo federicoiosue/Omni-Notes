@@ -1,3 +1,4 @@
+-- Create table for NOTES
 CREATE
 	TABLE notes
 	(
@@ -7,5 +8,16 @@ CREATE
 		title TEXT,
 		content TEXT,
 		archived INTEGER,
-		alarm LONG
+		alarm LONG DEFAULT null
+	);
+	
+
+
+-- Create table for attachments
+CREATE
+	TABLE attachments
+	(
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		uri TEXT,
+		note_id INTEGER
 	);
