@@ -28,7 +28,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent" 
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,10 +46,10 @@
                     android:textColor="@color/text_gray"
                     pixlui:typeface="RobotoSlab-Regular.ttf" />
 
-                <GridView
+                <it.feio.android.omninotes.models.ExpandableHeightGridView
                     android:id="@+id/gridview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"

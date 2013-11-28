@@ -11,6 +11,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
+import it.feio.android.omninotes.models.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
@@ -43,7 +44,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -72,7 +72,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	private String alarmDate = "", alarmTime = "";
 	public Uri imageUri;
 	private AttachmentAdapter mAttachmentAdapter;
-	private GridView mGridView;
+	private ExpandableHeightGridView mGridView;
 	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private AlertDialog attachmentDialog;
 
@@ -97,8 +97,10 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	private void initViews() {
 		
 		// Initialzation of gridview for images
-		mGridView = (GridView) findViewById(R.id.gridview);
+		mGridView = (ExpandableHeightGridView) findViewById(R.id.gridview);
 	    mGridView.setAdapter(mAttachmentAdapter);
+	    mGridView.setExpanded(true);
+	    
 	    // Click events for images in gridview (zooms image)
 	    mGridView.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -132,6 +134,8 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 			}
 		});
 		
+	   
+	    // Preparation for reminder icon
 		reminder = (ImageView) findViewById(R.id.reminder);
 		reminder.setOnClickListener(new OnClickListener() {
 			@Override
