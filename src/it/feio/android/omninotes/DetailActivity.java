@@ -31,6 +31,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
@@ -287,10 +288,14 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 				attachmentDialog.dismiss();
 				break;
 			case R.id.gallery:
-				Intent galleryIntent = new Intent();
+				Intent galleryIntent;
+				if (Build.VERSION.SDK_INT >= 19){
+					galleryIntent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+				} else {
+					galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+					galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
+				}
 				galleryIntent.setType("image/*");
-				galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-				galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
 				startActivityForResult(galleryIntent, GALLERY);
 				attachmentDialog.dismiss();
 				break;
