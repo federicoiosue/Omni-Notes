@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.AssetUtils;
 import it.feio.android.omninotes.utils.Constants;
@@ -14,6 +15,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -23,10 +25,10 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "omni-notes";
 	// Database version aligned if possible to software version
 	private static final int DATABASE_VERSION = 400;
-	// Notes table name
-	private static final String TABLE_NAME = "notes";
 	// Sql query file directory
     private static final String SQL_DIR = "sql" ;
+	// Notes table name
+	private static final String TABLE_NOTES = "notes";
 	// Notes table columns
 	private static final String KEY_ID = "id";
 	public static final String KEY_CREATION = "creation";
@@ -35,8 +37,12 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String KEY_CONTENT = "content";
 	private static final String KEY_ARCHIVED = "archived";
 	private static final String KEY_ALARM = "alarm";
-	private static final String KEY_ATTACHMENT = "attachment"; // Actually not
-																// implemented
+	// Attachments table name
+	private static final String TABLE_ATTACHMENTS = "attachments";
+	// Attachments table columns
+	private static final String KEY_ATTACHMENT_ID = "id"; 
+	private static final String KEY_ATTACHMENT_URI = "uri"; 
+	private static final String KEY_ATTACHMENT_NOTE_ID = "note_id"; 
 	// Queries    
     private static final String CREATE_QUERY = "create.sql";
     private static final String UPGRADE_QUERY_PREFIX = "upgrade-";    
@@ -100,6 +106,9 @@ public class DbHelper extends SQLiteOpenHelper {
 	public long updateNote(Note note) {
 		long res;
 		SQLiteDatabase db = this.getWritableDatabase();
+		
+		// To ensure note and attachments insertions are atomical 
+//		db.beginTransaction();
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_TITLE, note.getTitle());
@@ -113,22 +122,37 @@ public class DbHelper extends SQLiteOpenHelper {
 		// Updating row
 		if (note.get_id() != 0) {
 			values.put(KEY_ID, note.get_id());
-			res = db.update(TABLE_NAME, values, KEY_ID + " = ?",
+			res = db.update(TABLE_NOTES, values, KEY_ID + " = ?",
 					new String[] { String.valueOf(note.get_id()) });
 			// Importing data from csv without existing note in db
 			if (res == 0) {
-				res = db.insert(TABLE_NAME, null, values);
+				res = db.insert(TABLE_NOTES, null, values);
 			}
 			Log.d(Constants.TAG, "Updated note titled '" + note.getTitle()
 					+ "'");
-
 			// Inserting new note
 		} else {
 			values.put(KEY_CREATION, Calendar.getInstance().getTimeInMillis());
-			res = db.insert(TABLE_NAME, null, values);
+			res = db.insert(TABLE_NOTES, null, values);
 			Log.d(Constants.TAG, "Saved new note titled '" + note.getTitle()
 					+ "' with id: " + res);
 		}
+		
+		// Updating attachments
+		ContentValues valuesAttachments = new ContentValues();
+		for (Attachment attachment : note.getAttachmentsList()) {
+			// Updating attachment
+			if (attachment.getId() == 0) {
+				valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
+				valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, (note.get_id() != 0 ? note.get_id() : res) );
+				res = db.insert(TABLE_ATTACHMENTS, null, valuesAttachments);
+				Log.d(Constants.TAG, "Saved new attachment with uri '"
+						+ attachment.getUri().toString() + "' with id: " + res);
+			}
+		}
+		
+//		db.endTransaction();
+		
 		db.close();
 		return res;
 		// new UpdateNoteAsync(this).execute(note);
@@ -138,7 +162,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public Note getNote(int id) {
 		SQLiteDatabase db = getReadableDatabase();
 
-		Cursor cursor = db.query(TABLE_NAME, new String[] { KEY_ID,
+		Cursor cursor = db.query(TABLE_NOTES, new String[] { KEY_ID,
 				KEY_CREATION, KEY_LAST_MODIFICATION, KEY_TITLE, KEY_CONTENT,
 				KEY_ARCHIVED, KEY_ALARM }, KEY_ID + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
@@ -176,7 +200,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				+ (archived ? " = 1 " : " = 0 ") : "";
 
 		// Select All Query
-		String selectQuery = "SELECT * FROM " + TABLE_NAME + whereCondition
+		String selectQuery = "SELECT * FROM " + TABLE_NOTES + whereCondition
 				+ " ORDER BY " + sort_column;
 		Log.d(Constants.TAG, "Select notes query: " + selectQuery);
 
@@ -209,7 +233,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	// Getting notes count
 	public int getNotesCount() {
-		String countQuery = "SELECT * FROM " + TABLE_NAME;
+		String countQuery = "SELECT * FROM " + TABLE_NOTES;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(countQuery, null);
 		cursor.close();
@@ -220,7 +244,11 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Deleting single note
 	public void deleteNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_NAME, KEY_ID + " = ?",
+		// Delete notes
+		db.delete(TABLE_NOTES, KEY_ID + " = ?",
+				new String[] { String.valueOf(note.get_id()) });
+		// Delete note's attachments
+		db.delete(TABLE_ATTACHMENTS, KEY_ATTACHMENT_NOTE_ID + " = ?",
 				new String[] { String.valueOf(note.get_id()) });
 		db.close();
 	}
@@ -228,7 +256,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Clears completelly the database
 	public void clear() {
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.execSQL("DELETE FROM " + TABLE_NAME);
+		db.execSQL("DELETE FROM " + TABLE_NOTES);
 		db.close();
 	}
 
@@ -250,7 +278,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				KEY_TITLE);
 
 		// Select All Query
-		String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
+		String selectQuery = "SELECT * FROM " + TABLE_NOTES + " WHERE "
 				+ KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR "
 				+ KEY_CONTENT + " LIKE '%" + pattern + "%' " + " ORDER BY "
 				+ sort_column;
@@ -278,6 +306,24 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.close();
 
 		return noteList;
+	}
+
+
+	public List<Attachment> getNoteAttachments(Note note) {
+		
+		List<Attachment> attachmentsList = new ArrayList<Attachment>();
+		String sql = "SELECT " + KEY_ATTACHMENT_ID + "," + KEY_ATTACHMENT_URI + " FROM " + TABLE_ATTACHMENTS + " WHERE " + KEY_ATTACHMENT_NOTE_ID + " = " + note.get_id();
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+
+		// Looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				attachmentsList.add(new Attachment(Integer.valueOf(cursor.getInt(0)), Uri.parse(cursor.getString(1))));
+			} while (cursor.moveToNext());
+		}
+		return attachmentsList;
+		
 	}
 
 	// private class UpdateNoteAsync extends AsyncTask<Note, Void, Long> {

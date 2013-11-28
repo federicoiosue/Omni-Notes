@@ -24,20 +24,20 @@
             pixlui:typeface="RobotoSlab-Bold.ttf" />
 
         <ImageView
-            android:id="@+id/archivedIcon"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_gravity="right|top"
-            android:src="@drawable/ic_archive_dark"
-            android:visibility="invisible" />
-
-        <ImageView
             android:id="@+id/alarmIcon"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_gravity="right|top"
             android:src="@drawable/ic_reminder_dark"
-            android:visibility="invisible" />
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/archivedIcon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="right|top"
+            android:src="@drawable/ic_archive_dark"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout

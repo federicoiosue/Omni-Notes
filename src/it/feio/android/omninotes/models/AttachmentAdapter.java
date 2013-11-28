@@ -7,28 +7,27 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-public class ImageAdapter extends BaseAdapter {
+public class AttachmentAdapter extends BaseAdapter {
 	private Context mContext;
-	private List<Uri> imageList;
+	private List<Attachment> attachmentsList;
 
-	public ImageAdapter(Context mContext, List<Uri> imageList) {
+	public AttachmentAdapter(Context mContext, List<Attachment> attachmentsList) {
 		this.mContext = mContext;
-		this.imageList = imageList;
+		this.attachmentsList = attachmentsList;
 	}
 
 	public int getCount() {
-		return imageList.size();
+		return attachmentsList.size();
 	}
 
-	public Uri getItem(int position) {
-		return imageList.get(position);
+	public Attachment getItem(int position) {
+		return attachmentsList.get(position);
 	}
 
 	public long getItemId(int position) {
@@ -48,7 +47,7 @@ public class ImageAdapter extends BaseAdapter {
 		}
 
 		try {
-			imageView.setImageBitmap(BitmapDecoder.decodeSampledFromUri(mContext, imageList.get(position), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+			imageView.setImageBitmap(BitmapDecoder.decodeSampledFromUri(mContext, attachmentsList.get(position).getUri(), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 		} catch (FileNotFoundException e) {
 			Log.e(Constants.TAG, "Image not found");
 		}

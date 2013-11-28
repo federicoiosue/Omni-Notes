@@ -10,7 +10,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.neopixl.pixlui.components.textview.TextView;
 
-import it.feio.android.omninotes.models.ImageAdapter;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ParcelableNote;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
@@ -73,9 +74,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	public Uri imageUri;
 	private Object bitmap;
 	private int photoQuality;
-	private ImageAdapter mImageAdapter;
+	private AttachmentAdapter mAttachmentAdapter;
 	private GridView mGridView;
-	private List<Uri> imageList = new ArrayList<Uri>();
+	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private AlertDialog attachmentDialog;
 
 	@Override
@@ -88,20 +89,19 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		// Show the Up button in the action bar.
 		if (getSupportActionBar() != null)
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-		// Views initialization
-		initViews();
 		
 		// Note initialization
 		initNote();
+		
+		// Views initialization
+		initViews();
 	}
 
 	private void initViews() {
 		
 		// Initialzation of gridview for images
-		mImageAdapter = new ImageAdapter(mActivity, imageList);
 		mGridView = (GridView) findViewById(R.id.gridview);
-	    mGridView.setAdapter(mImageAdapter);
+	    mGridView.setAdapter(mAttachmentAdapter);
 	    // Click events for images in gridview (zooms image)
 	    mGridView.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -118,8 +118,8 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
-								imageList.remove(position);
-								mImageAdapter.notifyDataSetChanged();
+								attachmentsList.remove(position);
+								mAttachmentAdapter.notifyDataSetChanged();
 							}
 						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 
@@ -179,12 +179,16 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 				datetime.setText(initAlarm(Long.parseLong(note.getAlarm())));
 				reminder_delete.setVisibility(View.VISIBLE);
 			}
+			
+			// Retrieve attachments
+			DbHelper db = new DbHelper(getApplicationContext());
+			attachmentsList = db.getNoteAttachments(note);
 
 			// If a new note is being edited the keyboard will not be shown on activity start
 //			getWindow().setSoftInputMode(
 //					WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
 		}
+		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);
 	}
 
 	@Override
@@ -299,35 +303,17 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
-		// Recupero immagini
+		// Fetch uri from activities, store into adapter and refresh adapter
 		BufferedInputStream stream = null;
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 				case TAKE_PHOTO:
-//					try {
-//						bitmap = BitmapDecoder.decodeSampledFromUri(this, imageUri, photoQuality,
-//								photoQuality);
-//
-//						fotoView.setImageBitmap(bitmap);
-//						imageChanged = true;
-//					} catch (FileNotFoundException e) {
-//						e.printStackTrace();
-//					}
-					imageList.add(imageUri);
-					mImageAdapter.notifyDataSetChanged();
+					attachmentsList.add(new Attachment(imageUri));
+					mAttachmentAdapter.notifyDataSetChanged();
 					break;
 				case GALLERY:
-//						if (bitmap != null) {
-//							bitmap.recycle();
-//						}
-//						bitmap = BitmapDecoder.decodeSampledFromUri(this, intent.getData(), photoQuality,
-//								photoQuality);
-//						fotoView.setImageBitmap(bitmap);
-//						imageChanged = true;
-//					} catch (FileNotFoundException e) {
-//						Log.e(Constants.TAG, "Errore foto galleria");
-					imageList.add(intent.getData());
-					mImageAdapter.notifyDataSetChanged();
+					attachmentsList.add(new Attachment(intent.getData()));
+					mAttachmentAdapter.notifyDataSetChanged();
 					break;
 			}
 		}
@@ -426,6 +412,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		note.setContent(content);
 		note.setArchived(archive != null ? archive : note.isArchived());
 		note.setAlarm(alarmDateTime != -1 ? String.valueOf(alarmDateTime): null);
+		note.setAttachmentsList(attachmentsList);
 
 		// Saving changes to the note
 		DbHelper db = new DbHelper(this);
@@ -445,6 +432,7 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		goHome();
 	}
 
+	
 	private void setAlarm() {
 		Intent intent = new Intent(this, AlarmReceiver.class);
 		intent.putExtra(Constants.INTENT_NOTE, new ParcelableNote(note));

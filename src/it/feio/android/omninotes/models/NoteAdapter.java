@@ -54,11 +54,10 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 		content.setText(contentText);
 
-		// Evaluate 
+		// Evaluates the archived state and the presence of ana alarm
 		ImageView archiveIcon = (ImageView)rowView.findViewById(R.id.archivedIcon);
 		int archiveIconVisibility = values.get(position).isArchived() ? View.VISIBLE : View.INVISIBLE;
 		archiveIcon.setVisibility(archiveIconVisibility);
-		// 
 		ImageView alarmIcon = (ImageView)rowView.findViewById(R.id.alarmIcon);
 		int alarmIconVisibility = values.get(position).getAlarm() != null ? View.VISIBLE : View.INVISIBLE;
 		alarmIcon.setVisibility(alarmIconVisibility);

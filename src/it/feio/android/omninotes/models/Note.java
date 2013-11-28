@@ -3,6 +3,11 @@ package it.feio.android.omninotes.models;
 import it.feio.android.omninotes.utils.Constants;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.net.Uri;
 
 
 public class Note {
@@ -14,6 +19,7 @@ public class Note {
 	private Long lastModification;
 	private Boolean archived;
 	private String alarm;
+	private List<Attachment> attachmentsList;
 
 
 	public Note() {
@@ -164,6 +170,16 @@ public class Note {
 
 	public void setAlarm(String alarm) {
 		this.alarm = alarm;
+	}
+
+
+	public List<Attachment> getAttachmentsList() {
+		return attachmentsList;
+	}
+
+
+	public void setAttachmentsList(List<Attachment> attachmentsList) {
+		this.attachmentsList = attachmentsList;
 	}
 
 
