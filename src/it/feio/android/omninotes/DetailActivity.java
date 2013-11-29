@@ -19,9 +19,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import it.feio.android.omninotes.models.Attachment;
@@ -71,8 +76,7 @@ import android.widget.Toast;
  * This activity is mostly just a 'shell' activity containing nothing more than
  * a {@link ItemDetailFragment}.
  */
-public class DetailActivity extends BaseActivity implements OnDateSetListener,
-		OnTimeSetListener {
+public class DetailActivity extends BaseActivity {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -82,9 +86,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	private Note note;
 	private ImageView reminder, reminder_delete;
 	private TextView datetime;
+	private String alarmDate = "", alarmTime = "";
 	private String dateTimeText = "";
 	private long alarmDateTime = -1;
-	private String alarmDate = "", alarmTime = "";
 	public Uri imageUri;
 	private AttachmentAdapter mAttachmentAdapter;
 	private ExpandableHeightGridView mGridView;
@@ -158,8 +162,9 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 			@Override
 			public void onClick(View v) {
 				// Timepicker will be automatically called after date is inserted by user
-				showTimePickerDialog(v);
-				showDatePickerDialog(v);
+//				showDatePickerDialog(v);
+				showDateTimeSelectors();
+				
 			}
 		});
 
@@ -182,6 +187,56 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		datetime.setText(dateTimeText);
 	}
 
+	
+	/**
+	 *  Show date and time pickers
+	 */
+	protected void showDateTimeSelectors() {
+		final DateTime now = DateTime.now();
+		CalendarDatePickerDialog mCalendarDatePickerDialog = CalendarDatePickerDialog.newInstance(new CalendarDatePickerDialog.OnDateSetListener() {
+			
+			@Override
+			public void onDateSet(CalendarDatePickerDialog dialog, int year,
+					int monthOfYear, int dayOfMonth) {
+//				now.withYear(year);
+//				now.withMonthOfYear(monthOfYear);
+//				now.withDayOfMonth(dayOfMonth);
+				alarmDate = DateHelper.onDateSet(year, monthOfYear, dayOfMonth, Constants.DATE_FORMAT_SHORT_DATE);
+				Log.d(Constants.TAG, "Date set");
+				RadialTimePickerDialog mRadialTimePickerDialog = RadialTimePickerDialog.newInstance(new RadialTimePickerDialog.OnTimeSetListener() {
+					
+					@Override
+					public void onTimeSet(RadialPickerLayout view,
+							int hourOfDay, int minute) {
+//						now.withHourOfDay(hourOfDay);
+//						now.withMinuteOfHour(minute);
+						
+						// Creation of string rapresenting alarm time		
+						alarmTime = DateHelper.onTimeSet(hourOfDay, minute,
+								Constants.DATE_FORMAT_SHORT_TIME);
+						datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate
+								+ " " + getString(R.string.at_time) + " " + alarmTime);
+				
+						// Setting alarm time in milliseconds
+						alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
+								Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
+								Constants.DATE_FORMAT_SHORT_TIME).getTimeInMillis();
+						
+						// Shows icon to remove alarm
+						reminder_delete.setVisibility(View.VISIBLE);
+						
+						Log.d(Constants.TAG, "Time set");						
+					}
+				}, now.getHourOfDay(), now.getMinuteOfHour(), true);
+				mRadialTimePickerDialog.show(getSupportFragmentManager(), "fragment_time_picker_name");
+			}
+
+		}, now.getYear(), now.getMonthOfYear(), now.getDayOfMonth());
+		mCalendarDatePickerDialog.show(getSupportFragmentManager(), "fragment_date_picker_name");
+		
+	}
+
+	
 	private void initNote() {
 		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);
 
@@ -492,45 +547,47 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 				.getString(R.string.share_message_chooser)));
 	}
 
-	public void showDatePickerDialog(View v) {
-		DatePickerFragment newFragment = new DatePickerFragment();
-		newFragment.show(getSupportFragmentManager(), "datePicker");
-	}
-
-	/**
-	 * Shows time picker to set alarm
-	 * 
-	 * @param v
-	 */
-	private void showTimePickerDialog(View v) {
-		TimePickerFragment newFragment = new TimePickerFragment();
-		newFragment.show(getSupportFragmentManager(), Constants.TAG);
-	}
-
-
-	@Override
-	public void onDateSet(DatePicker v, int year, int month, int day) {
-		alarmDate = DateHelper.onDateSet(year, month, day,
-				Constants.DATE_FORMAT_SHORT_DATE);
-	}
-
-	@Override
-	public void onTimeSet(TimePicker v, int hour, int minute) {
-		
-		// Creation of string rapresenting alarm time		
-		alarmTime = DateHelper.onTimeSet(hour, minute,
-				Constants.DATE_FORMAT_SHORT_TIME);
-		datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate
-				+ " " + getString(R.string.at_time) + " " + alarmTime);
-
-		// Setting alarm time in milliseconds
-		alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
-				Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
-				Constants.DATE_FORMAT_SHORT_TIME).getTimeInMillis();
-		
-		// Shows icon to remove alarm
-		reminder_delete.setVisibility(View.VISIBLE);
-	}
+	
+//	public void showDatePickerDialog(View v) {
+//		DatePickerFragment newFragment = new DatePickerFragment();
+//		newFragment.show(getSupportFragmentManager(), "datePicker");
+//	}
+//
+//	/**
+//	 * Shows time picker to set alarm
+//	 * 
+//	 * @param v
+//	 */
+//	private void showTimePickerDialog(View v) {
+//		TimePickerFragment newFragment = new TimePickerFragment();
+//		newFragment.show(getSupportFragmentManager(), Constants.TAG);
+//	}
+//
+//
+//	@Override
+//	public void onDateSet(DatePicker v, int year, int month, int day) {
+//		alarmDate = DateHelper.onDateSet(year, month, day,
+//				Constants.DATE_FORMAT_SHORT_DATE);
+//		showTimePickerDialog(v);
+//	}
+//
+//	@Override
+//	public void onTimeSet(TimePicker v, int hour, int minute) {
+//		
+//		// Creation of string rapresenting alarm time		
+//		alarmTime = DateHelper.onTimeSet(hour, minute,
+//				Constants.DATE_FORMAT_SHORT_TIME);
+//		datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate
+//				+ " " + getString(R.string.at_time) + " " + alarmTime);
+//
+//		// Setting alarm time in milliseconds
+//		alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
+//				Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
+//				Constants.DATE_FORMAT_SHORT_TIME).getTimeInMillis();
+//		
+//		// Shows icon to remove alarm
+//		reminder_delete.setVisibility(View.VISIBLE);
+//	}
 	
 	
 	/**
