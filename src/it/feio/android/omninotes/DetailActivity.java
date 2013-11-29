@@ -131,8 +131,10 @@ public class DetailActivity extends BaseActivity {
 		
 		// Initialization of location TextView
 		location = (TextView) findViewById(R.id.location);
-		if (currentLatitude != 0 && currentLongitude != 0)
+		if (currentLatitude != 0 && currentLongitude != 0) {
+			location.setVisibility(View.VISIBLE);
 			location.setText(getAddress());
+		}
 			
 		location.setOnClickListener(new OnClickListener() {
 			@Override
@@ -145,8 +147,11 @@ public class DetailActivity extends BaseActivity {
 		location.setOnLongClickListener(new OnLongClickListener() {			
 			@Override
 			public boolean onLongClick(View v) {
-				// TODO Auto-generated method stub
-				return false;
+				noteLatitude = 0;
+				noteLongitude = 0;
+				location.setText("");
+				location.setVisibility(View.GONE);
+				return true;
 			}
 		});
 		
@@ -186,7 +191,7 @@ public class DetailActivity extends BaseActivity {
 				AlertDialog alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
 //				imgSrcDialog.dismiss();
-				return false;
+				return true;
 			}
 		});
 		
@@ -484,6 +489,7 @@ public class DetailActivity extends BaseActivity {
 			case R.id.location:
 				Intent locationIntent;
 				String address = getAddress();
+				location.setVisibility(View.VISIBLE);
 				location.setText(address);
 				attachmentDialog.dismiss();
 				break;

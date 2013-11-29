@@ -68,7 +68,8 @@
                     android:gravity="center_vertical"
                     android:textAppearance="@style/Text.Small"
                     android:textColor="@color/location_text"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
                     pixlui:typeface="RobotoSlab-Thin.ttf" />
 
                 <it.feio.android.omninotes.models.ExpandableHeightGridView
