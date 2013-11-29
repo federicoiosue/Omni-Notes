@@ -36,16 +36,12 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
-import it.feio.android.omninotes.utils.date.DatePickerFragment;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.utils.date.TimePickerFragment;
 import it.feio.android.omninotes.R;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,10 +58,8 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 /**
@@ -192,7 +186,10 @@ public class DetailActivity extends BaseActivity {
 	 *  Show date and time pickers
 	 */
 	protected void showDateTimeSelectors() {
-		final DateTime now = DateTime.now();
+		
+		// Sets actual time or previously saved in note		
+		final DateTime now = note.getAlarm() != null ? new DateTime(Long.parseLong(note.getAlarm())) : DateTime.now();
+		
 		CalendarDatePickerDialog mCalendarDatePickerDialog = CalendarDatePickerDialog.newInstance(new CalendarDatePickerDialog.OnDateSetListener() {
 			
 			@Override
@@ -228,11 +225,11 @@ public class DetailActivity extends BaseActivity {
 						Log.d(Constants.TAG, "Time set");						
 					}
 				}, now.getHourOfDay(), now.getMinuteOfHour(), true);
-				mRadialTimePickerDialog.show(getSupportFragmentManager(), "fragment_time_picker_name");
+				mRadialTimePickerDialog.show(getSupportFragmentManager(), Constants.TAG);
 			}
 
-		}, now.getYear(), now.getMonthOfYear(), now.getDayOfMonth());
-		mCalendarDatePickerDialog.show(getSupportFragmentManager(), "fragment_date_picker_name");
+		}, now.getYear(), now.getMonthOfYear() - 1, now.getDayOfMonth());
+		mCalendarDatePickerDialog.show(getSupportFragmentManager(), Constants.TAG);
 		
 	}
 
@@ -250,7 +247,8 @@ public class DetailActivity extends BaseActivity {
 					.append(getString(R.string.last_update) + " "
 							+ note.getLastModificationShort());
 			if (note.getAlarm() != null) {
-				dateTimeText = initAlarm(Long.parseLong(note.getAlarm()));
+				alarmDateTime = Long.parseLong(note.getAlarm());
+				dateTimeText = initAlarm(alarmDateTime);
 			}
 			
 			// If a new note is being edited the keyboard will not be shown on activity start
@@ -293,13 +291,6 @@ public class DetailActivity extends BaseActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
 			saveNote(null);
 			break;
 		case R.id.menu_share:
