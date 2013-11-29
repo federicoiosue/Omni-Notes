@@ -498,7 +498,7 @@ public class DetailActivity extends BaseActivity {
 				Toast.LENGTH_SHORT);
 
 		// Saves reminder if is not in actual 
-		if (!note.getAlarm().equals(oldAlarm)) {				
+		if (note.getAlarm() != null && !note.getAlarm().equals(oldAlarm)) {				
 				setAlarm();
 		}
 		
