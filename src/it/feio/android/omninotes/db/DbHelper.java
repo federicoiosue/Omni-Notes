@@ -118,8 +118,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	
 	// Inserting or updating single note
-	public long updateNote(Note note) {
-		long res;
+	public Note updateNote(Note note) {
+		
+		long resNote, resAttachment;
 		SQLiteDatabase db = this.getWritableDatabase();
 		
 		// To ensure note and attachments insertions are atomical 
@@ -128,8 +129,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(KEY_TITLE, note.getTitle());
 		values.put(KEY_CONTENT, note.getContent());
-		values.put(KEY_LAST_MODIFICATION, Calendar.getInstance()
-				.getTimeInMillis());
+		values.put(KEY_LAST_MODIFICATION, Calendar.getInstance().getTimeInMillis());
 		boolean archive = note.isArchived() != null ? note.isArchived() : false;
 		values.put(KEY_ARCHIVED, archive);
 		values.put(KEY_ALARM, note.getAlarm());
@@ -137,20 +137,20 @@ public class DbHelper extends SQLiteOpenHelper {
 		// Updating row
 		if (note.get_id() != 0) {
 			values.put(KEY_ID, note.get_id());
-			res = db.update(TABLE_NOTES, values, KEY_ID + " = ?",
+			resNote = db.update(TABLE_NOTES, values, KEY_ID + " = ?",
 					new String[] { String.valueOf(note.get_id()) });
 			// Importing data from csv without existing note in db
-			if (res == 0) {
-				res = db.insert(TABLE_NOTES, null, values);
+			if (resNote == 0) {
+				resNote = db.insert(TABLE_NOTES, null, values);
 			}
 			Log.d(Constants.TAG, "Updated note titled '" + note.getTitle()
 					+ "'");
 			// Inserting new note
 		} else {
 			values.put(KEY_CREATION, Calendar.getInstance().getTimeInMillis());
-			res = db.insert(TABLE_NOTES, null, values);
+			resNote = db.insert(TABLE_NOTES, null, values);
 			Log.d(Constants.TAG, "Saved new note titled '" + note.getTitle()
-					+ "' with id: " + res);
+					+ "' with id: " + resNote);
 		}
 		
 		// Updating attachments
@@ -159,17 +159,23 @@ public class DbHelper extends SQLiteOpenHelper {
 			// Updating attachment
 			if (attachment.getId() == 0) {
 				valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
-				valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, (note.get_id() != 0 ? note.get_id() : res) );
-				res = db.insert(TABLE_ATTACHMENTS, null, valuesAttachments);
+				valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, (note.get_id() != 0 ? note.get_id() : resNote) );
+				resAttachment = db.insert(TABLE_ATTACHMENTS, null, valuesAttachments);
 				Log.d(Constants.TAG, "Saved new attachment with uri '"
-						+ attachment.getUri().toString() + "' with id: " + res);
+						+ attachment.getUri().toString() + "' with id: " + resAttachment);
 			}
 		}
 		
 //		db.endTransaction();
 		
 		db.close();
-		return res;
+
+		// Fill the note with correct data before returning it
+		note.set_id(note.get_id() != 0 ? note.get_id() : (int)resNote);
+		note.setCreation(values.getAsLong(KEY_CREATION));
+		note.setLastModification(values.getAsLong(KEY_LAST_MODIFICATION));	
+		
+		return note;
 		// new UpdateNoteAsync(this).execute(note);
 	}
 

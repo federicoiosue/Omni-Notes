@@ -398,6 +398,10 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 	 *            Boolean flag used to archive note
 	 */
 	private void saveNote(Boolean archive) {
+		
+		// Get old reminder to check later if is changed
+		String oldAlarm = note.getAlarm();
+		
 		// Changed fields
 		String title = ((EditText) findViewById(R.id.title)).getText()
 				.toString();
@@ -427,26 +431,22 @@ public class DetailActivity extends BaseActivity implements OnDateSetListener,
 		note.setTitle(title);
 		note.setContent(content);
 		note.setArchived(archive != null ? archive : note.isArchived());
-		// Saves reminder and set  AlarmManager
-		if (alarmDateTime != -1) {
-			if (!String.valueOf(alarmDateTime).equals(note.getAlarm())) {
-				setAlarm();
-			}
-			note.setAlarm(String.valueOf(alarmDateTime));		
-		}
-		note.setAlarm(alarmDateTime != -1 ? String.valueOf(alarmDateTime): null);
+		note.setAlarm(alarmDateTime != -1 ? String.valueOf(alarmDateTime) : null);
 		note.setAttachmentsList(attachmentsList);
 
 		// Saving changes to the note
 		DbHelper db = new DbHelper(this);
-		db.updateNote(note);
+		note = db.updateNote(note);
 		
-		// Logs update
-		Log.d(Constants.TAG, "New note saved with title '" + note.getTitle()
-				+ "'");
+		// Advice of update
 		showToast(getResources().getText(R.string.note_updated),
 				Toast.LENGTH_SHORT);
 
+		// Saves reminder if is not in actual 
+		if (!note.getAlarm().equals(oldAlarm)) {				
+				setAlarm();
+		}
+		
 		// Go back on stack
 		goHome();
 	}

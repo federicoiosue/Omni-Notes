@@ -110,6 +110,7 @@ public class DateHelper {
 		cal.set(Calendar.DAY_OF_MONTH, cDate.get(Calendar.DAY_OF_MONTH));
 		cal.set(Calendar.HOUR_OF_DAY, cTime.get(Calendar.HOUR_OF_DAY));
 		cal.set(Calendar.MINUTE, cTime.get(Calendar.MINUTE));
+		cal.set(Calendar.SECOND, 0);
 		return cal;		
 	}
 	
