@@ -39,7 +39,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Database name
 	private static final String DATABASE_NAME = "omni-notes";
 	// Database version aligned if possible to software version
-	private static final int DATABASE_VERSION = 400;
+	private static final int DATABASE_VERSION = 391;
 	// Sql query file directory
     private static final String SQL_DIR = "sql" ;
 	// Notes table name
@@ -52,6 +52,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String KEY_CONTENT = "content";
 	private static final String KEY_ARCHIVED = "archived";
 	private static final String KEY_ALARM = "alarm";
+	private static final String KEY_LATITUDE = "latitude";
+	private static final String KEY_LONGITUDE = "longitude";
 	// Attachments table name
 	private static final String TABLE_ATTACHMENTS = "attachments";
 	// Attachments table columns
@@ -133,6 +135,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		boolean archive = note.isArchived() != null ? note.isArchived() : false;
 		values.put(KEY_ARCHIVED, archive);
 		values.put(KEY_ALARM, note.getAlarm());
+		values.put(KEY_LATITUDE, note.getLatitude());
+		values.put(KEY_LONGITUDE, note.getLongitude());
 
 		// Updating row
 		if (note.get_id() != 0) {
@@ -179,20 +183,22 @@ public class DbHelper extends SQLiteOpenHelper {
 		// new UpdateNoteAsync(this).execute(note);
 	}
 
+	
 	// Getting single note
 	public Note getNote(int id) {
 		SQLiteDatabase db = getReadableDatabase();
 
 		Cursor cursor = db.query(TABLE_NOTES, new String[] { KEY_ID,
 				KEY_CREATION, KEY_LAST_MODIFICATION, KEY_TITLE, KEY_CONTENT,
-				KEY_ARCHIVED, KEY_ALARM }, KEY_ID + "=?",
+				KEY_ARCHIVED, KEY_ALARM, KEY_LATITUDE, KEY_LONGITUDE }, KEY_ID + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();
 
 		Note note = new Note(Integer.parseInt(cursor.getString(0)),
 				cursor.getLong(1), cursor.getLong(2), cursor.getString(3),
-				cursor.getString(4), cursor.getInt(5), cursor.getString(6));
+				cursor.getString(4), cursor.getInt(5), cursor.getString(6),
+				cursor.getString(7), cursor.getString(8));
 		
 		// Add eventual attachments uri
 		note.setAttachmentsList(getNoteAttachments(note));
@@ -242,7 +248,9 @@ public class DbHelper extends SQLiteOpenHelper {
 				note.setTitle(cursor.getString(3));
 				note.setContent(cursor.getString(4));
 				note.setArchived("1".equals(cursor.getString(5)));
-				note.setAlarm(cursor.getString(6));				
+				note.setAlarm(cursor.getString(6));		
+				note.setLatitude(cursor.getString(7));
+				note.setLongitude(cursor.getString(8));
 				// Add eventual attachments uri
 				note.setAttachmentsList(getNoteAttachments(note));
 				// Adding note to list
@@ -325,6 +333,8 @@ public class DbHelper extends SQLiteOpenHelper {
 				note.setContent(cursor.getString(4));
 				note.setArchived("1".equals(cursor.getString(5)));
 				note.setAlarm(cursor.getString(6));
+				note.setLatitude(cursor.getString(7));
+				note.setLongitude(cursor.getString(8));
 				
 				// Add eventual attachments uri
 				note.setAttachmentsList(getNoteAttachments(note));

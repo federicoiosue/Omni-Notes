@@ -79,6 +79,7 @@
     <string name="galery">Gallery</string>
     <string name="confirm_image_deletion">Confirm image deletion</string>
     <string name="galery">Gallery</string>
+    <string name="location">Location</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

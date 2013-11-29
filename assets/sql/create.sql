@@ -3,12 +3,14 @@ CREATE
 	TABLE notes
 	(
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		creation LONG,
-		last_modification LONG,
+		creation INTEGER,
+		last_modification INTEGER,
 		title TEXT,
 		content TEXT,
 		archived INTEGER,
-		alarm LONG DEFAULT null
+		alarm INTEGER DEFAULT null,
+		latitude REAL,
+		longitude REAL
 	);
 	
 

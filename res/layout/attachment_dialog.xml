@@ -49,4 +49,21 @@
         android:text="@string/galery"
         android:textSize="18sp" />
 
+    <TextView
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:background="@color/drawer_line"
+        android:layout_margin="8dp" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="3dp"
+        android:drawableTop="@drawable/ic_location_dark"
+        android:gravity="center_horizontal"
+        android:padding="8dp"
+        android:text="@string/location"
+        android:textSize="18sp" />
+
 </LinearLayout>

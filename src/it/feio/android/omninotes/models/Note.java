@@ -33,6 +33,8 @@ public class Note implements Parcelable {
 	private Long lastModification;
 	private Boolean archived;
 	private String alarm;
+	private Double latitude;
+	private Double longitude;
 	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
 
 
@@ -65,7 +67,7 @@ public class Note implements Parcelable {
 	}
 	
 
-	public Note(Long creation, Long lastModification, String title, String content, Integer archived, String alarm) {
+	public Note(Long creation, Long lastModification, String title, String content, Integer archived, String alarm, String latitude, String longitude) {
 		super();
 		this.title = title;
 		this.content = content;
@@ -73,10 +75,12 @@ public class Note implements Parcelable {
 		this.lastModification = lastModification;
 		this.archived = archived == 1 ? true : false;
 		this.alarm = alarm;
+		setLatitude(latitude);
+		setLongitude(longitude);
 	}
 	
 
-	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived, String alarm) {
+	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived, String alarm, String latitude, String longitude) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -85,6 +89,8 @@ public class Note implements Parcelable {
 		this.lastModification = lastModification;
 		this.archived = archived == 1 ? true : false;
 		this.alarm = alarm;
+		setLatitude(latitude);
+		setLongitude(longitude);
 	}
 
 	private Note(Parcel in) {
@@ -95,6 +101,8 @@ public class Note implements Parcelable {
 		setContent(in.readString());
 		setArchived(in.readInt());
 		setAlarm(in.readString());
+		setLatitude(in.readString());
+		setLongitude(in.readString());
 		in.readList(attachmentsList, Attachment.class.getClassLoader());
 	}
 
@@ -198,6 +206,44 @@ public class Note implements Parcelable {
 	}
 
 
+	public Double getLatitude() {
+		return latitude;
+	}
+
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+
+	public void setLatitude(String latitude) {
+		try {
+			setLatitude(Double.parseDouble(latitude));
+		} catch (NumberFormatException e) {
+			latitude = null;
+		}
+	}
+
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+
+	public void setLongitude(String longitude) {
+		try {
+			setLongitude(Double.parseDouble(longitude));
+		} catch (NumberFormatException e) {
+			longitude = null;
+		}
+	}
+
+
 	public List<Attachment> getAttachmentsList() {
 		return attachmentsList;
 	}
@@ -228,6 +274,8 @@ public class Note implements Parcelable {
 		parcel.writeString(getContent());
 		parcel.writeInt(isArchived() ? 1 : 0);
 		parcel.writeString(getAlarm());
+		parcel.writeString(String.valueOf(getLatitude()));
+		parcel.writeString(String.valueOf(getLongitude()));
 		parcel.writeList(getAttachmentsList());
 	}
 

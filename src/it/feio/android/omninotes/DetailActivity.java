@@ -15,9 +15,11 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 
@@ -45,6 +47,11 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,6 +60,7 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -88,7 +96,16 @@ public class DetailActivity extends BaseActivity {
 	private ExpandableHeightGridView mGridView;
 	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private AlertDialog attachmentDialog;
+	private TextView location;
+	
+	// Location variables
+	Location currentLocation;
+    double currentLatitude;
+    double currentLongitude;
+    double noteLatitude;
+    double noteLongitude;
 
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,9 +122,33 @@ public class DetailActivity extends BaseActivity {
 		
 		// Views initialization
 		initViews();
+		
+		setLocationManager();
 	}
 
+
 	private void initViews() {
+		
+		// Initialization of location TextView
+		location = (TextView) findViewById(R.id.location);
+		if (currentLatitude != 0 && currentLongitude != 0)
+			location.setText(getAddress());
+			
+		location.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				final String uriString = "http://maps.google.com/maps?q=" + noteLatitude + ',' + noteLongitude + "("+ "asd" +")&z=15";
+				Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
+				startActivity(locationIntent);
+			}
+	    });
+		location.setOnLongClickListener(new OnLongClickListener() {			
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
 		
 		// Initialzation of gridview for images
 		mGridView = (ExpandableHeightGridView) findViewById(R.id.gridview);
@@ -250,6 +291,12 @@ public class DetailActivity extends BaseActivity {
 				alarmDateTime = Long.parseLong(note.getAlarm());
 				dateTimeText = initAlarm(alarmDateTime);
 			}
+			if (note.getLatitude() != 0 && note.getLongitude() != 0) {
+				noteLatitude = note.getLatitude();
+				noteLongitude = note.getLongitude();
+				currentLatitude = note.getLatitude();
+				currentLongitude = note.getLongitude();
+			}
 			
 			// If a new note is being edited the keyboard will not be shown on activity start
 //			getWindow().setSoftInputMode(
@@ -258,6 +305,79 @@ public class DetailActivity extends BaseActivity {
 		attachmentsList = note.getAttachmentsList();
 		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);
 	}
+	
+
+
+	private void setLocationManager() {
+		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+		LocationListener locationListener = new LocationListener() {
+			public void onLocationChanged(Location location) {
+				updateLocation(location);
+			}
+
+			public void onStatusChanged(String provider, int status,
+					Bundle extras) {
+			}
+
+			public void onProviderEnabled(String provider) {
+			}
+
+			public void onProviderDisabled(String provider) {
+			}
+		};
+
+		locationManager.requestLocationUpdates(
+				LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+	}
+	
+	String getAddress() {
+		String addressString = "";
+        try{
+//        	Geocoder gcd = new Geocoder(this, Locale.getDefault());
+//        	List<Address> addresses = 
+//        			gcd.getFromLocation(currentLatitude, currentLongitude,100);
+//        	if (addresses.size() > 0) {
+//        		StringBuilder result = new StringBuilder();
+//        		for(int i = 0; i < addresses.size(); i++){
+//        			Address address =  addresses.get(i);
+//        			int maxIndex = address.getMaxAddressLineIndex();
+//        			for (int x = 0; x <= maxIndex; x++ ){
+//        				result.append(address.getAddressLine(x));
+//        				result.append(",");
+//        			}               
+//        			result.append(address.getLocality());
+//        			result.append(",");
+//        			result.append(address.getPostalCode());
+//        			result.append("\n\n");
+//        		}
+//        		addressString = result.toString();
+//        	}
+//        }
+        	noteLatitude = currentLatitude;
+        	noteLongitude = currentLongitude;
+            Geocoder gcd = new Geocoder(this, Locale.getDefault());
+            Address address = gcd.getFromLocation(currentLatitude, currentLongitude,1).get(0);
+            
+            if (address != null) {
+            	addressString = address.getAddressLine(0);
+            }
+        }
+        catch(IOException ex){
+        	addressString = ex.getMessage().toString();
+        }
+        return addressString;
+    }
+    
+    void updateLocation(Location location){
+        currentLocation = location;
+        currentLatitude = currentLocation.getLatitude();
+        currentLongitude = currentLocation.getLongitude();
+    }
+    
+    
+	
+	
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -325,6 +445,8 @@ public class DetailActivity extends BaseActivity {
 		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
 		android.widget.TextView gallerySelection = (android.widget.TextView) layout.findViewById(R.id.gallery);
 		gallerySelection.setOnClickListener(new AttachmentOnClickListener());
+		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
+		locationSelection.setOnClickListener(new AttachmentOnClickListener());
 		return attachmentDialog.show();
 	}
 	
@@ -359,6 +481,13 @@ public class DetailActivity extends BaseActivity {
 				startActivityForResult(galleryIntent, GALLERY);
 				attachmentDialog.dismiss();
 				break;
+			case R.id.location:
+				Intent locationIntent;
+				String address = getAddress();
+				location.setText(address);
+				attachmentDialog.dismiss();
+				break;
+				
 			}
 
 		}
@@ -478,6 +607,8 @@ public class DetailActivity extends BaseActivity {
 		note.setContent(content);
 		note.setArchived(archive != null ? archive : note.isArchived());
 		note.setAlarm(alarmDateTime != -1 ? String.valueOf(alarmDateTime) : null);
+		note.setLatitude(noteLatitude);
+		note.setLongitude(noteLongitude);
 		note.setAttachmentsList(attachmentsList);
 
 		// Saving changes to the note
