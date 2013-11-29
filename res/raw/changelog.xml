@@ -16,11 +16,17 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="3.9.1beta" changeDate="Nov 29,2013">
+		<changelogtext>Fixed reminder bug showind notification with some delay and giving error on notification opening when the note was created first time</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="3.9.0beta" changeDate="Nov 28,2013">
 		<changelogtext>[b]New! [/b]Attachments to notes using camera or gallery images</changelogtext>
 		<changelogtext>[b]New! [/b]A remainder can be set to receive notes notifications</changelogtext>
+		<changelogtext>[b]New! [/b]New icons in notes list showing archived status, attachments and reminders</changelogtext>
 		<changelogtext>[b]New! [/b]Added changelog screen in preferences</changelogtext>
 		<changelogtext>[b]New! [/b]Removed language choosing from preferences, system locale will be used automatically instead</changelogtext>
+		<changelogtext>Layout and keyboard popup revisited with an eye to small screen devices</changelogtext>
 		<changelogtext>Lot of bugs fixes and improvements</changelogtext>
     </changelogversion>
 

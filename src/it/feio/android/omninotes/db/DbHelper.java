@@ -172,7 +172,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 		// Fill the note with correct data before returning it
 		note.set_id(note.get_id() != 0 ? note.get_id() : (int)resNote);
-		note.setCreation(values.getAsLong(KEY_CREATION));
+		note.setCreation(note.getCreation() != null ? note.getCreation() : values.getAsLong(KEY_CREATION));
 		note.setLastModification(values.getAsLong(KEY_LAST_MODIFICATION));	
 		
 		return note;
