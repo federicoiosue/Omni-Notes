@@ -17,6 +17,8 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="3.9.1beta" changeDate="Nov 29,2013">
+		<changelogtext>[b]New! [/b]Replaced standard date and time pickers with the new beautiful one from Android 4.3 ported backward to older devices</changelogtext>
+		<changelogtext>Moved attachment icon on first position in note detail page</changelogtext>
 		<changelogtext>Fixed reminder bug showind notification with some delay and giving error on notification opening when the note was created first time</changelogtext>
     </changelogversion>
 

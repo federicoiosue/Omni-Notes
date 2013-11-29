@@ -32,6 +32,13 @@
         android:title="@string/add_note"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_attachment"
+        android:icon="@drawable/ic_action_attachment"
+        android:orderInCategory="200"
+        android:showAsAction="ifRoom"
+        android:title="@string/attachment"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_action_share"
         android:orderInCategory="300"
@@ -51,13 +58,6 @@
         android:orderInCategory="380"
         android:showAsAction="ifRoom"
         android:title="@string/unarchive"
-        android:visible="false"/>
-    <item
-        android:id="@+id/menu_attachment"
-        android:icon="@drawable/ic_action_attachment"
-        android:orderInCategory="390"
-        android:showAsAction="ifRoom"
-        android:title="@string/attachment"
         android:visible="false"/>
     <item
         android:id="@+id/menu_delete"
