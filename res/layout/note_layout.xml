@@ -63,30 +63,24 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <LinearLayout
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/note_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_gravity="bottom|right"
+        android:text="@string/note_timestamp"
+        android:textAppearance="@style/Text.Normal"
+        android:textColor="@color/list_note_title"
+        pixlui:typeface="RobotoSlab-Light.ttf" />
 
-        <com.neopixl.pixlui.components.textview.TextView
-            android:id="@+id/note_content"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_weight="1"
-            android:text="@string/note_timestamp"
-            android:textAppearance="@style/Text.Normal"
-            android:textColor="@color/list_note_title"
-            pixlui:typeface="RobotoSlab-Light.ttf" />
-
-        <com.neopixl.pixlui.components.textview.TextView
-            android:id="@+id/note_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:text="@string/note_timestamp"
-            android:textAppearance="@style/Text.Small"
-            pixlui:typeface="RobotoSlab-Light.ttf" />
-    </LinearLayout>
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/note_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:gravity="bottom|right"
+        android:text="@string/note_timestamp"
+        android:textAppearance="@style/Text.Small"
+        pixlui:typeface="RobotoSlab-Thin.ttf" />
 
 </LinearLayout>

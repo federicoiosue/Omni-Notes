@@ -91,7 +91,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			mBuilder.setVibrate(pattern);
 
 		// Next create the bundle and initialize it
-		Intent intent = new Intent(ctx, DetailActivity.class);
+		Intent intent = new Intent(ctx, it.feio.android.omninotes.DetailActivity.class);
 		Bundle bundle = new Bundle();
 
 		// Add the parameters to bundle as
@@ -113,6 +113,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		// Builds an anonymous Notification object from the builder, and
 		// passes it to the NotificationManager
-		mNotificationManager.notify(0, mBuilder.build());
+		mNotificationManager.notify(note.get_id(), mBuilder.build());
 	}
 }

@@ -16,8 +16,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="18"
-    android:versionName="3.9.1" >
+    android:versionCode="19"
+    android:versionName="3.9.2" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -30,19 +30,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
-    <uses-feature
-        android:name="android.hardware.LOCATION"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.location.GPS"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.location.NETWORK"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.screen.PORTRAIT"
-        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -70,13 +57,6 @@
             android:name="it.feio.android.omninotes.ListActivity"
             android:label="@string/title_activity_list"
             android:launchMode="singleTop" >
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

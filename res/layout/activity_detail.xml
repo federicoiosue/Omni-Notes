@@ -44,7 +44,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:overScrollMode="never" >
+            android:overScrollMode="never"
+            android:scrollbars="none" >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,10 +66,10 @@
                     android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
                     android:textAppearance="@style/Text.Small"
                     android:textColor="@color/location_text"
-                    android:layout_marginTop="10dp"
                     android:visibility="gone"
                     pixlui:typeface="RobotoSlab-Thin.ttf" />
 
