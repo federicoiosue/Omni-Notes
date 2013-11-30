@@ -71,6 +71,7 @@
         android:text="@string/note_timestamp"
         android:textAppearance="@style/Text.Normal"
         android:textColor="@color/list_note_title"
+        android:visibility="gone"
         pixlui:typeface="RobotoSlab-Light.ttf" />
 
     <com.neopixl.pixlui.components.textview.TextView

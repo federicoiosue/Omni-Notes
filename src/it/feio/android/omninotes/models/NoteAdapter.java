@@ -55,19 +55,26 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		TextView content = (TextView) rowView.findViewById(R.id.note_content);
 		TextView date = (TextView) rowView.findViewById(R.id.note_date);
 
-		// Get text for title and content views
+		// Setting note title		
 		title.setText(values.get(position).getTitle());
-		int maxContentTextLength = 40;
-		// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
-		String[] noteContent = values.get(position).getContent().split(System.getProperty("line.separator"));
-		String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..."
-				: "";
-		String contentText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0]
-				.substring(0, maxContentTextLength) : noteContent[0])
-				+ suffix
-				: noteContent[0];
+		
 
-		content.setText(contentText);
+		// Setting note content
+		String contentText = values.get(position).getContent();
+		if (contentText.length() > 0) {
+			int maxContentTextLength = 40;
+			// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
+			String[] noteContent = contentText.split(System.getProperty("line.separator"));
+			String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..."
+					: "";
+			String contentReducedText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0]
+					.substring(0, maxContentTextLength) : noteContent[0])
+					+ suffix
+					: noteContent[0];
+	
+			content.setText(contentReducedText);
+			content.setVisibility(View.VISIBLE);
+		}
 
 		// Evaluates the archived state...
 		ImageView archiveIcon = (ImageView)rowView.findViewById(R.id.archivedIcon);

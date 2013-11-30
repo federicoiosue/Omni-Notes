@@ -28,6 +28,7 @@
     <color name="drawer_line">#ee222222</color>
     <color name="text_gray">#2d2d2d</color>
     <color name="location_text">#2d2d2d</color>
+    <color name="selected">#8833B5E5</color>    
     
     
 </resources>

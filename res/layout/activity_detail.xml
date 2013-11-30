@@ -30,6 +30,7 @@
         android:background="@drawable/bg_card"
         android:hint="@string/title"
         android:inputType="textCapSentences"
+        android:linksClickable="true"
         android:textColor="@color/text_gray"
         pixlui:typeface="RobotoSlab-Bold.ttf" />
 
@@ -61,6 +62,7 @@
                     android:background="@android:color/white"
                     android:hint="@string/content"
                     android:inputType="textCapSentences|textMultiLine"
+                    android:linksClickable="true"
                     android:textColor="@color/text_gray"
                     pixlui:typeface="RobotoSlab-Regular.ttf" />
 
@@ -68,7 +70,8 @@
                     android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/clickable_view"
                     android:gravity="center_vertical"
                     android:textAppearance="@style/Text.Small"
                     android:textColor="@color/location_text"
@@ -79,9 +82,10 @@
                     android:id="@+id/gridview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="15dp"
+                    android:drawSelectorOnTop="true"
+                    android:layout_marginTop="20dp"
                     android:gravity="center"
+                    android:listSelector="@drawable/clickable_view"
                     android:numColumns="auto_fit"
                     android:stretchMode="columnWidth" />
 
@@ -89,8 +93,7 @@
                     android:id="@+id/reminder_layout"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/clickable_view"
                     android:orientation="horizontal" >
 
@@ -105,6 +108,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
+                        android:hint="@string/add_reminder"
                         android:textAppearance="@style/Text.Small"
                         pixlui:typeface="RobotoSlab-Thin.ttf" />
                 </LinearLayout>

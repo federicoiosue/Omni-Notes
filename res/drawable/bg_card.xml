@@ -25,7 +25,7 @@
             <solid android:color="#ffcccccc" />
         </shape>
     </item>
-    <item android:bottom="3.0dip">
+    <item android:bottom="2.0dip">
         <shape
             android:dither="true"
             android:shape="rectangle" >

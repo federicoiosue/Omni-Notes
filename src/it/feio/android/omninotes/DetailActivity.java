@@ -57,6 +57,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +69,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 /**
@@ -86,7 +88,8 @@ public class DetailActivity extends BaseActivity {
 	private SherlockFragmentActivity mActivity;
 	
 	private Note note;
-	private ImageView reminder, reminder_delete;
+	private ImageView reminder;
+	private LinearLayout reminder_layout;
 	private TextView datetime;
 	private String alarmDate = "", alarmTime = "";
 	private String dateTimeText = "";
@@ -128,6 +131,12 @@ public class DetailActivity extends BaseActivity {
 
 
 	private void initViews() {
+
+		// Sets links clickable in title and content Views
+		com.neopixl.pixlui.components.edittext.EditText title = (com.neopixl.pixlui.components.edittext.EditText)findViewById(R.id.title);
+		title.setMovementMethod(LinkMovementMethod.getInstance());
+		com.neopixl.pixlui.components.edittext.EditText content = (com.neopixl.pixlui.components.edittext.EditText)findViewById(R.id.content);
+		content.setMovementMethod(LinkMovementMethod.getInstance());
 		
 		// Initialization of location TextView
 		location = (TextView) findViewById(R.id.location);
@@ -139,7 +148,10 @@ public class DetailActivity extends BaseActivity {
 		location.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final String uriString = "http://maps.google.com/maps?q=" + noteLatitude + ',' + noteLongitude + "("+ "asd" +")&z=15";
+				String urlTag = Constants.TAG  
+								+ (note.getTitle() != null ? System.getProperty("line.separator") + note.getTitle() : "")
+								+ (note.getContent() != null ? System.getProperty("line.separator") + note.getContent() : "");
+				final String uriString = "http://maps.google.com/maps?q=" + noteLatitude + ',' + noteLongitude + "("+ urlTag +")&z=15";
 				Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
 				startActivity(locationIntent);
 			}
@@ -147,10 +159,26 @@ public class DetailActivity extends BaseActivity {
 		location.setOnLongClickListener(new OnLongClickListener() {			
 			@Override
 			public boolean onLongClick(View v) {
-				noteLatitude = 0;
-				noteLongitude = 0;
-				location.setText("");
-				location.setVisibility(View.GONE);
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+				alertDialogBuilder.setMessage(R.string.remove_location).setCancelable(false)
+						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								noteLatitude = 0;
+								noteLongitude = 0;
+								location.setText("");
+								location.setVisibility(View.GONE);
+							}
+						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
 				return true;
 			}
 		});
@@ -173,7 +201,7 @@ public class DetailActivity extends BaseActivity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v, final int position, long id) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
-				alertDialogBuilder.setMessage(R.string.confirm_image_deletion).setCancelable(false)
+				alertDialogBuilder.setMessage(R.string.delete_selected_image).setCancelable(false)
 						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
 							@Override
@@ -197,31 +225,39 @@ public class DetailActivity extends BaseActivity {
 		
 	   
 	    // Preparation for reminder icon
-		reminder = (ImageView) findViewById(R.id.reminder);
-		reminder.setOnClickListener(new OnClickListener() {
+		reminder_layout = (LinearLayout) findViewById(R.id.reminder_layout);
+		reminder_layout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// Timepicker will be automatically called after date is inserted by user
-//				showDatePickerDialog(v);
-				showDateTimeSelectors();
-				
+				showDateTimeSelectors();				
 			}
-		});
+		});		
+		reminder_layout.setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+				alertDialogBuilder.setMessage(R.string.remove_reminder).setCancelable(false)
+						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
-		reminder_delete = (ImageView) findViewById(R.id.reminder_delete);
-		reminder_delete.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				alarmDate = "";
-				alarmTime = "";
-				alarmDateTime = -1;
-				datetime.setText("");
-				reminder_delete.setVisibility(View.INVISIBLE);
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								alarmDate = "";
+								alarmTime = "";
+								alarmDateTime = -1;
+								datetime.setText("");
+							}
+						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
+				return true;
 			}
 		});
-		// Checks if an alarm is set to show deletion icon
-		if (dateTimeText.length() > 0)
-			reminder_delete.setVisibility(View.VISIBLE);
 		
 		datetime = (TextView) findViewById(R.id.datetime);
 		datetime.setText(dateTimeText);
@@ -264,9 +300,6 @@ public class DetailActivity extends BaseActivity {
 						alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
 								Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
 								Constants.DATE_FORMAT_SHORT_TIME).getTimeInMillis();
-						
-						// Shows icon to remove alarm
-						reminder_delete.setVisibility(View.VISIBLE);
 						
 						Log.d(Constants.TAG, "Time set");						
 					}

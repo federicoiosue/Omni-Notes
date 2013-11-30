@@ -16,28 +16,16 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <!-- <ListView -->
-    <!-- android:id="@+id/notesList" -->
-    <!-- android:layout_width="match_parent" -->
-    <!-- android:layout_height="match_parent" -->
-    <!-- android:background="@drawable/abs__ab_transparent_light_holo" -->
-    <!-- android:layout_alignParentLeft="true" -->
-    <!-- android:layout_alignParentTop="true" > -->
-    <!-- </ListView> -->
+    android:layout_height="match_parent"
+    android:background="@color/gray_bg" >
 
     <ListView
         android:id="@+id/notesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray_bg"
-        android:clipToPadding="false"
         android:divider="@null"
         android:dividerHeight="16dp"
-        android:fadingEdge="none"
-        android:padding="8dp"
-        android:scrollbarStyle="outsideOverlay" >
+        android:padding="8dp" >
     </ListView>
 
     <ListView
