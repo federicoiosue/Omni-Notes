@@ -26,6 +26,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autoLink="all"
         android:background="@drawable/bg_card"
         android:hint="@string/title"
         android:inputType="textCapSentences"
@@ -56,6 +57,7 @@
                     android:id="@+id/content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autoLink="all"
                     android:background="@android:color/white"
                     android:hint="@string/content"
                     android:inputType="textCapSentences|textMultiLine"
@@ -84,10 +86,12 @@
                     android:stretchMode="columnWidth" />
 
                 <LinearLayout
+                    android:id="@+id/reminder_layout"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="8dp"
+                    android:background="@drawable/clickable_view"
                     android:orientation="horizontal" >
 
                     <ImageView
@@ -103,13 +107,6 @@
                         android:gravity="center_vertical"
                         android:textAppearance="@style/Text.Small"
                         pixlui:typeface="RobotoSlab-Thin.ttf" />
-
-                    <ImageView
-                        android:id="@+id/reminder_delete"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_delete_dark"
-                        android:visibility="invisible" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
