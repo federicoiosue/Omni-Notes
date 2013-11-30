@@ -161,9 +161,10 @@ public class Note implements Parcelable {
 	}
 
 	public String getLastModificationShort() {
-		Calendar.getInstance().setTimeInMillis(lastModification);
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(lastModification);
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SHORT);
-		return sdf.format(Calendar.getInstance().getTimeInMillis());
+		return sdf.format(c.getTimeInMillis());
 	}
 
 	public void setLastModification(Long lastModification) {
