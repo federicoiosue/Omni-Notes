@@ -100,6 +100,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 		intent.putExtras(bundle);
 		// Sets the Activity to start in a new, empty task
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		// Workaround to fix problems with multiple notifications
+	    intent.setAction(Long.toString(System.currentTimeMillis()));
 
 		// Creates the PendingIntent
 		PendingIntent notifyIntent = PendingIntent.getActivity(ctx, 0, intent,
