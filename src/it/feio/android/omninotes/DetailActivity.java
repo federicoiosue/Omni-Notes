@@ -365,7 +365,7 @@ public class DetailActivity extends BaseActivity {
             Address address = gcd.getFromLocation(currentLatitude, currentLongitude,1).get(0);
             
             if (address != null) {
-            	addressString = address.getAddressLine(0);
+            	addressString = address.getThoroughfare() + ", " + address.getLocality();
             }
         }
         catch(IOException ex){
