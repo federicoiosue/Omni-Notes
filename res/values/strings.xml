@@ -80,9 +80,9 @@
     <string name="delete_selected_image">Delete selected image?</string>
     <string name="gallery">Gallery</string>
     <string name="location">Location</string>
-    <string name="remove_location">Remove location?</string>    
+    <string name="remove_location">Remove location?</string>
     <string name="remove_reminder">Remove reminder?</string>
-    <string name="add_reminder">Add reminder</string>    
+    <string name="add_reminder">Add reminder</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -117,5 +117,7 @@
     <!-- About -->
     <string name="follow_author">Follow the author</string>
     <string name="click_to_support">Click the banner to support development</string>
+    <string name="title_activity_intent_receiver">IntentReceiverActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

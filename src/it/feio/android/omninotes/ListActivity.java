@@ -73,15 +73,36 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);
 		
-		// Checks selected locale or default one
-//		checkLocale();
+		// Get intent, action and MIME type to handle intent-filter requests
+		Intent intent = getIntent();
+		if (Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
+			handleFilter(intent);
+		}
 
+		// Navigation drawer and listview initialization
 		initNavigationDrawer();
 		initListView();
-//		initNotesList(getIntent());
 
 		CharSequence title = getResources().getStringArray(R.array.navigation_list)[Integer.parseInt(prefs.getString(Constants.PREF_NAVIGATION, "0"))];
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
+	}
+
+
+	/**
+	 * Handles third party apps requests of sharing
+	 * @param intent
+	 */
+	private void handleFilter(Intent intent) {
+		if ("text/plain".equals(intent.getType())) {
+			String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+			if (sharedText != null) {
+				Note note = new Note();
+				note.setContent(sharedText);
+				Intent detailIntent = new Intent(this, DetailActivity.class);
+				detailIntent.putExtra(Constants.INTENT_NOTE, note);
+				startActivity(detailIntent);
+			}
+		}
 	}
 
 

@@ -89,7 +89,6 @@ public class DetailActivity extends BaseActivity {
 	private SherlockFragmentActivity mActivity;
 	
 	private Note note;
-	private ImageView reminder;
 	private LinearLayout reminder_layout;
 	private TextView datetime;
 	private String alarmDate = "", alarmTime = "";
@@ -326,8 +325,6 @@ public class DetailActivity extends BaseActivity {
 		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);
 
 		if (note.get_id() != 0) {
-			((EditText) findViewById(R.id.title)).setText(note.getTitle());
-			((EditText) findViewById(R.id.content)).setText(note.getContent());
 			((TextView) findViewById(R.id.creation))
 					.append(getString(R.string.creation) + " "
 							+ note.getCreationShort());
@@ -349,6 +346,10 @@ public class DetailActivity extends BaseActivity {
 //			getWindow().setSoftInputMode(
 //					WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		}
+		
+		// Some fields can be filled by third party application and are always shown
+		((EditText) findViewById(R.id.title)).setText(note.getTitle());
+		((EditText) findViewById(R.id.content)).setText(note.getContent());
 		attachmentsList = note.getAttachmentsList();
 		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);
 	}
@@ -531,7 +532,6 @@ public class DetailActivity extends BaseActivity {
 				attachmentDialog.dismiss();
 				break;
 			case R.id.location:
-				Intent locationIntent;
 				String address = getAddress();
 				location.setVisibility(View.VISIBLE);
 				location.setText(address);
