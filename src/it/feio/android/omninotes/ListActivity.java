@@ -27,12 +27,15 @@ import com.actionbarsherlock.view.MenuItem.OnActionExpandListener;
 import com.actionbarsherlock.widget.SearchView;
 import com.actionbarsherlock.widget.SearchView.OnCloseListener;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+
+import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.R;
+import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -75,7 +78,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		
 		// Get intent, action and MIME type to handle intent-filter requests
 		Intent intent = getIntent();
-		if (Intent.ACTION_SEND.equals(intent.getAction()) && intent.getType() != null) {
+		if ((Intent.ACTION_SEND.equals(intent.getAction()) || Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction())) && intent.getType() != null) {
 			handleFilter(intent);
 		}
 
@@ -93,16 +96,30 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 * @param intent
 	 */
 	private void handleFilter(Intent intent) {
-		if ("text/plain".equals(intent.getType())) {
-			String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-			if (sharedText != null) {
-				Note note = new Note();
-				note.setContent(sharedText);
-				Intent detailIntent = new Intent(this, DetailActivity.class);
-				detailIntent.putExtra(Constants.INTENT_NOTE, note);
-				startActivity(detailIntent);
-			}
+		Note note = new Note();
+		
+		// Text data
+		String content = intent.getStringExtra(Intent.EXTRA_TEXT);
+		if (content != null) {
+			note.setContent(content);
 		}
+		// Single image data
+		Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+	    if (uri != null) {
+	        note.addAttachment(new Attachment(uri));
+	    }
+	    // Multiple image data
+	    ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+	    if (uris != null) {
+	    	for (Uri uri2 : uris) {
+		        note.addAttachment(new Attachment(uri2));				
+			}
+	    }
+	    
+	    // Editing activity launch
+		Intent detailIntent = new Intent(this, DetailActivity.class);
+		detailIntent.putExtra(Constants.INTENT_NOTE, note);
+		startActivity(detailIntent);
 	}
 
 

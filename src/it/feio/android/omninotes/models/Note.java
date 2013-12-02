@@ -254,6 +254,10 @@ public class Note implements Parcelable {
 	public void setAttachmentsList(List<Attachment> attachmentsList) {
 		this.attachmentsList = attachmentsList;
 	}
+	
+	public void addAttachment(Attachment attachment) {
+		this.attachmentsList.add(attachment);
+	}
 
 
 	public String toString(){
