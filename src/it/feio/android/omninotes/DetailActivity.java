@@ -29,6 +29,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import it.feio.android.omninotes.models.Attachment;
@@ -58,6 +59,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +69,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -99,6 +100,7 @@ public class DetailActivity extends BaseActivity {
 	private ExpandableHeightGridView mGridView;
 	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private AlertDialog attachmentDialog;
+	private EditText title, content;
 	private TextView location;
 	
 	// Location variables
@@ -133,10 +135,17 @@ public class DetailActivity extends BaseActivity {
 	private void initViews() {
 
 		// Sets links clickable in title and content Views
-		com.neopixl.pixlui.components.edittext.EditText title = (com.neopixl.pixlui.components.edittext.EditText)findViewById(R.id.title);
-		title.setMovementMethod(LinkMovementMethod.getInstance());
-		com.neopixl.pixlui.components.edittext.EditText content = (com.neopixl.pixlui.components.edittext.EditText)findViewById(R.id.content);
-		content.setMovementMethod(LinkMovementMethod.getInstance());
+		title = (EditText)findViewById(R.id.title);
+		content = (EditText)findViewById(R.id.content);
+		// Automatic links parsing if enabled
+		if (prefs.getBoolean("settings_enable_editor_links", false)) {
+			title.setLinksClickable(true);
+			Linkify.addLinks(title, Linkify.ALL);
+			title.setMovementMethod(LinkMovementMethod.getInstance());
+			content.setLinksClickable(true);
+			Linkify.addLinks(content, Linkify.ALL);
+			content.setMovementMethod(LinkMovementMethod.getInstance());
+		}
 		
 		// Initialization of location TextView
 		location = (TextView) findViewById(R.id.location);
@@ -472,6 +481,8 @@ public class DetailActivity extends BaseActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+
 
 	private AlertDialog showAttachmentDialog() {
 		AlertDialog.Builder attachmentDialog = new AlertDialog.Builder(this);

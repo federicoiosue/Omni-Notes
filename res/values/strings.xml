@@ -112,6 +112,7 @@
     <string name="settings_enable_sound">Enable ringtone</string>
     <string name="settings_enable_vibration">Enable vibration</string>
     <string name="settings_changelog">Changelog</string>
+    <string name="settings_enable_editor_links">Enable links in editor</string>
 
     <!-- About -->
     <string name="follow_author">Follow the author</string>
