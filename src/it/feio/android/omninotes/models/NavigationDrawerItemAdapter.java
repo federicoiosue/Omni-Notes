@@ -16,9 +16,12 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.utils.Constants;
+
 import com.neopixl.pixlui.components.textview.TextView;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,9 +72,12 @@ public class NavigationDrawerItemAdapter extends BaseAdapter {
 		// Locate the ImageView in drawer_list_item.xml
 		imgIcon = (ImageView) itemView.findViewById(R.id.icon);
 
-		// Set the results into TextViews
+		// Set the results into TextViews	
 		txtTitle.setText(mTitle[position]);
-		if (convertView != null && checked)
+		
+		// Check the selected one
+		int selected = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PREF_NAVIGATION, "0"));
+		if (convertView != null && checked || position == selected)
 			txtTitle.setTextColor(context.getResources().getColor(R.color.drawer_text_selected));
 
 		// Set the results into ImageView
