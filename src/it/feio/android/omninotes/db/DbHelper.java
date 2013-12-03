@@ -350,9 +350,9 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 
 
-	public List<Attachment> getNoteAttachments(Note note) {
+	public ArrayList<Attachment> getNoteAttachments(Note note) {
 		
-		List<Attachment> attachmentsList = new ArrayList<Attachment>();
+		ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
 		String sql = "SELECT " + KEY_ATTACHMENT_ID + "," + KEY_ATTACHMENT_URI + " FROM " + TABLE_ATTACHMENTS + " WHERE " + KEY_ATTACHMENT_NOTE_ID + " = " + note.get_id();
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(sql, null);

@@ -35,7 +35,7 @@ public class Note implements Parcelable {
 	private String alarm;
 	private Double latitude;
 	private Double longitude;
-	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
+	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
 
 
 	public Note() {
@@ -246,12 +246,12 @@ public class Note implements Parcelable {
 	}
 
 
-	public List<Attachment> getAttachmentsList() {
+	public ArrayList<Attachment> getAttachmentsList() {
 		return attachmentsList;
 	}
 
 
-	public void setAttachmentsList(List<Attachment> attachmentsList) {
+	public void setAttachmentsList(ArrayList<Attachment> attachmentsList) {
 		this.attachmentsList = attachmentsList;
 	}
 	

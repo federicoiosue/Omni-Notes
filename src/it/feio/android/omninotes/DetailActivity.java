@@ -97,7 +97,7 @@ public class DetailActivity extends BaseActivity {
 	public Uri imageUri;
 	private AttachmentAdapter mAttachmentAdapter;
 	private ExpandableHeightGridView mGridView;
-	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
+	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private AlertDialog attachmentDialog;
 	private EditText title, content;
 	private TextView location;
@@ -689,6 +689,10 @@ public class DetailActivity extends BaseActivity {
 	}
 	
 
+	
+	/**
+	 * Notes sharing
+	 */
 	private void shareNote() {
 		// Changed fields
 		String title = ((EditText) findViewById(R.id.title)).getText()
@@ -710,11 +714,32 @@ public class DetailActivity extends BaseActivity {
 				+ System.getProperty("line.separator")
 				+ getResources().getString(R.string.shared_content_sign);
 
-		// Prepare sharing intent
-		Intent shareIntent = new Intent(Intent.ACTION_SEND);
-		shareIntent.setType("text/plain");
-		// shareIntent.setType("*/*");
-		shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+		Intent shareIntent = new Intent();
+		// Prepare sharing intent with only text
+		if (attachmentsList.size() == 0) {
+			shareIntent.setAction(Intent.ACTION_SEND);
+			shareIntent.setType("text/plain");
+			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+			
+		// Intent with single image attachment
+		} else if (attachmentsList.size() == 1) {
+			shareIntent.setAction(Intent.ACTION_SEND);
+			shareIntent.setType("image/jpeg");
+			shareIntent.putExtra(Intent.EXTRA_STREAM, attachmentsList.get(0).getUri());
+			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+			
+		// Intent with multiple images
+		} else if (attachmentsList.size() > 1) {
+			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+			shareIntent.setType("image/jpeg");
+			ArrayList<Uri> uris = new ArrayList<Uri>();
+			for (Attachment attachment : attachmentsList) {
+				uris.add(attachment.getUri());
+			}
+			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+		}
+		
 		startActivity(Intent.createChooser(shareIntent, getResources()
 				.getString(R.string.share_message_chooser)));
 	}
