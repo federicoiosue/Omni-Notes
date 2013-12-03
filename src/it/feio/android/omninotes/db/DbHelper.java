@@ -128,8 +128,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		long resNote, resAttachment;
 		SQLiteDatabase db = this.getWritableDatabase();
 		
-		// To ensure note and attachments insertions are atomical 
-//		db.beginTransaction();
+		// To ensure note and attachments insertions are atomical and boost performances transaction are used
+		db.beginTransaction();
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_TITLE, note.getTitle());
@@ -162,6 +162,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		
 		// Updating attachments
 		ContentValues valuesAttachments = new ContentValues();
+		ArrayList<Attachment> deletedAttachments = note.getAttachmentsListOld();
 		for (Attachment attachment : note.getAttachmentsList()) {
 			// Updating attachment
 			if (attachment.getId() == 0) {
@@ -170,10 +171,18 @@ public class DbHelper extends SQLiteOpenHelper {
 				resAttachment = db.insert(TABLE_ATTACHMENTS, null, valuesAttachments);
 				Log.d(Constants.TAG, "Saved new attachment with uri '"
 						+ attachment.getUri().toString() + "' with id: " + resAttachment);
+			} else {
+				deletedAttachments.remove(attachment);
 			}
 		}
+		// Remove from database deleted attachments
+		for (Attachment attachmentDeleted : deletedAttachments) {
+			db.delete(TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID + " = ?",
+					new String[] { String.valueOf(attachmentDeleted.getId()) });
+		}
 		
-//		db.endTransaction();
+		db.setTransactionSuccessful();
+		db.endTransaction();
 		
 		db.close();
 

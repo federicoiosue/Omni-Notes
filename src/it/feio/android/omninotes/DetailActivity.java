@@ -18,7 +18,6 @@ package it.feio.android.omninotes;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import org.joda.time.DateTime;
@@ -69,7 +68,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -346,6 +344,9 @@ public class DetailActivity extends BaseActivity {
 //			getWindow().setSoftInputMode(
 //					WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		}
+		
+		// Backup of actual attachments list to check if some of them will be deleted
+		note.backupAttachmentsList();
 		
 		// Some fields can be filled by third party application and are always shown
 		((EditText) findViewById(R.id.title)).setText(note.getTitle());

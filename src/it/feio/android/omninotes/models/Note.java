@@ -19,7 +19,6 @@ import it.feio.android.omninotes.utils.Constants;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -36,6 +35,7 @@ public class Note implements Parcelable {
 	private Double latitude;
 	private Double longitude;
 	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
+	private ArrayList<Attachment> attachmentsListOld = new ArrayList<Attachment>();
 
 
 	public Note() {
@@ -257,6 +257,20 @@ public class Note implements Parcelable {
 	
 	public void addAttachment(Attachment attachment) {
 		this.attachmentsList.add(attachment);
+	}
+
+
+	public void backupAttachmentsList() {
+		ArrayList<Attachment> attachmentsListOld = new ArrayList<Attachment>();
+		for (Attachment mAttachment : getAttachmentsList()) {
+			attachmentsListOld.add(mAttachment);
+		}
+		this.attachmentsListOld = attachmentsListOld;
+	}
+
+
+	public ArrayList<Attachment> getAttachmentsListOld() {
+		return attachmentsListOld;
 	}
 
 
