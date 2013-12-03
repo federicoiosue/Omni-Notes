@@ -131,15 +131,15 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	}
 	
 	
-	@Override
-	public void onBackPressed() {
-		// To avoid showing splashcreen again
-		Intent intent = new Intent(Intent.ACTION_MAIN);
-		intent.addCategory(Intent.CATEGORY_HOME);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intent);
-		
-	}
+//	@Override
+//	public void onBackPressed() {
+//		// To avoid showing splashcreen again
+//		Intent intent = new Intent(Intent.ACTION_MAIN);
+//		intent.addCategory(Intent.CATEGORY_HOME);
+//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//		startActivity(intent);
+//		
+//	}
 	
 	
 
