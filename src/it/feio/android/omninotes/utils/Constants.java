@@ -22,6 +22,7 @@ public interface Constants {
 	
 	// Splash screen timer
 	static int SPLASH_TIME_OUT = 1400;
+	static long SPLASH_MIN_OFFSET = 60*60*1000; // 1 hour
 
 	final String DEV_EMAIL = "federico.iosue@gmail.com";
 	

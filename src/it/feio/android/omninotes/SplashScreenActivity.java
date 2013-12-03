@@ -15,21 +15,30 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import org.joda.time.DateTime;
+
 import it.feio.android.omninotes.utils.Constants;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.Window;
 
 public class SplashScreenActivity extends Activity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
-
+		
+		// If is not passed enaugh time splash is skipped
+		long openTime = DateTime.now().getMillis();
+		long lastOpenTime = PreferenceManager.getDefaultSharedPreferences(this).getLong("last_app_open", DateTime.now().getMillis() + Constants.SPLASH_MIN_OFFSET);
+		if (openTime - lastOpenTime < Constants.SPLASH_MIN_OFFSET)
+			launchMainActivity();
+			
 		new Handler().postDelayed(new Runnable() {
 
 			/*
@@ -41,9 +50,7 @@ public class SplashScreenActivity extends Activity {
 			public void run() {
 				// This method will be executed once the timer is over
 				// Start your app main activity
-				Intent i = new Intent(SplashScreenActivity.this,
-						ListActivity.class);
-				startActivity(i);
+				launchMainActivity();
 
 				// close this activity
 				finish();
@@ -56,6 +63,12 @@ public class SplashScreenActivity extends Activity {
 		super.onAttachedToWindow();
 		Window window = getWindow();
 		window.setFormat(PixelFormat.RGBA_8888);
+	}
+	
+	
+	private void launchMainActivity() {
+		Intent i = new Intent(SplashScreenActivity.this, ListActivity.class);
+		startActivity(i);
 	}
 
 }
