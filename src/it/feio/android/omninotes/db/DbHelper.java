@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import org.joda.time.DateTime;
+
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.AssetUtils;
@@ -184,7 +187,13 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 
 	
-	// Getting single note
+	
+	
+	/**
+	 * Getting single note
+	 * @param id
+	 * @return
+	 */
 	public Note getNote(int id) {
 		SQLiteDatabase db = getReadableDatabase();
 
@@ -207,6 +216,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		return note;
 	}
 
+	
+	
 	/**
 	 * Getting All notes
 	 * 
@@ -216,7 +227,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return Notes list
 	 */
 	public List<Note> getAllNotes(boolean checkNavigation) {
-		List<Note> noteList = new ArrayList<Note>();
 
 		// Getting sorting criteria from preferences
 		SharedPreferences prefs = PreferenceManager
@@ -235,8 +245,24 @@ public class DbHelper extends SQLiteOpenHelper {
 				+ " ORDER BY " + sort_column;
 		Log.d(Constants.TAG, "Select notes query: " + selectQuery);
 
+		return getNotes(selectQuery);
+
+		// new GetAllNotesAsync(ctx, this, mAdapter).execute(checkNavigation);
+	}
+	
+	
+	
+	/**
+	 * Common method for notes retrieval. It accepts a query to perform and returns matching records.
+	 * @param query
+	 * @return Notes list
+	 */
+	private List<Note> getNotes(String query) {
+		List<Note> noteList = new ArrayList<Note>();
+		Log.d(Constants.TAG, "Select notes query: " + query);
+
 		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.rawQuery(selectQuery, null);
+		Cursor cursor = db.rawQuery(query, null);
 
 		// Looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
@@ -262,11 +288,15 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.close();
 
 		return noteList;
-
-		// new GetAllNotesAsync(ctx, this, mAdapter).execute(checkNavigation);
 	}
+	
+	
 
-	// Getting notes count
+
+	/**
+	 * Getting notes count
+	 * @return
+	 */
 	public int getNotesCount() {
 		String countQuery = "SELECT * FROM " + TABLE_NOTES;
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -276,7 +306,12 @@ public class DbHelper extends SQLiteOpenHelper {
 		return cursor.getCount();
 	}
 
-	// Deleting single note
+	
+	
+	/**
+	 * Deleting single note
+	 * @param note
+	 */
 	public void deleteNote(Note note) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		// Delete notes
@@ -288,15 +323,22 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.close();
 	}
 
-	// Clears completelly the database
+	
+	
+
+	/**
+	 * Clears completelly the database
+	 */
 	public void clear() {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.execSQL("DELETE FROM " + TABLE_NOTES);
 		db.close();
 	}
 
+	
+	
 	/**
-	 * Getting All notes
+	 * Getting notes matching pattern with title or content text
 	 * 
 	 * @param checkNavigation
 	 *            Tells if navigation status (notes, archived) must be kept in
@@ -304,8 +346,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return Notes list
 	 */
 	public List<Note> getMatchingNotes(String pattern) {
-		List<Note> noteList = new ArrayList<Note>();
-
+		
 		// Getting sorting criteria from preferences
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
@@ -317,39 +358,37 @@ public class DbHelper extends SQLiteOpenHelper {
 				+ KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR "
 				+ KEY_CONTENT + " LIKE '%" + pattern + "%' " + " ORDER BY "
 				+ sort_column;
-		Log.d(Constants.TAG, "Select notes query: " + selectQuery);
+		
+		return getNotes(selectQuery);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Search for notes with reminder
+	 * @param passed Search also for fired yet reminders
+	 * @return Notes list
+	 */
+	public List<Note> getNotesWithReminder(boolean passed) {
 
-		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(selectQuery, null);
-
-		// Looping through all rows and adding to list
-		if (cursor.moveToFirst()) {
-			do {
-				Note note = new Note();
-				note.set_id(Integer.parseInt(cursor.getString(0)));
-				note.setCreation(cursor.getLong(1));
-				note.setLastModification(cursor.getLong(2));
-				note.setTitle(cursor.getString(3));
-				note.setContent(cursor.getString(4));
-				note.setArchived("1".equals(cursor.getString(5)));
-				note.setAlarm(cursor.getString(6));
-				note.setLatitude(cursor.getString(7));
-				note.setLongitude(cursor.getString(8));
+		// Select query
+		String selectQuery = "SELECT * FROM " + TABLE_NOTES 
+							+ " WHERE " + KEY_ALARM 
+							+ (passed ? " IS NOT NULL" : " >= " + DateTime.now().getMillis());
 				
-				// Add eventual attachments uri
-				note.setAttachmentsList(getNoteAttachments(note));
-				
-				// Adding note to list
-				noteList.add(note);
-			} while (cursor.moveToNext());
-		}
 
-		db.close();
-
-		return noteList;
+		return getNotes(selectQuery);
 	}
 
 
+	
+	/**
+	 * Retrieves all attachments related to specifi note
+	 * @param note
+	 * @return List of attachments
+	 */
 	public ArrayList<Attachment> getNoteAttachments(Note note) {
 		
 		ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
