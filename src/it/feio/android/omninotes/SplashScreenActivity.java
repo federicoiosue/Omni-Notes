@@ -26,16 +26,21 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.Window;
 
-public class SplashScreenActivity extends Activity {
+public class SplashScreenActivity extends BaseActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
 		
-		// If is not passed enaugh time splash is skipped
+		// Getting last opening time
 		long openTime = DateTime.now().getMillis();
-		long lastOpenTime = PreferenceManager.getDefaultSharedPreferences(this).getLong("last_app_open", DateTime.now().getMillis() + Constants.SPLASH_MIN_OFFSET);
+		long lastOpenTime = prefs.getLong("last_app_open", openTime - Constants.SPLASH_MIN_OFFSET);
+	
+		// Saving application opening time
+		prefs.edit().putLong("last_app_open", openTime).commit();
+		
+		// If is not passed enough time splash image is skipped
 		if (openTime - lastOpenTime < Constants.SPLASH_MIN_OFFSET)
 			launchMainActivity();
 			
