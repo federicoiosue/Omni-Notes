@@ -55,7 +55,7 @@
     <linearGradient
        id="linearGradient3988">
       <stop
-         style="stop-color:#009dce;stop-opacity:0"
+         style="stop-color:#3ed1ff;stop-opacity:0.9596774;"
          offset="0"
          id="stop3990" />
       <stop
@@ -217,7 +217,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -343,7 +343,7 @@
            height="12.727921"
            x="395.9798"
            y="658.50372" /></flowRegion><flowPara
-         id="flowPara3959"></flowPara></flowRoot>    <text
+         id="flowPara3959" /></flowRoot>    <text
        xml:space="preserve"
        style="font-size:5.34979582px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;display:inline;font-family:Sans"
        x="350.08676"

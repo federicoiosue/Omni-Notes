@@ -38,8 +38,10 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.R;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -53,6 +55,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -623,6 +626,7 @@ public class DetailActivity extends BaseActivity {
 	 * @param archive
 	 *            Boolean flag used to archive note
 	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void saveNote(Boolean archive) {
 		
 		// Get old reminder to check later if is changed
@@ -663,8 +667,15 @@ public class DetailActivity extends BaseActivity {
 		note.setAttachmentsList(attachmentsList);
 
 		// Saving changes to the note
-		DbHelper db = new DbHelper(this);
-		note = db.updateNote(note);
+//		DbHelper db = new DbHelper(this);
+//		note = db.updateNote(note);
+		SaveNoteTask saveNoteTask = new SaveNoteTask(this);
+		// Forceing parallel execution disabled by default
+		if (Build.VERSION.SDK_INT >= 11) {
+			saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+		} else {
+			saveNoteTask.execute(note);
+		}
 		
 		// Advice of update
 		showToast(getResources().getText(R.string.note_updated),
