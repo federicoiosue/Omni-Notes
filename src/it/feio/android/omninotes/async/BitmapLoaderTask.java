@@ -5,6 +5,7 @@ import it.feio.android.omninotes.utils.Constants;
 
 import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,13 +15,13 @@ import android.widget.ImageView;
 
 public class BitmapLoaderTask extends AsyncTask<Uri, Void, Bitmap> {
 
-	private final Context ctx;
+	private final Context mContext;
 	private final WeakReference<ImageView> imageViewReference;
 	private int reqWidth;
 	private int reqHeight;
 
 	public BitmapLoaderTask(Context ctx, ImageView imageView) {
-		this.ctx = ctx;
+		this.mContext = ctx;
 		imageViewReference = new WeakReference<ImageView>(imageView);
 	}
 
@@ -32,7 +33,7 @@ public class BitmapLoaderTask extends AsyncTask<Uri, Void, Bitmap> {
 		reqHeight = Constants.THUMBNAIL_SIZE;
 
 		try {
-			bmp = BitmapDecoder.decodeSampledFromUri(ctx, uri, reqWidth,
+			bmp = BitmapDecoder.decodeSampledFromUri(mContext, uri, reqWidth,
 					reqHeight);
 		} catch (FileNotFoundException e) {
 			Log.e(Constants.TAG, "Image not found");
@@ -46,7 +47,6 @@ public class BitmapLoaderTask extends AsyncTask<Uri, Void, Bitmap> {
 			final ImageView imageView = imageViewReference.get();
 			if (imageView != null) {
 				imageView.setImageBitmap(bitmap);
-				imageView.invalidate();
 			}
 		}
 	}

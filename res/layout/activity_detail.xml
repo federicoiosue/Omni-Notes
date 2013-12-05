@@ -77,12 +77,12 @@
                 <it.feio.android.omninotes.models.ExpandableHeightGridView
                     android:id="@+id/gridview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:drawSelectorOnTop="true"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:listSelector="@drawable/clickable_view"
-                    android:numColumns="auto_fit"
+                    android:numColumns="2"
                     android:stretchMode="columnWidth" />
 
                 <LinearLayout

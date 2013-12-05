@@ -195,7 +195,8 @@ public class DetailActivity extends BaseActivity {
 		// Initialzation of gridview for images
 		mGridView = (ExpandableHeightGridView) findViewById(R.id.gridview);
 	    mGridView.setAdapter(mAttachmentAdapter);
-	    mGridView.setExpanded(true);
+//	    mGridView.setExpanded(true);
+	    mGridView.autoresize();
 	    
 	    // Click events for images in gridview (zooms image)
 	    mGridView.setOnItemClickListener(new OnItemClickListener() {
@@ -217,6 +218,7 @@ public class DetailActivity extends BaseActivity {
 							public void onClick(DialogInterface dialog, int id) {
 								attachmentsList.remove(position);
 								mAttachmentAdapter.notifyDataSetChanged();
+							    mGridView.autoresize();
 							}
 						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 
@@ -226,8 +228,7 @@ public class DetailActivity extends BaseActivity {
 							}
 						});
 				AlertDialog alertDialog = alertDialogBuilder.create();
-				alertDialog.show();
-//				imgSrcDialog.dismiss();
+				alertDialog.show();				
 				return true;
 			}
 		});
@@ -556,10 +557,12 @@ public class DetailActivity extends BaseActivity {
 				case TAKE_PHOTO:
 					attachmentsList.add(new Attachment(imageUri));
 					mAttachmentAdapter.notifyDataSetChanged();
+				    mGridView.autoresize();
 					break;
 				case GALLERY:
 					attachmentsList.add(new Attachment(intent.getData()));
 					mAttachmentAdapter.notifyDataSetChanged();
+				    mGridView.autoresize();
 					break;
 			}
 		}

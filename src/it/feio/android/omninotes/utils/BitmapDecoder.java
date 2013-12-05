@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 
 
@@ -69,7 +70,13 @@ public class BitmapDecoder {
 
 		// Decodifica dell'immagine con inSampleSize e ridimensionamento
 		Bitmap bmp = BitmapFactory.decodeStream(ctx.getContentResolver().openInputStream(uri), null, options);
-		bmp = Bitmap.createScaledBitmap(bmp, newWidth, newHeight, true);
+//		bmp = Bitmap.createScaledBitmap(bmp, newWidth, newHeight, true);
+		bmp = ThumbnailUtils.extractThumbnail(bmp, reqWidth, reqHeight);
 		return bmp;
+	}
+	
+	public static Uri getUri(Context mContext, int resource_id) {
+		Uri uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + resource_id);
+		return uri;
 	}
 }

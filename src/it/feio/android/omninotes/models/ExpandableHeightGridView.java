@@ -15,6 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
+import it.feio.android.omninotes.utils.Constants;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
@@ -59,5 +60,14 @@ public class ExpandableHeightGridView extends GridView {
 
 	public void setExpanded(boolean expanded) {
 		this.expanded = expanded;
+	}
+
+	public void autoresize() {	    
+	    // Set gridview height
+	    ViewGroup.LayoutParams layoutParams = getLayoutParams();
+	    layoutParams.height = ( (getAdapter().getCount() / 2) + (getAdapter().getCount() % 2) ) * Constants.THUMBNAIL_SIZE; //this is in pixels
+	    setLayoutParams(layoutParams);
+	    
+		
 	}
 }
