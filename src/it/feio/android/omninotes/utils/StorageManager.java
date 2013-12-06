@@ -21,6 +21,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.AsynchronousCloseException;
 import java.nio.channels.ClosedByInterruptException;
 import java.nio.channels.ClosedChannelException;
@@ -55,6 +57,12 @@ public class StorageManager {
 	}
 
 	
+	public static String getExternalStorageDir() {
+		// return Environment.getExternalStorageDirectory() + File.separator +
+		// Constants.TAG + File.separator;		
+		return Environment.getExternalStorageDirectory().toString();
+	}
+	
 	
 	public static String getStorageDir() {
 		// return Environment.getExternalStorageDirectory() + File.separator +
@@ -76,7 +84,7 @@ public class StorageManager {
 	 * Used to copy files from a storage type to another
 	 * @return Result
 	 */
-	public boolean copyFile(File src, File dst) {
+	public static boolean copyFile(File src, File dst) {
 		boolean returnValue = true;
 
 		FileChannel inChannel = null, outChannel = null;
@@ -159,6 +167,30 @@ public class StorageManager {
 		}
 
 		return returnValue;
+	}
+	
+	
+	
+	/**
+	 * Used to copy files from a storage type to another
+	 * @return Result
+	 */
+	public static boolean copyFile(InputStream src, OutputStream dst) {
+		boolean returnValue = false;
+		
+		int read = 0;
+		byte[] bytes = new byte[1024];
+ 
+		try {
+			while ((read = src.read(bytes)) != -1) {
+				dst.write(bytes, 0, read);
+			}
+			returnValue = true;
+		} catch (IOException e) {
+			Log.e(Constants.TAG, "Error copying file");
+		}
+		
+		return returnValue;		
 	}
 
 }

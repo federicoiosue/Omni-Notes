@@ -27,6 +27,8 @@ import com.actionbarsherlock.view.MenuItem.OnActionExpandListener;
 import com.actionbarsherlock.widget.SearchView;
 import com.actionbarsherlock.widget.SearchView.OnCloseListener;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+import com.haarman.listviewanimations.swinginadapters.prepared.SwingLeftInAnimationAdapter;
+import com.haarman.listviewanimations.swinginadapters.prepared.SwingRightInAnimationAdapter;
 
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
@@ -595,10 +597,10 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 //			listView.setAdapter(mAdapter);
 //		}
 		if (prefs.getBoolean("settings_enable_animations", true)) {
-		    SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+		    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 		    // Assign the ListView to the AnimationAdapter and vice versa
-		    swingBottomInAnimationAdapter.setAbsListView(listView);
-		    listView.setAdapter(swingBottomInAnimationAdapter);
+		    swingInAnimationAdapter.setAbsListView(listView);
+		    listView.setAdapter(swingInAnimationAdapter);
 		} else {
 			listView.setAdapter(mAdapter);
 		}

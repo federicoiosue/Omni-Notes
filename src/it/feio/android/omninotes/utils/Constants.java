@@ -15,10 +15,14 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils;
 
+import java.io.File;
+
 public interface Constants {
 
 	final String TAG = "Omni Notes";
 	final String PREFS_FILE_NAME = "omni-notes.prefs";
+	final String APP_STORAGE_DIRECTORY = TAG;
+	final String APP_STORAGE_DIRECTORY_ATTACHMENTS = APP_STORAGE_DIRECTORY + File.separator + "attachments";
 	
 	// Splash screen timer
 	static int SPLASH_TIME_OUT = 1400;

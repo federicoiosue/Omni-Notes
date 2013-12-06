@@ -15,7 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import java.util.Locale;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -27,12 +26,10 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
-
 
 public class BaseActivity extends SherlockFragmentActivity {
 
@@ -49,12 +46,12 @@ public class BaseActivity extends SherlockFragmentActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		/*
-		 * Executing the application in test will activate ScrictMode to debug heavy 
-		 * i/o operations on main thread and data sending to GA will be disabled
+		 * Executing the application in test will activate ScrictMode to debug
+		 * heavy i/o operations on main thread and data sending to GA will be
+		 * disabled
 		 */
 		if (TEST) {
 			StrictMode.enableDefaults();
@@ -67,7 +64,6 @@ public class BaseActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 	}
 
-
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -76,7 +72,6 @@ public class BaseActivity extends SherlockFragmentActivity {
 		tracker = GoogleAnalytics.getInstance(this).getTracker("UA-45502770-1");
 	}
 
-
 	@Override
 	public void onStop() {
 		super.onStop();
@@ -84,42 +79,39 @@ public class BaseActivity extends SherlockFragmentActivity {
 		EasyTracker.getInstance(this).activityStop(this);
 	}
 
-
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_settings:
-				Intent settingsIntent = new Intent(this, SettingsActivity.class);
-				startActivity(settingsIntent);
-				break;
+		case R.id.menu_settings:
+			Intent settingsIntent = new Intent(this, SettingsActivity.class);
+			startActivity(settingsIntent);
+			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-
 	protected boolean navigationArchived() {
 		return "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
 	}
-
 
 	protected void showToast(CharSequence text, int duration) {
 		if (prefs.getBoolean("settings_enable_info", true)) {
 			Toast.makeText(getApplicationContext(), text, duration).show();
 		}
 	}
-	
+
 	/**
 	 * Set custom locale on application start
 	 */
-//	protected void checkLocale(){
-//		String languageToLoad = prefs.getString("settings_language", Locale.getDefault().getCountry());		
-//		Locale locale = new Locale(languageToLoad);
-//		Locale.setDefault(locale);
-//		Configuration config = new Configuration();
-//		config.locale = locale;
-//		getBaseContext().getResources().updateConfiguration(config,
-//				getBaseContext().getResources().getDisplayMetrics());
-//	}
+	// protected void checkLocale(){
+	// String languageToLoad = prefs.getString("settings_language",
+	// Locale.getDefault().getCountry());
+	// Locale locale = new Locale(languageToLoad);
+	// Locale.setDefault(locale);
+	// Configuration config = new Configuration();
+	// config.locale = locale;
+	// getBaseContext().getResources().updateConfiguration(config,
+	// getBaseContext().getResources().getDisplayMetrics());
+	// }
 
 }

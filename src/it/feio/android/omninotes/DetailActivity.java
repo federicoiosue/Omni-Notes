@@ -169,7 +169,7 @@ public class DetailActivity extends BaseActivity {
 			@Override
 			public boolean onLongClick(View v) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
-				alertDialogBuilder.setMessage(R.string.remove_location).setCancelable(false)
+				alertDialogBuilder.setMessage(R.string.remove_location)
 						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
 							@Override
@@ -203,6 +203,7 @@ public class DetailActivity extends BaseActivity {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 	        	Uri uri = ((Attachment)parent.getAdapter().getItem(position)).getUri();
 	            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+	            intent.setType("image/*");
 	            startActivity(intent);
 	        }
 	    });
@@ -211,7 +212,7 @@ public class DetailActivity extends BaseActivity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v, final int position, long id) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
-				alertDialogBuilder.setMessage(R.string.delete_selected_image).setCancelable(false)
+				alertDialogBuilder.setMessage(R.string.delete_selected_image)
 						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
 							@Override
@@ -246,7 +247,7 @@ public class DetailActivity extends BaseActivity {
 			@Override
 			public boolean onLongClick(View v) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
-				alertDialogBuilder.setMessage(R.string.remove_reminder).setCancelable(false)
+				alertDialogBuilder.setMessage(R.string.remove_reminder)
 						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
 							@Override
