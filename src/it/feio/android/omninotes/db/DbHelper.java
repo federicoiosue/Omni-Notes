@@ -242,6 +242,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				.getDefaultSharedPreferences(ctx);
 		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
 				KEY_TITLE);
+		String sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
 
 		// Checking if archived notes must be shown
 		boolean archived = "1".equals(prefs.getString(
@@ -251,7 +252,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 		// Select All Query
 		String selectQuery = "SELECT * FROM " + TABLE_NOTES + whereCondition
-				+ " ORDER BY " + sort_column;
+				+ " ORDER BY " + sort_column + sort_order;
 		Log.d(Constants.TAG, "Select notes query: " + selectQuery);
 
 		return getNotes(selectQuery);

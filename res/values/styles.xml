@@ -16,7 +16,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme" parent="@style/Theme.Sherlock.Light">
+    <style name="AppTheme" parent="@style/Theme.Sherlock.Light">
 
         <!-- <item name="android:actionBarStyle">@style/MyActionBar</item> -->
 
