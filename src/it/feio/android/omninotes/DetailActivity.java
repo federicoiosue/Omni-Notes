@@ -649,8 +649,12 @@ public class DetailActivity extends BaseActivity {
 			note = new Note();
 		}
 
-		// Check if some text has ben inserted or is an empty note
-		if ((title + content).length() == 0) {
+		// Check if some text or attachments of any type have been inserted or is an empty note
+		if ((title + content).length() == 0 
+				&& attachmentsList.size() == 0
+				&& (noteLatitude == 0 && noteLongitude == 0) 
+				&& alarmDateTime == -1) {
+			
 			Log.d(Constants.TAG, "Empty note not saved");
 			showToast(getResources().getText(R.string.empty_note_not_saved),
 					Toast.LENGTH_SHORT);

@@ -17,21 +17,15 @@ package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.BitmapLoaderTask;
-import it.feio.android.omninotes.utils.BitmapDecoder;
-import it.feio.android.omninotes.utils.Constants;
-
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 public class AttachmentAdapter extends BaseAdapter {
@@ -61,8 +55,7 @@ public class AttachmentAdapter extends BaseAdapter {
 		if (convertView == null) { // if it's not recycled, initialize some
 									// attributes
 			imageView = new ImageView(mContext);
-//			 imageView.setLayoutParams(new GridView.LayoutParams(Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
-			 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		} else {
 			imageView = (ImageView) convertView;
 		}
@@ -75,9 +68,9 @@ public class AttachmentAdapter extends BaseAdapter {
 		// Log.e(Constants.TAG, "Image not found");
 		// }
 
-		Bitmap b = BitmapFactory.decodeResource(mContext.getResources(),
-				R.drawable.white);
-		imageView.setImageBitmap(b);
+//		Bitmap b = BitmapFactory.decodeResource(mContext.getResources(),
+//				R.drawable.white);
+//		imageView.setImageBitmap(b);
 		BitmapLoaderTask task = new BitmapLoaderTask(mContext, imageView);
 		task.execute(attachmentsList.get(position).getUri());
 		return imageView;
