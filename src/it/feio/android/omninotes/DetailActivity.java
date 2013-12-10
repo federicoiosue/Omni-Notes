@@ -18,6 +18,7 @@ package it.feio.android.omninotes;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import org.joda.time.DateTime;
@@ -411,10 +412,16 @@ public class DetailActivity extends BaseActivity {
         	noteLatitude = currentLatitude;
         	noteLongitude = currentLongitude;
             Geocoder gcd = new Geocoder(this, Locale.getDefault());
-            Address address = gcd.getFromLocation(currentLatitude, currentLongitude,1).get(0);
-            
-            if (address != null) {
-            	addressString = address.getThoroughfare() + ", " + address.getLocality();
+            List<Address> addresses = gcd.getFromLocation(currentLatitude, currentLongitude,1);
+            if (addresses.size() > 0) {
+                Address address = addresses.get(0);            	
+		        if (address != null) {
+		        	addressString = address.getThoroughfare() + ", " + address.getLocality();
+		        } else {
+		        	addressString = getString(R.string.location_not_found);
+		        }
+            } else {
+	        	addressString = getString(R.string.location_not_found);
             }
         }
         catch(IOException ex){
