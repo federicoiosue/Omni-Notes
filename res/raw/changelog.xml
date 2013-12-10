@@ -20,6 +20,7 @@
         <changelogtext>[b]New! [/b]Now is possible to share contents from other apps to Omni Notes!</changelogtext>
         <changelogtext>[b]New! [/b]Image attachments are shared too</changelogtext>
 		<changelogtext>[b]New! [/b]Links recognition in notes content and title activable via option in settings</changelogtext>
+		<changelogtext>Updated notification icon</changelogtext>
 		<changelogtext>Improved sharing function that includes also image attachments</changelogtext>
 		<changelogtext>Changed the behavior of deleting action in notes detail: now you have to long-press on item (image, location, reminder) and give confirmation</changelogtext>
 		<changelogtext>Fixed multiple reminder notification misbehavior related to wrong note detail opening</changelogtext>

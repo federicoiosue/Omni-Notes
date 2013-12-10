@@ -37,7 +37,7 @@ public class SplashScreenActivity extends BaseActivity {
 		long lastOpenTime = prefs.getLong("last_app_open", openTime - Constants.SPLASH_MIN_OFFSET);
 	
 		// Saving application opening time
-//		prefs.edit().putLong("last_app_open", openTime).commit();
+		prefs.edit().putLong("last_app_open", openTime).commit();
 		
 		// If is not passed enough time splash image is skipped
 		if (openTime - lastOpenTime < Constants.SPLASH_MIN_OFFSET)
