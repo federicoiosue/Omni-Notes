@@ -49,9 +49,9 @@ public class AboutActivity extends BaseActivity {
 		}
 		
 		// Version printing
-		TextView copyleft = (TextView) findViewById(R.id.copyleft);
+		TextView appName = (TextView) findViewById(R.id.app_name);
 		try {
-			copyleft.append("   " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+			appName.append(" " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
 		} catch (NameNotFoundException e) {}
 				
 		// Site click management

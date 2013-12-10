@@ -92,7 +92,7 @@
     <string name="settings_enable_vibration">Abilita vibrazione</string>
 
     <!-- About -->
-    <string name="follow_author">Segui l\'autore</string>
+    <string name="follow_author">Chi è l\'autore?</string>
     <string name="click_to_support">Clicca sul banner per supportare lo sviluppo</string>
 
 </resources>

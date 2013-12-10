@@ -16,12 +16,14 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="3.9.2beta" changeDate="Dec 3,2013">
+    <changelogversion versionName="3.9.2beta" changeDate="Dec 10,2013">
         <changelogtext>[b]New! [/b]Now is possible to share contents from other apps to Omni Notes!</changelogtext>
+        <changelogtext>[b]New! [/b]Image attachments are shared too</changelogtext>
 		<changelogtext>[b]New! [/b]Links recognition in notes content and title activable via option in settings</changelogtext>
 		<changelogtext>Improved sharing function that includes also image attachments</changelogtext>
 		<changelogtext>Changed the behavior of deleting action in notes detail: now you have to long-press on item (image, location, reminder) and give confirmation</changelogtext>
 		<changelogtext>Fixed multiple reminder notification misbehavior related to wrong note detail opening</changelogtext>
+		<changelogtext>Notes are now saved also if there is no text but just attachments, position or reminder set</changelogtext>		
  		<changelogtext>Added selection color on objects click</changelogtext>
 	</changelogversion>
 
