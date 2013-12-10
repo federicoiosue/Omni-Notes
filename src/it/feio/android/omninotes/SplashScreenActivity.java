@@ -18,12 +18,10 @@ package it.feio.android.omninotes;
 import org.joda.time.DateTime;
 
 import it.feio.android.omninotes.utils.Constants;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.view.Window;
 
 public class SplashScreenActivity extends BaseActivity {
@@ -34,11 +32,12 @@ public class SplashScreenActivity extends BaseActivity {
 		setContentView(R.layout.activity_splash);
 		
 		// Getting last opening time
+		System.setProperty("org.joda.time.DateTimeZone.Provider", "org.joda.time.tz.UTCProvider");
 		long openTime = DateTime.now().getMillis();
 		long lastOpenTime = prefs.getLong("last_app_open", openTime - Constants.SPLASH_MIN_OFFSET);
 	
 		// Saving application opening time
-		prefs.edit().putLong("last_app_open", openTime).commit();
+//		prefs.edit().putLong("last_app_open", openTime).commit();
 		
 		// If is not passed enough time splash image is skipped
 		if (openTime - lastOpenTime < Constants.SPLASH_MIN_OFFSET)
