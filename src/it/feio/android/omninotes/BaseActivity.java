@@ -15,6 +15,9 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import java.io.File;
+import java.io.IOException;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -24,11 +27,13 @@ import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.StorageManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 public class BaseActivity extends SherlockFragmentActivity {
@@ -43,6 +48,9 @@ public class BaseActivity extends SherlockFragmentActivity {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
+		
+		createAppDirectory();
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -113,5 +121,22 @@ public class BaseActivity extends SherlockFragmentActivity {
 	// getBaseContext().getResources().updateConfiguration(config,
 	// getBaseContext().getResources().getDisplayMetrics());
 	// }
+	
+
+
+	private void createAppDirectory() {
+		// TODO Auto-generated method stub
+		File destinationDir = new File(StorageManager.getExternalStorageDir()
+				+ File.separator + Constants.APP_STORAGE_DIRECTORY);
+		destinationDir.mkdirs();
+		File nomedia = new File(destinationDir, ".nomedia");
+		try {
+			if (!nomedia.createNewFile()) 
+				throw new IOException();
+		} catch (IOException e) {
+			Log.e(Constants.TAG, "Error creating nomedia file in app directory");
+		}
+		
+	}
 
 }
