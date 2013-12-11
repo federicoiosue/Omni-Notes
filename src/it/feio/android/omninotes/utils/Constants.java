@@ -43,6 +43,7 @@ public interface Constants {
 	
     final String INTENT_KEY = "note_id";
     final String INTENT_NOTE = "note";
+	final String INTENT_IMAGE = "image";
 	final int INTENT_ALARM_CODE = 12345;
 	
 	final String MESSAGE = "message";

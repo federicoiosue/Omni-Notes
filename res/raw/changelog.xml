@@ -17,6 +17,12 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="3.9.2beta" changeDate="Dec 10,2013">
+      <changelogtext>[b]New! [/b]Consistency improved by making a copy of attachments, now if original is deleted Omni Notes has its own ones</changelogtext>
+      <changelogtext>Fixed impossibility to open image attachments in gallery</changelogtext>
+      <changelogtext>Fixed missing refresh of note list after inserting note with heavy images</changelogtext>
+	</changelogversion>
+	
+    <changelogversion versionName="3.9.2beta" changeDate="Dec 10,2013">
         <changelogtext>[b]New! [/b]Now is possible to share contents from other apps to Omni Notes!</changelogtext>
         <changelogtext>[b]New! [/b]Image attachments are shared too</changelogtext>
 		<changelogtext>[b]New! [/b]Links recognition in notes content and title activable via option in settings</changelogtext>

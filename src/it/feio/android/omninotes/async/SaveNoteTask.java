@@ -30,13 +30,12 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 	protected Void doInBackground(Note... params) {
 		Note note = params[0];
 		createAttachmentCopy(note);
-		DbHelper db = new DbHelper(mActivity);
+		DbHelper db = new DbHelper(mActivity);		
+		// Note updating on database
+		note = db.updateNote(note);
 
 		// Return back to parent activity now that the heavy work is done to speed up interface
 		((DetailActivity)mActivity).goHome();
-		
-		// Note updating on database
-		note = db.updateNote(note);
 		
 		return null;
 	}
@@ -61,6 +60,8 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 			
 			destinationDir = new File(StorageManager.getExternalStorageDir()
 					+ File.separator + Constants.APP_STORAGE_DIRECTORY_ATTACHMENTS);
+//			destinationDir = new File(StorageManager.getPictureDir()
+//					+ File.separator + Constants.APP_STORAGE_DIRECTORY);
 			destinationDir.mkdirs();
 			destination = new File(destinationDir, attachment.getUri().getLastPathSegment() + "." + ext);
 			try {

@@ -203,9 +203,11 @@ public class DetailActivity extends BaseActivity {
 	    mGridView.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 	        	Uri uri = ((Attachment)parent.getAdapter().getItem(position)).getUri();
-	            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-	            intent.setType("image/*");
-	            startActivity(intent);
+//	            Intent imageIntent = new Intent(mActivity, ImageActivity.class);
+//	            imageIntent.putExtra(Constants.INTENT_IMAGE, uri.toString());
+	        	Intent imageIntent = new Intent(Intent.ACTION_VIEW, uri);
+//	        	imageIntent.setType("image/jpeg");
+	            startActivity(imageIntent);
 	        }
 	    });
 	    // Long click events for images in gridview	(removes image)

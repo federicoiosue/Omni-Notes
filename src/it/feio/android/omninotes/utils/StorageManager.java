@@ -71,7 +71,12 @@ public class StorageManager {
 				Environment.DIRECTORY_DOWNLOADS).toString();
 	}
 
-	
+	public static String getPictureDir() {
+		// return Environment.getExternalStorageDirectory() + File.separator +
+		// Constants.TAG + File.separator;
+		return Environment.getExternalStoragePublicDirectory(
+				Environment.DIRECTORY_PICTURES).toString();
+	}
 	
 	public static String getDataStorageDir() {
 		return Environment.getDataDirectory() + File.separator + "data"
