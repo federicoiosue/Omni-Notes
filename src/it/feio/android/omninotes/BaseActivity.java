@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 public class BaseActivity extends SherlockFragmentActivity {
 
-	private final boolean TEST = false;
+	private final boolean TEST = true;
 
 	protected Tracker tracker;
 	protected SharedPreferences prefs;

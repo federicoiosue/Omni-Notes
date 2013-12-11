@@ -454,7 +454,7 @@ public class DetailActivity extends BaseActivity {
 		return super.onPrepareOptionsMenu(menu);
 	}
 
-	private boolean goHome() {
+	public boolean goHome() {
 		NavUtils.navigateUpFromSameTask(this);
 		if (prefs.getBoolean("settings_enable_animations", true)) {
 			overridePendingTransition(R.animator.slide_left,

@@ -5,33 +5,39 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
+import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
-	private final Context mContext;
+	private final Activity mActivity;
 
-	public SaveNoteTask(Context context) {
+	public SaveNoteTask(Activity activity) {
 		super();
-		this.mContext = context;
+		this.mActivity = activity;
 	}
 
 	@Override
 	protected Void doInBackground(Note... params) {
 		Note note = params[0];
 		createAttachmentCopy(note);
-		DbHelper db = new DbHelper(mContext);
+		DbHelper db = new DbHelper(mActivity);
+
+		// Return back to parent activity now that the heavy work is done to speed up interface
+		((DetailActivity)mActivity).goHome();
+		
+		// Note updating on database
 		note = db.updateNote(note);
+		
 		return null;
 	}
 
@@ -41,7 +47,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 	 * @param note
 	 */
 	private void createAttachmentCopy(Note note) {
-		File source, destinationDir, destination;
+		File  destinationDir, destination;
 		for (Attachment attachment : note.getAttachmentsList()) {
 			
 			// The copy will be made only if it's a new attachment
@@ -49,7 +55,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 				return;
 			
 			// Determination of file type
-			ContentResolver cR = mContext.getContentResolver();
+			ContentResolver cR = mActivity.getContentResolver();
 			MimeTypeMap mime = MimeTypeMap.getSingleton();
 			String ext = mime.getExtensionFromMimeType(cR.getType(attachment.getUri()));
 			
@@ -65,7 +71,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 			}
 			
 			try {
-				StorageManager.copyFile(mContext.getContentResolver().openInputStream(attachment.getUri()), new FileOutputStream(destination));
+				StorageManager.copyFile(mActivity.getContentResolver().openInputStream(attachment.getUri()), new FileOutputStream(destination));
 			} catch (FileNotFoundException e) {
 				Log.e(Constants.TAG, "File not found");
 			}
