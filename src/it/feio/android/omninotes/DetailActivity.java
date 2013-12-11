@@ -329,7 +329,11 @@ public class DetailActivity extends BaseActivity {
 	
 	private void initNote() {
 		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);
-
+		
+		// Workaround to get widget acting correctly
+		if (note == null)
+			note = new Note();
+		
 		if (note.get_id() != 0) {
 			((TextView) findViewById(R.id.creation))
 					.append(getString(R.string.creation) + " "

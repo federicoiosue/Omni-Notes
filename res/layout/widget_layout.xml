@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dip"
+    android:background="@drawable/gradient_splashscreen" >
+
+    <TextView
+        android:id="@+id/list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/clickable_view"
+        android:drawableTop="@drawable/ic_action_sort_by_size"
+        android:gravity="center"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/add"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/clickable_view"
+        android:drawableTop="@drawable/ic_action_new"
+        android:gravity="center"
+        android:padding="10dp" />
+
+<!--     <TextView -->
+<!--         android:id="@+id/camera" -->
+<!--         android:layout_width="0dp" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_weight="1" -->
+<!--         android:background="@drawable/clickable_view" -->
+<!--         android:drawableTop="@drawable/ic_camera_dark" -->
+<!--         android:gravity="center" -->
+<!--         android:padding="10dp" /> -->
+
+</LinearLayout>
