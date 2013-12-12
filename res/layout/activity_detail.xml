@@ -67,7 +67,7 @@
                     android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:background="@drawable/clickable_view"
                     android:gravity="center_vertical"
                     android:textAppearance="@style/Text.Small"
@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:drawSelectorOnTop="true"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="25dp"
                     android:gravity="center"
                     android:listSelector="@drawable/clickable_view"
                     android:numColumns="2"
@@ -90,7 +90,7 @@
                     android:id="@+id/reminder_layout"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="30dp"
                     android:background="@drawable/clickable_view"
                     android:orientation="horizontal" >
 
