@@ -19,8 +19,9 @@
     <changelogversion versionName="3.9.3beta" changeDate="Dec 12,2013">
       <changelogtext>[b]New! [/b]Widget!!</changelogtext>
       <changelogtext>[b]New! [/b]Consistency improved by making a copy of attachments, now if original is deleted Omni Notes has its own ones</changelogtext>
-      <changelogtext>Fixed impossibility to open image attachments in gallery</changelogtext>
       <changelogtext>Updated search icon to match the standard one from holo light theme</changelogtext>
+      <changelogtext>Fixed impossibility to open image attachments in gallery</changelogtext>     
+      <changelogtext>Fixed slowing down waiting location retrieval, now process is parallelized</changelogtext> 
       <changelogtext>Fixed missing refresh of note list after inserting note with heavy images</changelogtext>
 	</changelogversion>
 	
