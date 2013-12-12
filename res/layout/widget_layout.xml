@@ -17,7 +17,7 @@
             android:background="@drawable/clickable_view"
             android:gravity="center"
             android:padding="10dp"
-            android:src="@drawable/ic_action_sort_by_size" />
+            android:src="@drawable/ic_action_view_as_list" />
 
         <ImageView
             android:id="@+id/add"
