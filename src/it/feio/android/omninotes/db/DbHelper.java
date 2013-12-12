@@ -192,7 +192,6 @@ public class DbHelper extends SQLiteOpenHelper {
 		note.setLastModification(values.getAsLong(KEY_LAST_MODIFICATION));	
 		
 		return note;
-		// new UpdateNoteAsync(this).execute(note);
 	}
 
 	

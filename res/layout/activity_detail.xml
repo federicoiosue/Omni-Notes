@@ -30,6 +30,7 @@
         android:hint="@string/title"
         android:inputType="textCapSentences"
         android:linksClickable="false"
+        android:padding="16dp"
         android:textColor="@color/text_gray"
         pixlui:typeface="RobotoSlab-Bold.ttf" />
 

@@ -130,6 +130,19 @@ public class DetailActivity extends BaseActivity {
 		initViews();
 		
 		setLocationManager();
+		
+		// Handling of Intent actions
+		handleIntents();
+	}
+
+
+	private void handleIntents() {
+		Intent i = getIntent();
+		// Action called from widget
+		if (Intent.ACTION_PICK.equals(i.getAction())) {
+			takePhoto();
+		}
+		
 	}
 
 
@@ -529,13 +542,7 @@ public class DetailActivity extends BaseActivity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.camera:
-				ContentValues values = new ContentValues();
-				values.put(MediaStore.Images.Media.TITLE, "New Picture");
-				values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-				imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-				startActivityForResult(intent, TAKE_PHOTO);
+				takePhoto();
 				attachmentDialog.dismiss();
 				break;
 			case R.id.gallery:
@@ -560,6 +567,18 @@ public class DetailActivity extends BaseActivity {
 			}
 
 		}
+	}
+
+
+	private void takePhoto() {
+		ContentValues values = new ContentValues();
+		values.put(MediaStore.Images.Media.TITLE, "New Picture");
+		values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+		imageUri = getContentResolver().insert(
+				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+		startActivityForResult(intent, TAKE_PHOTO);
 	}
 
 
@@ -706,9 +725,6 @@ public class DetailActivity extends BaseActivity {
 		if (note.getAlarm() != null && !note.getAlarm().equals(oldAlarm)) {				
 				setAlarm();
 		}
-		
-		// Go back on stack
-		goHome();
 	}
 
 	

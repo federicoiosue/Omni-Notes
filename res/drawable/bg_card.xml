@@ -33,11 +33,11 @@
 
             <solid android:color="@android:color/white" />
 
-            <padding
-                android:bottom="16.0dip"
-                android:left="16.0dip"
-                android:right="16.0dip"
-                android:top="16.0dip" />
+<!--             <padding -->
+<!--                 android:bottom="16.0dip" -->
+<!--                 android:left="16.0dip" -->
+<!--                 android:right="16.0dip" -->
+<!--                 android:top="16.0dip" /> -->
         </shape>
     </item>
 

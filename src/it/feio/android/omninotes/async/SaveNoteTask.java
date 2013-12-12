@@ -32,12 +32,16 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 		createAttachmentCopy(note);
 		DbHelper db = new DbHelper(mActivity);		
 		// Note updating on database
-		note = db.updateNote(note);
+		note = db.updateNote(note);		
+		return null;
+	}
+	
+	@Override
+	protected void onPostExecute(Void result) {
+		super.onPostExecute(result);
 
 		// Return back to parent activity now that the heavy work is done to speed up interface
 		((DetailActivity)mActivity).goHome();
-		
-		return null;
 	}
 
 	
