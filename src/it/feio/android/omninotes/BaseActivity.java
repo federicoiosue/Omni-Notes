@@ -30,6 +30,9 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
@@ -42,6 +45,13 @@ public class BaseActivity extends SherlockFragmentActivity {
 
 	protected Tracker tracker;
 	protected SharedPreferences prefs;
+	
+	// Location variables
+	protected Location currentLocation;
+	protected double currentLatitude;
+	protected double currentLongitude;
+	protected double noteLatitude;
+	protected double noteLongitude;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,6 +60,8 @@ public class BaseActivity extends SherlockFragmentActivity {
 		inflater.inflate(R.menu.menu, menu);
 		
 		createAppDirectory();
+		
+		setLocationManager();
 		
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -97,6 +109,39 @@ public class BaseActivity extends SherlockFragmentActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
+
+	private void setLocationManager() {
+		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+		LocationListener locationListener = new LocationListener() {
+			public void onLocationChanged(Location location) {
+				updateLocation(location);
+			}
+
+			public void onStatusChanged(String provider, int status,
+					Bundle extras) {
+			}
+
+			public void onProviderEnabled(String provider) {
+			}
+
+			public void onProviderDisabled(String provider) {
+			}
+		};
+
+		locationManager.requestLocationUpdates(
+				LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+	}
+    
+    void updateLocation(Location location){
+        currentLocation = location;
+        currentLatitude = currentLocation.getLatitude();
+        currentLongitude = currentLocation.getLongitude();
+    }
+    
+    
 
 	protected boolean navigationArchived() {
 		return "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));

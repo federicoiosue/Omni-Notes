@@ -102,14 +102,7 @@ public class DetailActivity extends BaseActivity {
 	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private AlertDialog attachmentDialog;
 	private EditText title, content;
-	private TextView location;
-	
-	// Location variables
-	Location currentLocation;
-    double currentLatitude;
-    double currentLongitude;
-    double noteLatitude;
-    double noteLongitude;
+	private TextView locationTextView;
 
     
 	@Override
@@ -128,8 +121,6 @@ public class DetailActivity extends BaseActivity {
 		
 		// Views initialization
 		initViews();
-		
-		setLocationManager();
 		
 		// Handling of Intent actions
 		handleIntents();
@@ -162,13 +153,12 @@ public class DetailActivity extends BaseActivity {
 		}
 		
 		// Initialization of location TextView
-		location = (TextView) findViewById(R.id.location);
+		locationTextView = (TextView) findViewById(R.id.location);
 		if (currentLatitude != 0 && currentLongitude != 0) {
-			location.setVisibility(View.VISIBLE);
-			location.setText(getAddress());
+			setAddress(locationTextView);
 		}
 			
-		location.setOnClickListener(new OnClickListener() {
+		locationTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String urlTag = Constants.TAG  
@@ -179,7 +169,7 @@ public class DetailActivity extends BaseActivity {
 				startActivity(locationIntent);
 			}
 	    });
-		location.setOnLongClickListener(new OnLongClickListener() {			
+		locationTextView.setOnLongClickListener(new OnLongClickListener() {			
 			@Override
 			public boolean onLongClick(View v) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
@@ -190,8 +180,8 @@ public class DetailActivity extends BaseActivity {
 							public void onClick(DialogInterface dialog, int id) {
 								noteLatitude = 0;
 								noteLongitude = 0;
-								location.setText("");
-								location.setVisibility(View.GONE);
+								locationTextView.setText("");
+								locationTextView.setVisibility(View.GONE);
 							}
 						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 
@@ -380,79 +370,49 @@ public class DetailActivity extends BaseActivity {
 		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);
 	}
 	
-
-
-	private void setLocationManager() {
-		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-		LocationListener locationListener = new LocationListener() {
-			public void onLocationChanged(Location location) {
-				updateLocation(location);
+	private void setAddress(View locationView) {
+		class LocatorTask extends AsyncTask<Void, Void, String> {
+			private TextView mlocationTextView;
+			
+			public LocatorTask(TextView locationTextView) {
+				mlocationTextView = locationTextView;
 			}
 
-			public void onStatusChanged(String provider, int status,
-					Bundle extras) {
-			}
-
-			public void onProviderEnabled(String provider) {
-			}
-
-			public void onProviderDisabled(String provider) {
-			}
-		};
-
-		locationManager.requestLocationUpdates(
-				LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-	}
-	
-	String getAddress() {
-		String addressString = "";
-        try{
-//        	Geocoder gcd = new Geocoder(this, Locale.getDefault());
-//        	List<Address> addresses = 
-//        			gcd.getFromLocation(currentLatitude, currentLongitude,100);
-//        	if (addresses.size() > 0) {
-//        		StringBuilder result = new StringBuilder();
-//        		for(int i = 0; i < addresses.size(); i++){
-//        			Address address =  addresses.get(i);
-//        			int maxIndex = address.getMaxAddressLineIndex();
-//        			for (int x = 0; x <= maxIndex; x++ ){
-//        				result.append(address.getAddressLine(x));
-//        				result.append(",");
-//        			}               
-//        			result.append(address.getLocality());
-//        			result.append(",");
-//        			result.append(address.getPostalCode());
-//        			result.append("\n\n");
-//        		}
-//        		addressString = result.toString();
-//        	}
-//        }
-        	noteLatitude = currentLatitude;
-        	noteLongitude = currentLongitude;
-            Geocoder gcd = new Geocoder(this, Locale.getDefault());
-            List<Address> addresses = gcd.getFromLocation(currentLatitude, currentLongitude,1);
-            if (addresses.size() > 0) {
-                Address address = addresses.get(0);            	
-		        if (address != null) {
-		        	addressString = address.getThoroughfare() + ", " + address.getLocality();
-		        } else {
-		        	addressString = getString(R.string.location_not_found);
-		        }
-            } else {
-	        	addressString = getString(R.string.location_not_found);
-            }
+    		@Override
+    		protected String doInBackground(Void... params) {
+    			String addressString = "";
+    	        try{
+    	        	noteLatitude = currentLatitude;
+    	        	noteLongitude = currentLongitude;
+    	            Geocoder gcd = new Geocoder(mActivity, Locale.getDefault());
+    	            List<Address> addresses = gcd.getFromLocation(currentLatitude, currentLongitude,1);
+    	            if (addresses.size() > 0) {
+    	                Address address = addresses.get(0);            	
+    			        if (address != null) {
+    			        	addressString = address.getThoroughfare() + ", " + address.getLocality();
+    			        } else {
+    			        	addressString = getString(R.string.location_not_found);
+    			        }
+    	            } else {
+    		        	addressString = getString(R.string.location_not_found);
+    	            }
+    	        }
+    	        catch(IOException ex){
+    	        	addressString = ex.getMessage().toString();
+    	        }
+    			return addressString;
+    		}
+    		
+    		@Override
+    		protected void onPostExecute(String result) {
+    			super.onPostExecute(result);
+    			locationTextView.setVisibility(View.VISIBLE);
+    	        mlocationTextView.setText(result);
+    		}
         }
-        catch(IOException ex){
-        	addressString = ex.getMessage().toString();
-        }
-        return addressString;
-    }
-    
-    void updateLocation(Location location){
-        currentLocation = location;
-        currentLatitude = currentLocation.getLatitude();
-        currentLongitude = currentLocation.getLongitude();
+		
+		LocatorTask task = new LocatorTask(locationTextView);
+		task.execute();
     }
     
     
@@ -558,9 +518,7 @@ public class DetailActivity extends BaseActivity {
 				attachmentDialog.dismiss();
 				break;
 			case R.id.location:
-				String address = getAddress();
-				location.setVisibility(View.VISIBLE);
-				location.setText(address);
+				setAddress(locationTextView);
 				attachmentDialog.dismiss();
 				break;
 				
