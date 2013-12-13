@@ -16,6 +16,10 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="3.9.4beta" changeDate="Dec 12,2013">
+      <changelogtext>[b]New! [/b]Widget!!</changelogtext>
+	</changelogversion>
+	
     <changelogversion versionName="3.9.3beta" changeDate="Dec 12,2013">
       <changelogtext>[b]New! [/b]Widget!!</changelogtext>
       <changelogtext>[b]New! [/b]Consistency improved by making a copy of attachments, now if original is deleted Omni Notes has its own ones</changelogtext>

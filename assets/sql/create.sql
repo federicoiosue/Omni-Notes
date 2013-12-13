@@ -21,5 +21,6 @@ CREATE
 	(
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		uri TEXT,
+		mime_type TEXT,
 		note_id INTEGER
 	);

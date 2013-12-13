@@ -19,56 +19,72 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="horizontal" >
+    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/camera"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/clickable_view"
-        android:drawablePadding="3dp"
-        android:drawableTop="@drawable/ic_camera_dark"
-        android:gravity="center_horizontal"
-        android:padding="16dp"
-        android:text="@string/camera"
-        android:textSize="18sp" />
+        android:gravity="center"
+        android:orientation="horizontal" >
 
-    <TextView
-        android:layout_width="1dp"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/drawer_line" />
+        <TextView
+            android:id="@+id/camera"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/clickable_view"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/ic_camera_dark"
+            android:gravity="left"
+            android:padding="16dp"
+            android:text="@string/camera"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/gallery"
+        <TextView
+            android:id="@+id/gallery"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/clickable_view"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/ic_photo_dark"
+            android:gravity="right"
+            android:padding="16dp"
+            android:text="@string/galery"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/clickable_view"
-        android:drawablePadding="3dp"
-        android:drawableTop="@drawable/ic_photo_dark"
-        android:gravity="center_horizontal"
-        android:padding="16dp"
-        android:text="@string/galery"
-        android:textSize="18sp" />
+        android:gravity="center"
+        android:orientation="horizontal" >
 
-    <TextView
-        android:layout_width="1dp"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="24dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/drawer_line" />
+        <TextView
+            android:id="@+id/recording"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/clickable_view"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/ic_action_play"
+            android:gravity="left"
+            android:padding="16dp"
+            android:text="@string/audio"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/clickable_view"
-        android:drawablePadding="3dp"
-        android:drawableTop="@drawable/ic_location_dark"
-        android:gravity="center_horizontal"
-        android:padding="16dp"
-        android:text="@string/location"
-        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/clickable_view"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/ic_location_dark"
+            android:gravity="right"
+            android:padding="16dp"
+            android:text="@string/location"
+            android:textSize="18sp" />
+    </LinearLayout>
 
 </LinearLayout>

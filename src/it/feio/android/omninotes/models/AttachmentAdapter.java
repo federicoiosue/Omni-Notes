@@ -17,6 +17,8 @@ package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.BitmapLoaderTask;
+import it.feio.android.omninotes.utils.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,11 +70,24 @@ public class AttachmentAdapter extends BaseAdapter {
 		// Log.e(Constants.TAG, "Image not found");
 		// }
 
-//		Bitmap b = BitmapFactory.decodeResource(mContext.getResources(),
-//				R.drawable.white);
-//		imageView.setImageBitmap(b);
-		BitmapLoaderTask task = new BitmapLoaderTask(mContext, imageView);
-		task.execute(attachmentsList.get(position).getUri());
+		// Bitmap b = BitmapFactory.decodeResource(mContext.getResources(),
+		// R.drawable.white);
+		// imageView.setImageBitmap(b);
+
+		Attachment attachment = attachmentsList.get(position);
+
+		// Image attachment
+		if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
+			BitmapLoaderTask task = new BitmapLoaderTask(mContext, imageView);
+			task.execute(attachment.getUri());
+		}
+
+		// Audio attachment
+		if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
+			Bitmap b = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_action_play);
+			imageView.setImageBitmap(b);
+		}
+
 		return imageView;
 	}
 }

@@ -105,13 +105,13 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// Single image data
 		Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
 	    if (uri != null) {
-	        note.addAttachment(new Attachment(uri));
+	        note.addAttachment(new Attachment(uri, Constants.MIME_TYPE_IMAGE));
 	    }
 	    // Multiple image data
 	    ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 	    if (uris != null) {
 	    	for (Uri uri2 : uris) {
-		        note.addAttachment(new Attachment(uri2));				
+		        note.addAttachment(new Attachment(uri2, Constants.MIME_TYPE_IMAGE));				
 			}
 	    }
 	    

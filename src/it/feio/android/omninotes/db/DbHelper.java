@@ -62,6 +62,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Attachments table columns
 	private static final String KEY_ATTACHMENT_ID = "id"; 
 	private static final String KEY_ATTACHMENT_URI = "uri"; 
+	private static final String KEY_ATTACHMENT_MIME_TYPE = "mime_type"; 
 	private static final String KEY_ATTACHMENT_NOTE_ID = "note_id"; 
 	// Queries    
     private static final String CREATE_QUERY = "create.sql";
@@ -167,6 +168,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			// Updating attachment
 			if (attachment.getId() == 0) {
 				valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
+				valuesAttachments.put(KEY_ATTACHMENT_MIME_TYPE, attachment.getMime_type());
 				valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, (note.get_id() != 0 ? note.get_id() : resNote) );
 				resAttachment = db.insert(TABLE_ATTACHMENTS, null, valuesAttachments);
 				Log.d(Constants.TAG, "Saved new attachment with uri '"
@@ -401,14 +403,19 @@ public class DbHelper extends SQLiteOpenHelper {
 	public ArrayList<Attachment> getNoteAttachments(Note note) {
 		
 		ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
-		String sql = "SELECT " + KEY_ATTACHMENT_ID + "," + KEY_ATTACHMENT_URI + " FROM " + TABLE_ATTACHMENTS + " WHERE " + KEY_ATTACHMENT_NOTE_ID + " = " + note.get_id();
+		String sql = "SELECT " 
+						+ KEY_ATTACHMENT_ID + "," 
+						+ KEY_ATTACHMENT_URI + ","
+						+ KEY_ATTACHMENT_MIME_TYPE
+					+ " FROM " + TABLE_ATTACHMENTS 
+					+ " WHERE " + KEY_ATTACHMENT_NOTE_ID + " = " + note.get_id();
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(sql, null);
 
 		// Looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
-				attachmentsList.add(new Attachment(Integer.valueOf(cursor.getInt(0)), Uri.parse(cursor.getString(1))));
+				attachmentsList.add(new Attachment(Integer.valueOf(cursor.getInt(0)), Uri.parse(cursor.getString(1)), cursor.getString(2)));
 			} while (cursor.moveToNext());
 		}
 		return attachmentsList;		

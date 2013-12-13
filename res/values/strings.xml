@@ -84,6 +84,7 @@
     <string name="remove_reminder">Remove reminder?</string>
     <string name="add_reminder">Add reminder</string>
     <string name="location_not_found">Location not found</string>
+    <string name="audio">Audio</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

@@ -48,17 +48,23 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.text.method.LinkMovementMethod;
@@ -72,6 +78,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -87,6 +94,7 @@ public class DetailActivity extends BaseActivity {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
+	private static final int RECORDING = 3;	
 	
 	private SherlockFragmentActivity mActivity;
 	
@@ -103,6 +111,13 @@ public class DetailActivity extends BaseActivity {
 	private AlertDialog attachmentDialog;
 	private EditText title, content;
 	private TextView locationTextView;
+	
+	// Audio recording
+	private static String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+ "/audiorecordtest.3gp";
+    private RecordButton mRecordButton = null;
+    private MediaRecorder mRecorder = null;
+    private PlayButton   mPlayButton = null;
+    private MediaPlayer   mPlayer = null;
 
     
 	@Override
@@ -483,13 +498,23 @@ public class DetailActivity extends BaseActivity {
 		View layout = inflater.inflate(R.layout.attachment_dialog,
 				(ViewGroup) findViewById(R.id.layout_root));
 		attachmentDialog.setView(layout);
+		// Camera
 		android.widget.TextView cameraSelection = (android.widget.TextView) layout.findViewById(R.id.camera);
 		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Gallery
 		android.widget.TextView gallerySelection = (android.widget.TextView) layout.findViewById(R.id.gallery);
 		gallerySelection.setOnClickListener(new AttachmentOnClickListener());
+		// Audio recording
+		android.widget.TextView recordingSelection = (android.widget.TextView) layout.findViewById(R.id.recording);
+		recordingSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Location
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
-		return attachmentDialog.show();
+		
+		AlertDialog dialog = attachmentDialog.show();
+		dialog.getWindow().setLayout(440, 400);
+		
+		return dialog;
 	}
 	
 	
@@ -517,6 +542,13 @@ public class DetailActivity extends BaseActivity {
 				startActivityForResult(galleryIntent, GALLERY);
 				attachmentDialog.dismiss();
 				break;
+			case R.id.recording:
+				Intent intent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+				if (isAvailable(getApplicationContext(), intent)) {
+					startActivityForResult(intent, RECORDING);
+				}
+				attachmentDialog.dismiss();
+				break;				
 			case R.id.location:
 				setAddress(locationTextView);
 				attachmentDialog.dismiss();
@@ -527,6 +559,11 @@ public class DetailActivity extends BaseActivity {
 		}
 	}
 
+	private static boolean isAvailable(Context ctx, Intent intent) {
+		final PackageManager mgr = ctx.getPackageManager();
+		List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+		return list.size() > 0;
+	}
 
 	private void takePhoto() {
 		ContentValues values = new ContentValues();
@@ -543,17 +580,31 @@ public class DetailActivity extends BaseActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		// Fetch uri from activities, store into adapter and refresh adapter
+		Attachment attachment;
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 				case TAKE_PHOTO:
-					attachmentsList.add(new Attachment(imageUri));
+					attachment = new Attachment(imageUri, Constants.MIME_TYPE_IMAGE);
+					attachmentsList.add(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 				    mGridView.autoresize();
 					break;
 				case GALLERY:
-					attachmentsList.add(new Attachment(intent.getData()));
+					attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_IMAGE);
+					attachmentsList.add(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 				    mGridView.autoresize();
+					break;
+				case RECORDING:
+					if (resultCode == RESULT_OK) {
+						Uri audioUri = intent.getData();
+						attachment = new Attachment(audioUri, Constants.MIME_TYPE_AUDIO);
+						attachmentsList.add(attachment);
+						mAttachmentAdapter.notifyDataSetChanged();
+					    mGridView.autoresize();
+					} else {
+						Log.e(Constants.TAG, "Audio recording unsuccessful");
+					}
 					break;
 			}
 		}
@@ -822,5 +873,136 @@ public class DetailActivity extends BaseActivity {
 	}
 
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private void onRecord(boolean start) {
+        if (start) {
+            startRecording();
+        } else {
+            stopRecording();
+        }
+    }
+
+    private void onPlay(boolean start) {
+        if (start) {
+            startPlaying();
+        } else {
+            stopPlaying();
+        }
+    }
+
+    private void startPlaying() {
+        mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource(mFileName);
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+            Log.e(Constants.TAG, "prepare() failed");
+        }
+    }
+
+    private void stopPlaying() {
+        mPlayer.release();
+        mPlayer = null;
+    }
+
+    private void startRecording() {
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(mFileName);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        try {
+            mRecorder.prepare();
+        } catch (IOException e) {
+            Log.e(Constants.TAG, "prepare() failed");
+        }
+
+        mRecorder.start();
+    }
+
+    private void stopRecording() {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
+    }
+
+    class RecordButton extends Button {
+        boolean mStartRecording = true;
+
+        OnClickListener clicker = new OnClickListener() {
+            public void onClick(View v) {
+                onRecord(mStartRecording);
+                if (mStartRecording) {
+                    setText("Stop recording");
+                } else {
+                    setText("Start recording");
+                }
+                mStartRecording = !mStartRecording;
+            }
+        };
+
+        public RecordButton(Context ctx) {
+            super(ctx);
+            setText("Start recording");
+            setOnClickListener(clicker);
+        }
+    }
+
+    class PlayButton extends Button {
+        boolean mStartPlaying = true;
+
+        OnClickListener clicker = new OnClickListener() {
+            public void onClick(View v) {
+                onPlay(mStartPlaying);
+                if (mStartPlaying) {
+                    setText("Stop playing");
+                } else {
+                    setText("Start playing");
+                }
+                mStartPlaying = !mStartPlaying;
+            }
+        };
+
+        public PlayButton(Context ctx) {
+            super(ctx);
+            setText("Start playing");
+            setOnClickListener(clicker);
+        }
+    }
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

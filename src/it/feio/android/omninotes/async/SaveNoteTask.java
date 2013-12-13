@@ -64,14 +64,14 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 			
 			destinationDir = new File(StorageManager.getExternalStorageDir()
 					+ File.separator + Constants.APP_STORAGE_DIRECTORY_ATTACHMENTS);
-//			destinationDir = new File(StorageManager.getPictureDir()
-//					+ File.separator + Constants.APP_STORAGE_DIRECTORY);
 			destinationDir.mkdirs();
+			
+			// Old copy mode
+//			File source = new File(StorageManager.getRealPathFromURI(mActivity, attachment.getUri()));
 			destination = new File(destinationDir, attachment.getUri().getLastPathSegment() + "." + ext);
 			try {
 				destination.createNewFile();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
@@ -81,8 +81,23 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 				Log.e(Constants.TAG, "File not found");
 			}
 			
+//			 try {
+//				FileUtils.copyFile(new File(attachment.getUri().getPath()), destination, true);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+
+			
+			
+			
 			// Replace uri
 			attachment.setUri(Uri.fromFile(destination));
 		}
 	}
+	
+	
+	
+	
+	
 }

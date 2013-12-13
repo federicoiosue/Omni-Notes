@@ -53,4 +53,7 @@ public interface Constants {
     final String PREF_SORTING_ORDER = "sorting_direction";
     
     final String EXPORT_FILE_NAME = TAG;
+    
+    final String MIME_TYPE_IMAGE = "image/jpeg";
+    final String MIME_TYPE_AUDIO = "audio/3gpp";
 }

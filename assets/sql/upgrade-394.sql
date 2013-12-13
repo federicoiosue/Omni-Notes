@@ -1,0 +1,1 @@
+-- Adding columns mime type to support audio reconrdingsALTER TABLE attachments ADD COLUMN mime_type TEXT DEFAULT null;
