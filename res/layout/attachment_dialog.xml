@@ -35,7 +35,7 @@
             android:background="@drawable/clickable_view"
             android:drawablePadding="3dp"
             android:drawableTop="@drawable/ic_camera_dark"
-            android:gravity="left"
+            android:gravity="center"
             android:padding="16dp"
             android:text="@string/camera"
             android:textSize="18sp" />
@@ -48,7 +48,7 @@
             android:background="@drawable/clickable_view"
             android:drawablePadding="3dp"
             android:drawableTop="@drawable/ic_photo_dark"
-            android:gravity="right"
+            android:gravity="center"
             android:padding="16dp"
             android:text="@string/galery"
             android:textSize="18sp" />
@@ -68,7 +68,7 @@
             android:background="@drawable/clickable_view"
             android:drawablePadding="3dp"
             android:drawableTop="@drawable/ic_action_video"
-            android:gravity="right"
+            android:gravity="center"
             android:padding="16dp"
             android:text="@string/video"
             android:textSize="18sp" />
@@ -81,7 +81,7 @@
             android:background="@drawable/clickable_view"
             android:drawablePadding="3dp"
             android:drawableTop="@drawable/ic_action_mic"
-            android:gravity="left"
+            android:gravity="center"
             android:padding="16dp"
             android:text="@string/record"
             android:textSize="18sp" />
@@ -94,7 +94,7 @@
             android:background="@drawable/clickable_view"
             android:drawablePadding="3dp"
             android:drawableTop="@drawable/ic_location_dark"
-            android:gravity="right"
+            android:gravity="center"
             android:padding="16dp"
             android:text="@string/location"
             android:textSize="18sp" />

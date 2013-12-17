@@ -66,25 +66,14 @@ public class AttachmentAdapter extends BaseAdapter {
 			imageView = new ImageView(mContext);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-			Attachment attachment = attachmentsList.get(position);
-
-			// Image and Video attachments
-			if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
-				|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
-				BitmapLoaderTask task = new BitmapLoaderTask(mContext, imageView);
-				task.execute(attachment);
-			}
-
-			// Audio attachment
-			if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
-				Bitmap b = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
-//				Bitmap b = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_action_play);
-				imageView.setImageBitmap(b);
-			}
-			
 		} else {
 			imageView = (ImageView) convertView;
 		}
+	
+		Attachment attachment = attachmentsList.get(position);
+			
+		BitmapLoaderTask task = new BitmapLoaderTask(mContext, imageView);
+		task.execute(attachment);
 		
 		return imageView;
 	}

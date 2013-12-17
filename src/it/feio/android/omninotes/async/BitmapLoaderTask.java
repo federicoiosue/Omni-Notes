@@ -49,9 +49,17 @@ public class BitmapLoaderTask extends AsyncTask<Attachment, Void, Bitmap> {
 					path = mAttachment.getUri().getPath();
 				bmp = ThumbnailUtils.createVideoThumbnail(path, Thumbnails.MINI_KIND);
 				bmp = createVideoThumbnail(bmp);
-				// Image
+			
+			// Image
 			} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())) {
 				bmp = BitmapDecoder.decodeSampledFromUri(mContext, mAttachment.getUri(), reqWidth, reqHeight);
+			
+			// Audio
+			} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
+				bmp = ThumbnailUtils.extractThumbnail(
+						BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play),
+						Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
+//				Bitmap b = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_action_play);
 			}
 		} catch (FileNotFoundException e) {
 			Log.e(Constants.TAG, "Image not found");

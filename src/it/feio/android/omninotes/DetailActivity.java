@@ -55,6 +55,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.media.MediaPlayer;
@@ -566,6 +567,7 @@ public class DetailActivity extends BaseActivity {
 					isRecording = true;
 					android.widget.TextView mTextView = (android.widget.TextView) v;
 					mTextView.setText(getString(R.string.stop));
+					mTextView.setTextColor(Color.parseColor("#ff0000"));
 					startRecording();
 				} else {
 					isRecording = false;
