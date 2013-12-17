@@ -25,6 +25,7 @@ import java.util.List;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -84,7 +85,8 @@ public class AttachmentAdapter extends BaseAdapter {
 
 		// Audio attachment
 		if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
-			Bitmap b = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_action_play);
+			Bitmap b = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
+//			Bitmap b = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_action_play);
 			imageView.setImageBitmap(b);
 		}
 

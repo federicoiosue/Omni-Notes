@@ -50,11 +50,14 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 	 * @param note
 	 */
 	private void createAttachmentCopy(Note note) {
-		File  destinationDir, destination;
+		File sourceDir, destinationDir, destination;
+		destinationDir = new File(StorageManager.getAttachmentDir());
+		
 		for (Attachment attachment : note.getAttachmentsList()) {
 			
-			// The copy will be made only if it's a new attachment
-			if (attachment.getId() != 0)
+			// The copy will be made only if it's a new attachment or if attachment directory is not yet the destination one
+			if (attachment.getId() != 0 || 
+					attachment.getUri().getPath().contains(destinationDir.getAbsolutePath()))
 				return;
 			
 			// Determination of file type
@@ -62,9 +65,6 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 			MimeTypeMap mime = MimeTypeMap.getSingleton();
 			String ext = mime.getExtensionFromMimeType(cR.getType(attachment.getUri()));
 			
-			destinationDir = new File(StorageManager.getExternalStorageDir()
-					+ File.separator + Constants.APP_STORAGE_DIRECTORY_ATTACHMENTS);
-			destinationDir.mkdirs();
 			
 			// Old copy mode
 //			File source = new File(StorageManager.getRealPathFromURI(mActivity, attachment.getUri()));

@@ -67,10 +67,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/clickable_view"
             android:drawablePadding="3dp"
-            android:drawableTop="@drawable/ic_action_play"
+            android:drawableTop="@drawable/ic_action_mic"
             android:gravity="left"
             android:padding="16dp"
-            android:text="@string/audio"
+            android:text="@string/record"
             android:textSize="18sp" />
 
         <TextView

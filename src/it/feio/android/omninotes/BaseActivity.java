@@ -169,19 +169,23 @@ public class BaseActivity extends SherlockFragmentActivity {
 	
 
 
+	/**
+	 * Creation of application working directory and .nomedia file
+	 */
 	private void createAppDirectory() {
-		// TODO Auto-generated method stub
-		File destinationDir = new File(StorageManager.getExternalStorageDir()
-				+ File.separator + Constants.APP_STORAGE_DIRECTORY);
-		destinationDir.mkdirs();
-		File nomedia = new File(destinationDir, ".nomedia");
-		try {
-			if (!nomedia.createNewFile()) 
-				throw new IOException();
-		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error creating nomedia file in app directory");
+		File destinationDir = new File(StorageManager.getApplicationDir());
+		if (!destinationDir.exists()) {
+			destinationDir.mkdirs();
 		}
-		
+//		File nomedia = new File(destinationDir, ".nomedia");
+//		if (!nomedia.exists()) {
+//			try {
+//				if (!nomedia.createNewFile()) 
+//					throw new IOException();
+//			} catch (IOException e) {
+//				Log.e(Constants.TAG, "Error creating nomedia file in app directory");
+//			}
+//		}		
 	}
 
 }

@@ -22,7 +22,7 @@ public interface Constants {
 	final String TAG = "Omni Notes";
 	final String PREFS_FILE_NAME = "omni-notes.prefs";
 	final String APP_STORAGE_DIRECTORY = TAG;
-	final String APP_STORAGE_DIRECTORY_ATTACHMENTS = APP_STORAGE_DIRECTORY + File.separator + "attachments";
+	final String APP_STORAGE_DIRECTORY_ATTACHMENTS = "attachments";
 	
 	// Splash screen timer
 	static int SPLASH_TIME_OUT = 1400;
@@ -55,5 +55,5 @@ public interface Constants {
     final String EXPORT_FILE_NAME = TAG;
     
     final String MIME_TYPE_IMAGE = "image/jpeg";
-    final String MIME_TYPE_AUDIO = "audio/3gpp";
+    final String MIME_TYPE_AUDIO = "audio/amr";
 }

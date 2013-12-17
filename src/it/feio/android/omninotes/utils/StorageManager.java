@@ -89,6 +89,24 @@ public class StorageManager {
 				+ File.separator;
 	}
 
+	
+	public static String getApplicationDir() {
+		File dir = new File(getExternalStorageDir() + File.separator + Constants.APP_STORAGE_DIRECTORY);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		return dir.getAbsolutePath();
+	}
+
+	
+	public static String getAttachmentDir() {
+		File dir = new File(getExternalStorageDir() + File.separator + Constants.APP_STORAGE_DIRECTORY + File.separator + Constants.APP_STORAGE_DIRECTORY_ATTACHMENTS);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		return dir.getAbsolutePath();
+	}
+
 
 	/**
 	 * Used to copy files from a storage type to another
