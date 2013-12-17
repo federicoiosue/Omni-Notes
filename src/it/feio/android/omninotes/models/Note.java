@@ -297,7 +297,7 @@ public class Note implements Parcelable {
 	
 	public boolean isChanged(Note note) {
 		boolean res = false;
-		res = equals(note) && !getAttachmentsList().equals(getAttachmentsListOld());
+		res = !equals(note) || !getAttachmentsList().equals(getAttachmentsListOld());
 		return res;
 	}
 	
