@@ -522,7 +522,7 @@ public class DetailActivity extends BaseActivity {
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
 
 		AlertDialog dialog = attachmentDialog.show();
-		dialog.getWindow().setLayout(440, 400);
+//		dialog.getWindow().setLayout(440, 400);
 
 		return dialog;
 	}
@@ -558,8 +558,9 @@ public class DetailActivity extends BaseActivity {
 			case R.id.recording:
 				if (!isRecording) {
 					isRecording = true;
-					((android.widget.TextView) v).setCompoundDrawables(null, getResources().getDrawable(R.drawable.stop), null, null);
-					((android.widget.TextView) v).setText(getString(R.string.stop));
+					android.widget.TextView mTextView = (android.widget.TextView) v;
+//					mTextView.setCompoundDrawables(null, getResources().getDrawable(R.drawable.stop), null, null);
+					mTextView.setText(getString(R.string.stop));
 					startRecording();
 				} else {
 					isRecording = false;
@@ -685,7 +686,7 @@ public class DetailActivity extends BaseActivity {
 		// Changed fields
 		String title = ((EditText) findViewById(R.id.title)).getText().toString();
 		String content = ((EditText) findViewById(R.id.content)).getText().toString();
-
+		
 		Note noteEdited = note;
 		if (noteEdited != null) {
 			note = noteEdited;
@@ -704,8 +705,8 @@ public class DetailActivity extends BaseActivity {
 			return;
 		}
 
-		// Logging operation
-		Log.d(Constants.TAG, "Saving new note titled: " + title + " (archive var: " + archive + ")");
+		// Checks if nothing is changed to avoid committing if possible (instantiation)
+		Note noteTmp = new Note(note);
 
 		note.set_id(note.get_id());
 		note.setTitle(title);
@@ -715,10 +716,14 @@ public class DetailActivity extends BaseActivity {
 		note.setLatitude(noteLatitude);
 		note.setLongitude(noteLongitude);
 		note.setAttachmentsList(attachmentsList);
+		
+		// Checks if nothing is changed to avoid committing if possible (check)
+		if (!note.isChanged(noteTmp)) {
+			goHome();
+			return;
+		}			
 
 		// Saving changes to the note
-		// DbHelper db = new DbHelper(this);
-		// note = db.updateNote(note);
 		SaveNoteTask saveNoteTask = new SaveNoteTask(this);
 		// Forceing parallel execution disabled by default
 		if (Build.VERSION.SDK_INT >= 11) {

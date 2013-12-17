@@ -22,7 +22,6 @@ import java.util.Calendar;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 public class Note implements Parcelable {
 
 	private int _id;
@@ -37,12 +36,10 @@ public class Note implements Parcelable {
 	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private ArrayList<Attachment> attachmentsListOld = new ArrayList<Attachment>();
 
-
 	public Note() {
 		super();
 		this.archived = false;
 	}
-	
 
 	public Note(Long creation, Long lastModification, String title, String content, Boolean archived, String alarm) {
 		super();
@@ -53,9 +50,9 @@ public class Note implements Parcelable {
 		this.archived = archived;
 		this.alarm = alarm;
 	}
-	
 
-	public Note(int _id, Long creation, Long lastModification, String title, String content, Boolean archived, String alarm) {
+	public Note(int _id, Long creation, Long lastModification, String title, String content, Boolean archived,
+			String alarm) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -65,9 +62,9 @@ public class Note implements Parcelable {
 		this.archived = archived;
 		this.alarm = alarm;
 	}
-	
 
-	public Note(Long creation, Long lastModification, String title, String content, Integer archived, String alarm, String latitude, String longitude) {
+	public Note(Long creation, Long lastModification, String title, String content, Integer archived, String alarm,
+			String latitude, String longitude) {
 		super();
 		this.title = title;
 		this.content = content;
@@ -78,9 +75,9 @@ public class Note implements Parcelable {
 		setLatitude(latitude);
 		setLongitude(longitude);
 	}
-	
 
-	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived, String alarm, String latitude, String longitude) {
+	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived,
+			String alarm, String latitude, String longitude) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -91,6 +88,24 @@ public class Note implements Parcelable {
 		this.alarm = alarm;
 		setLatitude(latitude);
 		setLongitude(longitude);
+	}
+
+	public Note(Note note) {
+		super();
+		set_id(note.get_id());
+		setTitle(note.getTitle());
+		setContent(note.getContent());
+		setCreation(note.getCreation());
+		setLastModification(note.getLastModification());
+		setArchived(note.isArchived());
+		setAlarm(note.getAlarm());
+		setLatitude(note.getLatitude());
+		setLongitude(note.getLongitude());
+		ArrayList<Attachment> list = new ArrayList<Attachment>();
+		for (Attachment mAttachment : note.getAttachmentsList()) {
+			list.add(mAttachment);
+		}
+		setAttachmentsList(list);
 	}
 
 	private Note(Parcel in) {
@@ -106,11 +121,9 @@ public class Note implements Parcelable {
 		in.readList(attachmentsList, Attachment.class.getClassLoader());
 	}
 
-
 	public void set_id(int _id) {
 		this._id = _id;
 	}
-
 
 	public int get_id() {
 		return _id;
@@ -181,42 +194,34 @@ public class Note implements Parcelable {
 		}
 		this.lastModification = lastModificationLong;
 	}
-	
-	
+
 	public Boolean isArchived() {
 		return archived;
 	}
-
 
 	public void setArchived(Boolean archived) {
 		this.archived = archived;
 	}
 
-
 	public void setArchived(int archived) {
 		this.archived = archived == 1 ? true : false;
 	}
-
 
 	public String getAlarm() {
 		return alarm;
 	}
 
-
 	public void setAlarm(String alarm) {
 		this.alarm = alarm;
 	}
-
 
 	public Double getLatitude() {
 		return latitude;
 	}
 
-
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
-
 
 	public void setLatitude(String latitude) {
 		try {
@@ -226,16 +231,13 @@ public class Note implements Parcelable {
 		}
 	}
 
-
 	public Double getLongitude() {
 		return longitude;
 	}
 
-
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-
 
 	public void setLongitude(String longitude) {
 		try {
@@ -245,20 +247,17 @@ public class Note implements Parcelable {
 		}
 	}
 
-
 	public ArrayList<Attachment> getAttachmentsList() {
 		return attachmentsList;
 	}
 
-
 	public void setAttachmentsList(ArrayList<Attachment> attachmentsList) {
 		this.attachmentsList = attachmentsList;
 	}
-	
+
 	public void addAttachment(Attachment attachment) {
 		this.attachmentsList.add(attachment);
 	}
-
 
 	public void backupAttachmentsList() {
 		ArrayList<Attachment> attachmentsListOld = new ArrayList<Attachment>();
@@ -268,22 +267,49 @@ public class Note implements Parcelable {
 		this.attachmentsListOld = attachmentsListOld;
 	}
 
-
 	public ArrayList<Attachment> getAttachmentsListOld() {
 		return attachmentsListOld;
 	}
 
+	public boolean equals(Object o) {
+		boolean res = false;
+		Note note;
+		try {
+			note = (Note) o;
+		} catch (Exception e) {
+			return res;
+		}
+		if (get_id() == note.get_id() 
+			&& getTitle().equals(note.getTitle()) 
+			&& getContent().equals(note.getContent())
+			&& getCreation().equals(note.getCreation()) 
+			&& getLastModification().equals(note.getLastModification())
+			&& isArchived().equals(note.isArchived()) 
+			&& ( (getAlarm() == null && note.getAlarm() == null) || getAlarm().equals(note.getAlarm()) )
+			&& getLatitude().equals(note.getLatitude()) && getLongitude().equals(note.getLongitude()) 
+			&& getAttachmentsList().equals(note.getAttachmentsList())) {
+			
+			res = true;
+		}
+		return res;
+	}
+	
+	
+	public boolean isChanged(Note note) {
+		boolean res = false;
+		res = equals(note) && !getAttachmentsList().equals(getAttachmentsListOld());
+		return res;
+	}
+	
 
-	public String toString(){
+	public String toString() {
 		return getTitle();
 	}
-
 
 	@Override
 	public int describeContents() {
 		return 0;
 	}
-
 
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
