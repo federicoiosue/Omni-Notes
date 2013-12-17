@@ -59,7 +59,7 @@ public class BaseActivity extends SherlockFragmentActivity {
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
 		
-		createAppDirectory();
+//		createAppDirectory();
 		
 		setLocationManager();
 		
@@ -169,23 +169,6 @@ public class BaseActivity extends SherlockFragmentActivity {
 	
 
 
-	/**
-	 * Creation of application working directory and .nomedia file
-	 */
-	private void createAppDirectory() {
-		File destinationDir = new File(StorageManager.getApplicationDir());
-		if (!destinationDir.exists()) {
-			destinationDir.mkdirs();
-		}
-//		File nomedia = new File(destinationDir, ".nomedia");
-//		if (!nomedia.exists()) {
-//			try {
-//				if (!nomedia.createNewFile()) 
-//					throw new IOException();
-//			} catch (IOException e) {
-//				Log.e(Constants.TAG, "Error creating nomedia file in app directory");
-//			}
-//		}		
-	}
+	
 
 }

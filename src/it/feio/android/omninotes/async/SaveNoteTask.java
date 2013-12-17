@@ -13,6 +13,7 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -60,36 +61,33 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 					attachment.getUri().getPath().contains(destinationDir.getAbsolutePath()))
 				return;
 			
-			// Determination of file type
-			ContentResolver cR = mActivity.getContentResolver();
-			MimeTypeMap mime = MimeTypeMap.getSingleton();
-			String ext = mime.getExtensionFromMimeType(cR.getType(attachment.getUri()));
-			
-			
-			// Old copy mode
-//			File source = new File(StorageManager.getRealPathFromURI(mActivity, attachment.getUri()));
-			destination = new File(destinationDir, attachment.getUri().getLastPathSegment() + "." + ext);
-			try {
-				destination.createNewFile();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
-			try {
-				StorageManager.copyFile(mActivity.getContentResolver().openInputStream(attachment.getUri()), new FileOutputStream(destination));
-			} catch (FileNotFoundException e) {
-				Log.e(Constants.TAG, "File not found");
-			}
-			
-//			 try {
-//				FileUtils.copyFile(new File(attachment.getUri().getPath()), destination, true);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
+//			// Determination of file type
+//			ContentResolver cR = mActivity.getContentResolver();
+//			MimeTypeMap mime = MimeTypeMap.getSingleton();
+//			String ext = mime.getExtensionFromMimeType(cR.getType(attachment.getUri()));
+//			
+//			
+//			// Old copy mode
+//			destination = new File(destinationDir, attachment.getUri().getLastPathSegment() + "." + ext);
+//			try {
+//				destination.createNewFile();
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
 //			}
-
+//			
+//			try {
+//				StorageManager.copyFile(mActivity.getContentResolver().openInputStream(attachment.getUri()), new FileOutputStream(destination));
+//			} catch (FileNotFoundException e) {
+//				Log.e(Constants.TAG, "File not found");
+//			}
 			
+					
+			destination = StorageManager.createExternalStoragePrivateFile(mActivity, attachment.getUri());
 			
+			if (destination == null) {				
+				Log.e(Constants.TAG, "Can't move file");
+				break;
+			}
 			
 			// Replace uri
 			attachment.setUri(Uri.fromFile(destination));

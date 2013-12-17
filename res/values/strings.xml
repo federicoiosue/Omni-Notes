@@ -87,6 +87,7 @@
     <string name="record">Record</string>
     <string name="stop">Stop</string>
     <string name="no_app_to_handle_intent">No applications to handle file</string>
+    <string name="storage_not_available">Storage not available</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

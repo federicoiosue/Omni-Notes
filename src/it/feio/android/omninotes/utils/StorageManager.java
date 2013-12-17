@@ -16,6 +16,8 @@
 package it.feio.android.omninotes.utils;
 
 import it.feio.android.omninotes.BaseActivity;
+import it.feio.android.omninotes.R;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,6 +39,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.CursorLoader;
 import android.util.Log;
+import android.widget.Toast;
 
 public class StorageManager {
 
@@ -61,35 +64,29 @@ public class StorageManager {
 		return mExternalStorageAvailable && mExternalStorageWriteable;
 	}
 
-	
 	public static String getExternalStorageDir() {
 		// return Environment.getExternalStorageDirectory() + File.separator +
-		// Constants.TAG + File.separator;		
+		// Constants.TAG + File.separator;
 		return Environment.getExternalStorageDirectory().toString();
 	}
-	
-	
+
 	public static String getStorageDir() {
 		// return Environment.getExternalStorageDirectory() + File.separator +
 		// Constants.TAG + File.separator;
-		return Environment.getExternalStoragePublicDirectory(
-				Environment.DIRECTORY_DOWNLOADS).toString();
+		return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 	}
 
 	public static String getPictureDir() {
 		// return Environment.getExternalStorageDirectory() + File.separator +
 		// Constants.TAG + File.separator;
-		return Environment.getExternalStoragePublicDirectory(
-				Environment.DIRECTORY_PICTURES).toString();
-	}
-	
-	public static String getDataStorageDir() {
-		return Environment.getDataDirectory() + File.separator + "data"
-				+ File.separator + BaseActivity.class.getPackage().getName()
-				+ File.separator;
+		return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
 	}
 
-	
+	public static String getDataStorageDir() {
+		return Environment.getDataDirectory() + File.separator + "data" + File.separator
+				+ BaseActivity.class.getPackage().getName() + File.separator;
+	}
+
 	public static String getApplicationDir() {
 		File dir = new File(getExternalStorageDir() + File.separator + Constants.APP_STORAGE_DIRECTORY);
 		if (!dir.exists()) {
@@ -98,18 +95,18 @@ public class StorageManager {
 		return dir.getAbsolutePath();
 	}
 
-	
 	public static String getAttachmentDir() {
-		File dir = new File(getExternalStorageDir() + File.separator + Constants.APP_STORAGE_DIRECTORY + File.separator + Constants.APP_STORAGE_DIRECTORY_ATTACHMENTS);
+		File dir = new File(getExternalStorageDir() + File.separator + Constants.APP_STORAGE_DIRECTORY + File.separator
+				+ Constants.APP_STORAGE_DIRECTORY_ATTACHMENTS);
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
 		return dir.getAbsolutePath();
 	}
 
-
 	/**
 	 * Used to copy files from a storage type to another
+	 * 
 	 * @return Result
 	 */
 	public static boolean copyFile(File src, File dst) {
@@ -196,19 +193,18 @@ public class StorageManager {
 
 		return returnValue;
 	}
-	
-	
-	
+
 	/**
 	 * Used to copy files from a storage type to another
+	 * 
 	 * @return Result
 	 */
 	public static boolean copyFile(InputStream src, OutputStream dst) {
 		boolean returnValue = false;
-		
+
 		int read = 0;
 		byte[] bytes = new byte[1024];
- 
+
 		try {
 			while ((read = src.read(bytes)) != -1) {
 				dst.write(bytes, 0, read);
@@ -217,20 +213,70 @@ public class StorageManager {
 		} catch (IOException e) {
 			Log.e(Constants.TAG, "Error copying file");
 		}
-		
-		return returnValue;		
+
+		return returnValue;
 	}
+
 	
+	/**
+	 * Create a path where we will place our private file on external
+	 * 
+	 * @param mContext
+	 * @param uri
+	 * @return
+	 */
+	public static File createExternalStoragePrivateFile(Context mContext, Uri uri) {
+
+		// Checks for external storage availability
+		if (!checkStorage()) {
+			Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
+			return null;
+		}
+		File file = new File(mContext.getExternalFilesDir(null), uri.getLastPathSegment());
+
+		try {
+			InputStream is = mContext.getContentResolver().openInputStream(uri);
+			OutputStream os = new FileOutputStream(file);
+			byte[] data = new byte[is.available()];
+			is.read(data);
+			os.write(data);
+			is.close();
+			os.close();
+		} catch (IOException e) {
+			Log.e(Constants.TAG, "Error writing " + file, e);
+			return null;
+		}
+		return file;
+	}
+
 	
+	public static boolean deleteExternalStoragePrivateFile(Context mContext, String name) {
+		boolean res = false;
+
+		// Checks for external storage availability
+		if (!checkStorage()) {
+			Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
+			return res;
+		}
+
+		File file = new File(mContext.getExternalFilesDir(null), name);
+		if (file != null) {
+			file.delete();
+			res = true;
+		}
+		
+		return res;
+	}
+
 	
-	
-//	public static String getRealPathFromURI(Context mContext, Uri contentUri) {
-//		String[] proj = { MediaStore.Images.Media.DATA };
-//		CursorLoader loader = new CursorLoader(mContext, contentUri, proj, null, null, null);
-//		Cursor cursor = loader.loadInBackground();
-//		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//		cursor.moveToFirst();
-//		return cursor.getString(column_index);
-//	}
+	public static boolean hasExternalStoragePrivateFile(Context mContext, String name) {
+		// Get path for the file on external storage. If external
+		// storage is not currently mounted this will fail.
+		File file = new File(mContext.getExternalFilesDir(null), name);
+		if (file != null) {
+			return file.exists();
+		}
+		return false;
+	}
 
 }

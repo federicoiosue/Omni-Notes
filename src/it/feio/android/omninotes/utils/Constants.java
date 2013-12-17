@@ -15,8 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils;
 
-import java.io.File;
-
 public interface Constants {
 
 	final String TAG = "Omni Notes";
@@ -55,5 +53,5 @@ public interface Constants {
     final String EXPORT_FILE_NAME = TAG;
     
     final String MIME_TYPE_IMAGE = "image/jpeg";
-    final String MIME_TYPE_AUDIO = "audio/amr";
+    final String MIME_TYPE_AUDIO = "audio/3gp";
 }

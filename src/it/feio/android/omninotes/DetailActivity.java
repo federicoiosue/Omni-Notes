@@ -233,7 +233,8 @@ public class DetailActivity extends BaseActivity {
 				Uri uri = attachment.getUri();
 				Intent attachmentIntent = null;
 				if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
-					attachmentIntent = new Intent(Intent.ACTION_VIEW, uri);
+					attachmentIntent = new Intent(Intent.ACTION_VIEW);
+					attachmentIntent.setDataAndType(uri, attachment.getMime_type());
 					if (isAvailable(getApplicationContext(), attachmentIntent)) {
 						startActivity(attachmentIntent);
 					} else {
@@ -462,6 +463,7 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	public boolean goHome() {
+		stopPlaying();
 		NavUtils.navigateUpFromSameTask(this);
 		if (prefs.getBoolean("settings_enable_animations", true)) {
 			overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
@@ -471,7 +473,6 @@ public class DetailActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		stopPlaying();
 		saveNote(null);
 	}
 
@@ -866,13 +867,7 @@ public class DetailActivity extends BaseActivity {
 		return alarmTime;
 	}
 
-//	private void onRecord(boolean start) {
-//		if (start) {
-//			startRecording();
-//		} else {
-//			stopRecording();
-//		}
-//	}
+
 
 	/**
 	 * Audio recordings playback
@@ -922,17 +917,19 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	private void stopPlaying() {
-		mPlayer.release();
-		mPlayer = null;
+		if (mPlayer != null) {
+			mPlayer.release();
+			mPlayer = null;
+		}
 	}
 
 	private void startRecording() {
-		recordName = StorageManager.getAttachmentDir() + "/audio_" + Calendar.getInstance().getTimeInMillis() + ".amr";
+		recordName = StorageManager.getAttachmentDir() + "/audio_" + Calendar.getInstance().getTimeInMillis() + ".3gp";
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-		mRecorder.setOutputFile(recordName);
+		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+		mRecorder.setOutputFile(recordName);
 
 		try {
 			mRecorder.prepare();
