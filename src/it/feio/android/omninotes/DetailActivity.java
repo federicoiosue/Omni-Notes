@@ -95,6 +95,7 @@ public class DetailActivity extends BaseActivity {
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
 	private static final int RECORDING = 3;
+	private static final int TAKE_VIDEO = 4;
 
 	private SherlockFragmentActivity mActivity;
 
@@ -232,10 +233,11 @@ public class DetailActivity extends BaseActivity {
 				Attachment attachment = (Attachment) parent.getAdapter().getItem(position);
 				Uri uri = attachment.getUri();
 				Intent attachmentIntent = null;
-				if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
+				if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
+						|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
 					attachmentIntent = new Intent(Intent.ACTION_VIEW);
 					attachmentIntent.setDataAndType(uri, attachment.getMime_type());
-					if (isAvailable(getApplicationContext(), attachmentIntent)) {
+					if (isAvailable(getApplicationContext(), attachmentIntent, null)) {
 						startActivity(attachmentIntent);
 					} else {
 						showToast(getResources().getText(R.string.no_app_to_handle_intent), Toast.LENGTH_SHORT);
@@ -518,6 +520,9 @@ public class DetailActivity extends BaseActivity {
 		// Audio recording
 		android.widget.TextView recordingSelection = (android.widget.TextView) layout.findViewById(R.id.recording);
 		recordingSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Video recording
+		android.widget.TextView videoSelection = (android.widget.TextView) layout.findViewById(R.id.video);
+		videoSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Location
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
@@ -560,13 +565,11 @@ public class DetailActivity extends BaseActivity {
 				if (!isRecording) {
 					isRecording = true;
 					android.widget.TextView mTextView = (android.widget.TextView) v;
-//					mTextView.setCompoundDrawables(null, getResources().getDrawable(R.drawable.stop), null, null);
 					mTextView.setText(getString(R.string.stop));
 					startRecording();
 				} else {
 					isRecording = false;
 					stopRecording();
-					// ((TextView)v).setText("record");
 					Attachment attachment = new Attachment(Uri.parse(recordName), Constants.MIME_TYPE_AUDIO);
 					attachmentsList.add(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
@@ -574,20 +577,47 @@ public class DetailActivity extends BaseActivity {
 					attachmentDialog.dismiss();
 				}
 				break;
+			case R.id.video:
+				Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+				if (!isAvailable(mActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
+					showToast(getString(R.string.feature_not_available_on_this_device), Toast.LENGTH_SHORT);
+					break;
+				}
+			    startActivityForResult(takeVideoIntent, TAKE_VIDEO);
+				attachmentDialog.dismiss();
+			    break;
 			case R.id.location:
 				setAddress(locationTextView);
 				attachmentDialog.dismiss();
 				break;
-			}
+			}	
 		}
 	}
 
-	private static boolean isAvailable(Context ctx, Intent intent) {
+	
+	/**
+	 * Checks intent and features availability
+	 * @param ctx
+	 * @param intent
+	 * @param features
+	 * @return
+	 */
+	private static boolean isAvailable(Context ctx, Intent intent, String[] features) {
+		boolean res = true;		
 		final PackageManager mgr = ctx.getPackageManager();
+		// Intent resolver
 		List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-		return list.size() > 0;
+		res = res && list.size() > 0;
+		// Features
+		if (features != null) {
+			for (String feature : features) {
+				res = res && mgr.hasSystemFeature(feature);			
+			}
+		}
+		return res;
 	}
 
+	
 	private void takePhoto() {
 		ContentValues values = new ContentValues();
 		values.put(MediaStore.Images.Media.TITLE, "New Picture");
@@ -598,6 +628,7 @@ public class DetailActivity extends BaseActivity {
 		startActivityForResult(intent, TAKE_PHOTO);
 	}
 
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		// Fetch uri from activities, store into adapter and refresh adapter
@@ -612,6 +643,12 @@ public class DetailActivity extends BaseActivity {
 				break;
 			case GALLERY:
 				attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_IMAGE);
+				attachmentsList.add(attachment);
+				mAttachmentAdapter.notifyDataSetChanged();
+				mGridView.autoresize();
+				break;
+			case TAKE_VIDEO:
+				attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_VIDEO);
 				attachmentsList.add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();

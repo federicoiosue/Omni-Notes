@@ -73,7 +73,7 @@
                     android:textAppearance="@style/Text.Small"
                     android:textColor="@color/location_text"
                     android:visibility="gone"
-                    pixlui:typeface="RobotoSlab-Thin.ttf" />
+                    pixlui:typeface="RobotoSlab-Light.ttf" />
 
                 <it.feio.android.omninotes.models.ExpandableHeightGridView
                     android:id="@+id/gridview"
@@ -107,7 +107,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/add_reminder"
                         android:textAppearance="@style/Text.Small"
-                        pixlui:typeface="RobotoSlab-Thin.ttf" />
+                        pixlui:typeface="RobotoSlab-Light.ttf" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
@@ -127,7 +127,7 @@
             android:layout_weight="1"
             android:gravity="left"
             android:textAppearance="@style/Text.Small"
-            pixlui:typeface="RobotoSlab-Light.ttf" />
+            pixlui:typeface="RobotoSlab-Regular.ttf" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/last_modification"
@@ -136,7 +136,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:textAppearance="@style/Text.Small"
-            pixlui:typeface="RobotoSlab-Light.ttf" />
+            pixlui:typeface="RobotoSlab-Regular.ttf" />
     </LinearLayout>
 
 </LinearLayout>

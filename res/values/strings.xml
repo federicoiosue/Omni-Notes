@@ -88,6 +88,8 @@
     <string name="stop">Stop</string>
     <string name="no_app_to_handle_intent">No applications to handle file</string>
     <string name="storage_not_available">Storage not available</string>
+    <string name="video">Video</string>
+    <string name="feature_not_available_on_this_device">Feature not available on this device</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

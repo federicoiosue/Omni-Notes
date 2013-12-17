@@ -26,6 +26,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
+import android.provider.MediaStore.Video.Thumbnails;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -52,44 +54,38 @@ public class AttachmentAdapter extends BaseAdapter {
 		return 0;
 	}
 
+	
 	// create a new ImageView for each item referenced by the Adapter
 	public View getView(int position, View convertView, ViewGroup parent) {
+		
+		Log.v(Constants.TAG, "GridView called for position " + position);
+		
 		ImageView imageView;
 		if (convertView == null) { // if it's not recycled, initialize some
 									// attributes
 			imageView = new ImageView(mContext);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+			Attachment attachment = attachmentsList.get(position);
+
+			// Image and Video attachments
+			if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
+				|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
+				BitmapLoaderTask task = new BitmapLoaderTask(mContext, imageView);
+				task.execute(attachment);
+			}
+
+			// Audio attachment
+			if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
+				Bitmap b = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
+//				Bitmap b = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_action_play);
+				imageView.setImageBitmap(b);
+			}
+			
 		} else {
 			imageView = (ImageView) convertView;
 		}
-
-		// try {
-		// imageView.setImageBitmap(BitmapDecoder.decodeSampledFromUri(mContext,
-		// attachmentsList.get(position).getUri(), Constants.THUMBNAIL_SIZE,
-		// Constants.THUMBNAIL_SIZE));
-		// } catch (FileNotFoundException e) {
-		// Log.e(Constants.TAG, "Image not found");
-		// }
-
-		// Bitmap b = BitmapFactory.decodeResource(mContext.getResources(),
-		// R.drawable.white);
-		// imageView.setImageBitmap(b);
-
-		Attachment attachment = attachmentsList.get(position);
-
-		// Image attachment
-		if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
-			BitmapLoaderTask task = new BitmapLoaderTask(mContext, imageView);
-			task.execute(attachment.getUri());
-		}
-
-		// Audio attachment
-		if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
-			Bitmap b = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
-//			Bitmap b = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_action_play);
-			imageView.setImageBitmap(b);
-		}
-
+		
 		return imageView;
 	}
 }
