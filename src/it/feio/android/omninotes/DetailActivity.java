@@ -808,7 +808,7 @@ public class DetailActivity extends BaseActivity {
 		String content = ((EditText) findViewById(R.id.content)).getText().toString();
 
 		// Check if some text has ben inserted or is an empty note
-		if ((title + content).length() == 0) {
+		if ((title + content).length() == 0 && attachmentsList.size() == 0) {
 			Log.d(Constants.TAG, "Empty note not shared");
 			showToast(getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT);
 			return;
