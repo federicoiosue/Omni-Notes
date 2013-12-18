@@ -155,40 +155,40 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 
 		// Evento di pressione sul pulsante di reset delle impostazioni
-		Preference resetData = findPreference("reset_all_data");
-		resetData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-			@Override
-			public boolean onPreferenceClick(Preference arg0) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-
-				// set dialog message
-				alertDialogBuilder.setMessage(getString(R.string.reset_all_data_confirmation))
-						.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-							public void onClick(DialogInterface dialog, int id) {
-								PreferenceManager.getDefaultSharedPreferences(activity).edit().clear()
-										.commit();
-								DbHelper db = new DbHelper(activity);
-								db.clear();
-								Log.i(Constants.TAG, "Settings back to default");
-							}
-						}).setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
-
-				// create alert dialog
-				AlertDialog alertDialog = alertDialogBuilder.create();
-
-				// show it
-				alertDialog.show();
-				return false;
-			}
-
-		});
+//		Preference resetData = findPreference("reset_all_data");
+//		resetData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+//
+//			@Override
+//			public boolean onPreferenceClick(Preference arg0) {
+//				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+//
+//				// set dialog message
+//				alertDialogBuilder.setMessage(getString(R.string.reset_all_data_confirmation))
+//						.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//
+//							public void onClick(DialogInterface dialog, int id) {
+//								PreferenceManager.getDefaultSharedPreferences(activity).edit().clear()
+//										.commit();
+//								DbHelper db = new DbHelper(activity);
+//								db.clear();
+//								Log.i(Constants.TAG, "Settings back to default");
+//							}
+//						}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+//
+//							public void onClick(DialogInterface dialog, int id) {
+//								dialog.cancel();
+//							}
+//						});
+//
+//				// create alert dialog
+//				AlertDialog alertDialog = alertDialogBuilder.create();
+//
+//				// show it
+//				alertDialog.show();
+//				return false;
+//			}
+//
+//		});
 
 
 		// Popup About
