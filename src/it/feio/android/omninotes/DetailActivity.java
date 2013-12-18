@@ -106,7 +106,7 @@ public class DetailActivity extends BaseActivity {
 	private String alarmDate = "", alarmTime = "";
 	private String dateTimeText = "";
 	private long alarmDateTime = -1;
-	public Uri imageUri;
+	private Uri attachmentUri;
 	private AttachmentAdapter mAttachmentAdapter;
 	private ExpandableHeightGridView mGridView;
 	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
@@ -580,12 +580,7 @@ public class DetailActivity extends BaseActivity {
 				}
 				break;
 			case R.id.video:
-				Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-				if (!isAvailable(mActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
-					showToast(getString(R.string.feature_not_available_on_this_device), Toast.LENGTH_SHORT);
-					break;
-				}
-			    startActivityForResult(takeVideoIntent, TAKE_VIDEO);
+				takeVideo();
 				attachmentDialog.dismiss();
 			    break;
 			case R.id.location:
@@ -621,13 +616,27 @@ public class DetailActivity extends BaseActivity {
 
 	
 	private void takePhoto() {
-		ContentValues values = new ContentValues();
-		values.put(MediaStore.Images.Media.TITLE, "New Picture");
-		values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-		imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+//		ContentValues values = new ContentValues();
+//		values.put(MediaStore.Images.Media.TITLE, "New Picture");
+//		values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+//		imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+		
+		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity));
+		
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		startActivityForResult(intent, TAKE_PHOTO);
+	}
+	
+	private void takeVideo() {
+		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+		if (!isAvailable(mActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
+			showToast(getString(R.string.feature_not_available_on_this_device), Toast.LENGTH_SHORT);
+			return;
+		}
+		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity));
+		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
+	    startActivityForResult(takeVideoIntent, TAKE_VIDEO);
 	}
 
 	
@@ -638,7 +647,7 @@ public class DetailActivity extends BaseActivity {
 		if (resultCode == Activity.RESULT_OK) {
 			switch (requestCode) {
 			case TAKE_PHOTO:
-				attachment = new Attachment(imageUri, Constants.MIME_TYPE_IMAGE);
+				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
 				attachmentsList.add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
@@ -650,7 +659,7 @@ public class DetailActivity extends BaseActivity {
 				mGridView.autoresize();
 				break;
 			case TAKE_VIDEO:
-				attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_VIDEO);
+				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
 				attachmentsList.add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
@@ -963,7 +972,7 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	private void startRecording() {
-		recordName = StorageManager.getAttachmentDir() + "/audio_" + Calendar.getInstance().getTimeInMillis() + ".3gp";
+		recordName = StorageManager.createNewAttachmentFile(this) + ".3gp";
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);

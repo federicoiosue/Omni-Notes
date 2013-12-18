@@ -32,12 +32,13 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.NonReadableChannelException;
 import java.nio.channels.NonWritableChannelException;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.CursorLoader;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -95,13 +96,8 @@ public class StorageManager {
 		return dir.getAbsolutePath();
 	}
 
-	public static String getAttachmentDir() {
-		File dir = new File(getExternalStorageDir() + File.separator + Constants.APP_STORAGE_DIRECTORY + File.separator
-				+ Constants.APP_STORAGE_DIRECTORY_ATTACHMENTS);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-		return dir.getAbsolutePath();
+	public static File getAttachmentDir(Context mContext) {
+		return mContext.getExternalFilesDir(null);
 	}
 
 	/**
@@ -290,6 +286,14 @@ public class StorageManager {
 	    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 	    cursor.moveToFirst();
 	    return cursor.getString(column_index);
+	}
+	
+	
+	public static File createNewAttachmentFile(Context mContext){
+		DateTime now = DateTime.now();
+		String name = now.toString(DateTimeFormat.forPattern("yyyyMMddHHmmss"));
+		File f = new File(mContext.getExternalFilesDir(null), name);
+		return f;
 	}
 
 }

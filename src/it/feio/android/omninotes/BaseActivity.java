@@ -15,9 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import java.io.File;
-import java.io.IOException;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -27,7 +24,6 @@ import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.StorageManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -36,7 +32,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Toast;
 
 public class BaseActivity extends SherlockFragmentActivity {
