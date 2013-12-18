@@ -228,7 +228,7 @@ public class StorageManager {
 			Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
 			return null;
 		}
-		File file = new File(mContext.getExternalFilesDir(null), uri.getLastPathSegment());
+		File file = createNewAttachmentFile(mContext);
 
 		try {
 			InputStream is = mContext.getContentResolver().openInputStream(uri);

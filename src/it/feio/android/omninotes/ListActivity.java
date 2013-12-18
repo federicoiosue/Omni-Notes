@@ -50,6 +50,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -97,21 +98,35 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	private void handleFilter(Intent intent) {
 		Note note = new Note();
 		
-		// Text data
+		String mime = null;
+		if (intent.getType().contains("image/")) {
+			mime = Constants.MIME_TYPE_IMAGE;
+		} else if (intent.getType().contains("audio/")) {
+			mime = Constants.MIME_TYPE_AUDIO;
+		} else if (intent.getType().contains("video/")) {
+			mime = Constants.MIME_TYPE_VIDEO;
+		}
+		
+		// Text title
+		String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+		if (title != null) {
+			note.setTitle(title);
+		}
+		// Text content
 		String content = intent.getStringExtra(Intent.EXTRA_TEXT);
 		if (content != null) {
 			note.setContent(content);
 		}
-		// Single image data
+		// Single attachment data
 		Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
 	    if (uri != null) {
-	        note.addAttachment(new Attachment(uri, Constants.MIME_TYPE_IMAGE));
+	        note.addAttachment(new Attachment(uri, mime));
 	    }
-	    // Multiple image data
+	    // Multiple attachment data
 	    ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 	    if (uris != null) {
 	    	for (Uri uri2 : uris) {
-		        note.addAttachment(new Attachment(uri2, Constants.MIME_TYPE_IMAGE));				
+		        note.addAttachment(new Attachment(uri2, mime));				
 			}
 	    }
 	    

@@ -52,14 +52,13 @@ public class BitmapLoaderTask extends AsyncTask<Attachment, Void, Bitmap> {
 			
 			// Image
 			} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())) {
-				bmp = BitmapDecoder.decodeSampledFromUri(mContext, mAttachment.getUri(), reqWidth, reqHeight);
+				bmp = checkIfBroken(BitmapDecoder.decodeSampledFromUri(mContext, mAttachment.getUri(), reqWidth, reqHeight));
 			
 			// Audio
 			} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
 				bmp = ThumbnailUtils.extractThumbnail(
 						BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play),
 						Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
-//				Bitmap b = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_action_play);
 			}
 		} catch (FileNotFoundException e) {
 			Log.e(Constants.TAG, "Image not found");
@@ -91,10 +90,21 @@ public class BitmapLoaderTask extends AsyncTask<Attachment, Void, Bitmap> {
 		Bitmap thumbnail = Bitmap.createBitmap(Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(thumbnail);
 		Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-
-		canvas.drawBitmap(video, 0, 0, null);
+		
+		canvas.drawBitmap(checkIfBroken(video), 0, 0, null);
 		canvas.drawBitmap(mark, 0, 0, null);
 
 		return thumbnail;
+	}
+
+	private Bitmap checkIfBroken(Bitmap video) {
+
+		// In case no thumbnail can be extracted from video 
+		if (video == null) {
+			video = ThumbnailUtils.extractThumbnail(
+					BitmapFactory.decodeResource(mContext.getResources(), R.drawable.attachment_broken), Constants.THUMBNAIL_SIZE,
+					Constants.THUMBNAIL_SIZE);
+		}
+		return video;
 	}
 }

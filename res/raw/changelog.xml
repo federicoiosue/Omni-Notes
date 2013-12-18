@@ -16,6 +16,10 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="3.9.6beta" changeDate="Dec 17,2013">
+      <changelogtext>Sharing notes to or receiving shared data from other apps now fills correctly the title field</changelogtext>
+	</changelogversion>
+
     <changelogversion versionName="3.9.5beta" changeDate="Dec 17,2013">
       <changelogtext>[b]New! [/b]Video recording</changelogtext>
 	</changelogversion>

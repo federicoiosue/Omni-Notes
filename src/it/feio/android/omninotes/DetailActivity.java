@@ -48,7 +48,6 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -815,7 +814,7 @@ public class DetailActivity extends BaseActivity {
 		}
 
 		// Definition of shared content
-		String text = title + System.getProperty("line.separator") + content + System.getProperty("line.separator")
+		String text = content + System.getProperty("line.separator")
 				+ System.getProperty("line.separator") + getResources().getString(R.string.shared_content_sign);
 
 		Intent shareIntent = new Intent();
@@ -823,13 +822,15 @@ public class DetailActivity extends BaseActivity {
 		if (attachmentsList.size() == 0) {
 			shareIntent.setAction(Intent.ACTION_SEND);
 			shareIntent.setType("text/plain");
+			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
 			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
 
 			// Intent with single image attachment
 		} else if (attachmentsList.size() == 1) {
 			shareIntent.setAction(Intent.ACTION_SEND);
-			shareIntent.setType("image/jpeg");
+			shareIntent.setType(attachmentsList.get(0).getMime_type());
 			shareIntent.putExtra(Intent.EXTRA_STREAM, attachmentsList.get(0).getUri());
+			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
 			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
 
 			// Intent with multiple images
@@ -841,6 +842,7 @@ public class DetailActivity extends BaseActivity {
 				uris.add(attachment.getUri());
 			}
 			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
 			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
 		}
 
@@ -889,7 +891,7 @@ public class DetailActivity extends BaseActivity {
 	// }
 
 	/**
-	 * Used to set acual alarm state when initializing a note to be edited
+	 * Used to set actual alarm state when initializing a note to be edited
 	 * 
 	 * @param alarmDateTime
 	 * @return
