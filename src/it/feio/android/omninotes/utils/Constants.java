@@ -55,4 +55,7 @@ public interface Constants {
     final String MIME_TYPE_IMAGE = "image/jpeg";
     final String MIME_TYPE_AUDIO = "audio/3gp";
     final String MIME_TYPE_VIDEO = "video/3gp";
+    
+    final int ERROR_NOTE_NOT_DELETED = -1;
+    final int ERROR_ATTACHMENTS_NOT_DELETED = -2;
 }

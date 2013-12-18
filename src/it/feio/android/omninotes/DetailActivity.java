@@ -40,9 +40,11 @@ import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.R;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -678,6 +680,7 @@ public class DetailActivity extends BaseActivity {
 		}
 	}
 
+	@SuppressLint("NewApi")
 	private void deleteNote() {
 
 		// Confirm dialog creation
@@ -689,23 +692,24 @@ public class DetailActivity extends BaseActivity {
 					public void onClick(DialogInterface dialog, int id) {
 						// Simply return to the previous
 						// activity/fragment if it was a new note
-						if (getIntent().getStringExtra(Constants.INTENT_KEY) == null) {
+						if (note.get_id() == 0) {
 							goHome();
 							return;
 						}
 
-						// Create note object
-						int _id = Integer.parseInt(getIntent().getStringExtra(Constants.INTENT_KEY));
-						Note note = new Note();
-						note.set_id(_id);
-
-						// Deleting note using DbHelper
-						DbHelper db = new DbHelper(getApplicationContext());
-						db.deleteNote(note);
+						// Saving changes to the note
+						DeleteNoteTask saveNoteTask = new DeleteNoteTask(getApplicationContext());
+						// Forceing parallel execution disabled by default
+						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+							saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+						} else {
+							saveNoteTask.execute(note);
+						}
 
 						// Informs the user about update
-						Log.d(Constants.TAG, "Deleted note with id '" + _id + "'");
+						Log.d(Constants.TAG, "Deleted note with id '" + note.get_id() + "'");
 						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
+						
 						goHome();
 						return;
 					}

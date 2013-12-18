@@ -90,6 +90,7 @@
     <string name="storage_not_available">Storage not available</string>
     <string name="video">Video</string>
     <string name="feature_not_available_on_this_device">Feature not available on this device</string>
+    <string name="error_occurred_deleting_note">Error occurred deleting note</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

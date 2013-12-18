@@ -32,9 +32,12 @@ import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.R;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -684,10 +687,17 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 * Single note deletion
 	 * @param note Note to be deleted
 	 */
+	@SuppressLint("NewApi")
 	protected void deleteNote(Note note) {
-		// Deleting note using DbHelper
-		DbHelper db = new DbHelper(getApplicationContext());
-		db.deleteNote(note);
+		
+		// Saving changes to the note
+		DeleteNoteTask saveNoteTask = new DeleteNoteTask(getApplicationContext());
+		// Forceing parallel execution disabled by default
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+		} else {
+			saveNoteTask.execute(note);
+		}
 
 		// Update adapter content
 		mAdapter.remove(note);

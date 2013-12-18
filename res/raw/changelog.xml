@@ -16,22 +16,28 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="3.9.6beta" changeDate="Dec 17,2013">
+    <changelogversion versionName="3.9.6beta" changeDate="Dec 19, 2013">
+      <changelogtext>[b]New! [/b]OmniNotes can now receive also shared videos and audio recordings from other apps</changelogtext>
+      <changelogtext>[b]New! [/b]Performances boosted up saving attachments thanks to memory accesses optimizations</changelogtext>
+      <changelogtext>[b]New! [/b]Removed "Reset All Data" option from settings. All application data have been moved to private directory on external memory so you can simply use default system data and cache cleaning</changelogtext>
+      <changelogtext>[b]New! [/b]Much faster note deletion thanks to asynchronous processing (batch deletion too)</changelogtext>
       <changelogtext>Sharing notes to or receiving shared data from other apps now fills correctly the title field</changelogtext>
+      <changelogtext>Fixed note deleting failure when trying to delete from inside note detail</changelogtext>
+      <changelogtext>Fixed missing attachments deletion</changelogtext>
 	</changelogversion>
 
-    <changelogversion versionName="3.9.5beta" changeDate="Dec 17,2013">
+    <changelogversion versionName="3.9.5beta" changeDate="Dec 17, 2013">
       <changelogtext>[b]New! [/b]Video recording</changelogtext>
 	</changelogversion>
 
-    <changelogversion versionName="3.9.4beta" changeDate="Dec 17,2013">
+    <changelogversion versionName="3.9.4beta" changeDate="Dec 17, 2013">
       <changelogtext>[b]New! [/b]Audio recording and playback</changelogtext>
       <changelogtext>Note modification date is not updated if no changes are made</changelogtext>
       <changelogtext>Fixed crash on application opening happening on many devices</changelogtext>
       <changelogtext>Fixed image opening with wrong applications (ex. torrent, file manager)</changelogtext>
 	</changelogversion>
 	
-    <changelogversion versionName="3.9.3beta" changeDate="Dec 12,2013">
+    <changelogversion versionName="3.9.3beta" changeDate="Dec 12, 2013">
       <changelogtext>[b]New! [/b]Widget!!</changelogtext>
       <changelogtext>[b]New! [/b]Consistency improved by making a copy of attachments, now if original is deleted Omni Notes has its own ones</changelogtext>
       <changelogtext>Updated search icon to match the standard one from holo light theme</changelogtext>
@@ -40,7 +46,7 @@
       <changelogtext>Fixed missing refresh of note list after inserting note with heavy images</changelogtext>
 	</changelogversion>
 	
-    <changelogversion versionName="3.9.2beta" changeDate="Dec 10,2013">
+    <changelogversion versionName="3.9.2beta" changeDate="Dec 10, 2013">
         <changelogtext>[b]New! [/b]Now is possible to share contents from other apps to Omni Notes!</changelogtext>
         <changelogtext>[b]New! [/b]Image attachments are shared too</changelogtext>
 		<changelogtext>[b]New! [/b]Links recognition in notes content and title activable via option in settings</changelogtext>
@@ -56,14 +62,14 @@
 		<changelogtext>Fixed image attachments crop to fill a regular grid</changelogtext>
 	</changelogversion>
 
-    <changelogversion versionName="3.9.1beta" changeDate="Nov 29,2013">
+    <changelogversion versionName="3.9.1beta" changeDate="Nov 29, 2013">
 		<changelogtext>[b]New! [/b]Notes geolocation!</changelogtext>
 		<changelogtext>[b]New! [/b]Replaced standard date and time pickers with the new beautiful one from Android 4.3 ported backward to older devices</changelogtext>
 		<changelogtext>Moved attachment icon on first position in note detail page</changelogtext>
 		<changelogtext>Fixed reminder bug showind notification with some delay and giving error on notification opening when the note was created first time</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="3.9.0beta" changeDate="Nov 28,2013">
+    <changelogversion versionName="3.9.0beta" changeDate="Nov 28, 2013">
 		<changelogtext>[b]New! [/b]Attachments to notes using camera or gallery images</changelogtext>
 		<changelogtext>[b]New! [/b]A remainder can be set to receive notes notifications</changelogtext>
 		<changelogtext>[b]New! [/b]New icons in notes list showing archived status, attachments and reminders</changelogtext>
@@ -73,22 +79,22 @@
 		<changelogtext>Lot of bugs fixes and improvements</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="3.2.4" changeDate="Nov 22,2013">
+    <changelogversion versionName="3.2.4" changeDate="Nov 22, 2013">
 		<changelogtext>[b]New! [/b]Splashscreen added</changelogtext>
 		<changelogtext>[b]New! [/b]Totally removed Ads</changelogtext>
 		<changelogtext>Fixed layout for small phones</changelogtext>
 		<changelogtext>INFO section in settings</changelogtext>
     </changelogversion>
     
-    <changelogversion versionName="3.2.3" changeDate="Nov 18,2013">
+    <changelogversion versionName="3.2.3" changeDate="Nov 18, 2013">
 		<changelogtext>Bugfixes</changelogtext>
     </changelogversion>
     
-    <changelogversion versionName="3.2.1 - 3.2.2" changeDate="Nov 17,2013">
+    <changelogversion versionName="3.2.1 - 3.2.2" changeDate="Nov 17, 2013">
 		<changelogtext>Bugfixed and graphic adjustments</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="3.2.0" changeDate="Nov 15,2013">
+    <changelogversion versionName="3.2.0" changeDate="Nov 15, 2013">
 		<changelogtext>[b]New! [/b]Spanish localization</changelogtext>
 		<changelogtext>[b]New! [/b]Added animations</changelogtext>
 		<changelogtext>Notes list more cards-like</changelogtext>
@@ -96,11 +102,11 @@
 		<changelogtext>Performance improvements</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="3.1.0" changeDate="Nov 14,2013">
+    <changelogversion versionName="3.1.0" changeDate="Nov 14, 2013">
             <changelogtext>Drastically reduced minimum Android version to 2.2</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="3.0.0" changeDate="Nov 13,2013">
+    <changelogversion versionName="3.0.0" changeDate="Nov 13, 2013">
 		<changelogtext>Out of closed BETA!</changelogtext>
 		<changelogtext>[b]New! [/b]Italian localization</changelogtext>
 		<changelogtext>[b]New! [/b]Confirmation on batch deleting</changelogtext>
@@ -108,26 +114,26 @@
 		<changelogtext>Fix Whatsapp sharing</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="2.2.0" changeDate="Nov 11,2013">
+    <changelogversion versionName="2.2.0" changeDate="Nov 11, 2013">
         <changelogtext>[b]New! [/b]Note searching</changelogtext>
 		<changelogtext>[b]New! [/b]New font Roboto Slab</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="2.1.0" changeDate="Nov 9,2013">
+    <changelogversion versionName="2.1.0" changeDate="Nov 9, 2013">
 		<changelogtext>New export and import functions using csv file</changelogtext>
 		<changelogtext>Settings revisited</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="2.0.0" changeDate="Nov 8,2013">
+    <changelogversion versionName="2.0.0" changeDate="Nov 8, 2013">
 		<changelogtext>New export and import functions using csv file</changelogtext>
 		<changelogtext>Settings revisited</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="1.1.0" changeDate="Nov 6,2013">
+    <changelogversion versionName="1.1.0" changeDate="Nov 6, 2013">
             <changelogtext>Basical functions available: inserting, deleting (batch mode too), sorting with various criteria and notes sharing</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="1.0.0" changeDate="Nov 6,2013">
+    <changelogversion versionName="1.0.0" changeDate="Nov 6, 2013">
             <changelogtext>Initial commit</changelogtext>
     </changelogversion>
 
