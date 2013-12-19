@@ -25,6 +25,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.ImportExportExcel;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.R;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -33,6 +34,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -155,11 +157,11 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
 
 		// Evento di pressione sul pulsante di reset delle impostazioni
-//		Preference resetData = findPreference("reset_all_data");
-//		resetData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-//
-//			@Override
-//			public boolean onPreferenceClick(Preference arg0) {
+		Preference resetData = findPreference("reset_all_data");
+		resetData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
 //				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 //
 //				// set dialog message
@@ -185,10 +187,30 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 //
 //				// show it
 //				alertDialog.show();
-//				return false;
-//			}
-//
-//		});
+				
+
+				String packageName = getApplicationContext().getPackageName();
+
+				try {
+				    //Open the specific App Info page:
+				    Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+				    intent.setData(Uri.parse("package:" + packageName));
+				    startActivity(intent);
+
+				} catch ( ActivityNotFoundException e ) {
+				    //e.printStackTrace();
+
+				    //Open the generic Apps page:
+				    Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+				    startActivity(intent);
+
+				}
+
+				return false;
+				
+			}
+
+		});
 
 
 		// Popup About
