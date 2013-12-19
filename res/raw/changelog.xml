@@ -18,12 +18,13 @@
 
     <changelogversion versionName="3.9.6beta" changeDate="Dec 19, 2013">
       <changelogtext>[b]New! [/b]OmniNotes can now receive also shared videos and audio recordings from other apps</changelogtext>
-      <changelogtext>[b]New! [/b]Performances boosted up saving attachments thanks to memory accesses optimizations</changelogtext>
       <changelogtext>[b]New! [/b]"Reset All Data" option from settings behavior changed. All application data have been moved to private directory on external memory so you can simply use default system data and cache cleaning</changelogtext>
-      <changelogtext>[b]New! [/b]Much faster note deletion thanks to asynchronous processing (batch deletion too)</changelogtext>
-      <changelogtext>Sharing notes to or receiving shared data from other apps now fills correctly the title field</changelogtext>
-      <changelogtext>Fixed note deleting failure when trying to delete from inside note detail</changelogtext>
-      <changelogtext>Fixed missing attachments deletion</changelogtext>
+      <changelogtext>[b]New! [/b]Backup process completely rewritten. Now it's managed by a service and also attachments will be saved</changelogtext>
+      <changelogtext>Performances boosted up saving attachments thanks to memory accesses optimizations</changelogtext>
+      <changelogtext>Much faster note deletion thanks to asynchronous processing (batch deletion too)</changelogtext>
+      <changelogtext>[u]Fixed[/u] Sharing notes to or receiving shared data from other apps now fills correctly the title field</changelogtext>
+      <changelogtext>[u]Fixed[/u] note deleting failure when trying to delete from inside note detail</changelogtext>
+      <changelogtext>[u]Fixed[/u] missing attachments deletion</changelogtext>
 	</changelogversion>
 
     <changelogversion versionName="3.9.5beta" changeDate="Dec 17, 2013">
@@ -33,17 +34,17 @@
     <changelogversion versionName="3.9.4beta" changeDate="Dec 17, 2013">
       <changelogtext>[b]New! [/b]Audio recording and playback</changelogtext>
       <changelogtext>Note modification date is not updated if no changes are made</changelogtext>
-      <changelogtext>Fixed crash on application opening happening on many devices</changelogtext>
-      <changelogtext>Fixed image opening with wrong applications (ex. torrent, file manager)</changelogtext>
+      <changelogtext>[u]Fixed[/u] crash on application opening happening on many devices</changelogtext>
+      <changelogtext>[u]Fixed[/u] image opening with wrong applications (ex. torrent, file manager)</changelogtext>
 	</changelogversion>
 	
     <changelogversion versionName="3.9.3beta" changeDate="Dec 12, 2013">
       <changelogtext>[b]New! [/b]Widget!!</changelogtext>
       <changelogtext>[b]New! [/b]Consistency improved by making a copy of attachments, now if original is deleted Omni Notes has its own ones</changelogtext>
       <changelogtext>Updated search icon to match the standard one from holo light theme</changelogtext>
-      <changelogtext>Fixed impossibility to open image attachments in gallery</changelogtext>     
-      <changelogtext>Fixed slowing down waiting location retrieval, now process is parallelized</changelogtext> 
-      <changelogtext>Fixed missing refresh of note list after inserting note with heavy images</changelogtext>
+      <changelogtext>[u]Fixed[/u] impossibility to open image attachments in gallery</changelogtext>     
+      <changelogtext>[u]Fixed[/u] slowing down waiting location retrieval, now process is parallelized</changelogtext> 
+      <changelogtext>[u]Fixed[/u] missing refresh of note list after inserting note with heavy images</changelogtext>
 	</changelogversion>
 	
     <changelogversion versionName="3.9.2beta" changeDate="Dec 10, 2013">
@@ -54,19 +55,19 @@
 		<changelogtext>[b]New! [/b]Asynchronous note saving and loading makes everithing faster</changelogtext>
 		<changelogtext>Improved sharing function that includes also image attachments</changelogtext>
 		<changelogtext>Changed the behavior of deleting action in notes detail: now you have to long-press on item (image, location, reminder) and give confirmation</changelogtext>
-		<changelogtext>Fixed multiple reminder notification misbehavior related to wrong note detail opening</changelogtext>
 		<changelogtext>Notes are now saved also if there is no text but just attachments, position or reminder set</changelogtext>		
  		<changelogtext>Added selection color on objects click</changelogtext>
  		<changelogtext>Now sorting by date  is done in descendant order</changelogtext>
- 		<changelogtext>Fixed location insertion error</changelogtext>
-		<changelogtext>Fixed image attachments crop to fill a regular grid</changelogtext>
+		<changelogtext>[u]Fixed[/u] multiple reminder notification misbehavior related to wrong note detail opening</changelogtext>
+ 		<changelogtext>[u]Fixed[/u] location insertion error</changelogtext>
+		<changelogtext>[u]Fixed[/u] image attachments crop to fill a regular grid</changelogtext>
 	</changelogversion>
 
     <changelogversion versionName="3.9.1beta" changeDate="Nov 29, 2013">
 		<changelogtext>[b]New! [/b]Notes geolocation!</changelogtext>
 		<changelogtext>[b]New! [/b]Replaced standard date and time pickers with the new beautiful one from Android 4.3 ported backward to older devices</changelogtext>
 		<changelogtext>Moved attachment icon on first position in note detail page</changelogtext>
-		<changelogtext>Fixed reminder bug showind notification with some delay and giving error on notification opening when the note was created first time</changelogtext>
+		<changelogtext>[u]Fixed[/u] reminder bug showind notification with some delay and giving error on notification opening when the note was created first time</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="3.9.0beta" changeDate="Nov 28, 2013">
@@ -82,7 +83,7 @@
     <changelogversion versionName="3.2.4" changeDate="Nov 22, 2013">
 		<changelogtext>[b]New! [/b]Splashscreen added</changelogtext>
 		<changelogtext>[b]New! [/b]Totally removed Ads</changelogtext>
-		<changelogtext>Fixed layout for small phones</changelogtext>
+		<changelogtext>[u]Fixed[/u] layout for small phones</changelogtext>
 		<changelogtext>INFO section in settings</changelogtext>
     </changelogversion>
     
@@ -98,8 +99,8 @@
 		<changelogtext>[b]New! [/b]Spanish localization</changelogtext>
 		<changelogtext>[b]New! [/b]Added animations</changelogtext>
 		<changelogtext>Notes list more cards-like</changelogtext>
-		<changelogtext>Fixed issues when searching</changelogtext>
 		<changelogtext>Performance improvements</changelogtext>
+		<changelogtext>[u]Fixed[/u] issues when searching</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="3.1.0" changeDate="Nov 14, 2013">
@@ -107,7 +108,7 @@
     </changelogversion>
 
     <changelogversion versionName="3.0.0" changeDate="Nov 13, 2013">
-		<changelogtext>Out of closed BETA!</changelogtext>
+		<changelogtext>[b][u]Out of closed BETA![/u][/b]</changelogtext>
 		<changelogtext>[b]New! [/b]Italian localization</changelogtext>
 		<changelogtext>[b]New! [/b]Confirmation on batch deleting</changelogtext>
 		<changelogtext>Totally rewritten to achieve compatibility with tablet format</changelogtext>

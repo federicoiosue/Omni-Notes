@@ -18,6 +18,7 @@ package it.feio.android.omninotes;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -840,11 +841,20 @@ public class DetailActivity extends BaseActivity {
 			// Intent with multiple images
 		} else if (attachmentsList.size() > 1) {
 			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-			shareIntent.setType("image/jpeg");
 			ArrayList<Uri> uris = new ArrayList<Uri>();
+			// A check to decide the mime type of attachments to share is done here
+			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
 			for (Attachment attachment : attachmentsList) {
 				uris.add(attachment.getUri());
+				mimeTypes.put(attachment.getMime_type(), true);
 			}
+			// If many mime types are present a general type is assigned to intent
+			if (mimeTypes.size() > 1) {
+				shareIntent.setType("*/*");
+			} else {
+				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
+			}
+			
 			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
 			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
 			shareIntent.putExtra(Intent.EXTRA_TEXT, text);

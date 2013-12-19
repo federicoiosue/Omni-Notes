@@ -43,6 +43,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.SearchManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -129,6 +130,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	    ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 	    if (uris != null) {
 	    	for (Uri uri2 : uris) {
+	    		ContentResolver cR = getContentResolver();
+	    		MimeTypeMap mimeMap = MimeTypeMap.getSingleton();
+	    		String type = mimeMap.getExtensionFromMimeType(cR.getType(uri2));
 		        note.addAttachment(new Attachment(uri2, mime));				
 			}
 	    }
