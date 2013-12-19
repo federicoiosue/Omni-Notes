@@ -18,6 +18,7 @@ package it.feio.android.omninotes.utils;
 public interface Constants {
 
 	final String TAG = "Omni Notes";
+	final String DATABASE_NAME = "omni-notes";
 	final String PREFS_FILE_NAME = "omni-notes.prefs";
 	final String APP_STORAGE_DIRECTORY = TAG;
 	final String APP_STORAGE_DIRECTORY_ATTACHMENTS = "attachments";
@@ -38,11 +39,14 @@ public interface Constants {
 	final String DATE_FORMAT_SHORT  = "d MMM HH:mm";
 	final String DATE_FORMAT_SHORT_DATE  = "d MMM yyyy";
 	final String DATE_FORMAT_SHORT_TIME  = "HH" + TIME_SEPARATOR + "mm";
+	final String DATE_FORMAT_SORTABLE  = "yyyyMMddHHmmss";
+	final String DATE_FORMAT_EXPORT  = "yyyy.MM.dd-HH:mm";
 	
     final String INTENT_KEY = "note_id";
     final String INTENT_NOTE = "note";
 	final String INTENT_IMAGE = "image";
 	final int INTENT_ALARM_CODE = 12345;
+	final String INTENT_BACKUP_NAME = "backup_name";
 	
 	final String MESSAGE = "message";
 
@@ -58,4 +62,8 @@ public interface Constants {
     
     final int ERROR_NOTE_NOT_DELETED = -1;
     final int ERROR_ATTACHMENTS_NOT_DELETED = -2;
+    
+    // Custom intent actions
+    final String ACTION_DATA_EXPORT = "action_data_export";
+    final String ACTION_DATA_IMPORT = "action_data_import";
 }

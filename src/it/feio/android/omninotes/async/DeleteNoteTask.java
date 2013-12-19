@@ -15,16 +15,12 @@
  ******************************************************************************/
 package it.feio.android.omninotes.async;
 
-import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
 
 
 public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {

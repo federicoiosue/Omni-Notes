@@ -15,7 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils;
 
-import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.R;
 
 import java.io.File;
@@ -25,13 +24,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.channels.AsynchronousCloseException;
-import java.nio.channels.ClosedByInterruptException;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.FileChannel;
-import java.nio.channels.NonReadableChannelException;
-import java.nio.channels.NonWritableChannelException;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import android.content.Context;
@@ -64,12 +56,7 @@ public class StorageManager {
 		}
 		return mExternalStorageAvailable && mExternalStorageWriteable;
 	}
-
-	public static String getExternalStorageDir() {
-		// return Environment.getExternalStorageDirectory() + File.separator +
-		// Constants.TAG + File.separator;
-		return Environment.getExternalStorageDirectory().toString();
-	}
+	
 
 	public static String getStorageDir() {
 		// return Environment.getExternalStorageDirectory() + File.separator +
@@ -77,141 +64,10 @@ public class StorageManager {
 		return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 	}
 
-	public static String getPictureDir() {
-		// return Environment.getExternalStorageDirectory() + File.separator +
-		// Constants.TAG + File.separator;
-		return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
-	}
-
-	public static String getDataStorageDir() {
-		return Environment.getDataDirectory() + File.separator + "data" + File.separator
-				+ BaseActivity.class.getPackage().getName() + File.separator;
-	}
-
-	public static String getApplicationDir() {
-		File dir = new File(getExternalStorageDir() + File.separator + Constants.APP_STORAGE_DIRECTORY);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-		return dir.getAbsolutePath();
-	}
-
 	public static File getAttachmentDir(Context mContext) {
 		return mContext.getExternalFilesDir(null);
 	}
 
-	/**
-	 * Used to copy files from a storage type to another
-	 * 
-	 * @return Result
-	 */
-	public static boolean copyFile(File src, File dst) {
-		boolean returnValue = true;
-
-		FileChannel inChannel = null, outChannel = null;
-
-		try {
-
-			inChannel = new FileInputStream(src).getChannel();
-			outChannel = new FileOutputStream(dst).getChannel();
-
-		} catch (FileNotFoundException fnfe) {
-
-			Log.d(Constants.TAG, "inChannel/outChannel FileNotFoundException");
-			fnfe.printStackTrace();
-			return false;
-		}
-
-		try {
-			inChannel.transferTo(0, inChannel.size(), outChannel);
-
-		} catch (IllegalArgumentException iae) {
-
-			Log.d(Constants.TAG, "TransferTo IllegalArgumentException");
-			iae.printStackTrace();
-			returnValue = false;
-
-		} catch (NonReadableChannelException nrce) {
-
-			Log.d(Constants.TAG, "TransferTo NonReadableChannelException");
-			nrce.printStackTrace();
-			returnValue = false;
-
-		} catch (NonWritableChannelException nwce) {
-
-			Log.d(Constants.TAG, "TransferTo NonWritableChannelException");
-			nwce.printStackTrace();
-			returnValue = false;
-
-		} catch (ClosedByInterruptException cie) {
-
-			Log.d(Constants.TAG, "TransferTo ClosedByInterruptException");
-			cie.printStackTrace();
-			returnValue = false;
-
-		} catch (AsynchronousCloseException ace) {
-
-			Log.d(Constants.TAG, "TransferTo AsynchronousCloseException");
-			ace.printStackTrace();
-			returnValue = false;
-
-		} catch (ClosedChannelException cce) {
-
-			Log.d(Constants.TAG, "TransferTo ClosedChannelException");
-			cce.printStackTrace();
-			returnValue = false;
-
-		} catch (IOException ioe) {
-
-			Log.d(Constants.TAG, "TransferTo IOException");
-			ioe.printStackTrace();
-			returnValue = false;
-
-		} finally {
-
-			if (inChannel != null)
-
-				try {
-
-					inChannel.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-			if (outChannel != null)
-				try {
-					outChannel.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-		}
-
-		return returnValue;
-	}
-
-	/**
-	 * Used to copy files from a storage type to another
-	 * 
-	 * @return Result
-	 */
-	public static boolean copyFile(InputStream src, OutputStream dst) {
-		boolean returnValue = false;
-
-		int read = 0;
-		byte[] bytes = new byte[1024];
-
-		try {
-			while ((read = src.read(bytes)) != -1) {
-				dst.write(bytes, 0, read);
-			}
-			returnValue = true;
-		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error copying file");
-		}
-
-		return returnValue;
-	}
 
 	
 	/**
@@ -233,16 +89,48 @@ public class StorageManager {
 		try {
 			InputStream is = mContext.getContentResolver().openInputStream(uri);
 			OutputStream os = new FileOutputStream(file);
-			byte[] data = new byte[is.available()];
-			is.read(data);
-			os.write(data);
-			is.close();
-			os.close();
+			copyFile(is, os);
 		} catch (IOException e) {
 			Log.e(Constants.TAG, "Error writing " + file, e);
 			return null;
 		}
 		return file;
+	}
+
+	
+	
+	
+	public static boolean copyFile(File source, File destination) {
+		try {
+			return copyFile(new FileInputStream(source), new FileOutputStream(destination));
+		} catch (FileNotFoundException e) {
+			Log.e(Constants.TAG, "Error copying file", e);
+			return false;
+		}
+	}
+
+	
+	
+	/**
+	 * Generic file copy method
+	 * @param is Input
+	 * @param os Output
+	 * @return True if copy is done, false otherwise
+	 */
+	public static boolean copyFile(InputStream is, OutputStream os) {
+		boolean res = false;
+		byte[] data;
+		try {
+			data = new byte[is.available()];
+			is.read(data);
+			os.write(data);
+			is.close();
+			os.close();
+			res = true;
+		} catch (IOException e) {
+			Log.e(Constants.TAG, "Error copying file", e);
+		}
+		return res;
 	}
 
 	
@@ -265,16 +153,6 @@ public class StorageManager {
 	}
 
 	
-	public static boolean hasExternalStoragePrivateFile(Context mContext, String name) {
-		// Get path for the file on external storage. If external
-		// storage is not currently mounted this will fail.
-		File file = new File(mContext.getExternalFilesDir(null), name);
-		if (file != null) {
-			return file.exists();
-		}
-		return false;
-	}
-	
 	
 	
 	public static String getRealPathFromURI(Context mContext, Uri contentUri) {
@@ -291,9 +169,86 @@ public class StorageManager {
 	
 	public static File createNewAttachmentFile(Context mContext){
 		DateTime now = DateTime.now();
-		String name = now.toString(DateTimeFormat.forPattern("yyyyMMddHHmmss"));
+		String name = now.toString(DateTimeFormat.forPattern(Constants.DATE_FORMAT_SORTABLE));
 		File f = new File(mContext.getExternalFilesDir(null), name);
 		return f;
 	}
 
+	
+	
+	/**
+	 * Create a path where we will place our private file on external
+	 * 
+	 * @param mContext
+	 * @param uri
+	 * @return
+	 */
+	public static File copyToBackupDir(File backupDir, File file) {
+
+		// Checks for external storage availability
+		if (!checkStorage()) {
+			return null;
+		}
+		
+		if (!backupDir.exists()) {
+			backupDir.mkdirs();
+		}
+		
+		File destination = new File(backupDir, file.getName());
+
+		try {
+			copyFile(new FileInputStream(file), new FileOutputStream(destination));
+		} catch (FileNotFoundException e) {
+			Log.e(Constants.TAG, "Error copying file to backup", e);
+			destination = null;
+		}
+		
+		return destination;
+	}
+	
+	
+
+	public static File getExternalStoragePublicDir() {
+		File dir = new File(Environment.getExternalStorageDirectory() + File.separator + Constants.TAG + File.separator);		
+		if (!dir.exists())
+			dir.mkdirs();
+		return dir;
+	}
+	
+	
+	public static File getBackupDir(String backupName){
+		File backupDir = new File(getExternalStoragePublicDir(), backupName);		
+		if (!backupDir.exists())
+			backupDir.mkdirs();
+		return backupDir;
+	}
+	
+	
+	
+	public static boolean copyDirectory(File sourceLocation, File targetLocation) {
+		boolean res = true;
+		
+		// If target is a directory the method will be iterated
+		if (sourceLocation.isDirectory()) {
+			if (!targetLocation.exists()) {
+				targetLocation.mkdirs();
+			}
+
+			String[] children = sourceLocation.list();
+			for (int i = 0; i < sourceLocation.listFiles().length; i++) {
+				res = res && copyDirectory(new File(sourceLocation, children[i]), new File(targetLocation, children[i]));
+			}
+
+			// Otherwise a file copy will be performed
+		} else {
+			try {
+				res = res && copyFile(new FileInputStream(sourceLocation), new FileOutputStream(targetLocation));
+			} catch (FileNotFoundException e) {
+				Log.e(Constants.TAG, "Error copying directory", e);
+				res = false;
+			}
+		}		
+		return res;
+	}
+	
 }

@@ -181,6 +181,12 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        
+        <!-- Restore on reboot alarm service -->        
+        <service android:name="it.feio.android.omninotes.async.AlarmRestoreOnRebootService"></service>
+        
+        <!-- Data export and import service -->
+        <service android:name="it.feio.android.omninotes.async.DataBackupIntentService"></service>
 
         <!-- Widget -->
         <receiver

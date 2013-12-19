@@ -15,7 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.receiver;
 
-import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
@@ -47,13 +46,16 @@ public class AlarmReceiver extends BroadcastReceiver {
 			// Acquire the lock
 			wl.acquire();
 
-			// You can do the processing here update the widget/remote views.
-			Note note = (Note) intent.getExtras().getParcelable(Constants.INTENT_NOTE);
+			try {			
+				Note note = (Note) intent.getExtras().getParcelable(Constants.INTENT_NOTE);
 
-			createNotification(ctx, note);
+				createNotification(ctx, note);
+			}
 
 			// Release the lock
-			wl.release();
+			finally {
+				wl.release();
+			}
 
 		} catch (Exception e) {
 			Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_LONG).show();

@@ -19,7 +19,7 @@
     <changelogversion versionName="3.9.6beta" changeDate="Dec 19, 2013">
       <changelogtext>[b]New! [/b]OmniNotes can now receive also shared videos and audio recordings from other apps</changelogtext>
       <changelogtext>[b]New! [/b]Performances boosted up saving attachments thanks to memory accesses optimizations</changelogtext>
-      <changelogtext>[b]New! [/b]Removed "Reset All Data" option from settings. All application data have been moved to private directory on external memory so you can simply use default system data and cache cleaning</changelogtext>
+      <changelogtext>[b]New! [/b]"Reset All Data" option from settings behavior changed. All application data have been moved to private directory on external memory so you can simply use default system data and cache cleaning</changelogtext>
       <changelogtext>[b]New! [/b]Much faster note deletion thanks to asynchronous processing (batch deletion too)</changelogtext>
       <changelogtext>Sharing notes to or receiving shared data from other apps now fills correctly the title field</changelogtext>
       <changelogtext>Fixed note deleting failure when trying to delete from inside note detail</changelogtext>

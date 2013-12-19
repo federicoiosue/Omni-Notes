@@ -16,7 +16,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
-public class AlarmRestoreOnReboot extends Service {
+public class AlarmRestoreOnRebootService extends Service {
 
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -30,23 +30,25 @@ public class AlarmRestoreOnReboot extends Service {
 
 		Context ctx = getApplicationContext();
 
-		PowerManager pm = (PowerManager) ctx
-				.getSystemService(Context.POWER_SERVICE);
-		PowerManager.WakeLock wl = pm.newWakeLock(
-				PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
+		PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+		PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
 		// Acquire the lock
 		wl.acquire();
 
 		// Retrieves all notes with reminder set
-		DbHelper db = new DbHelper(ctx);
-		List<Note> notes = db.getNotesWithReminder(true);
-		Log.d(Constants.TAG, "Found " + notes.size() + " reminders");
-		for (Note note : notes) {
-			setAlarm(ctx, note);
+		try {
+			DbHelper db = new DbHelper(ctx);
+			List<Note> notes = db.getNotesWithReminder(true);
+			Log.d(Constants.TAG, "Found " + notes.size() + " reminders");
+			for (Note note : notes) {
+				setAlarm(ctx, note);
+			}
 		}
 
 		// Release the lock
-		wl.release();
+		finally {
+			wl.release();
+		}
 
 		return Service.START_NOT_STICKY;
 	}
@@ -54,11 +56,9 @@ public class AlarmRestoreOnReboot extends Service {
 	private void setAlarm(Context ctx, Note note) {
 		Intent intent = new Intent(ctx, AlarmReceiver.class);
 		intent.putExtra(Constants.INTENT_NOTE, note);
-		PendingIntent sender = PendingIntent.getBroadcast(ctx,
-				Constants.INTENT_ALARM_CODE, intent,
+		PendingIntent sender = PendingIntent.getBroadcast(ctx, Constants.INTENT_ALARM_CODE, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
-		AlarmManager am = (AlarmManager) ctx
-				.getSystemService(ctx.ALARM_SERVICE);
+		AlarmManager am = (AlarmManager) ctx.getSystemService(ctx.ALARM_SERVICE);
 		am.set(AlarmManager.RTC_WAKEUP, Long.parseLong(note.getAlarm()), sender);
 	}
 

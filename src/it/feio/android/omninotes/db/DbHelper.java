@@ -40,7 +40,7 @@ import android.util.Log;
 public class DbHelper extends SQLiteOpenHelper {
 
 	// Database name
-	private static final String DATABASE_NAME = "omni-notes";
+	private static final String DATABASE_NAME = Constants.DATABASE_NAME;
 	// Database version aligned if possible to software version
 	private static final int DATABASE_VERSION = 391;
 	// Sql query file directory
@@ -75,6 +75,10 @@ public class DbHelper extends SQLiteOpenHelper {
 	public DbHelper(Context ctx) {
 		super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
 		this.ctx = ctx;
+	}
+	
+	public String getDatabaseName() {
+		return DATABASE_NAME;
 	}
 
 	
