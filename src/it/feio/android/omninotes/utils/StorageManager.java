@@ -26,12 +26,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 public class StorageManager {
@@ -249,6 +252,53 @@ public class StorageManager {
 			}
 		}		
 		return res;
+	}
+	
+	
+
+	/**
+	 * Retrieves uri mime-type using ContentResolver
+	 * @param mContext
+	 * @param uri
+	 * @return
+	 */
+	public static String getMimeType(Context mContext, Uri uri) {
+		ContentResolver cR = mContext.getContentResolver();
+		MimeTypeMap mimeMap = MimeTypeMap.getSingleton();
+		String mimeType = mimeMap.getExtensionFromMimeType(cR.getType(uri));
+		return mimeType;
+	}
+	
+	/**
+	 * Retrieves uri mime-type between the ones managed by application
+	 * @param mContext
+	 * @param uri
+	 * @return
+	 */
+	public static String getMimeTypeInternal(Context mContext, Uri uri) {		
+		String mimeType = getMimeType(mContext, uri);
+		mimeType = getMimeTypeInternal(mContext, mimeType);		
+		return mimeType;
+		
+	}	
+	
+	/**
+	 * Retrieves mime-type between the ones managed by application from given string
+	 * @param mContext
+	 * @param mimeType
+	 * @return
+	 */
+	public static String getMimeTypeInternal(Context mContext, String mimeType) {	
+		if (mimeType != null) {
+			if (mimeType.contains("image/")) {
+				mimeType = Constants.MIME_TYPE_IMAGE;
+			} else if (mimeType.contains("audio/")) {
+				mimeType = Constants.MIME_TYPE_AUDIO;
+			} else if (mimeType.contains("video/")) {
+				mimeType = Constants.MIME_TYPE_VIDEO;
+			}
+		}
+		return mimeType;
 	}
 	
 }

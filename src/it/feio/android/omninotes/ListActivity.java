@@ -32,6 +32,7 @@ import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.R;
@@ -101,16 +102,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 */
 	private void handleFilter(Intent intent) {
 		Note note = new Note();
-		
-		String mime = null;
-		if (intent.getType().contains("image/")) {
-			mime = Constants.MIME_TYPE_IMAGE;
-		} else if (intent.getType().contains("audio/")) {
-			mime = Constants.MIME_TYPE_AUDIO;
-		} else if (intent.getType().contains("video/")) {
-			mime = Constants.MIME_TYPE_VIDEO;
-		}
-		
+				
 		// Text title
 		String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
 		if (title != null) {
@@ -124,16 +116,15 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// Single attachment data
 		Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
 	    if (uri != null) {
-	        note.addAttachment(new Attachment(uri, mime));
+	    	String mimeType = StorageManager.getMimeTypeInternal(this, intent.getType());
+	        note.addAttachment(new Attachment(uri, mimeType));
 	    }
 	    // Multiple attachment data
 	    ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 	    if (uris != null) {
-	    	for (Uri uri2 : uris) {
-	    		ContentResolver cR = getContentResolver();
-	    		MimeTypeMap mimeMap = MimeTypeMap.getSingleton();
-	    		String type = mimeMap.getExtensionFromMimeType(cR.getType(uri2));
-		        note.addAttachment(new Attachment(uri2, mime));				
+	    	String mimeType = StorageManager.getMimeTypeInternal(this, intent.getType());	    	
+	    	for (Uri uriSingle : uris) {
+		        note.addAttachment(new Attachment(uriSingle, mimeType));				
 			}
 	    }
 	    
