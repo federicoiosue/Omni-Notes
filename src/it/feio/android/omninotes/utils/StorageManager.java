@@ -271,7 +271,8 @@ public class StorageManager {
 	public static String getMimeType(Context mContext, Uri uri) {
 		ContentResolver cR = mContext.getContentResolver();
 		MimeTypeMap mimeMap = MimeTypeMap.getSingleton();
-		String mimeType = mimeMap.getExtensionFromMimeType(cR.getType(uri));
+//		String mimeType = mimeMap.getExtensionFromMimeType(cR.getType(uri));
+		String mimeType = cR.getType(uri);
 		return mimeType;
 	}
 	

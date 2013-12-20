@@ -128,7 +128,7 @@
     <string name="settings_enable_vibration">Enable vibration</string>
     <string name="settings_changelog">Changelog</string>
     <string name="settings_enable_editor_links">Enable links in editor</string>
-    <string name="settings_max_video_size">Maximum video size</string>
+    <string name="settings_max_video_size">Maximum video size (MB)</string>
     <string name="settings_category_data">Data</string>
     <string name="settings_backup">Backup</string>
 

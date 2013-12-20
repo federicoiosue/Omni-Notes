@@ -43,7 +43,6 @@ import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
-import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.R;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -539,6 +538,7 @@ public class DetailActivity extends BaseActivity {
 	/**
 	 * Manages clicks on attachment dialog
 	 */
+	@SuppressLint("InlinedApi")
 	private class AttachmentOnClickListener implements OnClickListener {
 
 		@Override
@@ -559,7 +559,7 @@ public class DetailActivity extends BaseActivity {
 					galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
 					galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
 				}
-				galleryIntent.setType("image/*");
+				galleryIntent.setType("*/*");
 				startActivityForResult(galleryIntent, GALLERY);
 				attachmentDialog.dismiss();
 				break;
@@ -657,7 +657,8 @@ public class DetailActivity extends BaseActivity {
 				mGridView.autoresize();
 				break;
 			case GALLERY:
-				attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_IMAGE);
+				String mimeType = StorageManager.getMimeTypeInternal(this,  intent.getData());
+				attachment = new Attachment(intent.getData(), mimeType);
 				attachmentsList.add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();

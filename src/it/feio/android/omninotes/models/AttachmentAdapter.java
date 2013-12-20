@@ -15,7 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
-import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.BitmapLoaderTask;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -23,10 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
-import android.provider.MediaStore.Video.Thumbnails;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;

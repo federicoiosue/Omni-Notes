@@ -19,8 +19,11 @@ import java.io.FileNotFoundException;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.util.Log;
 
 
 public class BitmapDecoder {
@@ -78,5 +81,38 @@ public class BitmapDecoder {
 	public static Uri getUri(Context mContext, int resource_id) {
 		Uri uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + resource_id);
 		return uri;
+	}
+	
+	
+	
+	/**
+	 * To avoid problems with rotated videos retrieved from camera
+	 * @param bitmap
+	 * @param filePath
+	 * @return
+	 */
+	public static Bitmap rotateImage(Bitmap bitmap, String filePath) {
+		Bitmap resultBitmap = bitmap;
+
+		try {
+			ExifInterface exifInterface = new ExifInterface(filePath);
+			int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+
+			Matrix matrix = new Matrix();
+
+			if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
+				matrix.postRotate(ExifInterface.ORIENTATION_ROTATE_90);
+			} else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
+				matrix.postRotate(ExifInterface.ORIENTATION_ROTATE_180);
+			} else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+				matrix.postRotate(ExifInterface.ORIENTATION_ROTATE_270);
+			}
+
+			// Rotate the bitmap
+			resultBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+		} catch (Exception exception) {
+			Log.d(Constants.TAG, "Could not rotate the image");
+		}
+		return resultBitmap;
 	}
 }
