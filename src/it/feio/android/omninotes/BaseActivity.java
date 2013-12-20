@@ -15,14 +15,9 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
-import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,9 +27,13 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
-public class BaseActivity extends SherlockFragmentActivity {
+public class BaseActivity extends ActionBarActivity {
 
 	private final boolean TEST = true;
 
@@ -51,7 +50,7 @@ public class BaseActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
-		MenuInflater inflater = getSupportMenuInflater();
+		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
 		
 //		createAppDirectory();
@@ -78,7 +77,7 @@ public class BaseActivity extends SherlockFragmentActivity {
 
 		super.onCreate(savedInstanceState);
 		
-		setTheme(R.style.AppTheme);
+//		setTheme(R.style.AppTheme);
 	}
 
 	@Override

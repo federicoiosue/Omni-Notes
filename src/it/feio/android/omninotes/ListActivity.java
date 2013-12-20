@@ -18,14 +18,6 @@ package it.feio.android.omninotes;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.ActionMode.Callback;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnActionExpandListener;
-import com.actionbarsherlock.widget.SearchView;
-import com.actionbarsherlock.widget.SearchView.OnCloseListener;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
@@ -44,18 +36,25 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.SearchManager;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.view.ActionMode;
+import android.support.v7.view.ActionMode.Callback;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SearchView.OnCloseListener;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -256,7 +255,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		        }
 
 		        // Start the CAB using the ActionMode.Callback defined above
-		        startActionMode(new ModeCallback());
+		        startSupportActionMode(new ModeCallback());
 		        toggleListViewItem(view, position);
 		        setCabTitle();
 		        
@@ -302,7 +301,6 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	/**
 	 * Initialization of compatibility navigation drawer
 	 */
-	@SuppressLint({ "NewApi", "Recycle" })
 	private void initNavigationDrawer() {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -329,9 +327,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		});
 
 		// Enable ActionBar app icon to behave as action to toggle nav drawer
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-			getSupportActionBar().setHomeButtonEnabled(true);
+//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+//			getSupportActionBar().setHomeButtonEnabled(true);
 
 
 		// ActionBarDrawerToggle ties together the the proper interactions
@@ -345,13 +343,13 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 			public void onDrawerClosed(View view) {
 				getSupportActionBar().setTitle(mTitle);
-				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
 
 			public void onDrawerOpened(View drawerView) {
 				mTitle = getSupportActionBar().getTitle();
 				getSupportActionBar().setTitle(getApplicationContext().getString(R.string.app_name));
-				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
 		};
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
@@ -410,7 +408,8 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	private void initSearchView(final Menu menu) {
 		// Associate searchable configuration with the SearchView
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+//		final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+		final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
 		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 		
 		// Expands the widget hiding other actionbar icons
@@ -430,7 +429,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 		if (currentapiVersion >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			menuItem.setOnActionExpandListener(new OnActionExpandListener() {
+			MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
 
 				@Override
 				public boolean onMenuItemActionCollapse(MenuItem item) {

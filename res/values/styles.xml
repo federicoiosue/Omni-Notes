@@ -16,7 +16,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- the theme applied to the application or activity -->
-    <style name="AppTheme" parent="@style/Theme.Sherlock.Light">
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
 
         <!-- <item name="android:actionBarStyle">@style/MyActionBar</item> -->
 
@@ -26,12 +26,12 @@
     </style>
 
     <!-- ActionBar styles -->
-    <style name="MyActionBar" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/abs__ab_transparent_light_holo</item>
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@drawable/abc_ab_transparent_light_holo</item>
         <item name="homeAsUpIndicator">@drawable/ic_drawer</item>
 
         <!-- Support library compatibility -->
-        <item name="background">@drawable/abs__ab_transparent_light_holo</item>
+        <item name="background">@drawable/abc_ab_transparent_light_holo</item>
     </style>
 
 <!--     <style name="Theme.Transparent" parent="@android:style/Theme.Dialog"> -->

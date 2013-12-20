@@ -21,8 +21,6 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.utils.ImportExportExcel;
@@ -32,6 +30,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -47,7 +46,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SettingsActivity extends SherlockPreferenceActivity {
+public class SettingsActivity extends PreferenceActivity {
 
 	public final static String KEEP_USER_DATA = "settings_keep_user_data";
 	public final static String ALLOW_GEOLOCATION = "settings_allow_geolocation";

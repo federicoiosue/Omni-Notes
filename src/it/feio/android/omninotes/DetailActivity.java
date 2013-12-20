@@ -24,9 +24,6 @@ import java.util.Locale;
 
 import org.joda.time.DateTime;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
@@ -68,11 +65,14 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
@@ -99,7 +99,7 @@ public class DetailActivity extends BaseActivity {
 	private static final int RECORDING = 3;
 	private static final int TAKE_VIDEO = 4;
 
-	private SherlockFragmentActivity mActivity;
+	private FragmentActivity mActivity;
 
 	private Note note;
 	private LinearLayout reminder_layout;
@@ -132,8 +132,8 @@ public class DetailActivity extends BaseActivity {
 		mActivity = this;
 
 		// Show the Up button in the action bar.
-		if (getSupportActionBar() != null)
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		if (getActionBar() != null)
+			getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// Note initialization
 		initNote();

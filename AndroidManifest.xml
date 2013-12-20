@@ -48,8 +48,7 @@
         <!-- Splash screen -->
         <activity
             android:name="it.feio.android.omninotes.SplashScreenActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -152,13 +151,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SettingsActivity" />
-        </activity>
-
-        <!-- About -->
-        <activity
-            android:name="it.feio.android.omninotes.AboutActivity"
-            android:label="@string/title_activity_about"
-            android:theme="@style/Theme.Transparent" >
         </activity>
 
         <!-- AdMob -->

@@ -12,72 +12,73 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.
+  limitations under the License.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
         android:id="@+id/menu_search"
-        android:actionViewClass="com.actionbarsherlock.widget.SearchView"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         android:icon="@drawable/ic_action_search"
         android:orderInCategory="90"
-        android:showAsAction="collapseActionView|always"
+        app:showAsAction="collapseActionView|always"
         android:title="@string/search"
         android:visible="false"/>
     <item
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="100"
-        android:showAsAction="always"
+        app:showAsAction="always"
         android:title="@string/add_note"
         android:visible="false"/>
     <item
         android:id="@+id/menu_attachment"
         android:icon="@drawable/ic_action_attachment"
         android:orderInCategory="200"
-        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"
         android:title="@string/attachment"
         android:visible="false"/>
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_action_share"
         android:orderInCategory="300"
-        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"
         android:title="@string/share"
         android:visible="false"/>
     <item
         android:id="@+id/menu_archive"
         android:icon="@drawable/ic_archive_dark"
         android:orderInCategory="350"
-        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"
         android:title="@string/archive"
         android:visible="false"/>
     <item
         android:id="@+id/menu_unarchive"
         android:icon="@drawable/ic_unarchive_dark"
         android:orderInCategory="380"
-        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"
         android:title="@string/unarchive"
         android:visible="false"/>
     <item
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_action_discard"
         android:orderInCategory="400"
-        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"
         android:title="@string/delete"
         android:visible="false"/>
     <item
         android:id="@+id/menu_discard_changes"
         android:icon="@drawable/ic_action_undo"
         android:orderInCategory="450"
-        android:showAsAction="ifRoom"
+        app:showAsAction="ifRoom"
         android:title="@string/discard_changes"
         android:visible="false"/>
     <item
         android:id="@+id/menu_sort"
         android:icon="@drawable/ic_action_sort_by_size"
         android:orderInCategory="500"
-        android:showAsAction="always"
+        app:showAsAction="always"
         android:title="@string/sort"
         android:visible="false"/>
     <item
