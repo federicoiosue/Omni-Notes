@@ -77,6 +77,8 @@ public class BaseActivity extends SherlockFragmentActivity {
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		super.onCreate(savedInstanceState);
+		
+		setTheme(R.style.AppTheme);
 	}
 
 	@Override
