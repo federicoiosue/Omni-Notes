@@ -170,11 +170,17 @@ public class StorageManager {
 	}
 	
 	
-	public static File createNewAttachmentFile(Context mContext){
+	public static File createNewAttachmentFile(Context mContext, String extension){
 		DateTime now = DateTime.now();
 		String name = now.toString(DateTimeFormat.forPattern(Constants.DATE_FORMAT_SORTABLE));
+		name += extension != null ? extension : "";
 		File f = new File(mContext.getExternalFilesDir(null), name);
 		return f;
+	}
+	
+	
+	public static File createNewAttachmentFile(Context mContext){
+		return createNewAttachmentFile(mContext, null);
 	}
 
 	

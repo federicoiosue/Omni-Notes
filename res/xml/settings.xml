@@ -17,16 +17,27 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory
-        android:key="category_sync_import_export"
-        android:title="@string/settings_sync_import_export" >
-        <Preference
-            android:key="settings_export_data"
-            android:title="@string/settings_export" >
-        </Preference>
-        <Preference
-            android:key="settings_import_data"
-            android:title="@string/settings_import" >
-        </Preference>
+        android:key="category_data"
+        android:title="@string/settings_category_data" >
+        <PreferenceScreen
+            android:key="settings_backup"
+            android:persistent="false"
+            android:title="@string/settings_backup" >
+            <Preference
+                android:key="settings_export_data"
+                android:title="@string/settings_export" >
+            </Preference>
+            <Preference
+                android:key="settings_import_data"
+                android:title="@string/settings_import" >
+            </Preference>
+        </PreferenceScreen>
+
+        <EditTextPreference
+            android:key="settings_max_video_size"
+            android:title="@string/settings_max_video_size" 
+            android:inputType="number" >
+        </EditTextPreference>
     </PreferenceCategory>
     <!-- <PreferenceCategory -->
     <!-- android:key="category_gestures" -->
@@ -40,11 +51,12 @@
     <PreferenceCategory
         android:key="category_interface"
         android:title="@string/settings_category_interface" >
-<!--         <ListPreference -->
-<!--             android:entries="@array/languages" -->
-<!--             android:entryValues="@array/languages_codes" -->
-<!--             android:key="settings_language" -->
-<!--             android:title="@string/settings_choose_language" /> -->
+
+        <!-- <ListPreference -->
+        <!-- android:entries="@array/languages" -->
+        <!-- android:entryValues="@array/languages_codes" -->
+        <!-- android:key="settings_language" -->
+        <!-- android:title="@string/settings_choose_language" /> -->
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -62,8 +74,6 @@
             android:title="@string/settings_enable_editor_links" >
         </CheckBoxPreference>
     </PreferenceCategory>
-    
-    
     <PreferenceCategory
         android:key="category_notifications"
         android:title="@string/settings_category_notifications" >
@@ -78,8 +88,6 @@
             android:title="@string/settings_enable_vibration" >
         </CheckBoxPreference>
     </PreferenceCategory>
-    
-    
     <PreferenceCategory
         android:key="category_other"
         android:title="@string/settings_category_other" >
@@ -94,6 +102,9 @@
         <Preference
             android:key="settings_about"
             android:title="@string/settings_about" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/dev_site" />
         </Preference>
     </PreferenceCategory>
 

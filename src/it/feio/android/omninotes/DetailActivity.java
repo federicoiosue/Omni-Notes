@@ -623,7 +623,7 @@ public class DetailActivity extends BaseActivity {
 //		values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
 //		imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 		
-		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity));
+		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_IMAGE_EXT));
 		
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
@@ -635,9 +635,11 @@ public class DetailActivity extends BaseActivity {
 		if (!isAvailable(mActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
 			showToast(getString(R.string.feature_not_available_on_this_device), Toast.LENGTH_SHORT);
 			return;
-		}
-		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity));
+		}		
+		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_VIDEO_EXT));
 		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
+		int maxVideoSize = Integer.parseInt(prefs.getString("settings_max_video_size", "0"));
+		takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Long.valueOf(maxVideoSize*1024*1024));
 	    startActivityForResult(takeVideoIntent, TAKE_VIDEO);
 	}
 
@@ -988,7 +990,7 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	private void startRecording() {
-		recordName = StorageManager.createNewAttachmentFile(this) + ".3gp";
+		recordName = StorageManager.createNewAttachmentFile(this, Constants.MIME_TYPE_AUDIO_EXT).getAbsolutePath();
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
