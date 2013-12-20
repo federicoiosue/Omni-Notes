@@ -60,8 +60,9 @@ public class DataBackupIntentService extends IntentService {
 		res = res && exportAttachments(backupDir);		
 		
 		// Notification of operation ended
-		String text = getString(R.string.data_export_completed);
-		createNotification(this, text);
+		String title = getString(R.string.data_export_completed);
+		String text = backupDir.getPath();
+		createNotification(this, title, text);
 	}
 
 	
@@ -78,8 +79,9 @@ public class DataBackupIntentService extends IntentService {
 		// Attachments backup
 		res = res && importAttachments(backupDir);	
 		
-		String text = getString(R.string.data_import_completed);
-		createNotification(this, text);
+		String title = getString(R.string.data_import_completed);
+		String text = getString(R.string.click_to_refresh_application);
+		createNotification(this, title, text);
 	}
 
 	
@@ -89,11 +91,12 @@ public class DataBackupIntentService extends IntentService {
 	 * @param ctx
 	 * @param message
 	 */
-	private void createNotification(Context ctx, String message) {
+	private void createNotification(Context ctx, String title, String message) {
 
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ctx)
 				.setSmallIcon(R.drawable.ic_stat_notification_icon)
-				.setContentTitle(getResources().getString(R.string.app_name)).setContentText(message)
+				.setContentTitle(title)
+				.setContentText(message)
 				.setAutoCancel(true);
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);

@@ -96,6 +96,7 @@
     <string name="data_import_message_warning">WARNING: This will replace all current data!</string>
     <string name="data_export_completed">Data backup completed</string>
     <string name="data_import_completed">Data import completed</string>
+    <string name="click_to_refresh_application">Click to refresh application</string>
     <string name="backup_existing">Backup existing, it\'ll be overwrited</string>
 
     <!-- Settings -->
