@@ -285,7 +285,7 @@ public class Note implements Parcelable {
 			&& ( (getCreation() == null && note.getCreation() == null) || getCreation().equals(note.getCreation()) )
 			&& ( (getLastModification() == null && note.getLastModification() == null) || getLastModification().equals(note.getLastModification()) )
 			&& isArchived().equals(note.isArchived()) 
-			&& ( (getAlarm() == null && note.getAlarm() == null) || getAlarm().equals(note.getAlarm()) )
+			&& ( (getAlarm() == null && note.getAlarm() == null) || note.getAlarm().equals(getAlarm()) )
 			&& getLatitude().equals(note.getLatitude()) && getLongitude().equals(note.getLongitude()) 
 			&& getAttachmentsList().equals(note.getAttachmentsList())) {
 			

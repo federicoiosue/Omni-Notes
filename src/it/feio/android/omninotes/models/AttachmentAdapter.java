@@ -15,6 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
+import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.BitmapLoaderTask;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +63,10 @@ public class AttachmentAdapter extends BaseAdapter {
 									// attributes
 			imageView = new ImageView(mContext);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+			// A placeholder is set here
+			imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(
+					BitmapFactory.decodeResource(mContext.getResources(), R.drawable.image_placeholder),
+					Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 
 		} else {
 			imageView = (ImageView) convertView;

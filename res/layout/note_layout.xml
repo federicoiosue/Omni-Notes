@@ -73,7 +73,7 @@
         android:textAppearance="@style/Text.Normal"
         android:textColor="@color/list_note_title"
         android:visibility="gone"
-        pixlui:typeface="RobotoSlab-Regular.ttf" />
+        pixlui:typeface="RobotoSlab-Light.ttf" />
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/note_date"
@@ -83,6 +83,6 @@
         android:gravity="bottom|right"
         android:text="@string/note_timestamp"
         android:textAppearance="@style/Text.Small"
-        pixlui:typeface="RobotoSlab-Light.ttf" />
+        pixlui:typeface="RobotoSlab-Thin.ttf" />
 
 </LinearLayout>
