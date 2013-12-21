@@ -39,12 +39,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 	public void onReceive(Context ctx, Intent intent) {
 		try {
 
-			PowerManager pm = (PowerManager) ctx
-					.getSystemService(Context.POWER_SERVICE);
-			PowerManager.WakeLock wl = pm.newWakeLock(
-					PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
-			// Acquire the lock
-			wl.acquire();
+//			PowerManager pm = (PowerManager) ctx
+//					.getSystemService(Context.POWER_SERVICE);
+//			PowerManager.WakeLock wl = pm.newWakeLock(
+//					PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
+//			// Acquire the lock
+//			wl.acquire();
 
 			try {			
 				Note note = (Note) intent.getExtras().getParcelable(Constants.INTENT_NOTE);
@@ -54,7 +54,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 			// Release the lock
 			finally {
-				wl.release();
+//				wl.release();
 			}
 
 		} catch (Exception e) {

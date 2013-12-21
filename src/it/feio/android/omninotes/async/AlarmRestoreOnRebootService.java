@@ -30,10 +30,10 @@ public class AlarmRestoreOnRebootService extends Service {
 
 		Context ctx = getApplicationContext();
 
-		PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
-		PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
-		// Acquire the lock
-		wl.acquire();
+//		PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
+//		PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
+//		// Acquire the lock
+//		wl.acquire();
 
 		// Retrieves all notes with reminder set
 		try {
@@ -47,7 +47,7 @@ public class AlarmRestoreOnRebootService extends Service {
 
 		// Release the lock
 		finally {
-			wl.release();
+//			wl.release();
 		}
 
 		return Service.START_NOT_STICKY;

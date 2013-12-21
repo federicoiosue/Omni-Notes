@@ -31,6 +31,9 @@ public class SplashScreenActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
 		
+		// Hiding actionbar for splashscreen
+		getSupportActionBar().hide();
+		
 		// Getting last opening time
 		System.setProperty("org.joda.time.DateTimeZone.Provider", "org.joda.time.tz.UTCProvider");
 		long openTime = DateTime.now().getMillis();
