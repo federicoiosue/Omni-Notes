@@ -34,7 +34,6 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
@@ -44,9 +43,7 @@ import it.feio.android.omninotes.R;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -791,20 +788,8 @@ public class DetailActivity extends BaseActivity {
 		// Advice of update
 		showToast(getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT);
 
-		// Saves reminder if is not in actual
-		if (note.getAlarm() != null && !note.getAlarm().equals(oldAlarm)) {
-			setAlarm();
-		}
 	}
-
-	private void setAlarm() {
-		Intent intent = new Intent(this, AlarmReceiver.class);
-		intent.putExtra(Constants.INTENT_NOTE, note);
-		PendingIntent sender = PendingIntent.getBroadcast(this, Constants.INTENT_ALARM_CODE, intent,
-				PendingIntent.FLAG_CANCEL_CURRENT);
-		AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-		am.set(AlarmManager.RTC_WAKEUP, alarmDateTime, sender);
-	}
+	
 
 	/**
 	 * Notes sharing

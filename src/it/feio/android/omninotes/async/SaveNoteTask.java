@@ -1,18 +1,25 @@
 package it.feio.android.omninotes.async;
 
 import java.io.File;
+
+import org.joda.time.DateTime;
+
 import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
+public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	private final Activity mActivity;
 
 	public SaveNoteTask(Activity activity) {
@@ -21,18 +28,24 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 	}
 
 	@Override
-	protected Void doInBackground(Note... params) {
+	protected Note doInBackground(Note... params) {
 		Note note = params[0];
 		createAttachmentCopy(note);
 		DbHelper db = new DbHelper(mActivity);		
 		// Note updating on database
 		note = db.updateNote(note);		
-		return null;
+		return note;
 	}
 	
 	@Override
-	protected void onPostExecute(Void result) {
-		super.onPostExecute(result);
+	protected void onPostExecute(Note note) {
+		super.onPostExecute(note);
+		
+		// Set reminder if is not passed yet
+		long now = DateTime.now().getMillis();
+		if (note.getAlarm() != null && Long.parseLong(note.getAlarm()) >= now) {
+			setAlarm(note);
+		}
 
 		// Return back to parent activity now that the heavy work is done to speed up interface
 		((DetailActivity)mActivity).goHome();
@@ -84,6 +97,17 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Void> {
 			// Replace uri
 			attachment.setUri(Uri.fromFile(destination));
 		}
+	}
+	
+
+
+	private void setAlarm(Note note) {
+		Intent intent = new Intent(mActivity, AlarmReceiver.class);
+		intent.putExtra(Constants.INTENT_NOTE, note);
+		PendingIntent sender = PendingIntent.getBroadcast(mActivity, Constants.INTENT_ALARM_CODE, intent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+		AlarmManager am = (AlarmManager) mActivity.getSystemService(mActivity.ALARM_SERVICE);
+		am.set(AlarmManager.RTC_WAKEUP, Long.parseLong(note.getAlarm()), sender);
 	}
 	
 	

@@ -16,6 +16,8 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.EqualityChecker;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -279,18 +281,24 @@ public class Note implements Parcelable {
 		} catch (Exception e) {
 			return res;
 		}
-		if (get_id() == note.get_id() 
-			&& getTitle().equals(note.getTitle()) 
-			&& getContent().equals(note.getContent())
-			&& ( (getCreation() == null && note.getCreation() == null) || getCreation().equals(note.getCreation()) )
-			&& ( (getLastModification() == null && note.getLastModification() == null) || getLastModification().equals(note.getLastModification()) )
-			&& isArchived().equals(note.isArchived()) 
-			&& ( (getAlarm() == null && note.getAlarm() == null) || note.getAlarm().equals(getAlarm()) )
-			&& getLatitude().equals(note.getLatitude()) && getLongitude().equals(note.getLongitude()) 
-			&& getAttachmentsList().equals(note.getAttachmentsList())) {
-			
-			res = true;
+//		if (get_id() == note.get_id() 
+//			&& getTitle().equals(note.getTitle()) 
+//			&& getContent().equals(note.getContent())
+//			&& ( (getCreation() == null && note.getCreation() == null) || getCreation().equals(note.getCreation()) )
+//			&& ( (getLastModification() == null && note.getLastModification() == null) || getLastModification().equals(note.getLastModification()) )
+//			&& isArchived().equals(note.isArchived()) 
+//			&& EqualityChecker.check(getAlarm(), note.getAlarm())
+//			&& getLatitude().equals(note.getLatitude()) && getLongitude().equals(note.getLongitude()) 
+//			&& getAttachmentsList().equals(note.getAttachmentsList())) {
+//			
+//		}
+
+		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), getAlarm(), getLatitude(), getLongitude()};
+		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.getAlarm(), note.getLatitude(), note.getLongitude()};
+		if (EqualityChecker.check(a, b)) {
+			res = true;		
 		}
+		
 		return res;
 	}
 	

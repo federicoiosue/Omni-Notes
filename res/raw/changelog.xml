@@ -19,6 +19,7 @@
     <changelogversion versionName="3.9.7beta" changeDate="Dec 21, 2013">
       <changelogtext>[b]New! [/b]Stable release on Play Store</changelogtext>
       <changelogtext>Added placeholders for image inside note editor</changelogtext>
+      <changelogtext>[u]Fixed[/u] Old reminders are no more repeated after reboot</changelogtext>
       <changelogtext>[u]Fixed[/u] Crash on exiting note after reminder notification</changelogtext>
 	</changelogversion>
 
