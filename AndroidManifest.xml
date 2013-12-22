@@ -17,7 +17,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="27"
+    android:versionCode="28"
     android:versionName="3.9.7" >
 
     <uses-sdk
