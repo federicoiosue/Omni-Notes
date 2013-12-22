@@ -83,7 +83,7 @@ public class WidgetProvider extends AppWidgetProvider {
 		RemoteViews views;
 		if (options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) < 70) {
 			views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
-			views.setOnClickPendingIntent(R.id.add, pendingIntentDetail);
+			views.setOnClickPendingIntent(R.id.list, pendingIntentList);
 		} else {
 			views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 			views.setOnClickPendingIntent(R.id.add, pendingIntentDetail);

@@ -10,14 +10,14 @@
         android:background="@drawable/bg_card" >
 
         <ImageView
-            android:id="@+id/add"
+            android:id="@+id/list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/clickable_view"
             android:gravity="center"
             android:padding="10dp"
-            android:src="@drawable/ic_action_new" />
+            android:src="@drawable/logo_black_no_bg" />
     </LinearLayout>
 
 </FrameLayout>
