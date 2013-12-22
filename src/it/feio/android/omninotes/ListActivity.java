@@ -72,6 +72,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	NoteAdapter mAdapter;
 	ActionMode mActionMode;
 	HashSet<Note> selectedNotes = new HashSet<Note>();
+	private boolean noteListLoaded = false;
 
 
 	@Override
@@ -239,61 +240,60 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 * Notes list initialization. Data, actions and callback are defined here.
 	 */
 	private void initListView() {
-		listView = (ListView) findViewById(R.id.notesList);
-		
-		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-		listView.setItemsCanFocus(false);
-		
-		// Note long click to start CAB mode
-		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+			listView = (ListView) findViewById(R.id.notesList);
 			
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
-				if (mActionMode != null) {
-		            return false;
-		        }
-
-		        // Start the CAB using the ActionMode.Callback defined above
-		        startSupportActionMode(new ModeCallback());
-		        toggleListViewItem(view, position);
-		        setCabTitle();
-		        
-		        return true;
-			}
-		});
-		
-		
-		// Note list scrolling hide actionbar effect (deactivate for conflicts with listviewanimation library)
-//		listView.setOnScrollListener(new OnScrollListener() {
-//
-//			int mLastFirstVisibleItem = 0;
-//			/*
-//			 * @see android.widget.AbsListView.OnScrollListener#onScrollStateChanged(android.widget.AbsListView, int)
-//			 */
-//			@Override
-//			public void onScrollStateChanged(AbsListView view, int scrollState) {}
-//			/*
-//			 * @see android.widget.AbsListView.OnScrollListener#onScroll(android.widget.AbsListView, int, int, int)
-//			 */
-//			@Override
-//			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-//					int totalItemCount) {
-//				if (view.getId() == listView.getId()) {
-//					final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
-//
-//					if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-//						getSupportActionBar().hide();
-//					} else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-//						getSupportActionBar().show();
-//					}
-//					mLastFirstVisibleItem = currentFirstVisibleItem;
-//				}
-//			}
-//		});
-
-		// Note single click listener managed by the activity itself
-		listView.setOnItemClickListener(this);
-
+			listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+			listView.setItemsCanFocus(false);
+			
+			// Note long click to start CAB mode
+			listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+				
+				@Override
+				public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
+					if (mActionMode != null) {
+			            return false;
+			        }
+	
+			        // Start the CAB using the ActionMode.Callback defined above
+			        startSupportActionMode(new ModeCallback());
+			        toggleListViewItem(view, position);
+			        setCabTitle();
+			        
+			        return true;
+				}
+			});
+			
+			
+			// Note list scrolling hide actionbar effect (deactivate for conflicts with listviewanimation library)
+	//		listView.setOnScrollListener(new OnScrollListener() {
+	//
+	//			int mLastFirstVisibleItem = 0;
+	//			/*
+	//			 * @see android.widget.AbsListView.OnScrollListener#onScrollStateChanged(android.widget.AbsListView, int)
+	//			 */
+	//			@Override
+	//			public void onScrollStateChanged(AbsListView view, int scrollState) {}
+	//			/*
+	//			 * @see android.widget.AbsListView.OnScrollListener#onScroll(android.widget.AbsListView, int, int, int)
+	//			 */
+	//			@Override
+	//			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+	//					int totalItemCount) {
+	//				if (view.getId() == listView.getId()) {
+	//					final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
+	//
+	//					if (currentFirstVisibleItem > mLastFirstVisibleItem) {
+	//						getSupportActionBar().hide();
+	//					} else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
+	//						getSupportActionBar().show();
+	//					}
+	//					mLastFirstVisibleItem = currentFirstVisibleItem;
+	//				}
+	//			}
+	//		});
+	
+			// Note single click listener managed by the activity itself
+			listView.setOnItemClickListener(this);
 	}
 	
 
@@ -576,41 +576,47 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 * Notes list adapter initialization and association to view
 	 */
 	public void initNotesList(Intent intent) {
-		List<Note> notes;
-		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			notes = handleIntent(intent);
-			getSupportActionBar().setTitle(getString(R.string.search));
-		} else {
-			DbHelper db = new DbHelper(getApplicationContext());
-			notes = db.getAllNotes(true);
-		}
-		mAdapter = new NoteAdapter(getApplicationContext(), notes);
-
-
-		// Enables or note notes list animation depending on settings
-//		if (prefs.getBoolean("settings_enable_swype", true)) {
-//			ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton);
-//			adapter.setAbsListView(listView);
-//			listView.setAdapter(adapter);
-//			adapter.setDeleteItemCallback(new DeleteItemCallback() {
-//				
-//				@Override
-//				public void deleteItem(int position) {
-//					Log.d(Constants.TAG, "Swipe deleting note " + position);
-//					deleteNote(mAdapter.getItem(position));	
-//					initNotesList(getIntent());
-//				}
-//			});
-//		} else {
-//			listView.setAdapter(mAdapter);
-//		}
-		if (prefs.getBoolean("settings_enable_animations", true)) {
-		    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
-		    // Assign the ListView to the AnimationAdapter and vice versa
-		    swingInAnimationAdapter.setAbsListView(listView);
-		    listView.setAdapter(swingInAnimationAdapter);
-		} else {
-			listView.setAdapter(mAdapter);
+		
+		if (!noteListLoaded) {
+				
+			List<Note> notes;
+			if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+				notes = handleIntent(intent);
+				getSupportActionBar().setTitle(getString(R.string.search));
+			} else {
+				DbHelper db = new DbHelper(getApplicationContext());
+				notes = db.getAllNotes(true);
+			}
+			mAdapter = new NoteAdapter(getApplicationContext(), notes);
+	
+	
+			// Enables or note notes list animation depending on settings
+	//		if (prefs.getBoolean("settings_enable_swype", true)) {
+	//			ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton);
+	//			adapter.setAbsListView(listView);
+	//			listView.setAdapter(adapter);
+	//			adapter.setDeleteItemCallback(new DeleteItemCallback() {
+	//				
+	//				@Override
+	//				public void deleteItem(int position) {
+	//					Log.d(Constants.TAG, "Swipe deleting note " + position);
+	//					deleteNote(mAdapter.getItem(position));	
+	//					initNotesList(getIntent());
+	//				}
+	//			});
+	//		} else {
+	//			listView.setAdapter(mAdapter);
+	//		}
+			if (prefs.getBoolean("settings_enable_animations", true)) {
+			    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+			    // Assign the ListView to the AnimationAdapter and vice versa
+			    swingInAnimationAdapter.setAbsListView(listView);
+			    listView.setAdapter(swingInAnimationAdapter);
+			} else {
+				listView.setAdapter(mAdapter);
+			}
+			
+			noteListLoaded = true;
 		}
 	}
 	
