@@ -38,7 +38,7 @@ public class AlarmRestoreOnRebootService extends Service {
 		// Retrieves all notes with reminder set
 		try {
 			DbHelper db = new DbHelper(ctx);
-			List<Note> notes = db.getNotesWithReminder(true);
+			List<Note> notes = db.getNotesWithReminder(false);
 			Log.d(Constants.TAG, "Found " + notes.size() + " reminders");
 			for (Note note : notes) {
 				setAlarm(ctx, note);
