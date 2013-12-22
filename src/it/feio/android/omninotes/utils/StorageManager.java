@@ -24,8 +24,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -171,8 +171,9 @@ public class StorageManager {
 	
 	
 	public static File createNewAttachmentFile(Context mContext, String extension){
-		DateTime now = DateTime.now();
-		String name = now.toString(DateTimeFormat.forPattern(Constants.DATE_FORMAT_SORTABLE));
+		Calendar now = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
+		String name = sdf.format(now.getTime());
 		name += extension != null ? extension : "";
 		File f = new File(mContext.getExternalFilesDir(null), name);
 		return f;

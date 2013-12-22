@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import org.joda.time.DateTime;
-
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
@@ -320,8 +318,11 @@ public class DetailActivity extends BaseActivity {
 	protected void showDateTimeSelectors() {
 
 		// Sets actual time or previously saved in note
-		final DateTime now = note.getAlarm() != null ? new DateTime(Long.parseLong(note.getAlarm())) : DateTime.now();
-
+		Calendar cal = Calendar.getInstance();
+		if (note.getAlarm() != null)
+			cal.setTimeInMillis(Long.parseLong(note.getAlarm()));
+		final Calendar now = cal;
+				
 		CalendarDatePickerDialog mCalendarDatePickerDialog = CalendarDatePickerDialog.newInstance(
 				new CalendarDatePickerDialog.OnDateSetListener() {
 
@@ -355,11 +356,11 @@ public class DetailActivity extends BaseActivity {
 
 										Log.d(Constants.TAG, "Time set");
 									}
-								}, now.getHourOfDay(), now.getMinuteOfHour(), true);
+								}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), true);
 						mRadialTimePickerDialog.show(getSupportFragmentManager(), Constants.TAG);
 					}
 
-				}, now.getYear(), now.getMonthOfYear() - 1, now.getDayOfMonth());
+				}, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
 		mCalendarDatePickerDialog.show(getSupportFragmentManager(), Constants.TAG);
 
 	}

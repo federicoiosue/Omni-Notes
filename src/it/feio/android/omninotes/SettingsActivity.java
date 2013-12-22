@@ -15,15 +15,13 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.utils.ImportExportExcel;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.R;
 import android.net.Uri;
@@ -39,12 +37,10 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -78,8 +74,8 @@ public class SettingsActivity extends PreferenceActivity {
 				final List<String> backups = Arrays.asList(StorageManager.getExternalStoragePublicDir().list());
 
 				// Sets default export file name
-				DateTime now = DateTime.now();
-				String fileName = now.toString(DateTimeFormat.forPattern(Constants.DATE_FORMAT_EXPORT));
+				SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EXPORT);
+				String fileName = sdf.format(Calendar.getInstance().getTime());
 				final EditText fileNameEditText = (EditText) v.findViewById(R.id.export_file_name);
 				final TextView backupExistingTextView = (TextView) v.findViewById(R.id.backup_existing);
 				fileNameEditText.setText(fileName);

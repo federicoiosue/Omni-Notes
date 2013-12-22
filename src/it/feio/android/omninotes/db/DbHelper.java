@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.joda.time.DateTime;
-
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.AssetUtils;
@@ -401,7 +399,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		// Select query
 		String selectQuery = "SELECT * FROM " + TABLE_NOTES 
 							+ " WHERE " + KEY_ALARM 
-							+ (passed ? " IS NOT NULL" : " >= " + DateTime.now().getMillis());
+							+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis());
 				
 
 		return getNotes(selectQuery);

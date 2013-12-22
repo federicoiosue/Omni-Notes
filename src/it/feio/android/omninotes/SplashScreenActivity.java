@@ -15,7 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import org.joda.time.DateTime;
+import java.util.Calendar;
 
 import it.feio.android.omninotes.utils.Constants;
 import android.content.Intent;
@@ -35,8 +35,7 @@ public class SplashScreenActivity extends BaseActivity {
 		getSupportActionBar().hide();
 		
 		// Getting last opening time
-		System.setProperty("org.joda.time.DateTimeZone.Provider", "org.joda.time.tz.UTCProvider");
-		long openTime = DateTime.now().getMillis();
+		long openTime = Calendar.getInstance().getTimeInMillis();
 		long lastOpenTime = prefs.getLong("last_app_open", openTime - Constants.SPLASH_MIN_OFFSET);
 	
 		// Saving application opening time

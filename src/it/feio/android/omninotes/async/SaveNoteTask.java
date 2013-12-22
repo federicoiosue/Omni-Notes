@@ -1,8 +1,7 @@
 package it.feio.android.omninotes.async;
 
 import java.io.File;
-
-import org.joda.time.DateTime;
+import java.util.Calendar;
 
 import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.db.DbHelper;
@@ -42,7 +41,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		super.onPostExecute(note);
 		
 		// Set reminder if is not passed yet
-		long now = DateTime.now().getMillis();
+		long now = Calendar.getInstance().getTimeInMillis();
 		if (note.getAlarm() != null && Long.parseLong(note.getAlarm()) >= now) {
 			setAlarm(note);
 		}
