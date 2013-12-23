@@ -23,6 +23,7 @@
       <changelogtext>[u]Fixed[/u] Old reminders are no more repeated after reboot</changelogtext>
       <changelogtext>[u]Fixed[/u] Crash on exiting note after reminder notification</changelogtext>
       <changelogtext>[u]Fixed[/u] Reminder chooser setting wrong time by default</changelogtext>
+      <changelogtext>[u]Fixed[/u] Crash on app openinig if coming from stable release</changelogtext>
       <changelogtext>[u]Fixed[/u] Minor bugs</changelogtext>
 	</changelogversion>
 

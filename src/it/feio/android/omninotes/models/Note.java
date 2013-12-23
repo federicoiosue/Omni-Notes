@@ -230,6 +230,8 @@ public class Note implements Parcelable {
 			setLatitude(Double.parseDouble(latitude));
 		} catch (NumberFormatException e) {
 			latitude = null;
+		} catch (NullPointerException e) {
+			latitude = null;
 		}
 	}
 
@@ -246,6 +248,8 @@ public class Note implements Parcelable {
 			setLongitude(Double.parseDouble(longitude));
 		} catch (NumberFormatException e) {
 			longitude = null;
+		} catch (NullPointerException e) {
+			latitude = null;
 		}
 	}
 
