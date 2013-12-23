@@ -19,6 +19,7 @@
     <string-array name="navigation_list">
         <item>Notas</item>
         <item>Archivo</item>
+        <item>Recordatorio</item>
     </string-array>
 
     <integer-array name="navigation_list_icons">

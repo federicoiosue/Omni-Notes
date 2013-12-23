@@ -72,7 +72,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	NoteAdapter mAdapter;
 	ActionMode mActionMode;
 	HashSet<Note> selectedNotes = new HashSet<Note>();
-	private boolean noteListLoaded = false;
+	private boolean loadNoteList = false;
 
 
 	@Override
@@ -95,6 +95,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	}
 
 
+	
+	
+	
 	/**
 	 * Handles third party apps requests of sharing
 	 * @param intent
@@ -577,7 +580,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 */
 	public void initNotesList(Intent intent) {
 		
-		if (!noteListLoaded) {
+		if (!loadNoteList) {
+			loadNoteList = true;
+		} else {
 				
 			List<Note> notes;
 			if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -616,7 +621,6 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				listView.setAdapter(mAdapter);
 			}
 			
-			noteListLoaded = true;
 		}
 	}
 	

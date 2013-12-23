@@ -59,7 +59,7 @@
     <string name="sort">Ordina</string>
     <string name="select_sorting_column">Ordina per</string>
     <string name="tap_to_undo">Premi per annullare</string>
-    <string name="alarm_set_on">Allarme impostato per il</string>
+    <string name="alarm_set_on">Promemoria impostato per il</string>
     <string name="at_time">alle</string>
     <string name="discard_changes">Annulla modifiche</string>
 

@@ -247,11 +247,17 @@ public class DbHelper extends SQLiteOpenHelper {
 				KEY_TITLE);
 		String sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
 
-		// Checking if archived notes must be shown
+		// Checking if archived or reminders notes must be shown
+		String whereCondition = "";
 		boolean archived = "1".equals(prefs.getString(
 				Constants.PREF_NAVIGATION, "0"));
-		String whereCondition = checkNavigation ? " WHERE " + KEY_ARCHIVED
-				+ (archived ? " = 1 " : " = 0 ") : "";
+		boolean reminders = "2".equals(prefs.getString(
+				Constants.PREF_NAVIGATION, "0"));
+		if (checkNavigation) {
+			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 " : "";
+			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 " : "";
+		}
+		
 
 		// Select All Query
 		String selectQuery = "SELECT * FROM " + TABLE_NOTES + whereCondition

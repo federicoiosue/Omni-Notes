@@ -19,12 +19,8 @@
     <string-array name="navigation_list">
         <item>Note</item>
         <item>Archivio</item>
+        <item>Promemoria</item>
     </string-array>
-
-    <integer-array name="navigation_list_icons">
-        <item>@drawable/ic_note_dark</item>
-        <item>@drawable/ic_archive_dark</item>
-    </integer-array>
 
     <string-array name="sortable_columns_human_readable">
         <item>Titolo</item>
