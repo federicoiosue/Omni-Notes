@@ -16,14 +16,18 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="3.9.7beta" changeDate="Dec 23, 2013">
+    <changelogversion versionName="3.9.8beta" changeDate="Dec 23, 2013">
       <changelogtext>[b]New! [/b]Show only notes with reminder from navigation drawer</changelogtext>
+      <changelogtext>Application size reduced cleaning code and libraries</changelogtext>
+      <changelogtext>[u]Fixed[/u] Crash on app openinig if coming from stable release</changelogtext>
+	</changelogversion>
+
+    <changelogversion versionName="3.9.7beta" changeDate="Dec 22, 2013">
       <changelogtext>Added placeholders for image inside note editor</changelogtext>
       <changelogtext>[u]Fixed[/u] Notes list is no more loaded twice on application startup</changelogtext>
       <changelogtext>[u]Fixed[/u] Old reminders are no more repeated after reboot</changelogtext>
       <changelogtext>[u]Fixed[/u] Crash on exiting note after reminder notification</changelogtext>
       <changelogtext>[u]Fixed[/u] Reminder chooser setting wrong time by default</changelogtext>
-      <changelogtext>[u]Fixed[/u] Crash on app openinig if coming from stable release</changelogtext>
       <changelogtext>[u]Fixed[/u] Minor bugs</changelogtext>
 	</changelogversion>
 
