@@ -386,13 +386,13 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// Setting the conditions to show determinate items in CAB
 		// If the nav drawer is open, hide action items related to the content view
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		// If archived notes are shown the "add new note" item must be hidden
-		boolean archived = "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
+		// If archived or reminders notes are shown the "add new note" item must be hidden
+		boolean showAdd = "0".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && !archived);
+		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
-		menu.findItem(R.id.menu_settings).setVisible(!drawerOpen);
+		menu.findItem(R.id.menu_settings).setVisible(true);
 
 		// Initialization of SearchView
 		initSearchView(menu);
