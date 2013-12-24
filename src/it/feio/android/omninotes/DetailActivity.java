@@ -381,7 +381,7 @@ public class DetailActivity extends BaseActivity {
 				alarmDateTime = Long.parseLong(note.getAlarm());
 				dateTimeText = initAlarm(alarmDateTime);
 			}
-			if (note.getLatitude() != 0 && note.getLongitude() != 0) {
+			if (note.getLatitude() != null && note.getLongitude() != null) {
 				noteLatitude = note.getLatitude();
 				noteLongitude = note.getLongitude();
 				currentLatitude = note.getLatitude();
