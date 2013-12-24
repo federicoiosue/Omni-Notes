@@ -35,7 +35,7 @@ import android.widget.Toast;
 
 public class BaseActivity extends ActionBarActivity {
 
-	private final boolean TEST = false;
+	private final boolean TEST = true;
 
 	protected Tracker tracker;
 	protected SharedPreferences prefs;

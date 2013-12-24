@@ -17,8 +17,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="32"
-    android:versionName="3.9.8" >
+    android:versionCode="34"
+    android:versionName="3.9.9" >
 
     <uses-sdk
         android:minSdkVersion="9"

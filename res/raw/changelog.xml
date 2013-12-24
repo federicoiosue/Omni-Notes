@@ -16,6 +16,12 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="3.9.9beta" changeDate="Dec 26, 2013">
+      <changelogtext>Implemented card-like interface for notes list elements</changelogtext>
+      <changelogtext>Added fading animation to location text</changelogtext>
+      <changelogtext>[u]Fixed[/u] Notes list scrollbar position</changelogtext>
+	</changelogversion>
+
     <changelogversion versionName="3.9.8beta" changeDate="Dec 23, 2013">
       <changelogtext>[b]New! [/b]Show only notes with reminder from navigation drawer</changelogtext>
       <changelogtext>Application size reduced cleaning code and libraries</changelogtext>

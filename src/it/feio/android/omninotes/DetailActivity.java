@@ -72,6 +72,9 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -202,8 +205,7 @@ public class DetailActivity extends BaseActivity {
 							public void onClick(DialogInterface dialog, int id) {
 								noteLatitude = 0;
 								noteLongitude = 0;
-								locationTextView.setText("");
-								locationTextView.setVisibility(View.GONE);
+								fade(locationTextView, false);
 							}
 						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 
@@ -217,6 +219,7 @@ public class DetailActivity extends BaseActivity {
 				return true;
 			}
 		});
+		
 
 		// Initialzation of gridview for images
 		mGridView = (ExpandableHeightGridView) findViewById(R.id.gridview);
@@ -443,6 +446,8 @@ public class DetailActivity extends BaseActivity {
 				super.onPostExecute(result);
 				locationTextView.setVisibility(View.VISIBLE);
 				mlocationTextView.setText(result);
+				
+				fade(locationTextView, true);
 			}
 		}
 
@@ -997,6 +1002,37 @@ public class DetailActivity extends BaseActivity {
 		mRecorder.release();
 		mRecorder = null;
 	}
+	
+
+
+	private void fade(final View v, boolean fadeIn) {
+		
+		int anim = R.animator.fade_out;
+		int visibilityTemp = View.GONE;
+		
+		if (fadeIn) {
+			anim = R.animator.fade_in;
+			visibilityTemp = View.VISIBLE;
+		}
+		
+		final int visibility = visibilityTemp;
+		
+		if (prefs.getBoolean("settings_enable_animations", true)) {
+			Animation mAnimation = AnimationUtils.loadAnimation(this, anim);
+			mAnimation.setAnimationListener(new AnimationListener() {				
+				@Override
+				public void onAnimationStart(Animation animation) {}			
+				@Override
+				public void onAnimationRepeat(Animation animation) {}				
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					v.setVisibility(visibility);
+				}
+			});
+			v.startAnimation(mAnimation);
+		}
+	}
+	
 
 
 }

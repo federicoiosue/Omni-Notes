@@ -98,13 +98,15 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			date.setText(context.getString(R.string.last_update) + " "
 					+ values.get(position).getLastModificationShort());
 
-		// Highlighted if is part of multiselection of notes
+		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui
+		View v = rowView.findViewById(R.id.card_layout);
 		if (selectedItems.get(position) != null) {
-			rowView.setBackgroundColor(context.getResources().getColor(
+			v.setBackgroundColor(context.getResources().getColor(
 					R.color.list_bg_selected));
 		} else {
-			rowView.setBackgroundColor(context.getResources().getColor(
-					R.color.list_bg));
+//			v.setBackgroundColor(context.getResources().getColor(
+//					R.color.list_bg));
+			restoreDrawable(v);
 		}
 		
 		return rowView;
@@ -124,6 +126,15 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 	public void clearSelectedItems() {
 		this.selectedItems.clear();
+	}
+	
+
+	
+	public void restoreDrawable(View v) {
+		final int paddingBottom = v.getPaddingBottom(), paddingLeft = v.getPaddingLeft();
+	    final int paddingRight = v.getPaddingRight(), paddingTop = v.getPaddingTop();
+		v.setBackgroundResource(R.drawable.bg_card);
+	    v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
 	}
 
 

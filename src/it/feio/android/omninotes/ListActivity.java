@@ -54,9 +54,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -175,6 +179,8 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 	    	for (int i=0; i < listView.getChildCount(); i++) {
 	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
+	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
+	    		mAdapter.restoreDrawable(listView.getChildAt(i).findViewById(R.id.card_layout));
 	    	}
 			selectedNotes.clear();
 			mAdapter.clearSelectedItems();
@@ -225,14 +231,15 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
      */
 	private void toggleListViewItem(View view, int position) {
 		Note note = mAdapter.getItem(position);
+		LinearLayout v = (LinearLayout) view.findViewById(R.id.card_layout);
 		if (!selectedNotes.contains(note)) {
 			selectedNotes.add(note);
 			mAdapter.addSelectedItem(position);
-			view.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+			v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
 		} else {
 			selectedNotes.remove(note);
 			mAdapter.removeSelectedItem(position);
-			view.setBackgroundColor(getResources().getColor(R.color.list_bg));
+			mAdapter.restoreDrawable(v);
 		}
 		if (selectedNotes.size() == 0)
 			mActionMode.finish();

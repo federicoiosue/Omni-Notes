@@ -14,75 +14,81 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="@drawable/bg_card"
-    android:orientation="vertical"
-    android:padding="16dp" >
+    android:layout_height="wrap_content" 
+    android:background="@color/gray_bg">
 
     <LinearLayout
+                android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:background="@drawable/bg_card"
+        android:orientation="vertical"
+        android:padding="16dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/note_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="top|start"
+                android:text="@string/note_title"
+                android:textAppearance="@style/Text.Big"
+                android:textColor="@color/list_note_title"
+                pixlui:typeface="RobotoSlab-Bold.ttf" />
+
+            <ImageView
+                android:id="@+id/alarmIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="right|top"
+                android:src="@drawable/ic_reminder_dark"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/archivedIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="right|top"
+                android:src="@drawable/ic_archive_dark"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/attachmentIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="right|top"
+                android:src="@drawable/ic_action_attachment"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <com.neopixl.pixlui.components.textview.TextView
-            android:id="@+id/note_title"
-            android:layout_width="0dp"
+            android:id="@+id/note_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="top|start"
-            android:text="@string/note_title"
-            android:textAppearance="@style/Text.Big"
+            android:layout_gravity="bottom|right"
+            android:text="@string/note_timestamp"
+            android:textAppearance="@style/Text.Normal"
             android:textColor="@color/list_note_title"
-            pixlui:typeface="RobotoSlab-Bold.ttf" />
+            android:visibility="gone"
+            pixlui:typeface="RobotoSlab-Light.ttf" />
 
-        <ImageView
-            android:id="@+id/alarmIcon"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_gravity="right|top"
-            android:src="@drawable/ic_reminder_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/archivedIcon"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_gravity="right|top"
-            android:src="@drawable/ic_archive_dark"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/attachmentIcon"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_gravity="right|top"
-            android:src="@drawable/ic_action_attachment"
-            android:visibility="gone" />
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/note_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:gravity="bottom|right"
+            android:text="@string/note_timestamp"
+            android:textAppearance="@style/Text.Small"
+            pixlui:typeface="RobotoSlab-Thin.ttf" />
     </LinearLayout>
 
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/note_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:text="@string/note_timestamp"
-        android:textAppearance="@style/Text.Normal"
-        android:textColor="@color/list_note_title"
-        android:visibility="gone"
-        pixlui:typeface="RobotoSlab-Light.ttf" />
-
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/note_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:gravity="bottom|right"
-        android:text="@string/note_timestamp"
-        android:textAppearance="@style/Text.Small"
-        pixlui:typeface="RobotoSlab-Thin.ttf" />
-
-</LinearLayout>
+</FrameLayout>
