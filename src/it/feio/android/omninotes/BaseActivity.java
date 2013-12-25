@@ -41,6 +41,8 @@ public class BaseActivity extends ActionBarActivity {
 	protected SharedPreferences prefs;
 	
 	// Location variables
+	protected LocationManager locationManager;
+	protected LocationListener locationListener;
 	protected Location currentLocation;
 	protected double currentLatitude;
 	protected double currentLongitude;
@@ -109,9 +111,9 @@ public class BaseActivity extends ActionBarActivity {
 	
 
 	private void setLocationManager() {
-		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-		LocationListener locationListener = new LocationListener() {
+		locationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
 				updateLocation(location);
 			}
@@ -127,8 +129,8 @@ public class BaseActivity extends ActionBarActivity {
 			}
 		};
 
-		locationManager.requestLocationUpdates(
-				LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+//		locationManager.requestLocationUpdates(
+//				LocationManager.PASSIVE_PROVIDER, 60000, 50, locationListener);
 	}
     
     void updateLocation(Location location){

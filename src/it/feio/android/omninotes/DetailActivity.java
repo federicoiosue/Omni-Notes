@@ -51,6 +51,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
@@ -419,6 +420,9 @@ public class DetailActivity extends BaseActivity {
 
 			@Override
 			protected String doInBackground(Void... params) {
+
+//				locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+				updateLocation(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
 				String addressString = "";
 				try {
 					noteLatitude = currentLatitude;
