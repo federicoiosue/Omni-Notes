@@ -16,10 +16,11 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="3.9.9beta" changeDate="Dec 26, 2013">
+    <changelogversion versionName="4.0.0" changeDate="Dec 27, 2013">
       <changelogtext>Implemented card-like interface for notes list elements</changelogtext>
       <changelogtext>Added fading animation to location text</changelogtext>
       <changelogtext>[u]Fixed[/u] Notes list scrollbar position</changelogtext>
+      <changelogtext>[u]Fixed[/u] Hith battery consumption</changelogtext>
 	</changelogversion>
 
     <changelogversion versionName="3.9.8beta" changeDate="Dec 23, 2013">

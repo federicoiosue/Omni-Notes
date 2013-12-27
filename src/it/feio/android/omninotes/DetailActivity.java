@@ -421,8 +421,6 @@ public class DetailActivity extends BaseActivity {
 			@Override
 			protected String doInBackground(Void... params) {
 
-//				locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-				updateLocation(locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER));
 				String addressString = "";
 				try {
 					noteLatitude = currentLatitude;
@@ -645,7 +643,8 @@ public class DetailActivity extends BaseActivity {
 		}		
 		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_VIDEO_EXT));
 		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
-		int maxVideoSize = Integer.parseInt(prefs.getString("settings_max_video_size", "0"));
+		String maxVideoSizeStr = "".equals(prefs.getString("settings_max_video_size", "")) ? "0" : prefs.getString("settings_max_video_size", "");
+		int maxVideoSize = Integer.parseInt(maxVideoSizeStr);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Long.valueOf(maxVideoSize*1024*1024));
 	    startActivityForResult(takeVideoIntent, TAKE_VIDEO);
 	}

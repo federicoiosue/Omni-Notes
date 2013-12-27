@@ -26,13 +26,7 @@
     <string name="dev_github">https://github.com/arnesottolo</string>
     <string name="dev_bitbucket">https://bitbucket.org/feio/</string>
 
-    <!-- Formats -->
-    <string name="datetime_format">mm</string>
-
     <!-- Activities -->
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
-    <string name="drawer_icon">Navigation icon</string>
     <string name="title_item_list">Notes</string>
     <string name="title_item_detail">Edit Note</string>
     <string name="add_note">Add Note</string>
@@ -136,7 +130,5 @@
     <string name="follow_author">Who is the developer?</string>
     <string name="click_to_support">Click the banner to support development</string>
     <string name="title_activity_intent_receiver">IntentReceiverActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_image">ImageActivity</string>
 
 </resources>

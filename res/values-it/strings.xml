@@ -62,6 +62,29 @@
     <string name="alarm_set_on">Promemoria impostato per il</string>
     <string name="at_time">alle</string>
     <string name="discard_changes">Annulla modifiche</string>
+     <string name="attachment">Allegati</string>
+    <string name="camera">Fotocamera</string>
+    <string name="delete_selected_image">Rimuovere l\'immagine selezionata?</string>
+    <string name="gallery">Galleria</string>
+    <string name="location">Posizione</string>
+    <string name="remove_location">Rimuovere la posizione?</string>
+    <string name="remove_reminder">Rimuovere il promemoria?</string>
+    <string name="add_reminder">Aggiungi un promemoria</string>
+    <string name="location_not_found">Posizione non trovata</string>
+    <string name="record">Audio</string>
+    <string name="stop">Stop</string>
+    <string name="no_app_to_handle_intent">Nessuna applicazione trovata per gestire la richiesta</string>
+    <string name="storage_not_available">Memoria non disponibile</string>
+    <string name="video">Video</string>
+    <string name="feature_not_available_on_this_device">Operazione non disponibile su questo telefono</string>
+    <string name="error_occurred_deleting_note">Errore durante la cancellazione della nota</string>
+    <string name="data_export_message">Nome del backup</string>
+    <string name="data_import_message">Scegli il backup da importare</string>
+    <string name="data_import_message_warning">ATTENZIONE: Verranno sovrascritti i dati attuali!</string>
+    <string name="data_export_completed">Esportazione completata</string>
+    <string name="data_import_completed">Importazioone completata</string>
+    <string name="click_to_refresh_application">Premi per aggiornare le note</string>
+    <string name="backup_existing">Backup esistente, verrà sovrascritto</string>
 
     <!-- Settings -->
     <string name="settings">Impostazioni</string>
@@ -90,6 +113,11 @@
     <string name="settings_category_notifications">Notifiche</string>
     <string name="settings_enable_sound">Abilita suoneria</string>
     <string name="settings_enable_vibration">Abilita vibrazione</string>
+    <string name="settings_changelog">Changelog</string>
+    <string name="settings_enable_editor_links">Riconoscimento url ed e-mail</string>
+    <string name="settings_max_video_size">Dimensione massima video (MB)</string>
+    <string name="settings_category_data">Dati </string>
+    <string name="settings_backup">Backup</string>
 
     <!-- About -->
     <string name="follow_author">Chi è l\'autore?</string>

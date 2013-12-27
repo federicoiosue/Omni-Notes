@@ -587,9 +587,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 */
 	public void initNotesList(Intent intent) {
 		
-		if (!loadNoteList) {
-			loadNoteList = true;
-		} else {
+//		if (!loadNoteList) {
+//			loadNoteList = true;
+//		} else {
 				
 			List<Note> notes;
 			if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -629,7 +629,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			}
 			
 		}
-	}
+//	}
 	
 	
 

@@ -1,8 +1,6 @@
 package it.feio.android.omninotes.async;
 
 import java.io.File;
-import java.io.FileInputStream;
-
 import it.feio.android.omninotes.ListActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
@@ -112,7 +110,7 @@ public class DataBackupIntentService extends IntentService {
 		Intent intent = new Intent(ctx, ListActivity.class);
 		// Add this bundle to the intent
 		// Sets the Activity to start in a new, empty task
-		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
 
 		// Creates the PendingIntent
 		PendingIntent notifyIntent = PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

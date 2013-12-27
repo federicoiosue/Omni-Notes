@@ -35,7 +35,7 @@ import android.widget.Toast;
 
 public class BaseActivity extends ActionBarActivity {
 
-	private final boolean TEST = true;
+	private final boolean TEST = false;
 
 	protected Tracker tracker;
 	protected SharedPreferences prefs;
@@ -95,6 +95,7 @@ public class BaseActivity extends ActionBarActivity {
 		super.onStop();
 		// Google Analytics
 		EasyTracker.getInstance(this).activityStop(this);
+		locationManager.removeUpdates(locationListener);
 	}
 
 	@Override
@@ -129,8 +130,8 @@ public class BaseActivity extends ActionBarActivity {
 			}
 		};
 
-//		locationManager.requestLocationUpdates(
-//				LocationManager.PASSIVE_PROVIDER, 60000, 50, locationListener);
+		locationManager.requestLocationUpdates(
+				LocationManager.NETWORK_PROVIDER, 60000, 50, locationListener);
 	}
     
     void updateLocation(Location location){
