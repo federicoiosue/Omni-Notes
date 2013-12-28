@@ -49,6 +49,7 @@ import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -71,12 +72,13 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	TypedArray mNavigationIconsArray;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
+	private LinearLayout mDrawer;
 	private ListView listView;
 	NoteAdapter mAdapter;
 	ActionMode mActionMode;
 	HashSet<Note> selectedNotes = new HashSet<Note>();
 	private boolean loadNoteList = false;
+	private ListView mDrawerList;
 
 
 	@Override
@@ -313,7 +315,8 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	private void initNavigationDrawer() {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
+		mDrawerList = (ListView) findViewById(R.id.drawer_nav_list);
 
 		// Set the adapter for the list view
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
@@ -330,7 +333,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(position);
 				prefs.edit().putString(Constants.PREF_NAVIGATION, String.valueOf(position)).commit();
-		        mDrawerList.setItemChecked(position, true);
+				mDrawerList.setItemChecked(position, true);
 				initNotesList(getIntent());
 			}
 		});
@@ -341,7 +344,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 //			getSupportActionBar().setHomeButtonEnabled(true);
 
 
-		// ActionBarDrawerToggle ties together the the proper interactions
+		// ActionBarDrawerToggle± ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
 		mDrawerLayout, /* DrawerLayout object */
@@ -392,7 +395,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 		// Setting the conditions to show determinate items in CAB
 		// If the nav drawer is open, hide action items related to the content view
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		boolean drawerOpen = mDrawerLayout.isDrawerOpen(Gravity.START);
 		// If archived or reminders notes are shown the "add new note" item must be hidden
 		boolean showAdd = "0".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
 
@@ -476,10 +479,10 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:				 
-	            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
-	                mDrawerLayout.closeDrawer(mDrawerList);
+	            if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+	                mDrawerLayout.closeDrawer(Gravity.START);
 	            } else {
-	                mDrawerLayout.openDrawer(mDrawerList);
+	                mDrawerLayout.openDrawer(Gravity.START);
 	            }
 	            break;
 			case R.id.menu_add:
@@ -656,7 +659,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// Highlight the selected item, update the title, and close the drawer
 		mDrawerList.setItemChecked(position, true);
 		mTitle = mNavigationArray[position];
-		mDrawerLayout.closeDrawer(mDrawerList);
+		mDrawerLayout.closeDrawer(Gravity.START);
 	}
 
 	/**

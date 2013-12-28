@@ -22,21 +22,10 @@
         <item>Recordatorio</item>
     </string-array>
 
-    <integer-array name="navigation_list_icons">
-        <item>@drawable/ic_note_dark</item>
-        <item>@drawable/ic_archive_dark</item>
-    </integer-array>
-
     <string-array name="sortable_columns_human_readable">
         <item>Titular</item>
         <item>Fecha de creación</item>
         <item>Fecha de última modificación</item>
-    </string-array>
-
-    <string-array name="languages">
-        <item>Inglés</item>
-        <item>Español</item>
-        <item>Italiano</item>
     </string-array>
 
 </resources>
