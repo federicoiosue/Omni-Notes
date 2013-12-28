@@ -28,10 +28,4 @@
         <item>Data di ultima modifica</item>
     </string-array>
 
-    <string-array name="languages">
-        <item>Inglese</item>
-        <item>Spagnolo</item>
-        <item>Italiano</item>
-    </string-array>
-
 </resources>
