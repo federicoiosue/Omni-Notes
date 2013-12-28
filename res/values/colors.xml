@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <resources>
-    <color name="navigation_bg">#eeffffff</color>
+    <color name="navigation_bg">#ffffffff</color>
     <color name="gray_bg">#e2e2e2</color>    
     <color name="list_bg">#eeffffff</color>
     <color name="list_bg_pressed">#88336699</color>
