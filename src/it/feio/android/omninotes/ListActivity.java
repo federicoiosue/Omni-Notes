@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
+import it.feio.android.omninotes.models.NavigationDrawerAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.utils.Constants;
@@ -42,6 +42,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.view.ActionMode;
@@ -49,23 +50,20 @@ import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
-import android.view.ViewGroup;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class ListActivity extends BaseActivity implements OnItemClickListener {
+public class ListActivity extends BaseActivity {
 
 	private CharSequence mTitle;
 	String[] mNavigationArray;
@@ -77,8 +75,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	NoteAdapter mAdapter;
 	ActionMode mActionMode;
 	HashSet<Note> selectedNotes = new HashSet<Note>();
-	private boolean loadNoteList = false;
 	private ListView mDrawerList;
+	private ListView mDrawerTagList;
+	private TextView listTagHeader;
 
 
 	@Override
@@ -93,7 +92,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		}
 
 		// Navigation drawer and listview initialization
-		initNavigationDrawer();
+//		initNavigationDrawer();
 		initListView();
 
 		CharSequence title = getResources().getStringArray(R.array.navigation_list)[Integer.parseInt(prefs.getString(Constants.PREF_NAVIGATION, "0"))];
@@ -145,9 +144,20 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 	@Override
 	protected void onResume() {
-		initNotesList(getIntent());
-		initNavigationDrawer();
+		Log.v(Constants.TAG, "OnResume");
+		// The initializazion actions are performed only after onNewIntent is called first time
+		if (getIntent().getAction() != null) {
+			initNotesList(getIntent());
+			initNavigationDrawer();
+		}
 		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		Log.v(Constants.TAG, "OnPause");
+		// TODO Auto-generated method stub
+		super.onPause();
 	}
 	
 	
@@ -305,7 +315,23 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	//		});
 	
 			// Note single click listener managed by the activity itself
-			listView.setOnItemClickListener(this);
+			listView.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View view,
+						int position, long arg3) {// If no CAB just note editing
+					if (mActionMode == null) { 
+						Note note = mAdapter.getItem(position);
+						editNote(note);
+						return;
+					}
+
+					// If in CAB mode 
+			        toggleListViewItem(view, position);
+			        setCabTitle();
+				}
+				
+			});
 	}
 	
 
@@ -316,15 +342,15 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
-		mDrawerList = (ListView) findViewById(R.id.drawer_nav_list);
 
-		// Set the adapter for the list view
+		// Sets the adapter for the MAIN navigation list view
+		mDrawerList = (ListView) findViewById(R.id.drawer_nav_list);
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
 		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
 		mDrawerList
-				.setAdapter(new NavigationDrawerItemAdapter(this, mNavigationArray, mNavigationIconsArray));
+				.setAdapter(new NavigationDrawerAdapter(this, mNavigationArray, mNavigationIconsArray));
 		
-		// Set click events
+		// Sets click events
 		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -338,10 +364,35 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			}
 		});
 
-		// Enable ActionBar app icon to behave as action to toggle nav drawer
-//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-//			getSupportActionBar().setHomeButtonEnabled(true);
+		// Sets the adapter for the TAGS navigation list view
+		mDrawerTagList = (ListView) findViewById(R.id.drawer_tag_list);
+		listTagHeader = new TextView(this);
+		listTagHeader.setText("Tags");
+		mDrawerTagList.addHeaderView(listTagHeader);
+		mDrawerTagList.setHeaderDividersEnabled(true);
+		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
+		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
+		mDrawerTagList
+				.setAdapter(new NavigationDrawerAdapter(this, mNavigationArray, mNavigationIconsArray));
+		
+		// Sets click events
+		mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				String navigation = mDrawerTagList.getAdapter().getItem(position).toString();
+				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
+//				selectNavigationItem(position);
+//				prefs.edit().putString(Constants.PREF_NAVIGATION, String.valueOf(position)).commit();
+//				mDrawerList.setItemChecked(position, true);
+//				initNotesList(getIntent());
+			}
+		});
+
+//		 Enable ActionBar app icon to behave as action to toggle nav drawer
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+			getSupportActionBar().setHomeButtonEnabled(true);
 
 
 		// ActionBarDrawerToggle± ties together the the proper interactions
@@ -375,12 +426,12 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
 	}
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
-		mDrawerToggle.syncState();
-	}
+//	@Override
+//	protected void onPostCreate(Bundle savedInstanceState) {
+//		super.onPostCreate(savedInstanceState);
+//		// Sync the toggle state after onRestoreInstanceState has occurred.
+//		mDrawerToggle.syncState();
+//	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -395,18 +446,19 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 		// Setting the conditions to show determinate items in CAB
 		// If the nav drawer is open, hide action items related to the content view
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(Gravity.START);
-		// If archived or reminders notes are shown the "add new note" item must be hidden
-		boolean showAdd = "0".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
+		if (mDrawerLayout != null) {
+			boolean drawerOpen = mDrawerLayout.isDrawerOpen(GravityCompat.START);
+			// If archived or reminders notes are shown the "add new note" item must be hidden
+			boolean showAdd = "0".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
+	
+			menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
+			menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
+			menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
+			menu.findItem(R.id.menu_settings).setVisible(true);
 
-		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
-		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
-		menu.findItem(R.id.menu_settings).setVisible(true);
-
-		// Initialization of SearchView
-		initSearchView(menu);
-		
+			// Initialization of SearchView
+			initSearchView(menu);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -479,10 +531,10 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:				 
-	            if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
-	                mDrawerLayout.closeDrawer(Gravity.START);
+	            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+	                mDrawerLayout.closeDrawer(GravityCompat.START);
 	            } else {
-	                mDrawerLayout.openDrawer(Gravity.START);
+	                mDrawerLayout.openDrawer(GravityCompat.START);
 	            }
 	            break;
 			case R.id.menu_add:
@@ -495,22 +547,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		return super.onOptionsItemSelected(item);
 	}
 
-    
-
-	@Override
-	public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
-		// If no CAB just note editing
-		if (mActionMode == null) { 
-			Note note = mAdapter.getItem(position);
-			editNote(note);
-			return;
-		}
-
-		// If in CAB mode 
-        toggleListViewItem(view, position);
-        setCabTitle();
-	}
-
+   
 
 	private void setCabTitle() {
 		if (mActionMode == null)
@@ -577,8 +614,9 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-		if (Intent.ACTION_MAIN.equals(intent.getAction()))
-			return;
+		if (intent.getAction() == null || Intent.ACTION_MAIN.equals(intent.getAction())) {
+			intent.setAction(Constants.ACTION_START_APP);
+		}
 		setIntent(intent);
 		Log.d(Constants.TAG, "onNewIntent");
 //		initNotesList(intent);
@@ -589,50 +627,47 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 * Notes list adapter initialization and association to view
 	 */
 	public void initNotesList(Intent intent) {
+
+		Log.v(Constants.TAG, "initNotesList: intent action " + intent.getAction());
 		
-//		if (!loadNoteList) {
-//			loadNoteList = true;
-//		} else {
-				
-			List<Note> notes;
-			if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-				notes = handleIntent(intent);
-				getSupportActionBar().setTitle(getString(R.string.search));
-			} else {
-				DbHelper db = new DbHelper(getApplicationContext());
-				notes = db.getAllNotes(true);
-			}
-			mAdapter = new NoteAdapter(getApplicationContext(), notes);
-	
-	
-			// Enables or note notes list animation depending on settings
-	//		if (prefs.getBoolean("settings_enable_swype", true)) {
-	//			ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton);
-	//			adapter.setAbsListView(listView);
-	//			listView.setAdapter(adapter);
-	//			adapter.setDeleteItemCallback(new DeleteItemCallback() {
-	//				
-	//				@Override
-	//				public void deleteItem(int position) {
-	//					Log.d(Constants.TAG, "Swipe deleting note " + position);
-	//					deleteNote(mAdapter.getItem(position));	
-	//					initNotesList(getIntent());
-	//				}
-	//			});
-	//		} else {
-	//			listView.setAdapter(mAdapter);
-	//		}
-			if (prefs.getBoolean("settings_enable_animations", true)) {
-			    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
-			    // Assign the ListView to the AnimationAdapter and vice versa
-			    swingInAnimationAdapter.setAbsListView(listView);
-			    listView.setAdapter(swingInAnimationAdapter);
-			} else {
-				listView.setAdapter(mAdapter);
-			}
-			
+		List<Note> notes;
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			notes = handleIntent(intent);
+			getSupportActionBar().setTitle(getString(R.string.search));
+		} else {
+			DbHelper db = new DbHelper(getApplicationContext());
+			notes = db.getAllNotes(true);
 		}
-//	}
+		mAdapter = new NoteAdapter(getApplicationContext(), notes);
+
+
+		// Enables or note notes list animation depending on settings
+//		if (prefs.getBoolean("settings_enable_swype", true)) {
+//			ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton);
+//			adapter.setAbsListView(listView);
+//			listView.setAdapter(adapter);
+//			adapter.setDeleteItemCallback(new DeleteItemCallback() {
+//				
+//				@Override
+//				public void deleteItem(int position) {
+//					Log.d(Constants.TAG, "Swipe deleting note " + position);
+//					deleteNote(mAdapter.getItem(position));	
+//					initNotesList(getIntent());
+//				}
+//			});
+//		} else {
+//			listView.setAdapter(mAdapter);
+//		}
+		if (prefs.getBoolean("settings_enable_animations", true)) {
+		    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+		    // Assign the ListView to the AnimationAdapter and vice versa
+		    swingInAnimationAdapter.setAbsListView(listView);
+		    listView.setAdapter(swingInAnimationAdapter);
+		} else {
+			listView.setAdapter(mAdapter);
+		}
+		
+	}
 	
 	
 
@@ -659,7 +694,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// Highlight the selected item, update the title, and close the drawer
 		mDrawerList.setItemChecked(position, true);
 		mTitle = mNavigationArray[position];
-		mDrawerLayout.closeDrawer(Gravity.START);
+		mDrawerLayout.closeDrawer(GravityCompat.START);
 	}
 
 	/**

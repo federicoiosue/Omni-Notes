@@ -30,31 +30,27 @@
     </ListView>
 
     <LinearLayout
-            android:id="@+id/left_drawer"
-            android:layout_width="210dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@color/navigation_bg"
-            orien
-        >
+        android:id="@+id/left_drawer"
+        android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/navigation_bg"
+        android:orientation="vertical" >
 
         <ListView
             android:id="@+id/drawer_nav_list"
-            android:layout_width="210dp"
+            android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="0dp"
-                android:layout_weight="1"
+            android:layout_weight="1"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp" />
 
-        <TextView 
-            android:layout_width="210dp"
-            android:layout_height="match_parent"
-            android:text="ziofax"/>
         <ListView
             android:id="@+id/drawer_tag_list"
-            android:layout_width="210dp"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp" />

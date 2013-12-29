@@ -29,14 +29,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-public class NavigationDrawerItemAdapter extends BaseAdapter {
+public class NavigationDrawerAdapter extends BaseAdapter {
 
 	Context context;
 	String[] mTitle;
 	TypedArray mIcon;
 	LayoutInflater inflater;
 
-	public NavigationDrawerItemAdapter(Context context, String[] title, TypedArray icon) {
+	public NavigationDrawerAdapter(Context context, String[] title, TypedArray icon) {
 		this.context = context;
 		this.mTitle = title;
 		this.mIcon = icon;

@@ -70,4 +70,5 @@ public interface Constants {
     // Custom intent actions
     final String ACTION_DATA_EXPORT = "action_data_export";
     final String ACTION_DATA_IMPORT = "action_data_import";
+	final String ACTION_START_APP = "action_start_app";
 }

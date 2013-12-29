@@ -263,7 +263,6 @@ public class DbHelper extends SQLiteOpenHelper {
 		// Select All Query
 		String selectQuery = "SELECT * FROM " + TABLE_NOTES + whereCondition
 				+ " ORDER BY " + sort_column + sort_order;
-		Log.d(Constants.TAG, "Select notes query: " + selectQuery);
 
 		return getNotes(selectQuery);
 
@@ -279,7 +278,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	private List<Note> getNotes(String query) {
 		List<Note> noteList = new ArrayList<Note>();
-		Log.d(Constants.TAG, "Select notes query: " + query);
+		Log.d(Constants.TAG, "Query: " + query);
 
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(query, null);
