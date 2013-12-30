@@ -95,7 +95,9 @@ public class BaseActivity extends ActionBarActivity {
 		super.onStop();
 		// Google Analytics
 		EasyTracker.getInstance(this).activityStop(this);
-		locationManager.removeUpdates(locationListener);
+		if (locationManager != null) {
+			locationManager.removeUpdates(locationListener);
+		}
 	}
 
 	@Override
