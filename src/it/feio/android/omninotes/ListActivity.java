@@ -23,6 +23,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.NavigationDrawerAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
+import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.async.DeleteNoteTask;
@@ -50,17 +51,18 @@ import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnFocusChangeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class ListActivity extends BaseActivity {
@@ -77,7 +79,7 @@ public class ListActivity extends BaseActivity {
 	HashSet<Note> selectedNotes = new HashSet<Note>();
 	private ListView mDrawerList;
 	private ListView mDrawerTagList;
-	private TextView listTagHeader;
+	private View tagListHeader;
 
 
 	@Override
@@ -358,36 +360,59 @@ public class ListActivity extends BaseActivity {
 				String navigation = mDrawerList.getAdapter().getItem(position).toString();
 				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(position);
-				prefs.edit().putString(Constants.PREF_NAVIGATION, String.valueOf(position)).commit();
+				prefs.edit().putString(Constants.PREF_NAVIGATION, navigation).commit();
 				mDrawerList.setItemChecked(position, true);
 				initNotesList(getIntent());
 			}
 		});
 
-		// Sets the adapter for the TAGS navigation list view
-		mDrawerTagList = (ListView) findViewById(R.id.drawer_tag_list);
-		listTagHeader = new TextView(this);
-		listTagHeader.setText("Tags");
-		mDrawerTagList.addHeaderView(listTagHeader);
-		mDrawerTagList.setHeaderDividersEnabled(true);
-		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
-		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
-		mDrawerTagList
-				.setAdapter(new NavigationDrawerAdapter(this, mNavigationArray, mNavigationIconsArray));
-		
-		// Sets click events
-		mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
+		// Sets the adapter for the TAGS navigation list view		
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				String navigation = mDrawerTagList.getAdapter().getItem(position).toString();
-				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
-//				selectNavigationItem(position);
-//				prefs.edit().putString(Constants.PREF_NAVIGATION, String.valueOf(position)).commit();
-//				mDrawerList.setItemChecked(position, true);
-//				initNotesList(getIntent());
+		// Retrieves data to fill tags list
+		ArrayList<Tag> tags = db.getTags();
+		
+		if (tags.size() > 0) {
+			mDrawerTagList = (ListView) findViewById(R.id.drawer_tag_list);
+			// Inflation of header view
+			LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+			if (tagListHeader == null) {
+				tagListHeader = inflater.inflate(R.layout.drawer_tag_list_header, (ViewGroup) findViewById(R.id.layout_root));
+				mDrawerTagList.addHeaderView(tagListHeader);
+				mDrawerTagList.setHeaderDividersEnabled(true);
 			}
-		});
+			mDrawerTagList
+					.setAdapter(new NavigationDrawerAdapter(this, tags.toArray(), null));
+			
+			// Sets click events
+			mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+					Object item = mDrawerTagList.getAdapter().getItem(position);
+					// Ensuring that clicked item is not the ListView header
+					if (item != null) {
+						String navigation = mDrawerTagList.getAdapter().getItem(position).toString();
+						Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
+						selectNavigationItem(position);
+						prefs.edit().putString(Constants.PREF_NAVIGATION, String.valueOf(position)).commit();
+						mDrawerList.setItemChecked(position, true);
+						initNotesList(getIntent());
+					}
+				}
+			});
+			
+			// Sets long click events
+			mDrawerTagList.setOnItemLongClickListener(new OnItemLongClickListener() {
+				@Override
+				public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
+					Object item = mDrawerTagList.getAdapter().getItem(position);
+					// Ensuring that clicked item is not the ListView header
+					if (item != null) {
+						editTag((Tag)item);
+					}
+					return true;
+				}
+			});
+		}
 
 //		 Enable ActionBar app icon to behave as action to toggle nav drawer
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -454,6 +479,7 @@ public class ListActivity extends BaseActivity {
 			menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
 			menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
 			menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
+			menu.findItem(R.id.menu_add_tag).setVisible(drawerOpen);
 			menu.findItem(R.id.menu_settings).setVisible(true);
 
 			// Initialization of SearchView
@@ -542,6 +568,9 @@ public class ListActivity extends BaseActivity {
 				break;
 			case R.id.menu_sort:
 				sortNotes();
+				break;
+			case R.id.menu_add_tag:
+				editTag(null);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -739,12 +768,12 @@ public class ListActivity extends BaseActivity {
 	protected void deleteNote(Note note) {
 		
 		// Saving changes to the note
-		DeleteNoteTask saveNoteTask = new DeleteNoteTask(getApplicationContext());
+		DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getApplicationContext());
 		// Forceing parallel execution disabled by default
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+			deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
 		} else {
-			saveNoteTask.execute(note);
+			deleteNoteTask.execute(note);
 		}
 
 		// Update adapter content
@@ -779,6 +808,20 @@ public class ListActivity extends BaseActivity {
 		((ListView) findViewById(R.id.notesList)).invalidateViews();
 		// Advice to user
 		showToast(archivedStatus, Toast.LENGTH_SHORT);
+	}
+	
+	
+	/**
+	 * Tags addition and editing
+	 * @param tag
+	 */
+	private void editTag(Tag tag){
+		Intent tagIntent = new Intent(this, TagActivity.class);
+		tagIntent.putExtra(Constants.INTENT_TAG, tag);
+		startActivity(tagIntent);
+//		if (prefs.getBoolean("settings_enable_animations", true)) {
+//			overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
+//		}
 	}
 
 

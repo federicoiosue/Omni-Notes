@@ -10,7 +10,8 @@ CREATE
 		archived INTEGER,
 		alarm INTEGER DEFAULT null,
 		latitude REAL,
-		longitude REAL
+		longitude REAL,
+        tag INTEGER DEFAUL null
 	);
 	
 
@@ -23,4 +24,16 @@ CREATE
 		uri TEXT,
 		mime_type TEXT,
 		note_id INTEGER
+	);
+	
+
+
+-- Create table for tags
+CREATE
+	TABLE tags
+	(
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		title TEXT,
+        description TEXT,
+        color TEXT
 	);

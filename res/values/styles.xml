@@ -49,6 +49,14 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+    
+    <style name="AppCompatDialogTheme" parent="AppTheme">
+    <item name="android:windowIsFloating">false</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowSoftInputMode">stateAlwaysHidden</item>
+<!--     <item name="windowActionModeOverlay">true</item> -->
+    <item name="android:windowIsTranslucent">true</item>
+</style>
 
     <style name="Text.Big" parent="android:attr/textAppearanceSmall">
         <item name="android:textSize">18sp</item>

@@ -15,10 +15,15 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import java.lang.reflect.Field;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
+
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -31,11 +36,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
 import android.widget.Toast;
 
 public class BaseActivity extends ActionBarActivity {
 
 	private final boolean TEST = true;
+	
+	protected DbHelper db;
+	
+	protected Activity mActivity;
 
 	protected Tracker tracker;
 	protected SharedPreferences prefs;
@@ -54,11 +64,7 @@ public class BaseActivity extends ActionBarActivity {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu, menu);
-		
-//		createAppDirectory();
-		
-		setLocationManager();
-		
+				
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -73,13 +79,31 @@ public class BaseActivity extends ActionBarActivity {
 			StrictMode.enableDefaults();
 			GoogleAnalytics.getInstance(this).setDryRun(true);
 		}
+		
+		mActivity = this;
 
 		// Preloads shared preferences for all derived classes
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-		super.onCreate(savedInstanceState);
 		
-//		setTheme(R.style.AppTheme);
+		// Preparation of DbHelper
+		db = new DbHelper(this);
+		
+		// Starts location manager
+		setLocationManager();
+
+		// Force menu overflow icon
+		try {
+	        ViewConfiguration config = ViewConfiguration.get(this);
+	        Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+	        if(menuKeyField != null) {
+	            menuKeyField.setAccessible(true);
+	            menuKeyField.setBoolean(config, false);
+	        }
+	    } catch (Exception ex) {
+	        // Ignore exceptions
+	    }
+		
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override

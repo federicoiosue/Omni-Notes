@@ -40,8 +40,7 @@
         <ListView
             android:id="@+id/drawer_nav_list"
             android:layout_width="@dimen/navigation_drawer_width"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp" />
@@ -50,7 +49,7 @@
             android:id="@+id/drawer_tag_list"
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp" />

@@ -31,15 +31,15 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/drawer_icon"
-            android:paddingLeft="16dp" />
+            android:paddingLeft="@dimen/horizontal_margin" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:gravity="center_vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="16dp"
+            android:paddingLeft="@dimen/horizontal_margin"
+            android:paddingRight="@dimen/horizontal_margin"
             android:textAppearance="@style/Text.Big"
             android:textColor="@color/drawer_text" />
     </LinearLayout>
@@ -47,8 +47,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:layout_marginRight="@dimen/horizontal_margin"
         android:background="@android:color/darker_gray" />
 
 </LinearLayout>

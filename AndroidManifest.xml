@@ -17,14 +17,14 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="36"
-    android:versionName="4.0.1" >
+    android:versionCode="37"
+    android:versionName="4.1.0" >
 
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="19" />
 
-<!--     <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+    <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -33,8 +33,10 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -48,7 +50,7 @@
         <!-- Splash screen -->
         <activity
             android:name="it.feio.android.omninotes.SplashScreenActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -85,7 +87,6 @@
 
                 <data android:mimeType="image/*" />
             </intent-filter>
-            
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -100,8 +101,6 @@
 
                 <data android:mimeType="audio/*" />
             </intent-filter>
-            
-            
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -152,6 +151,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SettingsActivity" />
         </activity>
+                
+		<!-- Tags -->
+        <activity
+            android:name="it.feio.android.omninotes.TagActivity"
+            android:label="@string/title_activity_tag" 
+            android:theme="@style/AppCompatDialogTheme">
+        </activity>
 
         <!-- AdMob -->
         <activity
@@ -173,12 +179,14 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        
-        <!-- Restore on reboot alarm service -->        
-        <service android:name="it.feio.android.omninotes.async.AlarmRestoreOnRebootService"></service>
-        
+
+        <!-- Restore on reboot alarm service -->
+        <service android:name="it.feio.android.omninotes.async.AlarmRestoreOnRebootService" >
+        </service>
+
         <!-- Data export and import service -->
-        <service android:name="it.feio.android.omninotes.async.DataBackupIntentService"></service>
+        <service android:name="it.feio.android.omninotes.async.DataBackupIntentService" >
+        </service>
 
         <!-- Widget -->
         <receiver

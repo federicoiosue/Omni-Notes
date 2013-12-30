@@ -32,11 +32,11 @@ import android.widget.ListView;
 public class NavigationDrawerAdapter extends BaseAdapter {
 
 	Context context;
-	String[] mTitle;
+	Object[] mTitle;
 	TypedArray mIcon;
 	LayoutInflater inflater;
 
-	public NavigationDrawerAdapter(Context context, String[] title, TypedArray icon) {
+	public NavigationDrawerAdapter(Context context, Object[] title, TypedArray icon) {
 		this.context = context;
 		this.mTitle = title;
 		this.mIcon = icon;
@@ -73,15 +73,18 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		imgIcon = (ImageView) itemView.findViewById(R.id.icon);
 
 		// Set the results into TextViews	
-		txtTitle.setText(mTitle[position]);
+		txtTitle.setText(mTitle[position].toString());
 		
 		// Check the selected one
 		int selected = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PREF_NAVIGATION, "0"));
 		if (convertView != null && checked || position == selected)
 			txtTitle.setTextColor(context.getResources().getColor(R.color.drawer_text_selected));
 
-		// Set the results into ImageView
-		imgIcon.setImageResource(mIcon.getResourceId(position, 0));
+		// Set the results into ImageView checking if an icon is present before
+		if (mIcon != null && mIcon.length() >= position) {
+			int imgRes = mIcon.getResourceId(position, 0);
+			imgIcon.setImageResource(imgRes);
+		}
 
 		return itemView;
 	}

@@ -61,25 +61,39 @@
         android:title="@string/unarchive"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_tag"
+        android:icon="@drawable/ic_action_labels"
+        android:orderInCategory="390"
+        app:showAsAction="ifRoom"
+        android:title="@string/tag"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_action_discard"
-        android:orderInCategory="400"
+        android:orderInCategory="450"
         app:showAsAction="ifRoom"
         android:title="@string/delete"
         android:visible="false"/>
     <item
         android:id="@+id/menu_discard_changes"
         android:icon="@drawable/ic_action_undo"
-        android:orderInCategory="450"
+        android:orderInCategory="500"
         app:showAsAction="ifRoom"
         android:title="@string/discard_changes"
         android:visible="false"/>
     <item
         android:id="@+id/menu_sort"
         android:icon="@drawable/ic_action_sort_by_size"
-        android:orderInCategory="500"
+        android:orderInCategory="600"
         app:showAsAction="always"
         android:title="@string/sort"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_add_tag"
+        android:icon="@drawable/ic_action_new_label"
+        android:orderInCategory="700"
+        app:showAsAction="always"
+        android:title="@string/add_tag"
         android:visible="false"/>
     <item
         android:id="@+id/menu_settings"

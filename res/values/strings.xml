@@ -92,6 +92,17 @@
     <string name="data_import_completed">Data import completed</string>
     <string name="click_to_refresh_application">Click to refresh application</string>
     <string name="backup_existing">Backup existing, it\'ll be overwrited</string>
+    <string name="tags">Tags</string>
+    <string name="edit_tag">Edit Tag</string>
+    <string name="add_tag">Add Tag</string>
+    <string name="tag_title">Title</string>
+    <string name="tag_description">Description</string>
+    <string name="tag_color">Color</string>
+    <string name="tag_saved">Tag saved</string>
+    <string name="tag_deleted">Tag deleted</string>
+    <string name="delete_this_tag">Delete this tag</string>
+    <string name="tag">Tag</string>
+    
 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -130,5 +141,7 @@
     <string name="follow_author">Who is the developer?</string>
     <string name="click_to_support">Click the banner to support development</string>
     <string name="title_activity_intent_receiver">IntentReceiverActivity</string>
+    <string name="title_activity_tag">TagActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

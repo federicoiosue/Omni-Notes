@@ -22,6 +22,7 @@ import java.util.List;
 
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.AssetUtils;
 import it.feio.android.omninotes.utils.Constants;
 import android.content.ContentValues;
@@ -40,7 +41,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Database name
 	private static final String DATABASE_NAME = Constants.DATABASE_NAME;
 	// Database version aligned if possible to software version
-	private static final int DATABASE_VERSION = 394;
+	private static final int DATABASE_VERSION = 410;
 	// Sql query file directory
     private static final String SQL_DIR = "sql" ;
 	// Notes table name
@@ -55,13 +56,23 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String KEY_ALARM = "alarm";
 	private static final String KEY_LATITUDE = "latitude";
 	private static final String KEY_LONGITUDE = "longitude";
+	private static final String KEY_TAG = "tag";
 	// Attachments table name
 	private static final String TABLE_ATTACHMENTS = "attachments";
 	// Attachments table columns
 	private static final String KEY_ATTACHMENT_ID = "id"; 
 	private static final String KEY_ATTACHMENT_URI = "uri"; 
 	private static final String KEY_ATTACHMENT_MIME_TYPE = "mime_type"; 
-	private static final String KEY_ATTACHMENT_NOTE_ID = "note_id"; 
+	private static final String KEY_ATTACHMENT_NOTE_ID = "note_id"; 	
+
+	// Tags table name
+	private static final String TABLE_TAGS = "tags";
+	// Tags table columns
+	private static final String KEY_TAG_ID = "id"; 
+	private static final String KEY_TAG_TITLE = "title"; 
+	private static final String KEY_TAG_DESCRIPTION = "description"; 
+	private static final String KEY_TAG_COLOR = "color"; 
+	
 	// Queries    
     private static final String CREATE_QUERY = "create.sql";
     private static final String UPGRADE_QUERY_PREFIX = "upgrade-";    
@@ -253,10 +264,12 @@ public class DbHelper extends SQLiteOpenHelper {
 		boolean notes = "0".equals(navigation);
 		boolean archived = "1".equals(navigation);
 		boolean reminders = "2".equals(navigation);
+		boolean tag = !notes && ! archived && !reminders;		
 		if (checkNavigation) {
 			whereCondition = notes ? " WHERE " + KEY_ARCHIVED + " != 1 " : whereCondition;			
 			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 " : whereCondition;
 			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 " : whereCondition;
+			whereCondition = tag ? " WHERE " + KEY_TAG + " = " + navigation : whereCondition;
 		}
 		
 
@@ -437,6 +450,82 @@ public class DbHelper extends SQLiteOpenHelper {
 			} while (cursor.moveToNext());
 		}
 		return attachmentsList;		
+	}
+	
+
+	/**
+	 * Retrieves tags list from database
+	 * @return List of tags
+	 */
+	public ArrayList<Tag> getTags() {		
+		ArrayList<Tag> tagsList = new ArrayList<Tag>();
+		String sql = "SELECT " 
+						+ KEY_TAG_ID + "," 
+						+ KEY_TAG_TITLE + ","
+						+ KEY_TAG_DESCRIPTION  + ","
+						+ KEY_TAG_COLOR
+					+ " FROM " + TABLE_TAGS;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+
+		// Looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				tagsList.add(new Tag(Integer.valueOf(cursor.getInt(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
+			} while (cursor.moveToNext());
+		}
+		return tagsList;		
+	}
+
+	
+	/**
+	 * Updates or insert a new a tag
+	 * @param tag Tag to be updated or inserted
+	 * @return Rows affected or new inserted tag id
+	 */
+	public long updateTag(Tag tag) {
+
+		long res;
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_TAG_TITLE, tag.getTitle());
+		values.put(KEY_TAG_DESCRIPTION, tag.getDescription());
+		values.put(KEY_TAG_COLOR, tag.getColor());
+
+		// Updating row
+		if (tag.getId() != null) {
+			values.put(KEY_TAG_ID, tag.getId());
+			res = db.update(TABLE_TAGS, values, KEY_ID + " = ?",
+					new String[] { String.valueOf(tag.getId()) });
+			Log.d(Constants.TAG, "Updated tag titled '" + tag.getTitle() + "'");
+		// Inserting new tag
+		} else {
+			res = db.insert(TABLE_TAGS, null, values);
+			Log.d(Constants.TAG, "Saved new tag titled '" + tag.getTitle()
+					+ "' with id: " + res);
+		}
+		// Returning result
+		return res;
+	}
+	
+	
+	/**
+	 * Deletion of  a tag
+	 * @param tag Tag to be deleted
+	 * @return Number 1 if tag's record has been deleted, 0 otherwise
+	 */
+	public long deleteTag(Tag tag) {		
+		long deleted;
+		
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		// Delete tag
+		deleted= db.delete(TABLE_TAGS, KEY_TAG_ID + " = ?",
+				new String[] { String.valueOf(tag.getId()) });
+		
+		db.close();
+		return deleted;
 	}
 
 

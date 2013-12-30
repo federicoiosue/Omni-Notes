@@ -16,7 +16,9 @@
 package it.feio.android.omninotes;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +37,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.R;
@@ -51,7 +54,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
@@ -63,6 +65,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
@@ -461,6 +465,7 @@ public class DetailActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_attachment).setVisible(true);
+		menu.findItem(R.id.menu_tag).setVisible(true);
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		menu.findItem(R.id.menu_discard_changes).setVisible(true);
 
@@ -503,6 +508,9 @@ public class DetailActivity extends BaseActivity {
 		case R.id.menu_attachment:
 			this.attachmentDialog = showAttachmentDialog();
 			break;
+		case R.id.menu_tag:
+			tagNote();
+			break;
 		case R.id.menu_delete:
 			deleteNote();
 			break;
@@ -511,6 +519,42 @@ public class DetailActivity extends BaseActivity {
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void tagNote() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+		
+		// Inflate layout
+		LayoutInflater inflater = mActivity.getLayoutInflater();
+		View v = inflater.inflate(R.layout.export_dialog_layout, null);
+		alertDialogBuilder.setView(v);
+
+		// Creates dialog to choose backup name
+		alertDialogBuilder
+				.setTitle(R.string.data_export_message)
+				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int id) {
+						// An IntentService will be launched to accomplish the export task
+						Intent service = new Intent(activity, DataBackupIntentService.class);
+						service.setAction(Constants.ACTION_DATA_EXPORT);
+						service.putExtra(Constants.INTENT_BACKUP_NAME, fileNameEditText.getText().toString());
+						activity.startService(service);
+					}
+				}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+		return false;
+	}
 	}
 
 	private AlertDialog showAttachmentDialog() {
