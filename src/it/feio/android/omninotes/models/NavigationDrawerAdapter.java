@@ -15,13 +15,17 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
+import java.util.Arrays;
+
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
 
 import com.neopixl.pixlui.components.textview.TextView;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +35,13 @@ import android.widget.ListView;
 
 public class NavigationDrawerAdapter extends BaseAdapter {
 
-	Context context;
-	Object[] mTitle;
-	TypedArray mIcon;
-	LayoutInflater inflater;
+	private Context mContext;
+	private Object[] mTitle;
+	private TypedArray mIcon;
+	private LayoutInflater inflater;
 
 	public NavigationDrawerAdapter(Context context, Object[] title, TypedArray icon) {
-		this.context = context;
+		this.mContext = context;
 		this.mTitle = title;
 		this.mIcon = icon;
 	}
@@ -62,9 +66,8 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		TextView txtTitle;
 		ImageView imgIcon;
 
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View itemView = inflater.inflate(R.layout.drawer_list_item, parent, false);
-		boolean checked = ((ListView)parent).isItemChecked(position);
 
 		// Locate the TextViews in drawer_list_item.xml
 		txtTitle = (TextView) itemView.findViewById(R.id.title);
@@ -75,10 +78,11 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		// Set the results into TextViews	
 		txtTitle.setText(mTitle[position].toString());
 		
-		// Check the selected one
-		int selected = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(Constants.PREF_NAVIGATION, "0"));
-		if (convertView != null && checked || position == selected)
-			txtTitle.setTextColor(context.getResources().getColor(R.color.drawer_text_selected));
+		if (isChecked(parent, position)) {
+			txtTitle.setTextColor(mContext.getResources().getColor(
+					R.color.drawer_text_selected));
+			Log.v(Constants.TAG, "highlight this!");
+		}
 
 		// Set the results into ImageView checking if an icon is present before
 		if (mIcon != null && mIcon.length() >= position) {
@@ -87,6 +91,48 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		}
 
 		return itemView;
+	}
+
+	
+	private boolean isChecked(ViewGroup parent, int position) {
+
+//		boolean checked = ((ListView)parent).isItemChecked(position);
+//		
+//		if (checked)
+//			return true;		
+		
+		// Getting actual navigation selection
+		String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
+		String navigation = PreferenceManager.getDefaultSharedPreferences(mContext).getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		
+		// Finding selected item from standard navigation items or tags
+		String navigationLocalized = "";	
+		int index = Arrays.asList(navigationListCodes).indexOf(navigation);
+		if (index != -1) {
+			navigationLocalized = mContext.getResources().getStringArray(R.array.navigation_list)[index];
+		} else {
+			DbHelper db = new DbHelper(mContext);
+			try {
+				navigationLocalized = db.getTag(Integer.parseInt(navigation)).getName();
+			} catch (NullPointerException e) {}
+		}
+		
+		// Check the selected one
+		Object itemSelected = mTitle[position];
+		String title;
+		if (itemSelected.getClass().isAssignableFrom(String.class)) {
+			title = itemSelected.toString();	
+		// Is a tag
+		} else {
+			title = ((Tag)itemSelected).getName();
+		}
+		
+		Log.v(Constants.TAG, "navigationLocalized: " + navigationLocalized + ", title: " + title);
+		if (navigationLocalized.equals(title)) {
+			return true;
+		} else {
+			return false;
+		}			
 	}
 
 }

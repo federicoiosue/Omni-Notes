@@ -2,48 +2,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:minWidth="240dp"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context=".TagActivity" >
 
     <EditText
         android:id="@+id/tag_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
         android:hint="@string/tag_title" />
 
     <EditText
         android:id="@+id/tag_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
         android:hint="@string/tag_description" />
 
     <EditText
         android:id="@+id/tag_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/tag_color" />
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:hint="@string/tag_color"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/delete"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/delete_this_tag" 
-        android:visibility="gone"/>
+        android:layout_marginTop="20dp"
+        android:text="@string/delete_this_tag"
+        android:visibility="gone" />
 
-    <Button
-        android:id="@+id/save"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        style="@style/Button.Dialog"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/save" />
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/discard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/discard_changes" />
+        <Button
+            android:id="@+id/save"
+            style="@style/Button.Dialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/save" />
+
+        <Button
+            android:id="@+id/discard"
+            style="@style/Button.Dialog"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/discard" />
+    </LinearLayout>
 
 </LinearLayout>

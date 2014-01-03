@@ -16,9 +16,7 @@
 package it.feio.android.omninotes;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -34,10 +32,10 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
-import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.R;
@@ -65,8 +63,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
@@ -126,6 +122,8 @@ public class DetailActivity extends BaseActivity {
 	private MediaPlayer mPlayer = null;
 	private boolean isRecording = false;
 	private View isPlayingView = null;
+	
+	private Tag selectedTag;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -395,7 +393,10 @@ public class DetailActivity extends BaseActivity {
 				currentLatitude = note.getLatitude();
 				currentLongitude = note.getLongitude();
 			}
-
+			if (note.getTag() != null) {
+				selectedTag = note.getTag();
+			}
+			
 			// If a new note is being edited the keyboard will not be shown on
 			// activity start
 			// getWindow().setSoftInputMode(
@@ -521,42 +522,32 @@ public class DetailActivity extends BaseActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	
 	private void tagNote() {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-		
-		// Inflate layout
-		LayoutInflater inflater = mActivity.getLayoutInflater();
-		View v = inflater.inflate(R.layout.export_dialog_layout, null);
-		alertDialogBuilder.setView(v);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 
-		// Creates dialog to choose backup name
-		alertDialogBuilder
-				.setTitle(R.string.data_export_message)
-				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
-					public void onClick(DialogInterface dialog, int id) {
-						// An IntentService will be launched to accomplish the export task
-						Intent service = new Intent(activity, DataBackupIntentService.class);
-						service.setAction(Constants.ACTION_DATA_EXPORT);
-						service.putExtra(Constants.INTENT_BACKUP_NAME, fileNameEditText.getText().toString());
-						activity.startService(service);
-					}
-				}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				});
+		final ArrayList<Tag> tags = db.getTags();
+		ArrayList<String> tagsNames = new ArrayList<String>();
+		for (Tag tag : tags) {
+			tagsNames.add(tag.getName());
+		}
+		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
+		alertDialogBuilder.setTitle(R.string.tag_as)
+							.setItems(array, new DialogInterface.OnClickListener() {										
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									selectedTag = tags.get(which);
+								}
+							});
 
 		// create alert dialog
 		AlertDialog alertDialog = alertDialogBuilder.create();
 
 		// show it
-		alertDialog.show();
-		return false;
-	}
+		alertDialog.show();		
 	}
 
+	
 	private AlertDialog showAttachmentDialog() {
 		AlertDialog.Builder attachmentDialog = new AlertDialog.Builder(this);
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -821,6 +812,7 @@ public class DetailActivity extends BaseActivity {
 		note.setAlarm(alarmDateTime != -1 ? String.valueOf(alarmDateTime) : null);
 		note.setLatitude(noteLatitude);
 		note.setLongitude(noteLongitude);
+		note.setTag(selectedTag);
 		note.setAttachmentsList(attachmentsList);
 		
 		// Checks if nothing is changed to avoid committing if possible (check)

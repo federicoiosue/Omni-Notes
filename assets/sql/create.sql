@@ -2,7 +2,7 @@
 CREATE
 	TABLE notes
 	(
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		note_id INTEGER PRIMARY KEY AUTOINCREMENT,
 		creation INTEGER,
 		last_modification INTEGER,
 		title TEXT,
@@ -11,7 +11,7 @@ CREATE
 		alarm INTEGER DEFAULT null,
 		latitude REAL,
 		longitude REAL,
-        tag INTEGER DEFAUL null
+        	tag_id INTEGER DEFAUL null
 	);
 	
 
@@ -20,7 +20,7 @@ CREATE
 CREATE
 	TABLE attachments
 	(
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		attachment_id INTEGER PRIMARY KEY AUTOINCREMENT,
 		uri TEXT,
 		mime_type TEXT,
 		note_id INTEGER
@@ -32,8 +32,8 @@ CREATE
 CREATE
 	TABLE tags
 	(
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		title TEXT,
-        description TEXT,
-        color TEXT
+		tag_id INTEGER PRIMARY KEY AUTOINCREMENT,
+		name TEXT,
+        	description TEXT,
+        	color TEXT
 	);

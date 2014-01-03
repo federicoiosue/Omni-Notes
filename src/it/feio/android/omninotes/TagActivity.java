@@ -2,7 +2,10 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,11 +22,15 @@ public class TagActivity extends BaseActivity {
 	Button deleteBtn;
 	Button saveBtn;
 	Button discardBtn;
+	private TagActivity mActivity;
+	private AlertDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tag);
+		
+		mActivity = this;
 
 		// Retrieving intent
 		tag = getIntent().getParcelableExtra(Constants.INTENT_TAG);
@@ -35,7 +42,7 @@ public class TagActivity extends BaseActivity {
 			Log.d(Constants.TAG, "Adding new tag");
 			tag = new Tag();
 		} else {
-			Log.d(Constants.TAG, "Editing tag " + tag.getTitle());
+			Log.d(Constants.TAG, "Editing tag " + tag.getName());
 			populateViews();
 		}
 	}
@@ -71,27 +78,62 @@ public class TagActivity extends BaseActivity {
 	}
 
 	private void populateViews() {
-		title.setText(tag.getTitle());
+		title.setText(tag.getName());
 		description.setText(tag.getDescription());
 		color.setText(tag.getColor());
 		deleteBtn.setVisibility(View.VISIBLE);
 	}
 
 	private void saveTag() {
-		tag.setTitle(title.getText().toString());
+		tag.setName(title.getText().toString());
 		tag.setDescription(description.getText().toString());
 		tag.setColor(color.getText().toString());
 		db.updateTag(tag);
 		showToast(getString(R.string.tag_saved), Toast.LENGTH_SHORT);
-		onBackPressed();
+		goHome();
 	}
 
 	private void deleteTag() {
-		db.deleteTag(tag);
-		onBackPressed();
+		
+		// Retrieving how many notes are tagged with tag to be deleted
+		int count = db.getTaggedCount(tag);
+		String msg = getString(R.string.delete_tag_confirmation).replace("$1$", String.valueOf(count));
+				
+		// Showing dialog
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		alertDialogBuilder.setMessage(msg)
+				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						// Changes navigation if actually are shown notes associated with this tag
+						String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
+						String navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
+						if (String.valueOf(tag.getId()).equals(navigation))
+							prefs.edit().putString(Constants.PREF_NAVIGATION, navNotes).commit();
+						// Removes tag and edit notes associated with it
+						db.deleteTag(tag);
+						// Navigate back to notes list
+						goHome();
+					}
+				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.dismiss();
+					}
+				});
+		dialog = alertDialogBuilder.create();
+		dialog.show();
 	}
 
 	private void discard() {
 		onBackPressed();
+	}
+	
+
+	public boolean goHome() {
+		NavUtils.navigateUpFromSameTask(this);
+		return true;
 	}
 }

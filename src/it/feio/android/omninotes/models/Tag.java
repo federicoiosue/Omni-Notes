@@ -20,13 +20,13 @@ import android.os.Parcelable;
 
 public class Tag implements Parcelable {
 	private Integer id;
-	private String title;
+	private String name;
 	private String description;
 	private String color;
 
 	private Tag(Parcel in) {
 		setId(in.readInt());
-		setTitle(in.readString());
+		setName(in.readString());
 		setDescription(in.readString());
 		setColor(in.readString());
 	}
@@ -39,7 +39,7 @@ public class Tag implements Parcelable {
 	public Tag(Integer id, String title, String description, String color) {
 		super();
 		this.id = id;
-		this.title = title;
+		this.name = title;
 		this.description = description;
 		this.color = color;
 	}
@@ -55,12 +55,12 @@ public class Tag implements Parcelable {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String title) {
+		this.name = title;
 	}
 
 	public String getDescription() {
@@ -87,14 +87,14 @@ public class Tag implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
 		parcel.writeInt(getId());
-		parcel.writeString(getTitle());		
+		parcel.writeString(getName());		
 		parcel.writeString(getDescription());
 		parcel.writeString(getColor());
 	}
 	
 	@Override
 	public String toString() {
-		return getTitle();
+		return getName();
 	}
 
 	/*

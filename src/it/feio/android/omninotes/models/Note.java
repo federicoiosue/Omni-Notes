@@ -35,6 +35,7 @@ public class Note implements Parcelable {
 	private String alarm;
 	private Double latitude;
 	private Double longitude;
+	private Tag tag;
 	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private ArrayList<Attachment> attachmentsListOld = new ArrayList<Attachment>();
 
@@ -43,7 +44,7 @@ public class Note implements Parcelable {
 		this.archived = false;
 	}
 
-	public Note(Long creation, Long lastModification, String title, String content, Boolean archived, String alarm) {
+	public Note(Long creation, Long lastModification, String title, String content, Boolean archived, String alarm, Tag tag) {
 		super();
 		this.title = title;
 		this.content = content;
@@ -51,10 +52,11 @@ public class Note implements Parcelable {
 		this.lastModification = lastModification;
 		this.archived = archived;
 		this.alarm = alarm;
+		setTag(tag);
 	}
 
 	public Note(int _id, Long creation, Long lastModification, String title, String content, Boolean archived,
-			String alarm) {
+			String alarm, Tag tag) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -63,10 +65,11 @@ public class Note implements Parcelable {
 		this.lastModification = lastModification;
 		this.archived = archived;
 		this.alarm = alarm;
+		setTag(tag);
 	}
 
 	public Note(Long creation, Long lastModification, String title, String content, Integer archived, String alarm,
-			String latitude, String longitude) {
+			String latitude, String longitude, Tag tag) {
 		super();
 		this.title = title;
 		this.content = content;
@@ -76,10 +79,11 @@ public class Note implements Parcelable {
 		this.alarm = alarm;
 		setLatitude(latitude);
 		setLongitude(longitude);
+		setTag(tag);
 	}
 
 	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived,
-			String alarm, String latitude, String longitude) {
+			String alarm, String latitude, String longitude, Tag tag) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -90,6 +94,7 @@ public class Note implements Parcelable {
 		this.alarm = alarm;
 		setLatitude(latitude);
 		setLongitude(longitude);
+		setTag(tag);
 	}
 
 	public Note(Note note) {
@@ -103,6 +108,7 @@ public class Note implements Parcelable {
 		setAlarm(note.getAlarm());
 		setLatitude(note.getLatitude());
 		setLongitude(note.getLongitude());
+		setTag(note.getTag());
 		ArrayList<Attachment> list = new ArrayList<Attachment>();
 		for (Attachment mAttachment : note.getAttachmentsList()) {
 			list.add(mAttachment);
@@ -120,6 +126,7 @@ public class Note implements Parcelable {
 		setAlarm(in.readString());
 		setLatitude(in.readString());
 		setLongitude(in.readString());
+		setTag((Tag)in.readParcelable(Tag.class.getClassLoader()));
 		in.readList(attachmentsList, Attachment.class.getClassLoader());
 	}
 
@@ -253,6 +260,14 @@ public class Note implements Parcelable {
 		}
 	}
 
+	public Tag getTag() {
+		return tag;
+	}
+
+	public void setTag(Tag tag) {
+		this.tag = tag;
+	}
+
 	public ArrayList<Attachment> getAttachmentsList() {
 		return attachmentsList;
 	}
@@ -297,8 +312,8 @@ public class Note implements Parcelable {
 //			
 //		}
 
-		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), getAlarm(), getLatitude(), getLongitude()};
-		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.getAlarm(), note.getLatitude(), note.getLongitude()};
+		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), getAlarm(), getLatitude(), getLongitude(), getTag()};
+		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.getAlarm(), note.getLatitude(), note.getLongitude(), note.getTag()};
 		if (EqualityChecker.check(a, b)) {
 			res = true;		
 		}
@@ -334,6 +349,7 @@ public class Note implements Parcelable {
 		parcel.writeString(getAlarm());
 		parcel.writeString(String.valueOf(getLatitude()));
 		parcel.writeString(String.valueOf(getLongitude()));
+		parcel.writeParcelable(getTag(), 0);
 		parcel.writeList(getAttachmentsList());
 	}
 

@@ -16,6 +16,7 @@
 package it.feio.android.omninotes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
@@ -97,7 +98,18 @@ public class ListActivity extends BaseActivity {
 //		initNavigationDrawer();
 		initListView();
 
-		CharSequence title = getResources().getStringArray(R.array.navigation_list)[Integer.parseInt(prefs.getString(Constants.PREF_NAVIGATION, "0"))];
+		String[] navigationList = getResources().getStringArray(R.array.navigation_list);
+		String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
+		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		int index = Arrays.asList(navigationListCodes).indexOf(navigation);
+		CharSequence title;
+		// If is a traditional navigation item
+		if (index >= 0 && index < navigationListCodes.length) {
+			title = navigationListCodes[index];
+		} else {
+			ArrayList<Tag> tags = db.getTags();
+			title =  tags.contains(navigation)? tags.get(tags.indexOf(navigation)).getName() : navigationListCodes[0];
+		}
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
 	}
 
@@ -148,7 +160,7 @@ public class ListActivity extends BaseActivity {
 	protected void onResume() {
 		Log.v(Constants.TAG, "OnResume");
 		// The initializazion actions are performed only after onNewIntent is called first time
-		if (getIntent().getAction() != null) {
+		if ( getIntent().getAction() == null || Intent.ACTION_MAIN.equals(getIntent().getAction()) ) {
 			initNotesList(getIntent());
 			initNavigationDrawer();
 		}
@@ -357,11 +369,12 @@ public class ListActivity extends BaseActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				String navigation = mDrawerList.getAdapter().getItem(position).toString();
+				String navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
 				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
-				selectNavigationItem(position);
+				selectNavigationItem(mDrawerList, position);
 				prefs.edit().putString(Constants.PREF_NAVIGATION, navigation).commit();
 				mDrawerList.setItemChecked(position, true);
+				mDrawerTagList.setItemChecked(position, false);
 				initNotesList(getIntent());
 			}
 		});
@@ -390,11 +403,13 @@ public class ListActivity extends BaseActivity {
 					Object item = mDrawerTagList.getAdapter().getItem(position);
 					// Ensuring that clicked item is not the ListView header
 					if (item != null) {
-						String navigation = mDrawerTagList.getAdapter().getItem(position).toString();
+						Tag tag = (Tag)item;						
+						String navigation = tag.getName();
 						Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
-						selectNavigationItem(position);
-						prefs.edit().putString(Constants.PREF_NAVIGATION, String.valueOf(position)).commit();
-						mDrawerList.setItemChecked(position, true);
+						selectNavigationItem(mDrawerTagList, position);
+						prefs.edit().putString(Constants.PREF_NAVIGATION, String.valueOf(tag.getId())).commit();
+						mDrawerList.setItemChecked(position, false);
+						mDrawerTagList.setItemChecked(position, true);
 						initNotesList(getIntent());
 					}
 				}
@@ -412,6 +427,11 @@ public class ListActivity extends BaseActivity {
 					return true;
 				}
 			});
+		} else {
+			if (mDrawerTagList != null) {
+				mDrawerTagList.removeAllViewsInLayout();
+				mDrawerTagList = null;
+			}
 		}
 
 //		 Enable ActionBar app icon to behave as action to toggle nav drawer
@@ -474,7 +494,8 @@ public class ListActivity extends BaseActivity {
 		if (mDrawerLayout != null) {
 			boolean drawerOpen = mDrawerLayout.isDrawerOpen(GravityCompat.START);
 			// If archived or reminders notes are shown the "add new note" item must be hidden
-			boolean showAdd = "0".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
+			String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
+			boolean showAdd = navNotes.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes));
 	
 			menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
 			menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
@@ -643,7 +664,7 @@ public class ListActivity extends BaseActivity {
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-		if (intent.getAction() == null || Intent.ACTION_MAIN.equals(intent.getAction())) {
+		if (intent.getAction() == null) {
 			intent.setAction(Constants.ACTION_START_APP);
 		}
 		setIntent(intent);
@@ -718,11 +739,26 @@ public class ListActivity extends BaseActivity {
 	}
 
 
-	/** Swaps fragments in the main content view */
-	private void selectNavigationItem(int position) {
+	/** Swaps fragments in the main content view 
+	 * @param list */
+	private void selectNavigationItem(ListView list, int position) {
+		// Reset to NON-checked alll items from navDrawer before selecting the right one
+//		for (int i = 0; i < mDrawerList.getCount(); i++) {
+//			mDrawerList.setItemChecked(i, false);
+//		}
+//		for (int i = 0; i < mDrawerTagList.getCount(); i++) {
+//			mDrawerList.setItemChecked(i, false);
+//		}
 		// Highlight the selected item, update the title, and close the drawer
-		mDrawerList.setItemChecked(position, true);
-		mTitle = mNavigationArray[position];
+//		list.setItemChecked(position, true);
+//		mTitle = mNavigationArray[position];
+		Object itemSelected = list.getItemAtPosition(position);
+		if (itemSelected.getClass().isAssignableFrom(String.class)) {
+			mTitle = (CharSequence)itemSelected;	
+		// Is a tag
+		} else {
+			mTitle = ((Tag)itemSelected).getName();
+		}
 		mDrawerLayout.closeDrawer(GravityCompat.START);
 	}
 
