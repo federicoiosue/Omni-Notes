@@ -163,6 +163,13 @@
                 android:value=".ListActivity" />
         </activity>
 
+        <!-- About -->
+        <activity
+            android:name="it.feio.android.omninotes.AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/Theme.AppCompat.Dialog.About" >
+        </activity>
+
         <!-- AdMob -->
         <activity
             android:name="com.google.ads.AdActivity"

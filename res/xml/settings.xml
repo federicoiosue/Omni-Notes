@@ -69,7 +69,7 @@
             android:title="@string/settings_enable_info" >
         </CheckBoxPreference>
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="settings_enable_editor_links"
             android:title="@string/settings_enable_editor_links" >
         </CheckBoxPreference>
@@ -102,9 +102,9 @@
         <Preference
             android:key="settings_about"
             android:title="@string/settings_about" >
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/dev_site" />
+<!--             <intent -->
+<!--                 android:action="android.intent.action.VIEW" -->
+<!--                 android:data="@string/dev_site" /> -->
         </Preference>
     </PreferenceCategory>
 

@@ -252,16 +252,16 @@ public class SettingsActivity extends PreferenceActivity {
 
 
 		// Popup About
-//		Preference about = findPreference("settings_about");
-//		about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-//
-//			@Override
-//			public boolean onPreferenceClick(Preference arg0) {
-//				Intent aboutIntent = new Intent(activity, AboutActivity.class);
-//				startActivity(aboutIntent);
-//				return false;
-//			}
-//		});
+		Preference about = findPreference("settings_about");
+		about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
+				Intent aboutIntent = new Intent(activity, AboutActivity.class);
+				startActivity(aboutIntent);
+				return false;
+			}
+		});
 		
 		// Languages 
 //		Preference lang = findPreference("settings_language");
