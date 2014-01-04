@@ -81,6 +81,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 /**
@@ -123,6 +124,7 @@ public class DetailActivity extends BaseActivity {
 	private boolean isRecording = false;
 	private View isPlayingView = null;
 	
+	private Tag candidateSelectedTag;
 	private Tag selectedTag;
 
 	@Override
@@ -523,20 +525,54 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	
+	/**
+	 * Tags note choosing from a list of previously created tags
+	 */
 	private void tagNote() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 
+		// Retrieves all available tags
 		final ArrayList<Tag> tags = db.getTags();
+		
+		// If there is no tag a message will be shown
+		if (tags.size() == 0) {
+			showToast(getString(R.string.no_tags_created), Toast.LENGTH_SHORT);
+			return;
+		}
+		
+		// Otherwise a single choice dialog will be displayed
 		ArrayList<String> tagsNames = new ArrayList<String>();
+		int selectedIndex = 0;
 		for (Tag tag : tags) {
 			tagsNames.add(tag.getName());
+			if (selectedTag != null && tag.getId() == selectedTag.getId()) {
+				selectedIndex = tagsNames.size() - 1;
+			}
 		}
+		candidateSelectedTag = tags.get(0);
 		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
 		alertDialogBuilder.setTitle(R.string.tag_as)
-							.setItems(array, new DialogInterface.OnClickListener() {										
+							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {										
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									selectedTag = tags.get(which);
+									candidateSelectedTag = tags.get(which);
+								}
+							}).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									selectedTag = candidateSelectedTag;
+									candidateSelectedTag = null;
+								}
+							}).setNeutralButton(R.string.untag, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									selectedTag = null;
+									candidateSelectedTag = null;
+								}
+							}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									candidateSelectedTag = null;
 								}
 							});
 

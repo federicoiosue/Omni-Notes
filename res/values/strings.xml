@@ -106,6 +106,8 @@
     <string name="title_activity_tag">Edit tag</string>
     <string name="delete_tag_confirmation">This tag is applied to $1$ note/s.\nConfirm tag deletion and notes un-tagging?</string>
     <string name="discard">Discard</string>
+    <string name="untag">Un-tag</string>
+    <string name="no_tags_created">No tags have been created yet</string>
     
 
     <!-- Settings -->
