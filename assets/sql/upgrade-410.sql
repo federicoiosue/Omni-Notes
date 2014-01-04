@@ -8,7 +8,9 @@ CREATE
         	color TEXT
 	);
 
-/* Serie of commands to rename id columns of various tables to avoid ambiguity joining them */
+/* 
+* Serie of commands to rename id columns of various tables to avoid ambiguity joining them 
+*/
 
 -- Backup table
 ALTER TABLE notes RENAME TO notes_tmp;

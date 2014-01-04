@@ -131,7 +131,7 @@ public class DbHelper extends SQLiteOpenHelper {
         	try {
         		db.execSQL(sqlInstruction);
         	} catch (Exception e) {
-        		Log.e(Constants.TAG, "Error creating table: " + sqlInstruction);
+        		Log.e(Constants.TAG, "Error executing command: " + sqlInstruction);
         	}
         }
     }
