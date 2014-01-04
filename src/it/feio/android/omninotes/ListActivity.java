@@ -34,7 +34,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -104,13 +103,16 @@ public class ListActivity extends BaseActivity {
 		String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
 		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 		int index = Arrays.asList(navigationListCodes).indexOf(navigation);
-		CharSequence title;
+		CharSequence title = "";
 		// If is a traditional navigation item
 		if (index >= 0 && index < navigationListCodes.length) {
 			title = navigationListCodes[index];
 		} else {
 			ArrayList<Tag> tags = db.getTags();
-			title =  tags.contains(navigation)? tags.get(tags.indexOf(navigation)).getName() : navigationListCodes[0];
+			for (Tag tag : tags) {
+				if ( navigation.equals(String.valueOf(tag.getId())) )
+						title = tag.getName();						
+			}
 		}
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
 	}
@@ -163,7 +165,10 @@ public class ListActivity extends BaseActivity {
 		super.onResume();
 		Log.v(Constants.TAG, "OnResume");
 		// The initializazion actions are performed only after onNewIntent is called first time
-		if ( getIntent().getAction() == null || Intent.ACTION_MAIN.equals(getIntent().getAction()) ) {
+//		if ( getIntent().getAction() == null 
+//				|| Intent.ACTION_MAIN.equals(getIntent().getAction())
+//				|| Intent.ACTION_CONFIGURATION_CHANGED.equals(getIntent().getAction())) {
+			if (getIntent().getAction() != null) {
 			initNotesList(getIntent());
 			initNavigationDrawer();
 		}
