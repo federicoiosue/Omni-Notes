@@ -43,11 +43,10 @@ public class BaseActivity extends ActionBarActivity {
 
 	private final boolean TEST = true;
 	
-	protected DbHelper db;
-	
+	protected DbHelper db;	
 	protected Activity mActivity;
-
 	protected Tracker tracker;
+	
 	protected SharedPreferences prefs;
 	
 	// Location variables

@@ -563,7 +563,7 @@ public class DetailActivity extends BaseActivity {
 									selectedTag = candidateSelectedTag;
 									candidateSelectedTag = null;
 								}
-							}).setNeutralButton(R.string.untag, new DialogInterface.OnClickListener() {
+							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
 									selectedTag = null;

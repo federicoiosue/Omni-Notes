@@ -40,6 +40,7 @@
         android:id="@+id/delete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+            style="@style/Button.Dialog"
         android:layout_marginTop="20dp"
         android:text="@string/delete_this_tag"
         android:visibility="gone" />

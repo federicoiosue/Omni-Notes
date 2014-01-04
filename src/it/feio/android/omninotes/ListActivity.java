@@ -34,6 +34,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -81,6 +82,7 @@ public class ListActivity extends BaseActivity {
 	private ListView mDrawerList;
 	private ListView mDrawerTagList;
 	private View tagListHeader;
+	private Tag candidateSelectedTag;
 
 
 	@Override
@@ -158,13 +160,13 @@ public class ListActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
+		super.onResume();
 		Log.v(Constants.TAG, "OnResume");
 		// The initializazion actions are performed only after onNewIntent is called first time
 		if ( getIntent().getAction() == null || Intent.ACTION_MAIN.equals(getIntent().getAction()) ) {
 			initNotesList(getIntent());
 			initNavigationDrawer();
 		}
-		super.onResume();
 	}
 	
 	@Override
@@ -220,9 +222,10 @@ public class ListActivity extends BaseActivity {
 			// Here you can perform updates to the CAB due to
 			// an invalidate() request
 			Log.d(Constants.TAG, "CAB preparation");
-			boolean archived = "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
+			boolean archived = getResources().getStringArray(R.array.navigation_list_codes)[1].equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
 			menu.findItem(R.id.menu_archive).setVisible(!archived);
 			menu.findItem(R.id.menu_unarchive).setVisible(archived);
+			menu.findItem(R.id.menu_tag).setVisible(true);
 			menu.findItem(R.id.menu_delete).setVisible(true);
 			menu.findItem(R.id.menu_settings).setVisible(false);
 			return true;
@@ -242,6 +245,9 @@ public class ListActivity extends BaseActivity {
 				case R.id.menu_unarchive:
 					archiveSelectedNotes(false);
 					mode.finish(); // Action picked, so close the CAB
+					return true;
+				case R.id.menu_tag:
+					tagSelectedNotes();
 					return true;
 				default:
 					return false;
@@ -606,14 +612,11 @@ public class ListActivity extends BaseActivity {
 			case 0:
 				mActionMode.setTitle(null);
 				break;
-			case 1:
-				mActionMode.setTitle(getResources().getString(R.string.one_item_selected));
-				break;
 			default:
-				mActionMode.setTitle(selectedNotes.size() + " "
-						+ getResources().getString(R.string.more_items_selected));
+				mActionMode.setTitle(String.valueOf(selectedNotes.size()));
 				break;
 		}		
+		
 	}
 
 
@@ -858,6 +861,94 @@ public class ListActivity extends BaseActivity {
 //		if (prefs.getBoolean("settings_enable_animations", true)) {
 //			overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
 //		}
+	}
+	
+	
+	/**
+	 * Tag selected notes
+	 */
+	private void tagSelectedNotes() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+
+		// Retrieves all available tags
+		final ArrayList<Tag> tags = db.getTags();
+		
+		// If there is no tag a message will be shown
+		if (tags.size() == 0) {
+			showToast(getString(R.string.no_tags_created), Toast.LENGTH_SHORT);
+			return;
+		}
+		
+		// Otherwise a single choice dialog will be displayed
+		ArrayList<String> tagsNames = new ArrayList<String>();
+		int selectedIndex = 0;
+		for (Tag tag : tags) {
+			tagsNames.add(tag.getName());
+		}
+		candidateSelectedTag = tags.get(0);
+		
+		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
+		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		
+		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
+		alertDialogBuilder.setTitle(R.string.tag_as)
+							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {										
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									candidateSelectedTag = tags.get(which);
+								}
+							}).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									for (Note note : selectedNotes) {
+										// Update adapter content if actual navigation is the tag
+										// associated with actually cycled note
+										if (!Arrays.asList(navigationListCodes).contains(navigation)
+												&& !navigation.equals(candidateSelectedTag.getId())) {
+											mAdapter.remove(note);
+										}
+										note.setTag(candidateSelectedTag);
+										db.updateNote(note);
+									}
+									// Refresh view
+									((ListView) findViewById(R.id.notesList)).invalidateViews();
+									// Advice to user
+									showToast(getResources().getText(R.string.notes_tagged_as) + " '" + candidateSelectedTag.getName() + "'", Toast.LENGTH_SHORT);
+									candidateSelectedTag = null;
+									mActionMode.finish(); // Action picked, so close the CAB
+								}
+							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									for (Note note : selectedNotes) {
+										// Update adapter content if actual navigation is the tag
+										// associated with actually cycled note										
+										if ( navigation.equals(String.valueOf(note.getTag().getId())) ) {
+											mAdapter.remove(note);
+										}
+										note.setTag(null);
+										db.updateNote(note);
+									}
+									candidateSelectedTag = null;
+									// Refresh view
+									((ListView) findViewById(R.id.notesList)).invalidateViews();
+									// Advice to user
+									showToast(getResources().getText(R.string.notes_tag_removed), Toast.LENGTH_SHORT);
+									mActionMode.finish(); // Action picked, so close the CAB
+								}
+							}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									candidateSelectedTag = null;
+									mActionMode.finish(); // Action picked, so close the CAB
+								}
+							});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();		
 	}
 
 
