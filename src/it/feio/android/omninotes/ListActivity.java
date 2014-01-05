@@ -503,21 +503,26 @@ public class ListActivity extends BaseActivity {
 
 		// Setting the conditions to show determinate items in CAB
 		// If the nav drawer is open, hide action items related to the content view
+		boolean drawerOpen;
 		if (mDrawerLayout != null) {
-			boolean drawerOpen = mDrawerLayout.isDrawerOpen(GravityCompat.START);
-			// If archived or reminders notes are shown the "add new note" item must be hidden
-			String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
-			boolean showAdd = navNotes.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes));
-	
-			menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-			menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
-			menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
-			menu.findItem(R.id.menu_add_tag).setVisible(drawerOpen);
-			menu.findItem(R.id.menu_settings).setVisible(true);
-
-			// Initialization of SearchView
-			initSearchView(menu);
+			drawerOpen = mDrawerLayout.isDrawerOpen(GravityCompat.START);
+		} else {
+			drawerOpen = false;
 		}
+		
+		// If archived or reminders notes are shown the "add new note" item must be hidden
+		String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
+		boolean showAdd = navNotes.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes));
+
+		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
+		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
+		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
+		menu.findItem(R.id.menu_add_tag).setVisible(drawerOpen);
+		menu.findItem(R.id.menu_settings).setVisible(true);
+
+		// Initialization of SearchView
+		initSearchView(menu);
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 	
