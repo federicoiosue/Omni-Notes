@@ -28,8 +28,8 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:contentDescription="@string/drawer_icon"
             android:paddingLeft="@dimen/horizontal_margin" />
 

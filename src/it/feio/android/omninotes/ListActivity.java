@@ -22,6 +22,7 @@ import java.util.List;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.NavigationDrawerAdapter;
+import it.feio.android.omninotes.models.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.models.Tag;
@@ -405,7 +406,7 @@ public class ListActivity extends BaseActivity {
 				mDrawerTagList.setHeaderDividersEnabled(true);
 			}
 			mDrawerTagList
-					.setAdapter(new NavigationDrawerAdapter(this, tags.toArray(), null));
+					.setAdapter(new NavDrawerTagAdapter(this, tags));
 			
 			// Sets click events
 			mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {

@@ -1,5 +1,8 @@
 package it.feio.android.omninotes;
 
+import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
+
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
 import android.app.AlertDialog;
@@ -18,7 +21,7 @@ public class TagActivity extends BaseActivity {
 	Tag tag;
 	EditText title;
 	EditText description;
-	EditText color;
+	ColorPicker picker;
 	Button deleteBtn;
 	Button saveBtn;
 	Button discardBtn;
@@ -50,7 +53,13 @@ public class TagActivity extends BaseActivity {
 	private void initViews() {
 		title = (EditText) findViewById(R.id.tag_title);
 		description = (EditText) findViewById(R.id.tag_description);
-		color = (EditText) findViewById(R.id.tag_color);
+		picker = (ColorPicker) findViewById(R.id.color_picker);
+		picker.setOnColorChangedListener(new OnColorChangedListener() {			
+			@Override
+			public void onColorChanged(int color) {
+				picker.setOldCenterColor(picker.getColor());
+			}
+		});
 
 		deleteBtn = (Button) findViewById(R.id.delete);
 		saveBtn = (Button) findViewById(R.id.save);
@@ -80,14 +89,19 @@ public class TagActivity extends BaseActivity {
 	private void populateViews() {
 		title.setText(tag.getName());
 		description.setText(tag.getDescription());
-		color.setText(tag.getColor());
+		// Reset picker to saved color
+		String color = tag.getColor();
+		if (color.length() > 0) {
+			picker.setColor(Integer.parseInt(color));
+			picker.setOldCenterColor(Integer.parseInt(color));
+		}
 		deleteBtn.setVisibility(View.VISIBLE);
 	}
 
 	private void saveTag() {
 		tag.setName(title.getText().toString());
 		tag.setDescription(description.getText().toString());
-		tag.setColor(color.getText().toString());
+		tag.setColor(String.valueOf(picker.getColor()));
 		db.updateTag(tag);
 		showToast(getString(R.string.tag_saved), Toast.LENGTH_SHORT);
 		goHome();
