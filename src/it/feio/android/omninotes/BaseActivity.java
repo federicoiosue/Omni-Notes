@@ -22,8 +22,11 @@ import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -33,10 +36,13 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class BaseActivity extends ActionBarActivity {
@@ -174,6 +180,41 @@ public class BaseActivity extends ActionBarActivity {
 		if (prefs.getBoolean("settings_enable_info", true)) {
 			Toast.makeText(getApplicationContext(), text, duration).show();
 		}
+	}
+	
+	
+	
+	/**
+	 * Method to validate security password to protect notes.
+	 * It uses an interface callback.
+	 * @param password
+	 * @param mPasswordValidator
+	 */
+	protected void requestPassword(final PasswordValidator mPasswordValidator) {
+		
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				this);
+
+		// Inflate layout
+		LayoutInflater inflater = getLayoutInflater();
+		final View v = inflater.inflate(R.layout.password_request_dialog_layout, null);
+		alertDialogBuilder.setView(v);
+
+		alertDialogBuilder.setMessage(
+				getString(R.string.insert_security_password))
+				.setPositiveButton(R.string.confirm,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								String oldPassword = prefs.getString(
+										Constants.PREF_PASSWORD, "");
+								String password = ((TextView)v.findViewById(R.id.password_request)).getText().toString();
+								boolean result = password.equals(oldPassword);
+								mPasswordValidator.onPasswordValidated(result);
+							}
+						});
+		AlertDialog dialog = alertDialogBuilder.create();
+		dialog.show();
 	}
 
 	/**

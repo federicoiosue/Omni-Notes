@@ -7,11 +7,13 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -58,6 +60,20 @@ public class TagActivity extends BaseActivity {
 			@Override
 			public void onColorChanged(int color) {
 				picker.setOldCenterColor(picker.getColor());
+			}
+		});
+		// Long click on color picker to remove color
+		picker.setOnLongClickListener(new OnLongClickListener() {			
+			@Override
+			public boolean onLongClick(View v) {
+				picker.setColor(Color.WHITE);
+				return true;
+			}
+		});
+		picker.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				picker.setColor(Color.WHITE);
 			}
 		});
 
