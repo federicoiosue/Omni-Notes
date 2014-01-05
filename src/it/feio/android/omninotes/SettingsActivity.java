@@ -179,6 +179,19 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 
 
+		// Set notes' protection password
+		Preference password = findPreference("settings_password");
+		password.setOnPreferenceClickListener(new OnPreferenceClickListener() {			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Intent passwordIntent = new Intent(activity, PasswordActivity.class);
+				startActivity(passwordIntent);
+				return false;
+			}
+		});
+		
+
+
 		// Changelog 
 		Preference changelog = findPreference("settings_changelog");
 		changelog.setOnPreferenceClickListener(new OnPreferenceClickListener() {

@@ -38,6 +38,12 @@
             android:title="@string/settings_max_video_size" 
             android:inputType="number" >
         </EditTextPreference>
+        
+        <Preference
+            android:key="settings_password"
+            android:title="@string/settings_password" >
+        </Preference>
+        
     </PreferenceCategory>
     <!-- <PreferenceCategory -->
     <!-- android:key="category_gestures" -->
