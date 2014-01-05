@@ -106,7 +106,7 @@ public class ListActivity extends BaseActivity {
 		CharSequence title = "";
 		// If is a traditional navigation item
 		if (index >= 0 && index < navigationListCodes.length) {
-			title = navigationListCodes[index];
+			title = navigationList[index];
 		} else {
 			ArrayList<Tag> tags = db.getTags();
 			for (Tag tag : tags) {
