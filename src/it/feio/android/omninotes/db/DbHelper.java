@@ -299,8 +299,8 @@ public class DbHelper extends SQLiteOpenHelper {
 										+ KEY_ALARM + "," 
 										+ KEY_LATITUDE + "," 
 										+ KEY_LONGITUDE + "," 
-										+ KEY_TAG + "," 
 										+ KEY_LOCKED + "," 
+										+ KEY_TAG + "," 
 										+ KEY_TAG_NAME + "," 
 										+ KEY_TAG_DESCRIPTION + "," 
 										+ KEY_TAG_COLOR 
@@ -346,7 +346,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				note.setLocked("1".equals(cursor.getString(9)));
 				
 				// Set tag
-				Tag tag = new Tag(cursor.getInt(9), cursor.getString(10), cursor.getString(11), cursor.getString(12));
+				Tag tag = new Tag(cursor.getInt(10), cursor.getString(11), cursor.getString(12), cursor.getString(13));
 				note.setTag(tag);
 				
 				// Add eventual attachments uri
@@ -618,6 +618,22 @@ public class DbHelper extends SQLiteOpenHelper {
 			count = cursor.getInt(0);
 		}
 		return count;		
+	}
+	
+
+	
+	/**
+	 * Unlocks all notes after security password removal
+	 * @return
+	 */
+	public int unlockAllNotes() {			
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put(KEY_LOCKED, "0");
+		
+		// Updating row
+		return db.update(TABLE_NOTES, values, null, new String[] {});		
 	}
 	
 	

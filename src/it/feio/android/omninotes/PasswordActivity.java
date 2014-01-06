@@ -2,6 +2,8 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +24,7 @@ public class PasswordActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_password);
-		oldPassword = prefs.getString(Constants.PREF_PASSWORD, "");
+		oldPassword = prefs.getString(Constants.PREF_PASSWORD, null);
 		initViews();
 	}
 
@@ -38,7 +40,7 @@ public class PasswordActivity extends BaseActivity {
 				if (!password.getText().toString().equals(passwordCheck.getText().toString())){
 					showToast(getString(R.string.settings_password_not_matching), Toast.LENGTH_SHORT);
 				} else {
-					if (oldPassword != "") {
+					if (oldPassword != null) {
 						requestPassword(new PasswordValidator() {							
 							@Override
 							public void onPasswordValidated(boolean result) {
@@ -60,9 +62,45 @@ public class PasswordActivity extends BaseActivity {
 
 
 	private void updatePassword(String password) {
-		prefs.edit().putString(Constants.PREF_PASSWORD, password).commit();
-		showToast(getString(R.string.password_successfully_changed), Toast.LENGTH_SHORT);
-		onBackPressed();
+		// If password have to be removed will be prompted to user to agree to unlock all notes
+		if (password.length() == 0) {
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+					mActivity);
+			alertDialogBuilder
+					.setMessage(R.string.agree_unlocking_all_notes)
+					.setPositiveButton(R.string.confirm,
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int id) {
+									prefs.edit()
+											.remove(Constants.PREF_PASSWORD)
+											.commit();
+									db.unlockAllNotes();
+									showToast(
+											getString(R.string.password_successfully_removed),
+											Toast.LENGTH_SHORT);
+									onBackPressed();
+								}
+							})
+					.setNegativeButton(R.string.cancel,
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		} else {
+			prefs.edit().putString(Constants.PREF_PASSWORD, password).commit();
+			showToast(getString(R.string.password_successfully_changed),
+					Toast.LENGTH_SHORT);
+			onBackPressed();
+		}
 	}
 
 }

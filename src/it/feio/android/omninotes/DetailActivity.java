@@ -127,6 +127,7 @@ public class DetailActivity extends BaseActivity {
 	
 	private Tag candidateSelectedTag;
 	private Tag selectedTag;
+	private Boolean lock;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -179,7 +180,7 @@ public class DetailActivity extends BaseActivity {
 	 */
 	private void checkNoteLock(Note note) {
 		// If note is locked security password will be requested
-		if (note.isLocked()) {
+		if (note.isLocked() && prefs.getString(Constants.PREF_PASSWORD, null) != null) {
 			requestPassword(new PasswordValidator() {					
 				@Override
 				public void onPasswordValidated(boolean result) {
@@ -191,8 +192,9 @@ public class DetailActivity extends BaseActivity {
 					}
 				}
 			});
-		}
-		
+		} else {
+			init(true);
+		}		
 	}
 	
 	
@@ -439,6 +441,7 @@ public class DetailActivity extends BaseActivity {
 			if (note.getTag() != null) {
 				selectedTag = note.getTag();
 			}
+			lock = note.isLocked();
 			
 			// If a new note is being edited the keyboard will not be shown on
 			// activity start
@@ -897,6 +900,7 @@ public class DetailActivity extends BaseActivity {
 		note.setLatitude(noteLatitude);
 		note.setLongitude(noteLongitude);
 		note.setTag(selectedTag);
+		note.setLocked(lock);
 		note.setAttachmentsList(attachmentsList);
 		
 		// Checks if nothing is changed to avoid committing if possible (check)
@@ -986,7 +990,7 @@ public class DetailActivity extends BaseActivity {
 	 * Notes locking with security password to avoid viewing, editing or deleting from unauthorized
 	 */
 	private void lockNote() {
-		Log.d(Constants.TAG, "Locking note " + note.get_id());
+		Log.d(Constants.TAG, "Locking or unlocking note " + note.get_id());
 		
 		// If security password is not set yes will be set right now
 		if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
@@ -1003,8 +1007,13 @@ public class DetailActivity extends BaseActivity {
 					showToast(getString(R.string.wrong_password), Toast.LENGTH_SHORT);
 				// Right password, note is set as locked/unlocked	
 				} else {
-					note.setLocked(!note.isLocked());
-					showToast(getString(R.string.save_note_to_lock_it), Toast.LENGTH_SHORT);
+					if (lock) {
+						lock = false;
+						showToast(getString(R.string.save_note_to_unlock_it), Toast.LENGTH_SHORT);
+					} else {
+						lock = true;
+						showToast(getString(R.string.save_note_to_lock_it), Toast.LENGTH_SHORT);
+					}
 				}
 			}
 		});

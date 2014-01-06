@@ -113,6 +113,7 @@
     <string name="insert_security_password">Insert security password</string>
     <string name="lock">Lock</string>
     <string name="save_note_to_lock_it">Save note to lock it</string>
+    <string name="save_note_to_unlock_it">Save note to unlock it</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -149,13 +150,15 @@
     <string name="settings_password">Password</string>
     <string name="settings_password_instructions">Security password is used 
         to ensure that protected notes will not be viewed, modified or deleted 
-        without authorization.\nEvery time you\'ll try to change this security password 
-        the previous one will be requested.</string>
+        without authorization.\n\nEvery time you\'ll try to change this security password 
+        the previous one will be requested.\n\nSet an empty password to delete it</string>
     <string name="settings_password_not_matching">Passwords not matching</string>
     <string name="insert_new_password">Insert a new password</string>
     <string name="confirm_new_password">Confirm the new password</string>
     <string name="password_successfully_changed">Password successfully changed</string>
+    <string name="password_successfully_removed">Password successfully removed</string>
     <string name="wrong_password">Wrong password</string>
+    <string name="agree_unlocking_all_notes">Agree removing security password\nand unlocking all locked notes?</string>
     
 
     <!-- About -->
