@@ -18,6 +18,7 @@
 
     <changelogversion versionName="4.1.0" changeDate="Jan 7, 2014">
       <changelogtext>[b]New! [/b]Associate notes with a [u]tag[/u] to categorize them!</changelogtext>
+      <changelogtext>[b]New! [/b]Lock notes to protect them from unauthorized accesses</changelogtext>
       <changelogtext>Minor functions improvements</changelogtext>
       <changelogtext>[u]Fixed[/u] Wrong backup restore from versions minor than 4.0.0</changelogtext>
 	</changelogversion>

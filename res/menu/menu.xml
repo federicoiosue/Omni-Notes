@@ -72,7 +72,7 @@
         android:icon="@drawable/ic_action_labels"
         android:orderInCategory="400"
         app:showAsAction="ifRoom"
-        android:title="@string/lock"
+        android:title="@string/lock_unlock"
         android:visible="false"/>
     <item
         android:id="@+id/menu_delete"

@@ -114,6 +114,7 @@
     <string name="lock">Lock</string>
     <string name="save_note_to_lock_it">Save note to lock it</string>
     <string name="save_note_to_unlock_it">Save note to unlock it</string>
+    <string name="lock_unlock">Lock or unlock</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

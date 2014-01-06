@@ -438,15 +438,18 @@ public class DetailActivity extends BaseActivity {
 				currentLatitude = note.getLatitude();
 				currentLongitude = note.getLongitude();
 			}
-			if (note.getTag() != null) {
-				selectedTag = note.getTag();
-			}
 			lock = note.isLocked();
 			
 			// If a new note is being edited the keyboard will not be shown on
 			// activity start
 			// getWindow().setSoftInputMode(
 			// WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+		}
+		
+		// Tag is checked because could be set even on new note if this is created by
+		// a tag navigation
+		if (note.getTag() != null) {
+			selectedTag = note.getTag();
 		}
 
 		// Backup of actual attachments list to check if some of them will be

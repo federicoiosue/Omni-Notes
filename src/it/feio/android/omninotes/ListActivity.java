@@ -512,7 +512,10 @@ public class ListActivity extends BaseActivity {
 		
 		// If archived or reminders notes are shown the "add new note" item must be hidden
 		String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
-		boolean showAdd = navNotes.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes));
+		String navArchived = getResources().getStringArray(R.array.navigation_list_codes)[1];
+		String navReminders = getResources().getStringArray(R.array.navigation_list_codes)[2];
+		boolean showAdd = !navArchived.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes))
+							&& !navReminders.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes));
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
@@ -634,6 +637,13 @@ public class ListActivity extends BaseActivity {
 	private void editNote(Note note) {
 		if (note.get_id() == 0) {
 			Log.d(Constants.TAG, "Adding new note");
+			// if navigation is a tag it will be set into note
+			String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
+			String navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
+			try {
+				int tagId = Integer.parseInt(navigation);
+				note.setTag(db.getTag(tagId));
+			} catch (NumberFormatException e) {}
 		} else {
 			Log.d(Constants.TAG, "Editing note with id: " + note.get_id());
 		}
