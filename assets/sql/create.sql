@@ -11,7 +11,8 @@ CREATE
 		alarm INTEGER DEFAULT null,
 		latitude REAL,
 		longitude REAL,
-        	tag_id INTEGER DEFAUL null
+        tag_id INTEGER DEFAUL null,
+		locked INTEGER        
 	);
 	
 

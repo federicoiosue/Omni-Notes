@@ -58,6 +58,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String KEY_LATITUDE = "latitude";
 	private static final String KEY_LONGITUDE = "longitude";
 	private static final String KEY_TAG = "tag_id";
+	private static final String KEY_LOCKED = "locked";
 	// Attachments table name
 	private static final String TABLE_ATTACHMENTS = "attachments";
 	// Attachments table columns
@@ -156,6 +157,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		values.put(KEY_LATITUDE, note.getLatitude());
 		values.put(KEY_LONGITUDE, note.getLongitude());
 		values.put(KEY_TAG, note.getTag() != null ? note.getTag().getId() : null);
+		boolean locked = note.isLocked() != null ? note.isLocked() : false;
+		values.put(KEY_LOCKED, locked);
 
 		// Updating row
 		if (note.get_id() != 0) {
@@ -239,7 +242,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		Note note = new Note(Integer.parseInt(cursor.getString(0)),
 				cursor.getLong(1), cursor.getLong(2), cursor.getString(3),
 				cursor.getString(4), cursor.getInt(5), cursor.getString(6),
-				cursor.getString(7), cursor.getString(8), getTag(Integer.parseInt(cursor.getString(9))));
+				cursor.getString(7), cursor.getString(8), getTag(Integer.parseInt(cursor.getString(9)))
+				, cursor.getInt(5));
 		
 		// Add eventual attachments uri
 		note.setAttachmentsList(getNoteAttachments(note));
@@ -290,15 +294,16 @@ public class DbHelper extends SQLiteOpenHelper {
 										+ KEY_CREATION + "," 
 										+ KEY_LAST_MODIFICATION + "," 
 										+ KEY_TITLE + "," 
-										+  KEY_CONTENT + "," 
+										+ KEY_CONTENT + "," 
 										+ KEY_ARCHIVED + "," 
-										+  KEY_ALARM + "," 
-										+  KEY_LATITUDE + "," 
-										+  KEY_LONGITUDE + "," 
-										+  KEY_TAG + "," 
+										+ KEY_ALARM + "," 
+										+ KEY_LATITUDE + "," 
+										+ KEY_LONGITUDE + "," 
+										+ KEY_TAG + "," 
+										+ KEY_LOCKED + "," 
 										+ KEY_TAG_NAME + "," 
-										+  KEY_TAG_DESCRIPTION + "," 
-										+  KEY_TAG_COLOR 
+										+ KEY_TAG_DESCRIPTION + "," 
+										+ KEY_TAG_COLOR 
 									+ " FROM " + TABLE_NOTES 
 									+ " LEFT JOIN " + TABLE_TAGS + " USING( " + KEY_TAG + ") "
 //									+ " LEFT JOIN " + TABLE_TAGS 
@@ -338,6 +343,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				note.setAlarm(cursor.getString(6));		
 				note.setLatitude(cursor.getString(7));
 				note.setLongitude(cursor.getString(8));
+				note.setLocked("1".equals(cursor.getString(9)));
 				
 				// Set tag
 				Tag tag = new Tag(cursor.getInt(9), cursor.getString(10), cursor.getString(11), cursor.getString(12));

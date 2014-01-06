@@ -15,7 +15,7 @@ CREATE
 -- Backup table
 ALTER TABLE notes RENAME TO notes_tmp;
 
--- Create new table for NOTES
+-- Create new table for NOTES adding "locked" column too
 CREATE
 	TABLE notes
 	(
@@ -28,7 +28,8 @@ CREATE
 		alarm INTEGER DEFAULT null,
 		latitude REAL,
 		longitude REAL,
-        	tag_id INTEGER DEFAUL null
+        tag_id INTEGER DEFAUL null,
+		locked INTEGER
 	);
 
 -- Moving notes data	

@@ -111,6 +111,8 @@
     <string name="notes_tag_removed">Removed tag from notes</string>
     <string name="notes_tagged_as">Notes tagged as</string>
     <string name="insert_security_password">Insert security password</string>
+    <string name="lock">Lock</string>
+    <string name="save_note_to_lock_it">Save note to lock it</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -147,7 +149,7 @@
     <string name="settings_password">Password</string>
     <string name="settings_password_instructions">Security password is used 
         to ensure that protected notes will not be viewed, modified or deleted 
-        without authorization.\nEverytime you\'ll try to change this security password 
+        without authorization.\nEvery time you\'ll try to change this security password 
         the previous one will be requested.</string>
     <string name="settings_password_not_matching">Passwords not matching</string>
     <string name="insert_new_password">Insert a new password</string>

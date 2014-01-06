@@ -32,6 +32,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
@@ -81,7 +82,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 /**
@@ -98,6 +98,7 @@ public class DetailActivity extends BaseActivity {
 	private static final int GALLERY = 2;
 	private static final int RECORDING = 3;
 	private static final int TAKE_VIDEO = 4;
+	private static final int SET_PASSWORD = 5;
 
 	private FragmentActivity mActivity;
 
@@ -137,6 +138,29 @@ public class DetailActivity extends BaseActivity {
 		// Show the Up button in the action bar.
 		if (getSupportActionBar() != null)
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		init(false);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (mRecorder != null) {
+			mRecorder.release();
+			mRecorder = null;
+		}
+	}
+	
+	
+	private void init(boolean checkedNoteLock) {
+		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);		
+		
+		if (note.get_id() != 0) {
+			if (!checkedNoteLock) {
+				checkNoteLock(note);
+				return;
+			}
+		}
 
 		// Note initialization
 		initNote();
@@ -148,14 +172,30 @@ public class DetailActivity extends BaseActivity {
 		handleIntents();
 	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (mRecorder != null) {
-			mRecorder.release();
-			mRecorder = null;
+	
+	/**
+	 * Checks note lock and password before showing note content
+	 * @param note
+	 */
+	private void checkNoteLock(Note note) {
+		// If note is locked security password will be requested
+		if (note.isLocked()) {
+			requestPassword(new PasswordValidator() {					
+				@Override
+				public void onPasswordValidated(boolean result) {
+					if (!result) {
+						showToast(getString(R.string.wrong_password), Toast.LENGTH_SHORT);
+						onBackPressed();
+					} else {
+						init(true);
+					}
+				}
+			});
 		}
+		
 	}
+	
+	
 
 	private void handleIntents() {
 		Intent i = getIntent();
@@ -163,9 +203,9 @@ public class DetailActivity extends BaseActivity {
 		if (Intent.ACTION_PICK.equals(i.getAction())) {
 			takePhoto();
 		}
-
 	}
 
+	
 	private void initViews() {
 
 		// Sets links clickable in title and content Views
@@ -374,13 +414,14 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	private void initNote() {
-		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);
 
 		// Workaround to get widget acting correctly
-		if (note == null)
+		if (note == null) {
 			note = new Note();
-
+		}
+		
 		if (note.get_id() != 0) {
+			
 			((TextView) findViewById(R.id.creation)).append(getString(R.string.creation) + " "
 					+ note.getCreationShort());
 			((TextView) findViewById(R.id.last_modification)).append(getString(R.string.last_update) + " "
@@ -469,6 +510,7 @@ public class DetailActivity extends BaseActivity {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_attachment).setVisible(true);
 		menu.findItem(R.id.menu_tag).setVisible(true);
+		menu.findItem(R.id.menu_lock).setVisible(true);
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		menu.findItem(R.id.menu_discard_changes).setVisible(true);
 
@@ -513,6 +555,9 @@ public class DetailActivity extends BaseActivity {
 			break;
 		case R.id.menu_tag:
 			tagNote();
+			break;
+		case R.id.menu_lock:
+			lockNote();
 			break;
 		case R.id.menu_delete:
 			deleteNote();
@@ -757,6 +802,9 @@ public class DetailActivity extends BaseActivity {
 					Log.e(Constants.TAG, "Audio recording unsuccessful");
 				}
 				break;
+			case SET_PASSWORD:
+				lockNote();
+				break;
 			}
 		}
 	}
@@ -930,6 +978,36 @@ public class DetailActivity extends BaseActivity {
 		}
 
 		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+	}
+	
+	
+	
+	/**
+	 * Notes locking with security password to avoid viewing, editing or deleting from unauthorized
+	 */
+	private void lockNote() {
+		Log.d(Constants.TAG, "Locking note " + note.get_id());
+		
+		// If security password is not set yes will be set right now
+		if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
+			Intent passwordIntent = new Intent(this, PasswordActivity.class);
+			startActivityForResult(passwordIntent, SET_PASSWORD);
+		}
+		
+		// Password sill be requested here
+		requestPassword(new PasswordValidator() {					
+			@Override
+			public void onPasswordValidated(boolean result) {
+				// Wrong password
+				if (!result) {
+					showToast(getString(R.string.wrong_password), Toast.LENGTH_SHORT);
+				// Right password, note is set as locked/unlocked	
+				} else {
+					note.setLocked(!note.isLocked());
+					showToast(getString(R.string.save_note_to_lock_it), Toast.LENGTH_SHORT);
+				}
+			}
+		});
 	}
 
 	// public void showDatePickerDialog(View v) {

@@ -68,6 +68,13 @@
         android:title="@string/tag"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_lock"
+        android:icon="@drawable/ic_action_labels"
+        android:orderInCategory="400"
+        app:showAsAction="ifRoom"
+        android:title="@string/lock"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_action_discard"
         android:orderInCategory="450"
