@@ -290,27 +290,27 @@ public class DbHelper extends SQLiteOpenHelper {
 //		String query = "SELECT * FROM " + TABLE_NOTES + whereCondition
 //				+ " ORDER BY " + sort_column + sort_order;
 		String query = "SELECT " 
-										+ KEY_ID + "," 
-										+ KEY_CREATION + "," 
-										+ KEY_LAST_MODIFICATION + "," 
-										+ KEY_TITLE + "," 
-										+ KEY_CONTENT + "," 
-										+ KEY_ARCHIVED + "," 
-										+ KEY_ALARM + "," 
-										+ KEY_LATITUDE + "," 
-										+ KEY_LONGITUDE + "," 
-										+ KEY_LOCKED + "," 
-										+ KEY_TAG + "," 
-										+ KEY_TAG_NAME + "," 
-										+ KEY_TAG_DESCRIPTION + "," 
-										+ KEY_TAG_COLOR 
-									+ " FROM " + TABLE_NOTES 
-									+ " LEFT JOIN " + TABLE_TAGS + " USING( " + KEY_TAG + ") "
-//									+ " LEFT JOIN " + TABLE_TAGS 
-//									+ " ON " + TABLE_NOTES + "." + KEY_TAG + " = " + TABLE_TAGS + "." + KEY_TAG_ID
-									
-									+ whereCondition
-									+ " ORDER BY " + sort_column + sort_order;
+							+ KEY_ID + "," 
+							+ KEY_CREATION + "," 
+							+ KEY_LAST_MODIFICATION + "," 
+							+ KEY_TITLE + "," 
+							+ KEY_CONTENT + "," 
+							+ KEY_ARCHIVED + "," 
+							+ KEY_ALARM + "," 
+							+ KEY_LATITUDE + "," 
+							+ KEY_LONGITUDE + "," 
+							+ KEY_LOCKED + "," 
+							+ KEY_TAG + "," 
+							+ KEY_TAG_NAME + "," 
+							+ KEY_TAG_DESCRIPTION + "," 
+							+ KEY_TAG_COLOR 
+						+ " FROM " + TABLE_NOTES 
+						+ " LEFT JOIN " + TABLE_TAGS + " USING( " + KEY_TAG + ") "
+	//									+ " LEFT JOIN " + TABLE_TAGS 
+	//									+ " ON " + TABLE_NOTES + "." + KEY_TAG + " = " + TABLE_TAGS + "." + KEY_TAG_ID
+						
+						+ whereCondition
+						+ " ORDER BY " + sort_column + sort_order;
 		return getNotes(query);
 
 		// new GetAllNotesAsync(ctx, this, mAdapter).execute(checkNavigation);
@@ -436,14 +436,33 @@ public class DbHelper extends SQLiteOpenHelper {
 				.getDefaultSharedPreferences(ctx);
 		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
 				KEY_TITLE);
+		String sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
 
 		// Select All Query
-		String selectQuery = "SELECT * FROM " + TABLE_NOTES + " WHERE "
-				+ KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR "
-				+ KEY_CONTENT + " LIKE '%" + pattern + "%' " + " ORDER BY "
-				+ sort_column;
-		
-		return getNotes(selectQuery);
+		String whereCondition = " WHERE "
+								+ KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR "
+								+ KEY_CONTENT + " LIKE '%" + pattern + "%' ";
+		String query = "SELECT " 
+							+ KEY_ID + "," 
+							+ KEY_CREATION + "," 
+							+ KEY_LAST_MODIFICATION + "," 
+							+ KEY_TITLE + "," 
+							+ KEY_CONTENT + "," 
+							+ KEY_ARCHIVED + "," 
+							+ KEY_ALARM + "," 
+							+ KEY_LATITUDE + "," 
+							+ KEY_LONGITUDE + "," 
+							+ KEY_LOCKED + "," 
+							+ KEY_TAG + "," 
+							+ KEY_TAG_NAME + "," 
+							+ KEY_TAG_DESCRIPTION + "," 
+							+ KEY_TAG_COLOR 
+						+ " FROM " + TABLE_NOTES 
+						+ " LEFT JOIN " + TABLE_TAGS + " USING( " + KEY_TAG + ") "
+						+ whereCondition
+						+ " ORDER BY " + sort_column + sort_order;
+
+		return getNotes(query);
 	}
 	
 	
