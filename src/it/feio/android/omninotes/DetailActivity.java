@@ -137,8 +137,10 @@ public class DetailActivity extends BaseActivity {
 		mActivity = this;
 
 		// Show the Up button in the action bar.
-		if (getSupportActionBar() != null)
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayShowTitleEnabled(false);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 		
 		init(false);
 	}

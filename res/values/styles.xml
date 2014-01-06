@@ -23,13 +23,15 @@
 
 
         <!-- Support library compatibility -->
-        <item name="actionBarStyle">@style/MyActionBar</item>
+<!--         <item name="actionBarStyle">@style/MyActionBar</item> -->
     </style>
 
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
         <item name="android:background">@drawable/abc_ab_transparent_light_holo</item>
         <item name="homeAsUpIndicator">@drawable/ic_drawer</item>
+        <item name="displayOptions">showHome|showTitle</item>
+        
 
         <!-- Support library compatibility -->
         <item name="background">@drawable/abc_ab_transparent_light_holo</item>

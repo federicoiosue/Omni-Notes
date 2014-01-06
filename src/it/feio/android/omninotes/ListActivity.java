@@ -446,19 +446,18 @@ public class ListActivity extends BaseActivity {
 			}
 		}
 
-//		 Enable ActionBar app icon to behave as action to toggle nav drawer
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-			getSupportActionBar().setHomeButtonEnabled(true);
-
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
 		// ActionBarDrawerToggle± ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
-		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-		R.string.drawer_open, /* "open drawer" description for accessibility */
-		R.string.drawer_close /* "close drawer" description for accessibility */
+		mDrawerToggle = new ActionBarDrawerToggle(
+			this, /* host Activity */
+			mDrawerLayout, /* DrawerLayout object */
+			R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+			R.string.drawer_open, /* "open drawer" description for accessibility */
+			R.string.drawer_close /* "close drawer" description for accessibility */
 		) {
 
 			public void onDrawerClosed(View view) {
@@ -472,7 +471,7 @@ public class ListActivity extends BaseActivity {
 				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
 		};
-		mDrawerToggle.setDrawerIndicatorEnabled(true);
+//		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		
 //		if (savedInstanceState == null) {
@@ -480,15 +479,16 @@ public class ListActivity extends BaseActivity {
 //        }
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setDisplayShowTitleEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
 	}
 
-//	@Override
-//	protected void onPostCreate(Bundle savedInstanceState) {
-//		super.onPostCreate(savedInstanceState);
-//		// Sync the toggle state after onRestoreInstanceState has occurred.
-//		mDrawerToggle.syncState();
-//	}
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		if (mDrawerToggle != null)
+			mDrawerToggle.syncState();
+	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
