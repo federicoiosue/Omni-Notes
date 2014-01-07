@@ -115,6 +115,7 @@
     <string name="save_note_to_lock_it">Save note to lock it</string>
     <string name="save_note_to_unlock_it">Save note to unlock it</string>
     <string name="lock_unlock">Lock or unlock</string>
+    <string name="title_activity_password">Edit security password</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -161,13 +162,11 @@
     <string name="password_successfully_removed">Password successfully removed</string>
     <string name="wrong_password">Wrong password</string>
     <string name="agree_unlocking_all_notes">Agree removing security password\nand unlocking all locked notes?</string>
+    <string name="settings_enable_tag_marker">Enable tag marker</string>
     
 
     <!-- About -->
     <string name="follow_author">Who is the developer?</string>
     <string name="click_to_support">Click the banner to support development</string>
-    <string name="title_activity_intent_receiver">IntentReceiverActivity</string>
-    <string name="title_activity_password">PasswordActivity</string>
-    <string name="hello_world">Hello world!</string>
 
 </resources>
