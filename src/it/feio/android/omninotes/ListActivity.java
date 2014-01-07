@@ -471,15 +471,12 @@ public class ListActivity extends BaseActivity {
 				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
 		};
-//		mDrawerToggle.setDrawerIndicatorEnabled(true);
+		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		
 //		if (savedInstanceState == null) {
 //            selectItem(0);
 //        }
-
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setDisplayShowHomeEnabled(true);
 	}
 
 	@Override

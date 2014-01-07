@@ -14,12 +14,17 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<set xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal" >
 
-   <alpha
-        android:duration="1000"
-        android:fromAlpha="1.0"
-        android:interpolator="@android:anim/accelerate_interpolator"
-        android:toAlpha="0.0" />
+    <ImageView
+        android:layout_margin="@dimen/horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/reset_instructions" />
 
-</set>
+</LinearLayout>

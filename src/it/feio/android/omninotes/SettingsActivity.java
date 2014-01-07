@@ -22,6 +22,7 @@ import java.util.List;
 
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.R;
 import android.net.Uri;
@@ -29,6 +30,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -37,6 +39,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -123,6 +126,8 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 		});
 
+		
+		
 		// Import notes
 		Preference importData = findPreference("settings_import_data");
 		importData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -130,31 +135,6 @@ public class SettingsActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-
-				// set dialog message
-//				alertDialogBuilder.setMessage(getString(R.string.import_warning)).setCancelable(false)
-//						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//
-//							public void onClick(DialogInterface dialog, int id) {
-//								try {
-//									ImportExportExcel importExportExcel = new ImportExportExcel(activity);
-//									if (importExportExcel.importDataFromCSV(StorageManager.getStorageDir()))
-//										Toast.makeText(activity, getString(R.string.import_success),
-//												Toast.LENGTH_LONG).show();
-//									else
-//										Toast.makeText(activity, getString(R.string.import_fail),
-//												Toast.LENGTH_LONG).show();
-//								} catch (Exception e) {
-//									Toast.makeText(activity, getString(R.string.import_fail),
-//											Toast.LENGTH_LONG).show();
-//								}
-//							}
-//						}).setNegativeButton("No", new DialogInterface.OnClickListener() {
-//
-//							public void onClick(DialogInterface dialog, int id) {
-//								dialog.cancel();
-//							}
-//						});
 				
 				final CharSequence[] backups = StorageManager.getExternalStoragePublicDir().list();
 				alertDialogBuilder.setTitle(R.string.data_import_message)
@@ -179,6 +159,7 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 
 
+		
 		// Set notes' protection password
 		Preference password = findPreference("settings_password");
 		password.setOnPreferenceClickListener(new OnPreferenceClickListener() {			
@@ -207,55 +188,56 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 
 
-		// Evento di pressione sul pulsante di reset delle impostazioni
+		
+		// Settings reset
 		Preference resetData = findPreference("reset_all_data");
 		resetData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-//				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-//
-//				// set dialog message
-//				alertDialogBuilder.setMessage(getString(R.string.reset_all_data_confirmation))
-//						.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//
-//							public void onClick(DialogInterface dialog, int id) {
-//								PreferenceManager.getDefaultSharedPreferences(activity).edit().clear()
-//										.commit();
-//								DbHelper db = new DbHelper(activity);
-//								db.clear();
-//								Log.i(Constants.TAG, "Settings back to default");
-//							}
-//						}).setNegativeButton("No", new DialogInterface.OnClickListener() {
-//
-//							public void onClick(DialogInterface dialog, int id) {
-//								dialog.cancel();
-//							}
-//						});
-//
-//				// create alert dialog
-//				AlertDialog alertDialog = alertDialogBuilder.create();
-//
-//				// show it
-//				alertDialog.show();
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 				
+				// Inflate layout
+				LayoutInflater inflater = activity.getLayoutInflater();
+				View v = inflater.inflate(R.layout.reset_data_dialog_layout, null);
+				alertDialogBuilder.setView(v);
 
-				String packageName = getApplicationContext().getPackageName();
+				// set dialog message
+				alertDialogBuilder
+						.setMessage(getString(R.string.reset_all_data_confirmation))
+						.setCancelable(false).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
 
-				try {
-				    //Open the specific App Info page:
-				    Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-				    intent.setData(Uri.parse("package:" + packageName));
-				    startActivity(intent);
+							public void onClick(DialogInterface dialog, int id) {
+								PreferenceManager.getDefaultSharedPreferences(activity).edit().clear()
+										.commit();
+								String packageName = getApplicationContext().getPackageName();
 
-				} catch ( ActivityNotFoundException e ) {
-				    //e.printStackTrace();
+								try {
+								    //Open the specific App Info page:
+								    Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+								    intent.setData(Uri.parse("package:" + packageName));
+								    startActivity(intent);
 
-				    //Open the generic Apps page:
-				    Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-				    startActivity(intent);
+								} catch ( ActivityNotFoundException e ) {
+								    //e.printStackTrace();
 
-				}
+								    //Open the generic Apps page:
+								    Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+								    startActivity(intent);
+								}
+							}
+						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+
+				// show it
+				alertDialog.show();
 
 				return false;
 				
@@ -264,6 +246,7 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 
 
+		
 		// Popup About
 		Preference about = findPreference("settings_about");
 		about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -275,6 +258,7 @@ public class SettingsActivity extends PreferenceActivity {
 				return false;
 			}
 		});
+		
 		
 		// Languages 
 //		Preference lang = findPreference("settings_language");
