@@ -126,8 +126,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left"
-            android:textAppearance="@style/Text.Small"
-            pixlui:typeface="RobotoCondensed-Regular.ttf" />
+            android:textAppearance="@style/Text.Small" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/last_modification"
@@ -135,8 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:textAppearance="@style/Text.Small"
-            pixlui:typeface="RobotoCondensed-Regular.ttf" />
+            android:textAppearance="@style/Text.Small" />
     </LinearLayout>
 
 </LinearLayout>

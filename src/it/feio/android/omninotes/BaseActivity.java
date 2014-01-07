@@ -42,6 +42,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -200,20 +201,45 @@ public class BaseActivity extends ActionBarActivity {
 		final View v = inflater.inflate(R.layout.password_request_dialog_layout, null);
 		alertDialogBuilder.setView(v);
 
+		// Set dialog message and button
 		alertDialogBuilder.setMessage(
 				getString(R.string.insert_security_password))
-				.setPositiveButton(R.string.confirm,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								String oldPassword = prefs.getString(
-										Constants.PREF_PASSWORD, "");
-								String password = ((TextView)v.findViewById(R.id.password_request)).getText().toString();
-								boolean result = password.equals(oldPassword);
-								mPasswordValidator.onPasswordValidated(result);
-							}
-						});
+				.setPositiveButton(R.string.confirm, null);
+		
 		AlertDialog dialog = alertDialogBuilder.create();
+		
+		// Set a listener for dialog button press
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+		    @Override
+		    public void onShow(final DialogInterface dialog) {
+
+		        Button b = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+		        b.setOnClickListener(new View.OnClickListener() {
+
+		            @Override
+		            public void onClick(View view) {
+		            	// When positive button is pressed password correctness is checked
+		            	String oldPassword = prefs.getString(
+								Constants.PREF_PASSWORD, "");
+		            	TextView passwordTextView = (TextView)v.findViewById(R.id.password_request);
+						String password = passwordTextView.getText().toString();
+						boolean result = password.equals(oldPassword);
+
+						// In case password is ok dialog is dismissed and result sent to callback
+		                if (result) {
+		                	dialog.dismiss();
+							mPasswordValidator.onPasswordValidated(result);
+						// If password is wrong the auth flow is not interrupted and simply a message is shown
+		                } else {
+		                	passwordTextView.setError(getString(R.string.wrong_password));
+		                }
+		            }
+		        });
+		    }
+		});
+		
+
 		dialog.show();
 	}
 
