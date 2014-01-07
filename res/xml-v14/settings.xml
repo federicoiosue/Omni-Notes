@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="category_data"
+        android:title="@string/settings_category_data" >
+        <PreferenceScreen
+            android:key="settings_backup"
+            android:persistent="false"
+            android:title="@string/settings_backup" >
+            <Preference
+                android:key="settings_export_data"
+                android:title="@string/settings_export" >
+            </Preference>
+            <Preference
+                android:key="settings_import_data"
+                android:title="@string/settings_import" >
+            </Preference>
+        </PreferenceScreen>
+
+        <EditTextPreference
+            android:key="settings_max_video_size"
+            android:title="@string/settings_max_video_size" 
+            android:inputType="number" >
+        </EditTextPreference>
+        
+        <Preference
+            android:key="settings_password"
+            android:title="@string/settings_password" >
+        </Preference>
+        
+    </PreferenceCategory>
+    <!-- <PreferenceCategory -->
+    <!-- android:key="category_gestures" -->
+    <!-- android:title="@string/settings_category_gestures" > -->
+    <!-- <SwitchPreference -->
+    <!-- android:key="settings_enable_swype" -->
+    <!-- android:defaultValue="true" -->
+    <!-- android:title="@string/settings_enable_swype" > -->
+    <!-- </SwitchPreference> -->
+    <!-- </PreferenceCategory> -->
+    <PreferenceCategory
+        android:key="category_interface"
+        android:title="@string/settings_category_interface" >
+
+        <!-- <ListPreference -->
+        <!-- android:entries="@array/languages" -->
+        <!-- android:entryValues="@array/languages_codes" -->
+        <!-- android:key="settings_language" -->
+        <!-- android:title="@string/settings_choose_language" /> -->
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_enable_animations"
+            android:title="@string/settings_enable_animations" >
+        </SwitchPreference>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_enable_tag_marker"
+            android:title="@string/settings_enable_tag_marker" >
+        </SwitchPreference>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_enable_info"
+            android:title="@string/settings_enable_info" >
+        </SwitchPreference>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_enable_editor_links"
+            android:title="@string/settings_enable_editor_links" >
+        </SwitchPreference>
+    </PreferenceCategory>
+  
+    <PreferenceCategory
+        android:key="category_notifications"
+        android:title="@string/settings_category_notifications" >
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_enable_sound"
+            android:title="@string/settings_enable_sound" >
+        </SwitchPreference>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="settings_enable_vibration"
+            android:title="@string/settings_enable_vibration" >
+        </SwitchPreference>
+    </PreferenceCategory>
+   
+    <PreferenceCategory
+        android:key="category_other"
+        android:title="@string/settings_category_other" >
+        <Preference
+            android:key="reset_all_data"
+            android:title="@string/settings_reset_all_data" >
+        </Preference>
+        <Preference
+            android:key="settings_changelog"
+            android:title="@string/settings_changelog" >
+        </Preference>
+        <Preference
+            android:key="settings_about"
+            android:title="@string/settings_about" >
+<!--             <intent -->
+<!--                 android:action="android.intent.action.VIEW" -->
+<!--                 android:data="@string/dev_site" /> -->
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
