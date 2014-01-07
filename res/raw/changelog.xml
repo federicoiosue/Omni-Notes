@@ -16,7 +16,7 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.1.0" changeDate="Jan 7, 2014">
+    <changelogversion versionName="4.1.0.01" changeDate="Jan 7, 2014">
       <changelogtext>[b]New! [/b]Associate notes with colored [u]tags[/u] to categorize them!</changelogtext>
       <changelogtext>[b]New! [/b]Protect notes from unauthorized accesses using a security password</changelogtext>
       <changelogtext>About section in settings now contains more infos on the project</changelogtext>
