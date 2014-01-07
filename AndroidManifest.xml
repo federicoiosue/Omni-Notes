@@ -121,6 +121,17 @@
                 android:resource="@xml/searchable" />
         </activity>
 
+        <!-- Tags -->
+        <activity
+            android:name="it.feio.android.omninotes.TagActivity"
+            android:label="@string/title_activity_tag"
+            android:parentActivityName=".ListActivity"
+            android:theme="@style/Theme.AppCompat.Dialog" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
+        </activity>
+
         <!-- Detail -->
         <activity
             android:name="it.feio.android.omninotes.DetailActivity"
@@ -151,22 +162,10 @@
                 android:value=".SettingsActivity" />
         </activity>
 
-        <!-- Tags -->
-        <activity
-            android:name="it.feio.android.omninotes.TagActivity"
-            android:label="@string/title_activity_tag"
-            android:parentActivityName=".ListActivity"
-            android:theme="@style/Theme.AppCompat.Dialog" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
-        </activity>
-
         <!-- About -->
         <activity
             android:name="it.feio.android.omninotes.AboutActivity"
-            android:label="@string/title_activity_about"
-            android:theme="@style/Theme.AppCompat.Dialog.About" >
+            android:label="@string/title_activity_about" >
         </activity>
 
         <!-- AdMob -->

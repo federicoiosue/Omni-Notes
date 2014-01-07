@@ -15,7 +15,10 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import java.io.IOException;
+
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.utils.AssetUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
@@ -27,6 +30,7 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 public class AboutActivity extends BaseActivity {
@@ -35,37 +39,53 @@ public class AboutActivity extends BaseActivity {
 	@SuppressLint("NewApi") @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_about);
+		
+		WebView webview = new WebView(this);
+		 setContentView(webview);
+		
+//		setContentView(R.layout.activity_about);
+		
+
+		setContentView(webview);
 		
 		// Shape creation for the layout
-		RoundRectShape rect = new RoundRectShape(new float[] { 30, 30, 30, 30, 30, 30, 30, 30 }, null, null);
-		ShapeDrawable bg = new ShapeDrawable(rect);
-		bg.getPaint().setColor(Color.parseColor(getString(R.color.about_bg)));
-		int sdk = android.os.Build.VERSION.SDK_INT;
-		if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-			getWindow().getDecorView().getRootView().setBackgroundDrawable(bg);
-		} else {
-			getWindow().getDecorView().getRootView().setBackground(bg);
-		}
+//		RoundRectShape rect = new RoundRectShape(new float[] { 30, 30, 30, 30, 30, 30, 30, 30 }, null, null);
+//		ShapeDrawable bg = new ShapeDrawable(rect);
+//		bg.getPaint().setColor(Color.parseColor(getString(R.color.about_bg)));
+//		int sdk = android.os.Build.VERSION.SDK_INT;
+//		if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+//			getWindow().getDecorView().getRootView().setBackgroundDrawable(bg);
+//		} else {
+//			getWindow().getDecorView().getRootView().setBackground(bg);
+//		}
 		
 		// Version printing
-		TextView appName = (TextView) findViewById(R.id.app_name);
-		try {
-			appName.append(" " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-		} catch (NameNotFoundException e) {}
-				
-		// Site click management
-		TextView site = (TextView) findViewById(R.id.site);
-		site.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(Intent.ACTION_VIEW, 
-					       Uri.parse(getString(R.string.dev_site)));
-					startActivity(i);				
-			}
-		});
+//		TextView appName = (TextView) findViewById(R.id.app_name);
+//		try {
+//			appName.append(" " + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+//		} catch (NameNotFoundException e) {}
+//				
+//		// Site click management
+//		TextView site = (TextView) findViewById(R.id.site);
+//		site.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				Intent i = new Intent(Intent.ACTION_VIEW, 
+//					       Uri.parse(getString(R.string.dev_site)));
+//					startActivity(i);				
+//			}
+//		});
 		
+//		String html = null;
+//		try {
+//			html = AssetUtils.readFile("html/about.html", getAssets());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		webview.loadUrl("file:///android_asset/html/about.html");
+//		webview.loadDataWithBaseURL("file:///android_asset/", html, "text/html", "UTF-8", null);
 	}
 
 

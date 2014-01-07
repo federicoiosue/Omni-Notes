@@ -17,9 +17,11 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="4.1.0" changeDate="Jan 7, 2014">
-      <changelogtext>[b]New! [/b]Associate notes with a [u]tag[/u] to categorize them!</changelogtext>
-      <changelogtext>[b]New! [/b]Lock notes to protect them from unauthorized accesses</changelogtext>
-      <changelogtext>Minor functions improvements</changelogtext>
+      <changelogtext>[b]New! [/b]Associate notes with colored [u]tags[/u] to categorize them!</changelogtext>
+      <changelogtext>[b]New! [/b]Protect notes from unauthorized accesses using a security password</changelogtext>
+      <changelogtext>About section in settings now contains more infos on the project</changelogtext>
+      <changelogtext>Various user interface revisions</changelogtext>
+      <changelogtext>Minor bug fixes</changelogtext>
       <changelogtext>[u]Fixed[/u] Wrong backup restore from versions minor than 4.0.0</changelogtext>
 	</changelogversion>
 
