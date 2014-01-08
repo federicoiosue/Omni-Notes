@@ -139,15 +139,15 @@
     <string name="settings_category_gestures">Gestures</string>
     <string name="settings_enable_swype">Enable swype</string>
     <string name="settings_category_interface">Interface</string>
-    <string name="settings_enable_animations">Enable animations</string>
-    <string name="settings_enable_info">Enable info popups</string>
+    <string name="settings_enable_animations">Animations</string>
+    <string name="settings_enable_info">Info popups</string>
     <string name="settings_choose_language">Choose language</string>
     <string name="settings_category_notifications">Notifications</string>
-    <string name="settings_enable_sound">Enable ringtone</string>
-    <string name="settings_enable_vibration">Enable vibration</string>
+    <string name="settings_enable_sound">Ringtone</string>
+    <string name="settings_enable_vibration">Vibration</string>
     <string name="settings_changelog">Changelog</string>
-    <string name="settings_enable_editor_links">Enable links in editor</string>
-    <string name="settings_max_video_size">Maximum video size (MB)</string>
+    <string name="settings_enable_editor_links">Links recognition</string>
+    <string name="settings_max_video_size">Video attachments</string>
     <string name="settings_category_data">Data</string>
     <string name="settings_backup">Backup</string>
     <string name="settings_password">Password</string>
@@ -162,7 +162,15 @@
     <string name="password_successfully_removed">Password successfully removed</string>
     <string name="wrong_password">Wrong password</string>
     <string name="agree_unlocking_all_notes">Agree removing security password\nand unlocking all locked notes?</string>
-    <string name="settings_enable_tag_marker">Enable tag marker</string>
+    <string name="settings_enable_tag_marker">Tags markers</string>
+    <string name="settings_backup_summary">Import or export app data</string>
+    <string name="settings_max_video_size_summary">Max allowed size in MB</string>
+    <string name="settings_password_summary">Edit app\'s security password</string>
+    <string name="settings_enable_animations_summary">Enable or disable notes\' list and screen change animations</string>
+    <string name="settings_enable_tag_marker_summary">Enable or disable tags colored markers</string>
+    <string name="settings_enable_info_summary">Enable or disable popups for actions on notes like editing, deleting, tagging...</string>
+    <string name="settings_enable_editor_links_summary">Enable or disable automatic highlighting of links and e-mail in editor</string>
+    
     
 
     <!-- About -->

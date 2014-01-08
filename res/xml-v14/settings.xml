@@ -21,6 +21,7 @@
         android:title="@string/settings_category_data" >
         <PreferenceScreen
             android:key="settings_backup"
+            android:summary="@string/settings_backup_summary"
             android:persistent="false"
             android:title="@string/settings_backup" >
             <Preference
@@ -36,12 +37,14 @@
         <EditTextPreference
             android:key="settings_max_video_size"
             android:title="@string/settings_max_video_size" 
+            android:summary="@string/settings_max_video_size_summary"
             android:inputType="number" >
         </EditTextPreference>
         
         <Preference
             android:key="settings_password"
-            android:title="@string/settings_password" >
+            android:title="@string/settings_password" 
+            android:summary="@string/settings_password_summary">
         </Preference>
         
     </PreferenceCategory>
@@ -67,22 +70,34 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="settings_enable_animations"
-            android:title="@string/settings_enable_animations" >
+		    android:switchTextOn="I"
+		    android:switchTextOff="O"
+            android:title="@string/settings_enable_animations"
+            android:summary="@string/settings_enable_animations_summary" >
         </SwitchPreference>
         <SwitchPreference
             android:defaultValue="true"
+		    android:switchTextOn="I"
+		    android:switchTextOff="O"
             android:key="settings_enable_tag_marker"
-            android:title="@string/settings_enable_tag_marker" >
+            android:title="@string/settings_enable_tag_marker"
+            android:summary="@string/settings_enable_tag_marker_summary" >
         </SwitchPreference>
         <SwitchPreference
             android:defaultValue="true"
+		    android:switchTextOn="I"
+		    android:switchTextOff="O"
             android:key="settings_enable_info"
-            android:title="@string/settings_enable_info" >
+            android:title="@string/settings_enable_info"
+            android:summary="@string/settings_enable_info_summary"  >
         </SwitchPreference>
         <SwitchPreference
             android:defaultValue="true"
+		    android:switchTextOn="I"
+		    android:switchTextOff="O"
             android:key="settings_enable_editor_links"
-            android:title="@string/settings_enable_editor_links" >
+            android:title="@string/settings_enable_editor_links" 
+            android:summary="@string/settings_enable_editor_links_summary" >
         </SwitchPreference>
     </PreferenceCategory>
   
@@ -91,11 +106,15 @@
         android:title="@string/settings_category_notifications" >
         <SwitchPreference
             android:defaultValue="true"
+		    android:switchTextOn="I"
+		    android:switchTextOff="O"
             android:key="settings_enable_sound"
             android:title="@string/settings_enable_sound" >
         </SwitchPreference>
         <SwitchPreference
             android:defaultValue="true"
+		    android:switchTextOn="I"
+		    android:switchTextOff="O"
             android:key="settings_enable_vibration"
             android:title="@string/settings_enable_vibration" >
         </SwitchPreference>
