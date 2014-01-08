@@ -37,6 +37,8 @@ public class DataBackupIntentService extends IntentService {
 			exportData(intent);
 		} else if (Constants.ACTION_DATA_IMPORT.equals(intent.getAction())) {
 			importData(intent);
+		} else if (Constants.ACTION_DATA_DELETE.equals(intent.getAction())) {
+			deleteData(intent);
 		}
 
 		// Release the lock
@@ -81,6 +83,22 @@ public class DataBackupIntentService extends IntentService {
 		
 		String title = getString(R.string.data_import_completed);
 		String text = getString(R.string.click_to_refresh_application);
+		createNotification(this, title, text);
+	}
+
+	
+	synchronized private void deleteData(Intent intent) {
+		boolean res = true;
+		
+		// Gets backup folder
+		String backupName = intent.getStringExtra(Constants.INTENT_BACKUP_NAME);
+		File backupDir = StorageManager.getBackupDir(backupName);
+		
+		// Backup directory removal
+		res = StorageManager.delete(this, backupDir.getAbsolutePath());
+		
+		String title = getString(R.string.data_deletion_completed);
+		String text = backupName + " " + getString(R.string.deleted);
 		createNotification(this, title, text);
 	}
 

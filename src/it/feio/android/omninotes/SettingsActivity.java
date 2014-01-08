@@ -15,12 +15,14 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.StorageManager;
@@ -42,7 +44,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -128,6 +136,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 		
 		
+		
 		// Import notes
 		Preference importData = findPreference("settings_import_data");
 		importData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -138,19 +147,72 @@ public class SettingsActivity extends PreferenceActivity {
 				
 				final CharSequence[] backups = StorageManager.getExternalStoragePublicDir().list();
 				alertDialogBuilder.setTitle(R.string.data_import_message)
-									.setItems(backups, new OnClickListener() {										
-										@Override
-										public void onClick(DialogInterface dialog, int which) {
-											// An IntentService will be launched to accomplish the import task
-											Intent service = new Intent(activity, DataBackupIntentService.class);
-											service.setAction(Constants.ACTION_DATA_IMPORT);
-											service.putExtra(Constants.INTENT_BACKUP_NAME, backups[which]);
-											activity.startService(service);
-										}
-									});
+									.setItems(backups, null);
 
 				// create alert dialog
-				AlertDialog alertDialog = alertDialogBuilder.create();
+				final AlertDialog alertDialog = alertDialogBuilder.create();
+				
+				// OnShow is overridden to allow long-click on item so user can remove them
+				alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+				    @Override
+				    public void onShow(final DialogInterface dialog) {
+
+				    	ListView lv = alertDialog.getListView();
+				    	lv.setOnItemClickListener(new OnItemClickListener() {
+
+							@Override
+							public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+								// An IntentService will be launched to accomplish the import task
+								Intent service = new Intent(activity, DataBackupIntentService.class);
+								service.setAction(Constants.ACTION_DATA_IMPORT);
+								service.putExtra(Constants.INTENT_BACKUP_NAME, backups[position]);
+								activity.startService(service);
+							}
+				        });
+				    	
+				    	// Creation of backup removal dialog
+				    	lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+							@Override
+							public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+								final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+										activity);
+								
+								// Retrieves backup size
+								File backupDir = StorageManager.getBackupDir(backups[position].toString());
+								long size = StorageManager.getSize(backupDir) / 1024;
+								String sizeString = size > 1024 ? size/1024 + "Mb" : size + "Kb";
+								
+								// Set dialog message and button
+								alertDialogBuilder.setMessage(
+										getString(R.string.confirm_removing_backup) + " " + backups[position] + " (" + sizeString + ")")
+										.setPositiveButton(R.string.confirm, new OnClickListener() {
+											
+											@Override
+											public void onClick(DialogInterface dialog, int which) {
+												dialog.dismiss();	
+												// An IntentService will be launched to accomplish the import task
+												Intent service = new Intent(activity, DataBackupIntentService.class);
+												service.setAction(Constants.ACTION_DATA_DELETE);
+												service.putExtra(Constants.INTENT_BACKUP_NAME, backups[position]);
+												activity.startService(service);
+											}
+										})
+										.setNegativeButton(R.string.cancel, new OnClickListener() {
+											
+											@Override
+											public void onClick(DialogInterface dialog, int which) {
+												dialog.cancel();											
+											}
+										});
+								
+								alertDialogBuilder.create().show();
+								return true;
+							}
+						});
+				    }
+				});
 
 				// show it
 				alertDialog.show();
@@ -159,6 +221,7 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 
 
+		
 		
 		// Set notes' protection password
 		Preference password = findPreference("settings_password");

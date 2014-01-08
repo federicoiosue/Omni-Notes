@@ -51,6 +51,7 @@ public interface Constants {
 	
 	final String MESSAGE = "message";
 
+    final String PREF_FIRST_RUN = "first_run";
     final String PREF_NAVIGATION = "navigation";
     final String PREF_SORTING_COLUMN = "sorting_column";
     final String PREF_SORTING_ORDER = "sorting_direction";
@@ -72,8 +73,8 @@ public interface Constants {
     // Custom intent actions
     final String ACTION_DATA_EXPORT = "action_data_export";
     final String ACTION_DATA_IMPORT = "action_data_import";
+	final String ACTION_DATA_DELETE = "action_data_delete";
 	final String ACTION_START_APP = "action_start_app";
 	
-
-	final String SECURITY_ALGORITHM = "MD5"; 
+	final String SECURITY_ALGORITHM = "MD5";
 }

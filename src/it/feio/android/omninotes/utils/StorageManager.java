@@ -25,13 +25,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.os.StatFs;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -156,6 +160,32 @@ public class StorageManager {
 	}
 
 	
+	public static boolean delete(Context mContext, String name) {
+		boolean res = false;
+
+		// Checks for external storage availability
+		if (!checkStorage()) {
+			Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
+			return res;
+		}
+
+		File file = new File(name);
+		if (file != null) {
+			if (file.isFile()) {
+				res = file.delete();
+			} else if (file.isDirectory()) {
+				File[] files = file.listFiles();
+				for (File file2 : files) {
+					res = delete(mContext, file2.getAbsolutePath());					
+				}
+				res = file.delete();
+			}
+		}
+		
+		return res;
+	}
+
+	
 	
 	
 	public static String getRealPathFromURI(Context mContext, Uri contentUri) {
@@ -231,6 +261,50 @@ public class StorageManager {
 		if (!backupDir.exists())
 			backupDir.mkdirs();
 		return backupDir;
+	}
+	
+	
+	/**
+	 * Returns a directory size in bytes
+	 * @param directory
+	 * @return
+	 */
+	@SuppressLint("NewApi")
+	public static long getSize(File directory) {
+	    StatFs statFs = new StatFs(directory.getAbsolutePath());
+	    long blockSize;
+	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+	        blockSize = statFs.getBlockSizeLong();
+	    } else {
+	        blockSize = statFs.getBlockSize();
+	    }
+
+	    return getSize(directory, blockSize);
+	}
+	
+		
+	private static long getSize(File directory, long blockSize) {
+	    File[] files = directory.listFiles();
+	    if (files != null) {
+
+	        // space used by directory itself 
+	        long size = directory.length();
+
+	        for (File file : files) {
+	            if (file.isDirectory()) {
+	                // space used by subdirectory
+	                size += getSize(file, blockSize);
+	            } else {
+	                // file size need to rounded up to full block sizes
+	                // (not a perfect function, it adds additional block to 0 sized files
+	                // and file who perfectly fill their blocks) 
+	                size += (file.length() / blockSize + 1) * blockSize;
+	            }
+	        }
+	        return size;
+	    } else {
+	        return 0;
+	    }
 	}
 	
 	
