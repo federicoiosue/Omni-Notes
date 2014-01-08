@@ -74,6 +74,6 @@ public interface Constants {
     final String ACTION_DATA_IMPORT = "action_data_import";
 	final String ACTION_START_APP = "action_start_app";
 	
-	// Standard navigation values
-//	final String NAVIGATION_NOTES = 
+
+	final String SECURITY_ALGORITHM = "MD5"; 
 }

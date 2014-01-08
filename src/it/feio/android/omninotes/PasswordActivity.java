@@ -1,7 +1,11 @@
 package it.feio.android.omninotes;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Security;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -95,8 +99,8 @@ public class PasswordActivity extends BaseActivity {
 							});
 			AlertDialog alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
-		} else {
-			prefs.edit().putString(Constants.PREF_PASSWORD, password).commit();
+		} else {			
+			prefs.edit().putString(Constants.PREF_PASSWORD, Security.md5(password)).commit();
 			showToast(getString(R.string.password_successfully_changed),
 					Toast.LENGTH_SHORT);
 			onBackPressed();

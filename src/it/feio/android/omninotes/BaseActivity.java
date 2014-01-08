@@ -24,6 +24,7 @@ import com.google.analytics.tracking.android.Tracker;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Security;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -224,7 +225,8 @@ public class BaseActivity extends ActionBarActivity {
 								Constants.PREF_PASSWORD, "");
 		            	TextView passwordTextView = (TextView)v.findViewById(R.id.password_request);
 						String password = passwordTextView.getText().toString();
-						boolean result = password.equals(oldPassword);
+						// The check is done on password's hash stored in preferences
+						boolean result = Security.md5(password).equals(oldPassword);
 
 						// In case password is ok dialog is dismissed and result sent to callback
 		                if (result) {
