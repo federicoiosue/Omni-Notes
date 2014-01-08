@@ -81,16 +81,16 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 		// Evaluates the archived state...
 		ImageView archiveIcon = (ImageView)rowView.findViewById(R.id.archivedIcon);
-		archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.INVISIBLE);
+		archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
 		// ... the presence of an alarm
 		ImageView alarmIcon = (ImageView)rowView.findViewById(R.id.alarmIcon);
-		alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.INVISIBLE);
+		alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
 		// ... the locked with password state	
 		ImageView lockedIcon = (ImageView)rowView.findViewById(R.id.lockedIcon);
-		lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.INVISIBLE);
+		lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
 		// ... or attachments to show relative icon indicators	
 		ImageView attachmentIcon = (ImageView)rowView.findViewById(R.id.attachmentIcon);
-		attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.INVISIBLE);
+		attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
 		
 		// Color of tag marker if note is tagged a function is active in preferences
 		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
