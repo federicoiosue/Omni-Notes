@@ -91,6 +91,7 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 			ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(tag.getColor()));
 			img.mutate().setColorFilter(cf);
 			imgIcon.setImageDrawable(img);
+			imgIcon.setPadding(25, 25, -25, 25);
 		}
 
 		return itemView;
