@@ -77,6 +77,14 @@
                 android:layout_gravity="right|top"
                 android:src="@drawable/ic_action_attachment"
                 android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/lockedIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="right|top"
+                android:src="@drawable/ic_action_secure"
+                android:visibility="gone" />
         </LinearLayout>
 
         <com.neopixl.pixlui.components.textview.TextView

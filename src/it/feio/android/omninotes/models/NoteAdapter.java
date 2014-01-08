@@ -25,7 +25,6 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -82,16 +81,16 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 		// Evaluates the archived state...
 		ImageView archiveIcon = (ImageView)rowView.findViewById(R.id.archivedIcon);
-		int archiveIconVisibility = note.isArchived() ? View.VISIBLE : View.INVISIBLE;
-		archiveIcon.setVisibility(archiveIconVisibility);
+		archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.INVISIBLE);
 		// ... the presence of an alarm
 		ImageView alarmIcon = (ImageView)rowView.findViewById(R.id.alarmIcon);
-		int alarmIconVisibility = note.getAlarm() != null ? View.VISIBLE : View.INVISIBLE;
-		alarmIcon.setVisibility(alarmIconVisibility);
+		alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.INVISIBLE);
+		// ... the locked with password state	
+		ImageView lockedIcon = (ImageView)rowView.findViewById(R.id.lockedIcon);
+		lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.INVISIBLE);
 		// ... or attachments to show relative icon indicators	
 		ImageView attachmentIcon = (ImageView)rowView.findViewById(R.id.attachmentIcon);
-		int attachmentIconVisibility = note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.INVISIBLE;
-		attachmentIcon.setVisibility(attachmentIconVisibility);
+		attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.INVISIBLE);
 		
 		// Color of tag marker if note is tagged a function is active in preferences
 		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
