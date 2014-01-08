@@ -16,15 +16,24 @@
 package it.feio.android.omninotes;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
 
-public class ChangelogActivity extends Activity {
+public class ChangelogActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_changelog);
+
+		// Show the Up button in the action bar.
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+	}
+	
+	@Override
+	public boolean onNavigateUp() {
+		onBackPressed();
+		return super.onNavigateUp();
 	}
 
 }

@@ -155,11 +155,7 @@
         <!-- Changelog -->
         <activity
             android:name="it.feio.android.omninotes.ChangelogActivity"
-            android:label="@string/settings_changelog"
-            android:parentActivityName=".SettingsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SettingsActivity" />
+            android:label="@string/settings_changelog">
         </activity>
 
         <!-- About -->

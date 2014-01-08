@@ -124,7 +124,7 @@
     <string name="settings_category_other">Other</string>
     <string name="settings_reset_all_data">Erase all data</string>
     <string name="reset_all_data_confirmation">Is going to be opened a system application.
-        			\nOnce there press the button as shown in the image below to delete Omni Notes\' data.</string>
+        			\n\nOnce there press the button as shown in the image below to delete Omni Notes\' data.</string>
     <string name="action_settings">Settings</string>
     <string name="settings_sync_import_export">Synch and Backups</string>
     <string name="settings_export">Backup notes and attachments</string>
