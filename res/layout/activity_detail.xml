@@ -22,17 +22,30 @@
     android:orientation="vertical"
     android:padding="10dp" >
 
-    <com.neopixl.pixlui.components.edittext.EditText
-        android:id="@+id/title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_card"
-        android:hint="@string/title"
-        android:inputType="textCapSentences"
-        android:linksClickable="false"
-        android:padding="16dp"
-        android:textColor="@color/text_gray"
-        pixlui:typeface="RobotoSlab-Bold.ttf" />
+        android:orientation="horizontal" >
+
+        <View
+            android:id="@+id/tag_marker"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@null" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/title"
+            android:inputType="textCapSentences"
+            android:linksClickable="false"
+            android:padding="@dimen/vertical_margin"
+            android:textColor="@color/text_gray"
+            pixlui:typeface="RobotoSlab-Bold.ttf" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +60,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
-            android:scrollbars="none" ><LinearLayout
+            android:scrollbars="none" >
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
@@ -79,8 +94,8 @@
                     android:id="@+id/gridview"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:drawSelectorOnTop="true"
                     android:layout_marginTop="25dp"
+                    android:drawSelectorOnTop="true"
                     android:gravity="center"
                     android:listSelector="@drawable/clickable_view"
                     android:numColumns="2"

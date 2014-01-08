@@ -61,6 +61,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
@@ -212,6 +213,9 @@ public class DetailActivity extends BaseActivity {
 	
 	private void initViews() {
 
+		// Color of tag marker if note is tagged a function is active in preferences
+		setTagMarkerColor(note.getTag());
+		
 		// Sets links clickable in title and content Views
 		title = (EditText) findViewById(R.id.title);
 		content = (EditText) findViewById(R.id.content);
@@ -362,6 +366,21 @@ public class DetailActivity extends BaseActivity {
 
 		datetime = (TextView) findViewById(R.id.datetime);
 		datetime.setText(dateTimeText);
+	}
+
+	
+	/**
+	 * Colors tag marker in note title TextView
+	 */
+	private void setTagMarkerColor(Tag tag) {
+		if (prefs.getBoolean("settings_enable_tag_marker", true)){
+			View tagMarker = findViewById(R.id.tag_marker);
+			if (tag != null && tag.getColor() != null) {
+				tagMarker.setBackgroundColor(Integer.parseInt(tag.getColor()));
+			} else if (tag == null) {
+				tagMarker.setBackgroundColor(Color.parseColor(getString(R.color.transparent)));				
+			}
+		}
 	}
 
 	/**
@@ -615,12 +634,14 @@ public class DetailActivity extends BaseActivity {
 								public void onClick(DialogInterface dialog, int id) {
 									selectedTag = candidateSelectedTag;
 									candidateSelectedTag = null;
+									setTagMarkerColor(selectedTag);
 								}
 							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
 									selectedTag = null;
 									candidateSelectedTag = null;
+									setTagMarkerColor(selectedTag);
 								}
 							}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 								@Override
