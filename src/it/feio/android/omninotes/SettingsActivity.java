@@ -163,6 +163,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 							@Override
 							public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+								dialog.dismiss();
 								// An IntentService will be launched to accomplish the import task
 								Intent service = new Intent(activity, DataBackupIntentService.class);
 								service.setAction(Constants.ACTION_DATA_IMPORT);
@@ -190,7 +191,8 @@ public class SettingsActivity extends PreferenceActivity {
 										.setPositiveButton(R.string.confirm, new OnClickListener() {
 											
 											@Override
-											public void onClick(DialogInterface dialog, int which) {
+											public void onClick(DialogInterface dialogInner, int which) {
+												dialogInner.dismiss();
 												dialog.dismiss();	
 												// An IntentService will be launched to accomplish the import task
 												Intent service = new Intent(activity, DataBackupIntentService.class);

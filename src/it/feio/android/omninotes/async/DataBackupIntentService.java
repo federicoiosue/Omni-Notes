@@ -64,7 +64,7 @@ public class DataBackupIntentService extends IntentService {
 		// Notification of operation ended
 		String title = getString(R.string.data_export_completed);
 		String text = backupDir.getPath();
-		createNotification(this, title, text);
+		createNotification(intent, this, title, text);
 	}
 
 	
@@ -83,7 +83,7 @@ public class DataBackupIntentService extends IntentService {
 		
 		String title = getString(R.string.data_import_completed);
 		String text = getString(R.string.click_to_refresh_application);
-		createNotification(this, title, text);
+		createNotification(intent, this, title, text);
 	}
 
 	
@@ -99,17 +99,18 @@ public class DataBackupIntentService extends IntentService {
 		
 		String title = getString(R.string.data_deletion_completed);
 		String text = backupName + " " + getString(R.string.deleted);
-		createNotification(this, title, text);
+		createNotification(intent, this, title, text);
 	}
 
 	
 	
 	/**
 	 * Creation of notification on operations completed
+	 * @param intent2 
 	 * @param ctx
 	 * @param message
 	 */
-	private void createNotification(Context ctx, String title, String message) {
+	private void createNotification(Intent intent, Context ctx, String title, String message) {
 
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ctx)
 				.setSmallIcon(R.drawable.ic_stat_notification_icon)
@@ -127,13 +128,21 @@ public class DataBackupIntentService extends IntentService {
 		if (prefs.getBoolean("settings_notification_vibration", true))
 			mBuilder.setVibrate(pattern);
 
-		Intent intent = new Intent(ctx, ListActivity.class);
+		// The behavior differs depending on intent action 
+		Intent intentLaunch;
+		if (Constants.ACTION_DATA_IMPORT.equals(intent.getAction())) {
+			 intentLaunch = new Intent(ctx, ListActivity.class);
+		} else {
+			 intentLaunch = new Intent();
+		}
+			
 		// Add this bundle to the intent
-		// Sets the Activity to start in a new, empty task
-		intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-
+		intentLaunch.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+		intentLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intentLaunch.setAction(Constants.ACTION_START_APP);
+		
 		// Creates the PendingIntent
-		PendingIntent notifyIntent = PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent notifyIntent = PendingIntent.getActivity(ctx, 0, intentLaunch, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		// Puts the PendingIntent into the notification builder
 		mBuilder.setContentIntent(notifyIntent);

@@ -36,6 +36,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.SearchManager;
@@ -973,6 +974,7 @@ public class ListActivity extends BaseActivity {
 		// show it
 		alertDialog.show();		
 	}
+	
 
 
 }
