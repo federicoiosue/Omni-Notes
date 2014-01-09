@@ -41,7 +41,8 @@
             android:paddingLeft="@dimen/horizontal_margin"
             android:paddingRight="@dimen/horizontal_margin"
             android:textAppearance="@style/Text.Big"
-            android:textColor="@color/drawer_text" />
+            android:textColor="@color/drawer_text"
+            pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>
 
     <View

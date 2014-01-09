@@ -70,31 +70,31 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="settings_enable_animations"
-		    android:switchTextOn="I"
-		    android:switchTextOff="O"
+		    android:switchTextOn="On"
+		    android:switchTextOff="Off"
             android:title="@string/settings_enable_animations"
             android:summary="@string/settings_enable_animations_summary" >
         </SwitchPreference>
         <SwitchPreference
             android:defaultValue="true"
-		    android:switchTextOn="I"
-		    android:switchTextOff="O"
+		    android:switchTextOn="On"
+		    android:switchTextOff="Off"
             android:key="settings_enable_tag_marker"
             android:title="@string/settings_enable_tag_marker"
             android:summary="@string/settings_enable_tag_marker_summary" >
         </SwitchPreference>
         <SwitchPreference
             android:defaultValue="true"
-		    android:switchTextOn="I"
-		    android:switchTextOff="O"
+		    android:switchTextOn="On"
+		    android:switchTextOff="Off"
             android:key="settings_enable_info"
             android:title="@string/settings_enable_info"
             android:summary="@string/settings_enable_info_summary"  >
         </SwitchPreference>
         <SwitchPreference
             android:defaultValue="true"
-		    android:switchTextOn="I"
-		    android:switchTextOff="O"
+		    android:switchTextOn="On"
+		    android:switchTextOff="Off"
             android:key="settings_enable_editor_links"
             android:title="@string/settings_enable_editor_links" 
             android:summary="@string/settings_enable_editor_links_summary" >
@@ -106,15 +106,15 @@
         android:title="@string/settings_category_notifications" >
         <SwitchPreference
             android:defaultValue="true"
-		    android:switchTextOn="I"
-		    android:switchTextOff="O"
+		    android:switchTextOn="On"
+		    android:switchTextOff="Off"
             android:key="settings_enable_sound"
             android:title="@string/settings_enable_sound" >
         </SwitchPreference>
         <SwitchPreference
             android:defaultValue="true"
-		    android:switchTextOn="I"
-		    android:switchTextOff="O"
+		    android:switchTextOn="On"
+		    android:switchTextOff="Off"
             android:key="settings_enable_vibration"
             android:title="@string/settings_enable_vibration" >
         </SwitchPreference>
