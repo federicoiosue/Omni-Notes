@@ -392,7 +392,8 @@ public class ListActivity extends BaseActivity {
 				selectNavigationItem(mDrawerList, position);
 				prefs.edit().putString(Constants.PREF_NAVIGATION, navigation).commit();
 				mDrawerList.setItemChecked(position, true);
-				mDrawerTagList.setItemChecked(position, false);
+				if (mDrawerTagList != null)
+					mDrawerTagList.setItemChecked(0, false);  // Called to force redraw
 				initNotesList(getIntent());
 			}
 		});
@@ -426,8 +427,9 @@ public class ListActivity extends BaseActivity {
 						Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 						selectNavigationItem(mDrawerTagList, position);
 						prefs.edit().putString(Constants.PREF_NAVIGATION, String.valueOf(tag.getId())).commit();
-						mDrawerList.setItemChecked(position, false);
 						mDrawerTagList.setItemChecked(position, true);
+						if (mDrawerList != null)
+							mDrawerList.setItemChecked(0, false);  // Called to force redraw
 						initNotesList(getIntent());
 					}
 				}

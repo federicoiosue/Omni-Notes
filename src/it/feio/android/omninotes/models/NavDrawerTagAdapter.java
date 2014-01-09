@@ -82,7 +82,6 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		if (isSelected(parent, position)) {
 			txtTitle.setTextColor(mContext.getResources().getColor(
 					R.color.drawer_text_selected));
-			Log.v(Constants.TAG, "highlight this!");
 		}
 
 		// Set the results into ImageView checking if an icon is present before
@@ -97,6 +96,7 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		return itemView;
 	}
 
+	
 	
 	private boolean isSelected(ViewGroup parent, int position) {	
 		

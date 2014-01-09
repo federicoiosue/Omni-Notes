@@ -78,10 +78,9 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		// Set the results into TextViews	
 		txtTitle.setText(mTitle[position].toString());
 		
-		if (isChecked(parent, position)) {
+		if (isSelected(parent, position)) {
 			txtTitle.setTextColor(mContext.getResources().getColor(
 					R.color.drawer_text_selected));
-			Log.v(Constants.TAG, "highlight this!");
 		}
 
 		// Set the results into ImageView checking if an icon is present before
@@ -94,38 +93,23 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 	}
 
 	
-	private boolean isChecked(ViewGroup parent, int position) {
-
-//		boolean checked = ((ListView)parent).isItemChecked(position);
-//		
-//		if (checked)
-//			return true;		
+	private boolean isSelected(ViewGroup parent, int position) {
 		
 		// Getting actual navigation selection
 		String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
 		String navigation = PreferenceManager.getDefaultSharedPreferences(mContext).getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 		
 		// Finding selected item from standard navigation items or tags
-		String navigationLocalized = "";	
 		int index = Arrays.asList(navigationListCodes).indexOf(navigation);
-		if (index != -1) {
-			navigationLocalized = mContext.getResources().getStringArray(R.array.navigation_list)[index];
-		} else {
-			DbHelper db = new DbHelper(mContext);
-			try {
-				navigationLocalized = db.getTag(Integer.parseInt(navigation)).getName();
-			} catch (NullPointerException e) {}
-		}
+		
+		if (index == -1) 
+			return false;
+		
+		String navigationLocalized = mContext.getResources().getStringArray(R.array.navigation_list)[index];
 		
 		// Check the selected one
 		Object itemSelected = mTitle[position];
-		String title;
-		if (itemSelected.getClass().isAssignableFrom(String.class)) {
-			title = itemSelected.toString();	
-		// Is a tag
-		} else {
-			title = ((Tag)itemSelected).getName();
-		}
+		String title= itemSelected.toString();			
 		
 		Log.v(Constants.TAG, "navigationLocalized: " + navigationLocalized + ", title: " + title);
 		if (navigationLocalized.equals(title)) {

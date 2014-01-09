@@ -535,6 +535,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				tagsList.add(new Tag(Integer.valueOf(cursor.getInt(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
 			} while (cursor.moveToNext());
 		}
+		db.close();
 		return tagsList;		
 	}
 
@@ -566,6 +567,8 @@ public class DbHelper extends SQLiteOpenHelper {
 			Log.d(Constants.TAG, "Saved new tag titled '" + tag.getName()
 					+ "' with id: " + res);
 		}
+		db.close();
+		
 		// Returning result
 		return res;
 	}
