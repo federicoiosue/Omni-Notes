@@ -21,7 +21,16 @@
         res/values-v11/styles.xml on API 14+ devices.
     -->
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
-        <!-- API 14 theme customizations can go here. -->
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    
+    
+    <!-- ActionBar styles -->
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@color/gray_bg</item>
+<!--         <item name="homeAsUpIndicator">@drawable/ic_drawer</item> -->
+<!--         <item name="displayOptions">showHome|showTitle</item> -->
     </style>
 
 </resources>

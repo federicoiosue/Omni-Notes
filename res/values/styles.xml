@@ -18,23 +18,14 @@
 
     <!-- the theme applied to the application or activity -->
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
-
-<!--         <item name="android:actionBarStyle">@style/MyActionBar</item>  -->
-
-
-        <!-- Support library compatibility -->
-<!--         <item name="actionBarStyle">@style/MyActionBar</item> -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
 
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
-        <item name="android:background">@drawable/abc_ab_transparent_light_holo</item>
-        <item name="homeAsUpIndicator">@drawable/ic_drawer</item>
-        <item name="displayOptions">showHome|showTitle</item>
-        
-
-        <!-- Support library compatibility -->
-        <item name="background">@drawable/abc_ab_transparent_light_holo</item>
+        <item name="background">@color/gray_bg</item>
+<!--         <item name="homeAsUpIndicator">@drawable/ic_drawer</item> -->
+<!--         <item name="displayOptions">showHome|showTitle</item> -->
     </style>
 
 <!--     <style name="Theme.Transparent" parent="@android:style/Theme.Dialog"> -->
