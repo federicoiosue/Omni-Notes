@@ -85,10 +85,10 @@
                     android:layout_marginTop="25dp"
                     android:background="@drawable/clickable_view"
                     android:gravity="center_vertical"
-                    android:textAppearance="@style/Text.Small"
+                    android:textSize="12sp"
                     android:textColor="@color/location_text"
                     android:visibility="gone"
-                    pixlui:typeface="Roboto-Light.ttf" />
+                    pixlui:typeface="Roboto-Regular.ttf" />
 
                 <it.feio.android.omninotes.models.ExpandableHeightGridView
                     android:id="@+id/gridview"
@@ -122,7 +122,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/add_reminder"
                         android:textAppearance="@style/Text.Small"
-                        pixlui:typeface="Roboto-Light.ttf" />
+                        pixlui:typeface="Roboto-Regular.ttf" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

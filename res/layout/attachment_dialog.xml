@@ -15,89 +15,76 @@
   limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:id="@+id/layout_root"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_popup"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        android:background="@drawable/clickable_view"
+        android:drawableLeft="@drawable/ic_camera_dark"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="@string/camera"
+        android:textSize="17sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
 
-        <TextView
-            android:id="@+id/camera"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@drawable/clickable_view"
-            android:drawablePadding="3dp"
-            android:drawableTop="@drawable/ic_camera_dark"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="@string/camera"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/gallery"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@drawable/clickable_view"
-            android:drawablePadding="3dp"
-            android:drawableTop="@drawable/ic_photo_dark"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="@string/galery"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/gallery"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal" >
+        android:gravity="center_vertical"
+        android:background="@drawable/clickable_view"
+        android:drawableLeft="@drawable/ic_photo_dark"
+        android:drawablePadding="4dp"
+        android:padding="8dp"
+        android:text="@string/galery"
+        android:textSize="17sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
 
-        <TextView
-            android:id="@+id/video"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@drawable/clickable_view"
-            android:drawablePadding="3dp"
-            android:drawableTop="@drawable/ic_action_video"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="@string/video"
-            android:textSize="18sp" />
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/video"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:background="@drawable/clickable_view"
+        android:drawableLeft="@drawable/ic_action_video"
+        android:drawablePadding="4dp"
+        android:padding="8dp"
+        android:text="@string/video"
+        android:textSize="17sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
 
-        <TextView
-            android:id="@+id/recording"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@drawable/clickable_view"
-            android:drawablePadding="3dp"
-            android:drawableTop="@drawable/ic_action_mic"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="@string/record"
-            android:textSize="18sp" />
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/recording"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/clickable_view"
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/ic_action_mic"
+        android:drawablePadding="4dp"
+        android:padding="8dp"
+        android:text="@string/record"
+        android:textSize="17sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
 
-        <TextView
-            android:id="@+id/location"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:background="@drawable/clickable_view"
-            android:drawablePadding="3dp"
-            android:drawableTop="@drawable/ic_location_dark"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="@string/location"
-            android:textSize="18sp" />
-    </LinearLayout>
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@drawable/clickable_view"
+        android:drawableLeft="@drawable/ic_location_dark"
+        android:drawablePadding="4dp"
+        android:padding="8dp"
+        android:text="@string/location"
+        android:textSize="17sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
 
 </LinearLayout>

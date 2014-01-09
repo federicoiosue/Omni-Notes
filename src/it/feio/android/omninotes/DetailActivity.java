@@ -51,6 +51,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.media.MediaPlayer;
@@ -67,7 +69,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,6 +89,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 /**
@@ -113,7 +120,7 @@ public class DetailActivity extends BaseActivity {
 	private AttachmentAdapter mAttachmentAdapter;
 	private ExpandableHeightGridView mGridView;
 	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
-	private AlertDialog attachmentDialog;
+	private PopupWindow attachmentDialog;
 	private EditText title, content;
 	private TextView locationTextView;
 
@@ -578,7 +585,8 @@ public class DetailActivity extends BaseActivity {
 			saveNote(false);
 			break;
 		case R.id.menu_attachment:
-			this.attachmentDialog = showAttachmentDialog();
+//			this.attachmentDialog = showAttachmentDialog();
+			showPopup(findViewById(R.id.menu_attachment));
 			break;
 		case R.id.menu_tag:
 			tagNote();
@@ -656,6 +664,59 @@ public class DetailActivity extends BaseActivity {
 		// show it
 		alertDialog.show();		
 	}
+	
+	
+	
+	
+	 
+	// The method that displays the popup.
+	private void showPopup(View anchor) {
+		DisplayMetrics metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//		int popupWidth = metrics.widthPixels;
+	   int attachmentDialogWidth = 250;
+	   int attachmentDialogHeight = 500;
+	 
+	   // Inflate the popup_layout.xml
+	   LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.attachment_dialog, (ViewGroup) findViewById(R.id.layout_root));
+		
+	   // Creating the PopupWindow
+		attachmentDialog = new PopupWindow(this);
+	   attachmentDialog.setContentView(layout);
+	   attachmentDialog.setWidth(attachmentDialogWidth);
+	   attachmentDialog.setHeight(attachmentDialogHeight);
+	   attachmentDialog.setFocusable(true);
+	   
+	   // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
+	   int x = 0;
+	   int y = 150;
+	 
+	   // Clear the default translucent background
+	   attachmentDialog.setBackgroundDrawable(new BitmapDrawable());
+//	   attachmentDialog.setBackgroundDrawable(null);
+	   
+	   // Camera
+		android.widget.TextView cameraSelection = (android.widget.TextView) layout.findViewById(R.id.camera);
+		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Gallery
+		android.widget.TextView gallerySelection = (android.widget.TextView) layout.findViewById(R.id.gallery);
+		gallerySelection.setOnClickListener(new AttachmentOnClickListener());
+		// Audio recording
+		android.widget.TextView recordingSelection = (android.widget.TextView) layout.findViewById(R.id.recording);
+		recordingSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Video recording
+		android.widget.TextView videoSelection = (android.widget.TextView) layout.findViewById(R.id.video);
+		videoSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Location
+		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
+		locationSelection.setOnClickListener(new AttachmentOnClickListener());
+	 
+	   // Displaying the popup at the specified location, + offsets.
+	   attachmentDialog.showAsDropDown(anchor);
+	 
+	}
+	
 
 	
 	private AlertDialog showAttachmentDialog() {
