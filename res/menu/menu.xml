@@ -36,15 +36,22 @@
         android:id="@+id/menu_attachment"
         android:icon="@drawable/ic_action_attachment"
         android:orderInCategory="200"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:title="@string/attachment"
         android:visible="false"/>
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_action_share"
         android:orderInCategory="300"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         android:title="@string/share"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_tag"
+        android:icon="@drawable/ic_action_labels"
+        android:orderInCategory="320"
+        app:showAsAction="always"
+        android:title="@string/tag"
         android:visible="false"/>
     <item
         android:id="@+id/menu_archive"
@@ -59,13 +66,6 @@
         android:orderInCategory="380"
         app:showAsAction="ifRoom"
         android:title="@string/unarchive"
-        android:visible="false"/>
-    <item
-        android:id="@+id/menu_tag"
-        android:icon="@drawable/ic_action_labels"
-        android:orderInCategory="390"
-        app:showAsAction="ifRoom"
-        android:title="@string/tag"
         android:visible="false"/>
     <item
         android:id="@+id/menu_lock"
