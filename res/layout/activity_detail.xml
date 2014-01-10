@@ -54,7 +54,8 @@
         android:layout_weight="1"
         android:background="@drawable/bg_card"
         android:orientation="vertical"
-        android:padding="16dp" >
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin" >
 
         <ScrollView
             android:layout_width="match_parent"
@@ -69,6 +70,7 @@
 
                 <com.neopixl.pixlui.components.edittext.EditText
                     android:id="@+id/content"
+                    android:paddingTop="@dimen/horizontal_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
@@ -106,6 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:layout_marginTop="30dp"
+                    android:layout_marginBottom="@dimen/horizontal_margin"
                     android:background="@drawable/clickable_view"
                     android:orientation="horizontal" >
 
