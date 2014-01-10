@@ -673,57 +673,23 @@ public class DetailActivity extends BaseActivity {
 	private void showPopup(View anchor) {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//		int popupWidth = metrics.widthPixels;
-	   int attachmentDialogWidth = 250;
-	   int attachmentDialogHeight = 500;
-	 
-	   // Inflate the popup_layout.xml
-	   LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-		View layout = inflater.inflate(R.layout.attachment_dialog, (ViewGroup) findViewById(R.id.layout_root));
-		
-	   // Creating the PopupWindow
-		attachmentDialog = new PopupWindow(this);
-	   attachmentDialog.setContentView(layout);
-	   attachmentDialog.setWidth(attachmentDialogWidth);
-	   attachmentDialog.setHeight(attachmentDialogHeight);
-	   attachmentDialog.setFocusable(true);
-	   
-	   // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
-	   int x = 0;
-	   int y = 150;
-	 
-	   // Clear the default translucent background
-	   attachmentDialog.setBackgroundDrawable(new BitmapDrawable());
-//	   attachmentDialog.setBackgroundDrawable(null);
-	   
-	   // Camera
-		android.widget.TextView cameraSelection = (android.widget.TextView) layout.findViewById(R.id.camera);
-		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
-		// Gallery
-		android.widget.TextView gallerySelection = (android.widget.TextView) layout.findViewById(R.id.gallery);
-		gallerySelection.setOnClickListener(new AttachmentOnClickListener());
-		// Audio recording
-		android.widget.TextView recordingSelection = (android.widget.TextView) layout.findViewById(R.id.recording);
-		recordingSelection.setOnClickListener(new AttachmentOnClickListener());
-		// Video recording
-		android.widget.TextView videoSelection = (android.widget.TextView) layout.findViewById(R.id.video);
-		videoSelection.setOnClickListener(new AttachmentOnClickListener());
-		// Location
-		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
-		locationSelection.setOnClickListener(new AttachmentOnClickListener());
-	 
-	   // Displaying the popup at the specified location, + offsets.
-	   attachmentDialog.showAsDropDown(anchor);
-	 
-	}
-	
+		int attachmentDialogWidth = 320;
+		int attachmentDialogHeight = 530;
 
-	
-	private AlertDialog showAttachmentDialog() {
-		AlertDialog.Builder attachmentDialog = new AlertDialog.Builder(this);
+		// Inflate the popup_layout.xml
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.attachment_dialog, (ViewGroup) findViewById(R.id.layout_root));
-		attachmentDialog.setView(layout);
+
+		// Creating the PopupWindow
+		attachmentDialog = new PopupWindow(this);
+		attachmentDialog.setContentView(layout);
+		attachmentDialog.setWidth(attachmentDialogWidth);
+		attachmentDialog.setHeight(attachmentDialogHeight);
+		attachmentDialog.setFocusable(true);
+
+		// Clear the default translucent background
+		attachmentDialog.setBackgroundDrawable(new BitmapDrawable());
+
 		// Camera
 		android.widget.TextView cameraSelection = (android.widget.TextView) layout.findViewById(R.id.camera);
 		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
@@ -740,12 +706,11 @@ public class DetailActivity extends BaseActivity {
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
 
-		AlertDialog dialog = attachmentDialog.show();
-//		dialog.getWindow().setLayout(440, 400);
-
-		return dialog;
+		// Displaying the popup at the specified location, + offsets.
+		attachmentDialog.showAsDropDown(anchor);
 	}
 
+	
 	/**
 	 * Manages clicks on attachment dialog
 	 */

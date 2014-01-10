@@ -36,7 +36,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.SearchManager;
@@ -268,6 +267,7 @@ public class ListActivity extends BaseActivity {
     };
     
     
+    
     /**
      * Manage check/uncheck of notes in list during multiple selection phase
      * @param view
@@ -290,6 +290,7 @@ public class ListActivity extends BaseActivity {
 	}
     
 
+	
 	/**
 	 * Notes list initialization. Data, actions and callback are defined here.
 	 */
@@ -316,35 +317,6 @@ public class ListActivity extends BaseActivity {
 			        return true;
 				}
 			});
-			
-			
-			// Note list scrolling hide actionbar effect (deactivate for conflicts with listviewanimation library)
-	//		listView.setOnScrollListener(new OnScrollListener() {
-	//
-	//			int mLastFirstVisibleItem = 0;
-	//			/*
-	//			 * @see android.widget.AbsListView.OnScrollListener#onScrollStateChanged(android.widget.AbsListView, int)
-	//			 */
-	//			@Override
-	//			public void onScrollStateChanged(AbsListView view, int scrollState) {}
-	//			/*
-	//			 * @see android.widget.AbsListView.OnScrollListener#onScroll(android.widget.AbsListView, int, int, int)
-	//			 */
-	//			@Override
-	//			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-	//					int totalItemCount) {
-	//				if (view.getId() == listView.getId()) {
-	//					final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
-	//
-	//					if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-	//						getSupportActionBar().hide();
-	//					} else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-	//						getSupportActionBar().show();
-	//					}
-	//					mLastFirstVisibleItem = currentFirstVisibleItem;
-	//				}
-	//			}
-	//		});
 	
 			// Note single click listener managed by the activity itself
 			listView.setOnItemClickListener(new OnItemClickListener() {
@@ -719,24 +691,6 @@ public class ListActivity extends BaseActivity {
 		}
 		mAdapter = new NoteAdapter(getApplicationContext(), notes);
 
-
-		// Enables or note notes list animation depending on settings
-//		if (prefs.getBoolean("settings_enable_swype", true)) {
-//			ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton);
-//			adapter.setAbsListView(listView);
-//			listView.setAdapter(adapter);
-//			adapter.setDeleteItemCallback(new DeleteItemCallback() {
-//				
-//				@Override
-//				public void deleteItem(int position) {
-//					Log.d(Constants.TAG, "Swipe deleting note " + position);
-//					deleteNote(mAdapter.getItem(position));	
-//					initNotesList(getIntent());
-//				}
-//			});
-//		} else {
-//			listView.setAdapter(mAdapter);
-//		}
 		if (prefs.getBoolean("settings_enable_animations", true)) {
 		    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 		    // Assign the ListView to the AnimationAdapter and vice versa
