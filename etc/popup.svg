@@ -15,9 +15,9 @@
    version="1.1"
    inkscape:version="0.48.2 r9819"
    inkscape:export-filename="C:\Users\17000026\Pictures\bg_popup.png"
-   inkscape:export-xdpi="33.669998"
-   inkscape:export-ydpi="33.669998"
-   sodipodi:docname="Nuovo documento 1">
+   inkscape:export-xdpi="22.440001"
+   inkscape:export-ydpi="22.440001"
+   sodipodi:docname="popup.svg">
   <defs
      id="defs4">
     <filter
@@ -41,8 +41,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="270.69001"
-     inkscape:cy="506.73433"
+     inkscape:cx="371.86367"
+     inkscape:cy="486.87711"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -50,7 +50,7 @@
      inkscape:window-height="850"
      inkscape:window-x="75"
      inkscape:window-y="75"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -78,10 +78,12 @@
        inkscape:export-ydpi="51.310001"
        transform="matrix(1,0,0,0.96323239,0,29.544681)" />
     <path
-       style="opacity:1;fill:#ffffff;stroke:#8b8b8b;stroke-width:2;stroke-miterlimit:4;stroke-opacity:0.75294119;fill-opacity:1"
-       d="m 259.66881,331.92029 47.66559,0 c 25.25381,0 47.6656,-38.3858 47.6656,-38.3858 0,0 21.8194,38.3858 48.10279,38.3858 l 48.10279,0 c 34.00145,0 61.37447,27.37301 61.37447,61.37447 l 0,328.67962 c 0,34.00145 -27.37302,61.37447 -61.37447,61.37447 l -191.53677,0 c -34.00145,0 -61.37447,-27.37302 -61.37447,-61.37447 l 0,-328.67962 c 0,-34.00146 27.37302,-61.37447 61.37447,-61.37447 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:#8b8b8b;stroke-width:2;stroke-miterlimit:4;stroke-opacity:0.75294118"
+       d="m 259.66881,331.92029 47.66559,0 c 25.25381,0 47.6656,0.25254 47.6656,0.25254 0,0 21.8194,-0.25254 48.10279,-0.25254 l 48.10279,0 c 34.00145,0 61.37447,27.37301 61.37447,61.37447 l 0,328.67962 c 0,34.00145 -27.37302,61.37447 -61.37447,61.37447 l -191.53677,0 c -34.00145,0 -61.37447,-27.37302 -61.37447,-61.37447 l 0,-328.67962 c 0,-34.00146 27.37302,-61.37447 61.37447,-61.37447 z"
        id="rect2985"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="scccssssssss" />
+       sodipodi:nodetypes="scccssssssss"
+       inkscape:export-xdpi="28.450001"
+       inkscape:export-ydpi="28.450001" />
   </g>
 </svg>
