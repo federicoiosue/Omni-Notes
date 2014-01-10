@@ -86,7 +86,7 @@
     <string name="feature_not_available_on_this_device">Feature not available on this device</string>
     <string name="error_occurred_deleting_note">Error occurred deleting note</string>
     <string name="data_export_message">Insert backup name</string>
-    <string name="data_import_message">Choose backup to import or keep long-pressed to prompt deletion</string>
+    <string name="data_import_message">Click -> restore\nLong-click -> delete</string>
     <string name="data_import_message_warning">WARNING: This will replace all current data!</string>
     <string name="data_export_completed">Data backup completed</string>
     <string name="data_import_completed">Data import completed</string>
@@ -128,8 +128,8 @@
         			\n\nOnce there press the button as shown in the image below to delete Omni Notes\' data.</string>
     <string name="action_settings">Settings</string>
     <string name="settings_sync_import_export">Synch and Backups</string>
-    <string name="settings_export">Backup notes and attachments</string>
-    <string name="settings_import">Import and delete backups</string>
+    <string name="settings_export">Export</string>
+    <string name="settings_import">Import and delete</string>
     <string name="export_success">File exported successfully into folder</string>
     <string name="export_fail">File export failed</string>
     <string name="import_success">File imported successfully</string>
@@ -172,7 +172,7 @@
     <string name="settings_enable_info_summary">Enable or disable popups for actions on notes like editing, deleting, tagging...</string>
     <string name="settings_enable_editor_links_summary">Enable or disable automatic highlighting of links and e-mail in editor</string>
     <string name="confirm_removing_backup">Confirm removing backup</string>
-    <string name="data_deletion_completed">Confirm removing backup</string>
+    <string name="data_deletion_completed">Data deletion completed</string>
     
     
 
