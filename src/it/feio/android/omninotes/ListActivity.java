@@ -830,15 +830,28 @@ public class ListActivity extends BaseActivity {
 			showToast(getString(R.string.no_tags_created), Toast.LENGTH_SHORT);
 			return;
 		}
+
+		// If just one note is selected its tag will be set as pre-selected
+		if (selectedNotes.size() == 1) {
+			for (Note note : selectedNotes) {
+				candidateSelectedTag = note.getTag();				
+			}
+		} else {
+			candidateSelectedTag = tags.get(0);
+		}		
 		
-		// Otherwise a single choice dialog will be displayed
+		// Choosing the pre-selected item in the dialog list
 		ArrayList<String> tagsNames = new ArrayList<String>();
-		int selectedIndex = 0;
-		for (Tag tag : tags) {
+		int selectedIndex = 0;		
+		for (int i = 0; i < tags.size(); i++) {
+			Tag tag = tags.get(i);
 			tagsNames.add(tag.getName());
+			if (candidateSelectedTag.getId() == tag.getId()){
+				selectedIndex = i;
+			}
 		}
-		candidateSelectedTag = tags.get(0);
-		
+
+		// A single choice dialog will be displayed
 		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
 		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 		
