@@ -25,7 +25,8 @@
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="8dp"
-        android:padding="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:scrollbarStyle="outsideOverlay" >
     </ListView>
 
