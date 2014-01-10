@@ -25,8 +25,9 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.os.Build;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,8 +89,13 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		if (tag.getColor().length() > 0) {
 			Drawable img = mContext.getResources().getDrawable(R.drawable.circle);
 			ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(tag.getColor()));
-			img.mutate().setColorFilter(cf);
-			imgIcon.setImageDrawable(img);
+			// Before API 16 the object is mutable yet
+			if (Build.VERSION.SDK_INT >= 16) {
+				img.mutate().setColorFilter(cf);
+			} else {
+				img.setColorFilter(cf);				
+			}
+				imgIcon.setImageDrawable(img);
 			imgIcon.setPadding(25, 25, -25, 25);
 		}
 
