@@ -16,10 +16,12 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.1.0" changeDate="Jan 10, 2014">
+    <changelogversion versionName="4.1.0 Beta 2" changeDate="Jan 10, 2014">
       <changelogtext>[b]New![/b] Associate notes with colored [u]tags[/u] to categorize and filter them!</changelogtext>
       <changelogtext>[b]New![/b] Protect single notes from unauthorized accesses using a security password</changelogtext>
-      <changelogtext>About section in settings now contains more infos on the opensource project</changelogtext>
+      <changelogtext>[b]New![/b] More efficient backup management (including deletion and size details)</changelogtext>
+      <changelogtext>Reduced app installer size</changelogtext>
+      <changelogtext>The improved Settings section now includes a more verbose description for the various options and an About item containing infos on the opensource project</changelogtext>
       <changelogtext>Lot of graphical modifications and UI cleaning: fonts homogeneous, transparencies, screens titles, elements padding reduces to optimize spaces...</changelogtext>
       <changelogtext>[u]Fixed[/u] Notes icon indicators are now correctly aligned</changelogtext>
       <changelogtext>[u]Fixed[/u] After searching and editing a note the keyboard will no longer appear if unrequested</changelogtext>
