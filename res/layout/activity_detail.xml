@@ -144,6 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left"
+            android:padding="0dp"
             android:textAppearance="@style/Text.Small"
             pixlui:typeface="Roboto-Regular.ttf" />
 
@@ -153,6 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
+            android:padding="0dp"
             android:textAppearance="@style/Text.Small"
             pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>
