@@ -20,7 +20,7 @@
       <changelogtext>[b]New![/b] Associate notes with colored [u]tags[/u] to categorize and filter them!</changelogtext>
       <changelogtext>[b]New![/b] Protect single notes from unauthorized accesses using a security password</changelogtext>
       <changelogtext>About section in settings now contains more infos on the opensource project</changelogtext>
-      <changelogtext>Lot of graphical modifications and UI cleaning: fonts homogeneous, transparencies, screens titles...</changelogtext>
+      <changelogtext>Lot of graphical modifications and UI cleaning: fonts homogeneous, transparencies, screens titles, elements padding reduces to optimize spaces...</changelogtext>
       <changelogtext>[u]Fixed[/u] Notes icon indicators are now correctly aligned</changelogtext>
       <changelogtext>[u]Fixed[/u] After searching and editing a note the keyboard will no longer appear if unrequested</changelogtext>
       <changelogtext>[u]Fixed[/u] Error on widget positioning and wrong backup restore in Android versions minor than 4.0.0</changelogtext>
