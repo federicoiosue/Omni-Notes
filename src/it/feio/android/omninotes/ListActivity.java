@@ -60,6 +60,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -83,6 +84,7 @@ public class ListActivity extends BaseActivity {
 	private ListView mDrawerTagList;
 	private View tagListHeader;
 	private Tag candidateSelectedTag;
+	private SearchView searchView;
 
 
 	@Override
@@ -96,8 +98,7 @@ public class ListActivity extends BaseActivity {
 			handleFilter(intent);
 		}
 
-		// Navigation drawer and listview initialization
-//		initNavigationDrawer();
+		// Listview initialization
 		initListView();
 
 		String[] navigationList = getResources().getStringArray(R.array.navigation_list);
@@ -179,24 +180,6 @@ public class ListActivity extends BaseActivity {
 			initNavigationDrawer();
 		}
 	}
-	
-	@Override
-	protected void onPause() {
-		Log.v(Constants.TAG, "OnPause");
-		// TODO Auto-generated method stub
-		super.onPause();
-	}
-	
-	
-//	@Override
-//	public void onBackPressed() {
-//		// To avoid showing splashcreen again
-//		Intent intent = new Intent(Intent.ACTION_MAIN);
-//		intent.addCategory(Intent.CATEGORY_HOME);
-//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//		startActivity(intent);
-//		
-//	}
 	
 	
 
@@ -516,9 +499,9 @@ public class ListActivity extends BaseActivity {
 	private void initSearchView(final Menu menu) {
 		// Associate searchable configuration with the SearchView
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//		final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-		final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
+		searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
 		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 		
 		// Expands the widget hiding other actionbar icons
 		searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {			
@@ -670,7 +653,6 @@ public class ListActivity extends BaseActivity {
 		}
 		setIntent(intent);
 		Log.d(Constants.TAG, "onNewIntent");
-//		initNotesList(intent);
 		super.onNewIntent(intent);
 	}
 	
@@ -684,7 +666,6 @@ public class ListActivity extends BaseActivity {
 		List<Note> notes;
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			notes = handleIntent(intent);
-			getSupportActionBar().setTitle(getString(R.string.search));
 		} else {
 			DbHelper db = new DbHelper(getApplicationContext());
 			notes = db.getAllNotes(true);
@@ -717,6 +698,7 @@ public class ListActivity extends BaseActivity {
 		DbHelper db = new DbHelper(this);
 		notesList = db.getMatchingNotes(pattern);
 		Log.d(Constants.TAG, "Found " + notesList.size() + " elements matching");
+		searchView.clearFocus();
 		return notesList;
 
 	}
@@ -725,16 +707,6 @@ public class ListActivity extends BaseActivity {
 	/** Swaps fragments in the main content view 
 	 * @param list */
 	private void selectNavigationItem(ListView list, int position) {
-		// Reset to NON-checked alll items from navDrawer before selecting the right one
-//		for (int i = 0; i < mDrawerList.getCount(); i++) {
-//			mDrawerList.setItemChecked(i, false);
-//		}
-//		for (int i = 0; i < mDrawerTagList.getCount(); i++) {
-//			mDrawerList.setItemChecked(i, false);
-//		}
-		// Highlight the selected item, update the title, and close the drawer
-//		list.setItemChecked(position, true);
-//		mTitle = mNavigationArray[position];
 		Object itemSelected = list.getItemAtPosition(position);
 		if (itemSelected.getClass().isAssignableFrom(String.class)) {
 			mTitle = (CharSequence)itemSelected;	
