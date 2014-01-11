@@ -16,12 +16,17 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.1.0 Beta 3" changeDate="Jan 13, 2014">
+    <changelogversion versionName="4.1.0" changeDate="Jan 13, 2014">
+      <changelogtext>[b]New![/b] Completelly translated in Italian</changelogtext>
+      <changelogtext>[b]New![/b] Completelly translated in Turkish (thanks to ufkeee)</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="4.1.0 Beta 3" changeDate="Jan 11, 2014">
       <changelogtext>[b]New![/b] Audio attachments now are shown with their name to avoid confusing them</changelogtext>
-      <changelogtext>A little bit faster on launch thanks to some code cleaning</changelogtext>
-      <changelogtext>Batch tagging notes on list now pre-selects actual tag if just one note ise selected</changelogtext>
-      <changelogtext>[u]Fixed[/u] Playing an audio recording without having stopped the previuos one now works correctly</changelogtext>
-      <changelogtext>[u]Fixed[/u] Missing tags colored circle on Android versions previous than Jelly Bean</changelogtext>
+      <changelogtext>Faster app launches thanks to heavy code cleaning</changelogtext>
+      <changelogtext>Batch tagging notes on list now pre-sets actual tag if just one note is selected</changelogtext>
+      <changelogtext>[u]Fixed[/u] Playing audio recordings without having stopped the previuos one now works correctly</changelogtext>
+      <changelogtext>[u]Fixed[/u] Tags colored circle are now displayed also on versions previously than Jelly Bean</changelogtext>
      </changelogversion>
 
     <changelogversion versionName="4.1.0 Beta 2" changeDate="Jan 10, 2014">
