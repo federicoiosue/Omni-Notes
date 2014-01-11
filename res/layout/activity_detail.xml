@@ -56,7 +56,8 @@
         android:background="@drawable/bg_card"
         android:orientation="vertical"
         android:paddingLeft="@dimen/horizontal_margin"
-        android:paddingRight="@dimen/horizontal_margin" >
+        android:paddingRight="@dimen/horizontal_margin"
+        android:paddingBottom="2dp" >
 
         <ScrollView
             android:layout_width="match_parent"
