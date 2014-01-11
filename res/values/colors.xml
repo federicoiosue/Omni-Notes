@@ -30,6 +30,7 @@
     <color name="location_text">#ee2d2d2d</color>
     <color name="selected">#8833B5E5</color>    
     <color name="transparent">#00ffffff</color>    
+    <color name="audio_attachment_text">#aa000000</color>    
     
     
 </resources>

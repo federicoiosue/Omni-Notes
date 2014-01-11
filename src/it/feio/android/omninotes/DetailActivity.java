@@ -49,6 +49,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -131,6 +132,7 @@ public class DetailActivity extends BaseActivity {
 	private Tag candidateSelectedTag;
 	private Tag selectedTag;
 	private Boolean lock;
+	private Bitmap recordingBitmap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -308,6 +310,10 @@ public class DetailActivity extends BaseActivity {
 		mGridView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v, final int position, long id) {
+				
+				// To avoid deleting audio attachment during playback
+				if (mPlayer != null) return false;
+				
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 				alertDialogBuilder.setMessage(R.string.delete_selected_image)
 						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
@@ -1146,19 +1152,22 @@ public class DetailActivity extends BaseActivity {
 		if (mPlayer != null && mPlayer.isPlaying()) {
 			// If the audio actually played is NOT the one from the click view the last one is played
 			if (isPlayingView != v) {
+				stopPlaying();
 				isPlayingView = v;
 				startPlaying(uri);
-				((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+				recordingBitmap = ((BitmapDrawable)((ImageView)v).getDrawable()).getBitmap();
+				((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));				
 			// Otherwise just stops playing
 			} else {			
-				((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
-				isPlayingView = null;
+//				((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+				
 				stopPlaying();	
 			}
 		// If nothing is playing audio just plays	
 		} else {
 			isPlayingView = v;
 			startPlaying(uri);	
+			recordingBitmap = ((BitmapDrawable)((ImageView)v).getDrawable()).getBitmap();
 			((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 		}
 	}
@@ -1174,7 +1183,9 @@ public class DetailActivity extends BaseActivity {
 				@Override
 				public void onCompletion(MediaPlayer mp) {
 					mPlayer = null;
-					((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+//					((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+					((ImageView)isPlayingView).setImageBitmap(recordingBitmap);
+					recordingBitmap = null;
 					isPlayingView = null;
 				}
 			});
@@ -1185,6 +1196,9 @@ public class DetailActivity extends BaseActivity {
 
 	private void stopPlaying() {
 		if (mPlayer != null) {
+			((ImageView)isPlayingView).setImageBitmap(recordingBitmap);
+			isPlayingView = null;
+			recordingBitmap = null;
 			mPlayer.release();
 			mPlayer = null;
 		}

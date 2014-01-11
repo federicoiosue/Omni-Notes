@@ -71,7 +71,7 @@
     <string name="attachment">Attachment</string>
     <string name="camera">Camera</string>
     <string name="galery">Gallery</string>
-    <string name="delete_selected_image">Delete selected image?</string>
+    <string name="delete_selected_image">Delete selected attachment?</string>
     <string name="gallery">Gallery</string>
     <string name="location">Location</string>
     <string name="remove_location">Remove location?</string>

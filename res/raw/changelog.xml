@@ -16,9 +16,15 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.1.0 Beta 3" changeDate="Jan 13, 2014">
+      <changelogtext>[b]New![/b] Audio attachments now are shown with their name to avoid confusing them</changelogtext>
+      <changelogtext>A little bit faster on launch thanks to some code cleaning</changelogtext>
+      <changelogtext>Batch tagging notes on list now pre-selects actual tag if just one note ise selected</changelogtext>
+      <changelogtext>[u]Fixed[/u] Playing an audio recording without having stopped the previuos one now works correctly</changelogtext>
+      <changelogtext>[u]Fixed[/u] Missing tags colored circle on Android versions previous than Jelly Bean</changelogtext>
+     </changelogversion>
+
     <changelogversion versionName="4.1.0 Beta 2" changeDate="Jan 10, 2014">
-      <changelogtext>[b]New![/b] Associate notes with colored [u]tags[/u] to categorize and filter them!</changelogtext>
-      <changelogtext>[b]New![/b] Protect single notes from unauthorized accesses using a security password</changelogtext>
       <changelogtext>[b]New![/b] More efficient backup management (including deletion and size details)</changelogtext>
       <changelogtext>Reduced app installer size</changelogtext>
       <changelogtext>The improved Settings section now includes a more verbose description for the various options and an About item containing infos on the opensource project</changelogtext>
@@ -26,6 +32,11 @@
       <changelogtext>[u]Fixed[/u] Notes icon indicators are now correctly aligned</changelogtext>
       <changelogtext>[u]Fixed[/u] After searching and editing a note the keyboard will no longer appear if unrequested</changelogtext>
       <changelogtext>[u]Fixed[/u] Error on widget positioning and wrong backup restore in Android versions minor than 4.0.0</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="4.1.0 Beta 1" changeDate="Jan 6, 2014">
+      <changelogtext>[b]New![/b] Associate notes with colored [u]tags[/u] to categorize and filter them!</changelogtext>
+      <changelogtext>[b]New![/b] Protect single notes from unauthorized accesses using a security password</changelogtext>
       <changelogtext>[u]Fixed[/u] Many other minor issues have been resolved</changelogtext>
 	</changelogversion>
 

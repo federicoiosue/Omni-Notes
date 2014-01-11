@@ -64,7 +64,9 @@ public class BitmapLoaderTask extends AsyncTask<Attachment, Void, Bitmap> {
 				bmp = ThumbnailUtils.extractThumbnail(
 						BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play),
 						Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
-				bmp = BitmapDecoder.drawTextToBitmap(mContext, bmp, mAttachment.getUri().getLastPathSegment(), 0, 0);
+				bmp = BitmapDecoder.drawTextToBitmap(mContext, bmp, 
+							mAttachment.getUri().getLastPathSegment(), null, -10, 
+							10, mContext.getResources().getColor(R.color.text_gray));
 			}
 		} catch (FileNotFoundException e) {
 			Log.e(Constants.TAG, "Image not found");
