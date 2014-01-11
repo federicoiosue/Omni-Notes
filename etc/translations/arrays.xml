@@ -22,13 +22,11 @@
         <item>Reminders</item>
     </string-array>
 
-
     <string-array name="sortable_columns_human_readable">
         <item>Title</item>
         <item>Creation date</item>
         <item>Last modification date</item>
     </string-array>
-
 
 
 </resources>
