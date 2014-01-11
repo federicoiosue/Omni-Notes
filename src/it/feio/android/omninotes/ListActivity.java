@@ -166,12 +166,8 @@ public class ListActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 		Log.v(Constants.TAG, "OnResume");
-		
-		// The initializazion actions are performed only after onNewIntent is called first time		
-		if (getIntent().getAction() != null) {
-			initNotesList(getIntent());
-			initNavigationDrawer();
-		}
+		initNotesList(getIntent());
+		initNavigationDrawer();
 	}
 	
 	

@@ -50,7 +50,8 @@
         <!-- Splash screen -->
         <activity
             android:name="it.feio.android.omninotes.SplashScreenActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
