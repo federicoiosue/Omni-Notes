@@ -26,6 +26,8 @@ import android.view.Window;
 
 public class SplashScreenActivity extends BaseActivity {
 	
+	private Intent launchMainActivity = new Intent();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +42,11 @@ public class SplashScreenActivity extends BaseActivity {
 	
 		// Saving application opening time
 		prefs.edit().putLong("last_app_open", openTime).commit();
+		
+		// Set an action to the launch intent when splashscreen is shown because is that 
+		// case the ListACtivity onNewIntent methos is not called ad otherwise dala will 
+		// not been initialized
+		launchMainActivity.setAction(Constants.ACTION_START_APP);
 		
 		// If is not passed enough time splash image is skipped
 		if (openTime - lastOpenTime < Constants.SPLASH_MIN_OFFSET)
@@ -73,8 +80,8 @@ public class SplashScreenActivity extends BaseActivity {
 	
 	
 	private void launchMainActivity() {
-		Intent i = new Intent(SplashScreenActivity.this, ListActivity.class);
-		startActivity(i);
+		launchMainActivity.setClass(this, ListActivity.class);
+		startActivity(launchMainActivity);
 	}
 
 }

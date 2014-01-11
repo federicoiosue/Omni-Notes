@@ -167,14 +167,7 @@ public class ListActivity extends BaseActivity {
 		super.onResume();
 		Log.v(Constants.TAG, "OnResume");
 		
-		// The initializazion actions are performed only after onNewIntent is called first time...
-		
-		// ...but not on first run, so in this case initialization is forced
-		if (prefs.getBoolean(Constants.PREF_FIRST_RUN, true)) {
-			prefs.edit().putBoolean(Constants.PREF_FIRST_RUN, false).commit();
-			getIntent().setAction(Constants.ACTION_START_APP);
-		}
-		
+		// The initializazion actions are performed only after onNewIntent is called first time		
 		if (getIntent().getAction() != null) {
 			initNotesList(getIntent());
 			initNavigationDrawer();
