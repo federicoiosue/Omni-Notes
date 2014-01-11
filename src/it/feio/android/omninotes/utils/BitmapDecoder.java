@@ -17,9 +17,14 @@ package it.feio.android.omninotes.utils;
 
 import java.io.FileNotFoundException;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -68,7 +73,7 @@ public class BitmapDecoder {
 		options.inJustDecodeBounds = false;
 		options.inSampleSize = Math.round(inSampleSize);
 
-		// Ulteriore ottimizzazione a scapito della fedeltà dei colori e trasparenze
+		// Ulteriore ottimizzazione a scapito della fedeltï¿½ dei colori e trasparenze
 		// options.inPreferredConfig = Bitmap.Config.RGB_565;
 
 		// Decodifica dell'immagine con inSampleSize e ridimensionamento
@@ -115,4 +120,54 @@ public class BitmapDecoder {
 		}
 		return resultBitmap;
 	}
+	
+
+	
+	
+	/**
+	 * Draws text on a bitmap
+	 * 
+	 * @param mContext Context
+	 * @param bitmap Bitmap to draw on
+	 * @param text Text string to be written 
+	 * @return
+	 */
+	public static Bitmap drawTextToBitmap(Context mContext, Bitmap bitmap,
+			String text, int offsetX, int offsetY) {
+		Resources resources = mContext.getResources();
+		float scale = resources.getDisplayMetrics().density;
+		// Bitmap bitmap =
+		// BitmapFactory.decodeResource(resources, gResId);
+
+		android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
+		// set default bitmap config if none
+		if (bitmapConfig == null) {
+			bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+		}
+		// resource bitmaps are imutable,
+		// so we need to convert it to mutable one
+		bitmap = bitmap.copy(bitmapConfig, true);
+
+		Canvas canvas = new Canvas(bitmap);
+		// new antialised Paint
+		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		// text color - #3D3D3D
+		paint.setColor(Color.rgb(61, 61, 61));
+		// text size in pixels
+		paint.setTextSize((int) (14 * scale));
+		// text shadow
+		paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
+
+		// draw text to the Canvas center
+		Rect bounds = new Rect();
+		paint.getTextBounds(text, 0, text.length(), bounds);
+		int x = (bitmap.getWidth() - bounds.width()) / 2;
+//		int y = (bitmap.getHeight() + bounds.height()) / 2;
+		int y = bitmap.getHeight() - bounds.height();
+
+		canvas.drawText(text, x, y, paint);
+
+		return bitmap;
+	}
+	
 }
