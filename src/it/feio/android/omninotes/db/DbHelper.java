@@ -82,10 +82,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
 	private final Context ctx;
+	private final SharedPreferences prefs;
 
 	public DbHelper(Context ctx) {
 		super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
 		this.ctx = ctx;
+		this.prefs = PreferenceManager
+				.getDefaultSharedPreferences(ctx);
 	}
 	
 	public String getDatabaseName() {
@@ -264,13 +267,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	public List<Note> getAllNotes(boolean checkNavigation) {
 
-		// Getting sorting criteria from preferences
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(ctx);
-		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
-				KEY_TITLE);
-		String sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
-
 		// Checking if archived or reminders notes must be shown
 		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
 		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
@@ -284,36 +280,8 @@ public class DbHelper extends SQLiteOpenHelper {
 			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 " : whereCondition;
 			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 " : whereCondition;
 			whereCondition = tag ? " WHERE " + TABLE_NOTES + "." + KEY_TAG + " = " + navigation : whereCondition;
-		}
-		
-		// Select All Query
-//		String query = "SELECT * FROM " + TABLE_NOTES + whereCondition
-//				+ " ORDER BY " + sort_column + sort_order;
-		String query = "SELECT " 
-							+ KEY_ID + "," 
-							+ KEY_CREATION + "," 
-							+ KEY_LAST_MODIFICATION + "," 
-							+ KEY_TITLE + "," 
-							+ KEY_CONTENT + "," 
-							+ KEY_ARCHIVED + "," 
-							+ KEY_ALARM + "," 
-							+ KEY_LATITUDE + "," 
-							+ KEY_LONGITUDE + "," 
-							+ KEY_LOCKED + "," 
-							+ KEY_TAG + "," 
-							+ KEY_TAG_NAME + "," 
-							+ KEY_TAG_DESCRIPTION + "," 
-							+ KEY_TAG_COLOR 
-						+ " FROM " + TABLE_NOTES 
-						+ " LEFT JOIN " + TABLE_TAGS + " USING( " + KEY_TAG + ") "
-	//									+ " LEFT JOIN " + TABLE_TAGS 
-	//									+ " ON " + TABLE_NOTES + "." + KEY_TAG + " = " + TABLE_TAGS + "." + KEY_TAG_ID
-						
-						+ whereCondition
-						+ " ORDER BY " + sort_column + sort_order;
-		return getNotes(query);
-
-		// new GetAllNotesAsync(ctx, this, mAdapter).execute(checkNavigation);
+		}		
+		return getNotes(whereCondition, true);
 	}
 	
 	
@@ -323,8 +291,38 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @param query
 	 * @return Notes list
 	 */
-	private List<Note> getNotes(String query) {
+	private List<Note> getNotes(String whereCondition, boolean order) {
 		List<Note> noteList = new ArrayList<Note>();
+
+		// Getting sorting criteria from preferences
+		String sort_column = "", sort_order = "";
+		if (order) {
+			sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
+					KEY_TITLE);
+			sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
+		}
+		
+		// Generic query to be specialized with conditions passed as parameter
+		String query = "SELECT " 
+						+ KEY_ID + "," 
+						+ KEY_CREATION + "," 
+						+ KEY_LAST_MODIFICATION + "," 
+						+ KEY_TITLE + "," 
+						+ KEY_CONTENT + "," 
+						+ KEY_ARCHIVED + "," 
+						+ KEY_ALARM + "," 
+						+ KEY_LATITUDE + "," 
+						+ KEY_LONGITUDE + "," 
+						+ KEY_LOCKED + "," 
+						+ KEY_TAG + "," 
+						+ KEY_TAG_NAME + "," 
+						+ KEY_TAG_DESCRIPTION + "," 
+						+ KEY_TAG_COLOR 
+					+ " FROM " + TABLE_NOTES 
+					+ " LEFT JOIN " + TABLE_TAGS + " USING( " + KEY_TAG + ") "						
+					+ whereCondition
+					+ (order ? " ORDER BY " + sort_column + sort_order : "");
+
 		Log.d(Constants.TAG, "Query: " + query);
 
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -430,39 +428,11 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return Notes list
 	 */
 	public List<Note> getMatchingNotes(String pattern) {
-		
-		// Getting sorting criteria from preferences
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(ctx);
-		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
-				KEY_TITLE);
-		String sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
-
 		// Select All Query
 		String whereCondition = " WHERE "
 								+ KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR "
 								+ KEY_CONTENT + " LIKE '%" + pattern + "%' ";
-		String query = "SELECT " 
-							+ KEY_ID + "," 
-							+ KEY_CREATION + "," 
-							+ KEY_LAST_MODIFICATION + "," 
-							+ KEY_TITLE + "," 
-							+ KEY_CONTENT + "," 
-							+ KEY_ARCHIVED + "," 
-							+ KEY_ALARM + "," 
-							+ KEY_LATITUDE + "," 
-							+ KEY_LONGITUDE + "," 
-							+ KEY_LOCKED + "," 
-							+ KEY_TAG + "," 
-							+ KEY_TAG_NAME + "," 
-							+ KEY_TAG_DESCRIPTION + "," 
-							+ KEY_TAG_COLOR 
-						+ " FROM " + TABLE_NOTES 
-						+ " LEFT JOIN " + TABLE_TAGS + " USING( " + KEY_TAG + ") "
-						+ whereCondition
-						+ " ORDER BY " + sort_column + sort_order;
-
-		return getNotes(query);
+		return getNotes(whereCondition, true);
 	}
 	
 	
@@ -475,14 +445,10 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return Notes list
 	 */
 	public List<Note> getNotesWithReminder(boolean passed) {
-
 		// Select query
-		String selectQuery = "SELECT * FROM " + TABLE_NOTES 
-							+ " WHERE " + KEY_ALARM 
-							+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis());
-				
-
-		return getNotes(selectQuery);
+		String whereCondition = " WHERE " + KEY_ALARM 
+								+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis());
+		return getNotes(whereCondition, false);
 	}
 
 

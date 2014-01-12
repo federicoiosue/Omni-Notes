@@ -653,6 +653,7 @@ public class ListActivity extends BaseActivity {
 		List<Note> notes;
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			notes = handleIntent(intent);
+			intent.setAction(null);
 		} else {
 			DbHelper db = new DbHelper(getApplicationContext());
 			notes = db.getAllNotes(true);
