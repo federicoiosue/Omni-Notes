@@ -3,10 +3,7 @@ package it.feio.android.omninotes.receiver;
 import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.ListActivity;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
-
-import java.util.Random;
 
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
@@ -18,8 +15,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.webkit.WebView.FindListener;
 import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider {

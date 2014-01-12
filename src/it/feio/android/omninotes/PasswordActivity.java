@@ -1,8 +1,5 @@
 package it.feio.android.omninotes;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;

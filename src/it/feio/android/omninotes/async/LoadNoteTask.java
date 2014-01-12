@@ -26,14 +26,9 @@ import android.widget.ImageView;
 
 public class LoadNoteTask extends AsyncTask<String, Void, Bitmap> {
 
-	private final Context ctx;
 	private final WeakReference<ImageView> imageViewReference;
 	private String fotoString;
-	private int reqWidth;
-	private int reqHeight;
-
 	public LoadNoteTask(Context ctx, ImageView imageView) {
-		this.ctx = ctx;
 		imageViewReference = new WeakReference<ImageView>(imageView);
 	}
 

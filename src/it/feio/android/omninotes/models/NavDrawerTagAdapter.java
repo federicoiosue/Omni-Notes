@@ -25,7 +25,6 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;

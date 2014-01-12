@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.annotation.SuppressLint;
@@ -38,8 +37,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.webkit.MimeTypeMap;
-import android.widget.Toast;
+simport android.widget.Toast;
 
 public class StorageManager {
 
@@ -276,7 +274,7 @@ public class StorageManager {
 	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 	        blockSize = statFs.getBlockSizeLong();
 	    } else {
-	        blockSize = statFs.getBlockSize();
+	        blockSize = statFs.getBlockSizeLong();
 	    }
 
 	    return getSize(directory, blockSize);
@@ -345,8 +343,6 @@ public class StorageManager {
 	 */
 	public static String getMimeType(Context mContext, Uri uri) {
 		ContentResolver cR = mContext.getContentResolver();
-		MimeTypeMap mimeMap = MimeTypeMap.getSingleton();
-//		String mimeType = mimeMap.getExtensionFromMimeType(cR.getType(uri));
 		String mimeType = cR.getType(uri);
 		return mimeType;
 	}

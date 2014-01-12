@@ -25,6 +25,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -47,6 +48,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@SuppressLint("Registered") 
 public class BaseActivity extends ActionBarActivity {
 
 	private final boolean TEST = true;

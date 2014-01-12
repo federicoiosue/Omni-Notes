@@ -75,7 +75,6 @@ public class ListActivity extends BaseActivity {
 	TypedArray mNavigationIconsArray;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private DrawerLayout mDrawerLayout;
-	private LinearLayout mDrawer;
 	private ListView listView;
 	NoteAdapter mAdapter;
 	ActionMode mActionMode;
@@ -317,7 +316,6 @@ public class ListActivity extends BaseActivity {
 	private void initNavigationDrawer() {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawer = (LinearLayout) findViewById(R.id.left_drawer);
 
 		// Sets the adapter for the MAIN navigation list view
 		mDrawerList = (ListView) findViewById(R.id.drawer_nav_list);

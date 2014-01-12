@@ -169,7 +169,7 @@
     <string name="settings_password_summary">Edit app\'s security password</string>
     <string name="settings_enable_animations_summary">Enable or disable notes\' list and screen change animations</string>
     <string name="settings_enable_tag_marker_summary">Enable or disable tags colored markers</string>
-    <string name="settings_enable_info_summary">Enable or disable popups for actions on notes like editing, deleting, tagging...</string>
+    <string name="settings_enable_info_summary">Enable or disable popups for actions on notes like editing, deleting, tagging&#8230;</string>
     <string name="settings_enable_editor_links_summary">Enable or disable automatic highlighting of links and e-mail in editor</string>
     <string name="confirm_removing_backup">Confirm removing backup</string>
     <string name="data_deletion_completed">Data deletion completed</string>
@@ -179,5 +179,13 @@
     <!-- About -->
     <string name="follow_author">Who is the developer?</string>
     <string name="click_to_support">Click the banner to support development</string>
+    
+    
+    
+    <!-- Accessibility -->
+    <string name="drawer_open">drawer open</string>
+    <string name="drawer_close">drawer close</string>
+    
+
 
 </resources>

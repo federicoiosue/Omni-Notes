@@ -57,16 +57,13 @@ public class BitmapDecoder {
 		final int height = options.outHeight;
 		final int width = options.outWidth;
 		float inSampleSize = 1;
-		int newWidth = width;
-		int newHeight = height;
-
 		if (height > reqHeight || width > reqWidth) {
 			final float heightRatio = (float) height / (float) reqHeight;
 			final float widthRatio = (float) width / (float) reqWidth;
 
 			inSampleSize = heightRatio > widthRatio ? heightRatio : widthRatio;
-			newWidth = Math.round(width / inSampleSize);
-			newHeight = Math.round(height / inSampleSize);
+			Math.round(width / inSampleSize);
+			Math.round(height / inSampleSize);
 		}
 
 		// Impostazione delle opzioni per la decodifica

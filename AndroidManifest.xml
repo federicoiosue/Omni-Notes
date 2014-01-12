@@ -153,10 +153,16 @@
                 android:value=".ListActivity" />
         </activity>
 
+        <!-- Password -->
+        <activity
+            android:name="it.feio.android.omninotes.PasswordActivity"
+            android:label="@string/title_activity_password" >
+        </activity>
+
         <!-- Changelog -->
         <activity
             android:name="it.feio.android.omninotes.ChangelogActivity"
-            android:label="@string/settings_changelog">
+            android:label="@string/settings_changelog" >
         </activity>
 
         <!-- About -->
@@ -164,11 +170,6 @@
             android:name="it.feio.android.omninotes.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>
-
-        <!-- AdMob -->
-        <activity
-            android:name="com.google.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
         <!-- Alarm broadcast receiver -->
         <receiver android:name="it.feio.android.omninotes.receiver.AlarmReceiver" >
@@ -207,11 +208,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget_info" />
         </receiver>
-
-        <activity
-            android:name="it.feio.android.omninotes.PasswordActivity"
-            android:label="@string/title_activity_password" >
-        </activity>
+        
+        
     </application>
 
 </manifest>

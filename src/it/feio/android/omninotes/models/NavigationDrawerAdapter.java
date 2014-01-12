@@ -18,7 +18,6 @@ package it.feio.android.omninotes.models;
 import java.util.Arrays;
 
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
 
 import com.neopixl.pixlui.components.textview.TextView;
@@ -31,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 public class NavigationDrawerAdapter extends BaseAdapter {
 
