@@ -204,8 +204,10 @@ public class ListActivity extends BaseActivity {
 			// Here you can perform updates to the CAB due to
 			// an invalidate() request
 			Log.d(Constants.TAG, "CAB preparation");
-			boolean archived = getResources().getStringArray(R.array.navigation_list_codes)[1].equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
-			menu.findItem(R.id.menu_archive).setVisible(!archived);
+			boolean notes = getResources().getStringArray(R.array.navigation_list_codes)[0].equals(navigation);
+			boolean archived = getResources().getStringArray(R.array.navigation_list_codes)[1].equals(navigation);
+						
+			menu.findItem(R.id.menu_archive).setVisible(notes);
 			menu.findItem(R.id.menu_unarchive).setVisible(archived);
 			menu.findItem(R.id.menu_tag).setVisible(true);
 			menu.findItem(R.id.menu_delete).setVisible(true);
@@ -332,7 +334,7 @@ public class ListActivity extends BaseActivity {
 				String navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
 				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(mDrawerList, position);
-				prefs.edit().putString(Constants.PREF_NAVIGATION, navigation).commit();
+				updateNavigation(navigation);
 				mDrawerList.setItemChecked(position, true);
 				if (mDrawerTagList != null)
 					mDrawerTagList.setItemChecked(0, false);  // Called to force redraw
@@ -368,7 +370,7 @@ public class ListActivity extends BaseActivity {
 						String navigation = tag.getName();
 						Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 						selectNavigationItem(mDrawerTagList, position);
-						prefs.edit().putString(Constants.PREF_NAVIGATION, String.valueOf(tag.getId())).commit();
+						updateNavigation(String.valueOf(tag.getId()));
 						mDrawerTagList.setItemChecked(position, true);
 						if (mDrawerList != null)
 							mDrawerList.setItemChecked(0, false);  // Called to force redraw
@@ -458,11 +460,12 @@ public class ListActivity extends BaseActivity {
 		}
 		
 		// If archived or reminders notes are shown the "add new note" item must be hidden
-		String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
+//		String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
 		String navArchived = getResources().getStringArray(R.array.navigation_list_codes)[1];
 		String navReminders = getResources().getStringArray(R.array.navigation_list_codes)[2];
-		boolean showAdd = !navArchived.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes))
-							&& !navReminders.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes));
+//		boolean showAdd = !navArchived.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes))
+//				&& !navReminders.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes));
+		boolean showAdd = !navArchived.equals(navigation) && !navReminders.equals(navigation);
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
@@ -585,8 +588,6 @@ public class ListActivity extends BaseActivity {
 		if (note.get_id() == 0) {
 			Log.d(Constants.TAG, "Adding new note");
 			// if navigation is a tag it will be set into note
-			String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
-			String navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
 			try {
 				int tagId = Integer.parseInt(navigation);
 				note.setTag(db.getTag(tagId));

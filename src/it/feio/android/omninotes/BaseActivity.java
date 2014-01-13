@@ -68,6 +68,8 @@ public class BaseActivity extends ActionBarActivity {
 	protected double noteLatitude;
 	protected double noteLongitude;
 
+	protected String navigation;
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
@@ -121,6 +123,15 @@ public class BaseActivity extends ActionBarActivity {
 		// Google Analytics
 		EasyTracker.getInstance(this).activityStart(this);
 		tracker = GoogleAnalytics.getInstance(this).getTracker("UA-45502770-1");
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		// Navigation selected
+		String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
+		navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
 	}
 
 	@Override
@@ -260,6 +271,14 @@ public class BaseActivity extends ActionBarActivity {
 	// getBaseContext().getResources().updateConfiguration(config,
 	// getBaseContext().getResources().getDisplayMetrics());
 	// }
+	
+	
+	
+	
+	protected void updateNavigation(String nav){
+		prefs.edit().putString(Constants.PREF_NAVIGATION, nav).commit();
+		navigation = nav;
+	}
 	
 
 
