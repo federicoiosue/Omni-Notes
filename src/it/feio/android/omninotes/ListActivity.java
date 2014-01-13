@@ -647,7 +647,7 @@ public class ListActivity extends BaseActivity {
 	/**
 	 * Notes list adapter initialization and association to view
 	 */
-	public void initNotesList(Intent intent) {
+	private void initNotesList(Intent intent) {
 
 		Log.v(Constants.TAG, "initNotesList: intent action " + intent.getAction());
 		
@@ -669,6 +669,9 @@ public class ListActivity extends BaseActivity {
 		} else {
 			listView.setAdapter(mAdapter);
 		}
+		
+		if (notes.size() == 0)
+			listView.setEmptyView(findViewById(R.id.empty_list));
 		
 	}
 	
