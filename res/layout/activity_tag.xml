@@ -41,11 +41,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:hint="@string/tag_description" />
+        android:hint="@string/tag_description"
+        android:visibility="gone" />
 
     <com.larswerkman.holocolorpicker.ColorPicker
         android:id="@+id/color_picker"
         android:layout_width="210dp"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content" />
 
     <Button
@@ -53,7 +55,7 @@
         style="@style/Button.Dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="@string/delete_this_tag"
         android:visibility="gone" />
 
@@ -61,7 +63,7 @@
         style="@style/Button.Dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
         <Button
