@@ -137,7 +137,7 @@ public class DataBackupIntentService extends IntentService {
 		// Add this bundle to the intent
 		intentLaunch.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 		intentLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intentLaunch.setAction(Constants.ACTION_START_APP);
+//		intentLaunch.setAction(Constants.ACTION_START_APP);
 		
 		// Creates the PendingIntent
 		PendingIntent notifyIntent = PendingIntent.getActivity(ctx, 0, intentLaunch, PendingIntent.FLAG_UPDATE_CURRENT);

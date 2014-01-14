@@ -258,9 +258,9 @@ public class SettingsActivity extends PreferenceActivity {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 				
 				// Inflate layout
-				LayoutInflater inflater = activity.getLayoutInflater();
-				View v = inflater.inflate(R.layout.reset_data_dialog_layout, null);
-				alertDialogBuilder.setView(v);
+//				LayoutInflater inflater = activity.getLayoutInflater();
+//				View v = inflater.inflate(R.layout.reset_data_dialog_layout, null);
+//				alertDialogBuilder.setView(v);
 
 				// set dialog message
 				alertDialogBuilder
@@ -270,21 +270,30 @@ public class SettingsActivity extends PreferenceActivity {
 							public void onClick(DialogInterface dialog, int id) {
 								PreferenceManager.getDefaultSharedPreferences(activity).edit().clear()
 										.commit();
-								String packageName = getApplicationContext().getPackageName();
-
-								try {
-								    //Open the specific App Info page:
-								    Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-								    intent.setData(Uri.parse("package:" + packageName));
-								    startActivity(intent);
-
-								} catch ( ActivityNotFoundException e ) {
-								    //e.printStackTrace();
-
-								    //Open the generic Apps page:
-								    Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-								    startActivity(intent);
-								}
+								File db = activity.getDatabasePath(Constants.DATABASE_NAME);
+								StorageManager.delete(activity, db.getAbsolutePath());
+								File attachmentsDir = StorageManager.getAttachmentDir(activity);
+								StorageManager.delete(activity, attachmentsDir.getAbsolutePath());
+								Intent intent = new Intent(activity, ListActivity.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							    startActivity(intent);
+								
+//								String packageName = getApplicationContext().getPackageName();
+//
+//								try {
+//								    //Open the specific App Info page:
+//								    Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//								    intent.setData(Uri.parse("package:" + packageName));
+//								    startActivity(intent);
+//
+//								} catch ( ActivityNotFoundException e ) {
+//								    //e.printStackTrace();
+//
+//								    //Open the generic Apps page:
+//								    Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+//								    startActivity(intent);
+//								}
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 
@@ -307,7 +316,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 
 		
-		// Popup About
+		// About
 		Preference about = findPreference("settings_about");
 		about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
