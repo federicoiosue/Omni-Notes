@@ -16,21 +16,12 @@
 -->
 <changelog bulletedList="true">
 
-<<<<<<< HEAD
-<!--     <changelogversion versionName="4.1.0" changeDate="Jan 15, 2014"> -->
-<!--       <changelogtext>[b]New![/b] Completelly translated in Italian</changelogtext> -->
-<!--       <changelogtext>[b]New![/b] Completelly translated in Turkish (thanks to ufkeee)</changelogtext> -->
-<!--      </changelogversion> -->
-
-    <changelogversion versionName="4.1.0 Beta 4" changeDate="Jan 13, 2014">
-      <changelogtext>Removed archive/unarchive actions when navigation differs from Notes or Archived to avoid mistakes</changelogtext>
-	  <changelogtext>[u]Fixed[/u] Error on device reboot that caused reminders not restored</changelogtext>
-=======
-    <changelogversion versionName="4.1.0" changeDate="Jan 14, 2014">
+    <changelogversion versionName="4.1.0" changeDate="Jan 15, 2014">
       <changelogtext>[b]New![/b] Completelly translated in Italian</changelogtext>
       <changelogtext>[b]New![/b] Completelly translated in Turkish (thanks to ufkeee)</changelogtext>
->>>>>>> refs/heads/MERDA
-    </changelogversion>
+      <changelogtext>Removed archive/unarchive actions when navigation differs from Notes or Archived to avoid mistakes</changelogtext>
+	  <changelogtext>[u]Fixed[/u] Error on device reboot that caused reminders not restored</changelogtext>
+ 	</changelogversion>
 
     <changelogversion versionName="4.1.0 Beta 3" changeDate="Jan 11, 2014">
       <changelogtext>[b]New![/b] Audio attachments now are shown with their name to avoid confusing them</changelogtext>
