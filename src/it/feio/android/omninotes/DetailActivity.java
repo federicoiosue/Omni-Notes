@@ -236,6 +236,7 @@ public class DetailActivity extends BaseActivity {
 		// Initialization of location TextView
 		locationTextView = (TextView) findViewById(R.id.location);
 		if (currentLatitude != 0 && currentLongitude != 0) {
+			locationTextView.setVisibility(View.INVISIBLE);	// Set now to avoid jumps on populating location
 			setAddress(locationTextView);
 		}
 
