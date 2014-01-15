@@ -6,8 +6,7 @@ Note taking <b>open-source</b>application aimed to have both a <b>lightweight</b
 The project was created by the absence of such applications compatible with old phones and old versions of Android that would propose, however, an attractive look and aligned with the most recent design of the Google operating system
 
 
-<u>The application left the closed Beta but it's still in <b>Beta stage</b>, so please report any misbehaviour.</u>
-<i>Follow the developments and post your comments and advice on Google+ Beta Comunity at https://plus.google.com/u/0/communities/112276053772152071903 </i>
+**Follow the developments and post your comments and advice on Google+ Beta Comunity at https://plus.google.com/u/0/communities/112276053772152071903**
 
 Help to complete translations is needed, if you want give me an hand please send me an e-mail!
 
@@ -31,14 +30,9 @@ Further developments will include:
 
 You can find a complete changelog inside the application settings menu!
 
-**See http://actionbarsherlock.com for more information.**
+![Example Image][2]
 
-![Example Image][3]
-
-Try out the sample applications on the Android Market: [Feature Demos][4],
-[Fragments][5], and [RoboGuice][6].
-
-Continuous integration is provided by [Travis CI][7].
+Try out the app on the [Play Store][1].
 
 
 
@@ -70,9 +64,9 @@ License
 
 
 
- [1]: http://android-developers.blogspot.com/2011/03/fragments-for-all.html
- [2]: http://developer.android.com/guide/topics/ui/actionbar.html
- [3]: http://actionbarsherlock.com/static/feature.png
+ [1]: https://play.google.com/store/apps/details?id=it.feio.android.omninotes
+ [2]: https://lh5.ggpht.com/3amlxgjn4EYP1xO1kfCMZ2e98A__t9fFQ19H6YdvY6KJvY7RDTmxR5rtiTn8XXvu3Xj0=h300-rw
+ [3]: https://lh5.ggpht.com/26qzKYsu6S2OF6neQo_sgvG5eXuy6FEik8JWi5Z2L9Yhwfz0OyXLt-G_mrqYAdJeEd0=h300-rw
  [4]: https://play.google.com/store/apps/details?id=com.actionbarsherlock.sample.demos
  [5]: https://play.google.com/store/apps/details?id=com.actionbarsherlock.sample.fragments
  [6]: https://play.google.com/store/apps/details?id=com.actionbarsherlock.sample.roboguice
