@@ -11,8 +11,8 @@ The project was created by the absence of such applications compatible with old 
 Help to complete translations is needed, if you want give me an hand please send me an e-mail!
 
 Actually the following functions are implemented:
-* [ ]Android KitKat-ready appearance
-* [x]Add, modify, delete notes
+- [x] Android KitKat-ready appearance
+- [ ] Add, modify, delete notes
 * Manage active and archived notes
 * Share notes
 * Note searching
