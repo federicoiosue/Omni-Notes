@@ -51,7 +51,7 @@ import android.widget.Toast;
 @SuppressLint("Registered") 
 public class BaseActivity extends ActionBarActivity {
 
-	private final boolean TEST = false;
+	private final boolean TEST = true;
 	
 	protected DbHelper db;	
 	protected Activity mActivity;

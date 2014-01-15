@@ -131,7 +131,7 @@
     <string name="settings_reset_all_data">Erase all data</string>
     <string name="reset_all_data_confirmation">Confirm removing all app data (backups will be preserved)?</string>
     <string name="action_settings">Settings</string>
-    <string name="settings_sync_import_export">Synch and Backups</string>
+    <string name="settings_sync_import_export">Sync and Backups</string>
     <string name="settings_export">Export</string>
     <string name="settings_import">Import and delete</string>
     <string name="export_success">File exported successfully into folder</string>

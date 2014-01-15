@@ -85,6 +85,7 @@ public class ListActivity extends BaseActivity {
 	private View tagListHeader;
 	private Tag candidateSelectedTag;
 	private SearchView searchView;
+	public MenuItem searchMenuItem;
 
 
 	@Override
@@ -423,6 +424,10 @@ public class ListActivity extends BaseActivity {
 			}
 
 			public void onDrawerOpened(View drawerView) {
+				// Stops search service
+				if (searchMenuItem != null)
+					MenuItemCompat.collapseActionView(searchMenuItem);
+				
 				mTitle = getSupportActionBar().getTitle();
 				getSupportActionBar().setTitle(getApplicationContext().getString(R.string.app_name));
 				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
@@ -492,6 +497,10 @@ public class ListActivity extends BaseActivity {
 	 * @param menu
 	 */
 	private void initSearchView(final Menu menu) {
+		
+		// Save item as class attribute to make it collapse on drawer opening
+		searchMenuItem = menu.findItem(R.id.menu_search);
+
 		// Associate searchable configuration with the SearchView
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
