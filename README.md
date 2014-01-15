@@ -6,7 +6,7 @@ Note taking <b>open-source</b>application aimed to have both a <b>lightweight</b
 The project was created by the absence of such applications compatible with old phones and old versions of Android that would propose, however, an attractive look and aligned with the most recent design of the Google operating system
 
 
-**Follow the developments and post your comments and advice on Google+ Beta Comunity at https://plus.google.com/u/0/communities/112276053772152071903**
+**Follow the developments and post your comments and advice on Google+ Beta Comunity at http://goo.gl/eF6qqF**
 
 ***Help to complete translations is needed, if you want give me an hand please send me an e-mail!***
 
