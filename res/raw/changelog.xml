@@ -16,6 +16,11 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.1.1" changeDate="Jan 16, 2014">
+      <changelogtext>[b]New![/b] Completelly translated in Portugese (Brazil) (thanks to Eduardo Riva)</changelogtext>
+      <changelogtext>Many bugs resolved thanks to your signalations</changelogtext>
+ 	</changelogversion>
+
     <changelogversion versionName="4.1.0" changeDate="Jan 15, 2014">
       <changelogtext>[b]New![/b] Completelly translated in Italian</changelogtext>
       <changelogtext>[b]New![/b] Completelly translated in Turkish (thanks to ufkeee)</changelogtext>
