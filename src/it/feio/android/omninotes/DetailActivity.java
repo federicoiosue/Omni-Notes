@@ -163,7 +163,7 @@ public class DetailActivity extends BaseActivity {
 	private void init(boolean checkedNoteLock) {
 		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);		
 		
-		if (note.get_id() != 0) {
+		if (note != null && note.get_id() != 0) {
 			if (!checkedNoteLock) {
 				checkNoteLock(note);
 				return;
