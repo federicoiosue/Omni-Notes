@@ -8,7 +8,7 @@ The project was created by the absence of such applications compatible with old 
 
 **Follow the developments and post your comments and advice on Google+ Beta Comunity at https://plus.google.com/u/0/communities/112276053772152071903**
 
-Help to complete translations is needed, if you want give me an hand please send me an e-mail!
+***Help to complete translations is needed, if you want give me an hand please send me an e-mail!***
 
 Actually the following functions are implemented:
 * Android KitKat-ready appearance
@@ -30,7 +30,7 @@ Further developments will include:
 
 You can find a complete changelog inside the application settings menu!
 
-![Example Image][2]![Example Image][3]![Example Image][4]
+![Example Image][2]![Example Image][3]![Example Image][4]![Example Image][5]![Example Image][6]![Example Image][7]![Example Image][8]![Example Image][9]![Example Image][10]![Example Image][11]
 
 Try out the app on the [Play Store][1].
 
