@@ -18,7 +18,7 @@
 
     <changelogversion versionName="4.1.2" changeDate="Jan 18, 2014">
       <changelogtext>[b]New![/b] Completelly translated in Portugese (Brazil) (thanks to Eduardo Riva)</changelogtext>
-      <changelogtext>Bugfixes</changelogtext>
+      <changelogtext>[u]Fixed[/u] Restored correct animated indicator to open left sliding menu</changelogtext>
  	</changelogversion>
 
     <changelogversion versionName="4.1.1" changeDate="Jan 16, 2014">

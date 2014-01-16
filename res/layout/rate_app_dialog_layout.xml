@@ -20,15 +20,23 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_vertical|center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="@dimen/horizontal_margin" >
 
-    <EditText
-        android:id="@+id/password_request"
-        android:layout_width="match_parent"
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/rate_message"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPassword" >
+        android:gravity="center"
+        pixlui:typeface="Roboto-Regular.ttf" 
+        style="@style/Text.Big"/>
 
-        <requestFocus />
-    </EditText>
+    <CheckBox
+        android:id="@+id/rate_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/horizontal_margin" 
+        style="@style/Text.Small" />
 
 </LinearLayout>

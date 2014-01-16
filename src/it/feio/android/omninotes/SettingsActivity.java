@@ -25,7 +25,6 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.R;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -33,7 +32,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -278,22 +276,6 @@ public class SettingsActivity extends PreferenceActivity {
 								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 							    startActivity(intent);
-								
-//								String packageName = getApplicationContext().getPackageName();
-//
-//								try {
-//								    //Open the specific App Info page:
-//								    Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//								    intent.setData(Uri.parse("package:" + packageName));
-//								    startActivity(intent);
-//
-//								} catch ( ActivityNotFoundException e ) {
-//								    //e.printStackTrace();
-//
-//								    //Open the generic Apps page:
-//								    Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-//								    startActivity(intent);
-//								}
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 

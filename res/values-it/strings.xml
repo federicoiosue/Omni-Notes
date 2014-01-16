@@ -107,7 +107,7 @@
 	<string name="title_activity_about">"About"</string>
 	<string name="deleted">"cancellato"</string>
 	<string name="no_items_in_list">"Nessuna nota!"</string>
-	<string name="rate_dialog_message">"Se ti piace quest\'applicazione per favore si prega di prendere un momento per votarla. \ NGrazie per il vostro supporto!"</string>
+	<string name="rate_dialog_message">"Se ti piace quest\'applicazione per favore votala! \n\nGrazie per il supporto!"</string>
 	<string name="rate_dialog_rate_btn">"Votalo!"</string>
 	<string name="rate_dialog_dismiss_btn">"No, grazie"</string>
 	<string name="rate_dialog_later_btn">"Ricordamelo in seguito"</string>

@@ -468,11 +468,8 @@ public class ListActivity extends BaseActivity {
 		}
 		
 		// If archived or reminders notes are shown the "add new note" item must be hidden
-//		String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
 		String navArchived = getResources().getStringArray(R.array.navigation_list_codes)[1];
 		String navReminders = getResources().getStringArray(R.array.navigation_list_codes)[2];
-//		boolean showAdd = !navArchived.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes))
-//				&& !navReminders.equals(prefs.getString(Constants.PREF_NAVIGATION, navNotes));
 		boolean showAdd = !navArchived.equals(navigation) && !navReminders.equals(navigation);
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
