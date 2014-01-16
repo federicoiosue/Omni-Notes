@@ -435,10 +435,8 @@ public class ListActivity extends BaseActivity {
 		};
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		
-//		if (savedInstanceState == null) {
-//            selectItem(0);
-//        }
+
+		mDrawerToggle.syncState();
 	}
 
 	@Override
