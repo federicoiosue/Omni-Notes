@@ -425,7 +425,7 @@ public class ListActivity extends BaseActivity {
 
 			public void onDrawerOpened(View drawerView) {
 				// Stops search service
-				if (searchMenuItem != null)
+				if (searchMenuItem != null && MenuItemCompat.isActionViewExpanded(searchMenuItem))
 					MenuItemCompat.collapseActionView(searchMenuItem);
 				
 				mTitle = getSupportActionBar().getTitle();

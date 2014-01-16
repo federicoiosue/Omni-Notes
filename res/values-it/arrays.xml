@@ -21,11 +21,9 @@
     </string-array>
 
     <string-array name="sortable_columns_human_readable">
-        <item>"Titolo
-"</item>
+        <item>"Titolo"</item>
         <item>"Data di creazione"</item>
-        <item>"Ultima modifica
-"</item>
+        <item>"Ultima modifica"</item>
     </string-array>
 
 

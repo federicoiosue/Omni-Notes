@@ -60,8 +60,6 @@
     <string name="note_timestamp">Note timestamp</string>
     <string name="share_message_chooser">Share with</string>
     <string name="shared_content_sign">--\n【by Omni Notes】</string>
-    <string name="one_item_selected">One item selected</string>
-    <string name="more_items_selected">items selected</string>
     <string name="sort">Sort</string>
     <string name="select_sorting_column">Sort by</string>
     <string name="tap_to_undo">Tap to undo</string>
@@ -70,7 +68,6 @@
     <string name="discard_changes">Discard changes</string>
     <string name="attachment">Attachment</string>
     <string name="camera">Camera</string>
-    <string name="galery">Gallery</string>
     <string name="delete_selected_image">Delete selected attachment?</string>
     <string name="gallery">Gallery</string>
     <string name="location">Location</string>
