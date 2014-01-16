@@ -47,7 +47,7 @@
     <string name="note_title">"Titolo nota"</string>
     <string name="note_timestamp">"Orario nota"</string>
     <string name="share_message_chooser">"Condividi con"</string>
-    <string name="shared_content_sign">"--\nCondivisa con Omni Note!"</string>
+    <string name="shared_content_sign">"--\n【da Omni Notes】"</string>
     <string name="one_item_selected">"Un elemento selezionato"</string>
     <string name="more_items_selected">"elementi selezionati"</string>
     <string name="sort">"Ordinamento"</string>

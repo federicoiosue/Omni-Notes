@@ -49,7 +49,7 @@
     <string name="note_title">Título da nota</string>
     <string name="note_timestamp">Carimbo de tempo da nota</string>
     <string name="share_message_chooser">Compartilhar com</string>
-    <string name="shared_content_sign">--\nCompartilhada usando Notas Omni!</string>
+    <string name="shared_content_sign">--\n【Compartilhada usando Omni Notes】</string>
     <string name="one_item_selected">Um item selecionado</string>
     <string name="more_items_selected">itens selecionados</string>
     <string name="sort">Ordenar</string>

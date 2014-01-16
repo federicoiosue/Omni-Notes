@@ -47,7 +47,7 @@
     <string name="note_title">"Not Başlığı"</string>
     <string name="note_timestamp">"Not tarih damgası"</string>
     <string name="share_message_chooser">"Bununla paylaş"</string>
-    <string name="shared_content_sign">"--\nOmni Note kullandığını paylaş!"</string>
+    <string name="shared_content_sign">"--\n【Omni Notes kullandığını paylaş】"</string>
     <string name="one_item_selected">"Bir öğe seçildi"</string>
     <string name="more_items_selected">"Seçilen öğeler"</string>
     <string name="sort">"Sırala"</string>
