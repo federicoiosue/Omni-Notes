@@ -28,6 +28,8 @@ import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 
+import it.feio.android.checklistview.ChecklistManager;
+import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.ExpandableHeightGridView;
@@ -133,6 +135,9 @@ public class DetailActivity extends BaseActivity {
 	private Tag selectedTag;
 	private Boolean lock;
 	private Bitmap recordingBitmap;
+
+	// Toggle checklist view
+	View toggleChecklistView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -375,6 +380,11 @@ public class DetailActivity extends BaseActivity {
 
 		datetime = (TextView) findViewById(R.id.datetime);
 		datetime.setText(dateTimeText);
+		
+		
+		toggleChecklistView = content;
+		
+		
 	}
 
 	
@@ -546,6 +556,7 @@ public class DetailActivity extends BaseActivity {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_attachment).setVisible(true);
 		menu.findItem(R.id.menu_tag).setVisible(true);
+		menu.findItem(R.id.menu_checklist).setVisible(true);
 		menu.findItem(R.id.menu_lock).setVisible(true);
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		menu.findItem(R.id.menu_discard_changes).setVisible(true);
@@ -587,11 +598,13 @@ public class DetailActivity extends BaseActivity {
 			saveNote(false);
 			break;
 		case R.id.menu_attachment:
-//			this.attachmentDialog = showAttachmentDialog();
 			showPopup(findViewById(R.id.menu_attachment));
 			break;
 		case R.id.menu_tag:
 			tagNote();
+			break;
+		case R.id.menu_checklist:
+			toggleChecklist();
 			break;
 		case R.id.menu_lock:
 			lockNote();
@@ -607,6 +620,20 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	
+	private void toggleChecklist() {
+		ChecklistManager mChecklistManager = ChecklistManager.getInstance(this);
+		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
+		View newView;
+		try {
+			newView = mChecklistManager.convert(toggleChecklistView);
+			mChecklistManager.replaceViews(toggleChecklistView, newView);
+			toggleChecklistView = newView;
+		} catch (ViewNotSupportedException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	/**
 	 * Tags note choosing from a list of previously created tags
 	 */

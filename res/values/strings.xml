@@ -120,7 +120,8 @@
 	<string name="rate_dialog_rate_btn">Rate it!</string>
 	<string name="rate_dialog_dismiss_btn">Don\'t ask me again</string>
 	<string name="rate_dialog_later_btn">Remind me later</string>
-	<string name="checklist">Convert to checklist</string>
+	<string name="checklist">Toggle checklist</string>
+	<string name="checklist_item_hint">New item</string>
     	
     <!-- Settings -->
     <string name="settings">Settings</string>
