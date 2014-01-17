@@ -1,0 +1,180 @@
+<!--
+  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+--><resources>
+    
+    <!-- Activities -->
+    <string name="title_item_list">"Заметки"</string>
+    <string name="title_item_detail">"Изменить заметку"</string>
+    <string name="add_note">"Добавить заметку"</string>
+    <string name="title">"Заголовок"</string>
+    <string name="title_activity_search">"Поиск"</string>
+    <string name="title_activity_list">"Заметки"</string>
+    <string name="search">"Поиск"</string>
+    <string name="search_hint">"Поиск"</string>
+    <string name="content">"Содержание"</string>
+    <string name="save">"Сохранить"</string>
+    <string name="share">"Поделиться"</string>
+    <string name="archive">"Архив"</string>
+    <string name="undo">"Отменить"</string>
+    <string name="undo_message">"Отменить удаление"</string>
+    <string name="unarchive">"Восстановить из архива"</string>
+    <string name="delete">"Удалить заметку"</string>
+    <string name="timestamp">"Отметка времени"</string>
+    <string name="creation">"Создано "</string>
+    <string name="last_update">"Отредакт. "</string>
+    <string name="delete_note_confirmation">"Вы согласны удалить заметку?"</string>
+    <string name="confirm">"Подтвердить"</string>
+    <string name="cancel">"Отмена"</string>
+    <string name="note_updated">"Заметка обновлена"</string>
+    <string name="empty_note_not_saved">"Пустая заметка не сохранена"</string>
+    <string name="empty_note_not_shared">"Нельзя поделиться пустой заметкой"</string>
+    <string name="note_archived">"Примечание заархивировано"</string>
+    <string name="note_unarchived">"Заметка восстановлена из архива"</string>
+    <string name="note_deleted">"Заметка удалена"</string>
+    <string name="note">"Заметка"</string>
+    <string name="note_title">"Заголовок заметки"</string>
+    <string name="note_timestamp">"Отметка времени заметки"</string>
+    <string name="share_message_chooser">"Поделиться через"</string>
+    <string name="shared_content_sign">"--\nОтправлено через Omni Note!"</string>
+    <string name="one_item_selected">"Выбран один пункт"</string>
+    <string name="more_items_selected">"Выбрано 1%s элементов"</string>
+    <string name="sort">"Сортировка"</string>
+    <string name="select_sorting_column">"Сортировать по"</string>
+    <string name="tap_to_undo">"Нажмите, чтобы отменить"</string>
+    <string name="alarm_set_on">"Сигнал установлен ​​на"</string>
+    <string name="at_time">"в"</string>
+    <string name="discard_changes">"Отменить изменения"</string>
+    <string name="attachment">"Прикрепления"</string>
+    <string name="camera">"Камера"</string>
+    <string name="galery">"Галерея"</string>
+    <string name="delete_selected_image">"Удалить выбранное вложение?"</string>
+    <string name="gallery">"Галерея"</string>
+    <string name="location">"Местоположение"</string>
+    <string name="remove_location">"Удалить местоположение?"</string>
+    <string name="remove_reminder">"Удалить напоминание?"</string>
+    <string name="add_reminder">"Добавить напоминание"</string>
+    <string name="location_not_found">"Расположение не найдено"</string>
+    <string name="record">"Запись"</string>
+    <string name="stop">"Стоп"</string>
+    <string name="no_app_to_handle_intent">"Файл нечем открыть"</string>
+    <string name="storage_not_available">"Хранилище недоступно"</string>
+    <string name="video">"Видео"</string>
+    <string name="feature_not_available_on_this_device">"Функция недоступна на этом устройстве"</string>
+    <string name="error_occurred_deleting_note">"Ошибка при удалении записи"</string>
+    <string name="data_export_message">"Введите имя резервной копии"</string>
+    <string name="data_import_message">"Нажмите, чтобы восстановить\nУдерживайте, чтобы удалить копию"</string>
+    <string name="data_import_message_warning">"ПРЕДУПРЕЖДЕНИЕ: Это заменит все текущие данные!"</string>
+    <string name="data_export_completed">"Рез. копирование завершено"</string>
+    <string name="data_import_completed">"Импорт данных завершен"</string>
+    <string name="click_to_refresh_application">"Нажмите, чтобы обновить приложение"</string>
+    <string name="backup_existing">"Рез. копия уже имеется, она будет перезаписана"</string>
+    <string name="tags">"Теги"</string>
+    <string name="edit_tag">"Изменить тег"</string>
+    <string name="add_tag">"Добавить тег"</string>
+    <string name="tag_title">"Название"</string>
+    <string name="tag_description">"Описание"</string>
+    <string name="tag_color">"Цвет"</string>
+    <string name="tag_saved">"Тег сохранен"</string>
+    <string name="tag_deleted">"Тег удален"</string>
+    <string name="delete_this_tag">"Удалить этот тег"</string>
+    <string name="tag">"Тег"</string>
+    <string name="tag_as">"Отметить как"</string>
+    <string name="title_activity_tag">"Изменить метку"</string>
+    <string name="delete_tag_confirmation">"Эта метка применяется к $1$ заметкам(-е) /s. \n Вы согласны удалить метку и убрать её со всех заметок?"</string>
+    <string name="discard">"Отмена"</string>
+    <string name="remove_tag">"Удалить метку"</string>
+    <string name="no_tags_created">"Метки ещё не были созданы"</string>
+    <string name="notes_tag_removed">"Метка убрана"</string>
+    <string name="notes_tagged_as">"Заметки отмеченные как"</string>
+    <string name="insert_security_password">"Введите пароль безопасности"</string>
+    <string name="lock">"Заблокировать"</string>
+    <string name="save_note_to_lock_it">"Сохраните заметку для ее блокировки"</string>
+    <string name="save_note_to_unlock_it">"Сохраните заметку для ее разблокировки"</string>
+    <string name="lock_unlock">"Блокировка и разблокировка"</string>
+    <string name="title_activity_password">"Изменить пароль безопасности"</string>
+	<string name="title_activity_about">"О программе"</string>
+	<string name="deleted">"удалено"</string>
+	<string name="no_items_in_list">"Здесь пока ничего нет!"</string>
+	<string name="rate_dialog_message">"Если Вам понравилось использовать это приложение, пожалуйста, уделите внимание, чтобы его оценить.\n\nСпасибо за поддержку!"</string>
+	<string name="rate_dialog_rate_btn">"Оценить!"</string>
+	<string name="rate_dialog_dismiss_btn">"Нет, спасибо"</string>
+	<string name="rate_dialog_later_btn">"Напомнить позже"</string>
+    	
+    <!-- Settings -->
+    <string name="settings">"Настройки"</string>
+    <string name="settings_about">"О программе"</string>
+    <string name="settings_category_other">"Прочее"</string>
+    <string name="settings_reset_all_data">"Стереть все данные"</string>
+    <string name="reset_all_data_confirmation">"Вы согласны удалить все данные приложения?  Рез. копии не будут затронуты"</string>
+    <string name="action_settings">"Настройки"</string>
+    <string name="settings_sync_import_export">"Синхронизация и рез. копирование"</string>
+    <string name="settings_export">"Экспорт"</string>
+    <string name="settings_import">"Импорт и удаление"</string>
+    <string name="export_success">"Файл успешно экспортирован в папку"</string>
+    <string name="export_fail">"Экспорт файла не удался"</string>
+    <string name="import_success">"Файл успешно импортирован"</string>
+    <string name="import_fail">"Импорт файла не удался"</string>
+    <string name="file_not_exists">"Импортируемый файл не существует"</string>
+    <string name="import_warning">"Импорт данных может переписать существующие заметки. Продолжить?"</string>
+    <string name="export_warning">"Экспортированный файл перезапишет предыдущий. Продолжить?"</string>
+    <string name="settings_category_gestures">"Жесты"</string>
+    <string name="settings_enable_swype">"Включить Swype"</string>
+    <string name="settings_category_interface">"Интерфейс"</string>
+    <string name="settings_enable_animations">"Анимации"</string>
+    <string name="settings_enable_info">"Всплывающие уведомления"</string>
+    <string name="settings_choose_language">"Выбрать язык"</string>
+    <string name="settings_category_notifications">"Уведомления"</string>
+    <string name="settings_enable_sound">"Рингтон"</string>
+    <string name="settings_enable_vibration">"Вибрация"</string>
+    <string name="settings_changelog">"История изменений"</string>
+    <string name="settings_enable_editor_links">"Распознавание ссылок"</string>
+    <string name="settings_max_video_size">"Видео вложения"</string>
+    <string name="settings_category_data">"Данные"</string>
+    <string name="settings_backup">"Резервные копии"</string>
+    <string name="settings_password">"Пароль"</string>
+    <string name="settings_password_instructions">"Пароль безопасности применяется во избежание просмотра, изменения или удаления заметок без разрешения пользователя.\n\nПри каждой попытке изменить пароль потребуется нынешний.\n\nНе указывайте новый пароль, если хотите удалить старый."</string>
+    <string name="settings_password_not_matching">"Пароли не соответствуют"</string>
+    <string name="insert_new_password">"Введите новый пароль"</string>
+    <string name="confirm_new_password">"Подтвердить новый пароль"</string>
+    <string name="password_successfully_changed">"Пароль успешно изменен"</string>
+    <string name="password_successfully_removed">"Пароль успешно удален"</string>
+    <string name="wrong_password">"Неверный пароль"</string>
+    <string name="agree_unlocking_all_notes">"Вы согласны удалить пароль безопасности \nи разблокировать все заметки?"</string>
+    <string name="settings_enable_tag_marker">"Метки для тегов"</string>
+    <string name="settings_backup_summary">"Импорт или экспорт данных приложения"</string>
+    <string name="settings_max_video_size_summary">"Максимально допустимый размер в МБ"</string>
+    <string name="settings_password_summary">"Изменить пароль безопасности"</string>
+    <string name="settings_enable_animations_summary">"Вкл. или выкл. анимаций списка заметок и переходов между экранами"</string>
+    <string name="settings_enable_tag_marker_summary">"Активация или отключение цветных меток для тегов"</string>
+    <string name="settings_enable_info_summary">"Вкл. или выкл. всплывающие окна для действий с заметками, подобных изменению, удалению, пометке и т.д."</string>
+    <string name="settings_enable_editor_links_summary">"Включить или отключить автоматическое выделение ссылок и адресов эл. почты в редакторе"</string>
+    <string name="confirm_removing_backup">"Удалить рез. копию"</string>
+    <string name="data_deletion_completed">"Удаление данных завершено"</string>
+    
+    
+
+    <!-- About -->
+    <string name="follow_author">"Кто разработчик?"</string>
+    <string name="click_to_support">"Поддержите разработку, нажав на баннер"</string>
+    
+    
+    
+    <!-- Accessibility -->
+    <string name="drawer_open">"сп. прил. открыт?"</string>
+    <string name="drawer_close">"сп. прил. закрыт?"</string>
+    
+
+
+</resources>
