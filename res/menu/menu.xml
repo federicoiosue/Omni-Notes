@@ -68,6 +68,12 @@
         android:title="@string/unarchive"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_checklist"
+        android:orderInCategory="390"
+        app:showAsAction="ifRoom"
+        android:title="@string/checklist"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_lock"
         android:icon="@drawable/ic_action_secure"
         android:orderInCategory="400"
