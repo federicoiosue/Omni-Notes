@@ -1,0 +1,177 @@
+<!--
+  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+--><resources>
+    
+    <!-- Activities -->
+    <string name="title_item_list">"Notizen"</string>
+    <string name="title_item_detail">"Notiz bearbeiten"</string>
+    <string name="add_note">"Notiz hinzufügen"</string>
+    <string name="title">"Titel"</string>
+    <string name="title_activity_search">"Suche"</string>
+    <string name="title_activity_list">"Omni Notes"</string>
+    <string name="search">"Suche"</string>
+    <string name="search_hint">"Suche"</string>
+    <string name="content">"Inhalt"</string>
+    <string name="save">"Speichern"</string>
+    <string name="share">"Teilen"</string>
+    <string name="archive">"Archivieren"</string>
+    <string name="undo">"Rückgängig machen"</string>
+    <string name="undo_message">"Löschen rückgängig machen"</string>
+    <string name="unarchive">"Aus dem Archiv wiederherstellen"</string>
+    <string name="delete">"Notiz löschen"</string>
+    <string name="timestamp">"Zeitstempel"</string>
+    <string name="creation">"Erstellt am "</string>
+    <string name="last_update">"Aktualisiert am "</string>
+    <string name="delete_note_confirmation">"Notiz löschen bestätigen?"</string>
+    <string name="confirm">"Bestätigen"</string>
+    <string name="cancel">"Abbrechen"</string>
+    <string name="note_updated">"Notiz aktualisiert"</string>
+    <string name="empty_note_not_saved">"Leere Notiz nicht gespeichert"</string>
+    <string name="empty_note_not_shared">"Leere Note nicht teilbar"</string>
+    <string name="note_archived">"Notiz archiviert"</string>
+    <string name="note_unarchived">"Notiz aus dem Archiv wiederhergestellt"</string>
+    <string name="note_deleted">"Notiz gelöscht"</string>
+    <string name="note">"Notiz"</string>
+    <string name="note_title">"Titel"</string>
+    <string name="note_timestamp">"Zeitstempel der Notiz"</string>
+    <string name="share_message_chooser">"Teile mit"</string>
+    <string name="shared_content_sign">"- \ N 【】 durch Omni Notes"</string>
+    <string name="sort">"Sortieren"</string>
+    <string name="select_sorting_column">"Sortieren nach"</string>
+    <string name="tap_to_undo">"Tippen, um rückgängig zu machen"</string>
+    <string name="alarm_set_on">"Alarm gestellt auf"</string>
+    <string name="at_time">"bei"</string>
+    <string name="discard_changes">"Änderungen verwerfen"</string>
+    <string name="attachment">"Anhang"</string>
+    <string name="camera">"Kamera"</string>
+    <string name="delete_selected_image">"Ausgewählten Anhang löschen?"</string>
+    <string name="gallery">"Galerie"</string>
+    <string name="location">"Standort"</string>
+    <string name="remove_location">"Standort entfernen?"</string>
+    <string name="remove_reminder">"Erinnerung entfernen?"</string>
+    <string name="add_reminder">"Erinnerung hinzufügen"</string>
+    <string name="location_not_found">"Standort nicht gefunden"</string>
+    <string name="record">"Aufnahme"</string>
+    <string name="stop">"Stopp"</string>
+    <string name="no_app_to_handle_intent">"Es wurde keine Anwendungen gefunden,\nmit der die Datei verarbeiten werden kann"</string>
+    <string name="storage_not_available">"Speicherort nicht verfügbar"</string>
+    <string name="video">"Video"</string>
+    <string name="feature_not_available_on_this_device">"Feature auf diesem Gerät nicht verfügbar"</string>
+    <string name="error_occurred_deleting_note">"Fehler beim Löschen der Notiz"</string>
+    <string name="data_export_message">"Name für Sicherungskopie eingeben"</string>
+    <string name="data_import_message">"kurz drücken -&gt; Wiederherstellen\nlang drücken -&gt; Löschen"</string>
+    <string name="data_import_message_warning">"WARNUNG: Dies wird alle aktuellen Daten ersetzen!"</string>
+    <string name="data_export_completed">"Datensicherung abgeschlossen"</string>
+    <string name="data_import_completed">"Datenimport abgeschlossen"</string>
+    <string name="click_to_refresh_application">"Klicken, um die Anwendung zu aktualisieren"</string>
+    <string name="backup_existing">"Sicherung bestehender Daten. Es wird überschrieben."</string>
+    <string name="tags">"Tags"</string>
+    <string name="edit_tag">"Tag bearbeiten"</string>
+    <string name="add_tag">"Tag hinzufügen"</string>
+    <string name="tag_title">"Titel"</string>
+    <string name="tag_description">"Beschreibung"</string>
+    <string name="tag_color">"Farbe"</string>
+    <string name="tag_saved">"Tag gespeichert"</string>
+    <string name="tag_deleted">"Tag gelöscht"</string>
+    <string name="delete_this_tag">"Lösche dieses Tag"</string>
+    <string name="tag">"Tag"</string>
+    <string name="tag_as">"Tag als"</string>
+    <string name="title_activity_tag">"Tag bearbeiten"</string>
+    <string name="delete_tag_confirmation">"Dieser Tag wurde auf $1$ Notiz(en) angewendet.\nBestätige Tag-Löschung und zurücksetzen der Tags auf Notizen?"</string>
+    <string name="discard">"Verwerfen"</string>
+    <string name="remove_tag">"Tag entfernen"</string>
+    <string name="no_tags_created">"Es wurden noch keine Tags erstellt"</string>
+    <string name="notes_tag_removed">"Entfernt Tag von Notizen"</string>
+    <string name="notes_tagged_as">"Notiz getaggt als"</string>
+    <string name="insert_security_password">"Sicherungspasswort eingeben"</string>
+    <string name="lock">"Sperren"</string>
+    <string name="save_note_to_lock_it">"Speichere Notiz, um sie zu sperren"</string>
+    <string name="save_note_to_unlock_it">"Notiz speichern, um sie zu entsperren"</string>
+    <string name="lock_unlock">"Sperren oder entsperren"</string>
+    <string name="title_activity_password">"Sicherungspasswort bearbeiten"</string>
+	<string name="title_activity_about">"Über"</string>
+	<string name="deleted">"gelöscht"</string>
+	<string name="no_items_in_list">"Keine Einträge vorhanden"</string>
+	<string name="rate_dialog_message">"Wenn Sie diese App mögen, nehmen Sie sich bitte einen Moment Zeit, um sie zu bewerten!\n\nDanke für Ihre Unterstützung!"</string>
+	<string name="rate_dialog_rate_btn">"Bewerten!"</string>
+	<string name="rate_dialog_dismiss_btn">"Nicht erneut nachfragen"</string>
+	<string name="rate_dialog_later_btn">"Später erinnern"</string>
+    	
+    <!-- Settings -->
+    <string name="settings">"Einstellungen"</string>
+    <string name="settings_about">"Über"</string>
+    <string name="settings_category_other">"Andere"</string>
+    <string name="settings_reset_all_data">"Alle Daten löschen"</string>
+    <string name="reset_all_data_confirmation">"Bestätigen Sie das Entfernen aller App-Daten (Backups bleiben erhalten)"</string>
+    <string name="action_settings">"Einstellungen"</string>
+    <string name="settings_sync_import_export">"Synchronisation und Datensicherung"</string>
+    <string name="settings_export">"Exportieren"</string>
+    <string name="settings_import">"Importieren und löschen"</string>
+    <string name="export_success">"Datei erfolgreich in Ordner exportiert"</string>
+    <string name="export_fail">"Dateiexport fehlgeschlagen"</string>
+    <string name="import_success">"Datei erfolgreich importiert"</string>
+    <string name="import_fail">"Dateiimport fehlgeschlagen"</string>
+    <string name="file_not_exists">"Zu importierende Datei existiert nicht"</string>
+    <string name="import_warning">"Das Importieren von Daten könnte die aktuellen Notizen überschreiben. Fortfahren?"</string>
+    <string name="export_warning">"Exportierte Datei wird die Vorherige überschreiben. Fortfahren?"</string>
+    <string name="settings_category_gestures">"Gesten"</string>
+    <string name="settings_enable_swype">"Wischgeste aktivieren"</string>
+    <string name="settings_category_interface">"Oberfläche"</string>
+    <string name="settings_enable_animations">"Animationen"</string>
+    <string name="settings_enable_info">"Popups"</string>
+    <string name="settings_choose_language">"Sprachauswahl"</string>
+    <string name="settings_category_notifications">"Benachrichtigungen"</string>
+    <string name="settings_enable_sound">"Klingelton"</string>
+    <string name="settings_enable_vibration">"Vibration"</string>
+    <string name="settings_changelog">"Neuerungen"</string>
+    <string name="settings_enable_editor_links">"Linkerkennung"</string>
+    <string name="settings_max_video_size">"Videoanhänge"</string>
+    <string name="settings_category_data">"Daten"</string>
+    <string name="settings_backup">"Sicherungskopie"</string>
+    <string name="settings_password">"Passwort"</string>
+    <string name="settings_password_instructions">"Sicherheitspasswort wird verwendet, um sicherzustellen, dass die geschützten Notizen ohne Genehmigung nicht angezeigt, geändert oder gelöscht werden können.\n\nImmer. wenn Sie ein neues Passwort vergeben möchten, wird das Alte zur Sicherheit abgefragt.\n\nZum Löschen des Passwortes lassen Sie das Textfeld frei."</string>
+    <string name="settings_password_not_matching">"Passwörter stimmen nicht überein"</string>
+    <string name="insert_new_password">"Geben Sie ein neues Passwort ein"</string>
+    <string name="confirm_new_password">"Passwort bestätigen"</string>
+    <string name="password_successfully_changed">"Passwort erfolgreich geändert"</string>
+    <string name="password_successfully_removed">"Passwort erfolgreich entfernt"</string>
+    <string name="wrong_password">"Falsches Passwort"</string>
+    <string name="agree_unlocking_all_notes">"Sicherheitskennwort wirklich entfernen?\nAlle geschützten Notizen werden freigegeben!"</string>
+    <string name="settings_enable_tag_marker">"Tag-Markierungen"</string>
+    <string name="settings_backup_summary">"Importieren oder Exportieren von App-Daten"</string>
+    <string name="settings_max_video_size_summary">"Max zulässige Größe in MB"</string>
+    <string name="settings_password_summary">"Sicherheitspasswort der App bearbeiten"</string>
+    <string name="settings_enable_animations_summary">"Aktivieren oder Deaktivieren der Notizenliste und Bildschirmübergängen"</string>
+    <string name="settings_enable_tag_marker_summary">"Aktivieren oder Deaktivieren von farbigen Tags"</string>
+    <string name="settings_enable_info_summary">"Aktivieren oder deaktivieren von Pop-Ups für Aktionen bei Notizen, wie z.B. Bearbeiten, Löschen, Markieren ..."</string>
+    <string name="settings_enable_editor_links_summary">"Aktivieren oder deaktivieren der automatischen Hervorhebung von Links und E-Mails im Editor"</string>
+    <string name="confirm_removing_backup">"Entfernen der Sichreungskopie bestätigen"</string>
+    <string name="data_deletion_completed">"Datenlöschung erfolgt"</string>
+    
+    
+
+    <!-- About -->
+    <string name="follow_author">"Wer ist der Entwickler?"</string>
+    <string name="click_to_support">"Klicken Sie auf das Banner, um Entwicklung zu unterstützen"</string>
+    
+    
+    
+    <!-- Accessibility -->
+    <string name="drawer_open">"Seitenleiste geöffnet"</string>
+    <string name="drawer_close">"Seitenleiste geschlossen"</string>
+    
+
+
+</resources>
