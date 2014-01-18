@@ -35,51 +35,57 @@ public class Note implements Parcelable {
 	private String alarm;
 	private Double latitude;
 	private Double longitude;
+	private Tag tag;
+	private Boolean locked;
 	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private ArrayList<Attachment> attachmentsListOld = new ArrayList<Attachment>();
 
 	public Note() {
 		super();
 		this.archived = false;
+		this.locked = false;
 	}
 
-	public Note(Long creation, Long lastModification, String title, String content, Boolean archived, String alarm) {
-		super();
-		this.title = title;
-		this.content = content;
-		this.creation = creation;
-		this.lastModification = lastModification;
-		this.archived = archived;
-		this.alarm = alarm;
-	}
+//	public Note(Long creation, Long lastModification, String title, String content, Boolean archived, String alarm, Tag tag) {
+//		super();
+//		this.title = title;
+//		this.content = content;
+//		this.creation = creation;
+//		this.lastModification = lastModification;
+//		this.archived = archived;
+//		this.alarm = alarm;
+//		setTag(tag);
+//	}
 
-	public Note(int _id, Long creation, Long lastModification, String title, String content, Boolean archived,
-			String alarm) {
-		super();
-		this._id = _id;
-		this.title = title;
-		this.content = content;
-		this.creation = creation;
-		this.lastModification = lastModification;
-		this.archived = archived;
-		this.alarm = alarm;
-	}
+//	public Note(int _id, Long creation, Long lastModification, String title, String content, Boolean archived,
+//			String alarm, Tag tag) {
+//		super();
+//		this._id = _id;
+//		this.title = title;
+//		this.content = content;
+//		this.creation = creation;
+//		this.lastModification = lastModification;
+//		this.archived = archived;
+//		this.alarm = alarm;
+//		setTag(tag);
+//	}
 
-	public Note(Long creation, Long lastModification, String title, String content, Integer archived, String alarm,
-			String latitude, String longitude) {
-		super();
-		this.title = title;
-		this.content = content;
-		this.creation = creation;
-		this.lastModification = lastModification;
-		this.archived = archived == 1 ? true : false;
-		this.alarm = alarm;
-		setLatitude(latitude);
-		setLongitude(longitude);
-	}
+//	public Note(Long creation, Long lastModification, String title, String content, Integer archived, String alarm,
+//			String latitude, String longitude, Tag tag) {
+//		super();
+//		this.title = title;
+//		this.content = content;
+//		this.creation = creation;
+//		this.lastModification = lastModification;
+//		this.archived = archived == 1 ? true : false;
+//		this.alarm = alarm;
+//		setLatitude(latitude);
+//		setLongitude(longitude);
+//		setTag(tag);
+//	}
 
 	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived,
-			String alarm, String latitude, String longitude) {
+			String alarm, String latitude, String longitude, Tag tag, Integer locked) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -90,6 +96,8 @@ public class Note implements Parcelable {
 		this.alarm = alarm;
 		setLatitude(latitude);
 		setLongitude(longitude);
+		setTag(tag);
+		setLocked(locked == 1 ? true : false);
 	}
 
 	public Note(Note note) {
@@ -103,6 +111,8 @@ public class Note implements Parcelable {
 		setAlarm(note.getAlarm());
 		setLatitude(note.getLatitude());
 		setLongitude(note.getLongitude());
+		setTag(note.getTag());
+		setLocked(note.isLocked());
 		ArrayList<Attachment> list = new ArrayList<Attachment>();
 		for (Attachment mAttachment : note.getAttachmentsList()) {
 			list.add(mAttachment);
@@ -120,6 +130,8 @@ public class Note implements Parcelable {
 		setAlarm(in.readString());
 		setLatitude(in.readString());
 		setLongitude(in.readString());
+		setTag((Tag)in.readParcelable(Tag.class.getClassLoader()));
+		setLocked(in.readInt());
 		in.readList(attachmentsList, Attachment.class.getClassLoader());
 	}
 
@@ -253,6 +265,26 @@ public class Note implements Parcelable {
 		}
 	}
 
+	public Tag getTag() {
+		return tag;
+	}
+
+	public void setTag(Tag tag) {
+		this.tag = tag;
+	}
+
+	public Boolean isLocked() {
+		return locked;
+	}
+
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
+	}
+
+	public void setLocked(int locked) {
+		this.locked = locked == 1 ? true : false;
+	}
+
 	public ArrayList<Attachment> getAttachmentsList() {
 		return attachmentsList;
 	}
@@ -285,20 +317,9 @@ public class Note implements Parcelable {
 		} catch (Exception e) {
 			return res;
 		}
-//		if (get_id() == note.get_id() 
-//			&& getTitle().equals(note.getTitle()) 
-//			&& getContent().equals(note.getContent())
-//			&& ( (getCreation() == null && note.getCreation() == null) || getCreation().equals(note.getCreation()) )
-//			&& ( (getLastModification() == null && note.getLastModification() == null) || getLastModification().equals(note.getLastModification()) )
-//			&& isArchived().equals(note.isArchived()) 
-//			&& EqualityChecker.check(getAlarm(), note.getAlarm())
-//			&& getLatitude().equals(note.getLatitude()) && getLongitude().equals(note.getLongitude()) 
-//			&& getAttachmentsList().equals(note.getAttachmentsList())) {
-//			
-//		}
 
-		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), getAlarm(), getLatitude(), getLongitude()};
-		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.getAlarm(), note.getLatitude(), note.getLongitude()};
+		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), getAlarm(), getLatitude(), getLongitude(), getTag(), isLocked()};
+		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.getAlarm(), note.getLatitude(), note.getLongitude(), note.getTag(), note.isLocked()};
 		if (EqualityChecker.check(a, b)) {
 			res = true;		
 		}
@@ -334,6 +355,8 @@ public class Note implements Parcelable {
 		parcel.writeString(getAlarm());
 		parcel.writeString(String.valueOf(getLatitude()));
 		parcel.writeString(String.valueOf(getLongitude()));
+		parcel.writeParcelable(getTag(), 0);
+		parcel.writeInt(isLocked() ? 1 : 0);
 		parcel.writeList(getAttachmentsList());
 	}
 

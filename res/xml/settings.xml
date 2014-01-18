@@ -12,7 +12,7 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.
+  limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
@@ -38,6 +38,12 @@
             android:title="@string/settings_max_video_size" 
             android:inputType="number" >
         </EditTextPreference>
+        
+        <Preference
+            android:key="settings_password"
+            android:title="@string/settings_password" >
+        </Preference>
+        
     </PreferenceCategory>
     <!-- <PreferenceCategory -->
     <!-- android:key="category_gestures" -->
@@ -65,15 +71,21 @@
         </CheckBoxPreference>
         <CheckBoxPreference
             android:defaultValue="true"
+            android:key="settings_enable_tag_marker"
+            android:title="@string/settings_enable_tag_marker" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:defaultValue="true"
             android:key="settings_enable_info"
             android:title="@string/settings_enable_info" >
         </CheckBoxPreference>
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="settings_enable_editor_links"
             android:title="@string/settings_enable_editor_links" >
         </CheckBoxPreference>
     </PreferenceCategory>
+  
     <PreferenceCategory
         android:key="category_notifications"
         android:title="@string/settings_category_notifications" >
@@ -88,6 +100,7 @@
             android:title="@string/settings_enable_vibration" >
         </CheckBoxPreference>
     </PreferenceCategory>
+   
     <PreferenceCategory
         android:key="category_other"
         android:title="@string/settings_category_other" >
@@ -102,9 +115,9 @@
         <Preference
             android:key="settings_about"
             android:title="@string/settings_about" >
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/dev_site" />
+<!--             <intent -->
+<!--                 android:action="android.intent.action.VIEW" -->
+<!--                 android:data="@string/dev_site" /> -->
         </Preference>
     </PreferenceCategory>
 

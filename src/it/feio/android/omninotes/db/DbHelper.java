@@ -20,8 +20,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.AssetUtils;
 import it.feio.android.omninotes.utils.Constants;
 import android.content.ContentValues;
@@ -40,13 +42,13 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Database name
 	private static final String DATABASE_NAME = Constants.DATABASE_NAME;
 	// Database version aligned if possible to software version
-	private static final int DATABASE_VERSION = 394;
+	private static final int DATABASE_VERSION = 410;
 	// Sql query file directory
     private static final String SQL_DIR = "sql" ;
 	// Notes table name
 	private static final String TABLE_NOTES = "notes";
 	// Notes table columns
-	private static final String KEY_ID = "id";
+	private static final String KEY_ID = "note_id";
 	public static final String KEY_CREATION = "creation";
 	public static final String KEY_LAST_MODIFICATION = "last_modification";
 	public static final String KEY_TITLE = "title";
@@ -55,13 +57,24 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String KEY_ALARM = "alarm";
 	private static final String KEY_LATITUDE = "latitude";
 	private static final String KEY_LONGITUDE = "longitude";
+	private static final String KEY_TAG = "tag_id";
+	private static final String KEY_LOCKED = "locked";
 	// Attachments table name
 	private static final String TABLE_ATTACHMENTS = "attachments";
 	// Attachments table columns
-	private static final String KEY_ATTACHMENT_ID = "id"; 
+	private static final String KEY_ATTACHMENT_ID = "attachment_id"; 
 	private static final String KEY_ATTACHMENT_URI = "uri"; 
 	private static final String KEY_ATTACHMENT_MIME_TYPE = "mime_type"; 
-	private static final String KEY_ATTACHMENT_NOTE_ID = "note_id"; 
+	private static final String KEY_ATTACHMENT_NOTE_ID = "note_id"; 	
+
+	// Tags table name
+	private static final String TABLE_TAGS = "tags";
+	// Tags table columns
+	private static final String KEY_TAG_ID = "tag_id"; 
+	private static final String KEY_TAG_NAME = "name"; 
+	private static final String KEY_TAG_DESCRIPTION = "description"; 
+	private static final String KEY_TAG_COLOR = "color"; 
+	
 	// Queries    
     private static final String CREATE_QUERY = "create.sql";
     private static final String UPGRADE_QUERY_PREFIX = "upgrade-";    
@@ -69,10 +82,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
 	private final Context ctx;
+	private final SharedPreferences prefs;
 
 	public DbHelper(Context ctx) {
 		super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
 		this.ctx = ctx;
+		this.prefs = PreferenceManager
+				.getDefaultSharedPreferences(ctx);
 	}
 	
 	public String getDatabaseName() {
@@ -119,7 +135,7 @@ public class DbHelper extends SQLiteOpenHelper {
         	try {
         		db.execSQL(sqlInstruction);
         	} catch (Exception e) {
-        		Log.e(Constants.TAG, "Error creating table: " + sqlInstruction);
+        		Log.e(Constants.TAG, "Error executing command: " + sqlInstruction);
         	}
         }
     }
@@ -143,6 +159,9 @@ public class DbHelper extends SQLiteOpenHelper {
 		values.put(KEY_ALARM, note.getAlarm());
 		values.put(KEY_LATITUDE, note.getLatitude());
 		values.put(KEY_LONGITUDE, note.getLongitude());
+		values.put(KEY_TAG, note.getTag() != null ? note.getTag().getId() : null);
+		boolean locked = note.isLocked() != null ? note.isLocked() : false;
+		values.put(KEY_LOCKED, locked);
 
 		// Updating row
 		if (note.get_id() != 0) {
@@ -209,17 +228,25 @@ public class DbHelper extends SQLiteOpenHelper {
 	public Note getNote(int id) {
 		SQLiteDatabase db = getReadableDatabase();
 
-		Cursor cursor = db.query(TABLE_NOTES, new String[] { KEY_ID,
-				KEY_CREATION, KEY_LAST_MODIFICATION, KEY_TITLE, KEY_CONTENT,
-				KEY_ARCHIVED, KEY_ALARM, KEY_LATITUDE, KEY_LONGITUDE }, KEY_ID + "=?",
-				new String[] { String.valueOf(id) }, null, null, null, null);
+//		Cursor cursor = db.query(TABLE_NOTES, new String[] { KEY_ID,
+//				KEY_CREATION, KEY_LAST_MODIFICATION, KEY_TITLE, KEY_CONTENT,
+//				KEY_ARCHIVED, KEY_ALARM, KEY_LATITUDE, KEY_LONGITUDE, KEY_TAG }, KEY_ID + "=?",
+//				new String[] { String.valueOf(id) }, null, null, null, null);
+		
+		String query = "SELECT " + KEY_ID + "," +
+				KEY_CREATION + "," + KEY_LAST_MODIFICATION + "," + KEY_TITLE + "," +  KEY_CONTENT + "," + 
+				KEY_ARCHIVED + "," +  KEY_ALARM + "," +  KEY_LATITUDE + "," +  KEY_LONGITUDE + "," +  KEY_TAG
+				+ " FROM " + TABLE_NOTES + " LEFT JOIN " + TABLE_TAGS + " ON " + KEY_TAG + " = " + KEY_TAG_ID;
+		Cursor cursor = db.rawQuery(query, null);
+		
 		if (cursor != null)
 			cursor.moveToFirst();
 
 		Note note = new Note(Integer.parseInt(cursor.getString(0)),
 				cursor.getLong(1), cursor.getLong(2), cursor.getString(3),
 				cursor.getString(4), cursor.getInt(5), cursor.getString(6),
-				cursor.getString(7), cursor.getString(8));
+				cursor.getString(7), cursor.getString(8), getTag(Integer.parseInt(cursor.getString(9)))
+				, cursor.getInt(5));
 		
 		// Add eventual attachments uri
 		note.setAttachmentsList(getNoteAttachments(note));
@@ -240,34 +267,21 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	public List<Note> getAllNotes(boolean checkNavigation) {
 
-		// Getting sorting criteria from preferences
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(ctx);
-		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
-				KEY_TITLE);
-		String sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
-
 		// Checking if archived or reminders notes must be shown
-		String navigation = prefs.getString(Constants.PREF_NAVIGATION, "0");
+		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
+		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 		String whereCondition = "";
-		boolean notes = "0".equals(navigation);
-		boolean archived = "1".equals(navigation);
-		boolean reminders = "2".equals(navigation);
+		boolean notes = navigationListCodes[0].equals(navigation);
+		boolean archived = navigationListCodes[1].equals(navigation);
+		boolean reminders = navigationListCodes[2].equals(navigation);
+		boolean tag = !notes && ! archived && !reminders;		
 		if (checkNavigation) {
 			whereCondition = notes ? " WHERE " + KEY_ARCHIVED + " != 1 " : whereCondition;			
 			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 " : whereCondition;
 			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 " : whereCondition;
-		}
-		
-
-		// Select All Query
-		String selectQuery = "SELECT * FROM " + TABLE_NOTES + whereCondition
-				+ " ORDER BY " + sort_column + sort_order;
-		Log.d(Constants.TAG, "Select notes query: " + selectQuery);
-
-		return getNotes(selectQuery);
-
-		// new GetAllNotesAsync(ctx, this, mAdapter).execute(checkNavigation);
+			whereCondition = tag ? " WHERE " + TABLE_NOTES + "." + KEY_TAG + " = " + navigation : whereCondition;
+		}		
+		return getNotes(whereCondition, true);
 	}
 	
 	
@@ -277,11 +291,41 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @param query
 	 * @return Notes list
 	 */
-	private List<Note> getNotes(String query) {
+	private List<Note> getNotes(String whereCondition, boolean order) {
 		List<Note> noteList = new ArrayList<Note>();
-		Log.d(Constants.TAG, "Select notes query: " + query);
 
-		SQLiteDatabase db = this.getWritableDatabase();
+		// Getting sorting criteria from preferences
+		String sort_column = "", sort_order = "";
+		if (order) {
+			sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
+					KEY_TITLE);
+			sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
+		}
+		
+		// Generic query to be specialized with conditions passed as parameter
+		String query = "SELECT " 
+						+ KEY_ID + "," 
+						+ KEY_CREATION + "," 
+						+ KEY_LAST_MODIFICATION + "," 
+						+ KEY_TITLE + "," 
+						+ KEY_CONTENT + "," 
+						+ KEY_ARCHIVED + "," 
+						+ KEY_ALARM + "," 
+						+ KEY_LATITUDE + "," 
+						+ KEY_LONGITUDE + "," 
+						+ KEY_LOCKED + "," 
+						+ KEY_TAG + "," 
+						+ KEY_TAG_NAME + "," 
+						+ KEY_TAG_DESCRIPTION + "," 
+						+ KEY_TAG_COLOR 
+					+ " FROM " + TABLE_NOTES 
+					+ " LEFT JOIN " + TABLE_TAGS + " USING( " + KEY_TAG + ") "						
+					+ whereCondition
+					+ (order ? " ORDER BY " + sort_column + sort_order : "");
+
+		Log.d(Constants.TAG, "Query: " + query);
+
+		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(query, null);
 
 		// Looping through all rows and adding to list
@@ -297,10 +341,18 @@ public class DbHelper extends SQLiteOpenHelper {
 				note.setAlarm(cursor.getString(6));		
 				note.setLatitude(cursor.getString(7));
 				note.setLongitude(cursor.getString(8));
+				note.setLocked("1".equals(cursor.getString(9)));
+				
+				// Set tag
+				Tag tag = new Tag(cursor.getInt(10), cursor.getString(11), cursor.getString(12), cursor.getString(13));
+				note.setTag(tag);
+				
 				// Add eventual attachments uri
 				note.setAttachmentsList(getNoteAttachments(note));
+				
 				// Adding note to list
 				noteList.add(note);
+				
 			} while (cursor.moveToNext());
 		}
 
@@ -376,20 +428,11 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return Notes list
 	 */
 	public List<Note> getMatchingNotes(String pattern) {
-		
-		// Getting sorting criteria from preferences
-		SharedPreferences prefs = PreferenceManager
-				.getDefaultSharedPreferences(ctx);
-		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
-				KEY_TITLE);
-
 		// Select All Query
-		String selectQuery = "SELECT * FROM " + TABLE_NOTES + " WHERE "
-				+ KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR "
-				+ KEY_CONTENT + " LIKE '%" + pattern + "%' " + " ORDER BY "
-				+ sort_column;
-		
-		return getNotes(selectQuery);
+		String whereCondition = " WHERE "
+								+ KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR "
+								+ KEY_CONTENT + " LIKE '%" + pattern + "%' ";
+		return getNotes(whereCondition, true);
 	}
 	
 	
@@ -402,14 +445,10 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return Notes list
 	 */
 	public List<Note> getNotesWithReminder(boolean passed) {
-
 		// Select query
-		String selectQuery = "SELECT * FROM " + TABLE_NOTES 
-							+ " WHERE " + KEY_ALARM 
-							+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis());
-				
-
-		return getNotes(selectQuery);
+		String whereCondition = " WHERE " + KEY_ALARM 
+								+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis());
+		return getNotes(whereCondition, false);
 	}
 
 
@@ -439,6 +478,153 @@ public class DbHelper extends SQLiteOpenHelper {
 		}
 		return attachmentsList;		
 	}
+	
 
+	/**
+	 * Retrieves tags list from database
+	 * @return List of tags
+	 */
+	public ArrayList<Tag> getTags() {		
+		ArrayList<Tag> tagsList = new ArrayList<Tag>();
+		String sql = "SELECT " 
+						+ KEY_TAG_ID + "," 
+						+ KEY_TAG_NAME + ","
+						+ KEY_TAG_DESCRIPTION  + ","
+						+ KEY_TAG_COLOR
+					+ " FROM " + TABLE_TAGS;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
 
+		// Looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				tagsList.add(new Tag(Integer.valueOf(cursor.getInt(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
+			} while (cursor.moveToNext());
+		}
+		db.close();
+		return tagsList;		
+	}
+
+	
+	/**
+	 * Updates or insert a new a tag
+	 * @param tag Tag to be updated or inserted
+	 * @return Rows affected or new inserted tag id
+	 */
+	public long updateTag(Tag tag) {
+
+		long res;
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_TAG_NAME, tag.getName());
+		values.put(KEY_TAG_DESCRIPTION, tag.getDescription());
+		values.put(KEY_TAG_COLOR, tag.getColor());
+
+		// Updating row
+		if (tag.getId() != null) {
+			values.put(KEY_TAG_ID, tag.getId());
+			res = db.update(TABLE_TAGS, values, KEY_TAG_ID + " = ?",
+					new String[] { String.valueOf(tag.getId()) });
+			Log.d(Constants.TAG, "Updated tag titled '" + tag.getName() + "'");
+		// Inserting new tag
+		} else {
+			res = db.insert(TABLE_TAGS, null, values);
+			Log.d(Constants.TAG, "Saved new tag titled '" + tag.getName()
+					+ "' with id: " + res);
+		}
+		db.close();
+		
+		// Returning result
+		return res;
+	}
+	
+	
+	/**
+	 * Deletion of  a tag
+	 * @param tag Tag to be deleted
+	 * @return Number 1 if tag's record has been deleted, 0 otherwise
+	 */
+	public long deleteTag(Tag tag) {		
+		long deleted;
+		
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		// Un-tag notes associated with this tag
+		ContentValues values = new ContentValues();
+		values.put(KEY_TAG, "");
+
+		// Updating row
+		db.update(TABLE_NOTES, values, KEY_TAG + " = ?",
+				new String[] { String.valueOf(tag.getId()) });
+		
+		// Delete tag
+		deleted= db.delete(TABLE_TAGS, KEY_TAG_ID + " = ?",
+				new String[] { String.valueOf(tag.getId()) });
+		
+		db.close();
+		return deleted;
+	}
+
+	
+	/**
+	 * Get note TAG
+	 * @param id
+	 * @return
+	 */
+	public Tag getTag(Integer id) {		
+		Tag tag = null;
+		String sql = "SELECT " 
+							+ KEY_TAG_ID + "," 
+							+ KEY_TAG_NAME + ","
+							+ KEY_TAG_DESCRIPTION  + ","
+							+ KEY_TAG_COLOR
+						+ " FROM " + TABLE_TAGS
+						+ " WHERE " + KEY_TAG_ID + " = " + id;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+
+		// Looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			tag = new Tag(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3));
+		}
+		return tag;
+	}
+	
+
+	
+	public int getTaggedCount(Tag tag) {		
+		int count = 0;
+		String sql = "SELECT COUNT(*)" 
+					+ " FROM " + TABLE_NOTES
+					+ " WHERE " + KEY_TAG + " = " + tag.getId();
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(sql, null);
+
+		// Looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			count = cursor.getInt(0);
+		}
+		return count;		
+	}
+	
+
+	
+	/**
+	 * Unlocks all notes after security password removal
+	 * @return
+	 */
+	public int unlockAllNotes() {			
+		SQLiteDatabase db = this.getWritableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put(KEY_LOCKED, "0");
+		
+		// Updating row
+		return db.update(TABLE_NOTES, values, null, new String[] {});		
+	}
+	
+	
+	
+	 
 }

@@ -17,9 +17,14 @@ package it.feio.android.omninotes.utils;
 
 import java.io.FileNotFoundException;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -52,23 +57,20 @@ public class BitmapDecoder {
 		final int height = options.outHeight;
 		final int width = options.outWidth;
 		float inSampleSize = 1;
-		int newWidth = width;
-		int newHeight = height;
-
 		if (height > reqHeight || width > reqWidth) {
 			final float heightRatio = (float) height / (float) reqHeight;
 			final float widthRatio = (float) width / (float) reqWidth;
 
 			inSampleSize = heightRatio > widthRatio ? heightRatio : widthRatio;
-			newWidth = Math.round(width / inSampleSize);
-			newHeight = Math.round(height / inSampleSize);
+			Math.round(width / inSampleSize);
+			Math.round(height / inSampleSize);
 		}
 
 		// Impostazione delle opzioni per la decodifica
 		options.inJustDecodeBounds = false;
 		options.inSampleSize = Math.round(inSampleSize);
 
-		// Ulteriore ottimizzazione a scapito della fedeltà dei colori e trasparenze
+		// Ulteriore ottimizzazione a scapito della fedeltï¿½ dei colori e trasparenze
 		// options.inPreferredConfig = Bitmap.Config.RGB_565;
 
 		// Decodifica dell'immagine con inSampleSize e ridimensionamento
@@ -115,4 +117,83 @@ public class BitmapDecoder {
 		}
 		return resultBitmap;
 	}
+	
+
+	
+	
+	/**
+	 * Draws text on a bitmap
+	 * 
+	 * @param mContext Context
+	 * @param bitmap Bitmap to draw on
+	 * @param text Text string to be written 
+	 * @return
+	 */
+	public static Bitmap drawTextToBitmap(Context mContext, Bitmap bitmap,
+			String text, Integer offsetX, Integer offsetY, Integer textSize, Integer textColor) {
+		Resources resources = mContext.getResources();
+		float scale = resources.getDisplayMetrics().density;
+		// Bitmap bitmap =
+		// BitmapFactory.decodeResource(resources, gResId);
+
+		android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
+		// set default bitmap config if none
+		if (bitmapConfig == null) {
+			bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+		}
+		// resource bitmaps are imutable,
+		// so we need to convert it to mutable one
+		bitmap = bitmap.copy(bitmapConfig, true);
+
+		Canvas canvas = new Canvas(bitmap);
+		// new antialised Paint
+		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		// text color - #3D3D3D
+		paint.setColor(textColor);
+		// text size in pixels
+		paint.setTextSize((int) (textSize * scale));
+		// text shadow
+		paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
+
+		// Preparing text paint bounds
+		Rect bounds = new Rect();
+		paint.getTextBounds(text, 0, text.length(), bounds);
+		
+		// Calculating position
+		int x, y;
+		// If no offset are set default is center of bitmap
+		if (offsetX == null) {
+			x = (bitmap.getWidth() - bounds.width()) / 2;
+		} else {
+			// If is a positive offset is set position is calculated 
+			// starting from left limit of bitmap
+			if (offsetX >= 0) {
+				x = offsetX;
+			// Otherwise if negative offset is set position is calculated
+			// starting from right limit of bitmap
+			} else {
+				x = bitmap.getWidth() - bounds.width() - offsetX;
+			}
+		}
+		// If no offset are set default is center of bitmap
+		if (offsetY == null) {
+			y = (bitmap.getHeight() - bounds.height()) / 2;
+		} else {
+			// If is a positive offset is set position is calculated 
+			// starting from top limit of bitmap
+			if (offsetY >= 0) {
+				y = offsetY;
+			// Otherwise if negative offset is set position is calculated
+			// starting from bottom limit of bitmap
+			} else {
+				y = bitmap.getHeight() - bounds.height() + offsetY;
+			}
+		}
+
+		// Drawing text
+		canvas.drawText(text, x, y, paint);
+
+		return bitmap;
+	}
+	
 }

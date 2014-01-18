@@ -3,10 +3,7 @@ package it.feio.android.omninotes.receiver;
 import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.ListActivity;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
-
-import java.util.Random;
 
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
@@ -18,8 +15,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.webkit.WebView.FindListener;
 import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider {
@@ -79,9 +74,16 @@ public class WidgetProvider extends AppWidgetProvider {
 		PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, 0, intentDetailPhoto,
 				Intent.FLAG_ACTIVITY_NEW_TASK);
 
-		Bundle options = appWidgetManager.getAppWidgetOptions(widgetId);
+		boolean isSmall = false;
+		if (Build.VERSION.SDK_INT >= 16) {
+			Bundle options = appWidgetManager.getAppWidgetOptions(widgetId);
+			isSmall = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) < 70;
+		} 
+		
+		
+		
 		RemoteViews views;
-		if (options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) < 70) {
+		if (isSmall) {
 			views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
 			views.setOnClickPendingIntent(R.id.list, pendingIntentList);
 		} else {

@@ -15,7 +15,7 @@
   limitations under the License.
 -->
 <resources>
-    <color name="navigation_bg">#eeffffff</color>
+    <color name="navigation_bg">#ffffffff</color>
     <color name="gray_bg">#e2e2e2</color>    
     <color name="list_bg">#eeffffff</color>
     <color name="list_bg_pressed">#88336699</color>
@@ -27,8 +27,10 @@
     <color name="drawer_text_selected">#dd33B5E5</color>
     <color name="drawer_line">#ee222222</color>
     <color name="text_gray">#2d2d2d</color>
-    <color name="location_text">#2d2d2d</color>
+    <color name="location_text">#ee2d2d2d</color>
     <color name="selected">#8833B5E5</color>    
+    <color name="transparent">#00ffffff</color>    
+    <color name="audio_attachment_text">#aa000000</color>    
     
     
 </resources>

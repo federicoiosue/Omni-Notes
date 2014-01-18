@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
   
@@ -13,19 +12,19 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
--->
-<resources>
+--><resources>
 
     <string-array name="navigation_list">
-        <item>Note</item>
-        <item>Archivio</item>
-        <item>Promemoria</item>
+        <item>"Note"</item>
+        <item>"Archivio"</item>
+        <item>"Promemoria"</item>
     </string-array>
 
     <string-array name="sortable_columns_human_readable">
-        <item>Titolo</item>
-        <item>Data di creazione</item>
-        <item>Data di ultima modifica</item>
+        <item>"Titolo"</item>
+        <item>"Data di creazione"</item>
+        <item>"Ultima modifica"</item>
     </string-array>
+
 
 </resources>

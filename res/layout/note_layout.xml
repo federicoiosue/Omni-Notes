@@ -17,21 +17,30 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:background="@color/gray_bg">
+    android:layout_height="wrap_content"
+    android:background="@color/gray_bg" >
 
     <LinearLayout
-                android:id="@+id/card_layout"
+        android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_card"
         android:orientation="vertical"
-        android:padding="16dp" >
+        android:paddingBottom="16dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
+
+            <View
+                android:id="@+id/tag_marker"
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@null" />
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/note_title"
@@ -39,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="top|start"
+                android:paddingLeft="6dp"
                 android:text="@string/note_title"
                 android:textAppearance="@style/Text.Big"
                 android:textColor="@color/list_note_title"
@@ -67,6 +77,14 @@
                 android:layout_gravity="right|top"
                 android:src="@drawable/ic_action_attachment"
                 android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/lockedIcon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="right|top"
+                android:src="@drawable/ic_action_secure"
+                android:visibility="gone" />
         </LinearLayout>
 
         <com.neopixl.pixlui.components.textview.TextView
@@ -78,7 +96,7 @@
             android:textAppearance="@style/Text.Normal"
             android:textColor="@color/list_note_title"
             android:visibility="gone"
-            pixlui:typeface="RobotoSlab-Light.ttf" />
+            pixlui:typeface="RobotoSlab-Regular.ttf" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/note_date"
@@ -88,7 +106,7 @@
             android:gravity="bottom|right"
             android:text="@string/note_timestamp"
             android:textAppearance="@style/Text.Small"
-            pixlui:typeface="RobotoSlab-Thin.ttf" />
+            pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>
 
 </FrameLayout>

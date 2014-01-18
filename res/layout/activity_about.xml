@@ -34,12 +34,13 @@
             android:id="@+id/app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
+            android:textSize="22sp"
             android:text="@string/app_name"
             android:textAppearance="@style/Text.Big"
             android:textColor="@color/gray_bg"
-            pixlui:typeface="RobotoSlab-Bold.ttf" />
+            pixlui:typeface="RobotoCondensed-Bold.ttf" />
 
         <ImageView
             android:id="@+id/logo"
@@ -55,7 +56,8 @@
             android:layout_height="match_parent"
             android:text="@string/copyleft"
             android:textAppearance="@style/Text.Small"
-            android:textColor="@color/gray_bg" />
+            android:textColor="@color/gray_bg"
+            pixlui:typeface="RobotoCondensed-Regular.ttf" />
     </LinearLayout>
 
     <!-- <com.neopixl.pixlui.components.textview.TextView -->
@@ -96,12 +98,12 @@
         android:id="@+id/site"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="30dp"
         android:text="@string/follow_author"
         android:textAppearance="@style/Text.Big"
         android:textColor="@color/gray_bg"
-        pixlui:typeface="RobotoSlab-Light.ttf" />
+        pixlui:typeface="RobotoCondensed-Regular.ttf" />
 
     <!-- <com.google.ads.AdView -->
     <!-- android:id="@+id/adView" -->

@@ -16,6 +16,7 @@
 package it.feio.android.omninotes.utils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 import android.content.res.AssetManager;
@@ -37,5 +38,28 @@ public class AssetUtils {
 		String[] files = assetManager.list(path);
 		Arrays.sort(files);
 		return files;
+	}
+	
+	
+	/**
+	 * Loads a file into string
+	 * @param name
+	 * @param assetManager
+	 * @return
+	 * @throws IOException 
+	 */
+	public static String readFile(String fileName, AssetManager assetManager) throws IOException {
+		InputStream input;
+		String text = null;
+		input = assetManager.open(fileName);
+
+		int size = input.available();
+		byte[] buffer = new byte[size];
+		input.read(buffer);
+		input.close();
+
+		// byte buffer into a string
+		text = new String(buffer);
+		return text;
 	}
 }

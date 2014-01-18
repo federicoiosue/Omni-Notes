@@ -1,0 +1,177 @@
+<!--
+  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<resources>
+
+    <!-- Activities -->
+    <string name="title_item_list">Notas</string>
+    <string name="title_item_detail">Editar Notas</string>
+    <string name="add_note">Adicionar Notas</string>
+    <string name="title">Título</string>
+    <string name="title_activity_search">Pesquisar</string>
+    <string name="title_activity_list">Notas Omni</string>
+    <string name="search">Pesquisar</string>
+    <string name="search_hint">Pesquisar</string>
+    <string name="content">Conteúdo</string>
+    <string name="save">Salvar</string>
+    <string name="share">Compartilhar</string>
+    <string name="archive">Arquivo</string>
+    <string name="undo">Desfazer</string>
+    <string name="undo_message">Desfazer remoção</string>
+    <string name="unarchive">Restaurar dos arquivos</string>
+    <string name="delete">Deletar nota</string>
+    <string name="timestamp">Carimbo de tempo</string>
+    <string name="creation">Criada em </string>
+    <string name="last_update">Atualizada em </string>
+    <string name="delete_note_confirmation">Confirmar a remoção da nota?</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="note_updated">Nota atualizada</string>
+    <string name="empty_note_not_saved">Nota vazia não salva</string>
+    <string name="empty_note_not_shared">Nota vazia não pode ser compartilhada</string>
+    <string name="note_archived">Nota arquivada</string>
+    <string name="note_unarchived">Nota restaura dos arquivos</string>
+    <string name="note_deleted">Nota deletada</string>
+    <string name="note">Nota</string>
+    <string name="note_title">Título da nota</string>
+    <string name="note_timestamp">Carimbo de tempo da nota</string>
+    <string name="share_message_chooser">Compartilhar com</string>
+    <string name="shared_content_sign">--\n【Compartilhada usando Omni Notes】</string>
+    <string name="one_item_selected">Um item selecionado</string>
+    <string name="more_items_selected">itens selecionados</string>
+    <string name="sort">Ordenar</string>
+    <string name="select_sorting_column">Ordenar por</string>
+    <string name="tap_to_undo">Toque para desfazer</string>
+    <string name="alarm_set_on">Alarme definido</string>
+    <string name="at_time">em</string>
+    <string name="discard_changes">Descartar mudanças</string>
+    <string name="attachment">Anexo</string>
+    <string name="camera">Câmera</string>
+    <string name="galery">Galeria</string>
+    <string name="delete_selected_image">Deletar anexos selecionados?</string>
+    <string name="gallery">Galeria</string>
+    <string name="location">Localização</string>
+    <string name="remove_location">Remover localização?</string>
+    <string name="remove_reminder">Remover lembrete?</string>
+    <string name="add_reminder">Adicionar lembrete</string>
+    <string name="location_not_found">Localização não encontrada</string>
+    <string name="record">Gravar</string>
+    <string name="stop">Parar</string>
+    <string name="no_app_to_handle_intent">Sem aplicativos para lidar com este arquivo</string>
+    <string name="storage_not_available">Armazenamento não disponível</string>
+    <string name="video">Vídeo</string>
+    <string name="feature_not_available_on_this_device">Recurs o não disponível neste dispositivo</string>
+    <string name="error_occurred_deleting_note">Ocorreu um erro ao excluir nota</string>
+    <string name="data_export_message">Inserir nome do backup</string>
+    <string name="data_import_message">Toque -> restaurar\nToque longo -> deletar</string>
+    <string name="data_import_message_warning">AVISO: isto irá substituir todos os dados atuais!</string>
+    <string name="data_export_completed">Backup de dados completo</string>
+    <string name="data_import_completed">Importação de dados completo</string>
+    <string name="click_to_refresh_application">Toque para atualização o aplicativo</string>
+    <string name="backup_existing">Backup existente, ele será substituído</string>
+    <string name="tags">Tags</string>
+    <string name="edit_tag">Editar Tag</string>
+    <string name="add_tag">Adicionar Tag</string>
+    <string name="tag_title">Título</string>
+    <string name="tag_description">Descrição</string>
+    <string name="tag_color">Cor</string>
+    <string name="tag_saved">Tag salva</string>
+    <string name="tag_deleted">Tag deletada</string>
+    <string name="delete_this_tag">Deletar esta tag</string>
+    <string name="tag">Tag</string>
+    <string name="tag_as">Tag como</string>
+    <string name="title_activity_tag">Editar tag</string>
+    <string name="delete_tag_confirmation">Esta tag é aplicada para $1$ notas.\nConfirmar o excluimento ds tag e remoção da tag das notas?</string>
+    <string name="discard">Descartar</string>
+    <string name="remove_tag">Remover tag</string>
+    <string name="no_tags_created">Nenhuma tag foi criada ainda</string>
+    <string name="notes_tag_removed">Tag removída das notas</string>
+    <string name="notes_tagged_as">Notas com tags como</string>
+    <string name="insert_security_password">Inserir senha de segurança</string>
+    <string name="lock">Bloquear</string>
+    <string name="save_note_to_lock_it">Salve nota para bloqueá-la</string>
+    <string name="save_note_to_unlock_it">Salve nota para desbloqueá-la</string>
+    <string name="lock_unlock">Bloquear ou desbloquear</string>
+    <string name="title_activity_password">Editar senha de segurança</string>
+    <string name="title_activity_about">Sobre</string>
+    <string name="deleted">deletado</string>
+    <string name="no_items_in_list">Nada aqui!</string>
+    <string name="rate_dialog_message">Se você gosta de usar este aplicativo, por favor, tome um momento para classificá-lo.\n\n
+Obrigado por seu apoio!</string>
+    <string name="rate_dialog_rate_btn">Avalie-o!</string>
+    <string name="rate_dialog_dismiss_btn">Não, obrigado</string>
+    <string name="rate_dialog_later_btn">Lembre-me depois</string>
+
+    <!-- Settings -->
+    <string name="settings">Definições</string>
+    <string name="settings_about">Sobre</string>
+    <string name="settings_category_other">Outro</string>
+    <string name="settings_reset_all_data">Apagar todos os dados</string>
+    <string name="reset_all_data_confirmation">Confirmar remoção de todos os dados (backups serão preservados)?</string>
+    <string name="action_settings">Definições</string>
+    <string name="settings_sync_import_export">Sincronização e Backups</string>
+    <string name="settings_export">Exportar</string>
+    <string name="settings_import">Importar e deletar</string>
+    <string name="export_success">Arquivo exportado com sucesso para a pasta</string>
+    <string name="export_fail">Exportação do arquivo falhou</string>
+    <string name="import_success">Arquivo exportado com sucesso</string>
+    <string name="import_fail">Importação do arquivo falhou</string>
+    <string name="file_not_exists">Arquivo a ser importado não existe</string>
+    <string name="import_warning">A importação de dados pode substituir as notas atuais. Proceder?</string>
+    <string name="export_warning">Arquivo exportado irá substituir o anterior. Proceder?</string>
+    <string name="settings_category_gestures">Gestos</string>
+    <string name="settings_enable_swype">Habilitar swype</string>
+    <string name="settings_category_interface">Interface</string>
+    <string name="settings_enable_animations">Animações</string>
+    <string name="settings_enable_info">Pop-ups de informações</string>
+    <string name="settings_choose_language">Escolher idioma</string>
+    <string name="settings_category_notifications">Notificaçõe s</string>
+    <string name="settings_enable_sound">Toque</string>
+    <string name="settings_enable_vibration">Vibração</string>
+    <string name="settings_changelog">Registro de mudanças</string>
+    <string name="settings_enable_editor_links">Reconhecimento de links</string>
+    <string name="settings_max_video_size">Anexo de vídeo</string>
+    <string name="settings_category_data">Dados</string>
+    <string name="settings_backup">Backup</string>
+    <string name="settings_password">Senha</string>
+    <string name="settings_password_instructions">Senha de segurança é usada para garantir que as notas protegidas não serão vistas, modificadas ou excluídas sem autorização.\n\nToda vez que você tentar alterar esta senha de segurança a anterior será solicitada.\n\nDefina uma senha em branco para excluí-la.</string>
+    <string name="settings_password_not_matching">As senhas não correspondem</string>
+    <string name="insert_new_password">Inserir nova senha</string>
+    <string name="confirm_new_password">Confirmar nova senha</string>
+    <string name="password_successfully_changed">Senha alterada com sucesso</string>
+    <string name="password_successfully_removed">Senha removida com sucesso</string>
+    <string name="wrong_password">Senha errada</string>
+    <string name="agree_unlocking_all_notes">Concordar retirar senha de segurança\ne desbloquear todas as notas bloqueadas?</string>
+    <string name="settings_enable_tag_marker">Marcador de tag</string>
+    <string name="settings_backup_summary">Importar ou exportar de dados do aplicativo</string>
+    <string name="settings_max_video_size_summary">Tamanho permitido em MB</string>
+    <string name="settings_password_summary">Editar senha de segurando do aplicativo</string>
+    <string name="settings_enable_animations_summary">Ativar ou desativar a lista de notas e animações de mudança de tela</string>
+    <string name="settings_enable_tag_marker_summary">Ativar ou desativar marcadores coloridos de tags</string>
+    <string name="settings_enable_info_summary">Ativar ou desativar pop-ups para ações em notas como a edição, exclusão, marcação com tags…</string>
+    <string name="settings_enable_editor_links_summary">Ativar ou desativar o realce automático de links e e-mail no editor</string>
+    <string name="confirm_removing_backup">Confirme a remoção de backup</string>
+    <string name="data_deletion_completed">Eliminação de dados concluída</string>
+
+    <!-- About -->
+    <string name="follow_author">Quem é o desenvolvedor?</string>
+    <string name="click_to_support">Clique no banner para ajudar no desenvolvimento</string>
+
+    <!-- Accessibility -->
+    <string name="drawer_open">gaveta aberta</string>
+    <string name="drawer_close">gaveta fechada</string>
+
+</resources>

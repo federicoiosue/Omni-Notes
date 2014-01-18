@@ -32,6 +32,8 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
@@ -47,11 +49,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
@@ -65,6 +68,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -81,6 +85,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 /**
@@ -97,6 +102,7 @@ public class DetailActivity extends BaseActivity {
 	private static final int GALLERY = 2;
 	private static final int RECORDING = 3;
 	private static final int TAKE_VIDEO = 4;
+	private static final int SET_PASSWORD = 5;
 
 	private FragmentActivity mActivity;
 
@@ -110,7 +116,7 @@ public class DetailActivity extends BaseActivity {
 	private AttachmentAdapter mAttachmentAdapter;
 	private ExpandableHeightGridView mGridView;
 	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
-	private AlertDialog attachmentDialog;
+	private PopupWindow attachmentDialog;
 	private EditText title, content;
 	private TextView locationTextView;
 
@@ -122,6 +128,11 @@ public class DetailActivity extends BaseActivity {
 	private MediaPlayer mPlayer = null;
 	private boolean isRecording = false;
 	private View isPlayingView = null;
+	
+	private Tag candidateSelectedTag;
+	private Tag selectedTag;
+	private Boolean lock;
+	private Bitmap recordingBitmap;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +142,33 @@ public class DetailActivity extends BaseActivity {
 		mActivity = this;
 
 		// Show the Up button in the action bar.
-		if (getSupportActionBar() != null)
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayShowTitleEnabled(false);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+		
+		init(false);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (mRecorder != null) {
+			mRecorder.release();
+			mRecorder = null;
+		}
+	}
+	
+	
+	private void init(boolean checkedNoteLock) {
+		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);		
+		
+		if (note != null && note.get_id() != 0) {
+			if (!checkedNoteLock) {
+				checkNoteLock(note);
+				return;
+			}
+		}
 
 		// Note initialization
 		initNote();
@@ -144,14 +180,31 @@ public class DetailActivity extends BaseActivity {
 		handleIntents();
 	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (mRecorder != null) {
-			mRecorder.release();
-			mRecorder = null;
-		}
+	
+	/**
+	 * Checks note lock and password before showing note content
+	 * @param note
+	 */
+	private void checkNoteLock(Note note) {
+		// If note is locked security password will be requested
+		if (note.isLocked() && prefs.getString(Constants.PREF_PASSWORD, null) != null) {
+			requestPassword(new PasswordValidator() {					
+				@Override
+				public void onPasswordValidated(boolean result) {
+					if (!result) {
+						showToast(getString(R.string.wrong_password), Toast.LENGTH_SHORT);
+						onBackPressed();
+					} else {
+						init(true);
+					}
+				}
+			});
+		} else {
+			init(true);
+		}		
 	}
+	
+	
 
 	private void handleIntents() {
 		Intent i = getIntent();
@@ -159,11 +212,14 @@ public class DetailActivity extends BaseActivity {
 		if (Intent.ACTION_PICK.equals(i.getAction())) {
 			takePhoto();
 		}
-
 	}
 
+	
 	private void initViews() {
 
+		// Color of tag marker if note is tagged a function is active in preferences
+		setTagMarkerColor(note.getTag());
+		
 		// Sets links clickable in title and content Views
 		title = (EditText) findViewById(R.id.title);
 		content = (EditText) findViewById(R.id.content);
@@ -180,6 +236,7 @@ public class DetailActivity extends BaseActivity {
 		// Initialization of location TextView
 		locationTextView = (TextView) findViewById(R.id.location);
 		if (currentLatitude != 0 && currentLongitude != 0) {
+			locationTextView.setVisibility(View.INVISIBLE);	// Set now to avoid jumps on populating location
 			setAddress(locationTextView);
 		}
 
@@ -254,6 +311,10 @@ public class DetailActivity extends BaseActivity {
 		mGridView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View v, final int position, long id) {
+				
+				// To avoid deleting audio attachment during playback
+				if (mPlayer != null) return false;
+				
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 				alertDialogBuilder.setMessage(R.string.delete_selected_image)
 						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
@@ -316,6 +377,21 @@ public class DetailActivity extends BaseActivity {
 		datetime.setText(dateTimeText);
 	}
 
+	
+	/**
+	 * Colors tag marker in note title TextView
+	 */
+	private void setTagMarkerColor(Tag tag) {
+		if (prefs.getBoolean("settings_enable_tag_marker", true)){
+			View tagMarker = findViewById(R.id.tag_marker);
+			if (tag != null && tag.getColor() != null) {
+				tagMarker.setBackgroundColor(Integer.parseInt(tag.getColor()));
+			} else if (tag == null) {
+				tagMarker.setBackgroundColor(Color.parseColor(getString(R.color.transparent)));				
+			}
+		}
+	}
+
 	/**
 	 * Show date and time pickers
 	 */
@@ -370,13 +446,14 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	private void initNote() {
-		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);
 
 		// Workaround to get widget acting correctly
-		if (note == null)
+		if (note == null) {
 			note = new Note();
-
+		}
+		
 		if (note.get_id() != 0) {
+			
 			((TextView) findViewById(R.id.creation)).append(getString(R.string.creation) + " "
 					+ note.getCreationShort());
 			((TextView) findViewById(R.id.last_modification)).append(getString(R.string.last_update) + " "
@@ -391,11 +468,18 @@ public class DetailActivity extends BaseActivity {
 				currentLatitude = note.getLatitude();
 				currentLongitude = note.getLongitude();
 			}
-
+			lock = note.isLocked();
+			
 			// If a new note is being edited the keyboard will not be shown on
 			// activity start
 			// getWindow().setSoftInputMode(
 			// WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+		}
+		
+		// Tag is checked because could be set even on new note if this is created by
+		// a tag navigation
+		if (note.getTag() != null) {
+			selectedTag = note.getTag();
 		}
 
 		// Backup of actual attachments list to check if some of them will be
@@ -461,6 +545,8 @@ public class DetailActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_attachment).setVisible(true);
+		menu.findItem(R.id.menu_tag).setVisible(true);
+		menu.findItem(R.id.menu_lock).setVisible(true);
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		menu.findItem(R.id.menu_discard_changes).setVisible(true);
 
@@ -501,7 +587,14 @@ public class DetailActivity extends BaseActivity {
 			saveNote(false);
 			break;
 		case R.id.menu_attachment:
-			this.attachmentDialog = showAttachmentDialog();
+//			this.attachmentDialog = showAttachmentDialog();
+			showPopup(findViewById(R.id.menu_attachment));
+			break;
+		case R.id.menu_tag:
+			tagNote();
+			break;
+		case R.id.menu_lock:
+			lockNote();
 			break;
 		case R.id.menu_delete:
 			deleteNote();
@@ -513,11 +606,92 @@ public class DetailActivity extends BaseActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private AlertDialog showAttachmentDialog() {
-		AlertDialog.Builder attachmentDialog = new AlertDialog.Builder(this);
+	
+	/**
+	 * Tags note choosing from a list of previously created tags
+	 */
+	private void tagNote() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+
+		// Retrieves all available tags
+		final ArrayList<Tag> tags = db.getTags();
+		
+		// If there is no tag a message will be shown
+		if (tags.size() == 0) {
+			showToast(getString(R.string.no_tags_created), Toast.LENGTH_SHORT);
+			return;
+		}
+		
+		// Otherwise a single choice dialog will be displayed
+		ArrayList<String> tagsNames = new ArrayList<String>();
+		int selectedIndex = 0;
+		for (Tag tag : tags) {
+			tagsNames.add(tag.getName());
+			if (selectedTag != null && tag.getId() == selectedTag.getId()) {
+				selectedIndex = tagsNames.size() - 1;
+			}
+		}
+		candidateSelectedTag = tags.get(0);
+		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
+		alertDialogBuilder.setTitle(R.string.tag_as)
+							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {										
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									candidateSelectedTag = tags.get(which);
+								}
+							}).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									selectedTag = candidateSelectedTag;
+									candidateSelectedTag = null;
+									setTagMarkerColor(selectedTag);
+								}
+							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									selectedTag = null;
+									candidateSelectedTag = null;
+									setTagMarkerColor(selectedTag);
+								}
+							}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									candidateSelectedTag = null;
+								}
+							});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();		
+	}
+	
+	
+	
+	
+	 
+	// The method that displays the popup.
+	private void showPopup(View anchor) {
+		DisplayMetrics metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		int attachmentDialogWidth = 320;
+		int attachmentDialogHeight = 530;
+
+		// Inflate the popup_layout.xml
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.attachment_dialog, (ViewGroup) findViewById(R.id.layout_root));
-		attachmentDialog.setView(layout);
+
+		// Creating the PopupWindow
+		attachmentDialog = new PopupWindow(this);
+		attachmentDialog.setContentView(layout);
+		attachmentDialog.setWidth(attachmentDialogWidth);
+		attachmentDialog.setHeight(attachmentDialogHeight);
+		attachmentDialog.setFocusable(true);
+
+		// Clear the default translucent background
+		attachmentDialog.setBackgroundDrawable(new BitmapDrawable());
+
 		// Camera
 		android.widget.TextView cameraSelection = (android.widget.TextView) layout.findViewById(R.id.camera);
 		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
@@ -534,12 +708,11 @@ public class DetailActivity extends BaseActivity {
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
 
-		AlertDialog dialog = attachmentDialog.show();
-//		dialog.getWindow().setLayout(440, 400);
-
-		return dialog;
+		// Displaying the popup at the specified location, + offsets.
+		attachmentDialog.showAsDropDown(anchor);
 	}
 
+	
 	/**
 	 * Manages clicks on attachment dialog
 	 */
@@ -686,6 +859,9 @@ public class DetailActivity extends BaseActivity {
 					Log.e(Constants.TAG, "Audio recording unsuccessful");
 				}
 				break;
+			case SET_PASSWORD:
+				lockNote();
+				break;
 			}
 		}
 	}
@@ -777,6 +953,8 @@ public class DetailActivity extends BaseActivity {
 		note.setAlarm(alarmDateTime != -1 ? String.valueOf(alarmDateTime) : null);
 		note.setLatitude(noteLatitude);
 		note.setLongitude(noteLongitude);
+		note.setTag(selectedTag);
+		note.setLocked(lock);
 		note.setAttachmentsList(attachmentsList);
 		
 		// Checks if nothing is changed to avoid committing if possible (check)
@@ -859,6 +1037,41 @@ public class DetailActivity extends BaseActivity {
 
 		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
 	}
+	
+	
+	
+	/**
+	 * Notes locking with security password to avoid viewing, editing or deleting from unauthorized
+	 */
+	private void lockNote() {
+		Log.d(Constants.TAG, "Locking or unlocking note " + note.get_id());
+		
+		// If security password is not set yes will be set right now
+		if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
+			Intent passwordIntent = new Intent(this, PasswordActivity.class);
+			startActivityForResult(passwordIntent, SET_PASSWORD);
+		}
+		
+		// Password sill be requested here
+		requestPassword(new PasswordValidator() {					
+			@Override
+			public void onPasswordValidated(boolean result) {
+				// Wrong password
+				if (!result) {
+					showToast(getString(R.string.wrong_password), Toast.LENGTH_SHORT);
+				// Right password, note is set as locked/unlocked	
+				} else {
+					if (lock) {
+						lock = false;
+						showToast(getString(R.string.save_note_to_unlock_it), Toast.LENGTH_SHORT);
+					} else {
+						lock = true;
+						showToast(getString(R.string.save_note_to_lock_it), Toast.LENGTH_SHORT);
+					}
+				}
+			}
+		});
+	}
 
 	// public void showDatePickerDialog(View v) {
 	// DatePickerFragment newFragment = new DatePickerFragment();
@@ -940,19 +1153,22 @@ public class DetailActivity extends BaseActivity {
 		if (mPlayer != null && mPlayer.isPlaying()) {
 			// If the audio actually played is NOT the one from the click view the last one is played
 			if (isPlayingView != v) {
+				stopPlaying();
 				isPlayingView = v;
 				startPlaying(uri);
-				((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+				recordingBitmap = ((BitmapDrawable)((ImageView)v).getDrawable()).getBitmap();
+				((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));				
 			// Otherwise just stops playing
 			} else {			
-				((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
-				isPlayingView = null;
+//				((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+				
 				stopPlaying();	
 			}
 		// If nothing is playing audio just plays	
 		} else {
 			isPlayingView = v;
 			startPlaying(uri);	
+			recordingBitmap = ((BitmapDrawable)((ImageView)v).getDrawable()).getBitmap();
 			((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 		}
 	}
@@ -968,7 +1184,9 @@ public class DetailActivity extends BaseActivity {
 				@Override
 				public void onCompletion(MediaPlayer mp) {
 					mPlayer = null;
-					((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+//					((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+					((ImageView)isPlayingView).setImageBitmap(recordingBitmap);
+					recordingBitmap = null;
 					isPlayingView = null;
 				}
 			});
@@ -979,6 +1197,9 @@ public class DetailActivity extends BaseActivity {
 
 	private void stopPlaying() {
 		if (mPlayer != null) {
+			((ImageView)isPlayingView).setImageBitmap(recordingBitmap);
+			isPlayingView = null;
+			recordingBitmap = null;
 			mPlayer.release();
 			mPlayer = null;
 		}

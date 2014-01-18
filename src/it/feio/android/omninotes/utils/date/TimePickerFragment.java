@@ -18,7 +18,6 @@ package it.feio.android.omninotes.utils.date;
 import java.util.Calendar;
 
 import it.feio.android.omninotes.DetailActivity;
-import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import android.app.Activity;
 import android.app.Dialog;

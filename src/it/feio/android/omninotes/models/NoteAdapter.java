@@ -48,6 +48,9 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		
+		Note note = values.get(position);
+		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.note_layout, parent, false);
 
@@ -56,11 +59,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		TextView date = (TextView) rowView.findViewById(R.id.note_date);
 
 		// Setting note title		
-		title.setText(values.get(position).getTitle());
+		title.setText(note.getTitle());
 		
 
 		// Setting note content
-		String contentText = values.get(position).getContent();
+		String contentText = note.getContent();
 		if (contentText.length() > 0) {
 			int maxContentTextLength = 40;
 			// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
@@ -78,25 +81,34 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 		// Evaluates the archived state...
 		ImageView archiveIcon = (ImageView)rowView.findViewById(R.id.archivedIcon);
-		int archiveIconVisibility = values.get(position).isArchived() ? View.VISIBLE : View.INVISIBLE;
-		archiveIcon.setVisibility(archiveIconVisibility);
+		archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
 		// ... the presence of an alarm
 		ImageView alarmIcon = (ImageView)rowView.findViewById(R.id.alarmIcon);
-		int alarmIconVisibility = values.get(position).getAlarm() != null ? View.VISIBLE : View.INVISIBLE;
-		alarmIcon.setVisibility(alarmIconVisibility);
+		alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
+		// ... the locked with password state	
+		ImageView lockedIcon = (ImageView)rowView.findViewById(R.id.lockedIcon);
+		lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
 		// ... or attachments to show relative icon indicators	
 		ImageView attachmentIcon = (ImageView)rowView.findViewById(R.id.attachmentIcon);
-		int attachmentIconVisibility = values.get(position).getAttachmentsList().size() > 0 ? View.VISIBLE : View.INVISIBLE;
-		attachmentIcon.setVisibility(attachmentIconVisibility);
+		attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
+		
+		// Color of tag marker if note is tagged a function is active in preferences
+		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+				"settings_enable_tag_marker", true)){
+			if (note.getTag() != null && note.getTag().getColor() != null) {
+				View tagMarker = rowView.findViewById(R.id.tag_marker);
+				tagMarker.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+			}
+		}
 		
 		// Choosing if it must be shown creation date or last modification depending on sorting criteria
 		String sort_column = PreferenceManager.getDefaultSharedPreferences(context).getString(
 				Constants.PREF_SORTING_COLUMN, "");
 		if (sort_column.equals(DbHelper.KEY_CREATION))
-			date.setText(context.getString(R.string.creation) + " " + values.get(position).getCreationShort());
+			date.setText(context.getString(R.string.creation) + " " + note.getCreationShort());
 		else
 			date.setText(context.getString(R.string.last_update) + " "
-					+ values.get(position).getLastModificationShort());
+					+ note.getLastModificationShort());
 
 		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui
 		View v = rowView.findViewById(R.id.card_layout);

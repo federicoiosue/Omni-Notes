@@ -16,6 +16,47 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.1.2" changeDate="Jan 17, 2014">
+      <changelogtext>[b]New![/b] Completelly translated in Russian (thanks to Abdullah Amir)</changelogtext>
+      <changelogtext>[u]Fixed[/u] Restored correct animated indicator to open left sliding menu</changelogtext>
+ 	</changelogversion>
+
+    <changelogversion versionName="4.1.1" changeDate="Jan 16, 2014">
+      <changelogtext>[b]New![/b] Completelly translated in Portugese (Brazil) (thanks to Eduardo Riva)</changelogtext>
+      <changelogtext>Many bugs resolved thanks to your signalations</changelogtext>
+ 	</changelogversion>
+
+    <changelogversion versionName="4.1.0" changeDate="Jan 15, 2014">
+      <changelogtext>[b]New![/b] Completelly translated in Italian</changelogtext>
+      <changelogtext>[b]New![/b] Completelly translated in Turkish (thanks to ufkeee)</changelogtext>
+      <changelogtext>Removed archive/unarchive actions when navigation differs from Notes or Archived to avoid mistakes</changelogtext>
+	  <changelogtext>[u]Fixed[/u] Error on device reboot that caused reminders not restored</changelogtext>
+ 	</changelogversion>
+
+    <changelogversion versionName="4.1.0 Beta 3" changeDate="Jan 11, 2014">
+      <changelogtext>[b]New![/b] Audio attachments now are shown with their name to avoid confusing them</changelogtext>
+      <changelogtext>Faster app launches thanks to heavy code cleaning</changelogtext>
+      <changelogtext>Batch tagging notes on list now pre-sets actual tag if just one note is selected</changelogtext>
+      <changelogtext>[u]Fixed[/u] Playing audio recordings without having stopped the previuos one now works correctly</changelogtext>
+      <changelogtext>[u]Fixed[/u] Tags colored circle are now displayed also on versions previously than Jelly Bean</changelogtext>
+     </changelogversion>
+
+    <changelogversion versionName="4.1.0 Beta 2" changeDate="Jan 10, 2014">
+      <changelogtext>[b]New![/b] More efficient backup management (including deletion and size details)</changelogtext>
+      <changelogtext>Reduced app installer size</changelogtext>
+      <changelogtext>The improved Settings section now includes a more verbose description for the various options and an About item containing infos on the opensource project</changelogtext>
+      <changelogtext>Lot of graphical modifications and UI cleaning: fonts homogeneous, transparencies, screens titles, elements padding reduces to optimize spaces...</changelogtext>
+      <changelogtext>[u]Fixed[/u] Notes icon indicators are now correctly aligned</changelogtext>
+      <changelogtext>[u]Fixed[/u] After searching and editing a note the keyboard will no longer appear if unrequested</changelogtext>
+      <changelogtext>[u]Fixed[/u] Error on widget positioning and wrong backup restore in Android versions minor than 4.0.0</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="4.1.0 Beta 1" changeDate="Jan 6, 2014">
+      <changelogtext>[b]New![/b] Associate notes with colored [u]tags[/u] to categorize and filter them!</changelogtext>
+      <changelogtext>[b]New![/b] Protect single notes from unauthorized accesses using a security password</changelogtext>
+      <changelogtext>[u]Fixed[/u] Many other minor issues have been resolved</changelogtext>
+	</changelogversion>
+
     <changelogversion versionName="4.0.1" changeDate="Dec 28, 2013">
       <changelogtext>[u]Fixed[/u] Crash on start with spanish language</changelogtext>
 	</changelogversion>

@@ -16,13 +16,17 @@
 package it.feio.android.omninotes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.NavigationDrawerItemAdapter;
+import it.feio.android.omninotes.models.NavigationDrawerAdapter;
+import it.feio.android.omninotes.models.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
+import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.utils.AppRater;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.async.DeleteNoteTask;
@@ -42,6 +46,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.view.ActionMode;
@@ -49,34 +54,38 @@ import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.MarginLayoutParams;
+import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class ListActivity extends BaseActivity implements OnItemClickListener {
+public class ListActivity extends BaseActivity {
 
 	private CharSequence mTitle;
 	String[] mNavigationArray;
 	TypedArray mNavigationIconsArray;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
 	private ListView listView;
 	NoteAdapter mAdapter;
 	ActionMode mActionMode;
 	HashSet<Note> selectedNotes = new HashSet<Note>();
-	private boolean loadNoteList = false;
+	private ListView mDrawerList;
+	private ListView mDrawerTagList;
+	private View tagListHeader;
+	private Tag candidateSelectedTag;
+	private SearchView searchView;
+	public MenuItem searchMenuItem;
 
 
 	@Override
@@ -90,12 +99,29 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			handleFilter(intent);
 		}
 
-		// Navigation drawer and listview initialization
-		initNavigationDrawer();
+		// Listview initialization
 		initListView();
 
-		CharSequence title = getResources().getStringArray(R.array.navigation_list)[Integer.parseInt(prefs.getString(Constants.PREF_NAVIGATION, "0"))];
+		String[] navigationList = getResources().getStringArray(R.array.navigation_list);
+		String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
+		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		int index = Arrays.asList(navigationListCodes).indexOf(navigation);
+		CharSequence title = "";
+		// If is a traditional navigation item
+		if (index >= 0 && index < navigationListCodes.length) {
+			title = navigationList[index];
+		} else {
+			ArrayList<Tag> tags = db.getTags();
+			for (Tag tag : tags) {
+				if ( navigation.equals(String.valueOf(tag.getId())) )
+						title = tag.getName();						
+			}
+		}
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
+		
+		// Invitation to rate the app
+		AppRater.appLaunched(this, getString(R.string.rate_dialog_message), getString(R.string.rate_dialog_rate_btn),
+				getString(R.string.rate_dialog_dismiss_btn), getString(R.string.rate_dialog_later_btn));
 	}
 
 
@@ -143,21 +169,11 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 	@Override
 	protected void onResume() {
+		super.onResume();
+		Log.v(Constants.TAG, "OnResume");
 		initNotesList(getIntent());
 		initNavigationDrawer();
-		super.onResume();
 	}
-	
-	
-//	@Override
-//	public void onBackPressed() {
-//		// To avoid showing splashcreen again
-//		Intent intent = new Intent(Intent.ACTION_MAIN);
-//		intent.addCategory(Intent.CATEGORY_HOME);
-//		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//		startActivity(intent);
-//		
-//	}
 	
 	
 
@@ -194,9 +210,12 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			// Here you can perform updates to the CAB due to
 			// an invalidate() request
 			Log.d(Constants.TAG, "CAB preparation");
-			boolean archived = "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
-			menu.findItem(R.id.menu_archive).setVisible(!archived);
+			boolean notes = getResources().getStringArray(R.array.navigation_list_codes)[0].equals(navigation);
+			boolean archived = getResources().getStringArray(R.array.navigation_list_codes)[1].equals(navigation);
+						
+			menu.findItem(R.id.menu_archive).setVisible(notes);
 			menu.findItem(R.id.menu_unarchive).setVisible(archived);
+			menu.findItem(R.id.menu_tag).setVisible(true);
 			menu.findItem(R.id.menu_delete).setVisible(true);
 			menu.findItem(R.id.menu_settings).setVisible(false);
 			return true;
@@ -217,11 +236,15 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 					archiveSelectedNotes(false);
 					mode.finish(); // Action picked, so close the CAB
 					return true;
+				case R.id.menu_tag:
+					tagSelectedNotes();
+					return true;
 				default:
 					return false;
 			}
 		}
     };
+    
     
     
     /**
@@ -246,6 +269,7 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	}
     
 
+	
 	/**
 	 * Notes list initialization. Data, actions and callback are defined here.
 	 */
@@ -272,38 +296,25 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			        return true;
 				}
 			});
-			
-			
-			// Note list scrolling hide actionbar effect (deactivate for conflicts with listviewanimation library)
-	//		listView.setOnScrollListener(new OnScrollListener() {
-	//
-	//			int mLastFirstVisibleItem = 0;
-	//			/*
-	//			 * @see android.widget.AbsListView.OnScrollListener#onScrollStateChanged(android.widget.AbsListView, int)
-	//			 */
-	//			@Override
-	//			public void onScrollStateChanged(AbsListView view, int scrollState) {}
-	//			/*
-	//			 * @see android.widget.AbsListView.OnScrollListener#onScroll(android.widget.AbsListView, int, int, int)
-	//			 */
-	//			@Override
-	//			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-	//					int totalItemCount) {
-	//				if (view.getId() == listView.getId()) {
-	//					final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
-	//
-	//					if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-	//						getSupportActionBar().hide();
-	//					} else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-	//						getSupportActionBar().show();
-	//					}
-	//					mLastFirstVisibleItem = currentFirstVisibleItem;
-	//				}
-	//			}
-	//		});
 	
 			// Note single click listener managed by the activity itself
-			listView.setOnItemClickListener(this);
+			listView.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View view,
+						int position, long arg3) {// If no CAB just note editing
+					if (mActionMode == null) { 
+						Note note = mAdapter.getItem(position);
+						editNote(note);
+						return;
+					}
+
+					// If in CAB mode 
+			        toggleListViewItem(view, position);
+			        setCabTitle();
+				}
+				
+			});
 	}
 	
 
@@ -313,41 +324,98 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	private void initNavigationDrawer() {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-		// Set the adapter for the list view
+		// Sets the adapter for the MAIN navigation list view
+		mDrawerList = (ListView) findViewById(R.id.drawer_nav_list);
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
 		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
 		mDrawerList
-				.setAdapter(new NavigationDrawerItemAdapter(this, mNavigationArray, mNavigationIconsArray));
+				.setAdapter(new NavigationDrawerAdapter(this, mNavigationArray, mNavigationIconsArray));
 		
-		// Set click events
+		// Sets click events
 		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				String navigation = mDrawerList.getAdapter().getItem(position).toString();
+				String navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
 				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
-				selectNavigationItem(position);
-				prefs.edit().putString(Constants.PREF_NAVIGATION, String.valueOf(position)).commit();
-		        mDrawerList.setItemChecked(position, true);
+				selectNavigationItem(mDrawerList, position);
+				updateNavigation(navigation);
+				mDrawerList.setItemChecked(position, true);
+				if (mDrawerTagList != null)
+					mDrawerTagList.setItemChecked(0, false);  // Called to force redraw
 				initNotesList(getIntent());
 			}
 		});
 
-		// Enable ActionBar app icon to behave as action to toggle nav drawer
-//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-//			getSupportActionBar().setHomeButtonEnabled(true);
+		// Sets the adapter for the TAGS navigation list view		
 
+		// Retrieves data to fill tags list
+		ArrayList<Tag> tags = db.getTags();
+		
+		if (tags.size() > 0) {
+			mDrawerTagList = (ListView) findViewById(R.id.drawer_tag_list);
+			// Inflation of header view
+			LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+			if (tagListHeader == null) {
+				tagListHeader = inflater.inflate(R.layout.drawer_tag_list_header, (ViewGroup) findViewById(R.id.layout_root));
+				mDrawerTagList.addHeaderView(tagListHeader);
+				mDrawerTagList.setHeaderDividersEnabled(true);
+			}
+			mDrawerTagList
+					.setAdapter(new NavDrawerTagAdapter(this, tags));
+			
+			// Sets click events
+			mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+					Object item = mDrawerTagList.getAdapter().getItem(position);
+					// Ensuring that clicked item is not the ListView header
+					if (item != null) {
+						Tag tag = (Tag)item;						
+						String navigation = tag.getName();
+						Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
+						selectNavigationItem(mDrawerTagList, position);
+						updateNavigation(String.valueOf(tag.getId()));
+						mDrawerTagList.setItemChecked(position, true);
+						if (mDrawerList != null)
+							mDrawerList.setItemChecked(0, false);  // Called to force redraw
+						initNotesList(getIntent());
+					}
+				}
+			});
+			
+			// Sets long click events
+			mDrawerTagList.setOnItemLongClickListener(new OnItemLongClickListener() {
+				@Override
+				public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
+					Object item = mDrawerTagList.getAdapter().getItem(position);
+					// Ensuring that clicked item is not the ListView header
+					if (item != null) {
+						editTag((Tag)item);
+					}
+					return true;
+				}
+			});
+		} else {
+			if (mDrawerTagList != null) {
+				mDrawerTagList.removeAllViewsInLayout();
+				mDrawerTagList = null;
+			}
+		}
 
-		// ActionBarDrawerToggle ties together the the proper interactions
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+		// ActionBarDrawerToggle± ties together the the proper interactions
 		// between the sliding drawer and the action bar app icon
-		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
-		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-		R.string.drawer_open, /* "open drawer" description for accessibility */
-		R.string.drawer_close /* "close drawer" description for accessibility */
+		mDrawerToggle = new ActionBarDrawerToggle(
+			this, /* host Activity */
+			mDrawerLayout, /* DrawerLayout object */
+			R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+			R.string.drawer_open, /* "open drawer" description for accessibility */
+			R.string.drawer_close /* "close drawer" description for accessibility */
 		) {
 
 			public void onDrawerClosed(View view) {
@@ -356,6 +424,10 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			}
 
 			public void onDrawerOpened(View drawerView) {
+				// Stops search service
+				if (searchMenuItem != null && MenuItemCompat.isActionViewExpanded(searchMenuItem))
+					MenuItemCompat.collapseActionView(searchMenuItem);
+				
 				mTitle = getSupportActionBar().getTitle();
 				getSupportActionBar().setTitle(getApplicationContext().getString(R.string.app_name));
 				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
@@ -363,20 +435,16 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		};
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		
-//		if (savedInstanceState == null) {
-//            selectItem(0);
-//        }
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setDisplayShowTitleEnabled(true);
+		mDrawerToggle.syncState();
 	}
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
-		mDrawerToggle.syncState();
+		if (mDrawerToggle != null)
+			mDrawerToggle.syncState();
 	}
 
 	@Override
@@ -392,13 +460,22 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 		// Setting the conditions to show determinate items in CAB
 		// If the nav drawer is open, hide action items related to the content view
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		boolean drawerOpen;
+		if (mDrawerLayout != null) {
+			drawerOpen = mDrawerLayout.isDrawerOpen(GravityCompat.START);
+		} else {
+			drawerOpen = false;
+		}
+		
 		// If archived or reminders notes are shown the "add new note" item must be hidden
-		boolean showAdd = "0".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
+		String navArchived = getResources().getStringArray(R.array.navigation_list_codes)[1];
+		String navReminders = getResources().getStringArray(R.array.navigation_list_codes)[2];
+		boolean showAdd = !navArchived.equals(navigation) && !navReminders.equals(navigation);
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
+		menu.findItem(R.id.menu_add_tag).setVisible(drawerOpen);
 		menu.findItem(R.id.menu_settings).setVisible(true);
 
 		// Initialization of SearchView
@@ -415,11 +492,15 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	 * @param menu
 	 */
 	private void initSearchView(final Menu menu) {
+		
+		// Save item as class attribute to make it collapse on drawer opening
+		searchMenuItem = menu.findItem(R.id.menu_search);
+
 		// Associate searchable configuration with the SearchView
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//		final SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-		final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
+		searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
 		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 		
 		// Expands the widget hiding other actionbar icons
 		searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {			
@@ -476,10 +557,10 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:				 
-	            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
-	                mDrawerLayout.closeDrawer(mDrawerList);
+	            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+	                mDrawerLayout.closeDrawer(GravityCompat.START);
 	            } else {
-	                mDrawerLayout.openDrawer(mDrawerList);
+	                mDrawerLayout.openDrawer(GravityCompat.START);
 	            }
 	            break;
 			case R.id.menu_add:
@@ -488,26 +569,14 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			case R.id.menu_sort:
 				sortNotes();
 				break;
+			case R.id.menu_add_tag:
+				editTag(null);
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-    
-
-	@Override
-	public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
-		// If no CAB just note editing
-		if (mActionMode == null) { 
-			Note note = mAdapter.getItem(position);
-			editNote(note);
-			return;
-		}
-
-		// If in CAB mode 
-        toggleListViewItem(view, position);
-        setCabTitle();
-	}
-
+   
 
 	private void setCabTitle() {
 		if (mActionMode == null)
@@ -516,20 +585,22 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 			case 0:
 				mActionMode.setTitle(null);
 				break;
-			case 1:
-				mActionMode.setTitle(getResources().getString(R.string.one_item_selected));
-				break;
 			default:
-				mActionMode.setTitle(selectedNotes.size() + " "
-						+ getResources().getString(R.string.more_items_selected));
+				mActionMode.setTitle(String.valueOf(selectedNotes.size()));
 				break;
 		}		
+		
 	}
 
 
 	private void editNote(Note note) {
 		if (note.get_id() == 0) {
 			Log.d(Constants.TAG, "Adding new note");
+			// if navigation is a tag it will be set into note
+			try {
+				int tagId = Integer.parseInt(navigation);
+				note.setTag(db.getTag(tagId));
+			} catch (NumberFormatException e) {}
 		} else {
 			Log.d(Constants.TAG, "Editing note with id: " + note.get_id());
 		}
@@ -574,62 +645,44 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 
 	@Override
 	protected void onNewIntent(Intent intent) {
-		if (Intent.ACTION_MAIN.equals(intent.getAction()))
-			return;
+		if (intent.getAction() == null) {
+			intent.setAction(Constants.ACTION_START_APP);
+		}
 		setIntent(intent);
 		Log.d(Constants.TAG, "onNewIntent");
-//		initNotesList(intent);
 		super.onNewIntent(intent);
 	}
 	
 	/**
 	 * Notes list adapter initialization and association to view
 	 */
-	public void initNotesList(Intent intent) {
+	private void initNotesList(Intent intent) {
+
+		Log.v(Constants.TAG, "initNotesList: intent action " + intent.getAction());
 		
-//		if (!loadNoteList) {
-//			loadNoteList = true;
-//		} else {
-				
-			List<Note> notes;
-			if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-				notes = handleIntent(intent);
-				getSupportActionBar().setTitle(getString(R.string.search));
-			} else {
-				DbHelper db = new DbHelper(getApplicationContext());
-				notes = db.getAllNotes(true);
-			}
-			mAdapter = new NoteAdapter(getApplicationContext(), notes);
-	
-	
-			// Enables or note notes list animation depending on settings
-	//		if (prefs.getBoolean("settings_enable_swype", true)) {
-	//			ContextualUndoAdapter adapter = new ContextualUndoAdapter(mAdapter, R.layout.undo_row, R.id.undo_row_undobutton);
-	//			adapter.setAbsListView(listView);
-	//			listView.setAdapter(adapter);
-	//			adapter.setDeleteItemCallback(new DeleteItemCallback() {
-	//				
-	//				@Override
-	//				public void deleteItem(int position) {
-	//					Log.d(Constants.TAG, "Swipe deleting note " + position);
-	//					deleteNote(mAdapter.getItem(position));	
-	//					initNotesList(getIntent());
-	//				}
-	//			});
-	//		} else {
-	//			listView.setAdapter(mAdapter);
-	//		}
-			if (prefs.getBoolean("settings_enable_animations", true)) {
-			    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
-			    // Assign the ListView to the AnimationAdapter and vice versa
-			    swingInAnimationAdapter.setAbsListView(listView);
-			    listView.setAdapter(swingInAnimationAdapter);
-			} else {
-				listView.setAdapter(mAdapter);
-			}
-			
+		List<Note> notes;
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			notes = handleIntent(intent);
+			intent.setAction(null);
+		} else {
+			DbHelper db = new DbHelper(getApplicationContext());
+			notes = db.getAllNotes(true);
 		}
-//	}
+		mAdapter = new NoteAdapter(getApplicationContext(), notes);
+
+		if (prefs.getBoolean("settings_enable_animations", true)) {
+		    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+		    // Assign the ListView to the AnimationAdapter and vice versa
+		    swingInAnimationAdapter.setAbsListView(listView);
+		    listView.setAdapter(swingInAnimationAdapter);
+		} else {
+			listView.setAdapter(mAdapter);
+		}
+		
+		if (notes.size() == 0)
+			listView.setEmptyView(findViewById(R.id.empty_list));
+		
+	}
 	
 	
 
@@ -646,17 +699,23 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		DbHelper db = new DbHelper(this);
 		notesList = db.getMatchingNotes(pattern);
 		Log.d(Constants.TAG, "Found " + notesList.size() + " elements matching");
+		searchView.clearFocus();
 		return notesList;
 
 	}
 
 
-	/** Swaps fragments in the main content view */
-	private void selectNavigationItem(int position) {
-		// Highlight the selected item, update the title, and close the drawer
-		mDrawerList.setItemChecked(position, true);
-		mTitle = mNavigationArray[position];
-		mDrawerLayout.closeDrawer(mDrawerList);
+	/** Swaps fragments in the main content view 
+	 * @param list */
+	private void selectNavigationItem(ListView list, int position) {
+		Object itemSelected = list.getItemAtPosition(position);
+		if (itemSelected.getClass().isAssignableFrom(String.class)) {
+			mTitle = (CharSequence)itemSelected;	
+		// Is a tag
+		} else {
+			mTitle = ((Tag)itemSelected).getName();
+		}
+		mDrawerLayout.closeDrawer(GravityCompat.START);
 	}
 
 	/**
@@ -701,12 +760,12 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 	protected void deleteNote(Note note) {
 		
 		// Saving changes to the note
-		DeleteNoteTask saveNoteTask = new DeleteNoteTask(getApplicationContext());
+		DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getApplicationContext());
 		// Forceing parallel execution disabled by default
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+			deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
 		} else {
-			saveNoteTask.execute(note);
+			deleteNoteTask.execute(note);
 		}
 
 		// Update adapter content
@@ -742,6 +801,122 @@ public class ListActivity extends BaseActivity implements OnItemClickListener {
 		// Advice to user
 		showToast(archivedStatus, Toast.LENGTH_SHORT);
 	}
+	
+	
+	/**
+	 * Tags addition and editing
+	 * @param tag
+	 */
+	private void editTag(Tag tag){
+		Intent tagIntent = new Intent(this, TagActivity.class);
+		tagIntent.putExtra(Constants.INTENT_TAG, tag);
+		startActivity(tagIntent);
+//		if (prefs.getBoolean("settings_enable_animations", true)) {
+//			overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
+//		}
+	}
+	
+	
+	/**
+	 * Tag selected notes
+	 */
+	private void tagSelectedNotes() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+
+		// Retrieves all available tags
+		final ArrayList<Tag> tags = db.getTags();
+		
+		// If there is no tag a message will be shown
+		if (tags.size() == 0) {
+			showToast(getString(R.string.no_tags_created), Toast.LENGTH_SHORT);
+			return;
+		}
+
+		// If just one note is selected its tag will be set as pre-selected
+		if (selectedNotes.size() == 1) {
+			for (Note note : selectedNotes) {
+				candidateSelectedTag = note.getTag();				
+			}
+		} else {
+			candidateSelectedTag = tags.get(0);
+		}		
+		
+		// Choosing the pre-selected item in the dialog list
+		ArrayList<String> tagsNames = new ArrayList<String>();
+		int selectedIndex = 0;		
+		for (int i = 0; i < tags.size(); i++) {
+			Tag tag = tags.get(i);
+			tagsNames.add(tag.getName());
+			if (candidateSelectedTag.getId() == tag.getId()){
+				selectedIndex = i;
+			}
+		}
+
+		// A single choice dialog will be displayed
+		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
+		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		
+		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
+		alertDialogBuilder.setTitle(R.string.tag_as)
+							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {										
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									candidateSelectedTag = tags.get(which);
+								}
+							}).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									for (Note note : selectedNotes) {
+										// Update adapter content if actual navigation is the tag
+										// associated with actually cycled note
+										if (!Arrays.asList(navigationListCodes).contains(navigation)
+												&& !navigation.equals(candidateSelectedTag.getId())) {
+											mAdapter.remove(note);
+										}
+										note.setTag(candidateSelectedTag);
+										db.updateNote(note);
+									}
+									// Refresh view
+									((ListView) findViewById(R.id.notesList)).invalidateViews();
+									// Advice to user
+									showToast(getResources().getText(R.string.notes_tagged_as) + " '" + candidateSelectedTag.getName() + "'", Toast.LENGTH_SHORT);
+									candidateSelectedTag = null;
+									mActionMode.finish(); // Action picked, so close the CAB
+								}
+							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									for (Note note : selectedNotes) {
+										// Update adapter content if actual navigation is the tag
+										// associated with actually cycled note										
+										if ( navigation.equals(String.valueOf(note.getTag().getId())) ) {
+											mAdapter.remove(note);
+										}
+										note.setTag(null);
+										db.updateNote(note);
+									}
+									candidateSelectedTag = null;
+									// Refresh view
+									((ListView) findViewById(R.id.notesList)).invalidateViews();
+									// Advice to user
+									showToast(getResources().getText(R.string.notes_tag_removed), Toast.LENGTH_SHORT);
+									mActionMode.finish(); // Action picked, so close the CAB
+								}
+							}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									candidateSelectedTag = null;
+									mActionMode.finish(); // Action picked, so close the CAB
+								}
+							});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();		
+	}
+	
 
 
 }

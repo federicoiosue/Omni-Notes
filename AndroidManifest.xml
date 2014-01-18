@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
@@ -195,4 +196,220 @@
         </receiver>
     </application>
 
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="it.feio.android.omninotes"
+    android:versionCode="42"
+    android:versionName="4.1.1" >
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="19" />
+
+    <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value=".ListActivity" />
+
+        <!-- Splash screen -->
+        <activity
+            android:name="it.feio.android.omninotes.SplashScreenActivity"
+            android:label="@string/app_name"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- List -->
+        <activity
+            android:name="it.feio.android.omninotes.ListActivity"
+            android:label="@string/title_activity_list"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="audio/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="audio/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="video/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="video/*" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <!-- Tags -->
+        <activity
+            android:name="it.feio.android.omninotes.TagActivity"
+            android:label="@string/title_activity_tag"
+            android:parentActivityName=".ListActivity"
+            android:theme="@style/Theme.AppCompat.Dialog" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
+        </activity>
+
+        <!-- Detail -->
+        <activity
+            android:name="it.feio.android.omninotes.DetailActivity"
+            android:parentActivityName=".ListActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
+        </activity>
+
+        <!-- Settings -->
+        <activity
+            android:name="it.feio.android.omninotes.SettingsActivity"
+            android:label="@string/settings"
+            android:parentActivityName=".ListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
+        </activity>
+
+        <!-- Password -->
+        <activity
+            android:name="it.feio.android.omninotes.PasswordActivity"
+            android:label="@string/title_activity_password" >
+        </activity>
+
+        <!-- Changelog -->
+        <activity
+            android:name="it.feio.android.omninotes.ChangelogActivity"
+            android:label="@string/settings_changelog" >
+        </activity>
+
+        <!-- About -->
+        <activity
+            android:name="it.feio.android.omninotes.AboutActivity"
+            android:label="@string/title_activity_about" >
+        </activity>
+
+        <!-- Alarm broadcast receiver -->
+        <receiver android:name="it.feio.android.omninotes.receiver.AlarmReceiver" >
+        </receiver>
+
+        <!-- Reboot broadcast receiver -->
+        <receiver
+            android:name="it.feio.android.omninotes.receiver.BootCompleteReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:label="BootCompleteReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Restore on reboot alarm service -->
+        <service android:name="it.feio.android.omninotes.async.AlarmRestoreOnRebootService" >
+        </service>
+
+        <!-- Data export and import service -->
+        <service android:name="it.feio.android.omninotes.async.DataBackupIntentService" >
+        </service>
+
+        <!-- Widget -->
+        <receiver
+            android:name="it.feio.android.omninotes.receiver.WidgetProvider"
+            android:icon="@drawable/logo"
+            android:label="Omni Notes" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_info" />
+        </receiver>
+        
+        
+    </application>
+
+>>>>>>> refs/remotes/origin/master
 </manifest>

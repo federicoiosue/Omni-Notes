@@ -20,19 +20,33 @@
     android:layout_height="match_parent"
     android:background="@color/gray_bg"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp" >
 
-    <com.neopixl.pixlui.components.edittext.EditText
-        android:id="@+id/title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_card"
-        android:hint="@string/title"
-        android:inputType="textCapSentences"
-        android:linksClickable="false"
-        android:padding="16dp"
-        android:textColor="@color/text_gray"
-        pixlui:typeface="RobotoSlab-Bold.ttf" />
+        android:orientation="horizontal" >
+
+        <View
+            android:id="@+id/tag_marker"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@null" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/title"
+            android:inputType="textCapSentences"
+            android:linksClickable="false"
+            android:padding="@dimen/vertical_margin"
+            android:textColor="@color/text_gray"
+            pixlui:typeface="RobotoSlab-Bold.ttf" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,19 +55,24 @@
         android:layout_weight="1"
         android:background="@drawable/bg_card"
         android:orientation="vertical"
-        android:padding="16dp" >
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin"
+        android:paddingBottom="2dp" >
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
-            android:scrollbars="none" ><LinearLayout
+            android:scrollbars="none" >
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <com.neopixl.pixlui.components.edittext.EditText
                     android:id="@+id/content"
+                    android:paddingTop="@dimen/horizontal_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
@@ -70,17 +89,17 @@
                     android:layout_marginTop="25dp"
                     android:background="@drawable/clickable_view"
                     android:gravity="center_vertical"
-                    android:textAppearance="@style/Text.Small"
+                    android:textSize="12sp"
                     android:textColor="@color/location_text"
                     android:visibility="gone"
-                    pixlui:typeface="RobotoSlab-Light.ttf" />
+                    pixlui:typeface="Roboto-Regular.ttf" />
 
                 <it.feio.android.omninotes.models.ExpandableHeightGridView
                     android:id="@+id/gridview"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:drawSelectorOnTop="true"
                     android:layout_marginTop="25dp"
+                    android:drawSelectorOnTop="true"
                     android:gravity="center"
                     android:listSelector="@drawable/clickable_view"
                     android:numColumns="2"
@@ -91,6 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:layout_marginTop="30dp"
+                    android:layout_marginBottom="@dimen/horizontal_margin"
                     android:background="@drawable/clickable_view"
                     android:orientation="horizontal" >
 
@@ -107,7 +127,7 @@
                         android:gravity="center_vertical"
                         android:hint="@string/add_reminder"
                         android:textAppearance="@style/Text.Small"
-                        pixlui:typeface="RobotoSlab-Light.ttf" />
+                        pixlui:typeface="Roboto-Regular.ttf" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
@@ -126,8 +146,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left"
+            android:padding="0dp"
             android:textAppearance="@style/Text.Small"
-            pixlui:typeface="RobotoSlab-Regular.ttf" />
+            pixlui:typeface="Roboto-Regular.ttf" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/last_modification"
@@ -135,8 +156,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
+            android:padding="0dp"
             android:textAppearance="@style/Text.Small"
-            pixlui:typeface="RobotoSlab-Regular.ttf" />
+            pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>
 
 </LinearLayout>

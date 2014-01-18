@@ -15,6 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -24,14 +25,13 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.R;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -39,7 +39,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -123,6 +127,9 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 		});
 
+		
+		
+		
 		// Import notes
 		Preference importData = findPreference("settings_import_data");
 		importData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -130,53 +137,98 @@ public class SettingsActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-
-				// set dialog message
-//				alertDialogBuilder.setMessage(getString(R.string.import_warning)).setCancelable(false)
-//						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//
-//							public void onClick(DialogInterface dialog, int id) {
-//								try {
-//									ImportExportExcel importExportExcel = new ImportExportExcel(activity);
-//									if (importExportExcel.importDataFromCSV(StorageManager.getStorageDir()))
-//										Toast.makeText(activity, getString(R.string.import_success),
-//												Toast.LENGTH_LONG).show();
-//									else
-//										Toast.makeText(activity, getString(R.string.import_fail),
-//												Toast.LENGTH_LONG).show();
-//								} catch (Exception e) {
-//									Toast.makeText(activity, getString(R.string.import_fail),
-//											Toast.LENGTH_LONG).show();
-//								}
-//							}
-//						}).setNegativeButton("No", new DialogInterface.OnClickListener() {
-//
-//							public void onClick(DialogInterface dialog, int id) {
-//								dialog.cancel();
-//							}
-//						});
 				
 				final CharSequence[] backups = StorageManager.getExternalStoragePublicDir().list();
 				alertDialogBuilder.setTitle(R.string.data_import_message)
-									.setItems(backups, new OnClickListener() {										
-										@Override
-										public void onClick(DialogInterface dialog, int which) {
-											// An IntentService will be launched to accomplish the import task
-											Intent service = new Intent(activity, DataBackupIntentService.class);
-											service.setAction(Constants.ACTION_DATA_IMPORT);
-											service.putExtra(Constants.INTENT_BACKUP_NAME, backups[which]);
-											activity.startService(service);
-										}
-									});
+									.setItems(backups, null);
 
 				// create alert dialog
-				AlertDialog alertDialog = alertDialogBuilder.create();
+				final AlertDialog alertDialog = alertDialogBuilder.create();
+				
+				// OnShow is overridden to allow long-click on item so user can remove them
+				alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+				    @Override
+				    public void onShow(final DialogInterface dialog) {
+
+				    	ListView lv = alertDialog.getListView();
+				    	lv.setOnItemClickListener(new OnItemClickListener() {
+
+							@Override
+							public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+								dialog.dismiss();
+								// An IntentService will be launched to accomplish the import task
+								Intent service = new Intent(activity, DataBackupIntentService.class);
+								service.setAction(Constants.ACTION_DATA_IMPORT);
+								service.putExtra(Constants.INTENT_BACKUP_NAME, backups[position]);
+								activity.startService(service);
+							}
+				        });
+				    	
+				    	// Creation of backup removal dialog
+				    	lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+							@Override
+							public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+								final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+										activity);
+								
+								// Retrieves backup size
+								File backupDir = StorageManager.getBackupDir(backups[position].toString());
+								long size = StorageManager.getSize(backupDir) / 1024;
+								String sizeString = size > 1024 ? size/1024 + "Mb" : size + "Kb";
+								
+								// Set dialog message and button
+								alertDialogBuilder.setMessage(
+										getString(R.string.confirm_removing_backup) + " " + backups[position] + " (" + sizeString + ")")
+										.setPositiveButton(R.string.confirm, new OnClickListener() {
+											
+											@Override
+											public void onClick(DialogInterface dialogInner, int which) {
+												dialogInner.dismiss();
+												dialog.dismiss();	
+												// An IntentService will be launched to accomplish the import task
+												Intent service = new Intent(activity, DataBackupIntentService.class);
+												service.setAction(Constants.ACTION_DATA_DELETE);
+												service.putExtra(Constants.INTENT_BACKUP_NAME, backups[position]);
+												activity.startService(service);
+											}
+										})
+										.setNegativeButton(R.string.cancel, new OnClickListener() {
+											
+											@Override
+											public void onClick(DialogInterface dialog, int which) {
+												dialog.cancel();											
+											}
+										});
+								
+								alertDialogBuilder.create().show();
+								return true;
+							}
+						});
+				    }
+				});
 
 				// show it
 				alertDialog.show();
 				return false;
 			}
 		});
+
+
+		
+		
+		// Set notes' protection password
+		Preference password = findPreference("settings_password");
+		password.setOnPreferenceClickListener(new OnPreferenceClickListener() {			
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Intent passwordIntent = new Intent(activity, PasswordActivity.class);
+				startActivity(passwordIntent);
+				return false;
+			}
+		});
+		
 
 
 		// Changelog 
@@ -194,55 +246,49 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 
 
-		// Evento di pressione sul pulsante di reset delle impostazioni
+		
+		// Settings reset
 		Preference resetData = findPreference("reset_all_data");
 		resetData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-//				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-//
-//				// set dialog message
-//				alertDialogBuilder.setMessage(getString(R.string.reset_all_data_confirmation))
-//						.setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//
-//							public void onClick(DialogInterface dialog, int id) {
-//								PreferenceManager.getDefaultSharedPreferences(activity).edit().clear()
-//										.commit();
-//								DbHelper db = new DbHelper(activity);
-//								db.clear();
-//								Log.i(Constants.TAG, "Settings back to default");
-//							}
-//						}).setNegativeButton("No", new DialogInterface.OnClickListener() {
-//
-//							public void onClick(DialogInterface dialog, int id) {
-//								dialog.cancel();
-//							}
-//						});
-//
-//				// create alert dialog
-//				AlertDialog alertDialog = alertDialogBuilder.create();
-//
-//				// show it
-//				alertDialog.show();
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 				
+				// Inflate layout
+//				LayoutInflater inflater = activity.getLayoutInflater();
+//				View v = inflater.inflate(R.layout.reset_data_dialog_layout, null);
+//				alertDialogBuilder.setView(v);
 
-				String packageName = getApplicationContext().getPackageName();
+				// set dialog message
+				alertDialogBuilder
+						.setMessage(getString(R.string.reset_all_data_confirmation))
+						.setCancelable(false).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
 
-				try {
-				    //Open the specific App Info page:
-				    Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-				    intent.setData(Uri.parse("package:" + packageName));
-				    startActivity(intent);
+							public void onClick(DialogInterface dialog, int id) {
+								PreferenceManager.getDefaultSharedPreferences(activity).edit().clear()
+										.commit();
+								File db = activity.getDatabasePath(Constants.DATABASE_NAME);
+								StorageManager.delete(activity, db.getAbsolutePath());
+								File attachmentsDir = StorageManager.getAttachmentDir(activity);
+								StorageManager.delete(activity, attachmentsDir.getAbsolutePath());
+								Intent intent = new Intent(activity, ListActivity.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							    startActivity(intent);
+							}
+						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 
-				} catch ( ActivityNotFoundException e ) {
-				    //e.printStackTrace();
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
 
-				    //Open the generic Apps page:
-				    Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-				    startActivity(intent);
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
 
-				}
+				// show it
+				alertDialog.show();
 
 				return false;
 				
@@ -251,17 +297,19 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 
 
-		// Popup About
-//		Preference about = findPreference("settings_about");
-//		about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-//
-//			@Override
-//			public boolean onPreferenceClick(Preference arg0) {
-//				Intent aboutIntent = new Intent(activity, AboutActivity.class);
-//				startActivity(aboutIntent);
-//				return false;
-//			}
-//		});
+		
+		// About
+		Preference about = findPreference("settings_about");
+		about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
+				Intent aboutIntent = new Intent(activity, AboutActivity.class);
+				startActivity(aboutIntent);
+				return false;
+			}
+		});
+		
 		
 		// Languages 
 //		Preference lang = findPreference("settings_language");

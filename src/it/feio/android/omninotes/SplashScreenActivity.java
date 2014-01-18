@@ -26,6 +26,8 @@ import android.view.Window;
 
 public class SplashScreenActivity extends BaseActivity {
 	
+	private Intent launchMainActivity = new Intent();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,8 +44,10 @@ public class SplashScreenActivity extends BaseActivity {
 		prefs.edit().putLong("last_app_open", openTime).commit();
 		
 		// If is not passed enough time splash image is skipped
-		if (openTime - lastOpenTime < Constants.SPLASH_MIN_OFFSET)
+		if (openTime - lastOpenTime < Constants.SPLASH_MIN_OFFSET) {
 			launchMainActivity();
+			return;
+		}
 			
 		new Handler().postDelayed(new Runnable() {
 
@@ -73,8 +77,8 @@ public class SplashScreenActivity extends BaseActivity {
 	
 	
 	private void launchMainActivity() {
-		Intent i = new Intent(SplashScreenActivity.this, ListActivity.class);
-		startActivity(i);
+		launchMainActivity.setClass(this, ListActivity.class);
+		startActivity(launchMainActivity);
 	}
 
 }

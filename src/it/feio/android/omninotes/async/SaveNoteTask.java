@@ -64,28 +64,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			if (attachment.getId() != 0 || 
 					attachment.getUri().getPath().contains(mActivity.getExternalFilesDir(null).getAbsolutePath()))
 				return;
-			
-//			// Determination of file type
-//			ContentResolver cR = mActivity.getContentResolver();
-//			MimeTypeMap mime = MimeTypeMap.getSingleton();
-//			String ext = mime.getExtensionFromMimeType(cR.getType(attachment.getUri()));
-//			
-//			
-//			// Old copy mode
-//			destination = new File(destinationDir, attachment.getUri().getLastPathSegment() + "." + ext);
-//			try {
-//				destination.createNewFile();
-//			} catch (IOException e1) {
-//				e1.printStackTrace();
-//			}
-//			
-//			try {
-//				StorageManager.copyFile(mActivity.getContentResolver().openInputStream(attachment.getUri()), new FileOutputStream(destination));
-//			} catch (FileNotFoundException e) {
-//				Log.e(Constants.TAG, "File not found");
-//			}
-			
-					
+								
 			destination = StorageManager.createExternalStoragePrivateFile(mActivity, attachment.getUri());
 			
 			if (destination == null) {				
