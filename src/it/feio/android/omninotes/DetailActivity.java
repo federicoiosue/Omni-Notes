@@ -131,7 +131,7 @@ public class DetailActivity extends BaseActivity {
 	
 	private Tag candidateSelectedTag;
 	private Tag selectedTag;
-	private Boolean lock;
+	private Boolean lock = false;
 	private Bitmap recordingBitmap;
 
 	@Override
