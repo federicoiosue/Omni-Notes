@@ -45,7 +45,7 @@
         android:drawableLeft="@drawable/ic_photo_dark"
         android:drawablePadding="4dp"
         android:padding="8dp"
-        android:text="@string/galery"
+        android:text="@string/gallery"
         android:textSize="17sp"
         pixlui:typeface="Roboto-Regular.ttf" />
 
