@@ -950,7 +950,15 @@ public class DetailActivity extends BaseActivity {
 
 		// Changed fields
 		String title = ((EditText) findViewById(R.id.title)).getText().toString();
-		String content = ((EditText) findViewById(R.id.content)).getText().toString();
+		// Due to checklist library introduction the returned EditText class is no more
+		// a com.neopixl.pixlui.components.edittext.EditText but a standard
+		// android.widget.EditText
+		String content;
+		try {
+			content = ((EditText) findViewById(R.id.content)).getText().toString();
+		} catch (ClassCastException e) {
+			content = ((android.widget.EditText) findViewById(R.id.content)).getText().toString();
+		}
 		
 		Note noteEdited = note;
 		if (noteEdited != null) {
