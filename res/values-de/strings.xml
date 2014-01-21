@@ -141,7 +141,7 @@
     <string name="settings_category_data">"Daten"</string>
     <string name="settings_backup">"Sicherung"</string>
     <string name="settings_password">"Passwort"</string>
-    <string name="settings_password_instructions">"Sicherheitspasswort wird verwendet, um sicherzustellen, dass die geschützten Notizen ohne Genehmigung nicht angezeigt, geändert oder gelöscht werden können.\n\nImmer. wenn Sie ein neues Passwort vergeben möchten, wird das Alte zur Sicherheit abgefragt.\n\nZum Löschen des Passwortes lassen Sie das Textfeld frei."</string>
+    <string name="settings_password_instructions">"Um sicherzustellen, dass die geschützten Notizen ohne Genehmigung nicht angezeigt, geändert oder gelöscht werden können, wird ein Sicherheitspasswort verwendet.\n\nImmer. wenn Sie ein neues Passwort vergeben möchten, wird das Alte zur Sicherheit abgefragt.\n\nZum Löschen des Passwortes lassen Sie das Textfeld frei."</string>
     <string name="settings_password_not_matching">"Passwörter stimmen nicht überein"</string>
     <string name="insert_new_password">"Geben Sie ein neues Passwort ein"</string>
     <string name="confirm_new_password">"Passwort bestätigen"</string>
