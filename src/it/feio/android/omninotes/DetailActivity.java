@@ -15,21 +15,10 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
-import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
-import com.neopixl.pixlui.components.edittext.EditText;
-import com.neopixl.pixlui.components.textview.TextView;
-
 import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
+import it.feio.android.omninotes.async.DeleteNoteTask;
+import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.ExpandableHeightGridView;
@@ -39,9 +28,14 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
-import it.feio.android.omninotes.async.DeleteNoteTask;
-import it.feio.android.omninotes.async.SaveNoteTask;
-import it.feio.android.omninotes.R;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -76,9 +70,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -89,6 +83,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
+
+import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+import com.neopixl.pixlui.components.edittext.EditText;
+import com.neopixl.pixlui.components.textview.TextView;
 
 /**
  * An activity representing a single Item detail screen. This activity is only
