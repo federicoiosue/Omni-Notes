@@ -99,6 +99,13 @@
             android:title="@string/settings_enable_editor_links" 
             android:summary="@string/settings_enable_editor_links_summary" >
         </SwitchPreference>
+        <SwitchPreference
+            android:defaultValue="true"
+		    android:switchTextOn="On"
+		    android:switchTextOff="Off"
+            android:key="settings_hours_format"
+            android:title="@string/settings_hours_format" />
+
     </PreferenceCategory>
   
     <PreferenceCategory

@@ -21,8 +21,11 @@ import it.feio.android.omninotes.utils.EqualityChecker;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 
 public class Note implements Parcelable {
 
@@ -45,45 +48,7 @@ public class Note implements Parcelable {
 		this.archived = false;
 		this.locked = false;
 	}
-
-//	public Note(Long creation, Long lastModification, String title, String content, Boolean archived, String alarm, Tag tag) {
-//		super();
-//		this.title = title;
-//		this.content = content;
-//		this.creation = creation;
-//		this.lastModification = lastModification;
-//		this.archived = archived;
-//		this.alarm = alarm;
-//		setTag(tag);
-//	}
-
-//	public Note(int _id, Long creation, Long lastModification, String title, String content, Boolean archived,
-//			String alarm, Tag tag) {
-//		super();
-//		this._id = _id;
-//		this.title = title;
-//		this.content = content;
-//		this.creation = creation;
-//		this.lastModification = lastModification;
-//		this.archived = archived;
-//		this.alarm = alarm;
-//		setTag(tag);
-//	}
-
-//	public Note(Long creation, Long lastModification, String title, String content, Integer archived, String alarm,
-//			String latitude, String longitude, Tag tag) {
-//		super();
-//		this.title = title;
-//		this.content = content;
-//		this.creation = creation;
-//		this.lastModification = lastModification;
-//		this.archived = archived == 1 ? true : false;
-//		this.alarm = alarm;
-//		setLatitude(latitude);
-//		setLongitude(longitude);
-//		setTag(tag);
-//	}
-
+	
 	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived,
 			String alarm, String latitude, String longitude, Tag tag, Integer locked) {
 		super();
@@ -177,10 +142,10 @@ public class Note implements Parcelable {
 		this.creation = creationLong;
 	}
 
-	public String getCreationShort() {
+	public String getCreationShort(String time_format) {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(creation);
-		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SHORT);
+		SimpleDateFormat sdf = new SimpleDateFormat(time_format);
 		return sdf.format(c.getTimeInMillis());
 	}
 
@@ -188,10 +153,10 @@ public class Note implements Parcelable {
 		return lastModification;
 	}
 
-	public String getLastModificationShort() {
+	public String getLastModificationShort(String time_format) {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(lastModification);
-		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SHORT);
+		SimpleDateFormat sdf = new SimpleDateFormat(time_format);
 		return sdf.format(c.getTimeInMillis());
 	}
 

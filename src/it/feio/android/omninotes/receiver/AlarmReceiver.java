@@ -63,6 +63,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 	}
 
 	private void createNotification(Context ctx, Note note) {
+		
+		// Retrieving preferences
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		
+		// Get localized time format
+		String time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT_TIME
+				: Constants.DATE_FORMAT_SHORT_TIME_12;
 
 		// Prepare text contents
 		String title = note.getTitle().length() > 0 ? note.getTitle() : note
@@ -72,7 +79,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 				Constants.DATE_FORMAT_SHORT_DATE)
 				+ ", "
 				+ DateHelper.getString(Long.parseLong(note.getAlarm()),
-						Constants.DATE_FORMAT_SHORT_TIME);
+						time_format);
 		String text = note.getTitle().length() > 0 && note.getContent().length() > 0 ? note.getContent() : alarmText;
 		
 		// Notification building
@@ -81,7 +88,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 				.setContentTitle(title).setContentText(text)
 				.setAutoCancel(true);
 		
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		// Impostazione suoneria
 		if (prefs.getBoolean("settings_notification_sound", true))
 			mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
