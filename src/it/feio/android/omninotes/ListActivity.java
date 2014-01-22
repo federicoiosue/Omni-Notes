@@ -835,7 +835,10 @@ public class ListActivity extends BaseActivity {
 		// If just one note is selected its tag will be set as pre-selected
 		if (selectedNotes.size() == 1) {
 			for (Note note : selectedNotes) {
-				candidateSelectedTag = note.getTag();				
+				if (note.getTag().getId() != 0)
+					candidateSelectedTag = note.getTag();
+				else 
+					candidateSelectedTag = tags.get(0);
 			}
 		} else {
 			candidateSelectedTag = tags.get(0);

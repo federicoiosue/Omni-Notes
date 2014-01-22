@@ -21,6 +21,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import java.util.HashMap;
 import java.util.List;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,13 +103,15 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		}
 		
 		// Choosing if it must be shown creation date or last modification depending on sorting criteria
-		String sort_column = PreferenceManager.getDefaultSharedPreferences(context).getString(
-				Constants.PREF_SORTING_COLUMN, "");
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
+		String time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT
+				: Constants.DATE_FORMAT_SHORT_12;
 		if (sort_column.equals(DbHelper.KEY_CREATION))
-			date.setText(context.getString(R.string.creation) + " " + note.getCreationShort());
+			date.setText(context.getString(R.string.creation) + " " + note.getCreationShort(time_format));
 		else
 			date.setText(context.getString(R.string.last_update) + " "
-					+ note.getLastModificationShort());
+					+ note.getLastModificationShort(time_format));
 
 		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui
 		View v = rowView.findViewById(R.id.card_layout);

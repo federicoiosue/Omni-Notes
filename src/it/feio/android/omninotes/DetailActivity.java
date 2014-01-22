@@ -133,7 +133,7 @@ public class DetailActivity extends BaseActivity {
 	
 	private Tag candidateSelectedTag;
 	private Tag selectedTag;
-	private Boolean lock;
+	private Boolean lock = false;
 	private Bitmap recordingBitmap;
 
 	// Toggle checklist view
@@ -424,6 +424,7 @@ public class DetailActivity extends BaseActivity {
 						alarmDate = DateHelper.onDateSet(year, monthOfYear, dayOfMonth,
 								Constants.DATE_FORMAT_SHORT_DATE);
 						Log.d(Constants.TAG, "Date set");
+						boolean is24HourMode = date_time_format.equals(Constants.DATE_FORMAT_SHORT);
 						RadialTimePickerDialog mRadialTimePickerDialog = RadialTimePickerDialog.newInstance(
 								new RadialTimePickerDialog.OnTimeSetListener() {
 
@@ -435,18 +436,18 @@ public class DetailActivity extends BaseActivity {
 										// Creation of string rapresenting alarm
 										// time
 										alarmTime = DateHelper.onTimeSet(hourOfDay, minute,
-												Constants.DATE_FORMAT_SHORT_TIME);
+												time_format);
 										datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate + " "
 												+ getString(R.string.at_time) + " " + alarmTime);
 
 										// Setting alarm time in milliseconds
 										alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
 												Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
-												Constants.DATE_FORMAT_SHORT_TIME).getTimeInMillis();
+												time_format).getTimeInMillis();
 
 										Log.d(Constants.TAG, "Time set");
 									}
-								}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), true);
+								}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), is24HourMode);
 						mRadialTimePickerDialog.show(getSupportFragmentManager(), Constants.TAG);
 					}
 
@@ -465,9 +466,9 @@ public class DetailActivity extends BaseActivity {
 		if (note.get_id() != 0) {
 			
 			((TextView) findViewById(R.id.creation)).append(getString(R.string.creation) + " "
-					+ note.getCreationShort());
+					+ note.getCreationShort(date_time_format));
 			((TextView) findViewById(R.id.last_modification)).append(getString(R.string.last_update) + " "
-					+ note.getLastModificationShort());
+					+ note.getLastModificationShort(date_time_format));
 			if (note.getAlarm() != null) {
 				alarmDateTime = Long.parseLong(note.getAlarm());
 				dateTimeText = initAlarm(alarmDateTime);
@@ -703,7 +704,7 @@ public class DetailActivity extends BaseActivity {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int attachmentDialogWidth = 320;
-		int attachmentDialogHeight = 530;
+		int attachmentDialogHeight = 630;
 
 		// Inflate the popup_layout.xml
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -731,6 +732,9 @@ public class DetailActivity extends BaseActivity {
 		// Video recording
 		android.widget.TextView videoSelection = (android.widget.TextView) layout.findViewById(R.id.video);
 		videoSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Sketch
+		android.widget.TextView sketchSelection = (android.widget.TextView) layout.findViewById(R.id.sketch);
+		sketchSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Location
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
@@ -790,6 +794,9 @@ public class DetailActivity extends BaseActivity {
 				takeVideo();
 				attachmentDialog.dismiss();
 			    break;
+			case R.id.sketch:
+				takeSketch();
+				attachmentDialog.dismiss();
 			case R.id.location:
 				setAddress(locationTextView);
 				attachmentDialog.dismiss();
@@ -847,6 +854,12 @@ public class DetailActivity extends BaseActivity {
 		int maxVideoSize = Integer.parseInt(maxVideoSizeStr);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Long.valueOf(maxVideoSize*1024*1024));
 	    startActivityForResult(takeVideoIntent, TAKE_VIDEO);
+	}
+	
+	private void takeSketch() {
+		Intent takeSketchIntent = new Intent(this, SketchActivity.class);
+		
+	    startActivity(takeSketchIntent);
 	}
 
 	
@@ -1127,7 +1140,7 @@ public class DetailActivity extends BaseActivity {
 	// @Override
 	// public void onDateSet(DatePicker v, int year, int month, int day) {
 	// alarmDate = DateHelper.onDateSet(year, month, day,
-	// Constants.DATE_FORMAT_SHORT_DATE);
+	// time_format);
 	// showTimePickerDialog(v);
 	// }
 	//
@@ -1136,14 +1149,14 @@ public class DetailActivity extends BaseActivity {
 	//
 	// // Creation of string rapresenting alarm time
 	// alarmTime = DateHelper.onTimeSet(hour, minute,
-	// Constants.DATE_FORMAT_SHORT_TIME);
+	// time_format);
 	// datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate
 	// + " " + getString(R.string.at_time) + " " + alarmTime);
 	//
 	// // Setting alarm time in milliseconds
 	// alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
-	// Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
-	// Constants.DATE_FORMAT_SHORT_TIME).getTimeInMillis();
+	// time_format, alarmTime,
+	// time_format).getTimeInMillis();
 	//
 	// // Shows icon to remove alarm
 	// reminder_delete.setVisibility(View.VISIBLE);
@@ -1162,7 +1175,7 @@ public class DetailActivity extends BaseActivity {
 		alarmDate = DateHelper.onDateSet(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
 				cal.get(Calendar.DAY_OF_MONTH), Constants.DATE_FORMAT_SHORT_DATE);
 		alarmTime = DateHelper.onTimeSet(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
-				Constants.DATE_FORMAT_SHORT_TIME);
+				time_format);
 		String dateTimeText = getString(R.string.alarm_set_on) + " " + alarmDate + " " + getString(R.string.at_time)
 				+ " " + alarmTime;
 		return dateTimeText;
