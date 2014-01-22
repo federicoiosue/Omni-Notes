@@ -676,7 +676,7 @@ public class DetailActivity extends BaseActivity {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int attachmentDialogWidth = 320;
-		int attachmentDialogHeight = 530;
+		int attachmentDialogHeight = 630;
 
 		// Inflate the popup_layout.xml
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -704,6 +704,9 @@ public class DetailActivity extends BaseActivity {
 		// Video recording
 		android.widget.TextView videoSelection = (android.widget.TextView) layout.findViewById(R.id.video);
 		videoSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Sketch
+		android.widget.TextView sketchSelection = (android.widget.TextView) layout.findViewById(R.id.sketch);
+		sketchSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Location
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
@@ -763,6 +766,9 @@ public class DetailActivity extends BaseActivity {
 				takeVideo();
 				attachmentDialog.dismiss();
 			    break;
+			case R.id.sketch:
+				takeSketch();
+				attachmentDialog.dismiss();
 			case R.id.location:
 				setAddress(locationTextView);
 				attachmentDialog.dismiss();
@@ -820,6 +826,12 @@ public class DetailActivity extends BaseActivity {
 		int maxVideoSize = Integer.parseInt(maxVideoSizeStr);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Long.valueOf(maxVideoSize*1024*1024));
 	    startActivityForResult(takeVideoIntent, TAKE_VIDEO);
+	}
+	
+	private void takeSketch() {
+		Intent takeSketchIntent = new Intent(this, SketchActivity.class);
+		
+	    startActivity(takeSketchIntent);
 	}
 
 	

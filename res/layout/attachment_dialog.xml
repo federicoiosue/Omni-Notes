@@ -76,6 +76,19 @@
         pixlui:typeface="Roboto-Regular.ttf" />
 
     <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/sketch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/clickable_view"
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/ic_action_edit"
+        android:drawablePadding="4dp"
+        android:padding="8dp"
+        android:text="@string/sketch"
+        android:textSize="17sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
+
+    <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
