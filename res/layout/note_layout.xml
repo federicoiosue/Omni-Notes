@@ -32,7 +32,7 @@
             android:id="@+id/tag_marker"
             android:layout_width="4dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="3dp"
             android:background="@null" />
 
         <LinearLayout
