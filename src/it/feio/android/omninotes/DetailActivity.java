@@ -140,6 +140,7 @@ public class DetailActivity extends BaseActivity {
 	View toggleChecklistView;
 	boolean isChecklistOn = false;
 	boolean checklist = false;
+	private ChecklistManager mChecklistManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -625,8 +626,27 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	
+	/**
+	 * 
+	 */
 	private void toggleChecklist() {
-		ChecklistManager mChecklistManager = ChecklistManager.getInstance(this);
+		
+		// In case checklist is active a prompt will ask about many options
+		// to decide hot to convert back to simple text
+	
+		if (!isChecklistOn) {
+			toggleChecklist2();
+			return;
+		}
+		
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+//		alertDialogBuilder.set
+		
+	}
+	
+	private void toggleChecklist2() {
+		mChecklistManager = ChecklistManager.getInstance(this);
 		mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
 				String.valueOf(it.feio.android.checklistview.utils.Constants.CHECKED_HOLD))));
 		mChecklistManager.setShowChecks(true);
@@ -640,8 +660,8 @@ public class DetailActivity extends BaseActivity {
 		} catch (ViewNotSupportedException e) {
 			e.printStackTrace();
 		}
-		
 	}
+	
 
 	/**
 	 * Tags note choosing from a list of previously created tags
@@ -966,11 +986,6 @@ public class DetailActivity extends BaseActivity {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void saveNote(Boolean archive) {
 		
-		if (isChecklistOn) {
-			checklist = true;
-			toggleChecklist();
-		}
-
 		// Get old reminder to check later if is changed
 		String oldAlarm = note.getAlarm();
 
@@ -979,11 +994,16 @@ public class DetailActivity extends BaseActivity {
 		// Due to checklist library introduction the returned EditText class is no more
 		// a com.neopixl.pixlui.components.edittext.EditText but a standard
 		// android.widget.EditText
-		String content;
-		try {
+		String content = "";
+		if (!isChecklistOn) {
 			content = ((EditText) findViewById(R.id.content)).getText().toString();
-		} catch (ClassCastException e) {
-			content = ((android.widget.EditText) findViewById(R.id.content)).getText().toString();
+		} else {
+//			content = ((android.widget.EditText) findViewById(R.id.content)).getText().toString();
+			try {
+				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
+			} catch (ViewNotSupportedException e) {
+				Log.e(Constants.TAG, "Errore toggling checklist", e);
+			}
 		}
 		
 		Note noteEdited = note;
@@ -1046,8 +1066,19 @@ public class DetailActivity extends BaseActivity {
 	private void shareNote() {
 		// Changed fields
 		String title = ((EditText) findViewById(R.id.title)).getText().toString();
-		String content = ((EditText) findViewById(R.id.content)).getText().toString();
-
+		
+		// Getting content paying attention if checklist-mode is active
+		String content = "";
+		if (!isChecklistOn) {
+			content = ((EditText) findViewById(R.id.content)).getText().toString();
+		} else {
+			try {
+				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
+			} catch (ViewNotSupportedException e) {
+				Log.e(Constants.TAG, "Errore toggling checklist", e);
+			}
+		}
+		
 		// Check if some text has ben inserted or is an empty note
 		if ((title + content).length() == 0 && attachmentsList.size() == 0) {
 			Log.d(Constants.TAG, "Empty note not shared");
