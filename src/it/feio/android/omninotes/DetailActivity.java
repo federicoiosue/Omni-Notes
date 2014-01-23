@@ -79,6 +79,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -139,7 +140,6 @@ public class DetailActivity extends BaseActivity {
 	// Toggle checklist view
 	View toggleChecklistView;
 	boolean isChecklistOn = false;
-	boolean checklist = false;
 	private ChecklistManager mChecklistManager;
 
 	@Override
@@ -632,25 +632,66 @@ public class DetailActivity extends BaseActivity {
 	private void toggleChecklist() {
 		
 		// In case checklist is active a prompt will ask about many options
-		// to decide hot to convert back to simple text
-	
+		// to decide hot to convert back to simple text	
 		if (!isChecklistOn) {
 			toggleChecklist2();
 			return;
 		}
 		
-
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
-//		alertDialogBuilder.set
+
+		// Inflate the popup_layout.xml
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		final View layout = inflater.inflate(R.layout.dialog_remove_checklist_layout, (ViewGroup) findViewById(R.id.layout_root));
+
+		// Retrieves options checkboxes and initialize their values
+		final CheckBox keepChecked = (CheckBox) layout.findViewById(R.id.checklist_keep_checked);
+		final CheckBox keepCheckmarks = (CheckBox) layout.findViewById(R.id.checklist_keep_checkmarks);		
+		keepChecked.setChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
+		keepCheckmarks.setChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true));
 		
+		alertDialogBuilder.setView(layout)
+		.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				prefs.edit()
+					.putBoolean(Constants.PREF_KEEP_CHECKED, keepChecked.isChecked())
+					.putBoolean(Constants.PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
+					.commit();
+				
+				toggleChecklist2();
+				dialog.dismiss();
+			}
+		})
+		.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();				
+			}
+		});
+		alertDialogBuilder.create().show();
 	}
 	
+	
+	/**
+	 * Toggles checklist view
+	 */
 	private void toggleChecklist2() {
+		
+		// Get instance and set options to convert EditText to CheckListView
 		mChecklistManager = ChecklistManager.getInstance(this);
 		mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
 				String.valueOf(it.feio.android.checklistview.utils.Constants.CHECKED_HOLD))));
 		mChecklistManager.setShowChecks(true);
 		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
+		
+		// Options for converting back to simple text
+		mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
+		mChecklistManager.setShowChecks(prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true));
+		
+		// Switches the views
 		View newView;
 		try {
 			newView = mChecklistManager.convert(toggleChecklistView);
@@ -991,12 +1032,16 @@ public class DetailActivity extends BaseActivity {
 
 		// Changed fields
 		String title = ((EditText) findViewById(R.id.title)).getText().toString();
-		// Due to checklist library introduction the returned EditText class is no more
-		// a com.neopixl.pixlui.components.edittext.EditText but a standard
-		// android.widget.EditText
 		String content = "";
 		if (!isChecklistOn) {
-			content = ((EditText) findViewById(R.id.content)).getText().toString();
+			// Due to checklist library introduction the returned EditText class is no more
+			// a com.neopixl.pixlui.components.edittext.EditText but a standard
+			// android.widget.EditText
+			try {
+				content = ((EditText) findViewById(R.id.content)).getText().toString();
+			} catch (ClassCastException e) {
+				content = ((android.widget.EditText)  findViewById(R.id.content)).getText().toString();
+			}
 		} else {
 //			content = ((android.widget.EditText) findViewById(R.id.content)).getText().toString();
 			try {
@@ -1036,7 +1081,7 @@ public class DetailActivity extends BaseActivity {
 		note.setLongitude(noteLongitude);
 		note.setTag(selectedTag);
 		note.setLocked(lock);
-		note.setChecklist(checklist);
+		note.setChecklist(isChecklistOn);
 		note.setAttachmentsList(attachmentsList);
 		
 		// Checks if nothing is changed to avoid committing if possible (check)

@@ -61,6 +61,8 @@ public interface Constants {
     final String PREF_RATE_DISMISSED = "rate_dismissed";
     final String PREF_LAUNCH_COUNT = "launch_count";
     final String PREF_FIRST_LAUNCH = "first_launch";
+    final String PREF_KEEP_CHECKED = "keep_checked";
+    final String PREF_KEEP_CHECKMARKS = "show_checkmarks";
     
     final String EXPORT_FILE_NAME = TAG;
     

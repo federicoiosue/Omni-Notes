@@ -59,7 +59,7 @@
     <string name="note_title">Note title</string>
     <string name="note_timestamp">Note timestamp</string>
     <string name="share_message_chooser">Share with</string>
-    <string name="shared_content_sign">--\n【by Omni Notes】</string>
+    <string name="shared_content_sign">\n【by Omni Notes】</string>
     <string name="sort">Sort</string>
     <string name="select_sorting_column">Sort by</string>
     <string name="tap_to_undo">Tap to undo</string>
@@ -122,6 +122,9 @@
 	<string name="rate_dialog_later_btn">Remind me later</string>
 	<string name="checklist">Toggle checklist</string>
 	<string name="checklist_item_hint">New item</string>
+    <string name="remove_checklist">Remove checklist?</string>
+    <string name="checklist_keep_checked">Keep checked items</string>
+    <string name="checklist_keep_symbols">Keep checkmarks (to remember checked ones)</string>
     <string name="sketch">Sketch</string>
     	
     <!-- Settings -->

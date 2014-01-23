@@ -13,7 +13,7 @@ CREATE
 		longitude REAL,
        		tag_id INTEGER DEFAUL null,
 		locked INTEGER,  
-		checklist  INTEGER   
+		checklist  INTEGER;    
 	);
 	
 
