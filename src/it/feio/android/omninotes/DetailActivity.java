@@ -138,6 +138,8 @@ public class DetailActivity extends BaseActivity {
 
 	// Toggle checklist view
 	View toggleChecklistView;
+	boolean isChecklistOn = false;
+	boolean checklist = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -381,9 +383,11 @@ public class DetailActivity extends BaseActivity {
 		datetime = (TextView) findViewById(R.id.datetime);
 		datetime.setText(dateTimeText);
 		
-		
+		// Restore checklist
 		toggleChecklistView = content;
-		
+		if (note.isChecklist()) {
+			toggleChecklist();
+		}
 		
 	}
 
@@ -623,12 +627,16 @@ public class DetailActivity extends BaseActivity {
 	
 	private void toggleChecklist() {
 		ChecklistManager mChecklistManager = ChecklistManager.getInstance(this);
+		mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
+				String.valueOf(it.feio.android.checklistview.utils.Constants.CHECKED_HOLD))));
+		mChecklistManager.setShowChecks(true);
 		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
 		View newView;
 		try {
 			newView = mChecklistManager.convert(toggleChecklistView);
 			mChecklistManager.replaceViews(toggleChecklistView, newView);
 			toggleChecklistView = newView;
+			isChecklistOn = !isChecklistOn;
 		} catch (ViewNotSupportedException e) {
 			e.printStackTrace();
 		}
@@ -957,6 +965,11 @@ public class DetailActivity extends BaseActivity {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void saveNote(Boolean archive) {
+		
+		if (isChecklistOn) {
+			checklist = true;
+			toggleChecklist();
+		}
 
 		// Get old reminder to check later if is changed
 		String oldAlarm = note.getAlarm();
@@ -1003,6 +1016,7 @@ public class DetailActivity extends BaseActivity {
 		note.setLongitude(noteLongitude);
 		note.setTag(selectedTag);
 		note.setLocked(lock);
+		note.setChecklist(checklist);
 		note.setAttachmentsList(attachmentsList);
 		
 		// Checks if nothing is changed to avoid committing if possible (check)

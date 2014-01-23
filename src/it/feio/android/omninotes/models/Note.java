@@ -40,6 +40,7 @@ public class Note implements Parcelable {
 	private Double longitude;
 	private Tag tag;
 	private Boolean locked;
+	private Boolean checklist;
 	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private ArrayList<Attachment> attachmentsListOld = new ArrayList<Attachment>();
 
@@ -47,10 +48,11 @@ public class Note implements Parcelable {
 		super();
 		this.archived = false;
 		this.locked = false;
+		this.checklist = false;
 	}
 	
 	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived,
-			String alarm, String latitude, String longitude, Tag tag, Integer locked) {
+			String alarm, String latitude, String longitude, Tag tag, Integer locked, Integer checklist) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -63,6 +65,7 @@ public class Note implements Parcelable {
 		setLongitude(longitude);
 		setTag(tag);
 		setLocked(locked == 1 ? true : false);
+		setChecklist(checklist == 1 ? true : false);
 	}
 
 	public Note(Note note) {
@@ -78,6 +81,7 @@ public class Note implements Parcelable {
 		setLongitude(note.getLongitude());
 		setTag(note.getTag());
 		setLocked(note.isLocked());
+		setChecklist(note.isChecklist());
 		ArrayList<Attachment> list = new ArrayList<Attachment>();
 		for (Attachment mAttachment : note.getAttachmentsList()) {
 			list.add(mAttachment);
@@ -97,6 +101,7 @@ public class Note implements Parcelable {
 		setLongitude(in.readString());
 		setTag((Tag)in.readParcelable(Tag.class.getClassLoader()));
 		setLocked(in.readInt());
+		setChecklist(in.readInt());
 		in.readList(attachmentsList, Attachment.class.getClassLoader());
 	}
 
@@ -250,6 +255,18 @@ public class Note implements Parcelable {
 		this.locked = locked == 1 ? true : false;
 	}
 
+	public Boolean isChecklist() {
+		return checklist;
+	}
+
+	public void setChecklist(Boolean checklist) {
+		this.checklist = checklist;
+	}
+
+	public void setChecklist(int checklist) {
+		this.checklist = checklist == 1 ? true : false;
+	}
+
 	public ArrayList<Attachment> getAttachmentsList() {
 		return attachmentsList;
 	}
@@ -283,8 +300,8 @@ public class Note implements Parcelable {
 			return res;
 		}
 
-		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), getAlarm(), getLatitude(), getLongitude(), getTag(), isLocked()};
-		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.getAlarm(), note.getLatitude(), note.getLongitude(), note.getTag(), note.isLocked()};
+		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), getAlarm(), getLatitude(), getLongitude(), getTag(), isLocked(), isChecklist()};
+		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.getAlarm(), note.getLatitude(), note.getLongitude(), note.getTag(), note.isLocked(), note.isChecklist()};
 		if (EqualityChecker.check(a, b)) {
 			res = true;		
 		}
@@ -322,6 +339,7 @@ public class Note implements Parcelable {
 		parcel.writeString(String.valueOf(getLongitude()));
 		parcel.writeParcelable(getTag(), 0);
 		parcel.writeInt(isLocked() ? 1 : 0);
+		parcel.writeInt(isChecklist() ? 1 : 0);
 		parcel.writeList(getAttachmentsList());
 	}
 

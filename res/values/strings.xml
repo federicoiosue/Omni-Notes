@@ -177,8 +177,11 @@
     <string name="settings_enable_editor_links_summary">Enable or disable automatic highlighting of links and e-mail in editor</string>
     <string name="confirm_removing_backup">Confirm removing backup</string>
     <string name="data_deletion_completed">Data deletion completed</string>
-    <string name="settings_hours_format">Use 24-hours time format</string>
-
+    <string name="settings_hours_format">24-hours clock</string>
+    <string name="settings_hours_format_summary">Use 24-hours time format instead of the 12-hour one</string>
+	<string name="settings_checked_items_behavior">Checked items behavior</string>
+    <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>
+    
     <!-- About -->
     <string name="follow_author">Who is the developer?</string>
     <string name="click_to_support">Click the banner to support development</string>
