@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import android.preference.PreferenceManager;
 public class ConnectionManager {
 
 	/**
-	 * Controlla se è disponibile una connessione internet e se rispetta i requisiti delle impostazioni dell'applicazione	 * 
+	 * Controlla se ï¿½ disponibile una connessione internet e se rispetta i requisiti delle impostazioni dell'applicazione	 * 
 	 * @param ctx
 	 * @return
 	 */

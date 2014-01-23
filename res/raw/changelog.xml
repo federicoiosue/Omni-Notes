@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,9 +16,10 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.1.4" changeDate="Jan 22, 2014">        
-      <changelogtext>[b]New![/b] Tag markers layout modified: slightly thicker and now both in notes list or in detail will appear like a vertical-left-border for the container card element</changelogtext>
-       <changelogtext>[b]New![/b] 12-hours mode available</changelogtext>
+    <changelogversion versionName="4.1.4" changeDate="Jan 24, 2014">        
+      <changelogtext>[b]New![/b] You can now easily convert from simple text note to [b]checklist[/b] and vice versa</changelogtext>
+      <changelogtext>[b]New![/b] 12-hours mode available</changelogtext>       
+      <changelogtext>Tag markers layout modified: slightly thicker and now both in notes list or in detail will appear like a vertical-left-border for the container card element</changelogtext>
       <changelogtext>German translation updated (thanks to Lycox MB)</changelogtext>
       <changelogtext>[u]Fixed[/u] wrong tag association when just one note without previous tag was selected  </changelogtext>
  	</changelogversion>
