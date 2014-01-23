@@ -17,6 +17,7 @@ package it.feio.android.omninotes;
 
 import java.util.Calendar;
 
+import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.utils.Constants;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -35,6 +36,10 @@ public class SplashScreenActivity extends BaseActivity {
 		
 		// Hiding actionbar for splashscreen
 		getSupportActionBar().hide();
+
+		// Launching update task
+		UpdaterTask task = new UpdaterTask(this);
+		task.execute();
 		
 		// Getting last opening time
 		long openTime = Calendar.getInstance().getTimeInMillis();

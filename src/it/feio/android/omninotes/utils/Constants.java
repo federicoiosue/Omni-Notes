@@ -29,6 +29,10 @@ public interface Constants {
 
 	final String DEV_EMAIL = "federico.iosue@gmail.com";
 	
+	// Used for updates retrieval
+	final String PS_METADATA_FETCHER_URL = "http://www.iosue.it/federico/apps/PSMetadataFetcher/get_app_data.php?url=";
+	final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=";
+	
 	final int THUMBNAIL_SIZE = 300;  
 
 	final String DATE_SEPARATOR = "/";
