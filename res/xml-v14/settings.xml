@@ -99,6 +99,22 @@
             android:title="@string/settings_enable_editor_links" 
             android:summary="@string/settings_enable_editor_links_summary" >
         </SwitchPreference>
+	    <ListPreference
+	        android:defaultValue="0"
+	        android:entries="@array/checked_items_behavior"
+	        android:entryValues="@array/checked_items_behavior_values"
+	        android:key="settings_checked_items_behavior"
+	        android:summary="@string/settings_checked_items_behavior_summary"
+	        android:title="@string/settings_checked_items_behavior" >
+	    </ListPreference>
+        <SwitchPreference
+            android:defaultValue="true"
+		    android:switchTextOn="On"
+		    android:switchTextOff="Off"
+            android:key="settings_hours_format"
+            android:title="@string/settings_hours_format" 
+            android:summary="@string/settings_hours_format_summary"/>
+
     </PreferenceCategory>
   
     <PreferenceCategory

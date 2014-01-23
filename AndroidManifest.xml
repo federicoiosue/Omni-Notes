@@ -17,8 +17,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="43"
-    android:versionName="4.1.2" >
+    android:versionCode="46"
+    android:versionName="4.1.4" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -208,8 +208,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget_info" />
         </receiver>
-        
-        
+
+        <activity
+            android:name="it.feio.android.omninotes.SketchActivity"
+            android:label="@string/title_activity_sketch" >
+        </activity>
     </application>
 
 </manifest>

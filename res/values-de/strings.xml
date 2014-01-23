@@ -33,13 +33,13 @@
     <string name="delete">"Notiz löschen"</string>
     <string name="timestamp">"Zeitstempel"</string>
     <string name="creation">"Erstellt am "</string>
-    <string name="last_update">"Aktualisiert am "</string>
-    <string name="delete_note_confirmation">"Notiz löschen bestätigen?"</string>
-    <string name="confirm">"Bestätigen"</string>
+    <string name="last_update">"Geändert am "</string>
+    <string name="delete_note_confirmation">"Notiz wirklich löschen?"</string>
+    <string name="confirm">"OK"</string>
     <string name="cancel">"Abbrechen"</string>
     <string name="note_updated">"Notiz aktualisiert"</string>
-    <string name="empty_note_not_saved">"Leere Notiz nicht gespeichert"</string>
-    <string name="empty_note_not_shared">"Leere Note nicht teilbar"</string>
+    <string name="empty_note_not_saved">"Leere Notiz wurde nicht gespeichert"</string>
+    <string name="empty_note_not_shared">"Leere Notiz kann nicht geteilt werden"</string>
     <string name="note_archived">"Notiz archiviert"</string>
     <string name="note_unarchived">"Notiz aus dem Archiv wiederhergestellt"</string>
     <string name="note_deleted">"Notiz gelöscht"</string>
@@ -61,7 +61,7 @@
     <string name="location">"Standort"</string>
     <string name="remove_location">"Standort entfernen?"</string>
     <string name="remove_reminder">"Erinnerung entfernen?"</string>
-    <string name="add_reminder">"Erinnerung hinzufügen"</string>
+    <string name="add_reminder">"Erinnern"</string>
     <string name="location_not_found">"Standort nicht gefunden"</string>
     <string name="record">"Aufnahme"</string>
     <string name="stop">"Stopp"</string>
@@ -70,13 +70,13 @@
     <string name="video">"Video"</string>
     <string name="feature_not_available_on_this_device">"Feature auf diesem Gerät nicht verfügbar"</string>
     <string name="error_occurred_deleting_note">"Fehler beim Löschen der Notiz"</string>
-    <string name="data_export_message">"Name für Sicherungskopie eingeben"</string>
+    <string name="data_export_message">"Name der Sicherungsdatei eingeben"</string>
     <string name="data_import_message">"kurz drücken -&gt; Wiederherstellen\nlang drücken -&gt; Löschen"</string>
     <string name="data_import_message_warning">"WARNUNG: Dies wird alle aktuellen Daten ersetzen!"</string>
     <string name="data_export_completed">"Datensicherung abgeschlossen"</string>
     <string name="data_import_completed">"Datenimport abgeschlossen"</string>
     <string name="click_to_refresh_application">"Klicken, um die Anwendung zu aktualisieren"</string>
-    <string name="backup_existing">"Sicherung bestehender Daten. Es wird überschrieben."</string>
+    <string name="backup_existing">"Sicherung bestehender Daten. Alte Sicherung wird überschrieben."</string>
     <string name="tags">"Tags"</string>
     <string name="edit_tag">"Tag bearbeiten"</string>
     <string name="add_tag">"Tag hinzufügen"</string>
@@ -112,9 +112,9 @@
     <!-- Settings -->
     <string name="settings">"Einstellungen"</string>
     <string name="settings_about">"Über"</string>
-    <string name="settings_category_other">"Andere"</string>
+    <string name="settings_category_other">"Weiteres"</string>
     <string name="settings_reset_all_data">"Alle Daten löschen"</string>
-    <string name="reset_all_data_confirmation">"Bestätigen Sie das Entfernen aller App-Daten (Backups bleiben erhalten)"</string>
+    <string name="reset_all_data_confirmation">"Bestätigen Sie das Entfernen aller Anwendungsdaten (Backups bleiben erhalten)"</string>
     <string name="action_settings">"Einstellungen"</string>
     <string name="settings_sync_import_export">"Synchronisation und Datensicherung"</string>
     <string name="settings_export">"Exportieren"</string>
@@ -135,13 +135,13 @@
     <string name="settings_category_notifications">"Benachrichtigungen"</string>
     <string name="settings_enable_sound">"Klingelton"</string>
     <string name="settings_enable_vibration">"Vibration"</string>
-    <string name="settings_changelog">"Neuerungen"</string>
+    <string name="settings_changelog">"Was ist neu?"</string>
     <string name="settings_enable_editor_links">"Linkerkennung"</string>
     <string name="settings_max_video_size">"Videoanhänge"</string>
     <string name="settings_category_data">"Daten"</string>
-    <string name="settings_backup">"Sicherungskopie"</string>
+    <string name="settings_backup">"Sicherung"</string>
     <string name="settings_password">"Passwort"</string>
-    <string name="settings_password_instructions">"Sicherheitspasswort wird verwendet, um sicherzustellen, dass die geschützten Notizen ohne Genehmigung nicht angezeigt, geändert oder gelöscht werden können.\n\nImmer. wenn Sie ein neues Passwort vergeben möchten, wird das Alte zur Sicherheit abgefragt.\n\nZum Löschen des Passwortes lassen Sie das Textfeld frei."</string>
+    <string name="settings_password_instructions">"Um sicherzustellen, dass die geschützten Notizen ohne Genehmigung nicht angezeigt, geändert oder gelöscht werden können, wird ein Sicherheitspasswort verwendet.\n\nImmer. wenn Sie ein neues Passwort vergeben möchten, wird das Alte zur Sicherheit abgefragt.\n\nZum Löschen des Passwortes lassen Sie das Textfeld frei."</string>
     <string name="settings_password_not_matching">"Passwörter stimmen nicht überein"</string>
     <string name="insert_new_password">"Geben Sie ein neues Passwort ein"</string>
     <string name="confirm_new_password">"Passwort bestätigen"</string>
@@ -149,22 +149,22 @@
     <string name="password_successfully_removed">"Passwort erfolgreich entfernt"</string>
     <string name="wrong_password">"Falsches Passwort"</string>
     <string name="agree_unlocking_all_notes">"Sicherheitskennwort wirklich entfernen?\nAlle geschützten Notizen werden freigegeben!"</string>
-    <string name="settings_enable_tag_marker">"Tag-Markierungen"</string>
-    <string name="settings_backup_summary">"Importieren oder Exportieren von App-Daten"</string>
+    <string name="settings_enable_tag_marker">"Tags hervorheben"</string>
+    <string name="settings_backup_summary">"Importieren oder Exportieren der Anwendungsdaten"</string>
     <string name="settings_max_video_size_summary">"Max zulässige Größe in MB"</string>
-    <string name="settings_password_summary">"Sicherheitspasswort der App bearbeiten"</string>
-    <string name="settings_enable_animations_summary">"Aktivieren oder Deaktivieren der Notizenliste und Bildschirmübergängen"</string>
+    <string name="settings_password_summary">"Sicherheitspasswort der Anwendung festlegen"</string>
+    <string name="settings_enable_animations_summary">"Aktivieren oder Deaktivieren von Animation beim Ein-/Ausblenden von Notizen und Bildschirmübergängen"</string>
     <string name="settings_enable_tag_marker_summary">"Aktivieren oder Deaktivieren von farbigen Tags"</string>
-    <string name="settings_enable_info_summary">"Aktivieren oder deaktivieren von Pop-Ups für Aktionen bei Notizen, wie z.B. Bearbeiten, Löschen, Markieren ..."</string>
-    <string name="settings_enable_editor_links_summary">"Aktivieren oder deaktivieren der automatischen Hervorhebung von Links und E-Mails im Editor"</string>
-    <string name="confirm_removing_backup">"Entfernen der Sichreungskopie bestätigen"</string>
+    <string name="settings_enable_info_summary">"Aktivieren oder deaktivieren von Informations-Popups für Aktionen, wie z.B. Bearbeiten, Löschen, Markieren, etc."</string>
+    <string name="settings_enable_editor_links_summary">"Aktivieren oder deaktivieren der automatischen Erkennung von Links und E-Mail-Adressen im Editor"</string>
+    <string name="confirm_removing_backup">"Entfernen der Sicherungskopie bestätigen"</string>
     <string name="data_deletion_completed">"Datenlöschung erfolgt"</string>
     
     
 
     <!-- About -->
     <string name="follow_author">"Wer ist der Entwickler?"</string>
-    <string name="click_to_support">"Klicken Sie auf das Banner, um Entwicklung zu unterstützen"</string>
+    <string name="click_to_support">"Klicken Sie auf das Banner, um die Entwicklung zu unterstützen"</string>
     
     
     

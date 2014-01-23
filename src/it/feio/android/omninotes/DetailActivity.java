@@ -15,19 +15,10 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
-import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
-import com.neopixl.pixlui.components.edittext.EditText;
-import com.neopixl.pixlui.components.textview.TextView;
-
+import it.feio.android.checklistview.ChecklistManager;
+import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
+import it.feio.android.omninotes.async.DeleteNoteTask;
+import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.ExpandableHeightGridView;
@@ -37,9 +28,14 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
-import it.feio.android.omninotes.async.DeleteNoteTask;
-import it.feio.android.omninotes.async.SaveNoteTask;
-import it.feio.android.omninotes.R;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -74,9 +70,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -87,6 +83,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
+
+import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+import com.neopixl.pixlui.components.edittext.EditText;
+import com.neopixl.pixlui.components.textview.TextView;
 
 /**
  * An activity representing a single Item detail screen. This activity is only
@@ -133,6 +135,11 @@ public class DetailActivity extends BaseActivity {
 	private Tag selectedTag;
 	private Boolean lock = false;
 	private Bitmap recordingBitmap;
+
+	// Toggle checklist view
+	View toggleChecklistView;
+	boolean isChecklistOn = false;
+	boolean checklist = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -375,6 +382,13 @@ public class DetailActivity extends BaseActivity {
 
 		datetime = (TextView) findViewById(R.id.datetime);
 		datetime.setText(dateTimeText);
+		
+		// Restore checklist
+		toggleChecklistView = content;
+		if (note.isChecklist()) {
+			toggleChecklist();
+		}
+		
 	}
 
 	
@@ -414,6 +428,7 @@ public class DetailActivity extends BaseActivity {
 						alarmDate = DateHelper.onDateSet(year, monthOfYear, dayOfMonth,
 								Constants.DATE_FORMAT_SHORT_DATE);
 						Log.d(Constants.TAG, "Date set");
+						boolean is24HourMode = date_time_format.equals(Constants.DATE_FORMAT_SHORT);
 						RadialTimePickerDialog mRadialTimePickerDialog = RadialTimePickerDialog.newInstance(
 								new RadialTimePickerDialog.OnTimeSetListener() {
 
@@ -425,18 +440,18 @@ public class DetailActivity extends BaseActivity {
 										// Creation of string rapresenting alarm
 										// time
 										alarmTime = DateHelper.onTimeSet(hourOfDay, minute,
-												Constants.DATE_FORMAT_SHORT_TIME);
+												time_format);
 										datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate + " "
 												+ getString(R.string.at_time) + " " + alarmTime);
 
 										// Setting alarm time in milliseconds
 										alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
 												Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
-												Constants.DATE_FORMAT_SHORT_TIME).getTimeInMillis();
+												time_format).getTimeInMillis();
 
 										Log.d(Constants.TAG, "Time set");
 									}
-								}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), true);
+								}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), is24HourMode);
 						mRadialTimePickerDialog.show(getSupportFragmentManager(), Constants.TAG);
 					}
 
@@ -455,9 +470,9 @@ public class DetailActivity extends BaseActivity {
 		if (note.get_id() != 0) {
 			
 			((TextView) findViewById(R.id.creation)).append(getString(R.string.creation) + " "
-					+ note.getCreationShort());
+					+ note.getCreationShort(date_time_format));
 			((TextView) findViewById(R.id.last_modification)).append(getString(R.string.last_update) + " "
-					+ note.getLastModificationShort());
+					+ note.getLastModificationShort(date_time_format));
 			if (note.getAlarm() != null) {
 				alarmDateTime = Long.parseLong(note.getAlarm());
 				dateTimeText = initAlarm(alarmDateTime);
@@ -546,6 +561,7 @@ public class DetailActivity extends BaseActivity {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_attachment).setVisible(true);
 		menu.findItem(R.id.menu_tag).setVisible(true);
+		menu.findItem(R.id.menu_checklist).setVisible(true);
 		menu.findItem(R.id.menu_lock).setVisible(true);
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		menu.findItem(R.id.menu_discard_changes).setVisible(true);
@@ -587,11 +603,13 @@ public class DetailActivity extends BaseActivity {
 			saveNote(false);
 			break;
 		case R.id.menu_attachment:
-//			this.attachmentDialog = showAttachmentDialog();
 			showPopup(findViewById(R.id.menu_attachment));
 			break;
 		case R.id.menu_tag:
 			tagNote();
+			break;
+		case R.id.menu_checklist:
+			toggleChecklist();
 			break;
 		case R.id.menu_lock:
 			lockNote();
@@ -607,6 +625,24 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	
+	private void toggleChecklist() {
+		ChecklistManager mChecklistManager = ChecklistManager.getInstance(this);
+		mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
+				String.valueOf(it.feio.android.checklistview.utils.Constants.CHECKED_HOLD))));
+		mChecklistManager.setShowChecks(true);
+		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
+		View newView;
+		try {
+			newView = mChecklistManager.convert(toggleChecklistView);
+			mChecklistManager.replaceViews(toggleChecklistView, newView);
+			toggleChecklistView = newView;
+			isChecklistOn = !isChecklistOn;
+		} catch (ViewNotSupportedException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	/**
 	 * Tags note choosing from a list of previously created tags
 	 */
@@ -676,7 +712,7 @@ public class DetailActivity extends BaseActivity {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int attachmentDialogWidth = 320;
-		int attachmentDialogHeight = 530;
+		int attachmentDialogHeight = 630;
 
 		// Inflate the popup_layout.xml
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -704,6 +740,9 @@ public class DetailActivity extends BaseActivity {
 		// Video recording
 		android.widget.TextView videoSelection = (android.widget.TextView) layout.findViewById(R.id.video);
 		videoSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Sketch
+		android.widget.TextView sketchSelection = (android.widget.TextView) layout.findViewById(R.id.sketch);
+		sketchSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Location
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
@@ -763,6 +802,9 @@ public class DetailActivity extends BaseActivity {
 				takeVideo();
 				attachmentDialog.dismiss();
 			    break;
+			case R.id.sketch:
+				takeSketch();
+				attachmentDialog.dismiss();
 			case R.id.location:
 				setAddress(locationTextView);
 				attachmentDialog.dismiss();
@@ -820,6 +862,12 @@ public class DetailActivity extends BaseActivity {
 		int maxVideoSize = Integer.parseInt(maxVideoSizeStr);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Long.valueOf(maxVideoSize*1024*1024));
 	    startActivityForResult(takeVideoIntent, TAKE_VIDEO);
+	}
+	
+	private void takeSketch() {
+		Intent takeSketchIntent = new Intent(this, SketchActivity.class);
+		
+	    startActivity(takeSketchIntent);
 	}
 
 	
@@ -917,13 +965,26 @@ public class DetailActivity extends BaseActivity {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void saveNote(Boolean archive) {
+		
+		if (isChecklistOn) {
+			checklist = true;
+			toggleChecklist();
+		}
 
 		// Get old reminder to check later if is changed
 		String oldAlarm = note.getAlarm();
 
 		// Changed fields
 		String title = ((EditText) findViewById(R.id.title)).getText().toString();
-		String content = ((EditText) findViewById(R.id.content)).getText().toString();
+		// Due to checklist library introduction the returned EditText class is no more
+		// a com.neopixl.pixlui.components.edittext.EditText but a standard
+		// android.widget.EditText
+		String content;
+		try {
+			content = ((EditText) findViewById(R.id.content)).getText().toString();
+		} catch (ClassCastException e) {
+			content = ((android.widget.EditText) findViewById(R.id.content)).getText().toString();
+		}
 		
 		Note noteEdited = note;
 		if (noteEdited != null) {
@@ -955,6 +1016,7 @@ public class DetailActivity extends BaseActivity {
 		note.setLongitude(noteLongitude);
 		note.setTag(selectedTag);
 		note.setLocked(lock);
+		note.setChecklist(checklist);
 		note.setAttachmentsList(attachmentsList);
 		
 		// Checks if nothing is changed to avoid committing if possible (check)
@@ -1092,7 +1154,7 @@ public class DetailActivity extends BaseActivity {
 	// @Override
 	// public void onDateSet(DatePicker v, int year, int month, int day) {
 	// alarmDate = DateHelper.onDateSet(year, month, day,
-	// Constants.DATE_FORMAT_SHORT_DATE);
+	// time_format);
 	// showTimePickerDialog(v);
 	// }
 	//
@@ -1101,14 +1163,14 @@ public class DetailActivity extends BaseActivity {
 	//
 	// // Creation of string rapresenting alarm time
 	// alarmTime = DateHelper.onTimeSet(hour, minute,
-	// Constants.DATE_FORMAT_SHORT_TIME);
+	// time_format);
 	// datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate
 	// + " " + getString(R.string.at_time) + " " + alarmTime);
 	//
 	// // Setting alarm time in milliseconds
 	// alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
-	// Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
-	// Constants.DATE_FORMAT_SHORT_TIME).getTimeInMillis();
+	// time_format, alarmTime,
+	// time_format).getTimeInMillis();
 	//
 	// // Shows icon to remove alarm
 	// reminder_delete.setVisibility(View.VISIBLE);
@@ -1127,7 +1189,7 @@ public class DetailActivity extends BaseActivity {
 		alarmDate = DateHelper.onDateSet(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
 				cal.get(Calendar.DAY_OF_MONTH), Constants.DATE_FORMAT_SHORT_DATE);
 		alarmTime = DateHelper.onTimeSet(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
-				Constants.DATE_FORMAT_SHORT_TIME);
+				time_format);
 		String dateTimeText = getString(R.string.alarm_set_on) + " " + alarmDate + " " + getString(R.string.at_time)
 				+ " " + alarmTime;
 		return dateTimeText;

@@ -44,8 +44,8 @@
     <string name="unarchive">Restore from archive</string>
     <string name="delete">Delete note</string>
     <string name="timestamp">Timestamp</string>
-    <string name="creation">Created on </string>
-    <string name="last_update">Updated on </string>
+    <string name="creation">Created:</string>
+    <string name="last_update">Updated:</string>
     <string name="delete_note_confirmation">Confirm note deletion?</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
@@ -120,6 +120,9 @@
 	<string name="rate_dialog_rate_btn">Rate it!</string>
 	<string name="rate_dialog_dismiss_btn">Don\'t ask me again</string>
 	<string name="rate_dialog_later_btn">Remind me later</string>
+	<string name="checklist">Toggle checklist</string>
+	<string name="checklist_item_hint">New item</string>
+    <string name="sketch">Sketch</string>
     	
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -174,19 +177,19 @@
     <string name="settings_enable_editor_links_summary">Enable or disable automatic highlighting of links and e-mail in editor</string>
     <string name="confirm_removing_backup">Confirm removing backup</string>
     <string name="data_deletion_completed">Data deletion completed</string>
+    <string name="settings_hours_format">24-hours clock</string>
+    <string name="settings_hours_format_summary">Use 24-hours time format instead of the 12-hour one</string>
+	<string name="settings_checked_items_behavior">Checked items behavior</string>
+    <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>
     
-    
-
     <!-- About -->
     <string name="follow_author">Who is the developer?</string>
     <string name="click_to_support">Click the banner to support development</string>
-    
-    
-    
+
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
-    
-
+    <string name="title_activity_sketch">SketchActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
