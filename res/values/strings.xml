@@ -126,7 +126,9 @@
     <string name="checklist_keep_checked">Keep checked items</string>
     <string name="checklist_keep_symbols">Keep checkmarks (to remember checked ones)</string>
     <string name="sketch">Sketch</string>
-    <string name="crash_toast_text">Something wrong has happened in Omni Notes, an e-mail with the problem is sent to developer!</string>
+    <string name="crash_dialog_title">Whooooops!</string>
+    <string name="crash_dialog_text">Something wrong has happened in Omni Notes\nDo you want to sent an e-mail as report to developer?!</string>
+    <string name="crash_dialog_comment_prompt">Add your comment here</string>
     	
     <!-- Settings -->
     <string name="settings">Settings</string>

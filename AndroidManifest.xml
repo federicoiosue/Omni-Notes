@@ -144,6 +144,12 @@
                 android:value=".ListActivity" />
         </activity>
 
+        <!-- Sketch -->
+        <activity
+            android:name="it.feio.android.omninotes.SketchActivity"
+            android:label="@string/title_activity_sketch" >
+        </activity>
+
         <!-- Settings -->
         <activity
             android:name="it.feio.android.omninotes.SettingsActivity"
@@ -171,10 +177,16 @@
             android:name="it.feio.android.omninotes.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>
-
-        <!-- Alarm broadcast receiver -->
-        <receiver android:name="it.feio.android.omninotes.receiver.AlarmReceiver" >
-        </receiver>
+        
+        <!-- ACRA -->
+        <activity
+            android:name="org.acra.CrashReportDialog"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleInstance" />        
+        
+		<!-- Alarm broadcast receiver -->
+        <receiver android:name="it.feio.android.omninotes.receiver.AlarmReceiver" />
 
         <!-- Reboot broadcast receiver -->
         <receiver
@@ -209,11 +221,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget_info" />
         </receiver>
-
-        <activity
-            android:name="it.feio.android.omninotes.SketchActivity"
-            android:label="@string/title_activity_sketch" >
-        </activity>
     </application>
 
 </manifest>
