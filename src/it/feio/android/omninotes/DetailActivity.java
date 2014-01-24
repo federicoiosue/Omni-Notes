@@ -620,13 +620,12 @@ public class DetailActivity extends BaseActivity {
 			deleteNote();
 			break;
 		case R.id.menu_discard_changes:
-			goHome();
+			discard();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	
 	/**
 	 * 
 	 */
@@ -978,6 +977,25 @@ public class DetailActivity extends BaseActivity {
 			}
 		}
 	}
+	
+	
+		
+	/**
+	 * Discards changes done to the note and eventually delete new attachments
+	 */
+	private void discard() {
+		// Checks if some new files have been attached and must be removed
+		if (!note.getAttachmentsList().equals(note.getAttachmentsListOld())) {
+			for (Attachment newAttachment: note.getAttachmentsList()) {
+				if (!note.getAttachmentsListOld().contains(newAttachment)) {
+					StorageManager.delete(this, newAttachment.getUri().getPath());
+				}
+			}
+		}
+		goHome();
+	}
+	
+	
 
 	@SuppressLint("NewApi")
 	private void deleteNote() {
@@ -1302,8 +1320,6 @@ public class DetailActivity extends BaseActivity {
 				((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));				
 			// Otherwise just stops playing
 			} else {			
-//				((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
-				
 				stopPlaying();	
 			}
 		// If nothing is playing audio just plays	
