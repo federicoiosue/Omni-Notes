@@ -106,6 +106,7 @@ public class DetailActivity extends BaseActivity {
 	private static final int RECORDING = 3;
 	private static final int TAKE_VIDEO = 4;
 	private static final int SET_PASSWORD = 5;
+	private static final int SKETCH = 6;
 
 	private FragmentActivity mActivity;
 
@@ -899,17 +900,12 @@ public class DetailActivity extends BaseActivity {
 
 	
 	private void takePhoto() {
-//		ContentValues values = new ContentValues();
-//		values.put(MediaStore.Images.Media.TITLE, "New Picture");
-//		values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-//		imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-		
-		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_IMAGE_EXT));
-		
+		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_IMAGE_EXT));		
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		startActivityForResult(intent, TAKE_PHOTO);
 	}
+	
 	
 	private void takeVideo() {
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -925,10 +921,12 @@ public class DetailActivity extends BaseActivity {
 	    startActivityForResult(takeVideoIntent, TAKE_VIDEO);
 	}
 	
+	
 	private void takeSketch() {
-		Intent takeSketchIntent = new Intent(this, SketchActivity.class);
-		
-	    startActivity(takeSketchIntent);
+		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_IMAGE_EXT));	
+		Intent intent = new Intent(this, SketchActivity.class);		
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
+		startActivityForResult(intent, SKETCH);
 	}
 
 	
@@ -970,6 +968,12 @@ public class DetailActivity extends BaseActivity {
 				break;
 			case SET_PASSWORD:
 				lockNote();
+				break;
+			case SKETCH:
+				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
+				attachmentsList.add(attachment);
+				mAttachmentAdapter.notifyDataSetChanged();
+				mGridView.autoresize();
 				break;
 			}
 		}

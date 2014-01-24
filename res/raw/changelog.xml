@@ -18,6 +18,7 @@
 
     <changelogversion versionName="4.1.4" changeDate="Jan 24, 2014">        
       <changelogtext>[b]New![/b] You can now easily convert from simple text note to [b]checklist[/b] and vice versa</changelogtext>
+      <changelogtext>[b]New![/b] Add hand-sketches to your notes!</changelogtext>       
       <changelogtext>[b]New![/b] 12-hours mode available</changelogtext>       
       <changelogtext>Tag markers layout modified: slightly thicker and now both in notes list or in detail will appear like a vertical-left-border for the container card element</changelogtext>
       <changelogtext>German translation updated (thanks to Lycox MB)</changelogtext>
