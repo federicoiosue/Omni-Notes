@@ -41,7 +41,7 @@ public interface Constants {
 	final String DATE_FORMAT_SHORT_DATE  = "d MMM yyyy";
 	final String DATE_FORMAT_SHORT_TIME  = "HH" + TIME_SEPARATOR + "mm";
 	final String DATE_FORMAT_SHORT_TIME_12  = "hh" + TIME_SEPARATOR + "mma";
-	final String DATE_FORMAT_SORTABLE  = "yyyyMMddHHmmss";
+	final String DATE_FORMAT_SORTABLE  = "yyyyMMddHHmmssS";
 	final String DATE_FORMAT_EXPORT  = "yyyy.MM.dd-HH.mm";
 	
     final String INTENT_KEY = "note_id";
