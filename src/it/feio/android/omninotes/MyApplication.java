@@ -1,5 +1,6 @@
 package it.feio.android.omninotes;
 
+
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 
