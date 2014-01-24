@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="10dp"
-        android:drawableTop="@drawable/ic_beer"
+        android:drawableTop="@drawable/mr_dongle"
         android:gravity="center"
         android:text="@string/no_items_in_list"
         android:textColor="@color/list_note_dates"
