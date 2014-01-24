@@ -734,7 +734,13 @@ public class ListActivity extends BaseActivity {
 							deleteNote(note);
 						}
 						// Refresh view
-						((ListView) findViewById(R.id.notesList)).invalidateViews();
+						ListView l = (ListView) findViewById(R.id.notesList);
+						l.invalidateViews();
+						
+						// If list is empty again Mr Jingles will appear again
+						if (l.getCount() == 0)
+							listView.setEmptyView(findViewById(R.id.empty_list));
+						
 						// Advice to user
 						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
 						mActionMode.finish(); // Action picked, so close the CAB
