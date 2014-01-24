@@ -1351,8 +1351,10 @@ public class DetailActivity extends BaseActivity {
 		recordName = StorageManager.createNewAttachmentFile(this, Constants.MIME_TYPE_AUDIO_EXT).getAbsolutePath();
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+		mRecorder.setAudioEncodingBitRate(16);
+		mRecorder.setAudioSamplingRate(44100);
 		mRecorder.setOutputFile(recordName);
 
 		try {
