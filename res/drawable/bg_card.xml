@@ -20,7 +20,7 @@
         <shape
             android:dither="true"
             android:shape="rectangle" >
-            <corners android:radius="4.0dip" />
+<!--             <corners android:radius="4.0dip" /> -->
 
             <solid android:color="#ffcccccc" />
         </shape>
@@ -29,7 +29,7 @@
         <shape
             android:dither="true"
             android:shape="rectangle" >
-            <corners android:radius="2.0dip" />
+<!--             <corners android:radius="2.0dip" /> -->
 
             <solid android:color="@android:color/white" />
 
