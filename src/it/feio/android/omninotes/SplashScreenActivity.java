@@ -15,9 +15,10 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import it.feio.android.omninotes.utils.Constants;
+
 import java.util.Calendar;
 
-import it.feio.android.omninotes.utils.Constants;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;

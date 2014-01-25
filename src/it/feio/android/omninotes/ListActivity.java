@@ -26,10 +26,10 @@ import it.feio.android.omninotes.models.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.models.Tag;
-import it.feio.android.omninotes.utils.AppRater;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.async.DeleteNoteTask;
+import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.R;
 import android.net.Uri;
@@ -120,8 +120,13 @@ public class ListActivity extends BaseActivity {
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
 		
 		// Invitation to rate the app
-		AppRater.appLaunched(this, getString(R.string.rate_dialog_message), getString(R.string.rate_dialog_rate_btn),
-				getString(R.string.rate_dialog_dismiss_btn), getString(R.string.rate_dialog_later_btn));
+		// Removed in favor of a more elegant way: updates are checked and the invite to vote is moved there
+//		AppRater.appLaunched(this, getString(R.string.rate_dialog_message), getString(R.string.rate_dialog_rate_btn),
+//				getString(R.string.rate_dialog_dismiss_btn), getString(R.string.rate_dialog_later_btn));
+
+		// Launching update task
+		UpdaterTask task = new UpdaterTask(this);
+		task.execute();
 	}
 
 

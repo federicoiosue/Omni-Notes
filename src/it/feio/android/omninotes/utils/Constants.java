@@ -29,6 +29,11 @@ public interface Constants {
 
 	final String DEV_EMAIL = "federico.iosue@gmail.com";
 	
+	// Used for updates retrieval
+	final String PS_METADATA_FETCHER_URL = "http://www.iosue.it/federico/apps/PSMetadataFetcher/get_app_data.php?url=";
+	final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=";
+	static long UPDATE_MIN_FREQUENCY = 24*60*60*1000; // 1 hour
+	
 	final int THUMBNAIL_SIZE = 300;  
 
 	final String DATE_SEPARATOR = "/";
@@ -54,6 +59,7 @@ public interface Constants {
 	final String MESSAGE = "message";
 
     final String PREF_FIRST_RUN = "first_run";
+    final String PREF_LAST_UPDATE_CHECK = "last_update_check";
     final String PREF_NAVIGATION = "navigation";
     final String PREF_SORTING_COLUMN = "sorting_column";
     final String PREF_SORTING_ORDER = "sorting_direction";
