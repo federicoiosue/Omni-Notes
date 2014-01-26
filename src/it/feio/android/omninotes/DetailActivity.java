@@ -73,6 +73,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -772,8 +773,6 @@ public class DetailActivity extends BaseActivity {
 	private void showPopup(View anchor) {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		int attachmentDialogWidth = 320;
-		int attachmentDialogHeight = 630;
 
 		// Inflate the popup_layout.xml
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -782,8 +781,8 @@ public class DetailActivity extends BaseActivity {
 		// Creating the PopupWindow
 		attachmentDialog = new PopupWindow(this);
 		attachmentDialog.setContentView(layout);
-		attachmentDialog.setWidth(attachmentDialogWidth);
-		attachmentDialog.setHeight(attachmentDialogHeight);
+		attachmentDialog.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+		attachmentDialog.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		attachmentDialog.setFocusable(true);
 
 		// Clear the default translucent background
@@ -1065,7 +1064,6 @@ public class DetailActivity extends BaseActivity {
 				content = ((android.widget.EditText)  findViewById(R.id.content)).getText().toString();
 			}
 		} else {
-//			content = ((android.widget.EditText) findViewById(R.id.content)).getText().toString();
 			try {
 				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
 			} catch (ViewNotSupportedException e) {
