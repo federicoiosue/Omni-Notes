@@ -1,5 +1,7 @@
 package it.feio.android.omninotes.models;
 
+import it.feio.android.omninotes.SketchActivity;
+
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -24,24 +26,28 @@ public class SketchView extends View implements OnTouchListener {
 	private Canvas m_Canvas;
 	private Path m_Path;
 	private Paint m_Paint;
-	ArrayList<Pair> paths = new ArrayList<Pair>();
 	private float mX, mY;
 	private int width, height;
+
+	private ArrayList<Pair> pathSequence = new ArrayList<Pair>();	
+	private ArrayList<ArrayList<Pair>> paths = new ArrayList<ArrayList<Pair>>();
+	private ArrayList<ArrayList<Pair>> undonePaths = new ArrayList<ArrayList<Pair>>();
+	private Context mContext;
 	
 	public static boolean isEraserActive = false;
 	
 
 	public SketchView(Context context, AttributeSet attr) {
 		super(context, attr);
+		
+		this.mContext = context;
+		
 		setFocusable(true);
 		setFocusableInTouchMode(true);
-
 		setBackgroundColor(Color.WHITE);
 
 		this.setOnTouchListener(this);
-	}
 
-	private void onCanvasInitialization() {
 		m_Paint = new Paint();
 		m_Paint.setAntiAlias(true);
 		m_Paint.setDither(true);
@@ -50,13 +56,19 @@ public class SketchView extends View implements OnTouchListener {
 		m_Paint.setStrokeJoin(Paint.Join.ROUND);
 		m_Paint.setStrokeCap(Paint.Cap.ROUND);
 		m_Paint.setStrokeWidth(STROKE_WIDTH);
+	}
+
+	
+	private void init() {
 
 		bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		m_Canvas = new Canvas(bitmap);
 
 		m_Path = new Path();
 		Paint newPaint = new Paint(m_Paint);
-		paths.add(new Pair<Path, Paint>(m_Path, newPaint));
+		pathSequence.add(new Pair<Path, Paint>(m_Path, newPaint));
+		
+		invalidate();
 	}
 	
 	
@@ -66,7 +78,7 @@ public class SketchView extends View implements OnTouchListener {
 		width = View.MeasureSpec.getSize(widthMeasureSpec);
 	    height = View.MeasureSpec.getSize(heightMeasureSpec);
 	    
-		onCanvasInitialization();
+		init();
 	    
 	    setMeasuredDimension(width, height);
 	}
@@ -96,23 +108,27 @@ public class SketchView extends View implements OnTouchListener {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		for (Pair p : paths) {
-			canvas.drawPath((Path) p.first, (Paint) p.second);
+		for (ArrayList<Pair> pathSequence : paths) {
+			for (Pair p : pathSequence) {
+				canvas.drawPath((Path) p.first, (Paint) p.second);				
+			}
 		}
 	}
 
 	private void touch_start(float x, float y) {
+		
+		pathSequence = new ArrayList<Pair>();
 
 		if (isEraserActive) {
 			m_Paint.setColor(Color.WHITE);
 			m_Paint.setStrokeWidth(STROKE_WIDTH);
 			Paint newPaint = new Paint(m_Paint); // Clones the mPaint object
-			paths.add(new Pair<Path, Paint>(m_Path, newPaint));
+			pathSequence.add(new Pair<Path, Paint>(m_Path, newPaint));
 		} else {
 			m_Paint.setColor(Color.BLACK);
 			m_Paint.setStrokeWidth(STROKE_WIDTH);
 			Paint newPaint = new Paint(m_Paint); // Clones the mPaint object
-			paths.add(new Pair<Path, Paint>(m_Path, newPaint));
+			pathSequence.add(new Pair<Path, Paint>(m_Path, newPaint));
 		}
 
 		m_Path.reset();
@@ -140,10 +156,41 @@ public class SketchView extends View implements OnTouchListener {
 		// kill this so we don't double draw
 		m_Path = new Path();
 		Paint newPaint = new Paint(m_Paint); // Clones the mPaint object
-		paths.add(new Pair<Path, Paint>(m_Path, newPaint));
+		pathSequence.add(new Pair<Path, Paint>(m_Path, newPaint));
+		paths.add(pathSequence);
+
+		// Clearing undone list
+		undonePaths.clear();
+		
+		// Advice to activity
+		((SketchActivity)mContext).updateRedoAlpha();	
 	}
 
 	public Bitmap getBitmap() {
 		return bitmap;
+	}
+
+	public void undo() {
+		if (paths.size() > 0) {
+			undonePaths.add(paths.remove(paths.size() - 1));
+			((SketchActivity)mContext).updateRedoAlpha();	
+			invalidate();
+		}
+	}
+
+	public void redo() {
+		if (undonePaths.size() > 0) {
+			paths.add(undonePaths.remove(undonePaths.size() - 1));
+			((SketchActivity)mContext).updateRedoAlpha();	
+			invalidate();
+		}
+	}
+	
+	public int getUndoneCount() {
+		return undonePaths.size();
+	}
+
+	public int getPathsCount() {
+		return paths.size();
 	}
 }

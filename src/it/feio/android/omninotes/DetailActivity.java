@@ -684,7 +684,7 @@ public class DetailActivity extends BaseActivity {
 		// Get instance and set options to convert EditText to CheckListView
 		mChecklistManager = ChecklistManager.getInstance(this);
 		mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
-				String.valueOf(it.feio.android.checklistview.utils.Constants.CHECKED_HOLD))));
+				String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
 		mChecklistManager.setShowChecks(true);
 		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
 		

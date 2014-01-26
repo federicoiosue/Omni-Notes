@@ -132,7 +132,8 @@
     <string name="new_update_available">A new Omni Notes version is available, would you like to update?</string>
    	<string name="update">Update and rate!</string>
     <string name="not_now">Not now</string>	 
-    	 
+    <string name="redo">Redo</string>	 
+        	 
     <!-- Settings -->
     <string name="settings">Settings</string>
     <string name="settings_about">About</string>

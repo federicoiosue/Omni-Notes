@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
-                    android:background="@drawable/clickable_view"
+                    android:background="@drawable/icon_selector"
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/location_text"
@@ -107,7 +107,7 @@
                     android:layout_marginTop="25dp"
                     android:drawSelectorOnTop="true"
                     android:gravity="center"
-                    android:listSelector="@drawable/clickable_view"
+                    android:listSelector="@drawable/icon_selector"
                     android:numColumns="2"
                     android:stretchMode="columnWidth" />
 
@@ -117,7 +117,7 @@
                     android:layout_height="25dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="@dimen/horizontal_margin"
-                    android:background="@drawable/clickable_view"
+                    android:background="@drawable/icon_selector"
                     android:orientation="horizontal" >
 
                     <ImageView

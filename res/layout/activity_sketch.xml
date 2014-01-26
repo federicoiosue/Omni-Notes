@@ -6,12 +6,10 @@
     android:orientation="vertical" >
 
     <it.feio.android.omninotes.models.SketchView
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawing"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="5dp"
         android:layout_weight="1" >
     </it.feio.android.omninotes.models.SketchView>
 
@@ -19,15 +17,38 @@
         android:id="@+id/eraserView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@null"
+        android:background="@color/gray_bg"
+        android:orientation="horizontal"
         android:padding="4dp" >
 
         <ImageView
-            android:id="@+id/eraser"
+            android:id="@+id/sketch_eraser"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/ic_action_discard" />
+
+        <ImageView
+            android:id="@+id/sketch_undo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:contentDescription="@string/undo"
+            android:src="@drawable/ic_action_undo" />
+
+        <ImageView
+            android:id="@+id/sketch_redo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:alpha="0.4"
+            android:contentDescription="@string/redo"
+            android:src="@drawable/ic_action_ic_redo" />
     </LinearLayout>
 
 </LinearLayout>

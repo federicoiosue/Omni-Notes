@@ -1,5 +1,6 @@
 package it.feio.android.omninotes;
 
+import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.models.SketchView;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -7,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -14,23 +16,29 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 public class SketchActivity extends Activity {
 
+	private Context mContext;
 	private ImageView eraser;
 	private SketchView drawingView;
+	private ImageView undo;
+	private ImageView redo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sketch);
-
+		
+		mContext = this;
 		drawingView = (SketchView) findViewById(R.id.drawing);
 
-		eraser = (ImageView) findViewById(R.id.eraser);
+		eraser = (ImageView) findViewById(R.id.sketch_eraser);
 		eraser.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -44,6 +52,25 @@ public class SketchActivity extends Activity {
 					eraser.setImageResource(R.drawable.ic_action_edit);
 				}
 
+			}
+		});
+		
+		undo = (ImageView) findViewById(R.id.sketch_undo);
+		undo.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				drawingView.undo();			
+			}
+		});
+		
+		redo = (ImageView) findViewById(R.id.sketch_redo);
+		redo.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				drawingView.redo();
+				
 			}
 		});
 
@@ -85,5 +112,13 @@ public class SketchActivity extends Activity {
 			e.printStackTrace();
 			Log.d(Constants.TAG, "Error writing sketch image data");
 		}
+	}
+	
+	
+	public void updateRedoAlpha() {
+		if (drawingView.getUndoneCount() > 0)
+			AlphaManager.setAlpha(redo, 1f);
+		else
+			AlphaManager.setAlpha(redo, 0.4f);
 	}
 }
