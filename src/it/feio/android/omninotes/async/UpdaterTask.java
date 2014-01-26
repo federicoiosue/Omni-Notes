@@ -163,36 +163,32 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 */
 	private boolean isVersionUpdated(String playStoreVersion)
 			throws NameNotFoundException {
+		
+		boolean result = false;
 
 		// Retrieval of installed app version
 		PackageInfo pInfo = mContext.getPackageManager().getPackageInfo(
 				mContext.getPackageName(), 0);
 		String installedVersion = pInfo.versionName;
 
-		// Parsing version string to obtain major.minor.point
-		String[] playStoreVersionArray = playStoreVersion.split(".");
-		String[] installedVersionArray = installedVersion.split(".");
-
-		// If major version is higher there is surelly an update
-		if (playStoreVersionArray[0].equals(installedVersionArray[0])) {
-			if (playStoreVersionArray[1].equals(installedVersionArray[1])) {
-				// Checking also for beta
-				String[] playStoreVersionArrayBeta = playStoreVersionArray[2]
-						.split("b");
-				String[] installedVersionArrayBeta = installedVersionArray[2]
-						.split("b");
-				if (playStoreVersionArrayBeta[0]
-						.equals(installedVersionArrayBeta[0])) {
-					if (playStoreVersionArrayBeta.length > 0
-							&& installedVersionArrayBeta.length > 0
-							&& playStoreVersionArrayBeta[1]
-									.equals(installedVersionArrayBeta[1])) {
-						return false;
-					}
-				}
-			}
+		// Parsing version string to obtain major.minor.point (excluding eventually beta)
+		String[] playStoreVersionArray = playStoreVersion.split("b")[0].split("\\.");
+		String[] installedVersionArray = installedVersion.split("b")[0].split("\\.");	
+		
+		// Versions strings are converted into integer
+		String playStoreVersionString = playStoreVersionArray[0];
+		String installedVersionString = installedVersionArray[0];
+		for (int i=1; i < playStoreVersionArray.length; i++) {
+			playStoreVersionString += String.format("%02d", Integer.parseInt(playStoreVersionArray[i]));
+			installedVersionString += String.format("%02d", Integer.parseInt(installedVersionArray[i]));
 		}
-		return true;
+		
+		// And then compared
+		if (  Integer.parseInt(playStoreVersionString) > Integer.parseInt(installedVersionString) ) {
+			result = true;
+		}
+		
+		return result;
 
 	}
 }
