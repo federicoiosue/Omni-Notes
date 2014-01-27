@@ -30,8 +30,8 @@
         android:id="@+id/tag_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
         android:hint="@string/tag_title"
         android:inputType="textCapSentences" />
 
@@ -46,9 +46,11 @@
 
     <com.larswerkman.holocolorpicker.ColorPicker
         android:id="@+id/color_picker"
-        android:layout_width="210dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content" />
+        android:layout_width="180dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.06" />
 
     <Button
         android:id="@+id/delete"
@@ -63,7 +65,7 @@
         style="@style/Button.Dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal" >
 
         <Button
