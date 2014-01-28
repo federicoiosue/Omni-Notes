@@ -16,15 +16,15 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.2b2" changeDate="Jan 28, 2014">       
+    <changelogversion versionName="4.2 Beta 2" changeDate="Jan 28, 2014">       
       <changelogtext>[b]New![/b] Add hand-sketches to your notes!</changelogtext>        
-      <changelogtext>[b]New![/b] Automatic updates check will tell you when a new version is out (not included the Beta releases)</changelogtext>
+      <changelogtext>[b]New![/b] Automatic updates check will tell you when a new version is out (not applied to Beta releases)</changelogtext>
       <changelogtext>Revisited settings screen to better keeping usable the growing number of options</changelogtext>      
       <changelogtext>[u]Fixed[/u] Corrected checklist behavior on saving when "keep checked items" and "keep checkmarks" options are not selected and refined deletion icon size and action timings</changelogtext>
       <changelogtext>[u]Fixed[/u] Attachments' popup sizes fit now the content</changelogtext>
  	</changelogversion>
 
-    <changelogversion versionName="4.2.0b1" changeDate="Jan 24, 2014">        
+    <changelogversion versionName="4.2.0 Beta 1" changeDate="Jan 24, 2014">        
       <changelogtext>[b]New![/b] You can now easily convert from simple text note to [b]checklist[/b] and vice versa</changelogtext>
       <changelogtext>[b]New![/b] 12-hours mode available</changelogtext>           
       <changelogtext>[b]New![/b] Added ACRA for managing crash reports and send me errors information</changelogtext>       

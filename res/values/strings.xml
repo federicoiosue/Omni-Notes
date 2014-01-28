@@ -101,6 +101,7 @@
     <string name="tag">Tag</string>
     <string name="tag_as">Tag as</string>
     <string name="title_activity_tag">Edit tag</string>
+    <string name="delete_unused_tag_confirmation">Confirm tag deletion?</string>
     <string name="delete_tag_confirmation">This tag is applied to $1$ note/s.\nConfirm tag deletion and notes un-tagging?</string>
     <string name="discard">Discard</string>
     <string name="remove_tag">Remove tag</string>
