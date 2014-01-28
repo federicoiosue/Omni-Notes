@@ -59,7 +59,6 @@ public class SketchView extends View implements OnTouchListener {
 		m_Canvas = new Canvas();
 		m_Path = new Path();
 		Paint newPaint = new Paint(m_Paint);
-		paths.add(new Pair<Path, Paint>(m_Path, newPaint));		
 		invalidate();
 	}
 	
@@ -166,8 +165,9 @@ public class SketchView extends View implements OnTouchListener {
 	}
 
 	public void undo() {
-		if (paths.size() > 0) {
+		if (paths.size() >= 2) { 
 			undonePaths.add(paths.remove(paths.size() - 1));
+			// If there is not only one path remained both touch and move paths are removed
 			undonePaths.add(paths.remove(paths.size() - 1));
 			((SketchActivity)mContext).updateRedoAlpha();	
 			invalidate();
