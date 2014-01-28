@@ -20,11 +20,11 @@
     <string name="admob_id">ca-app-pub-6447226512493573/7510385645</string>
     <string name="admob_id_test">TEST_EMULATOR, 9463A9DD59201409D6D43336C02E7FA0</string>
     <string name="logo">Logo</string>
-    <string name="copyleft">Copyleft Feio 2013</string>
+    <string name="copyleft">Copyleft Feio 2014</string>
     <string name="dev_site">http://www.iosue.it/federico</string>
     <string name="dev_googleplus">https://plus.google.com/102629628248642947234/posts</string>
-    <string name="dev_github">https://github.com/arnesottolo</string>
-    <string name="dev_bitbucket">https://bitbucket.org/feio/</string>
+    <string name="dev_github">https://github.com/federicoiosue</string>
+    <string name="beta_link">https://plus.google.com/u/0/communities/112276053772152071903</string>
 
     <!-- Activities -->
     <string name="title_item_list">Notes</string>
@@ -192,6 +192,11 @@
     <string name="settings_hours_format_summary">Use 24-hours time format instead of the 12-hour one</string>
 	<string name="settings_checked_items_behavior">Checked items behavior</string>
     <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>
+    <string name="settings_category_preferences">Preferences</string>
+    <string name="settings_category_beta">Beta</string>
+    <string name="settings_category_about">About</string>
+    <string name="settings_beta">Google+</string>
+    <string name="settings_beta_summary">Sign up the community to get all lastest preview features</string>
     
     <!-- Info -->
     <string name="follow_author">Who is the developer?</string>

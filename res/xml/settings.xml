@@ -16,115 +16,133 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceScreen
-        android:key="category_data"
-        android:title="@string/settings_category_data" >
-        <PreferenceScreen
-            android:key="settings_backup"
-            android:persistent="false"
-            android:title="@string/settings_backup" >
-            <Preference
-                android:key="settings_export_data"
-                android:title="@string/settings_export" >
-            </Preference>
-            <Preference
-                android:key="settings_import_data"
-                android:title="@string/settings_import" >
-            </Preference>
-        </PreferenceScreen>
-
-        <EditTextPreference
-            android:key="settings_max_video_size"
-            android:title="@string/settings_max_video_size" 
-            android:inputType="number" >
-        </EditTextPreference>
+    <PreferenceCategory 
+        android:title="@string/settings_category_preferences" >
         
-        <Preference
-            android:key="settings_password"
-            android:title="@string/settings_password" >
-        </Preference>
-        
-    </PreferenceScreen>
-    <!-- <PreferenceCategory -->
-    <!-- android:key="category_gestures" -->
-    <!-- android:title="@string/settings_category_gestures" > -->
-    <!-- <CheckBoxPreference -->
-    <!-- android:key="settings_enable_swype" -->
-    <!-- android:defaultValue="true" -->
-    <!-- android:title="@string/settings_enable_swype" > -->
-    <!-- </CheckBoxPreference> -->
-    <!-- </PreferenceCategory> -->
-    <PreferenceScreen
-        android:key="category_interface"
-        android:title="@string/settings_category_interface" >
 
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="settings_enable_animations"
-            android:title="@string/settings_enable_animations" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="settings_enable_tag_marker"
-            android:title="@string/settings_enable_tag_marker" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="settings_enable_info"
-            android:title="@string/settings_enable_info" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="settings_enable_editor_links"
-            android:title="@string/settings_enable_editor_links" >
-        </CheckBoxPreference>
-	    <ListPreference
-	        android:defaultValue="0"
-	        android:entries="@array/checked_items_behavior"
-	        android:entryValues="@array/checked_items_behavior_values"
-	        android:key="settings_checked_items_behavior"
-	        android:summary="@string/settings_checked_items_behavior_summary"
-	        android:title="@string/settings_checked_items_behavior" >
-	    </ListPreference>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="settings_hours_format"
-            android:title="@string/settings_hours_format" />        
-    </PreferenceScreen>
-  
-    <PreferenceScreen
-        android:key="category_notifications"
-        android:title="@string/settings_category_notifications" >
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="settings_enable_sound"
-            android:title="@string/settings_enable_sound" >
-        </CheckBoxPreference>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="settings_enable_vibration"
-            android:title="@string/settings_enable_vibration" >
-        </CheckBoxPreference>
-    </PreferenceScreen>
+	    <PreferenceScreen
+	        android:key="category_data"
+	        android:title="@string/settings_category_data" >
+	        <PreferenceScreen
+	            android:key="settings_backup"
+	            android:summary="@string/settings_backup_summary"
+	            android:persistent="false"
+	            android:title="@string/settings_backup" >
+	            <Preference
+	                android:key="settings_export_data"
+	                android:title="@string/settings_export" >
+	            </Preference>
+	            <Preference
+	                android:key="settings_import_data"
+	                android:title="@string/settings_import" >
+	            </Preference>
+	        </PreferenceScreen>
+	
+	        <EditTextPreference
+	            android:key="settings_max_video_size"
+	            android:title="@string/settings_max_video_size" 
+	            android:summary="@string/settings_max_video_size_summary"
+	            android:inputType="number" >
+	        </EditTextPreference>
+	        
+	        <Preference
+	            android:key="settings_password"
+	            android:title="@string/settings_password" 
+	            android:summary="@string/settings_password_summary">
+	        </Preference>
+	        
+	        <Preference
+	            android:key="reset_all_data"
+	            android:title="@string/settings_reset_all_data" >
+	        </Preference>
+	        
+	    </PreferenceScreen>
+	    	    
+	    
+	    <PreferenceScreen
+	        android:key="category_interface"
+	        android:title="@string/settings_category_interface" >
+	
+	        <CheckBoxPreference
+	            android:defaultValue="true"
+	            android:key="settings_enable_animations"
+	            android:title="@string/settings_enable_animations"
+	            android:summary="@string/settings_enable_animations_summary" >
+	        </CheckBoxPreference>
+	        <CheckBoxPreference
+	            android:defaultValue="true"
+	            android:key="settings_enable_tag_marker"
+	            android:title="@string/settings_enable_tag_marker" 
+	            android:summary="@string/settings_enable_tag_marker_summary" >
+	        </CheckBoxPreference>
+	        <CheckBoxPreference
+	            android:defaultValue="true"
+	            android:key="settings_enable_info"
+	            android:title="@string/settings_enable_info" 
+	            android:summary="@string/settings_enable_info_summary"  >
+	        </CheckBoxPreference>
+	        <CheckBoxPreference
+	            android:defaultValue="true"
+	            android:key="settings_enable_editor_links"
+	            android:title="@string/settings_enable_editor_links" 
+	            android:summary="@string/settings_enable_editor_links_summary" >
+	        </CheckBoxPreference>
+		    <ListPreference
+		        android:defaultValue="0"
+		        android:entries="@array/checked_items_behavior"
+		        android:entryValues="@array/checked_items_behavior_values"
+		        android:key="settings_checked_items_behavior"
+		        android:summary="@string/settings_checked_items_behavior_summary"
+		        android:title="@string/settings_checked_items_behavior" >
+		    </ListPreference>
+	        <CheckBoxPreference
+	            android:defaultValue="true"
+	            android:key="settings_hours_format"
+	            android:title="@string/settings_hours_format" 
+	            android:summary="@string/settings_hours_format_summary"/>    
+	    </PreferenceScreen>
+	  
+	    <PreferenceScreen
+	        android:key="category_notifications"
+	        android:title="@string/settings_category_notifications" >
+	        <CheckBoxPreference
+	            android:defaultValue="true"
+	            android:key="settings_enable_sound"
+	            android:title="@string/settings_enable_sound" >
+	        </CheckBoxPreference>
+	        <CheckBoxPreference
+	            android:defaultValue="true"
+	            android:key="settings_enable_vibration"
+	            android:title="@string/settings_enable_vibration" >
+	        </CheckBoxPreference>
+	    </PreferenceScreen>
+    
+    </PreferenceCategory>
    
-    <PreferenceScreen
-        android:key="category_other"
-        android:title="@string/settings_category_other" >
+    <PreferenceCategory android:title="@string/settings_category_beta">
         <Preference
-            android:key="reset_all_data"
-            android:title="@string/settings_reset_all_data" >
-        </Preference>
-        <Preference
-            android:key="settings_changelog"
-            android:title="@string/settings_changelog" >
-        </Preference>
-        <Preference
-            android:key="settings_about"
-            android:title="@string/settings_about" >
-<!--             <intent -->
-<!--                 android:action="android.intent.action.VIEW" -->
-<!--                 android:data="@string/dev_site" /> -->
-        </Preference>
-    </PreferenceScreen>
+		    android:key="settings_beta"
+		    android:title="@string/settings_beta"
+		    android:summary="@string/settings_beta_summary" >
+		        <intent
+			        android:action="android.intent.action.VIEW"
+			        android:data="@string/beta_link" />
+		</Preference>
+    </PreferenceCategory>
+    
+    
+   	<PreferenceCategory android:title="@string/settings_category_about">
+   
+	    <Preference
+	        android:key="settings_changelog"
+	        android:title="@string/settings_changelog" >
+	    </Preference>
+	   
+		<Preference
+		    android:key="settings_about"
+		    android:title="@string/settings_about" >
+		</Preference>
+	
+    </PreferenceCategory>
 
 </PreferenceScreen>
