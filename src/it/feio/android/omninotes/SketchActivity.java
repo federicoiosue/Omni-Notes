@@ -44,8 +44,10 @@ public class SketchActivity extends Activity {
 	private ImageView redo;
 	private PopupWindow stokePopup;
 	private ImageView erase;
-	private boolean firstPopupOpening = true;
 	private int seekBarProgress;
+	private View popupLayout;
+	private ImageView strokeImageView;
+	private int size;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +113,18 @@ public class SketchActivity extends Activity {
 				alertDialog.show();
 			}
 		});
+
+
+		// Inflate the popup_layout.xml
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, (ViewGroup) findViewById(R.id.layout_root));
+		
+		// Actual stroke shape size is retrieved
+		strokeImageView = (ImageView) popupLayout.findViewById(R.id.stroke_circle);
+		final Drawable circleDrawable = getResources().getDrawable(R.drawable.circle);
+		size = circleDrawable.getIntrinsicWidth();
+		
+		setStrokeSeekbarProgress(5);
 	}
 
 	
@@ -162,13 +176,9 @@ public class SketchActivity extends Activity {
 			DisplayMetrics metrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-			// Inflate the popup_layout.xml
-			LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-			View layout = inflater.inflate(R.layout.popup_sketch_stroke, (ViewGroup) findViewById(R.id.layout_root));
-
 			// Creating the PopupWindow
 			stokePopup = new PopupWindow(this);
-			stokePopup.setContentView(layout);
+			stokePopup.setContentView(popupLayout);
 			stokePopup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
 			stokePopup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 			stokePopup.setFocusable(true);
@@ -179,13 +189,8 @@ public class SketchActivity extends Activity {
 			// Displaying the popup at the specified location, + offsets.
 			stokePopup.showAsDropDown(anchor, 0, -630);
 			
-			// Actual stroke shape size is retrieved
-			final ImageView circle = (ImageView) layout.findViewById(R.id.stroke_circle);
-			final Drawable circleDrawable = getResources().getDrawable(R.drawable.circle);
-			final int size = circleDrawable.getIntrinsicWidth();
-			
 			// Stroke size seekbar initialization and event managing
-			SeekBar mSeekBar = (SeekBar) layout.findViewById(R.id.stroke_seekbar);
+			SeekBar mSeekBar = (SeekBar) popupLayout.findViewById(R.id.stroke_seekbar);
 			mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {					
 				@Override
 				public void onStopTrackingTouch(SeekBar seekBar) {}					
@@ -198,29 +203,15 @@ public class SketchActivity extends Activity {
 					
 					// When the seekbar is moved a new size is calculated and the new shape
 					// is positioned centrally into the ImageView
-					int newSize = (int)Math.round((size/100f)*progress);
-					int offset = (int)Math.round((size-newSize)/2);					
-					Log.v(Constants.TAG, "Stroke size " + newSize + " (" + progress + "%)");
-					
-					LayoutParams lp = new LayoutParams(newSize, newSize);
-					lp.setMargins(offset, offset, offset, offset);	
-					circle.setLayoutParams(lp);
-					
-					drawingView.setStrokeSize(newSize);
-					seekBarProgress = progress;
+					setStrokeSeekbarProgress(progress);
 				}
 			});
 			
-			if (firstPopupOpening ) {
-				mSeekBar.setProgress(100);
-				firstPopupOpening = false;
-			} else {
-				mSeekBar.setProgress(seekBarProgress);
-			}
+			mSeekBar.setProgress(seekBarProgress);			
 
 			// Stroke color picker initialization and event managing
-			ColorPicker mColorPicker = (ColorPicker) layout.findViewById(R.id.stroke_color_picker);	
-			mColorPicker.addSVBar((SVBar) layout.findViewById(R.id.svbar));
+			ColorPicker mColorPicker = (ColorPicker) popupLayout.findViewById(R.id.stroke_color_picker);	
+			mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.svbar));
 			mColorPicker.setOnColorChangedListener(new OnColorChangedListener() {
 				
 				@Override
@@ -229,6 +220,20 @@ public class SketchActivity extends Activity {
 				}
 			});
 			mColorPicker.setColor(drawingView.getStrokeColor());	
+		}
+
+
+		protected void setStrokeSeekbarProgress(int progress) {
+			int newSize = (int)Math.round((size/100f)*progress);
+			int offset = (int)Math.round((size-newSize)/2);					
+			Log.v(Constants.TAG, "Stroke size " + newSize + " (" + progress + "%)");
+			
+			LayoutParams lp = new LayoutParams(newSize, newSize);
+			lp.setMargins(offset, offset, offset, offset);	
+			strokeImageView.setLayoutParams(lp);
+			
+			drawingView.setStrokeSize(newSize);
+			seekBarProgress = progress;
 		}
 		
 		

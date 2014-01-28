@@ -20,7 +20,7 @@ public class SketchView extends View implements OnTouchListener {
 
 	private static final float TOUCH_TOLERANCE = 4;
 
-	private float strokeSize = 10;
+	private float strokeSize = 5;
 	private int strokeColor = Color.BLACK;
 	
 	private Canvas m_Canvas;
