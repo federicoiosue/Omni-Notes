@@ -224,9 +224,13 @@ public class SketchActivity extends Activity {
 
 
 		protected void setStrokeSeekbarProgress(int progress) {
-			int newSize = (int)Math.round((size/100f)*progress);
-			int offset = (int)Math.round((size-newSize)/2);					
-			Log.v(Constants.TAG, "Stroke size " + newSize + " (" + progress + "%)");
+			
+			// Avoid 
+			int calcProgress = progress > 1 ? progress : 1;
+			
+			int newSize = (int) Math.round( (size/100f) * calcProgress);
+			int offset = (int) Math.round( (size-newSize) / 2);					
+			Log.v(Constants.TAG, "Stroke size " + newSize + " (" + calcProgress + "%)");
 			
 			LayoutParams lp = new LayoutParams(newSize, newSize);
 			lp.setMargins(offset, offset, offset, offset);	
