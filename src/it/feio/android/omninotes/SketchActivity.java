@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.SVBar;
 
@@ -31,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -44,6 +44,8 @@ public class SketchActivity extends Activity {
 	private ImageView redo;
 	private PopupWindow stokePopup;
 	private ImageView erase;
+	private boolean firstPopupOpening = true;
+	private int seekBarProgress;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -172,11 +174,14 @@ public class SketchActivity extends Activity {
 			stokePopup.setFocusable(true);
 
 			// Clear the default translucent background
-			stokePopup.setBackgroundDrawable(new BitmapDrawable());
+			stokePopup.setBackgroundDrawable(new BitmapDrawable());		
+
+			// Displaying the popup at the specified location, + offsets.
+			stokePopup.showAsDropDown(anchor, 0, -630);
 			
 			// Actual stroke shape size is retrieved
 			final ImageView circle = (ImageView) layout.findViewById(R.id.stroke_circle);
-			final Drawable circleDrawable = circle.getDrawable();
+			final Drawable circleDrawable = getResources().getDrawable(R.drawable.circle);
 			final int size = circleDrawable.getIntrinsicWidth();
 			
 			// Stroke size seekbar initialization and event managing
@@ -194,19 +199,24 @@ public class SketchActivity extends Activity {
 					// When the seekbar is moved a new size is calculated and the new shape
 					// is positioned centrally into the ImageView
 					int newSize = (int)Math.round((size/100f)*progress);
-					int offset = (int)Math.round((size-newSize)/2);
+					int offset = (int)Math.round((size-newSize)/2);					
+					Log.v(Constants.TAG, "Stroke size " + newSize + " (" + progress + "%)");
 					
-					int left = offset;
-					int top = offset;
-					int right = offset + newSize;
-					int bottom = offset + newSize;
-					
-					circleDrawable.setBounds(left, top, right, bottom);
+					LayoutParams lp = new LayoutParams(newSize, newSize);
+					lp.setMargins(offset, offset, offset, offset);	
+					circle.setLayoutParams(lp);
 					
 					drawingView.setStrokeSize(newSize);
+					seekBarProgress = progress;
 				}
 			});
-			mSeekBar.setProgress(drawingView.getStrokeSize());
+			
+			if (firstPopupOpening ) {
+				mSeekBar.setProgress(100);
+				firstPopupOpening = false;
+			} else {
+				mSeekBar.setProgress(seekBarProgress);
+			}
 
 			// Stroke color picker initialization and event managing
 			ColorPicker mColorPicker = (ColorPicker) layout.findViewById(R.id.stroke_color_picker);	
@@ -218,10 +228,7 @@ public class SketchActivity extends Activity {
 					drawingView.setStrokeColor(color);
 				}
 			});
-			mColorPicker.setColor(drawingView.getStrokeColor());			
-
-			// Displaying the popup at the specified location, + offsets.
-			stokePopup.showAsDropDown(anchor, 0, -630);
+			mColorPicker.setColor(drawingView.getStrokeColor());	
 		}
 		
 		
