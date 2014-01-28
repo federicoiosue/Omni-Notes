@@ -16,7 +16,7 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory
+    <PreferenceScreen
         android:key="category_data"
         android:title="@string/settings_category_data" >
         <PreferenceScreen
@@ -44,7 +44,7 @@
             android:title="@string/settings_password" >
         </Preference>
         
-    </PreferenceCategory>
+    </PreferenceScreen>
     <!-- <PreferenceCategory -->
     <!-- android:key="category_gestures" -->
     <!-- android:title="@string/settings_category_gestures" > -->
@@ -54,7 +54,7 @@
     <!-- android:title="@string/settings_enable_swype" > -->
     <!-- </CheckBoxPreference> -->
     <!-- </PreferenceCategory> -->
-    <PreferenceCategory
+    <PreferenceScreen
         android:key="category_interface"
         android:title="@string/settings_category_interface" >
 
@@ -89,11 +89,10 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="settings_hours_format"
-            android:title="@string/settings_hours_format" />
-        
-    </PreferenceCategory>
+            android:title="@string/settings_hours_format" />        
+    </PreferenceScreen>
   
-    <PreferenceCategory
+    <PreferenceScreen
         android:key="category_notifications"
         android:title="@string/settings_category_notifications" >
         <CheckBoxPreference
@@ -106,9 +105,9 @@
             android:key="settings_enable_vibration"
             android:title="@string/settings_enable_vibration" >
         </CheckBoxPreference>
-    </PreferenceCategory>
+    </PreferenceScreen>
    
-    <PreferenceCategory
+    <PreferenceScreen
         android:key="category_other"
         android:title="@string/settings_category_other" >
         <Preference
@@ -126,6 +125,6 @@
 <!--                 android:action="android.intent.action.VIEW" -->
 <!--                 android:data="@string/dev_site" /> -->
         </Preference>
-    </PreferenceCategory>
+    </PreferenceScreen>
 
 </PreferenceScreen>

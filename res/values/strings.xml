@@ -113,7 +113,7 @@
     <string name="save_note_to_unlock_it">Save note to unlock it</string>
     <string name="lock_unlock">Lock or unlock</string>
     <string name="title_activity_password">Edit security password</string>
-	<string name="title_activity_about">About</string>
+	<string name="title_activity_about">Info</string>
 	<string name="deleted">deleted</string>
 	<string name="no_items_in_list">Nothing here!</string>
 <!-- 	<string name="rate_dialog_message">If you enjoy using this app, please take a moment to rate it!\n\nThanks for your support!</string> -->

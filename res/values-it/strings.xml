@@ -104,7 +104,7 @@
     <string name="save_note_to_unlock_it">"Salva la nota per sbloccarla"</string>
     <string name="lock_unlock">"Blocca o sblocca"</string>
     <string name="title_activity_password">"Modifica password di sicurezza"</string>
-	<string name="title_activity_about">"About"</string>
+	<string name="title_activity_about">"Info"</string>
 	<string name="deleted">"cancellato"</string>
 	<string name="no_items_in_list">"Nessuna nota!"</string>
 	<string name="rate_dialog_message">"Se ti piace quest\'applicazione per favore votala! \n\nGrazie per il supporto!"</string>
