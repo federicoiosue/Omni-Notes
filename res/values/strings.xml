@@ -133,6 +133,9 @@
    	<string name="update">Update and rate!</string>
     <string name="not_now">Not now</string>	 
     <string name="redo">Redo</string>	 
+    <string name="colors">Colors</string>	
+    <string name="stroke">Stroke</string>	 
+    <string name="erase_sketch">Erase sketch?</string>	 
         	 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -201,5 +204,6 @@
     <string name="drawer_close">drawer close</string>
     <string name="title_activity_sketch">SketchActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="stroke_size">strinke size</string>
 
 </resources>

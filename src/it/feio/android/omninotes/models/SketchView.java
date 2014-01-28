@@ -21,7 +21,7 @@ public class SketchView extends View implements OnTouchListener {
 	private static final float TOUCH_TOLERANCE = 4;
 
 	private float strokeSize = 10;
-	private int strokeColor = 10;
+	private int strokeColor = Color.BLACK;
 	
 	private Canvas m_Canvas;
 	private Path m_Path;
@@ -29,8 +29,8 @@ public class SketchView extends View implements OnTouchListener {
 	private float mX, mY;
 	private int width, height;
 
-	private ArrayList<Pair> paths = new ArrayList<Pair>();
-	private ArrayList<Pair> undonePaths = new ArrayList<Pair>();
+	private ArrayList<Pair<Path, Paint>> paths = new ArrayList<Pair<Path, Paint>>();
+	private ArrayList<Pair<Path, Paint>> undonePaths = new ArrayList<Pair<Path, Paint>>();
 	private Context mContext;
 	
 	public static boolean isEraserActive = false;
@@ -50,7 +50,7 @@ public class SketchView extends View implements OnTouchListener {
 		m_Paint = new Paint();
 		m_Paint.setAntiAlias(true);
 		m_Paint.setDither(true);
-		m_Paint.setColor(Color.parseColor("#000000"));
+		m_Paint.setColor(strokeColor);
 		m_Paint.setStyle(Paint.Style.STROKE);
 		m_Paint.setStrokeJoin(Paint.Join.ROUND);
 		m_Paint.setStrokeCap(Paint.Cap.ROUND);
@@ -97,7 +97,7 @@ public class SketchView extends View implements OnTouchListener {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-			for (Pair p : paths) {
+			for (Pair<Path, Paint> p : paths) {
 				canvas.drawPath((Path) p.first, (Paint) p.second);				
 			}
 	}
@@ -110,7 +110,7 @@ public class SketchView extends View implements OnTouchListener {
 			m_Paint.setColor(Color.WHITE);
 			m_Paint.setStrokeWidth(strokeSize);
 		} else {
-			m_Paint.setColor(Color.BLACK);
+			m_Paint.setColor(strokeColor);
 			m_Paint.setStrokeWidth(strokeSize);
 		}
 
@@ -148,10 +148,18 @@ public class SketchView extends View implements OnTouchListener {
 		((SketchActivity)mContext).updateRedoAlpha();	
 	}
 
+	
+	/**
+	 * Returns a new bitmap associated with drawed canvas
+	 * @return
+	 */
 	public Bitmap getBitmap() {
+		if (paths.size() == 0)
+			return null;
+		
 		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(bitmap);
-		for (Pair p : paths) {
+		for (Pair<Path, Paint> p : paths) {
 			canvas.drawPath((Path) p.first, (Paint) p.second);				
 		}
 		return bitmap;
@@ -181,5 +189,28 @@ public class SketchView extends View implements OnTouchListener {
 
 	public int getPathsCount() {
 		return paths.size();
+	}
+	
+	public int getStrokeSize(){
+		return (int)Math.round(this.strokeSize);
+	}
+	
+	public void setStrokeSize(int size){
+		strokeSize = size;
+	}
+	
+	public int getStrokeColor(){
+		return this.strokeColor;
+	}
+	
+	public void setStrokeColor(int color){
+		strokeColor = color;
+	}
+
+
+	public void erase() {
+		paths.clear();
+		undonePaths.clear();
+		invalidate();
 	}
 }

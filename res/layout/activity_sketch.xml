@@ -22,33 +22,48 @@
         android:padding="4dp" >
 
         <ImageView
-            android:id="@+id/sketch_eraser"
-            android:layout_width="40dp"
+            android:id="@+id/sketch_stroke"
+            android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/ic_action_discard" />
+            android:layout_weight="1"
+            android:contentDescription="@string/stroke"
+            android:src="@drawable/ic_action_edit" />
 
         <ImageView
             android:id="@+id/sketch_undo"
-            android:layout_width="40dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:background="@null"
             android:contentDescription="@string/undo"
             android:src="@drawable/ic_action_undo" />
 
         <ImageView
             android:id="@+id/sketch_redo"
-            android:layout_width="40dp"
+            android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:alpha="0.4"
             android:contentDescription="@string/redo"
             android:src="@drawable/ic_action_ic_redo" />
+
+        <ImageView
+            android:id="@+id/sketch_erase"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/colors"
+            android:src="@drawable/ic_action_discard" />
     </LinearLayout>
 
 </LinearLayout>
