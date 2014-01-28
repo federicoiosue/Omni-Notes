@@ -24,7 +24,7 @@
     <string name="search">"Cerca"</string>
     <string name="search_hint">"Cerca"</string>
     <string name="content">"Contenuto"</string>
-    <string name="save">"Sal"</string>
+    <string name="save">Salva</string>
     <string name="share">"Condividi"</string>
     <string name="archive">"Archivia"</string>
     <string name="undo">"Ripristina"</string>
@@ -93,7 +93,7 @@
     <string name="tag_as">"Tagga come"</string>
     <string name="title_activity_tag">"Modifica tag"</string>
     <string name="delete_tag_confirmation">"Questo tag è applicato a $1$ nota/e. \nConfermi l\'eliminazione del tag e la sua rimozione da tutte le note?"</string>
-    <string name="discard">"Abbandona"</string>
+    <string name="discard">Lascia</string>
     <string name="remove_tag">"Rimuovi tag"</string>
     <string name="no_tags_created">"Nessun tag è stato ancora creato"</string>
     <string name="notes_tag_removed">"Tag rimosso dalle note"</string>
