@@ -173,9 +173,6 @@ public class SketchActivity extends Activity {
 
 			// Clear the default translucent background
 			stokePopup.setBackgroundDrawable(new BitmapDrawable());
-
-			// Displaying the popup at the specified location, + offsets.
-			stokePopup.showAsDropDown(anchor, 0, -630);
 			
 			// Actual stroke shape size is retrieved
 			final ImageView circle = (ImageView) layout.findViewById(R.id.stroke_circle);
@@ -221,7 +218,10 @@ public class SketchActivity extends Activity {
 					drawingView.setStrokeColor(color);
 				}
 			});
-			mColorPicker.setColor(drawingView.getStrokeColor());
+			mColorPicker.setColor(drawingView.getStrokeColor());			
+
+			// Displaying the popup at the specified location, + offsets.
+			stokePopup.showAsDropDown(anchor, 0, -630);
 		}
 		
 		

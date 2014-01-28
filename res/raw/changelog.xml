@@ -18,7 +18,7 @@
 
     <changelogversion versionName="4.2b2" changeDate="Jan 28, 2014">       
       <changelogtext>[b]New![/b] Add hand-sketches to your notes!</changelogtext>        
-      <changelogtext>[b]New![/b] Automatic updates check will tell you when a new version is out</changelogtext>
+      <changelogtext>[b]New![/b] Automatic updates check will tell you when a new version is out (not included the Beta releases)</changelogtext>
       <changelogtext>Revisited settings screen to better keeping usable the growing number of options</changelogtext>      
       <changelogtext>[u]Fixed[/u] Corrected checklist behavior on saving when "keep checked items" and "keep checkmarks" options are not selected and refined deletion icon size and action timings</changelogtext>
       <changelogtext>[u]Fixed[/u] Attachments' popup sizes fit now the content</changelogtext>

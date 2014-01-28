@@ -116,10 +116,6 @@
 	<string name="title_activity_about">Info</string>
 	<string name="deleted">deleted</string>
 	<string name="no_items_in_list">Nothing here!</string>
-<!-- 	<string name="rate_dialog_message">If you enjoy using this app, please take a moment to rate it!\n\nThanks for your support!</string> -->
-<!-- 	<string name="rate_dialog_rate_btn">Rate it!</string> -->
-<!-- 	<string name="rate_dialog_dismiss_btn">Don\'t ask me again</string> -->
-<!-- 	<string name="rate_dialog_later_btn">Remind me later</string> -->
 	<string name="checklist">Toggle checklist</string>
 	<string name="checklist_item_hint">New item</string>
     <string name="remove_checklist">Remove checklist?</string>
@@ -132,6 +128,7 @@
     <string name="new_update_available">A new Omni Notes version is available, would you like to update?</string>
    	<string name="update">Update and rate!</string>
     <string name="not_now">Not now</string>	 
+    <string name="title_activity_sketch">Sketch</string>
     <string name="redo">Redo</string>	 
     <string name="colors">Colors</string>	
     <string name="stroke">Stroke</string>	 
@@ -139,7 +136,7 @@
         	 
     <!-- Settings -->
     <string name="settings">Settings</string>
-    <string name="settings_about">About</string>
+    <string name="settings_about">Info</string>
     <string name="settings_category_other">Other</string>
     <string name="settings_reset_all_data">Erase all data</string>
     <string name="reset_all_data_confirmation">Confirm removing all app data (backups will be preserved)?</string>
@@ -195,15 +192,12 @@
 	<string name="settings_checked_items_behavior">Checked items behavior</string>
     <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>
     
-    <!-- About -->
+    <!-- Info -->
     <string name="follow_author">Who is the developer?</string>
-    <string name="click_to_support">Click the banner to support development</string>
 
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
-    <string name="title_activity_sketch">SketchActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="stroke_size">strinke size</string>
+    <string name="stroke_size">stroke size</string>
 
 </resources>
