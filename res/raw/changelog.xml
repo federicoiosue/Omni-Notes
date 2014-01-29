@@ -17,8 +17,10 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="4.2.0 Beta 3" changeDate="Jan 29, 2014">       
-      <changelogtext>[b]New![/b] Notes can now be sorted by ascending reminder date</changelogtext>        
+      <changelogtext>[b]New![/b] Notes can now be sorted by ascending reminder date</changelogtext>     
+      <changelogtext>[b]New![/b] If a note is locked its content is not masked in notes' list</changelogtext>        
       <changelogtext>When a note is going to be tagged and no tags already exist the tag creation window is shown</changelogtext>
+      <changelogtext>[u]Fixed[/u] Finally resolved bug affecting Samsung keyboard and Flesky that caused app crashing when trying to write title or content on empty field and when double-tapping to select text</changelogtext>
       <changelogtext>[u]Fixed[/u] App crashing from when a new note with new-line only is inserted untile when app data are erased</changelogtext>
       <changelogtext>[u]Fixed[/u] Tag color is no more reset to default color when saving it without changes</changelogtext>
  	</changelogversion>

@@ -36,6 +36,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	private final Context context;
 	private final List<Note> values;
 	private HashMap<Integer, Boolean> selectedItems = new HashMap<Integer, Boolean>();
+	private final String GHOST_CHAR = "*";	
 
 	public NoteAdapter(Context context, List<Note> values) {
 		this(context, R.layout.note_layout, values);
@@ -79,6 +80,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 						: noteContent[0];
 			}
 	
+			// Masking content string if note is locked
+			if (note.isLocked()) {
+				contentReducedText = contentReducedText.replaceAll(".", GHOST_CHAR);
+			}
+			
 			content.setText(contentReducedText);
 			content.setVisibility(View.VISIBLE);
 		}
