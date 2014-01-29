@@ -16,6 +16,14 @@
 -->
 <changelog bulletedList="true">
 
+<!--     <changelogversion versionName="4.2.0" changeDate="Jan 29, 2014">        -->
+<!--     	<changelogtext>[u]Fixed[/u] Tag color is no more reset to default color when saving it without changes</changelogtext> -->
+<!--  	</changelogversion> -->
+
+    <changelogversion versionName="4.2.0 Beta 4" changeDate="Jan 29, 2014">   
+      <changelogtext>[u]Fixed[/u] Sorting by reminder date criteria</changelogtext>
+ 	</changelogversion>
+
     <changelogversion versionName="4.2.0 Beta 3" changeDate="Jan 29, 2014">       
       <changelogtext>[b]New![/b] Notes can now be sorted by ascending reminder date</changelogtext>     
       <changelogtext>[b]New![/b] If a note is locked its content is not masked in notes' list</changelogtext>        
