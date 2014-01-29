@@ -116,13 +116,22 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
 		String time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT
 				: Constants.DATE_FORMAT_SHORT_12;
+		// Creation
 		if (sort_column.equals(DbHelper.KEY_CREATION)) {
 			date.setText(context.getString(R.string.creation) + " " + note.getCreationShort(time_format));
 		}
+		// Reminder
 		else if (sort_column.equals(DbHelper.KEY_ALARM)) {
-			date.setText(context.getString(R.string.alarm_set_on) + " "
+			String alarmShort = note.getAlarmShort(time_format);
+			
+			if (alarmShort.length() == 0) {
+				date.setText(R.string.no_reminder_set);
+			} else {
+				date.setText(context.getString(R.string.alarm_set_on) + " "
 					+ note.getAlarmShort(time_format));
+			}
 		}
+		// Others
 		else {
 			date.setText(context.getString(R.string.last_update) + " "
 					+ note.getLastModificationShort(time_format));

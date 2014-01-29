@@ -300,11 +300,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
 		// Getting sorting criteria from preferences
 		String sort_column = "", sort_order = "";
-		if (order) {
-			sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
-					KEY_TITLE);
+		sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
+				KEY_TITLE);
+		if (order) {			
 			sort_order = KEY_TITLE.equals(sort_column) || KEY_ALARM.equals(sort_column) ? " ASC " : " DESC ";
 		}
+		// In case of reminder sorting criteria the empty reminder notes must be moved on bottom of results
+		sort_column = KEY_ALARM.equals(sort_column) ? "IFNULL(" + KEY_ALARM + ", " + Constants.TIMESTAMP_NEVER + ")" : sort_column;
 		
 		// Generic query to be specialized with conditions passed as parameter
 		String query = "SELECT " 

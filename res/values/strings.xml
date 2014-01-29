@@ -124,8 +124,8 @@
     <string name="checklist_keep_symbols">Keep checkmarks (to remember checked ones)</string>
     <string name="sketch">Sketch</string>
     <string name="crash_dialog_title">Whooooops!</string>
-    <string name="crash_dialog_text">Something wrong has happened in Omni Notes\nDo you want to sent an e-mail as report to developer?!</string>
-    <string name="crash_dialog_comment_prompt">Add your comment here</string>
+    <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n Choose an E-MAIL app to send a report to developer!</string>
+    <string name="crash_dialog_comment_prompt">If you want write a comment...</string>
     <string name="new_update_available">A new Omni Notes version is available, would you like to update?</string>
    	<string name="update">Update and rate!</string>
     <string name="not_now">Not now</string>	 
@@ -134,6 +134,7 @@
     <string name="colors">Colors</string>	
     <string name="stroke">Stroke</string>	 
     <string name="erase_sketch">Erase sketch?</string>	 
+    <string name="no_reminder_set">No reminder set</string>	 
         	 
     <!-- Settings -->
     <string name="settings">Settings</string>
