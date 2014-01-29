@@ -195,6 +195,13 @@ public class Note implements Parcelable {
 		return alarm;
 	}
 
+	public String getAlarmShort(String time_format) {
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(Long.parseLong(getAlarm()));
+		SimpleDateFormat sdf = new SimpleDateFormat(time_format);
+		return sdf.format(c.getTimeInMillis());
+	}
+
 	public void setAlarm(String alarm) {
 		this.alarm = alarm;
 	}

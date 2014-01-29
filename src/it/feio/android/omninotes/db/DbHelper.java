@@ -54,7 +54,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String KEY_TITLE = "title";
 	private static final String KEY_CONTENT = "content";
 	private static final String KEY_ARCHIVED = "archived";
-	private static final String KEY_ALARM = "alarm";
+	public static final String KEY_ALARM = "alarm";
 	private static final String KEY_LATITUDE = "latitude";
 	private static final String KEY_LONGITUDE = "longitude";
 	private static final String KEY_TAG = "tag_id";
@@ -303,7 +303,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		if (order) {
 			sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
 					KEY_TITLE);
-			sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
+			sort_order = KEY_TITLE.equals(sort_column) || KEY_ALARM.equals(sort_column) ? " ASC " : " DESC ";
 		}
 		
 		// Generic query to be specialized with conditions passed as parameter
