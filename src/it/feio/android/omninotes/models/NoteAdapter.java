@@ -69,12 +69,15 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			int maxContentTextLength = 40;
 			// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
 			String[] noteContent = contentText.split(System.getProperty("line.separator"));
-			String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..."
-					: "";
-			String contentReducedText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0]
-					.substring(0, maxContentTextLength) : noteContent[0])
-					+ suffix
-					: noteContent[0];
+			String contentReducedText = "";
+			if (noteContent.length > 0) {
+				String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..."
+						: "";
+				contentReducedText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0]
+						.substring(0, maxContentTextLength) : noteContent[0])
+						+ suffix
+						: noteContent[0];
+			}
 	
 			content.setText(contentReducedText);
 			content.setVisibility(View.VISIBLE);
