@@ -40,6 +40,7 @@ public class TagActivity extends Activity {
 	Button discardBtn;
 	private TagActivity mActivity;
 	private AlertDialog dialog;
+	private boolean colorChanged = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class TagActivity extends Activity {
 			@Override
 			public void onColorChanged(int color) {
 				picker.setOldCenterColor(picker.getColor());
+				colorChanged = true;
 			}
 		});
 		// Long click on color picker to remove color
@@ -128,7 +130,8 @@ public class TagActivity extends Activity {
 	private void saveTag() {
 		tag.setName(title.getText().toString());
 		tag.setDescription(description.getText().toString());
-		tag.setColor(String.valueOf(picker.getColor()));
+		if (colorChanged)
+			tag.setColor(String.valueOf(picker.getColor()));
 		DbHelper db = new DbHelper(this);
 		db.updateTag(tag);
 		Toast.makeText(this, getString(R.string.tag_saved), Toast.LENGTH_SHORT).show();

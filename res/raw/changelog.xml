@@ -20,6 +20,7 @@
       <changelogtext>[b]New![/b] Notes can now be sorted by ascending reminder date</changelogtext>        
       <changelogtext>When a note is going to be tagged and no tags already exist the tag creation window is shown</changelogtext>
       <changelogtext>[u]Fixed[/u] App crashing from when a new note with new-line only is inserted untile when app data are erased</changelogtext>
+      <changelogtext>[u]Fixed[/u] Tag color is no more reset to default color when saving it without changes</changelogtext>
  	</changelogversion>
 
     <changelogversion versionName="4.2.0 Beta 2" changeDate="Jan 28, 2014">       
