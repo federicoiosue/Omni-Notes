@@ -108,6 +108,7 @@ public class DetailActivity extends BaseActivity {
 	private static final int TAKE_VIDEO = 4;
 	private static final int SET_PASSWORD = 5;
 	private static final int SKETCH = 6;
+	private static final int TAG = 7;
 
 	private FragmentActivity mActivity;
 
@@ -716,6 +717,9 @@ public class DetailActivity extends BaseActivity {
 		
 		// If there is no tag a message will be shown
 		if (tags.size() == 0) {
+			Intent intent = new Intent(this, TagActivity.class);		
+			intent.putExtra("noHome", true);
+			startActivityForResult(intent, TAG);
 			showToast(getString(R.string.no_tags_created), Toast.LENGTH_SHORT);
 			return;
 		}
@@ -972,6 +976,11 @@ public class DetailActivity extends BaseActivity {
 				attachmentsList.add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
+				break;
+			case TAG:
+//				tagNote();
+				selectedTag = db.getTags().get(0);
+				setTagMarkerColor(selectedTag);
 				break;
 			}
 		}

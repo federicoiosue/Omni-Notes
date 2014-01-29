@@ -1,5 +1,8 @@
 package it.feio.android.omninotes;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 
@@ -9,10 +12,14 @@ import it.feio.android.omninotes.utils.Constants;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.View;
@@ -175,7 +182,44 @@ public class TagActivity extends Activity {
 	
 
 	public boolean goHome() {
+		
+		// In this case the caller activity is DetailActivity
+		if (getIntent().getBooleanExtra("noHome", false)) {
+			setResult(RESULT_OK);
+			super.finish();
+			return true;
+		}
+		
 		NavUtils.navigateUpFromSameTask(this);
 		return true;
+	}
+	
+	
+public void save(Bitmap bitmap) {
+		
+		if (bitmap == null) {
+			setResult(RESULT_CANCELED);
+			super.finish();
+		}
+		
+		try {			
+			Uri uri = getIntent().getParcelableExtra(MediaStore.EXTRA_OUTPUT);
+			File bitmapFile = new File(uri.getPath());
+			FileOutputStream out = new FileOutputStream(bitmapFile);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+
+			if (bitmapFile.exists()) {
+				Intent localIntent = new Intent().setData(Uri
+						.fromFile(bitmapFile));
+				setResult(RESULT_OK, localIntent);
+			} else {
+				setResult(RESULT_CANCELED);
+			}
+			super.finish();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			Log.d(Constants.TAG, "Error writing sketch image data");
+		}
 	}
 }
