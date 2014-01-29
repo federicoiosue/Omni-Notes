@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,10 +26,10 @@ import it.feio.android.omninotes.models.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.models.Tag;
-import it.feio.android.omninotes.utils.AppRater;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.async.DeleteNoteTask;
+import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.R;
 import android.net.Uri;
@@ -120,8 +120,13 @@ public class ListActivity extends BaseActivity {
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
 		
 		// Invitation to rate the app
-		AppRater.appLaunched(this, getString(R.string.rate_dialog_message), getString(R.string.rate_dialog_rate_btn),
-				getString(R.string.rate_dialog_dismiss_btn), getString(R.string.rate_dialog_later_btn));
+		// Removed in favor of a more elegant way: updates are checked and the invite to vote is moved there
+//		AppRater.appLaunched(this, getString(R.string.rate_dialog_message), getString(R.string.rate_dialog_rate_btn),
+//				getString(R.string.rate_dialog_dismiss_btn), getString(R.string.rate_dialog_later_btn));
+
+		// Launching update task
+		UpdaterTask task = new UpdaterTask(this);
+		task.execute();
 	}
 
 
@@ -734,7 +739,13 @@ public class ListActivity extends BaseActivity {
 							deleteNote(note);
 						}
 						// Refresh view
-						((ListView) findViewById(R.id.notesList)).invalidateViews();
+						ListView l = (ListView) findViewById(R.id.notesList);
+						l.invalidateViews();
+						
+						// If list is empty again Mr Jingles will appear again
+						if (l.getCount() == 0)
+							listView.setEmptyView(findViewById(R.id.empty_list));
+						
 						// Advice to user
 						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
 						mActionMode.finish(); // Action picked, so close the CAB

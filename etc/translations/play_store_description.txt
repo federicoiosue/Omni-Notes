@@ -1,0 +1,31 @@
+Note taking <b>open-source</b>application aimed to have both a <b>lightweight</b> footprint on system performances and <b>simple interface</b> but keeping <b>smart</b> behavior.
+
+
+The project was created by the absence of such applications compatible with old phones and old versions of Android that would propose, however, an attractive look and aligned with the most recent design of the Google operating system
+
+
+<u>The application left the closed Beta but it's still in <b>Beta stage</b>, so please report any misbehaviour.</u>
+<i>Follow the developments and post your comments and advice on Google+ Beta Comunity at https://plus.google.com/u/0/communities/112276053772152071903 </i>
+
+Help to complete translations is needed, if you want give me an hand please send me an e-mail!
+
+Actually the following functions are implemented:
+&bull; Android KitKat-ready appearance
+&bull; Add, modify, delete notes
+&bull; Manage active and archived notes
+&bull; Share notes
+&bull; Note searching
+&bull; Batch operations choosing multiple notes
+&bull; Export/import notes to backup
+&bull; Animations activables/deactivables
+&bull; Multimedia attachments
+&bull; Multilanguage: english, italian, dutch, german, russian, portuguese, turkish
+
+Further developments will include:
+&bull; To-do list
+&bull; Notes sychronization
+&bull; Direct sharing of notes between devices with Omni Notes app installed
+&bull; Sketch-note mode
+&bull; Gesture actions
+
+You can find a complete changelog inside the application settings menu!

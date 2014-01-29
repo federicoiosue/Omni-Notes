@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ public interface Constants {
 	// Used for updates retrieval
 	final String PS_METADATA_FETCHER_URL = "http://www.iosue.it/federico/apps/PSMetadataFetcher/get_app_data.php?url=";
 	final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=";
+	static long UPDATE_MIN_FREQUENCY = 24*60*60*1000; // 1 hour
 	
 	final int THUMBNAIL_SIZE = 300;  
 
@@ -45,7 +46,7 @@ public interface Constants {
 	final String DATE_FORMAT_SHORT_DATE  = "d MMM yyyy";
 	final String DATE_FORMAT_SHORT_TIME  = "HH" + TIME_SEPARATOR + "mm";
 	final String DATE_FORMAT_SHORT_TIME_12  = "hh" + TIME_SEPARATOR + "mma";
-	final String DATE_FORMAT_SORTABLE  = "yyyyMMddHHmmss";
+	final String DATE_FORMAT_SORTABLE  = "yyyyMMddHHmmssS";
 	final String DATE_FORMAT_EXPORT  = "yyyy.MM.dd-HH.mm";
 	
     final String INTENT_KEY = "note_id";
@@ -58,6 +59,7 @@ public interface Constants {
 	final String MESSAGE = "message";
 
     final String PREF_FIRST_RUN = "first_run";
+    final String PREF_LAST_UPDATE_CHECK = "last_update_check";
     final String PREF_NAVIGATION = "navigation";
     final String PREF_SORTING_COLUMN = "sorting_column";
     final String PREF_SORTING_ORDER = "sorting_direction";
@@ -65,6 +67,8 @@ public interface Constants {
     final String PREF_RATE_DISMISSED = "rate_dismissed";
     final String PREF_LAUNCH_COUNT = "launch_count";
     final String PREF_FIRST_LAUNCH = "first_launch";
+    final String PREF_KEEP_CHECKED = "keep_checked";
+    final String PREF_KEEP_CHECKMARKS = "show_checkmarks";
     
     final String EXPORT_FILE_NAME = TAG;
     

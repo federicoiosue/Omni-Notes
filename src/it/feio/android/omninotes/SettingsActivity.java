@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,9 +34,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -244,7 +247,16 @@ public class SettingsActivity extends PreferenceActivity {
 				return false;
 			}
 		});
-
+		// Retrieval of installed app version to write it as summary
+		PackageInfo pInfo;
+		String versionString = "";
+		try {
+			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			versionString = pInfo.versionName;
+		} catch (NameNotFoundException e) {
+			Log.e(Constants.TAG, "Error retrieving version", e);
+		}
+		changelog.setSummary(versionString);
 
 		
 		// Settings reset

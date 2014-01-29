@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="46"
-    android:versionName="4.1.4" >
+    android:versionCode="47"
+    android:versionName="4.2.0b2" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -143,6 +143,12 @@
                 android:value=".ListActivity" />
         </activity>
 
+        <!-- Sketch -->
+        <activity
+            android:name="it.feio.android.omninotes.SketchActivity"
+            android:label="@string/title_activity_sketch" >
+        </activity>
+
         <!-- Settings -->
         <activity
             android:name="it.feio.android.omninotes.SettingsActivity"
@@ -165,15 +171,21 @@
             android:label="@string/settings_changelog" >
         </activity>
 
-        <!-- About -->
+        <!-- Info -->
         <activity
             android:name="it.feio.android.omninotes.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>
-
-        <!-- Alarm broadcast receiver -->
-        <receiver android:name="it.feio.android.omninotes.receiver.AlarmReceiver" >
-        </receiver>
+        
+        <!-- ACRA -->
+        <activity
+            android:name="org.acra.CrashReportDialog"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="true"
+            android:launchMode="singleInstance" />        
+        
+		<!-- Alarm broadcast receiver -->
+        <receiver android:name="it.feio.android.omninotes.receiver.AlarmReceiver" />
 
         <!-- Reboot broadcast receiver -->
         <receiver
@@ -208,8 +220,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget_info" />
         </receiver>
-        
-        
     </application>
 
 </manifest>

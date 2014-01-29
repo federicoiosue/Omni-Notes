@@ -1,6 +1,6 @@
 
 <!--
-  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@
     
     <style name="Theme.AppCompat.Dialog" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@drawable/bg_popup</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>

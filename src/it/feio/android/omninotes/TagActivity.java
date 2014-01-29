@@ -133,8 +133,12 @@ public class TagActivity extends Activity {
 		// Retrieving how many notes are tagged with tag to be deleted
 		DbHelper db = new DbHelper(this);
 		int count = db.getTaggedCount(tag);
-		String msg = getString(R.string.delete_tag_confirmation).replace("$1$", String.valueOf(count));
-				
+		String msg;
+		if (count > 0)
+			msg = getString(R.string.delete_tag_confirmation).replace("$1$", String.valueOf(count));
+		else
+			msg = getString(R.string.delete_unused_tag_confirmation);
+	
 		// Showing dialog
 		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		alertDialogBuilder.setMessage(msg)

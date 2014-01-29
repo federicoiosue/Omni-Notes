@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import it.feio.android.omninotes.utils.Constants;
+
 import java.util.Calendar;
 
-import it.feio.android.omninotes.async.UpdaterTask;
-import it.feio.android.omninotes.utils.Constants;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -36,10 +36,6 @@ public class SplashScreenActivity extends BaseActivity {
 		
 		// Hiding actionbar for splashscreen
 		getSupportActionBar().hide();
-
-		// Launching update task
-		UpdaterTask task = new UpdaterTask(this);
-		task.execute();
 		
 		// Getting last opening time
 		long openTime = Calendar.getInstance().getTimeInMillis();

@@ -1,5 +1,5 @@
 <!--
-  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="10dp"
-        android:drawableTop="@drawable/ic_beer"
+        android:drawableTop="@drawable/mr_jingles"
         android:gravity="center"
         android:text="@string/no_items_in_list"
         android:textColor="@color/list_note_dates"

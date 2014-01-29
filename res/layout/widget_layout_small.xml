@@ -14,7 +14,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/clickable_view"
+            android:background="@drawable/icon_selector"
             android:gravity="center"
             android:padding="10dp"
             android:src="@drawable/logo_black_no_bg" />

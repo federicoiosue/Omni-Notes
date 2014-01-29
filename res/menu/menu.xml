@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -66,6 +66,12 @@
         android:orderInCategory="380"
         app:showAsAction="ifRoom"
         android:title="@string/unarchive"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_checklist"
+        android:orderInCategory="390"
+        app:showAsAction="ifRoom"
+        android:title="@string/checklist"
         android:visible="false"/>
     <item
         android:id="@+id/menu_lock"

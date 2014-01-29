@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@
 
         <View
             android:id="@+id/tag_marker"
-            android:layout_width="4dp"
-            android:layout_marginBottom="3dp"
+            android:layout_width="5dp"
+            android:layout_marginBottom="2dp"
             android:layout_height="match_parent"
             android:background="@null" />
 
@@ -71,24 +71,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.neopixl.pixlui.components.edittext.EditText
-                    android:id="@+id/content"
-                    android:paddingTop="@dimen/horizontal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:hint="@string/content"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:linksClickable="false"
-                    android:textColor="@color/text_gray"
-                    pixlui:typeface="RobotoSlab-Regular.ttf" />
+	            <LinearLayout
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:paddingTop="@dimen/horizontal_margin">
+
+	                <com.neopixl.pixlui.components.edittext.EditText
+	                    android:id="@+id/content"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:background="@android:color/white"
+	                    android:hint="@string/content"
+	                    android:inputType="textCapSentences|textMultiLine"
+	                    android:linksClickable="false"
+	                    android:textColor="@color/text_gray"
+	                    pixlui:typeface="RobotoSlab-Regular.ttf" />
+	           	</LinearLayout>
 
                 <com.neopixl.pixlui.components.textview.TextView
                     android:id="@+id/location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
-                    android:background="@drawable/clickable_view"
+                    android:background="@drawable/icon_selector"
                     android:gravity="center_vertical"
                     android:textSize="12sp"
                     android:textColor="@color/location_text"
@@ -102,7 +107,7 @@
                     android:layout_marginTop="25dp"
                     android:drawSelectorOnTop="true"
                     android:gravity="center"
-                    android:listSelector="@drawable/clickable_view"
+                    android:listSelector="@drawable/icon_selector"
                     android:numColumns="2"
                     android:stretchMode="columnWidth" />
 
@@ -112,7 +117,7 @@
                     android:layout_height="25dp"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="@dimen/horizontal_margin"
-                    android:background="@drawable/clickable_view"
+                    android:background="@drawable/icon_selector"
                     android:orientation="horizontal" >
 
                     <ImageView

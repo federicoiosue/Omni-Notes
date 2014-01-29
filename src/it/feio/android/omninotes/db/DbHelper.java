@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Database name
 	private static final String DATABASE_NAME = Constants.DATABASE_NAME;
 	// Database version aligned if possible to software version
-	private static final int DATABASE_VERSION = 410;
+	private static final int DATABASE_VERSION = 414;
 	// Sql query file directory
     private static final String SQL_DIR = "sql" ;
 	// Notes table name
@@ -59,6 +59,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String KEY_LONGITUDE = "longitude";
 	private static final String KEY_TAG = "tag_id";
 	private static final String KEY_LOCKED = "locked";
+	private static final String KEY_CHECKLIST = "checklist";
 	// Attachments table name
 	private static final String TABLE_ATTACHMENTS = "attachments";
 	// Attachments table columns
@@ -135,7 +136,7 @@ public class DbHelper extends SQLiteOpenHelper {
         	try {
         		db.execSQL(sqlInstruction);
         	} catch (Exception e) {
-        		Log.e(Constants.TAG, "Error executing command: " + sqlInstruction);
+        		Log.e(Constants.TAG, "Error executing command: " + sqlInstruction, e);
         	}
         }
     }
@@ -162,6 +163,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		values.put(KEY_TAG, note.getTag() != null ? note.getTag().getId() : null);
 		boolean locked = note.isLocked() != null ? note.isLocked() : false;
 		values.put(KEY_LOCKED, locked);
+		boolean checklist = note.isChecklist() != null ? note.isChecklist() : false;
+		values.put(KEY_CHECKLIST, checklist);
 
 		// Updating row
 		if (note.get_id() != 0) {
@@ -241,12 +244,13 @@ public class DbHelper extends SQLiteOpenHelper {
 		
 		if (cursor != null)
 			cursor.moveToFirst();
-
-		Note note = new Note(Integer.parseInt(cursor.getString(0)),
-				cursor.getLong(1), cursor.getLong(2), cursor.getString(3),
-				cursor.getString(4), cursor.getInt(5), cursor.getString(6),
-				cursor.getString(7), cursor.getString(8), getTag(Integer.parseInt(cursor.getString(9)))
-				, cursor.getInt(5));
+		
+		int i = 0;
+		Note note = new Note(Integer.parseInt(cursor.getString(i++)),
+				cursor.getLong(i++), cursor.getLong(i++), cursor.getString(i++),
+				cursor.getString(i++), cursor.getInt(i++), cursor.getString(i++),
+				cursor.getString(i++), cursor.getString(i++), getTag(Integer.parseInt(cursor.getString(i++)))
+				, cursor.getInt(i++), cursor.getInt(i++));
 		
 		// Add eventual attachments uri
 		note.setAttachmentsList(getNoteAttachments(note));
@@ -314,6 +318,7 @@ public class DbHelper extends SQLiteOpenHelper {
 						+ KEY_LATITUDE + "," 
 						+ KEY_LONGITUDE + "," 
 						+ KEY_LOCKED + "," 
+						+ KEY_CHECKLIST + "," 
 						+ KEY_TAG + "," 
 						+ KEY_TAG_NAME + "," 
 						+ KEY_TAG_DESCRIPTION + "," 
@@ -331,20 +336,22 @@ public class DbHelper extends SQLiteOpenHelper {
 		// Looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
+				int i = 0;
 				Note note = new Note();
-				note.set_id(Integer.parseInt(cursor.getString(0)));
-				note.setCreation(cursor.getLong(1));
-				note.setLastModification(cursor.getLong(2));
-				note.setTitle(cursor.getString(3));
-				note.setContent(cursor.getString(4));
-				note.setArchived("1".equals(cursor.getString(5)));
-				note.setAlarm(cursor.getString(6));		
-				note.setLatitude(cursor.getString(7));
-				note.setLongitude(cursor.getString(8));
-				note.setLocked("1".equals(cursor.getString(9)));
+				note.set_id(Integer.parseInt(cursor.getString(i++)));
+				note.setCreation(cursor.getLong(i++));
+				note.setLastModification(cursor.getLong(i++));
+				note.setTitle(cursor.getString(i++));
+				note.setContent(cursor.getString(i++));
+				note.setArchived("1".equals(cursor.getString(i++)));
+				note.setAlarm(cursor.getString(i++));		
+				note.setLatitude(cursor.getString(i++));
+				note.setLongitude(cursor.getString(i++));
+				note.setLocked("1".equals(cursor.getString(i++)));
+				note.setChecklist("1".equals(cursor.getString(i++)));
 				
 				// Set tag
-				Tag tag = new Tag(cursor.getInt(10), cursor.getString(11), cursor.getString(12), cursor.getString(13));
+				Tag tag = new Tag(cursor.getInt(i++), cursor.getString(i++), cursor.getString(i++), cursor.getString(i++));
 				note.setTag(tag);
 				
 				// Add eventual attachments uri

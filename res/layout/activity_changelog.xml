@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,11 +14,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical|center_horizontal"
-    android:orientation="vertical" >
 
     <view
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,4 +24,3 @@
         android:layout_gravity="center"
         class="it.gmariotti.changelibs.library.view.ChangeLogListView" />
 
-</LinearLayout>

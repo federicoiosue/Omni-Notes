@@ -66,6 +66,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 				return;
 								
 			destination = StorageManager.createExternalStoragePrivateFile(mActivity, attachment.getUri());
+			Log.v(Constants.TAG, "Moving attachment " + attachment.getUri() + " to " + destination);
 			
 			if (destination == null) {				
 				Log.e(Constants.TAG, "Can't move file");

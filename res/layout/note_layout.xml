@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -30,9 +30,9 @@
 
         <View
             android:id="@+id/tag_marker"
-            android:layout_width="4dp"
+            android:layout_width="5dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="2dp"
             android:background="@null" />
 
         <LinearLayout

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,14 +20,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_popup"
-    android:padding="8dp"
+    android:paddingLeft="8dp"
+    android:paddingTop="8dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="8dp"
     android:orientation="vertical" >
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/camera"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/clickable_view"
+        android:background="@drawable/icon_selector"
         android:drawableLeft="@drawable/ic_camera_dark"
         android:drawablePadding="4dp"
         android:gravity="center_vertical"
@@ -41,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:background="@drawable/clickable_view"
+        android:background="@drawable/icon_selector"
         android:drawableLeft="@drawable/ic_photo_dark"
         android:drawablePadding="4dp"
         android:padding="8dp"
@@ -54,7 +57,7 @@
         android:layout_width="match_parent"
         android:gravity="center_vertical"
         android:layout_height="wrap_content"
-        android:background="@drawable/clickable_view"
+        android:background="@drawable/icon_selector"
         android:drawableLeft="@drawable/ic_action_video"
         android:drawablePadding="4dp"
         android:padding="8dp"
@@ -66,7 +69,7 @@
         android:id="@+id/recording"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/clickable_view"
+        android:background="@drawable/icon_selector"
         android:gravity="center_vertical"
         android:drawableLeft="@drawable/ic_action_mic"
         android:drawablePadding="4dp"
@@ -76,11 +79,24 @@
         pixlui:typeface="Roboto-Regular.ttf" />
 
     <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/sketch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/icon_selector"
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/ic_action_edit"
+        android:drawablePadding="4dp"
+        android:padding="8dp"
+        android:text="@string/sketch"
+        android:textSize="17sp"
+        pixlui:typeface="Roboto-Regular.ttf" />
+
+    <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:background="@drawable/clickable_view"
+        android:background="@drawable/icon_selector"
         android:drawableLeft="@drawable/ic_location_dark"
         android:drawablePadding="4dp"
         android:padding="8dp"

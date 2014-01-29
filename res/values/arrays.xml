@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -46,16 +46,16 @@
         <item>Last modification date</item>
     </string-array>
 
-    <string-array name="languages">
-        <item>English</item>
-        <item>Spanish</item>
-        <item>Italian</item>
+    <string-array name="checked_items_behavior">
+        <item >Hold on position</item>
+        <item >Move at end of all the items</item>
+        <item >Move after unchecked but on top of unchecked</item>
     </string-array>
-
-    <string-array name="languages_codes">
-        <item>en</item>
-        <item>es</item>
-        <item>it</item>
+        
+    <string-array name="checked_items_behavior_values">
+        <item >0</item>
+        <item >1</item>
+        <item >2</item>
     </string-array>
 
 </resources>

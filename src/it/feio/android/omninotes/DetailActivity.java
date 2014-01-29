@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2013 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,10 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
-import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
-import com.neopixl.pixlui.components.edittext.EditText;
-import com.neopixl.pixlui.components.textview.TextView;
-
+import it.feio.android.checklistview.ChecklistManager;
+import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
+import it.feio.android.omninotes.async.DeleteNoteTask;
+import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.ExpandableHeightGridView;
@@ -37,9 +28,14 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
-import it.feio.android.omninotes.async.DeleteNoteTask;
-import it.feio.android.omninotes.async.SaveNoteTask;
-import it.feio.android.omninotes.R;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -74,19 +70,27 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
+
+import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+import com.neopixl.pixlui.components.edittext.EditText;
+import com.neopixl.pixlui.components.textview.TextView;
 
 /**
  * An activity representing a single Item detail screen. This activity is only
@@ -103,6 +107,7 @@ public class DetailActivity extends BaseActivity {
 	private static final int RECORDING = 3;
 	private static final int TAKE_VIDEO = 4;
 	private static final int SET_PASSWORD = 5;
+	private static final int SKETCH = 6;
 
 	private FragmentActivity mActivity;
 
@@ -133,6 +138,11 @@ public class DetailActivity extends BaseActivity {
 	private Tag selectedTag;
 	private Boolean lock = false;
 	private Bitmap recordingBitmap;
+
+	// Toggle checklist view
+	View toggleChecklistView;
+	boolean isChecklistOn = false;
+	private ChecklistManager mChecklistManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -375,6 +385,13 @@ public class DetailActivity extends BaseActivity {
 
 		datetime = (TextView) findViewById(R.id.datetime);
 		datetime.setText(dateTimeText);
+		
+		// Restore checklist
+		toggleChecklistView = content;
+		if (note.isChecklist()) {
+			toggleChecklist();
+		}
+		
 	}
 
 	
@@ -547,6 +564,7 @@ public class DetailActivity extends BaseActivity {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_attachment).setVisible(true);
 		menu.findItem(R.id.menu_tag).setVisible(true);
+		menu.findItem(R.id.menu_checklist).setVisible(true);
 		menu.findItem(R.id.menu_lock).setVisible(true);
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		menu.findItem(R.id.menu_discard_changes).setVisible(true);
@@ -593,6 +611,9 @@ public class DetailActivity extends BaseActivity {
 		case R.id.menu_tag:
 			tagNote();
 			break;
+		case R.id.menu_checklist:
+			toggleChecklist();
+			break;
 		case R.id.menu_lock:
 			lockNote();
 			break;
@@ -600,13 +621,90 @@ public class DetailActivity extends BaseActivity {
 			deleteNote();
 			break;
 		case R.id.menu_discard_changes:
-			goHome();
+			discard();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * 
+	 */
+	private void toggleChecklist() {
+		
+		// In case checklist is active a prompt will ask about many options
+		// to decide hot to convert back to simple text	
+		if (!isChecklistOn) {
+			toggleChecklist2();
+			return;
+		}
+		
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+
+		// Inflate the popup_layout.xml
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		final View layout = inflater.inflate(R.layout.dialog_remove_checklist_layout, (ViewGroup) findViewById(R.id.layout_root));
+
+		// Retrieves options checkboxes and initialize their values
+		final CheckBox keepChecked = (CheckBox) layout.findViewById(R.id.checklist_keep_checked);
+		final CheckBox keepCheckmarks = (CheckBox) layout.findViewById(R.id.checklist_keep_checkmarks);		
+		keepChecked.setChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
+		keepCheckmarks.setChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true));
+		
+		alertDialogBuilder.setView(layout)
+		.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				prefs.edit()
+					.putBoolean(Constants.PREF_KEEP_CHECKED, keepChecked.isChecked())
+					.putBoolean(Constants.PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
+					.commit();
+				
+				toggleChecklist2();
+				dialog.dismiss();
+			}
+		})
+		.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();				
+			}
+		});
+		alertDialogBuilder.create().show();
+	}
 	
+	
+	/**
+	 * Toggles checklist view
+	 */
+	private void toggleChecklist2() {
+		
+		// Get instance and set options to convert EditText to CheckListView
+		mChecklistManager = ChecklistManager.getInstance(this);
+		mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
+				String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
+		mChecklistManager.setShowChecks(true);
+		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
+		
+		// Options for converting back to simple text
+		mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
+		mChecklistManager.setShowChecks(prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true));
+		
+		// Switches the views
+		View newView;
+		try {
+			newView = mChecklistManager.convert(toggleChecklistView);
+			mChecklistManager.replaceViews(toggleChecklistView, newView);
+			toggleChecklistView = newView;
+			isChecklistOn = !isChecklistOn;
+		} catch (ViewNotSupportedException e) {
+			e.printStackTrace();
+		}
+	}
+	
+
 	/**
 	 * Tags note choosing from a list of previously created tags
 	 */
@@ -675,8 +773,6 @@ public class DetailActivity extends BaseActivity {
 	private void showPopup(View anchor) {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		int attachmentDialogWidth = 320;
-		int attachmentDialogHeight = 530;
 
 		// Inflate the popup_layout.xml
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -685,8 +781,8 @@ public class DetailActivity extends BaseActivity {
 		// Creating the PopupWindow
 		attachmentDialog = new PopupWindow(this);
 		attachmentDialog.setContentView(layout);
-		attachmentDialog.setWidth(attachmentDialogWidth);
-		attachmentDialog.setHeight(attachmentDialogHeight);
+		attachmentDialog.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+		attachmentDialog.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		attachmentDialog.setFocusable(true);
 
 		// Clear the default translucent background
@@ -704,6 +800,9 @@ public class DetailActivity extends BaseActivity {
 		// Video recording
 		android.widget.TextView videoSelection = (android.widget.TextView) layout.findViewById(R.id.video);
 		videoSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Sketch
+		android.widget.TextView sketchSelection = (android.widget.TextView) layout.findViewById(R.id.sketch);
+		sketchSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Location
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
@@ -763,6 +862,9 @@ public class DetailActivity extends BaseActivity {
 				takeVideo();
 				attachmentDialog.dismiss();
 			    break;
+			case R.id.sketch:
+				takeSketch();
+				attachmentDialog.dismiss();
 			case R.id.location:
 				setAddress(locationTextView);
 				attachmentDialog.dismiss();
@@ -796,17 +898,12 @@ public class DetailActivity extends BaseActivity {
 
 	
 	private void takePhoto() {
-//		ContentValues values = new ContentValues();
-//		values.put(MediaStore.Images.Media.TITLE, "New Picture");
-//		values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-//		imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-		
-		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_IMAGE_EXT));
-		
+		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_IMAGE_EXT));		
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		startActivityForResult(intent, TAKE_PHOTO);
 	}
+	
 	
 	private void takeVideo() {
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -820,6 +917,14 @@ public class DetailActivity extends BaseActivity {
 		int maxVideoSize = Integer.parseInt(maxVideoSizeStr);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Long.valueOf(maxVideoSize*1024*1024));
 	    startActivityForResult(takeVideoIntent, TAKE_VIDEO);
+	}
+	
+	
+	private void takeSketch() {
+		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_IMAGE_EXT));	
+		Intent intent = new Intent(this, SketchActivity.class);		
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
+		startActivityForResult(intent, SKETCH);
 	}
 
 	
@@ -862,9 +967,34 @@ public class DetailActivity extends BaseActivity {
 			case SET_PASSWORD:
 				lockNote();
 				break;
+			case SKETCH:
+				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
+				attachmentsList.add(attachment);
+				mAttachmentAdapter.notifyDataSetChanged();
+				mGridView.autoresize();
+				break;
 			}
 		}
 	}
+	
+	
+		
+	/**
+	 * Discards changes done to the note and eventually delete new attachments
+	 */
+	private void discard() {
+		// Checks if some new files have been attached and must be removed
+		if (!note.getAttachmentsList().equals(note.getAttachmentsListOld())) {
+			for (Attachment newAttachment: note.getAttachmentsList()) {
+				if (!note.getAttachmentsListOld().contains(newAttachment)) {
+					StorageManager.delete(this, newAttachment.getUri().getPath());
+				}
+			}
+		}
+		goHome();
+	}
+	
+	
 
 	@SuppressLint("NewApi")
 	private void deleteNote() {
@@ -917,13 +1047,31 @@ public class DetailActivity extends BaseActivity {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void saveNote(Boolean archive) {
-
+		
 		// Get old reminder to check later if is changed
 		String oldAlarm = note.getAlarm();
 
 		// Changed fields
 		String title = ((EditText) findViewById(R.id.title)).getText().toString();
-		String content = ((EditText) findViewById(R.id.content)).getText().toString();
+		String content = "";
+		if (!isChecklistOn) {
+			// Due to checklist library introduction the returned EditText class is no more
+			// a com.neopixl.pixlui.components.edittext.EditText but a standard
+			// android.widget.EditText
+			try {
+				content = ((EditText) findViewById(R.id.content)).getText().toString();
+			} catch (ClassCastException e) {
+				content = ((android.widget.EditText)  findViewById(R.id.content)).getText().toString();
+			}
+		} else {
+			try {
+				mChecklistManager.setKeepChecked(true);
+				mChecklistManager.setShowChecks(true);
+				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
+			} catch (ViewNotSupportedException e) {
+				Log.e(Constants.TAG, "Errore toggling checklist", e);
+			}
+		}
 		
 		Note noteEdited = note;
 		if (noteEdited != null) {
@@ -955,6 +1103,7 @@ public class DetailActivity extends BaseActivity {
 		note.setLongitude(noteLongitude);
 		note.setTag(selectedTag);
 		note.setLocked(lock);
+		note.setChecklist(isChecklistOn);
 		note.setAttachmentsList(attachmentsList);
 		
 		// Checks if nothing is changed to avoid committing if possible (check)
@@ -984,8 +1133,19 @@ public class DetailActivity extends BaseActivity {
 	private void shareNote() {
 		// Changed fields
 		String title = ((EditText) findViewById(R.id.title)).getText().toString();
-		String content = ((EditText) findViewById(R.id.content)).getText().toString();
-
+		
+		// Getting content paying attention if checklist-mode is active
+		String content = "";
+		if (!isChecklistOn) {
+			content = ((EditText) findViewById(R.id.content)).getText().toString();
+		} else {
+			try {
+				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
+			} catch (ViewNotSupportedException e) {
+				Log.e(Constants.TAG, "Errore toggling checklist", e);
+			}
+		}
+		
 		// Check if some text has ben inserted or is an empty note
 		if ((title + content).length() == 0 && attachmentsList.size() == 0) {
 			Log.d(Constants.TAG, "Empty note not shared");
@@ -1160,8 +1320,6 @@ public class DetailActivity extends BaseActivity {
 				((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));				
 			// Otherwise just stops playing
 			} else {			
-//				((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
-				
 				stopPlaying();	
 			}
 		// If nothing is playing audio just plays	
@@ -1209,8 +1367,10 @@ public class DetailActivity extends BaseActivity {
 		recordName = StorageManager.createNewAttachmentFile(this, Constants.MIME_TYPE_AUDIO_EXT).getAbsolutePath();
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+		mRecorder.setAudioEncodingBitRate(16);
+		mRecorder.setAudioSamplingRate(44100);
 		mRecorder.setOutputFile(recordName);
 
 		try {
