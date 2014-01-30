@@ -200,6 +200,7 @@
     <string name="settings_category_about">About</string>
     <string name="settings_beta">Google+</string>
     <string name="settings_beta_summary">Sign up the community to get all lastest preview features</string>
+    <string name="donate">Donate</string>
     
     <!-- Info -->
     <string name="follow_author">Who is the developer?</string>
