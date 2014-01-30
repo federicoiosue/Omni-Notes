@@ -51,6 +51,11 @@
       <changelogtext>[u]Fixed[/u] wrong tag association when just one note without previous tag was selected</changelogtext>
  	</changelogversion>
 
+    <changelogversion versionName="4.1.4" changeDate="Jan 30, 2014">
+      <changelogtext>[u]Fixed[/u] Crashes with Samsung or Flesky keyboards</changelogtext>
+ 	  <changelogtext>[u]Fixed[/u] Possible crashes on tags creation</changelogtext>
+ 	</changelogversion>
+
     <changelogversion versionName="4.1.3" changeDate="Jan 21, 2014">
       <changelogtext>[u]Fixed[/u] Backup notes with default export name now works</changelogtext>
  	</changelogversion>
