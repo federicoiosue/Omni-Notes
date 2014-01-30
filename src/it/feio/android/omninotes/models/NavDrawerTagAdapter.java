@@ -95,7 +95,7 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 				img.setColorFilter(cf);				
 			}
 				imgIcon.setImageDrawable(img);
-			imgIcon.setPadding(25, 25, -25, 25);
+			imgIcon.setPadding(10, 25, -30, 25);
 		}
 
 		return itemView;

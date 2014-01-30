@@ -143,8 +143,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			v.setBackgroundColor(context.getResources().getColor(
 					R.color.list_bg_selected));
 		} else {
-//			v.setBackgroundColor(context.getResources().getColor(
-//					R.color.list_bg));
 			restoreDrawable(v);
 		}
 		
