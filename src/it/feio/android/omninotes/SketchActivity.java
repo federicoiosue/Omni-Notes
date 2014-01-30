@@ -11,7 +11,6 @@ import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.SVBar;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,6 +24,7 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -35,7 +35,7 @@ import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class SketchActivity extends Activity {
+public class SketchActivity extends BaseActivity {
 
 	private Context mContext;
 	private ImageView eraser;
@@ -56,6 +56,12 @@ public class SketchActivity extends Activity {
 		
 		mContext = this;
 		drawingView = (SketchView) findViewById(R.id.drawing);
+
+		// Show the Up button in the action bar.
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setDisplayShowTitleEnabled(false);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 
 		eraser = (ImageView) findViewById(R.id.sketch_stroke);
 		eraser.setOnClickListener(new OnClickListener() {
@@ -131,6 +137,16 @@ public class SketchActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		save(drawingView.getBitmap());
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 
