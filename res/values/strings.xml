@@ -113,11 +113,13 @@
     <string name="save_note_to_lock_it">Save note to lock it</string>
     <string name="save_note_to_unlock_it">Save note to unlock it</string>
     <string name="lock_unlock">Lock or unlock</string>
+    <string name="unlock">Unlock</string>
     <string name="title_activity_password">Edit security password</string>
 	<string name="title_activity_about">Info</string>
 	<string name="deleted">deleted</string>
 	<string name="no_items_in_list">Nothing here!</string>
-	<string name="checklist">Toggle checklist</string>
+	<string name="checklist_on">Enable checklist</string>
+	<string name="checklist_off">Disable checklist</string>
 	<string name="checklist_item_hint">New item</string>
     <string name="remove_checklist">Remove checklist?</string>
     <string name="checklist_keep_checked">Keep checked items</string>

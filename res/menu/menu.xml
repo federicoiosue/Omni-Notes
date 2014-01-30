@@ -68,17 +68,30 @@
         android:title="@string/unarchive"
         android:visible="false"/>
     <item
-        android:id="@+id/menu_checklist"
+        android:id="@+id/menu_checklist_on"
         android:orderInCategory="390"
         app:showAsAction="ifRoom"
-        android:title="@string/checklist"
+        android:title="@string/checklist_on"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_checklist_off"
+        android:orderInCategory="390"
+        app:showAsAction="ifRoom"
+        android:title="@string/checklist_off"
         android:visible="false"/>
     <item
         android:id="@+id/menu_lock"
         android:icon="@drawable/ic_action_secure"
         android:orderInCategory="400"
         app:showAsAction="ifRoom"
-        android:title="@string/lock_unlock"
+        android:title="@string/lock"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_unlock"
+        android:icon="@drawable/ic_action_secure"
+        android:orderInCategory="400"
+        app:showAsAction="ifRoom"
+        android:title="@string/unlock"
         android:visible="false"/>
     <item
         android:id="@+id/menu_delete"

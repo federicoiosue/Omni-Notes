@@ -20,6 +20,12 @@
 <!--     	<changelogtext>[u]Fixed[/u] Tag color is no more reset to default color when saving it without changes</changelogtext> -->
 <!--  	</changelogversion> -->
 
+    <changelogversion versionName="4.2.0 Beta 5" changeDate="Jan 30, 2014">   
+      <changelogtext>[u]New![/u] More contextualization: now [i]Lock or unlock[/i] and [i]Toggle checklist[/i] items in editor menu changes depending on the note status</changelogtext>
+      <changelogtext>Many layout modifications</changelogtext>
+      <changelogtext>[u]Fixed[/u] Lot of fixes thanks to beta testers feedback</changelogtext>
+ 	</changelogversion>
+
     <changelogversion versionName="4.2.0 Beta 4" changeDate="Jan 29, 2014">   
       <changelogtext>[u]Fixed[/u] Sorting by reminder date criteria</changelogtext>
  	</changelogversion>

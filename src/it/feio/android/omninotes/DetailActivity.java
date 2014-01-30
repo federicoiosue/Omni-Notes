@@ -563,14 +563,14 @@ public class DetailActivity extends BaseActivity {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_attachment).setVisible(true);
 		menu.findItem(R.id.menu_tag).setVisible(true);
-		menu.findItem(R.id.menu_checklist).setVisible(true);
-		menu.findItem(R.id.menu_lock).setVisible(true);
+		menu.findItem(R.id.menu_checklist_on).setVisible(!isChecklistOn);
+		menu.findItem(R.id.menu_checklist_off).setVisible(isChecklistOn);
+		menu.findItem(R.id.menu_lock).setVisible(!lock);
+		menu.findItem(R.id.menu_unlock).setVisible(lock);
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		menu.findItem(R.id.menu_discard_changes).setVisible(true);
-
-		boolean archived = note.isArchived();
-		menu.findItem(R.id.menu_archive).setVisible(!archived);
-		menu.findItem(R.id.menu_unarchive).setVisible(archived);
+		menu.findItem(R.id.menu_archive).setVisible(!note.isArchived());
+		menu.findItem(R.id.menu_unarchive).setVisible(note.isArchived());
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -610,10 +610,16 @@ public class DetailActivity extends BaseActivity {
 		case R.id.menu_tag:
 			tagNote();
 			break;
-		case R.id.menu_checklist:
+		case R.id.menu_checklist_on:
+			toggleChecklist();
+			break;
+		case R.id.menu_checklist_off:
 			toggleChecklist();
 			break;
 		case R.id.menu_lock:
+			lockNote();
+			break;
+		case R.id.menu_unlock:
 			lockNote();
 			break;
 		case R.id.menu_delete:
@@ -701,6 +707,9 @@ public class DetailActivity extends BaseActivity {
 		} catch (ViewNotSupportedException e) {
 			e.printStackTrace();
 		}
+		
+		// Called to switch menu voices
+		supportInvalidateOptionsMenu();
 	}
 	
 
@@ -1231,9 +1240,11 @@ public class DetailActivity extends BaseActivity {
 					if (lock) {
 						lock = false;
 						showToast(getString(R.string.save_note_to_unlock_it), Toast.LENGTH_SHORT);
+						supportInvalidateOptionsMenu();
 					} else {
 						lock = true;
 						showToast(getString(R.string.save_note_to_lock_it), Toast.LENGTH_SHORT);
+						supportInvalidateOptionsMenu();
 					}
 				}
 			}
