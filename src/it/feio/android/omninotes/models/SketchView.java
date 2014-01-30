@@ -22,6 +22,7 @@ public class SketchView extends View implements OnTouchListener {
 
 	private float strokeSize = 5;
 	private int strokeColor = Color.BLACK;
+	private int background = Color.WHITE;
 	
 	private Canvas m_Canvas;
 	private Path m_Path;
@@ -157,6 +158,7 @@ public class SketchView extends View implements OnTouchListener {
 			return null;
 		
 		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		bitmap.eraseColor(background);
 		Canvas canvas = new Canvas(bitmap);
 		for (Pair<Path, Paint> p : paths) {
 			canvas.drawPath((Path) p.first, (Paint) p.second);				
