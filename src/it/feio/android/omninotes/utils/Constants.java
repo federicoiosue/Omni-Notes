@@ -34,6 +34,9 @@ public interface Constants {
 	final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=";
 	static long UPDATE_MIN_FREQUENCY = 24*60*60*1000; // 1 hour
 	
+	// Used for ACRA
+	final String ACRA_MAILER_URL = "http://www.iosue.it/federico/apps/acramailer/acra.php?email=";
+	
 	final int THUMBNAIL_SIZE = 300;  
 
 	final String DATE_SEPARATOR = "/";
