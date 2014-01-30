@@ -238,18 +238,8 @@ public class DetailActivity extends BaseActivity {
 		if (prefs.getBoolean("settings_enable_editor_links", false)) {
 			title.setLinksClickable(true);
 			Linkify.addLinks(title, Linkify.ALL);
-//			title.setMovementMethod(LinkMovementMethod.getInstance());
-<<<<<<< HEAD
-			content.setCursorVisible(true);
-=======
->>>>>>> refs/heads/v_4_1_3
 			content.setLinksClickable(true);
 			Linkify.addLinks(content, Linkify.ALL);
-//			content.setMovementMethod(LinkMovementMethod.getInstance());
-<<<<<<< HEAD
-			content.setCursorVisible(true);
-=======
->>>>>>> refs/heads/v_4_1_3
 		}
 
 		// Initialization of location TextView

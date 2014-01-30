@@ -86,7 +86,7 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 
 		// Set the results into ImageView checking if an icon is present before
 		if (tag.getColor() != null && tag.getColor().length() > 0) {
-			Drawable img = mContext.getResources().getDrawable(R.drawable.circle);
+			Drawable img = mContext.getResources().getDrawable(R.drawable.square);
 			ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(tag.getColor()));
 			// Before API 16 the object is mutable yet
 			if (Build.VERSION.SDK_INT >= 16) {
