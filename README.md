@@ -20,12 +20,13 @@ Actually the following functions are implemented:
 * Export/import notes to backup
 * Animations activables/deactivables
 * Multimedia attachments
+* Sketch-note mode
+* To-do list
 
 Further developments will include:
-* To-do list
 * Notes sychronization
 * Direct sharing of notes between devices with Omni Notes app installed
-* Sketch-note mode
+* Web interface to manage notes
 * Gesture actions
 
 You can find a complete changelog inside the application settings menu!
@@ -35,18 +36,25 @@ You can find a complete changelog inside the application settings menu!
 Try out the app on the [Play Store][1].
 
 
+##Dependencies
 
-Developed By
-============
+* https://github.com/gabrielemariotti/changeloglib
+* https://github.com/LarsWerkman/HoloColorPicker
+* https://github.com/derekbrameyer/android-betterpickers
+* https://github.com/federicoiosue/CheckListView
+
+
+##Developed By
+
 
 * Federico Iosue - <federico.iosue@gmail.com>
 
 
 
-License
-=======
+##License
 
-    Copyright 2013 Federico Iosue
+
+    Copyright 2014 Federico Iosue
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
