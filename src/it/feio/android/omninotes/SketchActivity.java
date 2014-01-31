@@ -6,6 +6,7 @@ import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
@@ -16,6 +17,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -23,6 +26,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +53,7 @@ public class SketchActivity extends BaseActivity {
 	private ImageView strokeImageView;
 	private int size;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -133,6 +138,24 @@ public class SketchActivity extends BaseActivity {
 		setStrokeSeekbarProgress(5);
 	}
 
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		outState.putSerializable("paths", drawingView.getPaths());
+		outState.putSerializable("undonePaths", drawingView.getUndonePaths());
+		super.onSaveInstanceState(outState);
+	}
+	
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		drawingView.setPaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable("paths"));
+		drawingView.setUndonePaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable("undonePaths"));
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+	
 	
 	@Override
 	public void onBackPressed() {

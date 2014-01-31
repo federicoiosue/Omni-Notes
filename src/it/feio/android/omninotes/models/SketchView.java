@@ -189,8 +189,20 @@ public class SketchView extends View implements OnTouchListener {
 		return undonePaths.size();
 	}
 
-	public int getPathsCount() {
-		return paths.size();
+	public ArrayList<Pair<Path, Paint>> getPaths() {
+		return paths;
+	}
+
+	public void setPaths(ArrayList<Pair<Path, Paint>> paths) {
+		this.paths = paths;
+	}
+
+	public ArrayList<Pair<Path, Paint>> getUndonePaths() {
+		return undonePaths;
+	}
+
+	public void setUndonePaths(ArrayList<Pair<Path, Paint>> undonePaths) {
+		this.undonePaths = undonePaths;
 	}
 	
 	public int getStrokeSize(){
