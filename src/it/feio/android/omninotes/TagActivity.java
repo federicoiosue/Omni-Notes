@@ -119,7 +119,7 @@ public class TagActivity extends Activity {
 		description.setText(tag.getDescription());
 		// Reset picker to saved color
 		String color = tag.getColor();
-		if (color.length() > 0) {
+		if (color != null && color.length() > 0) {
 			picker.setColor(Integer.parseInt(color));
 			picker.setOldCenterColor(Integer.parseInt(color));
 		}
