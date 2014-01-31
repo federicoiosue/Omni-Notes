@@ -42,6 +42,7 @@ Try out the app on the [Play Store][1].
 * https://github.com/LarsWerkman/HoloColorPicker
 * https://github.com/derekbrameyer/android-betterpickers
 * https://github.com/federicoiosue/CheckListView
+* https://github.com/keyboardsurfer
 
 
 ##Developed By
