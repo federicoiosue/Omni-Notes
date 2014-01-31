@@ -20,11 +20,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.NavigationDrawerAdapter;
 import it.feio.android.omninotes.models.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
+import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
@@ -36,7 +39,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.SearchManager;
@@ -67,10 +72,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class ListActivity extends BaseActivity {
 
+	private static final int REQUEST_CODE_DETAIL = 1;
 	private CharSequence mTitle;
 	String[] mNavigationArray;
 	TypedArray mNavigationIconsArray;
@@ -128,8 +133,15 @@ public class ListActivity extends BaseActivity {
 		UpdaterTask task = new UpdaterTask(this);
 		task.execute();
 	}
-
-
+	
+	
+	
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Crouton.cancelAllCroutons();
+	}
 	
 	
 	
@@ -612,9 +624,50 @@ public class ListActivity extends BaseActivity {
 
 		Intent detailIntent = new Intent(this, DetailActivity.class);
 		detailIntent.putExtra(Constants.INTENT_NOTE, note);
-		startActivity(detailIntent);
+		startActivityForResult(detailIntent, REQUEST_CODE_DETAIL);
 		if (prefs.getBoolean("settings_enable_animations", true)) {
 			overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
+		}
+	}
+	
+	
+	@Override
+	// Used to show a Crouton dialog after saved (or tried to) a note
+	protected void onActivityResult(int requestCode, final int resultCode, Intent intent) {
+		super.onActivityResult(requestCode, resultCode, intent);
+		String intentMsg = intent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
+		// If no message is returned nothing will be shown
+		if (intentMsg != null && intentMsg.length() > 0) {
+			final String message = intentMsg!= null ? intent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE) : "";
+			switch (requestCode) {		
+				case REQUEST_CODE_DETAIL:
+					// Dialog retarded to give time to activity's views of being completely initialized
+					new Handler().postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							// The dialog style is choosen depending on result code
+							switch (resultCode) {
+								case Activity.RESULT_OK:
+									Crouton.makeText(mActivity, message, ONStyle.CONFIRM).show();				
+									break;
+								case Activity.RESULT_FIRST_USER:
+									Crouton.makeText(mActivity, message, ONStyle.INFO).show();
+									break;
+								case Activity.RESULT_CANCELED:
+									Crouton.makeText(mActivity, message, ONStyle.ALERT).show();				
+									break;
+			
+								default:
+									break;
+							}
+						}
+					}, 800);
+					
+					break;
+		
+				default:
+					break;
+			}
 		}
 	}
 
@@ -747,7 +800,8 @@ public class ListActivity extends BaseActivity {
 							listView.setEmptyView(findViewById(R.id.empty_list));
 						
 						// Advice to user
-						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
+//						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
+						Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.INFO).show();
 						mActionMode.finish(); // Action picked, so close the CAB
 					}
 				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -810,7 +864,8 @@ public class ListActivity extends BaseActivity {
 		// Refresh view
 		((ListView) findViewById(R.id.notesList)).invalidateViews();
 		// Advice to user
-		showToast(archivedStatus, Toast.LENGTH_SHORT);
+//		showToast(archivedStatus, Toast.LENGTH_SHORT);
+		Crouton.makeText(mActivity, archivedStatus, ONStyle.INFO).show();
 	}
 	
 	
@@ -839,7 +894,8 @@ public class ListActivity extends BaseActivity {
 		
 		// If there is no tag a message will be shown
 		if (tags.size() == 0) {
-			showToast(getString(R.string.no_tags_created), Toast.LENGTH_SHORT);
+//			showToast(getString(R.string.no_tags_created), Toast.LENGTH_SHORT);
+			Crouton.makeText(mActivity, R.string.no_tags_created, ONStyle.WARN).show();
 			return;
 		}
 
@@ -893,7 +949,9 @@ public class ListActivity extends BaseActivity {
 									// Refresh view
 									((ListView) findViewById(R.id.notesList)).invalidateViews();
 									// Advice to user
-									showToast(getResources().getText(R.string.notes_tagged_as) + " '" + candidateSelectedTag.getName() + "'", Toast.LENGTH_SHORT);
+									String msg = getResources().getText(R.string.notes_tagged_as) + " '" + candidateSelectedTag.getName() + "'";
+//									showToast(getResources().getText(R.string.notes_tagged_as) + " '" + candidateSelectedTag.getName() + "'", Toast.LENGTH_SHORT);
+									Crouton.makeText(mActivity, msg, ONStyle.INFO).show();
 									candidateSelectedTag = null;
 									mActionMode.finish(); // Action picked, so close the CAB
 								}
@@ -913,7 +971,8 @@ public class ListActivity extends BaseActivity {
 									// Refresh view
 									((ListView) findViewById(R.id.notesList)).invalidateViews();
 									// Advice to user
-									showToast(getResources().getText(R.string.notes_tag_removed), Toast.LENGTH_SHORT);
+//									showToast(getResources().getText(R.string.notes_tag_removed), Toast.LENGTH_SHORT);
+									Crouton.makeText(mActivity, R.string.notes_tag_removed, ONStyle.INFO).show();
 									mActionMode.finish(); // Action picked, so close the CAB
 								}
 							}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

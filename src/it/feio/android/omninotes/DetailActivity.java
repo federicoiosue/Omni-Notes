@@ -23,6 +23,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
@@ -61,8 +62,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
-import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -84,13 +83,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
-
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+
+
 
 /**
  * An activity representing a single Item detail screen. This activity is only
@@ -144,6 +145,9 @@ public class DetailActivity extends BaseActivity {
 	View toggleChecklistView;
 	boolean isChecklistOn = false;
 	private ChecklistManager mChecklistManager;
+	
+	// Result intent
+	Intent resultIntent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +155,8 @@ public class DetailActivity extends BaseActivity {
 		setContentView(R.layout.activity_detail);
 
 		mActivity = this;
+		
+		resultIntent = new Intent();
 
 		// Show the Up button in the action bar.
 		if (getSupportActionBar() != null) {
@@ -168,6 +174,7 @@ public class DetailActivity extends BaseActivity {
 			mRecorder.release();
 			mRecorder = null;
 		}
+		Crouton.cancelAllCroutons();
 	}
 	
 	
@@ -202,12 +209,7 @@ public class DetailActivity extends BaseActivity {
 			requestPassword(new PasswordValidator() {					
 				@Override
 				public void onPasswordValidated(boolean result) {
-					if (!result) {
-						showToast(getString(R.string.wrong_password), Toast.LENGTH_SHORT);
-						onBackPressed();
-					} else {
-						init(true);
-					}
+					init(true);
 				}
 			});
 		} else {
@@ -307,7 +309,8 @@ public class DetailActivity extends BaseActivity {
 					if (isAvailable(getApplicationContext(), attachmentIntent, null)) {
 						startActivity(attachmentIntent);
 					} else {
-						showToast(getResources().getText(R.string.no_app_to_handle_intent), Toast.LENGTH_SHORT);
+//						showToast(getResources().getText(R.string.no_app_to_handle_intent), Toast.LENGTH_SHORT);
+						Crouton.makeText(mActivity, R.string.feature_not_available_on_this_device, ONStyle.WARN).show();
 					}
 					
 				} else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {					
@@ -575,20 +578,26 @@ public class DetailActivity extends BaseActivity {
 		return super.onPrepareOptionsMenu(menu);
 	}
 
+	
 	public boolean goHome() {
 		stopPlaying();
-		NavUtils.navigateUpFromSameTask(this);
+//		NavUtils.navigateUpFromSameTask(this);
+		int result = resultIntent.getIntExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_OK);
+		setResult(result, resultIntent);
+		super.finish();
 		if (prefs.getBoolean("settings_enable_animations", true)) {
 			overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
 		}
 		return true;
 	}
 
+	
 	@Override
 	public void onBackPressed() {
 		saveNote(null);
 	}
 
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -727,7 +736,6 @@ public class DetailActivity extends BaseActivity {
 			Intent intent = new Intent(this, TagActivity.class);		
 			intent.putExtra("noHome", true);
 			startActivityForResult(intent, TAG);
-			showToast(getString(R.string.no_tags_created), Toast.LENGTH_SHORT);
 			return;
 		}
 		
@@ -919,7 +927,8 @@ public class DetailActivity extends BaseActivity {
 	private void takeVideo() {
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 		if (!isAvailable(mActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
-			showToast(getString(R.string.feature_not_available_on_this_device), Toast.LENGTH_SHORT);
+//			showToast(getString(R.string.feature_not_available_on_this_device), Toast.LENGTH_SHORT);
+			Crouton.makeText(this, R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
 			return;
 		}		
 		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_VIDEO_EXT));
@@ -1040,7 +1049,9 @@ public class DetailActivity extends BaseActivity {
 
 						// Informs the user about update
 						Log.d(Constants.TAG, "Deleted note with id '" + note.get_id() + "'");
-						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
+//						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
+						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_OK);
+						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_deleted));
 						
 						goHome();
 						return;
@@ -1102,7 +1113,9 @@ public class DetailActivity extends BaseActivity {
 				&& alarmDateTime == -1) {
 
 			Log.d(Constants.TAG, "Empty note not saved");
-			showToast(getResources().getText(R.string.empty_note_not_saved), Toast.LENGTH_SHORT);
+//			showToast(getResources().getText(R.string.empty_note_not_saved), Toast.LENGTH_SHORT);
+			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_FIRST_USER);
+			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.empty_note_not_saved));
 			goHome();
 			return;
 		}
@@ -1138,8 +1151,9 @@ public class DetailActivity extends BaseActivity {
 		}
 
 		// Advice of update
-		showToast(getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT);
-
+//		showToast(getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT);
+//		Crouton.makeText(mActivity, R.string.note_updated, Style.CONFIRM).show();
+		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
 	}
 	
 
@@ -1165,7 +1179,8 @@ public class DetailActivity extends BaseActivity {
 		// Check if some text has ben inserted or is an empty note
 		if ((title + content).length() == 0 && attachmentsList.size() == 0) {
 			Log.d(Constants.TAG, "Empty note not shared");
-			showToast(getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT);
+//			showToast(getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT);
+			Crouton.makeText(this, R.string.empty_note_not_shared, ONStyle.INFO).show();
 			return;
 		}
 
@@ -1233,17 +1248,16 @@ public class DetailActivity extends BaseActivity {
 			@Override
 			public void onPasswordValidated(boolean result) {
 				// Wrong password
-				if (!result) {
-					showToast(getString(R.string.wrong_password), Toast.LENGTH_SHORT);
-				// Right password, note is set as locked/unlocked	
-				} else {
+				if (result) {
 					if (lock) {
 						lock = false;
-						showToast(getString(R.string.save_note_to_unlock_it), Toast.LENGTH_SHORT);
+//						showToast(getString(R.string.save_note_to_unlock_it), Toast.LENGTH_SHORT);
+						Crouton.makeText(mActivity, R.string.save_note_to_unlock_it, ONStyle.INFO).show();
 						supportInvalidateOptionsMenu();
 					} else {
 						lock = true;
-						showToast(getString(R.string.save_note_to_lock_it), Toast.LENGTH_SHORT);
+//						showToast(getString(R.string.save_note_to_lock_it), Toast.LENGTH_SHORT);
+						Crouton.makeText(mActivity, R.string.save_note_to_lock_it, ONStyle.INFO).show();
 						supportInvalidateOptionsMenu();
 					}
 				}

@@ -27,7 +27,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class TagActivity extends Activity {
 
@@ -134,7 +133,6 @@ public class TagActivity extends Activity {
 			tag.setColor(String.valueOf(picker.getColor()));
 		DbHelper db = new DbHelper(this);
 		db.updateTag(tag);
-		Toast.makeText(this, getString(R.string.tag_saved), Toast.LENGTH_SHORT).show();
 		goHome();
 	}
 

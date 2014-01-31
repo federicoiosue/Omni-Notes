@@ -85,14 +85,14 @@
 	            android:title="@string/settings_enable_tag_marker"
 	            android:summary="@string/settings_enable_tag_marker_summary" >
 	        </SwitchPreference>
-	        <SwitchPreference
-	            android:defaultValue="true"
-			    android:switchTextOn="On"
-			    android:switchTextOff="Off"
-	            android:key="settings_enable_info"
-	            android:title="@string/settings_enable_info"
-	            android:summary="@string/settings_enable_info_summary"  >
-	        </SwitchPreference>
+<!-- 	        <SwitchPreference -->
+<!-- 	            android:defaultValue="true" -->
+<!-- 			    android:switchTextOn="On" -->
+<!-- 			    android:switchTextOff="Off" -->
+<!-- 	            android:key="settings_enable_info" -->
+<!-- 	            android:title="@string/settings_enable_info" -->
+<!-- 	            android:summary="@string/settings_enable_info_summary"  > -->
+<!-- 	        </SwitchPreference> -->
 	        <SwitchPreference
 	            android:defaultValue="true"
 			    android:switchTextOn="On"

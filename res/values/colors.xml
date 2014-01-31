@@ -31,6 +31,10 @@
     <color name="selected">#8833B5E5</color>    
     <color name="transparent">#00ffffff</color>    
     <color name="audio_attachment_text">#aa000000</color>    
-    
+    <!-- toasts -->
+    <color name="confirm">#ee99CC00</color>
+    <color name="warning">#eeFFBB33</color>
+    <color name="alert">#eeFF4444</color>
+    <color name="info">#ee33B5E5</color>
     
 </resources>

@@ -18,7 +18,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
     android:versionCode="54"
-    android:versionName="4.2.0" >
+    android:versionName="4.2.0b6" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -137,11 +137,7 @@
         <!-- Detail -->
         <activity
             android:name="it.feio.android.omninotes.DetailActivity"
-            android:parentActivityName=".ListActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
         </activity>
 
         <!-- Sketch -->

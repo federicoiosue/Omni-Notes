@@ -58,6 +58,8 @@ public interface Constants {
 	final int INTENT_ALARM_CODE = 12345;
 	final String INTENT_BACKUP_NAME = "backup_name";
     final String INTENT_TAG = "tag";
+    final String INTENT_DETAIL_RESULT_CODE = "detail_result_code";
+    final String INTENT_DETAIL_RESULT_MESSAGE = "detail_result_message";
 	
 	final String MESSAGE = "message";
 

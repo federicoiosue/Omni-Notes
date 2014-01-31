@@ -153,7 +153,6 @@
     <string name="settings_enable_swype">Enable swype</string>
     <string name="settings_category_interface">Interface</string>
     <string name="settings_enable_animations">Animations</string>
-    <string name="settings_enable_info">Info popups</string>
     <string name="settings_choose_language">Choose language</string>
     <string name="settings_category_notifications">Notifications</string>
     <string name="settings_enable_sound">Ringtone</string>
@@ -181,7 +180,6 @@
     <string name="settings_password_summary">Edit app\'s security password</string>
     <string name="settings_enable_animations_summary">Enable or disable notes\' list and screen change animations</string>
     <string name="settings_enable_tag_marker_summary">Enable or disable tags colored markers</string>
-    <string name="settings_enable_info_summary">Enable or disable popups for actions on notes like editing, deleting, tagging&#8230;</string>
     <string name="settings_enable_editor_links_summary">Enable or disable automatic highlighting of links and e-mail in editor</string>
     <string name="confirm_removing_backup">Confirm removing backup</string>
     <string name="data_deletion_completed">Data deletion completed</string>

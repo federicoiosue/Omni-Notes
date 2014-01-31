@@ -75,12 +75,12 @@
 	            android:title="@string/settings_enable_tag_marker" 
 	            android:summary="@string/settings_enable_tag_marker_summary" >
 	        </CheckBoxPreference>
-	        <CheckBoxPreference
-	            android:defaultValue="true"
-	            android:key="settings_enable_info"
-	            android:title="@string/settings_enable_info" 
-	            android:summary="@string/settings_enable_info_summary"  >
-	        </CheckBoxPreference>
+<!-- 	        <CheckBoxPreference -->
+<!-- 	            android:defaultValue="true" -->
+<!-- 	            android:key="settings_enable_info" -->
+<!-- 	            android:title="@string/settings_enable_info"  -->
+<!-- 	            android:summary="@string/settings_enable_info_summary"  > -->
+<!-- 	        </CheckBoxPreference> -->
 	        <CheckBoxPreference
 	            android:defaultValue="true"
 	            android:key="settings_enable_editor_links"
