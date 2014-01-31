@@ -15,22 +15,21 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import java.lang.reflect.Field;
-
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.Tracker;
-
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;
+
+import java.lang.reflect.Field;
+import java.util.Locale;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -47,6 +46,10 @@ import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.Tracker;
 
 @SuppressLint("Registered") 
 public class BaseActivity extends ActionBarActivity {
@@ -120,6 +123,8 @@ public class BaseActivity extends ActionBarActivity {
 	    } catch (Exception ex) {
 	        // Ignore exceptions
 	    }
+		
+		
 		
 		super.onCreate(savedInstanceState);
 	}
@@ -271,20 +276,6 @@ public class BaseActivity extends ActionBarActivity {
 
 		dialog.show();
 	}
-
-	/**
-	 * Set custom locale on application start
-	 */
-	// protected void checkLocale(){
-	// String languageToLoad = prefs.getString("settings_language",
-	// Locale.getDefault().getCountry());
-	// Locale locale = new Locale(languageToLoad);
-	// Locale.setDefault(locale);
-	// Configuration config = new Configuration();
-	// config.locale = locale;
-	// getBaseContext().getResources().updateConfiguration(config,
-	// getBaseContext().getResources().getDisplayMetrics());
-	// }
 	
 	
 	

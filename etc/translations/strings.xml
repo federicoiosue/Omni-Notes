@@ -16,13 +16,10 @@
 -->
 <resources>
 
-
     <!-- Activities -->
     <string name="title_item_list">Notes</string>
-    <string name="title_item_detail">Edit Note</string>
     <string name="add_note">Add Note</string>
     <string name="title">Title</string>
-    <string name="title_activity_search">Search</string>
     <string name="title_activity_list">Omni Notes</string>
     <string name="search">Search</string>
     <string name="search_hint">Search in notes</string>
@@ -34,7 +31,6 @@
     <string name="undo_message">Undo delete</string>
     <string name="unarchive">Restore from archive</string>
     <string name="delete">Delete note</string>
-    <string name="timestamp">Timestamp</string>
     <string name="creation">Created:</string>
     <string name="last_update">Updated:</string>
     <string name="delete_note_confirmation">Confirm note deletion?</string>
@@ -47,8 +43,6 @@
     <string name="note_unarchived">Note restored from archive</string>
     <string name="note_deleted">Note deleted</string>
     <string name="note">Note</string>
-    <string name="note_title">Note title</string>
-    <string name="note_timestamp">Note timestamp</string>
     <string name="share_message_chooser">Share with</string>
     <string name="shared_content_sign">\n【by Omni Notes】</string>
     <string name="sort">Sort</string>
@@ -103,7 +97,6 @@
     <string name="lock">Lock</string>
     <string name="save_note_to_lock_it">Save note to lock it</string>
     <string name="save_note_to_unlock_it">Save note to unlock it</string>
-    <string name="lock_unlock">Lock or unlock</string>
     <string name="unlock">Unlock</string>
     <string name="title_activity_password">Edit security password</string>
 	<string name="title_activity_about">Info</string>
@@ -116,9 +109,7 @@
     <string name="checklist_keep_checked">Keep checked items</string>
     <string name="checklist_keep_symbols">Keep checkmarks (to remember checked ones)</string>
     <string name="sketch">Sketch</string>
-    <string name="crash_dialog_title">Whooooops!</string>
-    <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n Choose an E-MAIL app to send a report to developer!</string>
-    <string name="crash_dialog_comment_prompt">If you want write a comment...</string>
+    <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n A crash report is going to be sent to developer!</string>
     <string name="new_update_available">A new Omni Notes version is available, would you like to update?</string>
    	<string name="update">Update and rate!</string>
     <string name="not_now">Not now</string>	 
@@ -150,7 +141,6 @@
     <string name="settings_enable_swype">Enable swype</string>
     <string name="settings_category_interface">Interface</string>
     <string name="settings_enable_animations">Animations</string>
-    <string name="settings_enable_info">Info popups</string>
     <string name="settings_choose_language">Choose language</string>
     <string name="settings_category_notifications">Notifications</string>
     <string name="settings_enable_sound">Ringtone</string>
@@ -178,7 +168,6 @@
     <string name="settings_password_summary">Edit app\'s security password</string>
     <string name="settings_enable_animations_summary">Enable or disable notes\' list and screen change animations</string>
     <string name="settings_enable_tag_marker_summary">Enable or disable tags colored markers</string>
-    <string name="settings_enable_info_summary">Enable or disable popups for actions on notes like editing, deleting, tagging&#8230;</string>
     <string name="settings_enable_editor_links_summary">Enable or disable automatic highlighting of links and e-mail in editor</string>
     <string name="confirm_removing_backup">Confirm removing backup</string>
     <string name="data_deletion_completed">Data deletion completed</string>
@@ -192,6 +181,7 @@
     <string name="settings_beta">Google+</string>
     <string name="settings_beta_summary">Sign up the community to get all lastest preview features</string>
     <string name="donate">Donate</string>
+    <string name="settings_choose_language">Language</string>
     
     <!-- Info -->
     <string name="follow_author">Who is the developer?</string>

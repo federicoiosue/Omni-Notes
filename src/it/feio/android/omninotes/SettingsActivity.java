@@ -15,28 +15,32 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.StorageManager;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.utils.StorageManager;
-import it.feio.android.omninotes.R;
-import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -323,23 +327,48 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 		
 		
+		
+		
 		// Languages 
-//		Preference lang = findPreference("settings_language");
-//		lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-//			
-//			@Override
-//			public boolean onPreferenceChange(Preference preference, Object value) {
-//				Locale locale = new Locale(value.toString());
-//				Configuration config = new Configuration();
-//				config.locale = locale;
-//				getBaseContext().getResources().updateConfiguration(config,
-//						getBaseContext().getResources().getDisplayMetrics());
-//				PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_language", value.toString()).commit();
-//				finish();
-//				startActivity(new Intent(getApplicationContext(), ListActivity.class));
-//				return false;
-//			}
-//		});
+		ListPreference lang = (ListPreference)findPreference("settings_language");
+//		CharSequence[] entries = { "One", "Two", "Three" };
+//		CharSequence[] entryValues = { "1", "2", "3" };
+//		lang.setEntries(entries);
+//		lang.setEntryValues(entryValues);
+		
+		
+		lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object value) {
+				Locale locale = new Locale(value.toString());
+				Configuration config = getResources().getConfiguration();
+				
+				if (!config.locale.getCountry().equals(locale)) {
+					config.locale = locale;
+					getBaseContext().getResources().updateConfiguration(config,
+							getBaseContext().getResources().getDisplayMetrics());
+					PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_language", value.toString()).commit();
+					finish();
+					startActivity(new Intent(getApplicationContext(), ListActivity.class));
+				}
+				return false;
+			}
+		});
 
 	}
+	
+	
+	
+//	@Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        newConfig.locale = Locale.ENGLISH;
+//        super.onConfigurationChanged(newConfig);
+//
+//        Locale.setDefault(newConfig.locale);
+//        getBaseContext().getResources().updateConfiguration(newConfig, getResources().getDisplayMetrics());
+//    }
+	
+	
+	
 }

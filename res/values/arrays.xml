@@ -59,5 +59,29 @@
         <item >1</item>
         <item >2</item>
     </string-array>
+        
+    <string-array name="languages">
+        <item >Dutch</item>
+        <item >English</item>
+        <item >Italian</item>
+        <item >German</item>
+        <item >Portuguese (Brazil)</item>
+        <item >Russian</item>
+        <item >Slovak</item>
+        <item >Turkish</item>
+    </string-array>
+        
+    <string-array name="languages_codes">
+        <item >nl</item>
+        <item >en</item>
+        <item >it</item>
+        <item >de</item>
+        <item >pt</item>
+        <item >ru</item>
+        <item >sk</item>
+        <item >tr</item>
+    </string-array>
+    
+    
 
 </resources>

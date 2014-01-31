@@ -30,7 +30,6 @@
     <string name="title_item_list">Notes</string>
     <string name="add_note">Add Note</string>
     <string name="title">Title</string>
-<!--     <string name="title_activity_search">Search</string> -->
     <string name="title_activity_list">Omni Notes</string>
     <string name="search">Search</string>
     <string name="search_hint">Search in notes</string>
@@ -42,7 +41,6 @@
     <string name="undo_message">Undo delete</string>
     <string name="unarchive">Restore from archive</string>
     <string name="delete">Delete note</string>
-<!--     <string name="timestamp">Timestamp</string> -->
     <string name="creation">Created:</string>
     <string name="last_update">Updated:</string>
     <string name="delete_note_confirmation">Confirm note deletion?</string>
@@ -193,6 +191,7 @@
     <string name="settings_beta">Google+</string>
     <string name="settings_beta_summary">Sign up the community to get all lastest preview features</string>
     <string name="donate">Donate</string>
+    <string name="settings_choose_language">Language</string>
     
     <!-- Info -->
     <string name="follow_author">Who is the developer?</string>
