@@ -54,7 +54,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="top|start"
-                    android:paddingLeft="6dp"
                     android:textAppearance="@style/Text.Big"
                     android:textColor="@color/list_note_title"
                     pixlui:typeface="RobotoSlab-Bold.ttf" />
