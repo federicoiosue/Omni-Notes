@@ -75,7 +75,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class ListActivity extends BaseActivity {
 
@@ -163,14 +162,22 @@ public class ListActivity extends BaseActivity {
 					      }
 					});
 				} else {
-					jinglesAnimation.stop();
-					jinglesAnimation = null;
-					empyListItem.setCompoundDrawablesWithIntrinsicBounds(0, R.animator.jingles_animation, 0, 0);
+					stopJingles();					
 				}
 			}
 		});
 	}
 
+
+	private void stopJingles() {
+		if(jinglesAnimation != null) {
+			jinglesAnimation.stop();
+			jinglesAnimation = null;
+			empyListItem.setCompoundDrawablesWithIntrinsicBounds(0,
+					R.animator.jingles_animation, 0, 0);
+	
+		}
+	}
 
 
 
@@ -178,7 +185,7 @@ public class ListActivity extends BaseActivity {
 	protected void onPause() {
 		super.onPause();
 		Crouton.cancelAllCroutons();
-		if (jinglesAnimation != null) jinglesAnimation.stop();
+		stopJingles();
 	}
 	
 	

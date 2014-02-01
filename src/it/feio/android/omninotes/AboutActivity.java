@@ -22,11 +22,9 @@ public class AboutActivity extends BaseActivity {
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		WebView webview = new WebView(this);
-		setContentView(webview);
-
-		setContentView(webview);
+		setContentView(R.layout.activity_about);
+		
+		WebView webview = (WebView) findViewById(R.id.webview);
 		webview.loadUrl("file:///android_asset/html/about.html");
 
 		// Show the Up button in the action bar.
@@ -34,7 +32,7 @@ public class AboutActivity extends BaseActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 	}
-	
+
 	@Override
 	public boolean onNavigateUp() {
 		onBackPressed();

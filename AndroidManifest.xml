@@ -64,8 +64,7 @@
         <activity
             android:name="it.feio.android.omninotes.ListActivity"
             android:label="@string/title_activity_list"
-            android:launchMode="singleTop" 
-            android:theme="@style/TranslucentTheme">
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -152,6 +151,7 @@
         <activity
             android:name="it.feio.android.omninotes.SettingsActivity"
             android:label="@string/settings"
+            android:theme="@style/Theme.AppCompat.Light"
             android:parentActivityName=".ListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

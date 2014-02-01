@@ -64,7 +64,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@color/navigation_bg"
-            android:orientation="vertical" >
+            android:orientation="vertical" 
+            android:paddingBottom="30dp">
 
             <ListView
                 android:id="@+id/drawer_nav_list"

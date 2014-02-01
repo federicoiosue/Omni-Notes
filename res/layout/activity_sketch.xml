@@ -1,69 +1,78 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawing_question"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:orientation="vertical" >
-
-    <it.feio.android.omninotes.models.SketchView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/drawing"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
-    </it.feio.android.omninotes.models.SketchView>
+    android:fitsSystemWindows="true" >
 
     <LinearLayout
-        android:id="@+id/eraserView"
+        android:id="@+id/drawing_question"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/gray_bg"
-        android:orientation="horizontal"
-        android:padding="4dp" >
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/sketch_stroke"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:contentDescription="@string/stroke"
-            android:src="@drawable/ic_action_edit" />
+        <it.feio.android.omninotes.models.SketchView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/drawing"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+        </it.feio.android.omninotes.models.SketchView>
 
-        <ImageView
-            android:id="@+id/sketch_undo"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@null"
-            android:contentDescription="@string/undo"
-            android:src="@drawable/ic_action_undo" />
+        <LinearLayout
+            android:id="@+id/eraserView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/gray_bg"
+            android:orientation="horizontal"
+            android:padding="4dp" >
 
-        <ImageView
-            android:id="@+id/sketch_redo"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:alpha="0.4"
-            android:contentDescription="@string/redo"
-            android:src="@drawable/ic_action_ic_redo" />
+            <ImageView
+                android:id="@+id/sketch_stroke"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/stroke"
+                android:src="@drawable/ic_action_edit" />
 
-        <ImageView
-            android:id="@+id/sketch_erase"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:contentDescription="@string/colors"
-            android:src="@drawable/ic_action_discard" />
+            <ImageView
+                android:id="@+id/sketch_undo"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:contentDescription="@string/undo"
+                android:src="@drawable/ic_action_undo" />
+
+            <ImageView
+                android:id="@+id/sketch_redo"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:alpha="0.4"
+                android:contentDescription="@string/redo"
+                android:src="@drawable/ic_action_ic_redo" />
+
+            <ImageView
+                android:id="@+id/sketch_erase"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/colors"
+                android:src="@drawable/ic_action_discard" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>
