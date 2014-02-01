@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+import com.neopixl.pixlui.components.textview.TextView;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.models.Attachment;
@@ -50,6 +51,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -64,6 +66,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.EditorInfo;
@@ -72,6 +75,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ListActivity extends BaseActivity {
 
@@ -91,6 +95,8 @@ public class ListActivity extends BaseActivity {
 	private Tag candidateSelectedTag;
 	private SearchView searchView;
 	public MenuItem searchMenuItem;
+	private TextView empyListItem;
+	private AnimationDrawable jinglesAnimation; 
 
 
 	@Override
@@ -103,6 +109,9 @@ public class ListActivity extends BaseActivity {
 		if ((Intent.ACTION_SEND.equals(intent.getAction()) || Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction())) && intent.getType() != null) {
 			handleFilter(intent);
 		}
+		
+		// Easter egg initialization
+		initEasterEgg();
 
 		// Listview initialization
 		initListView();
@@ -137,6 +146,34 @@ public class ListActivity extends BaseActivity {
 	
 	
 	
+	/**
+	 * Starts a little animation on Mr.Jingles!
+	 */
+	private void initEasterEgg() {
+		empyListItem = (TextView) findViewById(R.id.empty_list);
+		empyListItem.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {			
+				if (jinglesAnimation == null) {
+					jinglesAnimation = (AnimationDrawable) empyListItem.getCompoundDrawables()[1];
+					empyListItem.post(new Runnable() {
+					    public void run() {
+					        if ( jinglesAnimation != null ) jinglesAnimation.start();
+					      }
+					});
+				} else {
+					jinglesAnimation.stop();
+					jinglesAnimation = null;
+					empyListItem.setCompoundDrawablesWithIntrinsicBounds(0, R.animator.jingles_animation, 0, 0);
+				}
+			}
+		});
+	}
+
+
+
+
 	@Override
 	protected void onPause() {
 		super.onPause();
