@@ -20,6 +20,13 @@
 <!--     	<changelogtext>[u]Fixed[/u] Tag color is no more reset to default color when saving it without changes</changelogtext> -->
 <!--  	</changelogversion> -->
 
+    <changelogversion versionName="4.2.0 Beta 7" changeDate="Feb 1, 2014">   
+      <changelogtext>[u]New![/u] Note editor screen margins changed to optimize screen usage and to perform more easily touch operations on "location" and "reminder" items</changelogtext>
+      <changelogtext>[u]New![/u] Spanish language support (thanks Sergio Iglesias)</changelogtext>
+      <changelogtext>[u]New![/u] Slovak language support (thanks Pyler)</changelogtext>
+      <changelogtext>Updated Russian language</changelogtext>
+ 	</changelogversion>
+
     <changelogversion versionName="4.2.0 Beta 6" changeDate="Feb 1, 2014">   
       <changelogtext>[u]New![/u] Beautiful info messages replaced to standard Android toasts popup</changelogtext>
       <changelogtext>[u]New![/u] When a problem occurs the application will not disturb you anymore and will automatically send the issue report if connection is available</changelogtext>
