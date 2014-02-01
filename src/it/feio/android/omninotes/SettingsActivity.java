@@ -330,31 +330,25 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		
 		// Languages 
-		ListPreference lang = (ListPreference)findPreference("settings_language");
-//		CharSequence[] entries = { "One", "Two", "Three" };
-//		CharSequence[] entryValues = { "1", "2", "3" };
-//		lang.setEntries(entries);
-//		lang.setEntryValues(entryValues);
-		
-		
-		lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object value) {
-				Locale locale = new Locale(value.toString());
-				Configuration config = getResources().getConfiguration();
-				
-				if (!config.locale.getCountry().equals(locale)) {
-					config.locale = locale;
-					getBaseContext().getResources().updateConfiguration(config,
-							getBaseContext().getResources().getDisplayMetrics());
-					PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_language", value.toString()).commit();
-					finish();
-					startActivity(new Intent(getApplicationContext(), ListActivity.class));
-				}
-				return false;
-			}
-		});
+//		ListPreference lang = (ListPreference)findPreference("settings_language");		
+//		lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+//			
+//			@Override
+//			public boolean onPreferenceChange(Preference preference, Object value) {
+//				Locale locale = new Locale(value.toString());
+//				Configuration config = getResources().getConfiguration();
+//				
+//				if (!config.locale.getCountry().equals(locale)) {
+//					config.locale = locale;
+//					getBaseContext().getResources().updateConfiguration(config,
+//							getBaseContext().getResources().getDisplayMetrics());
+//					PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_language", value.toString()).commit();
+//					finish();
+//					startActivity(new Intent(getApplicationContext(), ListActivity.class));
+//				}
+//				return false;
+//			}
+//		});
 
 	}
 	

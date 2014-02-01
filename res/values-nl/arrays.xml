@@ -20,11 +20,33 @@
         <item>"Herinneringen"</item>
     </string-array>
 
+
+
     <string-array name="sortable_columns_human_readable">
         <item>"Titel"</item>
         <item>"Aanmaakdatum"</item>
         <item>"Datum laatste wijziging"</item>
+        <item>"Herinneringsdatum"</item>
     </string-array>
 
+    <string-array name="checked_items_behavior">
+        <item>"Wacht op positie"</item>
+        <item>"Verplaats naar het einde van alle items"</item>
+        <item>"Verplaats na ongecontroleerd maar op de top van ongecontroleerde"</item>
+    </string-array>
+        
+        
+    <string-array name="languages">
+        <item>"Nederlands"</item>
+        <item>"Engels"</item>
+        <item>"Italiaans"</item>
+        <item>"Duits"</item>
+        <item>"Braziliaans Portugees"</item>
+        <item>"Russisch"</item>
+        <item>"Slowaaks"</item>
+        <item>"Turks"</item>
+    </string-array>
+        
+    
 
 </resources>

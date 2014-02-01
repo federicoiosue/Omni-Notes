@@ -40,29 +40,29 @@ public class OmniNotes extends Application {
 		ACRA.getErrorReporter().setReportSender(new ACRAPostSender(ACRAData));
 
 		// Checks selected locale or default one
-//		checkLocale(getResources().getConfiguration());
+		checkLocale(getResources().getConfiguration());
 
 		super.onCreate();
 	}
 	
 	
-//	@Override
-//	// Used to restore user selected locale when configuration changes
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//		checkLocale(newConfig);
-//    }
-//
-//	/**
-//	 * Set custom locale on application start
-//	 */
-//	protected void checkLocale(Configuration config) {
-//		Locale targetLocale = new Locale(prefs.getString("settings_language", Locale.getDefault().getCountry()));
+	@Override
+	// Used to restore user selected locale when configuration changes
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+		checkLocale(newConfig);
+    }
+
+	/**
+	 * Set custom locale on application start
+	 */
+	protected void checkLocale(Configuration config) {
+		Locale targetLocale = new Locale(prefs.getString("settings_language", Locale.getDefault().getCountry()));
 //		if (targetLocale.getLanguage() != config.locale.getLanguage()) {
 //			config.locale = targetLocale;
 //	
 //	        Locale.setDefault(config.locale);
 //	        getBaseContext().getResources().updateConfiguration(config, getResources().getDisplayMetrics());
 //		}
-//	}
+	}
 }

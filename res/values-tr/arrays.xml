@@ -20,11 +20,33 @@
         <item>"Hatırlatmalar"</item>
     </string-array>
 
+
+
     <string-array name="sortable_columns_human_readable">
         <item>"Başlık"</item>
         <item>"Oluşturma tarihi"</item>
         <item>"Son değiştirme tarihi"</item>
+        <item>"Hatırlatma tarihi"</item>
     </string-array>
 
+    <string-array name="checked_items_behavior">
+        <item>"Yerinde kalsın"</item>
+        <item>"En sona taşı"</item>
+        <item>"Onaylanmışların üstüne, onaylanmamışların altına taşı"</item>
+    </string-array>
+        
+        
+    <string-array name="languages">
+        <item>"Hollandaca"</item>
+        <item>"İngilizce"</item>
+        <item>"İtalyanca"</item>
+        <item>"Almanca"</item>
+        <item>"Portekizce (Brezilya)"</item>
+        <item>"Rusça"</item>
+        <item>"Slovakça"</item>
+        <item>"Türkçe"</item>
+    </string-array>
+        
+    
 
 </resources>
