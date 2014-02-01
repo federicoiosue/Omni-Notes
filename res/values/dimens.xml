@@ -22,6 +22,8 @@
     <dimen name="horizontal_margin">16dp</dimen>
     <dimen name="vertical_margin">16dp</dimen>
     
+    <dimen name="padding_half">8dp</dimen>
+    
     <dimen name="icon_text_margin">12dp</dimen>    
 
     <dimen name="navigation_drawer_width">230dp</dimen>

@@ -199,6 +199,7 @@
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
+    <string name="reminder">reminder</string>
     <string name="stroke_size">stroke size</string>
 
 </resources>
