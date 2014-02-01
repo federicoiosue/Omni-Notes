@@ -20,11 +20,33 @@
         <item>"Напоминания"</item>
     </string-array>
 
+
+
     <string-array name="sortable_columns_human_readable">
-        <item>"Заголовок"</item>
-        <item>"Дата создания"</item>
-        <item>"Изменено"</item>
+        <item>"Заголовкам"</item>
+        <item>"Дате создания"</item>
+        <item>"Последним исправлениям"</item>
+        <item>"Времени напоминаний"</item>
     </string-array>
 
+    <string-array name="checked_items_behavior">
+        <item>"Оставлять на месте"</item>
+        <item>"Перемещать в конец списка"</item>
+        <item>"Перемещать выше других выбранных элементов"</item>
+    </string-array>
+        
+        
+    <string-array name="languages">
+        <item>"Голландский"</item>
+        <item>"Английский"</item>
+        <item>"Итальянский"</item>
+        <item>"Немецкий"</item>
+        <item>"Португальский (Бразильский)"</item>
+        <item>"Русский"</item>
+        <item>"Словацкий"</item>
+        <item>"Турецкий"</item>
+    </string-array>
+        
+    
 
 </resources>
