@@ -801,7 +801,7 @@ public class ListActivity extends BaseActivity {
 						
 						// Advice to user
 //						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
-						Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.INFO).show();
+						Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
 						mActionMode.finish(); // Action picked, so close the CAB
 					}
 				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

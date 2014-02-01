@@ -129,7 +129,7 @@ public class TagActivity extends Activity {
 	private void saveTag() {
 		tag.setName(title.getText().toString());
 		tag.setDescription(description.getText().toString());
-		if (colorChanged)
+		if (colorChanged || tag.getColor() == null)
 			tag.setColor(String.valueOf(picker.getColor()));
 		DbHelper db = new DbHelper(this);
 		db.updateTag(tag);

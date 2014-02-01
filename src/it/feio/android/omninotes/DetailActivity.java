@@ -1050,7 +1050,7 @@ public class DetailActivity extends BaseActivity {
 						// Informs the user about update
 						Log.d(Constants.TAG, "Deleted note with id '" + note.get_id() + "'");
 //						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
-						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_OK);
+						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_CANCELED);
 						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_deleted));
 						
 						goHome();

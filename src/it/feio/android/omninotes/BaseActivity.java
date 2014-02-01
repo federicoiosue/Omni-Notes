@@ -21,15 +21,12 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;
 
 import java.lang.reflect.Field;
-import java.util.Locale;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
