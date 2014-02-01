@@ -13,70 +13,76 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    android:id="@+id/drawer_layout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_bg" >
+    android:clipToPadding="true"
+    android:paddingTop="70dp"
+    android:fitsSystemWindows="false" >
 
-    <ListView
-        android:id="@+id/notesList"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:scrollbarStyle="outsideOverlay" >
-    </ListView>
-    
-    
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-    
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/empty_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawablePadding="10dp"
-        android:drawableTop="@animator/jingles_animation"
-        android:gravity="center"
-        android:text="@string/no_items_in_list"
-        android:textColor="@color/list_note_dates"
-        android:textSize="20sp"
-        android:visibility="gone"
-        pixlui:typeface="Roboto-Regular.ttf" />
-    
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/left_drawer"
-        android:layout_width="@dimen/navigation_drawer_width"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/navigation_bg"
-        android:orientation="vertical" >
+        android:background="@color/gray_bg" >
 
         <ListView
-            android:id="@+id/drawer_nav_list"
-            android:layout_width="@dimen/navigation_drawer_width"
-            android:layout_height="wrap_content"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp" />
+            android:id="@+id/notesList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:scrollbarStyle="outsideOverlay" >
+        </ListView>
 
-        <ListView
-            android:id="@+id/drawer_tag_list"
-            android:layout_width="@dimen/navigation_drawer_width"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
 
-</android.support.v4.widget.DrawerLayout>
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/empty_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:drawableTop="@animator/jingles_animation"
+                android:gravity="center"
+                android:text="@string/no_items_in_list"
+                android:textColor="@color/list_note_dates"
+                android:textSize="20sp"
+                android:visibility="gone"
+                pixlui:typeface="Roboto-Regular.ttf" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/left_drawer"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/navigation_bg"
+            android:orientation="vertical" >
+
+            <ListView
+                android:id="@+id/drawer_nav_list"
+                android:layout_width="@dimen/navigation_drawer_width"
+                android:layout_height="wrap_content"
+                android:choiceMode="singleChoice"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dp" />
+
+            <ListView
+                android:id="@+id/drawer_tag_list"
+                android:layout_width="@dimen/navigation_drawer_width"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:choiceMode="singleChoice"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dp" />
+        </LinearLayout>
+    </android.support.v4.widget.DrawerLayout>
+
+</FrameLayout>

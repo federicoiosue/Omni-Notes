@@ -178,6 +178,7 @@ public class ListActivity extends BaseActivity {
 	protected void onPause() {
 		super.onPause();
 		Crouton.cancelAllCroutons();
+		if (jinglesAnimation != null) jinglesAnimation.stop();
 	}
 	
 	

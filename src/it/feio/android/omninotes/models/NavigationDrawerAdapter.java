@@ -109,7 +109,6 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		Object itemSelected = mTitle[position];
 		String title= itemSelected.toString();			
 		
-		Log.v(Constants.TAG, "navigationLocalized: " + navigationLocalized + ", title: " + title);
 		if (navigationLocalized.equals(title)) {
 			return true;
 		} else {
