@@ -152,7 +152,7 @@
     <string name="settings_backup">"Backup"</string>
     <string name="settings_password">"Password"</string>
     <string name="settings_password_instructions">"La password di sicurezza viene utilizzata per assicurare che le note protette non possano essere visualizzate senza autorizzazione.
-\n\n\Ogni volta che si proverà a modificare questa password verrà richiesta la precedente.
+\n\nOgni volta che si proverà a modificare questa password verrà richiesta la precedente.
 \n\nImpostare una password vuota per rimuoverla."</string>
     <string name="settings_password_not_matching">"Password non corrispondenti"</string>
     <string name="insert_new_password">"Inserire una nuova password"</string>
