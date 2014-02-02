@@ -17,8 +17,6 @@
 <resources>
 
     <string name="app_name">Omni Notes</string>
-    <string name="admob_id">ca-app-pub-6447226512493573/7510385645</string>
-    <string name="admob_id_test">TEST_EMULATOR, 9463A9DD59201409D6D43336C02E7FA0</string>
     <string name="logo">Logo</string>
     <string name="copyleft">Copyleft Feio 2014</string>
     <string name="dev_site">http://www.iosue.it/federico</string>
@@ -192,6 +190,7 @@
     <string name="settings_beta_summary">Sign up the community to get all lastest preview features</string>
     <string name="donate">Donate</string>
     <string name="settings_choose_language">Language</string>
+    <string name="settings_notification_ringtone">Choose ringtone</string>
     
     <!-- Info -->
     <string name="follow_author">Who is the developer?</string>

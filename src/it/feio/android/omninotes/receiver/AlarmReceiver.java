@@ -19,7 +19,6 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
-
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -27,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -89,8 +89,13 @@ public class AlarmReceiver extends BroadcastReceiver {
 				.setAutoCancel(true);
 		
 		// Impostazione suoneria
-		if (prefs.getBoolean("settings_notification_sound", true))
-			mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+		if (prefs.getBoolean("settings_notification_sound", true)) {
+			Uri ringtone = Uri.parse(prefs.getString(
+					"settings_notification_ringtone", RingtoneManager
+							.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+							.toString()));
+			mBuilder.setSound(ringtone);
+		}
 		
 		// Impostazione vibrazione
 		long[] pattern = {500,500};		

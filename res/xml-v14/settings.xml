@@ -125,16 +125,19 @@
 	            android:defaultValue="true"
 			    android:switchTextOn="On"
 			    android:switchTextOff="Off"
-	            android:key="settings_enable_sound"
-	            android:title="@string/settings_enable_sound" >
-	        </SwitchPreference>
+	            android:key="settings_enable_vibration"
+	            android:title="@string/settings_enable_vibration" />
 	        <SwitchPreference
 	            android:defaultValue="true"
 			    android:switchTextOn="On"
 			    android:switchTextOff="Off"
-	            android:key="settings_enable_vibration"
-	            android:title="@string/settings_enable_vibration" >
-	        </SwitchPreference>
+	            android:key="settings_enable_sound"
+	            android:title="@string/settings_enable_sound" />
+		    <RingtonePreference 
+		        android:key="settings_notification_ringtone"
+		        android:title="@string/settings_notification_ringtone" 
+		        android:dependency="settings_enable_sound"
+		        android:ringtoneType="notification"/>
 	    </PreferenceScreen>
     
     </PreferenceCategory>
