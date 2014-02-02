@@ -21,7 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true"
-    android:paddingTop="70dp"
+    android:paddingTop="@dimen/padding_top_kitkat"
     android:fitsSystemWindows="false" >
 
     <WebView android:id="@+id/webview"
