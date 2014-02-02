@@ -45,11 +45,7 @@ public class PasswordActivity extends BaseActivity {
 						requestPassword(new PasswordValidator() {							
 							@Override
 							public void onPasswordValidated(boolean result) {
-								if (result) {
-									updatePassword(password.getText().toString());
-								} else {
-									showToast(getString(R.string.wrong_password), Toast.LENGTH_SHORT);									
-								}
+								updatePassword(password.getText().toString());
 								
 							}
 						});
@@ -79,9 +75,9 @@ public class PasswordActivity extends BaseActivity {
 											.remove(Constants.PREF_PASSWORD)
 											.commit();
 									db.unlockAllNotes();
-									showToast(
-											getString(R.string.password_successfully_removed),
-											Toast.LENGTH_SHORT);
+//									showToast(
+//											getString(R.string.password_successfully_removed),
+//											Toast.LENGTH_SHORT);
 									onBackPressed();
 								}
 							})
@@ -98,10 +94,20 @@ public class PasswordActivity extends BaseActivity {
 			alertDialog.show();
 		} else {			
 			prefs.edit().putString(Constants.PREF_PASSWORD, Security.md5(password)).commit();
-			showToast(getString(R.string.password_successfully_changed),
-					Toast.LENGTH_SHORT);
+//			showToast(getString(R.string.password_successfully_changed),
+//					Toast.LENGTH_SHORT);
 			onBackPressed();
 		}
+	}
+
+	
+	
+	
+	@Override
+	public void onBackPressed() {		
+//		super.onBackPressed();
+		setResult(RESULT_OK);
+		finish();
 	}
 
 }

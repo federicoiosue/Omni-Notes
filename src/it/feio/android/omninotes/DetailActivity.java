@@ -150,13 +150,16 @@ OnTimeSetListener {
 	
 	private Tag candidateSelectedTag;
 	private Tag selectedTag;
-	private Boolean lock = false;
 	private Bitmap recordingBitmap;
 
 	// Toggle checklist view
 	View toggleChecklistView;
 	boolean isChecklistOn = false;
 	private ChecklistManager mChecklistManager;
+	
+	// Lock
+	private Boolean lock = false;
+	private boolean passwordInserted = false;
 	
 	// Result intent
 	Intent resultIntent;
@@ -221,6 +224,7 @@ OnTimeSetListener {
 			requestPassword(new PasswordValidator() {					
 				@Override
 				public void onPasswordValidated(boolean result) {
+					passwordInserted = true;
 					init(true);
 				}
 			});
@@ -1079,7 +1083,8 @@ OnTimeSetListener {
 				}
 				break;
 			case SET_PASSWORD:
-				lockNote();
+				passwordInserted = true;
+				lockUnlock();
 				break;
 			case SKETCH:
 				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
@@ -1335,6 +1340,13 @@ OnTimeSetListener {
 		if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
 			Intent passwordIntent = new Intent(this, PasswordActivity.class);
 			startActivityForResult(passwordIntent, SET_PASSWORD);
+			return;
+		}
+		
+		// If password has already been inserted will not be asked again
+		if (passwordInserted) {
+			lockUnlock();
+			return;
 		}
 		
 		// Password sill be requested here
@@ -1343,20 +1355,23 @@ OnTimeSetListener {
 			public void onPasswordValidated(boolean result) {
 				// Wrong password
 				if (result) {
-					if (lock) {
-						lock = false;
-//						showToast(getString(R.string.save_note_to_unlock_it), Toast.LENGTH_SHORT);
-						Crouton.makeText(mActivity, R.string.save_note_to_unlock_it, ONStyle.INFO).show();
-						supportInvalidateOptionsMenu();
-					} else {
-						lock = true;
-//						showToast(getString(R.string.save_note_to_lock_it), Toast.LENGTH_SHORT);
-						Crouton.makeText(mActivity, R.string.save_note_to_lock_it, ONStyle.INFO).show();
-						supportInvalidateOptionsMenu();
-					}
+					lockUnlock();
 				}
 			}
 		});
+	}
+	
+	
+	private void lockUnlock(){
+		if (lock) {
+			lock = false;
+			Crouton.makeText(mActivity, R.string.save_note_to_unlock_it, ONStyle.INFO).show();
+			supportInvalidateOptionsMenu();
+		} else {
+			lock = true;
+			Crouton.makeText(mActivity, R.string.save_note_to_lock_it, ONStyle.INFO).show();
+			supportInvalidateOptionsMenu();
+		}
 	}
 	
 	
