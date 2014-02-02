@@ -188,6 +188,12 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			result = true;
 		}
 		
+		// And then compared again to check if we're out of Beta
+		else if (  Integer.parseInt(playStoreVersionString) == Integer.parseInt(installedVersionString) 
+					&& playStoreVersion.split("b").length == 1 && installedVersion.split("b").length == 2) {
+			result = true;
+		}
+		
 		return result;
 
 	}
