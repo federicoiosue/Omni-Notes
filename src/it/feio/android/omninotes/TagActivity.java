@@ -133,7 +133,10 @@ public class TagActivity extends Activity {
 			tag.setColor(String.valueOf(picker.getColor()));
 		DbHelper db = new DbHelper(this);
 		db.updateTag(tag);
-		goHome();
+		
+		// Sets result to show proper message
+		setResult(RESULT_OK);
+		finish();
 	}
 
 	private void deleteTag() {
@@ -163,8 +166,10 @@ public class TagActivity extends Activity {
 						// Removes tag and edit notes associated with it
 						DbHelper db = new DbHelper(mActivity);
 						db.deleteTag(tag);
-						// Navigate back to notes list
-						goHome();
+						
+						// Sets result to show proper message
+						setResult(RESULT_CANCELED);
+						finish();
 					}
 				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 
@@ -177,8 +182,10 @@ public class TagActivity extends Activity {
 		dialog.show();
 	}
 
-	private void discard() {
-		onBackPressed();
+	private void discard() {		
+		// Sets result to show proper message
+		setResult(RESULT_FIRST_USER);
+		finish();
 	}
 	
 

@@ -78,7 +78,9 @@ import android.widget.ListView;
 
 public class ListActivity extends BaseActivity {
 
-	private static final int REQUEST_CODE_DETAIL = 1;
+	private static final int REQUEST_CODE_DETAIL = 1;	
+	private static final int REQUEST_CODE_TAG = 2;
+	
 	private CharSequence mTitle;
 	String[] mNavigationArray;
 	TypedArray mNavigationIconsArray;
@@ -678,41 +680,78 @@ public class ListActivity extends BaseActivity {
 	
 	@Override
 	// Used to show a Crouton dialog after saved (or tried to) a note
-	protected void onActivityResult(int requestCode, final int resultCode, Intent intent) {
+	protected void onActivityResult(int requestCode, final int resultCode,
+			Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
-		String intentMsg = intent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
-		// If no message is returned nothing will be shown
-		if (intentMsg != null && intentMsg.length() > 0) {
-			final String message = intentMsg!= null ? intent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE) : "";
-			switch (requestCode) {		
-				case REQUEST_CODE_DETAIL:
-					// Dialog retarded to give time to activity's views of being completely initialized
+
+		switch (requestCode) {
+		case REQUEST_CODE_DETAIL:
+			if (intent != null) {
+
+				String intentMsg = intent
+						.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
+				// If no message is returned nothing will be shown
+				if (intentMsg != null && intentMsg.length() > 0) {
+					final String message = intentMsg != null ? intent
+							.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE)
+							: "";
+					// Dialog retarded to give time to activity's views of being
+					// completely initialized
 					new Handler().postDelayed(new Runnable() {
 						@Override
 						public void run() {
-							// The dialog style is choosen depending on result code
+							// The dialog style is choosen depending on result
+							// code
 							switch (resultCode) {
-								case Activity.RESULT_OK:
-									Crouton.makeText(mActivity, message, ONStyle.CONFIRM).show();				
-									break;
-								case Activity.RESULT_FIRST_USER:
-									Crouton.makeText(mActivity, message, ONStyle.INFO).show();
-									break;
-								case Activity.RESULT_CANCELED:
-									Crouton.makeText(mActivity, message, ONStyle.ALERT).show();				
-									break;
-			
-								default:
-									break;
+							case Activity.RESULT_OK:
+								Crouton.makeText(mActivity, message,
+										ONStyle.CONFIRM).show();
+								break;
+							case Activity.RESULT_FIRST_USER:
+								Crouton.makeText(mActivity, message,
+										ONStyle.INFO).show();
+								break;
+							case Activity.RESULT_CANCELED:
+								Crouton.makeText(mActivity, message,
+										ONStyle.ALERT).show();
+								break;
+
+							default:
+								break;
 							}
 						}
 					}, 800);
-					
-					break;
-		
-				default:
-					break;
+				}
 			}
+			break;
+
+		case REQUEST_CODE_TAG:
+			// Dialog retarded to give time to activity's views of being
+			// completely initialized
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					// The dialog style is choosen depending on result code
+					switch (resultCode) {
+					case Activity.RESULT_OK:
+						Crouton.makeText(mActivity, R.string.tag_saved,
+								ONStyle.CONFIRM).show();
+						break;
+					case Activity.RESULT_CANCELED:
+						Crouton.makeText(mActivity, R.string.tag_deleted,
+								ONStyle.ALERT).show();
+						break;
+
+					default:
+						break;
+					}
+				}
+			}, 800);
+
+			break;
+
+		default:
+			break;
 		}
 	}
 
@@ -921,10 +960,7 @@ public class ListActivity extends BaseActivity {
 	private void editTag(Tag tag){
 		Intent tagIntent = new Intent(this, TagActivity.class);
 		tagIntent.putExtra(Constants.INTENT_TAG, tag);
-		startActivity(tagIntent);
-//		if (prefs.getBoolean("settings_enable_animations", true)) {
-//			overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
-//		}
+		startActivityForResult(tagIntent, REQUEST_CODE_TAG);
 	}
 	
 	

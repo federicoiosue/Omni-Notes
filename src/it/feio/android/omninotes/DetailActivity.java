@@ -1093,7 +1093,8 @@ OnTimeSetListener {
 				mGridView.autoresize();
 				break;
 			case TAG:
-//				tagNote();
+				Crouton.makeText(mActivity, R.string.tag_saved,
+						ONStyle.CONFIRM).show();
 				selectedTag = db.getTags().get(0);
 				setTagMarkerColor(selectedTag);
 				break;
