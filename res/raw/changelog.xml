@@ -22,6 +22,8 @@
 
     <changelogversion versionName="4.2.0 Beta 8" changeDate="Feb 3, 2014">   
       <changelogtext>[u]New![/u] More elegant password setting screen. Now, if trying to lock a note without having inserted a security password before, you'll be prompted for it just once.</changelogtext>
+      <changelogtext>[u]New![/u] Notification ringtone customizable from settings</changelogtext>
+      <changelogtext>Tags are now ordered by name, when name is left blank the tag will stay on tail</changelogtext>
       <changelogtext>Updated Turkish translation</changelogtext>
  	</changelogversion>
 

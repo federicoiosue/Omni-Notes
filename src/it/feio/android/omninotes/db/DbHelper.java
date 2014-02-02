@@ -500,7 +500,8 @@ public class DbHelper extends SQLiteOpenHelper {
 						+ KEY_TAG_NAME + ","
 						+ KEY_TAG_DESCRIPTION  + ","
 						+ KEY_TAG_COLOR
-					+ " FROM " + TABLE_TAGS;
+					+ " FROM " + TABLE_TAGS
+					+ " ORDER BY IFNULL(NULLIF(" + KEY_TAG_NAME + ", ''),'zzzzzzzz') ";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.rawQuery(sql, null);
 
