@@ -22,6 +22,7 @@
 
     <changelogversion versionName="4.2.0 Beta 7" changeDate="Feb 1, 2014">   
       <changelogtext>[u]New![/u] Note editor screen margins changed to optimize screen usage and to perform more easily touch operations on "location" and "reminder" items</changelogtext>
+      <changelogtext>[u]New![/u] Reminder date and time picker support for smaller devices</changelogtext>
       <changelogtext>[u]New![/u] Spanish language support (thanks Sergio Iglesias)</changelogtext>
       <changelogtext>[u]New![/u] Slovak language support (thanks Pyler)</changelogtext>
       <changelogtext>[u]New![/u] Something is happened to Mr.Jingles...</changelogtext>
