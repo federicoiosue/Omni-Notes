@@ -29,6 +29,8 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DatePickerFragment;
+import it.feio.android.omninotes.utils.date.TimePickerFragment;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +43,8 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,6 +53,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -65,6 +70,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.util.Linkify;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,9 +86,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TimePicker;
+
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
@@ -101,7 +110,8 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  * This activity is mostly just a 'shell' activity containing nothing more than
  * a {@link ItemDetailFragment}.
  */
-public class DetailActivity extends BaseActivity {
+public class DetailActivity extends BaseActivity implements OnDateSetListener,
+OnTimeSetListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -111,14 +121,16 @@ public class DetailActivity extends BaseActivity {
 	private static final int SKETCH = 6;
 	private static final int TAG = 7;
 
-	private FragmentActivity mActivity;
+	private int FALLBACK_SCREEN_SIZE = 350;
 
+	private FragmentActivity mActivity;
 	private Note note;
 	private LinearLayout reminder_layout;
 	private TextView datetime;
 	private String alarmDate = "", alarmTime = "";
 	private String dateTimeText = "";
 	private long alarmDateTime = -1;
+	private boolean timePickerCalledAlready = false;
 	private Uri attachmentUri;
 	private AttachmentAdapter mAttachmentAdapter;
 	private ExpandableHeightGridView mGridView;
@@ -355,7 +367,14 @@ public class DetailActivity extends BaseActivity {
 		reminder_layout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showDateTimeSelectors();
+				
+				if (showFallbackDateTimePickers()) {
+					timePickerCalledAlready = false;
+					// Timepicker will be automatically called after date is inserted by user
+					showDatePickerDialog(v);					
+				} else {
+					showDateTimeSelectors();					
+				}
 			}
 		});
 		reminder_layout.setOnLongClickListener(new OnLongClickListener() {
@@ -397,6 +416,7 @@ public class DetailActivity extends BaseActivity {
 	}
 
 	
+	
 	/**
 	 * Colors tag marker in note title TextView
 	 */
@@ -410,6 +430,40 @@ public class DetailActivity extends BaseActivity {
 			}
 		}
 	}
+	
+	
+	
+	/**
+	 * Tests the screen dimensions to choose between the calendar datepicker or the native one
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	@SuppressLint("NewApi") 
+	private boolean showFallbackDateTimePickers(){
+		boolean res = false;
+		Display display = getWindowManager().getDefaultDisplay();
+
+		int width, height;
+		if (Build.VERSION.SDK_INT >= 13) {
+			Point size = new Point();
+			display.getSize(size);
+			width = size.x;
+			height = size.y;
+		} else {			
+			width = display.getWidth();  // deprecated
+			height = display.getHeight();  // deprecated
+		}
+		
+		// If available space in screen is less than 400px is reasonable that 
+		// fallback date picker must be used
+		if (height < FALLBACK_SCREEN_SIZE ) {
+			res = true;
+		}
+		
+		return res;
+	}
+	
+	
 
 	/**
 	 * Show date and time pickers
@@ -420,9 +474,8 @@ public class DetailActivity extends BaseActivity {
 		Calendar cal = Calendar.getInstance();
 		if (note.getAlarm() != null)
 			cal.setTimeInMillis(Long.parseLong(note.getAlarm()));
-		final Calendar now = cal;
-				
-		CalendarDatePickerDialog mCalendarDatePickerDialog = CalendarDatePickerDialog.newInstance(
+		final Calendar now = cal; 
+	CalendarDatePickerDialog mCalendarDatePickerDialog = CalendarDatePickerDialog.newInstance(
 				new CalendarDatePickerDialog.OnDateSetListener() {
 
 					@Override
@@ -462,8 +515,49 @@ public class DetailActivity extends BaseActivity {
 
 				}, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
 		mCalendarDatePickerDialog.show(getSupportFragmentManager(), Constants.TAG);
-
 	}
+
+
+	
+	/**
+	 * Shows fallback date and time pickers for smaller screens 
+	 * 
+	 * @param v
+	 */
+
+	public void showDatePickerDialog(View v) {
+		DatePickerFragment newFragment = new DatePickerFragment();
+		newFragment.show(getSupportFragmentManager(), "datePicker");
+	}
+	
+	private void showTimePickerDialog(View v) {
+		TimePickerFragment newFragment = new TimePickerFragment();
+		newFragment.show(getSupportFragmentManager(), Constants.TAG);
+	}
+
+	@Override
+	public void onDateSet(DatePicker v, int year, int month, int day) {
+		alarmDate = DateHelper.onDateSet(year, month, day, Constants.DATE_FORMAT_SHORT_DATE);
+		if (!timePickerCalledAlready) {	// Used to avoid native bug that calls onPositiveButtonPressed in the onClose()
+			timePickerCalledAlready = true;
+			showTimePickerDialog(v);
+		}
+	}
+
+	@Override
+	public void onTimeSet(TimePicker v, int hour, int minute) {
+
+		// Creation of string rapresenting alarm time
+		alarmTime = DateHelper.onTimeSet(hour, minute, time_format);
+		datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate
+				+ " " + getString(R.string.at_time) + " " + alarmTime);
+
+		// Setting alarm time in milliseconds
+		alarmDateTime = DateHelper.getLongFromDateTime(alarmDate, Constants.DATE_FORMAT_SHORT_DATE,
+				alarmTime, time_format).getTimeInMillis();
+	}
+	
+	
 
 	private void initNote() {
 
@@ -1264,47 +1358,8 @@ public class DetailActivity extends BaseActivity {
 			}
 		});
 	}
-
-	// public void showDatePickerDialog(View v) {
-	// DatePickerFragment newFragment = new DatePickerFragment();
-	// newFragment.show(getSupportFragmentManager(), "datePicker");
-	// }
-	//
-	// /**
-	// * Shows time picker to set alarm
-	// *
-	// * @param v
-	// */
-	// private void showTimePickerDialog(View v) {
-	// TimePickerFragment newFragment = new TimePickerFragment();
-	// newFragment.show(getSupportFragmentManager(), Constants.TAG);
-	// }
-	//
-	//
-	// @Override
-	// public void onDateSet(DatePicker v, int year, int month, int day) {
-	// alarmDate = DateHelper.onDateSet(year, month, day,
-	// time_format);
-	// showTimePickerDialog(v);
-	// }
-	//
-	// @Override
-	// public void onTimeSet(TimePicker v, int hour, int minute) {
-	//
-	// // Creation of string rapresenting alarm time
-	// alarmTime = DateHelper.onTimeSet(hour, minute,
-	// time_format);
-	// datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate
-	// + " " + getString(R.string.at_time) + " " + alarmTime);
-	//
-	// // Setting alarm time in milliseconds
-	// alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
-	// time_format, alarmTime,
-	// time_format).getTimeInMillis();
-	//
-	// // Shows icon to remove alarm
-	// reminder_delete.setVisibility(View.VISIBLE);
-	// }
+	
+	
 
 	/**
 	 * Used to set actual alarm state when initializing a note to be edited
