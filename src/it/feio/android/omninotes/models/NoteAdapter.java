@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,13 +104,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
 		
 		// Color of tag marker if note is tagged a function is active in preferences
-		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-				"settings_enable_tag_marker", true)){
-			if (note.getTag() != null && note.getTag().getColor() != null) {
-				View tagMarker = rowView.findViewById(R.id.tag_marker);
-				tagMarker.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
-			}
-		}
+		colorNote(note, rowView);
 		
 		// Choosing which date must be shown depending on sorting criteria
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -143,7 +138,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			v.setBackgroundColor(context.getResources().getColor(
 					R.color.list_bg_selected));
 		} else {
-			restoreDrawable(v);
+			restoreDrawable(note, v);
 		}
 		
 		return rowView;
@@ -167,11 +162,43 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	
 
 	
-	public void restoreDrawable(View v) {
+	public void restoreDrawable(Note note, View v) {
 		final int paddingBottom = v.getPaddingBottom(), paddingLeft = v.getPaddingLeft();
 	    final int paddingRight = v.getPaddingRight(), paddingTop = v.getPaddingTop();
-		v.setBackgroundResource(R.drawable.bg_card);
 	    v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+//		v.setBackgroundResource(R.drawable.bg_card);
+	    colorNote(note, v);
+	}
+	
+
+
+	/**
+	 * Color of tag marker if note is tagged a function is active in preferences
+	 * @param note
+	 * @param rowView
+	 */
+	private void colorNote(Note note, View v) {
+		
+		// Checking preference
+		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+				"settings_enable_tag_marker", true)){
+			
+			// Choosing target view depending on another preference
+			View tagMarker;
+			if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+					"settings_enable_tag_marker_full", false)){
+				tagMarker = v.findViewById(R.id.card_layout);
+			} else {
+				tagMarker = v.findViewById(R.id.tag_marker);
+			}
+			
+			// Coloring the target
+			if (note.getTag() != null && note.getTag().getColor() != null) {
+				tagMarker.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+			} else {
+				tagMarker.setBackgroundColor(Color.parseColor("#00000000"));
+			}
+		}
 	}
 
 

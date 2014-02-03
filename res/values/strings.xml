@@ -196,6 +196,9 @@
     <string name="settings_notification_ringtone">Ringtone</string>
     <string name="settings_enable_tag_marker_full">Full color</string>
     <string name="settings_enable_tag_marker_full_summary">Colors totaly the notes, even into detail screen</string>
+    <string name="colors">Colors</string>
+    <string name="settings_enable_tag_marker_full_list_only">Colors totaly the notes, even into detail screen</string>
+    <string name="settings_enable_tag_marker_full_list_only_summary">Colors totaly the notes, even into detail screen</string>
     
     
     <!-- Info -->

@@ -65,6 +65,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.text.util.Linkify;
@@ -425,12 +426,37 @@ OnTimeSetListener {
 	 * Colors tag marker in note title TextView
 	 */
 	private void setTagMarkerColor(Tag tag) {
+//		if (prefs.getBoolean("settings_enable_tag_marker", true)){
+//			View tagMarker = findViewById(R.id.tag_marker);
+//			if (tag != null && tag.getColor() != null) {
+//				tagMarker.setBackgroundColor(Integer.parseInt(tag.getColor()));
+//			} else if (tag == null) {
+//				tagMarker.setBackgroundColor(Color.parseColor(getString(R.color.transparent)));				
+//			}
+//		}
+		
+		// Checking preference
 		if (prefs.getBoolean("settings_enable_tag_marker", true)){
-			View tagMarker = findViewById(R.id.tag_marker);
+			
+			// Choosing target view depending on another preference
+			ArrayList<View> target = new ArrayList<View>();
+			if (prefs.getBoolean("settings_enable_tag_marker_full", false)
+				&& !prefs.getBoolean("settings_enable_tag_marker_full_list_only", true) ){
+				target.add(findViewById(R.id.title_wrapper));
+				target.add(findViewById(R.id.content_wrapper));
+			} else {
+				target.add(findViewById(R.id.tag_marker));
+			}
+			
+			// Coloring the target
 			if (tag != null && tag.getColor() != null) {
-				tagMarker.setBackgroundColor(Integer.parseInt(tag.getColor()));
-			} else if (tag == null) {
-				tagMarker.setBackgroundColor(Color.parseColor(getString(R.color.transparent)));				
+				for (View view : target) {
+					view.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+				}				
+			} else {
+				for (View view : target) {
+					view.setBackgroundColor(Color.parseColor("#00000000"));
+				}	
 			}
 		}
 	}

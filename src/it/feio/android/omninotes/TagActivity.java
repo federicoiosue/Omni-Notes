@@ -33,6 +33,9 @@ import com.larswerkman.holocolorpicker.ValueBar;
 
 public class TagActivity extends Activity {
 
+	private final float SATURATION = 0.5f;
+	private final float VALUE = 0.9f;
+
 	Tag tag;
 	EditText title;
 	EditText description;
@@ -94,10 +97,10 @@ public class TagActivity extends Activity {
 
 		// Added invisible saturation and value bars to get achieve pastel colors
 		SaturationBar saturationbar = (SaturationBar) findViewById(R.id.saturationbar_tag);
-		saturationbar.setSaturation(0.4f);
+		saturationbar.setSaturation(SATURATION);
 		picker.addSaturationBar(saturationbar);
 		ValueBar valuebar = (ValueBar) findViewById(R.id.valuebar_tag);
-		valuebar.setValue(0.9f);
+		valuebar.setValue(VALUE);
 		picker.addValueBar(valuebar);
 
 		deleteBtn = (Button) findViewById(R.id.delete);

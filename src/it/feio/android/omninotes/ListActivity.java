@@ -260,7 +260,7 @@ public class ListActivity extends BaseActivity {
 	    	for (int i=0; i < listView.getChildCount(); i++) {
 	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
 	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
-	    		mAdapter.restoreDrawable(listView.getChildAt(i).findViewById(R.id.card_layout));
+	    		mAdapter.restoreDrawable((Note)listView.getAdapter().getItem(i), listView.getChildAt(i).findViewById(R.id.card_layout));
 	    	}
 			selectedNotes.clear();
 			mAdapter.clearSelectedItems();
@@ -326,7 +326,7 @@ public class ListActivity extends BaseActivity {
 		} else {
 			selectedNotes.remove(note);
 			mAdapter.removeSelectedItem(position);
-			mAdapter.restoreDrawable(v);
+			mAdapter.restoreDrawable(note, v);
 		}
 		if (selectedNotes.size() == 0)
 			mActionMode.finish();
@@ -884,7 +884,6 @@ public class ListActivity extends BaseActivity {
 							listView.setEmptyView(findViewById(R.id.empty_list));
 						
 						// Advice to user
-//						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
 						Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
 						mActionMode.finish(); // Action picked, so close the CAB
 					}
@@ -948,7 +947,6 @@ public class ListActivity extends BaseActivity {
 		// Refresh view
 		((ListView) findViewById(R.id.notesList)).invalidateViews();
 		// Advice to user
-//		showToast(archivedStatus, Toast.LENGTH_SHORT);
 		Crouton.makeText(mActivity, archivedStatus, ONStyle.INFO).show();
 	}
 	
@@ -975,7 +973,6 @@ public class ListActivity extends BaseActivity {
 		
 		// If there is no tag a message will be shown
 		if (tags.size() == 0) {
-//			showToast(getString(R.string.no_tags_created), Toast.LENGTH_SHORT);
 			Crouton.makeText(mActivity, R.string.no_tags_created, ONStyle.WARN).show();
 			return;
 		}
@@ -1031,7 +1028,6 @@ public class ListActivity extends BaseActivity {
 									((ListView) findViewById(R.id.notesList)).invalidateViews();
 									// Advice to user
 									String msg = getResources().getText(R.string.notes_tagged_as) + " '" + candidateSelectedTag.getName() + "'";
-//									showToast(getResources().getText(R.string.notes_tagged_as) + " '" + candidateSelectedTag.getName() + "'", Toast.LENGTH_SHORT);
 									Crouton.makeText(mActivity, msg, ONStyle.INFO).show();
 									candidateSelectedTag = null;
 									mActionMode.finish(); // Action picked, so close the CAB
@@ -1052,7 +1048,6 @@ public class ListActivity extends BaseActivity {
 									// Refresh view
 									((ListView) findViewById(R.id.notesList)).invalidateViews();
 									// Advice to user
-//									showToast(getResources().getText(R.string.notes_tag_removed), Toast.LENGTH_SHORT);
 									Crouton.makeText(mActivity, R.string.notes_tag_removed, ONStyle.INFO).show();
 									mActionMode.finish(); // Action picked, so close the CAB
 								}

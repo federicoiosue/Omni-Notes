@@ -21,21 +21,22 @@
 <!--  	</changelogversion> -->
 
     <changelogversion versionName="4.2.0 Beta 8" changeDate="Feb 3, 2014">   
+      <changelogtext>[u]New![/u] Tags colors have been moved to pastel family for a better looking and can be set to cover not only the small tag markers in notes but also the full note item!</changelogtext>
       <changelogtext>[u]New![/u] More elegant password setting screen. Now, if trying to lock a note without having inserted a security password before, you'll be prompted for it just once.</changelogtext>
       <changelogtext>[u]New![/u] Notification ringtone customizable from settings</changelogtext>
       <changelogtext>[u]New![/u] Tags creations and deletions are now notified with color contextual dialogs</changelogtext>
-      <changelogtext>[u]New![/u] Added opacity bar in Skecth and fixed popup position</changelogtext>
+      <changelogtext>[u]New![/u] Added opacity bar in Sketch and fixed popup position</changelogtext>
       <changelogtext>Tags are now ordered by name, when name is left blank the tag will stay on tail</changelogtext>
       <changelogtext>Updated Turkish translation</changelogtext>
  	</changelogversion>
 
     <changelogversion versionName="4.2.0 Beta 7" changeDate="Feb 2, 2014">   
       <changelogtext>[u]New![/u] Actionbar and navigation bar transparency in KitKat</changelogtext>
-      <changelogtext>[u]New![/u] Note editor screen margins changed to optimize screen usage and to perform more easily touch operations on "location" and "reminder" items</changelogtext>
       <changelogtext>[u]New![/u] Reminder date and time picker support for smaller devices</changelogtext>
       <changelogtext>[u]New![/u] Spanish language support (thanks Sergio Iglesias)</changelogtext>
       <changelogtext>[u]New![/u] Slovak language support (thanks Pyler)</changelogtext>
       <changelogtext>[u]New![/u] Something is happened to Mr.Jingles...</changelogtext>
+      <changelogtext>Note editor screen margins changed to optimize screen usage and to perform more easily touch operations on "location" and "reminder" items</changelogtext>
       <changelogtext>Updated Russian language</changelogtext>
  	</changelogversion>
 
@@ -44,7 +45,7 @@
       <changelogtext>[u]New![/u] When a problem occurs the application will not disturb you anymore and will automatically send the issue report if connection is available</changelogtext>
 <!--       <changelogtext>[u]New![/u] Default language is choosen depending on system locale but now is possible to change it from settings</changelogtext> -->
       <changelogtext>[u]New![/u] French language support (thanks Kowalski OmniROM and Adrien Pegon)</changelogtext>
-      <changelogtext>Updated some already supported languages (Dutch, Italian, Turkish)</changelogtext>
+      <changelogtext>Updated Dutch and Italian translations</changelogtext>
       <changelogtext>[u]Fixed[/u] Deletion of sketch when orientation is changed is avoided forcing portrait mode</changelogtext>
       <changelogtext>[u]Fixed[/u] A couple of crashes when tagging notes are nore resolved</changelogtext>
  	</changelogversion>

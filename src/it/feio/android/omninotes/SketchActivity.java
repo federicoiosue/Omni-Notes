@@ -13,7 +13,6 @@ import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.SVBar;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -253,7 +252,7 @@ public class SketchActivity extends BaseActivity {
 
 			// Stroke color picker initialization and event managing
 			ColorPicker mColorPicker = (ColorPicker) popupLayout.findViewById(R.id.stroke_color_picker);	
-			mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.svbar));
+			mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.svbar));	
 			mColorPicker.addOpacityBar((OpacityBar) popupLayout.findViewById(R.id.opacitybar));
 			mColorPicker.setOnColorChangedListener(new OnColorChangedListener() {
 				

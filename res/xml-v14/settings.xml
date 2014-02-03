@@ -75,40 +75,48 @@
 			    android:switchTextOn="On"
 			    android:switchTextOff="Off"
 	            android:title="@string/settings_enable_animations"
-	            android:summary="@string/settings_enable_animations_summary" >
-	        </SwitchPreference>
+	            android:summary="@string/settings_enable_animations_summary" />
+	        <PreferenceScreen 
+	            android:title="@string/colors">
 	        <SwitchPreference
 	            android:defaultValue="true"
 			    android:switchTextOn="On"
 			    android:switchTextOff="Off"
 	            android:key="settings_enable_tag_marker"
 	            android:title="@string/settings_enable_tag_marker"
-	            android:summary="@string/settings_enable_tag_marker_summary" >
-	        </SwitchPreference>
-<!-- 	        <SwitchPreference -->
-<!-- 	            android:defaultValue="true" -->
-<!-- 			    android:switchTextOn="On" -->
-<!-- 			    android:switchTextOff="Off" -->
-<!-- 	            android:key="settings_enable_info" -->
-<!-- 	            android:title="@string/settings_enable_info" -->
-<!-- 	            android:summary="@string/settings_enable_info_summary"  > -->
-<!-- 	        </SwitchPreference> -->
+	            android:summary="@string/settings_enable_tag_marker_summary" />
+	        <SwitchPreference
+	            android:defaultValue="false"
+			    android:switchTextOn="On"
+			    android:switchTextOff="Off"
+	            android:key="settings_enable_tag_marker_full"
+	            android:title="@string/settings_enable_tag_marker_full"
+	            android:summary="@string/settings_enable_tag_marker_full_summary" 
+	            android:dependency="settings_enable_tag_marker"/>	 
+	        <SwitchPreference
+	            android:defaultValue="true"
+			    android:switchTextOn="On"
+			    android:switchTextOff="Off"
+	            android:key="settings_enable_tag_marker_full_list_only"
+	            android:title="@string/settings_enable_tag_marker_full_list_only"
+	            android:summary="@string/settings_enable_tag_marker_full_list_only_summary" 
+	            android:dependency="settings_enable_tag_marker_full"/>	            
+	            
+	        </PreferenceScreen>
 	        <SwitchPreference
 	            android:defaultValue="true"
 			    android:switchTextOn="On"
 			    android:switchTextOff="Off"
 	            android:key="settings_enable_editor_links"
 	            android:title="@string/settings_enable_editor_links" 
-	            android:summary="@string/settings_enable_editor_links_summary" >
-	        </SwitchPreference>
+	            android:summary="@string/settings_enable_editor_links_summary" />
 		    <ListPreference
 		        android:defaultValue="0"
 		        android:entries="@array/checked_items_behavior"
 		        android:entryValues="@array/checked_items_behavior_values"
 		        android:key="settings_checked_items_behavior"
 		        android:summary="@string/settings_checked_items_behavior_summary"
-		        android:title="@string/settings_checked_items_behavior" >
-		    </ListPreference>
+		        android:title="@string/settings_checked_items_behavior" />
 	        <SwitchPreference
 	            android:defaultValue="true"
 			    android:switchTextOn="On"
