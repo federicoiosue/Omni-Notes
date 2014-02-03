@@ -159,6 +159,13 @@ public class SketchActivity extends BaseActivity {
 	
 	
 	@Override
+	protected void onPause() {
+		super.onPause();
+		save(drawingView.getBitmap());
+	}
+	
+	
+	@Override
 	public void onBackPressed() {
 		save(drawingView.getBitmap());
 	}
