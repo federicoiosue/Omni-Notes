@@ -451,7 +451,7 @@ OnTimeSetListener {
 			// Coloring the target
 			if (tag != null && tag.getColor() != null) {
 				for (View view : target) {
-					view.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+					view.setBackgroundColor(Integer.parseInt(tag.getColor()));
 				}				
 			} else {
 				for (View view : target) {

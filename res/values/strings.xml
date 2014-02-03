@@ -195,10 +195,10 @@
     <string name="settings_choose_language">Language</string>
     <string name="settings_notification_ringtone">Ringtone</string>
     <string name="settings_enable_tag_marker_full">Full color</string>
-    <string name="settings_enable_tag_marker_full_summary">Colors totaly the notes, even into detail screen</string>
+    <string name="settings_enable_tag_marker_full_summary">Notes fully colored both in list than into detail</string>
     <string name="colors">Colors</string>
-    <string name="settings_enable_tag_marker_full_list_only">Colors totaly the notes, even into detail screen</string>
-    <string name="settings_enable_tag_marker_full_list_only_summary">Colors totaly the notes, even into detail screen</string>
+    <string name="settings_enable_tag_marker_full_list_only">Only list</string>
+    <string name="settings_enable_tag_marker_full_list_only_summary">Force full color only in notes list while into detail only the small marker is colored </string>
     
     
     <!-- Info -->

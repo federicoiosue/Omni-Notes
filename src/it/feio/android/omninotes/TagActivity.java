@@ -33,7 +33,7 @@ import com.larswerkman.holocolorpicker.ValueBar;
 
 public class TagActivity extends Activity {
 
-	private final float SATURATION = 0.5f;
+	private final float SATURATION = 0.4f;
 	private final float VALUE = 0.9f;
 
 	Tag tag;
