@@ -15,7 +15,6 @@
   limitations under the License.
 -->
 <resources>
-
     <!-- Activities -->
     <string name="title_item_list">Notes</string>
     <string name="add_note">Add Note</string>
@@ -119,6 +118,9 @@
     <string name="stroke">Stroke</string>	 
     <string name="erase_sketch">Erase sketch?</string>	 
     <string name="no_reminder_set">No reminder set</string>	 
+    <string name="saturation">Saturation</string>
+    <string name="opacity">Opacity</string>
+    
         	 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -152,7 +154,7 @@
     <string name="settings_backup">Backup</string>
     <string name="settings_password">Password</string>
     <string name="settings_password_instructions">Security password is used 
-        to ensure that protected notes will not be viewed, modified or deleted 
+        to ensure that protected notes will not be viewed or modified 
         without authorization.\n\nEvery time you\'ll try to change this security password 
         the previous one will be requested.\n\nSet an empty password to delete it</string>
     <string name="settings_password_not_matching">Passwords not matching</string>
@@ -182,6 +184,13 @@
     <string name="settings_beta_summary">Sign up the community to get all lastest preview features</string>
     <string name="donate">Donate</string>
     <string name="settings_choose_language">Language</string>
+    <string name="settings_notification_ringtone">Ringtone</string>
+    <string name="settings_enable_tag_marker_full">Full color</string>
+    <string name="settings_enable_tag_marker_full_summary">Notes fully colored both in list than into detail</string>
+    <string name="colors">Colors</string>
+    <string name="settings_enable_tag_marker_full_list_only">Only list</string>
+    <string name="settings_enable_tag_marker_full_list_only_summary">Force full color only in notes list while into detail only the small marker is colored </string>
+    
     
     <!-- Info -->
     <string name="follow_author">Who is the developer?</string>
@@ -189,6 +198,7 @@
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
+    <string name="reminder">reminder</string>
     <string name="stroke_size">stroke size</string>
 
 </resources>

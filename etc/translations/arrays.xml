@@ -37,18 +37,6 @@
         <item >Move after unchecked but on top of unchecked</item>
     </string-array>
         
-        
-    <string-array name="languages">
-        <item >Dutch</item>
-        <item >English</item>
-        <item >Italian</item>
-        <item >German</item>
-        <item >Portuguese (Brazil)</item>
-        <item >Russian</item>
-        <item >Slovak</item>
-        <item >Turkish</item>
-    </string-array>
-        
     
 
 </resources>

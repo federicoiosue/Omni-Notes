@@ -13,7 +13,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 --><resources>
-
     <!-- Activities -->
     <string name="title_item_list">"Note
 "</string>
@@ -44,7 +43,7 @@
     <string name="note_deleted">"Nota cancellata"</string>
     <string name="note">"Nota"</string>
     <string name="share_message_chooser">"Condividi con"</string>
-    <string name="shared_content_sign">"\n 【da Omni Note】"</string>
+    <string name="shared_content_sign">"\n 【da Omni Note"</string>
     <string name="sort">"Ordinamento"</string>
     <string name="select_sorting_column">"Ordina per"</string>
     <string name="tap_to_undo">"Tocca per annullare"</string>
@@ -60,7 +59,7 @@
     <string name="remove_reminder">"Rimuovere il promemoria?"</string>
     <string name="add_reminder">"Aggiungi un promemoria"</string>
     <string name="location_not_found">"Posizione non trovata"</string>
-    <string name="record">"Registrazione audio"</string>
+    <string name="record">"Registrazione"</string>
     <string name="stop">"Stop"</string>
     <string name="no_app_to_handle_intent">"Nessuna applicazione per gestire il file"</string>
     <string name="storage_not_available">"Memoria non disponibile"</string>
@@ -87,7 +86,7 @@
     <string name="tag_as">"Tagga come"</string>
     <string name="title_activity_tag">"Modifica tag"</string>
     <string name="delete_unused_tag_confirmation">"Confermi l'eliminazione del tag"</string>
-    <string name="delete_tag_confirmation">"Questo tag è associato a $1$ nota/e. \nConfermi la cancellazione del tag e la rimozione da queste note?"</string>
+    <string name="delete_tag_confirmation">"Questo tag è associato a $ $ nota/e. \nConfermi l\'eliminazione del tag e la sua rimozione da tutte le note?"</string>
     <string name="discard">"Indietro"</string>
     <string name="remove_tag">"Rimuovi tag"</string>
     <string name="no_tags_created">"Nessun tag è stato ancora creato"</string>
@@ -119,6 +118,9 @@
     <string name="stroke">"Tratto"</string>	 
     <string name="erase_sketch">"Cancellare disegno?"</string>	 
     <string name="no_reminder_set">"Nessun promemoria"</string>	 
+    <string name="saturation">"Saturazione"</string>
+    <string name="opacity">"Opacità"</string>
+    
         	 
     <!-- Settings -->
     <string name="settings">"Impostazioni"</string>
@@ -151,7 +153,7 @@
     <string name="settings_category_data">"Dati"</string>
     <string name="settings_backup">"Backup"</string>
     <string name="settings_password">"Password"</string>
-    <string name="settings_password_instructions">"La password di sicurezza viene utilizzata per assicurare che le note protette non possano essere visualizzate o modificate senza autorizzazione.
+    <string name="settings_password_instructions">"La password di sicurezza viene utilizzata per assicurare che le note protette non possano essere visualizzate senza autorizzazione.
 \n\nOgni volta che si proverà a modificare questa password verrà richiesta la precedente.
 \n\nImpostare una password vuota per rimuoverla."</string>
     <string name="settings_password_not_matching">"Password non corrispondenti"</string>
@@ -182,6 +184,13 @@
     <string name="settings_beta_summary">"Iscriviti alla comunità per avere tutte le ultimissime funzionalità in anteprima"</string>
     <string name="donate">"Dona"</string>
     <string name="settings_choose_language">"Lingua"</string>
+    <string name="settings_notification_ringtone">"Suoneria"</string>
+    <string name="settings_enable_tag_marker_full">"A colori"</string>
+    <string name="settings_enable_tag_marker_full_summary">"colore pieno delle note sia nella lista che nel dettaglio"</string>
+    <string name="colors">"Colori"</string>
+    <string name="settings_enable_tag_marker_full_list_only">"Solo lista"</string>
+    <string name="settings_enable_tag_marker_full_list_only_summary">"Forza la colorazione completa colori solo nella lista delle note mentre nel dettaglio resta colorato solo il piccolo indicatore del tag "</string>
+    
     
     <!-- Info -->
     <string name="follow_author">"Chi è l'autore?"</string>
@@ -189,6 +198,7 @@
     <!-- Accessibility -->
     <string name="drawer_open">"drawer aperto"</string>
     <string name="drawer_close">"drawer chiuso"</string>
+    <string name="reminder">"promemoria"</string>
     <string name="stroke_size">"dimensioni del tratto"</string>
 
 </resources>

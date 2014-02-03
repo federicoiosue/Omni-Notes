@@ -28,7 +28,8 @@
       <changelogtext>[u]New![/u] Added opacity bar in Sketch and fixed popup position</changelogtext>
       <changelogtext>Tags are now ordered by name, when name is left blank the tag will stay on tail</changelogtext>
       <changelogtext>Updated Turkish translation</changelogtext>
-      <changelogtext>[u]Fixed[/u] Fixed crash when trying to delete a backup on some devices</changelogtext>      
+      <changelogtext>[u]Fixed[/u] Crash when trying to delete a backup on some devices</changelogtext>   
+      <changelogtext>[u]Fixed[/u] Crash when switching to other app while drawing a sketch</changelogtext>      
  	</changelogversion>
 
     <changelogversion versionName="4.2.0 Beta 7" changeDate="Feb 2, 2014">   

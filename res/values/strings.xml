@@ -192,6 +192,7 @@
     <string name="settings_beta">Google+</string>
     <string name="settings_beta_summary">Sign up the community to get all lastest preview features</string>
     <string name="donate">Donate</string>
+    <string name="donate_summary">Help me to continue developing this app with a non-profit donation</string>
     <string name="settings_choose_language">Language</string>
     <string name="settings_notification_ringtone">Ringtone</string>
     <string name="settings_enable_tag_marker_full">Full color</string>
