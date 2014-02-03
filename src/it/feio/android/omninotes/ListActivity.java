@@ -258,8 +258,8 @@ public class ListActivity extends BaseActivity {
 			// the CAB is removed. By default, selected items are deselected/unchecked.
 
 	    	for (int i=0; i < listView.getChildCount(); i++) {
-	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
-	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
+//	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
+//	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
 	    		mAdapter.restoreDrawable((Note)listView.getAdapter().getItem(i), listView.getChildAt(i).findViewById(R.id.card_layout));
 	    	}
 			selectedNotes.clear();

@@ -27,6 +27,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -104,7 +105,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
 		
 		// Color of tag marker if note is tagged a function is active in preferences
-		colorNote(note, rowView);
+//		colorNote(note, rowView);
 		
 		// Choosing which date must be shown depending on sorting criteria
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -166,7 +167,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		final int paddingBottom = v.getPaddingBottom(), paddingLeft = v.getPaddingLeft();
 	    final int paddingRight = v.getPaddingRight(), paddingTop = v.getPaddingTop();
 	    v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
-//		v.setBackgroundResource(R.drawable.bg_card);
 	    colorNote(note, v);
 	}
 	
