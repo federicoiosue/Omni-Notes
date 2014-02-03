@@ -43,7 +43,7 @@
     <string name="note_deleted">"Nota cancellata"</string>
     <string name="note">"Nota"</string>
     <string name="share_message_chooser">"Condividi con"</string>
-    <string name="shared_content_sign">"\n 【da Omni Note"</string>
+    <string name="shared_content_sign">"\n 【da Omni Notes】"</string>
     <string name="sort">"Ordinamento"</string>
     <string name="select_sorting_column">"Ordina per"</string>
     <string name="tap_to_undo">"Tocca per annullare"</string>

@@ -20,11 +20,33 @@
         <item>"Promemoria"</item>
     </string-array>
 
+
+
     <string-array name="sortable_columns_human_readable">
         <item>"Titolo"</item>
-        <item>"Data di creazione"</item>
+        <item>"Creazione"</item>
         <item>"Ultima modifica"</item>
+        <item>"Promemoria"</item>
     </string-array>
 
+    <string-array name="checked_items_behavior">
+        <item>"Mantenere la posizione"</item>
+        <item>"Spostare in fondo all'elenco"</item>
+        <item>"Spostare in basso ma sopra le voci già controllate"</item>
+    </string-array>
+        
+        
+    <string-array name="languages">
+        <item>"Olandese"</item>
+        <item>"Inglese"</item>
+        <item>"Italiano"</item>
+        <item>"Tedesco"</item>
+        <item>"Portoghese (Brasile)"</item>
+        <item>"Russo"</item>
+        <item>"Slovacco"</item>
+        <item>"Turco"</item>
+    </string-array>
+        
+    
 
 </resources>
