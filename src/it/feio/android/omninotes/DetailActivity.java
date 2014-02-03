@@ -80,6 +80,7 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -217,7 +218,7 @@ OnTimeSetListener {
 		initViews();
 
 		// Handling of Intent actions
-		handleIntents();
+		handleIntents();	
 	}
 
 	
@@ -266,6 +267,22 @@ OnTimeSetListener {
 			content.setLinksClickable(true);
 			Linkify.addLinks(content, Linkify.ALL);
 		}
+		
+		// Liseners for events on focus to update content of share intent
+		title.setOnFocusChangeListener(new OnFocusChangeListener() {			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus)
+					updateShareIntent();
+			}
+		});
+		content.setOnFocusChangeListener(new OnFocusChangeListener() {			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (!hasFocus)
+					updateShareIntent();
+			}
+		});
 
 		// Initialization of location TextView
 		locationTextView = (TextView) findViewById(R.id.location);
@@ -641,7 +658,7 @@ OnTimeSetListener {
 		((EditText) findViewById(R.id.title)).setText(note.getTitle());
 		((EditText) findViewById(R.id.content)).setText(note.getContent());
 		attachmentsList = note.getAttachmentsList();
-		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);
+		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);	
 	}
 
 	private void setAddress(View locationView) {
@@ -701,10 +718,11 @@ OnTimeSetListener {
 	    // Fetch and store ShareActionProvider
 	    mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 	    if (mShareActionProvider != null) {
-	        shareIntent.setAction(Intent.ACTION_SEND);
-	        shareIntent.putExtra(Intent.EXTRA_TEXT, "TEST MESSAGE");
-	        shareIntent.setType("text/plain");
-	        mShareActionProvider.setShareIntent(shareIntent);
+//	        shareIntent.setAction(Intent.ACTION_SEND);
+//	        shareIntent.putExtra(Intent.EXTRA_TEXT, "TEST MESSAGE");
+//	        shareIntent.setType("text/plain");
+//	        mShareActionProvider.setShareIntent(shareIntent);
+	    	updateShareIntent();
 	    }
 	    return true;
 	}
