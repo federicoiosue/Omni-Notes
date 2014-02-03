@@ -184,7 +184,7 @@
     <string name="settings_beta_summary">"Iscriviti alla comunità per avere tutte le ultimissime funzionalità in anteprima"</string>
     <string name="donate">"Dona"</string>
     <string name="settings_choose_language">"Lingua"</string>
-    <string name="settings_notification_ringtone">"Suoneria"</string>
+    <string name="settings_notification_ringtone">"Scegli suoneria"</string>
     <string name="settings_enable_tag_marker_full">"A colori"</string>
     <string name="settings_enable_tag_marker_full_summary">"colore pieno delle note sia nella lista che nel dettaglio"</string>
     <string name="colors">"Colori"</string>

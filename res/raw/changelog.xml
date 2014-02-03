@@ -26,6 +26,7 @@
       <changelogtext>[u]New![/u] Notification ringtone customizable from settings</changelogtext>
       <changelogtext>[u]New![/u] Tags creations and deletions are now notified with color contextual dialogs</changelogtext>
       <changelogtext>[u]New![/u] Added opacity bar in Sketch and fixed popup position</changelogtext>
+      <changelogtext>[u]New![/u] Swedish language support (thanks Mattias Lundqvist)</changelogtext>
       <changelogtext>Tags are now ordered by name, when name is left blank the tag will stay on tail</changelogtext>
       <changelogtext>Updated Turkish translation</changelogtext>
       <changelogtext>[u]Fixed[/u] Crash when trying to delete a backup on some devices</changelogtext>   
