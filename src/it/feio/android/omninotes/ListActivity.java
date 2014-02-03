@@ -18,7 +18,10 @@ package it.feio.android.omninotes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -256,12 +259,20 @@ public class ListActivity extends BaseActivity {
 		public void onDestroyActionMode(ActionMode mode) {
 			// Here you can make any necessary updates to the activity when
 			// the CAB is removed. By default, selected items are deselected/unchecked.
-
-	    	for (int i=0; i < listView.getChildCount(); i++) {
-//	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
-//	    		listView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.list_bg));
-	    		mAdapter.restoreDrawable((Note)listView.getAdapter().getItem(i), listView.getChildAt(i).findViewById(R.id.card_layout));
-	    	}
+			
+			// Clears data structures
+			selectedNotes.clear();
+			mAdapter.clearSelectedItems();	
+			
+	    	Iterator it = mAdapter.getSelectedItems().entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry mapEntry = (Map.Entry) it.next();
+				int i = (Integer) mapEntry.getKey();
+				if (mAdapter.getItem(i) != null) {
+					mAdapter.restoreDrawable(mAdapter.getItem(i), listView.getChildAt(i).findViewById(R.id.card_layout));
+				}
+			}
+			
 			selectedNotes.clear();
 			mAdapter.clearSelectedItems();
 			listView.clearChoices();
@@ -877,7 +888,7 @@ public class ListActivity extends BaseActivity {
 						}
 						// Refresh view
 						ListView l = (ListView) findViewById(R.id.notesList);
-						l.invalidateViews();
+						l.invalidateViews();					
 						
 						// If list is empty again Mr Jingles will appear again
 						if (l.getCount() == 0)
@@ -942,8 +953,7 @@ public class ListActivity extends BaseActivity {
 			// Informs the user about update
 			Log.d(Constants.TAG, "Note with id '" + note.get_id() + "' " + archivedStatus);
 		}
-		// Emtpy data structure
-		selectedNotes.clear();
+
 		// Refresh view
 		((ListView) findViewById(R.id.notesList)).invalidateViews();
 		// Advice to user
