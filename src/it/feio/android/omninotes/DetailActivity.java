@@ -65,9 +65,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
+import android.support.v7.widget.ShareActionProvider.OnShareTargetSelectedListener;
 import android.text.util.Linkify;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -75,6 +77,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -126,6 +129,7 @@ OnTimeSetListener {
 
 	private FragmentActivity mActivity;
 	private Note note;
+	private ShareActionProvider mShareActionProvider;
 	private LinearLayout reminder_layout;
 	private TextView datetime;
 	private String alarmDate = "", alarmTime = "";
@@ -164,6 +168,7 @@ OnTimeSetListener {
 	
 	// Result intent
 	Intent resultIntent;
+	private Intent shareIntent = new Intent();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -684,7 +689,26 @@ OnTimeSetListener {
 		LocatorTask task = new LocatorTask(locationTextView);
 		task.execute();
 	}
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {	    
+		super.onCreateOptionsMenu(menu);
+		
+		// Locate MenuItem with ShareActionProvider
+	    MenuItem item = menu.findItem(R.id.menu_share);
+	    // Fetch and store ShareActionProvider
+	    mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+	    if (mShareActionProvider != null) {
+	        shareIntent.setAction(Intent.ACTION_SEND);
+	        shareIntent.putExtra(Intent.EXTRA_TEXT, "TEST MESSAGE");
+	        shareIntent.setType("text/plain");
+	        mShareActionProvider.setShareIntent(shareIntent);
+	    }
+	    return true;
+	}
 
+	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.menu_share).setVisible(true);
@@ -728,9 +752,9 @@ OnTimeSetListener {
 		case android.R.id.home:
 			saveNote(null);
 			break;
-		case R.id.menu_share:
-			shareNote();
-			break;
+//		case R.id.menu_share:
+//			shareNote();
+//			break;
 		case R.id.menu_archive:
 			saveNote(true);
 			break;
@@ -1125,6 +1149,9 @@ OnTimeSetListener {
 				setTagMarkerColor(selectedTag);
 				break;
 			}
+			
+			// Updates sharing intent after attachment insertion
+			updateShareIntent();
 		}
 	}
 	
@@ -1283,10 +1310,84 @@ OnTimeSetListener {
 	}
 	
 
+	
+//	/**
+//	 * Notes sharing
+//	 */
+//	private void shareNote() {
+//		// Changed fields
+//		String title = ((EditText) findViewById(R.id.title)).getText().toString();
+//		
+//		// Getting content paying attention if checklist-mode is active
+//		String content = "";
+//		if (!isChecklistOn) {
+//			content = ((EditText) findViewById(R.id.content)).getText().toString();
+//		} else {
+//			try {
+//				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
+//			} catch (ViewNotSupportedException e) {
+//				Log.e(Constants.TAG, "Errore toggling checklist", e);
+//			}
+//		}
+//		
+//		// Check if some text has ben inserted or is an empty note
+//		if ((title + content).length() == 0 && attachmentsList.size() == 0) {
+//			Log.d(Constants.TAG, "Empty note not shared");
+////			showToast(getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT);
+//			Crouton.makeText(this, R.string.empty_note_not_shared, ONStyle.INFO).show();
+//			return;
+//		}
+//
+//		// Definition of shared content
+//		String text = content + System.getProperty("line.separator")
+//				+ System.getProperty("line.separator") + getResources().getString(R.string.shared_content_sign);
+//		
+//		// Prepare sharing intent with only text
+//		if (attachmentsList.size() == 0) {
+//			shareIntent.setAction(Intent.ACTION_SEND);
+//			shareIntent.setType("text/plain");
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+//
+//			// Intent with single image attachment
+//		} else if (attachmentsList.size() == 1) {
+//			shareIntent.setAction(Intent.ACTION_SEND);
+//			shareIntent.setType(attachmentsList.get(0).getMime_type());
+//			shareIntent.putExtra(Intent.EXTRA_STREAM, attachmentsList.get(0).getUri());
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+//
+//			// Intent with multiple images
+//		} else if (attachmentsList.size() > 1) {
+//			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+//			ArrayList<Uri> uris = new ArrayList<Uri>();
+//			// A check to decide the mime type of attachments to share is done here
+//			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
+//			for (Attachment attachment : attachmentsList) {
+//				uris.add(attachment.getUri());
+//				mimeTypes.put(attachment.getMime_type(), true);
+//			}
+//			// If many mime types are present a general type is assigned to intent
+//			if (mimeTypes.size() > 1) {
+//				shareIntent.setType("*/*");
+//			} else {
+//				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
+//			}
+//			
+//			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+//		}
+//
+//		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+//	}
+	
+
+	
 	/**
-	 * Notes sharing
+	 * Updates share intent 
 	 */
-	private void shareNote() {
+	private void updateShareIntent() {
 		// Changed fields
 		String title = ((EditText) findViewById(R.id.title)).getText().toString();
 		
@@ -1301,20 +1402,11 @@ OnTimeSetListener {
 				Log.e(Constants.TAG, "Errore toggling checklist", e);
 			}
 		}
-		
-		// Check if some text has ben inserted or is an empty note
-		if ((title + content).length() == 0 && attachmentsList.size() == 0) {
-			Log.d(Constants.TAG, "Empty note not shared");
-//			showToast(getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT);
-			Crouton.makeText(this, R.string.empty_note_not_shared, ONStyle.INFO).show();
-			return;
-		}
 
 		// Definition of shared content
 		String text = content + System.getProperty("line.separator")
 				+ System.getProperty("line.separator") + getResources().getString(R.string.shared_content_sign);
-
-		Intent shareIntent = new Intent();
+		
 		// Prepare sharing intent with only text
 		if (attachmentsList.size() == 0) {
 			shareIntent.setAction(Intent.ACTION_SEND);
@@ -1352,7 +1444,7 @@ OnTimeSetListener {
 			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
 		}
 
-		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+	      mShareActionProvider.setShareIntent(shareIntent);
 	}
 	
 	

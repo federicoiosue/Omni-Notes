@@ -45,7 +45,9 @@
         android:orderInCategory="300"
         app:showAsAction="always"
         android:title="@string/share"
-        android:visible="false"/>
+        android:visible="false"
+        app:actionProviderClass=
+            "android.support.v7.widget.ShareActionProvider"/>
     <item
         android:id="@+id/menu_tag"
         android:icon="@drawable/ic_action_labels"
