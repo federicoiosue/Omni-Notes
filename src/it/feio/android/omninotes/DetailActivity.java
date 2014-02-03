@@ -94,6 +94,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TimePicker;
 
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
@@ -951,6 +952,16 @@ OnTimeSetListener {
 		attachmentDialog.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
 		attachmentDialog.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		attachmentDialog.setFocusable(true);
+		attachmentDialog.setOnDismissListener(new OnDismissListener() {
+			
+			@Override
+			public void onDismiss() {
+				if (isRecording) {
+					isRecording = false;
+					stopRecording();
+				}
+			}
+		});
 
 		// Clear the default translucent background
 		attachmentDialog.setBackgroundDrawable(new BitmapDrawable());
