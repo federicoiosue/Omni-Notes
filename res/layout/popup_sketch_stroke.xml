@@ -24,6 +24,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
+            
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stroke"        
+        style="@style/Text.Small"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,9 +56,27 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:layout_weight="0.06" />
+    
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/saturation"        
+        style="@style/Text.Small"/>
 
     <com.larswerkman.holocolorpicker.SVBar
         android:id="@+id/svbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        style="@style/Text.Small"/>
+            
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/opacity"        
+        style="@style/Text.Small"/>
+
+    <com.larswerkman.holocolorpicker.OpacityBar
+        android:id="@+id/opacitybar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -1,6 +1,7 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.checklistview.utils.AlphaManager;
+import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.models.SketchView;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -9,6 +10,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.SVBar;
 
@@ -225,8 +227,10 @@ public class SketchActivity extends BaseActivity {
 			// Clear the default translucent background
 			stokePopup.setBackgroundDrawable(new BitmapDrawable());		
 
-			// Displaying the popup at the specified location, + offsets.
-			stokePopup.showAsDropDown(anchor, 0, -630);
+			// Displaying the popup at the specified location, + offsets (transformed 
+			// dp to pixel to support multiple screen sizes)
+//			stokePopup.showAsDropDown(anchor, 0, -680);
+			stokePopup.showAsDropDown(anchor, 0, DensityUtil.convertDpToPixel(-390, mContext));
 			
 			// Stroke size seekbar initialization and event managing
 			SeekBar mSeekBar = (SeekBar) popupLayout.findViewById(R.id.stroke_seekbar);
@@ -244,13 +248,13 @@ public class SketchActivity extends BaseActivity {
 					// is positioned centrally into the ImageView
 					setStrokeSeekbarProgress(progress);
 				}
-			});
-			
+			});			
 			mSeekBar.setProgress(seekBarProgress);			
 
 			// Stroke color picker initialization and event managing
 			ColorPicker mColorPicker = (ColorPicker) popupLayout.findViewById(R.id.stroke_color_picker);	
 			mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.svbar));
+			mColorPicker.addOpacityBar((OpacityBar) popupLayout.findViewById(R.id.opacitybar));
 			mColorPicker.setOnColorChangedListener(new OnColorChangedListener() {
 				
 				@Override
