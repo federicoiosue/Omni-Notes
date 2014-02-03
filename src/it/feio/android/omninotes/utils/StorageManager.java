@@ -267,15 +267,19 @@ public class StorageManager {
 	 * @param directory
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	public static long getSize(File directory) {
 	    StatFs statFs = new StatFs(directory.getAbsolutePath());
-	    long blockSize;
-	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-	        blockSize = statFs.getBlockSizeLong();
-	    } else {
-	        blockSize = statFs.getBlockSizeLong();
-	    }
+	    long blockSize = 0;
+	    try {
+		    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+		        blockSize = statFs.getBlockSizeLong();
+		    } else {
+		        blockSize = statFs.getBlockSize();
+		    }
+		// Can't understand why on some devices this fails
+	    } catch (NoSuchMethodError e) {}
 
 	    return getSize(directory, blockSize);
 	}
