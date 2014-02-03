@@ -46,12 +46,30 @@
         android:visibility="gone" />
 
     <com.larswerkman.holocolorpicker.ColorPicker
-        android:id="@+id/color_picker"
+        android:id="@+id/colorpicker_tag"
         android:layout_width="180dp"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:layout_weight="0.06" />
+
+    <com.larswerkman.holocolorpicker.SaturationBar
+        android:id="@+id/saturationbar_tag"
+        android:layout_width="180dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.06"
+        android:visibility="gone" />
+
+    <com.larswerkman.holocolorpicker.ValueBar
+        android:id="@+id/valuebar_tag"
+        android:layout_width="180dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.06"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/delete"

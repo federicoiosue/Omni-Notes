@@ -1,14 +1,12 @@
 package it.feio.android.omninotes;
 
-import java.io.File;
-import java.io.FileOutputStream;
-
-import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
-
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
+
+import java.io.File;
+import java.io.FileOutputStream;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -27,6 +25,11 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
+import com.larswerkman.holocolorpicker.SaturationBar;
+import com.larswerkman.holocolorpicker.ValueBar;
 
 public class TagActivity extends Activity {
 
@@ -66,7 +69,7 @@ public class TagActivity extends Activity {
 	private void initViews() {
 		title = (EditText) findViewById(R.id.tag_title);
 		description = (EditText) findViewById(R.id.tag_description);
-		picker = (ColorPicker) findViewById(R.id.color_picker);
+		picker = (ColorPicker) findViewById(R.id.colorpicker_tag);
 		picker.setOnColorChangedListener(new OnColorChangedListener() {			
 			@Override
 			public void onColorChanged(int color) {
@@ -88,6 +91,14 @@ public class TagActivity extends Activity {
 				picker.setColor(Color.WHITE);
 			}
 		});
+
+		// Added invisible saturation and value bars to get achieve pastel colors
+		SaturationBar saturationbar = (SaturationBar) findViewById(R.id.saturationbar_tag);
+		saturationbar.setSaturation(0.4f);
+		picker.addSaturationBar(saturationbar);
+		ValueBar valuebar = (ValueBar) findViewById(R.id.valuebar_tag);
+		valuebar.setValue(0.9f);
+		picker.addValueBar(valuebar);
 
 		deleteBtn = (Button) findViewById(R.id.delete);
 		saveBtn = (Button) findViewById(R.id.save);
