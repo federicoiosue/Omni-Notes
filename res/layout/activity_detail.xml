@@ -78,7 +78,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingBottom="2dp"
                 android:paddingLeft="@dimen/padding_half"
                 android:paddingRight="@dimen/padding_half" >
 
