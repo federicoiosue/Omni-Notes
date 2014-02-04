@@ -23,6 +23,7 @@
     <string name="dev_googleplus">https://plus.google.com/102629628248642947234/posts</string>
     <string name="dev_github">https://github.com/federicoiosue</string>
     <string name="beta_link">https://plus.google.com/u/0/communities/112276053772152071903</string>
+    <string name="paypal">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=7M9TA2LJNKFFJ</string>
 
     <!-- Activities -->
     <string name="title_item_list">Notes</string>

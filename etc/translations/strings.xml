@@ -15,6 +15,8 @@
   limitations under the License.
 -->
 <resources>
+
+
     <!-- Activities -->
     <string name="title_item_list">Notes</string>
     <string name="add_note">Add Note</string>
@@ -183,6 +185,7 @@
     <string name="settings_beta">Google+</string>
     <string name="settings_beta_summary">Sign up the community to get all lastest preview features</string>
     <string name="donate">Donate</string>
+    <string name="donate_summary">Help me to continue developing this app with a non-profit donation</string>
     <string name="settings_choose_language">Language</string>
     <string name="settings_notification_ringtone">Ringtone</string>
     <string name="settings_enable_tag_marker_full">Full color</string>
@@ -191,9 +194,6 @@
     <string name="settings_enable_tag_marker_full_list_only">Only list</string>
     <string name="settings_enable_tag_marker_full_list_only_summary">Force full color only in notes list while into detail only the small marker is colored </string>
     
-    
-    <!-- Info -->
-    <string name="follow_author">Who is the developer?</string>
 
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>

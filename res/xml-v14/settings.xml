@@ -170,6 +170,15 @@
         android:title="@string/settings_changelog" >
     </Preference>
    
+    <Preference
+        android:key="settings_donation"
+        android:title="@string/donate" 
+        android:summary="@string/donate_summary">
+	        <intent
+		        android:action="android.intent.action.VIEW"
+		        android:data="@string/paypal" />
+    </Preference>
+   
 	<Preference
 	    android:key="settings_about"
 	    android:title="@string/settings_about" >
