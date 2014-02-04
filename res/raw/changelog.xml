@@ -24,6 +24,7 @@
       <changelogtext>[u]New![/u] Tags colors have been moved to pastel family for a better looking and can be set to cover not only the small tag markers in notes but also the full note item!</changelogtext>
       <changelogtext>[u]New![/u] More elegant password setting screen. Now, if trying to lock a note without having inserted a security password before, you'll be prompted for it just once.</changelogtext>
       <changelogtext>[u]New![/u] Notification ringtone customizable from settings</changelogtext>
+      <changelogtext>[u]New![/u] New sharing mode</changelogtext>
       <changelogtext>[u]New![/u] Tags creations and deletions are now notified with color contextual dialogs</changelogtext>
       <changelogtext>[u]New![/u] Added opacity bar in Sketch and fixed popup position</changelogtext>
       <changelogtext>[u]New![/u] Swedish language support (thanks Mattias Lundqvist)</changelogtext>
