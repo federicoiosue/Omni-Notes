@@ -17,6 +17,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
+import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.models.Attachment;
@@ -70,6 +71,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.ShareActionProvider.OnShareTargetSelectedListener;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.util.Linkify;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -77,7 +80,6 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -117,7 +119,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  * a {@link ItemDetailFragment}.
  */
 public class DetailActivity extends BaseActivity implements OnDateSetListener,
-OnTimeSetListener {
+OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -269,20 +271,23 @@ OnTimeSetListener {
 		}
 		
 		// Liseners for events on focus to update content of share intent
-		title.setOnFocusChangeListener(new OnFocusChangeListener() {			
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus)
-					updateShareIntent();
-			}
-		});
-		content.setOnFocusChangeListener(new OnFocusChangeListener() {			
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (!hasFocus)
-					updateShareIntent();
-			}
-		});
+//		title.setOnFocusChangeListener(new OnFocusChangeListener() {			
+//			@Override
+//			public void onFocusChange(View v, boolean hasFocus) {
+//				if (!hasFocus && mShareActionProvider != null)
+//					updateShareIntent();
+//			}
+//		});
+		title.addTextChangedListener(this);
+		
+//		content.setOnFocusChangeListener(new OnFocusChangeListener() {			
+//			@Override
+//			public void onFocusChange(View v, boolean hasFocus) {
+//				if (!hasFocus && mShareActionProvider != null)
+//					updateShareIntent();
+//			}
+//		});
+		content.addTextChangedListener(this);
 
 		// Initialization of location TextView
 		locationTextView = (TextView) findViewById(R.id.location);
@@ -718,10 +723,6 @@ OnTimeSetListener {
 	    // Fetch and store ShareActionProvider
 	    mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 	    if (mShareActionProvider != null) {
-//	        shareIntent.setAction(Intent.ACTION_SEND);
-//	        shareIntent.putExtra(Intent.EXTRA_TEXT, "TEST MESSAGE");
-//	        shareIntent.setType("text/plain");
-//	        mShareActionProvider.setShareIntent(shareIntent);
 	    	updateShareIntent();
 	    }
 	    return true;
@@ -868,6 +869,8 @@ OnTimeSetListener {
 				String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
 		mChecklistManager.setShowChecks(true);
 		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
+		// Set the textChangedListener on the replaced view
+		mChecklistManager.setCheckListChangedListener(this);
 		
 		// Options for converting back to simple text
 		mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
@@ -880,6 +883,7 @@ OnTimeSetListener {
 			mChecklistManager.replaceViews(toggleChecklistView, newView);
 			toggleChecklistView = newView;
 			isChecklistOn = !isChecklistOn;
+						
 		} catch (ViewNotSupportedException e) {
 			e.printStackTrace();
 		}
@@ -1423,9 +1427,18 @@ OnTimeSetListener {
 		// Getting content paying attention if checklist-mode is active
 		String content = "";
 		if (!isChecklistOn) {
-			content = ((EditText) findViewById(R.id.content)).getText().toString();
+			// Due to checklist library introduction the returned EditText class is no more
+			// a com.neopixl.pixlui.components.edittext.EditText but a standard
+			// android.widget.EditText
+			try {
+				content = ((EditText) findViewById(R.id.content)).getText().toString();
+			} catch (ClassCastException e) {
+				content = ((android.widget.EditText)  findViewById(R.id.content)).getText().toString();
+			}
 		} else {
 			try {
+				mChecklistManager.setKeepChecked(true);
+				mChecklistManager.setShowChecks(true);
 				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
 			} catch (ViewNotSupportedException e) {
 				Log.e(Constants.TAG, "Errore toggling checklist", e);
@@ -1666,7 +1679,29 @@ OnTimeSetListener {
 			v.startAnimation(mAnimation);
 		}
 	}
+
+	
+	@Override
+	public void afterTextChanged(Editable s) {}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		updateShareIntent();
+	}
+
+	@Override
+	public void onCheckListChanged() {
+		updateShareIntent();
+	}
 	
 
 
 }
+
+
+
+

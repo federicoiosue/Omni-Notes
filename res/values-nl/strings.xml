@@ -13,7 +13,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 --><resources>
-
     <!-- Activities -->
     <string name="title_item_list">"Notities"</string>
     <string name="add_note">"Notitie Toevoegen"</string>
@@ -42,7 +41,7 @@
     <string name="note_deleted">"Notitie verwijderd"</string>
     <string name="note">"Notitie"</string>
     <string name="share_message_chooser">"Deel met"</string>
-    <string name="shared_content_sign">"\ N 【door Omni Notes】"</string>
+    <string name="shared_content_sign">"\n 【door Omni Notes】"</string>
     <string name="sort">"Sorteer"</string>
     <string name="select_sorting_column">"Sorteer op"</string>
     <string name="tap_to_undo">"Tik om ongedaan te maken"</string>
@@ -85,7 +84,7 @@
     <string name="tag_as">"Tag als"</string>
     <string name="title_activity_tag">"Bewerk tag"</string>
     <string name="delete_unused_tag_confirmation">"Bevestig tag verwijderen?"</string>
-    <string name="delete_tag_confirmation">"Deze tag wordt toegepast op $1$ noot/s.\nBevestig tag verwijderen en merkt un-tagging?"</string>
+    <string name="delete_tag_confirmation">"Deze tag wordt toegepast op $1$ notities . \nBevestig tag verwijderen en notitie on-taggen?"</string>
     <string name="discard">"Negeer"</string>
     <string name="remove_tag">"Verwijder tag"</string>
     <string name="no_tags_created">"Er werden nog geen tags gemaakt"</string>
@@ -107,7 +106,7 @@
     <string name="checklist_keep_checked">"Houd aangevinkte items"</string>
     <string name="checklist_keep_symbols">"Houd vinkjes (om aangevinkte te herinerren)"</string>
     <string name="sketch">"Schets"</string>
-    <string name="crash_dialog_text">"Iets mis is gebeurd in Omni Notes \n Een crash rapport gaat ontwikkelaar te worden verzonden!"</string>
+    <string name="crash_dialog_text">"Iets mis is gebeurd in Omni Notes \n Een crash rapport gaat naar de ontwikkelaar worden verzonden!"</string>
     <string name="new_update_available">"Een nieuwe Omni Notes versie is beschikbaar, wil je bijwerken?"</string>
    	<string name="update">"Update en beoordeel!"</string>
     <string name="not_now">"Niet nu"</string>	 
@@ -117,6 +116,9 @@
     <string name="stroke">"Streek"</string>	 
     <string name="erase_sketch">"Schets wissen?"</string>	 
     <string name="no_reminder_set">"Geen herinnering ingesteld"</string>	 
+    <string name="saturation">"Verzadiging"</string>
+    <string name="opacity">"Doorzichtigheid"</string>
+    
         	 
     <!-- Settings -->
     <string name="settings">"Instellingen"</string>
@@ -131,7 +133,7 @@
     <string name="export_success">"Bestand succesvol geexporteerd naar de map"</string>
     <string name="export_fail">"&gt;Bestand exporteren mislukt"</string>
     <string name="import_success">"Bestand succesvol geimporteerd"</string>
-    <string name="import_fail">"Bestanden te importeren is mislukt"</string>
+    <string name="import_fail">"Bestanden importeren is mislukt"</string>
     <string name="file_not_exists">"Het te importeren bestand bestaat niet"</string>
     <string name="import_warning">"Importeren van data kan huidige notities overschrijven. Doorgaan?"</string>
     <string name="export_warning">"Geexporteerd bestand zal het vorige overschrijven. Doorgaan?"</string>
@@ -151,7 +153,7 @@
     <string name="settings_password">"Paswoord"</string>
     <string name="settings_password_instructions">"Beveiligingspaswoord word gebruikt om te verzekeren dat beschermde notities niet worden bekeken, aangepast of verwijdert zonder autorisatie.\n\nIedere keer dat u dit beveiligingspaswoord wilt veranderen zal het vorige gevraagd worden.\n\nStel een leeg paswoord in om het te verwijderen"</string>
     <string name="settings_password_not_matching">"Paswoorden komen niet overeen"</string>
-    <string name="insert_new_password">"Plaats een nieuw wachtwoord"</string>
+    <string name="insert_new_password">"Geef een nieuw wachtwoord in"</string>
     <string name="confirm_new_password">"Bevestig het nieuwe paswoord"</string>
     <string name="password_successfully_changed">"Paswoord succesvol gewijzigd"</string>
     <string name="password_successfully_removed">"Password succesvol verwijderd"</string>
@@ -177,6 +179,13 @@
     <string name="settings_beta_summary">"Registreer voor de gemeenschap om de laatste nieuwe preview-functies te krijgen"</string>
     <string name="donate">"Doneren"</string>
     <string name="settings_choose_language">"Taal"</string>
+    <string name="settings_notification_ringtone">"Beltoon"</string>
+    <string name="settings_enable_tag_marker_full">"Vol kleur"</string>
+    <string name="settings_enable_tag_marker_full_summary">"Notities volledig gekleurd, zowel in de lijst als in detail"</string>
+    <string name="colors">"Kleuren"</string>
+    <string name="settings_enable_tag_marker_full_list_only">"Alleen lijst"</string>
+    <string name="settings_enable_tag_marker_full_list_only_summary">"Dwing vol kleur alleen in de lijst me notities in detail alleen de kleine marker gekleurd "</string>
+    
     
     <!-- Info -->
     <string name="follow_author">"Wie is de developer?"</string>
@@ -184,6 +193,7 @@
     <!-- Accessibility -->
     <string name="drawer_open">"lade open"</string>
     <string name="drawer_close">"lade dicht"</string>
+    <string name="reminder">"herinnering"</string>
     <string name="stroke_size">"strijk grootte"</string>
 
 </resources>
