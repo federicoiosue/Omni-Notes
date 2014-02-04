@@ -871,6 +871,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
 		// Set the textChangedListener on the replaced view
 		mChecklistManager.setCheckListChangedListener(this);
+		mChecklistManager.addTextChangedListener(this);
 		
 		// Options for converting back to simple text
 		mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
@@ -1421,6 +1422,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	 * Updates share intent 
 	 */
 	private void updateShareIntent() {
+		
+		if (mShareActionProvider == null) return;
+		
 		// Changed fields
 		String title = ((EditText) findViewById(R.id.title)).getText().toString();
 		
