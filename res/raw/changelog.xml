@@ -16,9 +16,10 @@
 -->
 <changelog bulletedList="true">
 
-<!--     <changelogversion versionName="4.2.0" changeDate="Jan 29, 2014">        -->
-<!--     	<changelogtext>[u]Fixed[/u] Tag color is no more reset to default color when saving it without changes</changelogtext> -->
-<!--  	</changelogversion> -->
+    <changelogversion versionName="4.2.0" changeDate="Feb 5, 2014">       
+    	<changelogtext>[u]New! New stable version is out!![/u] </changelogtext>
+    	<changelogtext>[u]New![/u] Chinese language support (thanks ContactFront from XDA)</changelogtext>
+ 	</changelogversion>
 
     <changelogversion versionName="4.2.0 Beta 8" changeDate="Feb 3, 2014">   
       <changelogtext>[u]New![/u] Tags colors have been moved to pastel family for a better looking and can be set to cover not only the small tag markers in notes but also the full note item!</changelogtext>

@@ -117,7 +117,12 @@ public class TagActivity extends Activity {
 		saveBtn.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				saveTag();
+				// In case tag name is not compiled a message will be shown
+                if (title.getText().toString().length() > 0) {
+    				saveTag();
+                } else {
+                	title.setError(getString(R.string.tag_title));
+                }
 			}
 		});
 		discardBtn.setOnClickListener(new OnClickListener() {			
