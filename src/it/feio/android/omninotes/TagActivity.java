@@ -68,6 +68,14 @@ public class TagActivity extends Activity {
 			populateViews();
 		}
 	}
+	
+	
+	
+	@Override
+	public void onBackPressed() {
+		discard();
+	}
+	
 
 	private void initViews() {
 		title = (EditText) findViewById(R.id.tag_title);
