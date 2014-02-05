@@ -1649,9 +1649,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	}
 
 	private void stopRecording() {
-		mRecorder.stop();
-		mRecorder.release();
-		mRecorder = null;
+		if (mRecorder!= null) {
+			mRecorder.stop();
+			mRecorder.release();
+			mRecorder = null;
+		}
 	}
 	
 
