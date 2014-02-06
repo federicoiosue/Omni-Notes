@@ -118,8 +118,8 @@
     <string name="checklist_keep_checked">Keep checked items</string>
     <string name="checklist_keep_symbols">Keep checkmarks (to remember checked ones)</string>
     <string name="sketch">Sketch</string>
-    <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n A crash report is going to be sent to developer!</string>
-    <string name="crash_dialog_comment_prompt">Optional comment</string>
+    <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n Would you like to send a report to developer?</string>
+    <string name="crash_dialog_comment_prompt">Insert an optional comment here:</string>
     <string name="new_update_available">A new Omni Notes version is available, would you like to update?</string>
    	<string name="update">Update and rate!</string>
     <string name="not_now">Not now</string>	 

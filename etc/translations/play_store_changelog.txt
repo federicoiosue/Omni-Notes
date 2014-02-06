@@ -1,5 +1,8 @@
 Look to the changelog inside the app for all the changes!
 
+4.2.1
+
+
 4.2.0
 You can now easily convert from simple text note to [b]checklist[/b] and vice versa
 Add hand-sketches to your notes!
