@@ -178,25 +178,21 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 * @param rowView
 	 */
 	private void colorNote(Note note, View v) {
-		
+
 		// Checking preference
-		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-				"settings_enable_tag_marker", true)){
-			
-			// Choosing target view depending on another preference
-			View tagMarker;
-			if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
-					"settings_enable_tag_marker_full", false)){
-				tagMarker = v.findViewById(R.id.card_layout);
-			} else {
-				tagMarker = v.findViewById(R.id.tag_marker);
-			}
-			
-			// Coloring the target
+		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("settings_enable_tag_marker", true)) {
+
+			// Resetting transparent color to the view
+			v.setBackgroundColor(Color.parseColor("#00000000"));
+
+			// If tag is set the color will be applied on the appropriate target
 			if (note.getTag() != null && note.getTag().getColor() != null) {
-				tagMarker.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
-			} else {
-				tagMarker.setBackgroundColor(Color.parseColor("#00000000"));
+				if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+						"settings_enable_tag_marker_full", false)) {
+					v.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+				} else {
+					v.findViewById(R.id.tag_marker).setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+				}
 			}
 		}
 	}

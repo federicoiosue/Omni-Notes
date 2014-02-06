@@ -260,9 +260,6 @@ public class ListActivity extends BaseActivity {
 			// Here you can make any necessary updates to the activity when
 			// the CAB is removed. By default, selected items are deselected/unchecked.
 			
-			// Clears data structures
-			selectedNotes.clear();
-			mAdapter.clearSelectedItems();	
 			
 	    	Iterator it = mAdapter.getSelectedItems().entrySet().iterator();
 			while (it.hasNext()) {
@@ -272,10 +269,12 @@ public class ListActivity extends BaseActivity {
 					mAdapter.restoreDrawable(mAdapter.getItem(i), listView.getChildAt(i).findViewById(R.id.card_layout));
 				}
 			}
-			
+
+			// Clears data structures
 			selectedNotes.clear();
-			mAdapter.clearSelectedItems();
+			mAdapter.clearSelectedItems();	
 			listView.clearChoices();
+			
 			mActionMode = null;
 			Log.d(Constants.TAG, "Closed multiselection contextual menu");
 		}
