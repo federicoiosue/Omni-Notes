@@ -892,6 +892,11 @@ public class ListActivity extends BaseActivity {
 						// If list is empty again Mr Jingles will appear again
 						if (l.getCount() == 0)
 							listView.setEmptyView(findViewById(R.id.empty_list));
+
+						// Clears data structures
+						selectedNotes.clear();
+						mAdapter.clearSelectedItems();	
+						listView.clearChoices();
 						
 						// Advice to user
 						Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
@@ -901,6 +906,12 @@ public class ListActivity extends BaseActivity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
+
+						// Clears data structures
+						selectedNotes.clear();
+						mAdapter.clearSelectedItems();	
+						listView.clearChoices();
+						
 						mActionMode.finish(); // Action picked, so close the CAB
 					}
 				});
@@ -952,6 +963,11 @@ public class ListActivity extends BaseActivity {
 			// Informs the user about update
 			Log.d(Constants.TAG, "Note with id '" + note.get_id() + "' " + archivedStatus);
 		}
+
+		// Clears data structures
+		selectedNotes.clear();
+		mAdapter.clearSelectedItems();	
+		listView.clearChoices();
 
 		// Refresh view
 		((ListView) findViewById(R.id.notesList)).invalidateViews();
@@ -1015,14 +1031,11 @@ public class ListActivity extends BaseActivity {
 		
 		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
 		alertDialogBuilder.setTitle(R.string.tag_as)
-							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {										
+//							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {
+							.setAdapter(new NavDrawerTagAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									candidateSelectedTag = tags.get(which);
-								}
-							}).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
 									for (Note note : selectedNotes) {
 										// Update adapter content if actual navigation is the tag
 										// associated with actually cycled note

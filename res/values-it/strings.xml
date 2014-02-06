@@ -68,7 +68,7 @@
   <string name="tag_deleted">Tag cancellato</string>
   <string name="delete_this_tag">Eliminare questo tag</string>
   <string name="tag">Tag</string>
-  <string name="tag_as">Tagga come</string>
+  <string name="tag_as">Associa Tag</string>
   <string name="title_activity_tag">Modifica tag</string>
   <string name="delete_unused_tag_confirmation">Confermi l\'eliminazione del tag</string>
   <string name="delete_tag_confirmation">Questo tag è associato a $1$ nota/e. \nConfermi l\'eliminazione del tag e la sua rimozione da tutte le note?</string>

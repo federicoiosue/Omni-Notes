@@ -23,6 +23,7 @@ import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.ExpandableHeightGridView;
+import it.feio.android.omninotes.models.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
@@ -923,17 +924,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		candidateSelectedTag = tags.get(0);
 		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
 		alertDialogBuilder.setTitle(R.string.tag_as)
-							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {										
+//							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {	
+							.setAdapter(new NavDrawerTagAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									candidateSelectedTag = tags.get(which);
-								}
-							}).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
-									selectedTag = candidateSelectedTag;
-									candidateSelectedTag = null;
-									setTagMarkerColor(selectedTag);
+									setTagMarkerColor(tags.get(which));
 								}
 							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
 								@Override

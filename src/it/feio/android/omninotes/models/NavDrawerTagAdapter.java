@@ -36,10 +36,18 @@ import android.widget.ImageView;
 public class NavDrawerTagAdapter extends BaseAdapter {
 
 	private Context mContext;
+	private int layout;
 	private ArrayList<Tag> tags;
 
 	public NavDrawerTagAdapter(Context context, ArrayList<Tag> tags) {
 		this.mContext = context;
+		this.layout = R.layout.drawer_list_item;		
+		this.tags = tags;
+	}
+
+	public NavDrawerTagAdapter(Context context, int layout, ArrayList<Tag> tags) {
+		this.mContext = context;
+		this.layout = layout;
 		this.tags = tags;
 	}
 
@@ -68,7 +76,7 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		ImageView imgIcon;
 
 		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View itemView = inflater.inflate(R.layout.drawer_list_item, parent, false);
+		View itemView = inflater.inflate(layout, parent, false);
 
 		// Locate the TextViews in drawer_list_item.xml
 		txtTitle = (TextView) itemView.findViewById(R.id.title);

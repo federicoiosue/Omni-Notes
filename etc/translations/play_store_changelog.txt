@@ -1,5 +1,21 @@
 Look to the changelog inside the app for all the changes!
 
+4.2.0
+You can now easily convert from simple text note to [b]checklist[/b] and vice versa
+Add hand-sketches to your notes!
+12-hours mode available
+Automatic updates check will tell you when a new version is out (not applied to Beta releases)
+Revisited layout of all application and settings screen
+Actionbar and navigation bar transparency in KitKat
+A lot of new supported languages!!
+
+4.1.4
+Fixed crashed on Flesy and Samsung keyboards
+
+4.1.3
+Updated german translation
+Fixed note backup problem
+
 4.1.2
 Translated in dutch (Martin Coulon), german (Lycox MB) annd russian (Abdullah Amir)
 Serious bugfixes
