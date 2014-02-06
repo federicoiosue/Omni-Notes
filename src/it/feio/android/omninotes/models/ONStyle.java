@@ -18,8 +18,8 @@ public static final int ConfirmGreen = R.color.confirm;
 public static final int InfoYellow = R.color.info;
 
 private static final int DURATION_SHORT  = 1500;
-private static final int DURATION_MEDIUM = 2500;
-private static final int DURATION_LONG   = 5500;
+private static final int DURATION_MEDIUM = 2300;
+private static final int DURATION_LONG   = 3000;
 
 
 static {
