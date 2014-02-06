@@ -15,13 +15,13 @@ import android.preference.PreferenceManager;
 
 @ReportsCrashes(formKey = "", 
 //				mailTo = Constants.DEV_EMAIL, 
-				mode = ReportingInteractionMode.TOAST, 
-				resToastText = R.string.crash_dialog_text
-//				mode = ReportingInteractionMode.DIALOG,
+//				mode = ReportingInteractionMode.TOAST, 
+//				resToastText = R.string.crash_dialog_text
+				mode = ReportingInteractionMode.DIALOG,
 //				resDialogIcon = R.drawable.ic_launcher,
-//				resDialogCommentPrompt = R.string.crash_dialog_comment_prompt,
+				resDialogCommentPrompt = R.string.crash_dialog_comment_prompt,
 //				resDialogTitle = R.string.crash_dialog_title, 
-//				resDialogText = R.string.crash_dialog_text
+				resDialogText = R.string.crash_dialog_text
 				)
 public class OmniNotes extends Application {
 	

@@ -180,6 +180,7 @@
         <!-- ACRA -->
         <activity
             android:name="org.acra.CrashReportDialog"
+            android:theme="@style/Theme.AppCompat.Dialog"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="true"
             android:launchMode="singleInstance" />        
