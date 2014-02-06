@@ -265,7 +265,7 @@ public class ListActivity extends BaseActivity {
 			while (it.hasNext()) {
 				Map.Entry mapEntry = (Map.Entry) it.next();
 				int i = (Integer) mapEntry.getKey();
-				if (mAdapter.getItem(i) != null) {
+				if (mAdapter.getCount() > i && mAdapter.getItem(i) != null) {
 					mAdapter.restoreDrawable(mAdapter.getItem(i), listView.getChildAt(i).findViewById(R.id.card_layout));
 				}
 			}

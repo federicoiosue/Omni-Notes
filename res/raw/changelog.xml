@@ -16,9 +16,16 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.2.1" changeDate="Feb 6, 2014">       
+    	<changelogtext>[u]New! [/u]Tags dialogs now shows colors and selection happens with just one click</changelogtext>
+    	<changelogtext>[u]New! [/u]When an app crash happens you'll be informed (for transparency) and you can insert a comment</changelogtext>
+    	<changelogtext>[u]Fixed[/u] Resolved multiselection wrong coloration</changelogtext>
+    	<changelogtext>[u]Fixed[/u] Resolved many check-list issues</changelogtext>
+ 	</changelogversion>
+
     <changelogversion versionName="4.2.0" changeDate="Feb 5, 2014">       
     	<changelogtext>[u]New! New stable version is out!![/u] </changelogtext>
-    	<changelogtext>[u]New![/u] Chinese language support (thanks ContactFront from XDA)</changelogtext>
+zz    	<changelogtext>[u]New![/u] Chinese language support (thanks ContactFront from XDA)</changelogtext>
  	</changelogversion>
 
     <changelogversion versionName="4.2.0 Beta 8" changeDate="Feb 3, 2014">   
