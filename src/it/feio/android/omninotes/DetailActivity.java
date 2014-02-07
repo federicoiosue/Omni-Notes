@@ -29,6 +29,7 @@ import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.DatePickerFragment;
@@ -352,7 +353,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 						|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
 					attachmentIntent = new Intent(Intent.ACTION_VIEW);
 					attachmentIntent.setDataAndType(uri, attachment.getMime_type());
-					if (isAvailable(getApplicationContext(), attachmentIntent, null)) {
+					if (IntentChecker.isAvailable(getApplicationContext(), attachmentIntent, null)) {
 						startActivity(attachmentIntent);
 					} else {
 //						showToast(getResources().getText(R.string.no_app_to_handle_intent), Toast.LENGTH_SHORT);
@@ -1070,27 +1071,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	}
 
 	
-	/**
-	 * Checks intent and features availability
-	 * @param ctx
-	 * @param intent
-	 * @param features
-	 * @return
-	 */
-	private static boolean isAvailable(Context ctx, Intent intent, String[] features) {
-		boolean res = true;		
-		final PackageManager mgr = ctx.getPackageManager();
-		// Intent resolver
-		List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-		res = res && list.size() > 0;
-		// Features
-		if (features != null) {
-			for (String feature : features) {
-				res = res && mgr.hasSystemFeature(feature);			
-			}
-		}
-		return res;
-	}
+	
 
 	
 	private void takePhoto() {
@@ -1103,7 +1084,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	
 	private void takeVideo() {
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-		if (!isAvailable(mActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
+		if (!IntentChecker.isAvailable(mActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
 //			showToast(getString(R.string.feature_not_available_on_this_device), Toast.LENGTH_SHORT);
 			Crouton.makeText(this, R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
 			return;
