@@ -16,6 +16,7 @@
 package it.feio.android.omninotes.receiver;
 
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.async.NotificationService;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
@@ -82,13 +83,31 @@ public class AlarmReceiver extends BroadcastReceiver {
 						time_format);
 		String text = note.getTitle().length() > 0 && note.getContent().length() > 0 ? note.getContent() : alarmText;
 		
+		// Sets up the Snooze and Dismiss action buttons that will appear in the
+		// big view of the notification.
+		Intent dismissIntent = new Intent(ctx, NotificationService.class);
+		dismissIntent.setAction(Constants.ACTION_DISMISS);
+		PendingIntent piDismiss = PendingIntent.getService(ctx, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Intent snoozeIntent = new Intent(ctx, NotificationService.class);
+		snoozeIntent.setAction(Constants.ACTION_SNOOZE);
+		PendingIntent piSnooze = PendingIntent.getService(ctx, 0, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		
 		// Notification building
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				ctx).setSmallIcon(R.drawable.ic_stat_notification_icon)
 				.setContentTitle(title).setContentText(text)
-				.setAutoCancel(true);
+				.setAutoCancel(true)		
+         //Sets the big view "big text" style  
+//        .setStyle(new NotificationCompat.BigTextStyle()
+//                .bigText("aaaaaaaaaaaaa"))
+        .addAction (R.drawable.ic_action_cancel_dark,
+        		ctx.getString(R.string.cancel), piDismiss)
+        .addAction (R.drawable.ic_action_replay_dark,
+        		ctx.getString(R.string.snooze), piSnooze);
 		
-		// Impostazione suoneria
+		
+		// Ringtone options
 		if (prefs.getBoolean("settings_notification_sound", true)) {
 			Uri ringtone = Uri.parse(prefs.getString(
 					"settings_notification_ringtone", RingtoneManager
@@ -97,7 +116,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			mBuilder.setSound(ringtone);
 		}
 		
-		// Impostazione vibrazione
+		// Vibration options
 		long[] pattern = {500,500};		
 		if (prefs.getBoolean("settings_notification_vibration", true))
 			mBuilder.setVibrate(pattern);

@@ -61,6 +61,14 @@ public interface Constants {
     final String INTENT_TAG = "tag";
     final String INTENT_DETAIL_RESULT_CODE = "detail_result_code";
     final String INTENT_DETAIL_RESULT_MESSAGE = "detail_result_message";
+    
+    // Custom intent actions
+    final String ACTION_DATA_EXPORT = "action_data_export";
+    final String ACTION_DATA_IMPORT = "action_data_import";
+	final String ACTION_DATA_DELETE = "action_data_delete";
+	final String ACTION_START_APP = "action_start_app";
+   	final String ACTION_DISMISS = "action_dismiss"; 
+	final String ACTION_SNOOZE = "action_snooze";
 	
 	final String MESSAGE = "message";
 
@@ -88,14 +96,8 @@ public interface Constants {
     
     final int ERROR_NOTE_NOT_DELETED = -1;
     final int ERROR_ATTACHMENTS_NOT_DELETED = -2;
-    
-    // Custom intent actions
-    final String ACTION_DATA_EXPORT = "action_data_export";
-    final String ACTION_DATA_IMPORT = "action_data_import";
-	final String ACTION_DATA_DELETE = "action_data_delete";
-	final String ACTION_START_APP = "action_start_app";
 	
 	final String SECURITY_ALGORITHM = "MD5";
 	
-	final String TIMESTAMP_NEVER = "13910051406040";	// I really don't believe we'll reach 10/17/2410 1:10:06 AM 
+	final String TIMESTAMP_NEVER = "13910051406040";	// I really don't believe we'll reach 10/17/2410 1:10:06 AM
 }

@@ -213,6 +213,10 @@
         <service android:name="it.feio.android.omninotes.async.DataBackupIntentService" >
         </service>
 
+        <!-- Notification action receiver service -->
+        <service android:name="it.feio.android.omninotes.async.NotificationService" >
+        </service>
+
         <!-- Widget -->
         <receiver
             android:name="it.feio.android.omninotes.receiver.WidgetProvider"

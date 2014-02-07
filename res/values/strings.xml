@@ -131,6 +131,8 @@
     <string name="no_reminder_set">No reminder set</string>	 
     <string name="saturation">Saturation</string>
     <string name="opacity">Opacity</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="snooze">Snooze</string>
     
         	 
     <!-- Settings -->
