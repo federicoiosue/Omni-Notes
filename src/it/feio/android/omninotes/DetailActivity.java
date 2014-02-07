@@ -747,7 +747,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	
 	public boolean goHome() {
 		stopPlaying();
-//		NavUtils.navigateUpFromSameTask(this);
+
+		// The activity has managed a shared intent from third party app and
+		// performs a normal onBackPressed instead of returning back to ListActivity
+		if (getIntent().getBooleanExtra(Constants.INTENT_MANAGING_SHARE, false)) {
+			super.onBackPressed();
+		}
+		
+		// Otherwise the result is passed to ListActivity
 		int result = resultIntent.getIntExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_OK);
 		setResult(result, resultIntent);
 		super.finish();

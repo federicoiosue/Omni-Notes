@@ -54,6 +54,7 @@ public interface Constants {
 	
     final String INTENT_KEY = "note_id";
     final String INTENT_NOTE = "note";
+	final String INTENT_MANAGING_SHARE = "managing_share"; // Used when handling received data 
 	final String INTENT_IMAGE = "image";
 	final int INTENT_ALARM_CODE = 12345;
 	final String INTENT_BACKUP_NAME = "backup_name";

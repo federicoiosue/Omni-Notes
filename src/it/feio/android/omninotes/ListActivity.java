@@ -231,6 +231,7 @@ public class ListActivity extends BaseActivity {
 	    // Editing activity launch
 		Intent detailIntent = new Intent(this, DetailActivity.class);
 		detailIntent.putExtra(Constants.INTENT_NOTE, note);
+		detailIntent.putExtra(Constants.INTENT_MANAGING_SHARE, true);
 		startActivity(detailIntent);
 	}
 

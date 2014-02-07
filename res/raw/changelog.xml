@@ -16,31 +16,33 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.2.2" changeDate="Feb 7, 2014">       
-    	<changelogtext>[u]Fixed[/u] Taggnig from inside note detail now functions again</changelogtext>
-    	<changelogtext>[u]Fixed[/u] When prompet for update the application will check if Play Store is installed and will not crash anymore</changelogtext>
+    <changelogversion versionName="4.2.2" changeDate="Feb 7, 2014">
+        <changelogtext>[b]New![/b] Implemented new tags creation directly from note tagging dialog</changelogtext>
+        <changelogtext>[b]New![/b] Ukranian language support (thanks Andriy Poznakhovskyy)</changelogtext>                
+    	<changelogtext>[u]Fixed[/u] Tagging from inside note detail now functions again</changelogtext>
+    	<changelogtext>[u]Fixed[/u] When prompted for update the application will check if Play Store is installed and will not crash anymore</changelogtext>
  	</changelogversion>
 
     <changelogversion versionName="4.2.1" changeDate="Feb 6, 2014">       
-    	<changelogtext>[u]New! [/u]Tags dialogs now shows colors and selection happens with just one click</changelogtext>
-    	<changelogtext>[u]New! [/u]When an app crash happens you'll be informed (for transparency) and you can insert a comment</changelogtext>
+    	<changelogtext>[b]New![/b] Tags dialogs now shows colors and selection happens with just one click</changelogtext>
+    	<changelogtext>[b]New![/b] When an app crash happens you'll be informed (for transparency) and you can insert a comment</changelogtext>
     	<changelogtext>[u]Fixed[/u] Resolved multiselection wrong coloration</changelogtext>
     	<changelogtext>[u]Fixed[/u] Resolved many check-list issues</changelogtext>
  	</changelogversion>
 
     <changelogversion versionName="4.2.0" changeDate="Feb 5, 2014">       
-    	<changelogtext>[u]New! New stable version is out!![/u] </changelogtext>
-    	<changelogtext>[u]New![/u] Chinese language support (thanks ContactFront from XDA)</changelogtext>
+    	<changelogtext>[b]New![/b] [u]A fresh stable version is out!![/u] </changelogtext>
+    	<changelogtext>[b]New![/b] Chinese language support (thanks ContactFront from XDA)</changelogtext>
  	</changelogversion>
 
     <changelogversion versionName="4.2.0 Beta 8" changeDate="Feb 3, 2014">   
-      <changelogtext>[u]New![/u] Tags colors have been moved to pastel family for a better looking and can be set to cover not only the small tag markers in notes but also the full note item!</changelogtext>
-      <changelogtext>[u]New![/u] More elegant password setting screen. Now, if trying to lock a note without having inserted a security password before, you'll be prompted for it just once.</changelogtext>
-      <changelogtext>[u]New![/u] Notification ringtone customizable from settings</changelogtext>
-      <changelogtext>[u]New![/u] New sharing mode</changelogtext>
-      <changelogtext>[u]New![/u] Tags creations and deletions are now notified with color contextual dialogs</changelogtext>
-      <changelogtext>[u]New![/u] Added opacity bar in Sketch and fixed popup position</changelogtext>
-      <changelogtext>[u]New![/u] Swedish language support (thanks Mattias Lundqvist)</changelogtext>
+      <changelogtext>[b]New![/b] Tags colors have been moved to pastel family for a better looking and can be set to cover not only the small tag markers in notes but also the full note item!</changelogtext>
+      <changelogtext>[b]New![/b] More elegant password setting screen. Now, if trying to lock a note without having inserted a security password before, you'll be prompted for it just once.</changelogtext>
+      <changelogtext>[b]New![/b] Notification ringtone customizable from settings</changelogtext>
+      <changelogtext>[b]New![/b] New sharing mode</changelogtext>
+      <changelogtext>[b]New![/b] Tags creations and deletions are now notified with color contextual dialogs</changelogtext>
+      <changelogtext>[b]New![/b] Added opacity bar in Sketch and fixed popup position</changelogtext>
+      <changelogtext>[b]New![/b] Swedish language support (thanks Mattias Lundqvist)</changelogtext>
       <changelogtext>Tags are now ordered by name, when name is left blank the tag will stay on tail</changelogtext>
       <changelogtext>Updated Turkish translation</changelogtext>
       <changelogtext>[u]Fixed[/u] Crash when trying to delete a backup on some devices</changelogtext>   
@@ -48,27 +50,27 @@
  	</changelogversion>
 
     <changelogversion versionName="4.2.0 Beta 7" changeDate="Feb 2, 2014">   
-      <changelogtext>[u]New![/u] Actionbar and navigation bar transparency in KitKat</changelogtext>
-      <changelogtext>[u]New![/u] Reminder date and time picker support for smaller devices</changelogtext>
-      <changelogtext>[u]New![/u] Spanish language support (thanks Sergio Iglesias)</changelogtext>
-      <changelogtext>[u]New![/u] Slovak language support (thanks Pyler)</changelogtext>
-      <changelogtext>[u]New![/u] Something is happened to Mr.Jingles...</changelogtext>
+      <changelogtext>[b]New![/b] Actionbar and navigation bar transparency in KitKat</changelogtext>
+      <changelogtext>[b]New![/b] Reminder date and time picker support for smaller devices</changelogtext>
+      <changelogtext>[b]New![/b] Spanish language support (thanks Sergio Iglesias)</changelogtext>
+      <changelogtext>[b]New![/b] Slovak language support (thanks Pyler)</changelogtext>
+      <changelogtext>[b]New![/b] Something is happened to Mr.Jingles...</changelogtext>
       <changelogtext>Note editor screen margins changed to optimize screen usage and to perform more easily touch operations on "location" and "reminder" items</changelogtext>
       <changelogtext>Updated Russian language</changelogtext>
  	</changelogversion>
 
     <changelogversion versionName="4.2.0 Beta 6" changeDate="Feb 1, 2014">   
-      <changelogtext>[u]New![/u] Beautiful info messages replaced to standard Android toasts popup</changelogtext>
-      <changelogtext>[u]New![/u] When a problem occurs the application will not disturb you anymore and will automatically send the issue report if connection is available</changelogtext>
-<!--       <changelogtext>[u]New![/u] Default language is choosen depending on system locale but now is possible to change it from settings</changelogtext> -->
-      <changelogtext>[u]New![/u] French language support (thanks Kowalski OmniROM and Adrien Pegon)</changelogtext>
+      <changelogtext>[b]New![/b] Beautiful info messages replaced to standard Android toasts popup</changelogtext>
+      <changelogtext>[b]New![/b] When a problem occurs the application will not disturb you anymore and will automatically send the issue report if connection is available</changelogtext>
+<!--       <changelogtext>[b]New![/b] Default language is choosen depending on system locale but now is possible to change it from settings</changelogtext> -->
+      <changelogtext>[b]New![/b] French language support (thanks Kowalski OmniROM and Adrien Pegon)</changelogtext>
       <changelogtext>Updated Dutch and Italian translations</changelogtext>
       <changelogtext>[u]Fixed[/u] Deletion of sketch when orientation is changed is avoided forcing portrait mode</changelogtext>
       <changelogtext>[u]Fixed[/u] A couple of crashes when tagging notes are nore resolved</changelogtext>
  	</changelogversion>
 
     <changelogversion versionName="4.2.0 Beta 5" changeDate="Jan 30, 2014">   
-      <changelogtext>[u]New![/u] More contextualization: now [i]Lock or unlock[/i] and [i]Toggle checklist[/i] items in editor menu changes depending on the note status</changelogtext>
+      <changelogtext>[b]New![/b] More contextualization: now [i]Lock or unlock[/i] and [i]Toggle checklist[/i] items in editor menu changes depending on the note status</changelogtext>
       <changelogtext>Many layout modifications</changelogtext>
       <changelogtext>[u]Fixed[/u] Lot of fixes thanks to beta testers feedback</changelogtext>
  	</changelogversion>
