@@ -69,7 +69,7 @@ public class ACRAPostSender implements ReportSender {
 //			parameters.add(new BasicNameValuePair("INITIAL_CONFIGURATION", report.get(ReportField.INITIAL_CONFIGURATION)));
 			parameters.add(new BasicNameValuePair("CRASH_CONFIGURATION", report.get(ReportField.CRASH_CONFIGURATION)));
 			parameters.add(new BasicNameValuePair("DISPLAY", report.get(ReportField.DISPLAY)));
-//			parameters.add(new BasicNameValuePair("USER_COMMENT", report.get(ReportField.USER_COMMENT)));
+			parameters.add(new BasicNameValuePair("USER_COMMENT", report.get(ReportField.USER_COMMENT)));
 //			parameters.add(new BasicNameValuePair("USER_APP_START_DATE", report.get(ReportField.USER_APP_START_DATE)));
 //			parameters.add(new BasicNameValuePair("USER_CRASH_DATE", report.get(ReportField.USER_CRASH_DATE)));
 //			parameters.add(new BasicNameValuePair("DUMPSYS_MEMINFO", report.get(ReportField.DUMPSYS_MEMINFO)));
