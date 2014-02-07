@@ -18,11 +18,10 @@ package it.feio.android.omninotes.async;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.IntentChecker;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -35,13 +34,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -49,18 +45,18 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
-	private Activity mActivity;
+	private final WeakReference<Activity> mActivity;
 	String url;
 	private String packageName;
 	private boolean promptUpdate = false;
 
 	public UpdaterTask(Activity mActivity) {
-		this.mActivity = mActivity;
+		this.mActivity = new WeakReference<Activity>(mActivity);
 	}
 
 	@Override
 	protected void onPreExecute() {
-		String packageName = mActivity.getApplicationContext().getPackageName();
+		String packageName = mActivity.get().getApplicationContext().getPackageName();
 		url = Constants.PS_METADATA_FETCHER_URL + Constants.PLAY_STORE_URL
 				+ packageName;
 		super.onPreExecute();
@@ -78,7 +74,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 			// Getting from preferences last update check
 			SharedPreferences prefs = PreferenceManager
-					.getDefaultSharedPreferences(mActivity);
+					.getDefaultSharedPreferences(mActivity.get());
 
 			long now = System.currentTimeMillis();
 			if (promptUpdate
@@ -99,9 +95,15 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	}
 
 	private void promptUpdate() {
+		
+		// Check if activity is still finishing
+		if (mActivity.get() == null || mActivity.get().isFinishing()) {
+			return;
+		}
+		
 		// Confirm dialog creation
 		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				mActivity);
+				mActivity.get());
 		alertDialogBuilder
 				.setCancelable(false)
 				.setMessage(R.string.new_update_available)
@@ -111,10 +113,10 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								if(!isGooglePlayAvailable()) {
-									Crouton.makeText(mActivity, R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
+									Crouton.makeText(mActivity.get(), R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
 									return;
 								}
-								mActivity.startActivity(new Intent(
+								mActivity.get().startActivity(new Intent(
 										Intent.ACTION_VIEW, Uri
 												.parse("market://details?id="
 														+ packageName)));
@@ -147,7 +149,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 */
 	public String getAppData() {
 		StringBuilder sb = new StringBuilder();
-		packageName = mActivity.getApplicationContext().getPackageName();
+		packageName = mActivity.get().getApplicationContext().getPackageName();
 
 		try {
 			// get URL content
@@ -185,8 +187,8 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 		boolean result = false;
 
 		// Retrieval of installed app version
-		PackageInfo pInfo = mActivity.getPackageManager().getPackageInfo(
-				mActivity.getPackageName(), 0);
+		PackageInfo pInfo = mActivity.get().getPackageManager().getPackageInfo(
+				mActivity.get().getPackageName(), 0);
 		String installedVersion = pInfo.versionName;
 
 		// Parsing version string to obtain major.minor.point (excluding eventually beta)
@@ -223,7 +225,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 */
 	private boolean isGooglePlayAvailable() {
         boolean googlePlayStoreInstalled;
-        int val= GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
+        int val= GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity.get());
         googlePlayStoreInstalled = val == ConnectionResult.SUCCESS;
         return googlePlayStoreInstalled;
     }
