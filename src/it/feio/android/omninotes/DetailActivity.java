@@ -914,34 +914,35 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		}
 		
 		// Otherwise a single choice dialog will be displayed
-		ArrayList<String> tagsNames = new ArrayList<String>();
-		int selectedIndex = 0;
-		for (Tag tag : tags) {
-			tagsNames.add(tag.getName());
-			if (selectedTag != null && tag.getId() == selectedTag.getId()) {
-				selectedIndex = tagsNames.size() - 1;
-			}
-		}
-		candidateSelectedTag = tags.get(0);
-		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
+//		ArrayList<String> tagsNames = new ArrayList<String>();
+//		int selectedIndex = 0;
+//		for (Tag tag : tags) {
+//			tagsNames.add(tag.getName());
+//			if (selectedTag != null && tag.getId() == selectedTag.getId()) {
+//				selectedIndex = tagsNames.size() - 1;
+//			}
+//		}
+//		candidateSelectedTag = tags.get(0);
+//		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
 		alertDialogBuilder.setTitle(R.string.tag_as)
 //							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {	
 							.setAdapter(new NavDrawerTagAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									setTagMarkerColor(tags.get(which));
+									selectedTag = tags.get(which);
+									setTagMarkerColor(selectedTag);
 								}
 							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
 									selectedTag = null;
-									candidateSelectedTag = null;
+//									candidateSelectedTag = null;
 									setTagMarkerColor(selectedTag);
 								}
 							}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
-									candidateSelectedTag = null;
+//									candidateSelectedTag = null;
 								}
 							});
 
@@ -1085,7 +1086,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	private void takeVideo() {
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 		if (!IntentChecker.isAvailable(mActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
-//			showToast(getString(R.string.feature_not_available_on_this_device), Toast.LENGTH_SHORT);
 			Crouton.makeText(this, R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
 			return;
 		}		
@@ -1212,7 +1212,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 						// Informs the user about update
 						Log.d(Constants.TAG, "Deleted note with id '" + note.get_id() + "'");
-//						showToast(getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT);
 						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_CANCELED);
 						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_deleted));
 						
@@ -1276,7 +1275,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				&& alarmDateTime == -1) {
 
 			Log.d(Constants.TAG, "Empty note not saved");
-//			showToast(getResources().getText(R.string.empty_note_not_saved), Toast.LENGTH_SHORT);
 			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_FIRST_USER);
 			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.empty_note_not_saved));
 			goHome();
@@ -1313,9 +1311,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			saveNoteTask.execute(note);
 		}
 
-		// Advice of update
-//		showToast(getResources().getText(R.string.note_updated), Toast.LENGTH_SHORT);
-//		Crouton.makeText(mActivity, R.string.note_updated, Style.CONFIRM).show();
 		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
 	}
 	
