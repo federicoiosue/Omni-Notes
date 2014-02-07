@@ -1,7 +1,10 @@
 package it.feio.android.omninotes.async;
 
+import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 
 public class NotificationService extends IntentService{
@@ -19,15 +22,19 @@ public class NotificationService extends IntentService{
 		} else if (Constants.ACTION_SNOOZE.equals(intent.getAction())) {
 			snooze(intent);		
 		}		
+		removeNotification(intent);
 	}
 
 	private void snooze(Intent intent) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	private void dismiss(Intent intent) {
-		// TODO Auto-generated method stub
+	}
+	
+	
+	private void removeNotification(Intent intent) {
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.cancel(intent.getIntExtra("id", 0));
 		
 	}
 

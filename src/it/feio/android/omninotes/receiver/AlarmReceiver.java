@@ -87,10 +87,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 		// big view of the notification.
 		Intent dismissIntent = new Intent(ctx, NotificationService.class);
 		dismissIntent.setAction(Constants.ACTION_DISMISS);
+		dismissIntent.putExtra("id", note.get_id());
 		PendingIntent piDismiss = PendingIntent.getService(ctx, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		Intent snoozeIntent = new Intent(ctx, NotificationService.class);
 		snoozeIntent.setAction(Constants.ACTION_SNOOZE);
+		snoozeIntent.putExtra("id", note.get_id());
 		PendingIntent piSnooze = PendingIntent.getService(ctx, 0, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
 		// Notification building
