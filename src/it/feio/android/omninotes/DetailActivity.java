@@ -48,11 +48,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -72,7 +70,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
-import android.support.v7.widget.ShareActionProvider.OnShareTargetSelectedListener;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.util.Linkify;
@@ -84,7 +81,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -906,12 +902,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		final ArrayList<Tag> tags = db.getTags();
 		
 		// If there is no tag a message will be shown
-		if (tags.size() == 0) {
-			Intent intent = new Intent(this, TagActivity.class);		
-			intent.putExtra("noHome", true);
-			startActivityForResult(intent, TAG);
-			return;
-		}
+//		if (tags.size() == 0) {
+//			Intent intent = new Intent(this, TagActivity.class);		
+//			intent.putExtra("noHome", true);
+//			startActivityForResult(intent, TAG);
+//			return;
+//		}
 		
 		// Otherwise a single choice dialog will be displayed
 //		ArrayList<String> tagsNames = new ArrayList<String>();
@@ -931,6 +927,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 								public void onClick(DialogInterface dialog, int which) {
 									selectedTag = tags.get(which);
 									setTagMarkerColor(selectedTag);
+								}
+							}).setPositiveButton(R.string.add_tag, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									Intent intent = new Intent(mActivity, TagActivity.class);		
+									intent.putExtra("noHome", true);
+									startActivityForResult(intent, TAG);
 								}
 							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
 								@Override
@@ -1155,7 +1158,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			case TAG:
 				Crouton.makeText(mActivity, R.string.tag_saved,
 						ONStyle.CONFIRM).show();
-				selectedTag = db.getTags().get(0);
+				selectedTag = intent.getParcelableExtra("tag");
 				setTagMarkerColor(selectedTag);
 				break;
 			}

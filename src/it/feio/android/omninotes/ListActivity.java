@@ -83,6 +83,7 @@ public class ListActivity extends BaseActivity {
 
 	private static final int REQUEST_CODE_DETAIL = 1;	
 	private static final int REQUEST_CODE_TAG = 2;
+	private static final int REQUEST_CODE_TAG_NOTES = 3;
 	
 	private CharSequence mTitle;
 	String[] mNavigationArray;
@@ -759,6 +760,13 @@ public class ListActivity extends BaseActivity {
 			}, 800);
 
 			break;
+			
+		case REQUEST_CODE_TAG_NOTES:
+			if (intent != null) {
+				Tag tag = intent.getParcelableExtra(Constants.INTENT_TAG);
+				tagSelectedNotes2(tag);
+			}
+			break;
 
 		default:
 			break;
@@ -1003,56 +1011,48 @@ public class ListActivity extends BaseActivity {
 		}
 
 		// If just one note is selected its tag will be set as pre-selected
-		if (selectedNotes.size() == 1) {
-			for (Note note : selectedNotes) {
-				if (note.getTag() != null && note.getTag().getId() != 0)
-					candidateSelectedTag = note.getTag();
-				else 
-					candidateSelectedTag = tags.get(0);
-			}
-		} else {
-			candidateSelectedTag = tags.get(0);
-		}		
+//		if (selectedNotes.size() == 1) {
+//			for (Note note : selectedNotes) {
+//				if (note.getTag() != null && note.getTag().getId() != 0)
+//					candidateSelectedTag = note.getTag();
+//				else 
+//					candidateSelectedTag = tags.get(0);
+//			}
+//		} else {
+//			candidateSelectedTag = tags.get(0);
+//		}		
 		
 		// Choosing the pre-selected item in the dialog list
-		ArrayList<String> tagsNames = new ArrayList<String>();
-		int selectedIndex = 0;		
-		for (int i = 0; i < tags.size(); i++) {
-			Tag tag = tags.get(i);
-			tagsNames.add(tag.getName());
-			if (candidateSelectedTag.getId() == tag.getId()){
-				selectedIndex = i;
-			}
-		}
+//		ArrayList<String> tagsNames = new ArrayList<String>();
+//		int selectedIndex = 0;		
+//		for (int i = 0; i < tags.size(); i++) {
+//			Tag tag = tags.get(i);
+//			tagsNames.add(tag.getName());
+//			if (candidateSelectedTag.getId() == tag.getId()){
+//				selectedIndex = i;
+//			}
+//		}
 
 		// A single choice dialog will be displayed
 		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
 		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 		
-		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
+//		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
 		alertDialogBuilder.setTitle(R.string.tag_as)
 //							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {
 							.setAdapter(new NavDrawerTagAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									candidateSelectedTag = tags.get(which);
-									for (Note note : selectedNotes) {
-										// Update adapter content if actual navigation is the tag
-										// associated with actually cycled note
-										if (!Arrays.asList(navigationListCodes).contains(navigation)
-												&& !navigation.equals(candidateSelectedTag.getId())) {
-											mAdapter.remove(note);
-										}
-										note.setTag(candidateSelectedTag);
-										db.updateNote(note);
-									}
-									// Refresh view
-									((ListView) findViewById(R.id.notesList)).invalidateViews();
-									// Advice to user
-									String msg = getResources().getText(R.string.notes_tagged_as) + " '" + candidateSelectedTag.getName() + "'";
-									Crouton.makeText(mActivity, msg, ONStyle.INFO).show();
-									candidateSelectedTag = null;
-									mActionMode.finish(); // Action picked, so close the CAB
+									// Moved to other method, this way the same code block can be called
+									// also by onActivityResult when a new tag is created
+									tagSelectedNotes2(tags.get(which));
+								}
+							}).setPositiveButton(R.string.add_tag, new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int id) {
+									Intent intent = new Intent(mActivity, TagActivity.class);		
+									intent.putExtra("noHome", true);
+									startActivityForResult(intent, REQUEST_CODE_TAG_NOTES);
 								}
 							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
 								@Override
@@ -1086,6 +1086,30 @@ public class ListActivity extends BaseActivity {
 
 		// show it
 		alertDialog.show();		
+	}
+	
+	
+	
+	private void tagSelectedNotes2(Tag tag) {
+		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
+		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		for (Note note : selectedNotes) {
+			// Update adapter content if actual navigation is the tag
+			// associated with actually cycled note
+			if (!Arrays.asList(navigationListCodes).contains(navigation)
+					&& !navigation.equals(tag.getId())) {
+				mAdapter.remove(note);
+			}
+			note.setTag(tag);
+			db.updateNote(note);
+		}
+		// Refresh view
+		((ListView) findViewById(R.id.notesList)).invalidateViews();
+		// Advice to user
+		String msg = getResources().getText(R.string.notes_tagged_as) + " '" + tag.getName() + "'";
+		Crouton.makeText(mActivity, msg, ONStyle.INFO).show();
+//		candidateSelectedTag = null;
+		mActionMode.finish(); // Action picked, so close the CAB
 	}
 	
 	

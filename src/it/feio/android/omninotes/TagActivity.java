@@ -153,16 +153,28 @@ public class TagActivity extends Activity {
 		deleteBtn.setVisibility(View.VISIBLE);
 	}
 
+	
+	/**
+	 * Tag saving
+	 */
 	private void saveTag() {
 		tag.setName(title.getText().toString());
 		tag.setDescription(description.getText().toString());
 		if (colorChanged || tag.getColor() == null)
 			tag.setColor(String.valueOf(picker.getColor()));
+		
+		// Saved to DB and new id or update result catched
 		DbHelper db = new DbHelper(this);
-		db.updateTag(tag);
+		long n = db.updateTag(tag);
+		
+		// If tag has no its an insertion and id is filled from db
+		if (tag.getId() == null) {
+			tag.setId((int)n);
+		}		
 		
 		// Sets result to show proper message
-		setResult(RESULT_OK);
+		getIntent().putExtra(Constants.INTENT_TAG, tag);
+		setResult(RESULT_OK, getIntent());
 		finish();
 	}
 
