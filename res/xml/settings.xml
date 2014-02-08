@@ -58,6 +58,13 @@
         <PreferenceScreen
             android:key="category_interface"
             android:title="@string/settings_category_interface" >
+	        
+	        <ListPreference
+                android:entries="@array/languages"
+                android:entryValues="@array/languages_codes"
+                android:key="settings_language"
+                android:title="@string/settings_choose_language" />
+	        
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="settings_enable_animations"

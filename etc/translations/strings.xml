@@ -16,7 +16,6 @@
 -->
 <resources>
 
-
     <!-- Activities -->
     <string name="title_item_list">Notes</string>
     <string name="add_note">Add Note</string>
@@ -110,7 +109,8 @@
     <string name="checklist_keep_checked">Keep checked items</string>
     <string name="checklist_keep_symbols">Keep checkmarks (to remember checked ones)</string>
     <string name="sketch">Sketch</string>
-    <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n A crash report is going to be sent to developer!</string>
+    <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n Would you like to send a report to developer?</string>
+    <string name="crash_dialog_comment_prompt">Insert an optional comment here:</string>
     <string name="new_update_available">A new Omni Notes version is available, would you like to update?</string>
    	<string name="update">Update and rate!</string>
     <string name="not_now">Not now</string>	 
@@ -122,6 +122,8 @@
     <string name="no_reminder_set">No reminder set</string>	 
     <string name="saturation">Saturation</string>
     <string name="opacity">Opacity</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="snooze">Snooze</string>
     
         	 
     <!-- Settings -->
@@ -193,6 +195,10 @@
     <string name="colors">Colors</string>
     <string name="settings_enable_tag_marker_full_list_only">Only list</string>
     <string name="settings_enable_tag_marker_full_list_only_summary">Force full color only in notes list while into detail only the small marker is colored </string>
+    <string name="settings_notification_snooze_delay">Snooze delay</string>
+    <string name="minutes">minutes</string>
+    <string name="settings_simple_calendar">Simple calendar and time</string>
+    <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
     
 
     <!-- Accessibility -->

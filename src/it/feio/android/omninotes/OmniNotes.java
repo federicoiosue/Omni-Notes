@@ -1,6 +1,8 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.utils.ACRAPostSender;
+import it.feio.android.omninotes.utils.Constants;
+
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -9,9 +11,11 @@ import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
 @ReportsCrashes(formKey = "", 
 //				mailTo = Constants.DEV_EMAIL, 
@@ -25,8 +29,8 @@ import android.preference.PreferenceManager;
 				)
 public class OmniNotes extends Application {
 	
-	
-	SharedPreferences prefs;
+	private final static String PREF_LANG = "settings_language";
+	static SharedPreferences prefs;
 	
 	@Override
 	public void onCreate() {
@@ -40,7 +44,8 @@ public class OmniNotes extends Application {
 		ACRA.getErrorReporter().setReportSender(new ACRAPostSender(ACRAData));
 
 		// Checks selected locale or default one
-		checkLocale(getResources().getConfiguration());
+//		checkLocale(getResources().getConfiguration());
+		updateLanguage(this,null);
 
 		super.onCreate();
 	}
@@ -50,19 +55,51 @@ public class OmniNotes extends Application {
 	// Used to restore user selected locale when configuration changes
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-		checkLocale(newConfig);
+//		checkLocale(newConfig);
+        String language = prefs.getString(PREF_LANG, "");             
+        super.onConfigurationChanged(newConfig);
+        updateLanguage(this,language);
     }
 
 	/**
 	 * Set custom locale on application start
 	 */
-	protected void checkLocale(Configuration config) {
-		Locale targetLocale = new Locale(prefs.getString("settings_language", Locale.getDefault().getCountry()));
+//	protected void checkLocale(Configuration config) {
+//		Locale targetLocale = new Locale(prefs.getString(PREF_LANG, Locale.getDefault().getCountry()));
 //		if (targetLocale.getLanguage() != config.locale.getLanguage()) {
 //			config.locale = targetLocale;
 //	
 //	        Locale.setDefault(config.locale);
 //	        getBaseContext().getResources().updateConfiguration(config, getResources().getDisplayMetrics());
 //		}
+//	}
+	
+	
+	/**
+	 * Updates default language with forced one
+	 * @param ctx
+	 * @param lang
+	 */
+	public static void updateLanguage(Context ctx, String lang) {
+		Configuration cfg = new Configuration();
+		String language = prefs.getString(PREF_LANG, "");
+
+		if (TextUtils.isEmpty(language) && lang == null) {
+			cfg.locale = Locale.getDefault();
+
+			String tmp = "";
+			tmp = Locale.getDefault().toString().substring(0, 2);
+
+			prefs.edit().putString(PREF_LANG, tmp).commit();
+
+		} else if (lang != null) {
+			cfg.locale = new Locale(lang);
+			prefs.edit().putString(PREF_LANG, lang).commit();
+
+		} else if (!TextUtils.isEmpty(language)) {
+			cfg.locale = new Locale(language);
+		}
+
+		ctx.getResources().updateConfiguration(cfg, null);
 	}
 }

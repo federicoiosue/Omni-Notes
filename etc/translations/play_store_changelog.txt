@@ -1,7 +1,16 @@
 Look to the changelog inside the app for all the changes!
 
-4.2.1
+4.2.2
+New tags can be created directly from note tagging dialog
+Expanded notifications with dismiss and snooze in Jelly Bean
+Alternative calendar and date pickers
+Set custom language     
+Translated un Ukrainian (Andriy Poznakhovskyy)            
+Bugfixes
 
+4.2.1   
+Easier tag system with colors
+Bugfixes
 
 4.2.0
 You can now easily convert from simple text note to [b]checklist[/b] and vice versa

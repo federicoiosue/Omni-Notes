@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,8 +33,10 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -339,27 +342,34 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		
 		
-		
-		// Languages 
-//		ListPreference lang = (ListPreference)findPreference("settings_language");		
-//		lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-//			
-//			@Override
-//			public boolean onPreferenceChange(Preference preference, Object value) {
-//				Locale locale = new Locale(value.toString());
-//				Configuration config = getResources().getConfiguration();
-//				
-//				if (!config.locale.getCountry().equals(locale)) {
+		// Languages
+		ListPreference lang = (ListPreference)findPreference("settings_language");		
+		lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object value) {
+				Locale locale = new Locale(value.toString());
+				Configuration config = getResources().getConfiguration();
+				
+				if (!config.locale.getCountry().equals(locale)) {
 //					config.locale = locale;
 //					getBaseContext().getResources().updateConfiguration(config,
 //							getBaseContext().getResources().getDisplayMetrics());
 //					PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_language", value.toString()).commit();
 //					finish();
 //					startActivity(new Intent(getApplicationContext(), ListActivity.class));
-//				}
-//				return false;
-//			}
-//		});
+					OmniNotes.updateLanguage(getApplicationContext(), value.toString());
+					
+					Intent i = getBaseContext()
+							.getPackageManager()
+							.getLaunchIntentForPackage(getBaseContext()
+							.getPackageName());							                               
+					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(i);
+				}
+				return false;
+			}
+		});
 
 	}
 	
