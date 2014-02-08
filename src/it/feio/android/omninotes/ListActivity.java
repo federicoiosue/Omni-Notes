@@ -915,11 +915,6 @@ public class ListActivity extends BaseActivity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-
-						// Clears data structures
-						selectedNotes.clear();
-						mAdapter.clearSelectedItems();	
-						listView.clearChoices();
 						
 						mActionMode.finish(); // Action picked, so close the CAB
 					}
