@@ -20,7 +20,8 @@
         <changelogtext>[b]New![/b] Implemented new tags creation directly from note tagging dialog</changelogtext>
         <changelogtext>[b]New![/b] Expanded notifications on Android versions major than Jelly Bean to allow dismissing reminder or delay it</changelogtext> 
         <changelogtext>[b]New![/b] Users can now choose to use default Android calendar and time pickers dialog instead of Googleìs ones</changelogtext>
-        <changelogtext>[b]New![/b] You can now force the application language from settings</changelogtext>       
+        <changelogtext>[b]New![/b] You can now force the application language from settings</changelogtext>    
+        <changelogtext>[b]New![/b] If your location address can't be retrieved due to missing network you'll be informed (location coordinates will be saved in any case)</changelogtext>        
         <changelogtext>[b]New![/b] Ukrainian language support (thanks Andriy Poznakhovskyy)</changelogtext>                
     	<changelogtext>Moved attachments thumbnails and location above note content text to emphasize them</changelogtext>       
         <changelogtext>If note title is empty the first line on content will be used instead to keep uniform aspect and optimize space usage</changelogtext>       

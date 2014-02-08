@@ -61,20 +61,20 @@
     </string-array>
         
     <string-array name="languages">
-        <item >Chinese</item>
-        <item >Dutch</item>
-        <item >English</item>
-        <item >French</item>
-        <item >German</item>
-        <item >Italian</item>
-        <item >Lao</item>
-        <item >Portuguese (Brazil)</item>
-        <item >Russian</item>
-        <item >Slovak</item>
-        <item >Spanish</item>
-        <item >Swedish</item>
-        <item >Turkish</item>
-        <item >Ukrainian</item>
+        <item >中文 (Chinese)</item>
+        <item >Nederlands (Dutch)</item>
+        <item >English (English)</item>
+        <item >Français (French)</item>
+        <item >Deutsch (German)</item>
+        <item >Italiano (Italian)</item>
+        <item >ສ​ປ​ປ​ລາວ  (Lao)</item>
+        <item >Português (Portuguese - Brazil)</item>
+        <item >Русский (Russian)</item>
+        <item >Slovenčina (Slovak)</item>
+        <item >Español (Spanish)</item>
+        <item >Kinesiska (Swedish)</item>
+        <item >Türkçe (Turkish)</item>
+        <item >Українська (Ukrainian)</item>
     </string-array>
         
     <string-array name="languages_codes">
