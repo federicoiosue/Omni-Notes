@@ -91,6 +91,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" >
+                        
+                        <it.feio.android.omninotes.models.ExpandableHeightGridView
+                            android:id="@+id/gridview"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="@dimen/padding_half"
+                            android:drawSelectorOnTop="true"
+                            android:gravity="center"
+                            android:listSelector="@drawable/icon_selector"
+                            android:numColumns="2"
+                            android:stretchMode="columnWidth" />
+
+                        <com.neopixl.pixlui.components.textview.TextView
+                            android:id="@+id/location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:background="@drawable/icon_selector"
+                            android:gravity="center_vertical"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:textColor="@color/location_text"
+                            android:textSize="12sp"
+                            android:visibility="gone"
+                            pixlui:typeface="Roboto-Regular.ttf" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -109,32 +134,6 @@
                                 android:textColor="@color/text_gray"
                                 pixlui:typeface="RobotoSlab-Regular.ttf" />
                         </LinearLayout>
-
-                        <com.neopixl.pixlui.components.textview.TextView
-                            android:id="@+id/location"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/icon_selector"
-                            android:gravity="center_vertical"
-                            android:paddingBottom="10dp"
-                            android:paddingTop="10dp"
-                            android:textColor="@color/location_text"
-                            android:textSize="12sp"
-                            android:visibility="gone"
-                            pixlui:typeface="Roboto-Regular.ttf" />
-
-                        <it.feio.android.omninotes.models.ExpandableHeightGridView
-                            android:id="@+id/gridview"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginBottom="20dp"
-                            android:layout_marginTop="10dp"
-                            android:drawSelectorOnTop="true"
-                            android:gravity="center"
-                            android:listSelector="@drawable/icon_selector"
-                            android:numColumns="2"
-                            android:stretchMode="columnWidth" />
 
                         <LinearLayout
                             android:id="@+id/reminder_layout"

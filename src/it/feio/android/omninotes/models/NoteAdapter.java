@@ -18,7 +18,6 @@ package it.feio.android.omninotes.models;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.date.DateHelper;
 
 import java.util.HashMap;
 import java.util.List;
