@@ -16,7 +16,9 @@
 package it.feio.android.omninotes.async;
 
 import it.feio.android.omninotes.utils.Constants;
+
 import java.lang.ref.WeakReference;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;

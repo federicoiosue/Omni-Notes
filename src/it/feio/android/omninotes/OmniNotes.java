@@ -54,24 +54,10 @@ public class OmniNotes extends Application {
 	// Used to restore user selected locale when configuration changes
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-//		checkLocale(newConfig);
         String language = prefs.getString(PREF_LANG, "");             
         super.onConfigurationChanged(newConfig);
         updateLanguage(this,language);
     }
-
-	/**
-	 * Set custom locale on application start
-	 */
-//	protected void checkLocale(Configuration config) {
-//		Locale targetLocale = new Locale(prefs.getString(PREF_LANG, Locale.getDefault().getCountry()));
-//		if (targetLocale.getLanguage() != config.locale.getLanguage()) {
-//			config.locale = targetLocale;
-//	
-//	        Locale.setDefault(config.locale);
-//	        getBaseContext().getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-//		}
-//	}
 	
 	
 	/**

@@ -15,21 +15,21 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
-import java.util.Arrays;
-
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 
-import com.neopixl.pixlui.components.textview.TextView;
+import java.util.Arrays;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import com.neopixl.pixlui.components.textview.TextView;
 
 public class NavigationDrawerAdapter extends BaseAdapter {
 

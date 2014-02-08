@@ -16,7 +16,6 @@
 package it.feio.android.omninotes.receiver;
 
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.NotificationService;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;

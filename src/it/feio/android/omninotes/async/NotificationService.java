@@ -1,10 +1,11 @@
 package it.feio.android.omninotes.async;
 
-import java.util.Calendar;
-
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
+
+import java.util.Calendar;
+
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.NotificationManager;

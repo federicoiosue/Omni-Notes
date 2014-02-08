@@ -15,11 +15,11 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
-import java.util.ArrayList;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 
-import com.neopixl.pixlui.components.textview.TextView;
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -32,6 +32,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import com.neopixl.pixlui.components.textview.TextView;
 
 public class NavDrawerTagAdapter extends BaseAdapter {
 

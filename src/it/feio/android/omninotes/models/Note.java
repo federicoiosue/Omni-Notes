@@ -15,17 +15,14 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.EqualityChecker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
 
 public class Note implements Parcelable {
 

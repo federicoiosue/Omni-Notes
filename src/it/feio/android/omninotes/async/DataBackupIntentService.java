@@ -1,10 +1,12 @@
 package it.feio.android.omninotes.async;
 
-import java.io.File;
 import it.feio.android.omninotes.ListActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
+
+import java.io.File;
+
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;

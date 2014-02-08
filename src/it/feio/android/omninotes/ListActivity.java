@@ -15,6 +15,19 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import it.feio.android.omninotes.async.DeleteNoteTask;
+import it.feio.android.omninotes.async.UpdaterTask;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.NavDrawerTagAdapter;
+import it.feio.android.omninotes.models.NavigationDrawerAdapter;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.NoteAdapter;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.StorageManager;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,28 +35,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
-import com.neopixl.pixlui.components.textview.TextView;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.NavigationDrawerAdapter;
-import it.feio.android.omninotes.models.NavDrawerTagAdapter;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.NoteAdapter;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.Tag;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.StorageManager;
-import it.feio.android.omninotes.async.DeleteNoteTask;
-import it.feio.android.omninotes.async.UpdaterTask;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.R;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -55,6 +46,11 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -70,14 +66,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
+import com.neopixl.pixlui.components.textview.TextView;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class ListActivity extends BaseActivity {
 

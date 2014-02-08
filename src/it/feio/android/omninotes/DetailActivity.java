@@ -686,13 +686,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 						if (address != null) {
 							addressString = address.getThoroughfare() + ", " + address.getLocality();
 						} else {
-							addressString = getString(R.string.location_not_found);
+							Crouton.makeText(mActivity, R.string.location_not_found, ONStyle.WARN).show();
 						}
 					} else {
-						addressString = getString(R.string.location_not_found);
+						Crouton.makeText(mActivity, R.string.location_not_found, ONStyle.WARN).show();
 					}
 				} catch (IOException ex) {
-					addressString = ex.getMessage().toString();
+					Crouton.makeText(mActivity, R.string.location_not_found, ONStyle.WARN).show();
 				}
 				return addressString;
 			}
@@ -700,8 +700,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			@Override
 			protected void onPostExecute(String result) {
 				super.onPostExecute(result);
-				locationTextView.setVisibility(View.VISIBLE);
-				mlocationTextView.setText(result);
+				if (result.length() > 0) {
+					locationTextView.setVisibility(View.VISIBLE);
+					mlocationTextView.setText(result);
+				}
 				
 				fade(locationTextView, true);
 			}

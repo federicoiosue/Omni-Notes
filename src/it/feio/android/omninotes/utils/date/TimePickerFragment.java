@@ -15,10 +15,11 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils.date;
 
-import java.util.Calendar;
-
 import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.utils.Constants;
+
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;

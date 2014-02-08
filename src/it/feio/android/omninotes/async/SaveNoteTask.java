@@ -1,8 +1,5 @@
 package it.feio.android.omninotes.async;
 
-import java.io.File;
-import java.util.Calendar;
-
 import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -10,6 +7,10 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
+
+import java.io.File;
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;

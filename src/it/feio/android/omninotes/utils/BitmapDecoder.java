@@ -16,6 +16,7 @@
 package it.feio.android.omninotes.utils;
 
 import java.io.FileNotFoundException;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
