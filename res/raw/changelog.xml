@@ -22,7 +22,8 @@
         <changelogtext>[b]New![/b] Users can now choose to use default Android calendar and time pickers dialog instead of Googleìs ones</changelogtext>
         <changelogtext>[b]New![/b] You can now force the application language from settings</changelogtext>       
         <changelogtext>[b]New![/b] Ukrainian language support (thanks Andriy Poznakhovskyy)</changelogtext>                
-    	<changelogtext>[u]Fixed[/u] Tagging from inside note detail now functions again</changelogtext>
+    	<changelogtext>If note title is empty the first line on content will be used instead to keep uniform aspect and optimize space usage</changelogtext>       
+        <changelogtext>[u]Fixed[/u] Tagging from inside note detail now functions again</changelogtext>
     	<changelogtext>[u]Fixed[/u] When prompted for update the application will check if Play Store is installed and will not crash anymore</changelogtext>
  	</changelogversion>
 

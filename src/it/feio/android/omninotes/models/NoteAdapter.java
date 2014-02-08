@@ -16,10 +16,13 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.date.DateHelper;
+
 import java.util.HashMap;
 import java.util.List;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -27,7 +30,6 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,13 +63,23 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		TextView title = (TextView) rowView.findViewById(R.id.note_title);
 		TextView content = (TextView) rowView.findViewById(R.id.note_content);
 		TextView date = (TextView) rowView.findViewById(R.id.note_date);
-
-		// Setting note title		
-		title.setText(note.getTitle());
 		
 
+		// Defining title and contente texts	
+		String titleText, contentText;
+		if (note.getTitle().length() > 0) {
+			titleText = note.getTitle();
+			contentText = note.getContent();
+		} else {
+			String[] arr = note.getContent().split(System.getProperty("line.separator"));
+			titleText = arr[0];
+			contentText = arr.length > 1 ? arr[1] : "";
+		}
+			
+		// Setting note title	
+		title.setText(titleText);
+			
 		// Setting note content
-		String contentText = note.getContent();
 		if (contentText.length() > 0) {
 			int maxContentTextLength = 40;
 			// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
@@ -90,6 +102,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			content.setText(contentReducedText);
 			content.setVisibility(View.VISIBLE);
 		}
+		
 
 		// Evaluates the archived state...
 		ImageView archiveIcon = (ImageView)rowView.findViewById(R.id.archivedIcon);
@@ -103,9 +116,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// ... or attachments to show relative icon indicators	
 		ImageView attachmentIcon = (ImageView)rowView.findViewById(R.id.attachmentIcon);
 		attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
-		
-		// Color of tag marker if note is tagged a function is active in preferences
-//		colorNote(note, rowView);
 		
 		// Choosing which date must be shown depending on sorting criteria
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);

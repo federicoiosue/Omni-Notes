@@ -1,7 +1,6 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.utils.ACRAPostSender;
-import it.feio.android.omninotes.utils.Constants;
 
 import java.util.HashMap;
 import java.util.Locale;
