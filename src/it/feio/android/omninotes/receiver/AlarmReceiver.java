@@ -83,30 +83,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 						time_format);
 		String text = note.getTitle().length() > 0 && note.getContent().length() > 0 ? note.getContent() : alarmText;
 		
-		// Sets up the Snooze and Dismiss action buttons that will appear in the
-		// big view of the notification.
-		Intent dismissIntent = new Intent(ctx, NotificationService.class);
-		dismissIntent.setAction(Constants.ACTION_DISMISS);
-		dismissIntent.putExtra("id", note.get_id());
-		PendingIntent piDismiss = PendingIntent.getService(ctx, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-		Intent snoozeIntent = new Intent(ctx, NotificationService.class);
-		snoozeIntent.setAction(Constants.ACTION_SNOOZE);
-		snoozeIntent.putExtra("id", note.get_id());
-		PendingIntent piSnooze = PendingIntent.getService(ctx, 0, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		
 		// Notification building
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
 				ctx).setSmallIcon(R.drawable.ic_stat_notification_icon)
 				.setContentTitle(title).setContentText(text)
-				.setAutoCancel(true)		
-         //Sets the big view "big text" style  
-//        .setStyle(new NotificationCompat.BigTextStyle()
-//                .bigText("aaaaaaaaaaaaa"))
-        .addAction (R.drawable.ic_action_cancel_dark,
-        		ctx.getString(R.string.cancel), piDismiss)
-        .addAction (R.drawable.ic_action_replay_dark,
-        		ctx.getString(R.string.snooze), piSnooze);
+				.setAutoCancel(true);
 		
 		
 		// Ringtone options
@@ -122,13 +103,34 @@ public class AlarmReceiver extends BroadcastReceiver {
 		long[] pattern = {500,500};		
 		if (prefs.getBoolean("settings_notification_vibration", true))
 			mBuilder.setVibrate(pattern);
-
-		// Next create the bundle and initialize it
-		Intent intent = new Intent(ctx, it.feio.android.omninotes.DetailActivity.class);
+		
+		
 		Bundle bundle = new Bundle();
-
 		// Add the parameters to bundle as
 		bundle.putParcelable(Constants.INTENT_NOTE, note);
+		
+		
+		// Sets up the Snooze and Dismiss action buttons that will appear in the
+		// big view of the notification.
+		Intent dismissIntent = new Intent(ctx, it.feio.android.omninotes.async.NotificationService.class);
+		dismissIntent.setAction(Constants.ACTION_DISMISS);
+		dismissIntent.putExtra(Constants.INTENT_NOTE, note);
+		PendingIntent piDismiss = PendingIntent.getService(ctx, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Intent snoozeIntent = new Intent(ctx, it.feio.android.omninotes.async.NotificationService.class);
+		snoozeIntent.setAction(Constants.ACTION_SNOOZE);
+		snoozeIntent.putExtra(Constants.INTENT_NOTE, note);
+		PendingIntent piSnooze = PendingIntent.getService(ctx, 0, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		
+        //Sets the big view "big text" style  
+		mBuilder.addAction (R.drawable.ic_action_cancel_dark,
+       		ctx.getString(R.string.cancel), piDismiss)
+       .addAction (R.drawable.ic_action_alarms_dark,
+       		ctx.getString(R.string.snooze), piSnooze);
+		
+
+		// Next create the bundle and initialize it
+		Intent intent = new Intent(ctx, it.feio.android.omninotes.DetailActivity.class);		
 		// Add this bundle to the intent
 		intent.putExtras(bundle);
 		// Sets the Activity to start in a new, empty task
@@ -142,6 +144,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 		// Puts the PendingIntent into the notification builder
 		mBuilder.setContentIntent(notifyIntent);
+		
+		
+		
+		
 		// Notifications are issued by sending them to the
 		// NotificationManager system service.
 		NotificationManager mNotificationManager = (NotificationManager) ctx

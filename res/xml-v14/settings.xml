@@ -146,6 +146,10 @@
 		        android:title="@string/settings_notification_ringtone" 
 		        android:dependency="settings_enable_sound"
 		        android:ringtoneType="notification"/>
+		    <EditTextPreference
+		        android:key="settings_notification_snooze_delay"
+		        android:title="@string/settings_notification_snooze_delay" 
+	            android:inputType="number" />
 	    </PreferenceScreen>
     
     </PreferenceCategory>

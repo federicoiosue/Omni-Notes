@@ -127,8 +127,17 @@
                 android:key="settings_notification_ringtone"
                 android:ringtoneType="notification"
                 android:title="@string/settings_notification_ringtone" />
+            
+		    <EditTextPreference
+		        android:key="settings_notification_snooze_delay"
+		        android:title="@string/settings_notification_snooze_delay" 
+	            android:inputType="number" />
+		    
         </PreferenceScreen>
+        
     </PreferenceCategory>
+    
+    
     <PreferenceCategory android:title="@string/settings_category_beta" >
         <Preference
             android:key="settings_beta"

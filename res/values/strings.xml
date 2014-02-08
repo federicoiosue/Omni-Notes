@@ -204,6 +204,9 @@
     <string name="colors">Colors</string>
     <string name="settings_enable_tag_marker_full_list_only">Only list</string>
     <string name="settings_enable_tag_marker_full_list_only_summary">Force full color only in notes list while into detail only the small marker is colored </string>
+    <string name="settings_notification_snooze_delay">Snooze delay</string>
+    <string name="minutes">minutes</string>
+    
     
 
     <!-- Accessibility -->
