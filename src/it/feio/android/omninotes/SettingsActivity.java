@@ -237,11 +237,11 @@ public class SettingsActivity extends PreferenceActivity {
 		// Notification snooze delay
 		final EditTextPreference snoozeDelay = (EditTextPreference) findPreference("settings_notification_snooze_delay");
 		String snoozeDelayValue = PreferenceManager.getDefaultSharedPreferences(activity).getString("settings_notification_snooze_delay", "10");
-		snoozeDelay.setSummary(String.valueOf(snoozeDelayValue)	+ getString(R.string.minutes));
+		snoozeDelay.setSummary(String.valueOf(snoozeDelayValue)	+ " " + getString(R.string.minutes));
 		snoozeDelay.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				snoozeDelay.setSummary(String.valueOf(newValue)	+ getString(R.string.minutes));
+				snoozeDelay.setSummary(String.valueOf(newValue)	+ " " + getString(R.string.minutes));
 				PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_notification_snooze_delay", newValue.toString()).commit();
 				return false;
 			}

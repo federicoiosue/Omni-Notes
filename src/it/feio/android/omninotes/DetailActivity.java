@@ -512,7 +512,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		
 		// If available space in screen is less than 400px is reasonable that 
 		// fallback date picker must be used
-		if (height < FALLBACK_SCREEN_SIZE ) {
+		if (height < FALLBACK_SCREEN_SIZE || prefs.getBoolean("settings_simple_calendar", false)) {
 			res = true;
 		}
 		

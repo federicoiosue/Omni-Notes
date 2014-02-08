@@ -18,7 +18,8 @@
 
     <changelogversion versionName="4.2.2" changeDate="Feb 8, 2014">
         <changelogtext>[b]New![/b] Implemented new tags creation directly from note tagging dialog</changelogtext>
-        <changelogtext>[b]New![/b] Expanded notifications on Android >= Jelly Bean to allow dismissing reminder or delay it</changelogtext>       
+        <changelogtext>[b]New![/b] Expanded notifications on Android >= Jelly Bean to allow dismissing reminder or delay it</changelogtext> 
+        <changelogtext>[b]New![/b] Users can now choose to use default Android calendar and time pickers dialog instead of Googleìs ones</changelogtext>       
         <changelogtext>[b]New![/b] Ukrainian language support (thanks Andriy Poznakhovskyy)</changelogtext>                
     	<changelogtext>[u]Fixed[/u] Tagging from inside note detail now functions again</changelogtext>
     	<changelogtext>[u]Fixed[/u] When prompted for update the application will check if Play Store is installed and will not crash anymore</changelogtext>

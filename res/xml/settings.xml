@@ -53,6 +53,8 @@
                 android:title="@string/settings_reset_all_data" >
             </Preference>
         </PreferenceScreen>
+        
+        
         <PreferenceScreen
             android:key="category_interface"
             android:title="@string/settings_category_interface" >
@@ -63,6 +65,35 @@
                 android:title="@string/settings_enable_animations" >
             </CheckBoxPreference>
 
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="settings_enable_editor_links"
+                android:summary="@string/settings_enable_editor_links_summary"
+                android:title="@string/settings_enable_editor_links" >
+            </CheckBoxPreference>
+            
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="settings_hours_format"
+                android:summary="@string/settings_hours_format_summary"
+                android:title="@string/settings_hours_format" />
+            
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="settings_hours_format"
+                android:summary="@string/settings_simple_calendar_summary"
+                android:title="@string/settings_simple_calendar" />
+            
+
+            <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/checked_items_behavior"
+                android:entryValues="@array/checked_items_behavior_values"
+                android:key="settings_checked_items_behavior"
+                android:summary="@string/settings_checked_items_behavior_summary"
+                android:title="@string/settings_checked_items_behavior" >
+            </ListPreference>
+            
             <PreferenceScreen android:title="@string/colors" >
                 <CheckBoxPreference
                     android:defaultValue="true"
@@ -86,27 +117,6 @@
                 </CheckBoxPreference>
             </PreferenceScreen>
 
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="settings_enable_editor_links"
-                android:summary="@string/settings_enable_editor_links_summary"
-                android:title="@string/settings_enable_editor_links" >
-            </CheckBoxPreference>
-
-            <ListPreference
-                android:defaultValue="0"
-                android:entries="@array/checked_items_behavior"
-                android:entryValues="@array/checked_items_behavior_values"
-                android:key="settings_checked_items_behavior"
-                android:summary="@string/settings_checked_items_behavior_summary"
-                android:title="@string/settings_checked_items_behavior" >
-            </ListPreference>
-
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="settings_hours_format"
-                android:summary="@string/settings_hours_format_summary"
-                android:title="@string/settings_hours_format" />
         </PreferenceScreen>
         <PreferenceScreen
             android:key="category_notifications"
