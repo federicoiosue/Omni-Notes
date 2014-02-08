@@ -93,7 +93,8 @@
   <string name="checklist_keep_checked">İşaretli öğeleri sakla</string>
   <string name="checklist_keep_symbols">(Işaretli olanları hatırlamak) checkmarks tutun onaylamayı sakla</string>
   <string name="sketch">El Yazısı</string>
-  <string name="crash_dialog_text">Omni Notes\'ta bir şeyler ters gitti\n Çökme raporu geliştiriciye gönderilecek!</string>
+  <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n Would you like to send a report to developer?</string>
+  <string name="crash_dialog_comment_prompt">Insert an optional comment here:</string>
   <string name="new_update_available">Omni Notes\'un yeni bir sürümü yayınlandı, güncellemek istiyor musunuz?</string>
   <string name="update">Güncelle ve oyla!</string>
   <string name="not_now">Şimdi değil</string>
@@ -105,6 +106,8 @@
   <string name="no_reminder_set">Hatırlatma kurma</string>
   <string name="saturation">Doyma</string>
   <string name="opacity">Saydamlık</string>
+  <string name="dismiss">Dismiss</string>
+  <string name="snooze">Snooze</string>
   <string name="settings">Ayarlar</string>
   <string name="settings_about">Omni Notes\'a Katkı Yapanlar</string>
   <string name="settings_category_other">Diğer</string>
@@ -170,8 +173,12 @@
   <string name="colors">Renkler</string>
   <string name="settings_enable_tag_marker_full_list_only">Sadece liste</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Detaya sadece küçük işaretleyici renkli ise sadece notlar listesinde tam renkli zorlamak </string>
+  <string name="settings_notification_snooze_delay">Snooze delay</string>
+  <string name="minutes">minutes</string>
+  <string name="settings_simple_calendar">Simple calendar and time</string>
+  <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
   <string name="drawer_open">çekmece açık</string>
   <string name="drawer_close">çekmece kapalı</string>
   <string name="reminder">hatırlatma</string>
-  <string name="stroke_size">Yazı Boyutu</string>
+  <string name="stroke_size">Çizgi kalınlığı</string>
 </resources>

@@ -93,7 +93,8 @@
   <string name="checklist_keep_checked">Ponechať zaškrtnuté položky</string>
   <string name="checklist_keep_symbols">Ponechať zaškrtávacie značky (na zapamätanie zaškrtnutých)</string>
   <string name="sketch">Kresba</string>
-  <string name="crash_dialog_text">Niečo sa pokazilo v Omni Notes\nHlásenie o chybe bude odoslané vývojárovi!</string>
+  <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n Would you like to send a report to developer?</string>
+  <string name="crash_dialog_comment_prompt">Insert an optional comment here:</string>
   <string name="new_update_available">Nová verzia Omni Notes je k dispozícii, aktualizovať?</string>
   <string name="update">Aktualizovať a ohodnotiť!</string>
   <string name="not_now">Nie teraz</string>
@@ -105,6 +106,8 @@
   <string name="no_reminder_set">Bez nastavenej pripomienky</string>
   <string name="saturation">Sýtosť</string>
   <string name="opacity">Nepriehľadnosť</string>
+  <string name="dismiss">Dismiss</string>
+  <string name="snooze">Snooze</string>
   <string name="settings">Nastavenia</string>
   <string name="settings_about">Informácie</string>
   <string name="settings_category_other">Ostatné</string>
@@ -170,6 +173,10 @@
   <string name="colors">Farby</string>
   <string name="settings_enable_tag_marker_full_list_only">Len zoznam</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Vynútiť úplnú farbu iba v zozname poznámok a zároveň v detaile je len malá značka zafarbená </string>
+  <string name="settings_notification_snooze_delay">Snooze delay</string>
+  <string name="minutes">minutes</string>
+  <string name="settings_simple_calendar">Simple calendar and time</string>
+  <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
   <string name="drawer_open">Otvoriť ponuku</string>
   <string name="drawer_close">Zavrieť ponuku</string>
   <string name="reminder">Pripomienka</string>

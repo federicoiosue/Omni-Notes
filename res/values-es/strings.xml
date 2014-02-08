@@ -94,7 +94,8 @@
   <string name="checklist_keep_checked">Mantener elementos seleccionados</string>
   <string name="checklist_keep_symbols">Mantenga las marcas de verificación (para recordar las notas marcadas)</string>
   <string name="sketch">Dibujado</string>
-  <string name="crash_dialog_text">Ja habido un fallo en Omni Notes\n ¡Se enviará un informe de error al desarrollador!</string>
+  <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n Would you like to send a report to developer?</string>
+  <string name="crash_dialog_comment_prompt">Insert an optional comment here:</string>
   <string name="new_update_available">Hay una nueva versión Omni Notes ¿Le gustaría actualizar?</string>
   <string name="update">¡Actualizar y votar!</string>
   <string name="not_now">Ahora no</string>
@@ -106,6 +107,8 @@
   <string name="no_reminder_set">No se ha definido ningún recordatorio</string>
   <string name="saturation">Saturacion</string>
   <string name="opacity">Opacidad</string>
+  <string name="dismiss">Dismiss</string>
+  <string name="snooze">Snooze</string>
   <string name="settings">Configuración</string>
   <string name="settings_about">Información</string>
   <string name="settings_category_other">Otros</string>
@@ -171,6 +174,10 @@
   <string name="colors">Colores</string>
   <string name="settings_enable_tag_marker_full_list_only">Sólo lista</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Obligar a todo color sólo en la lista de notas mientras que en detalles es de color sólo el pequeño marcador </string>
+  <string name="settings_notification_snooze_delay">Snooze delay</string>
+  <string name="minutes">minutes</string>
+  <string name="settings_simple_calendar">Simple calendar and time</string>
+  <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
   <string name="drawer_open">Editor abierto</string>
   <string name="drawer_close">Editor cerrado</string>
   <string name="reminder">recordatorio</string>

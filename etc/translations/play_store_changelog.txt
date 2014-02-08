@@ -1,11 +1,11 @@
 Look to the changelog inside the app for all the changes!
 
-4.2.2
+4.3.0
 New tags can be created directly from note tagging dialog
 Expanded notifications with dismiss and snooze in Jelly Bean
 Alternative calendar and date pickers
 Set custom language     
-Translated un Ukrainian (Andriy Poznakhovskyy)            
+Translated in Ukrainian (Andriy Poznakhovskyy)            
 Bugfixes
 
 4.2.1   

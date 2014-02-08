@@ -68,7 +68,7 @@
   <string name="tag_deleted">Tag cancellato</string>
   <string name="delete_this_tag">Eliminare questo tag</string>
   <string name="tag">Tag</string>
-  <string name="tag_as">Associa Tag</string>
+  <string name="tag_as">Tagga come</string>
   <string name="title_activity_tag">Modifica tag</string>
   <string name="delete_unused_tag_confirmation">Confermi l\'eliminazione del tag</string>
   <string name="delete_tag_confirmation">Questo tag è associato a $1$ nota/e. \nConfermi l\'eliminazione del tag e la sua rimozione da tutte le note?</string>
@@ -93,7 +93,9 @@
   <string name="checklist_keep_checked">Tieni gli elementi completati</string>
   <string name="checklist_keep_symbols">Tieni i segni di spunta (per ricordare quelli controllati)</string>
   <string name="sketch">Disegno</string>
-  <string name="crash_dialog_text">Qualcosa è andato storto in Omni Notes \n Un riepilogo del problema sta per essere inviato allo sviluppatore!</string>
+  <string name="crash_dialog_text">Qualcosa è andato storto in Omni Notes\n
+Vuoi inviare una segnalazione allo sviluppatore?</string>
+  <string name="crash_dialog_comment_prompt">Inserisci qui un commento opzionale:</string>
   <string name="new_update_available">Una nuova versione Omni Notes è disponibile, vuoi aggiornare?</string>
   <string name="update">Aggiorna e vota!</string>
   <string name="not_now">Non ora</string>
@@ -105,6 +107,8 @@
   <string name="no_reminder_set">Nessun promemoria</string>
   <string name="saturation">Saturazione</string>
   <string name="opacity">Opacità</string>
+  <string name="dismiss">Rimuovi</string>
+  <string name="snooze">Posticipa</string>
   <string name="settings">Impostazioni</string>
   <string name="settings_about">Info</string>
   <string name="settings_category_other">Altro</string>
@@ -173,6 +177,10 @@
   <string name="colors">Colori</string>
   <string name="settings_enable_tag_marker_full_list_only">Solo lista</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Forza la colorazione completa colori solo nella lista delle note mentre nel dettaglio resta colorato solo il piccolo indicatore del tag </string>
+  <string name="settings_notification_snooze_delay">Posticipo promemoria</string>
+  <string name="minutes">minuti</string>
+  <string name="settings_simple_calendar">Calendario e orologio semplici</string>
+  <string name="settings_simple_calendar_summary">Usa i più semplici popup di Android per la selezione di data e ora invece di quelli di Google</string>
   <string name="drawer_open">drawer aperto</string>
   <string name="drawer_close">drawer chiuso</string>
   <string name="reminder">promemoria</string>

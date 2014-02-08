@@ -88,12 +88,13 @@
   <string name="no_items_in_list">Keine Einträge vorhanden</string>
   <string name="checklist_on">Kontrollkästchen einschalten</string>
   <string name="checklist_off">Kontrollkästchen ausschalten</string>
-  <string name="checklist_item_hint">Neues Element</string>
+  <string name="checklist_item_hint">Neuer Eintrag</string>
   <string name="remove_checklist">Kontrollkästchen entfernen?</string>
-  <string name="checklist_keep_checked">Markierte Elemente beibehalten</string>
+  <string name="checklist_keep_checked">Markierte Einträge beibehalten</string>
   <string name="checklist_keep_symbols">Kontrollkästchen beibehalten (zur Erinnerung)</string>
   <string name="sketch">Skizze</string>
-  <string name="crash_dialog_text">Es ist ein Fehler in Omni Notes\naufgetreten. Ein Absturzbericht wird an den Entwickler gesendet!</string>
+  <string name="crash_dialog_text">Es ist ein Fehler aufgetreten.\nMöchten Sie einen Bericht an den Entwickler schicken?</string>
+  <string name="crash_dialog_comment_prompt">Beschreibung (optional):</string>
   <string name="new_update_available">Eine neue Version von Omni Notes ist verfügbar. Möchten Sie das Programm aktualisieren?</string>
   <string name="update">Aktualisieren und bewerten!</string>
   <string name="not_now">Nicht jetzt</string>
@@ -105,6 +106,8 @@
   <string name="no_reminder_set">Keine Erinnerung gesetzt</string>
   <string name="saturation">Sättigung</string>
   <string name="opacity">Deckkraft</string>
+  <string name="dismiss">Ausschalten</string>
+  <string name="snooze">Schlummern</string>
   <string name="settings">Einstellungen</string>
   <string name="settings_about">Info</string>
   <string name="settings_category_other">Mehr</string>
@@ -170,6 +173,10 @@
   <string name="colors">Farben</string>
   <string name="settings_enable_tag_marker_full_list_only">Nur in Listenansicht</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Farbe des Hintergrundes nur in der Listenansicht anwenden. In der Inhaltsansicht wird nur ein kleiner Marker mit der Farbe dargestellt. </string>
+  <string name="settings_notification_snooze_delay">Schlummerverzögerung</string>
+  <string name="minutes">Minuten</string>
+  <string name="settings_simple_calendar">Einfacher Kalender und Uhrzeit</string>
+  <string name="settings_simple_calendar_summary">Benutze einfachen Kalender und Zeitauswahl anstelle von Googles</string>
   <string name="drawer_open">Seitenleiste geöffnet</string>
   <string name="drawer_close">Seitenleiste geschlossenn</string>
   <string name="reminder">Erinnerung</string>

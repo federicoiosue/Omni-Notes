@@ -92,12 +92,13 @@
   <string name="remove_checklist">Яким чином вилучити список?</string>
   <string name="checklist_keep_checked">Залишити відзначені пункти</string>
   <string name="checklist_keep_symbols">Залишити відмітки (запам\'ятати вибрані елементи)</string>
-  <string name="sketch">Контур</string>
-  <string name="crash_dialog_text">Виникла помилка під час роботи Omni Notes\n Звіт про помилку буде надіслано розробнику!</string>
+  <string name="sketch">Малюнок</string>
+  <string name="crash_dialog_text">Виникла помилка під час роботи Omni Notes\n Бажаєте надіслати звіт розробнику?</string>
+  <string name="crash_dialog_comment_prompt">Додайте необов\'язковий коментар тут:</string>
   <string name="new_update_available">Доступна оновлена версія Omni Notes, бажаєте оновитись?</string>
   <string name="update">Оновити й оцінити!</string>
   <string name="not_now">Не зараз</string>
-  <string name="title_activity_sketch">Контур</string>
+  <string name="title_activity_sketch">Малюнок</string>
   <string name="redo">Повторити</string>
   <string name="colors">Кольори</string>
   <string name="stroke">Закреслення</string>
@@ -105,6 +106,8 @@
   <string name="no_reminder_set">Нагадування відсутнє</string>
   <string name="saturation">Насиченість</string>
   <string name="opacity">Прозорість</string>
+  <string name="dismiss">Відхилити</string>
+  <string name="snooze">Відкласти</string>
   <string name="settings">Налаштування</string>
   <string name="settings_about">Інформація</string>
   <string name="settings_category_other">Інше</string>
@@ -173,6 +176,10 @@
   <string name="colors">Кольори</string>
   <string name="settings_enable_tag_marker_full_list_only">Лише список</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Примусово застосовувати повний колір лише в списку нотаток, в той час як для деталей замальовувати лише маленький маркер </string>
+  <string name="settings_notification_snooze_delay">Затримка</string>
+  <string name="minutes">хвилин</string>
+  <string name="settings_simple_calendar">Простий календар і час</string>
+  <string name="settings_simple_calendar_summary">Використовуйте простий календар і час Android замість аналогів від Google</string>
   <string name="drawer_open">сп. програм відкритий</string>
   <string name="drawer_close">сп. програм закритий</string>
   <string name="reminder">нагадування</string>

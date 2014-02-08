@@ -93,7 +93,8 @@
   <string name="checklist_keep_checked">保持检查的项目</string>
   <string name="checklist_keep_symbols">保持复选标记（要记住​​检查的）</string>
   <string name="sketch">草图</string>
-  <string name="crash_dialog_text">一些错误发生在全方位票据\ N一种崩溃报告将会被发送到开发者！</string>
+  <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n Would you like to send a report to developer?</string>
+  <string name="crash_dialog_comment_prompt">Insert an optional comment here:</string>
   <string name="new_update_available">新全Notes版本可用时，您想更新？</string>
   <string name="update">更新并评分！</string>
   <string name="not_now">稍后</string>
@@ -105,6 +106,8 @@
   <string name="no_reminder_set">没有设置提醒</string>
   <string name="saturation">饱和度</string>
   <string name="opacity">{0}Opacity(不透明度){/0} </string>
+  <string name="dismiss">Dismiss</string>
+  <string name="snooze">Snooze</string>
   <string name="settings">设置</string>
   <string name="settings_about">信息</string>
   <string name="settings_category_other">其他</string>
@@ -170,6 +173,10 @@
   <string name="colors">颜色</string>
   <string name="settings_enable_tag_marker_full_list_only">只有列表</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">只有在笔记列表迫使全彩，而到细节只有小标记是有色</string>
+  <string name="settings_notification_snooze_delay">Snooze delay</string>
+  <string name="minutes">minutes</string>
+  <string name="settings_simple_calendar">Simple calendar and time</string>
+  <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
   <string name="drawer_open">打开抽屉</string>
   <string name="drawer_close">抽屉接近</string>
   <string name="reminder">提醒</string>

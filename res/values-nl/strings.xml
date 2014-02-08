@@ -93,7 +93,8 @@
   <string name="checklist_keep_checked">Houd aangevinkte items</string>
   <string name="checklist_keep_symbols">Houd vinkjes (om aangevinkte te herinerren)</string>
   <string name="sketch">Schets</string>
-  <string name="crash_dialog_text">Iets mis is gebeurd in Omni Notes \n Een crash rapport gaat naar de ontwikkelaar worden verzonden!</string>
+  <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n Would you like to send a report to developer?</string>
+  <string name="crash_dialog_comment_prompt">Insert an optional comment here:</string>
   <string name="new_update_available">Een nieuwe Omni Notes versie is beschikbaar, wil je bijwerken?</string>
   <string name="update">Update en beoordeel!</string>
   <string name="not_now">Niet nu</string>
@@ -105,6 +106,8 @@
   <string name="no_reminder_set">Geen herinnering ingesteld</string>
   <string name="saturation">Verzadiging</string>
   <string name="opacity">Doorzichtigheid</string>
+  <string name="dismiss">Dismiss</string>
+  <string name="snooze">Snooze</string>
   <string name="settings">Instellingen</string>
   <string name="settings_about">Informatie</string>
   <string name="settings_category_other">Overig</string>
@@ -170,6 +173,10 @@
   <string name="colors">Kleuren</string>
   <string name="settings_enable_tag_marker_full_list_only">Alleen lijst</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Dwing vol kleur alleen in de lijst me notities in detail alleen de kleine marker gekleurd </string>
+  <string name="settings_notification_snooze_delay">Snooze delay</string>
+  <string name="minutes">minutes</string>
+  <string name="settings_simple_calendar">Simple calendar and time</string>
+  <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
   <string name="drawer_open">lade open</string>
   <string name="drawer_close">lade dicht</string>
   <string name="reminder">herinnering</string>

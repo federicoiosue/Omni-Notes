@@ -93,7 +93,8 @@
   <string name="checklist_keep_checked">Conservez les éléments cochés</string>
   <string name="checklist_keep_symbols">Gardez les coches (pour se rappeler des élément cochés)</string>
   <string name="sketch">Dessin</string>
-  <string name="crash_dialog_text">Une erreur s\'est produite dans Omni Notes\n Un rapport d\'accident va être envoyé au développeur!</string>
+  <string name="crash_dialog_text">Quelque chose de mal est arrivé dans Omni Notes\n vous aimeriez envoyer un rapport au développeur ?</string>
+  <string name="crash_dialog_comment_prompt">Ajouter un commentaire ici :</string>
   <string name="new_update_available">Une nouvelle version d\'Omni Notes disponible, souhaitez-vous mettre à jour ?</string>
   <string name="update">Mettre à jour et évaluer !</string>
   <string name="not_now">Pas maintenant</string>
@@ -105,6 +106,8 @@
   <string name="no_reminder_set">Aucun rappel défini</string>
   <string name="saturation">Saturation:</string>
   <string name="opacity">Opacité</string>
+  <string name="dismiss">Passer</string>
+  <string name="snooze">Répéter</string>
   <string name="settings">Paramètres</string>
   <string name="settings_about">Infos</string>
   <string name="settings_category_other">Autres</string>
@@ -170,6 +173,10 @@
   <string name="colors">Couleurs</string>
   <string name="settings_enable_tag_marker_full_list_only">Seulement liste</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Forcer couleur que dans la liste des notes pendant que dans le détail que le petit marqueur est colorée </string>
+  <string name="settings_notification_snooze_delay">Délai de répétition</string>
+  <string name="minutes">minutes</string>
+  <string name="settings_simple_calendar">Heure et calendrier simple</string>
+  <string name="settings_simple_calendar_summary">Utiliser le calendrier Android plus simple et le temps de sélecteur au lieu de ceux de Google</string>
   <string name="drawer_open">Ouvrir le menu</string>
   <string name="drawer_close">Fermer  le menu</string>
   <string name="reminder">rappel</string>
