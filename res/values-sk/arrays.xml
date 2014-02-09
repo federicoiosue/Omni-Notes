@@ -13,8 +13,8 @@
     <item>Dátum pripomenky</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Držať pozíciu</item>
-    <item>Presunúť sa na koniec všetkých položiek</item>
-    <item>Presunúť sa po nezaškrtnutí navrch nezaškrtnutých</item>
+    <item>Podržať pozíciu</item>
+    <item>Presunúť na koniec všetkých položiek</item>
+    <item>Presunúť navrch nezaškrtnutých</item>
   </string-array>
 </resources>

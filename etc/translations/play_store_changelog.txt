@@ -1,5 +1,10 @@
 Look to the changelog inside the app for all the changes!
 
+WARNING: If you have problem with Samsung devices turn off url recognition from settings!
+
+4.3.1
+A lot of bugfixes
+
 4.3.0
 New tags can be created directly from note tagging dialog
 Expanded notifications with dismiss and snooze in Jelly Bean
