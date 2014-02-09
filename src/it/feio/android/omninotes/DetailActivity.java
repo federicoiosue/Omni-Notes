@@ -260,13 +260,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Sets links clickable in title and content Views
 		title = (EditText) findViewById(R.id.title);
 		content = (EditText) findViewById(R.id.content);
-		// Automatic links parsing if enabled - Temporally removed due to Samsung keyboard problem
-//		if (prefs.getBoolean("settings_enable_editor_links", false)) {
-//			title.setLinksClickable(true);
-//			Linkify.addLinks(title, Linkify.ALL);
-//			content.setLinksClickable(true);
-//			Linkify.addLinks(content, Linkify.ALL);
-//		}		
+		// Automatic links parsing if enabled 
+		if (prefs.getBoolean("settings_enable_editor_links", false)) {
+			title.setLinksClickable(true);
+			Linkify.addLinks(title, Linkify.ALL);
+			content.setLinksClickable(true);
+			Linkify.addLinks(content, Linkify.ALL);
+		}		
 		title.addTextChangedListener(this);		
 		content.addTextChangedListener(this);
 
