@@ -21,30 +21,19 @@
         <item name="actionBarStyle">@style/MyActionBar</item>
     </style>
 
+    
     <!-- ActionBar styles -->
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
         <item name="background">@color/gray_bg</item>
-<!--         <item name="homeAsUpIndicator">@drawable/ic_drawer</item> -->
-<!--         <item name="displayOptions">showHome|showTitle</item> -->
     </style>
 
-<!--     <style name="Theme.Transparent" parent="@android:style/Theme.Dialog"> -->
-<!--         <item name="android:windowIsTranslucent">true</item> -->
-<!--         <item name="android:windowBackground">@color/about_bg</item> -->
-<!--         <item name="android:windowContentOverlay">@null</item> -->
-<!--         <item name="android:windowNoTitle">true</item> -->
-<!--         <item name="android:windowIsFloating">true</item> -->
-<!--         <item name="android:backgroundDimEnabled">false</item> -->
-<!--     </style> -->
+    <style name="Theme.Preferences" parent="@style/Theme.AppCompat.Light">
+        <item name="android:listViewStyle">@style/lightListView</item>
+    </style>
 
-<!--     <style name="Theme.Transparent.Light" parent="@android:style/Theme.Dialog"> -->
-<!--         <item name="android:windowIsTranslucent">true</item> -->
-<!--         <item name="android:windowBackground">@color/white</item> -->
-<!--         <item name="android:windowContentOverlay">@null</item> -->
-<!--         <item name="android:windowNoTitle">true</item> -->
-<!--         <item name="android:windowIsFloating">true</item> -->
-<!--         <item name="android:backgroundDimEnabled">true</item> -->
-<!--     </style> -->
+    <style name="lightListView">
+        <item name="android:background">#ffffff<item></item></item>
+    </style>
     
     <style name="Theme.AppCompat.Dialog" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>

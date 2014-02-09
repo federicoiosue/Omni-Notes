@@ -17,8 +17,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="62"
-    android:versionName="4.3.0" >
+    android:versionCode="63"
+    android:versionName="4.3.1" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -156,7 +156,7 @@
         <activity
             android:name="it.feio.android.omninotes.SettingsActivity"
             android:label="@string/settings"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/Theme.Preferences"
             android:parentActivityName=".ListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
