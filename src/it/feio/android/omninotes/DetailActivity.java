@@ -131,6 +131,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 	private FragmentActivity mActivity;
 	private Note note;
+	private Note noteTmp;
 	private ShareActionProvider mShareActionProvider;
 	private LinearLayout reminder_layout;
 	private TextView datetime;
@@ -155,8 +156,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	private boolean isRecording = false;
 	private View isPlayingView = null;
 	
-	private Tag candidateSelectedTag;
-	private Tag selectedTag;
 	private Bitmap recordingBitmap;
 
 	// Toggle checklist view
@@ -198,6 +197,32 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			mRecorder = null;
 		}
 		Crouton.cancelAllCroutons();
+	}
+	
+	
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		noteTmp.setAlarm(String.valueOf(alarmDateTime));  
+		noteTmp.setLatitude(noteLatitude);
+		noteTmp.setLongitude(noteLongitude);
+		outState.putParcelable("note", noteTmp);
+		outState.putString("address", locationTextView.getText().toString());
+		super.onSaveInstanceState(outState);
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		noteTmp = savedInstanceState.getParcelable("note");
+		alarmDateTime = Long.parseLong(noteTmp.getAlarm());
+		if (noteTmp.getLatitude() != 0 && noteTmp.getLongitude() != 0) {
+			noteLatitude = noteTmp.getLatitude();
+			noteLongitude = noteTmp.getLongitude();
+			locationTextView.setVisibility(View.VISIBLE);
+			locationTextView.setText(savedInstanceState.getString("address"));
+		}
+		setTagMarkerColor(noteTmp.getTag());
+		super.onRestoreInstanceState(savedInstanceState);
 	}
 	
 	
@@ -608,6 +633,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		
 		if (note.get_id() != 0) {
 			
+			noteTmp = new Note(note);
+			
 			((TextView) findViewById(R.id.creation)).append(getString(R.string.creation) + " "
 					+ note.getCreationShort(date_time_format));
 			((TextView) findViewById(R.id.last_modification)).append(getString(R.string.last_update) + " "
@@ -628,13 +655,15 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			// activity start
 			// getWindow().setSoftInputMode(
 			// WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+		} else {
+			noteTmp = new Note();
 		}
 		
 		// Tag is checked because could be set even on new note if this is created by
 		// a tag navigation
-		if (note.getTag() != null) {
-			selectedTag = note.getTag();
-		}
+//		if (note.getTag() != null) {
+//			selectedTag = note.getTag();
+//		}
 
 		// Backup of actual attachments list to check if some of them will be
 		// deleted
@@ -918,8 +947,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 							.setAdapter(new NavDrawerTagAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									selectedTag = tags.get(which);
-									setTagMarkerColor(selectedTag);
+//									selectedTag = tags.get(which);
+									noteTmp.setTag(tags.get(which));
+									setTagMarkerColor(tags.get(which));
 								}
 							}).setPositiveButton(R.string.add_tag, new DialogInterface.OnClickListener() {
 								@Override
@@ -931,9 +961,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
-									selectedTag = null;
+//									selectedTag = null;
+									noteTmp.setTag(null);
 //									candidateSelectedTag = null;
-									setTagMarkerColor(selectedTag);
+//									setTagMarkerColor(selectedTag);
+									setTagMarkerColor(null);
 								}
 							}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 								@Override
@@ -1151,8 +1183,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			case TAG:
 				Crouton.makeText(mActivity, R.string.tag_saved,
 						ONStyle.CONFIRM).show();
-				selectedTag = intent.getParcelableExtra("tag");
-				setTagMarkerColor(selectedTag);
+//				selectedTag = intent.getParcelableExtra("tag");
+//				setTagMarkerColor(selectedTag);
+				Tag tag = intent.getParcelableExtra("tag");
+				noteTmp.setTag(tag);
+				setTagMarkerColor(tag);
 				break;
 			}
 			
@@ -1278,7 +1313,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		}
 
 		// Checks if nothing is changed to avoid committing if possible (instantiation)
-		Note noteTmp = new Note(note);
+//		Note noteTmp = new Note(note);
 
 		note.set_id(note.get_id());
 		note.setTitle(title);
@@ -1287,7 +1322,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		note.setAlarm(alarmDateTime != -1 ? String.valueOf(alarmDateTime) : null);
 		note.setLatitude(noteLatitude);
 		note.setLongitude(noteLongitude);
-		note.setTag(selectedTag);
+		note.setTag(noteTmp.getTag());
 		note.setLocked(lock);
 		note.setChecklist(isChecklistOn);
 		note.setAttachmentsList(attachmentsList);

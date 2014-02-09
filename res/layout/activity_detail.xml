@@ -114,6 +114,7 @@
                             android:paddingTop="10dp"
                             android:textColor="@color/location_text"
                             android:textSize="12sp"
+                            android:freezesText="true"
                             android:visibility="gone"
                             pixlui:typeface="Roboto-Regular.ttf" />
 
@@ -154,6 +155,7 @@
 
                             <com.neopixl.pixlui.components.textview.TextView
                                 android:id="@+id/datetime"
+                                android:freezesText="true"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
