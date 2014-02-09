@@ -260,31 +260,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Sets links clickable in title and content Views
 		title = (EditText) findViewById(R.id.title);
 		content = (EditText) findViewById(R.id.content);
-		// Automatic links parsing if enabled
-		if (prefs.getBoolean("settings_enable_editor_links", false)) {
-			title.setLinksClickable(true);
-			Linkify.addLinks(title, Linkify.ALL);
-			content.setLinksClickable(true);
-			Linkify.addLinks(content, Linkify.ALL);
-		}
-		
-		// Liseners for events on focus to update content of share intent
-//		title.setOnFocusChangeListener(new OnFocusChangeListener() {			
-//			@Override
-//			public void onFocusChange(View v, boolean hasFocus) {
-//				if (!hasFocus && mShareActionProvider != null)
-//					updateShareIntent();
-//			}
-//		});
-		title.addTextChangedListener(this);
-		
-//		content.setOnFocusChangeListener(new OnFocusChangeListener() {			
-//			@Override
-//			public void onFocusChange(View v, boolean hasFocus) {
-//				if (!hasFocus && mShareActionProvider != null)
-//					updateShareIntent();
-//			}
-//		});
+		// Automatic links parsing if enabled - Temporally removed due to Samsung keyboard problem
+//		if (prefs.getBoolean("settings_enable_editor_links", false)) {
+//			title.setLinksClickable(true);
+//			Linkify.addLinks(title, Linkify.ALL);
+//			content.setLinksClickable(true);
+//			Linkify.addLinks(content, Linkify.ALL);
+//		}		
+		title.addTextChangedListener(this);		
 		content.addTextChangedListener(this);
 
 		// Initialization of location TextView
@@ -399,7 +382,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			@Override
 			public void onClick(View v) {
 				
-				if (showFallbackDateTimePickers()) {
+//				if (showFallbackDateTimePickers()) {
+				if (prefs.getBoolean("settings_simple_calendar", false)) {
 					timePickerCalledAlready = false;
 					// Timepicker will be automatically called after date is inserted by user
 					showDatePickerDialog(v);					
