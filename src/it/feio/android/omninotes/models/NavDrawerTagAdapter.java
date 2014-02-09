@@ -15,6 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
+import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -104,8 +105,11 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 			} else {
 				img.setColorFilter(cf);				
 			}
-				imgIcon.setImageDrawable(img);
-			imgIcon.setPadding(10, 25, -30, 25);
+			imgIcon.setImageDrawable(img);
+			imgIcon.setPadding(	DensityUtil.convertDpToPixel(22, mContext), //10
+								DensityUtil.convertDpToPixel(7, mContext),//25
+								DensityUtil.convertDpToPixel(1, mContext),//-30
+								DensityUtil.convertDpToPixel(7, mContext));//25
 		}
 
 		return itemView;
