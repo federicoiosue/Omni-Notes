@@ -31,6 +31,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
@@ -66,6 +67,8 @@ public class SettingsActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
+		
+		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
 
 
 		// Export notes
@@ -222,6 +225,21 @@ public class SettingsActivity extends PreferenceActivity {
 				return false;
 			}
 		});
+		
+		
+		// Maximum video attachment size
+		final EditTextPreference maxVideoSize = (EditTextPreference) findPreference("settings_max_video_size");
+		String maxVideoSizeValue = prefs.getString("settings_max_video_size", "");
+		maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String.valueOf(maxVideoSizeValue));
+		maxVideoSize.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String.valueOf(newValue));
+				prefs.edit().putString("settings_notification_snooze_delay", newValue.toString()).commit();
+				return false;
+			}
+		});
+		
 
 		
 		// Set notes' protection password
@@ -239,13 +257,13 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		// Notification snooze delay
 		final EditTextPreference snoozeDelay = (EditTextPreference) findPreference("settings_notification_snooze_delay");
-		String snoozeDelayValue = PreferenceManager.getDefaultSharedPreferences(activity).getString("settings_notification_snooze_delay", "10");
+		String snoozeDelayValue = prefs.getString("settings_notification_snooze_delay", "10");
 		snoozeDelay.setSummary(String.valueOf(snoozeDelayValue)	+ " " + getString(R.string.minutes));
 		snoozeDelay.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				snoozeDelay.setSummary(String.valueOf(newValue)	+ " " + getString(R.string.minutes));
-				PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_notification_snooze_delay", newValue.toString()).commit();
+				prefs.edit().putString("settings_notification_snooze_delay", newValue.toString()).commit();
 				return false;
 			}
 		});
@@ -296,8 +314,7 @@ public class SettingsActivity extends PreferenceActivity {
 						.setCancelable(false).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
 
 							public void onClick(DialogInterface dialog, int id) {
-								PreferenceManager.getDefaultSharedPreferences(activity).edit().clear()
-										.commit();
+								prefs.edit().clear().commit();
 								File db = activity.getDatabasePath(Constants.DATABASE_NAME);
 								StorageManager.delete(activity, db.getAbsolutePath());
 								File attachmentsDir = StorageManager.getAttachmentDir(activity);
@@ -343,7 +360,10 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		
 		// Languages
-		ListPreference lang = (ListPreference)findPreference("settings_language");		
+		ListPreference lang = (ListPreference)findPreference("settings_language");	
+		String languageName = getResources().getConfiguration().locale.getDisplayName();
+		lang.setSummary( languageName.substring(0, 1).toUpperCase(getResources().getConfiguration().locale)
+						+ languageName.substring(1, languageName.length()) );
 		lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			
 			@Override
@@ -352,12 +372,6 @@ public class SettingsActivity extends PreferenceActivity {
 				Configuration config = getResources().getConfiguration();
 				
 				if (!config.locale.getCountry().equals(locale)) {
-//					config.locale = locale;
-//					getBaseContext().getResources().updateConfiguration(config,
-//							getBaseContext().getResources().getDisplayMetrics());
-//					PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("settings_language", value.toString()).commit();
-//					finish();
-//					startActivity(new Intent(getApplicationContext(), ListActivity.class));
 					OmniNotes.updateLanguage(getApplicationContext(), value.toString());
 					
 					Intent i = getBaseContext()
@@ -372,18 +386,7 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 
 	}
-	
-	
-	
-//	@Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        newConfig.locale = Locale.ENGLISH;
-//        super.onConfigurationChanged(newConfig);
-//
-//        Locale.setDefault(newConfig.locale);
-//        getBaseContext().getResources().updateConfiguration(newConfig, getResources().getDisplayMetrics());
-//    }
-	
+		
 	
 	
 }
