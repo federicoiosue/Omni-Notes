@@ -51,8 +51,12 @@ public class BitmapLoaderTask extends AsyncTask<Attachment, Void, Bitmap> {
 				bmp = createVideoThumbnail(bmp);
 			
 			// Image
-			} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())) {
-				bmp = checkIfBroken(BitmapDecoder.decodeSampledFromUri(mContext, mAttachment.getUri(), reqWidth, reqHeight));
+			} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())) {				
+				try {
+					bmp = checkIfBroken(BitmapDecoder.decodeSampledFromUri(mContext, mAttachment.getUri(), reqWidth, reqHeight));
+				} catch (NullPointerException e) {
+					bmp = checkIfBroken(null);
+				}
 			
 			// Audio
 			} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
@@ -100,15 +104,15 @@ public class BitmapLoaderTask extends AsyncTask<Attachment, Void, Bitmap> {
 		return thumbnail;
 	}
 
-	private Bitmap checkIfBroken(Bitmap video) {
+	private Bitmap checkIfBroken(Bitmap bmp) {
 
 		// In case no thumbnail can be extracted from video 
-		if (video == null) {
-			video = ThumbnailUtils.extractThumbnail(
+		if (bmp == null) {
+			bmp = ThumbnailUtils.extractThumbnail(
 					BitmapFactory.decodeResource(mContext.getResources(), R.drawable.attachment_broken), Constants.THUMBNAIL_SIZE,
 					Constants.THUMBNAIL_SIZE);
 		}
-		return video;
+		return bmp;
 	}
 	
 	
