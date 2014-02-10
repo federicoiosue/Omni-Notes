@@ -54,7 +54,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -75,7 +74,6 @@ import android.text.TextWatcher;
 import android.text.util.Linkify;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -97,6 +95,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
@@ -127,17 +126,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	private static final int SKETCH = 6;
 	private static final int TAG = 7;
 
-	private int FALLBACK_SCREEN_SIZE = 350;
-
 	private FragmentActivity mActivity;
-	private Note note;
-	private Note noteTmp;
 	private ShareActionProvider mShareActionProvider;
 	private LinearLayout reminder_layout;
 	private TextView datetime;
 	private String alarmDate = "", alarmTime = "";
 	private String dateTimeText = "";
-	private long alarmDateTime = -1;
 	private boolean timePickerCalledAlready = false;
 	private Uri attachmentUri;
 	private AttachmentAdapter mAttachmentAdapter;
@@ -147,11 +141,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	private EditText title, content;
 	private TextView locationTextView;
 
+	private Note note;
+	private Note noteTmp;
+
 	// Audio recording
 	private static String recordName;
-	// private RecordButton mRecordButton = null;
 	private MediaRecorder mRecorder = null;
-	// private PlayButton mPlayButton = null;
 	private MediaPlayer mPlayer = null;
 	private boolean isRecording = false;
 	private View isPlayingView = null;
@@ -160,11 +155,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 	// Toggle checklist view
 	View toggleChecklistView;
-//	boolean isChecklistOn = false;
 	private ChecklistManager mChecklistManager;
 	
 	// Lock
-	private Boolean lock = false;
 	private boolean passwordInserted = false;
 	
 	// Result intent
@@ -209,24 +202,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {		
 		noteTmp.setTitle(getNoteTitle());
-		noteTmp.setContent(getNoteContent());
-		noteTmp.setAlarm(String.valueOf(alarmDateTime));  
+		noteTmp.setContent(getNoteContent()); 
 		outState.putParcelable("note", noteTmp);
-		outState.putString("address", locationTextView.getText().toString());
 		super.onSaveInstanceState(outState);
 	}
-	
-//	@Override
-//	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-//		noteTmp = savedInstanceState.getParcelable("note");
-//		alarmDateTime = Long.parseLong(noteTmp.getAlarm());
-//		if (noteTmp.getLatitude() != 0 && noteTmp.getLongitude() != 0) {
-//			locationTextView.setVisibility(View.VISIBLE);
-//			locationTextView.setText(savedInstanceState.getString("address"));
-//		}
-//		setTagMarkerColor(noteTmp.getTag());
-//		super.onRestoreInstanceState(savedInstanceState);
-//	}
 	
 	
 	private void init(boolean checkedNoteLock) {
@@ -283,8 +262,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	private void initViews() {
 
 		// Color of tag marker if note is tagged a function is active in preferences
-		setTagMarkerColor(note.getTag());
-		
+		setTagMarkerColor(noteTmp.getTag());		
 		
 		// Sets links clickable in title and content Views
 		title = (EditText) findViewById(R.id.title);
@@ -305,24 +283,31 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 		// Restore checklist
 		toggleChecklistView = content;
-		if (note.isChecklist()) {
-			toggleChecklist();
+		if (noteTmp.isChecklist()) {
+			noteTmp.setChecklist(false);
+			toggleChecklist2();
 		}
 
 		
 		// Initialization of location TextView
 		locationTextView = (TextView) findViewById(R.id.location);
 		if (currentLatitude != 0 && currentLongitude != 0) {
-			locationTextView.setVisibility(View.INVISIBLE);	// Set now to avoid jumps on populating location
-			setAddress(locationTextView);
+			if (noteTmp.getAddress() != null && noteTmp.getAddress().length() > 0) {
+				locationTextView.setVisibility(View.VISIBLE);
+				locationTextView.setText(noteTmp.getAddress());
+			} else {
+				// Sets visibility now to avoid jumps on populating location
+				locationTextView.setVisibility(View.INVISIBLE);	
+				setAddress(locationTextView);
+			}
 		}
 
 		locationTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String urlTag = Constants.TAG
-						+ (note.getTitle() != null ? System.getProperty("line.separator") + note.getTitle() : "")
-						+ (note.getContent() != null ? System.getProperty("line.separator") + note.getContent() : "");
+						+ (noteTmp.getTitle() != null ? System.getProperty("line.separator") + noteTmp.getTitle() : "")
+						+ (noteTmp.getContent() != null ? System.getProperty("line.separator") + noteTmp.getContent() : "");
 				final String uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() + "("
 						+ urlTag + ")&z=15";
 				Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
@@ -375,7 +360,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 					if (IntentChecker.isAvailable(getApplicationContext(), attachmentIntent, null)) {
 						startActivity(attachmentIntent);
 					} else {
-//						showToast(getResources().getText(R.string.no_app_to_handle_intent), Toast.LENGTH_SHORT);
 						Crouton.makeText(mActivity, R.string.feature_not_available_on_this_device, ONStyle.WARN).show();
 					}
 					
@@ -442,7 +426,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 							public void onClick(DialogInterface dialog, int id) {
 								alarmDate = "";
 								alarmTime = "";
-								alarmDateTime = -1;
+								noteTmp.setAlarm(null);
 								datetime.setText("");
 							}
 						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -516,38 +500,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	}
 	
 	
-	
-	/**
-	 * Tests the screen dimensions to choose between the calendar datepicker or the native one
-	 * @return
-	 */
-	@SuppressWarnings("deprecation")
-	@SuppressLint("NewApi") 
-	private boolean showFallbackDateTimePickers(){
-		boolean res = false;
-		Display display = getWindowManager().getDefaultDisplay();
-
-		int width, height;
-		if (Build.VERSION.SDK_INT >= 13) {
-			Point size = new Point();
-			display.getSize(size);
-			width = size.x;
-			height = size.y;
-		} else {			
-			width = display.getWidth();  // deprecated
-			height = display.getHeight();  // deprecated
-		}
-		
-		// If available space in screen is less than 400px is reasonable that 
-		// fallback date picker must be used
-		if (height < FALLBACK_SCREEN_SIZE || prefs.getBoolean("settings_simple_calendar", false)) {
-			res = true;
-		}
-		
-		return res;
-	}
-	
-	
 
 	/**
 	 * Show date and time pickers
@@ -556,8 +508,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 		// Sets actual time or previously saved in note
 		Calendar cal = Calendar.getInstance();
-		if (note.getAlarm() != null)
-			cal.setTimeInMillis(Long.parseLong(note.getAlarm()));
+		if (noteTmp.getAlarm() != null)
+			cal.setTimeInMillis(Long.parseLong(noteTmp.getAlarm()));
 		final Calendar now = cal; 
 	CalendarDatePickerDialog mCalendarDatePickerDialog = CalendarDatePickerDialog.newInstance(
 				new CalendarDatePickerDialog.OnDateSetListener() {
@@ -587,9 +539,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 												+ getString(R.string.at_time) + " " + alarmTime);
 
 										// Setting alarm time in milliseconds
-										alarmDateTime = DateHelper.getLongFromDateTime(alarmDate,
+										Long alarm = DateHelper.getLongFromDateTime(alarmDate,
 												Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
 												time_format).getTimeInMillis();
+										noteTmp.setAlarm(alarm);										
 
 										Log.d(Constants.TAG, "Time set");
 									}
@@ -637,8 +590,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				+ " " + getString(R.string.at_time) + " " + alarmTime);
 
 		// Setting alarm time in milliseconds
-		alarmDateTime = DateHelper.getLongFromDateTime(alarmDate, Constants.DATE_FORMAT_SHORT_DATE,
+		long alarmDateTime = DateHelper.getLongFromDateTime(alarmDate, Constants.DATE_FORMAT_SHORT_DATE,
 				alarmTime, time_format).getTimeInMillis();
+		noteTmp.setAlarm(alarmDateTime);
 	}
 	
 	
@@ -646,32 +600,37 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	private void initNote() {
 
 		// Workaround to get widget acting correctly
-//		if (note == null) {
-//			note = new Note();
-//		}
+		if (note == null) {
+			note = new Note();
+		}
 		
-		if (note.get_id() != 0) {
+//		if (note.get_id() != 0) {
 			
 			if (noteTmp == null) {
 				noteTmp = new Note(note);
 			}
-						
-			if (note.getAlarm() != null) {
-				alarmDateTime = Long.parseLong(note.getAlarm());
-				dateTimeText = initAlarm(alarmDateTime);
+			
+			// Is a shared intent
+			if (note.get_id() == 0) {
+				note = new Note();
 			}
+						
+			if (noteTmp.getAlarm() != null) {
+				dateTimeText = initAlarm(Long.parseLong(noteTmp.getAlarm()));
+			}
+			
 			if (noteTmp.getLatitude() != null && noteTmp.getLongitude() != null) {
 				currentLatitude = noteTmp.getLatitude();
 				currentLongitude = noteTmp.getLongitude();
 			}
-			lock = note.isLocked();
 			
-		} else {
-			note = new Note();
-			if (noteTmp == null) {
-				noteTmp = new Note();
-			}
-		}
+			
+//		} else {
+//			note = new Note();
+//			if (noteTmp == null) {
+//				noteTmp = new Note();
+//			}
+//		}
 		
 		// Tag is checked because could be set even on new note if this is created by
 		// a tag navigation
@@ -681,11 +640,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 		// Backup of actual attachments list to check if some of them will be
 		// deleted
-		note.backupAttachmentsList();
+//		note.backupAttachmentsList();
 
 		// Some fields can be filled by third party application and are always
 		// shown
-		attachmentsList = note.getAttachmentsList();
+		attachmentsList = noteTmp.getAttachmentsList();
 		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);	
 	}
 
@@ -720,6 +679,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				} catch (IOException ex) {
 					Crouton.makeText(mActivity, R.string.location_not_found, ONStyle.WARN).show();
 				}
+				noteTmp.setAddress(addressString);
 				return addressString;
 			}
 
@@ -762,12 +722,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		menu.findItem(R.id.menu_tag).setVisible(true);
 		menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
 		menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
-		menu.findItem(R.id.menu_lock).setVisible(!lock);
-		menu.findItem(R.id.menu_unlock).setVisible(lock);
+		menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
+		menu.findItem(R.id.menu_unlock).setVisible(noteTmp.isLocked());
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		menu.findItem(R.id.menu_discard_changes).setVisible(true);
-		menu.findItem(R.id.menu_archive).setVisible(!note.isArchived());
-		menu.findItem(R.id.menu_unarchive).setVisible(note.isArchived());
+		menu.findItem(R.id.menu_archive).setVisible(!noteTmp.isArchived());
+		menu.findItem(R.id.menu_unarchive).setVisible(noteTmp.isArchived());
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -778,9 +738,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 		// The activity has managed a shared intent from third party app and
 		// performs a normal onBackPressed instead of returning back to ListActivity
-		if (getIntent().getBooleanExtra(Constants.INTENT_MANAGING_SHARE, false)) {
-			super.onBackPressed();
-		}
+//		if (getIntent().getBooleanExtra(Constants.INTENT_MANAGING_SHARE, false)) {
+//			showToast(getString(R.string.note_updated), Toast.LENGTH_SHORT);
+//			super.onBackPressed();
+//			resultIntent.putExtra(Constants.INTENT_MANAGING_SHARE, true);
+//		}
 		
 		// Otherwise the result is passed to ListActivity
 		int result = resultIntent.getIntExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_OK);
@@ -805,9 +767,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		case android.R.id.home:
 			saveNote(null);
 			break;
-//		case R.id.menu_share:
-//			shareNote();
-//			break;
 		case R.id.menu_archive:
 			saveNote(true);
 			break;
@@ -936,31 +895,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Retrieves all available tags
 		final ArrayList<Tag> tags = db.getTags();
 		
-		// If there is no tag a message will be shown
-//		if (tags.size() == 0) {
-//			Intent intent = new Intent(this, TagActivity.class);		
-//			intent.putExtra("noHome", true);
-//			startActivityForResult(intent, TAG);
-//			return;
-//		}
-		
-		// Otherwise a single choice dialog will be displayed
-//		ArrayList<String> tagsNames = new ArrayList<String>();
-//		int selectedIndex = 0;
-//		for (Tag tag : tags) {
-//			tagsNames.add(tag.getName());
-//			if (selectedTag != null && tag.getId() == selectedTag.getId()) {
-//				selectedIndex = tagsNames.size() - 1;
-//			}
-//		}
-//		candidateSelectedTag = tags.get(0);
-//		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
 		alertDialogBuilder.setTitle(R.string.tag_as)
-//							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {	
 							.setAdapter(new NavDrawerTagAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-//									selectedTag = tags.get(which);
 									noteTmp.setTag(tags.get(which));
 									setTagMarkerColor(tags.get(which));
 								}
@@ -974,16 +912,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
-//									selectedTag = null;
 									noteTmp.setTag(null);
-//									candidateSelectedTag = null;
-//									setTagMarkerColor(selectedTag);
 									setTagMarkerColor(null);
 								}
 							}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
-//									candidateSelectedTag = null;
 								}
 							});
 
@@ -1216,9 +1150,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	 */
 	private void discard() {
 		// Checks if some new files have been attached and must be removed
-		if (!note.getAttachmentsList().equals(note.getAttachmentsListOld())) {
-			for (Attachment newAttachment: note.getAttachmentsList()) {
-				if (!note.getAttachmentsListOld().contains(newAttachment)) {
+		if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
+			for (Attachment newAttachment: noteTmp.getAttachmentsList()) {
+				if (!note.getAttachmentsList().contains(newAttachment)) {
 					StorageManager.delete(this, newAttachment.getUri().getPath());
 				}
 			}
@@ -1240,7 +1174,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 					public void onClick(DialogInterface dialog, int id) {
 						// Simply return to the previous
 						// activity/fragment if it was a new note
-						if (note.get_id() == 0) {
+						if (noteTmp.get_id() == 0) {
 							goHome();
 							return;
 						}
@@ -1255,7 +1189,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 						}
 
 						// Informs the user about update
-						Log.d(Constants.TAG, "Deleted note with id '" + note.get_id() + "'");
+						Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
 						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_CANCELED);
 						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_deleted));
 						
@@ -1280,138 +1214,38 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void saveNote(Boolean archive) {
-		
-		// Get old reminder to check later if is changed
-		String oldAlarm = note.getAlarm();
 
 		// Changed fields
-		String title = getNoteTitle();
-		String content = getNoteContent();		
-		
-		Note noteEdited = note;
-		if (noteEdited != null) {
-			note = noteEdited;
-		} else {
-			note = new Note();
-		}
+		noteTmp.setTitle(getNoteTitle());
+		noteTmp.setContent(getNoteContent());	
 
 		// Check if some text or attachments of any type have been inserted or
 		// is an empty note
-		if ((title + content).length() == 0 && attachmentsList.size() == 0 && (noteTmp.getLatitude() == null && noteTmp.getLongitude() == null)
-				&& alarmDateTime == -1) {
-
+		if (noteTmp.isEmpty()) {
 			Log.d(Constants.TAG, "Empty note not saved");
 			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_FIRST_USER);
 			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.empty_note_not_saved));
 			goHome();
 			return;
 		}
-
-		// Checks if nothing is changed to avoid committing if possible (instantiation)
-//		Note noteTmp = new Note(note);
-
-		note.set_id(note.get_id());
-		note.setTitle(title);
-		note.setContent(content);
-		note.setArchived(archive != null ? archive : note.isArchived());
-		note.setAlarm(alarmDateTime != -1 ? String.valueOf(alarmDateTime) : null);
-		note.setLatitude(noteTmp.getLatitude());
-		note.setLongitude(noteTmp.getLongitude());
-		note.setTag(noteTmp.getTag());
-		note.setLocked(lock);
-		note.setChecklist(noteTmp.isChecklist());
-		note.setAttachmentsList(attachmentsList);
 		
 		// Checks if nothing is changed to avoid committing if possible (check)
-		if (!note.isChanged(noteTmp)) {
+		if (!noteTmp.isChanged(note)) {
 			goHome();
 			return;
 		}			
 
 		// Saving changes to the note
 		SaveNoteTask saveNoteTask = new SaveNoteTask(this);
-		// Forceing parallel execution disabled by default
+		// Forcing parallel execution disabled by default
 		if (Build.VERSION.SDK_INT >= 11) {
-			saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+			saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteTmp);
 		} else {
-			saveNoteTask.execute(note);
+			saveNoteTask.execute(noteTmp);
 		}
 
 		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
 	}
-	
-
-	
-//	/**
-//	 * Notes sharing
-//	 */
-//	private void shareNote() {
-//		// Changed fields
-//		String title = ((EditText) findViewById(R.id.title)).getText().toString();
-//		
-//		// Getting content paying attention if checklist-mode is active
-//		String content = "";
-//		if (!isChecklistOn) {
-//			content = ((EditText) findViewById(R.id.content)).getText().toString();
-//		} else {
-//			try {
-//				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
-//			} catch (ViewNotSupportedException e) {
-//				Log.e(Constants.TAG, "Errore toggling checklist", e);
-//			}
-//		}
-//		
-//		// Check if some text has ben inserted or is an empty note
-//		if ((title + content).length() == 0 && attachmentsList.size() == 0) {
-//			Log.d(Constants.TAG, "Empty note not shared");
-////			showToast(getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT);
-//			Crouton.makeText(this, R.string.empty_note_not_shared, ONStyle.INFO).show();
-//			return;
-//		}
-//
-//		// Definition of shared content
-//		String text = content + System.getProperty("line.separator")
-//				+ System.getProperty("line.separator") + getResources().getString(R.string.shared_content_sign);
-//		
-//		// Prepare sharing intent with only text
-//		if (attachmentsList.size() == 0) {
-//			shareIntent.setAction(Intent.ACTION_SEND);
-//			shareIntent.setType("text/plain");
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-//
-//			// Intent with single image attachment
-//		} else if (attachmentsList.size() == 1) {
-//			shareIntent.setAction(Intent.ACTION_SEND);
-//			shareIntent.setType(attachmentsList.get(0).getMime_type());
-//			shareIntent.putExtra(Intent.EXTRA_STREAM, attachmentsList.get(0).getUri());
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-//
-//			// Intent with multiple images
-//		} else if (attachmentsList.size() > 1) {
-//			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-//			ArrayList<Uri> uris = new ArrayList<Uri>();
-//			// A check to decide the mime type of attachments to share is done here
-//			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
-//			for (Attachment attachment : attachmentsList) {
-//				uris.add(attachment.getUri());
-//				mimeTypes.put(attachment.getMime_type(), true);
-//			}
-//			// If many mime types are present a general type is assigned to intent
-//			if (mimeTypes.size() > 1) {
-//				shareIntent.setType("*/*");
-//			} else {
-//				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
-//			}
-//			
-//			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-//		}
-//
-//		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
-//	}
 	
 
 	
@@ -1444,6 +1278,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	}
 
 
+	
 	/**
 	 * Updates share intent 
 	 */
@@ -1554,15 +1389,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	
 	
 	private void lockUnlock(){
-		if (lock) {
-			lock = false;
+		if (noteTmp.isLocked()) {
 			Crouton.makeText(mActivity, R.string.save_note_to_unlock_it, ONStyle.INFO).show();
 			supportInvalidateOptionsMenu();
 		} else {
-			lock = true;
 			Crouton.makeText(mActivity, R.string.save_note_to_lock_it, ONStyle.INFO).show();
 			supportInvalidateOptionsMenu();
 		}
+		noteTmp.setLocked(!noteTmp.isLocked());
 	}
 	
 	
@@ -1574,7 +1408,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	 * @return
 	 */
 	private String initAlarm(long alarmDateTime) {
-		this.alarmDateTime = alarmDateTime;
+//		this.alarmDateTime = alarmDateTime;
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(alarmDateTime);
 		alarmDate = DateHelper.onDateSet(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),

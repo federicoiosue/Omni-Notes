@@ -1,7 +1,7 @@
 package it.feio.android.omninotes.utils;
 
 public class EqualityChecker {
-	public static boolean check(Object a, Object b) {
+	public static synchronized boolean check(Object a, Object b) {
 		boolean res = true;
 		if (a != null) {
 			res = res && a.equals(b);
@@ -11,7 +11,7 @@ public class EqualityChecker {
 		return res;
 	}
 
-	public static boolean check(Object[] aArr, Object[] bArr) {
+	public static synchronized boolean check(Object[] aArr, Object[] bArr) {
 		boolean res = true;
 
 		// Array size test

@@ -40,9 +40,14 @@ public class Note implements Parcelable {
 	private Boolean checklist;
 	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private ArrayList<Attachment> attachmentsListOld = new ArrayList<Attachment>();
+	
+	// Not saved in DB
+	private String address;
 
 	public Note() {
 		super();
+		this.title = "";
+		this.content = "";
 		this.archived = false;
 		this.locked = false;
 		this.checklist = false;
@@ -207,6 +212,10 @@ public class Note implements Parcelable {
 		this.alarm = alarm;
 	}
 
+	public void setAlarm(long alarm) {
+		this.alarm = String.valueOf(alarm);
+	}
+
 	public Double getLatitude() {
 		return latitude;
 	}
@@ -275,6 +284,14 @@ public class Note implements Parcelable {
 		this.checklist = checklist == 1 ? true : false;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public ArrayList<Attachment> getAttachmentsList() {
 		return attachmentsList;
 	}
@@ -322,6 +339,16 @@ public class Note implements Parcelable {
 		boolean res = false;
 		res = !equals(note) || !getAttachmentsList().equals(getAttachmentsListOld());
 		return res;
+	}
+	
+	
+	public boolean isEmpty() {
+		Note emptyNote = new Note();
+		emptyNote.setCreation(getCreation());
+		if (equals(emptyNote))
+			return true;
+		else 
+			return false;
 	}
 	
 

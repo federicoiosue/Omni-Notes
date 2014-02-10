@@ -16,6 +16,12 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.3.2" changeDate="Feb 10, 2014">
+        <changelogtext>[b]New![/b] Arabic language support (thanks Khalid El Buokhari)</changelogtext>
+        <changelogtext>Improved performance on note editing and saving</changelogtext>
+        <changelogtext>[u]Fixed[/u] Checklist misbehaviors on orientation changes and pressing "next" key on the last item</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="4.3.1" changeDate="Feb 9, 2014">
         <changelogtext>Auto-link recognition is now disabled by default to avoid Samsung keyboard crashes</changelogtext>
         <changelogtext>[u]Fixed[/u] Now tags color are shown correctly even in smaller devices and Nexus tablets</changelogtext>
