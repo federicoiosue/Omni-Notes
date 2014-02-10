@@ -286,7 +286,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		title = (EditText) findViewById(R.id.title);
 		content = (EditText) findViewById(R.id.content);
 		// Automatic links parsing if enabled 
-		if (prefs.getBoolean("settings_enable_editor_links", false)) {
+		if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
 			title.setLinksClickable(true);
 			Linkify.addLinks(title, Linkify.ALL);
 			content.setLinksClickable(true);
