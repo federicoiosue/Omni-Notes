@@ -65,8 +65,16 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			if (attachment.getId() != 0 || 
 					attachment.getUri().getPath().contains(mActivity.getExternalFilesDir(null).getAbsolutePath()))
 				return;
+			
+			String extension = "";
+			if (attachment.getMime_type().equals(Constants.MIME_TYPE_AUDIO))
+				extension = Constants.MIME_TYPE_AUDIO_EXT;
+			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_IMAGE))
+				extension = Constants.MIME_TYPE_IMAGE_EXT;
+			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO))
+				extension = Constants.MIME_TYPE_VIDEO_EXT;
 								
-			destination = StorageManager.createExternalStoragePrivateFile(mActivity, attachment.getUri());
+			destination = StorageManager.createExternalStoragePrivateFile(mActivity, attachment.getUri(), extension);
 			Log.v(Constants.TAG, "Moving attachment " + attachment.getUri() + " to " + destination);
 			
 			if (destination == null) {				

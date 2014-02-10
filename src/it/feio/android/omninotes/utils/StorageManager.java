@@ -82,14 +82,14 @@ public class StorageManager {
 	 * @param uri
 	 * @return
 	 */
-	public static File createExternalStoragePrivateFile(Context mContext, Uri uri) {
+	public static File createExternalStoragePrivateFile(Context mContext, Uri uri, String extension) {
 
 		// Checks for external storage availability
 		if (!checkStorage()) {
 			Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
 			return null;
 		}
-		File file = createNewAttachmentFile(mContext);
+		File file = createNewAttachmentFile(mContext, extension);
 
 		try {
 			InputStream is = mContext.getContentResolver().openInputStream(uri);
