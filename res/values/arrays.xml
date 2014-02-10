@@ -61,6 +61,7 @@
     </string-array>
         
     <string-array name="languages">
+        <item >العربية (Arabic)</item>
         <item >中文 (Chinese)</item>
         <item >Nederlands (Dutch)</item>
         <item >English (English)</item>
@@ -78,6 +79,7 @@
     </string-array>
         
     <string-array name="languages_codes">
+        <item >ar</item>
         <item >zh</item>
         <item >nl</item>
         <item >en</item>
