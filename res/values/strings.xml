@@ -181,7 +181,7 @@
     <string name="settings_backup_summary">Import or export app data</string>
     <string name="settings_max_video_size_summary">Max allowed size in MB</string>
     <string name="settings_password_summary">Edit app\'s security password</string>
-    <string name="settings_enable_animations_summary">Enable or disable notes\' list and screen change animations</string>
+    <string name="settings_enable_animations_summary">Enable or disable animations in the list of notes</string>
     <string name="settings_enable_tag_marker_summary">Enable or disable tags colored markers</string>
     <string name="settings_enable_editor_links_summary">Enable or disable automatic highlighting of links and e-mail in editor</string>
     <string name="confirm_removing_backup">Confirm removing backup</string>

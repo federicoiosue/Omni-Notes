@@ -66,8 +66,6 @@ public class BaseActivity extends ActionBarActivity {
 	protected Location currentLocation;
 	protected double currentLatitude;
 	protected double currentLongitude;
-	protected double noteLatitude;
-	protected double noteLongitude;
 
 	protected String navigation;
 

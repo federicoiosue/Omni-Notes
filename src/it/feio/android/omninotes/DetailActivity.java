@@ -160,7 +160,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 	// Toggle checklist view
 	View toggleChecklistView;
-	boolean isChecklistOn = false;
+//	boolean isChecklistOn = false;
 	private ChecklistManager mChecklistManager;
 	
 	// Lock
@@ -175,9 +175,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
-
-		mActivity = this;
 		
+		// Restored temp note after orientation change
+		if (savedInstanceState != null) {
+			noteTmp = savedInstanceState.getParcelable("note");
+		}
+
+		mActivity = this;		
 		resultIntent = new Intent();
 
 		// Show the Up button in the action bar.
@@ -189,6 +193,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		init(false);
 	}
 
+	
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -202,28 +207,26 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	
 	
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	protected void onSaveInstanceState(Bundle outState) {		
+		noteTmp.setTitle(getNoteTitle());
+		noteTmp.setContent(getNoteContent());
 		noteTmp.setAlarm(String.valueOf(alarmDateTime));  
-		noteTmp.setLatitude(noteLatitude);
-		noteTmp.setLongitude(noteLongitude);
 		outState.putParcelable("note", noteTmp);
 		outState.putString("address", locationTextView.getText().toString());
 		super.onSaveInstanceState(outState);
 	}
 	
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		noteTmp = savedInstanceState.getParcelable("note");
-		alarmDateTime = Long.parseLong(noteTmp.getAlarm());
-		if (noteTmp.getLatitude() != 0 && noteTmp.getLongitude() != 0) {
-			noteLatitude = noteTmp.getLatitude();
-			noteLongitude = noteTmp.getLongitude();
-			locationTextView.setVisibility(View.VISIBLE);
-			locationTextView.setText(savedInstanceState.getString("address"));
-		}
-		setTagMarkerColor(noteTmp.getTag());
-		super.onRestoreInstanceState(savedInstanceState);
-	}
+//	@Override
+//	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//		noteTmp = savedInstanceState.getParcelable("note");
+//		alarmDateTime = Long.parseLong(noteTmp.getAlarm());
+//		if (noteTmp.getLatitude() != 0 && noteTmp.getLongitude() != 0) {
+//			locationTextView.setVisibility(View.VISIBLE);
+//			locationTextView.setText(savedInstanceState.getString("address"));
+//		}
+//		setTagMarkerColor(noteTmp.getTag());
+//		super.onRestoreInstanceState(savedInstanceState);
+//	}
 	
 	
 	private void init(boolean checkedNoteLock) {
@@ -282,9 +285,16 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Color of tag marker if note is tagged a function is active in preferences
 		setTagMarkerColor(note.getTag());
 		
+		
 		// Sets links clickable in title and content Views
 		title = (EditText) findViewById(R.id.title);
+		title.setText(noteTmp.getTitle());
+		title.addTextChangedListener(this);		
+		
 		content = (EditText) findViewById(R.id.content);
+		content.setText(noteTmp.getContent());
+		content.addTextChangedListener(this);
+		
 		// Automatic links parsing if enabled 
 		if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
 			title.setLinksClickable(true);
@@ -292,9 +302,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			content.setLinksClickable(true);
 			Linkify.addLinks(content, Linkify.ALL);
 		}		
-		title.addTextChangedListener(this);		
-		content.addTextChangedListener(this);
 
+		// Restore checklist
+		toggleChecklistView = content;
+		if (note.isChecklist()) {
+			toggleChecklist();
+		}
+
+		
 		// Initialization of location TextView
 		locationTextView = (TextView) findViewById(R.id.location);
 		if (currentLatitude != 0 && currentLongitude != 0) {
@@ -308,7 +323,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				String urlTag = Constants.TAG
 						+ (note.getTitle() != null ? System.getProperty("line.separator") + note.getTitle() : "")
 						+ (note.getContent() != null ? System.getProperty("line.separator") + note.getContent() : "");
-				final String uriString = "http://maps.google.com/maps?q=" + noteLatitude + ',' + noteLongitude + "("
+				final String uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() + "("
 						+ urlTag + ")&z=15";
 				Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
 				startActivity(locationIntent);
@@ -323,8 +338,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
-								noteLatitude = 0;
-								noteLongitude = 0;
+								noteTmp.setLatitude("0");
+								noteTmp.setLongitude("0");
 								fade(locationTextView, false);
 							}
 						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -401,13 +416,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			}
 		});
 
+		
 		// Preparation for reminder icon
 		reminder_layout = (LinearLayout) findViewById(R.id.reminder_layout);
 		reminder_layout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
-//				if (showFallbackDateTimePickers()) {
 				if (prefs.getBoolean("settings_simple_calendar", false)) {
 					timePickerCalledAlready = false;
 					// Timepicker will be automatically called after date is inserted by user
@@ -444,14 +458,19 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			}
 		});
 
+		
+		// Reminder
 		datetime = (TextView) findViewById(R.id.datetime);
 		datetime.setText(dateTimeText);
 		
-		// Restore checklist
-		toggleChecklistView = content;
-		if (note.isChecklist()) {
-			toggleChecklist();
-		}
+		
+		// Footer dates of creation and last modification
+		String creation = noteTmp.getCreationShort(date_time_format);
+		((TextView) findViewById(R.id.creation)).append(creation.length() > 0 ? getString(R.string.creation) + " "
+				+ creation : "");
+		String lastModification = noteTmp.getLastModificationShort(date_time_format);
+		((TextView) findViewById(R.id.last_modification)).append(lastModification.length() > 0 ? getString(R.string.last_update) + " "
+				+ lastModification : "");
 		
 	}
 
@@ -627,36 +646,31 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	private void initNote() {
 
 		// Workaround to get widget acting correctly
-		if (note == null) {
-			note = new Note();
-		}
+//		if (note == null) {
+//			note = new Note();
+//		}
 		
 		if (note.get_id() != 0) {
 			
-			noteTmp = new Note(note);
-			
-			((TextView) findViewById(R.id.creation)).append(getString(R.string.creation) + " "
-					+ note.getCreationShort(date_time_format));
-			((TextView) findViewById(R.id.last_modification)).append(getString(R.string.last_update) + " "
-					+ note.getLastModificationShort(date_time_format));
+			if (noteTmp == null) {
+				noteTmp = new Note(note);
+			}
+						
 			if (note.getAlarm() != null) {
 				alarmDateTime = Long.parseLong(note.getAlarm());
 				dateTimeText = initAlarm(alarmDateTime);
 			}
-			if (note.getLatitude() != null && note.getLongitude() != null) {
-				noteLatitude = note.getLatitude();
-				noteLongitude = note.getLongitude();
-				currentLatitude = note.getLatitude();
-				currentLongitude = note.getLongitude();
+			if (noteTmp.getLatitude() != null && noteTmp.getLongitude() != null) {
+				currentLatitude = noteTmp.getLatitude();
+				currentLongitude = noteTmp.getLongitude();
 			}
 			lock = note.isLocked();
 			
-			// If a new note is being edited the keyboard will not be shown on
-			// activity start
-			// getWindow().setSoftInputMode(
-			// WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		} else {
-			noteTmp = new Note();
+			note = new Note();
+			if (noteTmp == null) {
+				noteTmp = new Note();
+			}
 		}
 		
 		// Tag is checked because could be set even on new note if this is created by
@@ -671,12 +685,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 		// Some fields can be filled by third party application and are always
 		// shown
-		((EditText) findViewById(R.id.title)).setText(note.getTitle());
-		((EditText) findViewById(R.id.content)).setText(note.getContent());
 		attachmentsList = note.getAttachmentsList();
 		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);	
 	}
 
+	
 	private void setAddress(View locationView) {
 		class LocatorTask extends AsyncTask<Void, Void, String> {
 			private TextView mlocationTextView;
@@ -690,8 +703,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 				String addressString = "";
 				try {
-					noteLatitude = currentLatitude;
-					noteLongitude = currentLongitude;
+					noteTmp.setLatitude(currentLatitude);
+					noteTmp.setLongitude(currentLongitude);
 					Geocoder gcd = new Geocoder(mActivity, Locale.getDefault());
 					List<Address> addresses = gcd.getFromLocation(currentLatitude, currentLongitude, 1);
 					if (addresses.size() > 0) {
@@ -747,8 +760,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_attachment).setVisible(true);
 		menu.findItem(R.id.menu_tag).setVisible(true);
-		menu.findItem(R.id.menu_checklist_on).setVisible(!isChecklistOn);
-		menu.findItem(R.id.menu_checklist_off).setVisible(isChecklistOn);
+		menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
+		menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
 		menu.findItem(R.id.menu_lock).setVisible(!lock);
 		menu.findItem(R.id.menu_unlock).setVisible(lock);
 		menu.findItem(R.id.menu_delete).setVisible(true);
@@ -836,7 +849,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		
 		// In case checklist is active a prompt will ask about many options
 		// to decide hot to convert back to simple text	
-		if (!isChecklistOn) {
+		if (!noteTmp.isChecklist()) {
 			toggleChecklist2();
 			return;
 		}
@@ -903,7 +916,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			newView = mChecklistManager.convert(toggleChecklistView);
 			mChecklistManager.replaceViews(toggleChecklistView, newView);
 			toggleChecklistView = newView;
-			isChecklistOn = !isChecklistOn;
+			noteTmp.setChecklist(!noteTmp.isChecklist());
 						
 		} catch (ViewNotSupportedException e) {
 			e.printStackTrace();
@@ -1272,26 +1285,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		String oldAlarm = note.getAlarm();
 
 		// Changed fields
-		String title = ((EditText) findViewById(R.id.title)).getText().toString();
-		String content = "";
-		if (!isChecklistOn) {
-			// Due to checklist library introduction the returned EditText class is no more
-			// a com.neopixl.pixlui.components.edittext.EditText but a standard
-			// android.widget.EditText
-			try {
-				content = ((EditText) findViewById(R.id.content)).getText().toString();
-			} catch (ClassCastException e) {
-				content = ((android.widget.EditText)  findViewById(R.id.content)).getText().toString();
-			}
-		} else {
-			try {
-				mChecklistManager.setKeepChecked(true);
-				mChecklistManager.setShowChecks(true);
-				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
-			} catch (ViewNotSupportedException e) {
-				Log.e(Constants.TAG, "Errore toggling checklist", e);
-			}
-		}
+		String title = getNoteTitle();
+		String content = getNoteContent();		
 		
 		Note noteEdited = note;
 		if (noteEdited != null) {
@@ -1302,7 +1297,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 		// Check if some text or attachments of any type have been inserted or
 		// is an empty note
-		if ((title + content).length() == 0 && attachmentsList.size() == 0 && (noteLatitude == 0 && noteLongitude == 0)
+		if ((title + content).length() == 0 && attachmentsList.size() == 0 && (noteTmp.getLatitude() == null && noteTmp.getLongitude() == null)
 				&& alarmDateTime == -1) {
 
 			Log.d(Constants.TAG, "Empty note not saved");
@@ -1320,11 +1315,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		note.setContent(content);
 		note.setArchived(archive != null ? archive : note.isArchived());
 		note.setAlarm(alarmDateTime != -1 ? String.valueOf(alarmDateTime) : null);
-		note.setLatitude(noteLatitude);
-		note.setLongitude(noteLongitude);
+		note.setLatitude(noteTmp.getLatitude());
+		note.setLongitude(noteTmp.getLongitude());
 		note.setTag(noteTmp.getTag());
 		note.setLocked(lock);
-		note.setChecklist(isChecklistOn);
+		note.setChecklist(noteTmp.isChecklist());
 		note.setAttachmentsList(attachmentsList);
 		
 		// Checks if nothing is changed to avoid committing if possible (check)
@@ -1420,6 +1415,35 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	
 
 	
+	private String getNoteTitle() {
+		return ((EditText) findViewById(R.id.title)).getText().toString();
+	}
+	
+	
+	private String getNoteContent() {
+		String content = "";
+		if (!noteTmp.isChecklist()) {
+			// Due to checklist library introduction the returned EditText class is no more
+			// a com.neopixl.pixlui.components.edittext.EditText but a standard
+			// android.widget.EditText
+			try {
+				content = ((EditText) findViewById(R.id.content)).getText().toString();
+			} catch (ClassCastException e) {
+				content = ((android.widget.EditText)  findViewById(R.id.content)).getText().toString();
+			}
+		} else {
+			try {
+				mChecklistManager.setKeepChecked(true);
+				mChecklistManager.setShowChecks(true);
+				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
+			} catch (ViewNotSupportedException e) {
+				Log.e(Constants.TAG, "Errore toggling checklist", e);
+			}
+		}
+		return content;
+	}
+
+
 	/**
 	 * Updates share intent 
 	 */
@@ -1432,7 +1456,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		
 		// Getting content paying attention if checklist-mode is active
 		String content = "";
-		if (!isChecklistOn) {
+		if (!noteTmp.isChecklist()) {
 			// Due to checklist library introduction the returned EditText class is no more
 			// a com.neopixl.pixlui.components.edittext.EditText but a standard
 			// android.widget.EditText

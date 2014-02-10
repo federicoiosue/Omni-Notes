@@ -145,6 +145,7 @@ public class Note implements Parcelable {
 	}
 
 	public String getCreationShort(String time_format) {
+		if (creation == null) return "";		
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(creation);
 		SimpleDateFormat sdf = new SimpleDateFormat(time_format);
@@ -156,6 +157,7 @@ public class Note implements Parcelable {
 	}
 
 	public String getLastModificationShort(String time_format) {
+		if (creation == null) return "";
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(lastModification);
 		SimpleDateFormat sdf = new SimpleDateFormat(time_format);
