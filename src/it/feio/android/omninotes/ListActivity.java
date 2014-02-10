@@ -102,6 +102,7 @@ public class ListActivity extends BaseActivity {
 	private SearchView searchView;
 	public MenuItem searchMenuItem;
 	private TextView empyListItem;
+	private boolean showListAnimation = true;
 	private AnimationDrawable jinglesAnimation; 
 
 
@@ -832,11 +833,12 @@ public class ListActivity extends BaseActivity {
 		}
 		mAdapter = new NoteAdapter(getApplicationContext(), notes);
 
-		if (prefs.getBoolean("settings_enable_animations", true)) {
+		if (prefs.getBoolean("settings_enable_animations", true) && showListAnimation) {
 		    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
 		    // Assign the ListView to the AnimationAdapter and vice versa
 		    swingInAnimationAdapter.setAbsListView(listView);
 		    listView.setAdapter(swingInAnimationAdapter);
+		    showListAnimation = false;
 		} else {
 			listView.setAdapter(mAdapter);
 		}
