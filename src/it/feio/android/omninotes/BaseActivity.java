@@ -231,9 +231,11 @@ public class BaseActivity extends ActionBarActivity {
 		alertDialogBuilder.setView(v);
 
 		// Set dialog message and button
-		alertDialogBuilder.setMessage(
-				getString(R.string.insert_security_password))
-				.setPositiveButton(R.string.confirm, null);
+		alertDialogBuilder
+			.setCancelable(false)
+			.setMessage(getString(R.string.insert_security_password))
+			.setPositiveButton(R.string.confirm, null)
+			.setNegativeButton(R.string.cancel, null);
 		
 		AlertDialog dialog = alertDialogBuilder.create();
 		
@@ -243,8 +245,8 @@ public class BaseActivity extends ActionBarActivity {
 		    @Override
 		    public void onShow(final DialogInterface dialog) {
 
-		        Button b = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-		        b.setOnClickListener(new View.OnClickListener() {
+		        Button pos = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+		        pos.setOnClickListener(new View.OnClickListener() {
 
 		            @Override
 		            public void onClick(View view) {
@@ -264,6 +266,15 @@ public class BaseActivity extends ActionBarActivity {
 		                } else {
 		                	passwordTextView.setError(getString(R.string.wrong_password));
 		                }
+		            }
+		        });
+		        Button neg = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+		        neg.setOnClickListener(new View.OnClickListener() {
+
+		            @Override
+		            public void onClick(View view) {
+		            	// When negative button is pressed backPress is performed
+		            	onBackPressed();
 		            }
 		        });
 		    }

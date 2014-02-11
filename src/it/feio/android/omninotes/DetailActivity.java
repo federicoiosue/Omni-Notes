@@ -209,11 +209,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	
 	
 	private void init(boolean checkedNoteLock) {
-		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);		
+		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
+		noteTmp = new Note(note);
 		
-		if (note != null && note.get_id() != 0) {
+		if (noteTmp != null && noteTmp.get_id() != 0) {
 			if (!checkedNoteLock) {
-				checkNoteLock(note);
+				checkNoteLock(noteTmp);
 				return;
 			}
 		}
