@@ -229,36 +229,38 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @param id
 	 * @return
 	 */
-	public Note getNote(int id) {
-		SQLiteDatabase db = getReadableDatabase();
-
-//		Cursor cursor = db.query(TABLE_NOTES, new String[] { KEY_ID,
-//				KEY_CREATION, KEY_LAST_MODIFICATION, KEY_TITLE, KEY_CONTENT,
-//				KEY_ARCHIVED, KEY_ALARM, KEY_LATITUDE, KEY_LONGITUDE, KEY_TAG }, KEY_ID + "=?",
-//				new String[] { String.valueOf(id) }, null, null, null, null);
-		
-		String query = "SELECT " + KEY_ID + "," +
-				KEY_CREATION + "," + KEY_LAST_MODIFICATION + "," + KEY_TITLE + "," +  KEY_CONTENT + "," + 
-				KEY_ARCHIVED + "," +  KEY_ALARM + "," +  KEY_LATITUDE + "," +  KEY_LONGITUDE + "," +  KEY_TAG
-				+ " FROM " + TABLE_NOTES + " LEFT JOIN " + TABLE_TAGS + " ON " + KEY_TAG + " = " + KEY_TAG_ID;
-		Cursor cursor = db.rawQuery(query, null);
-		
-		if (cursor != null)
-			cursor.moveToFirst();
-		
-		int i = 0;
-		Note note = new Note(Integer.parseInt(cursor.getString(i++)),
-				cursor.getLong(i++), cursor.getLong(i++), cursor.getString(i++),
-				cursor.getString(i++), cursor.getInt(i++), cursor.getString(i++),
-				cursor.getString(i++), cursor.getString(i++), getTag(Integer.parseInt(cursor.getString(i++)))
-				, cursor.getInt(i++), cursor.getInt(i++));
-		
-		// Add eventual attachments uri
-		note.setAttachmentsList(getNoteAttachments(note));
-		
-		db.close();
-		return note;
-	}
+//	public Note getNote(int id) {
+//		SQLiteDatabase db = getReadableDatabase();
+//
+////		Cursor cursor = db.query(TABLE_NOTES, new String[] { KEY_ID,
+////				KEY_CREATION, KEY_LAST_MODIFICATION, KEY_TITLE, KEY_CONTENT,
+////				KEY_ARCHIVED, KEY_ALARM, KEY_LATITUDE, KEY_LONGITUDE, KEY_TAG }, KEY_ID + "=?",
+////				new String[] { String.valueOf(id) }, null, null, null, null);
+//		
+//		String query = "SELECT " + KEY_ID + "," +
+//				KEY_CREATION + "," + KEY_LAST_MODIFICATION + "," + KEY_TITLE + "," +  KEY_CONTENT + "," + 
+//				KEY_ARCHIVED + "," +  KEY_ALARM + "," +  KEY_LATITUDE + "," +  KEY_LONGITUDE + "," +  KEY_TAG
+//				+ " FROM " + TABLE_NOTES + " LEFT JOIN " + TABLE_TAGS + " ON " + KEY_TAG + " = " + KEY_TAG_ID;
+//		Cursor cursor = db.rawQuery(query, null);
+//		Note note = null;
+//		if (cursor != null) {
+//			cursor.moveToFirst();
+//		
+//			int i = 0;
+//			note = new Note(Integer.parseInt(cursor.getString(i++)),
+//					cursor.getLong(i++), cursor.getLong(i++), cursor.getString(i++),
+//					cursor.getString(i++), cursor.getInt(i++), cursor.getString(i++),
+//					cursor.getString(i++), cursor.getString(i++), getTag(Integer.parseInt(cursor.getString(i++)))
+//					, cursor.getInt(i++), cursor.getInt(i++));
+//			
+//			// Add eventual attachments uri
+//			note.setAttachmentsList(getNoteAttachments(note));
+//			
+//			cursor.close();
+//		}
+//		db.close();
+//		return note;
+//	}
 
 	
 	
@@ -421,11 +423,11 @@ public class DbHelper extends SQLiteOpenHelper {
 	/**
 	 * Clears completelly the database
 	 */
-	public void clear() {
-		SQLiteDatabase db = this.getWritableDatabase();
-		db.execSQL("DELETE FROM " + TABLE_NOTES);
-		db.close();
-	}
+//	public void clear() {
+//		SQLiteDatabase db = this.getWritableDatabase();
+//		db.execSQL("DELETE FROM " + TABLE_NOTES);
+//		db.close();
+//	}
 
 	
 	
@@ -444,8 +446,6 @@ public class DbHelper extends SQLiteOpenHelper {
 								+ KEY_CONTENT + " LIKE '%" + pattern + "%' ";
 		return getNotes(whereCondition, true);
 	}
-	
-	
 	
 	
 	
@@ -486,6 +486,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				attachmentsList.add(new Attachment(Integer.valueOf(cursor.getInt(0)), Uri.parse(cursor.getString(1)), cursor.getString(2)));
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		return attachmentsList;		
 	}
 	
@@ -512,6 +513,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				tagsList.add(new Tag(Integer.valueOf(cursor.getInt(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
 			} while (cursor.moveToNext());
 		}
+		cursor.close();
 		db.close();
 		return tagsList;		
 	}
@@ -599,6 +601,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		if (cursor.moveToFirst()) {
 			tag = new Tag(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3));
 		}
+		cursor.close();
 		return tag;
 	}
 	
@@ -616,6 +619,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		if (cursor.moveToFirst()) {
 			count = cursor.getInt(0);
 		}
+		cursor.close();
 		return count;		
 	}
 	
