@@ -136,7 +136,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	private Uri attachmentUri;
 	private AttachmentAdapter mAttachmentAdapter;
 	private ExpandableHeightGridView mGridView;
-	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private PopupWindow attachmentDialog;
 	private EditText title, content;
 	private TextView locationTextView;
@@ -210,7 +209,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	
 	private void init(boolean checkedNoteLock) {
 		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
-		noteTmp = new Note(note);
+		if (noteTmp == null)
+			noteTmp = new Note(note);
 		
 		if (noteTmp != null && noteTmp.get_id() != 0) {
 			if (!checkedNoteLock) {
@@ -384,7 +384,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
-								attachmentsList.remove(position);
+								noteTmp.getAttachmentsList().remove(position);
 								mAttachmentAdapter.notifyDataSetChanged();
 								mGridView.autoresize();
 							}
@@ -604,50 +604,30 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		if (note == null) {
 			note = new Note();
 		}
+			
+		if (noteTmp == null) {
+			noteTmp = new Note(note);
+			noteTmp.backupAttachmentsList();
+		}
 		
-//		if (note.get_id() != 0) {
-			
-			if (noteTmp == null) {
-				noteTmp = new Note(note);
-				noteTmp.backupAttachmentsList();
-			}
-			
-			// Is a shared intent
-			if (note.get_id() == 0) {
-				note = new Note();
-			}
-						
-			if (noteTmp.getAlarm() != null) {
-				dateTimeText = initAlarm(Long.parseLong(noteTmp.getAlarm()));
-			}
-			
-			if (noteTmp.getLatitude() != null && noteTmp.getLongitude() != null) {
-				currentLatitude = noteTmp.getLatitude();
-				currentLongitude = noteTmp.getLongitude();
-			}
-			
-			
-//		} else {
-//			note = new Note();
-//			if (noteTmp == null) {
-//				noteTmp = new Note();
-//			}
-//		}
+		// Is a shared intent
+		if (note.get_id() == 0) {
+			note = new Note();
+		}
+					
+		if (noteTmp.getAlarm() != null) {
+			dateTimeText = initAlarm(Long.parseLong(noteTmp.getAlarm()));
+		}
 		
-		// Tag is checked because could be set even on new note if this is created by
-		// a tag navigation
-//		if (note.getTag() != null) {
-//			selectedTag = note.getTag();
-//		}
-
-		// Backup of actual attachments list to check if some of them will be
-		// deleted
-//		note.backupAttachmentsList();
+		if (noteTmp.getLatitude() != null && noteTmp.getLongitude() != null) {
+			currentLatitude = noteTmp.getLatitude();
+			currentLongitude = noteTmp.getLongitude();
+		}
+		
 
 		// Some fields can be filled by third party application and are always
 		// shown
-		attachmentsList = noteTmp.getAttachmentsList();
-		mAttachmentAdapter = new AttachmentAdapter(mActivity, attachmentsList);	
+		mAttachmentAdapter = new AttachmentAdapter(mActivity, noteTmp.getAttachmentsList());	
 	}
 
 	
@@ -1027,7 +1007,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 					isRecording = false;
 					stopRecording();
 					Attachment attachment = new Attachment(Uri.parse(recordName), Constants.MIME_TYPE_AUDIO);
-					attachmentsList.add(attachment);
+					noteTmp.getAttachmentsList().add(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();
 					attachmentDialog.dismiss();
@@ -1091,20 +1071,20 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			switch (requestCode) {
 			case TAKE_PHOTO:
 				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
-				attachmentsList.add(attachment);
+				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
 				break;
 			case GALLERY:
 				String mimeType = StorageManager.getMimeTypeInternal(this,  intent.getData());
 				attachment = new Attachment(intent.getData(), mimeType);
-				attachmentsList.add(attachment);
+				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
 				break;
 			case TAKE_VIDEO:
 				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
-				attachmentsList.add(attachment);
+				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
 				break;
@@ -1112,7 +1092,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				if (resultCode == RESULT_OK) {
 					Uri audioUri = intent.getData();
 					attachment = new Attachment(audioUri, Constants.MIME_TYPE_AUDIO);
-					attachmentsList.add(attachment);
+					noteTmp.getAttachmentsList().add(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();
 				} else {
@@ -1125,7 +1105,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				break;
 			case SKETCH:
 				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
-				attachmentsList.add(attachment);
+				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
 				break;
@@ -1318,27 +1298,27 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				+ System.getProperty("line.separator") + getResources().getString(R.string.shared_content_sign);
 		
 		// Prepare sharing intent with only text
-		if (attachmentsList.size() == 0) {
+		if (noteTmp.getAttachmentsList().size() == 0) {
 			shareIntent.setAction(Intent.ACTION_SEND);
 			shareIntent.setType("text/plain");
 			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
 			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
 
 			// Intent with single image attachment
-		} else if (attachmentsList.size() == 1) {
+		} else if (noteTmp.getAttachmentsList().size() == 1) {
 			shareIntent.setAction(Intent.ACTION_SEND);
-			shareIntent.setType(attachmentsList.get(0).getMime_type());
-			shareIntent.putExtra(Intent.EXTRA_STREAM, attachmentsList.get(0).getUri());
+			shareIntent.setType(noteTmp.getAttachmentsList().get(0).getMime_type());
+			shareIntent.putExtra(Intent.EXTRA_STREAM, noteTmp.getAttachmentsList().get(0).getUri());
 			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
 			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
 
 			// Intent with multiple images
-		} else if (attachmentsList.size() > 1) {
+		} else if (noteTmp.getAttachmentsList().size() > 1) {
 			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
 			ArrayList<Uri> uris = new ArrayList<Uri>();
 			// A check to decide the mime type of attachments to share is done here
 			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
-			for (Attachment attachment : attachmentsList) {
+			for (Attachment attachment : noteTmp.getAttachmentsList()) {
 				uris.add(attachment.getUri());
 				mimeTypes.put(attachment.getMime_type(), true);
 			}
