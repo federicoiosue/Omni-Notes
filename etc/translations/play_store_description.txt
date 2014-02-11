@@ -19,4 +19,4 @@ Actually the following functions are implemented:
 &bull; Multimedia attachments
 &bull; To-do list
 &bull; Sketch-note mode
-&bull; Multilanguage: Chinese, Dutch, French, English, German, Italian, Lao, Portuguese (Brazilian), Russian, Slovak, Spanish, Swedish, Turkish, Ukrainian
+&bull; Multilanguage: Arabic, Chinese, Dutch, French, English, German, Italian, Lao, Portuguese (Brazilian), Russian, Slovak, Spanish, Swedish, Turkish, Ukrainian

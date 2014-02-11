@@ -63,35 +63,29 @@
                 android:entries="@array/languages"
                 android:entryValues="@array/languages_codes"
                 android:key="settings_language"
-                android:title="@string/settings_choose_language" />
-	        
+                android:title="@string/settings_choose_language" />	        
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="settings_enable_animations"
                 android:summary="@string/settings_enable_animations_summary"
                 android:title="@string/settings_enable_animations" >
             </CheckBoxPreference>
-
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="settings_enable_editor_links"
                 android:summary="@string/settings_enable_editor_links_summary"
                 android:title="@string/settings_enable_editor_links" >
             </CheckBoxPreference>
-            
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="settings_hours_format"
                 android:summary="@string/settings_hours_format_summary"
                 android:title="@string/settings_hours_format" />
-            
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="settings_simple_calendar"
                 android:summary="@string/settings_simple_calendar_summary"
-                android:title="@string/settings_simple_calendar" />
-            
-
+                android:title="@string/settings_simple_calendar" />   
             <ListPreference
                 android:defaultValue="0"
                 android:entries="@array/checked_items_behavior"
@@ -101,7 +95,7 @@
                 android:title="@string/settings_checked_items_behavior" >
             </ListPreference>
             
-            <PreferenceScreen android:title="@string/colors" >
+            <PreferenceScreen android:title="@string/colors" >                
                 <CheckBoxPreference
                     android:defaultValue="true"
                     android:key="settings_enable_tag_marker"
@@ -121,10 +115,17 @@
                     android:key="settings_enable_tag_marker_full_list_only"
                     android:summary="@string/settings_enable_tag_marker_full_list_only_summary"
                     android:title="@string/settings_enable_tag_marker_full_list_only" >
-                </CheckBoxPreference>
+                </CheckBoxPreference>                                
             </PreferenceScreen>
+            
+            <Preference
+                android:key="settings_instructions_show_again"
+                android:summary="@string/settings_instructions_show_again_summary"
+                android:title="@string/settings_instructions_show_again" />
 
         </PreferenceScreen>
+        
+        
         <PreferenceScreen
             android:key="category_notifications"
             android:title="@string/settings_category_notifications" >

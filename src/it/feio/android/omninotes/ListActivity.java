@@ -76,6 +76,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.espian.showcaseview.ShowcaseView;
+import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
+import com.espian.showcaseview.targets.ActionViewTarget;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -515,6 +518,13 @@ public class ListActivity extends BaseActivity {
 				mTitle = getSupportActionBar().getTitle();
 				getSupportActionBar().setTitle(getApplicationContext().getString(R.string.app_name));
 				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+				
+				// Show instructions on first launch
+//				showCase(Constants.PREF_INSTRUCTIONS_PREFIX + "listactivity_actions", 0, ShowcaseView.ITEM_ACTION_HOME);	
+				ArrayList<ItemViewProperties> list = new ArrayList<ItemViewProperties>();
+				list.add((new ItemViewProperties(R.id.menu_add_tag, R.string.instructions_listactivity_actions_title, R.string.instructions_listactivity_actions_title, ShowcaseView.ITEM_ACTION_ITEM)));
+//				list.add((new ItemViewProperties(0, R.string.instructions_listactivity_actions_title, R.string.instructions_listactivity_actions_title, ShowcaseView.ITEM_ACTION_HOME)));
+				showCase2(list);
 			}
 		};
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
@@ -564,6 +574,14 @@ public class ListActivity extends BaseActivity {
 
 		// Initialization of SearchView
 		initSearchView(menu);
+		
+		// Show instructions on first launch
+//		showCase(Constants.PREF_INSTRUCTIONS_PREFIX + "listactivity_actions", R.id.menu_add, ShowcaseView.ITEM_ACTION_ITEM);
+//		showCase(Constants.PREF_INSTRUCTIONS_PREFIX + "listactivity_actions", 0, ShowcaseView.ITEM_ACTION_HOME);
+		ArrayList<ItemViewProperties> list = new ArrayList<ItemViewProperties>();
+		list.add((new ItemViewProperties(R.id.menu_add, R.string.instructions_listactivity_actions_title, R.string.instructions_listactivity_actions_title, ShowcaseView.ITEM_ACTION_ITEM)));
+		list.add((new ItemViewProperties(0, R.string.instructions_listactivity_actions_title, R.string.instructions_listactivity_actions_title, ShowcaseView.ITEM_ACTION_HOME)));
+		showCase2(list);
 		
 		return super.onCreateOptionsMenu(menu);
 	}

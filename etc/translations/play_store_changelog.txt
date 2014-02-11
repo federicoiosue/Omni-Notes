@@ -1,6 +1,11 @@
 Look to the changelog inside the app for all the changes!
 
-WARNING: If you have problem with Samsung devices turn off url recognition from settings!
+4.3.2
+Arabic language support (thanks Khalid El Buokhari)
+Google+ multimedia files inclusion. You can use Google Photo app to have access to remotely stored images and save them in ON (even animated)
+Multi-type attachments import. Try to export from Google Keep to ON notes with both images and audio!
+Improved performance on note editing and saving
+Fixed check-lists misbehaviors
 
 4.3.1
 A lot of bugfixes

@@ -23,8 +23,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -253,6 +255,43 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 		});
 		
+		
+		
+		// Instructions
+		Preference instructions = findPreference("settings_instructions_show_again");
+		instructions.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+				// set dialog message
+				alertDialogBuilder
+						.setMessage(getString(R.string.settings_instructions_show_again_summary))
+						.setCancelable(false).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// All  the preferences will be cycled until 
+								Map<String, ?> prefsMap = prefs.getAll();
+								Iterator<?> it = prefsMap.entrySet().iterator();
+								while (it.hasNext()) {
+									Map.Entry mapEntry = (Map.Entry) it.next();
+									String key = mapEntry.getKey().toString();
+									if (key.contains(Constants.PREF_INSTRUCTIONS_PREFIX)) {
+										prefs.edit().putBoolean(key, false).commit();
+									}
+								}
+							}
+						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				// show it
+				alertDialog.show();
+				return false;						
+			}
+		});
+
 		
 		
 		// Notification snooze delay

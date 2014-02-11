@@ -17,10 +17,12 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -45,6 +47,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.espian.showcaseview.ShowcaseView;
+import com.espian.showcaseview.ShowcaseViews;
+import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
+import com.espian.showcaseview.targets.ActionItemTarget;
+import com.espian.showcaseview.targets.ActionViewTarget;
+import com.espian.showcaseview.targets.Target;
+import com.espian.showcaseview.targets.ViewTarget;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
@@ -282,6 +291,71 @@ public class BaseActivity extends ActionBarActivity {
 	}
 	
 
+	
+	/**
+	 * Used for ShowCase library instructions
+	 * @param istructionsName
+	 * @param target
+	 * @param type
+	 */
+	protected void showCase(String istructionName, int targetId, int type) {
+		if (!prefs.getBoolean(istructionName, false)) {
+//			ShowcaseView.insertShowcaseViewWithType(type,
+//					target, this, istructionsName + "_title", istructionsName + "_detail", new ShowcaseView.ConfigOptions());
+			Target target;
+			switch (type) {
+			case ShowcaseView.ITEM_ACTION_ITEM:
+				target = new ActionItemTarget(this, targetId);
+				break;
+			case ShowcaseView.ITEM_ACTION_HOME:
+				target = new ActionViewTarget(this, ActionViewTarget.Type.HOME);
+				break;
+
+			default:
+				target = new ViewTarget(targetId, this);
+				break;
+			}
+			ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
+            //can only dismiss by button click
+            co.hideOnClickOutside = false;
+            //show only once
+            co.shotType = ShowcaseView.TYPE_ONE_SHOT;
+            ShowcaseView sv = ShowcaseView.insertShowcaseView(target, this,
+            		getStringResourceByName(istructionName + "_title"), getStringResourceByName(istructionName + "_detail"));
+            
+            // set black background
+            sv.setBackgroundColor(getResources().getColor(android.R.color.black));
+            // make background a bit transparent
+            AlphaManager.setAlpha(sv, 0.8f);
+            
+//			prefs.edit().putBoolean(istructionsName, true).commit();
+		}
+	}
+	
+	
+	protected void showCase2(ArrayList<ItemViewProperties> views) {
+		ShowcaseViews mViews = new ShowcaseViews(this);
+		for (ItemViewProperties view : views) {
+			mViews.addView(view);
+		}
+		mViews.show();
+//			prefs.edit().putBoolean(istructionsName, true).commit();
+		
+	}
+	
+	
+	
+	
+	/**
+	 * Retrieves resource by name
+	 * @param aString
+	 * @return
+	 */
+	private String getStringResourceByName(String aString) {
+		String packageName = getApplicationContext().getPackageName();
+		int resId = getResources().getIdentifier(aString, "string", packageName);
+		return getString(resId);
+	}
 
 	
 

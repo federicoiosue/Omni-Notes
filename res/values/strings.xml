@@ -210,7 +210,13 @@
     <string name="minutes">minutes</string>
     <string name="settings_simple_calendar">Simple calendar and time</string>
     <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
+    <string name="settings_instructions_show_again">Instructions</string>
+    <string name="settings_instructions_show_again_summary">Show once again application instructions</string>
+
     
+    <!-- Instructions -->
+    <string name="instructions_listactivity_actions_title">Actions</string>	
+    <string name="instructions_listactivity_actions_detail">From here you can create new note, sort them, access to preferences</string>	
 
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>
