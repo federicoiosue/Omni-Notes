@@ -1012,39 +1012,13 @@ public class ListActivity extends BaseActivity {
 		// If there is no tag a message will be shown
 		if (tags.size() == 0) {
 			Crouton.makeText(mActivity, R.string.no_tags_created, ONStyle.WARN).show();
-			return;
 		}
-
-		// If just one note is selected its tag will be set as pre-selected
-//		if (selectedNotes.size() == 1) {
-//			for (Note note : selectedNotes) {
-//				if (note.getTag() != null && note.getTag().getId() != 0)
-//					candidateSelectedTag = note.getTag();
-//				else 
-//					candidateSelectedTag = tags.get(0);
-//			}
-//		} else {
-//			candidateSelectedTag = tags.get(0);
-//		}		
-		
-		// Choosing the pre-selected item in the dialog list
-//		ArrayList<String> tagsNames = new ArrayList<String>();
-//		int selectedIndex = 0;		
-//		for (int i = 0; i < tags.size(); i++) {
-//			Tag tag = tags.get(i);
-//			tagsNames.add(tag.getName());
-//			if (candidateSelectedTag.getId() == tag.getId()){
-//				selectedIndex = i;
-//			}
-//		}
 
 		// A single choice dialog will be displayed
 		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
 		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 		
-//		final String[] array = tagsNames.toArray(new String[tagsNames.size()]);
 		alertDialogBuilder.setTitle(R.string.tag_as)
-//							.setSingleChoiceItems(array, selectedIndex, new DialogInterface.OnClickListener() {
 							.setAdapter(new NavDrawerTagAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
