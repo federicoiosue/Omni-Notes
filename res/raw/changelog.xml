@@ -18,6 +18,8 @@
 
     <changelogversion versionName="4.3.2" changeDate="Feb 10, 2014">
         <changelogtext>[b]New![/b] Arabic language support (thanks Khalid El Buokhari)</changelogtext>
+        <changelogtext>[b]New![/b] Google+ multimedia files inclusion. You can use Google Photo app to have access to remotely stored images and save them in ON (even animated)</changelogtext>
+        <changelogtext>[b]New![/b] Multi-type attachments import. Try to export from Google Keep to ON notes with both images and audio!</changelogtext>
         <changelogtext>Improved performance on note editing and saving</changelogtext>
         <changelogtext>[u]Fixed[/u] Checklist misbehaviors on orientation changes and pressing "next" key on the last item</changelogtext>
     </changelogversion>

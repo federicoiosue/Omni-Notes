@@ -87,7 +87,7 @@
             
             <CheckBoxPreference
                 android:defaultValue="false"
-                android:key="settings_hours_format"
+                android:key="settings_simple_calendar"
                 android:summary="@string/settings_simple_calendar_summary"
                 android:title="@string/settings_simple_calendar" />
             
