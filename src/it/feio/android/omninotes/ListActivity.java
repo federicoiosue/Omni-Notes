@@ -74,6 +74,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -224,9 +225,14 @@ public class ListActivity extends BaseActivity {
 	    // Multiple attachment data
 	    ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 	    if (uris != null) {
-	    	String mimeType = StorageManager.getMimeTypeInternal(this, intent.getType());	    	
 	    	for (Uri uriSingle : uris) {
-		        note.addAttachment(new Attachment(uriSingle, mimeType));				
+	    		String mimeGeneral = StorageManager.getMimeType(mActivity, uriSingle);
+	    		if (mimeGeneral != null) {
+	    			String mimeType = StorageManager.getMimeTypeInternal(this, mimeGeneral);
+			        note.addAttachment(new Attachment(uriSingle, mimeType));	
+	    		} else {
+	    			showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
+	    		}
 			}
 	    }
 	    

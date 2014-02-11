@@ -1287,28 +1287,29 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		if (mShareActionProvider == null) return;
 		
 		// Changed fields
-		String title = ((EditText) findViewById(R.id.title)).getText().toString();
+		String title = getNoteTitle();
 		
 		// Getting content paying attention if checklist-mode is active
-		String content = "";
-		if (!noteTmp.isChecklist()) {
-			// Due to checklist library introduction the returned EditText class is no more
-			// a com.neopixl.pixlui.components.edittext.EditText but a standard
-			// android.widget.EditText
-			try {
-				content = ((EditText) findViewById(R.id.content)).getText().toString();
-			} catch (ClassCastException e) {
-				content = ((android.widget.EditText)  findViewById(R.id.content)).getText().toString();
-			}
-		} else {
-			try {
-				mChecklistManager.setKeepChecked(true);
-				mChecklistManager.setShowChecks(true);
-				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
-			} catch (ViewNotSupportedException e) {
-				Log.e(Constants.TAG, "Errore toggling checklist", e);
-			}
-		}
+//		String content = "";
+//		if (!noteTmp.isChecklist()) {
+//			// Due to checklist library introduction the returned EditText class is no more
+//			// a com.neopixl.pixlui.components.edittext.EditText but a standard
+//			// android.widget.EditText
+//			try {
+//				content = ((EditText) findViewById(R.id.content)).getText().toString();
+//			} catch (ClassCastException e) {
+//				content = ((android.widget.EditText)  findViewById(R.id.content)).getText().toString();
+//			}
+//		} else {
+//			try {
+//				mChecklistManager.setKeepChecked(true);
+//				mChecklistManager.setShowChecks(true);
+//				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
+//			} catch (ViewNotSupportedException e) {
+//				Log.e(Constants.TAG, "Errore toggling checklist", e);
+//			}
+//		}
+		String content = getNoteContent();
 
 		// Definition of shared content
 		String text = content + System.getProperty("line.separator")

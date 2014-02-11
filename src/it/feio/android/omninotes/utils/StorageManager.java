@@ -37,6 +37,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 public class StorageManager {
@@ -351,6 +352,23 @@ public class StorageManager {
 		return mimeType;
 	}
 	
+		
+	/**
+	 * Tries to retrieve mime types from file extension
+	 * @param url
+	 * @return
+	 */
+	public static String getMimeType(String url) {
+		String type = null;
+		String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+		if (extension != null) {
+			MimeTypeMap mime = MimeTypeMap.getSingleton();
+			type = mime.getMimeTypeFromExtension(extension);
+		}
+		return type;
+	}
+	
+	
 	/**
 	 * Retrieves uri mime-type between the ones managed by application
 	 * @param mContext
@@ -360,8 +378,7 @@ public class StorageManager {
 	public static String getMimeTypeInternal(Context mContext, Uri uri) {		
 		String mimeType = getMimeType(mContext, uri);
 		mimeType = getMimeTypeInternal(mContext, mimeType);		
-		return mimeType;
-		
+		return mimeType;		
 	}	
 	
 	/**
