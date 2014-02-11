@@ -17,11 +17,14 @@ package it.feio.android.omninotes.utils.date;
 
 import it.feio.android.omninotes.utils.Constants;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
+import android.content.Context;
 import android.util.Log;
 
 
@@ -113,5 +116,20 @@ public class DateHelper {
 		cal.set(Calendar.SECOND, 0);
 		return cal;		
 	}
+	
+	
+	
+//	public static String getLocalizedDateTime(Context mContext, String dateString, String format) {
+//		SimpleDateFormat sdf = new SimpleDateFormat(format);
+//		Date date = null;
+//		try {
+//			date = sdf.parse(dateString);
+//		} catch (ParseException e) {
+//			// handle exception here !
+//		}
+//		String dateFormatted = android.text.format.DateFormat.getDateFormat(mContext).format(date);
+//		String timeFormatted = android.text.format.DateFormat.getTimeFormat(mContext).format(date);
+//		return dateFormatted + " " + timeFormatted;
+//	}
 	
 }
