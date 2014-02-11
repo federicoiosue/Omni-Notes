@@ -337,7 +337,7 @@ public class Note implements Parcelable {
 	
 	public boolean isChanged(Note note) {
 		boolean res = false;
-		res = !equals(note) || !getAttachmentsList().equals(getAttachmentsListOld());
+		res = !equals(note) || !getAttachmentsList().equals(note.getAttachmentsList());
 		return res;
 	}
 	
@@ -345,10 +345,10 @@ public class Note implements Parcelable {
 	public boolean isEmpty() {
 		Note emptyNote = new Note();
 		emptyNote.setCreation(getCreation());
-		if (equals(emptyNote))
-			return true;
-		else 
+		if (isChanged(emptyNote))
 			return false;
+		else 
+			return true;
 	}
 	
 

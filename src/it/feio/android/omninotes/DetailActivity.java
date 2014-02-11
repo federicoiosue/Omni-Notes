@@ -608,6 +608,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			
 			if (noteTmp == null) {
 				noteTmp = new Note(note);
+				noteTmp.backupAttachmentsList();
 			}
 			
 			// Is a shared intent
