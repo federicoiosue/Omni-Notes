@@ -129,7 +129,7 @@ public class TagActivity extends Activity {
                 if (title.getText().toString().length() > 0) {
     				saveTag();
                 } else {
-                	title.setError(getString(R.string.tag_title));
+                	title.setError(getString(R.string.tag_missing_title));
                 }
 			}
 		});

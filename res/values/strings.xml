@@ -91,6 +91,7 @@
     <string name="tag_color">Color</string>
     <string name="tag_saved">Tag saved</string>
     <string name="tag_deleted">Tag deleted</string>
+    <string name="tag_missing_title">Missing tag title</string>
     <string name="delete_this_tag">Delete this tag</string>
     <string name="tag">Tag</string>
     <string name="tag_as">Tag as</string>
