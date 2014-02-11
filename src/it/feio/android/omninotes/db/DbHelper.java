@@ -335,41 +335,48 @@ public class DbHelper extends SQLiteOpenHelper {
 
 		Log.d(Constants.TAG, "Query: " + query);
 
-		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(query, null);
-
-		// Looping through all rows and adding to list
-		if (cursor.moveToFirst()) {
-			do {
-				int i = 0;
-				Note note = new Note();
-				note.set_id(Integer.parseInt(cursor.getString(i++)));
-				note.setCreation(cursor.getLong(i++));
-				note.setLastModification(cursor.getLong(i++));
-				note.setTitle(cursor.getString(i++));
-				note.setContent(cursor.getString(i++));
-				note.setArchived("1".equals(cursor.getString(i++)));
-				note.setAlarm(cursor.getString(i++));		
-				note.setLatitude(cursor.getString(i++));
-				note.setLongitude(cursor.getString(i++));
-				note.setLocked("1".equals(cursor.getString(i++)));
-				note.setChecklist("1".equals(cursor.getString(i++)));
-				
-				// Set tag
-				Tag tag = new Tag(cursor.getInt(i++), cursor.getString(i++), cursor.getString(i++), cursor.getString(i++));
-				note.setTag(tag);
-				
-				// Add eventual attachments uri
-				note.setAttachmentsList(getNoteAttachments(note));
-				
-				// Adding note to list
-				noteList.add(note);
-				
-			} while (cursor.moveToNext());
+		SQLiteDatabase db = null;
+		Cursor cursor = null;
+		try {
+			db = this.getReadableDatabase();
+			cursor = db.rawQuery(query, null);
+	
+			// Looping through all rows and adding to list
+			if (cursor.moveToFirst()) {
+				do {
+					int i = 0;
+					Note note = new Note();
+					note.set_id(Integer.parseInt(cursor.getString(i++)));
+					note.setCreation(cursor.getLong(i++));
+					note.setLastModification(cursor.getLong(i++));
+					note.setTitle(cursor.getString(i++));
+					note.setContent(cursor.getString(i++));
+					note.setArchived("1".equals(cursor.getString(i++)));
+					note.setAlarm(cursor.getString(i++));		
+					note.setLatitude(cursor.getString(i++));
+					note.setLongitude(cursor.getString(i++));
+					note.setLocked("1".equals(cursor.getString(i++)));
+					note.setChecklist("1".equals(cursor.getString(i++)));
+					
+					// Set tag
+					Tag tag = new Tag(cursor.getInt(i++), cursor.getString(i++), cursor.getString(i++), cursor.getString(i++));
+					note.setTag(tag);
+					
+					// Add eventual attachments uri
+					note.setAttachmentsList(getNoteAttachments(note));
+					
+					// Adding note to list
+					noteList.add(note);
+					
+				} while (cursor.moveToNext());
+			}
+			
+		} finally {
+			if (cursor != null)
+				cursor.close();
+			if (db != null)
+				db.close();	
 		}
-
-		cursor.close();
-		db.close();
 
 		return noteList;
 	}
@@ -382,12 +389,22 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return
 	 */
 	public int getNotesCount() {
+		int count = 0;
 		String countQuery = "SELECT * FROM " + TABLE_NOTES;
-		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(countQuery, null);
-		cursor.close();
-		db.close();
-		return cursor.getCount();
+
+		SQLiteDatabase db = null;
+		Cursor cursor = null;
+		try {
+			db = this.getReadableDatabase();
+			cursor = db.rawQuery(countQuery, null);
+			count = cursor.getCount();
+		} finally {
+			if (cursor != null)
+				cursor.close();
+			if (db != null)
+				db.close();
+		}
+		return count;
 	}
 
 	
@@ -396,38 +413,34 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * Deleting single note
 	 * @param note
 	 */
-	public boolean deleteNote(Note note) {		
+	public boolean deleteNote(Note note) {
 		int deletedNotes, deletedAttachments;
-		
-		SQLiteDatabase db = this.getWritableDatabase();
-		
-		// Delete notes
-		deletedNotes= db.delete(TABLE_NOTES, KEY_ID + " = ?",
-				new String[] { String.valueOf(note.get_id()) });
-		
-		// Delete note's attachments
-		deletedAttachments = db.delete(TABLE_ATTACHMENTS, KEY_ATTACHMENT_NOTE_ID + " = ?",
-				new String[] { String.valueOf(note.get_id()) });
-		
-		db.close();
-		
-		// Check on correct and complete deletion
-		boolean result = deletedNotes == 1 && deletedAttachments == note.getAttachmentsList().size();
-		
+
+		SQLiteDatabase db = null;
+		boolean result;
+		try {
+			db = this.getWritableDatabase();
+
+			// Delete notes
+			deletedNotes = db.delete(TABLE_NOTES, KEY_ID + " = ?",
+					new String[] { String.valueOf(note.get_id()) });
+
+			// Delete note's attachments
+			deletedAttachments = db.delete(TABLE_ATTACHMENTS,
+					KEY_ATTACHMENT_NOTE_ID + " = ?",
+					new String[] { String.valueOf(note.get_id()) });
+
+			// Check on correct and complete deletion
+			result = deletedNotes == 1
+					&& deletedAttachments == note.getAttachmentsList().size();
+
+		} finally {
+			if (db != null)
+				db.close();
+		}
+
 		return result;
 	}
-
-	
-	
-
-	/**
-	 * Clears completelly the database
-	 */
-//	public void clear() {
-//		SQLiteDatabase db = this.getWritableDatabase();
-//		db.execSQL("DELETE FROM " + TABLE_NOTES);
-//		db.close();
-//	}
 
 	
 	
@@ -477,17 +490,30 @@ public class DbHelper extends SQLiteOpenHelper {
 						+ KEY_ATTACHMENT_MIME_TYPE
 					+ " FROM " + TABLE_ATTACHMENTS 
 					+ " WHERE " + KEY_ATTACHMENT_NOTE_ID + " = " + note.get_id();
-		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(sql, null);
+		SQLiteDatabase db = null;
+		Cursor cursor = null;
 
-		// Looping through all rows and adding to list
-		if (cursor.moveToFirst()) {
-			do {
-				attachmentsList.add(new Attachment(Integer.valueOf(cursor.getInt(0)), Uri.parse(cursor.getString(1)), cursor.getString(2)));
-			} while (cursor.moveToNext());
+		try {
+
+			db = this.getReadableDatabase();
+			cursor = db.rawQuery(sql, null);
+
+			// Looping through all rows and adding to list
+			if (cursor.moveToFirst()) {
+				do {
+					attachmentsList.add(new Attachment(Integer.valueOf(cursor
+							.getInt(0)), Uri.parse(cursor.getString(1)), cursor
+							.getString(2)));
+				} while (cursor.moveToNext());
+			}
+
+		} finally {
+			if (cursor != null)
+				cursor.close();
+			if (db != null)
+				db.close();
 		}
-		cursor.close();
-		return attachmentsList;		
+		return attachmentsList;
 	}
 	
 
@@ -504,18 +530,30 @@ public class DbHelper extends SQLiteOpenHelper {
 						+ KEY_TAG_COLOR
 					+ " FROM " + TABLE_TAGS
 					+ " ORDER BY IFNULL(NULLIF(" + KEY_TAG_NAME + ", ''),'zzzzzzzz') ";
-		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.rawQuery(sql, null);
+		
+		SQLiteDatabase db = null;
+		Cursor cursor = null;
 
-		// Looping through all rows and adding to list
-		if (cursor.moveToFirst()) {
-			do {
-				tagsList.add(new Tag(Integer.valueOf(cursor.getInt(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3)));
-			} while (cursor.moveToNext());
+		try {
+
+			db = this.getReadableDatabase();
+			cursor = db.rawQuery(sql, null);
+			// Looping through all rows and adding to list
+			if (cursor.moveToFirst()) {
+				do {
+					tagsList.add(new Tag(Integer.valueOf(cursor.getInt(0)),
+							cursor.getString(1), cursor.getString(2), cursor
+									.getString(3)));
+				} while (cursor.moveToNext());
+			}
+
+		} finally {
+			if (cursor != null)
+				cursor.close();
+			if (db != null)
+				db.close();
 		}
-		cursor.close();
-		db.close();
-		return tagsList;		
+		return tagsList;
 	}
 
 	
