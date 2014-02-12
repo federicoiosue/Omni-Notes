@@ -308,6 +308,10 @@ public class DbHelper extends SQLiteOpenHelper {
 		if (order) {			
 			sort_order = KEY_TITLE.equals(sort_column) || KEY_ALARM.equals(sort_column) ? " ASC " : " DESC ";
 		}
+
+		// In case of title sorting criteria it must be handled empty title by concatenating content
+		sort_column = KEY_TITLE.equals(sort_column) ? KEY_TITLE + "||" + KEY_CONTENT : sort_column;
+		
 		// In case of reminder sorting criteria the empty reminder notes must be moved on bottom of results
 		sort_column = KEY_ALARM.equals(sort_column) ? "IFNULL(" + KEY_ALARM + ", " + Constants.TIMESTAMP_NEVER + ")" : sort_column;
 		
