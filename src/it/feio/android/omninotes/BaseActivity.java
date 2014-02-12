@@ -261,7 +261,7 @@ public class BaseActivity extends ActionBarActivity {
 						// In case password is ok dialog is dismissed and result sent to callback
 		                if (result) {
 		                	dialog.dismiss();
-							mPasswordValidator.onPasswordValidated(result);
+							mPasswordValidator.onPasswordValidated(true);
 						// If password is wrong the auth flow is not interrupted and simply a message is shown
 		                } else {
 		                	passwordTextView.setError(getString(R.string.wrong_password));
@@ -273,8 +273,8 @@ public class BaseActivity extends ActionBarActivity {
 
 		            @Override
 		            public void onClick(View view) {
-		            	// When negative button is pressed backPress is performed
-		            	onBackPressed();
+	                	dialog.dismiss();
+						mPasswordValidator.onPasswordValidated(false);
 		            }
 		        });
 		    }

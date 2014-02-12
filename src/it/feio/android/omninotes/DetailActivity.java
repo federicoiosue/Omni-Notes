@@ -208,11 +208,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		if (noteTmp == null)
 			noteTmp = new Note(note);
 		
-		if (noteTmp != null && noteTmp.get_id() != 0) {
-			if (!noteTmp.isPasswordChecked()) {
-				checkNoteLock(noteTmp);
-				return;
-			}
+		if (noteTmp != null && noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
+			checkNoteLock(noteTmp);
+			return;
 		}
 
 		// Note initialization
@@ -236,12 +234,16 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			requestPassword(new PasswordValidator() {					
 				@Override
 				public void onPasswordValidated(boolean result) {
-					noteTmp.setPasswordChecked(true);
-					init();
+					if (result) {
+						noteTmp.setPasswordChecked(true);
+						init();
+					} else {
+						goHome();
+					}
 				}
 			});
 		} else {
-			noteTmp.setPasswordChecked(true);
+//			noteTmp.setPasswordChecked(true);
 			init();
 		}		
 	}
@@ -1195,10 +1197,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	private void saveNote(Boolean archive) {
 		
 		// If note is locked and security password has not been checked nothing have to be saved
-		if (noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
-			goHome();
-			return;
-		}
+//		if (noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
+//			goHome();
+//			return;
+//		}
 
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
@@ -1363,14 +1365,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			return;
 		}
 		
-		// Password sill be requested here
+		// Password will be requested here
 		requestPassword(new PasswordValidator() {					
 			@Override
 			public void onPasswordValidated(boolean result) {
-				// Wrong password
 				if (result) {
 					lockUnlock();
-				}
+				} 
 			}
 		});
 	}
