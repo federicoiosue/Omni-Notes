@@ -260,6 +260,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Action called from widget
 		if (Intent.ACTION_PICK.equals(i.getAction())) {
 			takePhoto();
+			i.setAction(null);
 		}
 	}
 
