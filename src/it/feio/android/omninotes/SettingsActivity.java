@@ -258,14 +258,14 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		
 		// Instructions
-		Preference instructions = findPreference("settings_instructions_show_again");
+		Preference instructions = findPreference("settings_tour_show_again");
 		instructions.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 				// set dialog message
 				alertDialogBuilder
-						.setMessage(getString(R.string.settings_instructions_show_again_summary))
+						.setMessage(getString(R.string.settings_tour_show_again_summary))
 						.setCancelable(false).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								// All  the preferences will be cycled until 
@@ -276,6 +276,7 @@ public class SettingsActivity extends PreferenceActivity {
 									String key = mapEntry.getKey().toString();
 									if (key.contains(Constants.PREF_INSTRUCTIONS_PREFIX)) {
 										prefs.edit().putBoolean(key, false).commit();
+										restartApp();
 									}
 								}
 							}
@@ -358,10 +359,11 @@ public class SettingsActivity extends PreferenceActivity {
 								StorageManager.delete(activity, db.getAbsolutePath());
 								File attachmentsDir = StorageManager.getAttachmentDir(activity);
 								StorageManager.delete(activity, attachmentsDir.getAbsolutePath());
-								Intent intent = new Intent(activity, ListActivity.class);
-								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-							    startActivity(intent);
+//								Intent intent = new Intent(activity, ListActivity.class);
+//								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+//								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//							    startActivity(intent);
+								restartApp();
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 
@@ -413,12 +415,13 @@ public class SettingsActivity extends PreferenceActivity {
 				if (!config.locale.getCountry().equals(locale)) {
 					OmniNotes.updateLanguage(getApplicationContext(), value.toString());
 					
-					Intent i = getBaseContext()
-							.getPackageManager()
-							.getLaunchIntentForPackage(getBaseContext()
-							.getPackageName());							                               
-					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(i);
+//					Intent i = getBaseContext()
+//							.getPackageManager()
+//							.getLaunchIntentForPackage(getBaseContext()
+//							.getPackageName());							                               
+//					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//					startActivity(i);
+					restartApp();
 				}
 				return false;
 			}
@@ -426,6 +429,18 @@ public class SettingsActivity extends PreferenceActivity {
 
 	}
 		
+	
+	
+	private void restartApp() {
+//		Intent intent = getBaseContext()
+//				.getPackageManager()
+//				.getLaunchIntentForPackage(getBaseContext()
+//				.getPackageName());	
+		Intent intent = new Intent(this, ListActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    startActivity(intent);
+	}
 	
 	
 }

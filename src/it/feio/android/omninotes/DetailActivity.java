@@ -67,6 +67,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.Editable;
@@ -99,6 +100,8 @@ import android.widget.TimePicker;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+import com.espian.showcaseview.ShowcaseView;
+import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -207,8 +210,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	
 	private void init() {
 		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
-		if (noteTmp == null)
+		if (noteTmp == null) {
+			if (note == null) note = new Note();
 			noteTmp = new Note(note);
+		}
+			
 		
 		if (noteTmp != null && noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
 			checkNoteLock(noteTmp);
@@ -257,6 +263,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Action called from widget
 		if (Intent.ACTION_PICK.equals(i.getAction())) {
 			takePhoto();
+			i.setAction(null);
 		}
 	}
 
@@ -694,6 +701,21 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	    if (mShareActionProvider != null) {
 	    	updateShareIntent();
 	    }
+	    
+	    // Show instructions on first launch
+	    final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "detail";
+	    if (!prefs.getBoolean(instructionName, false)) {
+			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+			list.add(new Integer[]{R.id.menu_tag, R.string.tour_detailactivity_action_title, R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
+			list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title, R.string.tour_detailactivity_reminder_detail, null});
+			showCase2(list, new OnShowcaseAcknowledged() {			
+				@Override
+				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+					goHome();
+				}
+			});	
+	    }
+	    
 	    return true;
 	}
 

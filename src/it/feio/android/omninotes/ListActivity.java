@@ -78,6 +78,7 @@ import android.widget.Toast;
 
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
+import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.espian.showcaseview.targets.ActionViewTarget;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -520,10 +521,19 @@ public class ListActivity extends BaseActivity {
 				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 				
 				// Show instructions on first launch
-				ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-				list.add(new Integer[]{R.id.menu_add_tag, R.string.instructions_listactivity_actions_title, R.string.instructions_listactivity_actions_title, ShowcaseView.ITEM_ACTION_ITEM});
-//				list.add((new ItemViewProperties(0, R.string.instructions_listactivity_actions_title, R.string.instructions_listactivity_actions_title, ShowcaseView.ITEM_ACTION_HOME)));
-				showCase2(list);
+				final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "navdrawer";
+				if (!prefs.getBoolean(instructionName, false)) {
+					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+					list.add(new Integer[]{R.id.menu_add_tag, R.string.tour_listactivity_tag_title, R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM});
+					showCase2(list, new OnShowcaseAcknowledged() {			
+						@Override
+						public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+							prefs.edit().putBoolean(instructionName, true).commit();
+							mDrawerLayout.closeDrawer(GravityCompat.START);
+							editNote(new Note());
+						}
+					});	
+				}
 			}
 		};
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
@@ -575,12 +585,21 @@ public class ListActivity extends BaseActivity {
 		initSearchView(menu);
 		
 		// Show instructions on first launch
+		final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "list";
 //		showCase(Constants.PREF_INSTRUCTIONS_PREFIX + "listactivity_actions", R.id.menu_add, ShowcaseView.ITEM_ACTION_ITEM);
 //		showCase(Constants.PREF_INSTRUCTIONS_PREFIX + "listactivity_actions", 0, ShowcaseView.ITEM_ACTION_HOME);
-		ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-		list.add(new Integer[]{R.id.menu_add, R.string.instructions_listactivity_actions_title, R.string.instructions_listactivity_actions_title, ShowcaseView.ITEM_ACTION_ITEM});
-		list.add(new Integer[]{0, R.string.instructions_listactivity_actions_title, R.string.instructions_listactivity_actions_title, ShowcaseView.ITEM_ACTION_HOME});
-		showCase2(list);		
+		if (!prefs.getBoolean(instructionName, false)) {
+			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+			list.add(new Integer[]{R.id.menu_add, R.string.tour_listactivity_actions_title, R.string.tour_listactivity_actions_detail, ShowcaseView.ITEM_ACTION_ITEM});
+			list.add(new Integer[]{0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail, ShowcaseView.ITEM_ACTION_HOME});
+			showCase2(list, new OnShowcaseAcknowledged() {			
+				@Override
+				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+					prefs.edit().putBoolean(instructionName, true).commit();
+					mDrawerLayout.openDrawer(GravityCompat.START);				
+				}
+			});		
+		}
 		
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -797,6 +816,18 @@ public class ListActivity extends BaseActivity {
 		default:
 			break;
 		}
+		
+		
+	    // Show instructions on first launch
+	    final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "list2";
+	    if (!prefs.getBoolean(instructionName, false)) {
+			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+			list.add(new Integer[]{null, R.string.tour_listactivity_final_title, R.string.tour_listactivity_final_detail, null});
+			showCase2(list, new OnShowcaseAcknowledged() {			
+				@Override
+				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {}
+			});	
+	    }
 	}
 
 

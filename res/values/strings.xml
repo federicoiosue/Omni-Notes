@@ -211,14 +211,25 @@
     <string name="minutes">minutes</string>
     <string name="settings_simple_calendar">Simple calendar and time</string>
     <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
-    <string name="settings_instructions_show_again">Instructions</string>
-    <string name="settings_instructions_show_again_summary">Show once again application instructions</string>
+    <string name="settings_tour_show_again">App tour</string>
+    <string name="settings_tour_show_again_summary">Show once again application instructions tour</string>
 
     
     <!-- Instructions -->
-    <string name="instructions_listactivity_actions_title">Actions</string>	
-    <string name="instructions_listactivity_actions_detail">From here you can create new note, sort them, access to preferences</string>	
-
+    <string name="tour_listactivity_actions_title">Actions</string>	
+    <string name="tour_listactivity_actions_detail">From here you can create new note, sort them, access to preferences</string>	
+    <string name="tour_listactivity_home_title">Navigate</string>	
+    <string name="tour_listactivity_home_detail">The HOME button opens the navigation menu useful to navigate through notes filtering and categorizing them</string>	
+    <string name="tour_listactivity_tag_title">Tags</string>	
+    <string name="tour_listactivity_tag_detail">Add colored tags to keep your thoughts always ordered and efficient</string>	
+    <string name="tour_detailactivity_action_title">Do more</string>	
+    <string name="tour_detailactivity_action_detail">Add images, videos, audio recordings, sketch drawings and more to your notes!\n\nUsing these action buttons you can share, and tag, and archive, and protect, and&#8230;</string>	
+	<string name="tour_detailactivity_reminder_title">Remove</string>	
+    <string name="tour_detailactivity_reminder_detail">To edit or remove things in Omni Note all you have to do is keep pressed on them: you\'ll be prompted for editing or removing depending on what are you doing</string>	
+    <string name="tour_listactivity_final_title">Enjoy</string>	
+    <string name="tour_listactivity_final_detail">Thanks you for using Omni Notes\n\nthe opensource alternative for your productivity\nand entertainment note-taking moments!!</string>	
+    
+    
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>

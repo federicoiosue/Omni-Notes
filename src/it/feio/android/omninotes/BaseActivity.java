@@ -52,6 +52,7 @@ import android.widget.Toast;
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews;
 import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
+import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.espian.showcaseview.targets.ActionItemTarget;
 import com.espian.showcaseview.targets.ActionViewTarget;
 import com.espian.showcaseview.targets.Target;
@@ -353,11 +354,16 @@ public class BaseActivity extends ActionBarActivity {
 	 *            that have to be used for ItemViewProperties building: id,
 	 *            titleResId, messageResId, itemType, scale, configOptions
 	 */
-	protected void showCase2(ArrayList<Integer[]> viewsArrays) {
+	protected void showCase2(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
 		
 		final float scale = 0.5F;
 		ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
-		ShowcaseViews mViews = new ShowcaseViews(this);
+		ShowcaseViews mViews;
+		if (mOnShowcaseAcknowledged != null) {
+			mViews = new ShowcaseViews(this, mOnShowcaseAcknowledged);
+		} else {
+			mViews = new ShowcaseViews(this);
+		}
 		
 //		LayoutParams lp = new LayoutParams(300, 300);
 //		lp.bottomMargin = DensityUtil.convertPixelsToDp(100, this);
@@ -366,16 +372,24 @@ public class BaseActivity extends ActionBarActivity {
 				
 //		co.fadeInDuration = 2000;
 //		co.centerText = true;
-//		co.
+		co.block = true;
+		
 		
 		ItemViewProperties ivp;
 		for (Integer[] view : viewsArrays) {
-			ivp = new ItemViewProperties(view[0], view[1], view[2], view[3], scale, co);
+			// No showcase
+			if (view[0] == null) {
+				ivp = new ItemViewProperties(view[1], view[2], co);
+			// No actionbar or reflection types
+			} else if (view[3] == null) {
+				ivp = new ItemViewProperties(view[0], view[1], view[2], scale, co);
+			} else {
+				ivp = new ItemViewProperties(view[0], view[1], view[2], view[3], scale, co);
+			}
 			mViews.addView(ivp);
 		}
 		
 		mViews.show();
-//		prefs.edit().putBoolean(istructionsName, true).commit();
 		
 	}
 	
