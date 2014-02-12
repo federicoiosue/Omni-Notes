@@ -1,6 +1,7 @@
 package it.feio.android.omninotes.async;
 
 import it.feio.android.omninotes.DetailActivity;
+import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
@@ -18,9 +19,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	private final Activity mActivity;
+	private boolean error = false;
 
 	public SaveNoteTask(Activity activity) {
 		super();
@@ -31,9 +34,15 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	protected Note doInBackground(Note... params) {
 		Note note = params[0];
 		createAttachmentCopy(note);
-		DbHelper db = new DbHelper(mActivity);		
-		// Note updating on database
-		note = db.updateNote(note);		
+		
+		if (!error) {
+			DbHelper db = new DbHelper(mActivity);		
+			// Note updating on database
+			note = db.updateNote(note);
+		} else {
+			Toast.makeText(mActivity, mActivity.getString(R.string.error_saving_attachments), Toast.LENGTH_SHORT).show();
+		}
+			
 		return note;
 	}
 	
@@ -60,6 +69,12 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		File destination;
 		
 		for (Attachment attachment : note.getAttachmentsList()) {
+			
+			if (attachment.getUri() == null) {
+				error = true;
+				return;
+			}
+				
 			
 			// The copy will be made only if it's a new attachment or if attachment directory is not yet the destination one
 			if (attachment.getId() != 0 || 

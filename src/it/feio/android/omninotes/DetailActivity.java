@@ -167,6 +167,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Restored temp note after orientation change
 		if (savedInstanceState != null) {
 			noteTmp = savedInstanceState.getParcelable("note");
+			attachmentUri = savedInstanceState.getParcelable("attachmentUri");
 		}
 
 		mActivity = this;		
@@ -199,14 +200,18 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent()); 
 		outState.putParcelable("note", noteTmp);
+		outState.putParcelable("attachmentUri", attachmentUri);
 		super.onSaveInstanceState(outState);
 	}
 	
 	
 	private void init() {
 		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
-		if (noteTmp == null)
+		if (noteTmp == null) {
+			if (note == null) note = new Note();
 			noteTmp = new Note(note);
+		}
+			
 		
 		if (noteTmp != null && noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
 			checkNoteLock(noteTmp);
