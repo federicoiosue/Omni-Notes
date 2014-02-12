@@ -1249,9 +1249,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			}
 		} else {
 			try {
-				mChecklistManager.setKeepChecked(true);
-				mChecklistManager.setShowChecks(true);
-				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
+				if (mChecklistManager != null) {
+					mChecklistManager.setKeepChecked(true);
+					mChecklistManager.setShowChecks(true);
+					content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
+				}
 			} catch (ViewNotSupportedException e) {
 				Log.e(Constants.TAG, "Errore toggling checklist", e);
 			}
