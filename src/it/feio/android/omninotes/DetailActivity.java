@@ -95,7 +95,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
@@ -156,9 +155,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	View toggleChecklistView;
 	private ChecklistManager mChecklistManager;
 	
-	// Lock
-	private boolean passwordInserted = false;
-	
 	// Result intent
 	Intent resultIntent;
 	private Intent shareIntent = new Intent();
@@ -182,7 +178,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		
-		init(false);
+		init();
 	}
 
 	
@@ -207,13 +203,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	}
 	
 	
-	private void init(boolean checkedNoteLock) {
+	private void init() {
 		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
 		if (noteTmp == null)
 			noteTmp = new Note(note);
 		
 		if (noteTmp != null && noteTmp.get_id() != 0) {
-			if (!checkedNoteLock) {
+			if (!noteTmp.isPasswordChecked()) {
 				checkNoteLock(noteTmp);
 				return;
 			}
@@ -236,16 +232,17 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	 */
 	private void checkNoteLock(Note note) {
 		// If note is locked security password will be requested
-		if (note.isLocked() && prefs.getString(Constants.PREF_PASSWORD, null) != null) {
+		if (noteTmp.isLocked() && prefs.getString(Constants.PREF_PASSWORD, null) != null) {
 			requestPassword(new PasswordValidator() {					
 				@Override
 				public void onPasswordValidated(boolean result) {
-					passwordInserted = true;
-					init(true);
+					noteTmp.setPasswordChecked(true);
+					init();
 				}
 			});
 		} else {
-			init(true);
+			noteTmp.setPasswordChecked(true);
+			init();
 		}		
 	}
 	
@@ -1100,7 +1097,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				}
 				break;
 			case SET_PASSWORD:
-				passwordInserted = true;
+				noteTmp.setPasswordChecked(true);
 				lockUnlock();
 				break;
 			case SKETCH:
@@ -1196,6 +1193,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void saveNote(Boolean archive) {
+		
+		// If note is locked and security password has not been checked nothing have to be saved
+		if (noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
+			goHome();
+			return;
+		}
 
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
@@ -1355,7 +1358,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		}
 		
 		// If password has already been inserted will not be asked again
-		if (passwordInserted) {
+		if (noteTmp.isPasswordChecked()) {
 			lockUnlock();
 			return;
 		}

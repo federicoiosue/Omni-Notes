@@ -43,6 +43,7 @@ public class Note implements Parcelable {
 	
 	// Not saved in DB
 	private String address;
+	private boolean passwordChecked = false;
 
 	public Note() {
 		super();
@@ -290,6 +291,14 @@ public class Note implements Parcelable {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public boolean isPasswordChecked() {
+		return passwordChecked;
+	}
+
+	public void setPasswordChecked(boolean passwordChecked) {
+		this.passwordChecked = passwordChecked;
 	}
 
 	public ArrayList<Attachment> getAttachmentsList() {
