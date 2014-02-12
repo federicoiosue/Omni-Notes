@@ -15,6 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.AlphaManager;
@@ -44,6 +45,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Button;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -344,13 +346,36 @@ public class BaseActivity extends ActionBarActivity {
 	}
 	
 	
-	protected void showCase2(ArrayList<ItemViewProperties> views) {
+	/**
+	 * Builds ShowcaseView and show it
+	 * @param viewsArrays
+	 *            List of Integer arrays containing the following informations
+	 *            that have to be used for ItemViewProperties building: id,
+	 *            titleResId, messageResId, itemType, scale, configOptions
+	 */
+	protected void showCase2(ArrayList<Integer[]> viewsArrays) {
+		
+		final float scale = 0.5F;
+		ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
 		ShowcaseViews mViews = new ShowcaseViews(this);
-		for (ItemViewProperties view : views) {
-			mViews.addView(view);
+		
+//		LayoutParams lp = new LayoutParams(300, 300);
+//		lp.bottomMargin = DensityUtil.convertPixelsToDp(100, this);
+//		lp.setMargins(200, 200, 200, 200);
+//		co.buttonLayoutParams = lp;
+				
+//		co.fadeInDuration = 2000;
+//		co.centerText = true;
+//		co.
+		
+		ItemViewProperties ivp;
+		for (Integer[] view : viewsArrays) {
+			ivp = new ItemViewProperties(view[0], view[1], view[2], view[3], scale, co);
+			mViews.addView(ivp);
 		}
+		
 		mViews.show();
-//			prefs.edit().putBoolean(istructionsName, true).commit();
+//		prefs.edit().putBoolean(istructionsName, true).commit();
 		
 	}
 	
