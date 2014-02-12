@@ -19,6 +19,7 @@
     If note title is empty the content is used to "sort by title" 
 
     <changelogversion versionName="4.3.3" changeDate="Feb 12, 2014">
+        <changelogtext>[b]New![/b] Improved notes security: now if title is not set a part of content is shown as title to keep the same aspect in all the conditions. If note is locked only the few content characters (here used as title) will be shown in clear. </changelogtext>
         <changelogtext>If note title is empty the content is used to "sort by title" </changelogtext>
         <changelogtext>[u]Fixed[/u] Crash when attaching images on portrait and rotating</changelogtext>
     	<changelogtext>[u]Fixed[/u] Crash when attaching a lot of files</changelogtext>
