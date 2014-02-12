@@ -711,6 +711,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			showCase2(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+					prefs.edit().putBoolean(instructionName, true).commit();
 					goHome();
 				}
 			});	

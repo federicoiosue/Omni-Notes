@@ -825,7 +825,9 @@ public class ListActivity extends BaseActivity {
 			list.add(new Integer[]{null, R.string.tour_listactivity_final_title, R.string.tour_listactivity_final_detail, null});
 			showCase2(list, new OnShowcaseAcknowledged() {			
 				@Override
-				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {}
+				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+					prefs.edit().putBoolean(instructionName, true).commit();
+				}
 			});	
 	    }
 	}

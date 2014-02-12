@@ -136,6 +136,7 @@
     <string name="snooze">Snooze</string>
     <string name="error_importing_some_attachments">Error importing some attachments</string>
     <string name="error_saving_attachments">Error saving attachments</string>
+    <string name="proceed">Proceed</string>
     
         	 
     <!-- Settings -->

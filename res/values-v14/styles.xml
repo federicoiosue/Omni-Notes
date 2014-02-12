@@ -23,6 +23,7 @@
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
         <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:windowContentOverlay">@null</item>
+    	<item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>        
     </style>
     
     

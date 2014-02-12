@@ -19,6 +19,7 @@
     <!-- the theme applied to the application or activity -->
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
         <item name="actionBarStyle">@style/MyActionBar</item>
+    	<item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
     </style>
 
     
@@ -26,6 +27,26 @@
     <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
         <item name="background">@color/gray_bg</item>
     </style>
+    
+    
+    <!-- ShowcaseView styles -->
+    <style name="CustomShowcaseTheme" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">#6633B5E5</item>
+        <item name="sv_buttonBackgroundColor">#CF3119</item>
+        <item name="sv_buttonText">@string/proceed</item>
+        <item name="android:paddingBottom">140dp</item>
+        <item name="sv_titleTextAppearance">@style/CustomTitle</item>
+        <item name="sv_detailTextAppearance">@style/CustomDetailText</item>
+    </style>
+	
+	<style name="CustomTitle" parent="TextAppearance.ShowcaseView.Title">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="CustomDetailText" parent="TextAppearance.ShowcaseView.Detail">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+    
 
     <style name="Theme.Preferences" parent="@style/Theme.AppCompat.Light">
         <item name="android:listViewStyle">@style/lightListView</item>
