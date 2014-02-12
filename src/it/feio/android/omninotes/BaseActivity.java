@@ -240,9 +240,11 @@ public class BaseActivity extends ActionBarActivity {
 		alertDialogBuilder.setView(v);
 
 		// Set dialog message and button
-		alertDialogBuilder.setMessage(
-				getString(R.string.insert_security_password))
-				.setPositiveButton(R.string.confirm, null);
+		alertDialogBuilder
+			.setCancelable(false)
+			.setMessage(getString(R.string.insert_security_password))
+			.setPositiveButton(R.string.confirm, null)
+			.setNegativeButton(R.string.cancel, null);
 		
 		AlertDialog dialog = alertDialogBuilder.create();
 		
@@ -252,8 +254,8 @@ public class BaseActivity extends ActionBarActivity {
 		    @Override
 		    public void onShow(final DialogInterface dialog) {
 
-		        Button b = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-		        b.setOnClickListener(new View.OnClickListener() {
+		        Button pos = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+		        pos.setOnClickListener(new View.OnClickListener() {
 
 		            @Override
 		            public void onClick(View view) {
@@ -268,11 +270,20 @@ public class BaseActivity extends ActionBarActivity {
 						// In case password is ok dialog is dismissed and result sent to callback
 		                if (result) {
 		                	dialog.dismiss();
-							mPasswordValidator.onPasswordValidated(result);
+							mPasswordValidator.onPasswordValidated(true);
 						// If password is wrong the auth flow is not interrupted and simply a message is shown
 		                } else {
 		                	passwordTextView.setError(getString(R.string.wrong_password));
 		                }
+		            }
+		        });
+		        Button neg = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+		        neg.setOnClickListener(new View.OnClickListener() {
+
+		            @Override
+		            public void onClick(View view) {
+	                	dialog.dismiss();
+						mPasswordValidator.onPasswordValidated(false);
 		            }
 		        });
 		    }

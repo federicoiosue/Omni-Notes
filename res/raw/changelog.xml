@@ -15,8 +15,19 @@
   limitations under the License.
 -->
 <changelog bulletedList="true">
+    
+    If note title is empty the content is used to "sort by title" 
 
-    <changelogversion versionName="4.3.2" changeDate="Feb 10, 2014">
+    <changelogversion versionName="4.3.3" changeDate="Feb 12, 2014">
+        <changelogtext>[b]New![/b] Improved notes security: now if title is not set a part of content is shown as title to keep the same aspect in all the conditions. If note is locked only the few content characters (here used as title) will be shown in clear. </changelogtext>
+        <changelogtext>If note title is empty the content is used to "sort by title" </changelogtext>
+        <changelogtext>[u]Fixed[/u] Crash when attaching images on portrait and rotating</changelogtext>
+    	<changelogtext>[u]Fixed[/u] Crash when attaching a lot of files</changelogtext>
+   	    <changelogtext>[u]Fixed[/u] Crash  when exiting app during update check</changelogtext>
+   	    <changelogtext>[u]Fixed[/u] Crash  when trying to enter into a locked note</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="4.3.2" changeDate="Feb 11, 2014">
         <changelogtext>[b]New![/b] Arabic language support (thanks Khalid El Buokhari)</changelogtext>
         <changelogtext>[b]New![/b] Google+ multimedia files inclusion. You can use Google Photo app to have access to remotely stored images and save them in ON (even animated)</changelogtext>
         <changelogtext>[b]New![/b] Multi-type attachments import. Try to export from Google Keep to ON notes with both images and audio!</changelogtext>

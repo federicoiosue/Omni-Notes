@@ -151,30 +151,33 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 */
 	public String getAppData() {
 		StringBuilder sb = new StringBuilder();
-		packageName = mActivity.get().getApplicationContext().getPackageName();
+		
+		if (mActivity.get() != null) {
+			packageName = mActivity.get().getApplicationContext().getPackageName();
 
-		try {
-			// get URL content
-			URL url = new URL(Constants.PS_METADATA_FETCHER_URL
-					+ Constants.PLAY_STORE_URL + packageName);
-			URLConnection conn = url.openConnection();
-
-			// open the stream and put it into BufferedReader
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					conn.getInputStream()));
-
-			String inputLine;
-
-			while ((inputLine = br.readLine()) != null) {
-				sb.append(inputLine);
+			try {
+				// get URL content
+				URL url = new URL(Constants.PS_METADATA_FETCHER_URL
+						+ Constants.PLAY_STORE_URL + packageName);
+				URLConnection conn = url.openConnection();
+	
+				// open the stream and put it into BufferedReader
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						conn.getInputStream()));
+	
+				String inputLine;
+	
+				while ((inputLine = br.readLine()) != null) {
+					sb.append(inputLine);
+				}
+	
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-
+	
 		return sb.toString();
 	}
 

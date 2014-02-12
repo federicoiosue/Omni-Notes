@@ -63,7 +63,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		TextView content = (TextView) rowView.findViewById(R.id.note_content);
 		TextView date = (TextView) rowView.findViewById(R.id.note_date);
 		
-
 		// Defining title and contente texts	
 		String titleText, contentText;
 		if (note.getTitle().length() > 0) {
@@ -75,32 +74,36 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			contentText = arr.length > 1 ? arr[1] : "";
 		}
 			
-		// Setting note title	
-		title.setText(titleText);
-			
-		// Setting note content
+		// Eventually reduce content lenght
 		if (contentText.length() > 0) {
 			int maxContentTextLength = 40;
 			// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
 			String[] noteContent = contentText.split(System.getProperty("line.separator"));
-			String contentReducedText = "";
 			if (noteContent.length > 0) {
 				String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..."
 						: "";
-				contentReducedText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0]
+				contentText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0]
 						.substring(0, maxContentTextLength) : noteContent[0])
 						+ suffix
 						: noteContent[0];
 			}
-	
-			// Masking content string if note is locked
-			if (note.isLocked()) {
-				contentReducedText = contentReducedText.replaceAll(".", GHOST_CHAR);
-			}
-			
-			content.setText(contentReducedText);
-			content.setVisibility(View.VISIBLE);
 		}
+		
+		// Masking title and content string if note is locked
+		if (note.isLocked()) {
+			// This checks if a part of content is used as title and should be partially masked 
+			if (!note.getTitle().equals(titleText)) {	
+				titleText = titleText.substring(0, 2) + titleText.substring(2).replaceAll(".", GHOST_CHAR);
+			}
+			contentText = contentText.replaceAll(".", GHOST_CHAR);
+		}
+
+		// Setting note title	
+		title.setText(titleText);
+		
+		// Setting note content	
+		content.setText(contentText);
+		content.setVisibility(View.VISIBLE);
 		
 
 		// Evaluates the archived state...

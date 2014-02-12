@@ -52,6 +52,7 @@ public class ACRAPostSender implements ReportSender {
 				}
 			}			
 			parameters.add(new BasicNameValuePair("DATE", new Date().toString()));
+			parameters.add(new BasicNameValuePair("USER_COMMENT", report.get(ReportField.USER_COMMENT)));
 			parameters.add(new BasicNameValuePair("REPORT_ID", report.get(ReportField.REPORT_ID)));
 			parameters.add(new BasicNameValuePair("APP_VERSION_CODE", report.get(ReportField.APP_VERSION_CODE)));
 			parameters.add(new BasicNameValuePair("APP_VERSION_NAME", report.get(ReportField.APP_VERSION_NAME)));
@@ -61,15 +62,14 @@ public class ACRAPostSender implements ReportSender {
 			parameters.add(new BasicNameValuePair("ANDROID_VERSION", report.get(ReportField.ANDROID_VERSION)));
 //			parameters.add(new BasicNameValuePair("BUILD", report.get(ReportField.BUILD)));
 			parameters.add(new BasicNameValuePair("BRAND", report.get(ReportField.BRAND)));
-			parameters.add(new BasicNameValuePair("PRODUCT", report.get(ReportField.PRODUCT)));
-			parameters.add(new BasicNameValuePair("TOTAL_MEM_SIZE", report.get(ReportField.TOTAL_MEM_SIZE)));
-			parameters.add(new BasicNameValuePair("AVAILABLE_MEM_SIZE", report.get(ReportField.AVAILABLE_MEM_SIZE)));
+//			parameters.add(new BasicNameValuePair("PRODUCT", report.get(ReportField.PRODUCT)));
+//			parameters.add(new BasicNameValuePair("TOTAL_MEM_SIZE", report.get(ReportField.TOTAL_MEM_SIZE)));
+//			parameters.add(new BasicNameValuePair("AVAILABLE_MEM_SIZE", report.get(ReportField.AVAILABLE_MEM_SIZE)));
 			parameters.add(new BasicNameValuePair("CUSTOM_DATA", report.get(ReportField.CUSTOM_DATA)));
 			parameters.add(new BasicNameValuePair("STACK_TRACE", report.get(ReportField.STACK_TRACE)));
 //			parameters.add(new BasicNameValuePair("INITIAL_CONFIGURATION", report.get(ReportField.INITIAL_CONFIGURATION)));
 			parameters.add(new BasicNameValuePair("CRASH_CONFIGURATION", report.get(ReportField.CRASH_CONFIGURATION)));
 			parameters.add(new BasicNameValuePair("DISPLAY", report.get(ReportField.DISPLAY)));
-			parameters.add(new BasicNameValuePair("USER_COMMENT", report.get(ReportField.USER_COMMENT)));
 //			parameters.add(new BasicNameValuePair("USER_APP_START_DATE", report.get(ReportField.USER_APP_START_DATE)));
 //			parameters.add(new BasicNameValuePair("USER_CRASH_DATE", report.get(ReportField.USER_CRASH_DATE)));
 //			parameters.add(new BasicNameValuePair("DUMPSYS_MEMINFO", report.get(ReportField.DUMPSYS_MEMINFO)));
