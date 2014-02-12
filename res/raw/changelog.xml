@@ -25,6 +25,7 @@
     	<changelogtext>[u]Fixed[/u] Crash when attaching a lot of files</changelogtext>
    	    <changelogtext>[u]Fixed[/u] Crash  when exiting app during update check</changelogtext>
    	    <changelogtext>[u]Fixed[/u] Crash  when trying to enter into a locked note</changelogtext>
+   	    <changelogtext>[u]Fixed[/u] Double camera app call resolved when launching from widget</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.3.2" changeDate="Feb 11, 2014">
