@@ -24,8 +24,8 @@ public class ListThumbnailLoaderTask extends AsyncTask<Attachment, Void, Bitmap>
 
 	private final Context mContext;
 	private final WeakReference<ImageView> imageViewReference;
-//	private int reqWidth;
-//	private int reqHeight;
+	private final int WIDTH = 100;
+	private final int HEIGHT = 100;
 
 	public ListThumbnailLoaderTask(Context ctx, ImageView imageView) {
 		this.mContext = ctx;
@@ -74,7 +74,12 @@ public class ListThumbnailLoaderTask extends AsyncTask<Attachment, Void, Bitmap>
 		
 		
 		
-		bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mAttachment.getUri().getPath()), 100, 100);
+//		bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mAttachment.getUri().getPath()), WIDTH, HEIGHT);
+		try {
+			bmp = BitmapDecoder.decodeSampledFromUri(mContext, mAttachment.getUri(), WIDTH, HEIGHT);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		
 		
 		

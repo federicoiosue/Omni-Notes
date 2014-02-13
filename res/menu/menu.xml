@@ -113,7 +113,7 @@
         android:id="@+id/menu_sort"
         android:icon="@drawable/ic_action_sort_by_size"
         android:orderInCategory="600"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/sort"
         android:visible="false"/>
     <item
