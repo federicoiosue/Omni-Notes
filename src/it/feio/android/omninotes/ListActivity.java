@@ -590,6 +590,7 @@ public class ListActivity extends BaseActivity {
 //		showCase(Constants.PREF_INSTRUCTIONS_PREFIX + "listactivity_actions", 0, ShowcaseView.ITEM_ACTION_HOME);
 		if (!prefs.getBoolean(instructionName, false)) {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+			list.add(new Integer[]{null, R.string.tour_listactivity_intro_title, R.string.tour_listactivity_intro_detail, null});
 			list.add(new Integer[]{R.id.menu_add, R.string.tour_listactivity_actions_title, R.string.tour_listactivity_actions_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail, ShowcaseView.ITEM_ACTION_HOME});
 			showCase2(list, new OnShowcaseAcknowledged() {			
@@ -822,7 +823,7 @@ public class ListActivity extends BaseActivity {
 	    final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "list2";
 	    if (!prefs.getBoolean(instructionName, false)) {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-			list.add(new Integer[]{null, R.string.tour_listactivity_final_title, R.string.tour_listactivity_final_detail, null});
+			list.add(new Integer[]{R.id.menu_add, R.string.tour_listactivity_final_title, R.string.tour_listactivity_final_detail, ShowcaseView.ITEM_TITLE});
 			showCase2(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {

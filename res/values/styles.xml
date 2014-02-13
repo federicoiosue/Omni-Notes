@@ -31,23 +31,27 @@
     
     <!-- ShowcaseView styles -->
     <style name="CustomShowcaseTheme" parent="ShowcaseView.Light">
-        <item name="sv_backgroundColor">#6633B5E5</item>
+        <item name="sv_backgroundColor">#bbffffff</item>
         <item name="sv_buttonBackgroundColor">#CF3119</item>
         <item name="sv_buttonText">@string/proceed</item>
-        <item name="android:paddingBottom">140dp</item>
-        <item name="sv_titleTextAppearance">@style/CustomTitle</item>
-        <item name="sv_detailTextAppearance">@style/CustomDetailText</item>
+        <item name="sv_titleTextAppearance">@style/TourTitle</item>
+        <item name="sv_detailTextAppearance">@style/TourDetail</item>
     </style>
 	
-	<style name="CustomTitle" parent="TextAppearance.ShowcaseView.Title">
-        <item name="android:textColor">#ffffff</item>
+	<style name="TourTitle" parent="TextAppearance.ShowcaseView.Title.Light">	    
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+<!--         <item name="android:textColor">#0099CC</item> -->
     </style>
 
-    <style name="CustomDetailText" parent="TextAppearance.ShowcaseView.Detail">
-        <item name="android:textColor">#ffffff</item>
+    <style name="TourDetail" parent="TextAppearance.ShowcaseView.Detail.Light">
+        <item name="android:textSize">18sp</item>
+<!--         <item name="android:textColor">#ffffff</item> -->
     </style>
     
-
+    
+    
+    <!--  Preferences -->
     <style name="Theme.Preferences" parent="@style/Theme.AppCompat.Light">
         <item name="android:listViewStyle">@style/lightListView</item>
     </style>

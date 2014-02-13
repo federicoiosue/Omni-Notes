@@ -356,7 +356,7 @@ public class BaseActivity extends ActionBarActivity {
 	 */
 	protected void showCase2(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
 		
-		final float scale = 0.5F;
+		final float scale = 0.4F;
 		ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
 		ShowcaseViews mViews;
 		if (mOnShowcaseAcknowledged != null) {
@@ -365,15 +365,12 @@ public class BaseActivity extends ActionBarActivity {
 			mViews = new ShowcaseViews(this);
 		}
 		
-//		LayoutParams lp = new LayoutParams(300, 300);
-//		lp.bottomMargin = DensityUtil.convertPixelsToDp(100, this);
-//		lp.setMargins(200, 200, 200, 200);
-//		co.buttonLayoutParams = lp;
-				
-//		co.fadeInDuration = 2000;
-//		co.centerText = true;
-		co.block = true;
+		LayoutParams lp = new LayoutParams(300, 300);
+		lp.bottomMargin = DensityUtil.convertPixelsToDp(100, this);
+		lp.setMargins(12, 12, 12, getResources().getDimensionPixelSize(R.dimen.showcase_margin_bottom));
+		co.buttonLayoutParams = lp;				
 		
+		co.fadeInDuration = 700;
 		
 		ItemViewProperties ivp;
 		for (Integer[] view : viewsArrays) {
