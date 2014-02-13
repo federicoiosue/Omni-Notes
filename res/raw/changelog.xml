@@ -137,7 +137,7 @@
       <changelogtext>[b]New![/b] 12-hours mode available</changelogtext>           
       <changelogtext>[b]New![/b] Added ACRA for managing crash reports and send me errors information</changelogtext>       
       <changelogtext>Tag markers layout modified: slightly thicker and now both in notes list or in detail will appear like a vertical-left-border for the container card element</changelogtext>
-      <changelogtext>German translation updated (thanks to Lycox MB)</changelogtext>
+      <changelogtext>German translation updated (thanks to Lycox)</changelogtext>
       <changelogtext>[u]Fixed[/u] attachments added when discarding note changes will be correctly removed</changelogtext>
       <changelogtext>[u]Fixed[/u] wrong tag association when just one note without previous tag was selected</changelogtext>
  	</changelogversion>
