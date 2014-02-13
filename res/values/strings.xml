@@ -239,5 +239,7 @@
     <string name="reminder">reminder</string>
     <string name="stroke_size">stroke size</string>
     <string name="note_thumbnail">note thumbnail</string>
+    <string name="note_reminder_symbol">note reminder symblo</string>
+    
 
 </resources>

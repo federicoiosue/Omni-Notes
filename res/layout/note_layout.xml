@@ -40,7 +40,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="12dp"
-            android:paddingLeft="8dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="16dp"
             android:paddingTop="12dp" >
 
             <LinearLayout
@@ -56,9 +57,11 @@
                     android:gravity="top|start"
                     android:textAppearance="@style/Text.Big"
                     android:textColor="@color/list_note_title"
-                    pixlui:typeface="RobotoSlab-Bold.ttf" />
+                    pixlui:typeface="RobotoSlab-Bold.ttf"
+                    android:singleLine="true" />
 
                 <ImageView
+                    android:contentDescription="@string/note_reminder_symbol"
                     android:id="@+id/alarmIcon"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
@@ -74,13 +77,13 @@
                     android:src="@drawable/ic_archive_dark"
                     android:visibility="gone" />
 
-                <ImageView
-                    android:id="@+id/attachmentIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="right|top"
-                    android:src="@drawable/ic_action_attachment"
-                    android:visibility="gone" />
+<!--                 <ImageView -->
+<!--                     android:id="@+id/attachmentIcon" -->
+<!--                     android:layout_width="15dp" -->
+<!--                     android:layout_height="15dp" -->
+<!--                     android:layout_gravity="right|top" -->
+<!--                     android:src="@drawable/ic_action_attachment" -->
+<!--                     android:visibility="gone" /> -->
 
                 <ImageView
                     android:id="@+id/lockedIcon"
@@ -97,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="bottom|right"
+                android:singleLine="true" 
                 android:textAppearance="@style/Text.Normal"
                 android:textColor="@color/list_note_title"
                 android:visibility="gone"
@@ -119,7 +123,8 @@
             android:id="@+id/attachmentThumbnail"
             android:layout_width="95dp"
             android:layout_height="match_parent"
-            android:layout_margin="3dp"/>
+            android:layout_margin="3dp"
+            android:visibility="gone"/>
         
     </LinearLayout>
 

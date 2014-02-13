@@ -16,21 +16,16 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.BitmapLoaderTask;
 import it.feio.android.omninotes.async.ListThumbnailLoaderTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
 
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.ThumbnailUtils;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,20 +75,20 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			contentText = arr.length > 1 ? arr[1] : "";
 		}
 			
-		// Eventually reduce content lenght
-		if (contentText.length() > 0) {
-			int maxContentTextLength = 40;
-			// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
-			String[] noteContent = contentText.split(System.getProperty("line.separator"));
-			if (noteContent.length > 0) {
-				String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..."
-						: "";
-				contentText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0]
-						.substring(0, maxContentTextLength) : noteContent[0])
-						+ suffix
-						: noteContent[0];
-			}
-		}
+//		// Eventually reduce content lenght
+//		if (contentText.length() > 0) {
+//			int maxContentTextLength = 40;
+//			// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
+//			String[] noteContent = contentText.split(System.getProperty("line.separator"));
+//			if (noteContent.length > 0) {
+//				String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..."
+//						: "";
+//				contentText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0]
+//						.substring(0, maxContentTextLength) : noteContent[0])
+//						+ suffix
+//						: noteContent[0];
+//			}
+//		}
 		
 		// Masking title and content string if note is locked
 		if (note.isLocked()) {
