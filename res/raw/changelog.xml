@@ -15,8 +15,11 @@
   limitations under the License.
 -->
 <changelog bulletedList="true">
-    
-    If note title is empty the content is used to "sort by title" 
+
+    <changelogversion versionName="4.3.4" changeDate="Feb 13, 2014">
+        <changelogtext>Detail screen scrolling revisited. Now title will scroll up when note become long. Creation and modification dates will alway stay visible.</changelogtext>
+   	    <changelogtext>[u]Fixed[/u] Attachments removal</changelogtext>
+    </changelogversion>
 
     <changelogversion versionName="4.3.3" changeDate="Feb 12, 2014">
         <changelogtext>[b]New![/b] Improved notes security: now if title is not set a part of content is shown as title to keep the same aspect in all the conditions. If note is locked only the few content characters (here used as title) will be shown in clear. </changelogtext>
