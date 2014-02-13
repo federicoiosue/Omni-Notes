@@ -143,7 +143,7 @@
         <!-- Detail -->
         <activity
             android:name="it.feio.android.omninotes.DetailActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan" >
+            android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
 
         <!-- Sketch -->
