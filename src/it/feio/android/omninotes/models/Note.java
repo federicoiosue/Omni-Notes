@@ -325,6 +325,10 @@ public class Note implements Parcelable {
 		return attachmentsListOld;
 	}
 
+	public void setAttachmentsListOld(ArrayList<Attachment> attachmentsListOld) {
+		this.attachmentsListOld = attachmentsListOld;
+	}
+
 	public boolean equals(Object o) {
 		boolean res = false;
 		Note note;

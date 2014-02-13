@@ -20,6 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true" >
+    
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,6 +30,19 @@
         android:orientation="vertical"
         android:paddingLeft="@dimen/padding_half"
         android:paddingRight="@dimen/padding_half" >
+    
+        <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+        
+            
+    
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -167,13 +181,17 @@
                 </ScrollView>
             </LinearLayout>
         </LinearLayout>
+        
+        
+        </LinearLayout>
+    </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp" >
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp" >
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/creation"
@@ -196,5 +214,6 @@
                 pixlui:typeface="Roboto-Regular.ttf" />
         </LinearLayout>
     </LinearLayout>
+    
 
 </FrameLayout>
