@@ -77,9 +77,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.espian.showcaseview.ShowcaseView;
-import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
-import com.espian.showcaseview.targets.ActionViewTarget;
 import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.neopixl.pixlui.components.textview.TextView;
 
@@ -254,6 +252,11 @@ public class ListActivity extends BaseActivity {
 		Log.v(Constants.TAG, "OnResume");
 		initNotesList(getIntent());
 		initNavigationDrawer();
+		
+		// Menu is invalidated to start again instructions tour if requested
+		if (!prefs.getBoolean(Constants.PREF_INSTRUCTIONS_PREFIX + "list", false)) {
+			supportInvalidateOptionsMenu();
+		}
 	}
 	
 	
