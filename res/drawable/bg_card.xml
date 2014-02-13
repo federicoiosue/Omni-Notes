@@ -20,7 +20,6 @@
         <shape
             android:dither="true"
             android:shape="rectangle" >
-<!--             <corners android:radius="4.0dip" /> -->
 
             <solid android:color="#ffcccccc" />
         </shape>
@@ -29,15 +28,8 @@
         <shape
             android:dither="true"
             android:shape="rectangle" >
-<!--             <corners android:radius="2.0dip" /> -->
 
             <solid android:color="@android:color/white" />
-
-<!--             <padding -->
-<!--                 android:bottom="16.0dip" -->
-<!--                 android:left="16.0dip" -->
-<!--                 android:right="16.0dip" -->
-<!--                 android:top="16.0dip" /> -->
         </shape>
     </item>
 

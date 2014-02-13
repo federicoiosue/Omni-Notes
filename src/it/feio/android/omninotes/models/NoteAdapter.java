@@ -16,15 +16,21 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.async.BitmapLoaderTask;
+import it.feio.android.omninotes.async.ListThumbnailLoaderTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.ThumbnailUtils;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,8 +122,8 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		ImageView lockedIcon = (ImageView)rowView.findViewById(R.id.lockedIcon);
 		lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
 		// ... or attachments to show relative icon indicators	
-		ImageView attachmentIcon = (ImageView)rowView.findViewById(R.id.attachmentIcon);
-		attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
+//		ImageView attachmentIcon = (ImageView)rowView.findViewById(R.id.attachmentIcon);
+//		attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
 		
 		// Choosing which date must be shown depending on sorting criteria
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -152,6 +158,18 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 					R.color.list_bg_selected));
 		} else {
 			restoreDrawable(note, v);
+		}
+		
+		
+		// Attachment image
+		ImageView attachmentThumbnail = (ImageView) rowView.findViewById(R.id.attachmentThumbnail);
+		for (Attachment mAttachment : note.getAttachmentsList()) {
+			if (mAttachment.getMime_type().equals(Constants.MIME_TYPE_IMAGE)) {
+					ListThumbnailLoaderTask task = new ListThumbnailLoaderTask(context, attachmentThumbnail);
+					task.execute(mAttachment);
+					attachmentThumbnail.setVisibility(View.VISIBLE);
+					break;
+			}
 		}
 		
 		return rowView;
