@@ -610,10 +610,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			note = new Note();
 		}
 			
-		if (noteTmp == null) {
-			noteTmp = new Note(note);
-			noteTmp.backupAttachmentsList();
-		}
+//		if (noteTmp == null) {
+//			noteTmp = new Note(note);
+//			noteTmp.backupAttachmentsList();
+//		}
 		
 		// Is a shared intent
 		if (note.get_id() == 0) {
@@ -1227,6 +1227,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			goHome();
 			return;
 		}			
+		
+		noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
 		// Saving changes to the note
 		SaveNoteTask saveNoteTask = new SaveNoteTask(this);
