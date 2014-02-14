@@ -16,7 +16,7 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.ListThumbnailLoaderTask;
+import it.feio.android.omninotes.async.ThumbnailLoaderTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -76,21 +76,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			titleText = arr[0];
 			contentText = arr.length > 1 ? arr[1] : "";
 		}
-			
-//		// Eventually reduce content lenght
-//		if (contentText.length() > 0) {
-//			int maxContentTextLength = 40;
-//			// Long content it cutted after maxContentTextLength chars and three dots are appended as suffix
-//			String[] noteContent = contentText.split(System.getProperty("line.separator"));
-//			if (noteContent.length > 0) {
-//				String suffix = (noteContent[0].length() > maxContentTextLength || noteContent.length > 1) ? " ..."
-//						: "";
-//				contentText = suffix.length() > 0 ? (noteContent[0].length() > maxContentTextLength ? noteContent[0]
-//						.substring(0, maxContentTextLength) : noteContent[0])
-//						+ suffix
-//						: noteContent[0];
-//			}
-//		}
 		
 		// Masking title and content string if note is locked
 		if (note.isLocked()) {
@@ -112,15 +97,15 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// Evaluates the archived state...
 		ImageView archiveIcon = (ImageView)rowView.findViewById(R.id.archivedIcon);
 		archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
+		// ... the location
+		ImageView locationIcon = (ImageView)rowView.findViewById(R.id.locationIcon);
+		locationIcon.setVisibility(note.getLongitude() != null ? View.VISIBLE : View.GONE);
 		// ... the presence of an alarm
 		ImageView alarmIcon = (ImageView)rowView.findViewById(R.id.alarmIcon);
 		alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
 		// ... the locked with password state	
 		ImageView lockedIcon = (ImageView)rowView.findViewById(R.id.lockedIcon);
 		lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
-		// ... or attachments to show relative icon indicators	
-//		ImageView attachmentIcon = (ImageView)rowView.findViewById(R.id.attachmentIcon);
-//		attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
 		
 		// Choosing which date must be shown depending on sorting criteria
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
@@ -161,7 +146,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// Attachment thumbnail
 		ImageView attachmentThumbnail = (ImageView) rowView.findViewById(R.id.attachmentThumbnail);
 		for (Attachment mAttachment : note.getAttachmentsList()) {
-				ListThumbnailLoaderTask task = new ListThumbnailLoaderTask(mActivity, attachmentThumbnail, THUMBNAIL_SIZE);
+				ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, attachmentThumbnail, THUMBNAIL_SIZE);
 				task.execute(mAttachment);
 				attachmentThumbnail.setVisibility(View.VISIBLE);
 				break;
