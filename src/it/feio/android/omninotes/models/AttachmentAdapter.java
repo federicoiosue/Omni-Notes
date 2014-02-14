@@ -16,7 +16,7 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.ListThumbnailLoaderTask;
+import it.feio.android.omninotes.async.ThumbnailLoaderTask;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.ArrayList;
@@ -78,8 +78,7 @@ public class AttachmentAdapter extends BaseAdapter {
 	
 		Attachment attachment = attachmentsList.get(position);
 			
-//		BitmapLoaderTask task = new BitmapLoaderTask(mActivity, imageView);
-		ListThumbnailLoaderTask task = new ListThumbnailLoaderTask(mActivity, imageView, THUMBNAIL_SIZE);
+		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, imageView, THUMBNAIL_SIZE);
 		task.execute(attachment);
 		
 		return imageView;

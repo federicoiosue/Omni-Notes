@@ -22,7 +22,7 @@ import android.provider.MediaStore.Images.Thumbnails;
 import android.util.Log;
 import android.widget.ImageView;
 
-public class ListThumbnailLoaderTask extends
+public class ThumbnailLoaderTask extends
 		AsyncTask<Attachment, Void, Bitmap> {
 
 	private final Activity mActivity;
@@ -30,7 +30,7 @@ public class ListThumbnailLoaderTask extends
 	private int width = 100;
 	private int height = 100;
 
-	public ListThumbnailLoaderTask(Activity activity, ImageView imageView,
+	public ThumbnailLoaderTask(Activity activity, ImageView imageView,
 			int thumbnailSize) {
 		this.mActivity = activity;
 		imageViewReference = new WeakReference<ImageView>(imageView);
@@ -49,7 +49,7 @@ public class ListThumbnailLoaderTask extends
 		String cacheKey = path + width;
 
 		// Requesting from Application an instance of the cache
-		ThumbnailLruCache cache = ((OmniNotes) mActivity.getApplication()).getThumbnailLruCache();
+		OmniNotes app = ((OmniNotes) mActivity.getApplication());
 
 		// Video
 		if (Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
@@ -63,26 +63,27 @@ public class ListThumbnailLoaderTask extends
 			}
 
 			// Fetch from cache if possible
-			bmp = cache.getBitmap(cacheKey);
+			bmp = app.getBitmapFromMemCache(cacheKey);
 			// Otherwise creates thumbnail
 			if (bmp == null) {
 				bmp = ThumbnailUtils.createVideoThumbnail(path,
 						Thumbnails.MINI_KIND);
 				bmp = createVideoThumbnail(bmp);
-				cache.addBitmap(cacheKey, bmp);
+				app.addBitmapToMemoryCache(cacheKey, bmp);
 			}
 
 			// Image
 		} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())) {
 			try {
 				// Fetch from cache if possible
-				bmp = cache.getBitmap(cacheKey);
+				bmp = app.getBitmapFromMemCache(cacheKey);
 				// Otherwise creates thumbnail
 				if (bmp == null) {
 					try {
 						bmp = checkIfBroken(BitmapDecoder.decodeSampledFromUri(
 								mActivity, mAttachment.getUri(), width, height));
-						cache.addBitmap(path, bmp);
+//						cache.addBitmap(path, bmp);
+						app.addBitmapToMemoryCache(cacheKey, bmp);
 					} catch (FileNotFoundException e) {
 						Log.e(Constants.TAG,
 								"Error getting bitmap for thumbnail " + path);
@@ -90,13 +91,14 @@ public class ListThumbnailLoaderTask extends
 				}
 			} catch (NullPointerException e) {
 				bmp = checkIfBroken(null);
-				cache.addBitmap(cacheKey, bmp);
+//				cache.addBitmap(cacheKey, bmp);
+				app.addBitmapToMemoryCache(cacheKey, bmp);
 			}
 
 			// Audio
 		} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
 			// Fetch from cache if possible
-			bmp = cache.getBitmap(cacheKey);
+			bmp = app.getBitmapFromMemCache(cacheKey);
 			// Otherwise creates thumbnail
 			if (bmp == null) {
 				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
@@ -104,7 +106,7 @@ public class ListThumbnailLoaderTask extends
 				bmp = BitmapDecoder.drawTextToBitmap(mActivity, bmp, mAttachment
 						.getUri().getLastPathSegment(), null, -10, 10, mActivity
 						.getResources().getColor(R.color.text_gray));
-				cache.addBitmap(cacheKey, bmp);
+				app.addBitmapToMemoryCache(cacheKey, bmp);
 			}
 		}
 
