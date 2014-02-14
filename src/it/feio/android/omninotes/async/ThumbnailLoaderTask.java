@@ -3,7 +3,6 @@ package it.feio.android.omninotes.async;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.ThumbnailLruCache;
 import it.feio.android.omninotes.utils.BitmapDecoder;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
@@ -15,7 +14,12 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.provider.MediaStore.Images.Thumbnails;
@@ -25,6 +29,8 @@ import android.widget.ImageView;
 public class ThumbnailLoaderTask extends
 		AsyncTask<Attachment, Void, Bitmap> {
 
+	private final int FADE_IN_TIME = 150;
+	
 	private final Activity mActivity;
 	private final WeakReference<ImageView> imageViewReference;
 	private int width = 100;
@@ -69,7 +75,7 @@ public class ThumbnailLoaderTask extends
 				bmp = ThumbnailUtils.createVideoThumbnail(path,
 						Thumbnails.MINI_KIND);
 				bmp = createVideoThumbnail(bmp);
-				app.addBitmapToMemoryCache(cacheKey, bmp);
+				app.addBitmapToCache(cacheKey, bmp);
 			}
 
 			// Image
@@ -83,7 +89,7 @@ public class ThumbnailLoaderTask extends
 						bmp = checkIfBroken(BitmapDecoder.decodeSampledFromUri(
 								mActivity, mAttachment.getUri(), width, height));
 //						cache.addBitmap(path, bmp);
-						app.addBitmapToMemoryCache(cacheKey, bmp);
+						app.addBitmapToCache(cacheKey, bmp);
 					} catch (FileNotFoundException e) {
 						Log.e(Constants.TAG,
 								"Error getting bitmap for thumbnail " + path);
@@ -92,7 +98,7 @@ public class ThumbnailLoaderTask extends
 			} catch (NullPointerException e) {
 				bmp = checkIfBroken(null);
 //				cache.addBitmap(cacheKey, bmp);
-				app.addBitmapToMemoryCache(cacheKey, bmp);
+				app.addBitmapToCache(cacheKey, bmp);
 			}
 
 			// Audio
@@ -106,7 +112,7 @@ public class ThumbnailLoaderTask extends
 				bmp = BitmapDecoder.drawTextToBitmap(mActivity, bmp, mAttachment
 						.getUri().getLastPathSegment(), null, -10, 10, mActivity
 						.getResources().getColor(R.color.text_gray));
-				app.addBitmapToMemoryCache(cacheKey, bmp);
+				app.addBitmapToCache(cacheKey, bmp);
 			}
 		}
 
@@ -115,12 +121,13 @@ public class ThumbnailLoaderTask extends
 
 	@Override
 	protected void onPostExecute(Bitmap bitmap) {
-		if (imageViewReference != null && bitmap != null) {
-			final ImageView imageView = imageViewReference.get();
-			if (imageView != null) {
-				imageView.setImageBitmap(bitmap);
-			}
-		}
+//		if (imageViewReference != null && bitmap != null) {
+//			final ImageView imageView = imageViewReference.get();
+//			if (imageView != null) {
+//				imageView.setImageBitmap(bitmap);
+//			}
+//		}
+		fadeInImage(bitmap);
 	}
 
 	/**
@@ -154,6 +161,28 @@ public class ThumbnailLoaderTask extends
 					width, height);
 		}
 		return bmp;
+	}
+	
+	
+	private void fadeInImage(Bitmap bitmap) {
+
+		if (imageViewReference != null && bitmap != null) {
+			final ImageView imageView = imageViewReference.get();
+			if (imageView != null) {
+				imageView.setImageBitmap(bitmap);
+			}
+
+			// Transition drawable with a transparent drwabale and the final
+			// bitmap
+			final TransitionDrawable td = new TransitionDrawable(new Drawable[] { new ColorDrawable(Color.TRANSPARENT),
+					new BitmapDrawable(mActivity.getResources(), bitmap) });
+			// Set background to loading bitmap
+			// imageView.setBackgroundDrawable(
+			// new BitmapDrawable(mLoadingBitmap));
+
+			imageView.setImageDrawable(td);
+			td.startTransition(FADE_IN_TIME);
+		}
 	}
 
 }

@@ -15,11 +15,15 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -195,6 +199,18 @@ public class BitmapDecoder {
 		canvas.drawText(text, x, y, paint);
 
 		return bitmap;
+	}
+	
+	
+	
+	
+	
+	public static InputStream getBitmapInputStream(Bitmap bitmap) {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(); 
+		bitmap.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, bos); 
+		byte[] bitmapdata = bos.toByteArray();
+		ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
+		return bs;
 	}
 	
 }
