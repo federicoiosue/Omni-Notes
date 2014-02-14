@@ -13,8 +13,8 @@
     <item>Erinnerungsdatum</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Position beibehalten</item>
-    <item>Ans Ende aller Elemente bewegen</item>
-    <item>Setze Element an die erste Stelle der markierten Elemente</item>
+    <item>Position des Eintrages beibehalten</item>
+    <item>Ans Ende der Einträge verschieben</item>
+    <item>Setze Eintrag an die erste Stelle der (bereits) markierten Einträge</item>
   </string-array>
 </resources>
