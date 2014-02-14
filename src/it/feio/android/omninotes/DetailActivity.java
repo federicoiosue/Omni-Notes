@@ -635,7 +635,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 		// Some fields can be filled by third party application and are always
 		// shown
-		mAttachmentAdapter = new AttachmentAdapter(mActivity, noteTmp.getAttachmentsList());	
+		mAttachmentAdapter = new AttachmentAdapter((Activity)mActivity, noteTmp.getAttachmentsList(), 300);	
 	}
 
 	

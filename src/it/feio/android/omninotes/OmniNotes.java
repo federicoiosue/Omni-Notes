@@ -1,5 +1,6 @@
 package it.feio.android.omninotes;
 
+import it.feio.android.omninotes.models.ThumbnailLruCache;
 import it.feio.android.omninotes.utils.ACRAPostSender;
 
 import java.util.HashMap;
@@ -17,19 +18,16 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 @ReportsCrashes(formKey = "", 
-//				mailTo = Constants.DEV_EMAIL, 
-//				mode = ReportingInteractionMode.TOAST, 
-//				resToastText = R.string.crash_dialog_text
 				mode = ReportingInteractionMode.DIALOG,
-//				resDialogIcon = R.drawable.ic_launcher,
 				resDialogCommentPrompt = R.string.crash_dialog_comment_prompt,
-//				resDialogTitle = R.string.crash_dialog_title, 
 				resDialogText = R.string.crash_dialog_text
 				)
 public class OmniNotes extends Application {
 	
 	private final static String PREF_LANG = "settings_language";
 	static SharedPreferences prefs;
+	
+	private ThumbnailLruCache mThumbnailLruCache;
 	
 	@Override
 	public void onCreate() {
@@ -41,9 +39,11 @@ public class OmniNotes extends Application {
 		HashMap<String, String> ACRAData = new HashMap<String, String>();
 		ACRAData.put("my_app_info", "custom data");
 		ACRA.getErrorReporter().setReportSender(new ACRAPostSender(ACRAData));
+		
+		// Get an instance of list thumbs cache
+		mThumbnailLruCache = ThumbnailLruCache.getInstance();
 
 		// Checks selected locale or default one
-//		checkLocale(getResources().getConfiguration());
 		updateLanguage(this,null);
 
 		super.onCreate();
@@ -86,5 +86,11 @@ public class OmniNotes extends Application {
 		}
 
 		ctx.getResources().updateConfiguration(cfg, null);
+	}
+	
+	
+	
+	public ThumbnailLruCache getThumbnailLruCache() {
+		return mThumbnailLruCache;
 	}
 }

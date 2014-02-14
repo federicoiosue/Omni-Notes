@@ -16,13 +16,13 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.BitmapLoaderTask;
+import it.feio.android.omninotes.async.ListThumbnailLoaderTask;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.util.Log;
@@ -32,12 +32,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 public class AttachmentAdapter extends BaseAdapter {
-	private Context mContext;
+	
+	private final int THUMBNAIL_SIZE;
+	
+	private Activity mActivity;
 	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
 
-	public AttachmentAdapter(Context mContext, List<Attachment> attachmentsList) {
-		this.mContext = mContext;
+	public AttachmentAdapter(Activity mActivity, List<Attachment> attachmentsList, int thumbnailSize) {
+		this.mActivity = mActivity;
 		this.attachmentsList = attachmentsList;
+		THUMBNAIL_SIZE = thumbnailSize;
 	}
 
 	public int getCount() {
@@ -61,12 +65,12 @@ public class AttachmentAdapter extends BaseAdapter {
 		ImageView imageView;
 		if (convertView == null) { // if it's not recycled, initialize some
 									// attributes
-			imageView = new ImageView(mContext);
+			imageView = new ImageView(mActivity);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			// A placeholder is set here
 			imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(
-					BitmapFactory.decodeResource(mContext.getResources(), R.drawable.image_placeholder),
-					Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+					BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.image_placeholder),
+					THUMBNAIL_SIZE, THUMBNAIL_SIZE));
 
 		} else {
 			imageView = (ImageView) convertView;
@@ -74,7 +78,8 @@ public class AttachmentAdapter extends BaseAdapter {
 	
 		Attachment attachment = attachmentsList.get(position);
 			
-		BitmapLoaderTask task = new BitmapLoaderTask(mContext, imageView);
+//		BitmapLoaderTask task = new BitmapLoaderTask(mActivity, imageView);
+		ListThumbnailLoaderTask task = new ListThumbnailLoaderTask(mActivity, imageView, THUMBNAIL_SIZE);
 		task.execute(attachment);
 		
 		return imageView;

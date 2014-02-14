@@ -23,7 +23,7 @@ import it.feio.android.omninotes.utils.Constants;
 import java.util.HashMap;
 import java.util.List;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
@@ -36,19 +36,21 @@ import android.widget.TextView;
 
 
 public class NoteAdapter extends ArrayAdapter<Note> {
+	
+	private final String GHOST_CHAR = "*";	
+	private final int THUMBNAIL_SIZE = 100;	
 
-	private final Context context;
+	private final Activity mActivity;
 	private final List<Note> values;
 	private HashMap<Integer, Boolean> selectedItems = new HashMap<Integer, Boolean>();
-	private final String GHOST_CHAR = "*";	
 
-	public NoteAdapter(Context context, List<Note> values) {
-		this(context, R.layout.note_layout, values);
+	public NoteAdapter(Activity activity, List<Note> values) {
+		this(activity, R.layout.note_layout, values);
 	}
 
-	public NoteAdapter(Context context, int layout, List<Note> values) {
-		super(context, layout, values);
-		this.context = context;
+	public NoteAdapter(Activity activity, int layout, List<Note> values) {
+		super(activity, layout, values);
+		this.mActivity = activity;
 		this.values = values;
 	}
 
@@ -57,7 +59,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		
 		Note note = values.get(position);
 		
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(mActivity.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.note_layout, parent, false);
 
 		TextView title = (TextView) rowView.findViewById(R.id.note_title);
@@ -121,13 +123,13 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 //		attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
 		
 		// Choosing which date must be shown depending on sorting criteria
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
 		String time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT
 				: Constants.DATE_FORMAT_SHORT_12;
 		// Creation
 		if (sort_column.equals(DbHelper.KEY_CREATION)) {
-			date.setText(context.getString(R.string.creation) + " " + note.getCreationShort(time_format));
+			date.setText(mActivity.getString(R.string.creation) + " " + note.getCreationShort(time_format));
 		}
 		// Reminder
 		else if (sort_column.equals(DbHelper.KEY_ALARM)) {
@@ -136,35 +138,33 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			if (alarmShort.length() == 0) {
 				date.setText(R.string.no_reminder_set);
 			} else {
-				date.setText(context.getString(R.string.alarm_set_on) + " "
+				date.setText(mActivity.getString(R.string.alarm_set_on) + " "
 					+ note.getAlarmShort(time_format));
 			}
 		}
 		// Others
 		else {
-			date.setText(context.getString(R.string.last_update) + " "
+			date.setText(mActivity.getString(R.string.last_update) + " "
 					+ note.getLastModificationShort(time_format));
 		}
 
 		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui
 		View v = rowView.findViewById(R.id.card_layout);
 		if (selectedItems.get(position) != null) {
-			v.setBackgroundColor(context.getResources().getColor(
+			v.setBackgroundColor(mActivity.getResources().getColor(
 					R.color.list_bg_selected));
 		} else {
 			restoreDrawable(note, v);
 		}
 		
 		
-		// Attachment image
+		// Attachment thumbnail
 		ImageView attachmentThumbnail = (ImageView) rowView.findViewById(R.id.attachmentThumbnail);
 		for (Attachment mAttachment : note.getAttachmentsList()) {
-			if (mAttachment.getMime_type().equals(Constants.MIME_TYPE_IMAGE)) {
-					ListThumbnailLoaderTask task = new ListThumbnailLoaderTask(context, attachmentThumbnail);
-					task.execute(mAttachment);
-					attachmentThumbnail.setVisibility(View.VISIBLE);
-					break;
-			}
+				ListThumbnailLoaderTask task = new ListThumbnailLoaderTask(mActivity, attachmentThumbnail, THUMBNAIL_SIZE);
+				task.execute(mAttachment);
+				attachmentThumbnail.setVisibility(View.VISIBLE);
+				break;
 		}
 		
 		return rowView;
@@ -205,14 +205,14 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	private void colorNote(Note note, View v) {
 
 		// Checking preference
-		if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("settings_enable_tag_marker", true)) {
+		if (PreferenceManager.getDefaultSharedPreferences(mActivity).getBoolean("settings_enable_tag_marker", true)) {
 
 			// Resetting transparent color to the view
 			v.setBackgroundColor(Color.parseColor("#00000000"));
 
 			// If tag is set the color will be applied on the appropriate target
 			if (note.getTag() != null && note.getTag().getColor() != null) {
-				if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean(
+				if (PreferenceManager.getDefaultSharedPreferences(mActivity).getBoolean(
 						"settings_enable_tag_marker_full", false)) {
 					v.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
 				} else {

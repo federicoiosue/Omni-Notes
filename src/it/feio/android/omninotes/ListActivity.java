@@ -45,6 +45,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -52,6 +53,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.util.LruCache;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -106,7 +108,8 @@ public class ListActivity extends BaseActivity {
 	public MenuItem searchMenuItem;
 	private TextView empyListItem;
 	private boolean showListAnimation = true;
-	private AnimationDrawable jinglesAnimation; 
+	private AnimationDrawable jinglesAnimation;
+	private LruCache<String, Bitmap> mMemoryCache; 
 
 
 	@Override
@@ -142,20 +145,35 @@ public class ListActivity extends BaseActivity {
 			}
 		}
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
-		
-		// Invitation to rate the app
-		// Removed in favor of a more elegant way: updates are checked and the invite to vote is moved there
-//		AppRater.appLaunched(this, getString(R.string.rate_dialog_message), getString(R.string.rate_dialog_rate_btn),
-//				getString(R.string.rate_dialog_dismiss_btn), getString(R.string.rate_dialog_later_btn));
 
 		// Launching update task
 		UpdaterTask task = new UpdaterTask(this);
 		task.execute();
+		
+		// Initialization of image cache
+		initThumbnailCache();
 	}
 	
 	
 	
 	
+	private void initThumbnailCache() {
+		final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+		// Use 1/8th of the available memory for this memory cache.
+		final int cacheSize = maxMemory / 8;
+		mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
+//			@Override
+//			protected int sizeOf(String key, Bitmap bitmap) {
+//				// The cache size will be measured in kilobytes rather than
+//				// number of items.
+//				return bitmap.getByteCount() / 1024;
+//			}
+		};
+	}
+
+
+
+
 	/**
 	 * Starts a little animation on Mr.Jingles!
 	 */
@@ -891,7 +909,7 @@ public class ListActivity extends BaseActivity {
 			DbHelper db = new DbHelper(getApplicationContext());
 			notes = db.getAllNotes(true);
 		}
-		mAdapter = new NoteAdapter(getApplicationContext(), notes);
+		mAdapter = new NoteAdapter(this, notes);
 
 		if (prefs.getBoolean("settings_enable_animations", true) && showListAnimation) {
 		    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
