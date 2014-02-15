@@ -21,6 +21,7 @@ import it.feio.android.omninotes.utils.StorageManager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -86,7 +87,8 @@ public class SettingsActivity extends PreferenceActivity {
 				alertDialogBuilder.setView(v);
 				
 				// Finds actually saved backups names
-				final List<String> backups = Arrays.asList(StorageManager.getExternalStoragePublicDir().list());
+				String[] backupsDone = StorageManager.getExternalStoragePublicDir().list();
+				final List<String> backups = backupsDone == null ? new ArrayList<String>() : Arrays.asList(backupsDone);
 
 				// Sets default export file name
 				SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EXPORT);
