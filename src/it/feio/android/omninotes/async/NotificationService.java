@@ -1,23 +1,42 @@
 package it.feio.android.omninotes.async;
 
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.StorageManager;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewDebug.FlagToString;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class NotificationService extends IntentService{
+	
+	private Context mContext;
 
 	public NotificationService() {
 		super(NotificationService.class.getName());
+		mContext = this;
 	}
 	
 
@@ -31,11 +50,20 @@ public class NotificationService extends IntentService{
 			String snoozeDelay = PreferenceManager.getDefaultSharedPreferences(this).getString("settings_notification_snooze_delay", "10");
 			long newAlarm = Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
 			setAlarm(note, newAlarm);
+//			promptSnoozeTime();
 		}		
 		removeNotification(note);
 	}
 	
 	
+	private void promptSnoozeTime() {
+		Intent intent = new Intent(mContext,  SnoozeActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);		
+		startActivity(intent);
+	}
+
+
 	private void removeNotification(Note note) {
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.cancel(note.get_id());		

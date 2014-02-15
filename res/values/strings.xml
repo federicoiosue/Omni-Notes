@@ -108,12 +108,12 @@
     <string name="save_note_to_unlock_it">Save note to unlock it</string>
     <string name="unlock">Unlock</string>
     <string name="title_activity_password">Edit security password</string>
-	<string name="title_activity_about">Info</string>
-	<string name="deleted">deleted</string>
-	<string name="no_items_in_list">Nothing here!</string>
-	<string name="checklist_on">Enable checklist</string>
-	<string name="checklist_off">Disable checklist</string>
-	<string name="checklist_item_hint">New item</string>
+    <string name="title_activity_about">Info</string>
+    <string name="deleted">deleted</string>
+    <string name="no_items_in_list">Nothing here!</string>
+    <string name="checklist_on">Enable checklist</string>
+    <string name="checklist_off">Disable checklist</string>
+    <string name="checklist_item_hint">New item</string>
     <string name="remove_checklist">Remove checklist?</string>
     <string name="checklist_keep_checked">Keep checked items</string>
     <string name="checklist_keep_symbols">Keep checkmarks (to remember checked ones)</string>
@@ -121,22 +121,21 @@
     <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n Would you like to send a report to developer?</string>
     <string name="crash_dialog_comment_prompt">Insert an optional comment here:</string>
     <string name="new_update_available">A new Omni Notes version is available, would you like to update?</string>
-   	<string name="update">Update and rate!</string>
-    <string name="not_now">Not now</string>	 
+    <string name="update">Update and rate!</string>
+    <string name="not_now">Not now</string>
     <string name="title_activity_sketch">Sketch</string>
-    <string name="redo">Redo</string>	 
-    <string name="colors">Colors</string>	
-    <string name="stroke">Stroke</string>	 
-    <string name="erase_sketch">Erase sketch?</string>	 
-    <string name="no_reminder_set">No reminder set</string>	 
+    <string name="redo">Redo</string>
+    <string name="colors">Colors</string>
+    <string name="stroke">Stroke</string>
+    <string name="erase_sketch">Erase sketch?</string>
+    <string name="no_reminder_set">No reminder set</string>
     <string name="saturation">Saturation</string>
     <string name="opacity">Opacity</string>
     <string name="dismiss">Dismiss</string>
     <string name="snooze">Snooze</string>
     <string name="error_importing_some_attachments">Error importing some attachments</string>
     <string name="error_saving_attachments">Error saving attachments</string>
-    
-        	 
+
     <!-- Settings -->
     <string name="settings">Settings</string>
     <string name="settings_about">Info</string>
@@ -191,7 +190,7 @@
     <string name="data_deletion_completed">Data deletion completed</string>
     <string name="settings_hours_format">24-hours clock</string>
     <string name="settings_hours_format_summary">Use 24-hours time format instead of the 12-hour one</string>
-	<string name="settings_checked_items_behavior">Checked items behavior</string>
+    <string name="settings_checked_items_behavior">Checked items behavior</string>
     <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>
     <string name="settings_category_preferences">Preferences</string>
     <string name="settings_category_beta">Beta</string>
@@ -211,12 +210,13 @@
     <string name="minutes">minutes</string>
     <string name="settings_simple_calendar">Simple calendar and time</string>
     <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
-    
 
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
     <string name="reminder">reminder</string>
     <string name="stroke_size">stroke size</string>
+    <string name="title_activity_snooze">SnoozeActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
