@@ -124,6 +124,18 @@
         android:title="@string/add_tag"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_expanded_view"
+        android:orderInCategory="800"
+        android:title="@string/expanded_view"
+        android:showAsAction="never"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_contracted_view"
+        android:orderInCategory="810"
+        android:title="@string/contracted_view"
+        android:showAsAction="never"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_settings"
         android:icon="@android:drawable/ic_menu_preferences"
         android:orderInCategory="998"

@@ -25,9 +25,8 @@
     <LinearLayout
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingRight="16dp" >
+        android:layout_height="100dp"
+        android:orientation="horizontal" >
 
         <View
             android:id="@+id/tag_marker"
@@ -36,11 +35,13 @@
             android:background="@null" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:paddingBottom="12dp"
             android:paddingLeft="6dp"
+            android:paddingRight="16dp"
             android:paddingTop="12dp" >
 
             <LinearLayout
@@ -58,46 +59,6 @@
                     android:textAppearance="@style/Text.Big"
                     android:textColor="@color/list_note_title"
                     pixlui:typeface="RobotoSlab-Bold.ttf" />
-
-                <ImageView
-                    android:id="@+id/alarmIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="right|top"
-                    android:src="@drawable/ic_reminder_dark"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/locationIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="right|top"
-                    android:src="@drawable/ic_location_dark"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/archivedIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="right|top"
-                    android:src="@drawable/ic_archive_dark"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/attachmentIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="right|top"
-                    android:src="@drawable/ic_action_attachment"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/lockedIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="right|top"
-                    android:src="@drawable/ic_action_secure"
-                    android:visibility="gone" />
             </LinearLayout>
 
             <com.neopixl.pixlui.components.textview.TextView
@@ -105,21 +66,72 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
+                android:layout_marginTop="5dp"
                 android:singleLine="true"
                 android:textAppearance="@style/Text.Normal"
                 android:textColor="@color/list_note_title"
                 android:visibility="gone"
                 pixlui:typeface="RobotoSlab-Regular.ttf" />
 
-            <com.neopixl.pixlui.components.textview.TextView
-                android:id="@+id/note_date"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:gravity="bottom|right"
-                android:textAppearance="@style/Text.Small"
-                pixlui:typeface="Roboto-Regular.ttf" />
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <com.neopixl.pixlui.components.textview.TextView
+                    android:id="@+id/note_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|left"
+                    android:layout_marginRight="15dp"
+                    android:alpha="0.5"
+                    android:gravity="bottom|left"
+                    android:textAppearance="@style/Text.Small"
+                    pixlui:typeface="Roboto-Regular.ttf" />
+
+                <ImageView
+                    android:id="@+id/alarmIcon"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="bottom|right"
+                    android:contentDescription="@string/note_reminder_symbol"
+                    android:src="@drawable/ic_reminder_dark"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/locationIcon"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="bottom|right"
+                    android:src="@drawable/ic_location_dark"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/archivedIcon"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="bottom|right"
+                    android:src="@drawable/ic_archive_dark"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/lockedIcon"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="bottom|right"
+                    android:src="@drawable/ic_action_secure"
+                    android:visibility="gone" />
+            </LinearLayout>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/attachmentThumbnail"
+            android:layout_width="95dp"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp"
+            android:contentDescription="@string/note_thumbnail"
+            android:visibility="gone" />
     </LinearLayout>
 
 </FrameLayout>

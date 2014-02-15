@@ -43,30 +43,33 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	private final Activity mActivity;
 	private final List<Note> values;
 	private HashMap<Integer, Boolean> selectedItems = new HashMap<Integer, Boolean>();
-
-	public NoteAdapter(Activity activity, List<Note> values) {
-		this(activity, R.layout.note_layout, values);
-	}
+	private boolean expandedView;
+	private int layout;
+	private LayoutInflater inflater;
+	
 
 	public NoteAdapter(Activity activity, int layout, List<Note> values) {
-		super(activity, layout, values);
+		super(activity, R.layout.note_layout_expanded, values);
 		this.mActivity = activity;
-		this.values = values;
+		this.values = values;		
+		this.layout = layout;
+		
+		expandedView = layout == R.layout.note_layout_expanded;
+		inflater = (LayoutInflater) mActivity.getSystemService(mActivity.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		Note note = values.get(position);
-		
-		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(mActivity.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.note_layout, parent, false);
+
+		View rowView = inflater.inflate(layout, parent, false);
 
 		TextView title = (TextView) rowView.findViewById(R.id.note_title);
 		TextView content = (TextView) rowView.findViewById(R.id.note_content);
 		TextView date = (TextView) rowView.findViewById(R.id.note_date);
 		
-		// Defining title and contente texts	
+		// Defining title and content texts	
 		String titleText, contentText;
 		if (note.getTitle().length() > 0) {
 			titleText = note.getTitle();
@@ -142,14 +145,16 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			restoreDrawable(note, v);
 		}
 		
-		
+
 		// Attachment thumbnail
-		ImageView attachmentThumbnail = (ImageView) rowView.findViewById(R.id.attachmentThumbnail);
-		for (Attachment mAttachment : note.getAttachmentsList()) {
-				ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, attachmentThumbnail, THUMBNAIL_SIZE);
-				task.execute(mAttachment);
-				attachmentThumbnail.setVisibility(View.VISIBLE);
-				break;
+		if (expandedView) {
+			ImageView attachmentThumbnail = (ImageView) rowView.findViewById(R.id.attachmentThumbnail);
+			for (Attachment mAttachment : note.getAttachmentsList()) {
+					ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, attachmentThumbnail, THUMBNAIL_SIZE);
+					task.execute(mAttachment);
+					attachmentThumbnail.setVisibility(View.VISIBLE);
+					break;
+			}
 		}
 		
 		return rowView;

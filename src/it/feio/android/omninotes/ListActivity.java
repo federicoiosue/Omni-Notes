@@ -607,8 +607,6 @@ public class ListActivity extends BaseActivity {
 		
 		// Show instructions on first launch
 		final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "list";
-//		showCase(Constants.PREF_INSTRUCTIONS_PREFIX + "listactivity_actions", R.id.menu_add, ShowcaseView.ITEM_ACTION_ITEM);
-//		showCase(Constants.PREF_INSTRUCTIONS_PREFIX + "listactivity_actions", 0, ShowcaseView.ITEM_ACTION_HOME);
 		if (!prefs.getBoolean(instructionName, false)) {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			list.add(new Integer[]{null, R.string.tour_listactivity_intro_title, R.string.tour_listactivity_intro_detail, null});
@@ -624,6 +622,15 @@ public class ListActivity extends BaseActivity {
 		}
 		
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
+		menu.findItem(R.id.menu_expanded_view).setVisible(!expandedView);
+		menu.findItem(R.id.menu_contracted_view).setVisible(expandedView);
+		return super.onPrepareOptionsMenu(menu);
 	}
 	
 
@@ -714,11 +721,31 @@ public class ListActivity extends BaseActivity {
 			case R.id.menu_add_tag:
 				editTag(null);
 				break;
+			case R.id.menu_expanded_view:
+				switchNotesView();
+				break;
+			case R.id.menu_contracted_view:
+				switchNotesView();
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
    
+
+	private void switchNotesView() {
+		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
+		prefs.edit().putBoolean(Constants.PREF_EXPANDED_VIEW, !expandedView).commit();
+		
+		// Change list view
+		initNotesList(getIntent());
+		
+		// Called to switch menu voices
+		supportInvalidateOptionsMenu();
+	}
+
+
+
 
 	private void setCabTitle() {
 		if (mActionMode == null)
@@ -909,7 +936,8 @@ public class ListActivity extends BaseActivity {
 			DbHelper db = new DbHelper(getApplicationContext());
 			notes = db.getAllNotes(true);
 		}
-		mAdapter = new NoteAdapter(this, notes);
+		int layout = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded : R.layout.note_layout;
+		mAdapter = new NoteAdapter(this, layout, notes);
 
 		if (prefs.getBoolean("settings_enable_animations", true) && showListAnimation) {
 		    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
@@ -1091,46 +1119,46 @@ public class ListActivity extends BaseActivity {
 		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 		
 		alertDialogBuilder.setTitle(R.string.tag_as)
-							.setAdapter(new NavDrawerTagAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									// Moved to other method, this way the same code block can be called
-									// also by onActivityResult when a new tag is created
-									tagSelectedNotes2(tags.get(which));
-								}
-							}).setPositiveButton(R.string.add_tag, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
-									Intent intent = new Intent(mActivity, TagActivity.class);		
-									intent.putExtra("noHome", true);
-									startActivityForResult(intent, REQUEST_CODE_TAG_NOTES);
-								}
-							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
-									for (Note note : selectedNotes) {
-										// Update adapter content if actual navigation is the tag
-										// associated with actually cycled note										
-										if ( navigation.equals(String.valueOf(note.getTag().getId())) ) {
-											mAdapter.remove(note);
-										}
-										note.setTag(null);
-										db.updateNote(note);
+						.setAdapter(new NavDrawerTagAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								// Moved to other method, this way the same code block can be called
+								// also by onActivityResult when a new tag is created
+								tagSelectedNotes2(tags.get(which));
+							}
+						}).setPositiveButton(R.string.add_tag, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								Intent intent = new Intent(mActivity, TagActivity.class);		
+								intent.putExtra("noHome", true);
+								startActivityForResult(intent, REQUEST_CODE_TAG_NOTES);
+							}
+						}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								for (Note note : selectedNotes) {
+									// Update adapter content if actual navigation is the tag
+									// associated with actually cycled note										
+									if ( navigation.equals(String.valueOf(note.getTag().getId())) ) {
+										mAdapter.remove(note);
 									}
-									candidateSelectedTag = null;
-									// Refresh view
-									((ListView) findViewById(R.id.notesList)).invalidateViews();
-									// Advice to user
-									Crouton.makeText(mActivity, R.string.notes_tag_removed, ONStyle.INFO).show();
-									mActionMode.finish(); // Action picked, so close the CAB
+									note.setTag(null);
+									db.updateNote(note);
 								}
-							}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int id) {
-									candidateSelectedTag = null;
-									mActionMode.finish(); // Action picked, so close the CAB
-								}
-							});
+								candidateSelectedTag = null;
+								// Refresh view
+								((ListView) findViewById(R.id.notesList)).invalidateViews();
+								// Advice to user
+								Crouton.makeText(mActivity, R.string.notes_tag_removed, ONStyle.INFO).show();
+								mActionMode.finish(); // Action picked, so close the CAB
+							}
+						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								candidateSelectedTag = null;
+								mActionMode.finish(); // Action picked, so close the CAB
+							}
+						});
 
 		// create alert dialog
 		AlertDialog alertDialog = alertDialogBuilder.create();
