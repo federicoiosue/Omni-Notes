@@ -248,7 +248,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				}
 			});
 		} else {
-//			noteTmp.setPasswordChecked(true);
+			noteTmp.setPasswordChecked(true);
 			init();
 		}		
 	}
