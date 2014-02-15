@@ -189,6 +189,7 @@
     <string name="settings_enable_tag_marker_summary">Enable or disable tags colored markers</string>
     <string name="settings_enable_editor_links_summary">Enable or disable automatic highlighting of links and e-mail in editor</string>
     <string name="confirm_removing_backup">Confirm removing backup</string>
+    <string name="confirm_restoring_backup">Confirm restoring backup</string>
     <string name="data_deletion_completed">Data deletion completed</string>
     <string name="settings_hours_format">24-hours clock</string>
     <string name="settings_hours_format_summary">Use 24-hours time format instead of the 12-hour one</string>

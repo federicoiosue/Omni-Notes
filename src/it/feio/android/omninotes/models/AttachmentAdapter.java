@@ -68,9 +68,9 @@ public class AttachmentAdapter extends BaseAdapter {
 			imageView = new ImageView(mActivity);
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 			// A placeholder is set here
-			imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(
-					BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.image_placeholder),
-					THUMBNAIL_SIZE, THUMBNAIL_SIZE));
+//			imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(
+//					BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.image_placeholder),
+//					THUMBNAIL_SIZE, THUMBNAIL_SIZE));
 
 		} else {
 			imageView = (ImageView) convertView;

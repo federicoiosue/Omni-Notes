@@ -166,15 +166,42 @@ public class SettingsActivity extends PreferenceActivity {
 
 				    	ListView lv = alertDialog.getListView();
 				    	lv.setOnItemClickListener(new OnItemClickListener() {
-
-							@Override
-							public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-								dialog.dismiss();
-								// An IntentService will be launched to accomplish the import task
-								Intent service = new Intent(activity, DataBackupIntentService.class);
-								service.setAction(Constants.ACTION_DATA_IMPORT);
-								service.putExtra(Constants.INTENT_BACKUP_NAME, backups[position]);
-								activity.startService(service);
+				    		
+				    		@Override
+							public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+								final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+										activity);
+								
+								// Retrieves backup size
+								File backupDir = StorageManager.getBackupDir(backups[position].toString());
+								long size = StorageManager.getSize(backupDir) / 1024;
+								String sizeString = size > 1024 ? size/1024 + "Mb" : size + "Kb";
+								
+								// Set dialog message and button
+								alertDialogBuilder.setMessage(
+										getString(R.string.confirm_restoring_backup) + " " + backups[position] + " (" + sizeString + ")")
+										.setPositiveButton(R.string.confirm, new OnClickListener() {
+											
+											@Override
+											public void onClick(DialogInterface dialogInner, int which) {
+												dialogInner.dismiss();
+												dialog.dismiss();
+												// An IntentService will be launched to accomplish the import task
+												Intent service = new Intent(activity, DataBackupIntentService.class);
+												service.setAction(Constants.ACTION_DATA_IMPORT);
+												service.putExtra(Constants.INTENT_BACKUP_NAME, backups[position]);
+												activity.startService(service);
+											}
+										})
+										.setNegativeButton(R.string.cancel, new OnClickListener() {
+											
+											@Override
+											public void onClick(DialogInterface dialog, int which) {
+												dialog.cancel();											
+											}
+										});
+								
+								alertDialogBuilder.create().show();
 							}
 				        });
 				    	

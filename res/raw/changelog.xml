@@ -16,8 +16,13 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.3.5" changeDate="Feb 15, 2014">
+        <changelogtext>Now you will be prompted when trying to restore a backup to prevent accidental restores.</changelogtext>
+   	    <changelogtext>[u]Fixed[/u] Crash on entering blocked when password is not set (ex. after a backup restore)</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="4.3.4" changeDate="Feb 13, 2014">
-        <changelogtext>Detail screen scrolling revisited. Now title will scroll up when note become long. Creation and modification dates will alway stay visible.</changelogtext>
+        <changelogtext>Detail screen scrolling revisited. Creation and modification dates will always stay visible</changelogtext>
    	    <changelogtext>[u]Fixed[/u] Attachments removal</changelogtext>
     </changelogversion>
 

@@ -17,7 +17,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="69"
+    android:versionCode="71"
     android:versionName="4.4.0beta1" >
 
     <uses-sdk
@@ -182,6 +182,13 @@
             android:name="it.feio.android.omninotes.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>
+        
+		<!-- Snooze reminder -->
+        <activity
+            android:name="it.feio.android.omninotes.SnoozeActivity"
+            android:theme="@style/Theme.AppCompat.Dialog" >
+        </activity>
+        
 
         <!-- ACRA -->
         <activity

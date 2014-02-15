@@ -15,9 +15,12 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 
 public class NotificationService extends IntentService{
+	
+	private Context mContext;
 
 	public NotificationService() {
 		super(NotificationService.class.getName());
+		mContext = this;
 	}
 	
 
@@ -31,11 +34,20 @@ public class NotificationService extends IntentService{
 			String snoozeDelay = PreferenceManager.getDefaultSharedPreferences(this).getString("settings_notification_snooze_delay", "10");
 			long newAlarm = Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
 			setAlarm(note, newAlarm);
+//			promptSnoozeTime();
 		}		
 		removeNotification(note);
 	}
 	
 	
+//	private void promptSnoozeTime() {
+//		Intent intent = new Intent(mContext,  SnoozeActivity.class);
+//		intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+//		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);		
+//		startActivity(intent);
+//	}
+
+
 	private void removeNotification(Note note) {
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.cancel(note.get_id());		

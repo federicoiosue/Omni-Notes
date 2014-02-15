@@ -29,7 +29,7 @@ import android.widget.ImageView;
 public class ThumbnailLoaderTask extends
 		AsyncTask<Attachment, Void, Bitmap> {
 
-	private final int FADE_IN_TIME = 150;
+	private final int FADE_IN_TIME = 190;
 	
 	private final Activity mActivity;
 	private final WeakReference<ImageView> imageViewReference;
