@@ -170,18 +170,18 @@ public class ThumbnailLoaderTask extends
 			final ImageView imageView = imageViewReference.get();
 			if (imageView != null) {
 				imageView.setImageBitmap(bitmap);
+
+				// Transition drawable with a transparent drwabale and the final
+				// bitmap
+				final TransitionDrawable td = new TransitionDrawable(new Drawable[] { new ColorDrawable(Color.TRANSPARENT),
+						new BitmapDrawable(mActivity.getResources(), bitmap) });
+				// Set background to loading bitmap
+				// imageView.setBackgroundDrawable(
+				// new BitmapDrawable(mLoadingBitmap));
+
+				imageView.setImageDrawable(td);
+				td.startTransition(FADE_IN_TIME);
 			}
-
-			// Transition drawable with a transparent drwabale and the final
-			// bitmap
-			final TransitionDrawable td = new TransitionDrawable(new Drawable[] { new ColorDrawable(Color.TRANSPARENT),
-					new BitmapDrawable(mActivity.getResources(), bitmap) });
-			// Set background to loading bitmap
-			// imageView.setBackgroundDrawable(
-			// new BitmapDrawable(mLoadingBitmap));
-
-			imageView.setImageDrawable(td);
-			td.startTransition(FADE_IN_TIME);
 		}
 	}
 
