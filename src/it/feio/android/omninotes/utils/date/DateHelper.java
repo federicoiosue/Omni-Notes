@@ -119,17 +119,20 @@ public class DateHelper {
 	
 	
 	
-//	public static String getLocalizedDateTime(Context mContext, String dateString, String format) {
-//		SimpleDateFormat sdf = new SimpleDateFormat(format);
-//		Date date = null;
-//		try {
-//			date = sdf.parse(dateString);
-//		} catch (ParseException e) {
-//			// handle exception here !
-//		}
-//		String dateFormatted = android.text.format.DateFormat.getDateFormat(mContext).format(date);
-//		String timeFormatted = android.text.format.DateFormat.getTimeFormat(mContext).format(date);
-//		return dateFormatted + " " + timeFormatted;
-//	}
+	public static String getLocalizedDateTime(Context mContext,
+			String dateString, String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		Date date = null;
+		try {
+			date = sdf.parse(dateString);
+		} catch (ParseException e) {
+			// handle exception here !
+		}
+		String dateFormatted = android.text.format.DateFormat.getDateFormat(
+				mContext).format(date);
+		String timeFormatted = android.text.format.DateFormat.getTimeFormat(
+				mContext).format(date);
+		return dateFormatted + " " + timeFormatted;
+	}
 	
 }

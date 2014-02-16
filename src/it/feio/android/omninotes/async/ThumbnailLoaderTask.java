@@ -6,6 +6,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
+import it.feio.android.omninotes.utils.date.DateHelper;
 
 import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
@@ -107,11 +108,25 @@ public class ThumbnailLoaderTask extends
 			bmp = app.getBitmapFromCache(cacheKey);
 			// Otherwise creates thumbnail
 			if (bmp == null) {
-				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
-						mActivity.getResources(), R.drawable.play), width, height);
-				bmp = BitmapHelper.drawTextToBitmap(mActivity, bmp, mAttachment
-						.getUri().getLastPathSegment(), null, -10, 3.3f, mActivity
-						.getResources().getColor(R.color.text_gray));
+				String text = "";
+				try {
+					text = DateHelper.getLocalizedDateTime(
+							mActivity,
+							mAttachment.getUri().getLastPathSegment()
+									.split("\\.")[0],
+							Constants.DATE_FORMAT_SORTABLE);
+				} catch (NullPointerException e) {
+					text = DateHelper.getLocalizedDateTime(
+							mActivity,
+							mAttachment.getUri().getLastPathSegment()
+									.split("\\.")[0], "yyyyMMddHHmmss");
+				}
+				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory
+						.decodeResource(mActivity.getResources(),
+								R.drawable.play), width, height);
+				bmp = BitmapHelper.drawTextToBitmap(mActivity, bmp, text, null,
+						-10, 3.3f,
+						mActivity.getResources().getColor(R.color.text_gray));
 				app.addBitmapToCache(cacheKey, bmp);
 			}
 		}
