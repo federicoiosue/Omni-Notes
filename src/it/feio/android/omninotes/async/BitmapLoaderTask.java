@@ -2,7 +2,7 @@ package it.feio.android.omninotes.async;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.utils.BitmapDecoder;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 
@@ -53,7 +53,7 @@ public class BitmapLoaderTask extends AsyncTask<Attachment, Void, Bitmap> {
 			// Image
 			} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())) {				
 				try {
-					bmp = checkIfBroken(BitmapDecoder.decodeSampledFromUri(mContext, mAttachment.getUri(), reqWidth, reqHeight));
+					bmp = checkIfBroken(BitmapHelper.decodeSampledFromUri(mContext, mAttachment.getUri(), reqWidth, reqHeight));
 				} catch (NullPointerException e) {
 					bmp = checkIfBroken(null);
 				}
@@ -63,7 +63,7 @@ public class BitmapLoaderTask extends AsyncTask<Attachment, Void, Bitmap> {
 				bmp = ThumbnailUtils.extractThumbnail(
 						BitmapFactory.decodeResource(mContext.getResources(), R.drawable.play),
 						Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
-				bmp = BitmapDecoder.drawTextToBitmap(mContext, bmp, 
+				bmp = BitmapHelper.drawTextToBitmap(mContext, bmp, 
 							mAttachment.getUri().getLastPathSegment(), null, -10, 
 							10, mContext.getResources().getColor(R.color.text_gray));
 			}

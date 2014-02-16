@@ -3,7 +3,7 @@ package it.feio.android.omninotes.async;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.utils.BitmapDecoder;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 
@@ -86,7 +86,7 @@ public class ThumbnailLoaderTask extends
 				// Otherwise creates thumbnail
 				if (bmp == null) {
 					try {
-						bmp = checkIfBroken(BitmapDecoder.decodeSampledFromUri(
+						bmp = checkIfBroken(BitmapHelper.decodeSampledFromUri(
 								mActivity, mAttachment.getUri(), width, height));
 //						cache.addBitmap(path, bmp);
 						app.addBitmapToCache(cacheKey, bmp);
@@ -109,8 +109,8 @@ public class ThumbnailLoaderTask extends
 			if (bmp == null) {
 				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
 						mActivity.getResources(), R.drawable.play), width, height);
-				bmp = BitmapDecoder.drawTextToBitmap(mActivity, bmp, mAttachment
-						.getUri().getLastPathSegment(), null, -10, 10, mActivity
+				bmp = BitmapHelper.drawTextToBitmap(mActivity, bmp, mAttachment
+						.getUri().getLastPathSegment(), null, -10, 3.3f, mActivity
 						.getResources().getColor(R.color.text_gray));
 				app.addBitmapToCache(cacheKey, bmp);
 			}
@@ -179,8 +179,10 @@ public class ThumbnailLoaderTask extends
 				// imageView.setBackgroundDrawable(
 				// new BitmapDrawable(mLoadingBitmap));
 
-				imageView.setImageDrawable(td);
-				td.startTransition(FADE_IN_TIME);
+				if (td != null) {
+					imageView.setImageDrawable(td);
+					td.startTransition(FADE_IN_TIME);
+				} 
 			}
 		}
 	}

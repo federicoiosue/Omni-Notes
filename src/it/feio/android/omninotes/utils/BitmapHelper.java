@@ -36,7 +36,7 @@ import android.net.Uri;
 import android.util.Log;
 
 
-public class BitmapDecoder {
+public class BitmapHelper {
 
 	/**
 	 * Decodifica ottimizzata per la memoria dei bitmap
@@ -135,7 +135,7 @@ public class BitmapDecoder {
 	 * @return
 	 */
 	public static Bitmap drawTextToBitmap(Context mContext, Bitmap bitmap,
-			String text, Integer offsetX, Integer offsetY, Integer textSize, Integer textColor) {
+			String text, Integer offsetX, Integer offsetY, float textSize, Integer textColor) {
 		Resources resources = mContext.getResources();
 		float scale = resources.getDisplayMetrics().density;
 		// Bitmap bitmap =
@@ -146,17 +146,21 @@ public class BitmapDecoder {
 		if (bitmapConfig == null) {
 			bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
 		}
-		// resource bitmaps are imutable,
-		// so we need to convert it to mutable one
-		bitmap = bitmap.copy(bitmapConfig, true);
+		// if bitmap is not mutable a copy is done
+		if (!bitmap.isMutable())
+			bitmap = bitmap.copy(bitmapConfig, true);
 
 		Canvas canvas = new Canvas(bitmap);
 		// new antialised Paint
 		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		// text color - #3D3D3D
 		paint.setColor(textColor);
-		// text size in pixels
-		paint.setTextSize((int) (textSize * scale));
+		// text size in pixels is converted as follows:
+		// 1. multiplied for scale to obtain size in dp
+		// 2. multiplied for bitmap size to maintain proportionality
+		// 3. divided for a constant (300) to assimilate input size with android text sizes
+		textSize = (int) (textSize * scale	* bitmap.getWidth() / 100);
+		paint.setTextSize(textSize);
 		// text shadow
 		paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
 

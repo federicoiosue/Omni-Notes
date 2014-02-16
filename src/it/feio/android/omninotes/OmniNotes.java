@@ -1,7 +1,7 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.utils.ACRAPostSender;
-import it.feio.android.omninotes.utils.BitmapDecoder;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SimpleDiskCache;
 import it.feio.android.omninotes.utils.SimpleDiskCache.BitmapEntry;
@@ -146,7 +146,7 @@ public class OmniNotes extends Application {
 			try {
 				
 				if (mDiskLruCache != null && !mDiskLruCache.contains(key)) {
-					mDiskLruCache.put(key, BitmapDecoder.getBitmapInputStream(bitmap));
+					mDiskLruCache.put(key, BitmapHelper.getBitmapInputStream(bitmap));
 				}
 			} catch (IOException e) {
 				
