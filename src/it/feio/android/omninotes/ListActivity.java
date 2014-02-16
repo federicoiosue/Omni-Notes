@@ -109,7 +109,8 @@ public class ListActivity extends BaseActivity {
 	private TextView empyListItem;
 	private boolean showListAnimation = true;
 	private AnimationDrawable jinglesAnimation;
-	private LruCache<String, Bitmap> mMemoryCache; 
+	private LruCache<String, Bitmap> mMemoryCache;
+	private int listViewPosition; 
 
 
 	@Override
@@ -214,8 +215,10 @@ public class ListActivity extends BaseActivity {
 	protected void onPause() {
 		super.onPause();
 		Crouton.cancelAllCroutons();
+		listViewPosition = listView.getFirstVisiblePosition();
 		stopJingles();
 	}
+	
 	
 	
 	
@@ -949,8 +952,17 @@ public class ListActivity extends BaseActivity {
 			listView.setAdapter(mAdapter);
 		}
 		
+		// Replace listview with Mr. Jingles if it is empty
 		if (notes.size() == 0)
 			listView.setEmptyView(findViewById(R.id.empty_list));
+		
+		// Restores listview position when turning back to list
+		if(listView != null && notes.size() > 0){
+		    if(listView.getCount() > listViewPosition)
+		        listView.setSelectionFromTop(listViewPosition, 0);
+		    else
+		        listView.setSelectionFromTop(0, 0);
+		}
 		
 	}
 	
