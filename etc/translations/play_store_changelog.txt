@@ -2,7 +2,7 @@ Look to the changelog inside the app for all the changes!
 
 4.3.5
 Now you will be prompted when trying to restore a backup to prevent accidental restores
-Fixed crash on entering blocked when password is not set (ex. after a backup restore)
+Fixed crash on entering into blocked notes when password is not set (ex. after a backup restore)
 
 4.3.4
 Detail screen scrolling revisited. Creation and modification dates will always stay visible

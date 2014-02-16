@@ -69,7 +69,7 @@ public class ThumbnailLoaderTask extends
 			}
 
 			// Fetch from cache if possible
-			bmp = app.getBitmapFromMemCache(cacheKey);
+			bmp = app.getBitmapFromCache(cacheKey);
 			// Otherwise creates thumbnail
 			if (bmp == null) {
 				bmp = ThumbnailUtils.createVideoThumbnail(path,
@@ -82,7 +82,7 @@ public class ThumbnailLoaderTask extends
 		} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())) {
 			try {
 				// Fetch from cache if possible
-				bmp = app.getBitmapFromMemCache(cacheKey);
+				bmp = app.getBitmapFromCache(cacheKey);
 				// Otherwise creates thumbnail
 				if (bmp == null) {
 					try {
@@ -104,7 +104,7 @@ public class ThumbnailLoaderTask extends
 			// Audio
 		} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
 			// Fetch from cache if possible
-			bmp = app.getBitmapFromMemCache(cacheKey);
+			bmp = app.getBitmapFromCache(cacheKey);
 			// Otherwise creates thumbnail
 			if (bmp == null) {
 				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(

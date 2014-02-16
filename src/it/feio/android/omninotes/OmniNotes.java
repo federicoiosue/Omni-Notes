@@ -2,6 +2,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.utils.ACRAPostSender;
 import it.feio.android.omninotes.utils.BitmapDecoder;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SimpleDiskCache;
 import it.feio.android.omninotes.utils.SimpleDiskCache.BitmapEntry;
 
@@ -24,6 +25,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.util.LruCache;
 import android.text.TextUtils;
+import android.util.Log;
 
 @ReportsCrashes(formKey = "", mode = ReportingInteractionMode.DIALOG, resDialogCommentPrompt = R.string.crash_dialog_comment_prompt, resDialogText = R.string.crash_dialog_text)
 public class OmniNotes extends Application {
@@ -135,7 +137,7 @@ public class OmniNotes extends Application {
 
 	public void addBitmapToCache(String key, Bitmap bitmap) {
 		// Add to memory cache as before
-		if (getBitmapFromMemCache(key) == null) {
+		if (mMemoryCache.get(key) == null) {
 			mMemoryCache.put(key, bitmap);
 		}
 
@@ -152,27 +154,65 @@ public class OmniNotes extends Application {
 		}
 	}
 
-	public Bitmap getBitmapFromMemCache(String key) {
-		return mMemoryCache.get(key);
-	}
+//	public Bitmap getBitmapFromMemCache(String key) {
+//		return mMemoryCache.get(key);
+//	}
 
-	public Bitmap getBitmapFromDiskCache(String key) {
-		Bitmap bitmap = null;
-		synchronized (mDiskCacheLock) {
-			// Wait while disk cache is started from background thread
-			while (mDiskCacheStarting) {
-				try {
-					mDiskCacheLock.wait();
-					if (mDiskLruCache != null) {
-						BitmapEntry bmpEntry = mDiskLruCache.getBitmap(key);
-						bitmap = bmpEntry.getBitmap();
+//	public Bitmap getBitmapFromDiskCache(String key) {
+//		Bitmap bitmap = null;
+//		synchronized (mDiskCacheLock) {
+//			// Wait while disk cache is started from background thread
+//			while (mDiskCacheStarting) {
+//				try {
+//					mDiskCacheLock.wait();
+//					if (mDiskLruCache != null) {
+//						BitmapEntry bmpEntry = mDiskLruCache.getBitmap(key);
+//						bitmap = bmpEntry.getBitmap();
+//					}
+//				} catch (InterruptedException e) {} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		return bitmap;
+//	}
+	
+
+	/**
+	 * Retrieval of bitmap from chache
+	 * @param key
+	 * @return
+	 */
+	public Bitmap getBitmapFromCache(String key) {
+		// A first attempt is done with memory cache
+		Bitmap bitmap = mMemoryCache.get(key);
+		
+		// If bitmap is not found a search into disk cache will be done
+		if (bitmap == null) {
+
+			synchronized (mDiskCacheLock) {
+				// Wait while disk cache is started from background thread
+				while (mDiskCacheStarting) {
+					try {
+						mDiskCacheLock.wait();
+					} catch (InterruptedException e) {
 					}
-				} catch (InterruptedException e) {} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				}
+				if (mDiskLruCache != null) {
+					try {
+						BitmapEntry bitmapEntry = mDiskLruCache.getBitmap(key);
+						if (bitmapEntry != null) {
+							bitmap = bitmapEntry.getBitmap();
+						}
+					} catch (IOException e) {
+						Log.e(Constants.TAG,
+								"Error retrieving bitmap from disk cache");
+					}
 				}
 			}
 		}
+		
 		return bitmap;
 	}
 }
