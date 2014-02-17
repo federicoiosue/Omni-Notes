@@ -1211,7 +1211,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent());	
-
+		noteTmp.setArchived(archive);
+		
 		// Check if some text or attachments of any type have been inserted or
 		// is an empty note
 		if (noteTmp.isEmpty()) {

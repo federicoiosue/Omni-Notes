@@ -1,5 +1,8 @@
 Look to the changelog inside the app for all the changes!
 
+4.3.6
+Fixed missing note archive/unarchive action from inside detail
+
 4.3.5
 Now you will be prompted when trying to restore a backup to prevent accidental restores
 Fixed crash on entering blocked when password is not set (ex. after a backup restore)

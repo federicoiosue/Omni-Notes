@@ -152,7 +152,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
 \n e lo sblocco di tutte le note bloccate?\"</string>
   <string name="settings_enable_tag_marker">Evidenziazione tags</string>
   <string name="settings_backup_summary">Importazione o esportazione dati app</string>
-  <string name="settings_max_video_size_summary">Maassima dimensione consentita in MB</string>
+  <string name="settings_max_video_size_summary">Massima dimensione consentita in MB</string>
   <string name="settings_password_summary">Modifica password di sicurezza</string>
   <string name="settings_enable_animations_summary">Attiva o disattiva le animazioni dell\'elenco delle note del cambio schermata</string>
   <string name="settings_enable_tag_marker_summary">Attiva o disattiva i marcatori colorati dei tag </string>
