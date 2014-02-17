@@ -3,9 +3,11 @@ package it.feio.android.omninotes;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.models.SketchView;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
@@ -14,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.BitmapDrawable;
@@ -63,6 +66,17 @@ public class SketchActivity extends BaseActivity {
 		
 		mContext = this;
 		drawingView = (SketchView) findViewById(R.id.drawing);
+		
+		Uri baseUri = getIntent().getParcelableExtra("base");
+		if (baseUri != null) {
+			Bitmap bmp = null;
+			try {
+				bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(baseUri));
+				drawingView.setBackgroundBitmap(this, bmp);
+			} catch (FileNotFoundException e) {
+				Log.e(Constants.TAG, "Error replacing sketch bitmap background");
+			}
+		}
 
 		// Show the Up button in the action bar.
 		if (getSupportActionBar() != null) {

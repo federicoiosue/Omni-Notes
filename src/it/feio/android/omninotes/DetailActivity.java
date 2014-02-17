@@ -410,6 +410,18 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 								dialog.cancel();
 							}
 						});
+				
+				// If is an image user could want to sketch it!
+				if (Constants.MIME_TYPE_IMAGE.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
+					alertDialogBuilder.setNeutralButton(R.string.sketch, new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								takeSketch(mAttachmentAdapter.getItem(position));
+							}
+						});
+				}
+				
 				AlertDialog alertDialog = alertDialogBuilder.create();
 				alertDialog.show();
 				return true;
@@ -465,10 +477,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		
 		
 		// Footer dates of creation and last modification
-		String creation = noteTmp.getCreationShort(date_time_format);
+		String creation = noteTmp.getCreationShort(mActivity, date_time_format);
 		((TextView) findViewById(R.id.creation)).append(creation.length() > 0 ? getString(R.string.creation) + " "
 				+ creation : "");
-		String lastModification = noteTmp.getLastModificationShort(date_time_format);
+		String lastModification = noteTmp.getLastModificationShort(mActivity, date_time_format);
 		((TextView) findViewById(R.id.last_modification)).append(lastModification.length() > 0 ? getString(R.string.last_update) + " "
 				+ lastModification : "");
 		
@@ -1053,7 +1065,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				attachmentDialog.dismiss();
 			    break;
 			case R.id.sketch:
-				takeSketch();
+				takeSketch(null);
 				attachmentDialog.dismiss();
 			case R.id.location:
 				setAddress(locationTextView);
@@ -1090,10 +1102,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	}
 	
 	
-	private void takeSketch() {
+	private void takeSketch(Attachment attachment) {
 		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_IMAGE_EXT));	
 		Intent intent = new Intent(this, SketchActivity.class);		
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
+		// An already prepared attachment is going to be sketched
+		if (attachment != null) {
+			intent.putExtra("base", attachment.getUri());
+		}
 		startActivityForResult(intent, SKETCH);
 	}
 

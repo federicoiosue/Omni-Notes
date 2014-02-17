@@ -16,13 +16,16 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.utils.EqualityChecker;
+import it.feio.android.omninotes.utils.date.DateHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.format.DateUtils;
 
 public class Note implements Parcelable {
 
@@ -150,24 +153,16 @@ public class Note implements Parcelable {
 		this.creation = creationLong;
 	}
 
-	public String getCreationShort(String time_format) {
-		if (creation == null) return "";		
-		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(creation);
-		SimpleDateFormat sdf = new SimpleDateFormat(time_format);
-		return sdf.format(c.getTimeInMillis());
+	public String getCreationShort(Context mContext, String time_format) {
+		return DateHelper.getDateTimeShort(mContext, creation);
 	}
 
 	public Long getLastModification() {
 		return lastModification;
 	}
 
-	public String getLastModificationShort(String time_format) {
-		if (creation == null) return "";
-		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(lastModification);
-		SimpleDateFormat sdf = new SimpleDateFormat(time_format);
-		return sdf.format(c.getTimeInMillis());
+	public String getLastModificationShort(Context mContext, String time_format) {
+		return DateHelper.getDateTimeShort(mContext, lastModification);
 	}
 
 	public void setLastModification(Long lastModification) {

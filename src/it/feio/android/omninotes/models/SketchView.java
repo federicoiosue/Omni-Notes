@@ -4,6 +4,7 @@ import it.feio.android.omninotes.SketchActivity;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +26,7 @@ public class SketchView extends View implements OnTouchListener {
 	private int strokeColor = Color.BLACK;
 	private int background = Color.WHITE;
 	
-	private Canvas m_Canvas;
+	private Canvas mCanvas;
 	private Path m_Path;
 	private Paint m_Paint;
 	private float mX, mY;
@@ -33,6 +35,8 @@ public class SketchView extends View implements OnTouchListener {
 	private ArrayList<Pair<Path, Paint>> paths = new ArrayList<Pair<Path, Paint>>();
 	private ArrayList<Pair<Path, Paint>> undonePaths = new ArrayList<Pair<Path, Paint>>();
 	private Context mContext;
+
+	private Bitmap bitmap;
 	
 	public static boolean isEraserActive = false;
 	
@@ -56,11 +60,42 @@ public class SketchView extends View implements OnTouchListener {
 		m_Paint.setStrokeJoin(Paint.Join.ROUND);
 		m_Paint.setStrokeCap(Paint.Cap.ROUND);
 		m_Paint.setStrokeWidth(strokeSize);
-		
-		m_Canvas = new Canvas();
+
+		mCanvas = new Canvas();
 		m_Path = new Path();
 		Paint newPaint = new Paint(m_Paint);
 		invalidate();
+	}
+	
+	
+	/**
+	 * Change canvass background and force redraw
+	 * @param bitmap
+	 */
+	public void setBackgroundBitmap(Activity mActivity, Bitmap bitmap) {
+		if (!bitmap.isMutable()) {
+			android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
+			// set default bitmap config if none
+			if (bitmapConfig == null) {
+				bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+			}
+			bitmap = bitmap.copy(bitmapConfig, true);
+		}
+		this.bitmap = bitmap;
+//		this.bitmap = getScaledBitmap(mActivity, bitmap);
+		mCanvas = new Canvas(bitmap);
+	}
+	
+	
+	private Bitmap getScaledBitmap(Activity mActivity, Bitmap bitmap) {
+		DisplayMetrics display = new DisplayMetrics();
+		mActivity.getWindowManager().getDefaultDisplay().getMetrics(display);
+		int screenWidth = display.widthPixels;
+		int screenHeight = display.heightPixels;
+		float scale = bitmap.getWidth() / screenWidth > bitmap.getHeight() / screenHeight ? bitmap.getWidth() / screenWidth : bitmap.getHeight() / screenHeight;
+		int scaledWidth = (int) (bitmap.getWidth() / scale);
+		int scaledHeight = (int) (bitmap.getHeight() / scale);
+		return Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
 	}
 	
 	
@@ -97,9 +132,13 @@ public class SketchView extends View implements OnTouchListener {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-			for (Pair<Path, Paint> p : paths) {
-				canvas.drawPath((Path) p.first, (Paint) p.second);				
-			}
+		if (bitmap != null) {
+			canvas.drawBitmap(bitmap, 0, 0, null);
+		}
+			
+		for (Pair<Path, Paint> p : paths) {
+			canvas.drawPath((Path) p.first, (Paint) p.second);				
+		}
 	}
 
 	private void touch_start(float x, float y) {
@@ -137,7 +176,7 @@ public class SketchView extends View implements OnTouchListener {
 		m_Path.lineTo(mX, mY);
 
 		// commit the path to our offscreen
-		m_Canvas.drawPath(m_Path, m_Paint);
+		mCanvas.drawPath(m_Path, m_Paint);
 
 		Paint newPaint = new Paint(m_Paint); // Clones the mPaint object
 		paths.add(new Pair<Path, Paint>(m_Path, newPaint));
@@ -157,11 +196,13 @@ public class SketchView extends View implements OnTouchListener {
 		if (paths.size() == 0)
 			return null;
 		
-		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-		bitmap.eraseColor(background);
-		Canvas canvas = new Canvas(bitmap);
-		for (Pair<Path, Paint> p : paths) {
-			canvas.drawPath((Path) p.first, (Paint) p.second);				
+		if (bitmap == null) {
+			bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+			bitmap.eraseColor(background);
+			Canvas canvas = new Canvas(bitmap);
+			for (Pair<Path, Paint> p : paths) {
+				canvas.drawPath((Path) p.first, (Paint) p.second);				
+			}
 		}
 		return bitmap;
 	}

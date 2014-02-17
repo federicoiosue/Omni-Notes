@@ -117,7 +117,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 				: Constants.DATE_FORMAT_SHORT_12;
 		// Creation
 		if (sort_column.equals(DbHelper.KEY_CREATION)) {
-			date.setText(mActivity.getString(R.string.creation) + " " + note.getCreationShort(time_format));
+			date.setText(mActivity.getString(R.string.creation) + " " + note.getCreationShort(mActivity, time_format));
 		}
 		// Reminder
 		else if (sort_column.equals(DbHelper.KEY_ALARM)) {
@@ -133,7 +133,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// Others
 		else {
 			date.setText(mActivity.getString(R.string.last_update) + " "
-					+ note.getLastModificationShort(time_format));
+					+ note.getLastModificationShort(mActivity, time_format));
 		}
 
 		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui
