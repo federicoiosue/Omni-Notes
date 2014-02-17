@@ -1111,6 +1111,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			intent.putExtra("base", attachment.getUri());
 		}
 		startActivityForResult(intent, SKETCH);
+		if (prefs.getBoolean("settings_enable_animations", true)) {
+			overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
+		}
 	}
 
 	
@@ -1257,7 +1260,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent());	
-
+		noteTmp.setArchived(archive);
+		
 		// Check if some text or attachments of any type have been inserted or
 		// is an empty note
 		if (noteTmp.isEmpty()) {

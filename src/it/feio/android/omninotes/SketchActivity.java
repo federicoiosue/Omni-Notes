@@ -200,27 +200,31 @@ public class SketchActivity extends BaseActivity {
 		
 		if (bitmap == null) {
 			setResult(RESULT_CANCELED);
-			super.finish();
-		}
+		} else {
 		
-		try {			
-			Uri uri = getIntent().getParcelableExtra(MediaStore.EXTRA_OUTPUT);
-			File bitmapFile = new File(uri.getPath());
-			FileOutputStream out = new FileOutputStream(bitmapFile);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-
-			if (bitmapFile.exists()) {
-				Intent localIntent = new Intent().setData(Uri
-						.fromFile(bitmapFile));
-				setResult(RESULT_OK, localIntent);
-			} else {
-				setResult(RESULT_CANCELED);
+			try {			
+				Uri uri = getIntent().getParcelableExtra(MediaStore.EXTRA_OUTPUT);
+				File bitmapFile = new File(uri.getPath());
+				FileOutputStream out = new FileOutputStream(bitmapFile);
+				bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+	
+				if (bitmapFile.exists()) {
+					Intent localIntent = new Intent().setData(Uri
+							.fromFile(bitmapFile));
+					setResult(RESULT_OK, localIntent);
+				} else {
+					setResult(RESULT_CANCELED);
+				}
+	
+			} catch (Exception e) {
+				e.printStackTrace();
+				Log.d(Constants.TAG, "Error writing sketch image data");
 			}
-			super.finish();
+		}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.d(Constants.TAG, "Error writing sketch image data");
+		super.finish();
+		if (prefs.getBoolean("settings_enable_animations", true)) {
+			overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
 		}
 	}
 	

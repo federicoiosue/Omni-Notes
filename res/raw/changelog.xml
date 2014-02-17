@@ -26,6 +26,10 @@
         <changelogtext>When entering end exiting a note detail the list position will stay as you left and will not be reset to the first item all the times</changelogtext>
         <changelogtext>On password requests the focus will be acquired from the password field and the keyboard will appear automatically</changelogtext>   
     </changelogversion>
+    
+    <changelogversion versionName="4.3.6" changeDate="Feb 17, 2014">
+        <changelogtext>[u]Fixed[/u] Missing note archive/unarchive action from inside detail</changelogtext>
+    </changelogversion>
 
     <changelogversion versionName="4.3.5" changeDate="Feb 15, 2014">
         <changelogtext>Now you will be prompted when trying to restore a backup to prevent accidental restores.</changelogtext>
