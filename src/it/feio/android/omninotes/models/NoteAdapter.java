@@ -38,7 +38,7 @@ import android.widget.TextView;
 public class NoteAdapter extends ArrayAdapter<Note> {
 	
 	private final String GHOST_CHAR = "*";	
-	private final int THUMBNAIL_SIZE = 100;	
+	private final int THUMBNAIL_SIZE = 200;	
 
 	private final Activity mActivity;
 	private final List<Note> values;
