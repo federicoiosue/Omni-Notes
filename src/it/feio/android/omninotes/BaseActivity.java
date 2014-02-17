@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,9 +45,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.espian.showcaseview.ShowcaseView;
@@ -250,6 +252,7 @@ public class BaseActivity extends ActionBarActivity {
 			.setNegativeButton(R.string.cancel, null);
 		
 		AlertDialog dialog = alertDialogBuilder.create();
+    	final EditText passwordEditText = (EditText)v.findViewById(R.id.password_request);
 		
 		// Set a listener for dialog button press
 		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -265,8 +268,7 @@ public class BaseActivity extends ActionBarActivity {
 		            	// When positive button is pressed password correctness is checked
 		            	String oldPassword = prefs.getString(
 								Constants.PREF_PASSWORD, "");
-		            	TextView passwordTextView = (TextView)v.findViewById(R.id.password_request);
-						String password = passwordTextView.getText().toString();
+						String password = passwordEditText.getText().toString();
 						// The check is done on password's hash stored in preferences
 						boolean result = Security.md5(password).equals(oldPassword);
 
@@ -276,7 +278,7 @@ public class BaseActivity extends ActionBarActivity {
 							mPasswordValidator.onPasswordValidated(true);
 						// If password is wrong the auth flow is not interrupted and simply a message is shown
 		                } else {
-		                	passwordTextView.setError(getString(R.string.wrong_password));
+		                	passwordEditText.setError(getString(R.string.wrong_password));
 		                }
 		            }
 		        });
@@ -294,6 +296,12 @@ public class BaseActivity extends ActionBarActivity {
 		
 
 		dialog.show();
+		
+		// Force focus and shows soft keyboard
+		passwordEditText.requestFocus();
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
 	}
 	
 	
