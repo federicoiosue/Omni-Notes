@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.util.Log;
 
 
@@ -126,12 +127,22 @@ public class DateHelper {
 		try {
 			date = sdf.parse(dateString);
 		} catch (ParseException e) {
-			// handle exception here !
+			sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE_OLD);
+			try {
+				date = sdf.parse(dateString);
+			} catch (ParseException e1) {
+				e1.printStackTrace();
+			}
 		}
-		String dateFormatted = android.text.format.DateFormat.getDateFormat(
-				mContext).format(date);
-		String timeFormatted = android.text.format.DateFormat.getTimeFormat(
-				mContext).format(date);
+		
+//		String dateFormatted = android.text.format.DateFormat.getDateFormat(
+//				mContext).format(date);
+//		String timeFormatted = android.text.format.DateFormat.getTimeFormat(
+//				mContext).format(date);
+
+		String dateFormatted = DateUtils.formatDateTime(mContext, date.getTime(), DateUtils.FORMAT_ABBREV_MONTH);
+		String timeFormatted = DateUtils.formatDateTime(mContext, date.getTime(), DateUtils.FORMAT_SHOW_TIME);
+		
 		return dateFormatted + " " + timeFormatted;
 	}
 	
