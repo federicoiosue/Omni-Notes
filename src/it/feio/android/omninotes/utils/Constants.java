@@ -70,6 +70,7 @@ public interface Constants {
 	final String ACTION_START_APP = "action_start_app";
    	final String ACTION_DISMISS = "action_dismiss"; 
 	final String ACTION_SNOOZE = "action_snooze";
+	final String ACTION_SHORTCUT = "action_shortcut";
 	
 	final String MESSAGE = "message";
 

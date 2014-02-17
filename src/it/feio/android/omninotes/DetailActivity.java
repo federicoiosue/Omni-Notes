@@ -20,6 +20,7 @@ import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.AttachmentAdapter;
 import it.feio.android.omninotes.models.ExpandableHeightGridView;
@@ -209,26 +210,26 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	
 	
 	private void init() {
+
+		// Handling of Intent actions
+		handleIntents();
+		
 		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
 		if (noteTmp == null) {
 			if (note == null) note = new Note();
 			noteTmp = new Note(note);
 		}
-			
-		
+					
 		if (noteTmp != null && noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
 			checkNoteLock(noteTmp);
 			return;
-		}
+		}	
 
 		// Note initialization
 		initNote();
 
 		// Views initialization
 		initViews();
-
-		// Handling of Intent actions
-		handleIntents();	
 	}
 
 	
@@ -263,6 +264,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Action called from widget
 		if (Intent.ACTION_PICK.equals(i.getAction())) {
 			takePhoto();
+			i.setAction(null);
+		}
+		// Action called from home shortcut
+		if (Constants.ACTION_SHORTCUT.equals(i.getAction())) {
+			DbHelper db = new DbHelper(this);
+			noteTmp = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
 			i.setAction(null);
 		}
 	}
@@ -730,6 +737,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
 		menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
 		menu.findItem(R.id.menu_unlock).setVisible(noteTmp.isLocked());
+		menu.findItem(R.id.menu_add_shortcut).setVisible(noteTmp.get_id() != 0);
 		menu.findItem(R.id.menu_delete).setVisible(true);
 		menu.findItem(R.id.menu_discard_changes).setVisible(true);
 		menu.findItem(R.id.menu_archive).setVisible(!noteTmp.isArchived());
@@ -796,6 +804,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			break;
 		case R.id.menu_unlock:
 			lockNote();
+			break;
+		case R.id.menu_add_shortcut:
+			addShortcut();
 			break;
 		case R.id.menu_delete:
 			deleteNote();
@@ -1578,6 +1589,25 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	@Override
 	public void onCheckListChanged() {
 		updateShareIntent();
+	}
+	
+	
+	/**
+	 * Adding shortcut on Home screen
+	 */
+	private void addShortcut() {
+		Intent shortcutIntent = new Intent(this, getClass());
+		shortcutIntent.putExtra(Constants.INTENT_KEY, noteTmp.get_id());
+		shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
+		Intent addIntent = new Intent();
+		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+		String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : getString(R.string.note) + " " + note.getCreation();
+		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
+		addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+				Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.ic_launcher));
+		addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+		getApplicationContext().sendBroadcast(addIntent);
+		Crouton.makeText(mActivity, R.string.shortcut_added, ONStyle.INFO).show();		
 	}
 	
 

@@ -96,6 +96,12 @@
         android:title="@string/unlock"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_add_shortcut"
+        android:orderInCategory="430"
+        app:showAsAction="ifRoom"
+        android:title="@string/add_shortcut"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_action_discard"
         android:orderInCategory="450"

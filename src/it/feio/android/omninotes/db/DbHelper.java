@@ -229,38 +229,42 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @param id
 	 * @return
 	 */
-//	public Note getNote(int id) {
-//		SQLiteDatabase db = getReadableDatabase();
+	public Note getNote(int id) {
+
+//		String query = "SELECT " + KEY_ID + "," + KEY_CREATION + "," + KEY_LAST_MODIFICATION + "," + KEY_TITLE + ","
+//				+ KEY_CONTENT + "," + KEY_ARCHIVED + "," + KEY_ALARM + "," + KEY_LATITUDE + "," + KEY_LONGITUDE + ","
+//				+ KEY_TAG + " FROM " + TABLE_NOTES + " LEFT JOIN " + TABLE_TAGS + " ON " + KEY_TAG + " = " + KEY_TAG_ID;
 //
-////		Cursor cursor = db.query(TABLE_NOTES, new String[] { KEY_ID,
-////				KEY_CREATION, KEY_LAST_MODIFICATION, KEY_TITLE, KEY_CONTENT,
-////				KEY_ARCHIVED, KEY_ALARM, KEY_LATITUDE, KEY_LONGITUDE, KEY_TAG }, KEY_ID + "=?",
-////				new String[] { String.valueOf(id) }, null, null, null, null);
-//		
-//		String query = "SELECT " + KEY_ID + "," +
-//				KEY_CREATION + "," + KEY_LAST_MODIFICATION + "," + KEY_TITLE + "," +  KEY_CONTENT + "," + 
-//				KEY_ARCHIVED + "," +  KEY_ALARM + "," +  KEY_LATITUDE + "," +  KEY_LONGITUDE + "," +  KEY_TAG
-//				+ " FROM " + TABLE_NOTES + " LEFT JOIN " + TABLE_TAGS + " ON " + KEY_TAG + " = " + KEY_TAG_ID;
-//		Cursor cursor = db.rawQuery(query, null);
+//		SQLiteDatabase db = null;
+//		Cursor cursor = null;
 //		Note note = null;
-//		if (cursor != null) {
-//			cursor.moveToFirst();
-//		
-//			int i = 0;
-//			note = new Note(Integer.parseInt(cursor.getString(i++)),
-//					cursor.getLong(i++), cursor.getLong(i++), cursor.getString(i++),
-//					cursor.getString(i++), cursor.getInt(i++), cursor.getString(i++),
-//					cursor.getString(i++), cursor.getString(i++), getTag(Integer.parseInt(cursor.getString(i++)))
-//					, cursor.getInt(i++), cursor.getInt(i++));
-//			
-//			// Add eventual attachments uri
-//			note.setAttachmentsList(getNoteAttachments(note));
-//			
+//		try {
+//			db = getReadableDatabase();
+//			cursor = db.rawQuery(query, null);
+//			if (cursor != null) {
+//				cursor.moveToFirst();
+//
+//				int i = 0;
+//				note = new Note(Integer.parseInt(cursor.getString(i++)), cursor.getLong(i++), cursor.getLong(i++),
+//						cursor.getString(i++), cursor.getString(i++), cursor.getInt(i++), cursor.getString(i++),
+//						cursor.getString(i++), cursor.getString(i++), getTag(Integer.parseInt(cursor.getString(i++))),
+//						cursor.getInt(i++), cursor.getInt(i++));
+//
+//				// Add eventual attachments uri
+//				note.setAttachmentsList(getNoteAttachments(note));
+//
+//			}
+//		} finally {
 //			cursor.close();
+//			db.close();
 //		}
-//		db.close();
 //		return note;
-//	}
+		
+		String whereCondition = " WHERE "
+								+ KEY_ID + " = " + id;
+		
+		return getNotes(whereCondition, true).get(0);
+	}
 
 	
 	

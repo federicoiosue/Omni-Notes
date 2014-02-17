@@ -139,6 +139,8 @@
     <string name="proceed">Proceed</string>
     <string name="contracted_view">Contracted view</string>
     <string name="expanded_view">Expanded view</string>
+    <string name="add_shortcut">Add shortcut</string>
+    <string name="shortcut_added">Shortcut added to home screen</string>
     
         	 
     <!-- Settings -->
