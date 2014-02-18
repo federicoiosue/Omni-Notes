@@ -66,6 +66,7 @@
   <string name="tag_color">Cor</string>
   <string name="tag_saved">Tag salvo</string>
   <string name="tag_deleted">Tag apagado</string>
+  <string name="tag_missing_title">Título da etiqueta ausente</string>
   <string name="delete_this_tag">Excluir esta tag</string>
   <string name="tag">Tag</string>
   <string name="tag_as">Tag como</string>
@@ -108,6 +109,9 @@
   <string name="opacity">Opacidade</string>
   <string name="dismiss">Dispensar</string>
   <string name="snooze">Soneca</string>
+  <string name="error_importing_some_attachments">Erro ao importar alguns anexos</string>
+  <string name="error_saving_attachments">Erro ao salvar anexos</string>
+  <string name="proceed">Prosseguir</string>
   <string name="settings">Configurações.</string>
   <string name="settings_about">Informação</string>
   <string name="settings_category_other">Outro</string>
@@ -150,10 +154,11 @@
   <string name="settings_backup_summary">A importação ou exportação de dados aplicativo</string>
   <string name="settings_max_video_size_summary">Max permitido tamanho em MB</string>
   <string name="settings_password_summary">Senha de segurança do aplicativo Editar</string>
-  <string name="settings_enable_animations_summary">Ativar ou desativar a lista de \"notas e animações de mudança de tela</string>
+  <string name="settings_enable_animations_summary">Ativar ou desativar animações na lista de notas</string>
   <string name="settings_enable_tag_marker_summary">Ativar ou desativar etiquetas de marcadores coloridos</string>
   <string name="settings_enable_editor_links_summary">Ativar ou desativar o realce automático de ligações e e-mail no editor</string>
   <string name="confirm_removing_backup">Confirme a remoção de backup</string>
+  <string name="confirm_restoring_backup">Confirmar a restauração de backup</string>
   <string name="data_deletion_completed">A eliminação de dados concluída</string>
   <string name="settings_hours_format">24 horas relógio</string>
   <string name="settings_hours_format_summary">Use 24 horas formato de hora em vez de um de 12 horas</string>
@@ -177,8 +182,26 @@
   <string name="minutes">minutos</string>
   <string name="settings_simple_calendar">Data e hora simples</string>
   <string name="settings_simple_calendar_summary">Usar um seletor de data e hora mais simples do Android, ao invés dos do Google</string>
+  <string name="settings_tour_show_again">Tour pelo app</string>
+  <string name="settings_tour_show_again_summary">Mostrar mais uma vez o tour de instruções do aplicativo</string>
+  <string name="tour_listactivity_intro_title">Bem-vindo ao Omni Notes!</string>
+  <string name="tour_listactivity_intro_detail">Pressione \"Prosseguir\" para continuar o tour</string>
+  <string name="tour_listactivity_actions_title">Ações</string>
+  <string name="tour_listactivity_actions_detail">Criar novas notas, classificá-las, acesso às preferências</string>
+  <string name="tour_listactivity_home_title">Navegar</string>
+  <string name="tour_listactivity_home_detail">O menu de navegação permite que você se mova através de notas com etiquetas e filtros</string>
+  <string name="tour_listactivity_tag_title">Etiquetas</string>
+  <string name="tour_listactivity_tag_detail">Adicionar etiquetas coloridas para manter seus pensamentos sempre eficientes</string>
+  <string name="tour_detailactivity_action_title">Fazer mais</string>
+  <string name="tour_detailactivity_action_detail">Adicione um monte de tipos de anexos a suas notas! Compartilhar, marcar e arquivar e proteger, e&#8230;</string>
+  <string name="tour_detailactivity_reminder_title">Basta pressionar</string>
+  <string name="tour_detailactivity_reminder_detail">Toques curtos ou longos em objetos (anexos, locais, lembretes) têm funções diferentes!</string>
+  <string name="tour_listactivity_final_title">Aproveite</string>
+  <string name="tour_listactivity_final_detail">Obrigado por usar o Omni Notes\n\nA alternativa de código-aberto produtiva e empolgante na hora de anotar.\n\nToque em\"Prosseguir\" para fechar o tour e fazer a sua primeira anotação!</string>
   <string name="drawer_open">gaveta aberta</string>
   <string name="drawer_close">gaveta fechada</string>
   <string name="reminder">lembrete</string>
   <string name="stroke_size">tamanho AVC</string>
+  <string name="note_thumbnail">miniatura de nota</string>
+  <string name="note_reminder_symbol">Símbolo do lembrete da nota</string>
 </resources>

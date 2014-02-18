@@ -118,11 +118,6 @@
                 </CheckBoxPreference>                                
             </PreferenceScreen>
             
-            <Preference
-                android:key="settings_tour_show_again"
-                android:summary="@string/settings_tour_show_again_summary"
-                android:title="@string/settings_tour_show_again" />
-
         </PreferenceScreen>
         
         
@@ -167,7 +162,13 @@
         </Preference>
     </PreferenceCategory>
     
+    
     <PreferenceCategory android:title="@string/settings_category_about" >
+        
+        <Preference
+            android:key="settings_tour_show_again"
+            android:summary="@string/settings_tour_show_again_summary"
+            android:title="@string/settings_tour_show_again" />
 	    
         <Preference
             android:key="settings_changelog"
