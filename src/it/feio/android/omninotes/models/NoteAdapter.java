@@ -38,7 +38,7 @@ import android.widget.TextView;
 public class NoteAdapter extends ArrayAdapter<Note> {
 	
 	private final String GHOST_CHAR = "*";	
-	private final int THUMBNAIL_SIZE = 200;	
+	private final int THUMBNAIL_SIZE = 150;	
 
 	private final Activity mActivity;
 	private final List<Note> values;
@@ -147,7 +147,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		
 
 		// Attachment thumbnail
-		if (expandedView) {
+		if (expandedView && !note.isLocked()) {
 			ImageView attachmentThumbnail = (ImageView) rowView.findViewById(R.id.attachmentThumbnail);
 			for (Attachment mAttachment : note.getAttachmentsList()) {
 					ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, attachmentThumbnail, THUMBNAIL_SIZE);
