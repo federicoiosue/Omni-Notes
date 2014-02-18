@@ -132,10 +132,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	private FragmentActivity mActivity;
 	private ShareActionProvider mShareActionProvider;
 	private LinearLayout reminder_layout;
-	private TextView datetime;
-	private String alarmDate = "", alarmTime = "";
-	private String dateTimeText = "";
-	private boolean timePickerCalledAlready = false;
+	private TextView datetime;	
 	private Uri attachmentUri;
 	private AttachmentAdapter mAttachmentAdapter;
 	private ExpandableHeightGridView mGridView;
@@ -145,6 +142,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 	private Note note;
 	private Note noteTmp;
+
+	// Reminder
+	int reminderYear, reminderMonth, reminderDay;
+	private String alarmDate = "", alarmTime = "";
+	private String dateTimeText = "";
+	private boolean timePickerCalledAlready = false;
 
 	// Audio recording
 	private static String recordName;
@@ -477,10 +480,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		
 		
 		// Footer dates of creation and last modification
-		String creation = noteTmp.getCreationShort(mActivity, date_time_format);
+		String creation = noteTmp.getCreationShort(mActivity);
 		((TextView) findViewById(R.id.creation)).append(creation.length() > 0 ? getString(R.string.creation) + " "
 				+ creation : "");
-		String lastModification = noteTmp.getLastModificationShort(mActivity, date_time_format);
+		String lastModification = noteTmp.getLastModificationShort(mActivity);
 		((TextView) findViewById(R.id.last_modification)).append(lastModification.length() > 0 ? getString(R.string.last_update) + " "
 				+ lastModification : "");
 		
@@ -547,10 +550,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 						// now.withYear(year);
 						// now.withMonthOfYear(monthOfYear);
 						// now.withDayOfMonth(dayOfMonth);
+						reminderYear = year;
+						reminderMonth = monthOfYear;
+						reminderDay = dayOfMonth;
 						alarmDate = DateHelper.onDateSet(year, monthOfYear, dayOfMonth,
 								Constants.DATE_FORMAT_SHORT_DATE);
 						Log.d(Constants.TAG, "Date set");
-						boolean is24HourMode = date_time_format.equals(Constants.DATE_FORMAT_SHORT);
+//						boolean is24HourMode = date_time_format.equals(Constants.DATE_FORMAT_SHORT);
 						RadialTimePickerDialog mRadialTimePickerDialog = RadialTimePickerDialog.newInstance(
 								new RadialTimePickerDialog.OnTimeSetListener() {
 
@@ -561,20 +567,23 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 										// Creation of string rapresenting alarm
 										// time
-										alarmTime = DateHelper.onTimeSet(hourOfDay, minute,
-												time_format);
+//										alarmTime = DateHelper.onTimeSet(hourOfDay, minute,
+//												time_format);
+										alarmTime = DateHelper.getTimeShort(mActivity, hourOfDay, minute);
 										datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate + " "
 												+ getString(R.string.at_time) + " " + alarmTime);
 
 										// Setting alarm time in milliseconds
-										Long alarm = DateHelper.getLongFromDateTime(alarmDate,
-												Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
-												time_format).getTimeInMillis();
-										noteTmp.setAlarm(alarm);										
+//										Long alarm = DateHelper.getLongFromDateTime(alarmDate,
+//												Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
+//												time_format).getTimeInMillis();
+										Calendar c = Calendar.getInstance();
+										c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
+										noteTmp.setAlarm(c.getTimeInMillis());										
 
 										Log.d(Constants.TAG, "Time set");
 									}
-								}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), is24HourMode);
+								}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), DateHelper.is24HourMode(mActivity));
 						mRadialTimePickerDialog.show(getSupportFragmentManager(), Constants.TAG);
 					}
 
@@ -601,8 +610,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	}
 
 	@Override
-	public void onDateSet(DatePicker v, int year, int month, int day) {
-		alarmDate = DateHelper.onDateSet(year, month, day, Constants.DATE_FORMAT_SHORT_DATE);
+	public void onDateSet(DatePicker v, int year, int monthOfYear, int dayOfMonth) {
+		reminderYear = year;
+		reminderMonth = monthOfYear;
+		reminderDay = dayOfMonth;
+		alarmDate = DateHelper.onDateSet(year, monthOfYear, dayOfMonth, Constants.DATE_FORMAT_SHORT_DATE);
 		if (!timePickerCalledAlready) {	// Used to avoid native bug that calls onPositiveButtonPressed in the onClose()
 			timePickerCalledAlready = true;
 			showTimePickerDialog(v);
@@ -610,17 +622,21 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	}
 
 	@Override
-	public void onTimeSet(TimePicker v, int hour, int minute) {
+	public void onTimeSet(TimePicker v, int hourOfDay, int minute) {
 
 		// Creation of string rapresenting alarm time
-		alarmTime = DateHelper.onTimeSet(hour, minute, time_format);
+//		alarmTime = DateHelper.onTimeSet(hour, minute, time_format);
+		alarmTime = DateHelper.getTimeShort(mActivity, hourOfDay, minute);
 		datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate
 				+ " " + getString(R.string.at_time) + " " + alarmTime);
 
 		// Setting alarm time in milliseconds
-		long alarmDateTime = DateHelper.getLongFromDateTime(alarmDate, Constants.DATE_FORMAT_SHORT_DATE,
-				alarmTime, time_format).getTimeInMillis();
-		noteTmp.setAlarm(alarmDateTime);
+//		long alarmDateTime = DateHelper.getLongFromDateTime(alarmDate, Constants.DATE_FORMAT_SHORT_DATE,
+//				alarmTime, time_format).getTimeInMillis();
+//		noteTmp.setAlarm(alarmDateTime);
+		Calendar c = Calendar.getInstance();
+		c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
+		noteTmp.setAlarm(c.getTimeInMillis());	
 	}
 	
 	
@@ -1250,17 +1266,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void saveNote(Boolean archive) {
-		
-		// If note is locked and security password has not been checked nothing have to be saved
-//		if (noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
-//			goHome();
-//			return;
-//		}
 
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent());	
-		noteTmp.setArchived(archive);
+		noteTmp.setArchived(archive == null ? noteTmp.isArchived() : archive);
 		
 		// Check if some text or attachments of any type have been inserted or
 		// is an empty note
@@ -1460,8 +1470,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		cal.setTimeInMillis(alarmDateTime);
 		alarmDate = DateHelper.onDateSet(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
 				cal.get(Calendar.DAY_OF_MONTH), Constants.DATE_FORMAT_SHORT_DATE);
-		alarmTime = DateHelper.onTimeSet(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
-				time_format);
+//		alarmTime = DateHelper.onTimeSet(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
+//				time_format);
+		alarmTime = DateHelper.getTimeShort(mActivity, cal.getTimeInMillis());
 		String dateTimeText = getString(R.string.alarm_set_on) + " " + alarmDate + " " + getString(R.string.at_time)
 				+ " " + alarmTime;
 		return dateTimeText;

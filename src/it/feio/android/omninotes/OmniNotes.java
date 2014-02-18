@@ -99,6 +99,8 @@ public class OmniNotes extends Application {
 		ctx.getResources().updateConfiguration(cfg, null);
 	}
 
+	
+	
 	class InitCacheTask extends AsyncTask<File, Void, Void> {
 		@Override
 		protected Void doInBackground(File... params) {

@@ -76,11 +76,11 @@
                 android:summary="@string/settings_enable_editor_links_summary"
                 android:title="@string/settings_enable_editor_links" >
             </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="settings_hours_format"
-                android:summary="@string/settings_hours_format_summary"
-                android:title="@string/settings_hours_format" />
+<!--             <CheckBoxPreference -->
+<!--                 android:defaultValue="true" -->
+<!--                 android:key="settings_hours_format" -->
+<!--                 android:summary="@string/settings_hours_format_summary" -->
+<!--                 android:title="@string/settings_hours_format" /> -->
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="settings_simple_calendar"

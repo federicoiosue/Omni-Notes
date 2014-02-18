@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
 
@@ -148,6 +149,11 @@ public class DateHelper {
 	
 
 
+	/**
+	 * @param mContext
+	 * @param date
+	 * @return
+	 */
 	public static String getDateTimeShort(Context mContext, Long date) {
 		if (date == null) 
 			return "";		
@@ -161,6 +167,44 @@ public class DateHelper {
 			flags = flags | DateUtils.FORMAT_SHOW_YEAR;
 		return DateUtils.formatDateTime(mContext, date, flags)
 				+ " " + DateUtils.formatDateTime(mContext, date, DateUtils.FORMAT_SHOW_TIME);
+	}
+	
+
+
+	/**
+	 * @param mContext
+	 * @param date
+	 * @return
+	 */
+	public static String getTimeShort(Context mContext, Long time) {
+		if (time == null) 
+			return "";
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(time);
+		return DateUtils.formatDateTime(mContext, time, DateUtils.FORMAT_SHOW_TIME);
+	}
+	
+
+	/**
+	 * @param mContext
+	 * @param hourOfDay
+	 * @param minute
+	 * @return
+	 */
+	public static String getTimeShort(Context mContext, int hourOfDay, int minute) {
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+		c.set(Calendar.MINUTE, minute);
+		return DateUtils.formatDateTime(mContext, c.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
+	}
+	
+	
+	public static boolean is24HourMode(Context mContext) {
+		boolean res = true;
+		Calendar c = Calendar.getInstance();
+		String timeFormatted = DateUtils.formatDateTime(mContext, c.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
+		res = !timeFormatted.toLowerCase().contains("am") && !timeFormatted.toLowerCase().contains("pm");
+		return res;
 	}
 	
 }

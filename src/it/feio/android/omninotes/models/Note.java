@@ -153,7 +153,7 @@ public class Note implements Parcelable {
 		this.creation = creationLong;
 	}
 
-	public String getCreationShort(Context mContext, String time_format) {
+	public String getCreationShort(Context mContext) {
 		return DateHelper.getDateTimeShort(mContext, creation);
 	}
 
@@ -161,7 +161,7 @@ public class Note implements Parcelable {
 		return lastModification;
 	}
 
-	public String getLastModificationShort(Context mContext, String time_format) {
+	public String getLastModificationShort(Context mContext) {
 		return DateHelper.getDateTimeShort(mContext, lastModification);
 	}
 
@@ -195,13 +195,14 @@ public class Note implements Parcelable {
 		return alarm;
 	}
 
-	public String getAlarmShort(String time_format) {
+	public String getAlarmShort(Context mContext) {
 		if (getAlarm() == null) 
 			return "";
-		Calendar c = Calendar.getInstance();
-		c.setTimeInMillis(Long.parseLong(getAlarm()));
-		SimpleDateFormat sdf = new SimpleDateFormat(time_format);
-		return sdf.format(c.getTimeInMillis());
+//		Calendar c = Calendar.getInstance();
+//		c.setTimeInMillis(Long.parseLong(getAlarm()));
+//		SimpleDateFormat sdf = new SimpleDateFormat(time_format);
+//		return sdf.format(c.getTimeInMillis());
+		return DateHelper.getDateTimeShort(mContext, Long.parseLong(getAlarm()));
 	}
 
 	public void setAlarm(String alarm) {

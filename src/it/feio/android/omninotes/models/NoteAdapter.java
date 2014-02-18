@@ -113,27 +113,27 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// Choosing which date must be shown depending on sorting criteria
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
 		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
-		String time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT
-				: Constants.DATE_FORMAT_SHORT_12;
+//		String time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT
+//				: Constants.DATE_FORMAT_SHORT_12;
 		// Creation
 		if (sort_column.equals(DbHelper.KEY_CREATION)) {
-			date.setText(mActivity.getString(R.string.creation) + " " + note.getCreationShort(mActivity, time_format));
+			date.setText(mActivity.getString(R.string.creation) + " " + note.getCreationShort(mActivity));
 		}
 		// Reminder
 		else if (sort_column.equals(DbHelper.KEY_ALARM)) {
-			String alarmShort = note.getAlarmShort(time_format);
+			String alarmShort = note.getAlarmShort(mActivity);
 			
 			if (alarmShort.length() == 0) {
 				date.setText(R.string.no_reminder_set);
 			} else {
 				date.setText(mActivity.getString(R.string.alarm_set_on) + " "
-					+ note.getAlarmShort(time_format));
+					+ note.getAlarmShort(mActivity));
 			}
 		}
 		// Others
 		else {
 			date.setText(mActivity.getString(R.string.last_update) + " "
-					+ note.getLastModificationShort(mActivity, time_format));
+					+ note.getLastModificationShort(mActivity));
 		}
 
 		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui

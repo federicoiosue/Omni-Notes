@@ -35,10 +35,10 @@ import android.widget.Toast;
 public class AlarmReceiver extends BroadcastReceiver {
 
 	@Override
-	public void onReceive(Context ctx, Intent intent) {
+	public void onReceive(Context mContext, Intent intent) {
 		try {
 
-//			PowerManager pm = (PowerManager) ctx
+//			PowerManager pm = (PowerManager) mContext
 //					.getSystemService(Context.POWER_SERVICE);
 //			PowerManager.WakeLock wl = pm.newWakeLock(
 //					PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
@@ -48,7 +48,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			try {			
 				Note note = (Note) intent.getExtras().getParcelable(Constants.INTENT_NOTE);
 
-				createNotification(ctx, note);
+				createNotification(mContext, note);
 			}
 
 			// Release the lock
@@ -57,19 +57,19 @@ public class AlarmReceiver extends BroadcastReceiver {
 			}
 
 		} catch (Exception e) {
-			Toast.makeText(ctx, e.getMessage(), Toast.LENGTH_LONG).show();
+			Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 
 	}
 
-	private void createNotification(Context ctx, Note note) {
+	private void createNotification(Context mContext, Note note) {
 		
 		// Retrieving preferences
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		
 		// Get localized time format
-		String time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT_TIME
-				: Constants.DATE_FORMAT_SHORT_TIME_12;
+//		String time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT_TIME
+//				: Constants.DATE_FORMAT_SHORT_TIME_12;
 
 		// Prepare text contents
 		String title = note.getTitle().length() > 0 ? note.getTitle() : note
@@ -78,13 +78,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 				Long.parseLong(note.getAlarm()),
 				Constants.DATE_FORMAT_SHORT_DATE)
 				+ ", "
-				+ DateHelper.getString(Long.parseLong(note.getAlarm()),
-						time_format);
+//				+ DateHelper.getString(Long.parseLong(note.getAlarm()),
+//						time_format);
+				+ DateHelper.getDateTimeShort(mContext, Long.parseLong(note.getAlarm()));
 		String text = note.getTitle().length() > 0 && note.getContent().length() > 0 ? note.getContent() : alarmText;
 		
 		// Notification building
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-				ctx).setSmallIcon(R.drawable.ic_stat_notification_icon)
+				mContext).setSmallIcon(R.drawable.ic_stat_notification_icon)
 				.setContentTitle(title).setContentText(text)
 				.setAutoCancel(true);
 		
@@ -111,25 +112,25 @@ public class AlarmReceiver extends BroadcastReceiver {
 		
 		// Sets up the Snooze and Dismiss action buttons that will appear in the
 		// big view of the notification.
-		Intent dismissIntent = new Intent(ctx, it.feio.android.omninotes.async.NotificationService.class);
+		Intent dismissIntent = new Intent(mContext, it.feio.android.omninotes.async.NotificationService.class);
 		dismissIntent.setAction(Constants.ACTION_DISMISS);
 		dismissIntent.putExtra(Constants.INTENT_NOTE, note);
-		PendingIntent piDismiss = PendingIntent.getService(ctx, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent piDismiss = PendingIntent.getService(mContext, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-		Intent snoozeIntent = new Intent(ctx, it.feio.android.omninotes.async.NotificationService.class);
+		Intent snoozeIntent = new Intent(mContext, it.feio.android.omninotes.async.NotificationService.class);
 		snoozeIntent.setAction(Constants.ACTION_SNOOZE);
 		snoozeIntent.putExtra(Constants.INTENT_NOTE, note);
-		PendingIntent piSnooze = PendingIntent.getService(ctx, 0, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent piSnooze = PendingIntent.getService(mContext, 0, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		
         //Sets the big view "big text" style  
 		mBuilder.addAction (R.drawable.ic_action_cancel_dark,
-       		ctx.getString(R.string.cancel), piDismiss)
+       		mContext.getString(R.string.cancel), piDismiss)
        .addAction (R.drawable.ic_action_alarms_dark,
-       		ctx.getString(R.string.snooze), piSnooze);
+       		mContext.getString(R.string.snooze), piSnooze);
 		
 
 		// Next create the bundle and initialize it
-		Intent intent = new Intent(ctx, it.feio.android.omninotes.DetailActivity.class);		
+		Intent intent = new Intent(mContext, it.feio.android.omninotes.DetailActivity.class);		
 		// Add this bundle to the intent
 		intent.putExtras(bundle);
 		// Sets the Activity to start in a new, empty task
@@ -138,7 +139,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 	    intent.setAction(Long.toString(System.currentTimeMillis()));
 
 		// Creates the PendingIntent
-		PendingIntent notifyIntent = PendingIntent.getActivity(ctx, 0, intent,
+		PendingIntent notifyIntent = PendingIntent.getActivity(mContext, 0, intent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
 		// Puts the PendingIntent into the notification builder
@@ -149,7 +150,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		
 		// Notifications are issued by sending them to the
 		// NotificationManager system service.
-		NotificationManager mNotificationManager = (NotificationManager) ctx
+		NotificationManager mNotificationManager = (NotificationManager) mContext
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		// Builds an anonymous Notification object from the builder, and
 		// passes it to the NotificationManager

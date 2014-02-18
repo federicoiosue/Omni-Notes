@@ -83,7 +83,7 @@ public class BaseActivity extends ActionBarActivity {
 
 	protected String navigation;
 
-	protected String date_time_format, time_format;
+//	protected String date_time_format, time_format;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -111,10 +111,10 @@ public class BaseActivity extends ActionBarActivity {
 		// Preloads shared preferences for all derived classes
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		// The localized (12 or 24 hours) time format is initialized
-		date_time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT
-				: Constants.DATE_FORMAT_SHORT_12;
-		time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT_TIME
-				: Constants.DATE_FORMAT_SHORT_TIME_12;
+//		date_time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT
+//				: Constants.DATE_FORMAT_SHORT_12;
+//		time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT_TIME
+//				: Constants.DATE_FORMAT_SHORT_TIME_12;
 		
 		// Preparation of DbHelper
 		db = new DbHelper(this);
