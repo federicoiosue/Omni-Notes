@@ -16,6 +16,11 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.3.7" changeDate="Feb 18, 2014">
+        <changelogtext>Added animated transition to sketch screen</changelogtext>
+        <changelogtext>[u]Fixed[/u] Casual crash on note saving</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="4.3.6" changeDate="Feb 17, 2014">
         <changelogtext>[u]Fixed[/u] Missing note archive/unarchive action from inside detail</changelogtext>
     </changelogversion>

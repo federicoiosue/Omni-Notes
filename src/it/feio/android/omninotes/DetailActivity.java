@@ -1033,8 +1033,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		}
 	}
 
-	
-	
 
 	
 	private void takePhoto() {
@@ -1065,6 +1063,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		Intent intent = new Intent(this, SketchActivity.class);		
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		startActivityForResult(intent, SKETCH);
+		if (prefs.getBoolean("settings_enable_animations", true)) {
+			overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
+		}
 	}
 
 	
@@ -1211,6 +1212,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent());	
+//		noteTmp.setArchived(archive == null ? noteTmp.isArchived() : archive);
 		noteTmp.setArchived(archive);
 		
 		// Check if some text or attachments of any type have been inserted or
