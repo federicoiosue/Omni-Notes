@@ -141,6 +141,7 @@
     <string name="expanded_view">Expanded view</string>
     <string name="add_shortcut">Add shortcut</string>
     <string name="shortcut_added">Shortcut added to home screen</string>
+    <string name="shortcut_note_deleted">The shortcut points to a deleted note</string>
     
         	 
     <!-- Settings -->

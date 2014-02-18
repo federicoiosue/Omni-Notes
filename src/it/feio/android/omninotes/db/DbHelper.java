@@ -263,7 +263,14 @@ public class DbHelper extends SQLiteOpenHelper {
 		String whereCondition = " WHERE "
 								+ KEY_ID + " = " + id;
 		
-		return getNotes(whereCondition, true).get(0);
+		List<Note> notes = getNotes(whereCondition, true);
+		Note note;
+		if (notes.size() > 0) {
+			note = notes.get(0);
+		} else {
+			note = null;
+		}
+		return note;
 	}
 
 	

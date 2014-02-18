@@ -95,6 +95,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TimePicker;
 
@@ -170,15 +171,15 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
+
+		mActivity = this;		
+		resultIntent = new Intent();
 		
 		// Restored temp note after orientation change
 		if (savedInstanceState != null) {
 			noteTmp = savedInstanceState.getParcelable("note");
 			attachmentUri = savedInstanceState.getParcelable("attachmentUri");
 		}
-
-		mActivity = this;		
-		resultIntent = new Intent();
 
 		// Show the Up button in the action bar.
 		if (getSupportActionBar() != null) {
@@ -273,6 +274,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())) {
 			DbHelper db = new DbHelper(this);
 			noteTmp = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+			// Checks if the note pointed from the shortcut has been deleted
+			if (noteTmp == null) {	
+				showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
+				finish();
+			}
 			i.setAction(null);
 		}
 	}
