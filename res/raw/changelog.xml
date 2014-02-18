@@ -18,6 +18,7 @@
 
     <changelogversion versionName="4.4.0 Beta 2" changeDate="Feb 18, 2014">
         <changelogtext>Removed 12/24 hours choosing option: the format is now application language dependent</changelogtext>
+        <changelogtext>Moved App Tour option to About section in settings </changelogtext>
         <changelogtext>On password requests the focus will be acquired from the password field and the keyboard will appear automatically</changelogtext>   
     </changelogversion>
 
