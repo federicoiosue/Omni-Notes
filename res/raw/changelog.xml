@@ -20,6 +20,7 @@
         <changelogtext>Removed 12/24 hours choosing option: the format is now application language dependent</changelogtext>
         <changelogtext>Moved App Tour option to About section in settings </changelogtext>
         <changelogtext>[u]Fixed[/u] Crash on opening shortcut to deleted note</changelogtext>   
+        <changelogtext>[u]Fixed[/u] Crash on audio recording playback</changelogtext>   
         <changelogtext>[u]Fixed[/u] Empty note saving</changelogtext>   
     </changelogversion>
 

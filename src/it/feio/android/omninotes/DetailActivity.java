@@ -56,6 +56,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.media.MediaPlayer;
@@ -394,6 +396,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				
 			}
 		});
+		
 		// Long click events for images in gridview (removes image)
 		mGridView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
@@ -405,7 +408,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 				alertDialogBuilder.setMessage(R.string.delete_selected_image)
 						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								noteTmp.getAttachmentsList().remove(position);
@@ -413,7 +415,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 								mGridView.autoresize();
 							}
 						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();
@@ -423,7 +424,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				// If is an image user could want to sketch it!
 				if (Constants.MIME_TYPE_IMAGE.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
 					alertDialogBuilder.setNeutralButton(R.string.sketch, new DialogInterface.OnClickListener() {
-
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								takeSketch(mAttachmentAdapter.getItem(position));
@@ -1517,7 +1517,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		} else {
 			isPlayingView = v;
 			startPlaying(uri);	
-			recordingBitmap = ((BitmapDrawable)((ImageView)v).getDrawable()).getBitmap();
+			Drawable d = ((ImageView)v).getDrawable();
+			if (BitmapDrawable.class.isAssignableFrom(d.getClass())) {
+				recordingBitmap = ((BitmapDrawable)d).getBitmap();
+			} else {
+				recordingBitmap = ((BitmapDrawable)((TransitionDrawable)d).getDrawable(1)).getBitmap();
+			}
 			((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 		}
 	}
