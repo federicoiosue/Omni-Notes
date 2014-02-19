@@ -17,6 +17,7 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="4.4.0 Beta 3" changeDate="Feb 19, 2014">  
+        <changelogtext>Parallelized many operation to improve performances on multicore devices with installed Android >= Honeycomb</changelogtext>  
         <changelogtext>[u]Fixed[/u] Locked notes thumbs are no more shown in notes list</changelogtext>  
         <changelogtext>[u]Fixed[/u] Empty note creation misbehavior when created from inside a tag</changelogtext>   
         <changelogtext>[u]Fixed[/u] Crash when pressing delete key on empty first checklist item</changelogtext>   

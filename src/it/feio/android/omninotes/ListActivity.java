@@ -113,6 +113,7 @@ public class ListActivity extends BaseActivity {
 	private int listViewPosition; 
 
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -149,7 +150,11 @@ public class ListActivity extends BaseActivity {
 
 		// Launching update task
 		UpdaterTask task = new UpdaterTask(this);
-		task.execute();
+		if (Build.VERSION.SDK_INT >= 11) {
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		} else {
+			task.execute();
+		}
 		
 		// Initialization of image cache
 		initThumbnailCache();

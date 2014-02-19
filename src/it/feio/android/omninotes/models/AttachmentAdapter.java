@@ -22,9 +22,12 @@ import it.feio.android.omninotes.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +61,7 @@ public class AttachmentAdapter extends BaseAdapter {
 
 	
 	// create a new ImageView for each item referenced by the Adapter
+	@SuppressLint("NewApi")
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		Log.v(Constants.TAG, "GridView called for position " + position);
@@ -79,7 +83,11 @@ public class AttachmentAdapter extends BaseAdapter {
 		Attachment attachment = attachmentsList.get(position);
 			
 		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, imageView, THUMBNAIL_SIZE);
-		task.execute(attachment);
+		if (Build.VERSION.SDK_INT >= 11) {
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, attachment);
+		} else {
+			task.execute(attachment);
+		}
 		
 		return imageView;
 	}

@@ -679,6 +679,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	}
 
 	
+	@SuppressLint("NewApi")
 	private void setAddress(View locationView) {
 		class LocatorTask extends AsyncTask<Void, Void, String> {
 			private TextView mlocationTextView;
@@ -726,7 +727,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		}
 
 		LocatorTask task = new LocatorTask(locationTextView);
-		task.execute();
+		
+		if (Build.VERSION.SDK_INT >= 11) {
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		} else {
+			task.execute();
+		}
 	}
 	
 	

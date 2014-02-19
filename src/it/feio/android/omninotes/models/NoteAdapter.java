@@ -23,9 +23,12 @@ import it.feio.android.omninotes.utils.Constants;
 import java.util.HashMap;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +61,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		inflater = (LayoutInflater) mActivity.getSystemService(mActivity.LAYOUT_INFLATER_SERVICE);
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
@@ -151,7 +155,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			ImageView attachmentThumbnail = (ImageView) rowView.findViewById(R.id.attachmentThumbnail);
 			for (Attachment mAttachment : note.getAttachmentsList()) {
 					ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, attachmentThumbnail, THUMBNAIL_SIZE);
-					task.execute(mAttachment);
+					if (Build.VERSION.SDK_INT >= 11) {
+						task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
+					} else {
+						task.execute(mAttachment);
+					}
 					attachmentThumbnail.setVisibility(View.VISIBLE);
 					break;
 			}
