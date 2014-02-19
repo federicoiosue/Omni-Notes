@@ -219,6 +219,7 @@
     <string name="settings_tour_show_again">App tour</string>
     <string name="settings_tour_show_again_summary">Show once again application instructions tour</string>
     <string name="backup_include_settings">Include settings (with password)</string>
+    <string name="settings_included">settings included</string>
 
     
     <!-- Instructions -->
