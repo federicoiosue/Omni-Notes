@@ -353,7 +353,10 @@ public class Note implements Parcelable {
 	
 	public boolean isEmpty() {
 		Note emptyNote = new Note();
+		// Field to exclude for comparison
 		emptyNote.setCreation(getCreation());
+		emptyNote.setTag(getTag());
+		// Check
 		if (isChanged(emptyNote))
 			return false;
 		else 
