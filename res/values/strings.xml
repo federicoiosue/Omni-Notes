@@ -218,6 +218,7 @@
     <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
     <string name="settings_tour_show_again">App tour</string>
     <string name="settings_tour_show_again_summary">Show once again application instructions tour</string>
+    <string name="backup_include_settings">Include settings (with password)</string>
 
     
     <!-- Instructions -->
