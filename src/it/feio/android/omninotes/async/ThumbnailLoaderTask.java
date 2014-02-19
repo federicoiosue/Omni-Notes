@@ -36,6 +36,7 @@ public class ThumbnailLoaderTask extends
 	private final WeakReference<ImageView> imageViewReference;
 	private int width = 100;
 	private int height = 100;
+	private boolean wasCached = true;
 
 	public ThumbnailLoaderTask(Activity activity, ImageView imageView,
 			int thumbnailSize) {
@@ -73,6 +74,7 @@ public class ThumbnailLoaderTask extends
 			bmp = app.getBitmapFromCache(cacheKey);
 			// Otherwise creates thumbnail
 			if (bmp == null) {
+				wasCached = false;
 				bmp = ThumbnailUtils.createVideoThumbnail(path,
 						Thumbnails.MINI_KIND);
 				bmp = createVideoThumbnail(bmp);
@@ -86,6 +88,7 @@ public class ThumbnailLoaderTask extends
 				bmp = app.getBitmapFromCache(cacheKey);
 				// Otherwise creates thumbnail
 				if (bmp == null) {
+					wasCached = false;
 					try {
 						bmp = checkIfBroken(BitmapHelper.decodeSampledFromUri(
 								mActivity, mAttachment.getUri(), width, height));
@@ -107,6 +110,7 @@ public class ThumbnailLoaderTask extends
 			bmp = app.getBitmapFromCache(cacheKey);
 			// Otherwise creates thumbnail
 			if (bmp == null) {
+				wasCached = false;
 				String text = "";
 				try {
 					text = DateHelper.getLocalizedDateTime(
@@ -133,17 +137,34 @@ public class ThumbnailLoaderTask extends
 		return bmp;
 	}
 
+	
 	@Override
 	protected void onPostExecute(Bitmap bitmap) {
-//		if (imageViewReference != null && bitmap != null) {
-//			final ImageView imageView = imageViewReference.get();
-//			if (imageView != null) {
-//				imageView.setImageBitmap(bitmap);
-//			}
-//		}
-		fadeInImage(bitmap);
+		// The bitmap will now be attached to view
+		if (imageViewReference != null && bitmap != null) {
+			final ImageView imageView = imageViewReference.get();
+			if (imageView != null) {
+				
+				// If the bitmap was already cached it will be directly attached to view
+				if (wasCached) {
+					imageView.setImageBitmap(bitmap);				
+				} 
+				
+				// Otherwise a fading transaction will be used to shot it
+				else { 
+					// Transition with transparent drawabale and the final bitmap
+					final TransitionDrawable td = new TransitionDrawable(new Drawable[] {
+							new ColorDrawable(Color.TRANSPARENT), new BitmapDrawable(mActivity.getResources(), bitmap) });	
+					if (td != null) {
+						imageView.setImageDrawable(td);
+						td.startTransition(FADE_IN_TIME);
+					}
+				}
+			}
+		}
 	}
 
+	
 	/**
 	 * Draws a watermark on ImageView to highlight videos
 	 * 
@@ -166,6 +187,7 @@ public class ThumbnailLoaderTask extends
 		return thumbnail;
 	}
 
+	
 	private Bitmap checkIfBroken(Bitmap bmp) {
 
 		// In case no thumbnail can be extracted from video
@@ -177,28 +199,5 @@ public class ThumbnailLoaderTask extends
 		return bmp;
 	}
 	
-	
-	private void fadeInImage(Bitmap bitmap) {
-
-		if (imageViewReference != null && bitmap != null) {
-			final ImageView imageView = imageViewReference.get();
-			if (imageView != null) {
-				imageView.setImageBitmap(bitmap);
-
-				// Transition drawable with a transparent drwabale and the final
-				// bitmap
-				final TransitionDrawable td = new TransitionDrawable(new Drawable[] { new ColorDrawable(Color.TRANSPARENT),
-						new BitmapDrawable(mActivity.getResources(), bitmap) });
-				// Set background to loading bitmap
-				// imageView.setBackgroundDrawable(
-				// new BitmapDrawable(mLoadingBitmap));
-
-				if (td != null) {
-					imageView.setImageDrawable(td);
-					td.startTransition(FADE_IN_TIME);
-				} 
-			}
-		}
-	}
 
 }
