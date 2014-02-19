@@ -20,7 +20,6 @@ import it.feio.android.omninotes.async.ThumbnailLoaderTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
 
-import java.util.HashMap;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -30,6 +29,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +45,8 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 	private final Activity mActivity;
 	private final List<Note> values;
-	private HashMap<Integer, Boolean> selectedItems = new HashMap<Integer, Boolean>();
+//	private HashMap<Integer, Boolean> selectedItems = new HashMap<Integer, Boolean>();
+	private SparseBooleanArray selectedItems = new SparseBooleanArray();
 	private boolean expandedView;
 	private int layout;
 	private LayoutInflater inflater;
@@ -157,11 +158,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		}
 
 		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui
-		if (selectedItems.get(position) != null) {
+		if (selectedItems.get(position)) {
 			holder.cardLayout.setBackgroundColor(mActivity.getResources().getColor(
 					R.color.list_bg_selected));
 		} else {
-			restoreDrawable(note, holder.cardLayout);
+			restoreDrawable(note, holder.cardLayout, holder);
 		}
 		
 
@@ -182,7 +183,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		return convertView;
 	}
 
-	public HashMap<Integer, Boolean> getSelectedItems() {
+	public SparseBooleanArray getSelectedItems() {
 		return selectedItems;
 	}
 
@@ -191,7 +192,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	}
 
 	public void removeSelectedItem(Integer selectedItem) {
-		this.selectedItems.remove(selectedItem);
+		this.selectedItems.delete(selectedItem);
 	}
 
 	public void clearSelectedItems() {
@@ -201,20 +202,29 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 	
 	public void restoreDrawable(Note note, View v) {
+		restoreDrawable(note, v, null);
+	}
+	
+	
+	public void restoreDrawable(Note note, View v, NoteAdapterViewHolder holder) {
 		final int paddingBottom = v.getPaddingBottom(), paddingLeft = v.getPaddingLeft();
 	    final int paddingRight = v.getPaddingRight(), paddingTop = v.getPaddingTop();
 	    v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
-	    colorNote(note, v);
+	    colorNote(note, v, holder);
 	}
 	
 
+	@SuppressWarnings("unused")
+	private void colorNote(Note note, View v) {
+		colorNote(note, v, null);
+	}
 
 	/**
 	 * Color of tag marker if note is tagged a function is active in preferences
 	 * @param note
 	 * @param rowView
 	 */
-	private void colorNote(Note note, View v) {
+	private void colorNote(Note note, View v, NoteAdapterViewHolder holder) {
 
 		// Checking preference
 		if (PreferenceManager.getDefaultSharedPreferences(mActivity).getBoolean("settings_enable_tag_marker", true)) {
@@ -228,7 +238,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 						"settings_enable_tag_marker_full", false)) {
 					v.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
 				} else {
-					v.findViewById(R.id.tag_marker).setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+					if (holder != null) {
+						holder.tagMarker.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+					} else {
+						v.findViewById(R.id.tag_marker).setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+					}
 				}
 			}
 		}

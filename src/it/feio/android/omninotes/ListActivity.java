@@ -31,9 +31,7 @@ import it.feio.android.omninotes.utils.StorageManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -109,7 +107,7 @@ public class ListActivity extends BaseActivity {
 	private TextView empyListItem;
 	private boolean showListAnimation = true;
 	private AnimationDrawable jinglesAnimation;
-	private LruCache<String, Bitmap> mMemoryCache;
+//	private LruCache<String, Bitmap> mMemoryCache;
 	private int listViewPosition; 
 
 
@@ -157,25 +155,25 @@ public class ListActivity extends BaseActivity {
 		}
 		
 		// Initialization of image cache
-		initThumbnailCache();
+//		initThumbnailCache();
 	}
 	
 	
 	
 	
-	private void initThumbnailCache() {
-		final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-		// Use 1/8th of the available memory for this memory cache.
-		final int cacheSize = maxMemory / 8;
-		mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
-//			@Override
-//			protected int sizeOf(String key, Bitmap bitmap) {
-//				// The cache size will be measured in kilobytes rather than
-//				// number of items.
-//				return bitmap.getByteCount() / 1024;
-//			}
-		};
-	}
+//	private void initThumbnailCache() {
+//		final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+//		// Use 1/8th of the available memory for this memory cache.
+//		final int cacheSize = maxMemory / 8;
+//		mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
+////			@Override
+////			protected int sizeOf(String key, Bitmap bitmap) {
+////				// The cache size will be measured in kilobytes rather than
+////				// number of items.
+////				return bitmap.getByteCount() / 1024;
+////			}
+//		};
+//	}
 
 
 
@@ -304,12 +302,18 @@ public class ListActivity extends BaseActivity {
 			// the CAB is removed. By default, selected items are deselected/unchecked.
 			
 			
-	    	Iterator it = mAdapter.getSelectedItems().entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry mapEntry = (Map.Entry) it.next();
-				int i = (Integer) mapEntry.getKey();
-				if (mAdapter.getCount() > i && mAdapter.getItem(i) != null && listView.getChildAt(i) != null) {
-					mAdapter.restoreDrawable(mAdapter.getItem(i), listView.getChildAt(i).findViewById(R.id.card_layout));
+//	    	Iterator it = mAdapter.getSelectedItems().entrySet().iterator();
+//			while (it.hasNext()) {
+//				Map.Entry mapEntry = (Map.Entry) it.next();
+//				int i = (Integer) mapEntry.getKey();
+//				if (mAdapter.getCount() > i && mAdapter.getItem(i) != null && listView.getChildAt(i) != null) {
+//					mAdapter.restoreDrawable(mAdapter.getItem(i), listView.getChildAt(i).findViewById(R.id.card_layout));
+//				}
+//			}
+			for (int i = 0; i < mAdapter.getSelectedItems().size(); i++) {
+				int key = mAdapter.getSelectedItems().keyAt(i);
+				if	(mAdapter.getCount() > key && mAdapter.getItem(key) != null && listView.getChildAt(key) != null) {
+					mAdapter.restoreDrawable(mAdapter.getItem(key), listView.getChildAt(key).findViewById(R.id.card_layout));
 				}
 			}
 
