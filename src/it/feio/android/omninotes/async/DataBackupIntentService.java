@@ -2,10 +2,13 @@ package it.feio.android.omninotes.async;
 
 import it.feio.android.omninotes.ListActivity;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -177,7 +180,14 @@ public class DataBackupIntentService extends IntentService {
 	private boolean exportAttachments(File backupDir) {
 		File attachmentsDir = StorageManager.getAttachmentDir(this);
 		File destinationattachmentsDir = new File(backupDir, attachmentsDir.getName());
-		return (StorageManager.copyDirectory(attachmentsDir, destinationattachmentsDir));
+		
+		DbHelper db = new DbHelper(this);
+		ArrayList<Attachment> list = db.getAllAttachments();
+		
+		for (Attachment attachment : list) {
+			StorageManager.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri().getPath()));
+		}
+		return true;
 	}
 
 	
@@ -204,6 +214,9 @@ public class DataBackupIntentService extends IntentService {
 	 */
 	private boolean importAttachments(File backupDir) {
 		File attachmentsDir = StorageManager.getAttachmentDir(this);
+		// Clearing
+		StorageManager.delete(this, attachmentsDir.getAbsolutePath());
+		// Moving back
 		File backupAttachmentsDir = new File(backupDir, attachmentsDir.getName());
 		return (StorageManager.copyDirectory(backupAttachmentsDir, attachmentsDir));
 	}
