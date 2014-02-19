@@ -246,6 +246,15 @@ public class StorageManager {
 	}
 	
 	
+	
+	public static File getCacheDir(Context mContext) {
+		File dir = mContext.getExternalCacheDir();		
+		if (!dir.exists())
+			dir.mkdirs();
+		return dir;
+	}
+	
+	
 
 	public static File getExternalStoragePublicDir() {
 		File dir = new File(Environment.getExternalStorageDirectory() + File.separator + Constants.TAG + File.separator);		

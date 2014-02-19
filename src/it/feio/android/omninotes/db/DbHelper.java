@@ -492,19 +492,42 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	
 	/**
-	 * Retrieves all attachments related to specifi note
+	 * Retrieves all attachments related to specific note
 	 * @param note
 	 * @return List of attachments
 	 */
-	public ArrayList<Attachment> getNoteAttachments(Note note) {
+	public ArrayList<Attachment> getNoteAttachments(Note note) {		
+		String whereCondition = " WHERE " + KEY_ATTACHMENT_NOTE_ID + " = " + note.get_id();
+		return getAttachments(whereCondition);
+	}
+
+
+	
+	/**
+	 * Retrieves all attachments
+	 * @param note
+	 * @return List of attachments
+	 */
+	public ArrayList<Attachment> getAllAttachments() {		
+		return getAttachments("");
+	}
+
+
+	
+	/**
+	 * Retrieves attachments using a condition passed as parameter
+	 * @param note
+	 * @return List of attachments
+	 */
+	public ArrayList<Attachment> getAttachments(String whereCondition) {
 		
 		ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
 		String sql = "SELECT " 
 						+ KEY_ATTACHMENT_ID + "," 
 						+ KEY_ATTACHMENT_URI + ","
 						+ KEY_ATTACHMENT_MIME_TYPE
-					+ " FROM " + TABLE_ATTACHMENTS 
-					+ " WHERE " + KEY_ATTACHMENT_NOTE_ID + " = " + note.get_id();
+					+ " FROM " + TABLE_ATTACHMENTS
+					+ whereCondition;
 		SQLiteDatabase db = null;
 		Cursor cursor = null;
 

@@ -345,8 +345,6 @@ public class SettingsActivity extends PreferenceActivity {
 			public boolean onPreferenceClick(Preference arg0) {
 				Intent changelogIntent = new Intent(activity, ChangelogActivity.class);
 				startActivity(changelogIntent);
-//				ChangelogFragment cf = new ChangelogFragment();
-//				cf.show(getFragmentManager(), Constants.TAG);
 				return false;
 			}
 		});
@@ -362,6 +360,7 @@ public class SettingsActivity extends PreferenceActivity {
 		changelog.setSummary(versionString);
 
 		
+		
 		// Settings reset
 		Preference resetData = findPreference("reset_all_data");
 		resetData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -369,11 +368,6 @@ public class SettingsActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-				
-				// Inflate layout
-//				LayoutInflater inflater = activity.getLayoutInflater();
-//				View v = inflater.inflate(R.layout.reset_data_dialog_layout, null);
-//				alertDialogBuilder.setView(v);
 
 				// set dialog message
 				alertDialogBuilder
@@ -386,10 +380,8 @@ public class SettingsActivity extends PreferenceActivity {
 								StorageManager.delete(activity, db.getAbsolutePath());
 								File attachmentsDir = StorageManager.getAttachmentDir(activity);
 								StorageManager.delete(activity, attachmentsDir.getAbsolutePath());
-//								Intent intent = new Intent(activity, ListActivity.class);
-//								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-//								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//							    startActivity(intent);
+								File cacheDir = StorageManager.getCacheDir(activity);
+								StorageManager.delete(activity, cacheDir.getAbsolutePath());
 								restartApp();
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
