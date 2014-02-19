@@ -41,7 +41,7 @@ import android.widget.TextView;
 public class NoteAdapter extends ArrayAdapter<Note> {
 	
 	private final String GHOST_CHAR = "*";	
-	private final int THUMBNAIL_SIZE = 150;	
+	private final int THUMBNAIL_SIZE = 200;	
 
 	private final Activity mActivity;
 	private final List<Note> values;
@@ -66,12 +66,31 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		Note note = values.get(position);
+		
+		NoteAdapterViewHolder holder;
+	    if (convertView == null) {
+	    	convertView = inflater.inflate(layout, parent, false);
+	    	
+	    	holder = new NoteAdapterViewHolder();
+	    	
+	    	holder.tagMarker = convertView.findViewById(R.id.tag_marker);
+	    	holder.cardLayout = convertView.findViewById(R.id.card_layout);
 
-		View rowView = inflater.inflate(layout, parent, false);
+	    	holder.title = (TextView) convertView.findViewById(R.id.note_title);
+	    	holder.content = (TextView) convertView.findViewById(R.id.note_content);
+	    	holder.date = (TextView) convertView.findViewById(R.id.note_date);
+	    	
+	    	holder.archiveIcon = (ImageView) convertView.findViewById(R.id.archivedIcon);
+	    	holder.locationIcon = (ImageView) convertView.findViewById(R.id.locationIcon);
+	    	holder.alarmIcon = (ImageView) convertView.findViewById(R.id.alarmIcon);
+	    	holder.lockedIcon = (ImageView) convertView.findViewById(R.id.lockedIcon);
 
-		TextView title = (TextView) rowView.findViewById(R.id.note_title);
-		TextView content = (TextView) rowView.findViewById(R.id.note_content);
-		TextView date = (TextView) rowView.findViewById(R.id.note_date);
+	    	holder.attachmentThumbnail = (ImageView) convertView.findViewById(R.id.attachmentThumbnail);	    	
+	    	
+	    	convertView.setTag(holder);
+	    } else {
+	        holder = (NoteAdapterViewHolder) convertView.getTag();
+	    }
 		
 		// Defining title and content texts	
 		String titleText, contentText;
@@ -94,25 +113,22 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		}
 
 		// Setting note title	
-		title.setText(titleText);
+//		if (holder.title != null)
+			holder.title.setText(titleText);
 		
 		// Setting note content	
-		content.setText(contentText);
-		content.setVisibility(View.VISIBLE);
+		holder.content.setText(contentText);
+		holder.content.setVisibility(View.VISIBLE);
 		
 
 		// Evaluates the archived state...
-		ImageView archiveIcon = (ImageView)rowView.findViewById(R.id.archivedIcon);
-		archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
+		holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
 		// ... the location
-		ImageView locationIcon = (ImageView)rowView.findViewById(R.id.locationIcon);
-		locationIcon.setVisibility(note.getLongitude() != null ? View.VISIBLE : View.GONE);
+		holder.locationIcon.setVisibility(note.getLongitude() != null ? View.VISIBLE : View.GONE);
 		// ... the presence of an alarm
-		ImageView alarmIcon = (ImageView)rowView.findViewById(R.id.alarmIcon);
-		alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
+		holder.alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
 		// ... the locked with password state	
-		ImageView lockedIcon = (ImageView)rowView.findViewById(R.id.lockedIcon);
-		lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
+		holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
 		
 		// Choosing which date must be shown depending on sorting criteria
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
@@ -121,51 +137,49 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 //				: Constants.DATE_FORMAT_SHORT_12;
 		// Creation
 		if (sort_column.equals(DbHelper.KEY_CREATION)) {
-			date.setText(mActivity.getString(R.string.creation) + " " + note.getCreationShort(mActivity));
+			holder.date.setText(mActivity.getString(R.string.creation) + " " + note.getCreationShort(mActivity));
 		}
 		// Reminder
 		else if (sort_column.equals(DbHelper.KEY_ALARM)) {
 			String alarmShort = note.getAlarmShort(mActivity);
 			
 			if (alarmShort.length() == 0) {
-				date.setText(R.string.no_reminder_set);
+				holder.date.setText(R.string.no_reminder_set);
 			} else {
-				date.setText(mActivity.getString(R.string.alarm_set_on) + " "
+				holder.date.setText(mActivity.getString(R.string.alarm_set_on) + " "
 					+ note.getAlarmShort(mActivity));
 			}
 		}
 		// Others
 		else {
-			date.setText(mActivity.getString(R.string.last_update) + " "
+			holder.date.setText(mActivity.getString(R.string.last_update) + " "
 					+ note.getLastModificationShort(mActivity));
 		}
 
 		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui
-		View v = rowView.findViewById(R.id.card_layout);
 		if (selectedItems.get(position) != null) {
-			v.setBackgroundColor(mActivity.getResources().getColor(
+			holder.cardLayout.setBackgroundColor(mActivity.getResources().getColor(
 					R.color.list_bg_selected));
 		} else {
-			restoreDrawable(note, v);
+			restoreDrawable(note, holder.cardLayout);
 		}
 		
 
 		// Attachment thumbnail
 		if (expandedView && !note.isLocked()) {
-			ImageView attachmentThumbnail = (ImageView) rowView.findViewById(R.id.attachmentThumbnail);
 			for (Attachment mAttachment : note.getAttachmentsList()) {
-					ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, attachmentThumbnail, THUMBNAIL_SIZE);
+					ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, holder.attachmentThumbnail, THUMBNAIL_SIZE);
 					if (Build.VERSION.SDK_INT >= 11) {
 						task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
 					} else {
 						task.execute(mAttachment);
 					}
-					attachmentThumbnail.setVisibility(View.VISIBLE);
+					holder.attachmentThumbnail.setVisibility(View.VISIBLE);
 					break;
 			}
 		}
 		
-		return rowView;
+		return convertView;
 	}
 
 	public HashMap<Integer, Boolean> getSelectedItems() {
@@ -219,6 +233,5 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			}
 		}
 	}
-
 
 }
