@@ -272,6 +272,19 @@ public class StorageManager {
 	}
 	
 	
+	public static File getDefaultSharedPreferences(Context mContext){
+		File appData = mContext.getFilesDir().getParentFile();
+		String packageName = mContext.getApplicationContext().getPackageName();
+		File prefsPath = new File(appData 
+									+ System.getProperty("file.separator") 
+									+ "shared_prefs" 
+									+ System.getProperty("file.separator") 
+									+ packageName 
+									+ "_preferences.xml");
+		return prefsPath;
+	}
+	
+	
 	/**
 	 * Returns a directory size in bytes
 	 * @param directory

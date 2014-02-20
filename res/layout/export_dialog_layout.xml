@@ -34,8 +34,14 @@
         android:id="@+id/backup_existing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#ff0000"
         android:gravity="center_horizontal"
+        android:textColor="#ff0000"
         android:textSize="12sp" />
+
+    <CheckBox
+        android:id="@+id/backup_include_settings"
+        android:text="@string/backup_include_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -177,9 +177,18 @@ public class SettingsActivity extends PreferenceActivity {
 								long size = StorageManager.getSize(backupDir) / 1024;
 								String sizeString = size > 1024 ? size/1024 + "Mb" : size + "Kb";
 								
+								// Check preference presence
+								String prefName = StorageManager.getDefaultSharedPreferences(activity).getName();
+								boolean hasPreferences = (new File(backupDir, prefName)).exists();
+								
+								String message = getString(R.string.confirm_restoring_backup) + " " 
+												+ backups[position] 
+												+ " (" + sizeString
+												+ (hasPreferences ? " " + getString(R.string.settings_included) : "")
+												+ ")";
+								
 								// Set dialog message and button
-								alertDialogBuilder.setMessage(
-										getString(R.string.confirm_restoring_backup) + " " + backups[position] + " (" + sizeString + ")")
+								alertDialogBuilder.setMessage(message)
 										.setPositiveButton(R.string.confirm, new OnClickListener() {
 											
 											@Override

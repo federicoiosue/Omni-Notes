@@ -64,13 +64,16 @@ public class DataBackupIntentService extends IntentService {
 		// Attachments backup
 		res = res && exportAttachments(backupDir);		
 		
+		// Settings
+		if (intent.getBooleanExtra(Constants.INTENT_BACKUP_INCLUDE_SETTINGS, false));
+			res = res && exportSettings(backupDir);	
+		
 		// Notification of operation ended
 		String title = getString(R.string.data_export_completed);
 		String text = backupDir.getPath();
 		createNotification(intent, this, title, text);
 	}
 
-	
 	synchronized private void importData(Intent intent) {
 		boolean res = true;
 		
@@ -83,6 +86,9 @@ public class DataBackupIntentService extends IntentService {
 		
 		// Attachments backup
 		res = res && importAttachments(backupDir);	
+		
+		// Settings restore
+		res = res && importSettings(backupDir);
 		
 		String title = getString(R.string.data_import_completed);
 		String text = getString(R.string.click_to_refresh_application);
@@ -188,6 +194,29 @@ public class DataBackupIntentService extends IntentService {
 			StorageManager.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri().getPath()));
 		}
 		return true;
+	}
+
+	
+	/**
+	 * Exports settings if required
+	 * @param backupDir
+	 * @return
+	 */
+	private boolean exportSettings(File backupDir) {
+		File preferences = StorageManager.getDefaultSharedPreferences(this);
+		return (StorageManager.copyFile(preferences, new File(backupDir, preferences.getName())) );
+	}
+
+	
+	/**
+	 * Imports settings 
+	 * @param backupDir
+	 * @return
+	 */
+	private boolean importSettings(File backupDir) {
+		File preferences = StorageManager.getDefaultSharedPreferences(this);
+		File preferenceBackup = new File(backupDir, preferences.getName());
+		return (StorageManager.copyFile(preferenceBackup, preferences));
 	}
 
 	
