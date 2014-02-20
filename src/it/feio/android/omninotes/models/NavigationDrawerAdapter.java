@@ -42,6 +42,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		this.mContext = context;
 		this.mTitle = title;
 		this.mIcon = icon;
+		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -58,13 +59,17 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
+	
+	@Override
+	public boolean isEnabled(int position) {
+		return position != 4; // TAGS seperator
+	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// Declare Variables
 		TextView txtTitle;
 		ImageView imgIcon;
 
-		inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View itemView = inflater.inflate(R.layout.drawer_list_item, parent, false);
 
 		// Locate the TextViews in drawer_list_item.xml
@@ -115,5 +120,6 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 			return false;
 		}			
 	}
+		
 
 }
