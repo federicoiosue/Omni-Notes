@@ -95,10 +95,10 @@
     <string name="notes_tag_removed">Removed tag from notes</string>
     <string name="notes_tagged_as">Notes tagged as</string>
     <string name="insert_security_password">Insert security password</string>
-    <string name="lock">Lock</string>
-    <string name="save_note_to_lock_it">Save note to lock it</string>
-    <string name="save_note_to_unlock_it">Save note to unlock it</string>
-    <string name="unlock">Unlock</string>
+    <string name="lock">Mask</string>
+    <string name="save_note_to_lock_it">Save note to mask it</string>
+    <string name="save_note_to_unlock_it">Save note to unmask it</string>
+    <string name="unlock">Unmask</string>
     <string name="title_activity_password">Edit security password</string>
 	<string name="title_activity_about">Info</string>
 	<string name="deleted">deleted</string>
@@ -128,6 +128,11 @@
     <string name="error_importing_some_attachments">Error importing some attachments</string>
     <string name="error_saving_attachments">Error saving attachments</string>
     <string name="proceed">Proceed</string>
+    <string name="contracted_view">Contracted view</string>
+    <string name="expanded_view">Expanded view</string>
+    <string name="add_shortcut">Add shortcut</string>
+    <string name="shortcut_added">Shortcut added to home screen</string>
+    <string name="shortcut_note_deleted">The shortcut points to a deleted note</string>
     
         	 
     <!-- Settings -->
@@ -165,13 +170,13 @@
         to ensure that protected notes will not be viewed or modified 
         without authorization.\n\nEvery time you\'ll try to change this security password 
         the previous one will be requested.\n\nSet an empty password to delete it</string>
-    <string name="settings_password_not_matching">Passwords not matching</string>
+    <string name="settings_password_not_matching">Passwords missing or not matching</string>
     <string name="insert_new_password">Insert a new password</string>
     <string name="confirm_new_password">Confirm the new password</string>
     <string name="password_successfully_changed">Password successfully changed</string>
     <string name="password_successfully_removed">Password successfully removed</string>
     <string name="wrong_password">Wrong password</string>
-    <string name="agree_unlocking_all_notes">Agree removing security password\nand unlocking all locked notes?</string>
+    <string name="agree_unlocking_all_notes">Agree removing security password\nand unmasking all masked notes?</string>
     <string name="settings_enable_tag_marker">Tags markers</string>
     <string name="settings_backup_summary">Import or export app data</string>
     <string name="settings_max_video_size_summary">Max allowed size in MB</string>
@@ -182,8 +187,6 @@
     <string name="confirm_removing_backup">Confirm removing backup</string>
     <string name="confirm_restoring_backup">Confirm restoring backup</string>
     <string name="data_deletion_completed">Data deletion completed</string>
-    <string name="settings_hours_format">24-hours clock</string>
-    <string name="settings_hours_format_summary">Use 24-hours time format instead of the 12-hour one</string>
 	<string name="settings_checked_items_behavior">Checked items behavior</string>
     <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>
     <string name="settings_category_preferences">Preferences</string>
@@ -206,6 +209,16 @@
     <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
     <string name="settings_tour_show_again">App tour</string>
     <string name="settings_tour_show_again_summary">Show once again application instructions tour</string>
+    <string name="backup_include_settings">Include settings (with password)</string>
+    <string name="settings_included">settings included</string>
+    <string name="settings_password_question_instructions">Insert a question and a secret answer to reset password if forgotten</string>
+    <string name="settings_password_question">Question</string>
+    <string name="settings_password_answer">Answer</string>
+    <string name="settings_password_answer_check">Confirm answer</string>
+    <string name="password_forgot">Forgot password?</string>
+    <string name="settings_answer_not_matching">Answer missing not matching</string>
+    <string name="password_not_set">Password not set</string>
+    <string name="wrong_answer">Wrong answer</string>
 
     
     <!-- Instructions -->

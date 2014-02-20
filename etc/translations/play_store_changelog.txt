@@ -1,5 +1,13 @@
 Look to the changelog inside the app for all the changes!
 
+4.3.8
+No more crash opening the edit password screen in Gingerbread
+Fixed error on notes list scrolling
+
+4.3.7
+Added animated transition to sketch screen
+Fixed casual crashes on note saving
+
 4.3.6
 Fixed missing note archive/unarchive action from inside detail
 
