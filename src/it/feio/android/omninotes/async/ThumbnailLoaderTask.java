@@ -34,8 +34,8 @@ public class ThumbnailLoaderTask extends
 	
 	private final Activity mActivity;
 	private final WeakReference<ImageView> imageViewReference;
-	private int width = 100;
-	private int height = 100;
+	private int width;
+	private int height;
 	private boolean wasCached = true;
 
 	public ThumbnailLoaderTask(Activity activity, ImageView imageView,
@@ -90,9 +90,10 @@ public class ThumbnailLoaderTask extends
 				if (bmp == null) {
 					wasCached = false;
 					try {
-						bmp = checkIfBroken(BitmapHelper.decodeSampledFromUri(
+//						bmp = checkIfBroken(BitmapHelper.decodeSampledFromUri(
+//								mActivity, mAttachment.getUri(), width, height));
+						bmp = checkIfBroken(BitmapHelper.getThumbnail(
 								mActivity, mAttachment.getUri(), width, height));
-//						cache.addBitmap(path, bmp);
 						app.addBitmapToCache(cacheKey, bmp);
 					} catch (FileNotFoundException e) {
 						Log.e(Constants.TAG,

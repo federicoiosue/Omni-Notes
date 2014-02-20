@@ -61,19 +61,30 @@ public class BitmapHelper {
 		// Calcolo dell'inSampleSize e delle nuove dimensioni proporzionate
 		final int height = options.outHeight;
 		final int width = options.outWidth;
-		float inSampleSize = 1;
+		int inSampleSize = 1;
 		if (height > reqHeight || width > reqWidth) {
-			final float heightRatio = (float) height / (float) reqHeight;
-			final float widthRatio = (float) width / (float) reqWidth;
+//			final float heightRatio = (float) height / (float) reqHeight;
+//			final float widthRatio = (float) width / (float) reqWidth;
 
-			inSampleSize = heightRatio > widthRatio ? heightRatio : widthRatio;
-			Math.round(width / inSampleSize);
-			Math.round(height / inSampleSize);
+//			inSampleSize = heightRatio > widthRatio ? heightRatio : widthRatio;
+//			Math.round(width / inSampleSize);
+//			Math.round(height / inSampleSize);
+			
+			final int halfHeight = height / 2;
+	        final int halfWidth = width / 2;
+
+	        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+	        // height and width larger than the requested height and width.
+	        while ((halfHeight / inSampleSize) > reqHeight
+	                && (halfWidth / inSampleSize) > reqWidth) {
+	            inSampleSize *= 2;
+	        }
 		}
 
 		// Impostazione delle opzioni per la decodifica
 		options.inJustDecodeBounds = false;
-		options.inSampleSize = Math.round(inSampleSize);
+//		options.inSampleSize = Math.round(inSampleSize);
+		options.inSampleSize = inSampleSize;
 
 		// Ulteriore ottimizzazione a scapito della fedelt� dei colori e trasparenze
 		// options.inPreferredConfig = Bitmap.Config.RGB_565;
@@ -81,13 +92,23 @@ public class BitmapHelper {
 		// Decodifica dell'immagine con inSampleSize e ridimensionamento
 		Bitmap bmp = BitmapFactory.decodeStream(ctx.getContentResolver().openInputStream(uri), null, options);
 //		bmp = Bitmap.createScaledBitmap(bmp, newWidth, newHeight, true);
-		bmp = ThumbnailUtils.extractThumbnail(bmp, reqWidth, reqHeight);
+//		bmp = ThumbnailUtils.extractThumbnail(bmp, reqWidth, reqHeight);
 		return bmp;
 	}
+	
 	
 	public static Uri getUri(Context mContext, int resource_id) {
 		Uri uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + resource_id);
 		return uri;
+	}
+	
+	
+	
+	public static Bitmap getThumbnail(Context ctx, Uri uri, int reqWidth, int reqHeight) throws FileNotFoundException {
+		Bitmap bmp = decodeSampledFromUri(ctx, uri, reqWidth, reqHeight);
+		int thumbSize = bmp.getHeight() < bmp.getWidth() ? bmp.getHeight() : bmp.getWidth();
+		bmp = ThumbnailUtils.extractThumbnail(bmp, thumbSize, thumbSize);
+		return bmp;
 	}
 	
 	
