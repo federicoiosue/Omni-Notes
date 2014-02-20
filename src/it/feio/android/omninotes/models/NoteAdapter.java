@@ -123,7 +123,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// Evaluates the archived state...
 		holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
 		// ... the location
-		holder.locationIcon.setVisibility(note.getLongitude() != null ? View.VISIBLE : View.GONE);
+		holder.locationIcon.setVisibility(note.getLongitude() != null && note.getLongitude() != 0 ? View.VISIBLE : View.GONE);
 		// ... the presence of an alarm
 		holder.alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
 		// ... the locked with password state	
