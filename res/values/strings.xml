@@ -218,6 +218,12 @@
     <string name="settings_simple_calendar_summary">Use simpler Android calendar and time chooser instead of the Google\'s ones</string>
     <string name="settings_tour_show_again">App tour</string>
     <string name="settings_tour_show_again_summary">Show once again application instructions tour</string>
+    <string name="settings_password_question_instructions">Insert a question and a secret answer to reset password if forgotten</string>
+    <string name="settings_password_question">Question</string>
+    <string name="settings_password_answer">Answer</string>
+    <string name="settings_password_answer_check">Confirm answer</string>
+    <string name="password_forgot">Forgot password?</string>
+    <string name="settings_answer_not_matching">Answer not matching</string>
 
     
     <!-- Instructions -->

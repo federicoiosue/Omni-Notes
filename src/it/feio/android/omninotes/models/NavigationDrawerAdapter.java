@@ -42,6 +42,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		this.mContext = context;
 		this.mTitle = title;
 		this.mIcon = icon;
+		inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -64,7 +65,6 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		TextView txtTitle;
 		ImageView imgIcon;
 
-		inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View itemView = inflater.inflate(R.layout.drawer_list_item, parent, false);
 
 		// Locate the TextViews in drawer_list_item.xml

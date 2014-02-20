@@ -17,7 +17,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="77"
+    android:versionCode="78"
     android:versionName="4.4.0beta3" >
 
     <uses-sdk
@@ -169,8 +169,7 @@
         <!-- Password -->
         <activity
             android:name="it.feio.android.omninotes.PasswordActivity"
-            android:label="@string/title_activity_password"
-            android:theme="@style/Theme.AppCompat.Dialog" >
+            android:label="@string/title_activity_password" >
         </activity>
 
         <!-- Changelog -->

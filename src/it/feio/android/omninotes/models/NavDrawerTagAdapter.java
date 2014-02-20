@@ -41,17 +41,20 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 	private Context mContext;
 	private int layout;
 	private ArrayList<Tag> tags;
+	private LayoutInflater inflater;
 
 	public NavDrawerTagAdapter(Context context, ArrayList<Tag> tags) {
 		this.mContext = context;
 		this.layout = R.layout.drawer_list_item;		
 		this.tags = tags;
+		inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 	}
 
 	public NavDrawerTagAdapter(Context context, int layout, ArrayList<Tag> tags) {
 		this.mContext = context;
 		this.layout = layout;
 		this.tags = tags;
+		inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -78,7 +81,6 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		TextView txtTitle;
 		ImageView imgIcon;
 
-		LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View itemView = inflater.inflate(layout, parent, false);
 
 		// Locate the TextViews in drawer_list_item.xml
