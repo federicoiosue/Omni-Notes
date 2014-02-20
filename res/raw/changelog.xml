@@ -16,12 +16,18 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.4.0 Beta 3" changeDate="Feb 19, 2014">  
+    <changelogversion versionName="4.4.0 Beta 3" changeDate="Feb 20, 2014">  
         <changelogtext>[b]New![/b] Improved backup algotihm by including an option to backup settings and automatic selective cleanup of useless attachment</changelogtext>
+        <changelogtext>[b]New![/b] Security "question and answer" system to reset forgotten password</changelogtext>
         <changelogtext>Parallelized many operation to improve performances on multicore devices with installed Android >= Honeycomb</changelogtext>
         <changelogtext>[u]Fixed[/u] Locked notes thumbs are no more shown in notes list</changelogtext>  
         <changelogtext>[u]Fixed[/u] Empty note creation misbehavior when created from inside a tag</changelogtext>   
         <changelogtext>[u]Fixed[/u] Crash when pressing delete key on empty first checklist item</changelogtext>   
+    </changelogversion>
+
+    <changelogversion versionName="4.3.8" changeDate="Feb 20, 2014">
+        <changelogtext>[u]Fixed[/u] No more crash opening the edit password screen in Gingerbread</changelogtext>
+        <changelogtext>[u]Fixed[/u] Error on notes list scrolling</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.4.0 Beta 2" changeDate="Feb 18, 2014">

@@ -1,15 +1,21 @@
 package it.feio.android.omninotes;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class PasswordActivity extends BaseActivity {
 
@@ -28,12 +34,6 @@ public class PasswordActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_password);
-
-		// Show the Up button in the action bar.
-		if (getSupportActionBar() != null) {
-			getSupportActionBar().setDisplayShowTitleEnabled(false);
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		}
 		
 		oldPassword = prefs.getString(Constants.PREF_PASSWORD, null);
 		
@@ -72,39 +72,78 @@ public class PasswordActivity extends BaseActivity {
 			}
 		});
 		
-		reset = (Button)findViewById(R.id.password_confirm);
+		reset = (Button)findViewById(R.id.password_reset);
 		reset.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-						mActivity);
-				alertDialogBuilder
-						.setMessage(prefs.getString(Constants.PREF_PASSWORD_QUESTION, ""))
-						.setPositiveButton(R.string.confirm,
-								new DialogInterface.OnClickListener() {
-
-									@Override
-									public void onClick(DialogInterface dialog,
-											int id) {
-										prefs.edit()
-												.remove(Constants.PREF_PASSWORD)
-												.commit();
-										db.unlockAllNotes();
-										onBackPressed();
-									}
-								})
-						.setNegativeButton(R.string.cancel,
-								new DialogInterface.OnClickListener() {
-
-									@Override
-									public void onClick(DialogInterface dialog,
-											int id) {
-										dialog.cancel();
-									}
-								});
-				AlertDialog alertDialog = alertDialogBuilder.create();
-				alertDialog.show();
 				
+				if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
+					Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN).show();
+					return;
+				}				
+				
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+				
+				// Inflate layout
+				LayoutInflater inflater = mActivity.getLayoutInflater();
+				View layout = inflater.inflate(R.layout.password_reset_dialog_layout, null);
+				alertDialogBuilder.setView(layout);
+				TextView questionTextView = (TextView) layout.findViewById(R.id.reset_password_question);
+				questionTextView.setText(prefs.getString(Constants.PREF_PASSWORD_QUESTION, ""));
+				final EditText answerEditText = (EditText) layout.findViewById(R.id.reset_password_answer);
+				
+				// Set dialog message and button
+				alertDialogBuilder
+					.setCancelable(false)
+					.setPositiveButton(R.string.confirm, null)
+					.setNegativeButton(R.string.cancel, null);
+				
+				AlertDialog dialog = alertDialogBuilder.create();
+				
+				// Set a listener for dialog button press
+				dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+				    @Override
+				    public void onShow(final DialogInterface dialog) {
+
+				        Button pos = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+				        pos.setOnClickListener(new View.OnClickListener() {
+
+				            @Override
+				            public void onClick(View view) {
+				            	// When positive button is pressed answer correctness is checked
+				            	String oldAnswer = prefs.getString(
+										Constants.PREF_PASSWORD_ANSWER, "");
+								String answer = answerEditText.getText().toString();
+								// The check is done on password's hash stored in preferences
+								boolean result = Security.md5(answer).equals(oldAnswer);
+
+				                if (result) {
+				                	dialog.dismiss();
+				                	prefs.edit()
+									.remove(Constants.PREF_PASSWORD)
+									.remove(Constants.PREF_PASSWORD_QUESTION)
+									.remove(Constants.PREF_PASSWORD_ANSWER)
+									.commit();
+									db.unlockAllNotes();
+									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.CONFIRM).show();
+				                } else {
+				                	answerEditText.setError(getString(R.string.wrong_answer));
+				                }
+				            }
+				        });
+				        Button neg = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+				        neg.setOnClickListener(new View.OnClickListener() {
+
+				            @Override
+				            public void onClick(View view) {
+			                	dialog.dismiss();
+				            }
+				        });
+				    }
+				});
+				
+				dialog.show();
 			}
 		});
 	}
@@ -147,7 +186,7 @@ public class PasswordActivity extends BaseActivity {
 			prefs.edit()
 				.putString(Constants.PREF_PASSWORD, Security.md5(passwordText))
 				.putString(Constants.PREF_PASSWORD_QUESTION, questionText)
-				.putString(Constants.PREF_PASSWORD, Security.md5(answerText))
+				.putString(Constants.PREF_PASSWORD_ANSWER, Security.md5(answerText))
 				.commit();
 			onBackPressed();
 		}
@@ -161,11 +200,17 @@ public class PasswordActivity extends BaseActivity {
 	 */
 	private boolean checkData(){
 		boolean res = true;
-		boolean passwordMatch = password.getText().toString().equals(passwordCheck.getText().toString());
-		boolean answerMatch = answer.getText().toString().equals(answerCheck.getText().toString());
-		if (!passwordMatch || !answerMatch){
+		
+		if (password.getText().length() == passwordCheck.getText().length() 
+				&& passwordCheck.getText().length() == 0) {
+			return true;
+		}
+		
+		boolean passwordOk = password.getText().toString().length() > 0 && password.getText().toString().equals(passwordCheck.getText().toString());
+		boolean answerMatch = answer.getText().toString().length() > 0 && answer.getText().toString().equals(answerCheck.getText().toString());
+		if (!passwordOk || !answerMatch){
 			res = false;
-			if (!passwordMatch)
+			if (!passwordOk)
 				passwordCheck.setError(getString(R.string.settings_password_not_matching));
 			if (!answerMatch)
 				answerCheck.setError(getString(R.string.settings_answer_not_matching));
