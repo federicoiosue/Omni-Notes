@@ -17,8 +17,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="75"
-    android:versionName="4.3.7" >
+    android:versionCode="77"
+    android:versionName="4.3.8" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -132,12 +132,7 @@
         <!-- Tags -->
         <activity
             android:name="it.feio.android.omninotes.TagActivity"
-            android:label="@string/title_activity_tag"
-            android:parentActivityName=".ListActivity"
             android:theme="@style/Theme.AppCompat.Dialog" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
         </activity>
 
         <!-- Detail -->
@@ -167,8 +162,7 @@
         <!-- Password -->
         <activity
             android:name="it.feio.android.omninotes.PasswordActivity"
-            android:label="@string/title_activity_password"
-            android:theme="@style/Theme.AppCompat.Dialog" >
+            android:label="@string/title_activity_password" >
         </activity>
 
         <!-- Changelog -->

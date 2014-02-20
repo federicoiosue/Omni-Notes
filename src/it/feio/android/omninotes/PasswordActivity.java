@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class PasswordActivity extends BaseActivity {
 
@@ -25,6 +24,7 @@ public class PasswordActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_password);
+		
 		oldPassword = prefs.getString(Constants.PREF_PASSWORD, null);
 		initViews();
 	}
@@ -39,7 +39,7 @@ public class PasswordActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				if (!password.getText().toString().equals(passwordCheck.getText().toString())){
-					showToast(getString(R.string.settings_password_not_matching), Toast.LENGTH_SHORT);
+					passwordCheck.setError(getString(R.string.settings_password_not_matching));
 				} else {
 					if (oldPassword != null) {
 						requestPassword(new PasswordValidator() {							
@@ -75,9 +75,6 @@ public class PasswordActivity extends BaseActivity {
 											.remove(Constants.PREF_PASSWORD)
 											.commit();
 									db.unlockAllNotes();
-//									showToast(
-//											getString(R.string.password_successfully_removed),
-//											Toast.LENGTH_SHORT);
 									onBackPressed();
 								}
 							})
@@ -94,8 +91,6 @@ public class PasswordActivity extends BaseActivity {
 			alertDialog.show();
 		} else {			
 			prefs.edit().putString(Constants.PREF_PASSWORD, Security.md5(password)).commit();
-//			showToast(getString(R.string.password_successfully_changed),
-//					Toast.LENGTH_SHORT);
 			onBackPressed();
 		}
 	}
@@ -104,8 +99,7 @@ public class PasswordActivity extends BaseActivity {
 	
 	
 	@Override
-	public void onBackPressed() {		
-//		super.onBackPressed();
+	public void onBackPressed() {	
 		setResult(RESULT_OK);
 		finish();
 	}

@@ -78,6 +78,8 @@ public interface Constants {
     final String PREF_SORTING_COLUMN = "sorting_column";
     final String PREF_SORTING_ORDER = "sorting_direction";
     final String PREF_PASSWORD = "password";
+    final String PREF_PASSWORD_QUESTION = "password_question";
+    final String PREF_PASSWORD_ANSWER = "password_answer";
     final String PREF_RATE_DISMISSED = "rate_dismissed";
     final String PREF_LAUNCH_COUNT = "launch_count";
     final String PREF_FIRST_LAUNCH = "first_launch";

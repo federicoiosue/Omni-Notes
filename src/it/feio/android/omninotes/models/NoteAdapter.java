@@ -63,14 +63,14 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		TextView content = (TextView) rowView.findViewById(R.id.note_content);
 		TextView date = (TextView) rowView.findViewById(R.id.note_date);
 		
-		// Defining title and contente texts	
+		// Defining title and content texts	
 		String titleText, contentText;
 		if (note.getTitle().length() > 0) {
 			titleText = note.getTitle();
 			contentText = note.getContent();
 		} else {
-			String[] arr = note.getContent().split(System.getProperty("line.separator"));
-			titleText = arr[0];
+			String[] arr = note.getContent().split(System.getProperty("line.separator"));			
+			titleText = arr.length > 0 ? arr[0] : "";
 			contentText = arr.length > 1 ? arr[1] : "";
 		}
 			

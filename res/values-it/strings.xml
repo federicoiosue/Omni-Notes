@@ -139,17 +139,17 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_category_data">Dati</string>
   <string name="settings_backup">Backup</string>
   <string name="settings_password">Password</string>
-  <string name="settings_password_instructions">\"La password di sicurezza viene utilizzata per assicurare che le note protette non possano essere visualizzate senza autorizzazione.
+  <string name="settings_password_instructions">La password di sicurezza viene utilizzata per assicurare che le note protette non possano essere visualizzate senza autorizzazione.
 \n\nOgni volta che si proverà a modificare questa password verrà richiesta la precedente.
-\n\nImpostare una password vuota per rimuoverla.\"</string>
+\n\nImpostare una password vuota per rimuoverla.</string>
   <string name="settings_password_not_matching">Password non corrispondenti</string>
   <string name="insert_new_password">Inserire una nuova password</string>
   <string name="confirm_new_password">Confermare la nuova password</string>
   <string name="password_successfully_changed">Password modificata con successo</string>
   <string name="password_successfully_removed">Password rimossa con successo</string>
   <string name="wrong_password">Password errata</string>
-  <string name="agree_unlocking_all_notes">\"Confermi la rimozione di password di sicurezza
-\n e lo sblocco di tutte le note bloccate?\"</string>
+  <string name="agree_unlocking_all_notes">Confermi la rimozione di password di sicurezza
+\n e lo sblocco di tutte le note bloccate?</string>
   <string name="settings_enable_tag_marker">Evidenziazione tags</string>
   <string name="settings_backup_summary">Importazione o esportazione dati app</string>
   <string name="settings_max_video_size_summary">Massima dimensione consentita in MB</string>
