@@ -45,7 +45,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 	private final Activity mActivity;
 	private final List<Note> values;
-//	private HashMap<Integer, Boolean> selectedItems = new HashMap<Integer, Boolean>();
 	private SparseBooleanArray selectedItems = new SparseBooleanArray();
 	private boolean expandedView;
 	private int layout;
@@ -114,8 +113,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		}
 
 		// Setting note title	
-//		if (holder.title != null)
-			holder.title.setText(titleText);
+		holder.title.setText(titleText);
 		
 		// Setting note content	
 		holder.content.setText(contentText);
@@ -167,16 +165,24 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		
 
 		// Attachment thumbnail
-		if (expandedView && !note.isLocked()) {
-			for (Attachment mAttachment : note.getAttachmentsList()) {
-					ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, holder.attachmentThumbnail, THUMBNAIL_SIZE);
-					if (Build.VERSION.SDK_INT >= 11) {
-						task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
-					} else {
-						task.execute(mAttachment);
-					}
-					holder.attachmentThumbnail.setVisibility(View.VISIBLE);
-					break;
+		if (expandedView) {
+			// If note is locked or without attachments nothing is shown
+			if (note.isLocked() || note.getAttachmentsList().size() == 0) {
+				holder.attachmentThumbnail.setImageResource(0);
+				holder.attachmentThumbnail.setVisibility(View.GONE);
+			}
+			// Otherwise...
+			else {
+				for (Attachment mAttachment : note.getAttachmentsList()) {
+						ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, holder.attachmentThumbnail, THUMBNAIL_SIZE);
+						if (Build.VERSION.SDK_INT >= 11) {
+							task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
+						} else {
+							task.execute(mAttachment);
+						}
+						holder.attachmentThumbnail.setVisibility(View.VISIBLE);
+						break;
+				}
 			}
 		}
 		
