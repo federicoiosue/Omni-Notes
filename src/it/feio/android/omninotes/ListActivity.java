@@ -43,7 +43,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -51,7 +50,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.util.LruCache;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -107,7 +105,6 @@ public class ListActivity extends BaseActivity {
 	private TextView empyListItem;
 	private boolean showListAnimation = true;
 	private AnimationDrawable jinglesAnimation;
-//	private LruCache<String, Bitmap> mMemoryCache;
 	private int listViewPosition; 
 
 
@@ -153,29 +150,9 @@ public class ListActivity extends BaseActivity {
 		} else {
 			task.execute();
 		}
-		
-		// Initialization of image cache
-//		initThumbnailCache();
 	}
 	
 	
-	
-	
-//	private void initThumbnailCache() {
-//		final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-//		// Use 1/8th of the available memory for this memory cache.
-//		final int cacheSize = maxMemory / 8;
-//		mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
-////			@Override
-////			protected int sizeOf(String key, Bitmap bitmap) {
-////				// The cache size will be measured in kilobytes rather than
-////				// number of items.
-////				return bitmap.getByteCount() / 1024;
-////			}
-//		};
-//	}
-
-
 
 
 	/**

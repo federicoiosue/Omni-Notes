@@ -41,7 +41,7 @@ import android.widget.TextView;
 public class NoteAdapter extends ArrayAdapter<Note> {
 	
 	private final String GHOST_CHAR = "*";	
-	private final int THUMBNAIL_SIZE = 200;	
+	private final int THUMBNAIL_SIZE = 100;	
 
 	private final Activity mActivity;
 	private final List<Note> values;
@@ -173,16 +173,14 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			}
 			// Otherwise...
 			else {
-				for (Attachment mAttachment : note.getAttachmentsList()) {
-						ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, holder.attachmentThumbnail, THUMBNAIL_SIZE);
-						if (Build.VERSION.SDK_INT >= 11) {
-							task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
-						} else {
-							task.execute(mAttachment);
-						}
-						holder.attachmentThumbnail.setVisibility(View.VISIBLE);
-						break;
+				Attachment mAttachment = note.getAttachmentsList().get(0);
+				ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, holder.attachmentThumbnail, THUMBNAIL_SIZE);
+				if (Build.VERSION.SDK_INT >= 11) {
+					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
+				} else {
+					task.execute(mAttachment);
 				}
+				holder.attachmentThumbnail.setVisibility(View.VISIBLE);
 			}
 		}
 		

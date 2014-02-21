@@ -213,6 +213,8 @@ public class OmniNotes extends Application {
 					}
 				}
 			}
+			if (bitmap != null)
+				addBitmapToCache(key, bitmap);
 		}
 		
 		return bitmap;

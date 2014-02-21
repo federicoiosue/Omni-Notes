@@ -62,14 +62,7 @@ public class BitmapHelper {
 		final int height = options.outHeight;
 		final int width = options.outWidth;
 		int inSampleSize = 1;
-		if (height > reqHeight || width > reqWidth) {
-//			final float heightRatio = (float) height / (float) reqHeight;
-//			final float widthRatio = (float) width / (float) reqWidth;
-
-//			inSampleSize = heightRatio > widthRatio ? heightRatio : widthRatio;
-//			Math.round(width / inSampleSize);
-//			Math.round(height / inSampleSize);
-			
+		if (height > reqHeight || width > reqWidth) {			
 			final int halfHeight = height / 2;
 	        final int halfWidth = width / 2;
 
@@ -81,18 +74,12 @@ public class BitmapHelper {
 	        }
 		}
 
-		// Impostazione delle opzioni per la decodifica
+		// Setting decode options
 		options.inJustDecodeBounds = false;
-//		options.inSampleSize = Math.round(inSampleSize);
 		options.inSampleSize = inSampleSize;
 
-		// Ulteriore ottimizzazione a scapito della fedelt� dei colori e trasparenze
-		// options.inPreferredConfig = Bitmap.Config.RGB_565;
-
-		// Decodifica dell'immagine con inSampleSize e ridimensionamento
+		// Bitmap is now decoded for real using calculated inSampleSize
 		Bitmap bmp = BitmapFactory.decodeStream(ctx.getContentResolver().openInputStream(uri), null, options);
-//		bmp = Bitmap.createScaledBitmap(bmp, newWidth, newHeight, true);
-//		bmp = ThumbnailUtils.extractThumbnail(bmp, reqWidth, reqHeight);
 		return bmp;
 	}
 	
@@ -104,6 +91,15 @@ public class BitmapHelper {
 	
 	
 	
+	/**
+	 * Creates a thumbnail of requested size by doing a first sampled decoding of the bitmap to optimize memory
+	 * @param ctx
+	 * @param uri
+	 * @param reqWidth
+	 * @param reqHeight
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	public static Bitmap getThumbnail(Context ctx, Uri uri, int reqWidth, int reqHeight) throws FileNotFoundException {
 		Bitmap bmp = decodeSampledFromUri(ctx, uri, reqWidth, reqHeight);
 		int thumbSize = bmp.getHeight() < bmp.getWidth() ? bmp.getHeight() : bmp.getWidth();

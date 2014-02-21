@@ -90,8 +90,6 @@ public class ThumbnailLoaderTask extends
 				if (bmp == null) {
 					wasCached = false;
 					try {
-//						bmp = checkIfBroken(BitmapHelper.decodeSampledFromUri(
-//								mActivity, mAttachment.getUri(), width, height));
 						bmp = checkIfBroken(BitmapHelper.getThumbnail(
 								mActivity, mAttachment.getUri(), width, height));
 						app.addBitmapToCache(cacheKey, bmp);

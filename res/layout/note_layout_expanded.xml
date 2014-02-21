@@ -18,14 +18,14 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     android:background="@drawable/bg_card"
     android:paddingBottom="2dp" >
 
     <LinearLayout
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="match_parent"
         android:orientation="horizontal" >
 
         <View
@@ -36,7 +36,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
             android:paddingBottom="12dp"
@@ -127,11 +127,9 @@
 
         <ImageView
             android:id="@+id/attachmentThumbnail"
-            android:layout_width="95dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_margin="3dp"
-            android:contentDescription="@string/note_thumbnail"
-            android:visibility="gone" />
+            android:contentDescription="@string/note_thumbnail" />
     </LinearLayout>
 
 </FrameLayout>
