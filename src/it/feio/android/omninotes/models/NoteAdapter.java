@@ -174,7 +174,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			// Otherwise...
 			else {
 				Attachment mAttachment = note.getAttachmentsList().get(0);
-				ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, holder.attachmentThumbnail, THUMBNAIL_SIZE);
+				ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, holder.attachmentThumbnail, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
 				if (Build.VERSION.SDK_INT >= 11) {
 					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
 				} else {

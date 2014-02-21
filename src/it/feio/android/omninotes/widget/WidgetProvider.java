@@ -1,4 +1,4 @@
-package it.feio.android.omninotes.receiver;
+package it.feio.android.omninotes.widget;
 
 import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.ListActivity;
@@ -11,12 +11,15 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider {
+	public static String EXTRA_WORD=
+		    "it.feio.android.omninotes.widget.WORD";
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -86,12 +89,25 @@ public class WidgetProvider extends AppWidgetProvider {
 			views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
 			views.setOnClickPendingIntent(R.id.list, pendingIntentList);
 		} else {
-			views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+			views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_list);
 			views.setOnClickPendingIntent(R.id.add, pendingIntentDetail);
 			views.setOnClickPendingIntent(R.id.list, pendingIntentList);
 			views.setOnClickPendingIntent(R.id.camera, pendingIntentDetailPhoto);
+			
+			// Set up the intent that starts the ListViewService, which will
+	        // provide the views for this collection.
+	        Intent intent = new Intent(context, ListWidgetService.class);
+	        // Add the app widget ID to the intent extras.
+	        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+	        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+	        // Instantiate the RemoteViews object for the app widget layout.
+			views = new RemoteViews(context.getPackageName(), R.layout.widget_layout_list);
+			
+			views.setRemoteAdapter(R.id.widget_list, intent);
 		}
 
+		
+		
 		// Tell the AppWidgetManager to perform an update on the current app
 		// widget
 		appWidgetManager.updateAppWidget(widgetId, views);

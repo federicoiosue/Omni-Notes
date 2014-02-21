@@ -229,7 +229,7 @@
 
         <!-- Widget -->
         <receiver
-            android:name="it.feio.android.omninotes.receiver.WidgetProvider"
+            android:name="it.feio.android.omninotes.widget.WidgetProvider"
             android:icon="@drawable/logo"
             android:label="Omni Notes" >
             <intent-filter>
@@ -240,6 +240,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget_info" />
         </receiver>
+        
+        <service android:name="it.feio.android.omninotes.widget.ListWidgetService"
+			android:permission="android.permission.BIND_REMOTEVIEWS" />
+    
+    
     </application>
 
 </manifest>

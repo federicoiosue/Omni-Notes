@@ -39,11 +39,11 @@ public class ThumbnailLoaderTask extends
 	private boolean wasCached = true;
 
 	public ThumbnailLoaderTask(Activity activity, ImageView imageView,
-			int thumbnailSize) {
+			int width, int height) {
 		this.mActivity = activity;
 		imageViewReference = new WeakReference<ImageView>(imageView);
-		width = thumbnailSize;
-		height = thumbnailSize;
+		this.width = width;
+		this.height = height;
 	}
 
 	@Override

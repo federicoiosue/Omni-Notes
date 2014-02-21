@@ -79,7 +79,7 @@ public class AttachmentAdapter extends BaseAdapter {
 	
 		Attachment attachment = attachmentsList.get(position);
 			
-		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, imageView, THUMBNAIL_SIZE);
+		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, imageView, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
 		if (Build.VERSION.SDK_INT >= 11) {
 			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, attachment);
 		} else {

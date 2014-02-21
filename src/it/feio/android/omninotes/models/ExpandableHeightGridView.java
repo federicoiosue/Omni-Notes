@@ -65,7 +65,12 @@ public class ExpandableHeightGridView extends GridView {
 	public void autoresize() {	    
 	    // Set gridview height
 	    ViewGroup.LayoutParams layoutParams = getLayoutParams();
-	    layoutParams.height = ( (getAdapter().getCount() / 2) + (getAdapter().getCount() % 2) ) * Constants.THUMBNAIL_SIZE; //this is in pixels
+	    int items = getAdapter().getCount();
+	    int columns = items == 1 ? 1 : 2;
+	    
+    	setNumColumns(columns);
+    	layoutParams.height = ( (items / columns) + (items % columns) ) * Constants.THUMBNAIL_SIZE; //this is in pixels
+	    
 	    setLayoutParams(layoutParams);
 	    
 		
