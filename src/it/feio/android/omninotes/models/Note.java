@@ -185,7 +185,7 @@ public class Note implements Parcelable {
 	}
 
 	public Boolean isArchived() {
-		return archived == null ? false : true;
+		return archived == null || archived == false ? false : true;
 	}
 
 	public void setArchived(Boolean archived) {
