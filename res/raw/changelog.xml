@@ -16,6 +16,14 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.4.0 Beta 4" changeDate="Feb 21, 2014">  
+        <changelogtext>[u]Fixed[/u] Attachment image cropping</changelogtext>   
+    </changelogversion>
+
+    <changelogversion versionName="4.3.9" changeDate="Feb 21, 2014">
+        <changelogtext>[u]Fixed[/u] Archive/unarchive issue</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="4.4.0 Beta 3" changeDate="Feb 20, 2014">  
         <changelogtext>[b]New![/b] More efficient backup algotihm by including an option to backup settings and automatic selective cleanup of useless attachment</changelogtext>
         <changelogtext>[b]New![/b] Security "question and answer" system to reset forgotten password</changelogtext>

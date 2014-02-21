@@ -18,14 +18,11 @@ package it.feio.android.omninotes.models;
 import it.feio.android.omninotes.utils.EqualityChecker;
 import it.feio.android.omninotes.utils.date.DateHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.format.DateUtils;
 
 public class Note implements Parcelable {
 
@@ -180,7 +177,7 @@ public class Note implements Parcelable {
 	}
 
 	public Boolean isArchived() {
-		return archived == null ? false : archived;
+		return archived == null || archived == false ? false : true;
 	}
 
 	public void setArchived(Boolean archived) {
@@ -198,10 +195,6 @@ public class Note implements Parcelable {
 	public String getAlarmShort(Context mContext) {
 		if (getAlarm() == null) 
 			return "";
-//		Calendar c = Calendar.getInstance();
-//		c.setTimeInMillis(Long.parseLong(getAlarm()));
-//		SimpleDateFormat sdf = new SimpleDateFormat(time_format);
-//		return sdf.format(c.getTimeInMillis());
 		return DateHelper.getDateTimeShort(mContext, Long.parseLong(getAlarm()));
 	}
 
