@@ -104,14 +104,13 @@ public class BitmapHelper {
 		Bitmap srcBmp = decodeSampledFromUri(ctx, uri, reqWidth, reqHeight);
 		Bitmap dstBmp;
 		// Cropping
-		dstBmp = Bitmap.createBitmap(
-				     srcBmp, 
-				     ( srcBmp.getWidth() - reqWidth )/2,
-				     ( srcBmp.getHeight() - reqHeight )/2,
-				     reqWidth, 
-				     reqHeight
-				     );
-		
+		int x = ( srcBmp.getWidth() - reqWidth )/2;
+		int y = ( srcBmp.getHeight() - reqHeight )/2;
+		if (x > 0 && y > 0) {
+			dstBmp = Bitmap.createBitmap(srcBmp, x, y, reqWidth, reqHeight);		
+		} else {
+			dstBmp = ThumbnailUtils.extractThumbnail(srcBmp, reqWidth, reqHeight);
+		}
 		return dstBmp;
 	}
 	
