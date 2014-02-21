@@ -101,10 +101,18 @@ public class BitmapHelper {
 	 * @throws FileNotFoundException
 	 */
 	public static Bitmap getThumbnail(Context ctx, Uri uri, int reqWidth, int reqHeight) throws FileNotFoundException {
-		Bitmap bmp = decodeSampledFromUri(ctx, uri, reqWidth, reqHeight);
-		int thumbSize = bmp.getHeight() < bmp.getWidth() ? bmp.getHeight() : bmp.getWidth();
-		bmp = ThumbnailUtils.extractThumbnail(bmp, thumbSize, thumbSize);
-		return bmp;
+		Bitmap srcBmp = decodeSampledFromUri(ctx, uri, reqWidth, reqHeight);
+		Bitmap dstBmp;
+		// Cropping
+		dstBmp = Bitmap.createBitmap(
+				     srcBmp, 
+				     ( srcBmp.getWidth() - reqWidth )/2,
+				     ( srcBmp.getHeight() - reqHeight )/2,
+				     reqWidth, 
+				     reqHeight
+				     );
+		
+		return dstBmp;
 	}
 	
 	

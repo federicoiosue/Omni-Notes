@@ -15,7 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
-import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.ThumbnailLoaderTask;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -24,8 +23,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
