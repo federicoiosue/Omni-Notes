@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="@drawable/bg_card"
+    android:paddingBottom="2dp" >
+
+    <LinearLayout
+        android:id="@+id/card_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tag_marker"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="12dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="16dp"
+            android:paddingTop="12dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/note_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="top|start"
+                    android:textStyle="bold"
+                    android:singleLine="true"
+                    android:textAppearance="@style/Text.Big.Widget"
+                    android:textColor="@color/list_note_title" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/note_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:singleLine="true"
+                android:textAppearance="@style/Text.Normal.Widget"
+                android:textColor="@color/list_note_title"/>
+            
+            
+
+             <TextView
+                 android:id="@+id/note_date"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="bottom|left"
+                 android:layout_marginRight="15dp"
+                 android:alpha="0.5"
+                 android:gravity="bottom|left"
+                 android:textAppearance="@style/Text.Small.Widget" />
+
+<!--             <LinearLayout -->
+<!--                 android:layout_width="match_parent" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_marginTop="5dp" -->
+<!--                 android:orientation="horizontal" > -->
+
+<!--                  <TextView -->
+<!--                 android:id="@+id/note_date" -->
+<!--                 android:layout_width="wrap_content" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_gravity="bottom|right" -->
+<!--                 android:gravity="bottom|right" -->
+<!--                 android:textAppearance="@style/Text.Small.Widget" /> -->
+
+<!--                 <ImageView -->
+<!--                     android:id="@+id/alarmIcon" -->
+<!--                     android:layout_width="15dp" -->
+<!--                     android:layout_height="15dp" -->
+<!--                     android:layout_gravity="bottom|right" -->
+<!--                     android:contentDescription="@string/note_reminder_symbol" -->
+<!--                     android:src="@drawable/ic_reminder_dark" -->
+<!--                     android:visibility="gone" /> -->
+
+<!--                 <ImageView -->
+<!--                     android:id="@+id/locationIcon" -->
+<!--                     android:layout_width="15dp" -->
+<!--                     android:layout_height="15dp" -->
+<!--                     android:layout_gravity="bottom|right" -->
+<!--                     android:src="@drawable/ic_location_dark" -->
+<!--                     android:visibility="gone" /> -->
+
+<!--                 <ImageView -->
+<!--                     android:id="@+id/archivedIcon" -->
+<!--                     android:layout_width="15dp" -->
+<!--                     android:layout_height="15dp" -->
+<!--                     android:layout_gravity="bottom|right" -->
+<!--                     android:src="@drawable/ic_archive_dark" -->
+<!--                     android:visibility="gone" /> -->
+
+<!--                 <ImageView -->
+<!--                     android:id="@+id/lockedIcon" -->
+<!--                     android:layout_width="15dp" -->
+<!--                     android:layout_height="15dp" -->
+<!--                     android:layout_gravity="bottom|right" -->
+<!--                     android:src="@drawable/ic_action_secure" -->
+<!--                     android:visibility="gone" /> -->
+<!--             </LinearLayout> -->
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/attachmentThumbnail"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/note_thumbnail" />
+    </LinearLayout>
+
+</FrameLayout>

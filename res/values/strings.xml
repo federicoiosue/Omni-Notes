@@ -142,6 +142,8 @@
     <string name="add_shortcut">Add shortcut</string>
     <string name="shortcut_added">Shortcut added to home screen</string>
     <string name="shortcut_note_deleted">The shortcut points to a deleted note</string>
+    <string name="widget_simple_description">Simple widget with buttons</string>
+    <string name="widget_list_description">Scrollable list widget with buttons</string>
     
         	 
     <!-- Settings -->

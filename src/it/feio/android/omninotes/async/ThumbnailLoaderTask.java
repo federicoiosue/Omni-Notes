@@ -54,83 +54,21 @@ public class ThumbnailLoaderTask extends
 		String path = mAttachment.getUri().getPath();		
 		// Creating a key based on path and thumbnail size to re-use the same
 		// AsyncTask both for list and detail
-		String cacheKey = path + width;
+		String cacheKey = path + width + height;
 
 		// Requesting from Application an instance of the cache
 		OmniNotes app = ((OmniNotes) mActivity.getApplication());
 
-		// Video
-		if (Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
-			// Tries to retrieve full path from ContentResolver if is a new
-			// video
-			path = StorageManager.getRealPathFromURI(mActivity,
-					mAttachment.getUri());
-			// .. or directly from local directory otherwise
-			if (path == null) {
-				path = mAttachment.getUri().getPath();
-			}
 
-			// Fetch from cache if possible
-			bmp = app.getBitmapFromCache(cacheKey);
-			// Otherwise creates thumbnail
-			if (bmp == null) {
-				wasCached = false;
-				bmp = ThumbnailUtils.createVideoThumbnail(path,
-						Thumbnails.MINI_KIND);
-				bmp = createVideoThumbnail(bmp);
-				app.addBitmapToCache(cacheKey, bmp);
-			}
+		// Fetch from cache if possible
+		bmp = app.getBitmapFromCache(cacheKey);
 
-			// Image
-		} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())) {
-			try {
-				// Fetch from cache if possible
-				bmp = app.getBitmapFromCache(cacheKey);
-				// Otherwise creates thumbnail
-				if (bmp == null) {
-					wasCached = false;
-					try {
-						bmp = checkIfBroken(BitmapHelper.getThumbnail(
-								mActivity, mAttachment.getUri(), width, height));
-						app.addBitmapToCache(cacheKey, bmp);
-					} catch (FileNotFoundException e) {
-						Log.e(Constants.TAG,
-								"Error getting bitmap for thumbnail " + path);
-					}
-				}
-			} catch (NullPointerException e) {
-				bmp = checkIfBroken(null);
-				app.addBitmapToCache(cacheKey, bmp);
-			}
+		// Creates thumbnail	
+		if (bmp == null) {		
+			wasCached = false;
+			bmp = BitmapHelper.getBitmapFromAttachment(mActivity, mAttachment, width, height);
 
-			// Audio
-		} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
-			// Fetch from cache if possible
-			bmp = app.getBitmapFromCache(cacheKey);
-			// Otherwise creates thumbnail
-			if (bmp == null) {
-				wasCached = false;
-				String text = "";
-				try {
-					text = DateHelper.getLocalizedDateTime(
-							mActivity,
-							mAttachment.getUri().getLastPathSegment()
-									.split("\\.")[0],
-							Constants.DATE_FORMAT_SORTABLE);
-				} catch (NullPointerException e) {
-					text = DateHelper.getLocalizedDateTime(
-							mActivity,
-							mAttachment.getUri().getLastPathSegment()
-									.split("\\.")[0], "yyyyMMddHHmmss");
-				}
-				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory
-						.decodeResource(mActivity.getResources(),
-								R.drawable.play), width, height);
-				bmp = BitmapHelper.drawTextToBitmap(mActivity, bmp, text, null,
-						-10, 3.3f,
-						mActivity.getResources().getColor(R.color.text_gray));
-				app.addBitmapToCache(cacheKey, bmp);
-			}
+			app.addBitmapToCache(cacheKey, bmp);			
 		}
 
 		return bmp;
@@ -161,41 +99,6 @@ public class ThumbnailLoaderTask extends
 				}
 			}
 		}
-	}
-
-	
-	/**
-	 * Draws a watermark on ImageView to highlight videos
-	 * 
-	 * @param bmp
-	 * @param overlay
-	 * @return
-	 */
-	public Bitmap createVideoThumbnail(Bitmap video) {
-		Bitmap mark = ThumbnailUtils.extractThumbnail(
-				BitmapFactory.decodeResource(mActivity.getResources(),
-						R.drawable.play_white), width, height);
-		Bitmap thumbnail = Bitmap.createBitmap(width, height,
-				Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(thumbnail);
-		Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-
-		canvas.drawBitmap(checkIfBroken(video), 0, 0, null);
-		canvas.drawBitmap(mark, 0, 0, null);
-
-		return thumbnail;
-	}
-
-	
-	private Bitmap checkIfBroken(Bitmap bmp) {
-
-		// In case no thumbnail can be extracted from video
-		if (bmp == null) {
-			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
-					mActivity.getResources(), R.drawable.attachment_broken),
-					width, height);
-		}
-		return bmp;
 	}
 	
 

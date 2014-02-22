@@ -92,5 +92,17 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/list_note_dates</item>
     </style>
+    
+    <style name="Text.Big.Widget" parent="@style/Text.Big">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Normal.Widget" parent="@style/Text.Normal">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Small.Widget" parent="@style/Text.Small">
+        <item name="android:textSize">10sp</item>
+    </style>
 
 </resources>

@@ -16,6 +16,12 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.4.0 Beta 5" changeDate="Feb 24, 2014"> 
+        <changelogtext>[b]New![/b] Home widget with scrollable list on Android >= Honeycomb</changelogtext>
+        <changelogtext>[b]New![/b] Better appearance with only one attachment in note detail</changelogtext>
+        <changelogtext>[u]Fixed[/u] Attachment smaller than thumbnail don't make app crash anymore</changelogtext>   
+    </changelogversion>
+
     <changelogversion versionName="4.4.0 Beta 4" changeDate="Feb 21, 2014">  
         <changelogtext>[u]Fixed[/u] Attachment image cropping</changelogtext>   
     </changelogversion>

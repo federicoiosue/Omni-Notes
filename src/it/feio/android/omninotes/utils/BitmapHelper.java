@@ -15,6 +15,10 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils;
 
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.utils.date.DateHelper;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -33,6 +37,7 @@ import android.graphics.Rect;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.provider.MediaStore.Images.Thumbnails;
 import android.util.Log;
 
 
@@ -239,6 +244,115 @@ public class BitmapHelper {
 		byte[] bitmapdata = bos.toByteArray();
 		ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
 		return bs;
+	}
+	
+	
+	
+	/**
+	 * Retrieves a the bitmap relative to attachment based on mime type
+	 * @param mContext
+	 * @param mAttachment
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public static Bitmap getBitmapFromAttachment(Context mContext, Attachment mAttachment, int width, int height) {
+		Bitmap bmp = null;
+		String path = mAttachment.getUri().getPath();	
+		
+		// Video
+		if (Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
+			// Tries to retrieve full path from ContentResolver if is a new
+			// video
+			path = StorageManager.getRealPathFromURI(mContext,
+					mAttachment.getUri());
+			// .. or directly from local directory otherwise
+			if (path == null) {
+				path = mAttachment.getUri().getPath();
+			}
+
+			bmp = ThumbnailUtils.createVideoThumbnail(path,
+					Thumbnails.MINI_KIND);
+			bmp = createVideoThumbnail(mContext, bmp, width, height);
+
+			// Image
+		} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())) {
+			try {
+				try {
+					bmp = checkIfBroken(mContext, BitmapHelper.getThumbnail(mContext,
+							mAttachment.getUri(), width, height), width, height);
+				} catch (FileNotFoundException e) {
+					Log.e(Constants.TAG, "Error getting bitmap for thumbnail "
+							+ path);
+				}
+			} catch (NullPointerException e) {
+				bmp = checkIfBroken(mContext, null, height, height);
+			}
+
+			// Audio
+		} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
+			String text = "";
+			try {
+				text = DateHelper.getLocalizedDateTime(mContext, mAttachment
+						.getUri().getLastPathSegment().split("\\.")[0],
+						Constants.DATE_FORMAT_SORTABLE);
+			} catch (NullPointerException e) {
+				text = DateHelper.getLocalizedDateTime(mContext, mAttachment
+						.getUri().getLastPathSegment().split("\\.")[0],
+						"yyyyMMddHHmmss");
+			}
+			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
+					mContext.getResources(), R.drawable.play), width, height);
+			bmp = BitmapHelper.drawTextToBitmap(mContext, bmp, text, null, -10,
+					3.3f, mContext.getResources().getColor(R.color.text_gray));
+		}
+		
+		return bmp;
+	}
+
+	
+	/**
+	 * Draws a watermark on ImageView to highlight videos
+	 * 
+	 * @param bmp
+	 * @param overlay
+	 * @return
+	 */
+	public static Bitmap createVideoThumbnail(Context mContext, Bitmap video, int width, int height) {
+		Bitmap mark = ThumbnailUtils.extractThumbnail(
+				BitmapFactory.decodeResource(mContext.getResources(),
+						R.drawable.play_white), width, height);
+		Bitmap thumbnail = Bitmap.createBitmap(width, height,
+				Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(thumbnail);
+		Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+
+		canvas.drawBitmap(checkIfBroken(mContext, video, height, height), 0, 0, null);
+		canvas.drawBitmap(mark, 0, 0, null);
+
+		return thumbnail;
+	}
+	
+	
+
+
+	
+	/**
+	 * Checks if a bitmap is null and returns a placeholder in its place
+	 * @param mContext
+	 * @param bmp
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	private static Bitmap checkIfBroken(Context mContext, Bitmap bmp, int width, int height) {
+		// In case no thumbnail can be extracted from video
+		if (bmp == null) {
+			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
+					mContext.getResources(), R.drawable.attachment_broken),
+					width, height);
+		}
+		return bmp;
 	}
 	
 }

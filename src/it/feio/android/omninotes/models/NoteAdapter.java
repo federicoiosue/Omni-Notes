@@ -24,6 +24,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -40,7 +41,7 @@ import android.widget.TextView;
 
 public class NoteAdapter extends ArrayAdapter<Note> {
 	
-	private final String GHOST_CHAR = "*";	
+	private final static String GHOST_CHAR = "*";	
 	private final int THUMBNAIL_SIZE = 100;	
 
 	private final Activity mActivity;
@@ -92,31 +93,13 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	        holder = (NoteAdapterViewHolder) convertView.getTag();
 	    }
 		
-		// Defining title and content texts	
-		String titleText, contentText;
-		if (note.getTitle().length() > 0) {
-			titleText = note.getTitle();
-			contentText = note.getContent();
-		} else {
-			String[] arr = note.getContent().split(System.getProperty("line.separator"));
-			titleText = arr[0];
-			contentText = arr.length > 1 ? arr[1] : "";
-		}
-		
-		// Masking title and content string if note is locked
-		if (note.isLocked()) {
-			// This checks if a part of content is used as title and should be partially masked 
-			if (!note.getTitle().equals(titleText)) {	
-				titleText = titleText.substring(0, 2) + titleText.substring(2).replaceAll(".", GHOST_CHAR);
-			}
-			contentText = contentText.replaceAll(".", GHOST_CHAR);
-		}
+		String[] titleAndContent = parseTitleAndContent(note);
 
 		// Setting note title	
-		holder.title.setText(titleText);
+		holder.title.setText(titleAndContent[0]);
 		
 		// Setting note content	
-		holder.content.setText(contentText);
+		holder.content.setText(titleAndContent[1]);
 		holder.content.setVisibility(View.VISIBLE);
 		
 
@@ -129,31 +112,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// ... the locked with password state	
 		holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
 		
-		// Choosing which date must be shown depending on sorting criteria
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
-		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
-//		String time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT
-//				: Constants.DATE_FORMAT_SHORT_12;
-		// Creation
-		if (sort_column.equals(DbHelper.KEY_CREATION)) {
-			holder.date.setText(mActivity.getString(R.string.creation) + " " + note.getCreationShort(mActivity));
-		}
-		// Reminder
-		else if (sort_column.equals(DbHelper.KEY_ALARM)) {
-			String alarmShort = note.getAlarmShort(mActivity);
-			
-			if (alarmShort.length() == 0) {
-				holder.date.setText(R.string.no_reminder_set);
-			} else {
-				holder.date.setText(mActivity.getString(R.string.alarm_set_on) + " "
-					+ note.getAlarmShort(mActivity));
-			}
-		}
-		// Others
-		else {
-			holder.date.setText(mActivity.getString(R.string.last_update) + " "
-					+ note.getLastModificationShort(mActivity));
-		}
+		
+		String dateText = getDateText(mActivity, note);
+		holder.date.setText(dateText);
+		
+		
 
 		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui
 		if (selectedItems.get(position)) {
@@ -186,6 +149,70 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		
 		return convertView;
 	}
+
+	
+	
+	/**
+	 * Choosing which date must be shown depending on sorting criteria
+	 * @return String ith formatted date
+	 */
+	public static String getDateText(Context mContext, Note note) {
+		String dateText;
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
+		
+		// Creation
+		if (sort_column.equals(DbHelper.KEY_CREATION)) {
+			dateText = mContext.getString(R.string.creation) + " " + note.getCreationShort(mContext);
+		}
+		// Reminder
+		else if (sort_column.equals(DbHelper.KEY_ALARM)) {
+			String alarmShort = note.getAlarmShort(mContext);
+			
+			if (alarmShort.length() == 0) {
+				dateText =  mContext.getString(R.string.no_reminder_set);
+			} else {
+				dateText = mContext.getString(R.string.alarm_set_on) + " "
+					+ note.getAlarmShort(mContext);
+			}
+		}
+		// Others
+		else {
+			dateText = mContext.getString(R.string.last_update) + " "
+					+ note.getLastModificationShort(mContext);
+		}
+		return dateText;
+	}
+
+	
+	
+	/**
+	 * @param note
+	 * @return
+	 */
+	public static String[] parseTitleAndContent(Note note) {
+		// Defining title and content texts	
+		String titleText, contentText;
+		if (note.getTitle().length() > 0) {
+			titleText = note.getTitle();
+			contentText = note.getContent();
+		} else {
+			String[] arr = note.getContent().split(System.getProperty("line.separator"));
+			titleText = arr.length > 0 ? arr[0] : "";
+			contentText = arr.length > 1 ? arr[1] : "";
+		}
+		
+		// Masking title and content string if note is locked
+		if (note.isLocked()) {
+			// This checks if a part of content is used as title and should be partially masked 
+			if (!note.getTitle().equals(titleText) && titleText.length() > 2) {	
+				titleText = titleText.substring(0, 2) + titleText.substring(2).replaceAll(".", GHOST_CHAR);
+			}
+			contentText = contentText.replaceAll(".", GHOST_CHAR);
+		}
+		return new String[]{titleText, contentText};		
+	}
+	
 
 	public SparseBooleanArray getSelectedItems() {
 		return selectedItems;

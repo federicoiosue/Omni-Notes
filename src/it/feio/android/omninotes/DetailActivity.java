@@ -35,6 +35,7 @@ import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.DatePickerFragment;
 import it.feio.android.omninotes.utils.date.TimePickerFragment;
+import it.feio.android.omninotes.widget.SimpleWidgetProvider;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -1311,10 +1314,26 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		}
 
 		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
+		
+		notifyAppWidget();
 	}
 	
 
 	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void notifyAppWidget() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
+			int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity,
+					SimpleWidgetProvider.class));
+
+			for (int id : ids) {
+				mgr.notifyAppWidgetViewDataChanged(id, R.id.widget_list);
+			}
+		}
+	}
+
+
 	private String getNoteTitle() {
 		return ((EditText) findViewById(R.id.title)).getText().toString();
 	}
@@ -1355,28 +1374,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		if (mShareActionProvider == null) return;
 		
 		// Changed fields
-		String title = getNoteTitle();
-		
-		// Getting content paying attention if checklist-mode is active
-//		String content = "";
-//		if (!noteTmp.isChecklist()) {
-//			// Due to checklist library introduction the returned EditText class is no more
-//			// a com.neopixl.pixlui.components.edittext.EditText but a standard
-//			// android.widget.EditText
-//			try {
-//				content = ((EditText) findViewById(R.id.content)).getText().toString();
-//			} catch (ClassCastException e) {
-//				content = ((android.widget.EditText)  findViewById(R.id.content)).getText().toString();
-//			}
-//		} else {
-//			try {
-//				mChecklistManager.setKeepChecked(true);
-//				mChecklistManager.setShowChecks(true);
-//				content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
-//			} catch (ViewNotSupportedException e) {
-//				Log.e(Constants.TAG, "Errore toggling checklist", e);
-//			}
-//		}
+		String title = getNoteTitle();		
 		String content = getNoteContent();
 
 		// Definition of shared content
