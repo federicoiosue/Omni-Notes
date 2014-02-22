@@ -967,7 +967,8 @@ public class ListActivity extends BaseActivity {
 		DbHelper db = new DbHelper(this);
 		notesList = db.getMatchingNotes(pattern);
 		Log.d(Constants.TAG, "Found " + notesList.size() + " elements matching");
-		searchView.clearFocus();
+		if (searchView != null)
+			searchView.clearFocus();
 		return notesList;
 
 	}
