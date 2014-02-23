@@ -17,7 +17,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="80dp"
     android:background="@drawable/bg_card"
     android:paddingBottom="2dp" >
 
@@ -133,7 +133,7 @@
 
         <ImageView
             android:id="@+id/attachmentThumbnail"
-            android:layout_width="90dp"
+            android:layout_width="80dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/note_thumbnail" />
     </LinearLayout>

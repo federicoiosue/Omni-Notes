@@ -27,10 +27,11 @@ import android.widget.RemoteViewsService.RemoteViewsFactory;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
-	private final int WIDTH = 90;
-	private final int HEIGHT = 90;
+	private final int WIDTH = 80;
+	private final int HEIGHT = 80;
 	
 	private static SparseArray<String> sqlConditions = new SparseArray<String>();
+	private static boolean showThumbnails = true;
 	
 	private OmniNotes app;
 	private int appWidgetId;
@@ -81,7 +82,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 			row.setInt(R.id.tag_marker, "setBackgroundColor", 0);
 		}
 		
-		if (note.getAttachmentsList().size() > 0) {
+		if (note.getAttachmentsList().size() > 0 && showThumbnails) {
 			Attachment mAttachment = note.getAttachmentsList().get(0);
 			// Fetch from cache if possible
 			String cacheKey = mAttachment.getUri().getPath() + WIDTH + HEIGHT;
@@ -133,9 +134,10 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 		return false;
 	}
 
-	public static void updateSqlCondition(int mAppWidgetId, String sqlCondition) {
-//		Log.v(Constants.TAG, "Widget configuration updated");
+	public static void updateConfiguration(int mAppWidgetId, String sqlCondition, boolean thumbnails) {
+		Log.d(Constants.TAG, "Widget configuration updated");
 		sqlConditions.put(mAppWidgetId, sqlCondition);
+		showThumbnails = thumbnails;
 	}
 
 }

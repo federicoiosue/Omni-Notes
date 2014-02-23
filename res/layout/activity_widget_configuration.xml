@@ -13,16 +13,16 @@
         android:id="@+id/widget_config_radiogroup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal" >
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal" >
 
         <RadioButton
             android:id="@+id/widget_config_notes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/note"
-            android:checked="true" />
+            android:checked="true"
+            android:text="@string/notes" />
 
         <RadioButton
             android:id="@+id/widget_config_tags"
@@ -37,6 +37,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="invisible" />
+
+    <CheckBox
+        android:id="@+id/show_thumbnails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:checked="true"
+        android:text="@string/show_thumbnails" />
 
     <Button
         android:id="@+id/widget_config_confirm"

@@ -4,8 +4,6 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.widget.ListRemoteViewsFactory;
-import it.feio.android.omninotes.widget.ListWidgetProvider;
-import it.feio.android.omninotes.widget.WidgetProvider;
 
 import java.util.ArrayList;
 
@@ -17,10 +15,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class WidgetConfigurationActivity extends Activity {
 
@@ -40,9 +38,9 @@ public class WidgetConfigurationActivity extends Activity {
 		setResult(RESULT_CANCELED);
 
 		setContentView(R.layout.activity_widget_configuration);
-		
+
 		mRadioGroup = (RadioGroup) findViewById(R.id.widget_config_radiogroup);
-		mRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {			
+		mRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				switch (checkedId) {
@@ -53,20 +51,18 @@ public class WidgetConfigurationActivity extends Activity {
 				case R.id.widget_config_tags:
 					tagSpinner.setVisibility(View.VISIBLE);
 					break;
-				}				
+				}
 			}
 		});
 
-		
 		tagSpinner = (Spinner) findViewById(R.id.widget_config_spinner);
 		DbHelper db = new DbHelper(mContext);
-		tags = db.getTags();		
+		tags = db.getTags();
 		tagSpinner.setAdapter(new NavDrawerTagAdapter(mContext, tags));
-
 
 		configOkButton = (Button) findViewById(R.id.widget_config_confirm);
 		configOkButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 
@@ -74,20 +70,22 @@ public class WidgetConfigurationActivity extends Activity {
 					sqlCondition = " WHERE " + DbHelper.KEY_ARCHIVED + " != 1 ";
 				} else {
 					Tag tag = (Tag) tagSpinner.getSelectedItem();
-					sqlCondition = " WHERE " + DbHelper.TABLE_NOTES + "." + DbHelper.KEY_TAG + " = " + tag.getId();
+					sqlCondition = " WHERE " + DbHelper.TABLE_NOTES + "."
+							+ DbHelper.KEY_TAG + " = " + tag.getId();
 				}
-				
-//				AppWidgetManager appWidgetManager = AppWidgetManager
-//						.getInstance(mContext);		
-				
-				// Updating the ListRemoteViewsFactory parameter to get the list of notes
-				ListRemoteViewsFactory.updateSqlCondition(mAppWidgetId, sqlCondition);
+
+				CheckBox showThumbnailsCheckBox = (CheckBox) findViewById(R.id.show_thumbnails);
+
+				// Updating the ListRemoteViewsFactory parameter to get the list
+				// of notes
+				ListRemoteViewsFactory.updateConfiguration(mAppWidgetId,
+						sqlCondition, showThumbnailsCheckBox.isChecked());
 
 				Intent resultValue = new Intent();
 				resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
 						mAppWidgetId);
 				setResult(RESULT_OK, resultValue);
-				
+
 				finish();
 			}
 		});
