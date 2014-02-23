@@ -442,13 +442,7 @@ public class SettingsActivity extends PreferenceActivity {
 				
 				if (!config.locale.getCountry().equals(locale)) {
 					OmniNotes.updateLanguage(getApplicationContext(), value.toString());
-					
-//					Intent i = getBaseContext()
-//							.getPackageManager()
-//							.getLaunchIntentForPackage(getBaseContext()
-//							.getPackageName());							                               
-//					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//					startActivity(i);
+										
 					restartApp();
 				}
 				return false;
@@ -468,6 +462,7 @@ public class SettingsActivity extends PreferenceActivity {
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	    startActivity(intent);
+	    finish();
 	}
 	
 	

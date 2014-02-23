@@ -3,7 +3,6 @@ package it.feio.android.omninotes;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.models.SketchView;
-import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;
@@ -223,9 +222,7 @@ public class SketchActivity extends BaseActivity {
 		}
 
 		super.finish();
-		if (prefs.getBoolean("settings_enable_animations", true)) {
-			overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
-		}
+		animateTransition(TRANSITION_BACKWARD);
 	}
 	
 	

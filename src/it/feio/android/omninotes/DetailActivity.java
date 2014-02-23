@@ -801,9 +801,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		int result = resultIntent.getIntExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_OK);
 		setResult(result, resultIntent);
 		super.finish();
-		if (prefs.getBoolean("settings_enable_animations", true)) {
-			overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
-		}
+		animateTransition(TRANSITION_BACKWARD);
 		return true;
 	}
 
@@ -1138,9 +1136,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			intent.putExtra("base", attachment.getUri());
 		}
 		startActivityForResult(intent, SKETCH);
-		if (prefs.getBoolean("settings_enable_animations", true)) {
-			overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
-		}
+		animateTransition(TRANSITION_FORWARD);
 	}
 
 	

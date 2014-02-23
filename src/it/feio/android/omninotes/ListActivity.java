@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -57,6 +58,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -759,9 +761,7 @@ public class ListActivity extends BaseActivity {
 		Intent detailIntent = new Intent(this, DetailActivity.class);
 		detailIntent.putExtra(Constants.INTENT_NOTE, note);
 		startActivityForResult(detailIntent, REQUEST_CODE_DETAIL);
-		if (prefs.getBoolean("settings_enable_animations", true)) {
-			overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
-		}
+		animateTransition(TRANSITION_FORWARD);
 	}
 	
 	
@@ -1181,21 +1181,9 @@ public class ListActivity extends BaseActivity {
 		// Advice to user
 		String msg = getResources().getText(R.string.notes_tagged_as) + " '" + tag.getName() + "'";
 		Crouton.makeText(mActivity, msg, ONStyle.INFO).show();
-//		candidateSelectedTag = null;
 		mActionMode.finish(); // Action picked, so close the CAB
 	}
 	
-	
-	
-	
-	private void restartAndRefresh() {
-		Intent intent = getIntent();
-		overridePendingTransition(0, 0);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-		finish();
-		overridePendingTransition(0, 0);
-		startActivity(intent);
-	}
 
 
 }

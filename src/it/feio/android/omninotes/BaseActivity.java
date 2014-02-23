@@ -25,6 +25,7 @@ import it.feio.android.omninotes.widget.ListWidgetProvider;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -43,6 +44,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -72,6 +74,9 @@ import com.google.analytics.tracking.android.Tracker;
 public class BaseActivity extends ActionBarActivity {
 
 	private final boolean TEST = true;
+
+	protected final int TRANSITION_BACKWARD = 0;
+	protected final int TRANSITION_FORWARD = 1;
 	
 	protected DbHelper db;	
 	protected Activity mActivity;
@@ -431,6 +436,34 @@ public class BaseActivity extends ActionBarActivity {
 			for (int id : ids) {
 				mgr.notifyAppWidgetViewDataChanged(id, R.id.widget_list);
 			}
+		}
+	}
+	
+	
+	/**
+	 * Manages the activity transition animations
+	 * @param direction
+	 */
+	protected void animateTransition(int direction) {
+		boolean rtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
+		if (prefs.getBoolean("settings_enable_animations", true)) {
+			
+			if (TRANSITION_BACKWARD == direction) {
+				if (rtl) {
+					overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
+				} else {
+					overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
+				}
+			}
+			
+			else if (TRANSITION_FORWARD == direction) {
+				if (rtl) {
+					overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
+				} else {
+					overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
+				}
+			}
+			
 		}
 	}
 
