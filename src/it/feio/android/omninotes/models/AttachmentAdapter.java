@@ -32,16 +32,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 public class AttachmentAdapter extends BaseAdapter {
-	
-	private final int THUMBNAIL_SIZE;
-	
+		
 	private Activity mActivity;
 	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
+	private ExpandableHeightGridView mGridView;
 
-	public AttachmentAdapter(Activity mActivity, List<Attachment> attachmentsList, int thumbnailSize) {
+	public AttachmentAdapter(Activity mActivity, List<Attachment> attachmentsList, ExpandableHeightGridView mGridView) {
 		this.mActivity = mActivity;
 		this.attachmentsList = attachmentsList;
-		THUMBNAIL_SIZE = thumbnailSize;
+		this.mGridView = mGridView;
 	}
 
 	public int getCount() {
@@ -79,7 +78,7 @@ public class AttachmentAdapter extends BaseAdapter {
 	
 		Attachment attachment = attachmentsList.get(position);
 			
-		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, imageView, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, imageView, mGridView.getItemHeight(), mGridView.getItemHeight());
 		if (Build.VERSION.SDK_INT >= 11) {
 			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, attachment);
 		} else {

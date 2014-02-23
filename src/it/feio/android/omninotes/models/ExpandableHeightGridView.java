@@ -23,7 +23,8 @@ import android.widget.GridView;
 
 public class ExpandableHeightGridView extends GridView {
 
-	boolean expanded = false;
+	private boolean expanded = false;
+	private int itemHeight;
 
 	public ExpandableHeightGridView(Context context) {
 		super(context);
@@ -58,10 +59,13 @@ public class ExpandableHeightGridView extends GridView {
 		}
 	}
 
+	
+	
 	public void setExpanded(boolean expanded) {
 		this.expanded = expanded;
 	}
 
+	
 	public void autoresize() {	    
 	    // Set gridview height
 	    ViewGroup.LayoutParams layoutParams = getLayoutParams();
@@ -69,10 +73,14 @@ public class ExpandableHeightGridView extends GridView {
 	    int columns = items == 1 ? 1 : 2;
 	    
     	setNumColumns(columns);
-    	layoutParams.height = ( (items / columns) + (items % columns) ) * Constants.THUMBNAIL_SIZE; //this is in pixels
+    	itemHeight = Constants.THUMBNAIL_SIZE * 2 / columns;
+    	layoutParams.height = ( (items / columns) + (items % columns) ) * itemHeight; //this is in pixels
 	    
 	    setLayoutParams(layoutParams);
-	    
-		
+	}
+	
+	
+	public int getItemHeight() {
+		return itemHeight;
 	}
 }

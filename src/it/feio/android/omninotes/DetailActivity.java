@@ -368,7 +368,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		
 
 		// Initialzation of gridview for images
-		mGridView = (ExpandableHeightGridView) findViewById(R.id.gridview);
 		mGridView.setAdapter(mAttachmentAdapter);
 		// mGridView.setExpanded(true);
 		mGridView.autoresize();
@@ -675,7 +674,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 		// Some fields can be filled by third party application and are always
 		// shown
-		mAttachmentAdapter = new AttachmentAdapter((Activity)mActivity, noteTmp.getAttachmentsList(), 300);	
+		mGridView = (ExpandableHeightGridView) findViewById(R.id.gridview);
+		mAttachmentAdapter = new AttachmentAdapter((Activity)mActivity, noteTmp.getAttachmentsList(), mGridView);	
 	}
 
 	
