@@ -405,7 +405,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 				alertDialogBuilder.setMessage(R.string.delete_selected_image)
-						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+						.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								noteTmp.getAttachmentsList().remove(position);
@@ -421,7 +421,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 				
 				// If is an image user could want to sketch it!
 				if (Constants.MIME_TYPE_IMAGE.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
-					alertDialogBuilder.setNeutralButton(R.string.sketch, new DialogInterface.OnClickListener() {
+					alertDialogBuilder
+						.setMessage(R.string.choose_action)
+						.setNeutralButton(R.string.edit, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								takeSketch(mAttachmentAdapter.getItem(position));

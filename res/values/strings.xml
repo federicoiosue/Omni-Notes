@@ -39,7 +39,7 @@
     <string name="undo">Undo</string>
     <string name="undo_message">Undo delete</string>
     <string name="unarchive">Restore from archive</string>
-    <string name="delete">Delete note</string>
+    <string name="delete">Delete</string>
     <string name="creation">Created:</string>
     <string name="last_update">Updated:</string>
     <string name="delete_note_confirmation">Confirm note deletion?</string>
@@ -146,6 +146,8 @@
     <string name="widget_list_description">Scrollable list widget with buttons</string>
     <string name="notes">Note</string>
     <string name="show_thumbnails">Show attachment\'s thumbnails</string>
+    <string name="choose_action">Choose action to perform</string>
+    <string name="edit">Edit</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
