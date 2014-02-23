@@ -1,30 +1,19 @@
 package it.feio.android.omninotes.async;
 
 import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.utils.BitmapHelper;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.StorageManager;
-import it.feio.android.omninotes.utils.date.DateHelper;
 
-import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
-import android.provider.MediaStore.Images.Thumbnails;
-import android.util.Log;
 import android.widget.ImageView;
 
 public class ThumbnailLoaderTask extends
@@ -50,7 +39,15 @@ public class ThumbnailLoaderTask extends
 	protected Bitmap doInBackground(Attachment... params) {
 		Bitmap bmp = null;
 		Attachment mAttachment = params[0];
-
+		
+		// If possible, auto-calculated sized replace the requested
+		if (imageViewReference.get() != null) {
+			int widthCalc = imageViewReference.get().getWidth();
+			int heightCalc = imageViewReference.get().getHeight();
+			this.width = widthCalc != 0 ? widthCalc : width;
+			this.height = heightCalc != 0 ? heightCalc : height;			
+		}
+		
 		String path = mAttachment.getUri().getPath();		
 		// Creating a key based on path and thumbnail size to re-use the same
 		// AsyncTask both for list and detail

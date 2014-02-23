@@ -189,6 +189,8 @@ public class BitmapHelper {
 		// 2. multiplied for bitmap size to maintain proportionality
 		// 3. divided for a constant (300) to assimilate input size with android text sizes
 		textSize = (int) (textSize * scale	* bitmap.getWidth() / 100);
+		// If is too big it will be limited
+		textSize = textSize < 25 ? textSize : 25;
 		paint.setTextSize(textSize);
 		// text shadow
 		paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
@@ -303,7 +305,7 @@ public class BitmapHelper {
 			}
 			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
 					mContext.getResources(), R.drawable.play), width, height);
-			bmp = BitmapHelper.drawTextToBitmap(mContext, bmp, text, null, -10,
+			bmp = BitmapHelper.drawTextToBitmap(mContext, bmp, text, null, -20,
 					3.3f, mContext.getResources().getColor(R.color.text_gray));
 		}
 		
