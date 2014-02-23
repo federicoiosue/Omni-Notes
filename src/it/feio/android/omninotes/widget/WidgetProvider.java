@@ -108,4 +108,5 @@ public class WidgetProvider extends AppWidgetProvider {
 	protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, SparseArray<PendingIntent> pendingIntentsMap){
 		return null;
 	}
+
 }

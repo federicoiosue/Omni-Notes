@@ -46,36 +46,38 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 414;
 	// Sql query file directory
     private static final String SQL_DIR = "sql" ;
+    
 	// Notes table name
-	private static final String TABLE_NOTES = "notes";
+    public static final String TABLE_NOTES = "notes";
 	// Notes table columns
-	private static final String KEY_ID = "note_id";
+	public static final String KEY_ID = "note_id";
 	public static final String KEY_CREATION = "creation";
 	public static final String KEY_LAST_MODIFICATION = "last_modification";
 	public static final String KEY_TITLE = "title";
-	private static final String KEY_CONTENT = "content";
-	private static final String KEY_ARCHIVED = "archived";
+	public static final String KEY_CONTENT = "content";
+	public static final String KEY_ARCHIVED = "archived";
 	public static final String KEY_ALARM = "alarm";
-	private static final String KEY_LATITUDE = "latitude";
-	private static final String KEY_LONGITUDE = "longitude";
-	private static final String KEY_TAG = "tag_id";
-	private static final String KEY_LOCKED = "locked";
-	private static final String KEY_CHECKLIST = "checklist";
+	public static final String KEY_LATITUDE = "latitude";
+	public static final String KEY_LONGITUDE = "longitude";
+	public static final String KEY_TAG = "tag_id";
+	public static final String KEY_LOCKED = "locked";
+	public static final String KEY_CHECKLIST = "checklist";
+	
 	// Attachments table name
-	private static final String TABLE_ATTACHMENTS = "attachments";
+	public static final String TABLE_ATTACHMENTS = "attachments";
 	// Attachments table columns
-	private static final String KEY_ATTACHMENT_ID = "attachment_id"; 
-	private static final String KEY_ATTACHMENT_URI = "uri"; 
-	private static final String KEY_ATTACHMENT_MIME_TYPE = "mime_type"; 
-	private static final String KEY_ATTACHMENT_NOTE_ID = "note_id"; 	
+	public static final String KEY_ATTACHMENT_ID = "attachment_id"; 
+	public static final String KEY_ATTACHMENT_URI = "uri"; 
+	public static final String KEY_ATTACHMENT_MIME_TYPE = "mime_type"; 
+	public static final String KEY_ATTACHMENT_NOTE_ID = "note_id"; 	
 
 	// Tags table name
-	private static final String TABLE_TAGS = "tags";
+	public static final String TABLE_TAGS = "tags";
 	// Tags table columns
-	private static final String KEY_TAG_ID = "tag_id"; 
-	private static final String KEY_TAG_NAME = "name"; 
-	private static final String KEY_TAG_DESCRIPTION = "description"; 
-	private static final String KEY_TAG_COLOR = "color"; 
+	public static final String KEY_TAG_ID = "tag_id"; 
+	public static final String KEY_TAG_NAME = "name"; 
+	public static final String KEY_TAG_DESCRIPTION = "description"; 
+	public static final String KEY_TAG_COLOR = "color"; 
 	
 	// Queries    
     private static final String CREATE_QUERY = "create.sql";
@@ -309,7 +311,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @param query
 	 * @return Notes list
 	 */
-	private List<Note> getNotes(String whereCondition, boolean order) {
+	public List<Note> getNotes(String whereCondition, boolean order) {
 		List<Note> noteList = new ArrayList<Note>();
 
 		// Getting sorting criteria from preferences

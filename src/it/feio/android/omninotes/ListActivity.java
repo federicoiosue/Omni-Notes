@@ -277,16 +277,6 @@ public class ListActivity extends BaseActivity {
 		public void onDestroyActionMode(ActionMode mode) {
 			// Here you can make any necessary updates to the activity when
 			// the CAB is removed. By default, selected items are deselected/unchecked.
-			
-			
-//	    	Iterator it = mAdapter.getSelectedItems().entrySet().iterator();
-//			while (it.hasNext()) {
-//				Map.Entry mapEntry = (Map.Entry) it.next();
-//				int i = (Integer) mapEntry.getKey();
-//				if (mAdapter.getCount() > i && mAdapter.getItem(i) != null && listView.getChildAt(i) != null) {
-//					mAdapter.restoreDrawable(mAdapter.getItem(i), listView.getChildAt(i).findViewById(R.id.card_layout));
-//				}
-//			}
 			for (int i = 0; i < mAdapter.getSelectedItems().size(); i++) {
 				int key = mAdapter.getSelectedItems().keyAt(i);
 				if	(mAdapter.getCount() > key && mAdapter.getItem(key) != null && listView.getChildAt(key) != null) {
@@ -301,6 +291,9 @@ public class ListActivity extends BaseActivity {
 			
 			mActionMode = null;
 			Log.d(Constants.TAG, "Closed multiselection contextual menu");
+
+			// Updates app widgets
+			notifyAppWidgets();
 		}
 
 		@Override
@@ -895,6 +888,8 @@ public class ListActivity extends BaseActivity {
 						prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which])
 								.commit();
 						initNotesList(getIntent());
+						// Updates app widgets
+						notifyAppWidgets();
 					}
 				});
 		return builder.create();

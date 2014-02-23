@@ -1,0 +1,108 @@
+package it.feio.android.omninotes;
+
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.NavDrawerTagAdapter;
+import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.widget.ListRemoteViewsFactory;
+import it.feio.android.omninotes.widget.ListWidgetProvider;
+import it.feio.android.omninotes.widget.WidgetProvider;
+
+import java.util.ArrayList;
+
+import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+public class WidgetConfigurationActivity extends Activity {
+
+	private Context mContext;
+	private Button configOkButton;
+	private Spinner tagSpinner;
+	private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+	private ArrayList<Tag> tags;
+	private String sqlCondition;
+	private RadioGroup mRadioGroup;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mContext = this;
+
+		setResult(RESULT_CANCELED);
+
+		setContentView(R.layout.activity_widget_configuration);
+		
+		mRadioGroup = (RadioGroup) findViewById(R.id.widget_config_radiogroup);
+		mRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {			
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				switch (checkedId) {
+				case R.id.widget_config_notes:
+					tagSpinner.setVisibility(View.INVISIBLE);
+					break;
+
+				case R.id.widget_config_tags:
+					tagSpinner.setVisibility(View.VISIBLE);
+					break;
+				}				
+			}
+		});
+
+		
+		tagSpinner = (Spinner) findViewById(R.id.widget_config_spinner);
+		DbHelper db = new DbHelper(mContext);
+		tags = db.getTags();		
+		tagSpinner.setAdapter(new NavDrawerTagAdapter(mContext, tags));
+
+
+		configOkButton = (Button) findViewById(R.id.widget_config_confirm);
+		configOkButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+
+				if (mRadioGroup.getCheckedRadioButtonId() == R.id.widget_config_notes) {
+					sqlCondition = " WHERE " + DbHelper.KEY_ARCHIVED + " != 1 ";
+				} else {
+					Tag tag = (Tag) tagSpinner.getSelectedItem();
+					sqlCondition = " WHERE " + DbHelper.TABLE_NOTES + "." + DbHelper.KEY_TAG + " = " + tag.getId();
+				}
+				
+//				AppWidgetManager appWidgetManager = AppWidgetManager
+//						.getInstance(mContext);		
+				
+				// Updating the ListRemoteViewsFactory parameter to get the list of notes
+				ListRemoteViewsFactory.updateSqlCondition(mAppWidgetId, sqlCondition);
+
+				Intent resultValue = new Intent();
+				resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+						mAppWidgetId);
+				setResult(RESULT_OK, resultValue);
+				
+				finish();
+			}
+		});
+
+		Intent intent = getIntent();
+		Bundle extras = intent.getExtras();
+		if (extras != null) {
+			mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
+					AppWidgetManager.INVALID_APPWIDGET_ID);
+		}
+
+		// If they gave us an intent without the widget id, just bail.
+		if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+			finish();
+		}
+	}
+
+}

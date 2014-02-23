@@ -35,7 +35,7 @@ import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.DatePickerFragment;
 import it.feio.android.omninotes.utils.date.TimePickerFragment;
-import it.feio.android.omninotes.widget.SimpleWidgetProvider;
+import it.feio.android.omninotes.widget.ListWidgetProvider;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -1246,18 +1246,20 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 						}
 
 						// Saving changes to the note
-						DeleteNoteTask saveNoteTask = new DeleteNoteTask(getApplicationContext());
+						DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getApplicationContext());
 						// Forceing parallel execution disabled by default
 						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-							saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+							deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
 						} else {
-							saveNoteTask.execute(note);
+							deleteNoteTask.execute(note);
 						}
 
 						// Informs the user about update
 						Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
 						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_CANCELED);
 						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_deleted));
+						
+						notifyAppWidgets();
 						
 						goHome();
 						return;
@@ -1315,23 +1317,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
 		
-		notifyAppWidget();
+		notifyAppWidgets();
 	}
 	
-
-	
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private void notifyAppWidget() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
-			int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity,
-					SimpleWidgetProvider.class));
-
-			for (int id : ids) {
-				mgr.notifyAppWidgetViewDataChanged(id, R.id.widget_list);
-			}
-		}
-	}
 
 
 	private String getNoteTitle() {

@@ -227,7 +227,17 @@
         <service android:name="it.feio.android.omninotes.async.NotificationService" >
         </service>
 
-        <!-- Widget -->
+        
+        <!-- Widget configuration Activity -->
+        <activity
+            android:name="it.feio.android.omninotes.WidgetConfigurationActivity"
+            android:theme="@style/Theme.AppCompat.Dialog" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <!-- Widget Simple -->
         <receiver
             android:name="it.feio.android.omninotes.widget.SimpleWidgetProvider"
             android:icon="@drawable/logo"
@@ -241,6 +251,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget_simple" />
         </receiver>
+        <!-- Widget List -->
         <receiver
             android:name="it.feio.android.omninotes.widget.ListWidgetProvider"
             android:icon="@drawable/logo"

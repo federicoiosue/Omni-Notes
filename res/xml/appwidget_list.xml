@@ -3,6 +3,7 @@
     android:initialLayout="@layout/widget_layout_list"
     android:minHeight="110dp"
     android:minWidth="180dp"
-    android:updatePeriodMillis="300000" >
+    android:updatePeriodMillis="300000" 
+    android:configure="it.feio.android.omninotes.WidgetConfigurationActivity"  >
 
 </appwidget-provider>

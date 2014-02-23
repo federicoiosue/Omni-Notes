@@ -21,13 +21,17 @@ import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;
+import it.feio.android.omninotes.widget.ListWidgetProvider;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,6 +39,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
@@ -410,6 +415,23 @@ public class BaseActivity extends ActionBarActivity {
 		String packageName = getApplicationContext().getPackageName();
 		int resId = getResources().getIdentifier(aString, "string", packageName);
 		return getString(resId);
+	}
+
+	
+	/**
+	 * Notifies App Widgets about data changes so they can update theirselves
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public void notifyAppWidgets() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
+			int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity,
+					ListWidgetProvider.class));
+
+			for (int id : ids) {
+				mgr.notifyAppWidgetViewDataChanged(id, R.id.widget_list);
+			}
+		}
 	}
 
 	

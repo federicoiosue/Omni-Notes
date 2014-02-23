@@ -109,12 +109,12 @@
     <string name="save_note_to_unlock_it">Save note to unmask it</string>
     <string name="unlock">Unmask</string>
     <string name="title_activity_password">Edit security password</string>
-	<string name="title_activity_about">Info</string>
-	<string name="deleted">deleted</string>
-	<string name="no_items_in_list">Nothing here!</string>
-	<string name="checklist_on">Enable checklist</string>
-	<string name="checklist_off">Disable checklist</string>
-	<string name="checklist_item_hint">New item</string>
+    <string name="title_activity_about">Info</string>
+    <string name="deleted">deleted</string>
+    <string name="no_items_in_list">Nothing here!</string>
+    <string name="checklist_on">Enable checklist</string>
+    <string name="checklist_off">Disable checklist</string>
+    <string name="checklist_item_hint">New item</string>
     <string name="remove_checklist">Remove checklist?</string>
     <string name="checklist_keep_checked">Keep checked items</string>
     <string name="checklist_keep_symbols">Keep checkmarks (to remember checked ones)</string>
@@ -122,14 +122,14 @@
     <string name="crash_dialog_text">Something wrong has happened in Omni Notes\n Would you like to send a report to developer?</string>
     <string name="crash_dialog_comment_prompt">Insert an optional comment here:</string>
     <string name="new_update_available">A new Omni Notes version is available, would you like to update?</string>
-   	<string name="update">Update and rate!</string>
-    <string name="not_now">Not now</string>	 
+    <string name="update">Update and rate!</string>
+    <string name="not_now">Not now</string>
     <string name="title_activity_sketch">Sketch</string>
-    <string name="redo">Redo</string>	 
-    <string name="colors">Colors</string>	
-    <string name="stroke">Stroke</string>	 
-    <string name="erase_sketch">Erase sketch?</string>	 
-    <string name="no_reminder_set">No reminder set</string>	 
+    <string name="redo">Redo</string>
+    <string name="colors">Colors</string>
+    <string name="stroke">Stroke</string>
+    <string name="erase_sketch">Erase sketch?</string>
+    <string name="no_reminder_set">No reminder set</string>
     <string name="saturation">Saturation</string>
     <string name="opacity">Opacity</string>
     <string name="dismiss">Dismiss</string>
@@ -144,8 +144,7 @@
     <string name="shortcut_note_deleted">The shortcut points to a deleted note</string>
     <string name="widget_simple_description">Simple widget with buttons</string>
     <string name="widget_list_description">Scrollable list widget with buttons</string>
-    
-        	 
+
     <!-- Settings -->
     <string name="settings">Settings</string>
     <string name="settings_about">Info</string>
@@ -198,7 +197,7 @@
     <string name="confirm_removing_backup">Confirm removing backup</string>
     <string name="confirm_restoring_backup">Confirm restoring backup</string>
     <string name="data_deletion_completed">Data deletion completed</string>
-	<string name="settings_checked_items_behavior">Checked items behavior</string>
+    <string name="settings_checked_items_behavior">Checked items behavior</string>
     <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>
     <string name="settings_category_preferences">Preferences</string>
     <string name="settings_category_beta">Beta</string>
@@ -231,24 +230,22 @@
     <string name="password_not_set">Password not set</string>
     <string name="wrong_answer">Wrong answer</string>
 
-    
     <!-- Instructions -->
-    <string name="tour_listactivity_intro_title">Welcome to Omni Notes!</string>	
-    <string name="tour_listactivity_intro_detail">press \"Proceed\" to continue the tour</string>	
-    <string name="tour_listactivity_actions_title">Actions</string>	
-    <string name="tour_listactivity_actions_detail">Create new notes, sort them, access to preferences</string>	
-    <string name="tour_listactivity_home_title">Navigate</string>	
-    <string name="tour_listactivity_home_detail">Navigation menu allows you to move through notes with filters and tags</string>	
-    <string name="tour_listactivity_tag_title">Tags</string>	
-    <string name="tour_listactivity_tag_detail">Add colored tags to keep your thoughts always efficient</string>	
-    <string name="tour_detailactivity_action_title">Do more</string>	
-    <string name="tour_detailactivity_action_detail">Add a lot of attachment types to your notes! Share, and tag, and archive, and protect, and&#8230;</string>	
-	<string name="tour_detailactivity_reminder_title">Just press</string>	
-    <string name="tour_detailactivity_reminder_detail">Short or long pressions on objects (attachments, location, reminder) have different effect!</string>	
-    <string name="tour_listactivity_final_title">Enjoy</string>	
-    <string name="tour_listactivity_final_detail">Thank you for using Omni Notes\n\nThe opensource alternative for your productivity and entertainment note-taking moments.\n\nPress \"Proceed\" to close tour and start inserting your first note!</string>	
-    
-    
+    <string name="tour_listactivity_intro_title">Welcome to Omni Notes!</string>
+    <string name="tour_listactivity_intro_detail">press \"Proceed\" to continue the tour</string>
+    <string name="tour_listactivity_actions_title">Actions</string>
+    <string name="tour_listactivity_actions_detail">Create new notes, sort them, access to preferences</string>
+    <string name="tour_listactivity_home_title">Navigate</string>
+    <string name="tour_listactivity_home_detail">Navigation menu allows you to move through notes with filters and tags</string>
+    <string name="tour_listactivity_tag_title">Tags</string>
+    <string name="tour_listactivity_tag_detail">Add colored tags to keep your thoughts always efficient</string>
+    <string name="tour_detailactivity_action_title">Do more</string>
+    <string name="tour_detailactivity_action_detail">Add a lot of attachment types to your notes! Share, and tag, and archive, and protect, and&#8230;</string>
+    <string name="tour_detailactivity_reminder_title">Just press</string>
+    <string name="tour_detailactivity_reminder_detail">Short or long pressions on objects (attachments, location, reminder) have different effect!</string>
+    <string name="tour_listactivity_final_title">Enjoy</string>
+    <string name="tour_listactivity_final_detail">Thank you for using Omni Notes\n\nThe opensource alternative for your productivity and entertainment note-taking moments.\n\nPress \"Proceed\" to close tour and start inserting your first note!</string>
+
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
@@ -256,6 +253,7 @@
     <string name="stroke_size">stroke size</string>
     <string name="note_thumbnail">note thumbnail</string>
     <string name="note_reminder_symbol">note reminder symblo</string>
-    
+    <string name="title_activity_widget_configuration">WidgetConfigurationActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

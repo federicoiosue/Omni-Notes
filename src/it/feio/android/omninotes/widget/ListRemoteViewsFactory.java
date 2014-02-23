@@ -18,6 +18,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
@@ -27,6 +29,8 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
 	private final int WIDTH = 90;
 	private final int HEIGHT = 90;
+	
+	private static SparseArray<String> sqlConditions = new SparseArray<String>();
 	
 	private OmniNotes app;
 	private int appWidgetId;
@@ -45,7 +49,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
 	@Override
 	public void onDataSetChanged() {
-		notes = db.getAllNotes(false);
+		notes = db.getNotes(sqlConditions.get(appWidgetId), true);
 	}
 
 	@Override
@@ -127,6 +131,11 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	public boolean hasStableIds() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public static void updateSqlCondition(int mAppWidgetId, String sqlCondition) {
+//		Log.v(Constants.TAG, "Widget configuration updated");
+		sqlConditions.put(mAppWidgetId, sqlCondition);
 	}
 
 }
