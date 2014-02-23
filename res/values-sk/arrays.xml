@@ -7,7 +7,7 @@
     <item>Pripomienky</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Nadpis</item>
+    <item>Názov</item>
     <item>Dátum vytvorenia</item>
     <item>Dátum poslednej zmeny</item>
     <item>Dátum pripomenky</item>

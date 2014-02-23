@@ -14,7 +14,7 @@
   </string-array>
   <string-array name="checked_items_behavior">
     <item>保持原位</item>
-    <item>移动至所有项目结尾</item>
-    <item>取消勾选后移动，但保持在未勾选项顶端</item>
+    <item>移动至所有事项末尾</item>
+    <item>取消勾选后移动至未勾选事项顶端</item>
   </string-array>
 </resources>

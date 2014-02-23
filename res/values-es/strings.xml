@@ -80,10 +80,10 @@
   <string name="notes_tag_removed">Etiquetas eliminadas de la nota</string>
   <string name="notes_tagged_as">Notas etiquetadas como</string>
   <string name="insert_security_password">Introduzca la contraseña de seguridad</string>
-  <string name="lock">Bloquear</string>
-  <string name="save_note_to_lock_it">Guarda la nota para bloquearla</string>
-  <string name="save_note_to_unlock_it">Guarda la nota para desbloquearla</string>
-  <string name="unlock">Desbloquear</string>
+  <string name="lock">Mask</string>
+  <string name="save_note_to_lock_it">Save note to mask it</string>
+  <string name="save_note_to_unlock_it">Save note to unmask it</string>
+  <string name="unlock">Unmask</string>
   <string name="title_activity_password">Editar la contraseña de seguridad</string>
   <string name="title_activity_about">Información</string>
   <string name="deleted">borrada</string>
@@ -113,6 +113,11 @@
   <string name="error_importing_some_attachments">Error al importar algunos adjuntos</string>
   <string name="error_saving_attachments">Error al guardar adjuntos</string>
   <string name="proceed">Continuar</string>
+  <string name="contracted_view">Contracted view</string>
+  <string name="expanded_view">Expanded view</string>
+  <string name="add_shortcut">Add shortcut</string>
+  <string name="shortcut_added">Shortcut added to home screen</string>
+  <string name="shortcut_note_deleted">The shortcut points to a deleted note</string>
   <string name="settings">Configuración</string>
   <string name="settings_about">Información</string>
   <string name="settings_category_other">Otros</string>
@@ -144,13 +149,13 @@
   <string name="settings_backup">Copia de seguridad</string>
   <string name="settings_password">Contraseña</string>
   <string name="settings_password_instructions">Contraseña de seguridad se utiliza para garantizar que los billetes protegidos no se pueden ver o modificar sin autorización. \ N tiempo \ Nevery usted intenta cambiar esta contraseña de seguridad de la anterior se solicitarán. \ N \ nDefinir una contraseña vacía para borrarla</string>
-  <string name="settings_password_not_matching">Las contraseñas no coinciden</string>
+  <string name="settings_password_not_matching">Passwords missing or not matching</string>
   <string name="insert_new_password">Introduzca una nueva contraseña dde seguridad</string>
   <string name="confirm_new_password">Confirme la nueva contraseña de seguridad</string>
   <string name="password_successfully_changed">La contraseña se ha cambiado correctamente</string>
   <string name="password_successfully_removed">La contraseña se ha eliminado correctamente</string>
   <string name="wrong_password">Contraseña incorrecta</string>
-  <string name="agree_unlocking_all_notes">¿Quitar la contraseña de seguridad\ny desbloquear todas las notas bloqueadas?</string>
+  <string name="agree_unlocking_all_notes">Agree removing security password\nand unmasking all masked notes?</string>
   <string name="settings_enable_tag_marker">Marcadores de etiquetas</string>
   <string name="settings_backup_summary">Importar o exportar datos de la aplicación</string>
   <string name="settings_max_video_size_summary">Máximo tamaño permitido en MB</string>
@@ -159,9 +164,8 @@
   <string name="settings_enable_tag_marker_summary">Activar o desactivar los marcadores de etiquetas</string>
   <string name="settings_enable_editor_links_summary">Activar o desactivar el resaltado automático de enlaces y e-mail en el editor</string>
   <string name="confirm_removing_backup">¿Está seguro de querer eliminar la copias de seguridad?</string>
+  <string name="confirm_restoring_backup">Confirmar restaurar copia de seguridad</string>
   <string name="data_deletion_completed">Borrado de datos completado</string>
-  <string name="settings_hours_format">Reloj de 24 horas</string>
-  <string name="settings_hours_format_summary">Utilizar el formato de 24 horas en lugar del formato de 12 horas</string>
   <string name="settings_checked_items_behavior">Comportamiento de los elementos marcados</string>
   <string name="settings_checked_items_behavior_summary">¿Qué desea hacer cuando se selecciona un elemento?</string>
   <string name="settings_category_preferences">Preferencias</string>
@@ -184,6 +188,16 @@
   <string name="settings_simple_calendar_summary">Usar selector simple de calendario y tiempo en lugar de los de Google</string>
   <string name="settings_tour_show_again">Tour de aplicación</string>
   <string name="settings_tour_show_again_summary">Mostrar de nuevo el tour de las instrucciones de la aplicación</string>
+  <string name="backup_include_settings">Include settings (with password)</string>
+  <string name="settings_included">settings included</string>
+  <string name="settings_password_question_instructions">Insert a question and a secret answer to reset password if forgotten</string>
+  <string name="settings_password_question">Question</string>
+  <string name="settings_password_answer">Answer</string>
+  <string name="settings_password_answer_check">Confirm answer</string>
+  <string name="password_forgot">Forgot password?</string>
+  <string name="settings_answer_not_matching">Answer missing or not matching</string>
+  <string name="password_not_set">Password not set</string>
+  <string name="wrong_answer">Wrong answer</string>
   <string name="tour_listactivity_intro_title">Bienvenido a Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Presione \"Continuar\" para seguir el recorrido del tour</string>
   <string name="tour_listactivity_actions_title">Acciones</string>
@@ -202,4 +216,6 @@
   <string name="drawer_close">Editor cerrado</string>
   <string name="reminder">recordatorio</string>
   <string name="stroke_size">tamaño del trazo</string>
+  <string name="note_thumbnail">miniatura de nota</string>
+  <string name="note_reminder_symbol">símbolo de recordatorio de nota</string>
 </resources>

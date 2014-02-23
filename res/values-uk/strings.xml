@@ -79,10 +79,10 @@
   <string name="notes_tag_removed">Ярличок вилучено з нотаток</string>
   <string name="notes_tagged_as">Нотатки відзначені як</string>
   <string name="insert_security_password">Введіть пароль безпеки</string>
-  <string name="lock">Заблокувати</string>
-  <string name="save_note_to_lock_it">Збережіть нотатку, щоб заблокувати її</string>
-  <string name="save_note_to_unlock_it">Збережіть нотатку, щоб розблокувати її</string>
-  <string name="unlock">Розблокувати</string>
+  <string name="lock">Приховати</string>
+  <string name="save_note_to_lock_it">Збережіть нотатку, щоб приховати її</string>
+  <string name="save_note_to_unlock_it">Збережіть нотатку, щоб відкрити її</string>
+  <string name="unlock">Відкрити</string>
   <string name="title_activity_password">Зміна паролю безпеки</string>
   <string name="title_activity_about">Інформація</string>
   <string name="deleted">видалено</string>
@@ -112,6 +112,11 @@
   <string name="error_importing_some_attachments">Помилка при імпорті деяких вкладень</string>
   <string name="error_saving_attachments">Помилка при збереженні вкладень</string>
   <string name="proceed">Продовжити</string>
+  <string name="contracted_view">Компактний вигляд</string>
+  <string name="expanded_view">Розширений вигляд</string>
+  <string name="add_shortcut">Додати ярличок</string>
+  <string name="shortcut_added">Ярличок додано на робочий стіл</string>
+  <string name="shortcut_note_deleted">Ярличок пов\'язаний із видаленою нотаткою</string>
   <string name="settings">Налаштування</string>
   <string name="settings_about">Інформація</string>
   <string name="settings_category_other">Інше</string>
@@ -146,13 +151,13 @@
         щоб захищені нотатки не можна було переглядати чи редагувати 
         без дозволу.\n\nЩоразу, коли ви намагатиметеся змінити пароль безпеки, 
         необхідно буде ввести попередній.\n\nВкажіть порожній пароль, щоб видалити його.</string>
-  <string name="settings_password_not_matching">Паролі не збігаються</string>
+  <string name="settings_password_not_matching">Пароль відсутній або не збігається</string>
   <string name="insert_new_password">Введіть новий пароль</string>
   <string name="confirm_new_password">Підтвердіть новий пароль</string>
   <string name="password_successfully_changed">Пароль змінено успішно</string>
   <string name="password_successfully_removed">Пароль успішно вилучено</string>
   <string name="wrong_password">Неправильний пароль</string>
-  <string name="agree_unlocking_all_notes">Ви згодні вилучити пароль безпеки\nі розблокувати всі заблоковані нотатки?</string>
+  <string name="agree_unlocking_all_notes">Ви згодні вилучити пароль безпеки\nі відкрити всі приховані нотатки?</string>
   <string name="settings_enable_tag_marker">Ярлички</string>
   <string name="settings_backup_summary">Імпорт або експорт даних програми</string>
   <string name="settings_max_video_size_summary">Макс. дозволений розмір в МБ</string>
@@ -161,9 +166,8 @@
   <string name="settings_enable_tag_marker_summary">Увімкнути або вимкнути кольорові ярлички</string>
   <string name="settings_enable_editor_links_summary">Увімкнути або вимкнути підсвічування посилань та адрес електронної пошти в редакторі</string>
   <string name="confirm_removing_backup">Видалити резервну копію?</string>
+  <string name="confirm_restoring_backup">Підтвердження відновлення</string>
   <string name="data_deletion_completed">Видалення даних завершене</string>
-  <string name="settings_hours_format">24-годинний формат</string>
-  <string name="settings_hours_format_summary">Використовувати 24-годинний формат замість 12-годинного</string>
   <string name="settings_checked_items_behavior">Поведінка позначених елементів</string>
   <string name="settings_checked_items_behavior_summary">Що виконувати, коли елемент позначений?</string>
   <string name="settings_category_preferences">Параметри</string>
@@ -186,6 +190,16 @@
   <string name="settings_simple_calendar_summary">Використовуйте простий календар і час Android замість аналогів від Google</string>
   <string name="settings_tour_show_again">Довідник</string>
   <string name="settings_tour_show_again_summary">Показати довідник програми ще раз</string>
+  <string name="backup_include_settings">Включаючи налаштування (з паролем)</string>
+  <string name="settings_included">налаштування включені</string>
+  <string name="settings_password_question_instructions">Вставте запитання і секретну відповідь для відновлення забутого паролю</string>
+  <string name="settings_password_question">Запитання</string>
+  <string name="settings_password_answer">Відповідь</string>
+  <string name="settings_password_answer_check">Підтвердіть відповідь</string>
+  <string name="password_forgot">Забули пароль?</string>
+  <string name="settings_answer_not_matching">Відповідь відсутня чи неправильна</string>
+  <string name="password_not_set">Пароль не встановлено</string>
+  <string name="wrong_answer">Неправильна відповідь</string>
   <string name="tour_listactivity_intro_title">Ласкаво просимо до Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">натисніть \"Продовжити\", щоб ознайомитися з програмою</string>
   <string name="tour_listactivity_actions_title">Дії</string>
@@ -204,4 +218,6 @@
   <string name="drawer_close">сп. програм закритий</string>
   <string name="reminder">нагадування</string>
   <string name="stroke_size">розмір окреслення</string>
+  <string name="note_thumbnail">мініатюра нотатки</string>
+  <string name="note_reminder_symbol">Символ нагадування</string>
 </resources>

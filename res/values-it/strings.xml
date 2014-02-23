@@ -79,10 +79,10 @@
   <string name="notes_tag_removed">Tag rimosso dalle note</string>
   <string name="notes_tagged_as">Nota taggata come</string>
   <string name="insert_security_password">Inserisci la password di sicurezza</string>
-  <string name="lock">Blocca</string>
-  <string name="save_note_to_lock_it">Salva nota per bloccarla</string>
-  <string name="save_note_to_unlock_it">Salva la nota per sbloccarla</string>
-  <string name="unlock">Sblocca</string>
+  <string name="lock">Maschera</string>
+  <string name="save_note_to_lock_it">Salva la nota per mascherarla</string>
+  <string name="save_note_to_unlock_it">Salva la nota per mostrarla in chiaro</string>
+  <string name="unlock">Mostra in chiaro</string>
   <string name="title_activity_password">Modifica password di sicurezza</string>
   <string name="title_activity_about">Info</string>
   <string name="deleted">cancellato</string>
@@ -113,6 +113,11 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="error_importing_some_attachments">Errore nell\'importazione degli allegati</string>
   <string name="error_saving_attachments">Errore nel salvataggio degli allegati</string>
   <string name="proceed">Prosegui</string>
+  <string name="contracted_view">Visualizzazione contratta</string>
+  <string name="expanded_view">Visualizzazione espansa</string>
+  <string name="add_shortcut">Aggiungi collegamento</string>
+  <string name="shortcut_added">Collegamento aggiunto alla home</string>
+  <string name="shortcut_note_deleted">Il collegamento è riferito ad una nota cancellata</string>
   <string name="settings">Impostazioni</string>
   <string name="settings_about">Info</string>
   <string name="settings_category_other">Altro</string>
@@ -146,14 +151,13 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_password_instructions">\"La password di sicurezza viene utilizzata per assicurare che le note protette non possano essere visualizzate senza autorizzazione.
 \n\nOgni volta che si proverà a modificare questa password verrà richiesta la precedente.
 \n\nImpostare una password vuota per rimuoverla.\"</string>
-  <string name="settings_password_not_matching">Password non corrispondenti</string>
+  <string name="settings_password_not_matching">Password mancante o non corrispondente</string>
   <string name="insert_new_password">Inserire una nuova password</string>
   <string name="confirm_new_password">Confermare la nuova password</string>
   <string name="password_successfully_changed">Password modificata con successo</string>
   <string name="password_successfully_removed">Password rimossa con successo</string>
   <string name="wrong_password">Password errata</string>
-  <string name="agree_unlocking_all_notes">\"Confermi la rimozione di password di sicurezza
-\n e lo sblocco di tutte le note bloccate?\"</string>
+  <string name="agree_unlocking_all_notes">Confermi la rimozione della password di sicurezza\n e il mostrare in chiaro tutte le note mascherate?</string>
   <string name="settings_enable_tag_marker">Evidenziazione tags</string>
   <string name="settings_backup_summary">Importazione o esportazione dati app</string>
   <string name="settings_max_video_size_summary">Maassima dimensione consentita in MB</string>
@@ -162,9 +166,8 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_enable_tag_marker_summary">Attiva o disattiva i marcatori colorati dei tag </string>
   <string name="settings_enable_editor_links_summary">Attiva o disattiva l\'evidenziazione automatica di links ed indirizzi e-mail nell\'editor</string>
   <string name="confirm_removing_backup">Conferma la cancellazione del backup</string>
+  <string name="confirm_restoring_backup">Confermare il ripristino del backup</string>
   <string name="data_deletion_completed">Cancellazione dei dati completata</string>
-  <string name="settings_hours_format">Orogolo 24-ore</string>
-  <string name="settings_hours_format_summary">Utilizzare il formato orario a 24 ore invece di quello a 12</string>
   <string name="settings_checked_items_behavior">Comportamento elementi selezionati</string>
   <string name="settings_checked_items_behavior_summary">Cosa fare quando un elemento delle liste di controllo viene selezionato?</string>
   <string name="settings_category_preferences">Preferenze</string>
@@ -187,6 +190,16 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_simple_calendar_summary">Usa i più semplici popup di Android per la selezione di data e ora invece di quelli di Google</string>
   <string name="settings_tour_show_again">Tour dell\'applicazione</string>
   <string name="settings_tour_show_again_summary">Mostra di nuovo il tour dell\'applicazione</string>
+  <string name="backup_include_settings">Includi le impostazioni (con password di sicurezza)</string>
+  <string name="settings_included">impostazioni incluse</string>
+  <string name="settings_password_question_instructions">Inserisci una domanda ed una risposta segreta per resettare la password di sicurezza se dimenticata</string>
+  <string name="settings_password_question">Domanda</string>
+  <string name="settings_password_answer">Risposta</string>
+  <string name="settings_password_answer_check">Conferma la risposta</string>
+  <string name="password_forgot">Password dimenticata?</string>
+  <string name="settings_answer_not_matching">Risposta mancante o non corrispondente</string>
+  <string name="password_not_set">Password di sicurezza non impostata</string>
+  <string name="wrong_answer">Risposta sbagliata</string>
   <string name="tour_listactivity_intro_title">Benvenuti in Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Premere \"Prosegui\" per continuare il tour</string>
   <string name="tour_listactivity_actions_title">Azioni</string>
@@ -205,4 +218,6 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="drawer_close">drawer chiuso</string>
   <string name="reminder">promemoria</string>
   <string name="stroke_size">dimensioni del tratto</string>
+  <string name="note_thumbnail">miniatura della nota</string>
+  <string name="note_reminder_symbol">simbolo del promemoria della nota</string>
 </resources>

@@ -67,9 +67,11 @@
         <item >English (English)</item>
         <item >Français (French)</item>
         <item >Deutsch (German)</item>
+        <item >עברית (Hebrew)</item>
+        <item >हिंदी (Hindi)</item>
         <item >Italiano (Italian)</item>
         <item >ສ​ປ​ປ​ລາວ  (Lao)</item>
-        <item >Português (Portuguese - Brazil)</item>
+        <item >Português (Portuguese Brazil)</item>
         <item >Русский (Russian)</item>
         <item >Slovenčina (Slovak)</item>
         <item >Español (Spanish)</item>
@@ -85,6 +87,8 @@
         <item >en</item>
         <item >fr</item>
         <item >de</item>
+        <item >he</item>
+        <item >hi</item>
         <item >it</item>
         <item >lo</item>
         <item >pt</item>

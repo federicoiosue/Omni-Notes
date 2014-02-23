@@ -1,5 +1,8 @@
 Look to the changelog inside the app for all the changes!
 
+4.3.9
+Fixed archive/restore issue
+
 4.3.8
 No more crash opening the edit password screen in Gingerbread
 Fixed error on notes list scrolling
