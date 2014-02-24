@@ -29,6 +29,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.StorageManager;
@@ -753,9 +754,16 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 	    // Show instructions on first launch
 	    final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "detail";
 	    if (!prefs.getBoolean(instructionName, false)) {
+	    	// Attaches a dummy image as example
+	    	Attachment attachment = new Attachment(BitmapHelper.getUri(mActivity, R.drawable.ic_launcher), Constants.MIME_TYPE_IMAGE);
+			noteTmp.getAttachmentsList().add(attachment);
+			mAttachmentAdapter.notifyDataSetChanged();
+			mGridView.autoresize();
+			
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+			list.add(new Integer[]{R.id.menu_attachment, R.string.tour_detailactivity_attachment_title, R.string.tour_detailactivity_attachment_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{R.id.menu_tag, R.string.tour_detailactivity_action_title, R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
-			list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title, R.string.tour_detailactivity_reminder_detail, null});
+			list.add(new Integer[]{R.id.gridview, R.string.tour_detailactivity_reminder_title, R.string.tour_detailactivity_reminder_detail, null});
 			showCase2(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {

@@ -367,7 +367,7 @@ public class ListActivity extends BaseActivity {
 	 * Notes list initialization. Data, actions and callback are defined here.
 	 */
 	private void initListView() {
-			listView = (ListView) findViewById(R.id.notesList);
+			listView = (ListView) findViewById(R.id.notes_list);
 			
 			listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 			listView.setItemsCanFocus(false);
@@ -593,7 +593,7 @@ public class ListActivity extends BaseActivity {
 		final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "list";
 		if (!prefs.getBoolean(instructionName, false)) {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-			list.add(new Integer[]{null, R.string.tour_listactivity_intro_title, R.string.tour_listactivity_intro_detail, null});
+			list.add(new Integer[]{0, R.string.tour_listactivity_intro_title, R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE});
 			list.add(new Integer[]{R.id.menu_add, R.string.tour_listactivity_actions_title, R.string.tour_listactivity_actions_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail, ShowcaseView.ITEM_ACTION_HOME});
 			showCase2(list, new OnShowcaseAcknowledged() {			
@@ -853,7 +853,8 @@ public class ListActivity extends BaseActivity {
 	    final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "list2";
 	    if (!prefs.getBoolean(instructionName, false)) {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-			list.add(new Integer[]{R.id.menu_add, R.string.tour_listactivity_final_title, R.string.tour_listactivity_final_detail, ShowcaseView.ITEM_TITLE});
+			int target = (findViewById(R.id.empty_list)).getVisibility() == View.VISIBLE ? R.id.empty_list : R.id.notes_list; 
+			list.add(new Integer[]{null, R.string.tour_listactivity_final_title, R.string.tour_listactivity_final_detail, null});
 			showCase2(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
@@ -998,7 +999,7 @@ public class ListActivity extends BaseActivity {
 							deleteNote(note);
 						}
 						// Refresh view
-						ListView l = (ListView) findViewById(R.id.notesList);
+						ListView l = (ListView) findViewById(R.id.notes_list);
 						l.invalidateViews();					
 						
 						// If list is empty again Mr Jingles will appear again
@@ -1077,7 +1078,7 @@ public class ListActivity extends BaseActivity {
 		listView.clearChoices();
 
 		// Refresh view
-		((ListView) findViewById(R.id.notesList)).invalidateViews();
+		((ListView) findViewById(R.id.notes_list)).invalidateViews();
 		// Advice to user
 		Crouton.makeText(mActivity, archivedStatus, ONStyle.INFO).show();
 	}
@@ -1141,7 +1142,7 @@ public class ListActivity extends BaseActivity {
 								}
 								candidateSelectedTag = null;
 								// Refresh view
-								((ListView) findViewById(R.id.notesList)).invalidateViews();
+								((ListView) findViewById(R.id.notes_list)).invalidateViews();
 								// Advice to user
 								Crouton.makeText(mActivity, R.string.notes_tag_removed, ONStyle.INFO).show();
 								mActionMode.finish(); // Action picked, so close the CAB
@@ -1177,7 +1178,7 @@ public class ListActivity extends BaseActivity {
 			db.updateNote(note);
 		}
 		// Refresh view
-		((ListView) findViewById(R.id.notesList)).invalidateViews();
+		((ListView) findViewById(R.id.notes_list)).invalidateViews();
 		// Advice to user
 		String msg = getResources().getText(R.string.notes_tagged_as) + " '" + tag.getName() + "'";
 		Crouton.makeText(mActivity, msg, ONStyle.INFO).show();

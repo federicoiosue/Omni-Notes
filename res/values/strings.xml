@@ -243,12 +243,14 @@
     <string name="tour_listactivity_home_detail">Navigation menu allows you to move through notes with filters and tags</string>
     <string name="tour_listactivity_tag_title">Tags</string>
     <string name="tour_listactivity_tag_detail">Add colored tags to keep your thoughts always efficient</string>
+    <string name="tour_detailactivity_attachment_title">Improve</string>
+    <string name="tour_detailactivity_attachment_detail">Add a lot of different attachment types to your notes!</string>
     <string name="tour_detailactivity_action_title">Do more</string>
-    <string name="tour_detailactivity_action_detail">Add a lot of attachment types to your notes! Share, and tag, and archive, and protect, and&#8230;</string>
+    <string name="tour_detailactivity_action_detail">Share, and tag, and archive, and protect, and&#8230;</string>
     <string name="tour_detailactivity_reminder_title">Just press</string>
     <string name="tour_detailactivity_reminder_detail">Short or long pressions on objects (attachments, location, reminder) have different effect!</string>
     <string name="tour_listactivity_final_title">Enjoy</string>
-    <string name="tour_listactivity_final_detail">Thank you for using Omni Notes\n\nThe opensource alternative for your productivity and entertainment note-taking moments.\n\nPress \"Proceed\" to close tour and start inserting your first note!</string>
+    <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \n\n The opensource alternative \n for your productivity and \n entertainment note-taking \n moments \n\n Press \"Proceed\" to close tour \n and start inserting your first note!</string>
 
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>
