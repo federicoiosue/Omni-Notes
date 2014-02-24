@@ -41,12 +41,12 @@ public class ThumbnailLoaderTask extends
 		Attachment mAttachment = params[0];
 		
 		// If possible, auto-calculated sized replace the requested
-		if (imageViewReference.get() != null) {
-			int widthCalc = imageViewReference.get().getWidth();
-			int heightCalc = imageViewReference.get().getHeight();
-			this.width = widthCalc != 0 ? widthCalc : width;
-			this.height = heightCalc != 0 ? heightCalc : height;			
-		}
+//		if (imageViewReference.get() != null) {
+//			int widthCalc = imageViewReference.get().getWidth();
+//			int heightCalc = imageViewReference.get().getHeight();
+//			this.width = widthCalc != 0 ? widthCalc : width;
+//			this.height = heightCalc != 0 ? heightCalc : height;			
+//		}
 		
 		String path = mAttachment.getUri().getPath();		
 		// Creating a key based on path and thumbnail size to re-use the same
