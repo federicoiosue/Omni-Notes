@@ -148,6 +148,9 @@
     <string name="show_thumbnails">Show attachment\'s thumbnails</string>
     <string name="choose_action">Choose action to perform</string>
     <string name="edit">Edit</string>
+    <string name="reminders">reminders</string>
+    <string name="not_expired">not expired</string>
+    <string name="today">today</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

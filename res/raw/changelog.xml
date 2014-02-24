@@ -18,6 +18,7 @@
 
     <changelogversion versionName="4.4.0 Beta 5" changeDate="Feb 24, 2014"> 
         <changelogtext>[b]New![/b] Home widget with scrollable notes list on Android >= Honeycomb</changelogtext>
+        <changelogtext>[b]New![/b] DashClock extension support</changelogtext>
         <changelogtext>[b]New![/b] Better appearance when only one attachment is present inside note detail</changelogtext>
         <changelogtext>Modified transition animations to fit right-to-left languages</changelogtext>
         <changelogtext>[u]Fixed[/u] Attachment smaller than thumbnail size don't cause app crashing anymore</changelogtext>   

@@ -46,11 +46,13 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
 	@Override
 	public void onCreate() {
+		Log.d(Constants.TAG, "Created widget " + appWidgetId);
 	}
 
 	@Override
 	public void onDataSetChanged() {
-		notes = db.getNotes(sqlConditions.get(appWidgetId), true);
+		String condition = sqlConditions.get(appWidgetId) == null ? "" : sqlConditions.get(appWidgetId);
+		notes = db.getNotes(condition, true);
 	}
 
 	@Override

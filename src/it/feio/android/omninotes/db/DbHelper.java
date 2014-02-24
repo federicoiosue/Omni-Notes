@@ -490,6 +490,18 @@ public class DbHelper extends SQLiteOpenHelper {
 								+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis());
 		return getNotes(whereCondition, false);
 	}
+	
+	
+	
+	/**
+	 * Search for notes with reminder expiring the current day
+	 * @return Notes list
+	 */
+	public List<Note> getTodayReminders() {
+		// Select query
+		String whereCondition = " WHERE DATE(" + KEY_ALARM + "/1000, 'unixepoch') = DATE('now')";
+		return getNotes(whereCondition, false);
+	}
 
 
 	
