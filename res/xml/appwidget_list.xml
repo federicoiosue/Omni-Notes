@@ -4,6 +4,8 @@
     android:minHeight="110dp"
     android:minWidth="180dp"
     android:updatePeriodMillis="300000" 
-    android:configure="it.feio.android.omninotes.widget.WidgetConfigurationActivity"  >
+    android:configure="it.feio.android.omninotes.widget.WidgetConfigurationActivity" 
+    android:widgetCategory="keyguard|home_screen"
+    android:previewImage="@drawable/widget_list" >
 
 </appwidget-provider>
