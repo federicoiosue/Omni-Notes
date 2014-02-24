@@ -1,6 +1,5 @@
 package it.feio.android.omninotes.widget;
 
-import it.feio.android.checklistview.interfaces.Constants;
 import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.R;
 import android.annotation.TargetApi;
@@ -10,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 

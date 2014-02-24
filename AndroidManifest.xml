@@ -230,7 +230,7 @@
         
         <!-- Widget configuration Activity -->
         <activity
-            android:name="it.feio.android.omninotes.WidgetConfigurationActivity"
+            android:name="it.feio.android.omninotes.widget.WidgetConfigurationActivity"
             android:theme="@style/Theme.AppCompat.Dialog" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
@@ -256,7 +256,8 @@
             android:name="it.feio.android.omninotes.widget.ListWidgetProvider"
             android:icon="@drawable/logo"
             android:label="@string/app_name" 
-            android:description="@string/widget_list_description">
+            android:description="@string/widget_list_description"
+            android:enabled="@bool/list_widget_receiver_enabled">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
