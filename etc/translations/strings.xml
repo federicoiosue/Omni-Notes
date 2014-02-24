@@ -224,7 +224,7 @@
     <string name="settings_password_answer">Answer</string>
     <string name="settings_password_answer_check">Confirm answer</string>
     <string name="password_forgot">Forgot password?</string>
-    <string name="settings_answer_not_matching">Answer missing not matching</string>
+    <string name="settings_answer_not_matching">Answer missing or not matching</string>
     <string name="password_not_set">Password not set</string>
     <string name="wrong_answer">Wrong answer</string>
 
@@ -252,8 +252,6 @@
     <string name="reminder">reminder</string>
     <string name="stroke_size">stroke size</string>
     <string name="note_thumbnail">note thumbnail</string>
-    <string name="note_reminder_symbol">note reminder symblo</string>
-    <string name="title_activity_widget_configuration">WidgetConfigurationActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="note_reminder_symbol">note reminder symbol</string>
 
 </resources>

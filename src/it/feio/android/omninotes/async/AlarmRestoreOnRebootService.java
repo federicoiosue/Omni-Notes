@@ -1,5 +1,6 @@
 package it.feio.android.omninotes.async;
 
+import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
@@ -33,6 +34,9 @@ public class AlarmRestoreOnRebootService extends Service {
 //		PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
 //		// Acquire the lock
 //		wl.acquire();
+		
+		// Refresh widgets data
+		BaseActivity.notifyAppWidgets(ctx);
 
 		// Retrieves all notes with reminder set
 		try {
@@ -43,6 +47,7 @@ public class AlarmRestoreOnRebootService extends Service {
 				setAlarm(ctx, note);
 			}
 		}
+		
 
 		// Release the lock
 		finally {

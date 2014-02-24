@@ -5,9 +5,6 @@ import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.ListActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
-
-import java.util.HashMap;
-
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -51,8 +48,9 @@ public class WidgetProvider extends AppWidgetProvider {
 //			PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, 0, intentDetailPhoto,
 //					Intent.FLAG_ACTIVITY_NEW_TASK);
 
-			// Get the layout for and attach an on-click listener to views
+			Log.d(Constants.TAG, "WidgetProvider onUpdate() widget " + appWidgetId);
 
+			// Get the layout for and attach an on-click listener to views			
 			setLayout(context, appWidgetManager, appWidgetId);
 		}
 	    super.onUpdate(context, appWidgetManager, appWidgetIds);

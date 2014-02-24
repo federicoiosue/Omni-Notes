@@ -1262,7 +1262,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_CANCELED);
 						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_deleted));
 						
-						notifyAppWidgets();
+						notifyAppWidgets(mActivity);
 						
 						goHome();
 						return;
@@ -1320,7 +1320,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 
 		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
 		
-		notifyAppWidgets();
+		notifyAppWidgets(mActivity);
 	}
 	
 

@@ -51,6 +51,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
 	@Override
 	public void onDataSetChanged() {
+		Log.d(Constants.TAG, "onDataSetChanged widget " + appWidgetId);
 		String condition = sqlConditions.get(appWidgetId) == null ? "" : sqlConditions.get(appWidgetId);
 		notes = db.getNotes(condition, true);
 	}

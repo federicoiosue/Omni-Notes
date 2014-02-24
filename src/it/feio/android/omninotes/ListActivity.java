@@ -295,7 +295,7 @@ public class ListActivity extends BaseActivity {
 			Log.d(Constants.TAG, "Closed multiselection contextual menu");
 
 			// Updates app widgets
-			notifyAppWidgets();
+			notifyAppWidgets(mActivity);
 		}
 
 		@Override
@@ -890,7 +890,7 @@ public class ListActivity extends BaseActivity {
 								.commit();
 						initNotesList(getIntent());
 						// Updates app widgets
-						notifyAppWidgets();
+						notifyAppWidgets(mActivity);
 					}
 				});
 		return builder.create();
