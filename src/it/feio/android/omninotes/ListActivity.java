@@ -1135,7 +1135,7 @@ public class ListActivity extends BaseActivity {
 								for (Note note : selectedNotes) {
 									// Update adapter content if actual navigation is the tag
 									// associated with actually cycled note										
-									if ( navigation.equals(String.valueOf(note.getTag().getId())) ) {
+									if ( note.getTag() != null && navigation.equals(String.valueOf(note.getTag().getId())) ) {
 										mAdapter.remove(note);
 									}
 									note.setTag(null);
