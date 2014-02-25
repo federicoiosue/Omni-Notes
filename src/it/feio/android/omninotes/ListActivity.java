@@ -528,7 +528,7 @@ public class ListActivity extends BaseActivity {
 				if (!prefs.getBoolean(instructionName, false)) {
 					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 					list.add(new Integer[]{R.id.menu_add_tag, R.string.tour_listactivity_tag_title, R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM});
-					showCase2(list, new OnShowcaseAcknowledged() {			
+					showCaseView(list, new OnShowcaseAcknowledged() {			
 						@Override
 						public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
 							prefs.edit().putBoolean(instructionName, true).commit();
@@ -594,7 +594,7 @@ public class ListActivity extends BaseActivity {
 			list.add(new Integer[]{0, R.string.tour_listactivity_intro_title, R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE});
 			list.add(new Integer[]{R.id.menu_add, R.string.tour_listactivity_actions_title, R.string.tour_listactivity_actions_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail, ShowcaseView.ITEM_ACTION_HOME});
-			showCase2(list, new OnShowcaseAcknowledged() {			
+			showCaseView(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
 					prefs.edit().putBoolean(instructionName, true).commit();
@@ -853,7 +853,7 @@ public class ListActivity extends BaseActivity {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			int target = (findViewById(R.id.empty_list)).getVisibility() == View.VISIBLE ? R.id.empty_list : R.id.notes_list; 
 			list.add(new Integer[]{null, R.string.tour_listactivity_final_title, R.string.tour_listactivity_final_detail, null});
-			showCase2(list, new OnShowcaseAcknowledged() {			
+			showCaseView(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
 					prefs.edit().putBoolean(instructionName, true).commit();

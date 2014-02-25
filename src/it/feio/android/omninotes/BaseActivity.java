@@ -323,48 +323,6 @@ public class BaseActivity extends ActionBarActivity {
 		navigation = nav;
 	}
 	
-
-	
-	/**
-	 * Used for ShowCase library instructions
-	 * @param istructionsName
-	 * @param target
-	 * @param type
-	 */
-	protected void showCase(String istructionName, int targetId, int type) {
-		if (!prefs.getBoolean(istructionName, false)) {
-//			ShowcaseView.insertShowcaseViewWithType(type,
-//					target, this, istructionsName + "_title", istructionsName + "_detail", new ShowcaseView.ConfigOptions());
-			Target target;
-			switch (type) {
-			case ShowcaseView.ITEM_ACTION_ITEM:
-				target = new ActionItemTarget(this, targetId);
-				break;
-			case ShowcaseView.ITEM_ACTION_HOME:
-				target = new ActionViewTarget(this, ActionViewTarget.Type.HOME);
-				break;
-
-			default:
-				target = new ViewTarget(targetId, this);
-				break;
-			}
-			ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
-            //can only dismiss by button click
-            co.hideOnClickOutside = false;
-            //show only once
-            co.shotType = ShowcaseView.TYPE_ONE_SHOT;
-            ShowcaseView sv = ShowcaseView.insertShowcaseView(target, this,
-            		getStringResourceByName(istructionName + "_title"), getStringResourceByName(istructionName + "_detail"));
-            
-            // set black background
-            sv.setBackgroundColor(getResources().getColor(android.R.color.black));
-            // make background a bit transparent
-            AlphaManager.setAlpha(sv, 0.8f);
-            
-//			prefs.edit().putBoolean(istructionsName, true).commit();
-		}
-	}
-	
 	
 	/**
 	 * Builds ShowcaseView and show it
@@ -373,7 +331,7 @@ public class BaseActivity extends ActionBarActivity {
 	 *            that have to be used for ItemViewProperties building: id,
 	 *            titleResId, messageResId, itemType, scale, configOptions
 	 */
-	protected void showCase2(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
+	protected void showCaseView(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
 		
 		final float scale = 0.4F;
 		ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();

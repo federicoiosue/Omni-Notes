@@ -764,7 +764,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 			list.add(new Integer[]{R.id.menu_attachment, R.string.tour_detailactivity_attachment_title, R.string.tour_detailactivity_attachment_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{R.id.menu_tag, R.string.tour_detailactivity_action_title, R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title, R.string.tour_detailactivity_reminder_detail, null});
-			showCase2(list, new OnShowcaseAcknowledged() {			
+			list.add(new Integer[]{0, R.string.tour_detailactivity_save_title, R.string.tour_detailactivity_save_detail, ShowcaseView.ITEM_ACTION_HOME});
+			showCaseView(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
 					prefs.edit().putBoolean(instructionName, true).commit();
