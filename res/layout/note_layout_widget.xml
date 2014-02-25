@@ -25,7 +25,7 @@
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/tag_marker"
@@ -51,14 +51,13 @@
 
                 <TextView
                     android:id="@+id/note_title"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="top|start"
-                    android:textStyle="bold"
                     android:singleLine="true"
                     android:textAppearance="@style/Text.Big.Widget"
-                    android:textColor="@color/list_note_title" />
+                    android:textColor="@color/list_note_title"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <TextView
@@ -68,67 +67,69 @@
                 android:layout_gravity="bottom|right"
                 android:singleLine="true"
                 android:textAppearance="@style/Text.Normal.Widget"
-                android:textColor="@color/list_note_title"/>
-            
-            
+                android:textColor="@color/list_note_title" />
 
-             <TextView
-                 android:id="@+id/note_date"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_gravity="bottom|left"
-                 android:layout_marginRight="15dp"
-                 android:alpha="0.5"
-                 android:gravity="bottom|left"
-                 android:textAppearance="@style/Text.Small.Widget" />
+            <TextView
+                android:id="@+id/note_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|left"
+                android:alpha="0.5"
+                android:singleLine="true"
+                android:textAppearance="@style/Text.Small.Widget" />
 
-<!--             <LinearLayout -->
-<!--                 android:layout_width="match_parent" -->
-<!--                 android:layout_height="wrap_content" -->
-<!--                 android:layout_marginTop="5dp" -->
-<!--                 android:orientation="horizontal" > -->
+            <!-- <LinearLayout -->
+            <!-- android:layout_width="match_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_marginTop="5dp" -->
+            <!-- android:orientation="horizontal" > -->
 
-<!--                  <TextView -->
-<!--                 android:id="@+id/note_date" -->
-<!--                 android:layout_width="wrap_content" -->
-<!--                 android:layout_height="wrap_content" -->
-<!--                 android:layout_gravity="bottom|right" -->
-<!--                 android:gravity="bottom|right" -->
-<!--                 android:textAppearance="@style/Text.Small.Widget" /> -->
 
-<!--                 <ImageView -->
-<!--                     android:id="@+id/alarmIcon" -->
-<!--                     android:layout_width="15dp" -->
-<!--                     android:layout_height="15dp" -->
-<!--                     android:layout_gravity="bottom|right" -->
-<!--                     android:contentDescription="@string/note_reminder_symbol" -->
-<!--                     android:src="@drawable/ic_reminder_dark" -->
-<!--                     android:visibility="gone" /> -->
+            <!-- <TextView -->
+            <!-- android:id="@+id/note_date" -->
+            <!-- android:layout_width="wrap_content" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_gravity="bottom|right" -->
+            <!-- android:gravity="bottom|right" -->
+            <!-- android:textAppearance="@style/Text.Small.Widget" /> -->
 
-<!--                 <ImageView -->
-<!--                     android:id="@+id/locationIcon" -->
-<!--                     android:layout_width="15dp" -->
-<!--                     android:layout_height="15dp" -->
-<!--                     android:layout_gravity="bottom|right" -->
-<!--                     android:src="@drawable/ic_location_dark" -->
-<!--                     android:visibility="gone" /> -->
 
-<!--                 <ImageView -->
-<!--                     android:id="@+id/archivedIcon" -->
-<!--                     android:layout_width="15dp" -->
-<!--                     android:layout_height="15dp" -->
-<!--                     android:layout_gravity="bottom|right" -->
-<!--                     android:src="@drawable/ic_archive_dark" -->
-<!--                     android:visibility="gone" /> -->
+            <!-- <ImageView -->
+            <!-- android:id="@+id/alarmIcon" -->
+            <!-- android:layout_width="15dp" -->
+            <!-- android:layout_height="15dp" -->
+            <!-- android:layout_gravity="bottom|right" -->
+            <!-- android:contentDescription="@string/note_reminder_symbol" -->
+            <!-- android:src="@drawable/ic_reminder_dark" -->
+            <!-- android:visibility="gone" /> -->
 
-<!--                 <ImageView -->
-<!--                     android:id="@+id/lockedIcon" -->
-<!--                     android:layout_width="15dp" -->
-<!--                     android:layout_height="15dp" -->
-<!--                     android:layout_gravity="bottom|right" -->
-<!--                     android:src="@drawable/ic_action_secure" -->
-<!--                     android:visibility="gone" /> -->
-<!--             </LinearLayout> -->
+
+            <!-- <ImageView -->
+            <!-- android:id="@+id/locationIcon" -->
+            <!-- android:layout_width="15dp" -->
+            <!-- android:layout_height="15dp" -->
+            <!-- android:layout_gravity="bottom|right" -->
+            <!-- android:src="@drawable/ic_location_dark" -->
+            <!-- android:visibility="gone" /> -->
+
+
+            <!-- <ImageView -->
+            <!-- android:id="@+id/archivedIcon" -->
+            <!-- android:layout_width="15dp" -->
+            <!-- android:layout_height="15dp" -->
+            <!-- android:layout_gravity="bottom|right" -->
+            <!-- android:src="@drawable/ic_archive_dark" -->
+            <!-- android:visibility="gone" /> -->
+
+
+            <!-- <ImageView -->
+            <!-- android:id="@+id/lockedIcon" -->
+            <!-- android:layout_width="15dp" -->
+            <!-- android:layout_height="15dp" -->
+            <!-- android:layout_gravity="bottom|right" -->
+            <!-- android:src="@drawable/ic_action_secure" -->
+            <!-- android:visibility="gone" /> -->
+            <!-- </LinearLayout> -->
         </LinearLayout>
 
         <ImageView
