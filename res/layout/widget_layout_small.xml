@@ -6,7 +6,7 @@
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/widget_height"
         android:background="@drawable/bg_card" >
 
         <ImageView
@@ -17,7 +17,7 @@
             android:background="@drawable/icon_selector"
             android:gravity="center"
             android:padding="10dp"
-            android:src="@drawable/logo_black_no_bg" />
+            android:src="@drawable/ic_launcher" />
     </LinearLayout>
 
 </FrameLayout>

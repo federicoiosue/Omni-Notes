@@ -46,6 +46,7 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -432,10 +433,8 @@ public class BaseActivity extends ActionBarActivity {
 			AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
 			int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity,
 					ListWidgetProvider.class));
-
-			for (int id : ids) {
-				mgr.notifyAppWidgetViewDataChanged(id, R.id.widget_list);
-			}
+			Log.d(Constants.TAG, "Notifies AppWidget data changed for widgets " + ids);
+			mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 		}
 	}
 	

@@ -45,17 +45,18 @@ public class WidgetConfigurationActivity extends Activity {
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				switch (checkedId) {
 				case R.id.widget_config_notes:
-					tagSpinner.setVisibility(View.INVISIBLE);
+					tagSpinner.setEnabled(false);
 					break;
 
 				case R.id.widget_config_tags:
-					tagSpinner.setVisibility(View.VISIBLE);
+					tagSpinner.setEnabled(true);
 					break;
 				}
 			}
 		});
 
 		tagSpinner = (Spinner) findViewById(R.id.widget_config_spinner);
+		tagSpinner.setEnabled(false);
 		DbHelper db = new DbHelper(mContext);
 		tags = db.getTags();
 		tagSpinner.setAdapter(new NavDrawerTagAdapter(mContext, tags));

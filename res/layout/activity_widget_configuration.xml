@@ -35,8 +35,7 @@
     <Spinner
         android:id="@+id/widget_config_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible" />
+        android:layout_height="wrap_content" />
 
     <CheckBox
         android:id="@+id/show_thumbnails"

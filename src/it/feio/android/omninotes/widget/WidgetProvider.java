@@ -24,6 +24,12 @@ public class WidgetProvider extends AppWidgetProvider {
 	public static String EXTRA_ITEM = "it.feio.android.omninotes.widget.EXTRA_FIELD";
 	
 	
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		// TODO Auto-generated method stub
+		super.onReceive(context, intent);
+	}
+	
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -83,10 +89,15 @@ public class WidgetProvider extends AppWidgetProvider {
 		PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, 0, intentDetailPhoto,
 				Intent.FLAG_ACTIVITY_NEW_TASK);
 
+		// Check various dimensions aspect of widget to choose between layouts
 		boolean isSmall = false;
-		if (Build.VERSION.SDK_INT >= 16) {
+		boolean isSingleLine = true;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
 			Bundle options = appWidgetManager.getAppWidgetOptions(widgetId);
-			isSmall = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) < 70;
+			// Width check
+			isSmall = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) < 110;
+			// Height check
+			isSingleLine = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) < 110;
 		} 
 		
 		// Creation of a map to associate PendingIntent(s) to views
@@ -95,7 +106,7 @@ public class WidgetProvider extends AppWidgetProvider {
 		map.put(R.id.add, pendingIntentDetail);
 		map.put(R.id.camera, pendingIntentDetailPhoto);
 		
-		RemoteViews views = getRemoteViews(context, widgetId, isSmall, map);
+		RemoteViews views = getRemoteViews(context, widgetId, isSmall, isSingleLine, map);
 				
 		// Tell the AppWidgetManager to perform an update on the current app
 		// widget
@@ -103,7 +114,7 @@ public class WidgetProvider extends AppWidgetProvider {
 	}
 	
 	
-	protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, SparseArray<PendingIntent> pendingIntentsMap){
+	protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap){
 		return null;
 	}
 

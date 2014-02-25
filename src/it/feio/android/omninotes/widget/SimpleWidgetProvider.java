@@ -11,7 +11,7 @@ public class SimpleWidgetProvider extends WidgetProvider {
 	
 	
 	@Override
-	protected RemoteViews getRemoteViews(Context mContext, int widgetId, boolean isSmall, SparseArray<PendingIntent> pendingIntentsMap) {
+	protected RemoteViews getRemoteViews(Context mContext, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap) {
 		RemoteViews views;
 		if (isSmall) {
 			views = new RemoteViews(mContext.getPackageName(), R.layout.widget_layout_small);
