@@ -140,7 +140,9 @@ public class OmniNotes extends Application {
 	public void addBitmapToCache(String key, Bitmap bitmap) {
 		// Add to memory cache as before
 		if (mMemoryCache.get(key) == null) {
-			mMemoryCache.put(key, bitmap);
+			if (key != null && bitmap != null) {
+				mMemoryCache.put(key, bitmap);
+			}
 		}
 
 		// Also add to disk cache
