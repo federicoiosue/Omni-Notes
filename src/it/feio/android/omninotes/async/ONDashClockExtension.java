@@ -26,9 +26,14 @@ public class ONDashClockExtension extends DashClockExtension {
 				.visible(true)
 				.icon(R.drawable.ic_stat_notification_icon)
 				.status(String.valueOf(notes))
-				.expandedTitle(notes + " " + getString(R.string.notes).toLowerCase())
+				.expandedTitle(
+						notes + " " + getString(R.string.notes).toLowerCase())
 				.expandedBody(
-						remindersTotal + " " + getString(R.string.reminders) + ", " + remindersNotExpired + " " + getString(R.string.not_expired) + System.getProperty("line.separator") + today
+						remindersNotExpired + " "
+								+ getString(R.string.reminders) + ", "
+								+ (remindersTotal - remindersNotExpired) + " "
+								+ getString(R.string.expired)
+								+ System.getProperty("line.separator") + today
 								+ " " + getString(R.string.today))
 				.clickIntent(new Intent(this, ListActivity.class)));
 	}

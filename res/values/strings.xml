@@ -150,6 +150,7 @@
     <string name="edit">Edit</string>
     <string name="reminders">reminders</string>
     <string name="not_expired">not expired</string>
+    <string name="expired">expired</string>
     <string name="today">today</string>
 
     <!-- Settings -->
