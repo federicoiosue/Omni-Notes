@@ -116,7 +116,10 @@ public class ListActivity extends BaseActivity {
 				
 		// Get intent, action and MIME type to handle intent-filter requests
 		Intent intent = getIntent();
-		if ((Intent.ACTION_SEND.equals(intent.getAction()) || Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction())) && intent.getType() != null) {
+		if ( ( Intent.ACTION_SEND.equals(intent.getAction()) 
+				|| Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction()) 
+				|| "com.google.android.gm.action.AUTO_SEND".equals(intent.getAction()) ) 
+				&& intent.getType() != null) {
 			handleFilter(intent);
 		}
 		

@@ -16,7 +16,12 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.4.0 Beta 5" changeDate="Feb 24, 2014"> 
+    <changelogversion versionName="4.4.0 Beta 6" changeDate="Feb 26, 2014"> 
+        <changelogtext>[b]New![/b] Google Now integration</changelogtext>
+        <changelogtext>[u]Fixed[/u] Crash on audio recording playback</changelogtext>   
+    </changelogversion>
+
+    <changelogversion versionName="4.4.0 Beta 5" changeDate="Feb 25, 2014"> 
         <changelogtext>[b]New![/b] Home widget with scrollable notes list on Android >= Honeycomb</changelogtext>
         <changelogtext>[b]New![/b] DashClock extension support</changelogtext>
         <changelogtext>[b]New![/b] Better appearance when only one attachment is present inside note detail</changelogtext>

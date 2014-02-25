@@ -73,6 +73,11 @@
             android:label="@string/title_activity_list"
             android:launchMode="singleTop" >
             <intent-filter>
+                <action android:name="com.google.android.gm.action.AUTO_SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <intent-filter>
