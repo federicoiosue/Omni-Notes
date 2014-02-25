@@ -275,6 +275,8 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 						v.findViewById(R.id.tag_marker).setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
 					}
 				}
+			} else {
+				v.findViewById(R.id.tag_marker).setBackgroundColor(0);
 			}
 		}
 	}
