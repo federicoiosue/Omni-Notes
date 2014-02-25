@@ -15,7 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
-import it.feio.android.omninotes.utils.Constants;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
@@ -23,7 +22,7 @@ import android.widget.GridView;
 
 public class ExpandableHeightGridView extends GridView {
 
-	private boolean expanded = false;
+//	private boolean expanded = false;
 	private int itemHeight;
 
 	public ExpandableHeightGridView(Context context) {
@@ -38,14 +37,14 @@ public class ExpandableHeightGridView extends GridView {
 			int defStyle) {
 		super(context, attrs, defStyle);
 	}
-
-	public boolean isExpanded() {
-		return expanded;
-	}
+//
+//	public boolean isExpanded() {
+//		return expanded;
+//	}
 
 	@Override
 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		if (isExpanded()) {
+//		if (isExpanded()) {
 			// Calculate entire height by providing a very large height hint.
 			// View.MEASURED_SIZE_MASK represents the largest height possible.
 			int expandSpec = MeasureSpec.makeMeasureSpec(MEASURED_SIZE_MASK,
@@ -54,29 +53,29 @@ public class ExpandableHeightGridView extends GridView {
 
 			ViewGroup.LayoutParams params = getLayoutParams();
 			params.height = getMeasuredHeight();
-		} else {
-			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		}
+//		} else {
+//			super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//		}
 	}
 
 	
 	
-	public void setExpanded(boolean expanded) {
-		this.expanded = expanded;
-	}
+//	public void setExpanded(boolean expanded) {
+//		this.expanded = expanded;
+//	}
 
 	
 	public void autoresize() {	    
 	    // Set gridview height
-	    ViewGroup.LayoutParams layoutParams = getLayoutParams();
+//	    ViewGroup.LayoutParams layoutParams = getLayoutParams();
 	    int items = getAdapter().getCount();
 	    int columns = items == 1 ? 1 : 2;
 	    
     	setNumColumns(columns);
-    	itemHeight = Constants.THUMBNAIL_SIZE * 2 / columns;
-    	layoutParams.height = ( (items / columns) + (items % columns) ) * itemHeight; //this is in pixels
-	    
-	    setLayoutParams(layoutParams);
+//    	itemHeight = Constants.THUMBNAIL_SIZE * 2 / columns;
+//    	layoutParams.height = ( (items / columns) + (items % columns) ) * itemHeight; //this is in pixels
+//	    
+//	    setLayoutParams(layoutParams);
 	}
 	
 	

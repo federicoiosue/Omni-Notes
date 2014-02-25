@@ -29,7 +29,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
 public class AttachmentAdapter extends BaseAdapter {
 		
@@ -62,27 +61,19 @@ public class AttachmentAdapter extends BaseAdapter {
 		
 		Log.v(Constants.TAG, "GridView called for position " + position);
 		
-		ImageView imageView;
-		if (convertView == null) { // if it's not recycled, initialize some
-									// attributes
-			imageView = new ImageView(mActivity);
-			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			// A placeholder is set here
-//			imageView.setImageBitmap(ThumbnailUtils.extractThumbnail(
-//					BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.image_placeholder),
-//					THUMBNAIL_SIZE, THUMBNAIL_SIZE));
-
+		SquareImageView imageView;
+		if (convertView == null) {// not recylcled
+			imageView = new SquareImageView(mActivity);
 		} else {
-			imageView = (ImageView) convertView;
-		}
-	
-		Attachment attachment = attachmentsList.get(position);
-			
-		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, imageView, mGridView.getItemHeight(), mGridView.getItemHeight());
+			imageView = (SquareImageView) convertView;
+		}	
+		
+//		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, imageView, mGridView.getItemHeight(), mGridView.getItemHeight());
+		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, imageView, Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
 		if (Build.VERSION.SDK_INT >= 11) {
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, attachment);
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, attachmentsList.get(position));
 		} else {
-			task.execute(attachment);
+			task.execute(attachmentsList.get(position));
 		}
 		
 		return imageView;

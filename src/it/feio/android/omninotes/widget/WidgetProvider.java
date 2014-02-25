@@ -33,29 +33,11 @@ public class WidgetProvider extends AppWidgetProvider {
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-
 		// Get all ids
 		ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 		for (int appWidgetId : allWidgetIds) {
-
-//			// Create an Intent to launch DetailActivity
-//			Intent intentDetail = new Intent(context, DetailActivity.class);
-//			PendingIntent pendingIntentDetail = PendingIntent.getActivity(context, 0, intentDetail,
-//					Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//			// Create an Intent to launch ListActivity
-//			Intent intentList = new Intent(context, ListActivity.class);
-//			PendingIntent pendingIntentList = PendingIntent.getActivity(context, 0, intentList, 0);
-//
-//			// Create an Intent to launch DetailActivity to take a photo
-//			Intent intentDetailPhoto = new Intent(context, DetailActivity.class);
-//			intentDetailPhoto.setAction(Intent.ACTION_PICK);
-//			PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, 0, intentDetailPhoto,
-//					Intent.FLAG_ACTIVITY_NEW_TASK);
-
 			Log.d(Constants.TAG, "WidgetProvider onUpdate() widget " + appWidgetId);
-
 			// Get the layout for and attach an on-click listener to views			
 			setLayout(context, appWidgetManager, appWidgetId);
 		}

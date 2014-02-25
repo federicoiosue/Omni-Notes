@@ -24,7 +24,7 @@ public interface Constants {
 	final String APP_STORAGE_DIRECTORY_ATTACHMENTS = "attachments";
 	
 	// Splash screen timer
-	static int SPLASH_TIME_OUT = 1400;
+	static int SPLASH_TIME_OUT = 1200;
 	static long SPLASH_MIN_OFFSET = 60*60*1000; // 1 hour
 
 	final String DEV_EMAIL = "federico.iosue@gmail.com";
