@@ -6,6 +6,7 @@
     android:updatePeriodMillis="300000" 
     android:configure="it.feio.android.omninotes.widget.WidgetConfigurationActivity" 
     android:widgetCategory="keyguard|home_screen"
-    android:previewImage="@drawable/widget_list" >
+    android:previewImage="@drawable/widget_list"
+    android:resizeMode="horizontal|vertical" >
 
 </appwidget-provider>
