@@ -108,6 +108,7 @@ import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.neopixl.pixlui.links.TextLinkClickListener;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
@@ -122,7 +123,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  * a {@link ItemDetailFragment}.
  */
 public class DetailActivity extends BaseActivity implements OnDateSetListener,
-OnTimeSetListener, TextWatcher, CheckListChangedListener {
+OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -302,10 +303,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		
 		// Automatic links parsing if enabled 
 		if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
-			title.setLinksClickable(true);
-			Linkify.addLinks(title, Linkify.ALL);
-			content.setLinksClickable(true);
-			Linkify.addLinks(content, Linkify.ALL);
+//			title.setLinksClickable(true);
+//			Linkify.addLinks(title, Linkify.ALL);
+//			content.setLinksClickable(true);
+//			Linkify.addLinks(content, Linkify.ALL);
+			title.gatherLinksForText();
+			title.setOnTextLinkClickListener(this);
+			content.gatherLinksForText();
+			content.setOnTextLinkClickListener(this);
 		}		
 
 		// Restore checklist
@@ -929,6 +934,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		// Set the textChangedListener on the replaced view
 		mChecklistManager.setCheckListChangedListener(this);
 		mChecklistManager.addTextChangedListener(this);
+		// Link click
+		mChecklistManager.setTextLinkClickListener(this);
 		
 		// Options for converting back to simple text
 		mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
@@ -1647,6 +1654,30 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener {
 		addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 		getApplicationContext().sendBroadcast(addIntent);
 		Crouton.makeText(mActivity, R.string.shortcut_added, ONStyle.INFO).show();		
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.neopixl.pixlui.links.TextLinkClickListener#onTextLinkClick(android.view.View, java.lang.String)
+	 */
+	@Override
+	public void onTextLinkClick(View view, final String clickedString, final String url) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+		alertDialogBuilder.setMessage(clickedString)
+				.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
+						startActivity(viewIntent); 
+					}
+				}).setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
 	}
 	
 

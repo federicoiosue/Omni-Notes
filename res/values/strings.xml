@@ -152,6 +152,7 @@
     <string name="not_expired">not expired</string>
     <string name="expired">expired</string>
     <string name="today">today</string>
+    <string name="open">Open</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
