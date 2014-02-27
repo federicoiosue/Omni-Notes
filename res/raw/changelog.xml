@@ -18,6 +18,8 @@
 
     <changelogversion versionName="4.4.0 Beta 6" changeDate="Feb 26, 2014"> 
         <changelogtext>[b]New![/b] Google Now integration</changelogtext>
+        <changelogtext>[b]New![/b] New links recognition allows you to double-click on them to choose if copy or open web url o email adresses</changelogtext>
+        <changelogtext>[b]New![/b] Added saturation to tag color choosing</changelogtext>
         <changelogtext>[u]Fixed[/u] Crash on audio recording playback</changelogtext>   
     </changelogversion>
 

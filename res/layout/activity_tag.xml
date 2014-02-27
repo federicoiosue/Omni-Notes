@@ -16,9 +16,8 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="240dp"
     android:layout_height="match_parent"
-    android:minWidth="240dp"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -47,20 +46,19 @@
 
     <com.larswerkman.holocolorpicker.ColorPicker
         android:id="@+id/colorpicker_tag"
-        android:layout_width="180dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
-        android:layout_weight="0.06" />
+        android:layout_weight="0.14" />
 
     <com.larswerkman.holocolorpicker.SaturationBar
         android:id="@+id/saturationbar_tag"
-        android:layout_width="180dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
-        android:layout_weight="0.06"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <com.larswerkman.holocolorpicker.ValueBar
         android:id="@+id/valuebar_tag"
@@ -83,7 +81,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
         <Button
