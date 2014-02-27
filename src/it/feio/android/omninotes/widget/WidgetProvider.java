@@ -18,7 +18,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 
-public class WidgetProvider extends AppWidgetProvider {
+public abstract class WidgetProvider extends AppWidgetProvider {
 	public static String EXTRA_WORD = "it.feio.android.omninotes.widget.WORD";
 	public static String TOAST_ACTION = "it.feio.android.omninotes.widget.NOTE";
 	public static String EXTRA_ITEM = "it.feio.android.omninotes.widget.EXTRA_FIELD";
@@ -96,8 +96,6 @@ public class WidgetProvider extends AppWidgetProvider {
 	}
 	
 	
-	protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap){
-		return null;
-	}
+	abstract protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall, boolean isSingleLine, SparseArray<PendingIntent> pendingIntentsMap);
 
 }
