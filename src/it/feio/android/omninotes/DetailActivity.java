@@ -302,7 +302,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 		content.addTextChangedListener(this);
 		
 		// Automatic links parsing if enabled 
-		if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
+//		if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
+		if (prefs.getBoolean("settings_enable_editor_links", false)) {
 //			title.setLinksClickable(true);
 //			Linkify.addLinks(title, Linkify.ALL);
 //			content.setLinksClickable(true);
@@ -934,8 +935,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 		// Set the textChangedListener on the replaced view
 		mChecklistManager.setCheckListChangedListener(this);
 		mChecklistManager.addTextChangedListener(this);
-		// Link click
-		mChecklistManager.setTextLinkClickListener(this);
+		
+		// Links parsing options
+//		if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
+		if (prefs.getBoolean("settings_enable_editor_links", false) ) {
+			mChecklistManager.setOnTextLinkClickListener(this);
+		}
 		
 		// Options for converting back to simple text
 		mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
@@ -1657,18 +1662,15 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 	}
 
 
-	/* (non-Javadoc)
-	 * @see com.neopixl.pixlui.links.TextLinkClickListener#onTextLinkClick(android.view.View, java.lang.String)
-	 */
 	@Override
-	public void onTextLinkClick(View view, final String clickedString, final String url) {
+	public void onTextLinkClick(View view, String clickedString, final String url) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 		alertDialogBuilder.setMessage(clickedString)
 				.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse(url));
-						startActivity(viewIntent); 
+						Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+						startActivity(intent);
 					}
 				}).setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
 					@Override
