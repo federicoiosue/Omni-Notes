@@ -105,17 +105,23 @@ public class BitmapHelper {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static Bitmap getThumbnail(Context ctx, Uri uri, int reqWidth, int reqHeight) throws FileNotFoundException {
-		Bitmap srcBmp = decodeSampledFromUri(ctx, uri, reqWidth, reqHeight);
-		Bitmap dstBmp;
-		// Cropping
-		int x = ( srcBmp.getWidth() - reqWidth )/2;
-		int y = ( srcBmp.getHeight() - reqHeight )/2;
-		if (x > 0 && y > 0) {
-			dstBmp = Bitmap.createBitmap(srcBmp, x, y, reqWidth, reqHeight);		
-		} else {
-			dstBmp = ThumbnailUtils.extractThumbnail(srcBmp, reqWidth, reqHeight);
+	public static Bitmap getThumbnail(Context ctx, Uri uri, int reqWidth, int reqHeight) {
+		Bitmap srcBmp;
+		Bitmap dstBmp = null;
+		try {
+			srcBmp = decodeSampledFromUri(ctx, uri, reqWidth, reqHeight);
+			// Cropping
+			int x = ( srcBmp.getWidth() - reqWidth )/2;
+			int y = ( srcBmp.getHeight() - reqHeight )/2;
+			if (x > 0 && y > 0) {
+				dstBmp = Bitmap.createBitmap(srcBmp, x, y, reqWidth, reqHeight);		
+			} else {
+				dstBmp = ThumbnailUtils.extractThumbnail(srcBmp, reqWidth, reqHeight);
+			}
+		} catch (FileNotFoundException e) {
+			Log.e(Constants.TAG, "Missing attachment file: " + uri.getPath());
 		}
+		
 		return dstBmp;
 	}
 	
@@ -280,13 +286,8 @@ public class BitmapHelper {
 			// Image
 		} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())) {
 			try {
-				try {
-					bmp = checkIfBroken(mContext, BitmapHelper.getThumbnail(mContext,
-							mAttachment.getUri(), width, height), width, height);
-				} catch (FileNotFoundException e) {
-					Log.e(Constants.TAG, "Error getting bitmap for thumbnail "
-							+ path);
-				}
+				bmp = checkIfBroken(mContext, BitmapHelper.getThumbnail(mContext,
+						mAttachment.getUri(), width, height), width, height);
 			} catch (NullPointerException e) {
 				bmp = checkIfBroken(mContext, null, height, height);
 			}
