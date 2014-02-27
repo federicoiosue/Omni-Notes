@@ -1676,6 +1676,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+						if (!IntentChecker.isAvailable(mActivity, intent, new String[]{PackageManager.FEATURE_CAMERA})) {
+							Crouton.makeText(mActivity, R.string.no_application_can_perform_this_action, ONStyle.ALERT).show();
+							return;
+						}						
 						startActivity(intent);
 					}
 				}).setNegativeButton(R.string.copy, new DialogInterface.OnClickListener() {
