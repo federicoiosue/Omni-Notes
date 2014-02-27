@@ -25,14 +25,14 @@ public interface Constants {
 	
 	// Splash screen timer
 	static int SPLASH_TIME_OUT = 1200;
-	static long SPLASH_MIN_OFFSET = 60*60*1000; // 1 hour
+	static long SPLASH_MIN_OFFSET = 24*60*60*1000; // 1 day
 
 	final String DEV_EMAIL = "federico.iosue@gmail.com";
 	
 	// Used for updates retrieval
 	final String PS_METADATA_FETCHER_URL = "http://www.iosue.it/federico/apps/PSMetadataFetcher/get_app_data.php?url=";
 	final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=";
-	static long UPDATE_MIN_FREQUENCY = 24*60*60*1000; // 1 hour
+	static long UPDATE_MIN_FREQUENCY = 24*60*60*1000; // 1 day
 	
 	// Used for ACRA
 	final String ACRA_MAILER_URL = "http://www.iosue.it/federico/apps/acramailer/acra.php?email=";
