@@ -50,6 +50,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -75,7 +76,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.util.Linkify;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -1662,8 +1662,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 	}
 
 
+	/* (non-Javadoc)
+	 * @see com.neopixl.pixlui.links.TextLinkClickListener#onTextLinkClick(android.view.View, java.lang.String, java.lang.String)
+	 * 
+	 * Receives onClick from links in EditText and shows a dialog to open link or copy content
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
-	public void onTextLinkClick(View view, String clickedString, final String url) {
+	public void onTextLinkClick(View view, final String clickedString, final String url) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 		alertDialogBuilder.setMessage(clickedString)
 				.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
@@ -1672,9 +1678,19 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 						Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 						startActivity(intent);
 					}
-				}).setNegativeButton(R.string.edit, new DialogInterface.OnClickListener() {
+				}).setNegativeButton(R.string.copy, new DialogInterface.OnClickListener() {
+					@SuppressWarnings("deprecation")
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
+						// Creates a new text clip to put on the clipboard
+						if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+						    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(mActivity.CLIPBOARD_SERVICE);
+						    clipboard.setText("text to clip");
+						} else {
+						    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(mActivity.CLIPBOARD_SERVICE); 
+						    android.content.ClipData clip = android.content.ClipData.newPlainText("text label", clickedString);
+						    clipboard.setPrimaryClip(clip);
+						}
 						dialog.cancel();
 					}
 				});

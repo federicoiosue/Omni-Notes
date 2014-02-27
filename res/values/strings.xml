@@ -153,6 +153,8 @@
     <string name="expired">expired</string>
     <string name="today">today</string>
     <string name="open">Open</string>
+    <string name="copy">Copy</string>
+    
 
     <!-- Settings -->
     <string name="settings">Settings</string>
