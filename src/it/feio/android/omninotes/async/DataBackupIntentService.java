@@ -58,6 +58,12 @@ public class DataBackupIntentService extends IntentService {
 		String backupName = intent.getStringExtra(Constants.INTENT_BACKUP_NAME);
 		File backupDir = StorageManager.getBackupDir(backupName);
 		
+		// Directory clean in case of previously used backup name
+		res = StorageManager.delete(this, backupDir.getAbsolutePath());
+		
+		// Directory is re-created in case of previously used backup name (removed above)
+		backupDir = StorageManager.getBackupDir(backupName);
+		
 		// Database backup
 		res = res && exportDB(backupDir);
 		
