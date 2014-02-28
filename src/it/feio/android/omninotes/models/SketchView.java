@@ -21,9 +21,14 @@ import android.view.View.OnTouchListener;
 public class SketchView extends View implements OnTouchListener {
 
 	private static final float TOUCH_TOLERANCE = 4;
+	
+	public static final int STROKE = 0;
+	public static final int ERASER = 1;
 
 	private float strokeSize = 5;
 	private int strokeColor = Color.BLACK;
+	private float eraserSize = 15;
+	private int eraserColor = Color.WHITE;
 	private int background = Color.WHITE;
 	
 	private Canvas mCanvas;
@@ -250,8 +255,16 @@ public class SketchView extends View implements OnTouchListener {
 		return (int)Math.round(this.strokeSize);
 	}
 	
-	public void setStrokeSize(int size){
-		strokeSize = size;
+	public void setSize(int size, int eraserOrStroke){
+		switch (eraserOrStroke) {
+		case STROKE:
+			strokeSize = size;
+			break;
+		case ERASER:
+			eraserSize = size;
+			break;
+		}
+		
 	}
 	
 	public int getStrokeColor(){

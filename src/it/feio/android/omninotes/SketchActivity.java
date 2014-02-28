@@ -46,13 +46,14 @@ import com.larswerkman.holocolorpicker.SVBar;
 public class SketchActivity extends BaseActivity {
 
 	private Context mContext;
+	private ImageView stroke;
 	private ImageView eraser;
 	private SketchView drawingView;
 	private ImageView undo;
 	private ImageView redo;
 	private PopupWindow stokePopup;
 	private ImageView erase;
-	private int seekBarProgress;
+	private int seekBarProgress, eraserSeekBarProgress;
 	private View popupLayout;
 	private ImageView strokeImageView;
 	private int size;
@@ -83,14 +84,23 @@ public class SketchActivity extends BaseActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
-		eraser = (ImageView) findViewById(R.id.sketch_stroke);
-		eraser.setOnClickListener(new OnClickListener() {
+		stroke = (ImageView) findViewById(R.id.sketch_stroke);
+		stroke.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {				
 				showPopup(v);
 			}
 		});
+
+//		eraser = (ImageView) findViewById(R.id.sketch_eraser);
+//		eraser.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {				
+//				showPopup(v);
+//			}
+//		});
 		
 		undo = (ImageView) findViewById(R.id.sketch_undo);
 		undo.setOnClickListener(new OnClickListener() {
@@ -150,7 +160,7 @@ public class SketchActivity extends BaseActivity {
 		final Drawable circleDrawable = getResources().getDrawable(R.drawable.circle);
 		size = circleDrawable.getIntrinsicWidth();
 		
-		setStrokeSeekbarProgress(5);
+		setStrokeSeekbarProgress(5, SketchView.STROKE);
 	}
 
 	
@@ -268,7 +278,7 @@ public class SketchActivity extends BaseActivity {
 					
 					// When the seekbar is moved a new size is calculated and the new shape
 					// is positioned centrally into the ImageView
-					setStrokeSeekbarProgress(progress);
+					setStrokeSeekbarProgress(progress, SketchView.STROKE);
 				}
 			});			
 			mSeekBar.setProgress(seekBarProgress);			
@@ -286,9 +296,50 @@ public class SketchActivity extends BaseActivity {
 			});
 			mColorPicker.setColor(drawingView.getStrokeColor());	
 		}
+		
+		
+		// The method that displays the popup for eraser.
+		private void showPopupEraser(View anchor) {
+			DisplayMetrics metrics = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+			// Creating the PopupWindow
+			stokePopup = new PopupWindow(this);
+			stokePopup.setContentView(popupLayout);
+			stokePopup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+			stokePopup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+			stokePopup.setFocusable(true);
+
+			// Clear the default translucent background
+			stokePopup.setBackgroundDrawable(new BitmapDrawable());		
+
+			// Displaying the popup at the specified location, + offsets (transformed 
+			// dp to pixel to support multiple screen sizes)
+//				stokePopup.showAsDropDown(anchor, 0, -680);
+			stokePopup.showAsDropDown(anchor, 0, DensityUtil.convertDpToPixel(-390, mContext));
+			
+			// Stroke size seekbar initialization and event managing
+			SeekBar mSeekBar = (SeekBar) popupLayout.findViewById(R.id.stroke_seekbar);
+			mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {					
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {}					
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) {}
+				
+				@Override
+				public void onProgressChanged(SeekBar seekBar, int progress,
+						boolean fromUser) {
+					
+					// When the seekbar is moved a new size is calculated and the new shape
+					// is positioned centrally into the ImageView
+					setStrokeSeekbarProgress(progress, SketchView.ERASER);
+				}
+			});			
+			mSeekBar.setProgress(eraserSeekBarProgress);	
+		}
 
 
-		protected void setStrokeSeekbarProgress(int progress) {
+		protected void setStrokeSeekbarProgress(int progress, int eraserOrStroke) {
 			
 			// Avoid 
 			int calcProgress = progress > 1 ? progress : 1;
@@ -301,7 +352,7 @@ public class SketchActivity extends BaseActivity {
 			lp.setMargins(offset, offset, offset, offset);	
 			strokeImageView.setLayoutParams(lp);
 			
-			drawingView.setStrokeSize(newSize);
+			drawingView.setSize(newSize, eraserOrStroke);
 			seekBarProgress = progress;
 		}
 		
