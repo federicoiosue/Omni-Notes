@@ -95,28 +95,42 @@
                 android:title="@string/settings_checked_items_behavior" >
             </ListPreference>
             
-            <PreferenceScreen android:title="@string/colors" >                
-                <CheckBoxPreference
-                    android:defaultValue="true"
-                    android:key="settings_enable_tag_marker"
-                    android:summary="@string/settings_enable_tag_marker_summary"
-                    android:title="@string/settings_enable_tag_marker" >
-                </CheckBoxPreference>
-                <CheckBoxPreference
-                    android:defaultValue="false"
-                    android:dependency="settings_enable_tag_marker"
-                    android:key="settings_enable_tag_marker_full"
-                    android:summary="@string/settings_enable_tag_marker_full_summary"
-                    android:title="@string/settings_enable_tag_marker_full" >
-                </CheckBoxPreference>
-                <CheckBoxPreference
-                    android:defaultValue="true"
-                    android:dependency="settings_enable_tag_marker_full"
-                    android:key="settings_enable_tag_marker_full_list_only"
-                    android:summary="@string/settings_enable_tag_marker_full_list_only_summary"
-                    android:title="@string/settings_enable_tag_marker_full_list_only" >
-                </CheckBoxPreference>                                
-            </PreferenceScreen>
+<!--             <PreferenceScreen android:title="@string/colors" >                 -->
+<!--                 <CheckBoxPreference -->
+<!--                     android:defaultValue="true" -->
+<!--                     android:key="settings_enable_tag_marker" -->
+<!--                     android:summary="@string/settings_enable_tag_marker_summary" -->
+<!--                     android:title="@string/settings_enable_tag_marker" > -->
+<!--                 </CheckBoxPreference> -->
+<!--                 <CheckBoxPreference -->
+<!--                     android:defaultValue="false" -->
+<!--                     android:dependency="settings_enable_tag_marker" -->
+<!--                     android:key="settings_enable_tag_marker_full" -->
+<!--                     android:summary="@string/settings_enable_tag_marker_full_summary" -->
+<!--                     android:title="@string/settings_enable_tag_marker_full" > -->
+<!--                 </CheckBoxPreference> -->
+<!--                 <CheckBoxPreference -->
+<!--                     android:defaultValue="true" -->
+<!--                     android:dependency="settings_enable_tag_marker_full" -->
+<!--                     android:key="settings_enable_tag_marker_full_list_only" -->
+<!--                     android:summary="@string/settings_enable_tag_marker_full_list_only_summary" -->
+<!--                     android:title="@string/settings_enable_tag_marker_full_list_only" > -->
+<!--                 </CheckBoxPreference>                                 -->
+<!--             </PreferenceScreen> -->
+            
+            <ListPreference
+                android:entries="@array/colors_app"
+                android:entryValues="@array/colors_app_values"
+                android:key="settings_colors_app"
+                android:title="@string/colors_app" 
+                android:defaultValue="strip"/>	 
+                
+            <ListPreference
+                android:entries="@array/colors_widget"
+                android:entryValues="@array/colors_widget_values"
+                android:key="settings_colors_widget"
+                android:title="@string/colors_widget" 
+                android:defaultValue="strip"/>	 
             
         </PreferenceScreen>
         

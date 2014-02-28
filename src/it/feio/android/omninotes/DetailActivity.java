@@ -69,6 +69,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
@@ -506,13 +507,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 	 */
 	private void setTagMarkerColor(Tag tag) {
 		
+		String colorsPref = prefs.getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
+		
 		// Checking preference
-		if (prefs.getBoolean("settings_enable_tag_marker", true)){
+		if (!colorsPref.equals("disabled")){
 			
 			// Choosing target view depending on another preference
 			ArrayList<View> target = new ArrayList<View>();
-			if (prefs.getBoolean("settings_enable_tag_marker_full", false)
-				&& !prefs.getBoolean("settings_enable_tag_marker_full_list_only", true) ){
+			if (colorsPref.equals("complete")){
 				target.add(findViewById(R.id.title_wrapper));
 				target.add(findViewById(R.id.content_wrapper));
 			} else {

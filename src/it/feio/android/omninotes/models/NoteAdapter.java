@@ -257,16 +257,17 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 */
 	private void colorNote(Note note, View v, NoteAdapterViewHolder holder) {
 
+		String colorsPref = PreferenceManager.getDefaultSharedPreferences(mActivity).getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
+		
 		// Checking preference
-		if (PreferenceManager.getDefaultSharedPreferences(mActivity).getBoolean("settings_enable_tag_marker", true)) {
+		if (!colorsPref.equals("disabled")) {
 
 			// Resetting transparent color to the view
 			v.setBackgroundColor(Color.parseColor("#00000000"));
 
 			// If tag is set the color will be applied on the appropriate target
 			if (note.getTag() != null && note.getTag().getColor() != null) {
-				if (PreferenceManager.getDefaultSharedPreferences(mActivity).getBoolean(
-						"settings_enable_tag_marker_full", false)) {
+				if (colorsPref.equals("complete") || colorsPref.equals("list")) {
 					v.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
 				} else {
 					if (holder != null) {

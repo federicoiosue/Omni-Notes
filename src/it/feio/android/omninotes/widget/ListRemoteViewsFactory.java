@@ -6,6 +6,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
+import it.feio.android.omninotes.models.NoteAdapterViewHolder;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -16,8 +17,10 @@ import android.app.Application;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -80,12 +83,13 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 		row.setTextViewText(R.id.note_title, titleAndContent[0]);
 		row.setTextViewText(R.id.note_content, titleAndContent[1]);
 		
-		if (note.getTag() != null && note.getTag().getColor() != null) {
-			int color = Integer.parseInt(note.getTag().getColor());
-			row.setInt(R.id.tag_marker, "setBackgroundColor", color);
-		} else {
-			row.setInt(R.id.tag_marker, "setBackgroundColor", 0);
-		}
+//		if (note.getTag() != null && note.getTag().getColor() != null) {
+//			int color = Integer.parseInt(note.getTag().getColor());
+//			row.setInt(R.id.tag_marker, "setBackgroundColor", color);
+//		} else {
+//			row.setInt(R.id.tag_marker, "setBackgroundColor", 0);
+//		}
+		color(note, row);
 		
 		if (note.getAttachmentsList().size() > 0 && showThumbnails) {
 			Attachment mAttachment = note.getAttachmentsList().get(0);
@@ -143,6 +147,31 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 		Log.d(Constants.TAG, "Widget configuration updated");
 		sqlConditions.put(mAppWidgetId, sqlCondition);
 		showThumbnails = thumbnails;
+	}
+	
+	
+	private void color(Note note, RemoteViews row) {
+		
+		String colorsPref = PreferenceManager.getDefaultSharedPreferences(app).getString("settings_colors_widget",
+				Constants.PREF_COLORS_APP_DEFAULT);
+
+		// Checking preference
+		if (!colorsPref.equals("disabled")) {
+
+			// Resetting transparent color to the view
+			row.setInt(R.id.tag_marker, "setBackgroundColor", Color.parseColor("#00000000"));
+
+			// If tag is set the color will be applied on the appropriate target
+			if (note.getTag() != null && note.getTag().getColor() != null) {
+				if (colorsPref.equals("list")) {
+					row.setInt(R.id.card_layout, "setBackgroundColor", Integer.parseInt(note.getTag().getColor()));					
+				} else {
+					row.setInt(R.id.tag_marker, "setBackgroundColor", Integer.parseInt(note.getTag().getColor()));
+				}
+			} else {
+				row.setInt(R.id.tag_marker, "setBackgroundColor", 0);
+			}
+		}
 	}
 
 }

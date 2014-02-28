@@ -59,6 +59,32 @@
         <item >1</item>
         <item >2</item>
     </string-array>
+
+    <string-array name="colors_app">
+        <item >Disabled</item>
+        <item >Strip only</item>
+        <item >Notes list only</item>
+        <item >Complete</item>
+    </string-array>
+        
+    <string-array name="colors_app_values">
+        <item >disabled</item>
+        <item >strip</item>
+        <item >list</item>
+        <item >complete</item>
+    </string-array>
+
+    <string-array name="colors_widget">
+        <item >Disabled</item>
+        <item >Strip only</item>
+        <item >Notes list</item>
+    </string-array>
+        
+    <string-array name="colors_widget_values">
+        <item >disabled</item>
+        <item >strip</item>
+        <item >list</item>
+    </string-array>
         
     <string-array name="languages">
         <item >العربية (Arabic)</item>

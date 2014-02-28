@@ -241,6 +241,8 @@
     <string name="settings_answer_not_matching">Answer missing or not matching</string>
     <string name="password_not_set">Password not set</string>
     <string name="wrong_answer">Wrong answer</string>
+    <string name="colors_app">Application\'s colors</string>
+    <string name="colors_widget">Widget\'s colors</string>
 
     <!-- Instructions -->
     <string name="tour_listactivity_intro_title">Welcome to Omni Notes!</string>
