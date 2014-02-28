@@ -273,7 +273,7 @@ public class SettingsActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String.valueOf(newValue));
-				prefs.edit().putString("settings_notification_snooze_delay", newValue.toString()).commit();
+				prefs.edit().putString("settings_max_video_size", newValue.toString()).commit();
 				return false;
 			}
 		});
