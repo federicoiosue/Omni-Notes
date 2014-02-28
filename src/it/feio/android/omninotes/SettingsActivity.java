@@ -301,7 +301,7 @@ public class SettingsActivity extends PreferenceActivity {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 				// set dialog message
 				alertDialogBuilder
-						.setMessage(getString(R.string.settings_tour_show_again_summary))
+						.setMessage(getString(R.string.settings_tour_show_again_summary) + "?")
 						.setCancelable(false).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								// All  the preferences will be cycled until 

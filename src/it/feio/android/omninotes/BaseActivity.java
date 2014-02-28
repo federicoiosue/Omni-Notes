@@ -18,7 +18,6 @@ package it.feio.android.omninotes;
 import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
@@ -63,10 +62,6 @@ import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews;
 import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
-import com.espian.showcaseview.targets.ActionItemTarget;
-import com.espian.showcaseview.targets.ActionViewTarget;
-import com.espian.showcaseview.targets.Target;
-import com.espian.showcaseview.targets.ViewTarget;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
@@ -333,7 +328,7 @@ public class BaseActivity extends ActionBarActivity {
 	 */
 	protected void showCaseView(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
 		
-		final float scale = 0.4F;
+		final float scale = 0.6F;
 		ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
 		ShowcaseViews mViews;
 		if (mOnShowcaseAcknowledged != null) {

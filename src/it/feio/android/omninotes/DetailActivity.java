@@ -69,7 +69,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
@@ -733,23 +732,18 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 	    
 	    // Show instructions on first launch
 	    final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "detail";
-	    if (!prefs.getBoolean(instructionName, false)) {
-	    	// Attaches a dummy image as example
-	    	Attachment attachment = new Attachment(BitmapHelper.getUri(mActivity, R.drawable.ic_launcher), Constants.MIME_TYPE_IMAGE);
-			noteTmp.getAttachmentsList().add(attachment);
-			mAttachmentAdapter.notifyDataSetChanged();
-			mGridView.autoresize();
-			
+	    if (!prefs.getBoolean(instructionName, false)) {			
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			list.add(new Integer[]{R.id.menu_attachment, R.string.tour_detailactivity_attachment_title, R.string.tour_detailactivity_attachment_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{R.id.menu_tag, R.string.tour_detailactivity_action_title, R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title, R.string.tour_detailactivity_reminder_detail, null});
+			list.add(new Integer[]{R.id.title, R.string.tour_detailactivity_links_title, R.string.tour_detailactivity_links_detail, null});
 			list.add(new Integer[]{0, R.string.tour_detailactivity_save_title, R.string.tour_detailactivity_save_detail, ShowcaseView.ITEM_ACTION_HOME});
 			showCaseView(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
 					prefs.edit().putBoolean(instructionName, true).commit();
-					goHome();
+					discard();
 				}
 			});	
 	    }

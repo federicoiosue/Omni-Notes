@@ -181,7 +181,6 @@
         
         <Preference
             android:key="settings_tour_show_again"
-            android:summary="@string/settings_tour_show_again_summary"
             android:title="@string/settings_tour_show_again" />
 	    
         <Preference

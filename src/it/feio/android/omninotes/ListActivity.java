@@ -25,6 +25,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 
@@ -536,7 +537,13 @@ public class ListActivity extends BaseActivity {
 						public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
 							prefs.edit().putBoolean(instructionName, true).commit();
 							mDrawerLayout.closeDrawer(GravityCompat.START);
-							editNote(new Note());
+
+					    	// Attaches a dummy image as example
+							Note note = new Note();
+					    	Attachment attachment = new Attachment(BitmapHelper.getUri(mActivity, R.drawable.ic_launcher), Constants.MIME_TYPE_IMAGE);
+					    	note.getAttachmentsList().add(attachment);
+							note.setTitle("http://www.opensource.org");							
+							editNote(note);
 						}
 					});	
 				}

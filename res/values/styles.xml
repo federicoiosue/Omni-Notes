@@ -31,7 +31,7 @@
     
     <!-- ShowcaseView styles -->
     <style name="CustomShowcaseTheme" parent="ShowcaseView.Light">
-        <item name="sv_backgroundColor">#e82d2d2d</item>
+        <item name="sv_backgroundColor">#ee2d2d2d</item>
         <item name="sv_buttonBackgroundColor">#CF3119</item>
         <item name="sv_buttonText">@string/proceed</item>
         <item name="sv_titleTextAppearance">@style/TourTitle</item>
