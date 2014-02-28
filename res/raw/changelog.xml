@@ -22,6 +22,7 @@
         <changelogtext>[b]New![/b] Added saturation to tag color choosing</changelogtext>
         <changelogtext>[b]New![/b] Widget notes coloration mode is distinct from the one in the app</changelogtext>
         <changelogtext>Many modifications have been made to settings to make them simplier</changelogtext>
+        <changelogtext>Contracted view in notes list occupies now less vertical space</changelogtext>
         <changelogtext>[u]Fixed[/u] Widget wrong behaviors fixed</changelogtext>
         <changelogtext>[u]Fixed[/u] Crash on audio recording playback</changelogtext>   
     </changelogversion>
