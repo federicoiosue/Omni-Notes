@@ -70,12 +70,12 @@
                 android:summary="@string/settings_enable_animations_summary"
                 android:title="@string/settings_enable_animations" >
             </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="settings_enable_editor_links"
-                android:summary="@string/settings_enable_editor_links_summary"
-                android:title="@string/settings_enable_editor_links" >
-            </CheckBoxPreference>
+<!--             <CheckBoxPreference -->
+<!--                 android:defaultValue="true" -->
+<!--                 android:key="settings_enable_editor_links" -->
+<!--                 android:summary="@string/settings_enable_editor_links_summary" -->
+<!--                 android:title="@string/settings_enable_editor_links" > -->
+<!--             </CheckBoxPreference> -->
 <!--             <CheckBoxPreference -->
 <!--                 android:defaultValue="true" -->
 <!--                 android:key="settings_hours_format" -->

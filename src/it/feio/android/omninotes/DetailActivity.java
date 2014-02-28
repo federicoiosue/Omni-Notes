@@ -50,7 +50,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -111,8 +110,6 @@ import com.neopixl.pixlui.components.textview.TextView;
 import com.neopixl.pixlui.links.TextLinkClickListener;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
-
-
 
 /**
  * An activity representing a single Item detail screen. This activity is only
@@ -303,7 +300,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 		
 		// Automatic links parsing if enabled 
 //		if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
-		if (prefs.getBoolean("settings_enable_editor_links", false)) {
+//		if (prefs.getBoolean("settings_enable_editor_links", false)) {
 //			title.setLinksClickable(true);
 //			Linkify.addLinks(title, Linkify.ALL);
 //			content.setLinksClickable(true);
@@ -312,7 +309,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 			title.setOnTextLinkClickListener(this);
 			content.gatherLinksForText();
 			content.setOnTextLinkClickListener(this);
-		}		
+//		}		
 
 		// Restore checklist
 		toggleChecklistView = content;
@@ -508,14 +505,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 	 * Colors tag marker in note title TextView
 	 */
 	private void setTagMarkerColor(Tag tag) {
-//		if (prefs.getBoolean("settings_enable_tag_marker", true)){
-//			View tagMarker = findViewById(R.id.tag_marker);
-//			if (tag != null && tag.getColor() != null) {
-//				tagMarker.setBackgroundColor(Integer.parseInt(tag.getColor()));
-//			} else if (tag == null) {
-//				tagMarker.setBackgroundColor(Color.parseColor(getString(R.color.transparent)));				
-//			}
-//		}
 		
 		// Checking preference
 		if (prefs.getBoolean("settings_enable_tag_marker", true)){
@@ -560,9 +549,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 
 					@Override
 					public void onDateSet(CalendarDatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
-						// now.withYear(year);
-						// now.withMonthOfYear(monthOfYear);
-						// now.withDayOfMonth(dayOfMonth);
 						reminderYear = year;
 						reminderMonth = monthOfYear;
 						reminderDay = dayOfMonth;
@@ -575,8 +561,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 
 									@Override
 									public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-										// now.withHourOfDay(hourOfDay);
-										// now.withMinuteOfHour(minute);
 
 										// Creation of string rapresenting alarm
 										// time
@@ -587,9 +571,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 												+ getString(R.string.at_time) + " " + alarmTime);
 
 										// Setting alarm time in milliseconds
-//										Long alarm = DateHelper.getLongFromDateTime(alarmDate,
-//												Constants.DATE_FORMAT_SHORT_DATE, alarmTime,
-//												time_format).getTimeInMillis();
 										Calendar c = Calendar.getInstance();
 										c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
 										noteTmp.setAlarm(c.getTimeInMillis());										
@@ -638,15 +619,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 	public void onTimeSet(TimePicker v, int hourOfDay, int minute) {
 
 		// Creation of string rapresenting alarm time
-//		alarmTime = DateHelper.onTimeSet(hour, minute, time_format);
 		alarmTime = DateHelper.getTimeShort(mActivity, hourOfDay, minute);
 		datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate
 				+ " " + getString(R.string.at_time) + " " + alarmTime);
 
 		// Setting alarm time in milliseconds
-//		long alarmDateTime = DateHelper.getLongFromDateTime(alarmDate, Constants.DATE_FORMAT_SHORT_DATE,
-//				alarmTime, time_format).getTimeInMillis();
-//		noteTmp.setAlarm(alarmDateTime);
 		Calendar c = Calendar.getInstance();
 		c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
 		noteTmp.setAlarm(c.getTimeInMillis());	
@@ -660,11 +637,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 		if (note == null) {
 			note = new Note();
 		}
-			
-//		if (noteTmp == null) {
-//			noteTmp = new Note(note);
-//			noteTmp.backupAttachmentsList();
-//		}
 		
 		// Is a shared intent
 		if (note.get_id() == 0) {
@@ -938,9 +910,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 		
 		// Links parsing options
 //		if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
-		if (prefs.getBoolean("settings_enable_editor_links", false) ) {
+//		if (prefs.getBoolean("settings_enable_editor_links", false) ) {
 			mChecklistManager.setOnTextLinkClickListener(this);
-		}
+//		}
 		
 		// Options for converting back to simple text
 		mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
