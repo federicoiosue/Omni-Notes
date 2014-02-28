@@ -293,39 +293,62 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		
 		
-		// Instructions
-		Preference instructions = findPreference("settings_tour_show_again");
-		instructions.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+		// Languages
+		ListPreference lang = (ListPreference)findPreference("settings_language");	
+		String languageName = getResources().getConfiguration().locale.getDisplayName();
+		lang.setSummary( languageName.substring(0, 1).toUpperCase(getResources().getConfiguration().locale)
+						+ languageName.substring(1, languageName.length()) );
+		lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			
 			@Override
-			public boolean onPreferenceClick(Preference arg0) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-				// set dialog message
-				alertDialogBuilder
-						.setMessage(getString(R.string.settings_tour_show_again_summary) + "?")
-						.setCancelable(false).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// All  the preferences will be cycled until 
-								Map<String, ?> prefsMap = prefs.getAll();
-								Iterator<?> it = prefsMap.entrySet().iterator();
-								while (it.hasNext()) {
-									Map.Entry mapEntry = (Map.Entry) it.next();
-									String key = mapEntry.getKey().toString();
-									if (key.contains(Constants.PREF_INSTRUCTIONS_PREFIX)) {
-										prefs.edit().putBoolean(key, false).commit();
-										restartApp();
-									}
-								}
-							}
-						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
-				// create alert dialog
-				AlertDialog alertDialog = alertDialogBuilder.create();
-				// show it
-				alertDialog.show();
-				return false;						
+			public boolean onPreferenceChange(Preference preference, Object value) {
+				Locale locale = new Locale(value.toString());
+				Configuration config = getResources().getConfiguration();
+				
+				if (!config.locale.getCountry().equals(locale)) {
+					OmniNotes.updateLanguage(getApplicationContext(), value.toString());
+										
+					restartApp();
+				}
+				return false;
+			}
+		});
+
+		
+		
+		// Application's colors
+		final ListPreference colorsApp = (ListPreference) findPreference("settings_colors_app");
+		int colorsAppIndex = colorsApp.findIndexOfValue(prefs.getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT));
+		String colorsAppString = getResources().getStringArray(R.array.colors_app)[colorsAppIndex];		
+		colorsApp.setSummary(colorsAppString);		
+		colorsApp.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				int colorsAppIndex = colorsApp.findIndexOfValue(newValue.toString());
+				String colorsAppString = getResources().getStringArray(R.array.colors_app)[colorsAppIndex];	
+				colorsApp.setSummary(colorsAppString);		
+				prefs.edit().putString("settings_colors_app", newValue.toString()).commit();
+				colorsApp.setValueIndex(colorsAppIndex);
+				return false;
+			}
+		});
+
+		
+		
+		// Widget's colors
+		final ListPreference colorsWidget = (ListPreference) findPreference("settings_colors_widget");
+		int colorsWidgetIndex = colorsWidget.findIndexOfValue(prefs.getString("settings_colors_widget", Constants.PREF_COLORS_APP_DEFAULT));
+		String colorsWidgetString = getResources().getStringArray(R.array.colors_widget)[colorsWidgetIndex];		
+		colorsWidget.setSummary(colorsWidgetString);		
+		colorsWidget.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				int colorsWidgetIndex = colorsWidget.findIndexOfValue(newValue.toString());
+				String colorsWidgetString = getResources().getStringArray(R.array.colors_widget)[colorsWidgetIndex];	
+				colorsWidget.setSummary(colorsWidgetString);		
+				prefs.edit().putString("settings_colors_widget", newValue.toString()).commit();
+				colorsWidget.setValueIndex(colorsWidgetIndex);
+				return false;
 			}
 		});
 
@@ -411,6 +434,44 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 
 		});
+		
+		
+		
+		// Instructions
+		Preference instructions = findPreference("settings_tour_show_again");
+		instructions.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference arg0) {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+				// set dialog message
+				alertDialogBuilder
+						.setMessage(getString(R.string.settings_tour_show_again_summary) + "?")
+						.setCancelable(false).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// All  the preferences will be cycled until 
+								Map<String, ?> prefsMap = prefs.getAll();
+								Iterator<?> it = prefsMap.entrySet().iterator();
+								while (it.hasNext()) {
+									Map.Entry mapEntry = (Map.Entry) it.next();
+									String key = mapEntry.getKey().toString();
+									if (key.contains(Constants.PREF_INSTRUCTIONS_PREFIX)) {
+										prefs.edit().putBoolean(key, false).commit();
+										restartApp();
+									}
+								}
+							}
+						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				// show it
+				alertDialog.show();
+				return false;						
+			}
+		});
 
 
 		
@@ -422,29 +483,6 @@ public class SettingsActivity extends PreferenceActivity {
 			public boolean onPreferenceClick(Preference arg0) {
 				Intent aboutIntent = new Intent(activity, AboutActivity.class);
 				startActivity(aboutIntent);
-				return false;
-			}
-		});
-		
-		
-		
-		// Languages
-		ListPreference lang = (ListPreference)findPreference("settings_language");	
-		String languageName = getResources().getConfiguration().locale.getDisplayName();
-		lang.setSummary( languageName.substring(0, 1).toUpperCase(getResources().getConfiguration().locale)
-						+ languageName.substring(1, languageName.length()) );
-		lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-			
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object value) {
-				Locale locale = new Locale(value.toString());
-				Configuration config = getResources().getConfiguration();
-				
-				if (!config.locale.getCountry().equals(locale)) {
-					OmniNotes.updateLanguage(getApplicationContext(), value.toString());
-										
-					restartApp();
-				}
 				return false;
 			}
 		});
