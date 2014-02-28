@@ -17,7 +17,7 @@
             android:background="@drawable/icon_selector"
             android:gravity="center"
             android:padding="10dp"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/ic_widget_icon" />
 
         <ImageView
             android:id="@+id/add"

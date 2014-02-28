@@ -34,7 +34,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 		// Get all ids
-		ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
+		ComponentName thisWidget = new ComponentName(context, getClass());
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 		for (int appWidgetId : allWidgetIds) {
 			Log.d(Constants.TAG, "WidgetProvider onUpdate() widget " + appWidgetId);
