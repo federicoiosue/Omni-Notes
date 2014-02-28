@@ -335,6 +335,25 @@ public class SettingsActivity extends PreferenceActivity {
 
 		
 		
+		// Checklists
+		final ListPreference checklist = (ListPreference) findPreference("settings_checked_items_behavior");
+		int checklistIndex = checklist.findIndexOfValue(prefs.getString("settings_checked_items_behavior", "0"));
+		String checklistString = getResources().getStringArray(R.array.checked_items_behavior)[checklistIndex];		
+		checklist.setSummary(checklistString);		
+		checklist.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				int checklistIndex = checklist.findIndexOfValue(newValue.toString());
+				String checklistString = getResources().getStringArray(R.array.checked_items_behavior)[checklistIndex];	
+				checklist.setSummary(checklistString);		
+				prefs.edit().putString("settings_checked_items_behavior", newValue.toString()).commit();
+				checklist.setValueIndex(checklistIndex);
+				return false;
+			}
+		});
+
+		
+		
 		// Widget's colors
 		final ListPreference colorsWidget = (ListPreference) findPreference("settings_colors_widget");
 		int colorsWidgetIndex = colorsWidget.findIndexOfValue(prefs.getString("settings_colors_widget", Constants.PREF_COLORS_APP_DEFAULT));

@@ -208,7 +208,7 @@
     <string name="confirm_removing_backup">Confirm removing backup</string>
     <string name="confirm_restoring_backup">Confirm restoring backup</string>
     <string name="data_deletion_completed">Data deletion completed</string>
-    <string name="settings_checked_items_behavior">Checked items behavior</string>
+    <string name="settings_checked_items_behavior">Checklists</string>
     <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>
     <string name="settings_category_preferences">Preferences</string>
     <string name="settings_category_beta">Beta</string>
