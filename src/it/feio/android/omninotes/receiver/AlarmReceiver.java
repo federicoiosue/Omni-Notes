@@ -85,13 +85,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 		
 		
 		// Ringtone options
-		if (prefs.getBoolean("settings_notification_sound", true)) {
-			Uri ringtone = Uri.parse(prefs.getString(
-					"settings_notification_ringtone", RingtoneManager
-							.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-							.toString()));
-			mBuilder.setSound(ringtone);
+		String ringtone = prefs.getString("settings_notification_ringtone", null);
+		if (ringtone != null) {
+			mBuilder.setSound(Uri.parse(ringtone));
 		}
+		
 		
 		// Vibration options
 		long[] pattern = {500,500};		

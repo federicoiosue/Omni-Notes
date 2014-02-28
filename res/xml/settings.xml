@@ -143,14 +143,8 @@
                 android:key="settings_enable_vibration"
                 android:title="@string/settings_enable_vibration" >
             </CheckBoxPreference>
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="settings_enable_sound"
-                android:title="@string/settings_enable_sound" >
-            </CheckBoxPreference>
 
             <RingtonePreference
-                android:dependency="settings_enable_sound"
                 android:key="settings_notification_ringtone"
                 android:ringtoneType="notification"
                 android:title="@string/settings_notification_ringtone" />

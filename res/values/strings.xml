@@ -180,7 +180,6 @@
     <string name="settings_enable_animations">Animations</string>
     <string name="settings_choose_language">Choose language</string>
     <string name="settings_category_notifications">Notifications</string>
-    <string name="settings_enable_sound">Ringtone</string>
     <string name="settings_enable_vibration">Vibration</string>
     <string name="settings_changelog">Changelog</string>
     <string name="settings_enable_editor_links">Links recognition</string>
