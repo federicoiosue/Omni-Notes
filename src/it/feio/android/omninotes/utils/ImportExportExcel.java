@@ -160,7 +160,7 @@ public class ImportExportExcel {
 				note.setArchived(Boolean.parseBoolean(insertValues[5]));
 				
 				// Database inserting
-				db.updateNote(note);
+				db.updateNote(note, false);
 				
 				returnCode = true;
 			}

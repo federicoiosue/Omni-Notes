@@ -1077,7 +1077,7 @@ public class ListActivity extends BaseActivity {
 			// Deleting note using DbHelper
 			DbHelper db = new DbHelper(this);
 			note.setArchived(archive);
-			db.updateNote(note);
+			db.updateNote(note, true);
 
 			// Update adapter content
 			mAdapter.remove(note);
@@ -1152,7 +1152,7 @@ public class ListActivity extends BaseActivity {
 										mAdapter.remove(note);
 									}
 									note.setTag(null);
-									db.updateNote(note);
+									db.updateNote(note, false);
 								}
 								candidateSelectedTag = null;
 								// Refresh view
@@ -1189,7 +1189,7 @@ public class ListActivity extends BaseActivity {
 				mAdapter.remove(note);
 			}
 			note.setTag(tag);
-			db.updateNote(note);
+			db.updateNote(note, false);
 		}
 		// Refresh view
 		((ListView) findViewById(R.id.notes_list)).invalidateViews();

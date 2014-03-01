@@ -1359,12 +1359,20 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 		if (!noteTmp.isChanged(note)) {
 			goHome();
 			return;
-		}			
+		}		
+		
+		// Checks if only tag has been changed and then force to not update 
+		// last modification date
+		boolean updateLastModification = true;
+		note.setTag(noteTmp.getTag());
+		if (!noteTmp.isChanged(note)) {
+			updateLastModification = false;
+		}		
 		
 		noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
 		// Saving changes to the note
-		SaveNoteTask saveNoteTask = new SaveNoteTask(this);
+		SaveNoteTask saveNoteTask = new SaveNoteTask(this, updateLastModification);
 		// Forcing parallel execution disabled by default
 		if (Build.VERSION.SDK_INT >= 11) {
 			saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteTmp);

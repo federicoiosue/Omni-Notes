@@ -25,10 +25,12 @@ import android.widget.Toast;
 public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	private final Activity mActivity;
 	private boolean error = false;
+	private boolean updateLastModification = true;
 
-	public SaveNoteTask(Activity activity) {
+	public SaveNoteTask(Activity activity, boolean updateLastModification) {
 		super();
 		this.mActivity = activity;
+		this.updateLastModification = updateLastModification;
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		if (!error) {
 			DbHelper db = new DbHelper(mActivity);		
 			// Note updating on database
-			note = db.updateNote(note);
+			note = db.updateNote(note, updateLastModification);
 		} else {
 			Toast.makeText(mActivity, mActivity.getString(R.string.error_saving_attachments), Toast.LENGTH_SHORT).show();
 		}

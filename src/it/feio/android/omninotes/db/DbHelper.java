@@ -146,7 +146,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	
 	// Inserting or updating single note
-	public Note updateNote(Note note) {
+	public Note updateNote(Note note, boolean updateLastModification) {
 		
 		long resNote, resAttachment;
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -157,7 +157,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(KEY_TITLE, note.getTitle());
 		values.put(KEY_CONTENT, note.getContent());
-		values.put(KEY_LAST_MODIFICATION, Calendar.getInstance().getTimeInMillis());
+		values.put(KEY_LAST_MODIFICATION, updateLastModification ? Calendar
+				.getInstance().getTimeInMillis() : note.getLastModification());
 		boolean archive = note.isArchived() != null ? note.isArchived() : false;
 		values.put(KEY_ARCHIVED, archive);
 		values.put(KEY_ALARM, note.getAlarm());
