@@ -4,6 +4,7 @@ Look to the changelog inside the app for all the changes!
 New notes list visualization named "Expanded View" with attachments preview
 Application tour to show basic Omni Notes' features
 You can create shortcut to saved notes on launcher home
+Google Now integration: just tell "write a note" followed by the content 
 Home widget with scrollable notes list on Android >= Honeycomb
 DashClock extension support
 Question-and-answer system to reset forgotten password

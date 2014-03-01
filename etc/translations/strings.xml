@@ -135,7 +135,7 @@
     <string name="shortcut_note_deleted">The shortcut points to a deleted note</string>
     <string name="widget_simple_description">Simple widget with buttons</string>
     <string name="widget_list_description">Scrollable list widget with buttons</string>
-    <string name="notes">Note</string>
+    <string name="notes">notes</string>
     <string name="show_thumbnails">Show attachment\'s thumbnails</string>
     <string name="choose_action">Choose action to perform</string>
     <string name="edit">Edit</string>
@@ -150,6 +150,7 @@
     
 
     <!-- Settings -->
+    <string name="dashclock_description">Displays some statistics and approaching reminders from Omni Notes</string>
     <string name="settings">Settings</string>
     <string name="settings_about">Info</string>
     <string name="settings_category_other">Other</string>
