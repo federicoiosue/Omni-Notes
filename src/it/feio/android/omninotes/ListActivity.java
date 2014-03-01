@@ -119,7 +119,7 @@ public class ListActivity extends BaseActivity {
 		Intent intent = getIntent();
 		if ( ( Intent.ACTION_SEND.equals(intent.getAction()) 
 				|| Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction()) 
-				|| "com.google.android.gm.action.AUTO_SEND".equals(intent.getAction()) ) 
+				|| Constants.INTENT_GOOGLE_NOW.equals(intent.getAction()) ) 
 				&& intent.getType() != null) {
 			handleFilter(intent);
 		}
@@ -218,17 +218,22 @@ public class ListActivity extends BaseActivity {
 		if (title != null) {
 			note.setTitle(title);
 		}
+		
 		// Text content
 		String content = intent.getStringExtra(Intent.EXTRA_TEXT);
 		if (content != null) {
 			note.setContent(content);
 		}
+		
 		// Single attachment data
 		Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-	    if (uri != null) {
+    	// Due to the fact that Google Now passes intent as text but with 
+    	// audio recording attached the case must be handled in specific way
+	    if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(intent.getAction())) {
 	    	String mimeType = StorageManager.getMimeTypeInternal(this, intent.getType());
 	        note.addAttachment(new Attachment(uri, mimeType));
 	    }
+	    
 	    // Multiple attachment data
 	    ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 	    if (uris != null) {

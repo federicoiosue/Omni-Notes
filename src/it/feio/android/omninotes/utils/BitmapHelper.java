@@ -295,15 +295,14 @@ public class BitmapHelper {
 			// Audio
 		} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
 			String text = "";
-			try {
-				text = DateHelper.getLocalizedDateTime(mContext, mAttachment
-						.getUri().getLastPathSegment().split("\\.")[0],
-						Constants.DATE_FORMAT_SORTABLE);
-			} catch (NullPointerException e) {
-				text = DateHelper.getLocalizedDateTime(mContext, mAttachment
-						.getUri().getLastPathSegment().split("\\.")[0],
-						"yyyyMMddHHmmss");
+			text = DateHelper.getLocalizedDateTime(mContext, mAttachment
+					.getUri().getLastPathSegment().split("\\.")[0],
+					Constants.DATE_FORMAT_SORTABLE);
+		
+			if (text == null) {
+				text = mContext.getString(R.string.attachment);
 			}
+					
 			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
 					mContext.getResources(), R.drawable.play), width, height);
 			bmp = BitmapHelper.drawTextToBitmap(mContext, bmp, text, null, -20,

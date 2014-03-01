@@ -16,7 +16,6 @@
 -->
 <resources>
 
-   
     <!-- Activities -->
     <string name="title_item_list">Notes</string>
     <string name="add_note">Add Note</string>
@@ -147,6 +146,7 @@
     <string name="open">Open</string>
     <string name="copy">Copy</string>
     <string name="no_application_can_perform_this_action">No application can perform this action</string>
+    <string name="eraser">Eraser</string>
     
 
     <!-- Settings -->
@@ -172,7 +172,6 @@
     <string name="settings_enable_animations">Animations</string>
     <string name="settings_choose_language">Choose language</string>
     <string name="settings_category_notifications">Notifications</string>
-    <string name="settings_enable_sound">Ringtone</string>
     <string name="settings_enable_vibration">Vibration</string>
     <string name="settings_changelog">Changelog</string>
     <string name="settings_enable_editor_links">Links recognition</string>
@@ -201,7 +200,7 @@
     <string name="confirm_removing_backup">Confirm removing backup</string>
     <string name="confirm_restoring_backup">Confirm restoring backup</string>
     <string name="data_deletion_completed">Data deletion completed</string>
-    <string name="settings_checked_items_behavior">Checked items behavior</string>
+    <string name="settings_checked_items_behavior">Checklists</string>
     <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>
     <string name="settings_category_preferences">Preferences</string>
     <string name="settings_category_beta">Beta</string>
@@ -233,6 +232,8 @@
     <string name="settings_answer_not_matching">Answer missing or not matching</string>
     <string name="password_not_set">Password not set</string>
     <string name="wrong_answer">Wrong answer</string>
+    <string name="colors_app">Application\'s colors</string>
+    <string name="colors_widget">Widget\'s colors</string>
 
     <!-- Instructions -->
     <string name="tour_listactivity_intro_title">Welcome to Omni Notes!</string>
@@ -249,6 +250,8 @@
     <string name="tour_detailactivity_action_detail">Share, and tag, and archive, and protect, and&#8230;</string>
     <string name="tour_detailactivity_reminder_title">Just press</string>
     <string name="tour_detailactivity_reminder_detail">Short or long pressions on objects (attachments, location, reminder) have different effect!</string>
+    <string name="tour_detailactivity_links_title">Links</string>
+    <string name="tour_detailactivity_links_detail">Double-click on web or e-mail addresses to copy or open them</string>
     <string name="tour_detailactivity_save_title">Save</string>
     <string name="tour_detailactivity_save_detail">Simply press "up" navigation icon or go back with your device button</string>
     <string name="tour_listactivity_final_title">Enjoy</string>

@@ -63,6 +63,7 @@ public interface Constants {
     final String INTENT_TAG = "tag";
     final String INTENT_DETAIL_RESULT_CODE = "detail_result_code";
     final String INTENT_DETAIL_RESULT_MESSAGE = "detail_result_message";
+	final String INTENT_GOOGLE_NOW = "com.google.android.gm.action.AUTO_SEND";
     
     // Custom intent actions
     final String ACTION_DATA_EXPORT = "action_data_export";

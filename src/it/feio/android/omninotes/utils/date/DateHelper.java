@@ -123,6 +123,7 @@ public class DateHelper {
 	
 	public static String getLocalizedDateTime(Context mContext,
 			String dateString, String format) {
+		String res = null;
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		Date date = null;
 		try {
@@ -132,19 +133,17 @@ public class DateHelper {
 			try {
 				date = sdf.parse(dateString);
 			} catch (ParseException e1) {
-				e1.printStackTrace();
+				Log.e(Constants.TAG, "String is not formattable into date");
 			}
 		}
-		
-//		String dateFormatted = android.text.format.DateFormat.getDateFormat(
-//				mContext).format(date);
-//		String timeFormatted = android.text.format.DateFormat.getTimeFormat(
-//				mContext).format(date);
 
-		String dateFormatted = DateUtils.formatDateTime(mContext, date.getTime(), DateUtils.FORMAT_ABBREV_MONTH);
-		String timeFormatted = DateUtils.formatDateTime(mContext, date.getTime(), DateUtils.FORMAT_SHOW_TIME);
+		if (date != null) {
+			String dateFormatted = DateUtils.formatDateTime(mContext, date.getTime(), DateUtils.FORMAT_ABBREV_MONTH);
+			String timeFormatted = DateUtils.formatDateTime(mContext, date.getTime(), DateUtils.FORMAT_SHOW_TIME);
+			res = dateFormatted + " " + timeFormatted;
+		}			
 		
-		return dateFormatted + " " + timeFormatted;
+		return res;
 	}
 	
 

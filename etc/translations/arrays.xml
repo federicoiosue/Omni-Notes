@@ -23,7 +23,6 @@
     </string-array>
 
 
-
     <string-array name="sortable_columns_human_readable">
         <item>Title</item>
         <item>Creation date</item>
@@ -36,6 +35,22 @@
         <item >Move at end of all the items</item>
         <item >Move after unchecked but on top of unchecked</item>
     </string-array>
+        
+    <string-array name="colors_app">
+        <item >Disabled</item>
+        <item >Strip only</item>
+        <item >Notes list only</item>
+        <item >Complete</item>
+    </string-array>
+        
+
+    <string-array name="colors_widget">
+        <item >Disabled</item>
+        <item >Strip only</item>
+        <item >Notes list</item>
+    </string-array>
+        
+    
     
 
 </resources>
