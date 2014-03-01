@@ -285,12 +285,21 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 		}
 		
 		// Check if is launched from a widget with tags to set tag
-		if (i.getStringExtra(Constants.INTENT_WIDGET) != null) {
-			noteTmp = new Note();
-			DbHelper db = new DbHelper(this);
-			Tag tag = db.getTag(12);
-			noteTmp.setTag(tag);
+		if (i.hasExtra(Constants.INTENT_WIDGET)) {
+			String widgetId = i.getExtras().get(Constants.INTENT_WIDGET).toString();
+			if (widgetId != null) {
+				String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
+				String tagId = sqlCondition.substring(sqlCondition.lastIndexOf("=") + 1).trim();
+				Tag tag;
+				try {
+					tag = db.getTag(Integer.parseInt(tagId));
+					noteTmp = new Note();
+					DbHelper db = new DbHelper(this);
+					noteTmp.setTag(tag);
+				} catch (NumberFormatException e) {}
+			}
 		}
+		
 	}
 
 	

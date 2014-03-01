@@ -79,7 +79,7 @@ public class WidgetConfigurationActivity extends Activity {
 
 				// Updating the ListRemoteViewsFactory parameter to get the list
 				// of notes
-				ListRemoteViewsFactory.updateConfiguration(mAppWidgetId,
+				ListRemoteViewsFactory.updateConfiguration(mContext, mAppWidgetId,
 						sqlCondition, showThumbnailsCheckBox.isChecked());
 
 				Intent resultValue = new Intent();

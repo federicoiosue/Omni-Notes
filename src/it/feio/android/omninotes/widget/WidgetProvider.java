@@ -22,14 +22,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 	public static String EXTRA_WORD = "it.feio.android.omninotes.widget.WORD";
 	public static String TOAST_ACTION = "it.feio.android.omninotes.widget.NOTE";
 	public static String EXTRA_ITEM = "it.feio.android.omninotes.widget.EXTRA_FIELD";
-	
-	
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		// TODO Auto-generated method stub
-		super.onReceive(context, intent);
-	}
-	
+		
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -58,6 +51,8 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
 		// Create an Intent to launch DetailActivity
 		Intent intentDetail = new Intent(context, DetailActivity.class);
+		intentDetail.putExtra(Constants.INTENT_WIDGET, widgetId);
+		intentDetail.setAction(Intent.ACTION_MAIN);
 		PendingIntent pendingIntentDetail = PendingIntent.getActivity(context, 0, intentDetail,
 				Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -67,6 +62,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
 		// Create an Intent to launch DetailActivity to take a photo
 		Intent intentDetailPhoto = new Intent(context, DetailActivity.class);
+		intentDetailPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
 		intentDetailPhoto.setAction(Intent.ACTION_PICK);
 		PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, 0, intentDetailPhoto,
 				Intent.FLAG_ACTIVITY_NEW_TASK);

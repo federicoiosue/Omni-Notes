@@ -6,7 +6,6 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
-import it.feio.android.omninotes.models.NoteAdapterViewHolder;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -15,6 +14,7 @@ import java.util.List;
 import android.annotation.TargetApi;
 import android.app.Application;
 import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -22,7 +22,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
@@ -33,7 +32,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	private final int WIDTH = 80;
 	private final int HEIGHT = 80;
 	
-	private static SparseArray<String> sqlConditions = new SparseArray<String>();
+//	private static SparseArray<String> sqlConditions = new SparseArray<String>();
 	private static boolean showThumbnails = true;
 	
 	private OmniNotes app;
@@ -41,37 +40,56 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	private List<Note> notes;
 	private DbHelper db;
 
+	
 	public ListRemoteViewsFactory(Application app, Intent intent) {
 		this.app = (OmniNotes) app;
 		appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
 		db = new DbHelper(app);
 	}
 
+	
 	@Override
 	public void onCreate() {
 		Log.d(Constants.TAG, "Created widget " + appWidgetId);
-		String condition = sqlConditions.get(appWidgetId) == null ? "" : sqlConditions.get(appWidgetId);
+		// String condition = sqlConditions.get(appWidgetId) == null ? "" :
+		// sqlConditions.get(appWidgetId);
+		String condition = PreferenceManager.getDefaultSharedPreferences(app)
+				.getString(
+						Constants.PREF_WIDGET_PREFIX
+								+ String.valueOf(appWidgetId), "");
 		notes = db.getNotes(condition, true);
 	}
 
+	
 	@Override
 	public void onDataSetChanged() {
 		Log.d(Constants.TAG, "onDataSetChanged widget " + appWidgetId);
-		String condition = sqlConditions.get(appWidgetId) == null ? "" : sqlConditions.get(appWidgetId);
+		// String condition = sqlConditions.get(appWidgetId) == null ? "" :
+				// sqlConditions.get(appWidgetId);
+				String condition = PreferenceManager.getDefaultSharedPreferences(app)
+						.getString(
+								Constants.PREF_WIDGET_PREFIX
+										+ String.valueOf(appWidgetId), "");
 		notes = db.getNotes(condition, true);
 	}
+	
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
-
+		PreferenceManager
+				.getDefaultSharedPreferences(app)
+				.edit()
+				.remove(Constants.PREF_WIDGET_PREFIX
+						+ String.valueOf(appWidgetId)).commit();
 	}
+	
 
 	@Override
 	public int getCount() {
 		return notes.size();
 	}
 
+	
 	@Override
 	public RemoteViews getViewAt(int position) {
 		RemoteViews row = new RemoteViews(app.getPackageName(), R.layout.note_layout_widget);
@@ -143,17 +161,25 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 		return false;
 	}
 
-	public static void updateConfiguration(int mAppWidgetId, String sqlCondition, boolean thumbnails) {
+	public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition, boolean thumbnails) {
 		Log.d(Constants.TAG, "Widget configuration updated");
-		sqlConditions.put(mAppWidgetId, sqlCondition);
+//		sqlConditions.put(mAppWidgetId, sqlCondition);
+		PreferenceManager
+				.getDefaultSharedPreferences(mContext)
+				.edit()
+				.putString(
+						Constants.PREF_WIDGET_PREFIX
+								+ String.valueOf(mAppWidgetId), sqlCondition)
+				.commit();
 		showThumbnails = thumbnails;
 	}
 	
 	
 	private void color(Note note, RemoteViews row) {
 		
-		String colorsPref = PreferenceManager.getDefaultSharedPreferences(app).getString("settings_colors_widget",
-				Constants.PREF_COLORS_APP_DEFAULT);
+		String colorsPref = PreferenceManager.getDefaultSharedPreferences(app)
+				.getString("settings_colors_widget",
+						Constants.PREF_COLORS_APP_DEFAULT);
 
 		// Checking preference
 		if (!colorsPref.equals("disabled")) {
