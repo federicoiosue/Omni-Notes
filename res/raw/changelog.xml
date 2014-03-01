@@ -16,6 +16,16 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.4.0 Beta 7" changeDate="Mar 02, 2014"> 
+        <changelogtext>[b]New![/b] Widget showing a single tag notes now will directly create a note with that tag by default</changelogtext>
+        <changelogtext>[b]New![/b] Application will no more return to notes list if opened from a note shortcut or if handled a third party app data sharing</changelogtext>
+        <changelogtext>[u]Fixed[/u] Google Now voice launch</changelogtext>
+        <changelogtext>[u]Fixed[/u] Widget persistence on reboot and on new widget addition</changelogtext>
+        <changelogtext>[u]Fixed[/u] Broken links opening</changelogtext>
+        <changelogtext>[u]Fixed[/u] DashClock extension configuration icon and strings</changelogtext>   
+        <changelogtext>[u]Fixed[/u] File deletion on attachment removal</changelogtext>   
+    </changelogversion>
+
     <changelogversion versionName="4.4.0 Beta 6" changeDate="Feb 28, 2014"> 
         <changelogtext>[b]New![/b] Google Now integration</changelogtext>
         <changelogtext>[b]New![/b] New links recognition allows you to double-click on them to choose if copy or open web url o email adresses</changelogtext>

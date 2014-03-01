@@ -29,7 +29,6 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
-import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.StorageManager;
@@ -166,6 +165,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 	// Result intent
 	Intent resultIntent;
 	private Intent shareIntent = new Intent();
+	
+	// Flag to check if after editing it will return to ListActivity or not
+	// and in the last case a Toast will be shown instead than Crouton
+	boolean returnsToList = true;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -274,6 +278,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 		
 		// Action called from home shortcut
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())) {
+			returnsToList = false;
 			DbHelper db = new DbHelper(this);
 			noteTmp = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
 			// Checks if the note pointed from the shortcut has been deleted
@@ -298,6 +303,55 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 					noteTmp.setTag(tag);
 				} catch (NumberFormatException e) {}
 			}
+		}
+		
+		
+		/**
+		 * Handles third party apps requests of sharing
+		 */
+		if ( ( Intent.ACTION_SEND.equals(i.getAction()) 
+				|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction()) 
+				|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) ) 
+				&& i.getType() != null) {
+
+			returnsToList = false;
+			
+			if (noteTmp == null) noteTmp = new Note();
+			
+			// Text title
+			String title = i.getStringExtra(Intent.EXTRA_SUBJECT);
+			if (title != null) {
+				noteTmp.setTitle(title);
+			}
+			
+			// Text content
+			String content = i.getStringExtra(Intent.EXTRA_TEXT);
+			if (content != null) {
+				noteTmp.setContent(content);
+			}
+			
+			// Single attachment data
+			Uri uri = (Uri) i.getParcelableExtra(Intent.EXTRA_STREAM);
+	    	// Due to the fact that Google Now passes intent as text but with 
+	    	// audio recording attached the case must be handled in specific way
+		    if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {
+		    	String mimeType = StorageManager.getMimeTypeInternal(this, i.getType());
+		    	noteTmp.addAttachment(new Attachment(uri, mimeType));
+		    }
+		    
+		    // Multiple attachment data
+		    ArrayList<Uri> uris = i.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+		    if (uris != null) {
+		    	for (Uri uriSingle : uris) {
+		    		String mimeGeneral = StorageManager.getMimeType(mActivity, uriSingle);
+		    		if (mimeGeneral != null) {
+		    			String mimeType = StorageManager.getMimeTypeInternal(this, mimeGeneral);
+		    			noteTmp.addAttachment(new Attachment(uriSingle, mimeType));	
+		    		} else {
+		    			showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
+		    		}
+				}
+		    }
 		}
 		
 	}
@@ -795,11 +849,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 
 		// The activity has managed a shared intent from third party app and
 		// performs a normal onBackPressed instead of returning back to ListActivity
-//		if (getIntent().getBooleanExtra(Constants.INTENT_MANAGING_SHARE, false)) {
-//			showToast(getString(R.string.note_updated), Toast.LENGTH_SHORT);
-//			super.onBackPressed();
-//			resultIntent.putExtra(Constants.INTENT_MANAGING_SHARE, true);
-//		}
+		if (!returnsToList) {
+			showToast(getString(R.string.note_updated), Toast.LENGTH_SHORT);
+			super.onBackPressed();
+			return true;
+		}
 		
 		// Otherwise the result is passed to ListActivity
 		int result = resultIntent.getIntExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_OK);

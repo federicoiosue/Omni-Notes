@@ -115,14 +115,14 @@ public class ListActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);
 				
-		// Get intent, action and MIME type to handle intent-filter requests
-		Intent intent = getIntent();
-		if ( ( Intent.ACTION_SEND.equals(intent.getAction()) 
-				|| Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction()) 
-				|| Constants.INTENT_GOOGLE_NOW.equals(intent.getAction()) ) 
-				&& intent.getType() != null) {
-			handleFilter(intent);
-		}
+//		// Get intent, action and MIME type to handle intent-filter requests
+//		Intent intent = getIntent();
+//		if ( ( Intent.ACTION_SEND.equals(intent.getAction()) 
+//				|| Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction()) 
+//				|| Constants.INTENT_GOOGLE_NOW.equals(intent.getAction()) ) 
+//				&& intent.getType() != null) {
+//			handleFilter(intent);
+//		}
 		
 		// Easter egg initialization
 		initEasterEgg();
@@ -206,54 +206,54 @@ public class ListActivity extends BaseActivity {
 	
 	
 	
-	/**
-	 * Handles third party apps requests of sharing
-	 * @param intent
-	 */
-	private void handleFilter(Intent intent) {
-		Note note = new Note();
-				
-		// Text title
-		String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-		if (title != null) {
-			note.setTitle(title);
-		}
-		
-		// Text content
-		String content = intent.getStringExtra(Intent.EXTRA_TEXT);
-		if (content != null) {
-			note.setContent(content);
-		}
-		
-		// Single attachment data
-		Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-    	// Due to the fact that Google Now passes intent as text but with 
-    	// audio recording attached the case must be handled in specific way
-	    if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(intent.getAction())) {
-	    	String mimeType = StorageManager.getMimeTypeInternal(this, intent.getType());
-	        note.addAttachment(new Attachment(uri, mimeType));
-	    }
-	    
-	    // Multiple attachment data
-	    ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-	    if (uris != null) {
-	    	for (Uri uriSingle : uris) {
-	    		String mimeGeneral = StorageManager.getMimeType(mActivity, uriSingle);
-	    		if (mimeGeneral != null) {
-	    			String mimeType = StorageManager.getMimeTypeInternal(this, mimeGeneral);
-			        note.addAttachment(new Attachment(uriSingle, mimeType));	
-	    		} else {
-	    			showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
-	    		}
-			}
-	    }
-	    
-	    // Editing activity launch
-		Intent detailIntent = new Intent(this, DetailActivity.class);
-		detailIntent.putExtra(Constants.INTENT_NOTE, note);
-		detailIntent.putExtra(Constants.INTENT_MANAGING_SHARE, true);
-		startActivity(detailIntent);
-	}
+//	/**
+//	 * Handles third party apps requests of sharing
+//	 * @param intent
+//	 */
+//	private void handleFilter(Intent intent) {
+//		Note note = new Note();
+//				
+//		// Text title
+//		String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+//		if (title != null) {
+//			note.setTitle(title);
+//		}
+//		
+//		// Text content
+//		String content = intent.getStringExtra(Intent.EXTRA_TEXT);
+//		if (content != null) {
+//			note.setContent(content);
+//		}
+//		
+//		// Single attachment data
+//		Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+//    	// Due to the fact that Google Now passes intent as text but with 
+//    	// audio recording attached the case must be handled in specific way
+//	    if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(intent.getAction())) {
+//	    	String mimeType = StorageManager.getMimeTypeInternal(this, intent.getType());
+//	        note.addAttachment(new Attachment(uri, mimeType));
+//	    }
+//	    
+//	    // Multiple attachment data
+//	    ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+//	    if (uris != null) {
+//	    	for (Uri uriSingle : uris) {
+//	    		String mimeGeneral = StorageManager.getMimeType(mActivity, uriSingle);
+//	    		if (mimeGeneral != null) {
+//	    			String mimeType = StorageManager.getMimeTypeInternal(this, mimeGeneral);
+//			        note.addAttachment(new Attachment(uriSingle, mimeType));	
+//	    		} else {
+//	    			showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
+//	    		}
+//			}
+//	    }
+//	    
+//	    // Editing activity launch
+//		Intent detailIntent = new Intent(this, DetailActivity.class);
+//		detailIntent.putExtra(Constants.INTENT_NOTE, note);
+//		detailIntent.putExtra(Constants.INTENT_MANAGING_SHARE, true);
+//		startActivity(detailIntent);
+//	}
 
 
 	@Override

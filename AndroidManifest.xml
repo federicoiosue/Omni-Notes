@@ -71,14 +71,35 @@
         <activity
             android:name="it.feio.android.omninotes.ListActivity"
             android:label="@string/title_activity_list"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop" >            
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <!-- Tags -->
+        <activity
+            android:name="it.feio.android.omninotes.TagActivity"
+            android:label="@string/title_activity_tag"
+            android:parentActivityName=".ListActivity"
+            android:theme="@style/Theme.AppCompat.Dialog" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
+        </activity>
+
+        <!-- Detail -->
+        <activity
+            android:name="it.feio.android.omninotes.DetailActivity"
+            android:windowSoftInputMode="stateUnchanged|adjustResize"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.google.android.gm.action.AUTO_SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="*/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -129,28 +150,6 @@
 
                 <data android:mimeType="video/*" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-
-        <!-- Tags -->
-        <activity
-            android:name="it.feio.android.omninotes.TagActivity"
-            android:label="@string/title_activity_tag"
-            android:parentActivityName=".ListActivity"
-            android:theme="@style/Theme.AppCompat.Dialog" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
-        </activity>
-
-        <!-- Detail -->
-        <activity
-            android:name="it.feio.android.omninotes.DetailActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize"
-            android:exported="true" >
         </activity>
 
         <!-- Sketch -->
