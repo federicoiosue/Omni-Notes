@@ -288,8 +288,9 @@ public class ListActivity extends BaseActivity {
 			// the CAB is removed. By default, selected items are deselected/unchecked.
 			for (int i = 0; i < mAdapter.getSelectedItems().size(); i++) {
 				int key = mAdapter.getSelectedItems().keyAt(i);
-				if	(mAdapter.getCount() > key && mAdapter.getItem(key) != null && listView.getChildAt(key) != null) {
-					mAdapter.restoreDrawable(mAdapter.getItem(key), listView.getChildAt(key).findViewById(R.id.card_layout));
+				View v = listView.getChildAt(key - listView.getFirstVisiblePosition());
+				if	(mAdapter.getCount() > key && mAdapter.getItem(key) != null && v != null) {
+					mAdapter.restoreDrawable(mAdapter.getItem(key), v.findViewById(R.id.card_layout));
 				}
 			}
 
