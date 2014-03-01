@@ -265,11 +265,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 
 	private void handleIntents() {
 		Intent i = getIntent();
+		
 		// Action called from widget
 		if (Intent.ACTION_PICK.equals(i.getAction())) {
 			takePhoto();
 			i.setAction(null);
 		}
+		
 		// Action called from home shortcut
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())) {
 			DbHelper db = new DbHelper(this);
@@ -280,6 +282,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 				finish();
 			}
 			i.setAction(null);
+		}
+		
+		// Check if is launched from a widget with tags to set tag
+		if (i.getStringExtra(Constants.INTENT_WIDGET) != null) {
+			noteTmp = new Note();
+			DbHelper db = new DbHelper(this);
+			Tag tag = db.getTag(12);
+			noteTmp.setTag(tag);
 		}
 	}
 
@@ -1643,12 +1653,30 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 				.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-						if (!IntentChecker.isAvailable(mActivity, intent, new String[]{PackageManager.FEATURE_CAMERA})) {
-							Crouton.makeText(mActivity, R.string.no_application_can_perform_this_action, ONStyle.ALERT).show();
+						boolean error = false;
+						Intent intent = null;
+						try {
+							intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+						} catch (NullPointerException e) {
+							error = true;
+						}
+						
+						if (intent == null
+								|| error
+								|| !IntentChecker
+										.isAvailable(
+												mActivity,
+												intent,
+												new String[] { PackageManager.FEATURE_CAMERA })) {
+							Crouton.makeText(
+									mActivity,
+									R.string.no_application_can_perform_this_action,
+									ONStyle.ALERT).show();
 							return;
-						}						
-						startActivity(intent);
+						} else {		
+						
+							startActivity(intent);
+						}
 					}
 				}).setNegativeButton(R.string.copy, new DialogInterface.OnClickListener() {
 					@SuppressWarnings("deprecation")
