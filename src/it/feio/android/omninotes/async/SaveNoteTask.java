@@ -10,6 +10,7 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -34,6 +35,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	protected Note doInBackground(Note... params) {
 		Note note = params[0];
 		createAttachmentCopy(note);
+		purgeRemovedAttachments(note);
 		
 		if (!error) {
 			DbHelper db = new DbHelper(mActivity);		
@@ -46,6 +48,19 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		return note;
 	}
 	
+	private void purgeRemovedAttachments(Note note) {
+		ArrayList<Attachment> deletedAttachments = note.getAttachmentsListOld();
+		for (Attachment attachment : note.getAttachmentsList()) {
+			if (attachment.getId() != 0) {
+				deletedAttachments.remove(attachment);
+			}
+		}
+		// Remove from database deleted attachments
+		for (Attachment deletedAttachment : deletedAttachments) {
+			StorageManager.delete(mActivity, deletedAttachment.getUri().getPath());
+		}
+	}
+
 	@Override
 	protected void onPostExecute(Note note) {
 		super.onPostExecute(note);
