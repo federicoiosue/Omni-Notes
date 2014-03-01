@@ -53,18 +53,18 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 		Intent intentDetail = new Intent(context, DetailActivity.class);
 		intentDetail.putExtra(Constants.INTENT_WIDGET, widgetId);
 		intentDetail.setAction(Intent.ACTION_MAIN);
-		PendingIntent pendingIntentDetail = PendingIntent.getActivity(context, 0, intentDetail,
+		PendingIntent pendingIntentDetail = PendingIntent.getActivity(context, widgetId, intentDetail,
 				Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		// Create an Intent to launch ListActivity
 		Intent intentList = new Intent(context, ListActivity.class);
-		PendingIntent pendingIntentList = PendingIntent.getActivity(context, 0, intentList, 0);
+		PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, 0);
 
 		// Create an Intent to launch DetailActivity to take a photo
 		Intent intentDetailPhoto = new Intent(context, DetailActivity.class);
 		intentDetailPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
 		intentDetailPhoto.setAction(Intent.ACTION_PICK);
-		PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, 0, intentDetailPhoto,
+		PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, widgetId, intentDetailPhoto,
 				Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		// Check various dimensions aspect of widget to choose between layouts
