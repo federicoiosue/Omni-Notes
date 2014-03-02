@@ -17,9 +17,10 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="4.4.0 Beta 7" changeDate="Mar 02, 2014"> 
+        <changelogtext>[b]New![/b] More space for content note list when using expanded view</changelogtext>
         <changelogtext>[b]New![/b] Widget showing a single tag notes now will directly create a note with that tag by default</changelogtext>
-        <changelogtext>[b]New![/b] Application will no more return to notes list if opened from a note shortcut or if handled a third party app data sharing</changelogtext>
-        <changelogtext>[b]New![/b] Changing notes tag will no more update their last modification date</changelogtext>
+        <changelogtext>Application will no more return to notes list if opened from a note shortcut or if handled a third party app data sharing</changelogtext>
+        <changelogtext>Changing notes tag will no more update their last modification date</changelogtext>
         <changelogtext>[u]Fixed[/u] Google Now voice launch</changelogtext>
         <changelogtext>[u]Fixed[/u] Widget persistence on reboot and on new widget addition</changelogtext>
         <changelogtext>[u]Fixed[/u] Broken links opening</changelogtext>
