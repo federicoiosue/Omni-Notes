@@ -135,13 +135,19 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="shortcut_note_deleted">Il collegamento è riferito ad una nota cancellata</string>
   <string name="widget_simple_description">Widget semplice con pulsanti</string>
   <string name="widget_list_description">Widget con pulsanti e lista</string>
-  <string name="notes">Nota</string>
+  <string name="notes">note</string>
   <string name="show_thumbnails">Mostra le miniature degli allegati</string>
   <string name="choose_action">Scegli l\'azione da eseguire</string>
   <string name="edit">Modifica</string>
   <string name="reminders">promemoria</string>
   <string name="not_expired">non scaduti</string>
+  <string name="expired">scadute</string>
   <string name="today">oggi</string>
+  <string name="open">Apri</string>
+  <string name="copy">Copia</string>
+  <string name="no_application_can_perform_this_action">Nessuna applicazione trovata per eseguire quest\'azione</string>
+  <string name="eraser">Gomma da cancellare</string>
+  <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
   <string name="settings">Impostazioni</string>
   <string name="settings_about">Info</string>
   <string name="settings_category_other">Altro</string>
@@ -164,7 +170,6 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_enable_animations">Animazioni</string>
   <string name="settings_choose_language">Lingua</string>
   <string name="settings_category_notifications">Notifiche</string>
-  <string name="settings_enable_sound">Suoneria</string>
   <string name="settings_enable_vibration">Vibrazione</string>
   <string name="settings_changelog">Cambiamenti</string>
   <string name="settings_enable_editor_links">Riconoscimento links</string>
@@ -192,7 +197,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="confirm_removing_backup">Conferma la cancellazione del backup</string>
   <string name="confirm_restoring_backup">Confermare il ripristino del backup</string>
   <string name="data_deletion_completed">Cancellazione dei dati completata</string>
-  <string name="settings_checked_items_behavior">Comportamento elementi selezionati</string>
+  <string name="settings_checked_items_behavior">Liste di controllo</string>
   <string name="settings_checked_items_behavior_summary">Cosa fare quando un elemento delle liste di controllo viene selezionato?</string>
   <string name="settings_category_preferences">Preferenze</string>
   <string name="settings_category_beta">Beta</string>
@@ -224,6 +229,8 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_answer_not_matching">Risposta mancante o non corrispondente</string>
   <string name="password_not_set">Password di sicurezza non impostata</string>
   <string name="wrong_answer">Risposta sbagliata</string>
+  <string name="colors_app">Colori applicazione</string>
+  <string name="colors_widget">Colori widget</string>
   <string name="tour_listactivity_intro_title">Benvenuti in Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Premere \"Prosegui\" per continuare il tour</string>
   <string name="tour_listactivity_actions_title">Azioni</string>
@@ -238,6 +245,10 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="tour_detailactivity_action_detail">Condividi, categorizza, archivia, proteggi&#8230;</string>
   <string name="tour_detailactivity_reminder_title">Basta premere</string>
   <string name="tour_detailactivity_reminder_detail">Pressioni brevi o lunghe sugli oggetti (allegati, località, promemoria) hanno effetti diverso!</string>
+  <string name="tour_detailactivity_links_title">Links</string>
+  <string name="tour_detailactivity_links_detail">Clicca due volte un un indirizzo internet o e-mail per copiarlo o aprirlo</string>
+  <string name="tour_detailactivity_save_title">Salva</string>
+  <string name="tour_detailactivity_save_detail">Premi semplicemente l\'icona di navigazione \"torna su\" o usa il pulsante per tornare indietro del tuo telefono</string>
   <string name="tour_listactivity_final_title">Divertiti</string>
   <string name="tour_listactivity_final_detail">Grazie per usare Omni Notes \n\n L\'alternativa open source \n per le tue note nei momenti di \n lavoro o svago \n\n Premi \"Procedi\" per terminare \n il tour e cominciare \n ad inserire la tua prima nota!</string>
   <string name="drawer_open">drawer aperto</string>

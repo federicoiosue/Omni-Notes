@@ -32,4 +32,15 @@
     <item>Spostare in fondo all\'elenco</item>
     <item>Spostare in basso ma sopra le voci già controllate</item>
   </string-array>
+  <string-array name="colors_app">
+    <item>Disattivato</item>
+    <item>Solo una fascia</item>
+    <item>Solo nella lista note</item>
+    <item>Completo</item>
+  </string-array>
+  <string-array name="colors_widget">
+    <item>Disattivato</item>
+    <item>Solo una fascia</item>
+    <item>Lista note</item>
+  </string-array>
 </resources>

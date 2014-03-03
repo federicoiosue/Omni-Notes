@@ -24,12 +24,23 @@
   <string-array name="sortable_columns_human_readable">
     <item>Заголовкам</item>
     <item>Дате создания</item>
-    <item>Последним исправлениям</item>
+    <item>Последнее изменение</item>
     <item>Времени напоминаний</item>
   </string-array>
   <string-array name="checked_items_behavior">
     <item>Оставлять на месте</item>
     <item>Перемещать в конец списка</item>
     <item>Перемещать выше других выбранных пунктов</item>
+  </string-array>
+  <string-array name="colors_app">
+    <item>Отключено</item>
+    <item>Небольшой индикатор</item>
+    <item>Только в списке заметок</item>
+    <item>Полноценное</item>
+  </string-array>
+  <string-array name="colors_widget">
+    <item>Отключено</item>
+    <item>Небольшой индикатор</item>
+    <item>В списке заметок</item>
   </string-array>
 </resources>

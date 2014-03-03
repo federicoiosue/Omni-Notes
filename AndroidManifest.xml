@@ -17,8 +17,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="84"
-    android:versionName="4.4.0beta7" >
+    android:versionCode="85"
+    android:versionName="4.4.0beta8" >
 
     <uses-sdk
         android:minSdkVersion="9"
