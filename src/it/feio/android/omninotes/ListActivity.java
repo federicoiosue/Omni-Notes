@@ -27,7 +27,6 @@ import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.StorageManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +44,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -58,6 +56,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
+import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -73,7 +72,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
@@ -680,6 +678,24 @@ public class ListActivity extends BaseActivity {
 				@Override
 				public boolean onMenuItemActionExpand(MenuItem item) {
 					Log.i(Constants.TAG, "onMenuItemActionExpand " + item.getItemId());
+					
+					searchView.setOnQueryTextListener(new OnQueryTextListener() {
+						
+						@Override
+						public boolean onQueryTextSubmit(String arg0) {
+							// TODO Auto-generated method stub
+							return false;
+						}
+						
+						@Override
+						public boolean onQueryTextChange(String arg0) {
+							Intent i = new Intent(mActivity, ListActivity.class);
+							i.setAction(Intent.ACTION_SEARCH);
+							i.putExtra(SearchManager.QUERY, arg0);
+							startActivity(i);
+							return false;
+						}
+					});
 					return true;
 				}
 			});
@@ -977,8 +993,8 @@ public class ListActivity extends BaseActivity {
 		DbHelper db = new DbHelper(this);
 		notesList = db.getMatchingNotes(pattern);
 		Log.d(Constants.TAG, "Found " + notesList.size() + " elements matching");
-		if (searchView != null)
-			searchView.clearFocus();
+//		if (searchView != null)
+//			searchView.clearFocus();
 		return notesList;
 
 	}
