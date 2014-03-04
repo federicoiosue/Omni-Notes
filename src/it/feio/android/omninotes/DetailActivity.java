@@ -1563,8 +1563,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 				stopPlaying();
 				isPlayingView = v;
 				startPlaying(uri);
-				recordingBitmap = ((BitmapDrawable)((ImageView)v).getDrawable()).getBitmap();
-				((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+				recordingBitmap = ((BitmapDrawable)((ImageView)v.findViewById(R.id.gridview_item_picture)).getDrawable()).getBitmap();
+				((ImageView)v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 //				((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), mGridView.getItemHeight(), mGridView.getItemHeight()));				
 			// Otherwise just stops playing
 			} else {			
@@ -1574,13 +1574,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 		} else {
 			isPlayingView = v;
 			startPlaying(uri);	
-			Drawable d = ((ImageView)v).getDrawable();
+//			Drawable d = ((ImageView)v).getDrawable();
+			Drawable d = ((ImageView)v.findViewById(R.id.gridview_item_picture)).getDrawable();
 			if (BitmapDrawable.class.isAssignableFrom(d.getClass())) {
 				recordingBitmap = ((BitmapDrawable)d).getBitmap();
 			} else {
 				recordingBitmap = ((BitmapDrawable)((TransitionDrawable)d).getDrawable(1)).getBitmap();
 			}
-			((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+			((ImageView)v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 //			((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), mGridView.getItemHeight(), mGridView.getItemHeight()));
 			}
 	}
@@ -1597,7 +1598,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 				public void onCompletion(MediaPlayer mp) {
 					mPlayer = null;
 //					((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
-					((ImageView)isPlayingView).setImageBitmap(recordingBitmap);
+					((ImageView)isPlayingView.findViewById(R.id.gridview_item_picture)).setImageBitmap(recordingBitmap);
 					recordingBitmap = null;
 					isPlayingView = null;
 				}
@@ -1609,7 +1610,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 
 	private void stopPlaying() {
 		if (mPlayer != null) {
-			((ImageView)isPlayingView).setImageBitmap(recordingBitmap);
+			((ImageView)isPlayingView.findViewById(R.id.gridview_item_picture)).setImageBitmap(recordingBitmap);
 			isPlayingView = null;
 			recordingBitmap = null;
 			mPlayer.release();

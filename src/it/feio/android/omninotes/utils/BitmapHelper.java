@@ -303,6 +303,8 @@ public class BitmapHelper {
 //				text = mContext.getString(R.string.attachment);
 //			}
 					
+//			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
+//					mContext.getResources(), R.drawable.play), width, height);
 			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
 					mContext.getResources(), R.drawable.play), width, height);
 //			bmp = BitmapHelper.drawTextToBitmap(mContext, bmp, text, null, -20,
@@ -321,9 +323,12 @@ public class BitmapHelper {
 	 * @return
 	 */
 	public static Bitmap createVideoThumbnail(Context mContext, Bitmap video, int width, int height) {
+//		Bitmap mark = ThumbnailUtils.extractThumbnail(
+//				BitmapFactory.decodeResource(mContext.getResources(),
+//						R.drawable.play_white), width, height);
 		Bitmap mark = ThumbnailUtils.extractThumbnail(
 				BitmapFactory.decodeResource(mContext.getResources(),
-						R.drawable.play_white), width, height);
+						R.drawable.play), width, height);
 		Bitmap thumbnail = Bitmap.createBitmap(width, height,
 				Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(thumbnail);
