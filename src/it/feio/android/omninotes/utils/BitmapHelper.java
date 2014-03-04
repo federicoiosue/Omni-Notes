@@ -294,19 +294,19 @@ public class BitmapHelper {
 
 			// Audio
 		} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
-			String text = "";
-			text = DateHelper.getLocalizedDateTime(mContext, mAttachment
-					.getUri().getLastPathSegment().split("\\.")[0],
-					Constants.DATE_FORMAT_SORTABLE);
-		
-			if (text == null) {
-				text = mContext.getString(R.string.attachment);
-			}
+//			String text = "";
+//			text = DateHelper.getLocalizedDateTime(mContext, mAttachment
+//					.getUri().getLastPathSegment().split("\\.")[0],
+//					Constants.DATE_FORMAT_SORTABLE);
+//		
+//			if (text == null) {
+//				text = mContext.getString(R.string.attachment);
+//			}
 					
 			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
 					mContext.getResources(), R.drawable.play), width, height);
-			bmp = BitmapHelper.drawTextToBitmap(mContext, bmp, text, null, -20,
-					3.3f, mContext.getResources().getColor(R.color.text_gray));
+//			bmp = BitmapHelper.drawTextToBitmap(mContext, bmp, text, null, -20,
+//					3.3f, mContext.getResources().getColor(R.color.text_gray));
 		}
 		
 		return bmp;
