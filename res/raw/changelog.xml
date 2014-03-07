@@ -18,6 +18,7 @@
 
     <changelogversion versionName="4.4.0 Beta 8" changeDate="Mar 05, 2014"> 
         <changelogtext>[b]New![/b] Find notes as you type in search field</changelogtext>
+        <changelogtext>[b]New![/b] Swipe from left or right side of note detail screen to start creating a new note</changelogtext>
         <changelogtext>Improved image cropping algorithm: now your picture's thumbnails will show a larger section of the original image without loosing quality</changelogtext>
         <changelogtext>Improved check-mark symbols visualization in notes list</changelogtext>
         <changelogtext>Application tour can now be skipped on first launch</changelogtext>

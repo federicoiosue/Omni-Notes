@@ -95,7 +95,11 @@
         <activity
             android:name="it.feio.android.omninotes.DetailActivity"
             android:windowSoftInputMode="stateUnchanged|adjustResize"
-            android:exported="true" >
+            android:exported="true" 
+            android:parentActivityName=".ListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
             <intent-filter>
                 <action android:name="com.google.android.gm.action.AUTO_SEND" />
                 <category android:name="android.intent.category.DEFAULT" />

@@ -17,11 +17,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
     android:fitsSystemWindows="true"
-android:descendantFocusability="beforeDescendants"
-android:focusableInTouchMode="true" >
+    android:focusableInTouchMode="true" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,7 +74,7 @@ android:focusableInTouchMode="true" >
             android:layout_marginTop="6dp"
             android:layout_weight="1"
             android:background="@drawable/bg_card"
-    		android:paddingBottom="2dp" >
+            android:paddingBottom="2dp" >
 
             <LinearLayout
                 android:id="@+id/content_wrapper"
@@ -93,7 +94,7 @@ android:focusableInTouchMode="true" >
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" >
-                        
+
                         <it.feio.android.omninotes.models.ExpandableHeightGridView
                             android:id="@+id/gridview"
                             android:layout_width="match_parent"
@@ -110,12 +111,12 @@ android:focusableInTouchMode="true" >
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
                             android:background="@drawable/icon_selector"
+                            android:freezesText="true"
                             android:gravity="center_vertical"
                             android:paddingBottom="10dp"
                             android:paddingTop="10dp"
                             android:textColor="@color/location_text"
                             android:textSize="12sp"
-                            android:freezesText="true"
                             android:visibility="gone"
                             pixlui:typeface="Roboto-Regular.ttf" />
 
@@ -156,9 +157,9 @@ android:focusableInTouchMode="true" >
 
                             <com.neopixl.pixlui.components.textview.TextView
                                 android:id="@+id/datetime"
-                                android:freezesText="true"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:freezesText="true"
                                 android:gravity="center_vertical"
                                 android:hint="@string/add_reminder"
                                 android:textAppearance="@style/Text.Small"

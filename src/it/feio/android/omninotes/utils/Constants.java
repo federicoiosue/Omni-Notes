@@ -34,6 +34,10 @@ public interface Constants {
 	final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=";
 	static long UPDATE_MIN_FREQUENCY = 24*60*60*1000; // 1 day
 	
+	// Notes swipe
+	final int SWIPE_MARGIN = 25;
+	final int SWIPE_OFFSET = 100;
+	
 	// Used for ACRA
 	final String ACRA_MAILER_URL = "http://www.iosue.it/federico/apps/acramailer/acra.php?email=";
 	

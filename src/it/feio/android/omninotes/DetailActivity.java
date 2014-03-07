@@ -55,6 +55,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -76,12 +77,15 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -119,7 +123,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  * a {@link ItemDetailFragment}.
  */
 public class DetailActivity extends BaseActivity implements OnDateSetListener,
-OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener {
+OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener, OnTouchListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -169,6 +173,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 	// Flag to check if after editing it will return to ListActivity or not
 	// and in the last case a Toast will be shown instead than Crouton
 	boolean returnsToList = true;
+	private boolean swiping;
+	private int previousX;
+	private View root;
+	private int startSwipeX;
 	
 
 	@Override
@@ -358,6 +366,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 
 	
 	private void initViews() {
+		
+		// Sets onTouchListener to the whole activity to swipe notes
+		root = findViewById(R.id.detail_root);
+		root.setOnTouchListener(this);
 
 		// Color of tag marker if note is tagged a function is active in preferences
 		setTagMarkerColor(noteTmp.getTag());		
@@ -1776,6 +1788,61 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 				});
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
+	}
+
+
+	
+	@SuppressWarnings("deprecation")
+	@SuppressLint("NewApi")
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		int x = (int) event.getX();
+		int y = (int) event.getY();
+
+		switch (event.getAction()) {
+		
+			case MotionEvent.ACTION_DOWN:
+				Log.v(Constants.TAG, "MotionEvent.ACTION_DOWN");
+				Display display = getWindowManager().getDefaultDisplay();
+				int w, h;
+				if (Build.VERSION.SDK_INT >= 13) {
+					Point size = new Point();
+					display.getSize(size);
+					w = size.x;
+					h = size.y;
+				} else {
+					w = display.getWidth();  // deprecated
+					h = display.getHeight();  // deprecated					
+				}
+				
+				if (x < Constants.SWIPE_MARGIN || x > w - Constants.SWIPE_MARGIN) {
+					swiping = true;
+					startSwipeX = x;
+				}
+	
+				break;
+	
+			case MotionEvent.ACTION_UP:
+				Log.v(Constants.TAG, "MotionEvent.ACTION_UP");
+				if (swiping)
+					swiping = false;	
+				break;
+	
+			case MotionEvent.ACTION_MOVE:
+				if (swiping) {
+					Log.v(Constants.TAG, "MotionEvent.ACTION_MOVE at position " + x + ", " + y);	
+					if (Math.abs(x - startSwipeX) > Constants.SWIPE_OFFSET) {
+						Intent detailIntent = new Intent(this, DetailActivity.class);
+						detailIntent.putExtra(Constants.INTENT_NOTE, new Note());
+						startActivity(detailIntent);
+					}
+				}
+				break;
+		}
+
+		previousX = x;
+
+		return true;
 	}
 	
 
