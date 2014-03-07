@@ -1448,7 +1448,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		
 		// Changed fields
 		String title = getNoteTitle();		
-		String content = getNoteContent();
+		String content = title + System.getProperty("line.separator") + getNoteContent();
 
 		// Definition of shared content
 		String text = content + System.getProperty("line.separator")
