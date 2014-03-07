@@ -804,8 +804,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 	    }
 	    
 	    // Show instructions on first launch
-	    final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "detail";
-	    if (!prefs.getBoolean(instructionName, false)) {			
+	    final String instructionName = Constants.PREF_TOUR_PREFIX + "detail";
+	    if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false) && !prefs.getBoolean(instructionName, false)) {			
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			list.add(new Integer[]{R.id.menu_attachment, R.string.tour_detailactivity_attachment_title, R.string.tour_detailactivity_attachment_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{R.id.menu_tag, R.string.tour_detailactivity_action_title, R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});

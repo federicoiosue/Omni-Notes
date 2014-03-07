@@ -18,7 +18,11 @@ package it.feio.android.omninotes;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.Map;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -59,12 +63,10 @@ public class SplashScreenActivity extends BaseActivity {
 
 			@Override
 			public void run() {
-				// This method will be executed once the timer is over
-				// Start your app main activity
-				launchMainActivity();
-
-				// close this activity
-				finish();
+//				// This method will be executed once the timer is over
+//				// Start your app main activity
+//				launchMainActivity();
+				requestShowCaseViewVisualization();
 			}
 		}, Constants.SPLASH_TIME_OUT);
 	}
@@ -80,6 +82,53 @@ public class SplashScreenActivity extends BaseActivity {
 	private void launchMainActivity() {
 		launchMainActivity.setClass(this, ListActivity.class);
 		startActivity(launchMainActivity);
+		finish();
+	}
+
+
+
+
+
+	/**
+	 * Showcase view displaying request for first launch
+	 */
+	private void requestShowCaseViewVisualization() {
+		
+		boolean firstLaunch = true;
+		
+		// All  the preferences will be cycled until 
+		Map<String, ?> prefsMap = prefs.getAll();
+		final Iterator<?> it = prefsMap.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry mapEntry = (Map.Entry) it.next();
+			String key = mapEntry.getKey().toString();
+			if (key.contains(Constants.PREF_TOUR_PREFIX)) {
+				firstLaunch = false;
+				break;
+			}
+		}
+		
+		if (firstLaunch) {		
+			final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+			alertDialogBuilder
+				.setTitle(R.string.app_name)
+				.setMessage(R.string.tour_request_start)
+				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						launchMainActivity();
+					}			
+			}).setNegativeButton(R.string.not_now, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int id) {					
+					prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
+					launchMainActivity();
+				}
+			});
+			alertDialogBuilder.create().show();
+		} else {
+			launchMainActivity();
+		}
 	}
 
 }

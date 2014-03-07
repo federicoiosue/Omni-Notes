@@ -91,7 +91,7 @@ public interface Constants {
     final String PREF_FIRST_LAUNCH = "first_launch";
     final String PREF_KEEP_CHECKED = "keep_checked";
     final String PREF_KEEP_CHECKMARKS = "show_checkmarks";
-	final String PREF_INSTRUCTIONS_PREFIX = "tour_";
+	final String PREF_TOUR_PREFIX = "tour_";
 	final String PREF_EXPANDED_VIEW = "expanded_view";
 	final String PREF_COLORS_APP_DEFAULT = "strip";
 	final String PREF_WIDGET_PREFIX = "widget_";

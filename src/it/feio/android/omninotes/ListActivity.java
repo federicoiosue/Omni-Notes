@@ -31,7 +31,9 @@ import it.feio.android.omninotes.utils.Constants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -112,22 +114,29 @@ public class ListActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);
-				
-//		// Get intent, action and MIME type to handle intent-filter requests
-//		Intent intent = getIntent();
-//		if ( ( Intent.ACTION_SEND.equals(intent.getAction()) 
-//				|| Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction()) 
-//				|| Constants.INTENT_GOOGLE_NOW.equals(intent.getAction()) ) 
-//				&& intent.getType() != null) {
-//			handleFilter(intent);
-//		}
-		
+
 		// Easter egg initialization
 		initEasterEgg();
 
 		// Listview initialization
 		initListView();
 
+		// Activity title initialization
+		initTitle();
+
+		// Launching update task
+		UpdaterTask task = new UpdaterTask(this);
+		task.execute();
+		
+	}	
+
+
+
+
+	/**
+	 * Activity title initialization based on navigation
+	 */
+	private void initTitle() {
 		String[] navigationList = getResources().getStringArray(R.array.navigation_list);
 		String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
 		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
@@ -144,17 +153,9 @@ public class ListActivity extends BaseActivity {
 			}
 		}
 		setTitle(title == null ? getString(R.string.title_activity_list) : title);
-
-		// Launching update task
-		UpdaterTask task = new UpdaterTask(this);
-		if (Build.VERSION.SDK_INT >= 11) {
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		} else {
-			task.execute();
-		}
 	}
-	
-	
+
+
 
 
 	/**
@@ -262,7 +263,7 @@ public class ListActivity extends BaseActivity {
 		initNavigationDrawer();
 		
 		// Menu is invalidated to start again instructions tour if requested
-		if (!prefs.getBoolean(Constants.PREF_INSTRUCTIONS_PREFIX + "list", false)) {
+		if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "list", false)) {
 			supportInvalidateOptionsMenu();
 		}
 	}
@@ -532,8 +533,8 @@ public class ListActivity extends BaseActivity {
 				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 				
 				// Show instructions on first launch
-				final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "navdrawer";
-				if (!prefs.getBoolean(instructionName, false)) {
+				final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
+				if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false) && !prefs.getBoolean(instructionName, false)) {
 					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 					list.add(new Integer[]{R.id.menu_add_tag, R.string.tour_listactivity_tag_title, R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM});
 					showCaseView(list, new OnShowcaseAcknowledged() {			
@@ -602,8 +603,8 @@ public class ListActivity extends BaseActivity {
 		initSearchView(menu);
 		
 		// Show instructions on first launch
-		final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "list";
-		if (!prefs.getBoolean(instructionName, false)) {
+		final String instructionName = Constants.PREF_TOUR_PREFIX + "list";
+		if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false) && !prefs.getBoolean(instructionName, false)) {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			list.add(new Integer[]{0, R.string.tour_listactivity_intro_title, R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE});
 			list.add(new Integer[]{R.id.menu_add, R.string.tour_listactivity_actions_title, R.string.tour_listactivity_actions_detail, ShowcaseView.ITEM_ACTION_ITEM});
@@ -683,7 +684,6 @@ public class ListActivity extends BaseActivity {
 						
 						@Override
 						public boolean onQueryTextSubmit(String arg0) {
-							// TODO Auto-generated method stub
 							return false;
 						}
 						
@@ -880,8 +880,8 @@ public class ListActivity extends BaseActivity {
 		
 		
 	    // Show instructions on first launch
-	    final String instructionName = Constants.PREF_INSTRUCTIONS_PREFIX + "list2";
-	    if (!prefs.getBoolean(instructionName, false)) {
+	    final String instructionName = Constants.PREF_TOUR_PREFIX + "list2";
+	    if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false) && !prefs.getBoolean(instructionName, false)) {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			int target = (findViewById(R.id.empty_list)).getVisibility() == View.VISIBLE ? R.id.empty_list : R.id.notes_list; 
 			list.add(new Integer[]{null, R.string.tour_listactivity_final_title, R.string.tour_listactivity_final_detail, null});

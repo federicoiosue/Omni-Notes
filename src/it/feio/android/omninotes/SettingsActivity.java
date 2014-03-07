@@ -467,13 +467,14 @@ public class SettingsActivity extends PreferenceActivity {
 						.setMessage(getString(R.string.settings_tour_show_again_summary) + "?")
 						.setCancelable(false).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
-								// All  the preferences will be cycled until 
+								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false).commit();
+								// All the tour preferences will be cycled to reset them
 								Map<String, ?> prefsMap = prefs.getAll();
 								Iterator<?> it = prefsMap.entrySet().iterator();
 								while (it.hasNext()) {
 									Map.Entry mapEntry = (Map.Entry) it.next();
 									String key = mapEntry.getKey().toString();
-									if (key.contains(Constants.PREF_INSTRUCTIONS_PREFIX)) {
+									if (key.contains(Constants.PREF_TOUR_PREFIX)) {
 										prefs.edit().putBoolean(key, false).commit();
 										restartApp();
 									}
