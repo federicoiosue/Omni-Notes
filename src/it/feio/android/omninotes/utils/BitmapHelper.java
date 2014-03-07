@@ -105,24 +105,78 @@ public class BitmapHelper {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static Bitmap getThumbnail(Context ctx, Uri uri, int reqWidth, int reqHeight) {
+	public static Bitmap getThumbnail(Context mContext, Uri uri, int reqWidth, int reqHeight) {
 		Bitmap srcBmp;
 		Bitmap dstBmp = null;
 		try {
-			srcBmp = decodeSampledFromUri(ctx, uri, reqWidth, reqHeight);
-			// Cropping
-			int x = ( srcBmp.getWidth() - reqWidth )/2;
-			int y = ( srcBmp.getHeight() - reqHeight )/2;
-			if (x > 0 && y > 0) {
-				dstBmp = Bitmap.createBitmap(srcBmp, x, y, reqWidth, reqHeight);		
-			} else {
+			srcBmp = decodeSampledFromUri(mContext, uri, reqWidth, reqHeight);
+			
+			// If picture is smaller than required thumbnail 
+			if (srcBmp.getWidth() < reqWidth && srcBmp.getHeight() < reqHeight) {
 				dstBmp = ThumbnailUtils.extractThumbnail(srcBmp, reqWidth, reqHeight);
+				
+			// Otherwise the ratio between measures is calculated to fit requested thumbnail's one
+			} else {
+				// Cropping
+//				int x = ( srcBmp.getWidth() - reqWidth )/2;
+//				int y = ( srcBmp.getHeight() - reqHeight )/2;
+//				dstBmp = Bitmap.createBitmap(srcBmp, x, y, reqWidth, reqHeight);
+				
+				// Cropping 2
+				int x = 0, y = 0, width = srcBmp.getWidth(), height = srcBmp.getHeight();
+				float ratio = ((float)reqWidth / (float)reqHeight) * ((float)srcBmp.getHeight() / (float)srcBmp.getWidth());
+				if (ratio < 1) {
+					x = (int) ( srcBmp.getWidth() - srcBmp.getWidth() * ratio ) / 2;
+					width = (int) (srcBmp.getWidth() * ratio);
+				} else {
+					y = (int) ( srcBmp.getHeight() - srcBmp.getHeight() / ratio ) / 2;
+					height = (int) (srcBmp.getHeight() / ratio);
+				}
+				dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height);
+
+				// Scaling
+//				dstBmp = scaleImage(mContext, srcBmp, reqWidth, reqHeight);		
 			}
 		} catch (FileNotFoundException e) {
 			Log.e(Constants.TAG, "Missing attachment file: " + uri.getPath());
 		}
 		
 		return dstBmp;
+	}
+	
+	
+	
+	
+	/**
+	 * Scales a bitmap to fit required ratio
+	 * @param bmp Image to be scaled
+	 * @param reqWidth
+	 * @param reqHeight
+	 */
+	private static Bitmap scaleImage(Context mContext, Bitmap bitmap, int reqWidth, int reqHeight) {
+
+		// Get current dimensions AND the desired bounding box
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+		int boundingX = dpToPx(mContext, reqWidth);
+		int boundingY = dpToPx(mContext, reqHeight);
+
+		// Determine how much to scale: the dimension requiring less scaling is
+		// closer to the its side. This way the image always stays inside your
+		// bounding box AND either x/y axis touches it.
+		float xScale = ((float) boundingX) / width;
+		float yScale = ((float) boundingY) / height;
+		float scale = (xScale >= yScale) ? xScale : yScale;
+
+		// Create a matrix for the scaling and add the scaling data
+		Matrix matrix = new Matrix();
+		matrix.postScale(scale, scale);
+
+		// Create a new bitmap and convert it to a format understood by the
+		// ImageView
+		Bitmap scaledBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+
+		return scaledBitmap;
 	}
 	
 	
@@ -360,6 +414,14 @@ public class BitmapHelper {
 					width, height);
 		}
 		return bmp;
+	}
+	
+	
+	
+	
+	private static int dpToPx(Context mContext, int dp) {
+		float density = mContext.getResources().getDisplayMetrics().density;
+		return Math.round((float) dp * density);
 	}
 	
 }
