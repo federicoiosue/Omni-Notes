@@ -70,7 +70,7 @@ android:focusableInTouchMode="true" >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:layout_weight="1"
             android:background="@drawable/bg_card"
     		android:paddingBottom="2dp" >
@@ -173,8 +173,8 @@ android:focusableInTouchMode="true" >
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp" >
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp" >
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/creation"

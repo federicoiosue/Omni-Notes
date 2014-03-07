@@ -562,13 +562,21 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener 
 		datetime.setText(dateTimeText);
 		
 		
-		// Footer dates of creation and last modification
+		// Footer dates of creation... 
+		TextView creationTextView = (TextView) findViewById(R.id.creation);
 		String creation = noteTmp.getCreationShort(mActivity);
-		((TextView) findViewById(R.id.creation)).append(creation.length() > 0 ? getString(R.string.creation) + " "
+		creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " "
 				+ creation : "");
+		if (creationTextView.getText().length() == 0)
+			creationTextView.setVisibility(View.GONE);
+		
+		// ... and last modification
+		TextView lastModificationTextView = (TextView) findViewById(R.id.last_modification);
 		String lastModification = noteTmp.getLastModificationShort(mActivity);
-		((TextView) findViewById(R.id.last_modification)).append(lastModification.length() > 0 ? getString(R.string.last_update) + " "
+		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " "
 				+ lastModification : "");
+		if (lastModificationTextView.getText().length() == 0)
+			lastModificationTextView.setVisibility(View.GONE);
 		
 	}
 
