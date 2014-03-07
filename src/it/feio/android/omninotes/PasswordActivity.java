@@ -1,7 +1,5 @@
 package it.feio.android.omninotes;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
@@ -11,11 +9,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class PasswordActivity extends BaseActivity {
 
@@ -34,8 +32,6 @@ public class PasswordActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_password);
-		
-		oldPassword = prefs.getString(Constants.PREF_PASSWORD, null);
 		
 		initViews();
 	}
@@ -57,11 +53,13 @@ public class PasswordActivity extends BaseActivity {
 					final String passwordText = password.getText().toString();
 					final String questionText = question.getText().toString();
 					final String answerText = answer.getText().toString();
-					if (oldPassword != null) {
+					if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
 						requestPassword(new PasswordValidator() {							
 							@Override
 							public void onPasswordValidated(boolean result) {
-								updatePassword(passwordText, questionText, answerText);
+								if (result) {
+									updatePassword(passwordText, questionText, answerText);
+								}
 								
 							}
 						});
@@ -126,7 +124,7 @@ public class PasswordActivity extends BaseActivity {
 									.remove(Constants.PREF_PASSWORD_ANSWER)
 									.commit();
 									db.unlockAllNotes();
-									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.CONFIRM).show();
+									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
 				                } else {
 				                	answerEditText.setError(getString(R.string.wrong_answer));
 				                }
@@ -152,6 +150,12 @@ public class PasswordActivity extends BaseActivity {
 	private void updatePassword(String passwordText, String questionText, String answerText) {
 		// If password have to be removed will be prompted to user to agree to unlock all notes
 		if (password.length() == 0) {
+			
+			if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
+				Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN).show();
+				return;
+			}		
+			
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 					mActivity);
 			alertDialogBuilder
@@ -168,7 +172,8 @@ public class PasswordActivity extends BaseActivity {
 											.remove(Constants.PREF_PASSWORD_ANSWER)
 											.commit();
 									db.unlockAllNotes();
-									onBackPressed();
+//									onBackPressed();
+									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
 								}
 							})
 					.setNegativeButton(R.string.cancel,
@@ -188,7 +193,8 @@ public class PasswordActivity extends BaseActivity {
 				.putString(Constants.PREF_PASSWORD_QUESTION, questionText)
 				.putString(Constants.PREF_PASSWORD_ANSWER, Security.md5(answerText))
 				.commit();
-			onBackPressed();
+//			onBackPressed();
+			Crouton.makeText(mActivity, R.string.password_successfully_changed, ONStyle.CONFIRM).show();
 		}
 	}
 
@@ -206,14 +212,29 @@ public class PasswordActivity extends BaseActivity {
 			return true;
 		}
 		
-		boolean passwordOk = password.getText().toString().length() > 0 && password.getText().toString().equals(passwordCheck.getText().toString());
-		boolean answerMatch = answer.getText().toString().length() > 0 && answer.getText().toString().equals(answerCheck.getText().toString());
-		if (!passwordOk || !answerMatch){
+		boolean passwordOk = password.getText().toString().length() > 0;
+		boolean passwordCheckOk = passwordCheck.getText().toString().length() > 0 && password.getText().toString().equals(passwordCheck.getText().toString());
+		boolean questionOk = question.getText().toString().length() > 0;
+		boolean answerOk = answer.getText().toString().length() > 0;
+		boolean answerCheckOk = answerCheck.getText().toString().length() > 0 && answer.getText().toString().equals(answerCheck.getText().toString());
+		
+		if (!passwordOk || !passwordCheckOk || !questionOk || !answerOk || !answerCheckOk){
 			res = false;
-			if (!passwordOk)
+			if (!passwordOk) {
+				password.setError(getString(R.string.settings_password_not_matching));
+			}
+			if (!passwordCheckOk) {
 				passwordCheck.setError(getString(R.string.settings_password_not_matching));
-			if (!answerMatch)
+			}
+			if (!questionOk) {
+				question.setError(getString(R.string.settings_password_question));
+			}
+			if (!answerOk) {
+				answer.setError(getString(R.string.settings_answer_not_matching));
+			}
+			if (!answerCheckOk) {
 				answerCheck.setError(getString(R.string.settings_answer_not_matching));
+			}
 		}	
 		return res;
 	}
