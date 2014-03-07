@@ -237,6 +237,7 @@
     <string name="colors_widget">Widget\'s colors</string>
 
     <!-- Instructions -->
+    <string name="tour_request_start">You launched Omni Note for the first time, would you like to make an application tour?</string>
     <string name="tour_listactivity_intro_title">Welcome to Omni Notes!</string>
     <string name="tour_listactivity_intro_detail">press \"Proceed\" to continue the tour</string>
     <string name="tour_listactivity_actions_title">Actions</string>

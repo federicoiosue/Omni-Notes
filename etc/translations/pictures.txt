@@ -1,5 +1,5 @@
 Easy note taking 
-With modern an simple user interface
+With modern and simple user interface
 
 Batch contextual actions
 Select notes to tag, archive or delete
