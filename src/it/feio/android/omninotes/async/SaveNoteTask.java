@@ -10,6 +10,7 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -23,13 +24,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
-	private final Activity mActivity;
+	private final WeakReference<Activity> mActivity;
 	private boolean error = false;
 	private boolean updateLastModification = true;
 
 	public SaveNoteTask(Activity activity, boolean updateLastModification) {
 		super();
-		this.mActivity = activity;
+		mActivity = new WeakReference<Activity>(activity);
 		this.updateLastModification = updateLastModification;
 	}
 
@@ -40,11 +41,11 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		purgeRemovedAttachments(note);
 		
 		if (!error) {
-			DbHelper db = new DbHelper(mActivity);		
+			DbHelper db = new DbHelper(mActivity.get());		
 			// Note updating on database
 			note = db.updateNote(note, updateLastModification);
 		} else {
-			Toast.makeText(mActivity, mActivity.getString(R.string.error_saving_attachments), Toast.LENGTH_SHORT).show();
+			Toast.makeText(mActivity.get(), mActivity.get().getString(R.string.error_saving_attachments), Toast.LENGTH_SHORT).show();
 		}
 			
 		return note;
@@ -59,7 +60,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		}
 		// Remove from database deleted attachments
 		for (Attachment deletedAttachment : deletedAttachments) {
-			StorageManager.delete(mActivity, deletedAttachment.getUri().getPath());
+			StorageManager.delete(mActivity.get(), deletedAttachment.getUri().getPath());
 		}
 	}
 
@@ -74,7 +75,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		}
 
 		// Return back to parent activity now that the heavy work is done to speed up interface
-		((DetailActivity)mActivity).goHome();
+		((DetailActivity)mActivity.get()).goHome();
 	}
 
 	
@@ -95,7 +96,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			
 			// The copy will be made only if it's a new attachment or if attachment directory is not yet the destination one
 			if (attachment.getId() != 0 || 
-					attachment.getUri().getPath().contains(mActivity.getExternalFilesDir(null).getAbsolutePath()))
+					attachment.getUri().getPath().contains(mActivity.get().getExternalFilesDir(null).getAbsolutePath()))
 				break;
 			
 			String extension = "";
@@ -106,7 +107,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO))
 				extension = Constants.MIME_TYPE_VIDEO_EXT;
 								
-			destination = StorageManager.createExternalStoragePrivateFile(mActivity, attachment.getUri(), extension);
+			destination = StorageManager.createExternalStoragePrivateFile(mActivity.get(), attachment.getUri(), extension);
 			Log.v(Constants.TAG, "Moving attachment " + attachment.getUri() + " to " + destination);
 			
 			if (destination == null) {				
@@ -122,11 +123,11 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 
 
 	private void setAlarm(Note note) {
-		Intent intent = new Intent(mActivity, AlarmReceiver.class);
+		Intent intent = new Intent(mActivity.get(), AlarmReceiver.class);
 		intent.putExtra(Constants.INTENT_NOTE, note);
-		PendingIntent sender = PendingIntent.getBroadcast(mActivity, Constants.INTENT_ALARM_CODE, intent,
+		PendingIntent sender = PendingIntent.getBroadcast(mActivity.get(), Constants.INTENT_ALARM_CODE, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
-		AlarmManager am = (AlarmManager) mActivity.getSystemService(mActivity.ALARM_SERVICE);
+		AlarmManager am = (AlarmManager) mActivity.get().getSystemService(mActivity.get().ALARM_SERVICE);
 		am.set(AlarmManager.RTC_WAKEUP, Long.parseLong(note.getAlarm()), sender);
 	}
 	
