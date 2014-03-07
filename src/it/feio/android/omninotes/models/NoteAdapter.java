@@ -30,6 +30,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,7 +100,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		holder.title.setText(titleAndContent[0]);
 		
 		// Setting note content	
-		holder.content.setText(titleAndContent[1]);
+		holder.content.setText(Html.fromHtml(titleAndContent[1]));
 		holder.content.setVisibility(View.VISIBLE);
 		
 
@@ -111,13 +112,12 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		holder.alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
 		// ... the locked with password state	
 		holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
-		
+				
 		
 		String dateText = getDateText(mActivity, note);
 		holder.date.setText(dateText);
 		
 		
-
 		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui
 		if (selectedItems.get(position)) {
 			holder.cardLayout.setBackgroundColor(mActivity.getResources().getColor(
@@ -210,6 +210,14 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			}
 			contentText = contentText.replaceAll(".", GHOST_CHAR);
 		}
+		
+		// Replacing checkmarks symbols with html entities
+		contentText = contentText
+				.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
+				it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
+				.replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
+				it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY);
+
 		return new String[]{titleText, contentText};		
 	}
 	
