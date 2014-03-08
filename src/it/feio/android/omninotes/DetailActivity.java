@@ -132,6 +132,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private static final int SET_PASSWORD = 5;
 	private static final int SKETCH = 6;
 	private static final int TAG = 7;
+	private static final int DETAIL = 8;
 
 	private FragmentActivity mActivity;
 	private ShareActionProvider mShareActionProvider;
@@ -172,7 +173,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 	// Flag to check if after editing it will return to ListActivity or not
 	// and in the last case a Toast will be shown instead than Crouton
-	boolean returnsToList = true;
+	boolean afterSavedReturnsToList = true;
 	private boolean swiping;
 	private int previousX;
 	private View root;
@@ -286,7 +287,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		
 		// Action called from home shortcut
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())) {
-			returnsToList = false;
+			afterSavedReturnsToList = false;
 			DbHelper db = new DbHelper(this);
 			noteTmp = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
 			// Checks if the note pointed from the shortcut has been deleted
@@ -322,7 +323,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) ) 
 				&& i.getType() != null) {
 
-			returnsToList = false;
+			afterSavedReturnsToList = false;
 			
 			if (noteTmp == null) noteTmp = new Note();
 			
@@ -869,7 +870,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 		// The activity has managed a shared intent from third party app and
 		// performs a normal onBackPressed instead of returning back to ListActivity
-		if (!returnsToList) {
+		if (!afterSavedReturnsToList) {
 			showToast(getString(R.string.note_updated), Toast.LENGTH_SHORT);
 			super.onBackPressed();
 			return true;
@@ -1273,11 +1274,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			case TAG:
 				Crouton.makeText(mActivity, R.string.tag_saved,
 						ONStyle.CONFIRM).show();
-//				selectedTag = intent.getParcelableExtra("tag");
-//				setTagMarkerColor(selectedTag);
 				Tag tag = intent.getParcelableExtra("tag");
 				noteTmp.setTag(tag);
 				setTagMarkerColor(tag);
+				break;
+			case DETAIL:
+				Crouton.makeText(mActivity, R.string.note_updated,
+						ONStyle.CONFIRM).show();				
 				break;
 			}
 			
@@ -1355,7 +1358,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	 * Save new notes, modify them or archive
 	 * 
 	 * @param archive
-	 *            Boolean flag used to archive note
+	 *            Boolean flag used to archive note. If null actual note state is used.
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void saveNote(Boolean archive) {
@@ -1832,9 +1835,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				if (swiping) {
 					Log.v(Constants.TAG, "MotionEvent.ACTION_MOVE at position " + x + ", " + y);	
 					if (Math.abs(x - startSwipeX) > Constants.SWIPE_OFFSET) {
+						swiping = false;
 						Intent detailIntent = new Intent(this, DetailActivity.class);
 						detailIntent.putExtra(Constants.INTENT_NOTE, new Note());
-						startActivity(detailIntent);
+						startActivityForResult(detailIntent, DETAIL);
 					}
 				}
 				break;

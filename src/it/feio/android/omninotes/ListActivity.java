@@ -82,7 +82,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class ListActivity extends BaseActivity {
 
-	private static final int REQUEST_CODE_DETAIL = 1;	
+	static final int REQUEST_CODE_DETAIL = 1;	
 	private static final int REQUEST_CODE_TAG = 2;
 	private static final int REQUEST_CODE_TAG_NOTES = 3;
 	
