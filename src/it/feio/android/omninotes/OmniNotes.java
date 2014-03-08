@@ -130,17 +130,15 @@ public class OmniNotes extends Application {
 				int version = 0;
 				try {
 					version = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-				} catch (NameNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (NameNotFoundException e) {
+					Log.e(Constants.TAG, "Error retrieving package name", e);
 				}
 				File cacheDir = params[0];
 				try {
 					mDiskLruCache = SimpleDiskCache.open(cacheDir, version 
 							, DISK_CACHE_SIZE);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Log.e(Constants.TAG, "Error retrieving disk cache", e);
 				}
 				mDiskCacheStarting = false; // Finished initialization
 				mDiskCacheLock.notifyAll(); // Wake any waiting threads
@@ -170,30 +168,7 @@ public class OmniNotes extends Application {
 			}
 		}
 	}
-
-//	public Bitmap getBitmapFromMemCache(String key) {
-//		return mMemoryCache.get(key);
-//	}
-
-//	public Bitmap getBitmapFromDiskCache(String key) {
-//		Bitmap bitmap = null;
-//		synchronized (mDiskCacheLock) {
-//			// Wait while disk cache is started from background thread
-//			while (mDiskCacheStarting) {
-//				try {
-//					mDiskCacheLock.wait();
-//					if (mDiskLruCache != null) {
-//						BitmapEntry bmpEntry = mDiskLruCache.getBitmap(key);
-//						bitmap = bmpEntry.getBitmap();
-//					}
-//				} catch (InterruptedException e) {} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//		return bitmap;
-//	}
+	
 	
 
 	/**
@@ -213,8 +188,7 @@ public class OmniNotes extends Application {
 				while (mDiskCacheStarting) {
 					try {
 						mDiskCacheLock.wait();
-					} catch (InterruptedException e) {
-					}
+					} catch (InterruptedException e) {}
 				}
 				if (mDiskLruCache != null) {
 					try {
@@ -234,4 +208,6 @@ public class OmniNotes extends Application {
 		
 		return bitmap;
 	}
+	
+	
 }

@@ -70,7 +70,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 		// Check various dimensions aspect of widget to choose between layouts
 		boolean isSmall = false;
 		boolean isSingleLine = true;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			Bundle options = appWidgetManager.getAppWidgetOptions(widgetId);
 			// Width check
 			isSmall = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) < 110;

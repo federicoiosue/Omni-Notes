@@ -41,6 +41,16 @@ public class SplashScreenActivity extends BaseActivity {
 		// Hiding actionbar for splashscreen
 		getSupportActionBar().hide();
 		
+		init();
+	}
+
+	
+	
+	/**
+	 * Checks if splashscreen must be shown and launches ListActivity
+	 */
+	private void init() {
+		
 		// Getting last opening time
 		long openTime = Calendar.getInstance().getTimeInMillis();
 		long lastOpenTime = prefs.getLong("last_app_open", openTime - Constants.SPLASH_MIN_OFFSET);
@@ -55,21 +65,14 @@ public class SplashScreenActivity extends BaseActivity {
 		}
 			
 		new Handler().postDelayed(new Runnable() {
-
-			/*
-			 * Showing splash screen with a timer. This will be useful when you
-			 * want to show case your app logo / company
-			 */
-
 			@Override
 			public void run() {
-//				// This method will be executed once the timer is over
-//				// Start your app main activity
-//				launchMainActivity();
+				// This method will be executed once the timer is over
 				requestShowCaseViewVisualization();
 			}
 		}, Constants.SPLASH_TIME_OUT);
 	}
+	
 
 	@Override
 	public void onAttachedToWindow() {
@@ -84,7 +87,6 @@ public class SplashScreenActivity extends BaseActivity {
 		startActivity(launchMainActivity);
 		finish();
 	}
-
 
 
 
