@@ -76,19 +76,21 @@
             android:background="@drawable/bg_card"
             android:paddingBottom="2dp" >
 
-            <LinearLayout
-                android:id="@+id/content_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/padding_half"
-                android:paddingRight="@dimen/padding_half" >
+<!--             <LinearLayout -->
+<!--                 android:id="@+id/content_wrapper" -->
+<!--                 android:layout_width="match_parent" -->
+<!--                 android:layout_height="match_parent" -->
+<!--                 android:orientation="vertical" > -->
 
                 <ScrollView
+                    android:id="@+id/content_wrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overScrollMode="never"
-                    android:scrollbars="none" >
+                    android:paddingLeft="@dimen/padding_half"
+                    android:paddingRight="@dimen/padding_half"
+                    android:scrollbarSize="4dp"
+    				android:scrollbarThumbVertical="@drawable/scroll_bar"
+                    android:scrollbarStyle="outsideOverlay" >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -167,7 +169,7 @@
                         </LinearLayout>
                     </LinearLayout>
                 </ScrollView>
-            </LinearLayout>
+<!--             </LinearLayout> -->
         </LinearLayout>
 
         <LinearLayout
