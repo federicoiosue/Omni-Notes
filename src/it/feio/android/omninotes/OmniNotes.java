@@ -1,6 +1,5 @@
 package it.feio.android.omninotes;
 
-import it.feio.android.omninotes.utils.ACRAPostSender;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SimpleDiskCache;
@@ -14,6 +13,8 @@ import java.util.Locale;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
+import org.acra.sender.HttpSender.Method;
+import org.acra.sender.HttpSender.Type;
 
 import android.app.Application;
 import android.content.Context;
@@ -27,7 +28,19 @@ import android.support.v4.util.LruCache;
 import android.text.TextUtils;
 import android.util.Log;
 
-@ReportsCrashes(formKey = "", mode = ReportingInteractionMode.DIALOG, resDialogCommentPrompt = R.string.crash_dialog_comment_prompt, resDialogText = R.string.crash_dialog_text)
+@ReportsCrashes(
+				formKey = "", 
+						
+				httpMethod = Method.PUT,
+			    reportType = Type.JSON,
+			    formUri = "http://omninotes.iriscouch.com/acra-omninotes/_design/acra-storage/_update/report",
+			    formUriBasicAuthLogin = "reportUser",
+			    formUriBasicAuthPassword = "reportUserPassword",
+						
+				mode = ReportingInteractionMode.DIALOG, 
+				resDialogCommentPrompt = R.string.crash_dialog_comment_prompt, 
+				resDialogText = R.string.crash_dialog_text
+				)
 public class OmniNotes extends Application {
 
 	private final static String PREF_LANG = "settings_language";
@@ -48,8 +61,8 @@ public class OmniNotes extends Application {
 		// The following line triggers the initialization of ACRA
 		ACRA.init(this);
 		HashMap<String, String> ACRAData = new HashMap<String, String>();
-		ACRAData.put("my_app_info", "custom data");
-		ACRA.getErrorReporter().setReportSender(new ACRAPostSender(ACRAData));
+//		ACRAData.put("my_app_info", "custom data");
+//		ACRA.getErrorReporter().setReportSender(new ACRAPostSender(ACRAData));
 
 		// Get an instance of list thumbs cache
 		InitCacheTask mInitCacheTask = new InitCacheTask();
