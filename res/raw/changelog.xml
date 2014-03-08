@@ -25,6 +25,7 @@
         <changelogtext>Clicking on ON icon in widgets will list widget's related notes only</changelogtext>
         <changelogtext>[u]Fixed[/u] Many bugs on password reset procedure</changelogtext>
         <changelogtext>[u]Fixed[/u] Widget positioning on Android versions minor than Jelly Bean</changelogtext>
+        <changelogtext>[u]Fixed[/u] Restored broken attachment icon in contracted visualization</changelogtext>        
     </changelogversion>
 
     <changelogversion versionName="4.4.0 Beta 7" changeDate="Mar 02, 2014"> 

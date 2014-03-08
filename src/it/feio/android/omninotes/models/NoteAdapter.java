@@ -86,6 +86,8 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	    	holder.locationIcon = (ImageView) convertView.findViewById(R.id.locationIcon);
 	    	holder.alarmIcon = (ImageView) convertView.findViewById(R.id.alarmIcon);
 	    	holder.lockedIcon = (ImageView) convertView.findViewById(R.id.lockedIcon);
+	    	if (!expandedView)
+	    		holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
 
 	    	holder.attachmentThumbnail = (ImageView) convertView.findViewById(R.id.attachmentThumbnail);	    	
 	    	
@@ -106,12 +108,16 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 		// Evaluates the archived state...
 		holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
-		// ... the location
+		// ...the location
 		holder.locationIcon.setVisibility(note.getLongitude() != null && note.getLongitude() != 0 ? View.VISIBLE : View.GONE);
-		// ... the presence of an alarm
+		// ...the presence of an alarm
 		holder.alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
-		// ... the locked with password state	
+		// ...the locked with password state	
 		holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
+		// ...the attachment icon for contracted view
+		if (!expandedView) {
+			holder.attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
+		}
 				
 		
 		String dateText = getDateText(mActivity, note);
