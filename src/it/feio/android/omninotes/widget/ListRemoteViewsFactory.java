@@ -21,6 +21,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -93,8 +94,8 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 		
 		String[] titleAndContent = NoteAdapter.parseTitleAndContent(note);
 
-		row.setTextViewText(R.id.note_title, titleAndContent[0]);
-		row.setTextViewText(R.id.note_content, titleAndContent[1]);
+		row.setTextViewText(R.id.note_title, Html.fromHtml(titleAndContent[0]));
+		row.setTextViewText(R.id.note_content, Html.fromHtml(titleAndContent[1]));
 		
 		color(note, row);
 		
