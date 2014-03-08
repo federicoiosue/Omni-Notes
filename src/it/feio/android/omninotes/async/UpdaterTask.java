@@ -98,11 +98,6 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 	private void promptUpdate() {
 		
-		// Check if activity is still finishing
-		if (mActivity.get() == null || mActivity.get().isFinishing()) {
-			return;
-		}
-		
 		// Confirm dialog creation
 		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				mActivity.get());
@@ -138,10 +133,18 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	}
 
 	
+	
 	@Override
-	protected void onPostExecute(Void result) {		
-		if (promptUpdate)
+	protected void onPostExecute(Void result) {	
+				
+		// Check if activity is still finishing
+		if (mActivity.get() == null || mActivity.get().isFinishing()) {
+			return;
+		}
+		
+		if (promptUpdate) {
 			promptUpdate();
+		}
 	}
 
 	

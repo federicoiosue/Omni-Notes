@@ -75,7 +75,9 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		}
 
 		// Return back to parent activity now that the heavy work is done to speed up interface
-		((DetailActivity)mActivity.get()).goHome();
+		if (mActivity.get() != null) {
+			((DetailActivity)mActivity.get()).goHome();
+		}
 	}
 
 	
