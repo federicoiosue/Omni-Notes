@@ -18,7 +18,7 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="102dp"
     android:background="@drawable/bg_card"
     android:paddingBottom="2dp" >
 
