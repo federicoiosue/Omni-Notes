@@ -58,7 +58,11 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
 		// Create an Intent to launch ListActivity
 		Intent intentList = new Intent(context, ListActivity.class);
-		PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, 0);
+//		PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, 0);
+		intentList.putExtra(Constants.INTENT_WIDGET, widgetId);
+		intentList.setAction(Intent.ACTION_MAIN);
+		PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, 
+				Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		// Create an Intent to launch DetailActivity to take a photo
 		Intent intentDetailPhoto = new Intent(context, DetailActivity.class);

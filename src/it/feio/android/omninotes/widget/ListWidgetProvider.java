@@ -5,7 +5,6 @@ import it.feio.android.omninotes.R;
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,16 +14,6 @@ import android.widget.RemoteViews;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ListWidgetProvider extends WidgetProvider {
-	
-//	@Override
-//	public void onEnabled(Context context) {
-//		super.onEnabled(context);
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//			AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-//			int[] ids = mgr.getAppWidgetIds(new ComponentName(context, ListWidgetProvider.class));
-//			onUpdate(context, mgr, ids);
-//		}
-//	}
 
 	@Override
 	protected RemoteViews getRemoteViews(Context mContext, int widgetId,

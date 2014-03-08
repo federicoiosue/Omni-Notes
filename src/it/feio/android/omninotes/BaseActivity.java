@@ -88,8 +88,8 @@ public class BaseActivity extends ActionBarActivity {
 	protected double currentLongitude;
 
 	protected String navigation;
+	protected String navigationTmp; // used for widget navigation
 
-//	protected String date_time_format, time_format;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -312,10 +312,10 @@ public class BaseActivity extends ActionBarActivity {
 	
 	
 	
-	
 	protected void updateNavigation(String nav){
 		prefs.edit().putString(Constants.PREF_NAVIGATION, nav).commit();
 		navigation = nav;
+		navigationTmp = null;
 	}
 	
 	

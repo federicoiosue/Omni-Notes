@@ -32,7 +32,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	private final int WIDTH = 80;
 	private final int HEIGHT = 80;
 	
-//	private static SparseArray<String> sqlConditions = new SparseArray<String>();
 	private static boolean showThumbnails = true;
 	
 	private OmniNotes app;
@@ -51,8 +50,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	@Override
 	public void onCreate() {
 		Log.d(Constants.TAG, "Created widget " + appWidgetId);
-		// String condition = sqlConditions.get(appWidgetId) == null ? "" :
-		// sqlConditions.get(appWidgetId);
 		String condition = PreferenceManager.getDefaultSharedPreferences(app)
 				.getString(
 						Constants.PREF_WIDGET_PREFIX
@@ -64,12 +61,10 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	@Override
 	public void onDataSetChanged() {
 		Log.d(Constants.TAG, "onDataSetChanged widget " + appWidgetId);
-		// String condition = sqlConditions.get(appWidgetId) == null ? "" :
-				// sqlConditions.get(appWidgetId);
-				String condition = PreferenceManager.getDefaultSharedPreferences(app)
-						.getString(
-								Constants.PREF_WIDGET_PREFIX
-										+ String.valueOf(appWidgetId), "");
+		String condition = PreferenceManager.getDefaultSharedPreferences(app)
+				.getString(
+						Constants.PREF_WIDGET_PREFIX
+								+ String.valueOf(appWidgetId), "");
 		notes = db.getNotes(condition, true);
 	}
 	
@@ -101,12 +96,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 		row.setTextViewText(R.id.note_title, titleAndContent[0]);
 		row.setTextViewText(R.id.note_content, titleAndContent[1]);
 		
-//		if (note.getTag() != null && note.getTag().getColor() != null) {
-//			int color = Integer.parseInt(note.getTag().getColor());
-//			row.setInt(R.id.tag_marker, "setBackgroundColor", color);
-//		} else {
-//			row.setInt(R.id.tag_marker, "setBackgroundColor", 0);
-//		}
 		color(note, row);
 		
 		if (note.getAttachmentsList().size() > 0 && showThumbnails) {
@@ -163,7 +152,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
 	public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition, boolean thumbnails) {
 		Log.d(Constants.TAG, "Widget configuration updated");
-//		sqlConditions.put(mAppWidgetId, sqlCondition);
 		PreferenceManager
 				.getDefaultSharedPreferences(mContext)
 				.edit()

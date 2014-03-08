@@ -31,6 +31,7 @@ import it.feio.android.omninotes.utils.Constants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -57,6 +58,7 @@ import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -72,6 +74,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
@@ -104,7 +107,7 @@ public class ListActivity extends BaseActivity {
 	private TextView empyListItem;
 	private boolean showListAnimation = true;
 	private AnimationDrawable jinglesAnimation;
-	private int listViewPosition; 
+	private int listViewPosition;
 
 
 	@SuppressLint("NewApi")
@@ -112,6 +115,9 @@ public class ListActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);
+		
+		// Restores savedInstanceState
+		initBundle(savedInstanceState);
 
 		// Easter egg initialization
 		initEasterEgg();
@@ -124,9 +130,17 @@ public class ListActivity extends BaseActivity {
 
 		// Launching update task
 		UpdaterTask task = new UpdaterTask(this);
-		task.execute();
-		
+		task.execute();		
 	}	
+
+
+
+
+	private void initBundle(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			navigationTmp = savedInstanceState.getString("navigationTmp");
+		}
+	}
 
 
 
@@ -190,6 +204,13 @@ public class ListActivity extends BaseActivity {
 		}
 	}
 
+	
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString("navigationTmp", navigationTmp);
+	}
 
 
 	@Override
@@ -432,7 +453,6 @@ public class ListActivity extends BaseActivity {
 		
 		// Sets click events
 		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				String navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
@@ -779,7 +799,12 @@ public class ListActivity extends BaseActivity {
 			Log.d(Constants.TAG, "Adding new note");
 			// if navigation is a tag it will be set into note
 			try {
-				int tagId = Integer.parseInt(navigation);
+				int tagId;
+				if (!TextUtils.isEmpty(navigationTmp)) {
+					tagId = Integer.parseInt(navigationTmp);
+				} else {
+					tagId = Integer.parseInt(navigation);
+				}
 				note.setTag(db.getTag(tagId));
 			} catch (NumberFormatException e) {}
 		} else {
@@ -947,7 +972,24 @@ public class ListActivity extends BaseActivity {
 			intent.setAction(null);
 		} else {
 			DbHelper db = new DbHelper(getApplicationContext());
-			notes = db.getAllNotes(true);
+			// Check if is launched from a widget with tags to set tag
+			if (intent.hasExtra(Constants.INTENT_WIDGET) || !TextUtils.isEmpty(navigationTmp)) {
+				String widgetId = intent.hasExtra(Constants.INTENT_WIDGET) ? intent
+						.getExtras().get(Constants.INTENT_WIDGET).toString()
+						: null;
+				if (widgetId != null) {
+					String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
+					String pattern = DbHelper.KEY_TAG + " = ";
+					String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length()).trim();
+					navigationTmp = !TextUtils.isEmpty(tagId) ? tagId : null;
+				}
+//				if (!TextUtils.isEmpty(navigationTmp)) {
+					notes = db.getNotesWithTag(navigationTmp);
+					intent.removeExtra(Constants.INTENT_WIDGET);
+//				}
+			} else {
+				notes = db.getAllNotes(true);
+			}
 		}
 		int layout = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded : R.layout.note_layout;
 		mAdapter = new NoteAdapter(this, layout, notes);

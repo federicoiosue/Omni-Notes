@@ -37,6 +37,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -514,6 +515,25 @@ public class DbHelper extends SQLiteOpenHelper {
 	public ArrayList<Attachment> getNoteAttachments(Note note) {		
 		String whereCondition = " WHERE " + KEY_ATTACHMENT_NOTE_ID + " = " + note.get_id();
 		return getAttachments(whereCondition);
+	}
+
+
+	
+	/**
+	 * Retrieves all notes related to tag it passed as parameter
+	 * @param tagId Tag integer identifier
+	 * @return List of notes with requested tag
+	 */
+	public List<Note> getNotesWithTag(String tagId) {	
+		List<Note> notes;
+		try {
+			int id = Integer.parseInt(tagId);
+			String whereCondition = " WHERE " + KEY_TAG_ID + " = " + id;
+			notes = getNotes(whereCondition, true);
+		} catch (NumberFormatException e) {
+			notes = getAllNotes(true);
+		}		
+		return notes;
 	}
 
 
