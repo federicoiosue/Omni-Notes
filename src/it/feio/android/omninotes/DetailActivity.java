@@ -1653,7 +1653,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 		mRecorder.setAudioEncodingBitRate(16);
-		mRecorder.setAudioSamplingRate(44100);
+//		mRecorder.setAudioSamplingRate(44100);
 		mRecorder.setOutputFile(recordName);
 
 		try {

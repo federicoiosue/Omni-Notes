@@ -23,7 +23,7 @@
         <changelogtext>Improved check-mark symbols visualization in notes list</changelogtext>
         <changelogtext>Application tour can now be skipped on first launch</changelogtext>
         <changelogtext>Clicking on ON icon in widgets will list widget's related notes only</changelogtext>
-        <changelogtext>[u]Fixed[/u] Gingerbread video recording</changelogtext>     
+        <changelogtext>[u]Fixed[/u] Gingerbread video and radio recording</changelogtext>     
         <changelogtext>[u]Fixed[/u] Many bugs on password reset procedure</changelogtext>
         <changelogtext>[u]Fixed[/u] Widget positioning on Android versions minor than Jelly Bean</changelogtext>
         <changelogtext>[u]Fixed[/u] Restored broken attachment icon in contracted visualization</changelogtext>        
