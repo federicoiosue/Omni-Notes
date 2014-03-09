@@ -16,11 +16,13 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.checklistview.utils.DensityUtil;
+import it.feio.android.omninotes.ListActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -38,24 +40,28 @@ import com.neopixl.pixlui.components.textview.TextView;
 
 public class NavDrawerTagAdapter extends BaseAdapter {
 
-	private Context mContext;
+	private Activity mActivity;
 	private int layout;
 	private ArrayList<Tag> tags;
 	private LayoutInflater inflater;
 
-	public NavDrawerTagAdapter(Context context, ArrayList<Tag> tags) {
-		this.mContext = context;
-		this.layout = R.layout.drawer_list_item;		
-		this.tags = tags;
-		inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
+	public NavDrawerTagAdapter(Activity mActivity, ArrayList<Tag> tags) {
+		this(mActivity, tags, null);		
 	}
 
-	public NavDrawerTagAdapter(Context context, int layout, ArrayList<Tag> tags) {
-		this.mContext = context;
-		this.layout = layout;
-		this.tags = tags;
-		inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	public NavDrawerTagAdapter(Activity mActivity, ArrayList<Tag> tags, String navigationTmp) {
+		this.mActivity = mActivity;
+		this.layout = R.layout.drawer_list_item;		
+		this.tags = tags;	
+		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 	}
+
+//	public NavDrawerTagAdapter(Context context, int layout, ArrayList<Tag> tags) {
+//		this.mActivity = context;
+//		this.layout = layout;
+//		this.tags = tags;
+//		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//	}
 
 	@Override
 	public int getCount() {
@@ -93,13 +99,13 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		txtTitle.setText(tag.getName());
 		
 		if (isSelected(parent, position)) {
-			txtTitle.setTextColor(mContext.getResources().getColor(
+			txtTitle.setTextColor(mActivity.getResources().getColor(
 					R.color.drawer_text_selected));
 		}
 
 		// Set the results into ImageView checking if an icon is present before
 		if (tag.getColor() != null && tag.getColor().length() > 0) {
-			Drawable img = mContext.getResources().getDrawable(R.drawable.square);
+			Drawable img = mActivity.getResources().getDrawable(R.drawable.square);
 			ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(tag.getColor()));
 			// Before API 16 the object is mutable yet
 			if (Build.VERSION.SDK_INT >= 16) {
@@ -108,10 +114,10 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 				img.setColorFilter(cf);				
 			}
 			imgIcon.setImageDrawable(img);
-			imgIcon.setPadding(	DensityUtil.convertDpToPixel(22, mContext), //10
-								DensityUtil.convertDpToPixel(7, mContext),//25
-								DensityUtil.convertDpToPixel(1, mContext),//-30
-								DensityUtil.convertDpToPixel(7, mContext));//25
+			imgIcon.setPadding(	DensityUtil.convertDpToPixel(22, mActivity), //10
+								DensityUtil.convertDpToPixel(7, mActivity),//25
+								DensityUtil.convertDpToPixel(1, mActivity),//-30
+								DensityUtil.convertDpToPixel(7, mActivity));//25
 		}
 
 		return itemView;
@@ -122,9 +128,19 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 	private boolean isSelected(ViewGroup parent, int position) {	
 		
 		// Getting actual navigation selection
-		String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-		String navigation = PreferenceManager.getDefaultSharedPreferences(mContext).getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		String[] navigationListCodes = mActivity.getResources().getStringArray(
+				R.array.navigation_list_codes);
+		
+		// Managing temporary navigation indicator when coming from a widget
+		String navigationTmp = ListActivity.class.isAssignableFrom(mActivity
+				.getClass()) ? ((ListActivity) mActivity).getNavigationTmp()
+				: null;
 				
+		String navigation = navigationTmp != null ? navigationTmp
+				: PreferenceManager.getDefaultSharedPreferences(mActivity)
+						.getString(Constants.PREF_NAVIGATION,
+								navigationListCodes[0]);
+		
 		if (navigation.equals(String.valueOf(tags.get(position).getId()))) {
 			return true;
 		} else {

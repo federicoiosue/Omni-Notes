@@ -31,7 +31,6 @@ import it.feio.android.omninotes.utils.Constants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -74,7 +73,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
@@ -481,7 +479,7 @@ public class ListActivity extends BaseActivity {
 				mDrawerTagList.setHeaderDividersEnabled(true);
 			}
 			mDrawerTagList
-					.setAdapter(new NavDrawerTagAdapter(this, tags));
+					.setAdapter(new NavDrawerTagAdapter(this, tags, navigationTmp));
 			
 			// Sets click events
 			mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
@@ -1255,6 +1253,11 @@ public class ListActivity extends BaseActivity {
 		mActionMode.finish(); // Action picked, so close the CAB
 	}
 	
+	
+	
+	public String getNavigationTmp() {
+		return this.navigationTmp;
+	}
 
 
 }

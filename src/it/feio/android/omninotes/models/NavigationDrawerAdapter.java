@@ -15,11 +15,13 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
+import it.feio.android.omninotes.ListActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Arrays;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.PreferenceManager;
@@ -29,20 +31,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 
 public class NavigationDrawerAdapter extends BaseAdapter {
 
-	private Context mContext;
+	private Activity mActivity;
 	private Object[] mTitle;
 	private TypedArray mIcon;
 	private LayoutInflater inflater;
 
-	public NavigationDrawerAdapter(Context context, Object[] title, TypedArray icon) {
-		this.mContext = context;
+	public NavigationDrawerAdapter(Activity mActivity, Object[] title, TypedArray icon) {
+		this.mActivity = mActivity;
 		this.mTitle = title;
 		this.mIcon = icon;
-		inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -77,7 +80,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		txtTitle.setText(mTitle[position].toString());
 		
 		if (isSelected(parent, position)) {
-			txtTitle.setTextColor(mContext.getResources().getColor(
+			txtTitle.setTextColor(mActivity.getResources().getColor(
 					R.color.drawer_text_selected));
 		}
 
@@ -94,16 +97,26 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 	private boolean isSelected(ViewGroup parent, int position) {
 		
 		// Getting actual navigation selection
-		String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-		String navigation = PreferenceManager.getDefaultSharedPreferences(mContext).getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		String[] navigationListCodes = mActivity.getResources().getStringArray(
+				R.array.navigation_list_codes);
 		
+		// Managing temporary navigation indicator when coming from a widget
+		String navigationTmp = ListActivity.class.isAssignableFrom(mActivity
+				.getClass()) ? ((ListActivity) mActivity).getNavigationTmp()
+				: null;
+				
+		String navigation = navigationTmp != null ? navigationTmp
+				: PreferenceManager.getDefaultSharedPreferences(mActivity)
+						.getString(Constants.PREF_NAVIGATION,
+								navigationListCodes[0]);
+
 		// Finding selected item from standard navigation items or tags
 		int index = Arrays.asList(navigationListCodes).indexOf(navigation);
 		
 		if (index == -1) 
 			return false;
 		
-		String navigationLocalized = mContext.getResources().getStringArray(R.array.navigation_list)[index];
+		String navigationLocalized = mActivity.getResources().getStringArray(R.array.navigation_list)[index];
 		
 		// Check the selected one
 		Object itemSelected = mTitle[position];

@@ -22,7 +22,7 @@ import android.widget.Spinner;
 
 public class WidgetConfigurationActivity extends Activity {
 
-	private Context mContext;
+	private Activity mActivity;
 	private Button configOkButton;
 	private Spinner tagSpinner;
 	private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
@@ -33,7 +33,7 @@ public class WidgetConfigurationActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mContext = this;
+		mActivity = this;
 
 		setResult(RESULT_CANCELED);
 
@@ -57,9 +57,9 @@ public class WidgetConfigurationActivity extends Activity {
 
 		tagSpinner = (Spinner) findViewById(R.id.widget_config_spinner);
 		tagSpinner.setEnabled(false);
-		DbHelper db = new DbHelper(mContext);
+		DbHelper db = new DbHelper(mActivity);
 		tags = db.getTags();
-		tagSpinner.setAdapter(new NavDrawerTagAdapter(mContext, tags));
+		tagSpinner.setAdapter(new NavDrawerTagAdapter(mActivity, tags));
 
 		configOkButton = (Button) findViewById(R.id.widget_config_confirm);
 		configOkButton.setOnClickListener(new OnClickListener() {
@@ -79,7 +79,7 @@ public class WidgetConfigurationActivity extends Activity {
 
 				// Updating the ListRemoteViewsFactory parameter to get the list
 				// of notes
-				ListRemoteViewsFactory.updateConfiguration(mContext, mAppWidgetId,
+				ListRemoteViewsFactory.updateConfiguration(mActivity, mAppWidgetId,
 						sqlCondition, showThumbnailsCheckBox.isChecked());
 
 				Intent resultValue = new Intent();
