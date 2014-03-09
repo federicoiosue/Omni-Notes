@@ -99,7 +99,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		String[] titleAndContent = parseTitleAndContent(note);
 
 		// Setting note title	
-		holder.title.setText(titleAndContent[0]);
+		holder.title.setText(Html.fromHtml(titleAndContent[0]));
 		
 		// Setting note content	
 		holder.content.setText(Html.fromHtml(titleAndContent[1]));
