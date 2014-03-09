@@ -300,6 +300,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		
 		// Check if is launched from a widget with tags to set tag
 		if (i.hasExtra(Constants.INTENT_WIDGET)) {
+			afterSavedReturnsToList = false;
 			String widgetId = i.getExtras().get(Constants.INTENT_WIDGET).toString();
 			if (widgetId != null) {
 				String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
@@ -1203,8 +1204,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			Crouton.makeText(this, R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
 			return;
 		}		
-		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_VIDEO_EXT));
-		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
+		// File is stored in custom ON folder to speedup the attachment 
+		if(Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
+			attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_VIDEO_EXT));
+			takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
+		}
 		String maxVideoSizeStr = "".equals(prefs.getString("settings_max_video_size", "")) ? "0" : prefs.getString("settings_max_video_size", "");
 		int maxVideoSize = Integer.parseInt(maxVideoSizeStr);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Long.valueOf(maxVideoSize*1024*1024));
@@ -1245,7 +1249,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				mGridView.autoresize();
 				break;
 			case TAKE_VIDEO:
-				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
+//				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
+				attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_VIDEO);
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
