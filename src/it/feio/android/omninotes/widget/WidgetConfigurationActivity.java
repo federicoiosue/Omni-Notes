@@ -90,6 +90,12 @@ public class WidgetConfigurationActivity extends Activity {
 				finish();
 			}
 		});
+				
+		// Checks if no tags are available and then disable that option
+		if (tags.size() == 0) {
+			mRadioGroup.setVisibility(View.GONE);
+			tagSpinner.setVisibility(View.GONE);
+		}
 
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
