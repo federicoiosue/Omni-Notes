@@ -93,13 +93,16 @@
         <item >English (English)</item>
         <item >Français (French)</item>
         <item >Deutsch (German)</item>
+        <item >Galego (Galician)</item>
         <item >עברית (Hebrew)</item>
         <item >हिंदी (Hindi)</item>
         <item >Italiano (Italian)</item>
         <item >ສ​ປ​ປ​ລາວ  (Lao)</item>
         <item >Português (Portuguese Brazil)</item>
+        <item >Português (Portuguese Portugal)</item>
         <item >Русский (Russian)</item>
-        <item >Slovenčina (Slovak)</item>
+        <item >Slovenská  (Slovak)</item>
+        <item >Slovenščina (Slovenian)</item>
         <item >Español (Spanish)</item>
         <item >Kinesiska (Swedish)</item>
         <item >Türkçe (Turkish)</item>
@@ -113,13 +116,16 @@
         <item >en</item>
         <item >fr</item>
         <item >de</item>
+        <item >gl</item>
         <item >he</item>
         <item >hi</item>
         <item >it</item>
         <item >lo</item>
-        <item >pt</item>
+        <item >pt_BR</item>
+        <item >pt_PT</item>
         <item >ru</item>
         <item >sk</item>
+        <item >sl</item>
         <item >es</item>
         <item >sv</item>
         <item >tr</item>

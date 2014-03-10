@@ -551,7 +551,7 @@ public class SettingsActivity extends PreferenceActivity {
 //				.getPackageManager()
 //				.getLaunchIntentForPackage(getBaseContext()
 //				.getPackageName());	
-		Intent intent = new Intent(this, SplashScreenActivity.class);
+		Intent intent = new Intent(this, ListActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	    startActivity(intent);
