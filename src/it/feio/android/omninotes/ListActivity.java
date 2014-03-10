@@ -829,7 +829,7 @@ public class ListActivity extends BaseActivity {
 				String intentMsg = intent
 						.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
 				// If no message is returned nothing will be shown
-				if (intentMsg != null && intentMsg.length() > 0) {
+				if (!TextUtils.isEmpty(intentMsg)) {
 					final String message = intentMsg != null ? intent
 							.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE)
 							: "";

@@ -74,6 +74,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -872,7 +873,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		// The activity has managed a shared intent from third party app and
 		// performs a normal onBackPressed instead of returning back to ListActivity
 		if (!afterSavedReturnsToList) {
-			showToast(getString(R.string.note_updated), Toast.LENGTH_SHORT);
+			String msg = resultIntent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
+			if (!TextUtils.isEmpty(msg)) {
+				showToast(msg, Toast.LENGTH_SHORT);
+			}
 			super.onBackPressed();
 			return true;
 		}
