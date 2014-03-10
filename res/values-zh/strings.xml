@@ -140,7 +140,13 @@
   <string name="edit">编辑</string>
   <string name="reminders">提醒</string>
   <string name="not_expired">未过期</string>
+  <string name="expired">已过期</string>
   <string name="today">今天</string>
+  <string name="open">打开</string>
+  <string name="copy">保存</string>
+  <string name="no_application_can_perform_this_action">没有应用程序可以执行此操作</string>
+  <string name="eraser">橡皮擦</string>
+  <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
   <string name="settings">设置</string>
   <string name="settings_about">信息</string>
   <string name="settings_category_other">其他</string>
@@ -163,7 +169,6 @@
   <string name="settings_enable_animations">动画</string>
   <string name="settings_choose_language">选择语言</string>
   <string name="settings_category_notifications">通知</string>
-  <string name="settings_enable_sound">铃声</string>
   <string name="settings_enable_vibration">振动</string>
   <string name="settings_changelog">更新日志</string>
   <string name="settings_enable_editor_links">链接识别</string>
@@ -189,7 +194,7 @@
   <string name="confirm_removing_backup">确认删除备份</string>
   <string name="confirm_restoring_backup">确认还原备份</string>
   <string name="data_deletion_completed">数据删除完成</string>
-  <string name="settings_checked_items_behavior">待办事项行为</string>
+  <string name="settings_checked_items_behavior">待办事项列表</string>
   <string name="settings_checked_items_behavior_summary">选中一条事项时进行何种操作？</string>
   <string name="settings_category_preferences">首选项</string>
   <string name="settings_category_beta">测试版</string>
@@ -221,6 +226,9 @@
   <string name="settings_answer_not_matching">答案缺失或不匹配</string>
   <string name="password_not_set">未设置密码</string>
   <string name="wrong_answer">答案错误</string>
+  <string name="colors_app">应用内颜色设置</string>
+  <string name="colors_widget">小部件颜色设置</string>
+  <string name="tour_request_start">这是您第一次使用Omni Note，您是否希望观看用户引导？</string>
   <string name="tour_listactivity_intro_title">欢迎使用 Omni Notes ！</string>
   <string name="tour_listactivity_intro_detail">点击\"继续\"观看引导</string>
   <string name="tour_listactivity_actions_title">操作</string>
@@ -235,6 +243,10 @@
   <string name="tour_detailactivity_action_detail">共享，标记，存档，保护，并......</string>
   <string name="tour_detailactivity_reminder_title">只需点击</string>
   <string name="tour_detailactivity_reminder_detail">在附件，地点及提醒上点击或长按会有不同的效果！</string>
+  <string name="tour_detailactivity_links_title">链接</string>
+  <string name="tour_detailactivity_links_detail">在网址或电子邮件地址上双击以复制或打开</string>
+  <string name="tour_detailactivity_save_title">保存</string>
+  <string name="tour_detailactivity_save_detail">点击“向上”导航图标或您设备的后退键即可保存</string>
   <string name="tour_listactivity_final_title">祝您使用愉快</string>
   <string name="tour_listactivity_final_detail">感谢您使用 Omni Notes\n\n一款帮助您提高工作效率\n记录生活中精彩时刻的\n开源笔记应用。\n\n点击 \"继续\" 关闭本引导\n并开始创建您的第一条记事！</string>
   <string name="drawer_open">抽屉打开</string>

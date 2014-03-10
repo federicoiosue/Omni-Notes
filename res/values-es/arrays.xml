@@ -32,4 +32,15 @@
     <item>Ir al final de todos los elementos</item>
     <item>Ir a la primera sin marcar</item>
   </string-array>
+  <string-array name="colors_app">
+    <item>Deshabilitado</item>
+    <item>Sólo la tira</item>
+    <item>Sólo listado de notas</item>
+    <item>Completo</item>
+  </string-array>
+  <string-array name="colors_widget">
+    <item>Deshabilitado</item>
+    <item>Sólo la tira</item>
+    <item>Lista de notas</item>
+  </string-array>
 </resources>

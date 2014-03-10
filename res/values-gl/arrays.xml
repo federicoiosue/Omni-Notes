@@ -17,30 +17,30 @@
 -->
 <resources>
   <string-array name="navigation_list">
-    <item>Anteckningar</item>
-    <item>Arkiv</item>
-    <item>Påminnelser</item>
+    <item>Notas</item>
+    <item>Arquivo</item>
+    <item>Recordatorios</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Titel</item>
-    <item>Datum för skapande</item>
-    <item>Sista ändringsdatum</item>
-    <item>Påminnelse datum</item>
+    <item>Título</item>
+    <item>Data de creación</item>
+    <item>Data da última modificación</item>
+    <item>Data de recordatorio</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Håll på plats</item>
-    <item>Flytta till slutet av alla objekt</item>
-    <item>Flytta efter omarkerad men ovanpå omarkerad</item>
+    <item>Manter a posición</item>
+    <item>Mover ao final de todos os ítems</item>
+    <item>Mover aos inmediatemente despois dos non marcados</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list only</item>
-    <item>Complete</item>
+    <item>Desactivado</item>
+    <item>Só uns pequenos marcadores</item>
+    <item>Só listaxe de notas</item>
+    <item>Completo</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list</item>
+    <item>Desactivado</item>
+    <item>Só uns pequenos marcadores</item>
+    <item>Listaxe de notas</item>
   </string-array>
 </resources>

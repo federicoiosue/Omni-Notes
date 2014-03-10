@@ -32,4 +32,15 @@
     <item>Verplaats naar het einde van alle items</item>
     <item>Verplaats na ongecontroleerd maar op de top van ongecontroleerde</item>
   </string-array>
+  <string-array name="colors_app">
+    <item>Uitgeschakeld</item>
+    <item>Enkel strip</item>
+    <item>Alleen de notities lijst</item>
+    <item>Compleet</item>
+  </string-array>
+  <string-array name="colors_widget">
+    <item>Uitgeschakeld</item>
+    <item>Enkel strip</item>
+    <item>Notities lijst</item>
+  </string-array>
 </resources>

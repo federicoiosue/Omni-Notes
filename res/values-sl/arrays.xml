@@ -17,30 +17,30 @@
 -->
 <resources>
   <string-array name="navigation_list">
-    <item>Anteckningar</item>
-    <item>Arkiv</item>
-    <item>Påminnelser</item>
+    <item>Beležke</item>
+    <item>Arhiv</item>
+    <item>Opomniki</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Titel</item>
-    <item>Datum för skapande</item>
-    <item>Sista ändringsdatum</item>
-    <item>Påminnelse datum</item>
+    <item>Naslov</item>
+    <item>Datum nastanka</item>
+    <item>Datum zadnje spremembe</item>
+    <item>Datum opomnika</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Håll på plats</item>
-    <item>Flytta till slutet av alla objekt</item>
-    <item>Flytta efter omarkerad men ovanpå omarkerad</item>
+    <item>Zadrži pozicijo</item>
+    <item>Premakni na konec vseh postavk</item>
+    <item>Premakni za neoznačeno, a na vrh</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list only</item>
-    <item>Complete</item>
+    <item>Izklopljeno</item>
+    <item>Samo okleščeno</item>
+    <item>Samo seznam beležk</item>
+    <item>Dokončano</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list</item>
+    <item>Izklopljeno</item>
+    <item>Samo okleščeno</item>
+    <item>Seznam beležk</item>
   </string-array>
 </resources>

@@ -32,4 +32,15 @@
     <item>Presunúť na koniec všetkých položiek</item>
     <item>Presunúť navrch nezaškrtnutých</item>
   </string-array>
+  <string-array name="colors_app">
+    <item>Zakázané</item>
+    <item>Iba pás</item>
+    <item>Iba zoznam poznámok</item>
+    <item>Kompletné</item>
+  </string-array>
+  <string-array name="colors_widget">
+    <item>Zakázané</item>
+    <item>Iba pás</item>
+    <item>Zoznam poznámok</item>
+  </string-array>
 </resources>

@@ -17,20 +17,20 @@
 -->
 <resources>
   <string-array name="navigation_list">
-    <item>Anteckningar</item>
-    <item>Arkiv</item>
-    <item>Påminnelser</item>
+    <item>Notes</item>
+    <item>Archive</item>
+    <item>Reminders</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Titel</item>
-    <item>Datum för skapande</item>
-    <item>Sista ändringsdatum</item>
-    <item>Påminnelse datum</item>
+    <item>Title</item>
+    <item>Creation date</item>
+    <item>Last modification date</item>
+    <item>Reminder date</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Håll på plats</item>
-    <item>Flytta till slutet av alla objekt</item>
-    <item>Flytta efter omarkerad men ovanpå omarkerad</item>
+    <item>Hold on position</item>
+    <item>Move at end of all items</item>
+    <item>Move at the end of unchecked items</item>
   </string-array>
   <string-array name="colors_app">
     <item>Disabled</item>

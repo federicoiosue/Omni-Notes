@@ -231,6 +231,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="wrong_answer">Risposta sbagliata</string>
   <string name="colors_app">Colori applicazione</string>
   <string name="colors_widget">Colori widget</string>
+  <string name="tour_request_start">E\' la prima volta che esegui Omni Notes, vuoi effettuare un tour dell\'applicazione?</string>
   <string name="tour_listactivity_intro_title">Benvenuti in Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Premere \"Prosegui\" per continuare il tour</string>
   <string name="tour_listactivity_actions_title">Azioni</string>
@@ -248,7 +249,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="tour_detailactivity_links_title">Links</string>
   <string name="tour_detailactivity_links_detail">Clicca due volte un un indirizzo internet o e-mail per copiarlo o aprirlo</string>
   <string name="tour_detailactivity_save_title">Salva</string>
-  <string name="tour_detailactivity_save_detail">Premi semplicemente l\'icona di navigazione \"torna su\" o usa il pulsante per tornare indietro del tuo telefono</string>
+  <string name="tour_detailactivity_save_detail">Per tornare indietro, premi l\'icona di navigazione \"torna su\", o usa il pulsante del tuo telefono</string>
   <string name="tour_listactivity_final_title">Divertiti</string>
   <string name="tour_listactivity_final_detail">Grazie per usare Omni Notes \n\n L\'alternativa open source \n per le tue note nei momenti di \n lavoro o svago \n\n Premi \"Procedi\" per terminare \n il tour e cominciare \n ad inserire la tua prima nota!</string>
   <string name="drawer_open">drawer aperto</string>

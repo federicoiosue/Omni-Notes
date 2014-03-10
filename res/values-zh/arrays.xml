@@ -32,4 +32,15 @@
     <item>移动至所有事项末尾</item>
     <item>取消勾选后移动至未勾选事项顶端</item>
   </string-array>
+  <string-array name="colors_app">
+    <item>禁用</item>
+    <item>仅条状颜色标识</item>
+    <item>仅记事列表全彩</item>
+    <item>全彩</item>
+  </string-array>
+  <string-array name="colors_widget">
+    <item>禁用</item>
+    <item>仅条状颜色标识</item>
+    <item>记事列表全彩</item>
+  </string-array>
 </resources>
