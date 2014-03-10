@@ -37,6 +37,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -465,7 +466,7 @@ public class SettingsActivity extends PreferenceActivity {
 				// set dialog message
 				alertDialogBuilder
 						.setMessage(getString(R.string.settings_tour_show_again_summary) + "?")
-						.setCancelable(false).setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+						.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false).commit();
 								// All the tour preferences will be cycled to reset them
@@ -492,6 +493,40 @@ public class SettingsActivity extends PreferenceActivity {
 				return false;						
 			}
 		});
+		
+		
+		
+		
+		// Donations
+		Preference donation = findPreference("settings_donation");
+		donation.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+				// set dialog message
+				alertDialogBuilder
+						.setPositiveButton(getString(R.string.paypal), new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								Intent intent = new Intent(Intent.ACTION_VIEW);
+								intent.setData(Uri.parse(getString(R.string.paypal_url)));
+								startActivity(intent);
+							}
+						}).setNegativeButton(getString(R.string.bitcoin), new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								Intent intent = new Intent(Intent.ACTION_VIEW);
+								intent.setData(Uri.parse(getString(R.string.bitcoin_url)));
+								startActivity(intent);
+							}
+						});
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				// show it
+				alertDialog.show();
+				return false;
+			}
+			
+		});
+		
 
 
 		

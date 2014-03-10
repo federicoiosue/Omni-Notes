@@ -22,8 +22,11 @@
     <string name="dev_site">http://www.iosue.it/federico</string>
     <string name="dev_googleplus">https://plus.google.com/102629628248642947234/posts</string>
     <string name="dev_github">https://github.com/federicoiosue</string>
-    <string name="beta_link">https://plus.google.com/u/0/communities/112276053772152071903</string>
-    <string name="paypal">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=7M9TA2LJNKFFJ</string>
+    <string name="beta_link">https://plus.google.com/u/0/communities/112276053772152071903</string>    
+    <string name="paypal">Paypal</string>
+    <string name="paypal_url">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=7M9TA2LJNKFFJ</string>
+    <string name="bitcoin">Bitcoin</string>
+    <string name="bitcoin_url">https://coinbase.com/checkouts/98ebaf52e471595d97547e558b19821b</string>
 
     <!-- Activities -->
     <string name="title_item_list">Notes</string>

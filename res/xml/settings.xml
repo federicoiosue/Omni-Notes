@@ -186,9 +186,9 @@
 	        android:key="settings_donation"
 	        android:title="@string/donate"
         	android:summary="@string/donate_summary" >
-		        <intent
-			        android:action="android.intent.action.VIEW"
-			        android:data="@string/paypal" />
+<!-- 		        <intent -->
+<!-- 			        android:action="android.intent.action.VIEW" -->
+<!-- 			        android:data="@string/paypal_url" /> -->
 	    </Preference>
         
         <Preference
