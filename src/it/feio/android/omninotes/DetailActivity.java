@@ -1737,10 +1737,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
 		Intent addIntent = new Intent();
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-		String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : getString(R.string.note) + " " + note.getCreation();
+		String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : getString(R.string.note) + " " + note.getCreationShort(mActivity);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-				Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.ic_launcher));
+				Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.ic_stat_notification_icon));
 		addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 		getApplicationContext().sendBroadcast(addIntent);
 		Crouton.makeText(mActivity, R.string.shortcut_added, ONStyle.INFO).show();		
