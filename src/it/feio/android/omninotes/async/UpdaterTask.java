@@ -155,7 +155,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	public String getAppData() {
 		StringBuilder sb = new StringBuilder();
 		
-		if (mActivity.get() != null) {
+		if (mActivity.get() != null && !mActivity.get().isFinishing()) {
 			packageName = mActivity.get().getApplicationContext().getPackageName();
 
 			try {
