@@ -20,6 +20,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -87,10 +88,13 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	 */
 	private void createAttachmentCopy(Note note) {
 		File destination;
+		Uri uri;
 		
 		for (Attachment attachment : note.getAttachmentsList()) {
 			
-			if (attachment.getUri() == null) {
+			uri = attachment.getUri();
+			
+			if (uri == null) {
 				error = true;
 				return;
 			}
@@ -98,7 +102,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			
 			// The copy will be made only if it's a new attachment or if attachment directory is not yet the destination one
 			if (attachment.getId() != 0 || 
-					attachment.getUri().getPath().contains(mActivity.get().getExternalFilesDir(null).getAbsolutePath()))
+					uri.getPath().contains(mActivity.get().getExternalFilesDir(null).getAbsolutePath()))
 				break;
 			
 			String extension = "";
@@ -109,8 +113,8 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO))
 				extension = Constants.MIME_TYPE_VIDEO_EXT;
 								
-			destination = StorageManager.createExternalStoragePrivateFile(mActivity.get(), attachment.getUri(), extension);
-			Log.v(Constants.TAG, "Moving attachment " + attachment.getUri() + " to " + destination);
+			destination = StorageManager.createExternalStoragePrivateFile(mActivity.get(), uri, extension);
+			Log.v(Constants.TAG, "Moving attachment " + uri + " to " + destination);
 			
 			if (destination == null) {				
 				Log.e(Constants.TAG, "Can't move file");
@@ -119,6 +123,13 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			
 			// Replace uri
 			attachment.setUri(Uri.fromFile(destination));
+			
+			// Gingerbread don't allow creating custom uri to store video recordings
+			// so they're stored in default location. Once the copy is done original can be deleted
+			if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1
+					&& attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO)) {
+				StorageManager.delete(mActivity.get(), uri.getPath());
+			}
 		}
 	}
 	

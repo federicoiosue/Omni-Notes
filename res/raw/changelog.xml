@@ -20,7 +20,7 @@
         <changelogtext>[b]New![/b] Find notes as you type in search field</changelogtext>
         <changelogtext>[b]New![/b] Swipe from left or right side of note detail screen to start creating a new note</changelogtext>
         <changelogtext>[b]New![/b] Added Bitcoin donation option</changelogtext>
-        <changelogtext>[b]New![/b] Galician, Portuguese (Portugal), Slovenian languages support</changelogtext>
+        <changelogtext>[b]New![/b] Galician (by Xesús M. Mosquera Carregal), Portuguese (Portugal by Duarte Santos), Slovenian languages support</changelogtext>
         <changelogtext>Improved image cropping algorithm: now your picture's thumbnails will show a larger section of the original image without loosing quality</changelogtext>
         <changelogtext>Improved check-mark symbols visualization in notes list</changelogtext>
         <changelogtext>Application tour can now be skipped on first launch</changelogtext>
