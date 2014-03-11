@@ -52,27 +52,26 @@ public class DataBackupIntentService extends IntentService {
 
 	
 	synchronized private void exportData(Intent intent) {
-		boolean res = true;
 		
 		// Gets backup folder
 		String backupName = intent.getStringExtra(Constants.INTENT_BACKUP_NAME);
 		File backupDir = StorageManager.getBackupDir(backupName);
 		
 		// Directory clean in case of previously used backup name
-		res = StorageManager.delete(this, backupDir.getAbsolutePath());
+		StorageManager.delete(this, backupDir.getAbsolutePath());
 		
 		// Directory is re-created in case of previously used backup name (removed above)
 		backupDir = StorageManager.getBackupDir(backupName);
 		
 		// Database backup
-		res = res && exportDB(backupDir);
+		exportDB(backupDir);
 		
 		// Attachments backup
-		res = res && exportAttachments(backupDir);		
+		exportAttachments(backupDir);		
 		
 		// Settings
-		if (intent.getBooleanExtra(Constants.INTENT_BACKUP_INCLUDE_SETTINGS, false));
-			res = res && exportSettings(backupDir);	
+		if (intent.getBooleanExtra(Constants.INTENT_BACKUP_INCLUDE_SETTINGS, true));
+			exportSettings(backupDir);	
 		
 		// Notification of operation ended
 		String title = getString(R.string.data_export_completed);
@@ -81,20 +80,19 @@ public class DataBackupIntentService extends IntentService {
 	}
 
 	synchronized private void importData(Intent intent) {
-		boolean res = true;
 		
 		// Gets backup folder
 		String backupName = intent.getStringExtra(Constants.INTENT_BACKUP_NAME);
 		File backupDir = StorageManager.getBackupDir(backupName);
 		
 		// Database backup
-		res = res && importDB(backupDir);
+		importDB(backupDir);
 		
 		// Attachments backup
-		res = res && importAttachments(backupDir);	
+		importAttachments(backupDir);	
 		
 		// Settings restore
-		res = res && importSettings(backupDir);
+		importSettings(backupDir);
 		
 		String title = getString(R.string.data_import_completed);
 		String text = getString(R.string.click_to_refresh_application);
@@ -103,14 +101,13 @@ public class DataBackupIntentService extends IntentService {
 
 	
 	synchronized private void deleteData(Intent intent) {
-		boolean res = true;
 		
 		// Gets backup folder
 		String backupName = intent.getStringExtra(Constants.INTENT_BACKUP_NAME);
 		File backupDir = StorageManager.getBackupDir(backupName);
 		
 		// Backup directory removal
-		res = StorageManager.delete(this, backupDir.getAbsolutePath());
+		StorageManager.delete(this, backupDir.getAbsolutePath());
 		
 		String title = getString(R.string.data_deletion_completed);
 		String text = backupName + " " + getString(R.string.deleted);
