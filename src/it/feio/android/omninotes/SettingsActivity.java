@@ -437,6 +437,8 @@ public class SettingsActivity extends PreferenceActivity {
 								StorageManager.delete(activity, attachmentsDir.getAbsolutePath());
 								File cacheDir = StorageManager.getCacheDir(activity);
 								StorageManager.delete(activity, cacheDir.getAbsolutePath());
+								// App tour is flagged as skipped anyhow
+								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
 								restartApp();
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
