@@ -978,13 +978,14 @@ public class ListActivity extends BaseActivity {
 				if (widgetId != null) {
 					String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
 					String pattern = DbHelper.KEY_TAG + " = ";
-					String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length()).trim();
-					navigationTmp = !TextUtils.isEmpty(tagId) ? tagId : null;
+					if (sqlCondition.lastIndexOf(pattern) != -1) {
+						String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length()).trim();
+						navigationTmp = !TextUtils.isEmpty(tagId) ? tagId : null;
+					}
 				}
-//				if (!TextUtils.isEmpty(navigationTmp)) {
-					notes = db.getNotesWithTag(navigationTmp);
-					intent.removeExtra(Constants.INTENT_WIDGET);
-//				}
+				notes = db.getNotesWithTag(navigationTmp);
+				intent.removeExtra(Constants.INTENT_WIDGET);
+				
 			} else {
 				notes = db.getAllNotes(true);
 			}

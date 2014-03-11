@@ -305,14 +305,17 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			String widgetId = i.getExtras().get(Constants.INTENT_WIDGET).toString();
 			if (widgetId != null) {
 				String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
-				String tagId = sqlCondition.substring(sqlCondition.lastIndexOf("=") + 1).trim();
-				Tag tag;
-				try {
-					tag = db.getTag(Integer.parseInt(tagId));
-					noteTmp = new Note();
-					DbHelper db = new DbHelper(this);
-					noteTmp.setTag(tag);
-				} catch (NumberFormatException e) {}
+				String pattern = DbHelper.KEY_TAG + " = ";
+				if (sqlCondition.lastIndexOf(pattern) != -1) {
+					String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length()).trim();		
+					Tag tag;
+					try {
+						tag = db.getTag(Integer.parseInt(tagId));
+						noteTmp = new Note();
+						DbHelper db = new DbHelper(this);
+						noteTmp.setTag(tag);
+					} catch (NumberFormatException e) {}			
+				}
 			}
 		}
 		
