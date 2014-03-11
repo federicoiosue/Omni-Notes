@@ -22,6 +22,9 @@ import android.support.v4.app.NotificationCompat;
 
 public class DataBackupIntentService extends IntentService {
 
+	private SharedPreferences prefs;
+
+
 	public DataBackupIntentService() {
 		super("DataBackupIntentService");
 	}
@@ -34,6 +37,9 @@ public class DataBackupIntentService extends IntentService {
 		// pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
 		// // Acquire the lock
 		// wl.acquire();
+		
+
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		// If an alarm has been fired a notification must be generated
 		if (Constants.ACTION_DATA_EXPORT.equals(intent.getAction())) {
@@ -130,7 +136,6 @@ public class DataBackupIntentService extends IntentService {
 				.setContentText(message)
 				.setAutoCancel(true);
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		// Impostazione suoneria
 		if (prefs.getBoolean("settings_notification_sound", true))
 			mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));

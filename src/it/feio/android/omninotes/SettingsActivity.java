@@ -49,6 +49,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -88,7 +89,7 @@ public class SettingsActivity extends PreferenceActivity {
 				
 				// Inflate layout
 				LayoutInflater inflater = activity.getLayoutInflater();
-				View v = inflater.inflate(R.layout.export_dialog_layout, null);
+				View v = inflater.inflate(R.layout.dialog_backup_layout, null);
 				alertDialogBuilder.setView(v);
 				
 				// Finds actually saved backups names
@@ -566,16 +567,17 @@ public class SettingsActivity extends PreferenceActivity {
 	
 	
 	private void restartApp() {
-		Intent mStartActivity = new Intent(this, ListActivity.class);
-		mStartActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-		mStartActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		int mPendingIntentId = 123456;
-		PendingIntent mPendingIntent = PendingIntent.getActivity(this,
-				mPendingIntentId, mStartActivity,
-				PendingIntent.FLAG_CANCEL_CURRENT);
-		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100,
-				mPendingIntent);
+		Intent intent = new Intent(this, ListActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		NavUtils.navigateUpFromSameTask(this);
+//		int mPendingIntentId = 123456;
+//		PendingIntent mPendingIntent = PendingIntent.getActivity(this,
+//				mPendingIntentId, intent,
+//				PendingIntent.FLAG_CANCEL_CURRENT);
+//		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100,
+//				mPendingIntent);
 		System.exit(0);
 	}
 	

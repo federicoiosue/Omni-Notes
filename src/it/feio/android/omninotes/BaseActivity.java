@@ -116,11 +116,6 @@ public class BaseActivity extends ActionBarActivity {
 
 		// Preloads shared preferences for all derived classes
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		// The localized (12 or 24 hours) time format is initialized
-//		date_time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT
-//				: Constants.DATE_FORMAT_SHORT_12;
-//		time_format = prefs.getBoolean("settings_hours_format", true) ? Constants.DATE_FORMAT_SHORT_TIME
-//				: Constants.DATE_FORMAT_SHORT_TIME_12;
 		
 		// Preparation of DbHelper
 		db = new DbHelper(this);
@@ -145,6 +140,7 @@ public class BaseActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 	}
 
+	
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -152,6 +148,7 @@ public class BaseActivity extends ActionBarActivity {
 		EasyTracker.getInstance(this).activityStart(this);
 		tracker = GoogleAnalytics.getInstance(this).getTracker("UA-45502770-1");
 	}
+	
 	
 	@Override
 	protected void onResume() {
@@ -162,6 +159,7 @@ public class BaseActivity extends ActionBarActivity {
 		navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
 	}
 
+	
 	@Override
 	public void onStop() {
 		super.onStop();
@@ -171,6 +169,7 @@ public class BaseActivity extends ActionBarActivity {
 			locationManager.removeUpdates(locationListener);
 	}
 
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
