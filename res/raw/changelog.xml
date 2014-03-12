@@ -16,6 +16,11 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.4.0 Beta 8" changeDate="Mar 10, 2014">  
+        <changelogtext>[b]New![/b] New KitKat storage app used to include images and videos</changelogtext>  
+        <changelogtext>[u]Fixed[/u] A LOT of minor issues have been resolved and many refinements done</changelogtext>   
+    </changelogversion>
+
     <changelogversion versionName="4.4.0 Beta 8" changeDate="Mar 10, 2014"> 
         <changelogtext>[b]New![/b] Find notes as you type in search field</changelogtext>
         <changelogtext>[b]New![/b] Swipe from left or right side of note detail screen to start creating a new note</changelogtext>

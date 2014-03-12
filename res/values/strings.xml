@@ -159,6 +159,7 @@
     <string name="copy">Copy</string>
     <string name="no_application_can_perform_this_action">No application can perform this action</string>
     <string name="eraser">Eraser</string>
+    <string name="image">Image</string>
     
 
     <!-- Settings -->

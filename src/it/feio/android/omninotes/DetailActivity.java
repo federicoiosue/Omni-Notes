@@ -1150,14 +1150,15 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			case R.id.gallery:
 				Intent galleryIntent;
 				if (Build.VERSION.SDK_INT >= 19) {
-					galleryIntent = new Intent(Intent.ACTION_PICK,
-							android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//					galleryIntent = new Intent(Intent.ACTION_PICK,
+//							android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+					takeGalleryKitKat();
 				} else {
 					galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
 					galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
+					galleryIntent.setType("*/*");
+					startActivityForResult(galleryIntent, GALLERY);
 				}
-				galleryIntent.setType("*/*");
-				startActivityForResult(galleryIntent, GALLERY);
 				attachmentDialog.dismiss();
 				break;
 			// Microphone recording
@@ -1193,7 +1194,30 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		}
 	}
 
-	
+
+	/**
+	 * Shows a dialog to choose between image or video attachment for storage access framework app
+	 */
+	@TargetApi(19)
+	private void takeGalleryKitKat() {
+		final Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+		intent.addCategory(Intent.CATEGORY_OPENABLE);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+		alertDialogBuilder
+				.setPositiveButton(getString(R.string.video), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						intent.setType("video/*");
+						startActivityForResult(intent, GALLERY);
+					}
+				}).setNegativeButton(getString(R.string.image), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						intent.setType("image/*");
+						startActivityForResult(intent, GALLERY);
+					}
+				});
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+	}	
 	
 
 	
@@ -1256,8 +1280,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				mGridView.autoresize();
 				break;
 			case TAKE_VIDEO:
-//				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
-				attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_VIDEO);
+				// Gingerbread doesn't allow custom folder so data are retrieved from intent 
+				if(Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
+					attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
+				} else {
+					attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_VIDEO);
+				}
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
