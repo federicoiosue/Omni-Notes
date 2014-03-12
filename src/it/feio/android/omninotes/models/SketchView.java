@@ -24,11 +24,12 @@ public class SketchView extends View implements OnTouchListener {
 	
 	public static final int STROKE = 0;
 	public static final int ERASER = 1;
-
-	private float strokeSize = 5;
+	public static final int DEFAULT_STROKE_SIZE = 7;
+	public static final int DEFAULT_ERASER_SIZE = 50;
+	
+	private float strokeSize = DEFAULT_STROKE_SIZE;
 	private int strokeColor = Color.BLACK;
-	private float eraserSize = 15;
-	private int eraserColor = Color.WHITE;
+	private float eraserSize = DEFAULT_ERASER_SIZE;
 	private int background = Color.WHITE;
 	
 	private Canvas mCanvas;
@@ -42,8 +43,8 @@ public class SketchView extends View implements OnTouchListener {
 	private Context mContext;
 
 	private Bitmap bitmap;
-	
-	public static boolean isEraserActive = false;
+
+	private int mode = STROKE;
 	
 
 	public SketchView(Context context, AttributeSet attr) {
@@ -70,6 +71,17 @@ public class SketchView extends View implements OnTouchListener {
 		m_Path = new Path();
 		Paint newPaint = new Paint(m_Paint);
 		invalidate();
+	}
+	
+	
+	public void setMode(int mode) {
+		if (mode == STROKE || mode == ERASER)
+			this.mode = mode;
+	}
+	
+	
+	public int getMode() {
+		return this.mode;
 	}
 	
 	
@@ -150,9 +162,9 @@ public class SketchView extends View implements OnTouchListener {
 		// Clearing undone list
 		undonePaths.clear();
 
-		if (isEraserActive) {
+		if (mode == ERASER) {
 			m_Paint.setColor(Color.WHITE);
-			m_Paint.setStrokeWidth(strokeSize);
+			m_Paint.setStrokeWidth(eraserSize);
 		} else {
 			m_Paint.setColor(strokeColor);
 			m_Paint.setStrokeWidth(strokeSize);

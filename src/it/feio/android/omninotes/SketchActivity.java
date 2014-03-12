@@ -35,6 +35,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
@@ -48,15 +49,16 @@ public class SketchActivity extends BaseActivity {
 	private Context mContext;
 	private ImageView stroke;
 	private ImageView eraser;
-	private SketchView drawingView;
+	private SketchView mSketchView;
 	private ImageView undo;
 	private ImageView redo;
-	private PopupWindow stokePopup;
 	private ImageView erase;
-	private int seekBarProgress, eraserSeekBarProgress;
-	private View popupLayout;
-	private ImageView strokeImageView;
+	private int seekBarStrokeProgress, seekBarEraserProgress;
+	private View popupLayout, popupEraserLayout;
+	private ImageView strokeImageView, eraserImageView;
 	private int size;
+	private ColorPicker mColorPicker;
+	private int oldColor;
 
 	
 	@Override
@@ -65,14 +67,14 @@ public class SketchActivity extends BaseActivity {
 		setContentView(R.layout.activity_sketch);
 		
 		mContext = this;
-		drawingView = (SketchView) findViewById(R.id.drawing);
+		mSketchView = (SketchView) findViewById(R.id.drawing);
 		
 		Uri baseUri = getIntent().getParcelableExtra("base");
 		if (baseUri != null) {
 			Bitmap bmp = null;
 			try {
 				bmp = BitmapFactory.decodeStream(getContentResolver().openInputStream(baseUri));
-				drawingView.setBackgroundBitmap(this, bmp);
+				mSketchView.setBackgroundBitmap(this, bmp);
 			} catch (FileNotFoundException e) {
 				Log.e(Constants.TAG, "Error replacing sketch bitmap background");
 			}
@@ -85,45 +87,53 @@ public class SketchActivity extends BaseActivity {
 		}
 
 		stroke = (ImageView) findViewById(R.id.sketch_stroke);
-		stroke.setOnClickListener(new OnClickListener() {
-
+		stroke.setBackgroundResource(R.drawable.image_borders);	
+		stroke.setOnClickListener(new OnClickListener() {			
 			@Override
-			public void onClick(View v) {				
-				showPopup(v);
+			public void onClick(View v) {
+				if (mSketchView.getMode() == SketchView.STROKE) {			
+					showPopup(v, SketchView.STROKE);
+				} else {
+					mSketchView.setMode(SketchView.STROKE);
+					eraser.setBackgroundResource(0);
+					stroke.setBackgroundResource(R.drawable.image_borders);					
+				}
 			}
 		});
 
-//		eraser = (ImageView) findViewById(R.id.sketch_eraser);
-//		eraser.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {				
-//				showPopup(v);
-//			}
-//		});
-		
-		undo = (ImageView) findViewById(R.id.sketch_undo);
-		undo.setOnClickListener(new OnClickListener() {
-			
+		eraser = (ImageView) findViewById(R.id.sketch_eraser);
+		eraser.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				drawingView.undo();			
+				if (mSketchView.getMode() == SketchView.ERASER) {			
+					showPopup(v, SketchView.ERASER);
+				} else {
+					mSketchView.setMode(SketchView.ERASER);
+					stroke.setBackgroundResource(0);
+					eraser.setBackgroundResource(R.drawable.image_borders);					
+				}
+			}
+		});
+		
+		undo = (ImageView) findViewById(R.id.sketch_undo);
+		undo.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				mSketchView.undo();			
 			}
 		});
 		
 		redo = (ImageView) findViewById(R.id.sketch_redo);
-		redo.setOnClickListener(new OnClickListener() {
-			
+		redo.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				drawingView.redo();
+				mSketchView.redo();
 				
 			}
 		});
 
 		erase = (ImageView) findViewById(R.id.sketch_erase);
-		erase.setOnClickListener(new OnClickListener() {
-			
+		erase.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				askForErase();
@@ -133,13 +143,11 @@ public class SketchActivity extends BaseActivity {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
 				alertDialogBuilder.setMessage(R.string.erase_sketch)
 						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
-								drawingView.erase();
+								mSketchView.erase();
 							}
 						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								dialog.cancel();
@@ -154,30 +162,49 @@ public class SketchActivity extends BaseActivity {
 		// Inflate the popup_layout.xml
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
 		popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, (ViewGroup) findViewById(R.id.layout_root));
-		
+		// And the one for eraser
+		LayoutInflater inflaterEraser = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+		popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, (ViewGroup) findViewById(R.id.layout_root));
+
 		// Actual stroke shape size is retrieved
 		strokeImageView = (ImageView) popupLayout.findViewById(R.id.stroke_circle);
 		final Drawable circleDrawable = getResources().getDrawable(R.drawable.circle);
 		size = circleDrawable.getIntrinsicWidth();
+		// Actual eraser shape size is retrieved
+		eraserImageView = (ImageView) popupEraserLayout.findViewById(R.id.stroke_circle);
+		final Drawable circleEraserDrawable = getResources().getDrawable(R.drawable.circle);
+		size = circleDrawable.getIntrinsicWidth();
+
+		setSeekbarProgress(SketchView.DEFAULT_STROKE_SIZE, SketchView.STROKE);
+		setSeekbarProgress(SketchView.DEFAULT_ERASER_SIZE, SketchView.ERASER);
 		
-		setStrokeSeekbarProgress(5, SketchView.STROKE);
+		// Stroke color picker initialization and event managing
+		mColorPicker = (ColorPicker) popupLayout.findViewById(R.id.stroke_color_picker);	
+		mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.svbar));	
+		mColorPicker.addOpacityBar((OpacityBar) popupLayout.findViewById(R.id.opacitybar));
+		mColorPicker.setOnColorChangedListener(new OnColorChangedListener() {				
+			@Override
+			public void onColorChanged(int color) {
+				mSketchView.setStrokeColor(color);
+			}
+		});
+		mColorPicker.setColor(mSketchView.getStrokeColor());
+		mColorPicker.setOldCenterColor(mSketchView.getStrokeColor());
 	}
 
 	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
-		outState.putSerializable("paths", drawingView.getPaths());
-		outState.putSerializable("undonePaths", drawingView.getUndonePaths());
+		outState.putSerializable("paths", mSketchView.getPaths());
+		outState.putSerializable("undonePaths", mSketchView.getUndonePaths());
 		super.onSaveInstanceState(outState);
 	}
 	
 	
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		drawingView.setPaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable("paths"));
-		drawingView.setUndonePaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable("undonePaths"));
+		mSketchView.setPaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable("paths"));
+		mSketchView.setUndonePaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable("undonePaths"));
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 	
@@ -185,13 +212,13 @@ public class SketchActivity extends BaseActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		save(drawingView.getBitmap());
+		save(mSketchView.getBitmap());
 	}
 	
 	
 	@Override
 	public void onBackPressed() {
-		save(drawingView.getBitmap());
+		save(mSketchView.getBitmap());
 	}
 	
 	@Override
@@ -237,7 +264,7 @@ public class SketchActivity extends BaseActivity {
 	
 	
 	public void updateRedoAlpha() {
-		if (drawingView.getUndoneCount() > 0)
+		if (mSketchView.getUndoneCount() > 0)
 			AlphaManager.setAlpha(redo, 1f);
 		else
 			AlphaManager.setAlpha(redo, 0.4f);
@@ -245,116 +272,80 @@ public class SketchActivity extends BaseActivity {
 	
 	
 	// The method that displays the popup.
-		private void showPopup(View anchor) {
-			DisplayMetrics metrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-			// Creating the PopupWindow
-			stokePopup = new PopupWindow(this);
-			stokePopup.setContentView(popupLayout);
-			stokePopup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-			stokePopup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-			stokePopup.setFocusable(true);
-
-			// Clear the default translucent background
-			stokePopup.setBackgroundDrawable(new BitmapDrawable());		
-
-			// Displaying the popup at the specified location, + offsets (transformed 
-			// dp to pixel to support multiple screen sizes)
-//			stokePopup.showAsDropDown(anchor, 0, -680);
-			stokePopup.showAsDropDown(anchor, 0, DensityUtil.convertDpToPixel(-390, mContext));
-			
-			// Stroke size seekbar initialization and event managing
-			SeekBar mSeekBar = (SeekBar) popupLayout.findViewById(R.id.stroke_seekbar);
-			mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {					
-				@Override
-				public void onStopTrackingTouch(SeekBar seekBar) {}					
-				@Override
-				public void onStartTrackingTouch(SeekBar seekBar) {}
-				
-				@Override
-				public void onProgressChanged(SeekBar seekBar, int progress,
-						boolean fromUser) {
-					
-					// When the seekbar is moved a new size is calculated and the new shape
-					// is positioned centrally into the ImageView
-					setStrokeSeekbarProgress(progress, SketchView.STROKE);
-				}
-			});			
-			mSeekBar.setProgress(seekBarProgress);			
-
-			// Stroke color picker initialization and event managing
-			ColorPicker mColorPicker = (ColorPicker) popupLayout.findViewById(R.id.stroke_color_picker);	
-			mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.svbar));	
-			mColorPicker.addOpacityBar((OpacityBar) popupLayout.findViewById(R.id.opacitybar));
-			mColorPicker.setOnColorChangedListener(new OnColorChangedListener() {
-				
-				@Override
-				public void onColorChanged(int color) {
-					drawingView.setStrokeColor(color);
-				}
-			});
-			mColorPicker.setColor(drawingView.getStrokeColor());	
-		}
+	private void showPopup(View anchor, final int eraserOrStroke) {
 		
+		boolean isErasing = eraserOrStroke == SketchView.ERASER;
 		
-		// The method that displays the popup for eraser.
-		private void showPopupEraser(View anchor) {
-			DisplayMetrics metrics = new DisplayMetrics();
-			getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		oldColor = mColorPicker.getColor();
+		
+		DisplayMetrics metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-			// Creating the PopupWindow
-			stokePopup = new PopupWindow(this);
-			stokePopup.setContentView(popupLayout);
-			stokePopup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-			stokePopup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-			stokePopup.setFocusable(true);
+		// Creating the PopupWindow
+		PopupWindow popup = new PopupWindow(this);
+		popup.setContentView(isErasing ? popupEraserLayout : popupLayout);
+		popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+		popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+		popup.setFocusable(true);
+		popup.setOnDismissListener(new OnDismissListener() {			
+			@Override
+			public void onDismiss() {
+				if (mColorPicker.getColor() != oldColor)
+					mColorPicker.setOldCenterColor(oldColor);
+			}
+		});
 
-			// Clear the default translucent background
-			stokePopup.setBackgroundDrawable(new BitmapDrawable());		
+		// Clear the default translucent background
+		popup.setBackgroundDrawable(new BitmapDrawable());		
 
-			// Displaying the popup at the specified location, + offsets (transformed 
-			// dp to pixel to support multiple screen sizes)
-//				stokePopup.showAsDropDown(anchor, 0, -680);
-			stokePopup.showAsDropDown(anchor, 0, DensityUtil.convertDpToPixel(-390, mContext));
+		// Displaying the popup at the specified location, + offsets (transformed 
+		// dp to pixel to support multiple screen sizes)
+		popup.showAsDropDown(anchor, 0, DensityUtil.convertDpToPixel(isErasing ? -120 : -390, mContext));
+		
+		// Stroke size seekbar initialization and event managing
+		SeekBar mSeekBar;
+		mSeekBar = (SeekBar) (isErasing ? popupEraserLayout
+				.findViewById(R.id.stroke_seekbar) : popupLayout
+				.findViewById(R.id.stroke_seekbar));
+		mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {					
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {}					
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {}
 			
-			// Stroke size seekbar initialization and event managing
-			SeekBar mSeekBar = (SeekBar) popupLayout.findViewById(R.id.stroke_seekbar);
-			mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {					
-				@Override
-				public void onStopTrackingTouch(SeekBar seekBar) {}					
-				@Override
-				public void onStartTrackingTouch(SeekBar seekBar) {}
-				
-				@Override
-				public void onProgressChanged(SeekBar seekBar, int progress,
-						boolean fromUser) {
-					
-					// When the seekbar is moved a new size is calculated and the new shape
-					// is positioned centrally into the ImageView
-					setStrokeSeekbarProgress(progress, SketchView.ERASER);
-				}
-			});			
-			mSeekBar.setProgress(eraserSeekBarProgress);	
-		}
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {					
+				// When the seekbar is moved a new size is calculated and the new shape
+				// is positioned centrally into the ImageView
+				setSeekbarProgress(progress, eraserOrStroke);
+			}
+		});			
+		int progress = isErasing ? seekBarEraserProgress : seekBarStrokeProgress;
+		mSeekBar.setProgress(progress);			
+	}
 
 
-		protected void setStrokeSeekbarProgress(int progress, int eraserOrStroke) {
-			
-			// Avoid 
-			int calcProgress = progress > 1 ? progress : 1;
-			
-			int newSize = (int) Math.round( (size/100f) * calcProgress);
-			int offset = (int) Math.round( (size-newSize) / 2);					
-			Log.v(Constants.TAG, "Stroke size " + newSize + " (" + calcProgress + "%)");
-			
-			LayoutParams lp = new LayoutParams(newSize, newSize);
-			lp.setMargins(offset, offset, offset, offset);	
+	protected void setSeekbarProgress(int progress, int eraserOrStroke) {			
+		// Avoid 
+		int calcProgress = progress > 1 ? progress : 1;
+		
+		int newSize = (int) Math.round( (size/100f) * calcProgress);
+		int offset = (int) Math.round( (size-newSize) / 2);					
+		Log.v(Constants.TAG, "Stroke size " + newSize + " (" + calcProgress + "%)");
+		
+		LayoutParams lp = new LayoutParams(newSize, newSize);
+		lp.setMargins(offset, offset, offset, offset);	
+		if (eraserOrStroke == SketchView.STROKE) {	
 			strokeImageView.setLayoutParams(lp);
-			
-			drawingView.setSize(newSize, eraserOrStroke);
-			seekBarProgress = progress;
+			seekBarStrokeProgress = progress;			
+		} else {	
+			eraserImageView.setLayoutParams(lp);
+			seekBarEraserProgress = progress;
 		}
+		
+		mSketchView.setSize(newSize, eraserOrStroke);
+	}
 		
 		
 }

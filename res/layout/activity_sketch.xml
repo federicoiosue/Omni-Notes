@@ -40,16 +40,16 @@
                 android:contentDescription="@string/stroke"
                 android:src="@drawable/ic_action_edit" />
 
-<!--             <ImageView -->
-<!--                 android:id="@+id/sketch_eraser" -->
-<!--                 android:layout_width="0dp" -->
-<!--                 android:layout_height="40dp" -->
-<!--                 android:layout_gravity="center" -->
-<!--                 android:layout_marginLeft="10dp" -->
-<!--                 android:layout_marginRight="10dp" -->
-<!--                 android:layout_weight="1" -->
-<!--                 android:contentDescription="@string/eraser" -->
-<!--                 android:src="@drawable/ic_action_remove" /> -->
+            <ImageView
+                android:id="@+id/sketch_eraser"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/eraser"
+                android:src="@drawable/ic_action_remove" />
 
             <ImageView
                 android:id="@+id/sketch_undo"
