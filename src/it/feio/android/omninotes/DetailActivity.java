@@ -474,7 +474,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				Uri uri = attachment.getUri();
 				Intent attachmentIntent = null;
 				if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
-						|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
+					|| Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())
+					|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
 					attachmentIntent = new Intent(Intent.ACTION_VIEW);
 					attachmentIntent.setDataAndType(uri, attachment.getMime_type());
 					if (IntentChecker.isAvailable(getApplicationContext(), attachmentIntent, null)) {
@@ -515,7 +516,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 						});
 				
 				// If is an image user could want to sketch it!
-				if (Constants.MIME_TYPE_IMAGE.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
+				if (Constants.MIME_TYPE_SKETCH.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
 					alertDialogBuilder
 						.setMessage(R.string.choose_action)
 						.setNeutralButton(R.string.edit, new DialogInterface.OnClickListener() {
@@ -1248,7 +1249,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 	
 	private void takeSketch(Attachment attachment) {
-		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_IMAGE_EXT));	
+		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_SKETCH_EXT));	
 		Intent intent = new Intent(this, SketchActivity.class);		
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		// An already prepared attachment is going to be sketched
@@ -1306,7 +1307,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				lockUnlock();
 				break;
 			case SKETCH:
-				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
+				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_SKETCH);
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();

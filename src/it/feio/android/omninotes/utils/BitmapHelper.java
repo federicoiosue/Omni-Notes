@@ -17,7 +17,6 @@ package it.feio.android.omninotes.utils;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.utils.date.DateHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -338,7 +337,8 @@ public class BitmapHelper {
 			bmp = createVideoThumbnail(mContext, bmp, width, height);
 
 			// Image
-		} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())) {
+		} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
+					|| Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())) {
 			try {
 				bmp = checkIfBroken(mContext, BitmapHelper.getThumbnail(mContext,
 						mAttachment.getUri(), width, height), width, height);

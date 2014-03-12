@@ -110,6 +110,8 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 				extension = Constants.MIME_TYPE_AUDIO_EXT;
 			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_IMAGE))
 				extension = Constants.MIME_TYPE_IMAGE_EXT;
+			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_SKETCH))
+				extension = Constants.MIME_TYPE_SKETCH_EXT;
 			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO))
 				extension = Constants.MIME_TYPE_VIDEO_EXT;
 								
