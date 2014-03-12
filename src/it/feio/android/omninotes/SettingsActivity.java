@@ -29,7 +29,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -46,6 +49,7 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -85,7 +89,7 @@ public class SettingsActivity extends PreferenceActivity {
 				
 				// Inflate layout
 				LayoutInflater inflater = activity.getLayoutInflater();
-				View v = inflater.inflate(R.layout.export_dialog_layout, null);
+				View v = inflater.inflate(R.layout.dialog_backup_layout, null);
 				alertDialogBuilder.setView(v);
 				
 				// Finds actually saved backups names
@@ -434,6 +438,8 @@ public class SettingsActivity extends PreferenceActivity {
 								StorageManager.delete(activity, attachmentsDir.getAbsolutePath());
 								File cacheDir = StorageManager.getCacheDir(activity);
 								StorageManager.delete(activity, cacheDir.getAbsolutePath());
+								// App tour is flagged as skipped anyhow
+								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
 								restartApp();
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -546,16 +552,33 @@ public class SettingsActivity extends PreferenceActivity {
 		
 	
 	
+//	private void restartApp() {
+////		Intent intent = getBaseContext()
+////				.getPackageManager()
+////				.getLaunchIntentForPackage(getBaseContext()
+////				.getPackageName());	
+//		Intent intent = new Intent(this, ListActivity.class);
+//		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+//		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//	    startActivity(intent);
+//	    finish();
+//	}
+	
+	
+	
 	private void restartApp() {
-//		Intent intent = getBaseContext()
-//				.getPackageManager()
-//				.getLaunchIntentForPackage(getBaseContext()
-//				.getPackageName());	
 		Intent intent = new Intent(this, ListActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	    startActivity(intent);
-	    finish();
+		NavUtils.navigateUpFromSameTask(this);
+//		int mPendingIntentId = 123456;
+//		PendingIntent mPendingIntent = PendingIntent.getActivity(this,
+//				mPendingIntentId, intent,
+//				PendingIntent.FLAG_CANCEL_CURRENT);
+//		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100,
+//				mPendingIntent);
+		System.exit(0);
 	}
 	
 	

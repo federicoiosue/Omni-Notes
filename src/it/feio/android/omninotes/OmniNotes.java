@@ -51,11 +51,10 @@ public class OmniNotes extends Application {
 	private final Object mDiskCacheLock = new Object();
 	private boolean mDiskCacheStarting = true;
 	private static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
-	private static final String DISK_CACHE_SUBDIR = "thumbnails";
 
 	@Override
 	public void onCreate() {
-
+		Log.d(Constants.TAG, "App onCreate()");
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		// The following line triggers the initialization of ACRA
@@ -73,6 +72,7 @@ public class OmniNotes extends Application {
 
 		super.onCreate();
 	}
+	
 
 	@Override
 	// Used to restore user selected locale when configuration changes

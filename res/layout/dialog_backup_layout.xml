@@ -42,6 +42,7 @@
         android:id="@+id/backup_include_settings"
         android:text="@string/backup_include_settings"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:checked="true" />
 
 </LinearLayout>
