@@ -481,9 +481,9 @@ public class SettingsActivity extends PreferenceActivity {
 									String key = mapEntry.getKey().toString();
 									if (key.contains(Constants.PREF_TOUR_PREFIX)) {
 										prefs.edit().putBoolean(key, false).commit();
-										restartApp();
 									}
 								}
+								restartApp();
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
