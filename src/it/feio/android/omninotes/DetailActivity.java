@@ -18,6 +18,7 @@ package it.feio.android.omninotes;
 import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
+import it.feio.android.checklistview.models.CheckListView;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
@@ -1468,15 +1469,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				content = ((android.widget.EditText)  findViewById(R.id.content)).getText().toString();
 			}
 		} else {
-			try {
 				if (mChecklistManager != null) {
 					mChecklistManager.setKeepChecked(true);
 					mChecklistManager.setShowChecks(true);
-					content = ((android.widget.EditText) mChecklistManager.convert(toggleChecklistView)).getText().toString();
+					content = mChecklistManager.getText((CheckListView)toggleChecklistView);
 				}
-			} catch (ViewNotSupportedException e) {
-				Log.e(Constants.TAG, "Errore toggling checklist", e);
-			}
 		}
 		return content;
 	}
