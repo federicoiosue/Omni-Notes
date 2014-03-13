@@ -31,7 +31,7 @@ public class NotificationService extends IntentService{
 		// If an alarm has been fired a notification must be generated
 		if (Constants.ACTION_DISMISS.equals(intent.getAction())) {} 
 		else if (Constants.ACTION_SNOOZE.equals(intent.getAction())) {
-			String snoozeDelay = PreferenceManager.getDefaultSharedPreferences(this).getString("settings_notification_snooze_delay", "10");
+			String snoozeDelay = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS).getString("settings_notification_snooze_delay", "10");
 			long newAlarm = Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
 			setAlarm(note, newAlarm);
 //			promptSnoozeTime();

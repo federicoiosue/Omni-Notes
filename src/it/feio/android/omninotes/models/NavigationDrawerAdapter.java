@@ -21,6 +21,8 @@ import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Arrays;
 
+import javax.crypto.Mac;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -106,7 +108,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 				: null;
 				
 		String navigation = navigationTmp != null ? navigationTmp
-				: PreferenceManager.getDefaultSharedPreferences(mActivity)
+				: mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS)
 						.getString(Constants.PREF_NAVIGATION,
 								navigationListCodes[0]);
 

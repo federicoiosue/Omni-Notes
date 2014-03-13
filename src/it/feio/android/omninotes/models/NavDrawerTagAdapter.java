@@ -137,7 +137,7 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 				: null;
 				
 		String navigation = navigationTmp != null ? navigationTmp
-				: PreferenceManager.getDefaultSharedPreferences(mActivity)
+				: mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS)
 						.getString(Constants.PREF_NAVIGATION,
 								navigationListCodes[0]);
 		

@@ -197,7 +197,7 @@ public class TagActivity extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						// Changes navigation if actually are shown notes associated with this tag
-						SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
+						SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 						String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
 						String navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
 						if (String.valueOf(tag.getId()).equals(navigation))

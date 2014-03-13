@@ -65,7 +65,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 	private void createNotification(Context mContext, Note note) {
 		
 		// Retrieving preferences
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS);
 
 		// Prepare text contents
 		String title = note.getTitle().length() > 0 ? note.getTitle() : note

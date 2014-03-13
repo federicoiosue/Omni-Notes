@@ -19,7 +19,8 @@ public interface Constants {
 
 	final String TAG = "Omni Notes";
 	final String DATABASE_NAME = "omni-notes";
-	final String PREFS_FILE_NAME = "omni-notes.prefs";
+	final String PACKAGE = "it.feio.android.omninotes";
+	final String PREFS_NAME = PACKAGE + "_preferences";
 	final String APP_STORAGE_DIRECTORY = TAG;
 	final String APP_STORAGE_DIRECTORY_ATTACHMENTS = "attachments";
 	

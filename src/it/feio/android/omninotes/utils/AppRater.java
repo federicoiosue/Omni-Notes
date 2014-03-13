@@ -22,7 +22,7 @@ public class AppRater {
 	private final static int LAUNCHES_UNTIL_PROMPT = 2;
 
 	public static void appLaunched(Activity mActivity, String message, String rateBtn, String dismissBtn, String laterBtn) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
+		SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS);
 		if (prefs.getBoolean(Constants.PREF_RATE_DISMISSED, false)) {
 			return;
 		}

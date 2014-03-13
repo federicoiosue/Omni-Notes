@@ -231,7 +231,7 @@ public class ListActivity extends BaseActivity {
 		initNavigationDrawer();
 		
 		// Restores again DefaultSharedPreferences too reload in case of data erased from Settings
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 		
 		// Menu is invalidated to start again instructions tour if requested
 		if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "list", false)) {

@@ -21,6 +21,7 @@
         <changelogtext>[b]New![/b] Improved Sketch mode with new eraser tool and fixed color saturation</changelogtext>  
         <changelogtext>Improved speed in retrieving content text when checklist is active</changelogtext>  
         <changelogtext>Translations updated</changelogtext>  
+        <changelogtext>[u]Fixed[/u] Settings restore from backup</changelogtext>   
         <changelogtext>[u]Fixed[/u] A LOT of minor issues have been resolved and many refinements done</changelogtext>   
     </changelogversion>
 

@@ -39,7 +39,7 @@ public class DataBackupIntentService extends IntentService {
 		// wl.acquire();
 		
 
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
 		// If an alarm has been fired a notification must be generated
 		if (Constants.ACTION_DATA_EXPORT.equals(intent.getAction())) {
@@ -226,6 +226,17 @@ public class DataBackupIntentService extends IntentService {
 		File preferenceBackup = new File(backupDir, preferences.getName());
 		return (StorageManager.copyFile(preferenceBackup, preferences));
 	}
+//	/**
+//	 * Imports settings 
+//	 * @param backupDir
+//	 * @return
+//	 */
+//	private boolean importSettings(File backupDir) {
+//		boolean res = true;
+//		File preferenceBackup = new File(backupDir, StorageManager.getDefaultSharedPreferences(this).getName());
+//		
+//		return res;
+//	}
 
 	
 	/**

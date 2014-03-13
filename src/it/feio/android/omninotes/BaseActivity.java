@@ -115,7 +115,7 @@ public class BaseActivity extends ActionBarActivity {
 		mActivity = this;
 
 		// Preloads shared preferences for all derived classes
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 		
 		// Preparation of DbHelper
 		db = new DbHelper(this);
@@ -157,6 +157,7 @@ public class BaseActivity extends ActionBarActivity {
 		// Navigation selected
 		String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
 		navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
+		Log.d(Constants.TAG, prefs.getAll().toString());
 	}
 
 	

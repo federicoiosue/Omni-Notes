@@ -55,7 +55,7 @@ public class OmniNotes extends Application {
 	@Override
 	public void onCreate() {
 		Log.d(Constants.TAG, "App onCreate()");
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
 		// The following line triggers the initialization of ACRA
 		ACRA.init(this);

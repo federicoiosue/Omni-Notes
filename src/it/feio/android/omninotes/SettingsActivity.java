@@ -29,7 +29,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -39,6 +42,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Process;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -46,7 +50,6 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -72,7 +75,7 @@ public class SettingsActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
 		
-		final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+		final SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
 
 		// Export notes
@@ -567,15 +570,17 @@ public class SettingsActivity extends PreferenceActivity {
 		Intent intent = new Intent(this, ListActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		NavUtils.navigateUpFromSameTask(this);
-//		int mPendingIntentId = 123456;
-//		PendingIntent mPendingIntent = PendingIntent.getActivity(this,
-//				mPendingIntentId, intent,
-//				PendingIntent.FLAG_CANCEL_CURRENT);
-//		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100,
-//				mPendingIntent);
+//		NavUtils.navigateUpFromSameTask(this);
+		int mPendingIntentId = 123456;
+		PendingIntent mPendingIntent = PendingIntent.getActivity(this,
+				mPendingIntentId, intent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100,
+				mPendingIntent);
 		System.exit(0);
+		
+//		Process.killProcess(Process.myPid());
 	}
 	
 	

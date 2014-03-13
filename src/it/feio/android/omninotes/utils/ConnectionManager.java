@@ -33,7 +33,7 @@ public class ConnectionManager {
 		if (conMgr.getActiveNetworkInfo() != null) {
 			boolean connected = conMgr.getActiveNetworkInfo().isConnected();
 			boolean wifi = conMgr.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
-			boolean allowMobileData = PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(
+			boolean allowMobileData = ctx.getSharedPreferences(Constants.PREFS_NAME, ctx.MODE_MULTI_PROCESS).getBoolean(
 					"settings_allow_mobile_data", false);
 			result = connected && (wifi || allowMobileData);
 		}

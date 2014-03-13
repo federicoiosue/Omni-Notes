@@ -164,7 +164,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 */
 	public static String getDateText(Context mContext, Note note) {
 		String dateText;
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS);
 		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
 		
 		// Creation
@@ -271,7 +271,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 */
 	private void colorNote(Note note, View v, NoteAdapterViewHolder holder) {
 
-		String colorsPref = PreferenceManager.getDefaultSharedPreferences(mActivity).getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
+		String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS).getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
 		
 		// Checking preference
 		if (!colorsPref.equals("disabled")) {

@@ -51,7 +51,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	@Override
 	public void onCreate() {
 		Log.d(Constants.TAG, "Created widget " + appWidgetId);
-		String condition = PreferenceManager.getDefaultSharedPreferences(app)
+		String condition = app.getSharedPreferences(Constants.PREFS_NAME, app.MODE_MULTI_PROCESS)
 				.getString(
 						Constants.PREF_WIDGET_PREFIX
 								+ String.valueOf(appWidgetId), "");
@@ -62,7 +62,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	@Override
 	public void onDataSetChanged() {
 		Log.d(Constants.TAG, "onDataSetChanged widget " + appWidgetId);
-		String condition = PreferenceManager.getDefaultSharedPreferences(app)
+		String condition = app.getSharedPreferences(Constants.PREFS_NAME, app.MODE_MULTI_PROCESS)
 				.getString(
 						Constants.PREF_WIDGET_PREFIX
 								+ String.valueOf(appWidgetId), "");
@@ -166,7 +166,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	
 	private void color(Note note, RemoteViews row) {
 		
-		String colorsPref = PreferenceManager.getDefaultSharedPreferences(app)
+		String colorsPref = app.getSharedPreferences(Constants.PREFS_NAME, app.MODE_MULTI_PROCESS)
 				.getString("settings_colors_widget",
 						Constants.PREF_COLORS_APP_DEFAULT);
 
