@@ -94,10 +94,10 @@
   <string name="notes_tag_removed">Etiqueta removida das notas</string>
   <string name="notes_tagged_as">Notas etiquetadas com</string>
   <string name="insert_security_password">Insira palavra-passe de segurança</string>
-  <string name="lock">Mask</string>
-  <string name="save_note_to_lock_it">Save note to mask it</string>
-  <string name="save_note_to_unlock_it">Save note to unmask it</string>
-  <string name="unlock">Unmask</string>
+  <string name="lock">Mascarar</string>
+  <string name="save_note_to_lock_it">Guarde a nota para mascará-la</string>
+  <string name="save_note_to_unlock_it">Guarde a nota para desmascará-la</string>
+  <string name="unlock">Desmascarar</string>
   <string name="title_activity_password">Editar palavra-passe de segurança</string>
   <string name="title_activity_about">Informações</string>
   <string name="deleted">eliminado</string>
@@ -123,7 +123,7 @@
   <string name="saturation">Saturação</string>
   <string name="opacity">Transparência</string>
   <string name="dismiss">Dispensar</string>
-  <string name="snooze">Snooze</string>
+  <string name="snooze">Adiar</string>
   <string name="error_importing_some_attachments">Erro ao importar alguns anexos</string>
   <string name="error_saving_attachments">Erro ao guardar anexos</string>
   <string name="proceed">Prosseguir</string>
@@ -145,7 +145,7 @@
   <string name="open">Abrir</string>
   <string name="copy">Copiar</string>
   <string name="no_application_can_perform_this_action">Nenhuma aplicação para executar esta acção</string>
-  <string name="eraser">Eraser</string>
+  <string name="eraser">Borracha</string>
   <string name="dashclock_description">Mostra algumas estatísticas e próximos alertas do Omni Notes</string>
   <string name="settings">Definições</string>
   <string name="settings_about">Informações</string>
@@ -164,7 +164,7 @@
   <string name="import_warning">A importação de dados poderá substituir notas actuais. Prosseguir?</string>
   <string name="export_warning">A exportação do ficheiro irá substituir o anterior. Prosseguir?</string>
   <string name="settings_category_gestures">Gestos</string>
-  <string name="settings_enable_swype">Enable swype</string>
+  <string name="settings_enable_swype">Activar o swype</string>
   <string name="settings_category_interface">Interface</string>
   <string name="settings_enable_animations">Animações</string>
   <string name="settings_choose_language">Idioma</string>
@@ -183,7 +183,7 @@
   <string name="password_successfully_changed">Palavra-passe alterada com sucesso</string>
   <string name="password_successfully_removed">Palavra-passe removida com sucesso</string>
   <string name="wrong_password">Palavra-passe errada</string>
-  <string name="agree_unlocking_all_notes">Agree removing security password\nand unmasking all masked notes?</string>
+  <string name="agree_unlocking_all_notes">Concorda em remover a palavra-passe\ne desmascarar todas as notas?</string>
   <string name="settings_enable_tag_marker">Marcadores de etiquetas</string>
   <string name="settings_backup_summary">Importar ou exportar dados da aplicação</string>
   <string name="settings_max_video_size_summary">Tamanho máximo permitido em MB</string>
@@ -210,7 +210,7 @@
   <string name="colors">Cores</string>
   <string name="settings_enable_tag_marker_full_list_only">Apenas na lista</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Forçar o preenchimento de cor apenas na lista enquanto que na vista detalhada apenas o pequeno marcador é colorido </string>
-  <string name="settings_notification_snooze_delay">Snooze delay</string>
+  <string name="settings_notification_snooze_delay">Tempo do adiamento do alerta</string>
   <string name="minutes">minutos</string>
   <string name="settings_simple_calendar">Hora e calendário simples</string>
   <string name="settings_simple_calendar_summary">Usar o calendário e selector de hora do Android, que são mais simples, em vez dos da Google</string>
@@ -228,7 +228,7 @@
   <string name="wrong_answer">Resposta errada</string>
   <string name="colors_app">Cores da aplicação</string>
   <string name="colors_widget">Cores do widget</string>
-  <string name="tour_request_start">You launched Omni Note for the first time, would you like to make an application tour?</string>
+  <string name="tour_request_start">Abriu o Omni Notes pela primeira vez, deseja ver uma apresentação da aplicação?</string>
   <string name="tour_listactivity_intro_title">Bem-vindo ao Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">pressione \"Continuar\" para retomar a apresentação</string>
   <string name="tour_listactivity_actions_title">Acções</string>

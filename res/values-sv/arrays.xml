@@ -33,14 +33,14 @@
     <item>Flytta efter omarkerad men ovanpå omarkerad</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list only</item>
-    <item>Complete</item>
+    <item>Avstängd</item>
+    <item>Endast remsa</item>
+    <item>Endast anteckningslista</item>
+    <item>Färdig</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list</item>
+    <item>Avstängd</item>
+    <item>Endast remsa</item>
+    <item>Anteckningslista</item>
   </string-array>
 </resources>

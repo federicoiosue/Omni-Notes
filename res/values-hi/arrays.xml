@@ -19,18 +19,18 @@
   <string-array name="navigation_list">
     <item>नोट्स</item>
     <item>संग्रह</item>
-    <item>Reminders</item>
+    <item>अनुस्मारक</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>शीर्षक</item>
     <item>निर्माण दिनांक</item>
     <item>अंतिम संशोधन दिनांक</item>
-    <item>Reminder date</item>
+    <item>अनुस्मारक दिनांक</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Hold on position</item>
+    <item>स्थिति पर पकड़ो</item>
     <item>सभी आइटम के अंत में ले जाएँ</item>
-    <item>Move after unchecked but on top of unchecked</item>
+    <item>अनचेक के बाद जगह बदलो लेकिन  अनचेक पर </item>
   </string-array>
   <string-array name="colors_app">
     <item>अक्षम कर दिया गया</item>

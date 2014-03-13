@@ -28,9 +28,9 @@
     <item>Reminder date</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Hold on position</item>
-    <item>Move at end of all items</item>
-    <item>Move at the end of unchecked items</item>
+    <item>Keep position</item>
+    <item>Move to the end of the list</item>
+    <item>Move to the end of unchecked items</item>
   </string-array>
   <string-array name="colors_app">
     <item>Disabled</item>

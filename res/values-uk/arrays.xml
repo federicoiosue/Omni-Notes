@@ -34,13 +34,13 @@
   </string-array>
   <string-array name="colors_app">
     <item>Вимкнено</item>
-    <item>Strip only</item>
-    <item>Notes list only</item>
-    <item>Complete</item>
+    <item>Маленький індикатор</item>
+    <item>Лише в списку нотаток</item>
+    <item>Повноцінна</item>
   </string-array>
   <string-array name="colors_widget">
     <item>Вимкнено</item>
-    <item>Strip only</item>
-    <item>Notes list</item>
+    <item>Маленький індикатор</item>
+    <item>У списку нотаток</item>
   </string-array>
 </resources>

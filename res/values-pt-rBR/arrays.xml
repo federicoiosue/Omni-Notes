@@ -28,9 +28,9 @@
     <item>Data de lembrete</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Segura a posição</item>
+    <item>Manter posição</item>
     <item>Mover para o final de todos os itens</item>
-    <item>Mover após desmarcada mas em cima dos não marcados</item>
+    <item>Mover para baixo dos marcados, mas acima dos não marcados</item>
   </string-array>
   <string-array name="colors_app">
     <item>Desativado</item>

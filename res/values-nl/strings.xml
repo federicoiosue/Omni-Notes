@@ -202,7 +202,7 @@
   <string name="settings_beta">Google+ </string>
   <string name="settings_beta_summary">Registreer voor de gemeenschap om de laatste nieuwe preview-functies te krijgen</string>
   <string name="donate">Doneren</string>
-  <string name="donate_summary">Help me te blijven ontwikkelen deze app met een non-profit donatie</string>
+  <string name="donate_summary">Help me om deze app te blijven ontwikkelen met een non-profit donatie</string>
   <string name="settings_choose_language">Taal</string>
   <string name="settings_notification_ringtone">Beltoon</string>
   <string name="settings_enable_tag_marker_full">Vol kleur</string>
@@ -230,7 +230,7 @@
   <string name="colors_widget">Widget kleuren</string>
   <string name="tour_request_start">U startte Omni Notes voor de eerste keer, zou u een rondleiding willen van de toepassing?</string>
   <string name="tour_listactivity_intro_title">Welkom bij Omni notities!</string>
-  <string name="tour_listactivity_intro_detail">Druk op \"Doorgaan\" om door te gaan de tour</string>
+  <string name="tour_listactivity_intro_detail">Druk op \"Verdergaan\" om door te gaan met de tour</string>
   <string name="tour_listactivity_actions_title">acties</string>
   <string name="tour_listactivity_actions_detail">Nieuwe notities maken, ze sorteren, toegang tot Voorkeuren</string>
   <string name="tour_listactivity_home_title">Navigatie</string>
@@ -248,7 +248,7 @@
   <string name="tour_detailactivity_save_title">Opslaan</string>
   <string name="tour_detailactivity_save_detail">Druk gewoon op \"op\" navigatie pictogram of ga terug met uw knop van het apparaat</string>
   <string name="tour_listactivity_final_title">Geniet</string>
-  <string name="tour_listactivity_final_detail">Bedankt voor het gebruiken van Omni notities \n\n het opensource alternatief \n voor uw productiviteit en \n entertainment notities \n momenten \n\n druk op \"Doorgaan\" om de tour te sluiten \n en begin met het invoegen van uw eerste notitie!</string>
+  <string name="tour_listactivity_final_detail">Bedankt voor het gebruiken van \nOmni notities \n\n het opensource alternatief \n voor uw productiviteit en \n entertainment notities \n\n druk op \"Verdergaan\" om de tour te\n sluiten  en begin met het invoegen \nvan uw eerste notitie!</string>
   <string name="drawer_open">lade open</string>
   <string name="drawer_close">lade dicht</string>
   <string name="reminder">herinnering</string>
