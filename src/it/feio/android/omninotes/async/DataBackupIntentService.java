@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.RingtoneManager;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
@@ -136,12 +137,14 @@ public class DataBackupIntentService extends IntentService {
 				.setContentText(message)
 				.setAutoCancel(true);
 
-		// Impostazione suoneria
-		if (prefs.getBoolean("settings_notification_sound", true))
-			mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+		// Ringtone options
+				String ringtone = prefs.getString("settings_notification_ringtone", null);
+				if (ringtone != null) {
+					mBuilder.setSound(Uri.parse(ringtone));
+				}
 
-		// Impostazione vibrazione
-		long[] pattern = { 500, 500 };
+		// Vibration options
+		long[] pattern = {500,500};		
 		if (prefs.getBoolean("settings_notification_vibration", true))
 			mBuilder.setVibrate(pattern);
 
