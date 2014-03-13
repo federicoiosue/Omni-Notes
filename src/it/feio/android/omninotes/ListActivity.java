@@ -883,9 +883,13 @@ public class ListActivity extends BaseActivity {
 		final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
 		final String[] arrayDialog = getResources().getStringArray(R.array.sortable_columns_human_readable);
 		
+		int selected = Arrays.asList(arrayDb).indexOf(prefs.getString(Constants.PREF_SORTING_COLUMN, arrayDb[0]));
+				
 		// Dialog and events creation
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.select_sorting_column).setItems(arrayDialog,
+		builder.setTitle(R.string.select_sorting_column)
+//				.setItems(arrayDialog,
+				.setSingleChoiceItems(arrayDialog, selected,
 				new DialogInterface.OnClickListener() {
 
 					// On choosing the new criteria will be saved into preferences and listview redesigned
@@ -895,6 +899,7 @@ public class ListActivity extends BaseActivity {
 						initNotesList(getIntent());
 						// Updates app widgets
 						notifyAppWidgets(mActivity);
+						dialog.dismiss();
 					}
 				});
 		return builder.create();
