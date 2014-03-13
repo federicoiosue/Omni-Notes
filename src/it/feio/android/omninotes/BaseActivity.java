@@ -42,7 +42,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -382,6 +382,7 @@ public class BaseActivity extends ActionBarActivity {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static void notifyAppWidgets(Context mActivity) {
+		// Home widgets
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
 			int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity,
@@ -389,6 +390,9 @@ public class BaseActivity extends ActionBarActivity {
 			Log.d(Constants.TAG, "Notifies AppWidget data changed for widgets " + ids);
 			mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 		}
+		
+		// Dashclock
+	    LocalBroadcastManager.getInstance(mActivity).sendBroadcast(new Intent(Constants.INTENT_UPDATE_DASHCLOCK));
 	}
 	
 	

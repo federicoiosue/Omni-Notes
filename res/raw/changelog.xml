@@ -22,7 +22,8 @@
         <changelogtext>Improved speed in retrieving content text when checklist is active</changelogtext>  
         <changelogtext>Translations updated</changelogtext>  
         <changelogtext>[u]Fixed[/u] Settings restore from backup</changelogtext>   
-        <changelogtext>[u]Fixed[/u] A LOT of minor issues have been resolved and many refinements done</changelogtext>   
+        <changelogtext>[u]Fixed[/u] Dashclock extension is now updated in real time</changelogtext>   
+        <changelogtext>[u]Fixed[/u] A [u]lot[/u] of minor issues have been resolved and many refinements done</changelogtext>   
     </changelogversion>
 
     <changelogversion versionName="4.4.0 Beta 8" changeDate="Mar 10, 2014"> 

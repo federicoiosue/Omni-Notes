@@ -23,7 +23,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v4.util.LruCache;
 import android.text.TextUtils;
 import android.util.Log;

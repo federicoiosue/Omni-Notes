@@ -70,6 +70,7 @@ public interface Constants {
     final String INTENT_DETAIL_RESULT_MESSAGE = "detail_result_message";
 	final String INTENT_GOOGLE_NOW = "com.google.android.gm.action.AUTO_SEND";
 	final String INTENT_WIDGET = "widget_id";
+	final String INTENT_UPDATE_DASHCLOCK = "update_dashclock";
     
     // Custom intent actions
     final String ACTION_DATA_EXPORT = "action_data_export";
