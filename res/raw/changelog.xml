@@ -19,6 +19,7 @@
     <changelogversion versionName="4.4.0 Beta 9" changeDate="Mar 13, 2014">  
         <changelogtext>[b]New![/b] New KitKat storage app used to include images and videos</changelogtext>  
         <changelogtext>[b]New![/b] Improved Sketch mode with new eraser tool and fixed color saturation</changelogtext>  
+        <changelogtext>Improved speed in retrieving content text when checklist is active</changelogtext>  
         <changelogtext>[u]Fixed[/u] A LOT of minor issues have been resolved and many refinements done</changelogtext>   
     </changelogversion>
 
