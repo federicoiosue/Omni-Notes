@@ -32,9 +32,9 @@ import android.util.Log;
 						
 				httpMethod = Method.PUT,
 			    reportType = Type.JSON,
-			    formUri = "http://omninotes.iriscouch.com/acra-omninotes/_design/acra-storage/_update/report",
-			    formUriBasicAuthLogin = "reportUser",
-			    formUriBasicAuthPassword = "reportUserPassword",
+			    formUri = "http://feio.cloudant.com/acra-omninotes/_design/acra-storage/_update/report",
+			    formUriBasicAuthLogin = "thelescivessiandesedclik",
+			    formUriBasicAuthPassword = "uScXIHpchNKfuCdgbm3nHTjo",
 						
 				mode = ReportingInteractionMode.DIALOG, 
 				resDialogCommentPrompt = R.string.crash_dialog_comment_prompt, 

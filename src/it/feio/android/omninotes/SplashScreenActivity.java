@@ -51,6 +51,9 @@ public class SplashScreenActivity extends BaseActivity {
 	 */
 	private void init() {
 		
+		String str = "fava";
+		String str1 = str.substring(5);
+		
 		// Getting last opening time
 		long openTime = Calendar.getInstance().getTimeInMillis();
 		long lastOpenTime = prefs.getLong("last_app_open", openTime - Constants.SPLASH_MIN_OFFSET);
