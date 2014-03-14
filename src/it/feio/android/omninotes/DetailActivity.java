@@ -136,7 +136,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private static final int TAG = 7;
 	private static final int DETAIL = 8;
 
-	private FragmentActivity mActivity;
+	private Activity mActivity;
 	private ShareActionProvider mShareActionProvider;
 	private LinearLayout reminder_layout;
 	private TextView datetime;	
@@ -407,6 +407,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		toggleChecklistView = content;
 		if (noteTmp.isChecklist()) {
 			noteTmp.setChecklist(false);
+			toggleChecklistView.setVisibility(View.INVISIBLE);
 			toggleChecklist2();
 		}
 
@@ -996,42 +997,70 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	/**
 	 * Toggles checklist view
 	 */
+	@SuppressLint("NewApi")
 	private void toggleChecklist2() {
 		
-		// Get instance and set options to convert EditText to CheckListView
-		mChecklistManager = ChecklistManager.getInstance(this);
-		mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
-				String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
-		mChecklistManager.setShowChecks(true);
-		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
-		// Set the textChangedListener on the replaced view
-		mChecklistManager.setCheckListChangedListener(this);
-		mChecklistManager.addTextChangedListener(this);
-		
-		// Links parsing options
-//		if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
-//		if (prefs.getBoolean("settings_enable_editor_links", false) ) {
-			mChecklistManager.setOnTextLinkClickListener(this);
-//		}
-		
-		// Options for converting back to simple text
-		mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
-		mChecklistManager.setShowChecks(prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true));
-		
-		// Switches the views
-		View newView;
-		try {
-			newView = mChecklistManager.convert(toggleChecklistView);
-			mChecklistManager.replaceViews(toggleChecklistView, newView);
-			toggleChecklistView = newView;
-			noteTmp.setChecklist(!noteTmp.isChecklist());
-						
-		} catch (ViewNotSupportedException e) {
-			e.printStackTrace();
+		class ChecklistTask extends AsyncTask<Void, Void, View> {
+			private View targetView;
+
+			public ChecklistTask(View targetView) {
+				this.targetView = targetView;
+			}
+
+			@Override
+			protected View doInBackground(Void... params) {
+
+				// Get instance and set options to convert EditText to CheckListView
+				mChecklistManager = ChecklistManager.getInstance(mActivity);
+				mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
+						String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
+				mChecklistManager.setShowChecks(true);
+				mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
+				// Set the textChangedListener on the replaced view
+				mChecklistManager.setCheckListChangedListener((DetailActivity)mActivity);
+				mChecklistManager.addTextChangedListener((DetailActivity)mActivity);
+				
+				// Links parsing options
+//				if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
+//				if (prefs.getBoolean("settings_enable_editor_links", false) ) {
+					mChecklistManager.setOnTextLinkClickListener((DetailActivity)mActivity);
+//				}
+				
+				// Options for converting back to simple text
+				mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
+				mChecklistManager.setShowChecks(prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true));
+				
+				// Switches the views
+				View newView = null;
+				try {
+					newView = mChecklistManager.convert(toggleChecklistView);								
+				} catch (ViewNotSupportedException e) {
+					Log.e(Constants.TAG, "Error switching checklist view", e);
+				}
+				
+				return newView;
+			}
+
+			@Override
+			protected void onPostExecute(View newView) {
+				super.onPostExecute(newView);
+				// Switches the views	
+				if (newView != null) {
+					mChecklistManager.replaceViews(toggleChecklistView, newView);
+					toggleChecklistView = newView;					
+					fade(toggleChecklistView, true);
+					noteTmp.setChecklist(!noteTmp.isChecklist());
+				}				
+			}
 		}
 		
-		// Called to switch menu voices
-		supportInvalidateOptionsMenu();
+		ChecklistTask task = new ChecklistTask(toggleChecklistView);		
+		if (Build.VERSION.SDK_INT >= 11) {
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		} else {
+			task.execute();
+		}
+		
 	}
 	
 
