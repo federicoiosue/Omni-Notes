@@ -58,6 +58,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:alpha="0.4"
                 android:background="@null"
                 android:contentDescription="@string/undo"
                 android:src="@drawable/ic_action_undo" />

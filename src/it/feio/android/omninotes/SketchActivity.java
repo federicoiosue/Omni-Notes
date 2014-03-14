@@ -2,6 +2,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.checklistview.utils.DensityUtil;
+import it.feio.android.omninotes.models.OnDrawChangedListener;
 import it.feio.android.omninotes.models.SketchView;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -44,7 +45,7 @@ import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
 
-public class SketchActivity extends BaseActivity {
+public class SketchActivity extends BaseActivity implements OnDrawChangedListener{
 
 	private Context mContext;
 	private ImageView stroke;
@@ -68,6 +69,7 @@ public class SketchActivity extends BaseActivity {
 		
 		mContext = this;
 		mSketchView = (SketchView) findViewById(R.id.drawing);
+		mSketchView.setOnDrawChangedListener(this);
 		
 		Uri baseUri = getIntent().getParcelableExtra("base");
 		if (baseUri != null) {
@@ -263,7 +265,13 @@ public class SketchActivity extends BaseActivity {
 	}
 	
 	
-	public void updateRedoAlpha() {
+	public void updateUndoRedoAlpha() {
+		// Undo
+		if (mSketchView.getPaths().size() > 0)
+			AlphaManager.setAlpha(undo, 1f);
+		else
+			AlphaManager.setAlpha(undo, 0.4f);
+		// Redo
 		if (mSketchView.getUndoneCount() > 0)
 			AlphaManager.setAlpha(redo, 1f);
 		else
@@ -345,6 +353,12 @@ public class SketchActivity extends BaseActivity {
 		}
 		
 		mSketchView.setSize(newSize, eraserOrStroke);
+	}
+
+
+	@Override
+	public void onDrawChanged() {
+		updateUndoRedoAlpha();
 	}
 		
 		

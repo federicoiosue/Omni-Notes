@@ -45,6 +45,8 @@ public class SketchView extends View implements OnTouchListener {
 	private Bitmap bitmap;
 
 	private int mode = STROKE;
+
+	private OnDrawChangedListener onDrawChangedListener;
 	
 
 	public SketchView(Context context, AttributeSet attr) {
@@ -201,7 +203,8 @@ public class SketchView extends View implements OnTouchListener {
 		m_Path = new Path();
 		
 		// Advice to activity
-		((SketchActivity)mContext).updateRedoAlpha();	
+//		((SketchActivity)mContext).updateRedoAlpha();	
+		onDrawChangedListener.onDrawChanged();
 	}
 
 	
@@ -229,7 +232,8 @@ public class SketchView extends View implements OnTouchListener {
 			undonePaths.add(paths.remove(paths.size() - 1));
 			// If there is not only one path remained both touch and move paths are removed
 			undonePaths.add(paths.remove(paths.size() - 1));
-			((SketchActivity)mContext).updateRedoAlpha();	
+//			((SketchActivity)mContext).updateRedoAlpha();	
+			onDrawChangedListener.onDrawChanged();
 			invalidate();
 		}
 	}
@@ -238,7 +242,8 @@ public class SketchView extends View implements OnTouchListener {
 		if (undonePaths.size() > 0) {
 			paths.add(undonePaths.remove(undonePaths.size() - 1));
 			paths.add(undonePaths.remove(undonePaths.size() - 1));
-			((SketchActivity)mContext).updateRedoAlpha();	
+//			((SketchActivity)mContext).updateRedoAlpha();	
+			onDrawChangedListener.onDrawChanged();
 			invalidate();
 		}
 	}
@@ -292,5 +297,10 @@ public class SketchView extends View implements OnTouchListener {
 		paths.clear();
 		undonePaths.clear();
 		invalidate();
+	}
+
+
+	public void setOnDrawChangedListener(OnDrawChangedListener listener) {
+		this.onDrawChangedListener = listener;
 	}
 }
