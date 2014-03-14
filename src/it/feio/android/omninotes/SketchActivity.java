@@ -265,20 +265,6 @@ public class SketchActivity extends BaseActivity implements OnDrawChangedListene
 	}
 	
 	
-	public void updateUndoRedoAlpha() {
-		// Undo
-		if (mSketchView.getPaths().size() > 0)
-			AlphaManager.setAlpha(undo, 1f);
-		else
-			AlphaManager.setAlpha(undo, 0.4f);
-		// Redo
-		if (mSketchView.getUndoneCount() > 0)
-			AlphaManager.setAlpha(redo, 1f);
-		else
-			AlphaManager.setAlpha(redo, 0.4f);
-	}
-	
-	
 	// The method that displays the popup.
 	private void showPopup(View anchor, final int eraserOrStroke) {
 		
@@ -358,7 +344,16 @@ public class SketchActivity extends BaseActivity implements OnDrawChangedListene
 
 	@Override
 	public void onDrawChanged() {
-		updateUndoRedoAlpha();
+		// Undo
+		if (mSketchView.getPaths().size() > 0)
+			AlphaManager.setAlpha(undo, 1f);
+		else
+			AlphaManager.setAlpha(undo, 0.4f);
+		// Redo
+		if (mSketchView.getUndoneCount() > 0)
+			AlphaManager.setAlpha(redo, 1f);
+		else
+			AlphaManager.setAlpha(redo, 0.4f);
 	}
 		
 		

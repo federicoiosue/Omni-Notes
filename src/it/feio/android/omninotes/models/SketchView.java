@@ -1,7 +1,5 @@
 package it.feio.android.omninotes.models;
 
-import it.feio.android.omninotes.SketchActivity;
-
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -32,7 +30,7 @@ public class SketchView extends View implements OnTouchListener {
 	private float eraserSize = DEFAULT_ERASER_SIZE;
 	private int background = Color.WHITE;
 	
-	private Canvas mCanvas;
+//	private Canvas mCanvas;
 	private Path m_Path;
 	private Paint m_Paint;
 	private float mX, mY;
@@ -69,7 +67,7 @@ public class SketchView extends View implements OnTouchListener {
 		m_Paint.setStrokeCap(Paint.Cap.ROUND);
 		m_Paint.setStrokeWidth(strokeSize);
 
-		mCanvas = new Canvas();
+//		mCanvas = new Canvas();
 		m_Path = new Path();
 		Paint newPaint = new Paint(m_Paint);
 		invalidate();
@@ -102,20 +100,20 @@ public class SketchView extends View implements OnTouchListener {
 		}
 		this.bitmap = bitmap;
 //		this.bitmap = getScaledBitmap(mActivity, bitmap);
-		mCanvas = new Canvas(bitmap);
+//		mCanvas = new Canvas(bitmap);
 	}
 	
 	
-	private Bitmap getScaledBitmap(Activity mActivity, Bitmap bitmap) {
-		DisplayMetrics display = new DisplayMetrics();
-		mActivity.getWindowManager().getDefaultDisplay().getMetrics(display);
-		int screenWidth = display.widthPixels;
-		int screenHeight = display.heightPixels;
-		float scale = bitmap.getWidth() / screenWidth > bitmap.getHeight() / screenHeight ? bitmap.getWidth() / screenWidth : bitmap.getHeight() / screenHeight;
-		int scaledWidth = (int) (bitmap.getWidth() / scale);
-		int scaledHeight = (int) (bitmap.getHeight() / scale);
-		return Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
-	}
+//	private Bitmap getScaledBitmap(Activity mActivity, Bitmap bitmap) {
+//		DisplayMetrics display = new DisplayMetrics();
+//		mActivity.getWindowManager().getDefaultDisplay().getMetrics(display);
+//		int screenWidth = display.widthPixels;
+//		int screenHeight = display.heightPixels;
+//		float scale = bitmap.getWidth() / screenWidth > bitmap.getHeight() / screenHeight ? bitmap.getWidth() / screenWidth : bitmap.getHeight() / screenHeight;
+//		int scaledWidth = (int) (bitmap.getWidth() / scale);
+//		int scaledHeight = (int) (bitmap.getHeight() / scale);
+//		return Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
+//	}
 	
 	
 	@Override
@@ -150,7 +148,7 @@ public class SketchView extends View implements OnTouchListener {
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas) {
+	protected void onDraw(Canvas canvas) {		
 		if (bitmap != null) {
 			canvas.drawBitmap(bitmap, 0, 0, null);
 		}
@@ -158,6 +156,8 @@ public class SketchView extends View implements OnTouchListener {
 		for (Pair<Path, Paint> p : paths) {
 			canvas.drawPath((Path) p.first, (Paint) p.second);				
 		}
+		
+		onDrawChangedListener.onDrawChanged();
 	}
 
 	private void touch_start(float x, float y) {
@@ -194,17 +194,10 @@ public class SketchView extends View implements OnTouchListener {
 	private void touch_up() {
 		m_Path.lineTo(mX, mY);
 
-		// commit the path to our offscreen
-		mCanvas.drawPath(m_Path, m_Paint);
-
 		Paint newPaint = new Paint(m_Paint); // Clones the mPaint object
 		paths.add(new Pair<Path, Paint>(m_Path, newPaint));
 		// kill this so we don't double draw
 		m_Path = new Path();
-		
-		// Advice to activity
-//		((SketchActivity)mContext).updateRedoAlpha();	
-		onDrawChangedListener.onDrawChanged();
 	}
 
 	
@@ -219,10 +212,10 @@ public class SketchView extends View implements OnTouchListener {
 		if (bitmap == null) {
 			bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 			bitmap.eraseColor(background);
-			Canvas canvas = new Canvas(bitmap);
-			for (Pair<Path, Paint> p : paths) {
-				canvas.drawPath((Path) p.first, (Paint) p.second);				
-			}
+		}
+		Canvas canvas = new Canvas(bitmap);
+		for (Pair<Path, Paint> p : paths) {
+			canvas.drawPath((Path) p.first, (Paint) p.second);				
 		}
 		return bitmap;
 	}
@@ -232,8 +225,6 @@ public class SketchView extends View implements OnTouchListener {
 			undonePaths.add(paths.remove(paths.size() - 1));
 			// If there is not only one path remained both touch and move paths are removed
 			undonePaths.add(paths.remove(paths.size() - 1));
-//			((SketchActivity)mContext).updateRedoAlpha();	
-			onDrawChangedListener.onDrawChanged();
 			invalidate();
 		}
 	}
@@ -242,8 +233,6 @@ public class SketchView extends View implements OnTouchListener {
 		if (undonePaths.size() > 0) {
 			paths.add(undonePaths.remove(undonePaths.size() - 1));
 			paths.add(undonePaths.remove(undonePaths.size() - 1));
-//			((SketchActivity)mContext).updateRedoAlpha();	
-			onDrawChangedListener.onDrawChanged();
 			invalidate();
 		}
 	}
