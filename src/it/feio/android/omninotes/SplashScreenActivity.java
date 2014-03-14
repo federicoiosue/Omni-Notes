@@ -15,12 +15,12 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.Map;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,6 +32,7 @@ import android.view.Window;
 public class SplashScreenActivity extends BaseActivity {
 	
 	private Intent launchMainActivity = new Intent();
+	private Activity mActivity;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class SplashScreenActivity extends BaseActivity {
 		// Hiding actionbar for splashscreen
 		getSupportActionBar().hide();
 		
+		mActivity = this;
 		init();
 	}
 
@@ -50,9 +52,6 @@ public class SplashScreenActivity extends BaseActivity {
 	 * Checks if splashscreen must be shown and launches ListActivity
 	 */
 	private void init() {
-		
-		String str = "fava";
-		String str1 = str.substring(5);
 		
 		// Getting last opening time
 		long openTime = Calendar.getInstance().getTimeInMillis();
@@ -99,21 +98,7 @@ public class SplashScreenActivity extends BaseActivity {
 	 */
 	private void requestShowCaseViewVisualization() {
 		
-		boolean firstLaunch = true;
-		
-		// All  the preferences will be cycled until 
-		Map<String, ?> prefsMap = prefs.getAll();
-		final Iterator<?> it = prefsMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry mapEntry = (Map.Entry) it.next();
-			String key = mapEntry.getKey().toString();
-			if (key.contains(Constants.PREF_TOUR_PREFIX)) {
-				firstLaunch = false;
-				break;
-			}
-		}
-		
-		if (firstLaunch) {		
+		if (AppTourHelper.neverDone(this)) {		
 			final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 			alertDialogBuilder
 				.setTitle(R.string.app_name)
@@ -125,8 +110,8 @@ public class SplashScreenActivity extends BaseActivity {
 					}			
 			}).setNegativeButton(R.string.not_now, new DialogInterface.OnClickListener() {
 				@Override
-				public void onClick(DialogInterface dialog, int id) {					
-					prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
+				public void onClick(DialogInterface dialog, int id) {
+					AppTourHelper.skip(mActivity);
 					launchMainActivity();
 				}
 			});

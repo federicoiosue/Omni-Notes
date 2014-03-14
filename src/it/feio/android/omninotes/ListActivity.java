@@ -25,6 +25,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -509,7 +510,7 @@ public class ListActivity extends BaseActivity {
 					showCaseView(list, new OnShowcaseAcknowledged() {			
 						@Override
 						public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-							prefs.edit().putBoolean(instructionName, true).commit();
+							AppTourHelper.complete(mActivity, instructionName);
 							mDrawerLayout.closeDrawer(GravityCompat.START);
 
 					    	// Attaches a dummy image as example
@@ -581,7 +582,7 @@ public class ListActivity extends BaseActivity {
 			showCaseView(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-					prefs.edit().putBoolean(instructionName, true).commit();
+					AppTourHelper.complete(mActivity, instructionName);
 					mDrawerLayout.openDrawer(GravityCompat.START);				
 				}
 			});		
@@ -862,7 +863,7 @@ public class ListActivity extends BaseActivity {
 			showCaseView(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-					prefs.edit().putBoolean(instructionName, true).commit();
+					AppTourHelper.complete(mActivity, instructionName);
 				}
 			});	
 	    }

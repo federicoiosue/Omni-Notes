@@ -16,6 +16,7 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 
@@ -472,17 +473,7 @@ public class SettingsActivity extends PreferenceActivity {
 						.setMessage(getString(R.string.settings_tour_show_again_summary) + "?")
 						.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
-								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false).commit();
-								// All the tour preferences will be cycled to reset them
-								Map<String, ?> prefsMap = prefs.getAll();
-								Iterator<?> it = prefsMap.entrySet().iterator();
-								while (it.hasNext()) {
-									Map.Entry mapEntry = (Map.Entry) it.next();
-									String key = mapEntry.getKey().toString();
-									if (key.contains(Constants.PREF_TOUR_PREFIX)) {
-										prefs.edit().putBoolean(key, false).commit();
-									}
-								}
+								AppTourHelper.reset(activity);
 								restartApp();
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
