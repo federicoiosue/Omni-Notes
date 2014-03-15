@@ -66,6 +66,8 @@ public class SketchActivity extends BaseActivity implements OnDrawChangedListene
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sketch);
+
+		setActionBarTitle(getString(R.string.title_activity_sketch));
 		
 		mContext = this;
 		mSketchView = (SketchView) findViewById(R.id.drawing);

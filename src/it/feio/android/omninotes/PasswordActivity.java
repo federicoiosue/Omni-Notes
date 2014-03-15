@@ -32,6 +32,8 @@ public class PasswordActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_password);
+
+		setActionBarTitle(getString(R.string.title_activity_password));
 		
 		initViews();
 	}

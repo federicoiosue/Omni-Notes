@@ -36,6 +36,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -421,6 +423,28 @@ public class BaseActivity extends ActionBarActivity {
 			}
 			
 		}
+	}
+	
+	
+	protected void setActionBarTitle(String title) {
+		// Creating a spannable to support custom fonts on ActionBar
+		int actionBarTitle = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+		android.widget.TextView actionBarTitleView = (android.widget.TextView) getWindow().findViewById(actionBarTitle);
+//				actionBarTitleView.setTextAppearance(this, R.style.Text_Big);
+		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
+		if (actionBarTitleView != null) {
+		    actionBarTitleView.setTypeface(font);
+		}
+		
+//				SpannableString s = new SpannableString(title);
+//			    s.setSpan(new TypefaceSpan(font), 0, s.length(),
+//			            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+	 
+	    // Update the action bar title with the TypefaceSpan instance
+//			    ActionBar actionBar = getActionBar();
+//			    actionBar.setTitle(s);
+	    
+		getSupportActionBar().setTitle(title);
 	}
 
 	
