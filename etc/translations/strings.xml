@@ -147,6 +147,7 @@
     <string name="copy">Copy</string>
     <string name="no_application_can_perform_this_action">No application can perform this action</string>
     <string name="eraser">Eraser</string>
+    <string name="image">Image</string>
     
 
     <!-- Settings -->
@@ -235,6 +236,7 @@
     <string name="wrong_answer">Wrong answer</string>
     <string name="colors_app">Application\'s colors</string>
     <string name="colors_widget">Widget\'s colors</string>
+    <string name="settings_instant_search">Instant search</string>
 
     <!-- Instructions -->
     <string name="tour_request_start">You launched Omni Note for the first time, would you like to make an application tour?</string>

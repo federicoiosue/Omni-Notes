@@ -95,8 +95,8 @@
   <string name="notes_tagged_as">Poznámky boli označené ako</string>
   <string name="insert_security_password">Vložte bezpečnostné heslo</string>
   <string name="lock">Skryť</string>
-  <string name="save_note_to_lock_it">Uložiť poznámku pre jej skrytie</string>
-  <string name="save_note_to_unlock_it">Uložiť poznámku pre jej zobrazenie</string>
+  <string name="save_note_to_lock_it">Uložte poznámku pre jej skrytie</string>
+  <string name="save_note_to_unlock_it">Uložte poznámku pre jej zobrazenie</string>
   <string name="unlock">Zobraziť</string>
   <string name="title_activity_password">Upraviť bezpečnostné heslo</string>
   <string name="title_activity_about">Informácie</string>
@@ -146,6 +146,7 @@
   <string name="copy">Kopírovať</string>
   <string name="no_application_can_perform_this_action">Žiadna aplikácia nemôže vykonať túto akciu</string>
   <string name="eraser">Guma</string>
+  <string name="image">Obrázok</string>
   <string name="dashclock_description">Zobrazí niektoré štatistiky a blížiace sa pripomienky z Omni Notes</string>
   <string name="settings">Nastavenia</string>
   <string name="settings_about">Informácie</string>
@@ -176,7 +177,7 @@
   <string name="settings_category_data">Údaje</string>
   <string name="settings_backup">Zálohovať</string>
   <string name="settings_password">Heslo</string>
-  <string name="settings_password_instructions">Bezpečnostné heslo sa používa, aby sa zabezpečilo, že chránené poznámky nebudú prehliadané, upravované alebo vymazané bez povolenia.\n\nZakaždým, keď sa budete snažiť zmeniť bezpečnostné heslo, predchádzajúce heslo bude požadované.\n\nNastavte prázdne heslo na jeho vymazanie</string>
+  <string name="settings_password_instructions">Bezpečnostné heslo sa používa, aby sa zabezpečilo, že chránené poznámky nebudú prehliadané, upravované alebo vymazané bez povolenia.\n\nZakaždým, keď sa budete snažiť zmeniť bezpečnostné heslo, predchádzajúce heslo bude požadované.\n\nNastavte prázdne heslo na jeho vymazanie.</string>
   <string name="settings_password_not_matching">Heslá chýbajú alebo nie sa nezhodujú</string>
   <string name="insert_new_password">Vložte nové heslo</string>
   <string name="confirm_new_password">Potvrďte nové heslo</string>
@@ -218,7 +219,7 @@
   <string name="settings_tour_show_again_summary">Zobraziť znovu prehliadku aplikácie s pokynmi</string>
   <string name="backup_include_settings">Zahrnúť nastavenia (s heslom)</string>
   <string name="settings_included">nastavenia zahrnuté</string>
-  <string name="settings_password_question_instructions">Vložte otázku a tajnú odpoveď na obnovenie hesla v prípade zabudnutia</string>
+  <string name="settings_password_question_instructions">Vložte otázku a tajnú odpoveď na obnovenie hesla v prípade zabudnutia.</string>
   <string name="settings_password_question">Otázka</string>
   <string name="settings_password_answer">Odpoveď</string>
   <string name="settings_password_answer_check">Potvrďte odpoveď</string>
@@ -228,6 +229,7 @@
   <string name="wrong_answer">Nesprávna odpoveď</string>
   <string name="colors_app">Farby aplikácie</string>
   <string name="colors_widget">Fabry miniaplikácie</string>
+  <string name="settings_instant_search">Rýchle hľadanie</string>
   <string name="tour_request_start">Spustili ste Omni Notes po prvý krát. Chcete si prezieť prehliadku aplikácie?</string>
   <string name="tour_listactivity_intro_title">Vitajte v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Stlačte \"Pokračovať\" na pokračovanie v prehliadke</string>

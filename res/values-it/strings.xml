@@ -147,6 +147,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="copy">Copia</string>
   <string name="no_application_can_perform_this_action">Nessuna applicazione trovata per eseguire quest\'azione</string>
   <string name="eraser">Gomma da cancellare</string>
+  <string name="image">Immagine</string>
   <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
   <string name="settings">Impostazioni</string>
   <string name="settings_about">Info</string>
@@ -231,6 +232,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="wrong_answer">Risposta sbagliata</string>
   <string name="colors_app">Colori applicazione</string>
   <string name="colors_widget">Colori widget</string>
+  <string name="settings_instant_search">Ricerca istantanea</string>
   <string name="tour_request_start">E\' la prima volta che esegui Omni Notes, vuoi effettuare un tour dell\'applicazione?</string>
   <string name="tour_listactivity_intro_title">Benvenuti in Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Premere \"Prosegui\" per continuare il tour</string>

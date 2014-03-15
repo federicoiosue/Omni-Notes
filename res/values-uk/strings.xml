@@ -146,6 +146,7 @@
   <string name="copy">Копіювати</string>
   <string name="no_application_can_perform_this_action">Немає програм для цієї дії</string>
   <string name="eraser">Очищувач</string>
+  <string name="image">Зображення</string>
   <string name="dashclock_description">Відображає деяку статистику і найближчі події в Omni Notes</string>
   <string name="settings">Налаштування</string>
   <string name="settings_about">Інформація</string>
@@ -231,6 +232,7 @@
   <string name="wrong_answer">Неправильна відповідь</string>
   <string name="colors_app">Кольори програми</string>
   <string name="colors_widget">Кольори віджета</string>
+  <string name="settings_instant_search">Миттєвий пошук</string>
   <string name="tour_request_start">Ви запустили Omni Notes вперше, бажаєте ознайомитись з коротким довідником?</string>
   <string name="tour_listactivity_intro_title">Ласкаво просимо до Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">натисніть \"Продовжити\", щоб ознайомитися з програмою</string>

@@ -146,6 +146,7 @@
   <string name="copy">Kopiraj</string>
   <string name="no_application_can_perform_this_action">Tega ravnanja ne podpira nobena aplikacija</string>
   <string name="eraser">Radirka</string>
+  <string name="image">Podoba</string>
   <string name="dashclock_description">Prikaz nekaterih statistik in bližnjih opomnikov iz Omni Notes</string>
   <string name="settings">Nastavitve</string>
   <string name="settings_about">Info</string>
@@ -229,6 +230,7 @@ vnesti starega.\n\nZa odstranitev gesla pustite prazno</string>
   <string name="wrong_answer">Napačen odgovor</string>
   <string name="colors_app">Barve aplikacije</string>
   <string name="colors_widget">Barve gradnikov</string>
+  <string name="settings_instant_search">Hitro iskanje</string>
   <string name="tour_request_start">Si želite ob prvem zagonu ogledati krajšo predstavitev aplikacije?</string>
   <string name="tour_listactivity_intro_title">Dobrodošli v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">klikni \'Nadaljuj\' za nadaljevanje predstavitve</string>

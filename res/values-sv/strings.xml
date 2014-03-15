@@ -146,6 +146,7 @@
   <string name="copy">Kopiera</string>
   <string name="no_application_can_perform_this_action">Ingen applikation kan slutföra denna åtgärd</string>
   <string name="eraser">Suddigummi</string>
+  <string name="image">Bild</string>
   <string name="dashclock_description">Visar statistik och närliggande påminnelser från Omni Tools</string>
   <string name="settings">Inställningar</string>
   <string name="settings_about">Informatr</string>
@@ -228,6 +229,7 @@
   <string name="wrong_answer">Fel svar</string>
   <string name="colors_app">Applikationens färger</string>
   <string name="colors_widget">Widgetens färger</string>
+  <string name="settings_instant_search">Snabbsökning</string>
   <string name="tour_request_start">Detta är första gången du kör Omni Tools, vill du få en genomgång av applikationen?</string>
   <string name="tour_listactivity_intro_title">Välkommen till Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Tryck \"Fortsätt\" för att fortsätta touren</string>

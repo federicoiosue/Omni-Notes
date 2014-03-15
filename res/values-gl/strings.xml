@@ -146,6 +146,7 @@
   <string name="copy">Copiar</string>
   <string name="no_application_can_perform_this_action">Ningún aplicativo pode executar esta acción</string>
   <string name="eraser">Goma de borrar</string>
+  <string name="image">Imaxe</string>
   <string name="dashclock_description">Mostrar algunhas estatísticas e recordatorios próximos de Omni Notes</string>
   <string name="settings">Axustes</string>
   <string name="settings_about">Información</string>
@@ -231,6 +232,7 @@
   <string name="wrong_answer">Resposta incorrecta</string>
   <string name="colors_app">Cores do aplicativo</string>
   <string name="colors_widget">Cores do widget</string>
+  <string name="settings_instant_search">Procurar inmediatamente</string>
   <string name="tour_request_start">Iniciaches Omni Notes por vez primeira, gustaríache dar unha volta polo aplicativo a modo de titorial?</string>
   <string name="tour_listactivity_intro_title">Benvido/a a Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">toca \"Continuar\" para seguir vendo a introdución</string>

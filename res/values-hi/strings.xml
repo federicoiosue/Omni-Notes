@@ -146,6 +146,7 @@
   <string name="copy">कॉपी</string>
   <string name="no_application_can_perform_this_action">कोई एप्लीकेशन ये काम नहीं कर सकती</string>
   <string name="eraser">इरेज़र</string>
+  <string name="image">Image</string>
   <string name="dashclock_description">Displays some statistics and approaching reminders from Omni Notes</string>
   <string name="settings">सेटिंग्स</string>
   <string name="settings_about">जानकारी</string>
@@ -228,6 +229,7 @@
   <string name="wrong_answer">गलत जवाब</string>
   <string name="colors_app">एप्लीकेशन का रंग</string>
   <string name="colors_widget">विजेट के रंग</string>
+  <string name="settings_instant_search">Instant search</string>
   <string name="tour_request_start">आपने ओमनी नोट पहला बार खोला हे, क्या आप एप्लीकेशन का टूर लेना चाहते हे ?</string>
   <string name="tour_listactivity_intro_title">ओमनी नोट्स में आपका स्वागत है!</string>
   <string name="tour_listactivity_intro_detail">टूर जारी रखने के लिए \"आगे बढ़ें\" दबाएँ</string>

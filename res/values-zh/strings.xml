@@ -146,6 +146,7 @@
   <string name="copy">保存</string>
   <string name="no_application_can_perform_this_action">没有应用程序可以执行此操作</string>
   <string name="eraser">橡皮擦</string>
+  <string name="image">图像</string>
   <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
   <string name="settings">设置</string>
   <string name="settings_about">信息</string>
@@ -228,6 +229,7 @@
   <string name="wrong_answer">答案错误</string>
   <string name="colors_app">应用内颜色设置</string>
   <string name="colors_widget">小部件颜色设置</string>
+  <string name="settings_instant_search">即时搜索</string>
   <string name="tour_request_start">这是您第一次使用Omni Note，您是否希望观看用户引导？</string>
   <string name="tour_listactivity_intro_title">欢迎使用 Omni Notes ！</string>
   <string name="tour_listactivity_intro_detail">点击\"继续\"观看引导</string>

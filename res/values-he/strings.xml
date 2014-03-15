@@ -146,6 +146,7 @@
   <string name="copy">העתקה</string>
   <string name="no_application_can_perform_this_action">אין אפליקציה שיכולה לבצע פעולה זו</string>
   <string name="eraser">Eraser</string>
+  <string name="image">Image</string>
   <string name="dashclock_description">Displays some statistics and approaching reminders from Omni Notes</string>
   <string name="settings">הגדרות</string>
   <string name="settings_about">מידע</string>
@@ -231,6 +232,7 @@
   <string name="wrong_answer">תשובה שגויה</string>
   <string name="colors_app">Application\'s colors</string>
   <string name="colors_widget">צבעי הוידג\'ט</string>
+  <string name="settings_instant_search">Instant search</string>
   <string name="tour_request_start">You launched Omni Note for the first time, would you like to make an application tour?</string>
   <string name="tour_listactivity_intro_title">ברוך הבא ל-Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">לחצו על \"הבא\" להמשך הסיור</string>

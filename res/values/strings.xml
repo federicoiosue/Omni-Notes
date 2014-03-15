@@ -248,6 +248,7 @@
     <string name="wrong_answer">Wrong answer</string>
     <string name="colors_app">Application\'s colors</string>
     <string name="colors_widget">Widget\'s colors</string>
+    <string name="settings_instant_search">Instant search</string>
 
     <!-- Instructions -->
     <string name="tour_request_start">You launched Omni Note for the first time, would you like to make an application tour?</string>

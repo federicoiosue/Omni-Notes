@@ -146,6 +146,7 @@
   <string name="copy">Kopie</string>
   <string name="no_application_can_perform_this_action">Geen toepassing kan deze actie uitvoeren</string>
   <string name="eraser">Gum</string>
+  <string name="image">Afbeelding</string>
   <string name="dashclock_description">Sommige statistieken en de naderende herinneringen van Omni notities worden weergegeven</string>
   <string name="settings">Instellingen</string>
   <string name="settings_about">Informatie</string>
@@ -228,6 +229,7 @@
   <string name="wrong_answer">Verkeerd antwoord</string>
   <string name="colors_app">Toepassing kleuren</string>
   <string name="colors_widget">Widget kleuren</string>
+  <string name="settings_instant_search">Direct zoeken</string>
   <string name="tour_request_start">U startte Omni Notes voor de eerste keer, zou u een rondleiding willen van de toepassing?</string>
   <string name="tour_listactivity_intro_title">Welkom bij Omni notities!</string>
   <string name="tour_listactivity_intro_detail">Druk op \"Verdergaan\" om door te gaan met de tour</string>

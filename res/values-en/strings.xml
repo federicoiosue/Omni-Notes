@@ -146,6 +146,7 @@
   <string name="copy">Copy</string>
   <string name="no_application_can_perform_this_action">No application found for this action</string>
   <string name="eraser">Eraser</string>
+  <string name="image">Image</string>
   <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
   <string name="settings">Settings</string>
   <string name="settings_about">Info</string>
@@ -228,6 +229,7 @@
   <string name="wrong_answer">Wrong answer</string>
   <string name="colors_app">Application color scheme</string>
   <string name="colors_widget">Widget color scheme</string>
+  <string name="settings_instant_search">Instant search</string>
   <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>
   <string name="tour_listactivity_intro_title">Welcome to Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">press \"Proceed\" to continue the tour</string>

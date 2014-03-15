@@ -146,6 +146,7 @@
   <string name="copy">ຄັດລອກ</string>
   <string name="no_application_can_perform_this_action">ບໍ່ມີແອັບພຼິເຄຊັນທີ່ສາມາດປະຕິບັດການເຄື່ອນໄຫວນີ້ໄດ້</string>
   <string name="eraser">ໂຕລຶບ</string>
+  <string name="image">ຮູບ</string>
   <string name="dashclock_description">ສະແດງສະຖິຕິຈຳນວນໜຶ່ງ ແລະ ເຂົ້າເຖິງໂຕເຕືອນຄວາມຈຳຈາກ Omni Notes</string>
   <string name="settings">ການ​ຕັ້ງຄ່າ</string>
   <string name="settings_about">ຂໍ້​ມູນ</string>
@@ -228,6 +229,7 @@
   <string name="wrong_answer">ຄຳຕອບຜິດ</string>
   <string name="colors_app">ສີຂອງແອັບພຼິເຄຊັນ</string>
   <string name="colors_widget">ສີຂອງວິດເຈັດ</string>
+  <string name="settings_instant_search">ຄົ້ນຫາທັນທີ</string>
   <string name="tour_request_start">ທ່ານເປີດໃຊ້ງານ Omni Notes ເປັນຄັ້ງທຳອິດ, ທ່ານຕ້ອງການເບິ່ງການແນະນຳແອັບພຼິເຄຊັນບໍ່?</string>
   <string name="tour_listactivity_intro_title">ຍິນດີຕ້ອນຮັບສູ່ Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">ກົດ \"ດຳເນີນການ\" ເພື່ອເບິ່ງການແນະນຳແອັບຯ</string>
