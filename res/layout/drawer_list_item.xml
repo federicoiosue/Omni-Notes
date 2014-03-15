@@ -35,7 +35,7 @@
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/horizontal_margin"
             android:paddingRight="@dimen/horizontal_margin"

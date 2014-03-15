@@ -43,7 +43,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -58,7 +60,10 @@ import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -163,7 +168,27 @@ public class ListActivity extends BaseActivity {
 						title = tag.getName();						
 			}
 		}
-		setTitle(title == null ? getString(R.string.title_activity_list) : title);
+		
+		title = title == null ? getString(R.string.title_activity_list) : title;
+		
+		// Creating a spannable to support custom fonts on ActionBar
+		int actionBarTitle = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+		android.widget.TextView actionBarTitleView = (android.widget.TextView) getWindow().findViewById(actionBarTitle);
+//		actionBarTitleView.setTextAppearance(this, R.style.Text_Big);
+		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
+		if (actionBarTitleView != null) {
+		    actionBarTitleView.setTypeface(font);
+		}
+		
+//		SpannableString s = new SpannableString(title);
+//	    s.setSpan(new TypefaceSpan(font), 0, s.length(),
+//	            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+	 
+	    // Update the action bar title with the TypefaceSpan instance
+//	    ActionBar actionBar = getActionBar();
+//	    actionBar.setTitle(s);
+	    
+		getSupportActionBar().setTitle(title);
 	}
 
 

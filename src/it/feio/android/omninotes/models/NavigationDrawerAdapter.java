@@ -21,19 +21,15 @@ import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Arrays;
 
-import javax.crypto.Mac;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 
 public class NavigationDrawerAdapter extends BaseAdapter {

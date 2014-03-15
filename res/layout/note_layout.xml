@@ -56,7 +56,6 @@
                     android:gravity="top|start"
                     android:singleLine="true"
                     android:textAppearance="@style/Text.Big"
-                    android:textColor="@color/list_note_title"
                     pixlui:typeface="RobotoSlab-Bold.ttf" />
 
                 <ImageView
@@ -107,7 +106,6 @@
                 android:layout_gravity="bottom|right"
                 android:singleLine="true"
                 android:textAppearance="@style/Text.Normal"
-                android:textColor="@color/list_note_title"
                 android:visibility="gone"
                 pixlui:typeface="RobotoSlab-Regular.ttf" />
 

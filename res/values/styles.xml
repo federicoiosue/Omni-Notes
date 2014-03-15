@@ -18,13 +18,13 @@
 
     <!-- the theme applied to the application or activity -->
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
-        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarStyle">@style/AppTheme.ActionBarStyle</item>
     	<item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
     </style>
 
     
     <!-- ActionBar styles -->
-    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+    <style name="AppTheme.ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar">
         <item name="background">@color/gray_bg</item>
     </style>
     
@@ -80,12 +80,12 @@
 
     <style name="Text.Big" parent="android:attr/textAppearanceSmall">
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/list_note_title</item>
+        <item name="android:textColor">@color/actionbar_title_text</item>
     </style>
 
     <style name="Text.Normal" parent="android:attr/textAppearanceSmall">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/list_note_title</item>
+        <item name="android:textColor">@color/actionbar_title_text</item>
     </style>
 
     <style name="Text.Small" parent="android:attr/textAppearanceSmall">
