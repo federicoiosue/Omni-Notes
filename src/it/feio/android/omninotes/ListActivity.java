@@ -43,9 +43,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -133,6 +131,18 @@ public class ListActivity extends BaseActivity {
 		UpdaterTask task = new UpdaterTask(this);
 		task.execute();		
 	}	
+	
+	
+	
+	@Override
+	public void onBackPressed() {
+		// Before exiting from app the navigation drawer is opened
+		if (mDrawerLayout != null && !mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+			mDrawerLayout.openDrawer(GravityCompat.START);
+		} else {
+			super.onBackPressed();
+		}
+	}
 
 
 
@@ -399,6 +409,7 @@ public class ListActivity extends BaseActivity {
 	private void initNavigationDrawer() {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerLayout.setFocusableInTouchMode(false);
 
 		// Sets the adapter for the MAIN navigation list view
 		mDrawerList = (ListView) findViewById(R.id.drawer_nav_list);
