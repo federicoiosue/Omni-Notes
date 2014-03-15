@@ -172,7 +172,11 @@ public class SketchView extends View implements OnTouchListener {
 		}
 
 		Paint newPaint = new Paint(m_Paint); // Clones the mPaint object
-		paths.add(new Pair<Path, Paint>(m_Path, newPaint));
+		
+		// Avoids that a sketch with just erasures is saved
+		if ( !(paths.size() == 0 && mode == ERASER && bitmap == null) ) {
+			paths.add(new Pair<Path, Paint>(m_Path, newPaint));
+		}
 		
 		m_Path.reset();
 		m_Path.moveTo(x, y);
@@ -192,9 +196,13 @@ public class SketchView extends View implements OnTouchListener {
 
 	private void touch_up() {
 		m_Path.lineTo(mX, mY);
-
 		Paint newPaint = new Paint(m_Paint); // Clones the mPaint object
-		paths.add(new Pair<Path, Paint>(m_Path, newPaint));
+		
+		// Avoids that a sketch with just erasures is saved
+		if ( !(paths.size() == 0 && mode == ERASER && bitmap == null) ) {
+			paths.add(new Pair<Path, Paint>(m_Path, newPaint));
+		}
+		
 		// kill this so we don't double draw
 		m_Path = new Path();
 	}
