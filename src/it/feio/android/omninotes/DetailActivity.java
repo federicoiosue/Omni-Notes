@@ -779,12 +779,15 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 							addressString = address.getThoroughfare() + ", " + address.getLocality();
 						} else {
 							Crouton.makeText(mActivity, R.string.location_not_found, ONStyle.WARN).show();
+							addressString = getString(R.string.location_not_found);
 						}
 					} else {
 						Crouton.makeText(mActivity, R.string.location_not_found, ONStyle.WARN).show();
+						addressString = getString(R.string.location_not_found);
 					}
 				} catch (IOException ex) {
 					Crouton.makeText(mActivity, R.string.location_not_found, ONStyle.WARN).show();
+					addressString = getString(R.string.location_not_found);
 				}
 				noteTmp.setAddress(addressString);
 				return addressString;
