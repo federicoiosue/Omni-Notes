@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingRight="16dp" >
+        android:paddingStart="16dp" >
 
         <View
             android:id="@+id/tag_marker"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="7dp"
-            android:paddingLeft="6dp"
+            android:paddingStart="6dp"
             android:paddingTop="7dp" >
 
             <LinearLayout
@@ -62,7 +62,7 @@
                     android:id="@+id/alarmIcon"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_gravity="right|top"
+                    android:layout_gravity="top|end"
                     android:src="@drawable/ic_reminder_dark"
                     android:visibility="gone" />
 
@@ -70,7 +70,7 @@
                     android:id="@+id/locationIcon"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_gravity="right|top"
+                    android:layout_gravity="top|end"
                     android:src="@drawable/ic_location_dark"
                     android:visibility="gone" />
 
@@ -78,7 +78,7 @@
                     android:id="@+id/archivedIcon"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_gravity="right|top"
+                    android:layout_gravity="top|end"
                     android:src="@drawable/ic_archive_dark"
                     android:visibility="gone" />
 
@@ -86,7 +86,7 @@
                     android:id="@+id/attachmentIcon"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_gravity="right|top"
+                    android:layout_gravity="top|end"
                     android:src="@drawable/ic_action_attachment"
                     android:visibility="gone" />
 
@@ -94,7 +94,7 @@
                     android:id="@+id/lockedIcon"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_gravity="right|top"
+                    android:layout_gravity="top|end"
                     android:src="@drawable/ic_action_secure"
                     android:visibility="gone" />
             </LinearLayout>
@@ -103,7 +103,7 @@
                 android:id="@+id/note_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
+                android:layout_gravity="start"
                 android:singleLine="true"
                 android:textAppearance="@style/Text.Normal"
                 android:visibility="gone"
@@ -113,8 +113,7 @@
                 android:id="@+id/note_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:gravity="bottom|right"
+                android:layout_gravity="end"
                 android:textAppearance="@style/Text.Small"
                 pixlui:typeface="Roboto-Regular.ttf" />
         </LinearLayout>

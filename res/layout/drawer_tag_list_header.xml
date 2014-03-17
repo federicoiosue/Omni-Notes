@@ -27,15 +27,15 @@
         android:gravity="bottom"
         android:layout_marginLeft="@dimen/horizontal_margin" 
         android:paddingRight="16dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="1dp"
         android:textAllCaps="true"
         android:text="@string/tags"
-        android:textAppearance="@style/Text.Normal"
-        android:textColor="@color/drawer_text" />
+        android:textAppearance="@style/Text.Small"
+        android:textColor="@color/actionbar_title_text" />
     
     <View 
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:layout_marginLeft="@dimen/horizontal_margin"
         android:layout_marginRight="@dimen/horizontal_margin"
         android:background="@color/drawer_line"
