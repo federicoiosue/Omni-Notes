@@ -134,15 +134,15 @@ public class ListActivity extends BaseActivity {
 	
 	
 	
-	@Override
-	public void onBackPressed() {
-		// Before exiting from app the navigation drawer is opened
-		if (mDrawerLayout != null && !mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-			mDrawerLayout.openDrawer(GravityCompat.START);
-		} else {
-			super.onBackPressed();
-		}
-	}
+//	@Override
+//	public void onBackPressed() {
+//		// Before exiting from app the navigation drawer is opened
+//		if (mDrawerLayout != null && !mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+//			mDrawerLayout.openDrawer(GravityCompat.START);
+//		} else {
+//			super.onBackPressed();
+//		}
+//	}
 
 
 
