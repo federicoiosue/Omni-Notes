@@ -1016,10 +1016,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				mChecklistManager.addTextChangedListener((DetailActivity)mActivity);
 				
 				// Links parsing options
-//				if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
-//				if (prefs.getBoolean("settings_enable_editor_links", false) ) {
-					mChecklistManager.setOnTextLinkClickListener((DetailActivity)mActivity);
-//				}
+				mChecklistManager.setOnTextLinkClickListener((DetailActivity)mActivity);
 				
 				// Options for converting back to simple text
 				mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
@@ -1226,7 +1223,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	 */
 	@TargetApi(19)
 	private void takeGalleryKitKat() {
-		final Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+		
+		final Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_GET_CONTENT);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 		alertDialogBuilder
@@ -1300,6 +1299,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				break;
 			case GALLERY:
 				String mimeType = StorageManager.getMimeTypeInternal(this,  intent.getData());
+				// Manages unknow formats
+				if (mimeType == null) {
+					Crouton.makeText(mActivity, R.string.error_saving_attachments,
+							ONStyle.WARN).show();
+					break;
+				}
 				attachment = new Attachment(intent.getData(), mimeType);
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();

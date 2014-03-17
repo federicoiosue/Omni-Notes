@@ -417,6 +417,8 @@ public class StorageManager {
 				mimeType = Constants.MIME_TYPE_AUDIO;
 			} else if (mimeType.contains("video/")) {
 				mimeType = Constants.MIME_TYPE_VIDEO;
+			} else {
+				mimeType = null;
 			}
 		}
 		return mimeType;
