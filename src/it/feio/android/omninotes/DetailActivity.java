@@ -384,23 +384,17 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		title = (EditText) findViewById(R.id.title);
 		title.setText(noteTmp.getTitle());
 		title.addTextChangedListener(this);		
+		title.gatherLinksForText();
+		title.setOnTextLinkClickListener(this);
 		
 		content = (EditText) findViewById(R.id.content);
 		content.setText(noteTmp.getContent());
 		content.addTextChangedListener(this);
-		
-		// Automatic links parsing if enabled 
-//		if (prefs.getBoolean("settings_enable_editor_links", false) && !Build.BRAND.equals("samsung")) {
-//		if (prefs.getBoolean("settings_enable_editor_links", false)) {
-//			title.setLinksClickable(true);
-//			Linkify.addLinks(title, Linkify.ALL);
-//			content.setLinksClickable(true);
-//			Linkify.addLinks(content, Linkify.ALL);
-			title.gatherLinksForText();
-			title.setOnTextLinkClickListener(this);
-			content.gatherLinksForText();
-			content.setOnTextLinkClickListener(this);
-//		}		
+		content.gatherLinksForText();
+		content.setOnTextLinkClickListener(this);
+		if (note.get_id() == 0) {
+			content.requestFocus();
+		}
 
 		// Restore checklist
 		toggleChecklistView = content;
@@ -409,7 +403,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			toggleChecklistView.setVisibility(View.INVISIBLE);
 			toggleChecklist2();
 		}
-
 		
 		// Initialization of location TextView
 		locationTextView = (TextView) findViewById(R.id.location);
@@ -736,14 +729,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void initNote() {
 
 		// Workaround to get widget acting correctly
-		if (note == null) {
+		if (note == null || note.get_id() == 0) {
 			note = new Note();
 		}
 		
-		// Is a shared intent
-		if (note.get_id() == 0) {
-			note = new Note();
-		}
+//		// Is a shared intent
+//		if (note.get_id() == 0) {
+//			note = new Note();
+//		}
 					
 		if (noteTmp.getAlarm() != null) {
 			dateTimeText = initAlarm(Long.parseLong(noteTmp.getAlarm()));

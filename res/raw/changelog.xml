@@ -16,9 +16,10 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.4.0 Beta 10" changeDate="Mar 15, 2014"> 
+    <changelogversion versionName="4.4.0 Beta 10" changeDate="Mar 17, 2014"> 
         <changelogtext>[b]New![/b] Navigation drawer and actionbar cosmetic changes to match each other and optimize space usage</changelogtext> 
         <changelogtext>[b]New![/b] When back button is pressed once in notes list the navigation panel is opened, on second press the app will be closed</changelogtext>  
+        <changelogtext>When creating new note the content field will directly gain focus and keyboard will be shown</changelogtext>
         <changelogtext>Faster checklist loading obtained opening note and creating checklist in parallel</changelogtext>  
         <changelogtext>Instant search when typing hangs are fixed and disabled by default. The feature is activable from settings</changelogtext>   
         <changelogtext>[u]Fixed[/u] Sketch mode undo-redo now correctly works when editing previously created sketches</changelogtext>  

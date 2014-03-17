@@ -95,7 +95,7 @@
         <!-- Detail -->
         <activity
             android:name="it.feio.android.omninotes.DetailActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.google.android.gm.action.AUTO_SEND" />
