@@ -16,10 +16,9 @@
 
 package it.feio.android.omninotes.models;
 
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.R;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -27,6 +26,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.widget.TextView;
+
+import com.nineoldandroids.animation.Animator.AnimatorListener;
 
 public class UndoBarController {
     private View mBarView;
@@ -46,7 +47,7 @@ public class UndoBarController {
 
     public UndoBarController(View undoBarView, UndoListener undoListener) {
         mBarView = undoBarView;
-        mBarAnimator = mBarView.animate();
+//        mBarAnimator = mBarView.animate();
         mUndoListener = undoListener;
 
         mMessageView = (TextView) mBarView.findViewById(R.id.undobar_message);
@@ -73,27 +74,30 @@ public class UndoBarController {
 
         mBarView.setVisibility(View.VISIBLE);
         if (immediate) {
-            mBarView.setAlpha(1);
+//            mBarView.setAlpha(1);
+            AlphaManager.setAlpha(mBarView, 1);
         } else {
-            mBarAnimator.cancel();
-            mBarAnimator
-                    .alpha(1)
-                    .setDuration(
-                            mBarView.getResources()
-                                    .getInteger(android.R.integer.config_shortAnimTime))
-                    .setListener(null);
+//            mBarAnimator.cancel();
+//            mBarAnimator
+//                    .alpha(1)
+//                    .setDuration(
+//                            mBarView.getResources()
+//                                    .getInteger(android.R.integer.config_shortAnimTime))
+//                    .setListener(null);
+            animate(mBarView).alpha(1).setDuration( mBarView.getResources()
+                                    .getInteger(android.R.integer.config_shortAnimTime));
         }
     }
 
     public void hideUndoBar(boolean immediate) {
         mHideHandler.removeCallbacks(mHideRunnable);
-//        if (immediate) {
+        if (immediate) {
             mBarView.setVisibility(View.GONE);
             AlphaManager.setAlpha(mBarView, 0);
             mUndoMessage = null;
             mUndoToken = null;
 
-//        } else {
+        } else {
 //            mBarAnimator.cancel();
 //            mBarAnimator
 //                    .alpha(0)
@@ -107,7 +111,39 @@ public class UndoBarController {
 //                            mUndoToken = null;
 //                        }
 //                    });
-//        }
+        	animate(mBarView)
+        		.alpha(0)
+        		.setDuration(mBarView.getResources().getInteger(android.R.integer.config_shortAnimTime))
+        		.setListener(new AnimatorListener() {
+					
+					@Override
+					public void onAnimationStart(com.nineoldandroids.animation.Animator arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onAnimationRepeat(com.nineoldandroids.animation.Animator arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onAnimationEnd(
+							com.nineoldandroids.animation.Animator arg0) {
+						mBarView.setVisibility(View.GONE);
+						mUndoMessage = null;
+						mUndoToken = null;
+					}
+					
+					@Override
+					public void onAnimationCancel(com.nineoldandroids.animation.Animator arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+        	
+        }
     }
 
     public void onSaveInstanceState(Bundle outState) {

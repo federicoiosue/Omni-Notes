@@ -25,6 +25,8 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.models.UndoBarController;
+import it.feio.android.omninotes.models.UndoBarController.UndoListener;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
@@ -49,6 +51,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -64,9 +67,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -82,7 +87,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
-public class ListActivity extends BaseActivity {
+public class ListActivity extends BaseActivity implements UndoListener, OnTouchListener {
 
 	static final int REQUEST_CODE_DETAIL = 1;	
 	private static final int REQUEST_CODE_TAG = 2;
@@ -107,6 +112,8 @@ public class ListActivity extends BaseActivity {
 	private boolean showListAnimation = true;
 	private AnimationDrawable jinglesAnimation;
 	private int listViewPosition;
+	private boolean undoPending;
+	private UndoBarController ubc;
 
 
 	@SuppressLint("NewApi")
@@ -129,7 +136,10 @@ public class ListActivity extends BaseActivity {
 
 		// Launching update task
 		UpdaterTask task = new UpdaterTask(this);
-		task.execute();		
+		task.execute();	
+		
+
+		ubc = new UndoBarController(findViewById(R.id.undobar), (ListActivity)mActivity);
 	}	
 	
 	
@@ -410,6 +420,9 @@ public class ListActivity extends BaseActivity {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setFocusableInTouchMode(false);
+		
+		// Manages touches for undo commit
+		mDrawerLayout.setOnTouchListener(this);
 
 		// Sets the adapter for the MAIN navigation list view
 		mDrawerList = (ListView) findViewById(R.id.drawer_nav_list);
@@ -1040,42 +1053,39 @@ public class ListActivity extends BaseActivity {
 	public void deleteSelectedNotes() {
 
 		// Confirm dialog creation
-		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
-				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
+//		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
+//				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int id) {
 						for (Note note : selectedNotes) {
-							deleteNote(note);
+//							deleteNote(note);
+							mAdapter.remove(note);
 						}
 						// Refresh view
 						ListView l = (ListView) findViewById(R.id.notes_list);
-						l.invalidateViews();					
-						
+						l.invalidateViews();			
+
 						// If list is empty again Mr Jingles will appear again
 						if (l.getCount() == 0)
-							listView.setEmptyView(findViewById(R.id.empty_list));
-
-						// Clears data structures
-						selectedNotes.clear();
-						mAdapter.clearSelectedItems();	
-						listView.clearChoices();
-						
-						// Advice to user
-						Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
-						mActionMode.finish(); // Action picked, so close the CAB
-					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
+							listView.setEmptyView(findViewById(R.id.empty_list));		
 						
 						mActionMode.finish(); // Action picked, so close the CAB
-					}
-				});
-		AlertDialog alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
+						
+						ubc.showUndoBar(false, getString(R.string.undo_message), null);
+						undoPending = true;
+//					}
+//				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int id) {
+//						
+//						mActionMode.finish(); // Action picked, so close the CAB
+//					}
+//				});
+//		AlertDialog alertDialog = alertDialogBuilder.create();
+//		alertDialog.show();
 
 	}
 	
@@ -1240,6 +1250,43 @@ public class ListActivity extends BaseActivity {
 	
 	public String getNavigationTmp() {
 		return this.navigationTmp;
+	}
+
+
+
+	@Override
+	public void onUndo(Parcelable token) {
+		initNotesList(getIntent());
+		ubc.hideUndoBar(false);
+	}
+
+
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		if (undoPending) {
+			undoPending = false;
+			commitDelete();
+		}
+		return false;
+	}
+
+
+
+	private void commitDelete() {
+		for (Note note : selectedNotes) {
+			deleteNote(note);
+		}
+
+		// Clears data structures
+		selectedNotes.clear();
+		mAdapter.clearSelectedItems();	
+		listView.clearChoices();
+
+		ubc.hideUndoBar(false);
+		
+		// Advice to user
+		Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
 	}
 
 

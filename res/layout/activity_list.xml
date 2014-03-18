@@ -60,18 +60,7 @@
                 pixlui:typeface="Roboto-Regular.ttf" />
         </LinearLayout>
         
-        <LinearLayout
-            android:id="@+id/undobar"
-            style="@style/UndoBar" >
-
-            <TextView
-                android:id="@+id/undobar_message"
-                style="@style/UndoBarMessage" />
-
-            <Button
-                android:id="@+id/undobar_button"
-                style="@style/UndoBarButton" />
-        </LinearLayout>
+        
 
         <LinearLayout
             android:id="@+id/left_drawer"
@@ -104,5 +93,20 @@
 	            android:scrollbarThumbVertical="@drawable/scroll_bar" />
         </LinearLayout>
     </android.support.v4.widget.DrawerLayout>
+    
+    <LinearLayout
+        android:id="@+id/undobar"
+        style="@style/UndoBar"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/undobar_message"
+            style="@style/UndoBarMessage"/>
+
+        <Button
+            android:id="@+id/undobar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </FrameLayout>

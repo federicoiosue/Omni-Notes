@@ -142,10 +142,10 @@
         <item name="android:drawableLeft">@drawable/ic_undobar_undo</item>
         <item name="android:drawablePadding">12dp</item>
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
-<!--         <item name="android:textAllCaps">true</item> -->
+<!--         <item name="android:textA llCaps">true</item> -->
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#fff</item>
-        <item name="android:text">@string/undo</item>
+        <item name="android:text">@string/undo_message</item>
     </style>
 
 </resources>
