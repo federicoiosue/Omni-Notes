@@ -393,7 +393,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		content.addTextChangedListener(this);
 		content.gatherLinksForText();
 		content.setOnTextLinkClickListener(this);
-		if (note.get_id() == 0) {
+		if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
 			content.requestFocus();
 		}
 
