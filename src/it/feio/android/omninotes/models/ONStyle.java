@@ -17,8 +17,8 @@ public static final int WarnOrange= R.color.warning;
 public static final int ConfirmGreen = R.color.confirm;
 public static final int InfoYellow = R.color.info;
 
-private static final int DURATION_SHORT  = 1500;
-private static final int DURATION_MEDIUM = 2300;
+private static final int DURATION_SHORT  = 1300;
+private static final int DURATION_MEDIUM = 2100;
 private static final int DURATION_LONG   = 3000;
 
 
@@ -27,7 +27,7 @@ static {
                 .setBackgroundColor(AlertRed)
 //                .setDuration(DURATION_LONG)
                 .setHeight(LayoutParams.WRAP_CONTENT)
-                .setConfiguration(new Configuration.Builder().setDuration(DURATION_LONG).build())
+                .setConfiguration(new Configuration.Builder().setDuration(DURATION_MEDIUM).build())
                 .build();
     WARN    = new Style.Builder()
 //                .setDuration(DURATION_MEDIUM)

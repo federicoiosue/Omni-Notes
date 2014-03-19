@@ -17,29 +17,34 @@
 package it.feio.android.omninotes.models;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
+
+import java.util.Locale;
+
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.R;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewPropertyAnimator;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.nineoldandroids.animation.Animator.AnimatorListener;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.nineoldandroids.view.ViewPropertyAnimator;
 
 public class UndoBarController {
     private View mBarView;
     private TextView mMessageView;
     private ViewPropertyAnimator mBarAnimator;
-    private Handler mHideHandler = new Handler();
+//    private Handler mHideHandler = new Handler();
 
     private UndoListener mUndoListener;
 
     // State objects
     private Parcelable mUndoToken;
     private CharSequence mUndoMessage;
+	private Button mButtonView;
 
     public interface UndoListener {
         void onUndo(Parcelable token);
@@ -48,11 +53,14 @@ public class UndoBarController {
     public UndoBarController(View undoBarView, UndoListener undoListener) {
         mBarView = undoBarView;
 //        mBarAnimator = mBarView.animate();
+        mBarAnimator = animate(mBarView);
         mUndoListener = undoListener;
 
         mMessageView = (TextView) mBarView.findViewById(R.id.undobar_message);
-        mBarView.findViewById(R.id.undobar_button)
-                .setOnClickListener(new View.OnClickListener() {
+        
+        mButtonView = (Button) mBarView.findViewById(R.id.undobar_button);
+        mButtonView.setText(mButtonView.getText().toString().toUpperCase(Locale.getDefault()));
+        mButtonView .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         hideUndoBar(false);
@@ -60,7 +68,7 @@ public class UndoBarController {
                     }
                 });
 
-        hideUndoBar(true);
+        hideUndoBar(false);
     }
 
     public void showUndoBar(boolean immediate, CharSequence message, Parcelable undoToken) {
@@ -68,29 +76,27 @@ public class UndoBarController {
         mUndoMessage = message;
         mMessageView.setText(mUndoMessage);
 
-        mHideHandler.removeCallbacks(mHideRunnable);
-        mHideHandler.postDelayed(mHideRunnable,
-                mBarView.getResources().getInteger(R.integer.undobar_hide_delay));
+//        mHideHandler.removeCallbacks(mHideRunnable);
+//        mHideHandler.postDelayed(mHideRunnable,
+//                mBarView.getResources().getInteger(R.integer.undobar_hide_delay));
 
         mBarView.setVisibility(View.VISIBLE);
         if (immediate) {
 //            mBarView.setAlpha(1);
             AlphaManager.setAlpha(mBarView, 1);
         } else {
-//            mBarAnimator.cancel();
-//            mBarAnimator
-//                    .alpha(1)
-//                    .setDuration(
-//                            mBarView.getResources()
-//                                    .getInteger(android.R.integer.config_shortAnimTime))
-//                    .setListener(null);
-            animate(mBarView).alpha(1).setDuration( mBarView.getResources()
-                                    .getInteger(android.R.integer.config_shortAnimTime));
+            mBarAnimator.cancel();
+            mBarAnimator
+                    .alpha(1)
+                    .setDuration(
+                            mBarView.getResources()
+                                    .getInteger(android.R.integer.config_shortAnimTime))
+                    .setListener(null);
         }
     }
 
     public void hideUndoBar(boolean immediate) {
-        mHideHandler.removeCallbacks(mHideRunnable);
+//        mHideHandler.removeCallbacks(mHideRunnable);
         if (immediate) {
             mBarView.setVisibility(View.GONE);
             AlphaManager.setAlpha(mBarView, 0);
@@ -98,51 +104,19 @@ public class UndoBarController {
             mUndoToken = null;
 
         } else {
-//            mBarAnimator.cancel();
-//            mBarAnimator
-//                    .alpha(0)
-//                    .setDuration(mBarView.getResources()
-//                            .getInteger(android.R.integer.config_shortAnimTime))
-//                    .setListener(new AnimatorListenerAdapter() {
-//                        @Override
-//                        public void onAnimationEnd(Animator animation) {
-//                            mBarView.setVisibility(View.GONE);
-//                            mUndoMessage = null;
-//                            mUndoToken = null;
-//                        }
-//                    });
-        	animate(mBarView)
-        		.alpha(0)
-        		.setDuration(mBarView.getResources().getInteger(android.R.integer.config_shortAnimTime))
-        		.setListener(new AnimatorListener() {
-					
-					@Override
-					public void onAnimationStart(com.nineoldandroids.animation.Animator arg0) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void onAnimationRepeat(com.nineoldandroids.animation.Animator arg0) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void onAnimationEnd(
-							com.nineoldandroids.animation.Animator arg0) {
-						mBarView.setVisibility(View.GONE);
-						mUndoMessage = null;
-						mUndoToken = null;
-					}
-					
-					@Override
-					public void onAnimationCancel(com.nineoldandroids.animation.Animator arg0) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
-        	
+            mBarAnimator.cancel();
+            mBarAnimator
+                    .alpha(0)
+                    .setDuration(mBarView.getResources()
+                            .getInteger(android.R.integer.config_shortAnimTime))
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mBarView.setVisibility(View.GONE);
+                            mUndoMessage = null;
+                            mUndoToken = null;
+                        }
+                    });
         }
     }
 
@@ -162,10 +136,10 @@ public class UndoBarController {
         }
     }
 
-    private Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hideUndoBar(false);
-        }
-    };
+//    private Runnable mHideRunnable = new Runnable() {
+//        @Override
+//        public void run() {
+//            hideUndoBar(false);
+//        }
+//    };
 }

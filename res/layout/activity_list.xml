@@ -19,8 +19,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true"
-    android:paddingTop="@dimen/padding_top_kitkat"
-    android:fitsSystemWindows="false" >
+    android:fitsSystemWindows="false"
+    android:paddingTop="@dimen/padding_top_kitkat" >
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -28,39 +28,44 @@
         android:layout_height="match_parent"
         android:background="@color/gray_bg" >
 
-        <ListView
-            android:id="@+id/notes_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:dividerHeight="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:scrollbarSize="4dp"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbarThumbVertical="@drawable/scroll_bar" >
-        </ListView>
-
         <LinearLayout
+   			android:id="@+id/list_root"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center" >
+            android:layout_height="match_parent" 
+            android:orientation="vertical" >
 
-            <com.neopixl.pixlui.components.textview.TextView
-                android:id="@+id/empty_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="10dp"
-                android:drawableTop="@animator/jingles_animation"
-                android:gravity="center"
-                android:text="@string/no_items_in_list"
-                android:textColor="@color/list_note_dates"
-                android:textSize="20sp"
-                android:visibility="gone"
-                pixlui:typeface="Roboto-Regular.ttf" />
+            <ListView
+                android:id="@+id/notes_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:dividerHeight="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:scrollbarSize="4dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbarThumbVertical="@drawable/scroll_bar" >
+            </ListView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center" >
+
+                <com.neopixl.pixlui.components.textview.TextView
+                    android:id="@+id/empty_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:drawableTop="@animator/jingles_animation"
+                    android:gravity="center"
+                    android:text="@string/no_items_in_list"
+                    android:textColor="@color/list_note_dates"
+                    android:textSize="20sp"
+                    android:visibility="gone"
+                    pixlui:typeface="Roboto-Regular.ttf" />
+            </LinearLayout>
         </LinearLayout>
-        
-        
 
         <LinearLayout
             android:id="@+id/left_drawer"
@@ -68,8 +73,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@color/navigation_bg"
-            android:orientation="vertical" 
-            android:paddingBottom="30dp">
+            android:orientation="vertical"
+            android:paddingBottom="30dp" >
 
             <ListView
                 android:id="@+id/drawer_nav_list"
@@ -88,25 +93,27 @@
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0dp"
                 android:overScrollMode="never"
-	            android:scrollbarSize="4dp"
-	            android:scrollbarStyle="outsideOverlay"
-	            android:scrollbarThumbVertical="@drawable/scroll_bar" />
+                android:scrollbarSize="4dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbarThumbVertical="@drawable/scroll_bar" />
         </LinearLayout>
     </android.support.v4.widget.DrawerLayout>
-    
+
     <LinearLayout
         android:id="@+id/undobar"
         style="@style/UndoBar"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/undobar_message"
-            style="@style/UndoBarMessage"/>
+            style="@style/UndoBarMessage" />
+
+        <View style="@style/UndoBarDivider" />
 
         <Button
             android:id="@+id/undobar_button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            style="@style/UndoBarButton" />
     </LinearLayout>
 
 </FrameLayout>

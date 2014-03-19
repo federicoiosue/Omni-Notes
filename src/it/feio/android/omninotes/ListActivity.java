@@ -74,6 +74,8 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -87,7 +89,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
-public class ListActivity extends BaseActivity implements UndoListener, OnTouchListener {
+public class ListActivity extends BaseActivity implements UndoListener {
 
 	static final int REQUEST_CODE_DETAIL = 1;	
 	private static final int REQUEST_CODE_TAG = 2;
@@ -112,8 +114,9 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 	private boolean showListAnimation = true;
 	private AnimationDrawable jinglesAnimation;
 	private int listViewPosition;
-	private boolean undoPending;
+	private boolean undoDelete = false, undoArchive = false;
 	private UndoBarController ubc;
+	private boolean sendToArchive;
 
 
 	@SuppressLint("NewApi")
@@ -239,9 +242,10 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Crouton.cancelAllCroutons();
+		commitPending();
 		listViewPosition = listView.getFirstVisiblePosition();
 		stopJingles();
+		Crouton.cancelAllCroutons();
 	}
 	
 	
@@ -289,7 +293,7 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 			}
 
 			// Clears data structures
-			selectedNotes.clear();
+//			selectedNotes.clear();
 			mAdapter.clearSelectedItems();	
 			listView.clearChoices();
 			
@@ -359,8 +363,10 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 			mAdapter.removeSelectedItem(position);
 			mAdapter.restoreDrawable(note, v);
 		}
-		if (selectedNotes.size() == 0)
+		if (selectedNotes.size() == 0) {
+			selectedNotes.clear();
 			mActionMode.finish();
+		}
 	}
     
 
@@ -375,26 +381,22 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 			listView.setItemsCanFocus(false);
 			
 			// Note long click to start CAB mode
-			listView.setOnItemLongClickListener(new OnItemLongClickListener() {
-				
+			listView.setOnItemLongClickListener(new OnItemLongClickListener() {				
 				@Override
 				public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
 					if (mActionMode != null) {
 			            return false;
-			        }
-	
+			        }	
 			        // Start the CAB using the ActionMode.Callback defined above
 			        startSupportActionMode(new ModeCallback());
 			        toggleListViewItem(view, position);
-			        setCabTitle();
-			        
+			        setCabTitle();			        
 			        return true;
 				}
 			});
 	
 			// Note single click listener managed by the activity itself
 			listView.setOnItemClickListener(new OnItemClickListener() {
-
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View view,
 						int position, long arg3) {// If no CAB just note editing
@@ -403,14 +405,22 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 						editNote(note);
 						return;
 					}
-
 					// If in CAB mode 
 			        toggleListViewItem(view, position);
 			        setCabTitle();
-				}
-				
+				}				
 			});
+			
+			listView.setOnTouchListener(screenTouches);
 	}
+	
+	OnTouchListener screenTouches = new OnTouchListener() {				
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			commitPending();
+			return false;
+		}
+	};
 	
 
 	/**
@@ -420,9 +430,6 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setFocusableInTouchMode(false);
-		
-		// Manages touches for undo commit
-		mDrawerLayout.setOnTouchListener(this);
 
 		// Sets the adapter for the MAIN navigation list view
 		mDrawerList = (ListView) findViewById(R.id.drawer_nav_list);
@@ -435,6 +442,7 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				commitPending();
 				String navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
 				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(mDrawerList, position);
@@ -467,6 +475,7 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 			mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+					commitPending();
 					Object item = mDrawerTagList.getAdapter().getItem(position);
 					// Ensuring that clicked item is not the ListView header
 					if (item != null) {
@@ -1051,42 +1060,26 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 	 * Batch note deletion
 	 */
 	public void deleteSelectedNotes() {
+		int selectedNotesSize = selectedNotes.size();
+		for (Note note : selectedNotes) {
+			mAdapter.remove(note);
+		}
+		// Refresh view
+		ListView l = (ListView) findViewById(R.id.notes_list);
+		l.invalidateViews();			
 
-		// Confirm dialog creation
-//		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-//		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
-//				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-//
-//					@Override
-//					public void onClick(DialogInterface dialog, int id) {
-						for (Note note : selectedNotes) {
-//							deleteNote(note);
-							mAdapter.remove(note);
-						}
-						// Refresh view
-						ListView l = (ListView) findViewById(R.id.notes_list);
-						l.invalidateViews();			
-
-						// If list is empty again Mr Jingles will appear again
-						if (l.getCount() == 0)
-							listView.setEmptyView(findViewById(R.id.empty_list));		
-						
-						mActionMode.finish(); // Action picked, so close the CAB
-						
-						ubc.showUndoBar(false, getString(R.string.undo_message), null);
-						undoPending = true;
-//					}
-//				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//
-//					@Override
-//					public void onClick(DialogInterface dialog, int id) {
-//						
-//						mActionMode.finish(); // Action picked, so close the CAB
-//					}
-//				});
-//		AlertDialog alertDialog = alertDialogBuilder.create();
-//		alertDialog.show();
-
+		// If list is empty again Mr Jingles will appear again
+		if (l.getCount() == 0)
+			listView.setEmptyView(findViewById(R.id.empty_list));		
+		
+		mActionMode.finish(); // Action picked, so close the CAB
+		
+		// Advice to user
+		Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
+		
+		// Creation of undo bar
+		ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.deleted), null);
+		undoDelete = true;
 	}
 	
 
@@ -1118,23 +1111,21 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 	 * Batch note archiviation
 	 */
 	public void archiveSelectedNotes(boolean archive) {
+		// Used in undo bar commit
+		sendToArchive = archive;
 		String archivedStatus = archive ? getResources().getText(R.string.note_archived).toString()
 				: getResources().getText(R.string.note_unarchived).toString();
+		
 		for (Note note : selectedNotes) {
-			// Deleting note using DbHelper
-			DbHelper db = new DbHelper(this);
-			note.setArchived(archive);
-			db.updateNote(note, true);
-
 			// Update adapter content
-			mAdapter.remove(note);
-
-			// Informs the user about update
-			Log.d(Constants.TAG, "Note with id '" + note.get_id() + "' " + archivedStatus);
+			mAdapter.remove(note);		
+			// If is restore it will be done immediately, otherwise the undo bar will be shown
+			if (!archive) {
+				archiveNote(note, false);
+			}
 		}
 
 		// Clears data structures
-		selectedNotes.clear();
 		mAdapter.clearSelectedItems();	
 		listView.clearChoices();
 
@@ -1142,6 +1133,28 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 		((ListView) findViewById(R.id.notes_list)).invalidateViews();
 		// Advice to user
 		Crouton.makeText(mActivity, archivedStatus, ONStyle.INFO).show();
+		
+		// Creation of undo bar
+		if (archive) {
+			ubc.showUndoBar(false, getString(R.string.note_archived) + ": " + selectedNotes.size(), null);
+			undoArchive = true;
+		} else {
+			selectedNotes.clear();
+		}
+	}
+	
+	
+	private void archiveNote(Note note, boolean archive) {
+		// Deleting note using DbHelper
+		DbHelper db = new DbHelper(this);
+		note.setArchived(archive);
+		db.updateNote(note, true);
+
+		// Update adapter content
+		mAdapter.remove(note);
+
+		// Informs the user about update
+		Log.d(Constants.TAG, "Note with id '" + note.get_id() + "' " + (archive ? "archived" : "restored from archive") );
 	}
 	
 	
@@ -1206,12 +1219,14 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 								((ListView) findViewById(R.id.notes_list)).invalidateViews();
 								// Advice to user
 								Crouton.makeText(mActivity, R.string.notes_tag_removed, ONStyle.INFO).show();
+								selectedNotes.clear();
 								mActionMode.finish(); // Action picked, so close the CAB
 							}
 						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								candidateSelectedTag = null;
+								selectedNotes.clear();
 								mActionMode.finish(); // Action picked, so close the CAB
 							}
 						});
@@ -1243,6 +1258,7 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 		// Advice to user
 		String msg = getResources().getText(R.string.notes_tagged_as) + " '" + tag.getName() + "'";
 		Crouton.makeText(mActivity, msg, ONStyle.INFO).show();
+		selectedNotes.clear();
 		mActionMode.finish(); // Action picked, so close the CAB
 	}
 	
@@ -1256,37 +1272,35 @@ public class ListActivity extends BaseActivity implements UndoListener, OnTouchL
 
 	@Override
 	public void onUndo(Parcelable token) {
-		initNotesList(getIntent());
-		ubc.hideUndoBar(false);
-	}
-
-
-
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		if (undoPending) {
-			undoPending = false;
-			commitDelete();
-		}
-		return false;
-	}
-
-
-
-	private void commitDelete() {
-		for (Note note : selectedNotes) {
-			deleteNote(note);
-		}
-
-		// Clears data structures
+		undoDelete = false;
+		undoArchive = false;
+		Crouton.cancelAllCroutons();
 		selectedNotes.clear();
-		mAdapter.clearSelectedItems();	
-		listView.clearChoices();
-
 		ubc.hideUndoBar(false);
+		initNotesList(getIntent());
+	}
+
+
+
+	private void commitPending() {
+		if (undoDelete || undoArchive) {
+			
+			for (Note note : selectedNotes) {
+				if (undoDelete) deleteNote(note);
+				else if (undoArchive) archiveNote(note, sendToArchive);
+			}
+			
+			undoDelete = false;
+			undoArchive = false;
+
+			// Clears data structures
+			selectedNotes.clear();
+			mAdapter.clearSelectedItems();	
+			listView.clearChoices();
+
+			ubc.hideUndoBar(false);
+		}
 		
-		// Advice to user
-		Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
 	}
 
 

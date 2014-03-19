@@ -224,6 +224,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		outState.putParcelable("note", noteTmp);
 		outState.putParcelable("attachmentUri", attachmentUri);
 		super.onSaveInstanceState(outState);
+		
 	}
 	
 	
