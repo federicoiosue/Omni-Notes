@@ -23,6 +23,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import org.apache.commons.io.FileUtils;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -116,12 +118,8 @@ public class BitmapHelper {
 				
 			// Otherwise the ratio between measures is calculated to fit requested thumbnail's one
 			} else {
-				// Cropping
-//				int x = ( srcBmp.getWidth() - reqWidth )/2;
-//				int y = ( srcBmp.getHeight() - reqHeight )/2;
-//				dstBmp = Bitmap.createBitmap(srcBmp, x, y, reqWidth, reqHeight);
 				
-				// Cropping 2
+				// Cropping
 				int x = 0, y = 0, width = srcBmp.getWidth(), height = srcBmp.getHeight();
 				float ratio = ((float)reqWidth / (float)reqHeight) * ((float)srcBmp.getHeight() / (float)srcBmp.getWidth());
 				if (ratio < 1) {
@@ -132,9 +130,6 @@ public class BitmapHelper {
 					height = (int) (srcBmp.getHeight() / ratio);
 				}
 				dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height);
-
-				// Scaling
-//				dstBmp = scaleImage(mContext, srcBmp, reqWidth, reqHeight);		
 			}
 		} catch (FileNotFoundException e) {
 			Log.e(Constants.TAG, "Missing attachment file: " + uri.getPath());
@@ -329,7 +324,8 @@ public class BitmapHelper {
 					mAttachment.getUri());
 			// .. or directly from local directory otherwise
 			if (path == null) {
-				path = mAttachment.getUri().getPath();
+//				path = mAttachment.getUri().getPath();
+				path = FileHelper.getPath(mContext, mAttachment.getUri());
 			}
 
 			bmp = ThumbnailUtils.createVideoThumbnail(path,
@@ -348,21 +344,8 @@ public class BitmapHelper {
 
 			// Audio
 		} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
-//			String text = "";
-//			text = DateHelper.getLocalizedDateTime(mContext, mAttachment
-//					.getUri().getLastPathSegment().split("\\.")[0],
-//					Constants.DATE_FORMAT_SORTABLE);
-//		
-//			if (text == null) {
-//				text = mContext.getString(R.string.attachment);
-//			}
-					
-//			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
-//					mContext.getResources(), R.drawable.play), width, height);
 			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
 					mContext.getResources(), R.drawable.play), width, height);
-//			bmp = BitmapHelper.drawTextToBitmap(mContext, bmp, text, null, -20,
-//					3.3f, mContext.getResources().getColor(R.color.text_gray));
 		}
 		
 		return bmp;
@@ -377,9 +360,7 @@ public class BitmapHelper {
 	 * @return
 	 */
 	public static Bitmap createVideoThumbnail(Context mContext, Bitmap video, int width, int height) {
-//		Bitmap mark = ThumbnailUtils.extractThumbnail(
-//				BitmapFactory.decodeResource(mContext.getResources(),
-//						R.drawable.play_white), width, height);
+		video = ThumbnailUtils.extractThumbnail(video, width, height);
 		Bitmap mark = ThumbnailUtils.extractThumbnail(
 				BitmapFactory.decodeResource(mContext.getResources(),
 						R.drawable.play), width, height);
