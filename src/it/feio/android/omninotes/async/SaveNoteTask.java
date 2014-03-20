@@ -7,6 +7,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.StorageManager;
 
 import java.io.File;
@@ -93,6 +94,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		for (Attachment attachment : note.getAttachmentsList()) {
 			
 			uri = attachment.getUri();
+//			uri = Uri.parse(FileHelper.getPath(mActivity.get(), attachment.getUri()));
 			
 			if (uri == null) {
 				error = true;
@@ -119,7 +121,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			Log.v(Constants.TAG, "Moving attachment " + uri + " to " + destination);
 			
 			if (destination == null) {				
-				Log.e(Constants.TAG, "Can't move file");
+				Log.e(Constants.TAG, "Can't find or move file");
 				break;
 			}
 			

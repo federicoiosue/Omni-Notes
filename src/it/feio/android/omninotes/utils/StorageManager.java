@@ -97,8 +97,15 @@ public class StorageManager {
 			OutputStream os = new FileOutputStream(file);
 			copyFile(is, os);
 		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error writing " + file, e);
-			return null;
+			try {
+//				InputStream is = new FileInputStream(uri.getPath());
+				InputStream is = new FileInputStream(FileHelper.getPath(mContext, uri));
+				OutputStream os = new FileOutputStream(file);
+				copyFile(is, os);
+			} catch (FileNotFoundException e1) {
+				Log.e(Constants.TAG, "Error writing " + file, e1);
+				file = null;
+			}
 		}
 		return file;
 	}

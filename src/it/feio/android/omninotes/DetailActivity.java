@@ -1227,23 +1227,23 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void takeGalleryKitKat() {
 		
 		final Intent intent = new Intent();
-//		intent.setAction(Intent.ACTION_GET_CONTENT);
-		intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+//		intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 		alertDialogBuilder
 				.setPositiveButton(getString(R.string.video), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						intent.setType("video/*");
-						intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
-					            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//						intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+//					            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 						startActivityForResult(intent, GALLERY);
 					}
 				}).setNegativeButton(getString(R.string.image), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						intent.setType("image/*");
-						intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
-					            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//						intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+//					            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 						startActivityForResult(intent, GALLERY);
 					}
 				});
@@ -1314,13 +1314,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 					break;
 				}
 				
-				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { 
-					final int takeFlags = intent.getFlags()
-				            & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-				            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-					// Check for the freshest data.
-					getContentResolver().takePersistableUriPermission(intent.getData(), takeFlags);
-				}
+//				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { 
+//					final int takeFlags = intent.getFlags()
+//				            & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+//				            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//					// Check for the freshest data.
+//					getContentResolver().takePersistableUriPermission(intent.getData(), takeFlags);
+//				}
 				
 				attachment = new Attachment(intent.getData(), mimeType);
 				noteTmp.getAttachmentsList().add(attachment);
