@@ -51,6 +51,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -215,10 +216,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			mRecorder = null;
 		}
 		Crouton.cancelAllCroutons();
-		
-		// Hides keyboard
-		InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-	    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 	}
 	
 	
@@ -399,8 +396,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		content.addTextChangedListener(this);
 		content.gatherLinksForText();
 		content.setOnTextLinkClickListener(this);
-		if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
+		if (note.get_id() == 0 && !noteTmp.isChanged(note)) {			
+			// Force focus and shows soft keyboard
 			content.requestFocus();
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+	        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 		}
 
 		// Restore checklist
@@ -887,6 +887,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 	public boolean goHome() {
 		stopPlaying();
+		
+		// Hides keyboard
+		InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+	    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
 		// The activity has managed a shared intent from third party app and
 		// performs a normal onBackPressed instead of returning back to ListActivity
