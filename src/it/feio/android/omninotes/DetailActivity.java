@@ -400,7 +400,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			// Force focus and shows soft keyboard
 			content.requestFocus();
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-	        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+	        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 		}
 
 		// Restore checklist
@@ -1246,8 +1246,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void takeGalleryKitKat() {
 		
 		final Intent intent = new Intent();
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-//		intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+//		intent.setAction(Intent.ACTION_GET_CONTENT);
+		intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 		alertDialogBuilder

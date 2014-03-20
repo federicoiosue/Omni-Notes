@@ -24,7 +24,8 @@
         <changelogtext>When creating new note the content field will directly gain focus and keyboard will be shown</changelogtext>
         <changelogtext>Faster checklist loading obtained opening note and creating checklist in parallel</changelogtext>  
         <changelogtext>Instant search when typing hangs are fixed and disabled by default. The feature is activable from settings</changelogtext>   
-        <changelogtext>[u]Fixed[/u] Sketch mode undo-redo now correctly works when editing previously created sketches</changelogtext>  
+        <changelogtext>[u]Fixed[/u] Sketch mode undo-redo now correctly works when editing previously created sketches</changelogtext>   
+        <changelogtext>[u]Fixed[/u] Crash on saving note with big images or videos</changelogtext>  
     </changelogversion>
 
     <changelogversion versionName="4.4.0 Beta 9" changeDate="Mar 13, 2014">  
