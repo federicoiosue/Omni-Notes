@@ -472,6 +472,10 @@ public class SettingsActivity extends PreferenceActivity {
 						.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
 								AppTourHelper.reset(activity);
+								prefs.edit()
+										.putString(Constants.PREF_NAVIGATION,
+												getResources().getStringArray(R.array.navigation_list_codes)[0])
+										.commit();
 								restartApp();
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {

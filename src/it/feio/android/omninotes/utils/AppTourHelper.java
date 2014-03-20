@@ -57,7 +57,6 @@ public class AppTourHelper {
 		for (String showcase : showcases) {
 			if (prefs.contains(showcase)) {
 				prefs.edit().remove(showcase).commit();
-				break;
 			}
 		}
 	}
