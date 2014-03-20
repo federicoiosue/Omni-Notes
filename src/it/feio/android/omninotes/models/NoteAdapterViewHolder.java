@@ -19,5 +19,5 @@ public class NoteAdapterViewHolder {
 	ImageView lockedIcon;
 	ImageView attachmentIcon;
 	
-	ImageView attachmentThumbnail;
+	SquareImageView attachmentThumbnail;
 }

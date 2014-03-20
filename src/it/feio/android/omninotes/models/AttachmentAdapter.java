@@ -16,7 +16,7 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.ThumbnailLoaderTask;
+import it.feio.android.omninotes.async.BitmapWorkerTask;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
 
@@ -25,6 +25,8 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
@@ -40,6 +42,7 @@ public class AttachmentAdapter extends BaseAdapter {
 	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private ExpandableHeightGridView mGridView;
 	private LayoutInflater inflater;
+	private OnAttachingFileErrorListener mOnAttachingFileErrorListener;
 
 	public AttachmentAdapter(Activity mActivity, List<Attachment> attachmentsList, ExpandableHeightGridView mGridView) {
 		this.mActivity = mActivity;
@@ -87,7 +90,7 @@ public class AttachmentAdapter extends BaseAdapter {
 	// create a new ImageView for each item referenced by the Adapter
 	
 	
-	@SuppressLint("NewApi")
+	
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		Log.v(Constants.TAG, "GridView called for position " + position);
@@ -120,19 +123,61 @@ public class AttachmentAdapter extends BaseAdapter {
 		}
 		
 		// Starts the AsyncTask to draw bitmap into ImageView
-		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, holder.image, Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
-		if (Build.VERSION.SDK_INT >= 11) {
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
-		} else {
-			task.execute(mAttachment);
-		}
+		loadThumbnail(holder, mAttachment);
 		
 		return convertView;
 	}
  
-    public class AttachmentHolder
-    {
+	
+	
+	@SuppressLint("NewApi")
+	private void loadThumbnail(AttachmentHolder holder, Attachment mAttachment) {
+		if (cancelPotentialWork(mAttachment.getUri(), holder.image)) {
+			BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.image, Constants.THUMBNAIL_SIZE,
+					Constants.THUMBNAIL_SIZE);
+			holder.image.setBitmapWorkerTask(task);
+			if (mOnAttachingFileErrorListener != null)
+				task.setOnErrorListener(mOnAttachingFileErrorListener);
+			if (Build.VERSION.SDK_INT >= 11) {
+				task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
+			} else {
+				task.execute(mAttachment);
+			}
+		}
+	}
+	
+	
+	public static boolean cancelPotentialWork(Uri uri, SquareImageView imageView) {
+		final BitmapWorkerTask bitmapWorkerTask = imageView.getBitmapWorkerTask();
+
+		if (bitmapWorkerTask != null) {
+			final Uri bitmapData = bitmapWorkerTask.getAttachment().getUri();
+			// If bitmapData is not yet set or it differs from the new data
+			if (bitmapData == null || bitmapData != uri) {
+				// Cancel previous task
+				bitmapWorkerTask.cancel(true);
+			} else {
+				// The same work is already in progress
+				return false;
+			}
+		}
+		// No task associated with the ImageView, or an existing task was
+		// cancelled
+		return true;
+	}
+	
+	
+
+
+	public class AttachmentHolder {
         TextView text;
         SquareImageView image;
     }
+    
+    
+
+	public void setOnErrorListener(OnAttachingFileErrorListener listener) {
+		this.mOnAttachingFileErrorListener = listener;
+	}
+	
 }

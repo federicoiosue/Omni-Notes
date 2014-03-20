@@ -16,8 +16,9 @@
 package it.feio.android.omninotes.models;
 
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.ThumbnailLoaderTask;
+import it.feio.android.omninotes.async.BitmapWorkerTask;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.AttachmentAdapter.AttachmentHolder;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.List;
@@ -27,9 +28,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -89,7 +90,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	    	if (!expandedView)
 	    		holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
 
-	    	holder.attachmentThumbnail = (ImageView) convertView.findViewById(R.id.attachmentThumbnail);	    	
+	    	holder.attachmentThumbnail = (SquareImageView) convertView.findViewById(R.id.attachmentThumbnail);	    	
 	    	
 	    	convertView.setTag(holder);
 	    } else {
@@ -143,13 +144,14 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			// Otherwise...
 			else {
 				Attachment mAttachment = note.getAttachmentsList().get(0);
-				ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, holder.attachmentThumbnail, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-				if (Build.VERSION.SDK_INT >= 11) {
-					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
-				} else {
-					task.execute(mAttachment);
-				}
-				holder.attachmentThumbnail.setVisibility(View.VISIBLE);
+//				BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.attachmentThumbnail, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
+//				if (Build.VERSION.SDK_INT >= 11) {
+//					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
+//				} else {
+//					task.execute(mAttachment);
+//				}
+//				holder.attachmentThumbnail.setVisibility(View.VISIBLE);
+				loadThumbnail(holder, mAttachment);
 			}
 		}
 		
@@ -295,5 +297,42 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			}
 		}
 	}
+	 
+	
+	
+		@SuppressLint("NewApi")
+		private void loadThumbnail(NoteAdapterViewHolder holder, Attachment mAttachment) {
+			if (cancelPotentialWork(mAttachment.getUri(), holder.attachmentThumbnail)) {
+				BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.attachmentThumbnail, Constants.THUMBNAIL_SIZE,
+						Constants.THUMBNAIL_SIZE);
+				holder.attachmentThumbnail.setBitmapWorkerTask(task);
+				if (Build.VERSION.SDK_INT >= 11) {
+					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
+				} else {
+					task.execute(mAttachment);
+				}
+				holder.attachmentThumbnail.setVisibility(View.VISIBLE);
+			}
+		}
+		
+		
+		public static boolean cancelPotentialWork(Uri uri, SquareImageView imageView) {
+			final BitmapWorkerTask bitmapWorkerTask = imageView.getBitmapWorkerTask();
+
+			if (bitmapWorkerTask != null && bitmapWorkerTask.getAttachment() != null) {
+				final Uri bitmapData = bitmapWorkerTask.getAttachment().getUri();
+				// If bitmapData is not yet set or it differs from the new data
+				if (bitmapData == null || bitmapData != uri) {
+					// Cancel previous task
+					bitmapWorkerTask.cancel(true);
+				} else {
+					// The same work is already in progress
+					return false;
+				}
+			}
+			// No task associated with the ImageView, or an existing task was
+			// cancelled
+			return true;
+		}
 
 }

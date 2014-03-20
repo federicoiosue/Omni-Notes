@@ -28,6 +28,7 @@ import it.feio.android.omninotes.models.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.OnAttachingFileErrorListener;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
@@ -753,7 +754,16 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		// Some fields can be filled by third party application and are always
 		// shown
 		mGridView = (ExpandableHeightGridView) findViewById(R.id.gridview);
-		mAttachmentAdapter = new AttachmentAdapter((Activity)mActivity, noteTmp.getAttachmentsList(), mGridView);	
+		mAttachmentAdapter = new AttachmentAdapter((Activity)mActivity, noteTmp.getAttachmentsList(), mGridView);
+		mAttachmentAdapter.setOnErrorListener(new OnAttachingFileErrorListener() {			
+			@Override
+			public void onAttachingFileErrorOccurred(Attachment mAttachment) {
+				Crouton.makeText(mActivity, R.string.error_saving_attachments, ONStyle.ALERT).show();
+				noteTmp.getAttachmentsList().remove(mAttachment);
+				mAttachmentAdapter.notifyDataSetChanged();
+				mGridView.autoresize();
+			}
+		});
 	}
 
 	

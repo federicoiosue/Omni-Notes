@@ -330,16 +330,23 @@ public class BitmapHelper {
 
 			bmp = ThumbnailUtils.createVideoThumbnail(path,
 					Thumbnails.MINI_KIND);
-			bmp = createVideoThumbnail(mContext, bmp, width, height);
+			
+			if (bmp == null) {
+				return null;
+			} else {
+				bmp = createVideoThumbnail(mContext, bmp, width, height);
+			}
 
 			// Image
 		} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
 					|| Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())) {
-			try {
-				bmp = checkIfBroken(mContext, BitmapHelper.getThumbnail(mContext,
-						mAttachment.getUri(), width, height), width, height);
+					
+			try {				
+				bmp = BitmapHelper.getThumbnail(mContext, mAttachment.getUri(), width, height);
+//				bmp = checkIfBroken(mContext, bmp, width, height);
 			} catch (NullPointerException e) {
-				bmp = checkIfBroken(mContext, null, height, height);
+//				bmp = checkIfBroken(mContext, null, height, height);
+				bmp = null;
 			}
 
 			// Audio
