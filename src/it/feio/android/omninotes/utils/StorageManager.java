@@ -130,13 +130,29 @@ public class StorageManager {
 	 * @param os Output
 	 * @return True if copy is done, false otherwise
 	 */
+//	public static boolean copyFile(InputStream is, OutputStream os) {
+//		boolean res = false;
+//		byte[] data;
+//		try {
+//			data = new byte[is.available()];
+//			is.read(data);
+//			os.write(data);
+//			is.close();
+//			os.close();
+//			res = true;
+//		} catch (IOException e) {
+//			Log.e(Constants.TAG, "Error copying file", e);
+//		}
+//		return res;
+//	}
 	public static boolean copyFile(InputStream is, OutputStream os) {
 		boolean res = false;
-		byte[] data;
+		byte[] data = new byte[1024];
+		int len;
 		try {
-			data = new byte[is.available()];
-			is.read(data);
-			os.write(data);
+			while ((len = is.read(data)) > 0) {
+				os.write(data, 0, len);
+	        }
 			is.close();
 			os.close();
 			res = true;

@@ -154,7 +154,7 @@ public class AttachmentAdapter extends BaseAdapter {
 	public static boolean cancelPotentialWork(Uri uri, SquareImageView imageView) {
 		final BitmapWorkerTask bitmapWorkerTask = imageView.getBitmapWorkerTask();
 
-		if (bitmapWorkerTask != null) {
+		if (bitmapWorkerTask != null && bitmapWorkerTask.getAttachment() != null) {
 			final Uri bitmapData = bitmapWorkerTask.getAttachment().getUri();
 			// If bitmapData is not yet set or it differs from the new data
 			if (bitmapData == null || bitmapData != uri) {
