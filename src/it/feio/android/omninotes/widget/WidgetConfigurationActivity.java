@@ -2,8 +2,8 @@ package it.feio.android.omninotes.widget;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
 
 import java.util.ArrayList;
 

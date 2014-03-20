@@ -1,4 +1,6 @@
-package it.feio.android.omninotes.models;
+package it.feio.android.omninotes.models.views;
+
+import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 
 import java.util.ArrayList;
 

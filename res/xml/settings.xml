@@ -64,12 +64,12 @@
                 android:entryValues="@array/languages_codes"
                 android:key="settings_language"
                 android:title="@string/settings_choose_language" />	        
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="settings_enable_animations"
-                android:summary="@string/settings_enable_animations_summary"
-                android:title="@string/settings_enable_animations" >
-            </CheckBoxPreference>
+<!--             <CheckBoxPreference -->
+<!--                 android:defaultValue="true" -->
+<!--                 android:key="settings_enable_animations" -->
+<!--                 android:summary="@string/settings_enable_animations_summary" -->
+<!--                 android:title="@string/settings_enable_animations" > -->
+<!--             </CheckBoxPreference> -->
 <!--             <CheckBoxPreference -->
 <!--                 android:defaultValue="true" -->
 <!--                 android:key="settings_enable_editor_links" -->

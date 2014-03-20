@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package it.feio.android.omninotes.models;
+package it.feio.android.omninotes.models.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

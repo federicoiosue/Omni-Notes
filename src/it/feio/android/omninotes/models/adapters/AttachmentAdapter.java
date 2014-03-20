@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package it.feio.android.omninotes.models;
+package it.feio.android.omninotes.models.adapters;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.BitmapWorkerTask;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileErrorListener;
+import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
+import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
 

@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package it.feio.android.omninotes.models;
+package it.feio.android.omninotes.models.adapters;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.BitmapWorkerTask;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.AttachmentAdapter.AttachmentHolder;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.List;
@@ -47,17 +49,17 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	private final int THUMBNAIL_SIZE = 100;	
 
 	private final Activity mActivity;
-	private final List<Note> values;
+	private final List<Note> notes;
 	private SparseBooleanArray selectedItems = new SparseBooleanArray();
 	private boolean expandedView;
 	private int layout;
 	private LayoutInflater inflater;
 	
 
-	public NoteAdapter(Activity activity, int layout, List<Note> values) {
-		super(activity, R.layout.note_layout_expanded, values);
+	public NoteAdapter(Activity activity, int layout, List<Note> notes) {
+		super(activity, R.layout.note_layout_expanded, notes);
 		this.mActivity = activity;
-		this.values = values;		
+		this.notes = notes;		
 		this.layout = layout;
 		
 		expandedView = layout == R.layout.note_layout_expanded;
@@ -68,7 +70,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		Note note = values.get(position);
+		Note note = notes.get(position);
 		
 		NoteAdapterViewHolder holder;
 	    if (convertView == null) {
@@ -333,6 +335,10 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			// No task associated with the ImageView, or an existing task was
 			// cancelled
 			return true;
+		}
+
+		public void remove(int position) {
+			notes.remove(position);
 		}
 
 }

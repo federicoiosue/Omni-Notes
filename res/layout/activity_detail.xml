@@ -99,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical" >
 
-                        <it.feio.android.omninotes.models.ExpandableHeightGridView
+                        <it.feio.android.omninotes.models.views.ExpandableHeightGridView
                             android:id="@+id/gridview"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

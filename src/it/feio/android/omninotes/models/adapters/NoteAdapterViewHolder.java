@@ -1,5 +1,6 @@
-package it.feio.android.omninotes.models;
+package it.feio.android.omninotes.models.adapters;
 
+import it.feio.android.omninotes.models.views.SquareImageView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

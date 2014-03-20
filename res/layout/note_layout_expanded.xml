@@ -121,7 +121,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <it.feio.android.omninotes.models.SquareImageView
+        <it.feio.android.omninotes.models.views.SquareImageView
             android:id="@+id/attachmentThumbnail"
             android:layout_width="100dp"
             android:layout_height="match_parent"

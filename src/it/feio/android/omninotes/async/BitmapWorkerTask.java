@@ -2,8 +2,8 @@ package it.feio.android.omninotes.async;
 
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.OnAttachingFileErrorListener;
-import it.feio.android.omninotes.models.SquareImageView;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileErrorListener;
+import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.BitmapHelper;
 
 import java.lang.ref.WeakReference;

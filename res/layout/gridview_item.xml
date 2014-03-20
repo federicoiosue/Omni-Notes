@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <it.feio.android.omninotes.models.SquareImageView
+    <it.feio.android.omninotes.models.views.SquareImageView
         android:id="@+id/gridview_item_picture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

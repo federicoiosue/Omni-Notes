@@ -2,8 +2,8 @@ package it.feio.android.omninotes;
 
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.checklistview.utils.DensityUtil;
-import it.feio.android.omninotes.models.OnDrawChangedListener;
-import it.feio.android.omninotes.models.SketchView;
+import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
+import it.feio.android.omninotes.models.views.SketchView;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;

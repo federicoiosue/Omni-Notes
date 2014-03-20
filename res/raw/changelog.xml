@@ -18,6 +18,7 @@
 
     <changelogversion versionName="4.4.0 Beta 10" changeDate="Mar 20, 2014">
         <changelogtext>[b]New![/b] Delete and archive actions performed in notes list can now be undone</changelogtext> 
+        <changelogtext>[b]New![/b] Swipe to delete notes in list</changelogtext> 
         <changelogtext>[b]New![/b] Navigation drawer and actionbar cosmetic changes to match each other and optimize space usage</changelogtext> 
 <!--         <changelogtext>[b]New![/b] When back button is pressed once in notes list the navigation panel is opened, on second press the app will be closed</changelogtext>   -->
         <changelogtext>When creating new note the content field will directly gain focus and keyboard will be shown</changelogtext>

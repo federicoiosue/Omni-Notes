@@ -5,7 +5,7 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.NoteAdapter;
+import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 

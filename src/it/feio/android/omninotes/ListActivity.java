@@ -19,14 +19,16 @@ import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.NavDrawerTagAdapter;
-import it.feio.android.omninotes.models.NavigationDrawerAdapter;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.NoteAdapter;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.UndoBarController;
 import it.feio.android.omninotes.models.UndoBarController.UndoListener;
+import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
+import it.feio.android.omninotes.models.adapters.NavigationDrawerAdapter;
+import it.feio.android.omninotes.models.adapters.NoteAdapter;
+import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
+import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
@@ -74,6 +76,7 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -82,8 +85,9 @@ import android.widget.ListView;
 
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
-import com.haarman.listviewanimations.swinginadapters.prepared.SwingBottomInAnimationAdapter;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
@@ -409,14 +413,14 @@ public class ListActivity extends BaseActivity implements UndoListener {
 				}				
 			});
 			
-			listView.setOnTouchListener(screenTouches);
+//			listView.setOnTouchListener(screenTouches);
+			((InterceptorLinearLayout)findViewById(R.id.list_root)).setOnViewTouchedListener(screenTouches);
 	}
 	
-	OnTouchListener screenTouches = new OnTouchListener() {				
+	OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
 		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			commitPending();
-			return false;
+		public void onViewTouchOccurred() {
+			commitPending();			
 		}
 	};
 	
@@ -995,15 +999,37 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		int layout = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded : R.layout.note_layout;
 		mAdapter = new NoteAdapter(this, layout, notes);
 
-		if (prefs.getBoolean("settings_enable_animations", true) && showListAnimation) {
-		    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
-		    // Assign the ListView to the AnimationAdapter and vice versa
-		    swingInAnimationAdapter.setAbsListView(listView);
-		    listView.setAdapter(swingInAnimationAdapter);
-		    showListAnimation = false;
-		} else {
-			listView.setAdapter(mAdapter);
-		}
+//		if (prefs.getBoolean("settings_enable_animations", true) && showListAnimation) {
+//		    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
+//		    // Assign the ListView to the AnimationAdapter and vice versa
+//		    swingInAnimationAdapter.setAbsListView(listView);
+//		    listView.setAdapter(swingInAnimationAdapter);
+//		    showListAnimation = false;
+//		} else {
+//			listView.setAdapter(mAdapter);
+//		}
+		
+		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter, new OnDismissCallback() {			
+			@Override
+			public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
+				for (int position : reverseSortedPositions) {
+					Note note = mAdapter.getItem(position);
+					selectedNotes.add(note);
+			        mAdapter.remove(note);
+					listView.invalidateViews();							
+					
+					// Advice to user
+					Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
+					
+					// Creation of undo bar
+					ubc.showUndoBar(false, getString(R.string.note_deleted), null);
+					undoDelete = true;	
+			    }
+			}			
+		});
+		adapter.setAbsListView(listView);
+		listView.setAdapter(adapter);
+		
 		
 		// Replace listview with Mr. Jingles if it is empty
 		if (notes.size() == 0)
@@ -1274,6 +1300,9 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		undoArchive = false;
 		Crouton.cancelAllCroutons();
 		selectedNotes.clear();
+		if (mActionMode != null) {
+			mActionMode.finish(); // Action picked, so close the CAB
+		}
 		ubc.hideUndoBar(false);
 		initNotesList(getIntent());
 	}

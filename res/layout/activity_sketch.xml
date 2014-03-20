@@ -13,13 +13,13 @@
         android:fitsSystemWindows="true"
         android:orientation="vertical" >
 
-        <it.feio.android.omninotes.models.SketchView
+        <it.feio.android.omninotes.models.views.SketchView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/drawing"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" >
-        </it.feio.android.omninotes.models.SketchView>
+        </it.feio.android.omninotes.models.views.SketchView>
 
         <LinearLayout
             android:id="@+id/eraserView"

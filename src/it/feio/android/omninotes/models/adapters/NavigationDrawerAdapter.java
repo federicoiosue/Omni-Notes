@@ -13,22 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package it.feio.android.omninotes.models;
+package it.feio.android.omninotes.models.adapters;
 
-import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.ListActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,39 +32,28 @@ import android.widget.ImageView;
 
 import com.neopixl.pixlui.components.textview.TextView;
 
-public class NavDrawerTagAdapter extends BaseAdapter {
+public class NavigationDrawerAdapter extends BaseAdapter {
 
 	private Activity mActivity;
-	private int layout;
-	private ArrayList<Tag> tags;
+	private Object[] mTitle;
+	private TypedArray mIcon;
 	private LayoutInflater inflater;
 
-	public NavDrawerTagAdapter(Activity mActivity, ArrayList<Tag> tags) {
-		this(mActivity, tags, null);		
-	}
-
-	public NavDrawerTagAdapter(Activity mActivity, ArrayList<Tag> tags, String navigationTmp) {
+	public NavigationDrawerAdapter(Activity mActivity, Object[] title, TypedArray icon) {
 		this.mActivity = mActivity;
-		this.layout = R.layout.drawer_list_item;		
-		this.tags = tags;	
-		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
+		this.mTitle = title;
+		this.mIcon = icon;
+		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-
-//	public NavDrawerTagAdapter(Context context, int layout, ArrayList<Tag> tags) {
-//		this.mActivity = context;
-//		this.layout = layout;
-//		this.tags = tags;
-//		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//	}
 
 	@Override
 	public int getCount() {
-		return tags.size();
+		return mTitle.length;
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return tags.get(position);
+		return mTitle[position];
 	}
 
 	@Override
@@ -78,15 +62,11 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		
-		// Finds elements
-		Tag tag = tags.get(position);
-		
 		// Declare Variables
 		TextView txtTitle;
 		ImageView imgIcon;
 
-		View itemView = inflater.inflate(layout, parent, false);
+		View itemView = inflater.inflate(R.layout.drawer_list_item, parent, false);
 
 		// Locate the TextViews in drawer_list_item.xml
 		txtTitle = (TextView) itemView.findViewById(R.id.title);
@@ -95,7 +75,7 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		imgIcon = (ImageView) itemView.findViewById(R.id.icon);
 
 		// Set the results into TextViews	
-		txtTitle.setText(tag.getName());
+		txtTitle.setText(mTitle[position].toString());
 		
 		if (isSelected(parent, position)) {
 			txtTitle.setTextColor(mActivity.getResources().getColor(
@@ -103,28 +83,16 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		}
 
 		// Set the results into ImageView checking if an icon is present before
-		if (tag.getColor() != null && tag.getColor().length() > 0) {
-			Drawable img = mActivity.getResources().getDrawable(R.drawable.square);
-			ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(tag.getColor()));
-			// Before API 16 the object is mutable yet
-			if (Build.VERSION.SDK_INT >= 16) {
-				img.mutate().setColorFilter(cf);
-			} else {
-				img.setColorFilter(cf);				
-			}
-			imgIcon.setImageDrawable(img);
-			imgIcon.setPadding(	DensityUtil.convertDpToPixel(22, mActivity), //10
-								DensityUtil.convertDpToPixel(7, mActivity),//25
-								DensityUtil.convertDpToPixel(1, mActivity),//-30
-								DensityUtil.convertDpToPixel(7, mActivity));//25
+		if (mIcon != null && mIcon.length() >= position) {
+			int imgRes = mIcon.getResourceId(position, 0);
+			imgIcon.setImageResource(imgRes);
 		}
 
 		return itemView;
 	}
 
 	
-	
-	private boolean isSelected(ViewGroup parent, int position) {	
+	private boolean isSelected(ViewGroup parent, int position) {
 		
 		// Getting actual navigation selection
 		String[] navigationListCodes = mActivity.getResources().getStringArray(
@@ -139,8 +107,20 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 				: mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS)
 						.getString(Constants.PREF_NAVIGATION,
 								navigationListCodes[0]);
+
+		// Finding selected item from standard navigation items or tags
+		int index = Arrays.asList(navigationListCodes).indexOf(navigation);
 		
-		if (navigation.equals(String.valueOf(tags.get(position).getId()))) {
+		if (index == -1) 
+			return false;
+		
+		String navigationLocalized = mActivity.getResources().getStringArray(R.array.navigation_list)[index];
+		
+		// Check the selected one
+		Object itemSelected = mTitle[position];
+		String title= itemSelected.toString();			
+		
+		if (navigationLocalized.equals(title)) {
 			return true;
 		} else {
 			return false;

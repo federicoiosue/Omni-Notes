@@ -1,4 +1,4 @@
-package it.feio.android.omninotes.models;
+package it.feio.android.omninotes.models.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
