@@ -1230,6 +1230,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			case R.id.sketch:
 				takeSketch(null);
 				attachmentDialog.dismiss();
+			    break;
 			case R.id.location:
 				setAddress(locationTextView);
 				attachmentDialog.dismiss();
