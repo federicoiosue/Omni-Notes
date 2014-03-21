@@ -293,7 +293,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	
 	@SuppressLint("NewApi")
 	private void loadThumbnail(NoteAdapterViewHolder holder, Attachment mAttachment) {
-		if (isNewWork(mAttachment.getUri(), holder.attachmentThumbnail)) {
+//		if (isNewWork(mAttachment.getUri(), holder.attachmentThumbnail)) {
 			BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.attachmentThumbnail,
 					Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
 			holder.attachmentThumbnail.setAsyncTask(task);
@@ -303,7 +303,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 				task.execute(mAttachment);
 			}
 			holder.attachmentThumbnail.setVisibility(View.VISIBLE);
-		}
+//		}
 	}
 
 	
