@@ -189,11 +189,11 @@ public class SketchView extends View implements OnTouchListener {
 	private void touch_move(float x, float y) {
 		float dx = Math.abs(x - mX);
 		float dy = Math.abs(y - mY);
-		if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
+//		if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
 			m_Path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
 			mX = x;
 			mY = y;
-		}
+//		}
 	}
 
 	private void touch_up() {
