@@ -29,7 +29,6 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -139,7 +138,7 @@ public class AttachmentAdapter extends BaseAdapter {
 		if (cancelPotentialWork(mAttachment.getUri(), holder.image)) {
 			BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.image, Constants.THUMBNAIL_SIZE,
 					Constants.THUMBNAIL_SIZE);
-			holder.image.setBitmapWorkerTask(task);
+			holder.image.setAsyncTask(task);
 			if (mOnAttachingFileErrorListener != null)
 				task.setOnErrorListener(mOnAttachingFileErrorListener);
 			if (Build.VERSION.SDK_INT >= 11) {
@@ -152,7 +151,7 @@ public class AttachmentAdapter extends BaseAdapter {
 	
 	
 	public static boolean cancelPotentialWork(Uri uri, SquareImageView imageView) {
-		final BitmapWorkerTask bitmapWorkerTask = imageView.getBitmapWorkerTask();
+		final BitmapWorkerTask bitmapWorkerTask = (BitmapWorkerTask)imageView.getAsyncTask();
 
 		if (bitmapWorkerTask != null && bitmapWorkerTask.getAttachment() != null) {
 			final Uri bitmapData = bitmapWorkerTask.getAttachment().getUri();

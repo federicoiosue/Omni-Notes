@@ -38,6 +38,9 @@ public interface Constants {
 	// Notes swipe
 	final int SWIPE_MARGIN = 25;
 	final int SWIPE_OFFSET = 100;
+
+	// Notes content masking
+	final String MASK_CHAR = "*";
 	
 	// Used for ACRA
 	final String ACRA_MAILER_URL = "http://www.iosue.it/federico/apps/acramailer/acra.php?email=";
@@ -50,10 +53,8 @@ public interface Constants {
 	final String DATE_FORMAT_EU = "dd/MM/yyyy HH:mm";
 	final String DATE_FORMAT_ISO8601  = "YYYY-MM-DD HH:mm:SS.SSS";
 	final String DATE_FORMAT_SHORT  = "d MMM HH:mm";
-//	final String DATE_FORMAT_SHORT_12  = "d MMM hh:mma";
 	final String DATE_FORMAT_SHORT_DATE  = "d MMM yyyy";
 	final String DATE_FORMAT_SHORT_TIME  = "HH" + TIME_SEPARATOR + "mm";
-//	final String DATE_FORMAT_SHORT_TIME_12  = "hh" + TIME_SEPARATOR + "mma";
 	final String DATE_FORMAT_SORTABLE  = "yyyyMMdd_HHmmss_S";
 	final String DATE_FORMAT_SORTABLE_OLD  = "yyyyMMddHHmmss";
 	final String DATE_FORMAT_EXPORT  = "yyyy.MM.dd-HH.mm";

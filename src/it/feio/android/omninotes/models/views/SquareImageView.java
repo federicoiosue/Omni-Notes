@@ -2,14 +2,14 @@ package it.feio.android.omninotes.models.views;
 
 import java.lang.ref.WeakReference;
 
-import it.feio.android.omninotes.async.BitmapWorkerTask;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 public class SquareImageView extends ImageView {
 	
-	private WeakReference<BitmapWorkerTask> bitmapWorkerTaskReference;
+	private WeakReference<AsyncTask<?, ?, ?>> mAsyncTaskReference;
 	
 	public SquareImageView(Context context) {
 		super(context);
@@ -30,13 +30,13 @@ public class SquareImageView extends ImageView {
 		setMeasuredDimension(getMeasuredWidth(), getMeasuredWidth()); 
 	}
 
-    public void setBitmapWorkerTask(BitmapWorkerTask mBitmapWorkerTask) {
-        this.bitmapWorkerTaskReference = new WeakReference<BitmapWorkerTask>(mBitmapWorkerTask);
+    public void setAsyncTask(AsyncTask<?, ?, ?> mAsyncTask) {
+        this.mAsyncTaskReference = new WeakReference<AsyncTask<?, ?, ?>>(mAsyncTask);
     }
 
-    public BitmapWorkerTask getBitmapWorkerTask() {
-    	if (bitmapWorkerTaskReference != null) {
-    		return bitmapWorkerTaskReference.get();
+    public AsyncTask<?, ?, ?> getAsyncTask() {
+    	if (mAsyncTaskReference != null) {
+    		return mAsyncTaskReference.get();
     	} else {
     		return null;
     	}

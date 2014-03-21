@@ -200,7 +200,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 		// Show the Up button in the action bar.
 		if (getSupportActionBar() != null) {
-			getSupportActionBar().setDisplayShowTitleEnabled(false);
+//			getSupportActionBar().setDisplayShowTitleEnabled(false);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		

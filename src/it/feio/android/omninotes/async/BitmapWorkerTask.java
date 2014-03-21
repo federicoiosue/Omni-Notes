@@ -16,12 +16,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
-import android.widget.ImageView;
 
 public class BitmapWorkerTask extends
 		AsyncTask<Attachment, Void, Bitmap> {
 
-	private final int FADE_IN_TIME = 170;
+	private final int FADE_IN_TIME = 150;
 	
 	private final Activity mActivity;
 	private final WeakReference<SquareImageView> imageViewReference;
@@ -40,18 +39,11 @@ public class BitmapWorkerTask extends
 		this.height = height;
 	}
 
+	
 	@Override
 	protected Bitmap doInBackground(Attachment... params) {
 		Bitmap bmp = null;
 		mAttachment = params[0];
-		
-		// If possible, auto-calculated sized replace the requested
-//		if (imageViewReference.get() != null) {
-//			int widthCalc = imageViewReference.get().getWidth();
-//			int heightCalc = imageViewReference.get().getHeight();
-//			this.width = widthCalc != 0 ? widthCalc : width;
-//			this.height = heightCalc != 0 ? heightCalc : height;			
-//		}
 		
 		String path = mAttachment.getUri().getPath();		
 		// Creating a key based on path and thumbnail size to re-use the same
@@ -60,7 +52,6 @@ public class BitmapWorkerTask extends
 
 		// Requesting from Application an instance of the cache
 		OmniNotes app = ((OmniNotes) mActivity.getApplication());
-
 
 		// Fetch from cache if possible
 		bmp = app.getBitmapFromCache(cacheKey);
@@ -77,6 +68,17 @@ public class BitmapWorkerTask extends
 		return bmp;
 	}
 
+	@Override
+	protected void onCancelled() {
+		// TODO Auto-generated method stub
+		super.onCancelled();
+	}
+	
+	@Override
+	protected void onCancelled(Bitmap result) {
+		// TODO Auto-generated method stub
+		super.onCancelled(result);
+	}
 	
 	@Override
 	protected void onPostExecute(Bitmap bitmap) {
@@ -92,7 +94,7 @@ public class BitmapWorkerTask extends
 			final SquareImageView imageView = imageViewReference.get();
 			
 			// Checks if is still the task in charge to load image on that imageView
-			if (imageView != null && this == imageView.getBitmapWorkerTask()) {
+			if (imageView != null && this == (BitmapWorkerTask)imageView.getAsyncTask()) {
 				
 				// If the bitmap was already cached it will be directly attached to view
 				if (wasCached) {
@@ -118,8 +120,7 @@ public class BitmapWorkerTask extends
 	}
 	
 	
-	
-	
+		
 	public void setOnErrorListener(OnAttachingFileErrorListener listener) {
 		this.mOnAttachingFileErrorListener = listener;
 	}

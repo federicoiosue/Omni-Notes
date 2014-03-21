@@ -44,9 +44,6 @@ import android.widget.TextView;
 
 
 public class NoteAdapter extends ArrayAdapter<Note> {
-	
-	private final static String GHOST_CHAR = "*";	
-	private final int THUMBNAIL_SIZE = 100;	
 
 	private final Activity mActivity;
 	private final List<Note> notes;
@@ -63,7 +60,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		this.layout = layout;
 		
 		expandedView = layout == R.layout.note_layout_expanded;
-		inflater = (LayoutInflater) mActivity.getSystemService(mActivity.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@SuppressLint("NewApi")
@@ -146,13 +143,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			// Otherwise...
 			else {
 				Attachment mAttachment = note.getAttachmentsList().get(0);
-//				BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.attachmentThumbnail, THUMBNAIL_SIZE, THUMBNAIL_SIZE);
-//				if (Build.VERSION.SDK_INT >= 11) {
-//					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
-//				} else {
-//					task.execute(mAttachment);
-//				}
-//				holder.attachmentThumbnail.setVisibility(View.VISIBLE);
 				loadThumbnail(holder, mAttachment);
 			}
 		}
@@ -216,9 +206,9 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		if (note.isLocked()) {
 			// This checks if a part of content is used as title and should be partially masked 
 			if (!note.getTitle().equals(titleText) && titleText.length() > 2) {	
-				titleText = titleText.substring(0, 2) + titleText.substring(2).replaceAll(".", GHOST_CHAR);
+				titleText = titleText.substring(0, 2) + titleText.substring(2).replaceAll(".", Constants.MASK_CHAR);
 			}
-			contentText = contentText.replaceAll(".", GHOST_CHAR);
+			contentText = contentText.replaceAll(".", Constants.MASK_CHAR);
 		}
 		
 		// Replacing checkmarks symbols with html entities
@@ -246,8 +236,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 	public void clearSelectedItems() {
 		this.selectedItems.clear();
-	}
-	
+	}	
 
 	
 	public void restoreDrawable(Note note, View v) {
@@ -302,43 +291,39 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 
 	
 	
-		@SuppressLint("NewApi")
-		private void loadThumbnail(NoteAdapterViewHolder holder, Attachment mAttachment) {
-			if (cancelPotentialWork(mAttachment.getUri(), holder.attachmentThumbnail)) {
-				BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.attachmentThumbnail, Constants.THUMBNAIL_SIZE,
-						Constants.THUMBNAIL_SIZE);
-				holder.attachmentThumbnail.setBitmapWorkerTask(task);
-				if (Build.VERSION.SDK_INT >= 11) {
-					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
-				} else {
-					task.execute(mAttachment);
-				}
-				holder.attachmentThumbnail.setVisibility(View.VISIBLE);
+	@SuppressLint("NewApi")
+	private void loadThumbnail(NoteAdapterViewHolder holder, Attachment mAttachment) {
+		if (isNewWork(mAttachment.getUri(), holder.attachmentThumbnail)) {
+			BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.attachmentThumbnail,
+					Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
+			holder.attachmentThumbnail.setAsyncTask(task);
+			if (Build.VERSION.SDK_INT >= 11) {
+				task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
+			} else {
+				task.execute(mAttachment);
+			}
+			holder.attachmentThumbnail.setVisibility(View.VISIBLE);
+		}
+	}
+
+	
+	public static boolean isNewWork(Uri uri, SquareImageView imageView) {
+		final BitmapWorkerTask bitmapWorkerTask = (BitmapWorkerTask)imageView.getAsyncTask();
+
+		if (bitmapWorkerTask != null && bitmapWorkerTask.getAttachment() != null) {
+			final Uri bitmapData = bitmapWorkerTask.getAttachment().getUri();
+			// If bitmapData is not yet set or it differs from the new data
+			if (bitmapData == null || bitmapData != uri) {
+				// Cancel previous task
+				bitmapWorkerTask.cancel(true);
+			} else {
+				// The same work is already in progress
+				return false;
 			}
 		}
-		
-		
-		public static boolean cancelPotentialWork(Uri uri, SquareImageView imageView) {
-			final BitmapWorkerTask bitmapWorkerTask = imageView.getBitmapWorkerTask();
-
-			if (bitmapWorkerTask != null && bitmapWorkerTask.getAttachment() != null) {
-				final Uri bitmapData = bitmapWorkerTask.getAttachment().getUri();
-				// If bitmapData is not yet set or it differs from the new data
-				if (bitmapData == null || bitmapData != uri) {
-					// Cancel previous task
-					bitmapWorkerTask.cancel(true);
-				} else {
-					// The same work is already in progress
-					return false;
-				}
-			}
-			// No task associated with the ImageView, or an existing task was
-			// cancelled
-			return true;
-		}
-
-		public void remove(int position) {
-			notes.remove(position);
-		}
+		// No task associated with the ImageView, or an existing task was
+		// cancelled
+		return true;
+	}
 
 }
