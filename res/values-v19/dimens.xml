@@ -17,5 +17,6 @@
 
     <dimen name="padding_top_kitkat">74dp</dimen>
     <dimen name="showcase_margin_bottom">35dp</dimen>
+    <dimen name="undobar_margin_bottom">35dp</dimen>
 
 </resources>
