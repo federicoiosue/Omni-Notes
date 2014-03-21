@@ -212,7 +212,10 @@ public class StorageManager {
 	
 	public static String getRealPathFromURI(Context mContext, Uri contentUri) {
 		String[] proj = { MediaStore.Images.Media.DATA };
-	    Cursor cursor = mContext.getContentResolver().query(contentUri, proj, null, null, null);
+	    Cursor cursor = null;
+	    try {
+	    	mContext.getContentResolver().query(contentUri, proj, null, null, null);
+	    } catch (Exception e) {}
 	    if (cursor == null) {
 	    	return null;
 	    }
