@@ -1061,7 +1061,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				if (newView != null) {
 					mChecklistManager.replaceViews(toggleChecklistView, newView);
 					toggleChecklistView = newView;					
-					fade(toggleChecklistView, true);
+//					fade(toggleChecklistView, true);
 					noteTmp.setChecklist(!noteTmp.isChecklist());
 				}				
 //			}
