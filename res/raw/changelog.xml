@@ -16,6 +16,11 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.4.1" changeDate="Mar 22, 2014">
+        <changelogtext>[u]Fixed[/u] Error on opening checklist (this will make this kind of notes loading a little bit slower)</changelogtext> 
+        <changelogtext>[u]Fixed[/u] Error on displaying dialog for starting app tour during splash screen</changelogtext>  
+    </changelogversion>
+
     <changelogversion versionName="4.4.0" changeDate="Mar 21, 2014">
         <changelogtext>Many bugs fixed and promoted to stable</changelogtext>  
     </changelogversion>

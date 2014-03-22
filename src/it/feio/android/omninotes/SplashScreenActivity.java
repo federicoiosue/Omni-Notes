@@ -115,7 +115,11 @@ public class SplashScreenActivity extends BaseActivity {
 					launchMainActivity();
 				}
 			});
-			alertDialogBuilder.create().show();
+			if (!mActivity.isFinishing()) {
+				alertDialogBuilder.create().show();
+			} else {
+				launchMainActivity();
+			}
 		} else {
 			launchMainActivity();
 		}

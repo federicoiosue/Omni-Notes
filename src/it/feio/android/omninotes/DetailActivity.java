@@ -407,7 +407,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		toggleChecklistView = content;
 		if (noteTmp.isChecklist()) {
 			noteTmp.setChecklist(false);
-			toggleChecklistView.setVisibility(View.INVISIBLE);
+//			toggleChecklistView.setVisibility(View.INVISIBLE);
 			toggleChecklist2();
 		}
 		
@@ -1016,15 +1016,15 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	@SuppressLint("NewApi")
 	private void toggleChecklist2() {
 		
-		class ChecklistTask extends AsyncTask<Void, Void, View> {
-			private View targetView;
-
-			public ChecklistTask(View targetView) {
-				this.targetView = targetView;
-			}
-
-			@Override
-			protected View doInBackground(Void... params) {
+//		class ChecklistTask extends AsyncTask<Void, Void, View> {
+//			private View targetView;
+//
+//			public ChecklistTask(View targetView) {
+//				this.targetView = targetView;
+//			}
+//
+//			@Override
+//			protected View doInBackground(Void... params) {
 
 				// Get instance and set options to convert EditText to CheckListView
 				mChecklistManager = ChecklistManager.getInstance(mActivity);
@@ -1051,12 +1051,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 					Log.e(Constants.TAG, "Error switching checklist view", e);
 				}
 				
-				return newView;
-			}
-
-			@Override
-			protected void onPostExecute(View newView) {
-				super.onPostExecute(newView);
+//				return newView;
+//			}
+//
+//			@Override
+//			protected void onPostExecute(View newView) {
+//				super.onPostExecute(newView);
 				// Switches the views	
 				if (newView != null) {
 					mChecklistManager.replaceViews(toggleChecklistView, newView);
@@ -1064,15 +1064,15 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 					fade(toggleChecklistView, true);
 					noteTmp.setChecklist(!noteTmp.isChecklist());
 				}				
-			}
-		}
-		
-		ChecklistTask task = new ChecklistTask(toggleChecklistView);		
-		if (Build.VERSION.SDK_INT >= 11) {
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		} else {
-			task.execute();
-		}
+//			}
+//		}
+//		
+//		ChecklistTask task = new ChecklistTask(toggleChecklistView);		
+//		if (Build.VERSION.SDK_INT >= 11) {
+//			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//		} else {
+//			task.execute();
+//		}
 		
 	}
 	
