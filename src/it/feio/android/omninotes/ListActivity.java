@@ -496,10 +496,14 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			mDrawerTagList.setOnItemLongClickListener(new OnItemLongClickListener() {
 				@Override
 				public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
-					Object item = mDrawerTagList.getAdapter().getItem(position);
-					// Ensuring that clicked item is not the ListView header
-					if (item != null) {
-						editTag((Tag)item);
+					if (mDrawerTagList.getAdapter() != null) {
+						Object item = mDrawerTagList.getAdapter().getItem(position);
+						// Ensuring that clicked item is not the ListView header
+						if (item != null) {
+							editTag((Tag)item);
+						}
+					} else {
+						Crouton.makeText(mActivity, R.string.tag_deleted, ONStyle.ALERT).show();
 					}
 					return true;
 				}
