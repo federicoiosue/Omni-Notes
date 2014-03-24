@@ -212,6 +212,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		}
 		
 		// Replacing checkmarks symbols with html entities
+		titleText = titleText
+				.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
+				it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
+				.replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
+				it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY);
 		contentText = contentText
 				.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
 				it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
