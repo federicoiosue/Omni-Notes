@@ -15,6 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes.async;
 
+import it.feio.android.omninotes.ListActivity;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
@@ -53,10 +54,10 @@ public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {
 		return result;
 	}
 	
-//	@Override
-//	protected void onPostExecute(Integer result) {
-//		super.onPostExecute(result);
-//		// Informs the user about update
+	@Override
+	protected void onPostExecute(Integer result) {
+		super.onPostExecute(result);
+		// Informs the user about update
 //		if (result != null) {
 //			Log.d(Constants.TAG, "Deleted note with id '" + result + "'");
 //			Toast.makeText(mContext, mContext.getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
@@ -65,5 +66,7 @@ public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {
 //			Toast.makeText(mContext, mContext.getResources().getText(R.string.error_occurred_deleting_note), Toast.LENGTH_LONG).show();
 //			
 //		}
-//	}
+		
+		ListActivity.notifyAppWidgets(mContext);
+	}
 }

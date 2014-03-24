@@ -1179,7 +1179,8 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		// Update adapter content
 		mAdapter.remove(note);
 
-		// Informs the user about update
+		// Informs the user about update		
+		notifyAppWidgets(mActivity);
 		Log.d(Constants.TAG, "Note with id '" + note.get_id() + "' " + (archive ? "archived" : "restored from archive") );
 	}
 	
