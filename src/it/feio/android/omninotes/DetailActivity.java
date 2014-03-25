@@ -1434,7 +1434,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 						}
 
 						// Saving changes to the note
-						DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getApplicationContext());
+						DeleteNoteTask deleteNoteTask = new DeleteNoteTask(mActivity);
 						// Forceing parallel execution disabled by default
 						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 							deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);

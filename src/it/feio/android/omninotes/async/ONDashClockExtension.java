@@ -1,6 +1,6 @@
 package it.feio.android.omninotes.async;
 
-import it.feio.android.omninotes.ListActivity;
+import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
@@ -62,7 +62,7 @@ public class ONDashClockExtension extends DashClockExtension {
 								+ getString(R.string.expired)
 								+ System.getProperty("line.separator") + today
 								+ " " + getString(R.string.today))
-				.clickIntent(new Intent(this, ListActivity.class)));
+				.clickIntent(new Intent(this, ListFragment.class)));
 	}
 
 	

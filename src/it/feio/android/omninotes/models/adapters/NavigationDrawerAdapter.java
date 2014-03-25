@@ -15,7 +15,8 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models.adapters;
 
-import it.feio.android.omninotes.ListActivity;
+import it.feio.android.omninotes.BaseActivity;
+import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -24,6 +25,7 @@ import java.util.Arrays;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,16 +97,16 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 	private boolean isSelected(ViewGroup parent, int position) {
 		
 		// Getting actual navigation selection
-		String[] navigationListCodes = mActivity.getResources().getStringArray(
+		String[] navigationListCodes =mActivity.getResources().getStringArray(
 				R.array.navigation_list_codes);
 		
 		// Managing temporary navigation indicator when coming from a widget
-		String navigationTmp = ListActivity.class.isAssignableFrom(mActivity
-				.getClass()) ? ((ListActivity) mActivity).getNavigationTmp()
+		String navigationTmp = ListFragment.class.isAssignableFrom(mActivity
+				.getClass()) ? ((BaseActivity) mActivity).getNavigationTmp()
 				: null;
 				
 		String navigation = navigationTmp != null ? navigationTmp
-				: mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS)
+				: mActivity.getSharedPreferences(Constants.PREFS_NAME, Activity.MODE_MULTI_PROCESS)
 						.getString(Constants.PREF_NAVIGATION,
 								navigationListCodes[0]);
 

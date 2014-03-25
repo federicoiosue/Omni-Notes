@@ -85,7 +85,8 @@ public class SplashScreenActivity extends BaseActivity {
 	
 	
 	private void launchMainActivity() {
-		launchMainActivity.setClass(this, ListActivity.class);
+//		launchMainActivity.setClass(this, ListActivity.class);
+		launchMainActivity.setClass(this, MainActivity.class);
 		startActivity(launchMainActivity);
 		finish();
 	}

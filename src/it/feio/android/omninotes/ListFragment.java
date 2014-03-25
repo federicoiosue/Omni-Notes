@@ -2,7 +2,7 @@
  * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use mActivity file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
  *   http://www.apache.org/licenses/LICENSE-2.0
@@ -18,19 +18,16 @@ package it.feio.android.omninotes;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.UndoBarController;
 import it.feio.android.omninotes.models.UndoBarController.UndoListener;
 import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
-import it.feio.android.omninotes.models.adapters.NavigationDrawerAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.AppTourHelper;
-import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.ArrayList;
@@ -46,6 +43,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
@@ -55,6 +53,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -89,42 +88,48 @@ import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismis
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
-public class ListActivity extends BaseActivity implements UndoListener {
+public class ListFragment extends Fragment implements UndoListener {
 
 	static final int REQUEST_CODE_DETAIL = 1;	
 	private static final int REQUEST_CODE_TAG = 2;
 	private static final int REQUEST_CODE_TAG_NOTES = 3;
 	
-	private CharSequence mTitle;
-	String[] mNavigationArray;
-	TypedArray mNavigationIconsArray;
-	private ActionBarDrawerToggle mDrawerToggle;
-	private DrawerLayout mDrawerLayout;
 	private ListView listView;
 	NoteAdapter mAdapter;
 	ActionMode mActionMode;
 	HashSet<Note> selectedNotes = new HashSet<Note>();
-	private ListView mDrawerList;
-	private ListView mDrawerTagList;
-	private View tagListHeader;
-	private Tag candidateSelectedTag;
 	private SearchView searchView;
-	public MenuItem searchMenuItem;
+	MenuItem searchMenuItem;
 	private TextView empyListItem;
-	private boolean showListAnimation = true;
 	private AnimationDrawable jinglesAnimation;
 	private int listViewPosition;
 	private boolean undoDelete = false, undoArchive = false;
 	private UndoBarController ubc;
 	private boolean sendToArchive;
+	private MainActivity mActivity;
+	private SharedPreferences prefs;
+	private DbHelper db;
 
-
-	@SuppressLint("NewApi")
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list);
+		setHasOptionsMenu(true);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_list, container, false);
+	}
+	
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		mActivity = (MainActivity) getActivity();
 		
+		prefs = mActivity.prefs;
+		db = mActivity.db;
+
 		// Restores savedInstanceState
 		initBundle(savedInstanceState);
 
@@ -138,31 +143,22 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		initTitle();
 
 		// Launching update task
-		UpdaterTask task = new UpdaterTask(this);
-		task.execute();	
-		
+		UpdaterTask task = new UpdaterTask(mActivity);
+		task.execute();
 
-		ubc = new UndoBarController(findViewById(R.id.undobar), (ListActivity)mActivity);
-	}	
+		ubc = new UndoBarController(mActivity.findViewById(R.id.undobar), this);
+	}
 	
 	
 	
-//	@Override
-//	public void onBackPressed() {
-//		// Before exiting from app the navigation drawer is opened
-//		if (mDrawerLayout != null && !mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-//			mDrawerLayout.openDrawer(GravityCompat.START);
-//		} else {
-//			super.onBackPressed();
-//		}
-//	}
+	
 
 
 
 
 	private void initBundle(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			navigationTmp = savedInstanceState.getString("navigationTmp");
+			mActivity.navigationTmp = savedInstanceState.getString("navigationTmp");
 		}
 	}
 
@@ -190,7 +186,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		}
 		
 		title = title == null ? getString(R.string.title_activity_list) : title;
-		setActionBarTitle(title.toString());		
+		mActivity.setActionBarTitle(title.toString());		
 	}
 
 
@@ -200,7 +196,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 	 * Starts a little animation on Mr.Jingles!
 	 */
 	private void initEasterEgg() {
-		empyListItem = (TextView) findViewById(R.id.empty_list);
+		empyListItem = (TextView) mActivity.findViewById(R.id.empty_list);
 		empyListItem.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -233,14 +229,14 @@ public class ListActivity extends BaseActivity implements UndoListener {
 	
 	
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {
+	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString("navigationTmp", navigationTmp);
+		outState.putString("navigationTmp", mActivity.navigationTmp);
 	}
 
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
 		commitPending();
 		listViewPosition = listView.getFirstVisiblePosition();
@@ -252,18 +248,18 @@ public class ListActivity extends BaseActivity implements UndoListener {
 
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 		Log.v(Constants.TAG, "OnResume");
-		initNotesList(getIntent());
-		initNavigationDrawer();
+		initNotesList(mActivity.getIntent());
+//		initNavigationDrawer();
 		
 		// Restores again DefaultSharedPreferences too reload in case of data erased from Settings
-		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+		prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, Activity.MODE_MULTI_PROCESS);
 		
 		// Menu is invalidated to start again instructions tour if requested
 		if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "list", false)) {
-			supportInvalidateOptionsMenu();
+			mActivity.supportInvalidateOptionsMenu();
 		}
 	}
 	
@@ -301,7 +297,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			Log.d(Constants.TAG, "Closed multiselection contextual menu");
 
 			// Updates app widgets
-			notifyAppWidgets(mActivity);
+			mActivity.notifyAppWidgets(mActivity);
 		}
 
 		@Override
@@ -309,8 +305,8 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			// Here you can perform updates to the CAB due to
 			// an invalidate() request
 			Log.d(Constants.TAG, "CAB preparation");
-			boolean notes = getResources().getStringArray(R.array.navigation_list_codes)[0].equals(navigation);
-			boolean archived = getResources().getStringArray(R.array.navigation_list_codes)[1].equals(navigation);
+			boolean notes = getResources().getStringArray(R.array.navigation_list_codes)[0].equals(mActivity.navigation);
+			boolean archived = getResources().getStringArray(R.array.navigation_list_codes)[1].equals(mActivity.navigation);
 						
 			menu.findItem(R.id.menu_archive).setVisible(notes);
 			menu.findItem(R.id.menu_unarchive).setVisible(archived);
@@ -375,7 +371,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 	 * Notes list initialization. Data, actions and callback are defined here.
 	 */
 	private void initListView() {
-			listView = (ListView) findViewById(R.id.notes_list);
+			listView = (ListView) mActivity.findViewById(R.id.notes_list);
 			
 			listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 			listView.setItemsCanFocus(false);
@@ -388,7 +384,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			            return false;
 			        }	
 			        // Start the CAB using the ActionMode.Callback defined above
-			        startSupportActionMode(new ModeCallback());
+					mActivity.startSupportActionMode(new ModeCallback());
 			        toggleListViewItem(view, position);
 			        setCabTitle();			        
 			        return true;
@@ -412,13 +408,13 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			});
 			
 //			listView.setOnTouchListener(screenTouches);
-			((InterceptorLinearLayout)findViewById(R.id.list_root)).setOnViewTouchedListener(screenTouches);
+			((InterceptorLinearLayout)mActivity.findViewById(R.id.list_root)).setOnViewTouchedListener(screenTouches);
 	}
 	
 	OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
 		@Override
 		public void onViewTouchOccurred() {
-			commitPending();			
+			commitPending();	
 		}
 	};
 	
@@ -426,175 +422,176 @@ public class ListActivity extends BaseActivity implements UndoListener {
 	/**
 	 * Initialization of compatibility navigation drawer
 	 */
-	private void initNavigationDrawer() {
+//	private void initNavigationDrawer() {
+//
+//		mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
+//		mDrawerLayout.setFocusableInTouchMode(false);
+//
+//		// Sets the adapter for the MAIN navigation list view
+//		mDrawerList = (ListView) mActivity.findViewById(R.id.drawer_nav_list);
+//		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
+//		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
+//		mDrawerList
+//				.setAdapter(new NavigationDrawerAdapter(mActivity, mNavigationArray, mNavigationIconsArray));
+//		
+//		// Sets click events
+//		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+//				commitPending();
+//				String navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
+//				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
+//				selectNavigationItem(mDrawerList, position);
+//				mActivity.updateNavigation(navigation);
+//				mDrawerList.setItemChecked(position, true);
+//				if (mDrawerTagList != null)
+//					mDrawerTagList.setItemChecked(0, false);  // Called to force redraw
+//				initNotesList(mActivity.getIntent());
+//			}
+//		});
+//
+//		// Sets the adapter for the TAGS navigation list view		
+//
+//		// Retrieves data to fill tags list
+//		ArrayList<Tag> tags = db.getTags();
+//		
+//		if (tags.size() > 0) {
+//			mDrawerTagList = (ListView) mActivity.findViewById(R.id.drawer_tag_list);
+//			// Inflation of header view
+//			LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+//			if (tagListHeader == null) {
+//				tagListHeader = inflater.inflate(R.layout.drawer_tag_list_header, (ViewGroup) mActivity.findViewById(R.id.layout_root));
+//				mDrawerTagList.addHeaderView(tagListHeader);
+//				mDrawerTagList.setHeaderDividersEnabled(true);
+//			}
+//			mDrawerTagList
+//					.setAdapter(new NavDrawerTagAdapter(mActivity, tags, mActivity.navigationTmp));
+//			
+//			// Sets click events
+//			mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
+//				@Override
+//				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+//					commitPending();
+//					Object item = mDrawerTagList.getAdapter().getItem(position);
+//					// Ensuring that clicked item is not the ListView header
+//					if (item != null) {
+//						Tag tag = (Tag)item;						
+//						String navigation = tag.getName();
+//						Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
+//						selectNavigationItem(mDrawerTagList, position);
+//						mActivity.updateNavigation(String.valueOf(tag.getId()));
+//						mDrawerTagList.setItemChecked(position, true);
+//						if (mDrawerList != null)
+//							mDrawerList.setItemChecked(0, false);  // Called to force redraw
+//						initNotesList(mActivity.getIntent());
+//					}
+//				}
+//			});
+//			
+//			// Sets long click events
+//			mDrawerTagList.setOnItemLongClickListener(new OnItemLongClickListener() {
+//				@Override
+//				public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
+//					if (mDrawerTagList.getAdapter() != null) {
+//						Object item = mDrawerTagList.getAdapter().getItem(position);
+//						// Ensuring that clicked item is not the ListView header
+//						if (item != null) {
+//							editTag((Tag)item);
+//						}
+//					} else {
+//						Crouton.makeText(mActivity, R.string.tag_deleted, ONStyle.ALERT).show();
+//					}
+//					return true;
+//				}
+//			});
+//		} else {
+//			if (mDrawerTagList != null) {
+//				mDrawerTagList.removeAllViewsInLayout();
+//				mDrawerTagList = null;
+//			}
+//		}
+//
+//        // enable ActionBar app icon to behave as action to toggle nav drawer
+//		mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//		mActivity.getSupportActionBar().setHomeButtonEnabled(true);
+//
+//		// ActionBarDrawerToggle± ties together the the proper interactions
+//		// between the sliding drawer and the action bar app icon
+//		mDrawerToggle = new ActionBarDrawerToggle(
+//			mActivity, /* host Activity */
+//			mDrawerLayout, /* DrawerLayout object */
+//			R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+//			R.string.drawer_open, /* "open drawer" description for accessibility */
+//			R.string.drawer_close /* "close drawer" description for accessibility */
+//		) {
+//
+//			public void onDrawerClosed(View view) {
+//				mActivity.getSupportActionBar().setTitle(mTitle);
+//				mActivity.supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+//			}
+//
+//			public void onDrawerOpened(View drawerView) {
+//				// Stops search service
+//				if (searchMenuItem != null && MenuItemCompat.isActionViewExpanded(searchMenuItem))
+//					MenuItemCompat.collapseActionView(searchMenuItem);
+//				
+//				mTitle = mActivity.getSupportActionBar().getTitle();
+//				mActivity.getSupportActionBar().setTitle(mActivity.getApplicationContext().getString(R.string.app_name));
+//				mActivity.supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+//				
+//				// Show instructions on first launch
+//				final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
+//				if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false) && !prefs.getBoolean(instructionName, false)) {
+//					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+//					list.add(new Integer[]{R.id.menu_add_tag, R.string.tour_listactivity_tag_title, R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM});
+//					mActivity.showCaseView(list, new OnShowcaseAcknowledged() {			
+//						@Override
+//						public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+//							AppTourHelper.complete(mActivity, instructionName);
+//							mDrawerLayout.closeDrawer(GravityCompat.START);
+//
+//					    	// Attaches a dummy image as example
+//							Note note = new Note();
+//					    	Attachment attachment = new Attachment(BitmapHelper.getUri(mActivity, R.drawable.ic_launcher), Constants.MIME_TYPE_IMAGE);
+//					    	note.getAttachmentsList().add(attachment);
+//							note.setTitle("http://www.opensource.org");							
+//							editNote(note);
+//						}
+//					});	
+//				}
+//			}
+//		};
+//		mDrawerToggle.setDrawerIndicatorEnabled(true);
+//		mDrawerLayout.setDrawerListener(mDrawerToggle);
+//
+//		mDrawerToggle.syncState();
+//	}
 
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerLayout.setFocusableInTouchMode(false);
-
-		// Sets the adapter for the MAIN navigation list view
-		mDrawerList = (ListView) findViewById(R.id.drawer_nav_list);
-		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
-		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
-		mDrawerList
-				.setAdapter(new NavigationDrawerAdapter(this, mNavigationArray, mNavigationIconsArray));
-		
-		// Sets click events
-		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				commitPending();
-				String navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
-				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
-				selectNavigationItem(mDrawerList, position);
-				updateNavigation(navigation);
-				mDrawerList.setItemChecked(position, true);
-				if (mDrawerTagList != null)
-					mDrawerTagList.setItemChecked(0, false);  // Called to force redraw
-				initNotesList(getIntent());
-			}
-		});
-
-		// Sets the adapter for the TAGS navigation list view		
-
-		// Retrieves data to fill tags list
-		ArrayList<Tag> tags = db.getTags();
-		
-		if (tags.size() > 0) {
-			mDrawerTagList = (ListView) findViewById(R.id.drawer_tag_list);
-			// Inflation of header view
-			LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-			if (tagListHeader == null) {
-				tagListHeader = inflater.inflate(R.layout.drawer_tag_list_header, (ViewGroup) findViewById(R.id.layout_root));
-				mDrawerTagList.addHeaderView(tagListHeader);
-				mDrawerTagList.setHeaderDividersEnabled(true);
-			}
-			mDrawerTagList
-					.setAdapter(new NavDrawerTagAdapter(this, tags, navigationTmp));
-			
-			// Sets click events
-			mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-					commitPending();
-					Object item = mDrawerTagList.getAdapter().getItem(position);
-					// Ensuring that clicked item is not the ListView header
-					if (item != null) {
-						Tag tag = (Tag)item;						
-						String navigation = tag.getName();
-						Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
-						selectNavigationItem(mDrawerTagList, position);
-						updateNavigation(String.valueOf(tag.getId()));
-						mDrawerTagList.setItemChecked(position, true);
-						if (mDrawerList != null)
-							mDrawerList.setItemChecked(0, false);  // Called to force redraw
-						initNotesList(getIntent());
-					}
-				}
-			});
-			
-			// Sets long click events
-			mDrawerTagList.setOnItemLongClickListener(new OnItemLongClickListener() {
-				@Override
-				public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
-					if (mDrawerTagList.getAdapter() != null) {
-						Object item = mDrawerTagList.getAdapter().getItem(position);
-						// Ensuring that clicked item is not the ListView header
-						if (item != null) {
-							editTag((Tag)item);
-						}
-					} else {
-						Crouton.makeText(mActivity, R.string.tag_deleted, ONStyle.ALERT).show();
-					}
-					return true;
-				}
-			});
-		} else {
-			if (mDrawerTagList != null) {
-				mDrawerTagList.removeAllViewsInLayout();
-				mDrawerTagList = null;
-			}
-		}
-
-        // enable ActionBar app icon to behave as action to toggle nav drawer
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-		// ActionBarDrawerToggle± ties together the the proper interactions
-		// between the sliding drawer and the action bar app icon
-		mDrawerToggle = new ActionBarDrawerToggle(
-			this, /* host Activity */
-			mDrawerLayout, /* DrawerLayout object */
-			R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-			R.string.drawer_open, /* "open drawer" description for accessibility */
-			R.string.drawer_close /* "close drawer" description for accessibility */
-		) {
-
-			public void onDrawerClosed(View view) {
-				getSupportActionBar().setTitle(mTitle);
-				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-			}
-
-			public void onDrawerOpened(View drawerView) {
-				// Stops search service
-				if (searchMenuItem != null && MenuItemCompat.isActionViewExpanded(searchMenuItem))
-					MenuItemCompat.collapseActionView(searchMenuItem);
-				
-				mTitle = getSupportActionBar().getTitle();
-				getSupportActionBar().setTitle(getApplicationContext().getString(R.string.app_name));
-				supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-				
-				// Show instructions on first launch
-				final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
-				if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false) && !prefs.getBoolean(instructionName, false)) {
-					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-					list.add(new Integer[]{R.id.menu_add_tag, R.string.tour_listactivity_tag_title, R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM});
-					showCaseView(list, new OnShowcaseAcknowledged() {			
-						@Override
-						public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-							AppTourHelper.complete(mActivity, instructionName);
-							mDrawerLayout.closeDrawer(GravityCompat.START);
-
-					    	// Attaches a dummy image as example
-							Note note = new Note();
-					    	Attachment attachment = new Attachment(BitmapHelper.getUri(mActivity, R.drawable.ic_launcher), Constants.MIME_TYPE_IMAGE);
-					    	note.getAttachmentsList().add(attachment);
-							note.setTitle("http://www.opensource.org");							
-							editNote(note);
-						}
-					});	
-				}
-			}
-		};
-		mDrawerToggle.setDrawerIndicatorEnabled(true);
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		mDrawerToggle.syncState();
-	}
+//	@Override
+//	protected void onPostCreate(Bundle savedInstanceState) {
+//		super.onPostCreate(savedInstanceState);
+//		// Sync the toggle state after onRestoreInstanceState has occurred.
+//		if (mDrawerToggle != null)
+//			mDrawerToggle.syncState();
+//	}
+//
+//	@Override
+//	public void onConfigurationChanged(Configuration newConfig) {
+//		super.onConfigurationChanged(newConfig);
+//		mDrawerToggle.onConfigurationChanged(newConfig);
+//	}
 
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
-		if (mDrawerToggle != null)
-			mDrawerToggle.syncState();
-	}
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		mDrawerToggle.onConfigurationChanged(newConfig);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		super.onCreateOptionsMenu(menu);
+		inflater.inflate(R.menu.menu, menu);
+		super.onCreateOptionsMenu(menu, inflater);
 
 		// Setting the conditions to show determinate items in CAB
 		// If the nav drawer is open, hide action items related to the content view
 		boolean drawerOpen;
-		if (mDrawerLayout != null) {
-			drawerOpen = mDrawerLayout.isDrawerOpen(GravityCompat.START);
+		if (mActivity.getDrawerLayout() != null) {
+			drawerOpen = mActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START);
 		} else {
 			drawerOpen = false;
 		}
@@ -602,7 +599,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		// If archived or reminders notes are shown the "add new note" item must be hidden
 		String navArchived = getResources().getStringArray(R.array.navigation_list_codes)[1];
 		String navReminders = getResources().getStringArray(R.array.navigation_list_codes)[2];
-		boolean showAdd = !navArchived.equals(navigation) && !navReminders.equals(navigation);
+		boolean showAdd = !navArchived.equals(mActivity.navigation) && !navReminders.equals(mActivity.navigation);
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
@@ -620,25 +617,22 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			list.add(new Integer[]{0, R.string.tour_listactivity_intro_title, R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE});
 			list.add(new Integer[]{R.id.menu_add, R.string.tour_listactivity_actions_title, R.string.tour_listactivity_actions_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail, ShowcaseView.ITEM_ACTION_HOME});
-			showCaseView(list, new OnShowcaseAcknowledged() {			
+			mActivity.showCaseView(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
 					AppTourHelper.complete(mActivity, instructionName);
-					mDrawerLayout.openDrawer(GravityCompat.START);				
+					mActivity.getDrawerLayout().openDrawer(GravityCompat.START);				
 				}
 			});		
 		}
-		
-		return super.onCreateOptionsMenu(menu);
 	}
 	
 	
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(Menu menu) {
 		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
 		menu.findItem(R.id.menu_expanded_view).setVisible(!expandedView);
 		menu.findItem(R.id.menu_contracted_view).setVisible(expandedView);
-		return super.onPrepareOptionsMenu(menu);
 	}
 	
 
@@ -654,9 +648,9 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		searchMenuItem = menu.findItem(R.id.menu_search);
 
 		// Associate searchable configuration with the SearchView
-		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		SearchManager searchManager = (SearchManager) mActivity.getSystemService(Context.SEARCH_SERVICE);
 		searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
-		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(mActivity.getComponentName()));
 		searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 		
 		// Expands the widget hiding other actionbar icons
@@ -682,8 +676,8 @@ public class ListActivity extends BaseActivity implements UndoListener {
 				public boolean onMenuItemActionCollapse(MenuItem item) {
 					// Reinitialize notes list to all notes when search is collapsed
 					Log.i(Constants.TAG, "onMenuItemActionCollapse " + item.getItemId());
-					getIntent().setAction(Intent.ACTION_MAIN);
-					initNotesList(getIntent());
+					mActivity.getIntent().setAction(Intent.ACTION_MAIN);
+					initNotesList(mActivity.getIntent());
 					return true; 
 				}
 
@@ -705,7 +699,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 						@Override
 						public boolean onQueryTextChange(String arg0) {
 							if (prefs.getBoolean("settings_instant_search", false)) {
-								Intent i = new Intent(mActivity, ListActivity.class);
+								Intent i = new Intent(mActivity, ListFragment.class);
 								i.setAction(Intent.ACTION_SEARCH);
 								i.putExtra(SearchManager.QUERY, arg0);
 								startActivity(i);
@@ -725,8 +719,8 @@ public class ListActivity extends BaseActivity implements UndoListener {
 				@Override
 				public boolean onClose() {
 					Log.i(Constants.TAG, "mSearchView on close ");
-					getIntent().setAction(Intent.ACTION_MAIN);
-					initNotesList(getIntent());
+					mActivity.getIntent().setAction(Intent.ACTION_MAIN);
+					initNotesList(mActivity.getIntent());
 					return false;
 				}
 			});
@@ -739,10 +733,10 @@ public class ListActivity extends BaseActivity implements UndoListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:				 
-	            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-	                mDrawerLayout.closeDrawer(GravityCompat.START);
+	            if (mActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+	            	mActivity.getDrawerLayout().closeDrawer(GravityCompat.START);
 	            } else {
-	                mDrawerLayout.openDrawer(GravityCompat.START);
+	            	mActivity.getDrawerLayout().openDrawer(GravityCompat.START);
 	            }
 	            break;
 			case R.id.menu_add:
@@ -771,10 +765,10 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		prefs.edit().putBoolean(Constants.PREF_EXPANDED_VIEW, !expandedView).commit();
 		
 		// Change list view
-		initNotesList(getIntent());
+		initNotesList(mActivity.getIntent());
 		
 		// Called to switch menu voices
-		supportInvalidateOptionsMenu();
+		mActivity.supportInvalidateOptionsMenu();
 	}
 
 
@@ -795,16 +789,16 @@ public class ListActivity extends BaseActivity implements UndoListener {
 	}
 
 
-	private void editNote(Note note) {
+	void editNote(Note note) {
 		if (note.get_id() == 0) {
 			Log.d(Constants.TAG, "Adding new note");
 			// if navigation is a tag it will be set into note
 			try {
 				int tagId;
-				if (!TextUtils.isEmpty(navigationTmp)) {
-					tagId = Integer.parseInt(navigationTmp);
+				if (!TextUtils.isEmpty(mActivity.navigationTmp)) {
+					tagId = Integer.parseInt(mActivity.navigationTmp);
 				} else {
-					tagId = Integer.parseInt(navigation);
+					tagId = Integer.parseInt(mActivity.navigation);
 				}
 				note.setTag(db.getTag(tagId));
 			} catch (NumberFormatException e) {}
@@ -812,16 +806,17 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			Log.d(Constants.TAG, "Editing note with id: " + note.get_id());
 		}
 
-		Intent detailIntent = new Intent(this, DetailActivity.class);
+		Intent detailIntent = new Intent(mActivity, DetailActivity.class);
 		detailIntent.putExtra(Constants.INTENT_NOTE, note);
 		startActivityForResult(detailIntent, REQUEST_CODE_DETAIL);
-		animateTransition(TRANSITION_FORWARD);
+		mActivity.animateTransition(mActivity.TRANSITION_FORWARD);
 	}
 	
 	
 	@Override
+	public
 	// Used to show a Crouton dialog after saved (or tried to) a note
-	protected void onActivityResult(int requestCode, final int resultCode,
+ void onActivityResult(int requestCode, final int resultCode,
 			Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
 
@@ -907,9 +902,8 @@ public class ListActivity extends BaseActivity implements UndoListener {
 	    final String instructionName = Constants.PREF_TOUR_PREFIX + "list2";
 	    if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false) && !prefs.getBoolean(instructionName, false)) {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-			int target = (findViewById(R.id.empty_list)).getVisibility() == View.VISIBLE ? R.id.empty_list : R.id.notes_list; 
 			list.add(new Integer[]{null, R.string.tour_listactivity_final_title, R.string.tour_listactivity_final_detail, null});
-			showCaseView(list, new OnShowcaseAcknowledged() {			
+			mActivity.showCaseView(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
 					AppTourHelper.complete(mActivity, instructionName);
@@ -936,7 +930,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		int selected = Arrays.asList(arrayDb).indexOf(prefs.getString(Constants.PREF_SORTING_COLUMN, arrayDb[0]));
 				
 		// Dialog and events creation
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
 		builder.setTitle(R.string.select_sorting_column)
 //				.setItems(arrayDialog,
 				.setSingleChoiceItems(arrayDialog, selected,
@@ -946,29 +940,19 @@ public class ListActivity extends BaseActivity implements UndoListener {
 					public void onClick(DialogInterface dialog, int which) {
 						prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which])
 								.commit();
-						initNotesList(getIntent());
+						initNotesList(mActivity.getIntent());
 						// Updates app widgets
-						notifyAppWidgets(mActivity);
+						mActivity.notifyAppWidgets(mActivity);
 						dialog.dismiss();
 					}
 				});
 		return builder.create();
 	}
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		if (intent.getAction() == null) {
-			intent.setAction(Constants.ACTION_START_APP);
-		}
-		setIntent(intent);
-		Log.d(Constants.TAG, "onNewIntent");
-		super.onNewIntent(intent);
-	}
 	
 	/**
 	 * Notes list adapter initialization and association to view
 	 */
-	private void initNotesList(Intent intent) {
+	void initNotesList(Intent intent) {
 
 		Log.v(Constants.TAG, "initNotesList: intent action " + intent.getAction());
 		
@@ -977,9 +961,9 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			notes = handleIntent(intent);
 			intent.setAction(null);
 		} else {
-			DbHelper db = new DbHelper(getApplicationContext());
+			DbHelper db = new DbHelper(mActivity.getApplicationContext());
 			// Check if is launched from a widget with tags to set tag
-			if (intent.hasExtra(Constants.INTENT_WIDGET) || !TextUtils.isEmpty(navigationTmp)) {
+			if (intent.hasExtra(Constants.INTENT_WIDGET) || !TextUtils.isEmpty(mActivity.navigationTmp)) {
 				String widgetId = intent.hasExtra(Constants.INTENT_WIDGET) ? intent
 						.getExtras().get(Constants.INTENT_WIDGET).toString()
 						: null;
@@ -988,10 +972,10 @@ public class ListActivity extends BaseActivity implements UndoListener {
 					String pattern = DbHelper.KEY_TAG + " = ";
 					if (sqlCondition.lastIndexOf(pattern) != -1) {
 						String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length()).trim();
-						navigationTmp = !TextUtils.isEmpty(tagId) ? tagId : null;
+						mActivity.navigationTmp = !TextUtils.isEmpty(tagId) ? tagId : null;
 					}
 				}
-				notes = db.getNotesWithTag(navigationTmp);
+				notes = db.getNotesWithTag(mActivity.navigationTmp);
 				intent.removeExtra(Constants.INTENT_WIDGET);
 				
 			} else {
@@ -999,7 +983,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			}
 		}
 		int layout = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded : R.layout.note_layout;
-		mAdapter = new NoteAdapter(this, layout, notes);
+		mAdapter = new NoteAdapter(mActivity, layout, notes);
 
 //		if (prefs.getBoolean("settings_enable_animations", true) && showListAnimation) {
 //		    SwingBottomInAnimationAdapter swingInAnimationAdapter = new SwingBottomInAnimationAdapter(mAdapter);
@@ -1035,7 +1019,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		
 		// Replace listview with Mr. Jingles if it is empty
 		if (notes.size() == 0)
-			listView.setEmptyView(findViewById(R.id.empty_list));
+			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
 		
 		// Restores listview position when turning back to list
 		if(listView != null && notes.size() > 0){
@@ -1059,27 +1043,13 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		// Get the intent, verify the action and get the query
 		String pattern = intent.getStringExtra(SearchManager.QUERY);
 		Log.d(Constants.TAG, "Search launched");
-		DbHelper db = new DbHelper(this);
+		DbHelper db = new DbHelper(mActivity);
 		notesList = db.getMatchingNotes(pattern);
 		Log.d(Constants.TAG, "Found " + notesList.size() + " elements matching");
 //		if (searchView != null)
 //			searchView.clearFocus();
 		return notesList;
 
-	}
-
-
-	/** Swaps fragments in the main content view 
-	 * @param list */
-	private void selectNavigationItem(ListView list, int position) {
-		Object itemSelected = list.getItemAtPosition(position);
-		if (itemSelected.getClass().isAssignableFrom(String.class)) {
-			mTitle = (CharSequence)itemSelected;	
-		// Is a tag
-		} else {
-			mTitle = ((Tag)itemSelected).getName();
-		}
-		mDrawerLayout.closeDrawer(GravityCompat.START);
 	}
 
 	/**
@@ -1091,12 +1061,12 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			mAdapter.remove(note);
 		}
 		// Refresh view
-		ListView l = (ListView) findViewById(R.id.notes_list);
+		ListView l = (ListView) mActivity.findViewById(R.id.notes_list);
 		l.invalidateViews();			
 
 		// If list is empty again Mr Jingles will appear again
 		if (l.getCount() == 0)
-			listView.setEmptyView(findViewById(R.id.empty_list));		
+			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));		
 		
 		mActionMode.finish(); // Action picked, so close the CAB
 		
@@ -1117,7 +1087,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 	protected void deleteNote(Note note) {
 		
 		// Saving changes to the note
-		DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getApplicationContext());
+		DeleteNoteTask deleteNoteTask = new DeleteNoteTask(mActivity);
 		// Forceing parallel execution disabled by default
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
@@ -1156,7 +1126,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		listView.clearChoices();
 
 		// Refresh view
-		((ListView) findViewById(R.id.notes_list)).invalidateViews();
+		((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
 		// Advice to user
 		Crouton.makeText(mActivity, archivedStatus, ONStyle.INFO).show();
 		
@@ -1172,7 +1142,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 	
 	private void archiveNote(Note note, boolean archive) {
 		// Deleting note using DbHelper
-		DbHelper db = new DbHelper(this);
+		DbHelper db = new DbHelper(mActivity);
 		note.setArchived(archive);
 		db.updateNote(note, true);
 
@@ -1180,7 +1150,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 		mAdapter.remove(note);
 
 		// Informs the user about update		
-		notifyAppWidgets(mActivity);
+		mActivity.notifyAppWidgets(mActivity);
 		Log.d(Constants.TAG, "Note with id '" + note.get_id() + "' " + (archive ? "archived" : "restored from archive") );
 	}
 	
@@ -1189,8 +1159,8 @@ public class ListActivity extends BaseActivity implements UndoListener {
 	 * Tags addition and editing
 	 * @param tag
 	 */
-	private void editTag(Tag tag){
-		Intent tagIntent = new Intent(this, TagActivity.class);
+	void editTag(Tag tag){
+		Intent tagIntent = new Intent(mActivity, TagActivity.class);
 		tagIntent.putExtra(Constants.INTENT_TAG, tag);
 		startActivityForResult(tagIntent, REQUEST_CODE_TAG);
 	}
@@ -1218,7 +1188,7 @@ public class ListActivity extends BaseActivity implements UndoListener {
 						.setAdapter(new NavDrawerTagAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
-								// Moved to other method, this way the same code block can be called
+								// Moved to other method, mActivity way the same code block can be called
 								// also by onActivityResult when a new tag is created
 								tagSelectedNotes2(tags.get(which));
 							}
@@ -1241,9 +1211,8 @@ public class ListActivity extends BaseActivity implements UndoListener {
 									note.setTag(null);
 									db.updateNote(note, false);
 								}
-								candidateSelectedTag = null;
 								// Refresh view
-								((ListView) findViewById(R.id.notes_list)).invalidateViews();
+								((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
 								// Advice to user
 								Crouton.makeText(mActivity, R.string.notes_tag_removed, ONStyle.INFO).show();
 								selectedNotes.clear();
@@ -1252,7 +1221,6 @@ public class ListActivity extends BaseActivity implements UndoListener {
 						}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
-								candidateSelectedTag = null;
 								selectedNotes.clear();
 								mActionMode.finish(); // Action picked, so close the CAB
 							}
@@ -1281,18 +1249,12 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			db.updateNote(note, false);
 		}
 		// Refresh view
-		((ListView) findViewById(R.id.notes_list)).invalidateViews();
+		((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
 		// Advice to user
 		String msg = getResources().getText(R.string.notes_tagged_as) + " '" + tag.getName() + "'";
 		Crouton.makeText(mActivity, msg, ONStyle.INFO).show();
 		selectedNotes.clear();
 		mActionMode.finish(); // Action picked, so close the CAB
-	}
-	
-	
-	
-	public String getNavigationTmp() {
-		return this.navigationTmp;
 	}
 
 
@@ -1307,12 +1269,12 @@ public class ListActivity extends BaseActivity implements UndoListener {
 			mActionMode.finish(); // Action picked, so close the CAB
 		}
 		ubc.hideUndoBar(false);
-		initNotesList(getIntent());
+		initNotesList(mActivity.getIntent());
 	}
 
 
 
-	private void commitPending() {
+	void commitPending() {
 		if (undoDelete || undoArchive) {
 			
 			for (Note note : selectedNotes) {

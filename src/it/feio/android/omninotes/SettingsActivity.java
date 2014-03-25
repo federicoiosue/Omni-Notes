@@ -558,7 +558,7 @@ public class SettingsActivity extends PreferenceActivity {
 	
 	
 	private void restartApp() {
-		Intent intent = new Intent(this, ListActivity.class);
+		Intent intent = new Intent(this, MainActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //		NavUtils.navigateUpFromSameTask(this);

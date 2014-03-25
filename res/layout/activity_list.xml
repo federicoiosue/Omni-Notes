@@ -17,87 +17,46 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="true"
-    android:fitsSystemWindows="false"
-    android:paddingTop="@dimen/padding_top_kitkat" >
+    android:layout_height="match_parent" >
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+    <it.feio.android.omninotes.models.views.InterceptorLinearLayout
+        android:id="@+id/list_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray_bg" >
+        android:orientation="vertical" >
 
-        <it.feio.android.omninotes.models.views.InterceptorLinearLayout
-   			android:id="@+id/list_root"
+        <ListView
+            android:id="@+id/notes_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" 
-            android:orientation="vertical" >
-
-            <ListView
-                android:id="@+id/notes_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null"
-                android:dividerHeight="8dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:scrollbarSize="4dp"
-                android:scrollbarStyle="outsideOverlay"
-                android:scrollbarThumbVertical="@drawable/scroll_bar" >
-            </ListView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center" >
-
-                <com.neopixl.pixlui.components.textview.TextView
-                    android:id="@+id/empty_list"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:drawableTop="@animator/jingles_animation"
-                    android:gravity="center"
-                    android:text="@string/no_items_in_list"
-                    android:textColor="@color/list_note_dates"
-                    android:textSize="20sp"
-                    android:visibility="gone"
-                    pixlui:typeface="Roboto-Regular.ttf" />
-            </LinearLayout>
-        </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:scrollbarSize="4dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbarThumbVertical="@drawable/scroll_bar" >
+        </ListView>
 
         <LinearLayout
-            android:id="@+id/left_drawer"
-            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@color/navigation_bg"
-            android:orientation="vertical"
-            android:paddingBottom="30dp" >
+            android:gravity="center" >
 
-            <ListView
-                android:id="@+id/drawer_nav_list"
-                android:layout_width="@dimen/navigation_drawer_width"
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/empty_list"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:choiceMode="singleChoice"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp" />
-
-            <ListView
-                android:id="@+id/drawer_tag_list"
-                android:layout_width="@dimen/navigation_drawer_width"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:choiceMode="singleChoice"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp"
-                android:overScrollMode="never"
-                android:scrollbarSize="4dp"
-                android:scrollbarStyle="outsideOverlay"
-                android:scrollbarThumbVertical="@drawable/scroll_bar" />
+                android:drawablePadding="10dp"
+                android:drawableTop="@animator/jingles_animation"
+                android:gravity="center"
+                android:text="@string/no_items_in_list"
+                android:textColor="@color/list_note_dates"
+                android:textSize="20sp"
+                android:visibility="gone"
+                pixlui:typeface="Roboto-Regular.ttf" />
         </LinearLayout>
-    </android.support.v4.widget.DrawerLayout>
+    </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
 
     <LinearLayout
         android:id="@+id/undobar"

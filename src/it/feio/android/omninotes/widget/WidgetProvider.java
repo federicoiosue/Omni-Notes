@@ -2,7 +2,7 @@ package it.feio.android.omninotes.widget;
 
 
 import it.feio.android.omninotes.DetailActivity;
-import it.feio.android.omninotes.ListActivity;
+import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import android.annotation.TargetApi;
@@ -57,7 +57,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 				Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		// Create an Intent to launch ListActivity
-		Intent intentList = new Intent(context, ListActivity.class);
+		Intent intentList = new Intent(context, ListFragment.class);
 //		PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, 0);
 		intentList.putExtra(Constants.INTENT_WIDGET, widgetId);
 		intentList.setAction(Intent.ACTION_MAIN);

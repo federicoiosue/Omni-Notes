@@ -16,7 +16,8 @@
 package it.feio.android.omninotes.models.adapters;
 
 import it.feio.android.checklistview.utils.DensityUtil;
-import it.feio.android.omninotes.ListActivity;
+import it.feio.android.omninotes.BaseActivity;
+import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
@@ -132,8 +133,8 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 				R.array.navigation_list_codes);
 		
 		// Managing temporary navigation indicator when coming from a widget
-		String navigationTmp = ListActivity.class.isAssignableFrom(mActivity
-				.getClass()) ? ((ListActivity) mActivity).getNavigationTmp()
+		String navigationTmp = ListFragment.class.isAssignableFrom(mActivity
+				.getClass()) ? ((BaseActivity) mActivity).getNavigationTmp()
 				: null;
 				
 		String navigation = navigationTmp != null ? navigationTmp

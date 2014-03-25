@@ -1,6 +1,6 @@
 package it.feio.android.omninotes.async;
 
-import it.feio.android.omninotes.ListActivity;
+import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -151,7 +151,7 @@ public class DataBackupIntentService extends IntentService {
 		// The behavior differs depending on intent action 
 		Intent intentLaunch;
 		if (Constants.ACTION_DATA_IMPORT.equals(intent.getAction())) {
-			 intentLaunch = new Intent(ctx, ListActivity.class);
+			 intentLaunch = new Intent(ctx, ListFragment.class);
 		} else {
 			 intentLaunch = new Intent();
 		}

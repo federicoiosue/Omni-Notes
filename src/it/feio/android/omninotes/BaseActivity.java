@@ -446,6 +446,12 @@ public class BaseActivity extends ActionBarActivity {
 	    
 		getSupportActionBar().setTitle(title);
 	}
+	
+	
+	
+	public String getNavigationTmp() {
+		return navigationTmp;
+	}
 
 	
 
