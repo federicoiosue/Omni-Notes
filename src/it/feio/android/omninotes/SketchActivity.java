@@ -263,7 +263,7 @@ public class SketchActivity extends BaseActivity implements OnDrawChangedListene
 		}
 
 		super.finish();
-		animateTransition(TRANSITION_BACKWARD);
+//		animateTransition(TRANSITION_BACKWARD);
 	}
 	
 	

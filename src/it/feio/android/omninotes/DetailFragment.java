@@ -2,7 +2,7 @@
  * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use mActivity file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
  *   http://www.apache.org/licenses/LICENSE-2.0
@@ -33,6 +33,7 @@ import it.feio.android.omninotes.models.listeners.OnAttachingFileErrorListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.DatePickerFragment;
@@ -54,6 +55,7 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -73,6 +75,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
 import android.text.Editable;
@@ -83,6 +87,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -119,14 +124,14 @@ import com.neopixl.pixlui.links.TextLinkClickListener;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 /**
- * An activity representing a single Item detail screen. This activity is only
+ * An activity representing a single Item detail screen. mActivity activity is only
  * used on handset devices. On tablet-size devices, item details are presented
  * side-by-side with a list of items in a {@link ItemListActivity}.
  * <p>
- * This activity is mostly just a 'shell' activity containing nothing more than
+ * mActivity activity is mostly just a 'shell' activity containing nothing more than
  * a {@link ItemDetailFragment}.
  */
-public class DetailActivity extends BaseActivity implements OnDateSetListener,
+public class DetailFragment extends Fragment implements OnDateSetListener,
 OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener, OnTouchListener {
 
 	private static final int TAKE_PHOTO = 1;
@@ -138,7 +143,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private static final int TAG = 7;
 	private static final int DETAIL = 8;
 
-	private Activity mActivity;
+	private MainActivity mActivity;
 	private ShareActionProvider mShareActionProvider;
 	private LinearLayout reminder_layout;
 	private TextView datetime;	
@@ -160,7 +165,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 	// Audio recording
 	private static String recordName;
-	private MediaRecorder mRecorder = null;
+	MediaRecorder mRecorder = null;
 	private MediaPlayer mPlayer = null;
 	private boolean isRecording = false;
 	private View isPlayingView = null;
@@ -182,14 +187,38 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private int previousX;
 	private View root;
 	private int startSwipeX;
-	
+	private SharedPreferences prefs;
+	private DbHelper db;
+
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_detail);
-
-		mActivity = this;		
+		setHasOptionsMenu(true);
+		
+		mActivity = (MainActivity) getActivity();
+		
+		// Show the Up button in the action bar.
+		if (mActivity.getSupportActionBar() != null) {
+			mActivity.getDrawerToggle().setDrawerIndicatorEnabled(false);
+			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+			mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		mActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        return inflater.inflate(R.layout.fragment_detail, container, false);
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		prefs = mActivity.prefs;
+		db = mActivity.db;
+		
 		resultIntent = new Intent();
 		
 		// Restored temp note after orientation change
@@ -197,37 +226,20 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			noteTmp = savedInstanceState.getParcelable("note");
 			attachmentUri = savedInstanceState.getParcelable("attachmentUri");
 		}
-
-		// Show the Up button in the action bar.
-		if (getSupportActionBar() != null) {
-			getSupportActionBar().setDisplayShowTitleEnabled(false);
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		}
 		
 		init();
 	}
-
 	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (mRecorder != null) {
-			mRecorder.release();
-			mRecorder = null;
-		}
-		Crouton.cancelAllCroutons();
-	}
 	
 	
 	
 	@Override
-	protected void onSaveInstanceState(Bundle outState) {		
+	public void onSaveInstanceState(Bundle outState) {		
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent()); 
 		outState.putParcelable("note", noteTmp);
 		outState.putParcelable("attachmentUri", attachmentUri);
-		super.onSaveInstanceState(outState);
-		
+		super.onSaveInstanceState(outState);		
 	}
 	
 	
@@ -236,7 +248,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		// Handling of Intent actions
 		handleIntents();
 		
-		note = (Note) getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
+//		note = (Note) mActivity.getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
+		note = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);	
 		if (noteTmp == null) {
 			if (note == null) note = new Note();
 			noteTmp = new Note(note);
@@ -262,7 +275,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void checkNoteLock(Note note) {
 		// If note is locked security password will be requested
 		if (noteTmp.isLocked() && prefs.getString(Constants.PREF_PASSWORD, null) != null) {
-			requestPassword(new PasswordValidator() {					
+			mActivity.requestPassword(new PasswordValidator() {					
 				@Override
 				public void onPasswordValidated(boolean result) {
 					if (result) {
@@ -282,7 +295,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 
 	private void handleIntents() {
-		Intent i = getIntent();
+		Intent i = mActivity.getIntent();
 		
 		// Action called from widget
 		if (Intent.ACTION_PICK.equals(i.getAction())) {
@@ -293,12 +306,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		// Action called from home shortcut
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())) {
 			afterSavedReturnsToList = false;
-			DbHelper db = new DbHelper(this);
+			DbHelper db = new DbHelper(mActivity);
 			noteTmp = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
 			// Checks if the note pointed from the shortcut has been deleted
 			if (noteTmp == null) {	
-				showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
-				finish();
+				mActivity.showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
+				mActivity.finish();
 			}
 			i.setAction(null);
 		}
@@ -316,7 +329,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 					try {
 						tag = db.getTag(Integer.parseInt(tagId));
 						noteTmp = new Note();
-						DbHelper db = new DbHelper(this);
+						DbHelper db = new DbHelper(mActivity);
 						noteTmp.setTag(tag);
 					} catch (NumberFormatException e) {}			
 				}
@@ -353,7 +366,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	    	// Due to the fact that Google Now passes intent as text but with 
 	    	// audio recording attached the case must be handled in specific way
 		    if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {
-		    	String mimeType = StorageManager.getMimeTypeInternal(this, i.getType());
+		    	String mimeType = StorageManager.getMimeTypeInternal(mActivity, i.getType());
 		    	noteTmp.addAttachment(new Attachment(uri, mimeType));
 		    }
 		    
@@ -363,10 +376,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		    	for (Uri uriSingle : uris) {
 		    		String mimeGeneral = StorageManager.getMimeType(mActivity, uriSingle);
 		    		if (mimeGeneral != null) {
-		    			String mimeType = StorageManager.getMimeTypeInternal(this, mimeGeneral);
+		    			String mimeType = StorageManager.getMimeTypeInternal(mActivity, mimeGeneral);
 		    			noteTmp.addAttachment(new Attachment(uriSingle, mimeType));	
 		    		} else {
-		    			showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
+		    			mActivity.showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
 		    		}
 				}
 		    }
@@ -378,20 +391,20 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void initViews() {
 		
 		// Sets onTouchListener to the whole activity to swipe notes
-		root = findViewById(R.id.detail_root);
+		root = mActivity.findViewById(R.id.detail_root);
 		root.setOnTouchListener(this);
 
 		// Color of tag marker if note is tagged a function is active in preferences
 		setTagMarkerColor(noteTmp.getTag());		
 		
 		// Sets links clickable in title and content Views
-		title = (EditText) findViewById(R.id.title);
+		title = (EditText) mActivity.findViewById(R.id.title);
 		title.setText(noteTmp.getTitle());
 		title.addTextChangedListener(this);		
 		title.gatherLinksForText();
 		title.setOnTextLinkClickListener(this);
 		
-		content = (EditText) findViewById(R.id.content);
+		content = (EditText) mActivity.findViewById(R.id.content);
 		content.setText(noteTmp.getContent());
 		content.addTextChangedListener(this);
 		content.gatherLinksForText();
@@ -399,7 +412,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		if (note.get_id() == 0 && !noteTmp.isChanged(note)) {			
 			// Force focus and shows soft keyboard
 			content.requestFocus();
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 	        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 		}
 
@@ -412,17 +425,17 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		}
 		
 		// Initialization of location TextView
-		locationTextView = (TextView) findViewById(R.id.location);
-		if (currentLatitude != 0 && currentLongitude != 0) {
-			if (noteTmp.getAddress() != null && noteTmp.getAddress().length() > 0) {
-				locationTextView.setVisibility(View.VISIBLE);
-				locationTextView.setText(noteTmp.getAddress());
-			} else {
-				// Sets visibility now to avoid jumps on populating location
-				locationTextView.setVisibility(View.INVISIBLE);	
-				setAddress(locationTextView);
-			}
-		}
+		locationTextView = (TextView) mActivity.findViewById(R.id.location);
+//		if (mActivity.currentLatitude != 0 && mActivity.currentLongitude != 0) {
+//			if (noteTmp.getAddress() != null && noteTmp.getAddress().length() > 0) {
+//				locationTextView.setVisibility(View.VISIBLE);
+//				locationTextView.setText(noteTmp.getAddress());
+//			} else {
+//				// Sets visibility now to avoid jumps on populating location
+//				locationTextView.setVisibility(View.INVISIBLE);	
+//				setAddress(locationTextView);
+//			}
+//		}
 
 		locationTextView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -480,7 +493,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 					attachmentIntent = new Intent(Intent.ACTION_VIEW);
 					attachmentIntent.setDataAndType(uri, attachment.getMime_type());
 					attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-					if (IntentChecker.isAvailable(getApplicationContext(), attachmentIntent, null)) {
+					if (IntentChecker.isAvailable(mActivity.getApplicationContext(), attachmentIntent, null)) {
 						startActivity(attachmentIntent);
 					} else {
 						Crouton.makeText(mActivity, R.string.feature_not_available_on_this_device, ONStyle.WARN).show();
@@ -537,7 +550,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 		
 		// Preparation for reminder icon
-		reminder_layout = (LinearLayout) findViewById(R.id.reminder_layout);
+		reminder_layout = (LinearLayout) mActivity.findViewById(R.id.reminder_layout);
 		reminder_layout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -579,12 +592,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 		
 		// Reminder
-		datetime = (TextView) findViewById(R.id.datetime);
+		datetime = (TextView) mActivity.findViewById(R.id.datetime);
 		datetime.setText(dateTimeText);
 		
 		
 		// Footer dates of creation... 
-		TextView creationTextView = (TextView) findViewById(R.id.creation);
+		TextView creationTextView = (TextView) mActivity.findViewById(R.id.creation);
 		String creation = noteTmp.getCreationShort(mActivity);
 		creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " "
 				+ creation : "");
@@ -592,7 +605,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			creationTextView.setVisibility(View.GONE);
 		
 		// ... and last modification
-		TextView lastModificationTextView = (TextView) findViewById(R.id.last_modification);
+		TextView lastModificationTextView = (TextView) mActivity.findViewById(R.id.last_modification);
 		String lastModification = noteTmp.getLastModificationShort(mActivity);
 		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " "
 				+ lastModification : "");
@@ -616,10 +629,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			// Choosing target view depending on another preference
 			ArrayList<View> target = new ArrayList<View>();
 			if (colorsPref.equals("complete")){
-				target.add(findViewById(R.id.title_wrapper));
-				target.add(findViewById(R.id.content_wrapper));
+				target.add(mActivity.findViewById(R.id.title_wrapper));
+				target.add(mActivity.findViewById(R.id.content_wrapper));
 			} else {
-				target.add(findViewById(R.id.tag_marker));
+				target.add(mActivity.findViewById(R.id.tag_marker));
 			}
 			
 			// Coloring the target
@@ -681,11 +694,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 										Log.d(Constants.TAG, "Time set");
 									}
 								}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), DateHelper.is24HourMode(mActivity));
-						mRadialTimePickerDialog.show(getSupportFragmentManager(), Constants.TAG);
+						mRadialTimePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 					}
 
 				}, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
-		mCalendarDatePickerDialog.show(getSupportFragmentManager(), Constants.TAG);
+		mCalendarDatePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
 
 
@@ -698,12 +711,15 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 	public void showDatePickerDialog(View v) {
 		DatePickerFragment newFragment = new DatePickerFragment();
-		newFragment.show(getSupportFragmentManager(), "datePicker");
+		Bundle bundle = new Bundle();		
+		bundle.putString(DatePickerFragment.DEFAULT_DATE, getAlarmDate());
+		newFragment.setArguments(bundle);
+		newFragment.show(mActivity.getSupportFragmentManager(), "datePicker");
 	}
 	
 	private void showTimePickerDialog(View v) {
 		TimePickerFragment newFragment = new TimePickerFragment();
-		newFragment.show(getSupportFragmentManager(), Constants.TAG);
+		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
 
 	@Override
@@ -751,14 +767,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		}
 		
 		if (noteTmp.getLatitude() != null && noteTmp.getLongitude() != null) {
-			currentLatitude = noteTmp.getLatitude();
-			currentLongitude = noteTmp.getLongitude();
+			mActivity.currentLatitude = noteTmp.getLatitude() != null ? noteTmp.getLatitude() : null ;
+			mActivity.currentLongitude = noteTmp.getLongitude() != null ? noteTmp.getLatitude() : null;
 		}
 		
 
 		// Some fields can be filled by third party application and are always
 		// shown
-		mGridView = (ExpandableHeightGridView) findViewById(R.id.gridview);
+		mGridView = (ExpandableHeightGridView) mActivity.findViewById(R.id.gridview);
 		mAttachmentAdapter = new AttachmentAdapter((Activity)mActivity, noteTmp.getAttachmentsList(), mGridView);
 		mAttachmentAdapter.setOnErrorListener(new OnAttachingFileErrorListener() {			
 			@Override
@@ -786,10 +802,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 				String addressString = "";
 				try {
-					noteTmp.setLatitude(currentLatitude);
-					noteTmp.setLongitude(currentLongitude);
+					noteTmp.setLatitude(mActivity.currentLatitude);
+					noteTmp.setLongitude(mActivity.currentLongitude);
 					Geocoder gcd = new Geocoder(mActivity, Locale.getDefault());
-					List<Address> addresses = gcd.getFromLocation(currentLatitude, currentLongitude, 1);
+					List<Address> addresses = gcd.getFromLocation(mActivity.currentLatitude, mActivity.currentLongitude, 1);
 					if (addresses.size() > 0) {
 						Address address = addresses.get(0);
 						if (address != null) {
@@ -833,8 +849,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {	    
-		super.onCreateOptionsMenu(menu);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+		inflater.inflate(R.menu.menu, menu);
+		super.onCreateOptionsMenu(menu, inflater);
 		
 		// Locate MenuItem with ShareActionProvider
 	    MenuItem item = menu.findItem(R.id.menu_share);
@@ -853,7 +871,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title, R.string.tour_detailactivity_reminder_detail, null});
 			list.add(new Integer[]{R.id.title, R.string.tour_detailactivity_links_title, R.string.tour_detailactivity_links_detail, null});
 			list.add(new Integer[]{0, R.string.tour_detailactivity_save_title, R.string.tour_detailactivity_save_detail, ShowcaseView.ITEM_ACTION_HOME});
-			showCaseView(list, new OnShowcaseAcknowledged() {			
+			mActivity.showCaseView(list, new OnShowcaseAcknowledged() {			
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
 					prefs.edit().putBoolean(instructionName, true).commit();
@@ -861,13 +879,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				}
 			});	
 	    }
-	    
-	    return true;
 	}
 
 	
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_attachment).setVisible(true);
 		menu.findItem(R.id.menu_tag).setVisible(true);
@@ -880,8 +896,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		menu.findItem(R.id.menu_discard_changes).setVisible(true);
 		menu.findItem(R.id.menu_archive).setVisible(!noteTmp.isArchived());
 		menu.findItem(R.id.menu_unarchive).setVisible(noteTmp.isArchived());
-
-		return super.onPrepareOptionsMenu(menu);
 	}
 
 	
@@ -889,32 +903,40 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		stopPlaying();
 		
 		// Hides keyboard
-		InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-	    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+//		InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+//	    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+	    KeyboardUtils.hideKeyboard(title);
+	    
 
+	    String msg = resultIntent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
+	    
 		// The activity has managed a shared intent from third party app and
 		// performs a normal onBackPressed instead of returning back to ListActivity
 		if (!afterSavedReturnsToList) {
-			String msg = resultIntent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
+//			String msg = resultIntent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
 			if (!TextUtils.isEmpty(msg)) {
-				showToast(msg, Toast.LENGTH_SHORT);
+				mActivity.showToast(msg, Toast.LENGTH_SHORT);
 			}
-			super.onBackPressed();
+//			mActivity.onBackPressed(); //TODO Resolve this
+			mActivity.finish();
 			return true;
 		}
 		
 		// Otherwise the result is passed to ListActivity
-		int result = resultIntent.getIntExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_OK);
-		setResult(result, resultIntent);
-		super.finish();
-		animateTransition(TRANSITION_BACKWARD);
+//		int result = resultIntent.getIntExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_OK);
+//		mActivity.setResult(result, resultIntent);
+//		super.finish(); //TODO Resolve this
+//		mActivity.animateTransition(mActivity.TRANSITION_BACKWARD);
+		
+//		FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
+//		fragmentTransaction.remove(this);
+//		fragmentTransaction.commit();
+		mActivity.getSupportFragmentManager().popBackStack();
+		if (mActivity.getSupportFragmentManager().getBackStackEntryCount() == 2) { 
+			mActivity.getDrawerToggle().setDrawerIndicatorEnabled(true);
+		}
+		
 		return true;
-	}
-
-	
-	@Override
-	public void onBackPressed() {
-		saveNote(null);
 	}
 
 	
@@ -931,7 +953,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			saveNote(false);
 			break;
 		case R.id.menu_attachment:
-			showPopup(findViewById(R.id.menu_attachment));
+			showPopup(mActivity.findViewById(R.id.menu_attachment));
 			break;
 		case R.id.menu_tag:
 			tagNote();
@@ -976,8 +998,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 
 		// Inflate the popup_layout.xml
-		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-		final View layout = inflater.inflate(R.layout.dialog_remove_checklist_layout, (ViewGroup) findViewById(R.id.layout_root));
+		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		final View layout = inflater.inflate(R.layout.dialog_remove_checklist_layout, (ViewGroup) mActivity.findViewById(R.id.layout_root));
 
 		// Retrieves options checkboxes and initialize their values
 		final CheckBox keepChecked = (CheckBox) layout.findViewById(R.id.checklist_keep_checked);
@@ -1020,7 +1042,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 //			private View targetView;
 //
 //			public ChecklistTask(View targetView) {
-//				this.targetView = targetView;
+//				mActivity.targetView = targetView;
 //			}
 //
 //			@Override
@@ -1033,11 +1055,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				mChecklistManager.setShowChecks(true);
 				mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
 				// Set the textChangedListener on the replaced view
-				mChecklistManager.setCheckListChangedListener((DetailActivity)mActivity);
-				mChecklistManager.addTextChangedListener((DetailActivity)mActivity);
+				mChecklistManager.setCheckListChangedListener(this);
+				mChecklistManager.addTextChangedListener(this);
 				
 				// Links parsing options
-				mChecklistManager.setOnTextLinkClickListener((DetailActivity)mActivity);
+				mChecklistManager.setOnTextLinkClickListener(this);
 				
 				// Options for converting back to simple text
 				mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
@@ -1126,14 +1148,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	// The method that displays the popup.
 	private void showPopup(View anchor) {
 		DisplayMetrics metrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
 		// Inflate the popup_layout.xml
-		LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
-		View layout = inflater.inflate(R.layout.attachment_dialog, (ViewGroup) findViewById(R.id.layout_root));
+		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.attachment_dialog, (ViewGroup) mActivity.findViewById(R.id.layout_root));
 
 		// Creating the PopupWindow
-		attachmentDialog = new PopupWindow(this);
+		attachmentDialog = new PopupWindow(mActivity);
 		attachmentDialog.setContentView(layout);
 		attachmentDialog.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
 		attachmentDialog.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -1284,7 +1306,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void takeVideo() {
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 		if (!IntentChecker.isAvailable(mActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
-			Crouton.makeText(this, R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
+			Crouton.makeText(mActivity, R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
 			return;
 		}		
 		// File is stored in custom ON folder to speedup the attachment 
@@ -1301,20 +1323,20 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 	private void takeSketch(Attachment attachment) {
 		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_SKETCH_EXT));	
-		Intent intent = new Intent(this, SketchActivity.class);		
+		Intent intent = new Intent(mActivity, SketchActivity.class);		
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		// An already prepared attachment is going to be sketched
 		if (attachment != null) {
 			intent.putExtra("base", attachment.getUri());
 		}
 		startActivityForResult(intent, SKETCH);
-		animateTransition(TRANSITION_FORWARD);
+//		mActivity.animateTransition(mActivity.TRANSITION_FORWARD);
 	}
 
 	
 	@SuppressLint("NewApi")
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		// Fetch uri from activities, store into adapter and refresh adapter
 		Attachment attachment;
 		if (resultCode == Activity.RESULT_OK) {
@@ -1326,7 +1348,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				mGridView.autoresize();
 				break;
 			case GALLERY:
-				String mimeType = StorageManager.getMimeTypeInternal(this,  intent.getData());
+				String mimeType = StorageManager.getMimeTypeInternal(mActivity,  intent.getData());
 				// Manages unknow formats
 				if (mimeType == null) {
 					Crouton.makeText(mActivity, R.string.error_saving_attachments,
@@ -1359,7 +1381,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				mGridView.autoresize();
 				break;
 			case RECORDING:
-				if (resultCode == RESULT_OK) {
+				if (resultCode == Activity.RESULT_OK) {
 					Uri audioUri = intent.getData();
 					attachment = new Attachment(audioUri, Constants.MIME_TYPE_AUDIO);
 					noteTmp.getAttachmentsList().add(attachment);
@@ -1407,7 +1429,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
 			for (Attachment newAttachment: noteTmp.getAttachmentsList()) {
 				if (!note.getAttachmentsList().contains(newAttachment)) {
-					StorageManager.delete(this, newAttachment.getUri().getPath());
+					StorageManager.delete(mActivity, newAttachment.getUri().getPath());
 				}
 			}
 		}
@@ -1420,7 +1442,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void deleteNote() {
 
 		// Confirm dialog creation
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
 				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
@@ -1444,10 +1466,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 						// Informs the user about update
 						Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
-						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_CANCELED);
-						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_deleted));
+//						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_CANCELED);
+//						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_deleted));
+						Crouton.makeText(mActivity, getString(R.string.note_deleted), ONStyle.ALERT).show();
 						
-						notifyAppWidgets(mActivity);
+						mActivity.notifyAppWidgets(mActivity);
 						
 						goHome();
 						return;
@@ -1468,8 +1491,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	 * @param archive
 	 *            Boolean flag used to archive note. If null actual note state is used.
 	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private void saveNote(Boolean archive) {
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB) void saveNote(Boolean archive) {
 
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
@@ -1480,8 +1502,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		// is an empty note
 		if (noteTmp.isEmpty()) {
 			Log.d(Constants.TAG, "Empty note not saved");
-			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_FIRST_USER);
-			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.empty_note_not_saved));
+//			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_FIRST_USER);
+//			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.empty_note_not_saved));
+			Crouton.makeText(mActivity, getString(R.string.empty_note_not_saved), ONStyle.INFO).show();
 			goHome();
 			return;
 		}
@@ -1511,15 +1534,18 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			saveNoteTask.execute(noteTmp);
 		}
 
-		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
+//		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
+		if (afterSavedReturnsToList) {
+			Crouton.makeText(mActivity, getString(R.string.note_updated), ONStyle.CONFIRM).show();
+		}
 		
-		notifyAppWidgets(mActivity);
+		mActivity.notifyAppWidgets(mActivity);
 	}
 	
 
 
 	private String getNoteTitle() {
-		return ((EditText) findViewById(R.id.title)).getText().toString();
+		return ((EditText) mActivity.findViewById(R.id.title)).getText().toString();
 	}
 	
 	
@@ -1530,9 +1556,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			// a com.neopixl.pixlui.components.edittext.EditText but a standard
 			// android.widget.EditText
 			try {
-				content = ((EditText) findViewById(R.id.content)).getText().toString();
+				content = ((EditText) mActivity.findViewById(R.id.content)).getText().toString();
 			} catch (ClassCastException e) {
-				content = ((android.widget.EditText)  findViewById(R.id.content)).getText().toString();
+				content = ((android.widget.EditText)  mActivity.findViewById(R.id.content)).getText().toString();
 			}
 		} else {
 				if (mChecklistManager != null) {
@@ -1611,7 +1637,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		
 		// If security password is not set yes will be set right now
 		if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
-			Intent passwordIntent = new Intent(this, PasswordActivity.class);
+			Intent passwordIntent = new Intent(mActivity, PasswordActivity.class);
 			startActivityForResult(passwordIntent, SET_PASSWORD);
 			return;
 		}
@@ -1623,7 +1649,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		}
 		
 		// Password will be requested here
-		requestPassword(new PasswordValidator() {					
+		mActivity.requestPassword(new PasswordValidator() {					
 			@Override
 			public void onPasswordValidated(boolean result) {
 				if (result) {
@@ -1637,10 +1663,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void lockUnlock(){
 		if (noteTmp.isLocked()) {
 			Crouton.makeText(mActivity, R.string.save_note_to_unlock_it, ONStyle.INFO).show();
-			supportInvalidateOptionsMenu();
+			mActivity.supportInvalidateOptionsMenu();
 		} else {
 			Crouton.makeText(mActivity, R.string.save_note_to_lock_it, ONStyle.INFO).show();
-			supportInvalidateOptionsMenu();
+			mActivity.supportInvalidateOptionsMenu();
 		}
 		noteTmp.setLocked(!noteTmp.isLocked());
 	}
@@ -1654,7 +1680,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	 * @return
 	 */
 	private String initAlarm(long alarmDateTime) {
-//		this.alarmDateTime = alarmDateTime;
+//		mActivity.alarmDateTime = alarmDateTime;
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(alarmDateTime);
 		alarmDate = DateHelper.onDateSet(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
@@ -1716,7 +1742,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void startPlaying(Uri uri) {
 		mPlayer = new MediaPlayer();
 		try {
-			mPlayer.setDataSource(getApplicationContext(), uri);
+			mPlayer.setDataSource(mActivity, uri);
 			mPlayer.prepare();
 			mPlayer.start();
 			mPlayer.setOnCompletionListener(new OnCompletionListener() {
@@ -1746,7 +1772,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	}
 
 	private void startRecording() {
-		recordName = StorageManager.createNewAttachmentFile(this, Constants.MIME_TYPE_AUDIO_EXT).getAbsolutePath();
+		recordName = StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_AUDIO_EXT).getAbsolutePath();
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
@@ -1786,7 +1812,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		final int visibility = visibilityTemp;
 		
 		if (prefs.getBoolean("settings_enable_animations", true)) {
-			Animation mAnimation = AnimationUtils.loadAnimation(this, anim);
+			Animation mAnimation = AnimationUtils.loadAnimation(mActivity, anim);
 			mAnimation.setAnimationListener(new AnimationListener() {				
 				@Override
 				public void onAnimationStart(Animation animation) {}			
@@ -1824,7 +1850,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	 * Adding shortcut on Home screen
 	 */
 	private void addShortcut() {
-		Intent shortcutIntent = new Intent(this, getClass());
+		Intent shortcutIntent = new Intent(mActivity, getClass());
 		shortcutIntent.putExtra(Constants.INTENT_KEY, noteTmp.get_id());
 		shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
 		Intent addIntent = new Intent();
@@ -1832,9 +1858,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : note.getCreationShort(mActivity);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-				Intent.ShortcutIconResource.fromContext(getApplicationContext(), R.drawable.ic_stat_notification_icon));
+				Intent.ShortcutIconResource.fromContext(mActivity, R.drawable.ic_stat_notification_icon));
 		addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-		getApplicationContext().sendBroadcast(addIntent);
+		mActivity.sendBroadcast(addIntent);
 		Crouton.makeText(mActivity, R.string.shortcut_added, ONStyle.INFO).show();		
 	}
 
@@ -1883,10 +1909,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 					public void onClick(DialogInterface dialog, int id) {
 						// Creates a new text clip to put on the clipboard
 						if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-						    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(mActivity.CLIPBOARD_SERVICE);
+						    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) mActivity.getSystemService(mActivity.CLIPBOARD_SERVICE);
 						    clipboard.setText("text to clip");
 						} else {
-						    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(mActivity.CLIPBOARD_SERVICE); 
+						    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) mActivity.getSystemService(mActivity.CLIPBOARD_SERVICE); 
 						    android.content.ClipData clip = android.content.ClipData.newPlainText("text label", clickedString);
 						    clipboard.setPrimaryClip(clip);
 						}
@@ -1910,7 +1936,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		
 			case MotionEvent.ACTION_DOWN:
 				Log.v(Constants.TAG, "MotionEvent.ACTION_DOWN");
-				Display display = getWindowManager().getDefaultDisplay();
+				Display display = mActivity.getWindowManager().getDefaultDisplay();
 				int w, h;
 				if (Build.VERSION.SDK_INT >= 13) {
 					Point size = new Point();
@@ -1940,9 +1966,18 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 					Log.v(Constants.TAG, "MotionEvent.ACTION_MOVE at position " + x + ", " + y);	
 					if (Math.abs(x - startSwipeX) > Constants.SWIPE_OFFSET) {
 						swiping = false;
-						Intent detailIntent = new Intent(this, DetailActivity.class);
-						detailIntent.putExtra(Constants.INTENT_NOTE, new Note());
-						startActivityForResult(detailIntent, DETAIL);
+//						Intent detailIntent = new Intent(mActivity, DetailFragment.class);
+//						detailIntent.putExtra(Constants.INTENT_NOTE, new Note());
+//						startActivityForResult(detailIntent, DETAIL);
+						FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
+						mActivity.animateTransition(transaction, mActivity.TRANSITION_VERTICAL);
+						DetailFragment mDetailFragment = new DetailFragment();
+						Bundle b = new Bundle();
+						b.putParcelable(Constants.INTENT_NOTE, new Note());
+						mDetailFragment.setArguments(b);
+						transaction.replace(R.id.fragment_container, mDetailFragment).addToBackStack("list").commit();
+//						mActivity.getDrawerToggle().setDrawerIndicatorEnabled(false);
+						
 					}
 				}
 				break;
@@ -1952,7 +1987,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 		return true;
 	}
-	
 
 
 }

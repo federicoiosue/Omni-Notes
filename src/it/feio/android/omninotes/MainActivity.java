@@ -1,15 +1,27 @@
 package it.feio.android.omninotes;
 
+import java.util.ArrayList;
+
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.StorageManager;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class MainActivity extends BaseActivity {
 
@@ -26,14 +38,12 @@ public class MainActivity extends BaseActivity {
 		setContentView(R.layout.activity_main);
 		
 		mFragmentManager = getSupportFragmentManager();
-
-//		mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(
-//				R.id.navigation_drawer);
-//		mTitle = getTitle();
-//
-//		 Set up the drawer.
-//		mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-//		mNavigationDrawerFragment.initNavigationDrawer();
+		
+		FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+		fragmentTransaction.add(R.id.fragment_container, new ListFragment()).commit();
+		
+		// Handling of Intent actions
+		handleIntents();
 	}
 
 	@Override
@@ -46,127 +56,177 @@ public class MainActivity extends BaseActivity {
 		super.onNewIntent(intent);
 	}
 
+	
+	
 	public MenuItem getSearchMenuItem() {
-		return ((ListFragment)mFragmentManager.findFragmentById(R.id.container_list)).searchMenuItem;
+		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+		if (f != null) {
+			return ((ListFragment)f).searchMenuItem;			
+		} else {
+			return null;
+		}
 	}
 
 	public void editTag(Tag tag) {
-		((ListFragment)mFragmentManager.findFragmentById(R.id.container_list)).editTag(tag);
+		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+		if (f != null) {
+			((ListFragment)f).editTag(tag);			
+		} 
 	}
 
 	public void initNotesList(Intent intent) {
-		((ListFragment)mFragmentManager.findFragmentById(R.id.container_list)).initNotesList(intent);
+		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+		if (f != null) {
+			((ListFragment)f).initNotesList(intent);			
+		} 
 	}
 
 	public void commitPending() {
-		((ListFragment)mFragmentManager.findFragmentById(R.id.container_list)).commitPending();
+		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+		if (f != null) {
+			((ListFragment)f).commitPending();			
+		} 
 	}
 
 	public void editNote(Note note) {
-		((ListFragment)mFragmentManager.findFragmentById(R.id.container_list)).editNote(note);
+		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+		if (f != null) {
+			((ListFragment)f).editNote(note);	
+		} 
+	}
+	
+	
+	/**
+	 * Checks if allocated fragment is of the required type and then returns it or returns null
+	 * @param id
+	 * @param instanceClass
+	 * @return
+	 */
+	private Fragment checkFragmentInstance(int id, Object instanceClass) {
+		Fragment result = null;
+		Fragment fragment = mFragmentManager.findFragmentById(R.id.fragment_container);
+		if (instanceClass.equals(fragment.getClass())) {
+			result = fragment;
+		}
+		return result;
+	}
+	
+	
+	public void onBackPressed() {
+		Fragment f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
+		if (f != null) {
+			((DetailFragment)f).saveNote(null);	
+			return;
+		} 
+		super.onBackPressed();
+	}
+	
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Fragment f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
+		if (f != null) {
+			MediaRecorder mRecorder = ((DetailFragment)f).mRecorder;
+			if (mRecorder != null) {
+				mRecorder.release();
+				mRecorder = null;
+			}
+		}
+		Crouton.cancelAllCroutons();
 	}
 
-//	@Override
-//	public void onNavigationDrawerItemSelected(int position) {
-//		// update the main content by replacing fragments
-//		FragmentManager fragmentManager = getSupportFragmentManager();
-//		fragmentManager.beginTransaction().replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-//				.commit();
-//	}
-//
-//	public void onSectionAttached(int number) {
-//		switch (number) {
-//		case 1:
-//			mTitle = getString(R.string.title_section1);
-//			break;
-//		case 2:
-//			mTitle = getString(R.string.title_section2);
-//			break;
-//		case 3:
-//			mTitle = getString(R.string.title_section3);
-//			break;
-//		}
-//	}
-//
-//	public void restoreActionBar() {
-//		ActionBar actionBar = getSupportActionBar();
-//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-//		actionBar.setDisplayShowTitleEnabled(true);
-//		actionBar.setTitle(mTitle);
-//	}
-
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		if (!mNavigationDrawerFragment.isDrawerOpen()) {
-//			// Only show items in the action bar relevant to this screen
-//			// if the drawer is not showing. Otherwise, let the drawer
-//			// decide what to show in the action bar.
-//			getMenuInflater().inflate(R.menu.menu, menu);
-//			restoreActionBar();
-//			return true;
-//		}
-//		return super.onCreateOptionsMenu(menu);
-//	}
-
-////	@Override
-////	public boolean onOptionsItemSelected(MenuItem item) {
-////		// Handle action bar item clicks here. The action bar will
-////		// automatically handle clicks on the Home/Up button, so long
-////		// as you specify a parent activity in AndroidManifest.xml.
-////		int id = item.getItemId();
-////		if (id == R.id.action_settings) {
-////			return true;
-////		}
-////		return super.onOptionsItemSelected(item);
-////	}
-////
-////	/**
-////	 * A placeholder fragment containing a simple view.
-////	 */
-////	public static class PlaceholderFragment extends Fragment {
-////		/**
-////		 * The fragment argument representing the section number for this
-////		 * fragment.
-////		 */
-////		private static final String ARG_SECTION_NUMBER = "section_number";
-////
-////		/**
-////		 * Returns a new instance of this fragment for the given section number.
-////		 */
-////		public static PlaceholderFragment newInstance(int sectionNumber) {
-////			PlaceholderFragment fragment = new PlaceholderFragment();
-////			Bundle args = new Bundle();
-////			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-////			fragment.setArguments(args);
-////			return fragment;
-////		}
-////
-////		public PlaceholderFragment() {
-////		}
-//
-//		@Override
-//		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//			View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-//			TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-//			textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-//			return rootView;
-//		}
-//
-//		@Override
-//		public void onAttach(Activity activity) {
-//			super.onAttach(activity);
-//			((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
-//		}
-//	}
-
-//	@Override
-//	public void onConfigurationChanged(Configuration newConfig) {
-//		super.onConfigurationChanged(newConfig);
-//		mDrawerToggle.onConfigurationChanged(newConfig);
-//	}
 
 	public DrawerLayout getDrawerLayout() {
 		return ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer)).mDrawerLayout;
+	}
+	
+	public ActionBarDrawerToggle getDrawerToggle() {
+		return ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer)).mDrawerToggle;
+	}
+	
+	
+	private void handleIntents() {
+		Intent i = mActivity.getIntent();
+		
+		// Action called from widget
+		if (Intent.ACTION_PICK.equals(i.getAction())
+				|| Constants.ACTION_SHORTCUT.equals(i.getAction())
+				|| i.hasExtra(Constants.INTENT_WIDGET)
+				
+				|| ( ( Intent.ACTION_SEND.equals(i.getAction()) 
+						|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction()) 
+						|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) ) 
+						&& i.getType() != null)		
+						
+						) {
+			switchToDetail(new Note());
+		}
+		
+		
+//		/**
+//		 * Handles third party apps requests of sharing
+//		 */
+//		else if ( ( Intent.ACTION_SEND.equals(i.getAction()) 
+//				|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction()) 
+//				|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) ) 
+//				&& i.getType() != null) {
+//
+//			Note note = new Note();
+//			
+//			// Text title
+//			String title = i.getStringExtra(Intent.EXTRA_SUBJECT);
+//			if (title != null) {
+//				note.setTitle(title);
+//			}
+//			
+//			// Text content
+//			String content = i.getStringExtra(Intent.EXTRA_TEXT);
+//			if (content != null) {
+//				note.setContent(content);
+//			}
+//			
+//			// Single attachment data
+//			Uri uri = (Uri) i.getParcelableExtra(Intent.EXTRA_STREAM);
+//	    	// Due to the fact that Google Now passes intent as text but with 
+//	    	// audio recording attached the case must be handled in specific way
+//		    if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {
+//		    	String mimeType = StorageManager.getMimeTypeInternal(mActivity, i.getType());
+//		    	note.addAttachment(new Attachment(uri, mimeType));
+//		    }
+//		    
+//		    // Multiple attachment data
+//		    ArrayList<Uri> uris = i.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+//		    if (uris != null) {
+//		    	for (Uri uriSingle : uris) {
+//		    		String mimeGeneral = StorageManager.getMimeType(mActivity, uriSingle);
+//		    		if (mimeGeneral != null) {
+//		    			String mimeType = StorageManager.getMimeTypeInternal(mActivity, mimeGeneral);
+//		    			note.addAttachment(new Attachment(uriSingle, mimeType));	
+//		    		} else {
+////		    			showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
+//		    			Crouton.makeText(mActivity, R.string.error_importing_some_attachments, ONStyle.ALERT).show();
+//		    		}
+//				}
+//		    }
+//		    switchToDetail(note);
+//		}
+		
+
+		
+	}
+
+	public void switchToDetail(Note note) {
+		FragmentTransaction transaction = mFragmentManager.beginTransaction();
+		animateTransition(transaction, TRANSITION_HORIZONTAL);
+		DetailFragment mDetailFragment = new DetailFragment();
+		Bundle b = new Bundle();
+		b.putParcelable(Constants.INTENT_NOTE, note);
+		mDetailFragment.setArguments(b);
+		transaction.replace(R.id.fragment_container, mDetailFragment).addToBackStack("list").commit();
+		if (getDrawerToggle() != null) {
+			getDrawerToggle().setDrawerIndicatorEnabled(false);
+		}
 	}
 
 }

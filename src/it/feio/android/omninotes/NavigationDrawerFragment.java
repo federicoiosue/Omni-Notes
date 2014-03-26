@@ -46,7 +46,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  */
 public class NavigationDrawerFragment extends Fragment {
 
-	private ActionBarDrawerToggle mDrawerToggle;
+	ActionBarDrawerToggle mDrawerToggle;
 	DrawerLayout mDrawerLayout;
 	String[] mNavigationArray;
 	TypedArray mNavigationIconsArray;
@@ -230,16 +230,10 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+		
 		mDrawerToggle.syncState();
 	}
-
-//	@Override
-//	protected void onPostCreate(Bundle savedInstanceState) {
-//		super.onPostCreate(savedInstanceState);
-//		// Sync the toggle state after onRestoreInstanceState has occurred.
-//		if (mDrawerToggle != null)
-//			mDrawerToggle.syncState();
-//	}
 
 
 	/** Swaps fragments in the main content view 

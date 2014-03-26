@@ -68,8 +68,7 @@
             </intent-filter>
         </activity>
 
-        <!-- List -->
-
+        <!-- List and Detail -->
         <activity
             android:name="it.feio.android.omninotes.MainActivity"
             android:label="@string/app_name"
@@ -77,28 +76,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
-        </activity>
-
-        <!-- Tags -->
-        <activity
-            android:name="it.feio.android.omninotes.TagActivity"
-            android:label="@string/title_activity_tag"
-            android:parentActivityName="it.feio.android.omninotes.ListFragment"
-            android:theme="@style/Theme.AppCompat.Dialog" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
-        </activity>
-
-        <!-- Detail -->
-        <activity
-            android:name="it.feio.android.omninotes.DetailActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" >
+            
             <intent-filter>
                 <action android:name="com.google.android.gm.action.AUTO_SEND" />
 
@@ -156,6 +137,80 @@
                 <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
+
+        <!-- Tags -->
+        <activity
+            android:name="it.feio.android.omninotes.TagActivity"
+            android:label="@string/title_activity_tag"
+            android:parentActivityName="it.feio.android.omninotes.ListFragment"
+            android:theme="@style/Theme.AppCompat.Dialog" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
+        </activity>
+
+        <!-- Detail -->
+<!--         <activity -->
+<!--             android:name="it.feio.android.omninotes.DetailFragment" -->
+<!--             android:exported="true" -->
+<!--             android:windowSoftInputMode="adjustResize" > -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="com.google.android.gm.action.AUTO_SEND" /> -->
+
+<!--                 <category android:name="android.intent.category.DEFAULT" /> -->
+
+<!--                 <data android:mimeType="*/*" /> -->
+<!--             </intent-filter> -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.intent.action.SEND" /> -->
+
+<!--                 <category android:name="android.intent.category.DEFAULT" /> -->
+
+<!--                 <data android:mimeType="text/plain" /> -->
+<!--             </intent-filter> -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.intent.action.SEND" /> -->
+
+<!--                 <category android:name="android.intent.category.DEFAULT" /> -->
+
+<!--                 <data android:mimeType="image/*" /> -->
+<!--             </intent-filter> -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.intent.action.SEND_MULTIPLE" /> -->
+
+<!--                 <category android:name="android.intent.category.DEFAULT" /> -->
+
+<!--                 <data android:mimeType="image/*" /> -->
+<!--             </intent-filter> -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.intent.action.SEND" /> -->
+
+<!--                 <category android:name="android.intent.category.DEFAULT" /> -->
+
+<!--                 <data android:mimeType="audio/*" /> -->
+<!--             </intent-filter> -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.intent.action.SEND_MULTIPLE" /> -->
+
+<!--                 <category android:name="android.intent.category.DEFAULT" /> -->
+
+<!--                 <data android:mimeType="audio/*" /> -->
+<!--             </intent-filter> -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.intent.action.SEND" /> -->
+
+<!--                 <category android:name="android.intent.category.DEFAULT" /> -->
+
+<!--                 <data android:mimeType="video/*" /> -->
+<!--             </intent-filter> -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.intent.action.SEND_MULTIPLE" /> -->
+
+<!--                 <category android:name="android.intent.category.DEFAULT" /> -->
+
+<!--                 <data android:mimeType="video/*" /> -->
+<!--             </intent-filter> -->
+<!--         </activity> -->
 
         <!-- Sketch -->
         <activity

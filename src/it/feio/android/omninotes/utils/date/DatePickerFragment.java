@@ -15,7 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils.date;
 
-import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Calendar;
@@ -28,13 +27,20 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 public class DatePickerFragment extends DialogFragment {
-	private DetailActivity mActivity;
+	
+	public static final String DEFAULT_DATE = "default_date";
+	
+	private Activity mActivity;
 	private OnDateSetListener mListener;
-
+	private String dateString = null;
+	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mActivity = (DetailActivity) activity;
+		mActivity = activity;
+		if (getArguments().containsKey(DEFAULT_DATE)) {
+			this.dateString = getArguments().getString(DEFAULT_DATE);
+		}
 
 		try {
 			mListener = (OnDateSetListener) activity;
@@ -48,7 +54,7 @@ public class DatePickerFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		
 		// Use the current date as the default date in the picker
-		Calendar cal = DateHelper.getDateFromString(mActivity.getAlarmDate(), Constants.DATE_FORMAT_SHORT_DATE);
+		Calendar cal = dateString != null ? DateHelper.getDateFromString(dateString, Constants.DATE_FORMAT_SHORT_DATE) : Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH);
 		int day = cal.get(Calendar.DAY_OF_MONTH);

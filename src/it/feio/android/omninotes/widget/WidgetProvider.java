@@ -1,7 +1,7 @@
 package it.feio.android.omninotes.widget;
 
 
-import it.feio.android.omninotes.DetailActivity;
+import it.feio.android.omninotes.DetailFragment;
 import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
@@ -50,7 +50,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 	private void setLayout(Context context, AppWidgetManager appWidgetManager, int widgetId) {
 
 		// Create an Intent to launch DetailActivity
-		Intent intentDetail = new Intent(context, DetailActivity.class);
+		Intent intentDetail = new Intent(context, DetailFragment.class);
 		intentDetail.putExtra(Constants.INTENT_WIDGET, widgetId);
 		intentDetail.setAction(Intent.ACTION_MAIN);
 		PendingIntent pendingIntentDetail = PendingIntent.getActivity(context, widgetId, intentDetail,
@@ -65,7 +65,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 				Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		// Create an Intent to launch DetailActivity to take a photo
-		Intent intentDetailPhoto = new Intent(context, DetailActivity.class);
+		Intent intentDetailPhoto = new Intent(context, DetailFragment.class);
 		intentDetailPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
 		intentDetailPhoto.setAction(Intent.ACTION_PICK);
 		PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, widgetId, intentDetailPhoto,

@@ -15,7 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils.date;
 
-import it.feio.android.omninotes.DetailActivity;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Calendar;
@@ -30,14 +29,20 @@ import android.widget.TextView;
 
 public class TimePickerFragment extends DialogFragment {
 
+	public static final String DEFAULT_TIME = "default_time";
+	
 	TextView timer_label;
-	private DetailActivity mActivity;
+	private Activity mActivity;
 	private OnTimeSetListener mListener;
+	private String timeString = null;
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mActivity = (DetailActivity) activity;
+		mActivity = activity;
+		if (getArguments().containsKey(DEFAULT_TIME)) {
+			this.timeString = getArguments().getString(DEFAULT_TIME);
+		}
 
 		try {
 			mListener = (OnTimeSetListener) activity;
@@ -50,7 +55,7 @@ public class TimePickerFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		
-		Calendar cal = DateHelper.getDateFromString(mActivity.getAlarmTime(), Constants.DATE_FORMAT_SHORT_TIME);
+		Calendar cal = DateHelper.getDateFromString(timeString, Constants.DATE_FORMAT_SHORT_TIME);
 		int hour = cal.get(Calendar.HOUR_OF_DAY);
 		int minute = cal.get(Calendar.MINUTE);
 

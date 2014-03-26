@@ -19,6 +19,7 @@ import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
 
@@ -44,6 +45,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -73,8 +75,8 @@ public class BaseActivity extends ActionBarActivity {
 
 	private final boolean TEST = true;
 
-	protected final int TRANSITION_BACKWARD = 0;
-	protected final int TRANSITION_FORWARD = 1;
+	protected final int TRANSITION_VERTICAL = 0;
+	protected final int TRANSITION_HORIZONTAL = 1;
 	
 	protected DbHelper db;	
 	protected Activity mActivity;
@@ -273,6 +275,7 @@ public class BaseActivity extends ActionBarActivity {
 
 		            @Override
 		            public void onClick(View view) {
+		            	KeyboardUtils.hideKeyboard(passwordEditText);
 		            	// When positive button is pressed password correctness is checked
 		            	String oldPassword = prefs.getString(
 								Constants.PREF_PASSWORD, "");
@@ -295,6 +298,7 @@ public class BaseActivity extends ActionBarActivity {
 
 		            @Override
 		            public void onClick(View view) {
+		            	KeyboardUtils.hideKeyboard(passwordEditText);
 	                	dialog.dismiss();
 						mPasswordValidator.onPasswordValidated(false);
 		            }
@@ -306,9 +310,10 @@ public class BaseActivity extends ActionBarActivity {
 		dialog.show();
 		
 		// Force focus and shows soft keyboard
-		passwordEditText.requestFocus();
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+//		passwordEditText.requestFocus();
+//		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+		KeyboardUtils.showKeyboard(passwordEditText);
 
 	}
 	
@@ -402,26 +407,60 @@ public class BaseActivity extends ActionBarActivity {
 	 * Manages the activity transition animations
 	 * @param direction
 	 */
-	protected void animateTransition(int direction) {
-		boolean rtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
-		if (prefs.getBoolean("settings_enable_animations", true)) {
-			
-			if (TRANSITION_BACKWARD == direction) {
-				if (rtl) {
-					overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
-				} else {
-					overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
-				}
+//	protected void animateTransition(int direction) {
+//		boolean rtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
+//		if (prefs.getBoolean("settings_enable_animations", true)) {
+//			
+//			if (TRANSITION_BACKWARD == direction) {
+//				if (rtl) {
+//					overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
+//				} else {
+//					overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
+//				}
+//			}
+//			
+//			else if (TRANSITION_FORWARD == direction) {
+//				if (rtl) {
+//					overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
+//				} else {
+//					overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
+//				}
+//			}			
+//		}
+//	}
+//	protected void animateTransition(FragmentTransaction transaction, int direction) {
+//		boolean rtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
+//		if (prefs.getBoolean("settings_enable_animations", true)) {
+//			
+//			if (TRANSITION_BACKWARD == direction) {
+//				if (rtl) {
+//					transaction.setCustomAnimations(R.animator.slide_back_right, R.animator.slide_back_left);
+//				} else {
+//					transaction.setCustomAnimations(R.animator.slide_left, R.animator.slide_right);
+//				}
+//			}
+//			
+//			else if (TRANSITION_FORWARD == direction) {
+//				if (rtl) {
+//					transaction.setCustomAnimations(R.animator.slide_left, R.animator.slide_right);
+//				} else {
+//					transaction.setCustomAnimations(R.animator.slide_back_right, R.animator.slide_back_left);
+//				}
+//			}			
+//		}
+//	}
+	@SuppressLint("InlinedApi")
+	protected void animateTransition(FragmentTransaction transaction, int direction) {
+		boolean rtl = false;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			rtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
+		}
+		if (direction == TRANSITION_HORIZONTAL) {
+			if (rtl) {
+				transaction.setCustomAnimations(R.animator.slide_left, R.animator.slide_right, R.animator.slide_back_right, R.animator.slide_back_left);
+			} else {
+				transaction.setCustomAnimations(R.animator.slide_back_right, R.animator.slide_back_left, R.animator.slide_left, R.animator.slide_right);
 			}
-			
-			else if (TRANSITION_FORWARD == direction) {
-				if (rtl) {
-					overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
-				} else {
-					overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
-				}
-			}
-			
 		}
 	}
 	

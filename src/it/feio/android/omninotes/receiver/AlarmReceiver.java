@@ -120,7 +120,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		
 
 		// Next create the bundle and initialize it
-		Intent intent = new Intent(mContext, it.feio.android.omninotes.DetailActivity.class);		
+		Intent intent = new Intent(mContext, it.feio.android.omninotes.DetailFragment.class);		
 		// Add this bundle to the intent
 		intent.putExtras(bundle);
 		// Sets the Activity to start in a new, empty task
