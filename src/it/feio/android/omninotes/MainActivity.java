@@ -1,17 +1,10 @@
 package it.feio.android.omninotes;
 
-import java.util.ArrayList;
-
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.StorageManager;
 import android.content.Intent;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -20,10 +13,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class MainActivity extends BaseActivity {
+	
+	
+	final String FRAGMENT_LIST_TAG = "fragment_list";
+	final String FRAGMENT_DETAIL_TAG = "fragment_detail";
 
 	/**
 	 * Used to store the last screen title. For use in
@@ -39,8 +35,10 @@ public class MainActivity extends BaseActivity {
 		
 		mFragmentManager = getSupportFragmentManager();
 		
-		FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-		fragmentTransaction.add(R.id.fragment_container, new ListFragment()).commit();
+		if (mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
+			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+			fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG).commit();
+		}
 		
 		// Handling of Intent actions
 		handleIntents();
@@ -52,6 +50,7 @@ public class MainActivity extends BaseActivity {
 			intent.setAction(Constants.ACTION_START_APP);
 		}
 		setIntent(intent);
+		handleIntents();
 		Log.d(Constants.TAG, "onNewIntent");
 		super.onNewIntent(intent);
 	}
@@ -120,6 +119,13 @@ public class MainActivity extends BaseActivity {
 		} 
 		super.onBackPressed();
 	}
+
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString("navigationTmp", navigationTmp);
+	}
 	
 	
 	@Override
@@ -152,7 +158,9 @@ public class MainActivity extends BaseActivity {
 		// Action called from widget
 		if (Intent.ACTION_PICK.equals(i.getAction())
 				|| Constants.ACTION_SHORTCUT.equals(i.getAction())
-				|| i.hasExtra(Constants.INTENT_WIDGET)
+//				|| i.hasExtra(Constants.INTENT_WIDGET)
+				|| Constants.ACTION_WIDGET.equals(i.getAction())
+				|| Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
 				
 				|| ( ( Intent.ACTION_SEND.equals(i.getAction()) 
 						|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction()) 
@@ -160,7 +168,11 @@ public class MainActivity extends BaseActivity {
 						&& i.getType() != null)		
 						
 						) {
-			switchToDetail(new Note());
+			Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
+			if (note == null) {
+				note = new Note();
+			}
+			switchToDetail(note);
 		}
 		
 		
@@ -223,7 +235,7 @@ public class MainActivity extends BaseActivity {
 		Bundle b = new Bundle();
 		b.putParcelable(Constants.INTENT_NOTE, note);
 		mDetailFragment.setArguments(b);
-		transaction.replace(R.id.fragment_container, mDetailFragment).addToBackStack("list").commit();
+		transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_LIST_TAG).commitAllowingStateLoss();
 		if (getDrawerToggle() != null) {
 			getDrawerToggle().setDrawerIndicatorEnabled(false);
 		}

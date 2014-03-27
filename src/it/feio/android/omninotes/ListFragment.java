@@ -54,7 +54,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
@@ -108,28 +107,41 @@ public class ListFragment extends Fragment implements UndoListener {
 	private SharedPreferences prefs;
 	private DbHelper db;
 
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-//		setRetainInstance(true);
-		mActivity = (MainActivity) getActivity();
+		setRetainInstance(false);
 	}
 
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_list, container, false);
 	}
 
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
+		mActivity = (MainActivity) getActivity();
+		
+		// Show the Up button in the action bar.
+//		if (mActivity.getSupportActionBar() != null) {
+//			mActivity.getDrawerToggle().setDrawerIndicatorEnabled(true);
+//			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+//			mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//		}
+		
 		prefs = mActivity.prefs;
 		db = mActivity.db;
 
 		// Restores savedInstanceState
-		initBundle(savedInstanceState);
+		if (savedInstanceState != null) {
+			mActivity.navigationTmp = savedInstanceState.getString("navigationTmp");
+		}
 
 		// Easter egg initialization
 		initEasterEgg();
@@ -144,14 +156,10 @@ public class ListFragment extends Fragment implements UndoListener {
 		UpdaterTask task = new UpdaterTask(mActivity);
 		task.execute();
 
-		ubc = new UndoBarController(mActivity.findViewById(R.id.undobar), this);
+		ubc = new UndoBarController(getView().findViewById(R.id.undobar), this);
 	}
 
-	private void initBundle(Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			mActivity.navigationTmp = savedInstanceState.getString("navigationTmp");
-		}
-	}
+
 
 	/**
 	 * Activity title initialization based on navigation
@@ -181,7 +189,7 @@ public class ListFragment extends Fragment implements UndoListener {
 	 * Starts a little animation on Mr.Jingles!
 	 */
 	private void initEasterEgg() {
-		empyListItem = (TextView) mActivity.findViewById(R.id.empty_list);
+		empyListItem = (TextView) getView().findViewById(R.id.empty_list);
 		empyListItem.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -208,12 +216,6 @@ public class ListFragment extends Fragment implements UndoListener {
 			empyListItem.setCompoundDrawablesWithIntrinsicBounds(0, R.animator.jingles_animation, 0, 0);
 
 		}
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString("navigationTmp", mActivity.navigationTmp);
 	}
 
 	@Override
@@ -348,7 +350,7 @@ public class ListFragment extends Fragment implements UndoListener {
 	 * Notes list initialization. Data, actions and callback are defined here.
 	 */
 	private void initListView() {
-		listView = (ListView) mActivity.findViewById(R.id.notes_list);
+		listView = (ListView) getView().findViewById(R.id.notes_list);
 
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		listView.setItemsCanFocus(false);
@@ -371,12 +373,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		// Note single click listener managed by the activity itself
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {// If
-																								// no
-																								// CAB
-																								// just
-																								// note
-																								// editing
+			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
 				if (mActionMode == null) {
 					Note note = mAdapter.getItem(position);
 					editNote(note);
@@ -389,7 +386,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		});
 
 		// listView.setOnTouchListener(screenTouches);
-		((InterceptorLinearLayout) mActivity.findViewById(R.id.list_root)).setOnViewTouchedListener(screenTouches);
+		((InterceptorLinearLayout) getView().findViewById(R.id.list_root)).setOnViewTouchedListener(screenTouches);
 	}
 
 	OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
@@ -399,187 +396,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		}
 	};
 
-	/**
-	 * Initialization of compatibility navigation drawer
-	 */
-	// private void initNavigationDrawer() {
-	//
-	// mDrawerLayout = (DrawerLayout)
-	// mActivity.findViewById(R.id.drawer_layout);
-	// mDrawerLayout.setFocusableInTouchMode(false);
-	//
-	// // Sets the adapter for the MAIN navigation list view
-	// mDrawerList = (ListView) mActivity.findViewById(R.id.drawer_nav_list);
-	// mNavigationArray =
-	// getResources().getStringArray(R.array.navigation_list);
-	// mNavigationIconsArray =
-	// getResources().obtainTypedArray(R.array.navigation_list_icons);
-	// mDrawerList
-	// .setAdapter(new NavigationDrawerAdapter(mActivity, mNavigationArray,
-	// mNavigationIconsArray));
-	//
-	// // Sets click events
-	// mDrawerList.setOnItemClickListener(new OnItemClickListener() {
-	// @Override
-	// public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-	// long arg3) {
-	// commitPending();
-	// String navigation =
-	// getResources().getStringArray(R.array.navigation_list_codes)[position];
-	// Log.d(Constants.TAG, "Selected voice " + navigation +
-	// " on navigation menu");
-	// selectNavigationItem(mDrawerList, position);
-	// mActivity.updateNavigation(navigation);
-	// mDrawerList.setItemChecked(position, true);
-	// if (mDrawerTagList != null)
-	// mDrawerTagList.setItemChecked(0, false); // Called to force redraw
-	// initNotesList(mActivity.getIntent());
-	// }
-	// });
-	//
-	// // Sets the adapter for the TAGS navigation list view
-	//
-	// // Retrieves data to fill tags list
-	// ArrayList<Tag> tags = db.getTags();
-	//
-	// if (tags.size() > 0) {
-	// mDrawerTagList = (ListView) mActivity.findViewById(R.id.drawer_tag_list);
-	// // Inflation of header view
-	// LayoutInflater inflater = (LayoutInflater)
-	// mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-	// if (tagListHeader == null) {
-	// tagListHeader = inflater.inflate(R.layout.drawer_tag_list_header,
-	// (ViewGroup) mActivity.findViewById(R.id.layout_root));
-	// mDrawerTagList.addHeaderView(tagListHeader);
-	// mDrawerTagList.setHeaderDividersEnabled(true);
-	// }
-	// mDrawerTagList
-	// .setAdapter(new NavDrawerTagAdapter(mActivity, tags,
-	// mActivity.navigationTmp));
-	//
-	// // Sets click events
-	// mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
-	// @Override
-	// public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-	// long arg3) {
-	// commitPending();
-	// Object item = mDrawerTagList.getAdapter().getItem(position);
-	// // Ensuring that clicked item is not the ListView header
-	// if (item != null) {
-	// Tag tag = (Tag)item;
-	// String navigation = tag.getName();
-	// Log.d(Constants.TAG, "Selected voice " + navigation +
-	// " on navigation menu");
-	// selectNavigationItem(mDrawerTagList, position);
-	// mActivity.updateNavigation(String.valueOf(tag.getId()));
-	// mDrawerTagList.setItemChecked(position, true);
-	// if (mDrawerList != null)
-	// mDrawerList.setItemChecked(0, false); // Called to force redraw
-	// initNotesList(mActivity.getIntent());
-	// }
-	// }
-	// });
-	//
-	// // Sets long click events
-	// mDrawerTagList.setOnItemLongClickListener(new OnItemLongClickListener() {
-	// @Override
-	// public boolean onItemLongClick(AdapterView<?> arg0, View view, int
-	// position, long arg3) {
-	// if (mDrawerTagList.getAdapter() != null) {
-	// Object item = mDrawerTagList.getAdapter().getItem(position);
-	// // Ensuring that clicked item is not the ListView header
-	// if (item != null) {
-	// editTag((Tag)item);
-	// }
-	// } else {
-	// Crouton.makeText(mActivity, R.string.tag_deleted, ONStyle.ALERT).show();
-	// }
-	// return true;
-	// }
-	// });
-	// } else {
-	// if (mDrawerTagList != null) {
-	// mDrawerTagList.removeAllViewsInLayout();
-	// mDrawerTagList = null;
-	// }
-	// }
-	//
-	// // enable ActionBar app icon to behave as action to toggle nav drawer
-	// mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-	// mActivity.getSupportActionBar().setHomeButtonEnabled(true);
-	//
-	// // ActionBarDrawerToggle± ties together the the proper interactions
-	// // between the sliding drawer and the action bar app icon
-	// mDrawerToggle = new ActionBarDrawerToggle(
-	// mActivity, /* host Activity */
-	// mDrawerLayout, /* DrawerLayout object */
-	// R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
-	// R.string.drawer_open, /* "open drawer" description for accessibility */
-	// R.string.drawer_close /* "close drawer" description for accessibility */
-	// ) {
-	//
-	// public void onDrawerClosed(View view) {
-	// mActivity.getSupportActionBar().setTitle(mTitle);
-	// mActivity.supportInvalidateOptionsMenu(); // creates call to
-	// onPrepareOptionsMenu()
-	// }
-	//
-	// public void onDrawerOpened(View drawerView) {
-	// // Stops search service
-	// if (searchMenuItem != null &&
-	// MenuItemCompat.isActionViewExpanded(searchMenuItem))
-	// MenuItemCompat.collapseActionView(searchMenuItem);
-	//
-	// mTitle = mActivity.getSupportActionBar().getTitle();
-	// mActivity.getSupportActionBar().setTitle(mActivity.getApplicationContext().getString(R.string.app_name));
-	// mActivity.supportInvalidateOptionsMenu(); // creates call to
-	// onPrepareOptionsMenu()
-	//
-	// // Show instructions on first launch
-	// final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
-	// if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false) &&
-	// !prefs.getBoolean(instructionName, false)) {
-	// ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-	// list.add(new Integer[]{R.id.menu_add_tag,
-	// R.string.tour_listactivity_tag_title,
-	// R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM});
-	// mActivity.showCaseView(list, new OnShowcaseAcknowledged() {
-	// @Override
-	// public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-	// AppTourHelper.complete(mActivity, instructionName);
-	// mDrawerLayout.closeDrawer(GravityCompat.START);
-	//
-	// // Attaches a dummy image as example
-	// Note note = new Note();
-	// Attachment attachment = new Attachment(BitmapHelper.getUri(mActivity,
-	// R.drawable.ic_launcher), Constants.MIME_TYPE_IMAGE);
-	// note.getAttachmentsList().add(attachment);
-	// note.setTitle("http://www.opensource.org");
-	// editNote(note);
-	// }
-	// });
-	// }
-	// }
-	// };
-	// mDrawerToggle.setDrawerIndicatorEnabled(true);
-	// mDrawerLayout.setDrawerListener(mDrawerToggle);
-	//
-	// mDrawerToggle.syncState();
-	// }
-
-	// @Override
-	// protected void onPostCreate(Bundle savedInstanceState) {
-	// super.onPostCreate(savedInstanceState);
-	// // Sync the toggle state after onRestoreInstanceState has occurred.
-	// if (mDrawerToggle != null)
-	// mDrawerToggle.syncState();
-	// }
-	//
-	// @Override
-	// public void onConfigurationChanged(Configuration newConfig) {
-	// super.onConfigurationChanged(newConfig);
-	// mDrawerToggle.onConfigurationChanged(newConfig);
-	// }
+	
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -815,6 +632,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		b.putParcelable(Constants.INTENT_NOTE, note);
 		mDetailFragment.setArguments(b);
 		transaction.replace(R.id.fragment_container, mDetailFragment).addToBackStack("list").commit();
+//		transaction.replace(R.id.fragment_container, mDetailFragment).addToBackStack("list").commitAllowingStateLoss();
 		mActivity.getDrawerToggle().setDrawerIndicatorEnabled(false);
 //		mActivity.switchToDetail(note);
 	}
@@ -960,7 +778,8 @@ public class ListFragment extends Fragment implements UndoListener {
 		} else {
 			DbHelper db = new DbHelper(mActivity.getApplicationContext());
 			// Check if is launched from a widget with tags to set tag
-			if (intent.hasExtra(Constants.INTENT_WIDGET) || !TextUtils.isEmpty(mActivity.navigationTmp)) {
+			if ((Constants.ACTION_WIDGET_SHOW_LIST.equals(intent.getAction()) && intent.hasExtra(Constants.INTENT_WIDGET)) 
+					|| !TextUtils.isEmpty(mActivity.navigationTmp)) {
 				String widgetId = intent.hasExtra(Constants.INTENT_WIDGET) ? intent.getExtras()
 						.get(Constants.INTENT_WIDGET).toString() : null;
 				if (widgetId != null) {
@@ -1018,7 +837,7 @@ public class ListFragment extends Fragment implements UndoListener {
 
 		// Replace listview with Mr. Jingles if it is empty
 		if (notes.size() == 0)
-			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
+			listView.setEmptyView(getView().findViewById(R.id.empty_list));
 
 		// Restores listview position when turning back to list
 		if (listView != null && notes.size() > 0) {
@@ -1059,12 +878,12 @@ public class ListFragment extends Fragment implements UndoListener {
 			mAdapter.remove(note);
 		}
 		// Refresh view
-		ListView l = (ListView) mActivity.findViewById(R.id.notes_list);
+		ListView l = (ListView) getView().findViewById(R.id.notes_list);
 		l.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
 		if (l.getCount() == 0)
-			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
+			listView.setEmptyView(getView().findViewById(R.id.empty_list));
 
 		mActionMode.finish(); // Action picked, so close the CAB
 
@@ -1125,7 +944,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		listView.clearChoices();
 
 		// Refresh view
-		((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
+		((ListView) getView().findViewById(R.id.notes_list)).invalidateViews();
 		// Advice to user
 		Crouton.makeText(mActivity, archivedStatus, ONStyle.INFO).show();
 
@@ -1211,7 +1030,7 @@ public class ListFragment extends Fragment implements UndoListener {
 							db.updateNote(note, false);
 						}
 						// Refresh view
-						((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
+						((ListView) getView().findViewById(R.id.notes_list)).invalidateViews();
 						// Advice to user
 						Crouton.makeText(mActivity, R.string.notes_tag_removed, ONStyle.INFO).show();
 						selectedNotes.clear();
@@ -1245,7 +1064,7 @@ public class ListFragment extends Fragment implements UndoListener {
 			db.updateNote(note, false);
 		}
 		// Refresh view
-		((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
+		((ListView) getView().findViewById(R.id.notes_list)).invalidateViews();
 		// Advice to user
 		String msg = getResources().getText(R.string.notes_tagged_as) + " '" + tag.getName() + "'";
 		Crouton.makeText(mActivity, msg, ONStyle.INFO).show();

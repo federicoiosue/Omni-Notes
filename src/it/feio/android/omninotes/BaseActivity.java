@@ -56,7 +56,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout.LayoutParams;
@@ -457,10 +456,19 @@ public class BaseActivity extends ActionBarActivity {
 		}
 		if (direction == TRANSITION_HORIZONTAL) {
 			if (rtl) {
-				transaction.setCustomAnimations(R.animator.slide_left, R.animator.slide_right, R.animator.slide_back_right, R.animator.slide_back_left);
+				transaction.setCustomAnimations(R.animator.slide_left, R.animator.slide_right,
+						R.animator.slide_back_right, R.animator.slide_back_left);
 			} else {
-				transaction.setCustomAnimations(R.animator.slide_back_right, R.animator.slide_back_left, R.animator.slide_left, R.animator.slide_right);
+				transaction.setCustomAnimations(R.animator.slide_back_right, R.animator.slide_back_left,
+						R.animator.slide_left, R.animator.slide_right);
 			}
+		}
+		if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {			
+//			transaction.setCustomAnimations(
+//	                R.animator.card_flip_right_in, R.animator.card_flip_right_out,
+//	                R.animator.card_flip_left_in, R.animator.card_flip_left_out);
+			transaction.setCustomAnimations(
+	                R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out);
 		}
 	}
 	

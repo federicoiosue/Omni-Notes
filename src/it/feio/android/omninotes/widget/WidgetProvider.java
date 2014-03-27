@@ -1,8 +1,7 @@
 package it.feio.android.omninotes.widget;
 
 
-import it.feio.android.omninotes.DetailFragment;
-import it.feio.android.omninotes.ListFragment;
+import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import android.annotation.TargetApi;
@@ -50,24 +49,24 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 	private void setLayout(Context context, AppWidgetManager appWidgetManager, int widgetId) {
 
 		// Create an Intent to launch DetailActivity
-		Intent intentDetail = new Intent(context, DetailFragment.class);
+		Intent intentDetail = new Intent(context, MainActivity.class);
+		intentDetail.setAction(Constants.ACTION_WIDGET);
 		intentDetail.putExtra(Constants.INTENT_WIDGET, widgetId);
-		intentDetail.setAction(Intent.ACTION_MAIN);
 		PendingIntent pendingIntentDetail = PendingIntent.getActivity(context, widgetId, intentDetail,
 				Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		// Create an Intent to launch ListActivity
-		Intent intentList = new Intent(context, ListFragment.class);
+		Intent intentList = new Intent(context, MainActivity.class);
 //		PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, 0);
+		intentList.setAction(Constants.ACTION_WIDGET_SHOW_LIST);
 		intentList.putExtra(Constants.INTENT_WIDGET, widgetId);
-		intentList.setAction(Intent.ACTION_MAIN);
 		PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, 
 				Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		// Create an Intent to launch DetailActivity to take a photo
-		Intent intentDetailPhoto = new Intent(context, DetailFragment.class);
+		Intent intentDetailPhoto = new Intent(context, MainActivity.class);
+		intentDetailPhoto.setAction(Constants.ACTION_WIDGET_TAKE_PHOTO);
 		intentDetailPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
-		intentDetailPhoto.setAction(Intent.ACTION_PICK);
 		PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, widgetId, intentDetailPhoto,
 				Intent.FLAG_ACTIVITY_NEW_TASK);
 

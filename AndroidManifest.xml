@@ -17,11 +17,11 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="91"
-    android:versionName="4.4.1" >
+    android:versionCode="92"
+    android:versionName="4.4.2" >
 
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="11"
         android:targetSdkVersion="19" />
 
     <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->

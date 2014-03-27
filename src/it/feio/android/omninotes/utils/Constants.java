@@ -81,7 +81,9 @@ public interface Constants {
    	final String ACTION_DISMISS = "action_dismiss"; 
 	final String ACTION_SNOOZE = "action_snooze";
 	final String ACTION_SHORTCUT = "action_shortcut";
-	final String ACTION_WIDGET_LIST = "action_widget_list";
+	final String ACTION_WIDGET = "action_widget";
+	final String ACTION_WIDGET_TAKE_PHOTO = "action_widget_take_photo";
+	final String ACTION_WIDGET_SHOW_LIST = "action_widget_show_list";
 	
 	final String MESSAGE = "message";
 

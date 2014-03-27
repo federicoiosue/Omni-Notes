@@ -160,6 +160,7 @@
     <string name="no_application_can_perform_this_action">No application can perform this action</string>
     <string name="eraser">Eraser</string>
     <string name="image">Image</string>
+    <string name="error">Error</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and approaching reminders from Omni Notes</string>
@@ -183,7 +184,6 @@
     <string name="settings_enable_swype">Enable swype</string>
     <string name="settings_category_interface">Interface</string>
     <string name="settings_enable_animations">Animations</string>
-    <string name="settings_choose_language">Choose language</string>
     <string name="settings_category_notifications">Notifications</string>
     <string name="settings_enable_vibration">Vibration</string>
     <string name="settings_changelog">Changelog</string>
@@ -226,7 +226,6 @@
     <string name="settings_notification_ringtone">Ringtone</string>
     <string name="settings_enable_tag_marker_full">Full color</string>
     <string name="settings_enable_tag_marker_full_summary">Notes fully colored both in list than into detail</string>
-    <string name="colors">Colors</string>
     <string name="settings_enable_tag_marker_full_list_only">Only list</string>
     <string name="settings_enable_tag_marker_full_list_only_summary">Force full color only in notes list while into detail only the small marker is colored </string>
     <string name="settings_notification_snooze_delay">Snooze delay</string>

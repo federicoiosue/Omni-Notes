@@ -60,6 +60,11 @@ public class NavigationDrawerFragment extends Fragment {
 	private CharSequence mTitle;
 
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,7 +92,7 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerLayout.setFocusableInTouchMode(false);
 
 		// Sets the adapter for the MAIN navigation list view
-		mDrawerList = (ListView) mActivity.findViewById(R.id.drawer_nav_list);
+		mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
 		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
 		mDrawerList.setAdapter(new NavigationDrawerAdapter(mActivity, mNavigationArray, mNavigationIconsArray));
@@ -115,15 +120,15 @@ public class NavigationDrawerFragment extends Fragment {
 		ArrayList<Tag> tags = db.getTags();
 
 		if (tags.size() > 0) {
-			mDrawerTagList = (ListView) mActivity.findViewById(R.id.drawer_tag_list);
+			mDrawerTagList = (ListView) getView().findViewById(R.id.drawer_tag_list);
 			// Inflation of header view
 			LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			if (tagListHeader == null) {
 				tagListHeader = inflater.inflate(R.layout.drawer_tag_list_header,
-						(ViewGroup) mActivity.findViewById(R.id.layout_root));
-				mDrawerTagList.addHeaderView(tagListHeader);
-				mDrawerTagList.setHeaderDividersEnabled(true);
+						(ViewGroup) getView().findViewById(R.id.layout_root));
 			}
+			mDrawerTagList.addHeaderView(tagListHeader);
+			mDrawerTagList.setHeaderDividersEnabled(true);
 			mDrawerTagList.setAdapter(new NavDrawerTagAdapter(mActivity, tags, mActivity.navigationTmp));
 
 			// Sets click events
@@ -229,8 +234,6 @@ public class NavigationDrawerFragment extends Fragment {
 		};
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		
 		mDrawerToggle.syncState();
 	}
@@ -250,6 +253,7 @@ public class NavigationDrawerFragment extends Fragment {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
+				mActivity.getSupportActionBar().setTitle(mTitle);
 				mDrawerLayout.closeDrawer(GravityCompat.START);
 			}
 		}, 500);
