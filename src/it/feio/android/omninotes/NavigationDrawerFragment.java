@@ -14,7 +14,6 @@ import it.feio.android.omninotes.utils.Constants;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -31,8 +30,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.BaseAdapter;
-import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
 import com.espian.showcaseview.ShowcaseView;
@@ -215,8 +212,9 @@ public class NavigationDrawerFragment extends Fragment {
 
 				// Show instructions on first launch
 				final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
-				if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false)
-						&& !prefs.getBoolean(instructionName, false)) {
+				if (
+//						&& !prefs.getBoolean(instructionName, false)
+			    		AppTourHelper.isMyTurn(mActivity, instructionName)) {
 					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 					list.add(new Integer[] { R.id.menu_add_tag, R.string.tour_listactivity_tag_title,
 							R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM });

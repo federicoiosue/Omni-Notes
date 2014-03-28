@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity {
 	 * {@link #restoreActionBar()}.
 	 */
 	private FragmentManager mFragmentManager;
-	private NavigationDrawerFragment mNavigationDrawerFragment;
+//	private NavigationDrawerFragment mNavigationDrawerFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity {
 		
 		mFragmentManager = getSupportFragmentManager();
 		
-		mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer);
+//		mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer);
 		
 		if (mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();

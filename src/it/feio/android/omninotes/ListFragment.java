@@ -448,25 +448,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		// Initialization of SearchView
 		initSearchView(menu);
 
-		// Show instructions on first launch
-		final String instructionName = Constants.PREF_TOUR_PREFIX + "list";
-		if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false)
-				&& !prefs.getBoolean(instructionName, false)) {
-			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-			list.add(new Integer[] { 0, R.string.tour_listactivity_intro_title,
-					R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE });
-			list.add(new Integer[] { R.id.menu_add, R.string.tour_listactivity_actions_title,
-					R.string.tour_listactivity_actions_detail, ShowcaseView.ITEM_ACTION_ITEM });
-			list.add(new Integer[] { 0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail,
-					ShowcaseView.ITEM_ACTION_HOME });
-			mActivity.showCaseView(list, new OnShowcaseAcknowledged() {
-				@Override
-				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-					AppTourHelper.complete(mActivity, instructionName);
-					mActivity.getDrawerLayout().openDrawer(GravityCompat.START);
-				}
-			});
-		}
+		initShowCase();
 	}
 
 	@Override
@@ -732,21 +714,8 @@ public class ListFragment extends Fragment implements UndoListener {
 			break;
 		}
 
-		// Show instructions on first launch
-		final String instructionName = Constants.PREF_TOUR_PREFIX + "list2";
-		if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false)
-				&& !prefs.getBoolean(instructionName, false)) {
-			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-			list.add(new Integer[] { null, R.string.tour_listactivity_final_title,
-					R.string.tour_listactivity_final_detail, null });
-			mActivity.showCaseView(list, new OnShowcaseAcknowledged() {
-				@Override
-				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-					AppTourHelper.complete(mActivity, instructionName);
-				}
-			});
-		}
 	}
+	
 
 	private void sortNotes() {
 		onCreateDialog().show();
@@ -1130,6 +1099,47 @@ public class ListFragment extends Fragment implements UndoListener {
 
 			ubc.hideUndoBar(false);
 		}
+	}
+	
+	
+	
+	
+	private void initShowCase() {
+
+
+		// Show instructions on first launch
+		final String instructionName = Constants.PREF_TOUR_PREFIX + "list";
+		if (AppTourHelper.isMyTurn(mActivity, instructionName)) {
+			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+			list.add(new Integer[] { 0, R.string.tour_listactivity_intro_title,
+					R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE });
+			list.add(new Integer[] { R.id.menu_add, R.string.tour_listactivity_actions_title,
+					R.string.tour_listactivity_actions_detail, ShowcaseView.ITEM_ACTION_ITEM });
+			list.add(new Integer[] { 0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail,
+					ShowcaseView.ITEM_ACTION_HOME });
+			mActivity.showCaseView(list, new OnShowcaseAcknowledged() {
+				@Override
+				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+					AppTourHelper.complete(mActivity, instructionName);
+					mActivity.getDrawerLayout().openDrawer(GravityCompat.START);
+				}
+			});
+		}
+		
+		// Show instructions on first launch
+		final String instructionName2 = Constants.PREF_TOUR_PREFIX + "list2";
+		if (AppTourHelper.isMyTurn(mActivity, instructionName2)) {
+			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+			list.add(new Integer[] { null, R.string.tour_listactivity_final_title,
+					R.string.tour_listactivity_final_detail, null });
+			mActivity.showCaseView(list, new OnShowcaseAcknowledged() {
+				@Override
+				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+					AppTourHelper.complete(mActivity, instructionName2);
+				}
+			});
+		}		
+
 	}
 	
 

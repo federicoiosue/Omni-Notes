@@ -13,12 +13,45 @@ public class AppTourHelper {
 	private static ArrayList<String> showcases;
 
 	private static SharedPreferences init(Context mContext) {
-		showcases = new ArrayList<String>();
+		showcases = getShowcases();
+		return mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+	}
+	
+	
+	public static ArrayList<String> getShowcases() {
+		ArrayList<String> showcases = new ArrayList<String>();
 		for (String showcaseSuffix : showcasesSuffixes) {
 			showcases.add(Constants.PREF_TOUR_PREFIX + showcaseSuffix);
 		}
-		return mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS);
+		return showcases;
 	}
+	
+	
+	public static boolean isMyTurn(Context mContext, String showcaseName) {
+		boolean res = true;
+		SharedPreferences prefs = init(mContext);
+		
+		// If user skipped tour or showcase has already been showed returns false
+		if (prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "skipped", false)
+				|| prefs.getBoolean(showcaseName, false) ) {
+			return false;
+		}
+		
+		// Otherwise cycles showcases
+		for (String showcase : showcases) {
+			if (showcase.equals(showcaseName) && res) {
+				return true;
+			} else {
+				if (res) {
+					res = res && prefs.getBoolean(showcase, false);					
+				} else {
+					return false;
+				}
+			}
+		}
+		return res;
+	}
+	
 
 	public static boolean neverDone(Context mContext) {
 		SharedPreferences prefs = init(mContext);
@@ -42,6 +75,7 @@ public class AppTourHelper {
 		return res;
 	}
 
+	
 	public static void skip(Context mContext) {
 		SharedPreferences prefs = init(mContext);
 		prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
@@ -51,6 +85,7 @@ public class AppTourHelper {
 		}
 	}
 
+	
 	public static void reset(Context mContext) {
 		SharedPreferences prefs = init(mContext);
 		prefs.edit().remove(Constants.PREF_TOUR_PREFIX + "skipped").commit();
@@ -61,6 +96,7 @@ public class AppTourHelper {
 		}
 	}
 
+	
 	public static void complete(Context mContext, String showcase) {
 		SharedPreferences prefs = init(mContext);
 		prefs.edit().putBoolean(showcase, true).commit();
