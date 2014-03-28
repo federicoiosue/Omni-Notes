@@ -29,6 +29,7 @@ import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Display;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -354,6 +355,14 @@ public class ListFragment extends Fragment implements UndoListener {
 
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		listView.setItemsCanFocus(false);
+		
+		// If device runs KitKat a footer is added to list to avoid 
+		// navigation bar transparency covering items
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			TextView footer = new TextView(mActivity);
+			footer.setHeight(Display.getNavigationBarHeight(mActivity));
+			listView.addFooterView(footer);
+		}
 
 		// Note long click to start CAB mode
 		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
