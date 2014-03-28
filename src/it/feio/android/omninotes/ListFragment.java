@@ -690,13 +690,14 @@ public class ListFragment extends Fragment implements UndoListener {
 		case REQUEST_CODE_TAG:
 			// Dialog retarded to give time to activity's views of being
 			// completely initialized
-			new Handler().postDelayed(new Runnable() {
-				@Override
-				public void run() {
+//			new Handler().postDelayed(new Runnable() {
+//				@Override
+//				public void run() {
 					// The dialog style is choosen depending on result code
 					switch (resultCode) {
 					case Activity.RESULT_OK:
 						Crouton.makeText(mActivity, R.string.tag_saved, ONStyle.CONFIRM).show();
+						mActivity.refreshNavigationDrawer();
 						break;
 					case Activity.RESULT_CANCELED:
 						Crouton.makeText(mActivity, R.string.tag_deleted, ONStyle.ALERT).show();
@@ -705,8 +706,8 @@ public class ListFragment extends Fragment implements UndoListener {
 					default:
 						break;
 					}
-				}
-			}, 800);
+//				}
+//			}, 800);
 
 			break;
 

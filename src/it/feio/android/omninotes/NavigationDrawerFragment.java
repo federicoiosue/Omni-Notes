@@ -14,6 +14,7 @@ import it.feio.android.omninotes.utils.Constants;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.BaseAdapter;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ListView;
 
 import com.espian.showcaseview.ShowcaseView;
@@ -127,8 +130,11 @@ public class NavigationDrawerFragment extends Fragment {
 				tagListHeader = inflater.inflate(R.layout.drawer_tag_list_header,
 						(ViewGroup) getView().findViewById(R.id.layout_root));
 			}
-			mDrawerTagList.addHeaderView(tagListHeader);
-			mDrawerTagList.setHeaderDividersEnabled(true);
+			// Adds the "tag" label as header
+			if (mDrawerTagList.getHeaderViewsCount() == 0) {
+				mDrawerTagList.addHeaderView(tagListHeader);
+				mDrawerTagList.setHeaderDividersEnabled(true);
+			}
 			mDrawerTagList.setAdapter(new NavDrawerTagAdapter(mActivity, tags, mActivity.navigationTmp));
 
 			// Sets click events
@@ -249,7 +255,7 @@ public class NavigationDrawerFragment extends Fragment {
 		} else {
 			mTitle = ((Tag)itemSelected).getName();
 		}
-		// Navigation drawer is closed after a while to avoid
+		// Navigation drawer is closed after a while to avoid lag
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
@@ -275,6 +281,19 @@ public class NavigationDrawerFragment extends Fragment {
 //		void onRequestNoteEdit(int position);
 //	}
 	
+	
+	
+	public void refreshNavigationDrawerData() {
+//		if (mDrawerList != null) {
+//			((NavigationDrawerAdapter)mDrawerList.getAdapter()).notifyDataSetChanged();
+//			mDrawerList.invalidate();
+//		}
+//		if (mDrawerTagList != null) {
+//			((NavDrawerTagAdapter)((HeaderViewListAdapter)mDrawerTagList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
+//			mDrawerTagList.invalidate();
+//		}
+		initNavigationDrawer();
+	}
 	
 	
 }
