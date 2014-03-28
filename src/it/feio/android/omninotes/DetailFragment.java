@@ -630,6 +630,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 	
 	
+	/**
+	 * Used in KitKat to reformat layout
+	 */
 	private void initLayoutObserver() {
 		
 		root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

@@ -397,6 +397,9 @@ public class StorageManager {
 	public static String getMimeType(Context mContext, Uri uri) {
 		ContentResolver cR = mContext.getContentResolver();
 		String mimeType = cR.getType(uri);
+		if (mimeType == null) {
+			mimeType = getMimeType(uri.toString());
+		}
 		return mimeType;
 	}
 	
