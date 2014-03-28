@@ -370,7 +370,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		// navigation bar transparency covering items
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			TextView footer = new TextView(mActivity);
-			footer.setHeight(Display.getNavigationBarHeight(mActivity));
+			footer.setHeight(Display.getNavigationBarHeight(listView));
 			listView.addFooterView(footer);
 		}
 

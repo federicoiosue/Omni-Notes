@@ -57,12 +57,17 @@ public class Display {
 		return result;
 	}
 	
-	public static int getNavigationBarHeight(Context mContext) {
+	public static int getNavigationBarHeightStandard(Context mContext) {
 		int resourceId = mContext.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
 		if (resourceId > 0) {
 		    return mContext.getResources().getDimensionPixelSize(resourceId);
 		}
 		return 0;
+	}
+	
+	
+	public static int getNavigationBarHeight(View view) {
+		return (getFullSize(view).y - getVisibleSize(view).y);
 	}
 
 //	public static int getActionBarHeight(Activity mActivity) {
