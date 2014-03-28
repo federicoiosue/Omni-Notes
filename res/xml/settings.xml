@@ -83,6 +83,11 @@
 <!--                 android:title="@string/settings_hours_format" /> -->
             <CheckBoxPreference
                 android:defaultValue="false"
+                android:key="settings_navdrawer_on_exit"
+                android:summary="@string/settings_navdrawer_on_exit_summary"
+                android:title="@string/settings_navdrawer_on_exit" />
+            <CheckBoxPreference
+                android:defaultValue="false"
                 android:key="settings_simple_calendar"
                 android:summary="@string/settings_simple_calendar_summary"
                 android:title="@string/settings_simple_calendar" />   

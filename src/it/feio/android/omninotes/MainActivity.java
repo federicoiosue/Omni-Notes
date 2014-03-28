@@ -10,6 +10,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
@@ -124,6 +125,17 @@ public class MainActivity extends BaseActivity {
 		Fragment f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
 		if (f != null) {
 			((DetailFragment)f).saveNote(null);	
+			return;
+		} 
+		
+		f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+		if (f != null) {
+			// Before exiting from app the navigation drawer is opened
+			if (prefs.getBoolean("settings_navdrawer_on_exit",  false) && getDrawerLayout() != null && !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+				getDrawerLayout().openDrawer(GravityCompat.START);
+			} else {
+				super.onBackPressed();
+			}
 			return;
 		} 
 		super.onBackPressed();
