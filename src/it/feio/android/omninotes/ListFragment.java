@@ -27,6 +27,7 @@ import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
+import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
@@ -61,6 +62,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnCloseListener;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.TextUtils;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -790,6 +792,9 @@ public class ListFragment extends Fragment implements UndoListener {
 	void initNotesList(Intent intent) {
 
 		Log.v(Constants.TAG, "initNotesList: intent action " + intent.getAction());
+		
+//		List view is set as transparent to perform a fade in animation and give a smoother sensation
+		AlphaManager.setAlpha(listView, 0);
 
 		List<Note> notes;
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -866,6 +871,9 @@ public class ListFragment extends Fragment implements UndoListener {
 			else
 				listView.setSelectionFromTop(0, 0);
 		}
+		
+		// Fade in the list view
+		com.nineoldandroids.view.ViewPropertyAnimator.animate(listView).setDuration(1000).alpha(1);
 
 	}
 
