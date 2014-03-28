@@ -2,6 +2,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
 import android.content.Intent;
 import android.media.MediaRecorder;
@@ -79,6 +80,8 @@ public class MainActivity extends BaseActivity {
 	public void initNotesList(Intent intent) {
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
+//			List view is set as transparent to perform a fade in animation and give a smoother sensation
+			AlphaManager.setAlpha(findViewById(R.id.notes_list), 0);
 			((ListFragment)f).initNotesList(intent);			
 		} 
 	}
