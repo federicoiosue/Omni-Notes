@@ -119,6 +119,11 @@ public class ListFragment extends Fragment implements UndoListener {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			if (savedInstanceState.containsKey("listViewPosition")) {
+				listViewPosition = savedInstanceState.getInt("listViewPosition");
+			}			
+		}
 		return inflater.inflate(R.layout.fragment_list, container, false);
 	}
 
@@ -223,9 +228,14 @@ public class ListFragment extends Fragment implements UndoListener {
 	public void onPause() {
 		super.onPause();
 		commitPending();
-		listViewPosition = listView.getFirstVisiblePosition();
 		stopJingles();
 		Crouton.cancelAllCroutons();
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt("listViewPosition", listView.getFirstVisiblePosition());
 	}
 
 	@Override
