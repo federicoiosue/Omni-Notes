@@ -448,6 +448,16 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 //				setAddress(locationTextView);
 //			}
 //		}
+		if (noteTmp.getLatitude() != null && noteTmp.getLatitude() != 0 && noteTmp.getLongitude() != null
+				&& noteTmp.getLongitude() != 0) {
+			if (noteTmp.getAddress() != null && noteTmp.getAddress().length() > 0) {
+				locationTextView.setVisibility(View.VISIBLE);
+				locationTextView.setText(noteTmp.getAddress());
+			} else {
+				// Sets visibility now to avoid jumps on populating location
+				resolveAddress(noteTmp.getLatitude(), noteTmp.getLongitude());
+			}
+		}
 
 		locationTextView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -816,10 +826,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			dateTimeText = initAlarm(Long.parseLong(noteTmp.getAlarm()));
 		}
 		
-		if (noteTmp.getLatitude() != null && noteTmp.getLongitude() != null) {
-			mActivity.currentLatitude = noteTmp.getLatitude() != null ? noteTmp.getLatitude() : null ;
-			mActivity.currentLongitude = noteTmp.getLongitude() != null ? noteTmp.getLatitude() : null;
-		}
+//		if (noteTmp.getLatitude() != null && noteTmp.getLongitude() != null) {
+//			mActivity.currentLatitude = noteTmp.getLatitude() != null ? noteTmp.getLatitude() : null ;
+//			mActivity.currentLongitude = noteTmp.getLongitude() != null ? noteTmp.getLatitude() : null;
+//		}
 		
 
 		// Some fields can be filled by third party application and are always
@@ -839,63 +849,75 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 	
 	@SuppressLint("NewApi")
-	private void setAddress(View locationView) {
+	private void setAddress() {
+		double lat = mActivity.currentLatitude;
+		double lon = mActivity.currentLongitude;
+		noteTmp.setLatitude(lat);
+		noteTmp.setLongitude(lon);
+		resolveAddress(lat, lon);
+	}
+	
+	
+	
+	@SuppressLint("NewApi")
+	private void resolveAddress(double lat, double lon) {
 		class LocatorTask extends AsyncTask<Void, Void, String> {
+			
+			private final String ERROR_MSG = getString(R.string.location_not_found);
 			private TextView mlocationTextView;
+			private double lat, lon;
 
-			public LocatorTask(TextView locationTextView) {
-				mlocationTextView = locationTextView;
+			public LocatorTask(TextView locationTextView, double lat, double lon) {
+				this.mlocationTextView = locationTextView;
+				this.lat = lat;
+				this.lon = lon;
+				
 			}
 
 			@Override
 			protected String doInBackground(Void... params) {
-
+				
 				String addressString = "";
 				try {
-					noteTmp.setLatitude(mActivity.currentLatitude);
-					noteTmp.setLongitude(mActivity.currentLongitude);
 					Geocoder gcd = new Geocoder(mActivity, Locale.getDefault());
-					List<Address> addresses = gcd.getFromLocation(mActivity.currentLatitude, mActivity.currentLongitude, 1);
+					List<Address> addresses = gcd.getFromLocation(this.lat, this.lon, 1);
 					if (addresses.size() > 0) {
 						Address address = addresses.get(0);
 						if (address != null) {
 							addressString = address.getThoroughfare() + ", " + address.getLocality();
 						} else {
-							Crouton.makeText(mActivity, R.string.location_not_found, ONStyle.WARN).show();
-							addressString = getString(R.string.location_not_found);
+							addressString = ERROR_MSG;
 						}
 					} else {
-						Crouton.makeText(mActivity, R.string.location_not_found, ONStyle.WARN).show();
-						addressString = getString(R.string.location_not_found);
+						addressString = ERROR_MSG;
 					}
 				} catch (IOException ex) {
-					Crouton.makeText(mActivity, R.string.location_not_found, ONStyle.WARN).show();
-					addressString = getString(R.string.location_not_found);
+					addressString = ERROR_MSG;
 				}
-				noteTmp.setAddress(addressString);
 				return addressString;
 			}
 
 			@Override
 			protected void onPostExecute(String result) {
 				super.onPostExecute(result);
-				if (result.length() > 0) {
-					locationTextView.setVisibility(View.VISIBLE);
-					mlocationTextView.setText(result);
-				}
-				
-				fade(locationTextView, true);
+				if (result.length() > 0 && !result.equals(ERROR_MSG)) {
+					this.mlocationTextView.setVisibility(View.VISIBLE);
+					this.mlocationTextView.setText(result);
+					fade(mlocationTextView, true);
+				} else {
+					Crouton.makeText(mActivity, ERROR_MSG, ONStyle.ALERT).show();
+				}				
 			}
 		}
 
-		LocatorTask task = new LocatorTask(locationTextView);
-		
+		LocatorTask task = new LocatorTask(locationTextView, lat, lon);		
 		if (Build.VERSION.SDK_INT >= 11) {
 			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		} else {
 			task.execute();
 		}
 	}
+	
 	
 	
 	@Override
@@ -1318,7 +1340,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				attachmentDialog.dismiss();
 			    break;
 			case R.id.location:
-				setAddress(locationTextView);
+				setAddress();
 				attachmentDialog.dismiss();
 				break;
 			}	
