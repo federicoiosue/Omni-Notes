@@ -33,14 +33,14 @@
     <item>Déplacer après avoir décoché mais au-dessus des non-cochés</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list only</item>
-    <item>Complete</item>
+    <item>Désactivé</item>
+    <item>Marge uniquement</item>
+    <item>Liste des notes uniquement</item>
+    <item>Complet</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list</item>
+    <item>Désactivé</item>
+    <item>Marge uniquement</item>
+    <item>Liste de notes</item>
   </string-array>
 </resources>
