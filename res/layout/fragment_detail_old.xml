@@ -14,17 +14,19 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/detail_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true" >
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/gray_bg"
         android:orientation="vertical"
         android:paddingLeft="@dimen/padding_half"
@@ -199,5 +201,11 @@
                 pixlui:typeface="Roboto-Regular.ttf" />
         </LinearLayout>
     </LinearLayout>
+    
+    <View
+        android:id="@+id/keyboard_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" >
+    </View>
 
-</FrameLayout>
+</LinearLayout>

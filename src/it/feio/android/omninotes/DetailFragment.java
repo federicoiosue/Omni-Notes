@@ -206,7 +206,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        return inflater.inflate(R.layout.fragment_detail_old, container, false);
 	}
 	
 	@Override
@@ -644,8 +644,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			    
 			    if (keyboardVisible && keyboardPlaceholder == null) {
 			    	keyboardPlaceholder = root.findViewById(R.id.keyboard_placeholder); 
-			    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(keyboardPlaceholder.getWidth(), heightDiff);
-			    	keyboardPlaceholder.setLayoutParams(p);
+			    	if (keyboardPlaceholder != null) {
+				    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(keyboardPlaceholder.getWidth(), heightDiff);
+				    	keyboardPlaceholder.setLayoutParams(p);
+			    	}
 			    } else if (!keyboardVisible && keyboardPlaceholder != null) {
 			    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(keyboardPlaceholder.getWidth(), 0);
 			    	keyboardPlaceholder.setLayoutParams(p);
