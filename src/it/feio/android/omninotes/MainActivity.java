@@ -35,6 +35,8 @@ public class MainActivity extends BaseActivity {
 		
 		mFragmentManager = getSupportFragmentManager();
 		
+		mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer);
+		
 		if (mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 			fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG).commit();
@@ -93,6 +95,13 @@ public class MainActivity extends BaseActivity {
 			((ListFragment)f).editNote(note);	
 		} 
 	}
+
+	public void refreshNavigationDrawer() {
+		Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
+		if (f != null) {
+			((NavigationDrawerFragment)f).refreshNavigationDrawerData();	
+		} 
+	}
 	
 	
 	/**
@@ -103,7 +112,7 @@ public class MainActivity extends BaseActivity {
 	 */
 	private Fragment checkFragmentInstance(int id, Object instanceClass) {
 		Fragment result = null;
-		Fragment fragment = mFragmentManager.findFragmentById(R.id.fragment_container);
+		Fragment fragment = mFragmentManager.findFragmentById(id);
 		if (instanceClass.equals(fragment.getClass())) {
 			result = fragment;
 		}

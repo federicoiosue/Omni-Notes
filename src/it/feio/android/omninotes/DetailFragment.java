@@ -32,6 +32,7 @@ import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileErrorListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.StorageManager;
@@ -61,6 +62,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -85,7 +87,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -96,6 +97,8 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -110,6 +113,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.ScrollView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -620,9 +624,42 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
 		
+		
+		initLayoutObserver();
 	}
 
 	
+	
+	private void initLayoutObserver() {
+		
+		root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			  private View keyboardPlaceholder;
+
+			@Override public void onGlobalLayout() {
+				
+			    int screenHeight = Display.getUsableSize(mActivity).y;
+			    int heightDiff = screenHeight - Display.getVisibleSize(root).y;
+			    boolean keyboardVisible = heightDiff > screenHeight / 3;
+//			    boolean keyboardVisible = KeyboardUtils.isKeyboardShowed(title) || KeyboardUtils.isKeyboardShowed(content);
+			    
+			    if (keyboardVisible && keyboardPlaceholder == null) {
+			    	keyboardPlaceholder = root.findViewById(R.id.keyboard_placeholder); 
+			    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(keyboardPlaceholder.getWidth(), heightDiff);
+			    	keyboardPlaceholder.setLayoutParams(p);
+			    } else if (!keyboardVisible && keyboardPlaceholder != null) {
+			    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(keyboardPlaceholder.getWidth(), 0);
+			    	keyboardPlaceholder.setLayoutParams(p);
+			    	keyboardPlaceholder = null;
+			    }
+			    
+//			    LayoutParams lp = ((ScrollView)root.findViewById(R.id.scrollview)).getChildAt(0).getLayoutParams();
+//			    root.getLayoutParams();
+			    
+			  }
+			});
+	}	
+	
+
 	
 	/**
 	 * Colors tag marker in note title TextView
@@ -1958,17 +1995,22 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		
 			case MotionEvent.ACTION_DOWN:
 				Log.v(Constants.TAG, "MotionEvent.ACTION_DOWN");
-				Display display = mActivity.getWindowManager().getDefaultDisplay();
 				int w, h;
-				if (Build.VERSION.SDK_INT >= 13) {
-					Point size = new Point();
-					display.getSize(size);
-					w = size.x;
-					h = size.y;
-				} else {
-					w = display.getWidth();  // deprecated
-					h = display.getHeight();  // deprecated					
-				}
+//				Display display = mActivity.getWindowManager().getDefaultDisplay();
+//				int w, h;
+//				if (Build.VERSION.SDK_INT >= 13) {
+//					Point size = new Point();
+//					display.getSize(size);
+//					w = size.x;
+//					h = size.y;
+//				} else {
+//					w = display.getWidth();  // deprecated
+//					h = display.getHeight();  // deprecated					
+//				}
+				
+				Point displaySize = Display.getUsableSize(mActivity);
+				w = displaySize.x;
+				h = displaySize.y;
 				
 				if (x < Constants.SWIPE_MARGIN || x > w - Constants.SWIPE_MARGIN) {
 					swiping = true;

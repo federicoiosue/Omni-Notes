@@ -468,7 +468,7 @@ public class BaseActivity extends ActionBarActivity {
 //	                R.animator.card_flip_right_in, R.animator.card_flip_right_out,
 //	                R.animator.card_flip_left_in, R.animator.card_flip_left_out);
 			transaction.setCustomAnimations(
-	                R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out);
+	                R.animator.anim_in, R.animator.anim_out, R.animator.anim_in_pop, R.animator.anim_out_pop);
 		}
 	}
 	

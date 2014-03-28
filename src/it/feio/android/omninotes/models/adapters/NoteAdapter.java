@@ -22,6 +22,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Display;
 
 import java.util.List;
 
@@ -38,7 +39,10 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -74,9 +78,10 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	    	convertView = inflater.inflate(layout, parent, false);
 	    	
 	    	holder = new NoteAdapterViewHolder();
-	    	
-	    	holder.tagMarker = convertView.findViewById(R.id.tag_marker);
+    		    	
+	    	holder.root = convertView.findViewById(R.id.root);
 	    	holder.cardLayout = convertView.findViewById(R.id.card_layout);
+	    	holder.tagMarker = convertView.findViewById(R.id.tag_marker);
 
 	    	holder.title = (TextView) convertView.findViewById(R.id.note_title);
 	    	holder.content = (TextView) convertView.findViewById(R.id.note_content);

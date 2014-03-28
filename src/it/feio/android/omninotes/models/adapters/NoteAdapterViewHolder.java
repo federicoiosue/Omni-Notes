@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 public class NoteAdapterViewHolder {
 	
+	View root;
 	View cardLayout;
 	View tagMarker;
 	
