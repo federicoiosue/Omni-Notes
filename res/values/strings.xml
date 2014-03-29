@@ -161,6 +161,7 @@
     <string name="eraser">Eraser</string>
     <string name="image">Image</string>
     <string name="error">Error</string>
+    <string name="archived">archived</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and approaching reminders from Omni Notes</string>
@@ -249,7 +250,8 @@
     <string name="settings_instant_search">Instant search</string>
     <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
     <string name="settings_navdrawer_on_exit_summary">Pressing "back" when in notes list opens navigation menu instead of exiting</string>
-
+ 	<string name="settings_text_size">Text size</string>
+    
     <!-- Instructions -->
     <string name="tour_request_start">You launched Omni Note for the first time, would you like to make an application tour?</string>
     <string name="tour_listactivity_intro_title">Welcome to Omni Notes!</string>

@@ -958,7 +958,7 @@ public class ListFragment extends Fragment implements UndoListener {
 
 		// Creation of undo bar
 		if (archive) {
-			ubc.showUndoBar(false, getString(R.string.note_archived) + ": " + selectedNotes.size(), null);
+			ubc.showUndoBar(false, selectedNotes.size() + getString(R.string.archived), null);
 			undoArchive = true;
 		} else {
 			selectedNotes.clear();
