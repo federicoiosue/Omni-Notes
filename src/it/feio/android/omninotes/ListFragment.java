@@ -244,9 +244,11 @@ public class ListFragment extends Fragment implements UndoListener {
 	
 	
 	private void refreshListScrollPosition() {
-		listViewPosition = listView.getFirstVisiblePosition();
-		View v = listView.getChildAt(0);
-		listViewPositionOffset = (v == null) ? 0 : v.getTop();
+		if (listView != null) {
+			listViewPosition = listView.getFirstVisiblePosition();
+			View v = listView.getChildAt(0);
+			listViewPositionOffset = (v == null) ? 0 : v.getTop();
+		}
 	}
 	
 	

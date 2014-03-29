@@ -67,7 +67,7 @@ public class Display {
 	
 	
 	public static int getNavigationBarHeight(View view) {
-		return (getFullSize(view).y - getVisibleSize(view).y);
+		return (getFullSize(view).y - getUsableSize(view.getContext()).y);
 	}
 
 //	public static int getActionBarHeight(Activity mActivity) {
