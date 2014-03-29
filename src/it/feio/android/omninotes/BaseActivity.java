@@ -325,6 +325,7 @@ public class BaseActivity extends ActionBarActivity {
 	}
 	
 	
+	
 	/**
 	 * Builds ShowcaseView and show it
 	 * @param viewsArrays
@@ -348,13 +349,15 @@ public class BaseActivity extends ActionBarActivity {
 		lp.setMargins(12, 12, 12, getResources().getDimensionPixelSize(R.dimen.showcase_margin_bottom));
 		co.buttonLayoutParams = lp;				
 		
-		co.fadeInDuration = 700;
+		co.fadeInDuration = 500;
 		
 		ItemViewProperties ivp;
 		for (Integer[] view : viewsArrays) {
+			
 			// No showcase
 			if (view[0] == null) {
 				ivp = new ItemViewProperties(view[1], view[2], co);
+				
 			// No actionbar or reflection types
 			} else if (view[3] == null) {
 				ivp = new ItemViewProperties(view[0], view[1], view[2], scale, co);
@@ -362,6 +365,12 @@ public class BaseActivity extends ActionBarActivity {
 				ivp = new ItemViewProperties(view[0], view[1], view[2], view[3], scale, co);
 			}
 			mViews.addView(ivp);
+			
+			// Animated hand gesture
+			if (view.length > 4) {
+				int index = viewsArrays.indexOf(view);
+				mViews.addAnimatedGestureToView(index, view[4], view[5], view[6], view[7], true);
+			}			
 		}
 		
 		mViews.show();
