@@ -101,6 +101,7 @@ public class ListFragment extends Fragment implements UndoListener {
 	private TextView empyListItem;
 	private AnimationDrawable jinglesAnimation;
 	private int listViewPosition;
+	private int listViewPositionOffset;
 	private boolean undoDelete = false, undoArchive = false;
 	private UndoBarController ubc;
 	private boolean sendToArchive;
@@ -122,6 +123,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey("listViewPosition")) {
 				listViewPosition = savedInstanceState.getInt("listViewPosition");
+				listViewPositionOffset = savedInstanceState.getInt("listViewPositionOffset");
 			}			
 		}
 		return inflater.inflate(R.layout.fragment_list, container, false);
@@ -235,8 +237,19 @@ public class ListFragment extends Fragment implements UndoListener {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putInt("listViewPosition", listView.getFirstVisiblePosition());
+		refreshListScrollPosition();
+		outState.putInt("listViewPosition", listViewPosition);
+		outState.putInt("listViewPositionOffset", listViewPositionOffset);
 	}
+	
+	
+	private void refreshListScrollPosition() {
+		listViewPosition = listView.getFirstVisiblePosition();
+		View v = listView.getChildAt(0);
+		listViewPositionOffset = (v == null) ? 0 : v.getTop();
+	}
+	
+	
 
 	@Override
 	public void onResume() {
@@ -622,10 +635,10 @@ public class ListFragment extends Fragment implements UndoListener {
 			Log.d(Constants.TAG, "Editing note with id: " + note.get_id());
 		}
 
-		// Intent detailIntent = new Intent(mActivity, DetailFragment.class);
-		// detailIntent.putExtra(Constants.INTENT_NOTE, note);
-		// startActivityForResult(detailIntent, REQUEST_CODE_DETAIL);
-		// mActivity.animateTransition(mActivity.TRANSITION_FORWARD);
+		//Current list scrolling position is saved to be restored later
+		refreshListScrollPosition();
+		
+		// Fragments replacing
 		FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
 		mActivity.animateTransition(transaction, mActivity.TRANSITION_HORIZONTAL);
 		DetailFragment mDetailFragment = new DetailFragment();
@@ -633,9 +646,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		b.putParcelable(Constants.INTENT_NOTE, note);
 		mDetailFragment.setArguments(b);
 		transaction.replace(R.id.fragment_container, mDetailFragment).addToBackStack("list").commit();
-//		transaction.replace(R.id.fragment_container, mDetailFragment).addToBackStack("list").commitAllowingStateLoss();
 		mActivity.getDrawerToggle().setDrawerIndicatorEnabled(false);
-//		mActivity.switchToDetail(note);
 	}
 
 	@Override
@@ -832,10 +843,11 @@ public class ListFragment extends Fragment implements UndoListener {
 
 		// Restores listview position when turning back to list
 		if (listView != null && notes.size() > 0) {
-			if (listView.getCount() > listViewPosition)
-				listView.setSelectionFromTop(listViewPosition, 0);
-			else
+			if (listView.getCount() > listViewPosition) {
+				listView.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+			} else {
 				listView.setSelectionFromTop(0, 0);
+			}
 		}
 		
 		// Fade in the list view
