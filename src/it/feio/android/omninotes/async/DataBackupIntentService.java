@@ -1,6 +1,6 @@
 package it.feio.android.omninotes.async;
 
-import it.feio.android.omninotes.ListFragment;
+import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -16,9 +16,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.RingtoneManager;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 public class DataBackupIntentService extends IntentService {
@@ -151,7 +149,7 @@ public class DataBackupIntentService extends IntentService {
 		// The behavior differs depending on intent action 
 		Intent intentLaunch;
 		if (Constants.ACTION_DATA_IMPORT.equals(intent.getAction())) {
-			 intentLaunch = new Intent(ctx, ListFragment.class);
+			 intentLaunch = new Intent(ctx, MainActivity.class);
 		} else {
 			 intentLaunch = new Intent();
 		}
