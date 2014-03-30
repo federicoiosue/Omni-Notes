@@ -36,13 +36,6 @@
                 </Preference>
             </PreferenceScreen>
 
-            <EditTextPreference
-                android:inputType="number"
-                android:key="settings_max_video_size"
-                android:summary="@string/settings_max_video_size_summary"
-                android:title="@string/settings_max_video_size" >
-            </EditTextPreference>
-
             <Preference
                 android:key="settings_password"
                 android:summary="@string/settings_password_summary"
@@ -63,38 +56,20 @@
                 android:entries="@array/languages"
                 android:entryValues="@array/languages_codes"
                 android:key="settings_language"
-                android:title="@string/settings_choose_language" />	        
-<!--             <CheckBoxPreference -->
-<!--                 android:defaultValue="true" -->
-<!--                 android:key="settings_enable_animations" -->
-<!--                 android:summary="@string/settings_enable_animations_summary" -->
-<!--                 android:title="@string/settings_enable_animations" > -->
-<!--             </CheckBoxPreference> -->
-<!--             <CheckBoxPreference -->
-<!--                 android:defaultValue="true" -->
-<!--                 android:key="settings_enable_editor_links" -->
-<!--                 android:summary="@string/settings_enable_editor_links_summary" -->
-<!--                 android:title="@string/settings_enable_editor_links" > -->
-<!--             </CheckBoxPreference> -->
-<!--             <CheckBoxPreference -->
-<!--                 android:defaultValue="true" -->
-<!--                 android:key="settings_hours_format" -->
-<!--                 android:summary="@string/settings_hours_format_summary" -->
-<!--                 android:title="@string/settings_hours_format" /> -->
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="settings_navdrawer_on_exit"
-                android:summary="@string/settings_navdrawer_on_exit_summary"
-                android:title="@string/settings_navdrawer_on_exit" />
+                android:title="@string/settings_choose_language" />	     
+            <ListPreference
+                android:entries="@array/text_size"
+                android:entryValues="@array/text_size_values"
+                android:key="settings_text_size"
+                android:title="@string/settings_text_size" 
+                android:defaultValue="normal"/>	 
+          
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="settings_simple_calendar"
                 android:summary="@string/settings_simple_calendar_summary"
                 android:title="@string/settings_simple_calendar" />   
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="settings_instant_search"
-                android:title="@string/settings_instant_search" />   
+            
             <ListPreference
                 android:defaultValue="0"
                 android:entries="@array/checked_items_behavior"
@@ -103,29 +78,6 @@
                 android:title="@string/settings_checked_items_behavior"
                 android:dialogTitle="@string/settings_checked_items_behavior_summary" >
             </ListPreference>
-            
-<!--             <PreferenceScreen android:title="@string/colors" >                 -->
-<!--                 <CheckBoxPreference -->
-<!--                     android:defaultValue="true" -->
-<!--                     android:key="settings_enable_tag_marker" -->
-<!--                     android:summary="@string/settings_enable_tag_marker_summary" -->
-<!--                     android:title="@string/settings_enable_tag_marker" > -->
-<!--                 </CheckBoxPreference> -->
-<!--                 <CheckBoxPreference -->
-<!--                     android:defaultValue="false" -->
-<!--                     android:dependency="settings_enable_tag_marker" -->
-<!--                     android:key="settings_enable_tag_marker_full" -->
-<!--                     android:summary="@string/settings_enable_tag_marker_full_summary" -->
-<!--                     android:title="@string/settings_enable_tag_marker_full" > -->
-<!--                 </CheckBoxPreference> -->
-<!--                 <CheckBoxPreference -->
-<!--                     android:defaultValue="true" -->
-<!--                     android:dependency="settings_enable_tag_marker_full" -->
-<!--                     android:key="settings_enable_tag_marker_full_list_only" -->
-<!--                     android:summary="@string/settings_enable_tag_marker_full_list_only_summary" -->
-<!--                     android:title="@string/settings_enable_tag_marker_full_list_only" > -->
-<!--                 </CheckBoxPreference>                                 -->
-<!--             </PreferenceScreen> -->
             
             <ListPreference
                 android:entries="@array/colors_app"
@@ -142,6 +94,33 @@
                 android:defaultValue="strip"/>	 
             
         </PreferenceScreen>
+        
+        
+        
+         <PreferenceScreen
+            android:key="category_behaviors"
+            android:title="@string/settings_category_behaviors" > 
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="settings_navdrawer_on_exit"
+                android:summary="@string/settings_navdrawer_on_exit_summary"
+                android:title="@string/settings_navdrawer_on_exit" />
+           
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="settings_instant_search"
+                android:title="@string/settings_instant_search" />   
+
+            <EditTextPreference
+                android:inputType="number"
+                android:key="settings_max_video_size"
+                android:summary="@string/settings_max_video_size_summary"
+                android:title="@string/settings_max_video_size" >
+            </EditTextPreference>
+           
+            
+        </PreferenceScreen>
+        
         
         
         <PreferenceScreen

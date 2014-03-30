@@ -15,7 +15,6 @@
   limitations under the License.
 -->
 <resources>
-
     <!-- Activities -->
     <string name="title_item_list">Notes</string>
     <string name="add_note">Add Note</string>
@@ -239,6 +238,7 @@
     <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
     <string name="settings_navdrawer_on_exit_summary">Pressing "back" when in notes list opens navigation menu instead of exiting</string>
  	<string name="settings_text_size">Text size</string>
+ 	<string name="settings_category_behaviors">Behaviors</string>
     
     <!-- Instructions -->
     <string name="tour_request_start">You launched Omni Note for the first time, would you like to make an application tour?</string>
@@ -272,12 +272,7 @@
     <string name="stroke_size">stroke size</string>
     <string name="note_thumbnail">note thumbnail</string>
     <string name="note_reminder_symbol">note reminder symbol</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
 
 </resources>

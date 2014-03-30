@@ -85,6 +85,18 @@
         <item >strip</item>
         <item >list</item>
     </string-array>
+
+    <string-array name="text_size">
+        <item >Small</item>
+        <item >Default</item>
+        <item >Large</item>
+    </string-array>
+        
+    <string-array name="text_size_values">
+        <item >small</item>
+        <item >default</item>
+        <item >large</item>
+    </string-array>
         
     <string-array name="languages">
         <item >العربية (Arabic)</item>

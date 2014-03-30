@@ -49,6 +49,12 @@
         <item >Strip only</item>
         <item >Notes list</item>
     </string-array>
+
+    <string-array name="text_size">
+        <item >Small</item>
+        <item >Default</item>
+        <item >Large</item>
+    </string-array>
         
     
     
