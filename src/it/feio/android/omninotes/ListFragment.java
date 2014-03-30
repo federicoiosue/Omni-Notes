@@ -853,7 +853,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		}
 		
 		// Fade in the list view
-		com.nineoldandroids.view.ViewPropertyAnimator.animate(listView).setDuration(1000).alpha(1);
+		com.nineoldandroids.view.ViewPropertyAnimator.animate(listView).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
 
 	}
 

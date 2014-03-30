@@ -15,7 +15,9 @@
 -->
 
 <resources>
-    <integer name="undobar_hide_delay">15000</integer>
+    <integer name="list_view_fade_anim">700</integer>
+    <integer name="sliding_anim_time_short">300</integer>
+    <integer name="sliding_anim_time_medium">350</integer>
     <integer name="card_flip_time_full">300</integer>
     <integer name="card_flip_time_half">150</integer>
 </resources>

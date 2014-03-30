@@ -17,10 +17,10 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <translate
-        android:duration="@android:integer/config_mediumAnimTime"
-        android:fromXDelta="-100%"
+        android:duration="@integer/sliding_anim_time_short"
+        android:fromXDelta="-70%"
         android:fromYDelta="0"
-        android:interpolator="@android:anim/linear_interpolator"
+        android:interpolator="@android:anim/overshoot_interpolator"
         android:toXDelta="0"
         android:toYDelta="0" />
     
@@ -35,9 +35,9 @@
 <!--         android:toYScale="1" > -->
 <!--     </scale> -->
     <alpha
-        android:duration="@android:integer/config_mediumAnimTime"
+        android:duration="@integer/sliding_anim_time_short"
         android:fromAlpha="0.0"
-        android:interpolator="@android:anim/linear_interpolator"
+        android:interpolator="@android:anim/overshoot_interpolator"
         android:toAlpha="1.0" />
 
 </set>
