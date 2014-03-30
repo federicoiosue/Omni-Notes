@@ -19,6 +19,7 @@ import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListView;
+import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
@@ -98,11 +99,13 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView.FindListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -135,7 +138,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  * a {@link ItemDetailFragment}.
  */
 public class DetailFragment extends Fragment implements OnDateSetListener,
-OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener, OnTouchListener {
+OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener, OnTouchListener, OnGlobalLayoutListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -193,6 +196,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private SharedPreferences prefs;
 	private DbHelper db;
 	private boolean onCreateOptionsMenuAlreadyCalled = false;
+	private View timestampsView;
+	private View keyboardPlaceholder;
 
 
 	@Override
@@ -616,6 +621,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		datetime = (TextView) getView().findViewById(R.id.datetime);
 		datetime.setText(dateTimeText);
 		
+		// Timestamps view
+		timestampsView = mActivity.findViewById(R.id.detail_timestamps);
 		
 		// Footer dates of creation... 
 		TextView creationTextView = (TextView) getView().findViewById(R.id.creation);
@@ -633,46 +640,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
 		
-		
-		initLayoutObserver();
+		// Adding a layout observer to perform calculus when showing keyboard
+		root.getViewTreeObserver().addOnGlobalLayoutListener(this);
 	}
 
-	
-	
-	/**
-	 * Used in KitKat to reformat layout
-	 */
-	private void initLayoutObserver() {
-		
-		root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			  private View keyboardPlaceholder;
-
-			@Override public void onGlobalLayout() {
-				
-			    int screenHeight = Display.getUsableSize(mActivity).y;
-			    int heightDiff = screenHeight - Display.getVisibleSize(root).y;
-			    boolean keyboardVisible = heightDiff > screenHeight / 3;
-//			    boolean keyboardVisible = KeyboardUtils.isKeyboardShowed(title) || KeyboardUtils.isKeyboardShowed(content);
-			    
-			    if (keyboardVisible && keyboardPlaceholder == null) {
-			    	keyboardPlaceholder = root.findViewById(R.id.keyboard_placeholder); 
-			    	if (keyboardPlaceholder != null) {
-				    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(keyboardPlaceholder.getWidth(), heightDiff);
-				    	keyboardPlaceholder.setLayoutParams(p);
-			    	}
-			    } else if (!keyboardVisible && keyboardPlaceholder != null) {
-			    	LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(keyboardPlaceholder.getWidth(), 0);
-			    	keyboardPlaceholder.setLayoutParams(p);
-			    	keyboardPlaceholder = null;
-			    }
-			    
-//			    LayoutParams lp = ((ScrollView)root.findViewById(R.id.scrollview)).getChildAt(0).getLayoutParams();
-//			    root.getLayoutParams();
-			    
-			  }
-			});
-	}	
-	
 
 	
 	/**
@@ -973,21 +944,20 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	}
 
 	
+	
+	@SuppressLint("NewApi")
+	@SuppressWarnings("deprecation")
 	public boolean goHome() {
 		stopPlaying();
 		
 		// Hides keyboard
-//		InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-//	    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 	    KeyboardUtils.hideKeyboard(title);
-	    
 
 	    String msg = resultIntent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
 	    
 		// The activity has managed a shared intent from third party app and
 		// performs a normal onBackPressed instead of returning back to ListActivity
 		if (!afterSavedReturnsToList) {
-//			String msg = resultIntent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
 			if (!TextUtils.isEmpty(msg)) {
 				mActivity.showToast(msg, Toast.LENGTH_SHORT);
 			}
@@ -996,18 +966,16 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			return true;
 		}
 		
-		// Otherwise the result is passed to ListActivity
-//		int result = resultIntent.getIntExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_OK);
-//		mActivity.setResult(result, resultIntent);
-//		super.finish(); //TODO Resolve this
-//		mActivity.animateTransition(mActivity.TRANSITION_BACKWARD);
+		// Unregistering layout observer
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+		} else {
+			root.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+		}	
 		
-//		FragmentTransaction fragmentTransaction = mActivity.getSupportFragmentManager().beginTransaction();
-//		fragmentTransaction.remove(this);
-//		fragmentTransaction.commit();
+		// Otherwise the result is passed to ListActivity
 		mActivity.getSupportFragmentManager().popBackStack(); 
 		if (mActivity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-//		if (mActivity.getSupportFragmentManager().getFragments().size() == 2) {
 			mActivity.getDrawerToggle().setDrawerIndicatorEnabled(true);
 			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
 		}
@@ -1015,6 +983,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		return true;
 	}
 
+	
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -2080,6 +2049,34 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 		return true;
 	}
+
+	@Override
+	public void onGlobalLayout() {
+
+		int screenHeight = Display.getUsableSize(mActivity).y;
+		int heightDiff = screenHeight - Display.getVisibleSize(root).y;
+		// boolean keyboardVisible = heightDiff > screenHeight / 3;
+		boolean keyboardVisible = heightDiff > 150;
+		// boolean keyboardVisible =
+		// KeyboardUtils.isKeyboardShowed(title) ||
+		// KeyboardUtils.isKeyboardShowed(content);
+
+		if (keyboardVisible && keyboardPlaceholder == null) {
+			keyboardPlaceholder = root.findViewById(R.id.keyboard_placeholder);
+			if (keyboardPlaceholder != null) {
+				LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
+						keyboardPlaceholder.getWidth(), heightDiff
+								- timestampsView.getHeight()); // TODO MAAAHH
+				keyboardPlaceholder.setLayoutParams(p);
+			}
+		} else if (!keyboardVisible && keyboardPlaceholder != null) {
+			LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
+					keyboardPlaceholder.getWidth(), 0);
+			keyboardPlaceholder.setLayoutParams(p);
+			keyboardPlaceholder = null;
+		}
+	}
+	
 
 
 }
