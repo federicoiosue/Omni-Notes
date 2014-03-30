@@ -1039,6 +1039,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			toggleChecklist2();
 			return;
 		}
+
+		// If checklist is active but no items are checked the conversion in done automatically
+		// without prompting user
+		if (mChecklistManager.getCheckedStatus(toggleChecklistView)[0] == 0) {
+			toggleChecklist2(true, false);
+			return;
+		}
 		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 
@@ -1080,8 +1087,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	/**
 	 * Toggles checklist view
 	 */
-	@SuppressLint("NewApi")
 	private void toggleChecklist2() {
+		boolean keepChecked =prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true);
+		boolean showChecks = prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true);
+		toggleChecklist2(keepChecked, showChecks);
+	}
+	
+	@SuppressLint("NewApi")
+	private void toggleChecklist2(boolean keepChecked, boolean showChecks) {
 		
 //		class ChecklistTask extends AsyncTask<Void, Void, View> {
 //			private View targetView;
@@ -1107,8 +1120,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				mChecklistManager.setOnTextLinkClickListener(this);
 				
 				// Options for converting back to simple text
-				mChecklistManager.setKeepChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
-				mChecklistManager.setShowChecks(prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true));
+				mChecklistManager.setKeepChecked(keepChecked);
+				mChecklistManager.setShowChecks(showChecks);
 				
 				// Switches the views
 				View newView = null;
