@@ -207,7 +207,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
         return inflater.inflate(R.layout.fragment_detail_old, container, false);
 	}
 	
@@ -215,7 +215,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		mActivity = (MainActivity) getActivity();
+		mActivity = (MainActivity) getActivity();	
+		
+		prefs = mActivity.prefs;
+		db = mActivity.db;
 		
 		// Show the Up button in the action bar.
 		if (mActivity.getSupportActionBar() != null) {
@@ -227,11 +230,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		// Force the navigation drawer to stay closed
 		if (mActivity.getDrawerLayout() != null) {
 			mActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-		}
-		
-		
-		prefs = mActivity.prefs;
-		db = mActivity.db;
+		}	
 		
 		resultIntent = new Intent();
 		

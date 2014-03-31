@@ -55,6 +55,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
@@ -125,7 +126,7 @@ public class ListFragment extends Fragment implements UndoListener {
 				listViewPosition = savedInstanceState.getInt("listViewPosition");
 				listViewPositionOffset = savedInstanceState.getInt("listViewPositionOffset");
 			}			
-		}
+		}		
 		return inflater.inflate(R.layout.fragment_list, container, false);
 	}
 
@@ -135,6 +136,11 @@ public class ListFragment extends Fragment implements UndoListener {
 		super.onActivityCreated(savedInstanceState);
 
 		mActivity = (MainActivity) getActivity();
+		
+		// Force the navigation drawer to stay closed
+		if (mActivity.getDrawerLayout() != null) {
+			mActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+		}
 		
 		// Show the Up button in the action bar.
 //		if (mActivity.getSupportActionBar() != null) {
