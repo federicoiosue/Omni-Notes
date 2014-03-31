@@ -201,6 +201,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private View timestampsView;
 	private View keyboardPlaceholder;
 	private View titleCardView;
+	private boolean orientationChanged;
 
 
 	@Override
@@ -243,6 +244,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		if (savedInstanceState != null) {
 			noteTmp = savedInstanceState.getParcelable("note");
 			attachmentUri = savedInstanceState.getParcelable("attachmentUri");
+			orientationChanged = savedInstanceState.getBoolean("orientationChanged");
 		}
 		
 		init();
@@ -257,6 +259,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		noteTmp.setContent(getNoteContent()); 
 		outState.putParcelable("note", noteTmp);
 		outState.putParcelable("attachmentUri", attachmentUri);
+		outState.putBoolean("orientationChanged", orientationChanged);
 		super.onSaveInstanceState(outState);		
 	}
 	
@@ -267,6 +270,17 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		super.onPause();
 		restoreLayouts();
 	}
+	
+	
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		if (getResources().getConfiguration().orientation != newConfig.orientation) {
+			orientationChanged = true;
+		}
+	}
+	
 	
 	
 	private void init() {
@@ -2087,7 +2101,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 	@Override
 	public void onGlobalLayout() {
-
+		
 		int screenHeight = Display.getUsableSize(mActivity).y;
 		int heightDiff = screenHeight - Display.getVisibleSize(root).y;
 		// boolean keyboardVisible = heightDiff > screenHeight / 3;
@@ -2111,19 +2125,25 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			wrapper.removeView(titleCardView);
 //			heightDiff -= Display.getActionbarHeight(mActivity) + Display.getStatusBarHeight(mActivity);
 			heightDiff -= Display.getStatusBarHeight(mActivity);
+			if (orientationChanged) {
+				orientationChanged = false;
+				heightDiff -= Display.getActionbarHeight(mActivity);
+			}
 		}
 		wrapper.removeView(timestampsView);
-		
+
 		keyboardPlaceholder = new View(mActivity); 
-		root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
+		}
 	}
 	
 	private void restoreLayouts() {
 		ViewGroup wrapper = ((ViewGroup)root.findViewById(R.id.detail_wrapper));
 		if (root.indexOfChild(keyboardPlaceholder) != -1) {
 			root.removeView(keyboardPlaceholder);		
-			keyboardPlaceholder = null;
 		}
+		keyboardPlaceholder = null;
 		if (wrapper.indexOfChild(titleCardView) == -1) {
 			wrapper.addView(titleCardView, 0);
 		}
@@ -2134,7 +2154,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 
 }
-
 
 
 
