@@ -98,6 +98,12 @@
         <item >large</item>
     </string-array>
         
+    <integer-array name="text_size_offset">
+        <item >-3</item>
+        <item >0</item>
+        <item >3</item>
+    </integer-array>
+        
     <string-array name="languages">
         <item >العربية (Arabic)</item>
         <item >中文 (Chinese)</item>

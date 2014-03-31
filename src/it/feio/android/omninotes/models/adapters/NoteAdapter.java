@@ -22,7 +22,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.Fonts;
 
 import java.util.List;
 
@@ -39,10 +39,7 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -76,6 +73,9 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		NoteAdapterViewHolder holder;
 	    if (convertView == null) {
 	    	convertView = inflater.inflate(layout, parent, false);
+
+			// Overrides font sizes with the one selected from user
+			Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS), convertView);
 	    	
 	    	holder = new NoteAdapterViewHolder();
     		    	
@@ -163,7 +163,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 */
 	public static String getDateText(Context mContext, Note note) {
 		String dateText;
-		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS);
+		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
 		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
 		
 		// Creation
@@ -274,7 +274,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 */
 	private void colorNote(Note note, View v, NoteAdapterViewHolder holder) {
 
-		String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS).getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
+		String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
 		
 		// Checking preference
 		if (!colorsPref.equals("disabled")) {
@@ -336,4 +336,25 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		return true;
 	}
 
+}
+
+
+
+class NoteAdapterViewHolder {
+	
+	View root;
+	View cardLayout;
+	View tagMarker;
+	
+	TextView title;
+	TextView content;
+	TextView date;
+	
+	ImageView archiveIcon;
+	ImageView locationIcon;
+	ImageView alarmIcon;
+	ImageView lockedIcon;
+	ImageView attachmentIcon;
+	
+	SquareImageView attachmentThumbnail;
 }

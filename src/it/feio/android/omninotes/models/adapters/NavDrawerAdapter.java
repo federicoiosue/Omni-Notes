@@ -19,6 +19,7 @@ import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Fonts;
 
 import java.util.Arrays;
 
@@ -33,14 +34,14 @@ import android.widget.ImageView;
 
 import com.neopixl.pixlui.components.textview.TextView;
 
-public class NavigationDrawerAdapter extends BaseAdapter {
+public class NavDrawerAdapter extends BaseAdapter {
 
 	private Activity mActivity;
 	private Object[] mTitle;
 	private TypedArray mIcon;
 	private LayoutInflater inflater;
 
-	public NavigationDrawerAdapter(Activity mActivity, Object[] title, TypedArray icon) {
+	public NavDrawerAdapter(Activity mActivity, Object[] title, TypedArray icon) {
 		this.mActivity = mActivity;
 		this.mTitle = title;
 		this.mIcon = icon;
@@ -63,33 +64,40 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// Declare Variables
-		TextView txtTitle;
-		ImageView imgIcon;
+		NoteDrawerAdapterViewHolder holder;
+	    if (convertView == null) {
+	    	convertView = inflater.inflate(R.layout.drawer_list_item, parent, false);
 
-		View itemView = inflater.inflate(R.layout.drawer_list_item, parent, false);
-
-		// Locate the TextViews in drawer_list_item.xml
-		txtTitle = (TextView) itemView.findViewById(R.id.title);
-
-		// Locate the ImageView in drawer_list_item.xml
-		imgIcon = (ImageView) itemView.findViewById(R.id.icon);
+			// Overrides font sizes with the one selected from user
+			Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS), convertView);
+	    	
+	    	holder = new NoteDrawerAdapterViewHolder();
+    		    	
+	    	holder.imgIcon = (ImageView) convertView.findViewById(R.id.icon);
+	    	holder.txtTitle = (TextView) convertView.findViewById(R.id.title);
+	    	convertView.setTag(holder);
+	    } else {
+	        holder = (NoteDrawerAdapterViewHolder) convertView.getTag();
+	    }
 
 		// Set the results into TextViews	
-		txtTitle.setText(mTitle[position].toString());
+	    holder.txtTitle.setText(mTitle[position].toString());
 		
 		if (isSelected(parent, position)) {
-			txtTitle.setTextColor(mActivity.getResources().getColor(
+			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
 					R.color.drawer_text_selected));
+		} else {
+			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
+					R.color.actionbar_title_text));
 		}
 
 		// Set the results into ImageView checking if an icon is present before
 		if (mIcon != null && mIcon.length() >= position) {
 			int imgRes = mIcon.getResourceId(position, 0);
-			imgIcon.setImageResource(imgRes);
+			holder.imgIcon.setImageResource(imgRes);
 		}
 
-		return itemView;
+		return convertView;
 	}
 
 	
@@ -128,4 +136,16 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		}			
 	}
 
+}
+
+
+
+/**
+ * Holder object
+ * @author fede
+ *
+ */
+class NoteDrawerAdapterViewHolder {	
+	ImageView imgIcon;
+	TextView txtTitle;
 }

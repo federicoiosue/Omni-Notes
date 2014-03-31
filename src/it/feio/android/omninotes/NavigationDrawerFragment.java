@@ -6,7 +6,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
-import it.feio.android.omninotes.models.adapters.NavigationDrawerAdapter;
+import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
@@ -86,7 +86,7 @@ public class NavigationDrawerFragment extends Fragment {
 	/**
 	 * Initialization of compatibility navigation drawer
 	 */
-	void initNavigationDrawer() {
+	public void initNavigationDrawer() {
 
 		mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
 		mDrawerLayout.setFocusableInTouchMode(false);
@@ -95,7 +95,7 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
 		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
-		mDrawerList.setAdapter(new NavigationDrawerAdapter(mActivity, mNavigationArray, mNavigationIconsArray));
+		mDrawerList.setAdapter(new NavDrawerAdapter(mActivity, mNavigationArray, mNavigationIconsArray));
 
 		// Sets click events
 		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
@@ -281,17 +281,9 @@ public class NavigationDrawerFragment extends Fragment {
 	
 	
 	
-	public void refreshNavigationDrawerData() {
-//		if (mDrawerList != null) {
-//			((NavigationDrawerAdapter)mDrawerList.getAdapter()).notifyDataSetChanged();
-//			mDrawerList.invalidate();
-//		}
-//		if (mDrawerTagList != null) {
-//			((NavDrawerTagAdapter)((HeaderViewListAdapter)mDrawerTagList.getAdapter()).getWrappedAdapter()).notifyDataSetChanged();
-//			mDrawerTagList.invalidate();
-//		}
-		initNavigationDrawer();
-	}
+//	public void refreshNavigationDrawerData() {
+//		initNavigationDrawer();
+//	}
 	
 	
 }

@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity {
 	 * {@link #restoreActionBar()}.
 	 */
 	private FragmentManager mFragmentManager;
-//	private NavigationDrawerFragment mNavigationDrawerFragment;
+	private NavigationDrawerFragment mNavigationDrawerFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,11 @@ public class MainActivity extends BaseActivity {
 		
 		mFragmentManager = getSupportFragmentManager();
 		
-//		mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer);
+		mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer);
+		if (mNavigationDrawerFragment == null) {
+			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+			fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment()).commit();
+		}
 		
 		if (mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -47,6 +51,14 @@ public class MainActivity extends BaseActivity {
 		// Handling of Intent actions
 		handleIntents();
 	}
+	
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		initNavigationDrawer();
+	}
+	
 
 	@Override
 	protected void onNewIntent(Intent intent) {
@@ -100,10 +112,10 @@ public class MainActivity extends BaseActivity {
 		} 
 	}
 
-	public void refreshNavigationDrawer() {
+	public void initNavigationDrawer() {
 		Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
 		if (f != null) {
-			((NavigationDrawerFragment)f).refreshNavigationDrawerData();	
+			((NavigationDrawerFragment)f).initNavigationDrawer();	
 		} 
 	}
 	

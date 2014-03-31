@@ -79,7 +79,7 @@
 
 
     <style name="Text.Big" parent="android:attr/textAppearanceSmall">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/actionbar_title_text</item>
     </style>
 

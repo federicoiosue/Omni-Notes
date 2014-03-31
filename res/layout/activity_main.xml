@@ -16,17 +16,22 @@
         tools:context="it.feio.android.omninotes.MainActivity" >
 
         <FrameLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <fragment
+        <FrameLayout
             android:id="@+id/navigation_drawer"
-            android:name="it.feio.android.omninotes.NavigationDrawerFragment"
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start" />
+
+<!--         <fragment -->
+<!--             android:id="@+id/navigation_drawer" -->
+<!--             android:name="it.feio.android.omninotes.NavigationDrawerFragment" -->
+<!--             android:layout_width="@dimen/navigation_drawer_width" -->
+<!--             android:layout_height="match_parent" -->
+<!--             android:layout_gravity="start" /> -->
     </android.support.v4.widget.DrawerLayout>
 
 </FrameLayout>

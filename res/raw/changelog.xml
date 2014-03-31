@@ -18,8 +18,10 @@
 
     <changelogversion versionName="4.5.0" changeDate="Apr 1, 2014">
         <changelogtext>[b]New![/b] Application largely rewritten to improve screens transitions, animations and smoothness</changelogtext> 
+        <changelogtext>[b]New![/b] Added custom font sizes changeable from Settings->Interface menu</changelogtext>
         <changelogtext>[b]New![/b] Added the option to open navigation drawer instead of leaving app on first "back" press when in notes list</changelogtext>
         <changelogtext>When check-lists have no checked items the switch to normal text is done without prompting any option to speed up working flow</changelogtext>    
+        <changelogtext>Moved all options regarding application behaviors to specific submenu in settings</changelogtext>    
         <changelogtext>[u]Fixed[/u] Wrong fonts coloration when switching between normal text and check-list</changelogtext>    
     </changelogversion>
     

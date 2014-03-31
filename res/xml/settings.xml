@@ -71,15 +71,6 @@
                 android:title="@string/settings_simple_calendar" />   
             
             <ListPreference
-                android:defaultValue="0"
-                android:entries="@array/checked_items_behavior"
-                android:entryValues="@array/checked_items_behavior_values"
-                android:key="settings_checked_items_behavior"
-                android:title="@string/settings_checked_items_behavior"
-                android:dialogTitle="@string/settings_checked_items_behavior_summary" >
-            </ListPreference>
-            
-            <ListPreference
                 android:entries="@array/colors_app"
                 android:entryValues="@array/colors_app_values"
                 android:key="settings_colors_app"
@@ -100,6 +91,7 @@
          <PreferenceScreen
             android:key="category_behaviors"
             android:title="@string/settings_category_behaviors" > 
+            
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="settings_navdrawer_on_exit"
@@ -117,6 +109,15 @@
                 android:summary="@string/settings_max_video_size_summary"
                 android:title="@string/settings_max_video_size" >
             </EditTextPreference>
+            
+            <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/checked_items_behavior"
+                android:entryValues="@array/checked_items_behavior_values"
+                android:key="settings_checked_items_behavior"
+                android:title="@string/settings_checked_items_behavior"
+                android:dialogTitle="@string/settings_checked_items_behavior_summary" >
+            </ListPreference>
            
             
         </PreferenceScreen>

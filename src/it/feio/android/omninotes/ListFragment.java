@@ -258,7 +258,6 @@ public class ListFragment extends Fragment implements UndoListener {
 		super.onResume();
 		Log.v(Constants.TAG, "OnResume");
 		initNotesList(mActivity.getIntent());
-		// initNavigationDrawer();
 
 		// Restores again DefaultSharedPreferences too reload in case of data
 		// erased from Settings
@@ -702,7 +701,7 @@ public class ListFragment extends Fragment implements UndoListener {
 					switch (resultCode) {
 					case Activity.RESULT_OK:
 						Crouton.makeText(mActivity, R.string.tag_saved, ONStyle.CONFIRM).show();
-						mActivity.refreshNavigationDrawer();
+						mActivity.initNavigationDrawer();
 						break;
 					case Activity.RESULT_CANCELED:
 						Crouton.makeText(mActivity, R.string.tag_deleted, ONStyle.ALERT).show();

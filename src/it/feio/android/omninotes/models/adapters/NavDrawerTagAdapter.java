@@ -21,6 +21,7 @@ import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Fonts;
 
 import java.util.ArrayList;
 
@@ -57,13 +58,6 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 	}
 
-//	public NavDrawerTagAdapter(Context context, int layout, ArrayList<Tag> tags) {
-//		this.mActivity = context;
-//		this.layout = layout;
-//		this.tags = tags;
-//		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//	}
-
 	@Override
 	public int getCount() {
 		return tags.size();
@@ -84,24 +78,31 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		// Finds elements
 		Tag tag = tags.get(position);
 		
-		// Declare Variables
-		TextView txtTitle;
-		ImageView imgIcon;
+		NoteDrawerTagAdapterViewHolder holder;
+	    if (convertView == null) {
+	    	convertView = inflater.inflate(layout, parent, false);
 
-		View itemView = inflater.inflate(layout, parent, false);
-
-		// Locate the TextViews in drawer_list_item.xml
-		txtTitle = (TextView) itemView.findViewById(R.id.title);
-
-		// Locate the ImageView in drawer_list_item.xml
-		imgIcon = (ImageView) itemView.findViewById(R.id.icon);
-
+			// Overrides font sizes with the one selected from user
+			Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS), convertView);
+	    	
+	    	holder = new NoteDrawerTagAdapterViewHolder();
+    		    	
+	    	holder.imgIcon = (ImageView) convertView.findViewById(R.id.icon);
+	    	holder.txtTitle = (TextView) convertView.findViewById(R.id.title);
+	    	convertView.setTag(holder);
+	    } else {
+	        holder = (NoteDrawerTagAdapterViewHolder) convertView.getTag();
+	    }
+	
 		// Set the results into TextViews	
-		txtTitle.setText(tag.getName());
+	    holder.txtTitle.setText(tag.getName());
 		
 		if (isSelected(parent, position)) {
-			txtTitle.setTextColor(mActivity.getResources().getColor(
+			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
 					R.color.drawer_text_selected));
+		} else {
+			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
+					R.color.actionbar_title_text));
 		}
 
 		// Set the results into ImageView checking if an icon is present before
@@ -114,14 +115,14 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 			} else {
 				img.setColorFilter(cf);				
 			}
-			imgIcon.setImageDrawable(img);
-			imgIcon.setPadding(	DensityUtil.convertDpToPixel(22, mActivity), //10
+			holder.imgIcon.setImageDrawable(img);
+			holder.imgIcon.setPadding(	DensityUtil.convertDpToPixel(22, mActivity), //10
 								DensityUtil.convertDpToPixel(7, mActivity),//25
 								DensityUtil.convertDpToPixel(1, mActivity),//-30
 								DensityUtil.convertDpToPixel(7, mActivity));//25
 		}
 
-		return itemView;
+		return convertView;
 	}
 
 	
@@ -138,7 +139,7 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 				: null;
 				
 		String navigation = navigationTmp != null ? navigationTmp
-				: mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS)
+				: mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
 						.getString(Constants.PREF_NAVIGATION,
 								navigationListCodes[0]);
 		
@@ -149,4 +150,16 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		}			
 	}
 
+}
+
+
+
+/**
+ * Holder object
+ * @author fede
+ *
+ */
+class NoteDrawerTagAdapterViewHolder {	
+	ImageView imgIcon;
+	TextView txtTitle;
 }

@@ -25,6 +25,7 @@ import it.feio.android.omninotes.widget.ListWidgetProvider;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
@@ -56,9 +57,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.espian.showcaseview.ShowcaseView;
@@ -508,6 +511,8 @@ public class BaseActivity extends ActionBarActivity {
 	public String getNavigationTmp() {
 		return navigationTmp;
 	}
+	
+	
 
 	
 

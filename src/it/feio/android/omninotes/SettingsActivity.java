@@ -315,6 +315,25 @@ public class SettingsActivity extends PreferenceActivity {
 				return false;
 			}
 		});
+		
+
+		
+		// Text size
+		final ListPreference textSize = (ListPreference) findPreference("settings_text_size");
+		int textSizeIndex = textSize.findIndexOfValue(prefs.getString("settings_text_size", "default"));
+		String textSizeString = getResources().getStringArray(R.array.text_size)[textSizeIndex];		
+		textSize.setSummary(textSizeString);		
+		textSize.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				int textSizeIndex = textSize.findIndexOfValue(newValue.toString());
+				String checklistString = getResources().getStringArray(R.array.text_size)[textSizeIndex];	
+				textSize.setSummary(checklistString);		
+				prefs.edit().putString("settings_text_size", newValue.toString()).commit();
+				textSize.setValueIndex(textSizeIndex);
+				return false;
+			}
+		});
 
 		
 		
