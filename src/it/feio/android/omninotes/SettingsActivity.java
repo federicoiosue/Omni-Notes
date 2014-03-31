@@ -61,9 +61,6 @@ import android.widget.TextView;
 
 public class SettingsActivity extends PreferenceActivity {
 
-	public final static String KEEP_USER_DATA = "settings_keep_user_data";
-	public final static String ALLOW_GEOLOCATION = "settings_allow_geolocation";
-	public final static String ALLOW_MOBILE_DATA = "settings_allow_mobile_data";
 	final Activity activity = this;
 
 	@SuppressWarnings("deprecation")

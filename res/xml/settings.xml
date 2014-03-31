@@ -62,7 +62,7 @@
                 android:entryValues="@array/text_size_values"
                 android:key="settings_text_size"
                 android:title="@string/settings_text_size" 
-                android:defaultValue="normal"/>	 
+                android:defaultValue="default"/>	 
           
             <CheckBoxPreference
                 android:defaultValue="false"

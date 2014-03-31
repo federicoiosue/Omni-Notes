@@ -39,7 +39,7 @@ public class Fonts {
 						.indexOf(
 								prefs.getString("settings_text_size", "default"));
 				float offset = context.getResources().getIntArray(
-						R.array.text_size_offset)[index];
+						R.array.text_size_offset)[index == -1 ? 0 : index];
 				((TextView) v).setTextSize(currentSize + offset);
 			}
 		} catch (Exception e) {
