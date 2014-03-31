@@ -162,6 +162,7 @@
     <string name="image">Image</string>
     <string name="error">Error</string>
     <string name="archived">archived</string>
+    <string name="files">Files</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and approaching reminders from Omni Notes</string>
