@@ -138,11 +138,6 @@ public class ListFragment extends Fragment implements UndoListener {
 
 		mActivity = (MainActivity) getActivity();
 		
-		// Force the navigation drawer to stay closed
-		if (mActivity.getDrawerLayout() != null) {
-			mActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-		}
-		
 		// Show the Up button in the action bar.
 //		if (mActivity.getSupportActionBar() != null) {
 //			mActivity.getDrawerToggle().setDrawerIndicatorEnabled(true);
@@ -266,7 +261,12 @@ public class ListFragment extends Fragment implements UndoListener {
 		Log.v(Constants.TAG, "OnResume");
 		initNotesList(mActivity.getIntent());
 		
+		// Navigation drawer initialization to ensure data refresh 
 		mActivity.initNavigationDrawer();
+		// Removes navigation drawer forced closed status
+		if (mActivity.getDrawerLayout() != null) {
+			mActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+		}
 
 		// Restores again DefaultSharedPreferences too reload in case of data
 		// erased from Settings
