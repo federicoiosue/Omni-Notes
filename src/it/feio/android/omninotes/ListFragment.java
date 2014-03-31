@@ -265,6 +265,8 @@ public class ListFragment extends Fragment implements UndoListener {
 		super.onResume();
 		Log.v(Constants.TAG, "OnResume");
 		initNotesList(mActivity.getIntent());
+		
+		mActivity.initNavigationDrawer();
 
 		// Restores again DefaultSharedPreferences too reload in case of data
 		// erased from Settings

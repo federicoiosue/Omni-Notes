@@ -52,13 +52,6 @@ public class MainActivity extends BaseActivity {
 		handleIntents();
 	}
 	
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		initNavigationDrawer();
-	}
-	
 
 	@Override
 	protected void onNewIntent(Intent intent) {

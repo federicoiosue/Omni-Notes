@@ -79,9 +79,9 @@ public class NavigationDrawerFragment extends Fragment {
 		
 		prefs = mActivity.prefs;
 		db = mActivity.db;
-		
-		initNavigationDrawer();
 	}
+	
+	
 
 	/**
 	 * Initialization of compatibility navigation drawer
