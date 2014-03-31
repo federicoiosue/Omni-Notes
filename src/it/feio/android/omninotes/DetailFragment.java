@@ -15,6 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
@@ -60,6 +61,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -124,6 +126,8 @@ import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.neopixl.pixlui.links.TextLinkClickListener;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
@@ -189,13 +193,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	boolean afterSavedReturnsToList = true;
 	private boolean swiping;
 	private int previousX;
-	private View root;
+	private ViewGroup root;
 	private int startSwipeX;
 	private SharedPreferences prefs;
 	private DbHelper db;
 	private boolean onCreateOptionsMenuAlreadyCalled = false;
 	private View timestampsView;
 	private View keyboardPlaceholder;
+	private View titleCardView;
 
 
 	@Override
@@ -208,7 +213,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
-        return inflater.inflate(R.layout.fragment_detail_old, container, false);
+        return inflater.inflate(R.layout.fragment_detail, container, false);
 	}
 	
 	@Override
@@ -253,6 +258,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		outState.putParcelable("note", noteTmp);
 		outState.putParcelable("attachmentUri", attachmentUri);
 		super.onSaveInstanceState(outState);		
+	}
+	
+	
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		restoreLayouts();
 	}
 	
 	
@@ -404,9 +417,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void initViews() {
 				
 		// Sets onTouchListener to the whole activity to swipe notes
-		root = getView().findViewById(R.id.detail_root);
+		root = (ViewGroup) getView().findViewById(R.id.detail_root);
 		root.setOnTouchListener(this);
-
+		
+		// Title view card container
+		titleCardView = root.findViewById(R.id.detail_tile_card);
+		
 		// Overrides font sizes with the one selected from user
 		Fonts.overrideTextSize(mActivity, prefs, root);
 
@@ -1615,7 +1631,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 
 	private String getNoteTitle() {
-		return ((EditText) getView().findViewById(R.id.title)).getText().toString();
+		String res = "";
+		if (getView().findViewById(R.id.title) != null) {
+			res = ((EditText) getView().findViewById(R.id.title)).getText().toString();
+		}
+		return res;
 	}
 	
 	
@@ -2063,6 +2083,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		return true;
 	}
 
+	
+	
 	@Override
 	public void onGlobalLayout() {
 
@@ -2070,26 +2092,45 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		int heightDiff = screenHeight - Display.getVisibleSize(root).y;
 		// boolean keyboardVisible = heightDiff > screenHeight / 3;
 		boolean keyboardVisible = heightDiff > 150;
-		// boolean keyboardVisible =
-		// KeyboardUtils.isKeyboardShowed(title) ||
-		// KeyboardUtils.isKeyboardShowed(content);
-
+		// boolean keyboardVisible = KeyboardUtils.isKeyboardShowed(title) || KeyboardUtils.isKeyboardShowed(content);
+		
 		if (keyboardVisible && keyboardPlaceholder == null) {
-			keyboardPlaceholder = root.findViewById(R.id.keyboard_placeholder);
-			if (keyboardPlaceholder != null) {
-				LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
-						keyboardPlaceholder.getWidth(), heightDiff
-								- timestampsView.getHeight()); // TODO MAAAHH
-				keyboardPlaceholder.setLayoutParams(p);
-			}
+			shrinkLayouts(heightDiff);
+			
 		} else if (!keyboardVisible && keyboardPlaceholder != null) {
-			LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
-					keyboardPlaceholder.getWidth(), 0);
-			keyboardPlaceholder.setLayoutParams(p);
-			keyboardPlaceholder = null;
+			restoreLayouts();
 		}
 	}
 	
+	
+	
+	private void shrinkLayouts(int heightDiff) {
+		ViewGroup wrapper = ((ViewGroup)root.findViewById(R.id.detail_wrapper));
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
+				&& !title.hasFocus()) {
+			wrapper.removeView(titleCardView);
+//			heightDiff -= Display.getActionbarHeight(mActivity) + Display.getStatusBarHeight(mActivity);
+			heightDiff -= Display.getStatusBarHeight(mActivity);
+		}
+		wrapper.removeView(timestampsView);
+		
+		keyboardPlaceholder = new View(mActivity); 
+		root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
+	}
+	
+	private void restoreLayouts() {
+		ViewGroup wrapper = ((ViewGroup)root.findViewById(R.id.detail_wrapper));
+		if (root.indexOfChild(keyboardPlaceholder) != -1) {
+			root.removeView(keyboardPlaceholder);		
+			keyboardPlaceholder = null;
+		}
+		if (wrapper.indexOfChild(titleCardView) == -1) {
+			wrapper.addView(titleCardView, 0);
+		}
+		if (wrapper.indexOfChild(timestampsView) == -1) {
+			wrapper.addView(timestampsView);
+		}		
+	}
 
 
 }

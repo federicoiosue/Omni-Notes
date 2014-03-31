@@ -1,9 +1,11 @@
 package it.feio.android.omninotes.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -68,6 +70,17 @@ public class Display {
 	
 	public static int getNavigationBarHeight(View view) {
 		return (getFullSize(view).y - getUsableSize(view.getContext()).y);
+	}
+	
+	
+	public static int getActionbarHeight(Object mObject) {
+		int res = 0;
+		if (Activity.class.isAssignableFrom(mObject.getClass())) {
+			res = ((Activity) mObject).getActionBar().getHeight();
+		} else if (ActionBarActivity.class.isAssignableFrom(mObject.getClass())) {
+			res = ((ActionBarActivity) mObject).getSupportActionBar().getHeight();
+		}
+		return res;
 	}
 
 //	public static int getActionBarHeight(Activity mActivity) {

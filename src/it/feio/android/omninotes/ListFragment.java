@@ -84,6 +84,7 @@ import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
@@ -858,7 +859,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		}
 		
 		// Fade in the list view
-		com.nineoldandroids.view.ViewPropertyAnimator.animate(listView).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+		animate(listView).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
 
 	}
 
