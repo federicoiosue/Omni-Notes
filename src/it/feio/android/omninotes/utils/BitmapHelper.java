@@ -20,10 +20,9 @@ import it.feio.android.omninotes.models.Attachment;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
-import org.apache.commons.io.FileUtils;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -318,8 +317,7 @@ public class BitmapHelper {
 		
 		// Video
 		if (Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
-			// Tries to retrieve full path from ContentResolver if is a new
-			// video
+			// Tries to retrieve full path from ContentResolver if is a new video
 			path = StorageManager.getRealPathFromURI(mContext,
 					mAttachment.getUri());
 			// .. or directly from local directory otherwise
@@ -327,20 +325,17 @@ public class BitmapHelper {
 //				path = mAttachment.getUri().getPath();
 				path = FileHelper.getPath(mContext, mAttachment.getUri());
 			}
-
 			bmp = ThumbnailUtils.createVideoThumbnail(path,
-					Thumbnails.MINI_KIND);
-			
+					Thumbnails.MINI_KIND);			
 			if (bmp == null) {
 				return null;
 			} else {
 				bmp = createVideoThumbnail(mContext, bmp, width, height);
 			}
 
-			// Image
+		// Image
 		} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
-					|| Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())) {
-					
+					|| Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())) {					
 			try {				
 				bmp = BitmapHelper.getThumbnail(mContext, mAttachment.getUri(), width, height);
 //				bmp = checkIfBroken(mContext, bmp, width, height);
@@ -349,10 +344,19 @@ public class BitmapHelper {
 				bmp = null;
 			}
 
-			// Audio
+		// Audio
 		} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
 			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
 					mContext.getResources(), R.drawable.play), width, height);
+		
+		// File
+		} else if (Constants.MIME_TYPE_FILES.equals(mAttachment.getMime_type())) {
+			if( (new File(FileHelper.getPath(mContext, mAttachment.getUri())).exists()) ) {
+				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
+						mContext.getResources(), R.drawable.ic_note_dark), width, height);
+			} else {
+				return null;
+			}
 		}
 		
 		return bmp;

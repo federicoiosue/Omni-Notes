@@ -15,7 +15,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -116,7 +115,13 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 				extension = Constants.MIME_TYPE_SKETCH_EXT;
 			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO))
 				extension = Constants.MIME_TYPE_VIDEO_EXT;
-								
+			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_FILES)) {
+//				extension = StorageManager.getMimeType(mDetailFragmentReference.get().getActivity(), attachment.getUri());
+//			extension = StorageManager.getRealPathFromURI(mDetailFragmentReference.get().getActivity(), attachment.getUri());
+				String path = FileHelper.getPath(mDetailFragmentReference.get().getActivity(), attachment.getUri());
+				extension = path.substring(path.lastIndexOf("."), path.length());
+			}				
+				
 			destination = StorageManager.createExternalStoragePrivateFile(mDetailFragmentReference.get().getActivity(), uri, extension);
 			Log.v(Constants.TAG, "Moving attachment " + uri + " to " + destination);
 			

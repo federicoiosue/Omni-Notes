@@ -15,7 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
@@ -126,8 +125,6 @@ import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.neopixl.pixlui.links.TextLinkClickListener;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
@@ -150,6 +147,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private static final int SKETCH = 6;
 	private static final int TAG = 7;
 	private static final int DETAIL = 8;
+	private static final int FILES = 9;
 
 	private MainActivity mActivity;
 	private ShareActionProvider mShareActionProvider;
@@ -544,7 +542,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				Uri uri = attachment.getUri();
 				Intent attachmentIntent = null;
 				if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
-					|| Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())
+						|| Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())
+						|| Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())
 					|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
 					attachmentIntent = new Intent(Intent.ACTION_VIEW);
 					attachmentIntent.setDataAndType(uri, attachment.getMime_type());
@@ -1275,6 +1274,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		// Video recording
 		android.widget.TextView videoSelection = (android.widget.TextView) layout.findViewById(R.id.video);
 		videoSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Files
+		android.widget.TextView filesSelection = (android.widget.TextView) layout.findViewById(R.id.files);
+		filesSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Sketch
 		android.widget.TextView sketchSelection = (android.widget.TextView) layout.findViewById(R.id.sketch);
 		sketchSelection.setOnClickListener(new AttachmentOnClickListener());
@@ -1349,6 +1351,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				takeVideo();
 				attachmentDialog.dismiss();
 			    break;
+			case R.id.files:
+				Intent filesIntent;
+				filesIntent = new Intent(Intent.ACTION_GET_CONTENT);
+				filesIntent.addCategory(Intent.CATEGORY_OPENABLE);
+				filesIntent.setType("*/*");
+				startActivityForResult(filesIntent, FILES);
+				attachmentDialog.dismiss();
+				break;
 			case R.id.sketch:
 				takeSketch(null);
 				attachmentDialog.dismiss();
@@ -1484,6 +1494,17 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				if (resultCode == Activity.RESULT_OK) {
 					Uri audioUri = intent.getData();
 					attachment = new Attachment(audioUri, Constants.MIME_TYPE_AUDIO);
+					noteTmp.getAttachmentsList().add(attachment);
+					mAttachmentAdapter.notifyDataSetChanged();
+					mGridView.autoresize();
+				} else {
+					Log.e(Constants.TAG, "Audio recording unsuccessful");
+				}
+				break;
+			case FILES:
+				if (resultCode == Activity.RESULT_OK) {
+					Uri filesUri = intent.getData();
+					attachment = new Attachment(filesUri, Constants.MIME_TYPE_FILES);
 					noteTmp.getAttachmentsList().add(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();

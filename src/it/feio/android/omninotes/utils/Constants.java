@@ -111,6 +111,7 @@ public interface Constants {
     final String MIME_TYPE_AUDIO = "audio/3gp";
     final String MIME_TYPE_VIDEO = "video/mp4";
 	final String MIME_TYPE_SKETCH = "image/png";
+	final String MIME_TYPE_FILES = "file/boh";
     
     final String MIME_TYPE_IMAGE_EXT = ".jpeg";
     final String MIME_TYPE_AUDIO_EXT = ".3gp";
