@@ -36,7 +36,7 @@ public interface Constants {
 	static long UPDATE_MIN_FREQUENCY = 24*60*60*1000; // 1 day
 	
 	// Notes swipe
-	final int SWIPE_MARGIN = 25;
+	final int SWIPE_MARGIN = 30;
 	final int SWIPE_OFFSET = 100;
 
 	// Notes content masking
