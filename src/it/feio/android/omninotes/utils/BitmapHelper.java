@@ -351,12 +351,12 @@ public class BitmapHelper {
 		
 		// File
 		} else if (Constants.MIME_TYPE_FILES.equals(mAttachment.getMime_type())) {
-			if( (new File(FileHelper.getPath(mContext, mAttachment.getUri())).exists()) ) {
+//			if( (new File(FileHelper.getPath(mContext, mAttachment.getUri())).exists()) ) {
 				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
 						mContext.getResources(), R.drawable.ic_note_dark), width, height);
-			} else {
-				return null;
-			}
+//			} else {
+//				return null;
+//			}
 		}
 		
 		return bmp;

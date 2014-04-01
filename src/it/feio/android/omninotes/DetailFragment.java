@@ -34,6 +34,7 @@ import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.KeyboardUtils;
@@ -42,6 +43,7 @@ import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.DatePickerFragment;
 import it.feio.android.omninotes.utils.date.TimePickerFragment;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -546,7 +548,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 						|| Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())
 					|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
 					attachmentIntent = new Intent(Intent.ACTION_VIEW);
-					attachmentIntent.setDataAndType(uri, attachment.getMime_type());
+//					attachmentIntent.setDataAndType(uri, attachment.getMime_type());					
+					attachmentIntent.setDataAndType(uri, StorageManager.getMimeType(mActivity, attachment.getUri()));
 					attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 					if (IntentChecker.isAvailable(mActivity.getApplicationContext(), attachmentIntent, null)) {
 						startActivity(attachmentIntent);
@@ -1504,12 +1507,19 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			case FILES:
 				if (resultCode == Activity.RESULT_OK) {
 					Uri filesUri = intent.getData();
-					attachment = new Attachment(filesUri, Constants.MIME_TYPE_FILES);
-					noteTmp.getAttachmentsList().add(attachment);
-					mAttachmentAdapter.notifyDataSetChanged();
-					mGridView.autoresize();
+					// A check on the existence of the file is done
+					if ( new File(FileHelper.getPath(mActivity, filesUri)).exists() ) {						
+						attachment = new Attachment(filesUri, Constants.MIME_TYPE_FILES);
+						noteTmp.getAttachmentsList().add(attachment);
+						mAttachmentAdapter.notifyDataSetChanged();
+						mGridView.autoresize();						
+					} else {
+						Crouton.makeText(mActivity, R.string.error_saving_attachments,
+								ONStyle.ALERT).show();
+					}
 				} else {
-					Log.e(Constants.TAG, "Audio recording unsuccessful");
+					Crouton.makeText(mActivity, R.string.error_saving_attachments,
+							ONStyle.ALERT).show();
 				}
 				break;
 			case SET_PASSWORD:
