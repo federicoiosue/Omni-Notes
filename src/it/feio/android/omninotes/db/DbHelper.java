@@ -37,14 +37,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 public class DbHelper extends SQLiteOpenHelper {
 
 	// Database name
 	private static final String DATABASE_NAME = Constants.DATABASE_NAME;
 	// Database version aligned if possible to software version
-	private static final int DATABASE_VERSION = 414;
+	private static final int DATABASE_VERSION = 450;
 	// Sql query file directory
     private static final String SQL_DIR = "sql" ;
     
@@ -69,6 +68,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Attachments table columns
 	public static final String KEY_ATTACHMENT_ID = "attachment_id"; 
 	public static final String KEY_ATTACHMENT_URI = "uri"; 
+	public static final String KEY_ATTACHMENT_NAME = "name"; 
+	public static final String KEY_ATTACHMENT_SIZE = "size"; 
 	public static final String KEY_ATTACHMENT_MIME_TYPE = "mime_type"; 
 	public static final String KEY_ATTACHMENT_NOTE_ID = "note_id"; 	
 
@@ -199,6 +200,8 @@ public class DbHelper extends SQLiteOpenHelper {
 				valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
 				valuesAttachments.put(KEY_ATTACHMENT_MIME_TYPE, attachment.getMime_type());
 				valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, (note.get_id() != 0 ? note.get_id() : resNote) );
+				valuesAttachments.put(KEY_ATTACHMENT_NAME, attachment.getName());
+				valuesAttachments.put(KEY_ATTACHMENT_SIZE, attachment.getSize());
 				resAttachment = db.insert(TABLE_ATTACHMENTS, null, valuesAttachments);
 				Log.d(Constants.TAG, "Saved new attachment with uri '"
 						+ attachment.getUri().toString() + "' with id: " + resAttachment);
@@ -560,6 +563,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		String sql = "SELECT " 
 						+ KEY_ATTACHMENT_ID + "," 
 						+ KEY_ATTACHMENT_URI + ","
+						+ KEY_ATTACHMENT_NAME + ","
+						+ KEY_ATTACHMENT_SIZE + ","
 						+ KEY_ATTACHMENT_MIME_TYPE
 					+ " FROM " + TABLE_ATTACHMENTS
 					+ whereCondition;
@@ -574,9 +579,9 @@ public class DbHelper extends SQLiteOpenHelper {
 			// Looping through all rows and adding to list
 			if (cursor.moveToFirst()) {
 				do {
-					attachmentsList.add(new Attachment(Integer.valueOf(cursor
-							.getInt(0)), Uri.parse(cursor.getString(1)), cursor
-							.getString(2)));
+					attachmentsList.add(new Attachment(Integer.valueOf(cursor.getInt(0)),
+							Uri.parse(cursor.getString(1)), cursor.getString(2), Integer.valueOf(cursor.getInt(3)),
+							cursor.getString(4)));
 				} while (cursor.moveToNext());
 			}
 

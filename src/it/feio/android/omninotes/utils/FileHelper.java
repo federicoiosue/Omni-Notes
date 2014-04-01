@@ -1,5 +1,11 @@
 package it.feio.android.omninotes.utils;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
@@ -9,6 +15,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 
 public class FileHelper {
 	/**
@@ -142,4 +149,23 @@ public class FileHelper {
 	public static boolean isMediaDocument(Uri uri) {
 		return "com.android.providers.media.documents".equals(uri.getAuthority());
 	}
+	
+	
+	
+	
+	public static InputStream getInputStream(Context mContext, Uri mUri) {
+		InputStream inputStream;
+		try {
+			inputStream = mContext.getContentResolver().openInputStream(mUri);
+			inputStream.close();			 
+			return inputStream;
+		} catch (FileNotFoundException e) {
+			return null;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+	
+	
+	
 }

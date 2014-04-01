@@ -1467,16 +1467,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 					Crouton.makeText(mActivity, R.string.error_saving_attachments,
 							ONStyle.WARN).show();
 					break;
-				}
-				
+				}				
 //				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { 
 //					final int takeFlags = intent.getFlags()
 //				            & (Intent.FLAG_GRANT_READ_URI_PERMISSION
 //				            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 //					// Check for the freshest data.
 //					getContentResolver().takePersistableUriPermission(intent.getData(), takeFlags);
-//				}
-				
+//				}				
 				attachment = new Attachment(intent.getData(), mimeType);
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
@@ -1508,11 +1506,20 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				if (resultCode == Activity.RESULT_OK) {
 					Uri filesUri = intent.getData();
 					// A check on the existence of the file is done
-					if ( new File(FileHelper.getPath(mActivity, filesUri)).exists() ) {						
-						attachment = new Attachment(filesUri, Constants.MIME_TYPE_FILES);
-						noteTmp.getAttachmentsList().add(attachment);
-						mAttachmentAdapter.notifyDataSetChanged();
-						mGridView.autoresize();						
+					if (FileHelper.getPath(mActivity, filesUri) != null) {
+						File f = new File(FileHelper.getPath(mActivity, filesUri));
+						if (f.exists()) {						
+	//						attachment = new Attachment(filesUri, Constants.MIME_TYPE_FILES);
+							attachment = new Attachment(Uri.fromFile(f), Constants.MIME_TYPE_FILES);
+							attachment.setName(f.getName());
+							attachment.setSize(f.length());
+							noteTmp.getAttachmentsList().add(attachment);
+							mAttachmentAdapter.notifyDataSetChanged();
+							mGridView.autoresize();						
+						} else {
+							Crouton.makeText(mActivity, R.string.error_saving_attachments,
+									ONStyle.ALERT).show();
+						}
 					} else {
 						Crouton.makeText(mActivity, R.string.error_saving_attachments,
 								ONStyle.ALERT).show();

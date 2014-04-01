@@ -11,31 +11,34 @@ CREATE
 		alarm INTEGER DEFAULT null,
 		latitude REAL,
 		longitude REAL,
-       		tag_id INTEGER DEFAUL null,
+       	tag_id INTEGER DEFAUL null,
 		locked INTEGER,  
 		checklist  INTEGER   
 	);
 	
 
 
--- Create table for attachments
+-- Create table for ATTACHMENTS
 CREATE
 	TABLE attachments
 	(
 		attachment_id INTEGER PRIMARY KEY AUTOINCREMENT,
 		uri TEXT,
+		name TEXT,
+		size INTEGER,
+		lenght INTEGER,
 		mime_type TEXT,
 		note_id INTEGER
 	);
 	
 
 
--- Create table for tags
+-- Create table for TAGS
 CREATE
 	TABLE tags
 	(
 		tag_id INTEGER PRIMARY KEY AUTOINCREMENT,
 		name TEXT,
-        	description TEXT,
-        	color TEXT
+		description TEXT,
+		color TEXT
 	);

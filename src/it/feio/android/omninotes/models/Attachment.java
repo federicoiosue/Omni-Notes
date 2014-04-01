@@ -22,6 +22,8 @@ import android.os.Parcelable;
 public class Attachment implements Parcelable {
 	private int id;
 	private Uri uri;
+	private String name;
+	private long size;
 	private String mime_type;
 
 	public Attachment(Uri uri, String mime_type) {
@@ -30,10 +32,12 @@ public class Attachment implements Parcelable {
 		this.setMime_type(mime_type);		
 	}
 
-	public Attachment(int id, Uri uri, String mime_type) {
+	public Attachment(int id, Uri uri, String name, int size, String mime_type) {
 		super();
 		this.id = id;
 		this.uri = uri;
+		this.name = name;
+		this.size = size;
 		this.setMime_type(mime_type);
 	}
 
@@ -57,6 +61,22 @@ public class Attachment implements Parcelable {
 
 	public void setUri(Uri uri) {
 		this.uri = uri;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
 	}
 
 	public String getMime_type() {

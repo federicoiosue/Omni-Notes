@@ -127,7 +127,7 @@ public class AttachmentAdapter extends BaseAdapter {
 		
 		// Draw name in case the type is an audio recording (or file in the future)
 		if (mAttachment.getMime_type() != null && mAttachment.getMime_type().equals(Constants.MIME_TYPE_FILES)) {
-			holder.text.setText(mAttachment.getUri().getLastPathSegment());
+			holder.text.setText(mAttachment.getName());
 			holder.text.setVisibility(View.VISIBLE);
 		}
 		

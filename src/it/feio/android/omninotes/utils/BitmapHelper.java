@@ -20,7 +20,6 @@ import it.feio.android.omninotes.models.Attachment;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -353,7 +352,7 @@ public class BitmapHelper {
 		} else if (Constants.MIME_TYPE_FILES.equals(mAttachment.getMime_type())) {
 //			if( (new File(FileHelper.getPath(mContext, mAttachment.getUri())).exists()) ) {
 				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
-						mContext.getResources(), R.drawable.ic_note_dark), width, height);
+						mContext.getResources(), R.drawable.files), width, height);
 //			} else {
 //				return null;
 //			}

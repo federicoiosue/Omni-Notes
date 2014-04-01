@@ -13,7 +13,7 @@
    height="1052.3622047"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.2 r9819"
+   inkscape:version="0.48.4 r9939"
    sodipodi:docname="play.svg"
    inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\play.png"
    inkscape:export-xdpi="249.5"
@@ -28,10 +28,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="295.03079"
+     inkscape:cx="252.35222"
      inkscape:cy="682.42759"
      inkscape:document-units="px"
-     inkscape:current-layer="layer4"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1472"
      inkscape:window-height="1063"
@@ -80,12 +80,12 @@
        id="path3807"
        style="fill:#ffffff;fill-opacity:1;stroke:#5a5a5a;stroke-opacity:1;display:inline"
        sodipodi:type="arc"
-       transform="matrix(1.0852482,0,0,1.0852482,-20.55936,-14.76481)"
+       transform="matrix(1.0852482,0,0,1.0852482,-20.559356,-15.479093)"
        inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\stop.png"
        inkscape:export-xdpi="249.5"
        inkscape:export-ydpi="249.5" />
     <path
-       transform="translate(3.35873,13.06374)"
+       transform="translate(3.3587189,12.349442)"
        sodipodi:type="arc"
        style="fill:#5a5a5a;fill-opacity:1;stroke:none;display:inline"
        id="path3022"
@@ -99,7 +99,7 @@
        inkscape:export-ydpi="249.5" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:none;display:inline"
-       d="m 275.08978,326.87814 0,25.63262 20.43049,-11.79555 z"
+       d="m 275.85619,325.97445 0,25.63262 20.43049,-11.79555 z"
        id="path3020"
        inkscape:connector-curvature="0"
        inkscape:export-xdpi="249.5"
@@ -110,14 +110,14 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="stop"
-     style="display:inline">
+     style="display:none">
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:none"
        id="rect3820"
        width="25.892857"
        height="25.892857"
-       x="270.71429"
-       y="326.82648"
+       x="270.98215"
+       y="325.84433"
        inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\stop.png"
        inkscape:export-xdpi="249.5"
        inkscape:export-ydpi="249.5" />
