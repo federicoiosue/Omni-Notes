@@ -70,6 +70,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String KEY_ATTACHMENT_URI = "uri"; 
 	public static final String KEY_ATTACHMENT_NAME = "name"; 
 	public static final String KEY_ATTACHMENT_SIZE = "size"; 
+	public static final String KEY_ATTACHMENT_LENGTH = "length"; 
 	public static final String KEY_ATTACHMENT_MIME_TYPE = "mime_type"; 
 	public static final String KEY_ATTACHMENT_NOTE_ID = "note_id"; 	
 
@@ -202,6 +203,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, (note.get_id() != 0 ? note.get_id() : resNote) );
 				valuesAttachments.put(KEY_ATTACHMENT_NAME, attachment.getName());
 				valuesAttachments.put(KEY_ATTACHMENT_SIZE, attachment.getSize());
+				valuesAttachments.put(KEY_ATTACHMENT_LENGTH, attachment.getLength());
 				resAttachment = db.insert(TABLE_ATTACHMENTS, null, valuesAttachments);
 				Log.d(Constants.TAG, "Saved new attachment with uri '"
 						+ attachment.getUri().toString() + "' with id: " + resAttachment);
@@ -565,6 +567,7 @@ public class DbHelper extends SQLiteOpenHelper {
 						+ KEY_ATTACHMENT_URI + ","
 						+ KEY_ATTACHMENT_NAME + ","
 						+ KEY_ATTACHMENT_SIZE + ","
+						+ KEY_ATTACHMENT_LENGTH + ","
 						+ KEY_ATTACHMENT_MIME_TYPE
 					+ " FROM " + TABLE_ATTACHMENTS
 					+ whereCondition;
@@ -581,7 +584,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				do {
 					attachmentsList.add(new Attachment(Integer.valueOf(cursor.getInt(0)),
 							Uri.parse(cursor.getString(1)), cursor.getString(2), Integer.valueOf(cursor.getInt(3)),
-							cursor.getString(4)));
+							Long.valueOf(cursor.getInt(4)), cursor.getString(5)));
 				} while (cursor.moveToNext());
 			}
 

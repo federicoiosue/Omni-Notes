@@ -111,12 +111,19 @@ public class AttachmentAdapter extends BaseAdapter {
 	        holder = (AttachmentHolder) convertView.getTag();
 		}	
 		
-		// Draw name in case the type is an audio recording (or file in the future)
+		// Draw name in case the type is an audio recording
 		if (mAttachment.getMime_type() != null && mAttachment.getMime_type().equals(Constants.MIME_TYPE_AUDIO)) {
 			String text = "";
-			text = DateHelper.getLocalizedDateTime(mActivity, mAttachment
-					.getUri().getLastPathSegment().split("\\.")[0],
-					Constants.DATE_FORMAT_SORTABLE);
+			
+			if (mAttachment.getLength() > 0) {
+				// Recording duration
+				text = DateHelper.formatShortTime(mActivity, mAttachment.getLength());
+			} else {					
+				// Recording date otherwise
+				text = DateHelper.getLocalizedDateTime(mActivity, mAttachment
+						.getUri().getLastPathSegment().split("\\.")[0],
+						Constants.DATE_FORMAT_SORTABLE);
+			}
 		
 			if (text == null) {
 				text = mActivity.getString(R.string.attachment);

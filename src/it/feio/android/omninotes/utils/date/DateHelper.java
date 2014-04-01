@@ -17,15 +17,12 @@ package it.feio.android.omninotes.utils.date;
 
 import it.feio.android.omninotes.utils.Constants;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
 
@@ -204,6 +201,19 @@ public class DateHelper {
 		String timeFormatted = DateUtils.formatDateTime(mContext, c.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
 		res = !timeFormatted.toLowerCase().contains("am") && !timeFormatted.toLowerCase().contains("pm");
 		return res;
+	}
+	
+	
+	/**
+	 * Formats a short time period (minutes) 
+	 * @param time
+	 * @return
+	 */
+	public static String formatShortTime(Context mContext, long time) {
+//		return DateUtils.formatDateTime(mContext, time, DateUtils.FORMAT_SHOW_TIME);
+		String m = String.valueOf(time/1000/60);
+		String s = String.format("%02d", (time/1000)%60);
+		return m + ":" + s;
 	}
 	
 }

@@ -26,7 +26,7 @@ CREATE
 		uri TEXT,
 		name TEXT,
 		size INTEGER,
-		lenght INTEGER,
+		length INTEGER,
 		mime_type TEXT,
 		note_id INTEGER
 	);

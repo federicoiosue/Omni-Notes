@@ -202,6 +202,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private View keyboardPlaceholder;
 	private View titleCardView;
 	private boolean orientationChanged;
+	private long startAudioRecordingTime;
+	private long audioRecordingTimeStart;
+	private long audioRecordingTime;
 
 
 	@Override
@@ -1344,6 +1347,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 					isRecording = false;
 					stopRecording();
 					Attachment attachment = new Attachment(Uri.parse(recordName), Constants.MIME_TYPE_AUDIO);
+					attachment.setLength(audioRecordingTime);
 					noteTmp.getAttachmentsList().add(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();
@@ -1491,17 +1495,18 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
 				break;
-			case RECORDING:
-				if (resultCode == Activity.RESULT_OK) {
-					Uri audioUri = intent.getData();
-					attachment = new Attachment(audioUri, Constants.MIME_TYPE_AUDIO);
-					noteTmp.getAttachmentsList().add(attachment);
-					mAttachmentAdapter.notifyDataSetChanged();
-					mGridView.autoresize();
-				} else {
-					Log.e(Constants.TAG, "Audio recording unsuccessful");
-				}
-				break;
+//			case RECORDING:
+//				if (resultCode == Activity.RESULT_OK) {
+//					Uri audioUri = intent.getData();
+//					attachment = new Attachment(audioUri, Constants.MIME_TYPE_AUDIO);
+//					attachment.setLength(audioRecordingTime);
+//					noteTmp.getAttachmentsList().add(attachment);
+//					mAttachmentAdapter.notifyDataSetChanged();
+//					mGridView.autoresize();
+//				} else {
+//					Log.e(Constants.TAG, "Audio recording unsuccessful");
+//				}
+//				break;
 			case FILES:
 				if (resultCode == Activity.RESULT_OK) {
 					Uri filesUri = intent.getData();
@@ -1925,6 +1930,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 		try {
 			mRecorder.prepare();
+			audioRecordingTimeStart = Calendar.getInstance().getTimeInMillis();
 			mRecorder.start();
 		} catch (IOException e) {
 			Log.e(Constants.TAG, "prepare() failed");
@@ -1934,6 +1940,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void stopRecording() {
 		if (mRecorder!= null) {
 			mRecorder.stop();
+			audioRecordingTime = Calendar.getInstance().getTimeInMillis() - audioRecordingTimeStart; 
 			mRecorder.release();
 			mRecorder = null;
 		}

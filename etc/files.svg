@@ -24,11 +24,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="269.65436"
-     inkscape:cy="700.19753"
+     inkscape:zoom="5.6"
+     inkscape:cx="256.52357"
+     inkscape:cy="709.69184"
      inkscape:document-units="px"
-     inkscape:current-layer="g3055"
+     inkscape:current-layer="g3094"
      showgrid="false"
      inkscape:window-width="1600"
      inkscape:window-height="1138"
@@ -51,7 +51,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="sfondo"
-     style="display:none">
+     style="display:inline">
     <rect
        style="fill:#ececec;fill-opacity:1;stroke:none"
        id="rect3087"
@@ -76,9 +76,12 @@
        inkscape:export-ydpi="249">
       <g
          id="g3094"
-         transform="matrix(1,0,0,1.1554081,0,-104.53909)">
+         transform="matrix(0.95292327,0,0,1.1010153,21.95793,-67.950409)"
+         inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\files.png"
+         inkscape:export-xdpi="249"
+         inkscape:export-ydpi="249">
         <rect
-           style="fill:#b3b3b3;fill-opacity:1;stroke:none;display:inline"
+           style="fill:#5a5a5a;fill-opacity:1;stroke:none;display:inline"
            id="rect3044"
            width="40"
            height="44.017857"
