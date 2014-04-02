@@ -173,11 +173,19 @@ public class MainActivity extends BaseActivity {
 
 
 	public DrawerLayout getDrawerLayout() {
-		return ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer)).mDrawerLayout;
+		if ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer) != null) {
+			return ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer)).mDrawerLayout;
+		} else {
+			return null;
+		}
 	}
 	
 	public ActionBarDrawerToggle getDrawerToggle() {
-		return ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer)).mDrawerToggle;
+		if ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer) != null) {
+			return ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer)).mDrawerToggle;
+		} else {
+			return null;
+		}
 	}
 	
 	

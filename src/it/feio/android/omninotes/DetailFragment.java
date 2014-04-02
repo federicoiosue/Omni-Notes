@@ -143,7 +143,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
-	private static final int RECORDING = 3;
+//	private static final int RECORDING = 3;
 	private static final int TAKE_VIDEO = 4;
 	private static final int SET_PASSWORD = 5;
 	private static final int SKETCH = 6;
@@ -231,9 +231,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		
 		// Show the Up button in the action bar.
 		if (mActivity.getSupportActionBar() != null) {
-			mActivity.getDrawerToggle().setDrawerIndicatorEnabled(false);
 			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
 			mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+		
+		// Disables navigation drawer indicator (it must be only shown in ListFragment)
+		if (mActivity.getDrawerToggle() != null) {
+			mActivity.getDrawerToggle().setDrawerIndicatorEnabled(false);
 		}
 		
 		// Force the navigation drawer to stay closed
