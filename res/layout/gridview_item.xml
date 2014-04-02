@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -11,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:scaleType="centerCrop" />
 
-    <TextView
+    <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/gridview_item_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +22,9 @@
         android:background="#44000000"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
+        android:textSize="12sp"
         android:textColor="@android:color/white"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        pixlui:typeface="Roboto-Regular.ttf" />
 
 </RelativeLayout>

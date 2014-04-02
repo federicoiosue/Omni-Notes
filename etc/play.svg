@@ -28,16 +28,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="252.35222"
+     inkscape:cx="190.92365"
      inkscape:cy="682.42759"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer5"
      showgrid="false"
-     inkscape:window-width="1472"
-     inkscape:window-height="1063"
-     inkscape:window-x="25"
-     inkscape:window-y="25"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1600"
+     inkscape:window-height="1138"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -54,7 +54,7 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="bg"
-     style="display:inline">
+     style="display:none">
     <rect
        style="fill:#f9f9f9;fill-opacity:1;stroke:none"
        id="rect3057"
@@ -62,12 +62,12 @@
        height="157.14285"
        x="205.35715"
        y="260.21933"
-       inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\stop.png"
+       inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\play.png"
        inkscape:export-xdpi="249"
        inkscape:export-ydpi="249" />
   </g>
   <g
-     inkscape:label="play"
+     inkscape:label="object"
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline">
@@ -78,33 +78,25 @@
        sodipodi:cy="326.44131"
        sodipodi:cx="280.56985"
        id="path3807"
-       style="fill:#ffffff;fill-opacity:1;stroke:#5a5a5a;stroke-opacity:1;display:inline"
+       style="fill:#ffffff;fill-opacity:1;stroke:#979797;stroke-opacity:1;display:inline"
        sodipodi:type="arc"
        transform="matrix(1.0852482,0,0,1.0852482,-20.559356,-15.479093)"
-       inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\stop.png"
+       inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\play.png"
        inkscape:export-xdpi="249.5"
        inkscape:export-ydpi="249.5" />
     <path
-       transform="translate(3.3587189,12.349442)"
+       transform="translate(3.3587191,12.349441)"
        sodipodi:type="arc"
-       style="fill:#5a5a5a;fill-opacity:1;stroke:none;display:inline"
+       style="fill:#979797;fill-opacity:1;stroke:none;display:inline"
        id="path3022"
        sodipodi:cx="280.56985"
        sodipodi:cy="326.44131"
        sodipodi:rx="29.673231"
        sodipodi:ry="29.673231"
        d="m 310.24309,326.44131 a 29.673231,29.673231 0 1 1 -59.34647,0 29.673231,29.673231 0 1 1 59.34647,0 z"
-       inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\stop.png"
+       inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\play.png"
        inkscape:export-xdpi="249.5"
        inkscape:export-ydpi="249.5" />
-    <path
-       style="fill:#ffffff;fill-opacity:1;stroke:none;display:inline"
-       d="m 275.85619,325.97445 0,25.63262 20.43049,-11.79555 z"
-       id="path3020"
-       inkscape:connector-curvature="0"
-       inkscape:export-xdpi="249.5"
-       inkscape:export-ydpi="249.5"
-       inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\stop.png" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -114,12 +106,26 @@
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:none"
        id="rect3820"
-       width="25.892857"
-       height="25.892857"
-       x="270.98215"
-       y="325.84433"
+       width="22.321428"
+       height="22.321428"
+       x="272.76785"
+       y="327.63004"
        inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\stop.png"
        inkscape:export-xdpi="249.5"
        inkscape:export-ydpi="249.5" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="play"
+     style="display:inline">
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:none;display:inline"
+       d="m 276.21333,325.97445 0,25.63262 20.43049,-11.79555 z"
+       id="path3020"
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="249.5"
+       inkscape:export-ydpi="249.5"
+       inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\play.png" />
   </g>
 </svg>

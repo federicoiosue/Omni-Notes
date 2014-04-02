@@ -24,11 +24,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="256.52357"
-     inkscape:cy="709.69184"
+     inkscape:zoom="3.959798"
+     inkscape:cx="269.95089"
+     inkscape:cy="699.72662"
      inkscape:document-units="px"
-     inkscape:current-layer="g3094"
+     inkscape:current-layer="layer3"
      showgrid="false"
      inkscape:window-width="1600"
      inkscape:window-height="1138"
@@ -53,7 +53,7 @@
      inkscape:label="sfondo"
      style="display:inline">
     <rect
-       style="fill:#ececec;fill-opacity:1;stroke:none"
+       style="fill:#f9f9f9;fill-opacity:1;stroke:none"
        id="rect3087"
        width="157"
        height="157"
@@ -80,41 +80,63 @@
          inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\files.png"
          inkscape:export-xdpi="249"
          inkscape:export-ydpi="249">
-        <rect
-           style="fill:#5a5a5a;fill-opacity:1;stroke:none;display:inline"
-           id="rect3044"
-           width="40"
-           height="44.017857"
-           x="446.42856"
-           y="650.66577" />
-        <rect
-           style="fill:#ffffff;fill-opacity:1;stroke:none"
-           id="rect3046"
-           width="22.142857"
-           height="5.1785712"
-           x="450.44644"
-           y="656.64789" />
-        <rect
-           style="fill:#ffffff;fill-opacity:1;stroke:none"
-           id="rect3048"
-           width="32.410713"
-           height="5.0892859"
-           x="450.35715"
-           y="665.66577" />
-        <rect
-           style="fill:#ffffff;fill-opacity:1;stroke:none"
-           id="rect3050"
-           width="32.142857"
-           height="4.375"
-           x="450.44644"
-           y="674.5943" />
-        <rect
-           style="fill:#ffffff;fill-opacity:1;stroke:none"
-           id="rect3052"
-           width="32.32143"
-           height="4.4642859"
-           x="450.26785"
-           y="682.63007" />
+        <g
+           id="g4403"
+           transform="matrix(0.95922859,0,0,0.98745855,19.016948,8.4363132)"
+           inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\files.png"
+           inkscape:export-xdpi="249"
+           inkscape:export-ydpi="249">
+          <rect
+             inkscape:export-ydpi="249"
+             inkscape:export-xdpi="249"
+             inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\files.png"
+             y="650.66577"
+             x="446.42856"
+             height="44.017857"
+             width="40"
+             id="rect3044"
+             style="fill:#979797;fill-opacity:1;stroke:none;display:inline" />
+          <rect
+             inkscape:export-ydpi="249"
+             inkscape:export-xdpi="249"
+             inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\files.png"
+             y="656.64789"
+             x="450.44644"
+             height="5.1785712"
+             width="22.142857"
+             id="rect3046"
+             style="fill:#ffffff;fill-opacity:1;stroke:none" />
+          <rect
+             inkscape:export-ydpi="249"
+             inkscape:export-xdpi="249"
+             inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\files.png"
+             y="665.66577"
+             x="450.35715"
+             height="5.0892859"
+             width="32.410713"
+             id="rect3048"
+             style="fill:#ffffff;fill-opacity:1;stroke:none" />
+          <rect
+             inkscape:export-ydpi="249"
+             inkscape:export-xdpi="249"
+             inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\files.png"
+             y="674.5943"
+             x="450.44644"
+             height="4.375"
+             width="32.142857"
+             id="rect3050"
+             style="fill:#ffffff;fill-opacity:1;stroke:none" />
+          <rect
+             inkscape:export-ydpi="249"
+             inkscape:export-xdpi="249"
+             inkscape:export-filename="C:\Users\17000026\workspace_android\Omni Notes\etc\files.png"
+             y="682.63007"
+             x="450.26785"
+             height="4.4642859"
+             width="32.32143"
+             id="rect3052"
+             style="fill:#ffffff;fill-opacity:1;stroke:none" />
+        </g>
       </g>
     </g>
   </g>
