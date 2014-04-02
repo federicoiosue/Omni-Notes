@@ -2039,23 +2039,24 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	 * Adding shortcut on Home screen
 	 */
 	private void addShortcut() {
-		Intent shortcutIntent = new Intent(mActivity, getClass());
+		Intent shortcutIntent = new Intent(mActivity, MainActivity.class);
 		shortcutIntent.putExtra(Constants.INTENT_KEY, noteTmp.get_id());
-//		shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
-		shortcutIntent.setAction(Intent.ACTION_MAIN);
+		shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
+		
 		Intent addIntent = new Intent();
-		addIntent.putExtra(Constants.ACTION_SHORTCUT, true);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
 		String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : note.getCreationShort(mActivity);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
 				Intent.ShortcutIconResource.fromContext(mActivity, R.drawable.ic_stat_notification_icon));
 		addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+		
 		mActivity.sendBroadcast(addIntent);
 		Crouton.makeText(mActivity, R.string.shortcut_added, ONStyle.INFO).show();		
 	}
 
 
+	
 	/* (non-Javadoc)
 	 * @see com.neopixl.pixlui.links.TextLinkClickListener#onTextLinkClick(android.view.View, java.lang.String, java.lang.String)
 	 * 

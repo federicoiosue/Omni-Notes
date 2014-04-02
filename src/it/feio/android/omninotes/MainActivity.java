@@ -5,7 +5,6 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
 import android.content.Intent;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
