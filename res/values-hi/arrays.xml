@@ -43,4 +43,9 @@
     <item>केवल स्ट्रिप</item>
     <item>नोट सूची</item>
   </string-array>
+  <string-array name="text_size">
+    <item>Small</item>
+    <item>Default</item>
+    <item>Large</item>
+  </string-array>
 </resources>

@@ -148,6 +148,9 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="no_application_can_perform_this_action">Nessuna applicazione trovata per eseguire quest\'azione</string>
   <string name="eraser">Gomma da cancellare</string>
   <string name="image">Immagine</string>
+  <string name="error">Errore</string>
+  <string name="archived">archiviate</string>
+  <string name="files">File</string>
   <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
   <string name="settings">Impostazioni</string>
   <string name="settings_about">Info</string>
@@ -169,7 +172,6 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_enable_swype">Abilita swype</string>
   <string name="settings_category_interface">Interfaccia</string>
   <string name="settings_enable_animations">Animazioni</string>
-  <string name="settings_choose_language">Lingua</string>
   <string name="settings_category_notifications">Notifiche</string>
   <string name="settings_enable_vibration">Vibrazione</string>
   <string name="settings_changelog">Cambiamenti</string>
@@ -211,7 +213,6 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_notification_ringtone">Scegli suoneria</string>
   <string name="settings_enable_tag_marker_full">A colori</string>
   <string name="settings_enable_tag_marker_full_summary">colore pieno delle note sia nella lista che nel dettaglio</string>
-  <string name="colors">Colori</string>
   <string name="settings_enable_tag_marker_full_list_only">Solo lista</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Forza la colorazione completa colori solo nella lista delle note mentre nel dettaglio resta colorato solo il piccolo indicatore del tag </string>
   <string name="settings_notification_snooze_delay">Posticipo promemoria</string>
@@ -233,6 +234,10 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="colors_app">Colori applicazione</string>
   <string name="colors_widget">Colori widget</string>
   <string name="settings_instant_search">Ricerca istantanea</string>
+  <string name="settings_navdrawer_on_exit">Menu di navigazione in uscita</string>
+  <string name="settings_navdrawer_on_exit_summary">Premendo \"indietro\" dalla lista delle note verrà aperto il menu di navigazione prima di uscire</string>
+  <string name="settings_text_size">Dimensione testo</string>
+  <string name="settings_category_behaviors">Comportamenti</string>
   <string name="tour_request_start">E\' la prima volta che esegui Omni Notes, vuoi effettuare un tour dell\'applicazione?</string>
   <string name="tour_listactivity_intro_title">Benvenuti in Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Premere \"Prosegui\" per continuare il tour</string>
@@ -250,6 +255,8 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="tour_detailactivity_reminder_detail">Pressioni brevi o lunghe sugli oggetti (allegati, località, promemoria) hanno effetti diverso!</string>
   <string name="tour_detailactivity_links_title">Links</string>
   <string name="tour_detailactivity_links_detail">Clicca due volte un un indirizzo internet o e-mail per copiarlo o aprirlo</string>
+  <string name="tour_detailactivity_swipe_title">Scorrimento</string>
+  <string name="tour_detailactivity_swipe_detail">Crea nuove note senza \n lasciare quella che stai modificando</string>
   <string name="tour_detailactivity_save_title">Salva</string>
   <string name="tour_detailactivity_save_detail">Per tornare indietro, premi l\'icona di navigazione \"torna su\", o usa il pulsante del tuo telefono</string>
   <string name="tour_listactivity_final_title">Divertiti</string>
@@ -260,4 +267,6 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="stroke_size">dimensioni del tratto</string>
   <string name="note_thumbnail">miniatura della nota</string>
   <string name="note_reminder_symbol">simbolo del promemoria della nota</string>
+  <string name="navigation_drawer_open">Apri pannello navigazione</string>
+  <string name="navigation_drawer_close">Chiudi pannello navigazione</string>
 </resources>

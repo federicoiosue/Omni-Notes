@@ -83,7 +83,7 @@
   <string name="tag_deleted">Marca excluída</string>
   <string name="tag_missing_title">Título da marca ausente</string>
   <string name="delete_this_tag">Excluir esta marca</string>
-  <string name="tag">Tag</string>
+  <string name="tag">Marca</string>
   <string name="tag_as">Marcar como</string>
   <string name="title_activity_tag">Editar tag</string>
   <string name="delete_unused_tag_confirmation">Confirmar remoção da marca?</string>
@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">Nenhum aplicativo pode executar esta ação</string>
   <string name="eraser">Apagador</string>
   <string name="image">Imagem</string>
+  <string name="error">Erro</string>
+  <string name="archived">arquivadas</string>
+  <string name="files">Arquivos</string>
   <string name="dashclock_description">Mostra algumas estatísticas e próximos alertas do Omni Notes</string>
   <string name="settings">Configurações</string>
   <string name="settings_about">Informação</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">Ativar Swype</string>
   <string name="settings_category_interface">Interface</string>
   <string name="settings_enable_animations">Animações</string>
-  <string name="settings_choose_language">Idioma</string>
   <string name="settings_category_notifications">Notificações</string>
   <string name="settings_enable_vibration">Vibração</string>
   <string name="settings_changelog">Registro de mudanças</string>
@@ -208,7 +210,6 @@
   <string name="settings_notification_ringtone">Toque</string>
   <string name="settings_enable_tag_marker_full">Cheio de cor</string>
   <string name="settings_enable_tag_marker_full_summary">Notas totalmente coloridas, tanto na lista quanto nos detalhes</string>
-  <string name="colors">Cores</string>
   <string name="settings_enable_tag_marker_full_list_only">Apenas na lista</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Forçar cores apenas na lista de notas, enquanto no modo detalhes apenas o pequeno marcador é colorido </string>
   <string name="settings_notification_snooze_delay">Atraso da soneca</string>
@@ -229,7 +230,11 @@
   <string name="wrong_answer">Resposta incorreta</string>
   <string name="colors_app">Cores no aplicativo</string>
   <string name="colors_widget">Cores nos widgets</string>
-  <string name="settings_instant_search">Procurar imediatamente</string>
+  <string name="settings_instant_search">Pesquisa instantânea</string>
+  <string name="settings_navdrawer_on_exit">Menu de navegação ao sair</string>
+  <string name="settings_navdrawer_on_exit_summary">Pressionar \"voltar\" na lista de notas abre o menu de navegação ao invés de sair</string>
+  <string name="settings_text_size">Tamanho do texto</string>
+  <string name="settings_category_behaviors">Comportamento</string>
   <string name="tour_request_start">Você abriu o Omni Notes pela primeira vez, gostaria de ver o tutorial do aplicativo?</string>
   <string name="tour_listactivity_intro_title">Bem-vindo ao Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Toque em \"Próximo\" para continuar o tutorial</string>
@@ -247,6 +252,10 @@
   <string name="tour_detailactivity_reminder_detail">Toques curtos ou longos em objetos (anexos, locais, lembretes) têm funções diferentes!</string>
   <string name="tour_detailactivity_links_title">Links</string>
   <string name="tour_detailactivity_links_detail">Toque duas vezes em um endereço da web ou email para copiá-lo ou abri-lo</string>
+  <string name="tour_detailactivity_swipe_title">Deslize</string>
+  <string name="tour_detailactivity_swipe_detail">Crie novas notas sem \n
+sair daquela que você \n
+está editando</string>
   <string name="tour_detailactivity_save_title">Salve</string>
   <string name="tour_detailactivity_save_detail">Simplesmente pressione o ícone de navegação \'para cima\' ou o botão \'voltar\' do seu dispositivo</string>
   <string name="tour_listactivity_final_title">Aproveite</string>
@@ -257,4 +266,6 @@
   <string name="stroke_size">tamanho do traço</string>
   <string name="note_thumbnail">miniatura de nota</string>
   <string name="note_reminder_symbol">Símbolo do lembrete da nota</string>
+  <string name="navigation_drawer_open">Abrir menu de navegação</string>
+  <string name="navigation_drawer_close">Fechar menu de navegação</string>
 </resources>

@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">ບໍ່ມີແອັບພຼິເຄຊັນທີ່ສາມາດປະຕິບັດການເຄື່ອນໄຫວນີ້ໄດ້</string>
   <string name="eraser">ໂຕລຶບ</string>
   <string name="image">ຮູບ</string>
+  <string name="error">Error</string>
+  <string name="archived">archived</string>
+  <string name="files">Files</string>
   <string name="dashclock_description">ສະແດງສະຖິຕິຈຳນວນໜຶ່ງ ແລະ ເຂົ້າເຖິງໂຕເຕືອນຄວາມຈຳຈາກ Omni Notes</string>
   <string name="settings">ການ​ຕັ້ງຄ່າ</string>
   <string name="settings_about">ຂໍ້​ມູນ</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">ເປີດໃຊ້ການກວາດນິ້ວມື</string>
   <string name="settings_category_interface">ການ​ສະແດງຜົນ</string>
   <string name="settings_enable_animations">ພາບເຄື່ອນໄຫວ</string>
-  <string name="settings_choose_language">ເລືອກພາ​ສາ</string>
   <string name="settings_category_notifications">ການແຈ້ງເຕືອນ</string>
   <string name="settings_enable_vibration">ການສັ່ນ</string>
   <string name="settings_changelog">ລາຍການປ່ຽນແປງ</string>
@@ -208,7 +210,6 @@
   <string name="settings_notification_ringtone">ສຽງເຕືອນ</string>
   <string name="settings_enable_tag_marker_full">ສີ​ເຕັມ</string>
   <string name="settings_enable_tag_marker_full_summary">ບັນທຶກຈະໃຊ້ສີແບບເຕັມ​ທັງ​ໃນ​ລາຍການ ແລະ ໃນລາຍລະອຽດ</string>
-  <string name="colors">ສີ</string>
   <string name="settings_enable_tag_marker_full_list_only">ລາຍການເທົ່ານັ້ນ</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">ບັງ​ຄັບໃຊ້​ສີ​ເຕັມ​ພຽງ​ແຕ່​ໃນ​ລາຍການບັນທຶກ​ ໃນ​ຂະ​ນະ​ທີ່​ໃນ​ລາຍ​ລະ​ອຽດ​ໃຫ້ໃຊ້ສີສະເພາະກັບເຄື່ອງໝາຍນ້ອຍໆເທົ່ານັ້ນ </string>
   <string name="settings_notification_snooze_delay">ເລື່ອນອອກໄປ</string>
@@ -230,6 +231,10 @@
   <string name="colors_app">ສີຂອງແອັບພຼິເຄຊັນ</string>
   <string name="colors_widget">ສີຂອງວິດເຈັດ</string>
   <string name="settings_instant_search">ຄົ້ນຫາທັນທີ</string>
+  <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
+  <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
+  <string name="settings_text_size">Text size</string>
+  <string name="settings_category_behaviors">Behaviors</string>
   <string name="tour_request_start">ທ່ານເປີດໃຊ້ງານ Omni Notes ເປັນຄັ້ງທຳອິດ, ທ່ານຕ້ອງການເບິ່ງການແນະນຳແອັບພຼິເຄຊັນບໍ່?</string>
   <string name="tour_listactivity_intro_title">ຍິນດີຕ້ອນຮັບສູ່ Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">ກົດ \"ດຳເນີນການ\" ເພື່ອເບິ່ງການແນະນຳແອັບຯ</string>
@@ -247,6 +252,8 @@
   <string name="tour_detailactivity_reminder_detail">ການກົດໄລຍະສັ້ນ ຫຼື ຍາວໃສ່ສິ່ງຕ່າງໆ (ໄຟລ໌ແນບ, ສະຖານທີ່, ໂຕເຕືອນຄວາມຈຳ) ມີຜົນໄດ້ຮັບແຕກຕ່າງກັນ!</string>
   <string name="tour_detailactivity_links_title">ລິ້ງ</string>
   <string name="tour_detailactivity_links_detail">ຄຼິກສອງເທື່ອໃສ່ທີ່ຢູ່ເວັບ ຫຼື ອີເມລເພື່ອຄັດລອກ ຫຼື ເປີດ</string>
+  <string name="tour_detailactivity_swipe_title">Swipe</string>
+  <string name="tour_detailactivity_swipe_detail">Create new notes without \n leaving the one you\'re editing</string>
   <string name="tour_detailactivity_save_title">ຈັດເກັບ</string>
   <string name="tour_detailactivity_save_detail">ພຽງແຕ່ກົດໄອຄອນຄວບຄຸມ \"ຂຶ້ນ\" ຫຼື ກັບຄືນດ້ວຍປຸ່ມກົດຂອງອຸປະກອນທ່ານ</string>
   <string name="tour_listactivity_final_title">ຂໍໃຫ້ມີຄວາມສຸກ</string>
@@ -257,4 +264,6 @@
   <string name="stroke_size">ຂະໜາດການລາກເສັ້ນ</string>
   <string name="note_thumbnail">ຮູບຕົວຢ່າງຂອງບັນທຶກ</string>
   <string name="note_reminder_symbol">ເຄື່ອງໝາຍໂຕເຕືອນຄວາມຈຳຂອງບັນທຶກ</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

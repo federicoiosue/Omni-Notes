@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">没有应用程序可以执行此操作</string>
   <string name="eraser">橡皮擦</string>
   <string name="image">图像</string>
+  <string name="error">错误</string>
+  <string name="archived">已归档</string>
+  <string name="files">文件</string>
   <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
   <string name="settings">设置</string>
   <string name="settings_about">信息</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">启用滑动手势</string>
   <string name="settings_category_interface">界面</string>
   <string name="settings_enable_animations">动画</string>
-  <string name="settings_choose_language">选择语言</string>
   <string name="settings_category_notifications">通知</string>
   <string name="settings_enable_vibration">振动</string>
   <string name="settings_changelog">更新日志</string>
@@ -208,7 +210,6 @@
   <string name="settings_notification_ringtone">铃声</string>
   <string name="settings_enable_tag_marker_full">全彩</string>
   <string name="settings_enable_tag_marker_full_summary">记事列表与记事内容均以全彩显示</string>
-  <string name="colors">颜色</string>
   <string name="settings_enable_tag_marker_full_list_only">仅列表</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">仅以全彩显示记事列表，显示记事内容时仅使用彩色小标记</string>
   <string name="settings_notification_snooze_delay">响铃延迟</string>
@@ -230,6 +231,10 @@
   <string name="colors_app">应用内颜色设置</string>
   <string name="colors_widget">小部件颜色设置</string>
   <string name="settings_instant_search">即时搜索</string>
+  <string name="settings_navdrawer_on_exit">点击后退键时显示导航菜单</string>
+  <string name="settings_navdrawer_on_exit_summary">在记事列表视图下点击后退键打开导航菜单而非退出应用</string>
+  <string name="settings_text_size">字体大小</string>
+  <string name="settings_category_behaviors">行为</string>
   <string name="tour_request_start">这是您第一次使用Omni Note，您是否希望观看用户引导？</string>
   <string name="tour_listactivity_intro_title">欢迎使用 Omni Notes ！</string>
   <string name="tour_listactivity_intro_detail">点击\"继续\"观看引导</string>
@@ -247,6 +252,8 @@
   <string name="tour_detailactivity_reminder_detail">在附件，地点及提醒上点击或长按会有不同的效果！</string>
   <string name="tour_detailactivity_links_title">链接</string>
   <string name="tour_detailactivity_links_detail">在网址或电子邮件地址上双击以复制或打开</string>
+  <string name="tour_detailactivity_swipe_title">滑动手势</string>
+  <string name="tour_detailactivity_swipe_detail">在当前记事编辑视图下 \n 创建新记事</string>
   <string name="tour_detailactivity_save_title">保存</string>
   <string name="tour_detailactivity_save_detail">点击“向上”导航图标或您设备的后退键即可保存</string>
   <string name="tour_listactivity_final_title">祝您使用愉快</string>
@@ -257,4 +264,6 @@
   <string name="stroke_size">笔触大小</string>
   <string name="note_thumbnail">记事缩略图</string>
   <string name="note_reminder_symbol">记事提醒标识</string>
+  <string name="navigation_drawer_open">打开导航抽屉</string>
+  <string name="navigation_drawer_close">关闭导航抽屉</string>
 </resources>

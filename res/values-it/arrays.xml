@@ -43,4 +43,9 @@
     <item>Solo una fascia</item>
     <item>Lista note</item>
   </string-array>
+  <string-array name="text_size">
+    <item>Piccolo</item>
+    <item>Predefinito</item>
+    <item>Grande</item>
+  </string-array>
 </resources>

@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">Tega ravnanja ne podpira nobena aplikacija</string>
   <string name="eraser">Radirka</string>
   <string name="image">Podoba</string>
+  <string name="error">Error</string>
+  <string name="archived">archived</string>
+  <string name="files">Files</string>
   <string name="dashclock_description">Prikaz nekaterih statistik in bližnjih opomnikov iz Omni Notes</string>
   <string name="settings">Nastavitve</string>
   <string name="settings_about">Info</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">Omogoči \'swype\'</string>
   <string name="settings_category_interface">Vmesnik</string>
   <string name="settings_enable_animations">Animacije</string>
-  <string name="settings_choose_language">Jezik</string>
   <string name="settings_category_notifications">Obvestila</string>
   <string name="settings_enable_vibration">Vibriranje</string>
   <string name="settings_changelog">Seznam sprememb</string>
@@ -209,7 +211,6 @@ vnesti starega.\n\nZa odstranitev gesla pustite prazno</string>
   <string name="settings_notification_ringtone">Zvonenje</string>
   <string name="settings_enable_tag_marker_full">Polne barve</string>
   <string name="settings_enable_tag_marker_full_summary">Polne barve povsod</string>
-  <string name="colors">Barve</string>
   <string name="settings_enable_tag_marker_full_list_only">Samo seznam</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Polne barve samo v beležkah, pri simbolih pa le podrobnosti</string>
   <string name="settings_notification_snooze_delay">Zakasnitev dremeža</string>
@@ -231,6 +232,10 @@ vnesti starega.\n\nZa odstranitev gesla pustite prazno</string>
   <string name="colors_app">Barve aplikacije</string>
   <string name="colors_widget">Barve gradnikov</string>
   <string name="settings_instant_search">Hitro iskanje</string>
+  <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
+  <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
+  <string name="settings_text_size">Text size</string>
+  <string name="settings_category_behaviors">Behaviors</string>
   <string name="tour_request_start">Si želite ob prvem zagonu ogledati krajšo predstavitev aplikacije?</string>
   <string name="tour_listactivity_intro_title">Dobrodošli v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">klikni \'Nadaljuj\' za nadaljevanje predstavitve</string>
@@ -248,6 +253,8 @@ vnesti starega.\n\nZa odstranitev gesla pustite prazno</string>
   <string name="tour_detailactivity_reminder_detail">Kratki in dolgi pritiski na objekte (priponke, lokacije, opomnike) učinkujejo različno!</string>
   <string name="tour_detailactivity_links_title">Povezave</string>
   <string name="tour_detailactivity_links_detail">Dvokliknite na spletne ali epoštne povezave, da jih odprete ali kopirate</string>
+  <string name="tour_detailactivity_swipe_title">Swipe</string>
+  <string name="tour_detailactivity_swipe_detail">Create new notes without \n leaving the one you\'re editing</string>
   <string name="tour_detailactivity_save_title">Shranjevanje</string>
   <string name="tour_detailactivity_save_detail">Preprosto pritisnite navigacijsko ikono \"gor\" ali pojdite nazaj z navigacijsko tipko</string>
   <string name="tour_listactivity_final_title">Uživajte</string>
@@ -258,4 +265,6 @@ vnesti starega.\n\nZa odstranitev gesla pustite prazno</string>
   <string name="stroke_size">velikost pisala</string>
   <string name="note_thumbnail">predogledna sličica beležke</string>
   <string name="note_reminder_symbol">znak za opomnik beležke</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

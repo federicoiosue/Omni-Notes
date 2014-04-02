@@ -43,4 +43,9 @@
     <item>Apenas marcadores</item>
     <item>Lista de notas</item>
   </string-array>
+  <string-array name="text_size">
+    <item>Pequeno</item>
+    <item>Normal</item>
+    <item>Grande</item>
+  </string-array>
 </resources>

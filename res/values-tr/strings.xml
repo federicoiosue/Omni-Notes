@@ -135,19 +135,22 @@
   <string name="widget_simple_description">Simple widget with buttons</string>
   <string name="widget_list_description">Scrollable list widget with buttons</string>
   <string name="notes">notlar</string>
-  <string name="show_thumbnails">Show attachment\'s thumbnails</string>
+  <string name="show_thumbnails">Ekli dosyaların küçük resimlerini göster</string>
   <string name="choose_action">Choose action to perform</string>
   <string name="edit">Düzenle</string>
   <string name="reminders">hatırlatmalar</string>
-  <string name="not_expired">not expired</string>
+  <string name="not_expired">süresi dolmamış</string>
   <string name="expired">tamamlanmış</string>
   <string name="today">bugün</string>
   <string name="open">Aç</string>
   <string name="copy">Kopyala</string>
   <string name="no_application_can_perform_this_action">No application can perform this action</string>
   <string name="eraser">Eraser</string>
-  <string name="image">Image</string>
-  <string name="dashclock_description">Displays some statistics and approaching reminders from Omni Notes</string>
+  <string name="image">Görüntü</string>
+  <string name="error">Hata</string>
+  <string name="archived">arşivlendi</string>
+  <string name="files">Files</string>
+  <string name="dashclock_description">Yaklaşan hatırlatmalarınızı ve not sayılarınızı görüntüleyebirsiniz</string>
   <string name="settings">Ayarlar</string>
   <string name="settings_about">Omni Notes\'a Katkı Yapanlar</string>
   <string name="settings_category_other">Diğer</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">Hareketleri etkinleştir</string>
   <string name="settings_category_interface">Arayüz</string>
   <string name="settings_enable_animations">Animasyonlar</string>
-  <string name="settings_choose_language">Dil seç</string>
   <string name="settings_category_notifications">Bildirimler</string>
   <string name="settings_enable_vibration">Titreşim</string>
   <string name="settings_changelog">Değişiklik kayıtları</string>
@@ -184,7 +186,7 @@
   <string name="password_successfully_changed">Şifre başarıyla değiştirildi</string>
   <string name="password_successfully_removed">Şifre kaldırıldı</string>
   <string name="wrong_password">Yanlış şifre</string>
-  <string name="agree_unlocking_all_notes">Agree removing security password\nand unmasking all masked notes?</string>
+  <string name="agree_unlocking_all_notes">Şifre ile korunan bütün notlarınızın ulaşılabilir\nolmasını onaylıyor musunuz?</string>
   <string name="settings_enable_tag_marker">Etiket işaretleri</string>
   <string name="settings_backup_summary">Yedekleri içe veya dışa aktar</string>
   <string name="settings_max_video_size_summary">İzin verilen maksimum boyut (MB)</string>
@@ -195,7 +197,7 @@
   <string name="confirm_removing_backup">Yedeği kaldır</string>
   <string name="confirm_restoring_backup">Geri yüklemeyi onayla</string>
   <string name="data_deletion_completed">Veri silme işlemi tamamlandı</string>
-  <string name="settings_checked_items_behavior">Checklists</string>
+  <string name="settings_checked_items_behavior">Yapılacaklar listesi</string>
   <string name="settings_checked_items_behavior_summary">Öğe işaretlendiğinde ne yapılacağını seç</string>
   <string name="settings_category_preferences">Tercihler</string>
   <string name="settings_category_beta">Beta</string>
@@ -208,7 +210,6 @@
   <string name="settings_notification_ringtone">Zil sesi seç</string>
   <string name="settings_enable_tag_marker_full">Tamamı renkli</string>
   <string name="settings_enable_tag_marker_full_summary">Listelenmiş notların tamamen renkli görünmesini sağlar</string>
-  <string name="colors">Renkler</string>
   <string name="settings_enable_tag_marker_full_list_only">Sadece liste</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Notları tam renkli gösterime zorlayın </string>
   <string name="settings_notification_snooze_delay">Erteleme süresi</string>
@@ -217,8 +218,8 @@
   <string name="settings_simple_calendar_summary">Daha sade ve basit olan Android takvim ve saat gösterimini kullanın</string>
   <string name="settings_tour_show_again">Uygulamayı keşfet</string>
   <string name="settings_tour_show_again_summary">Uygulamayı bir kez daha keşfe çık</string>
-  <string name="backup_include_settings">Include settings (with password)</string>
-  <string name="settings_included">settings included</string>
+  <string name="backup_include_settings">Ayarları içerir (şifreler ile)</string>
+  <string name="settings_included">ayarlar dahil</string>
   <string name="settings_password_question_instructions">Şİfrenizi unutma ihtimaline karşı bir güvenlik sorusu ve  yanıtı ekleyin</string>
   <string name="settings_password_question">Güvenlik sorusu</string>
   <string name="settings_password_answer">Yanıt</string>
@@ -227,10 +228,14 @@
   <string name="settings_answer_not_matching">Yanıt yanlış veya eksik</string>
   <string name="password_not_set">Şifre ayarlanmamış</string>
   <string name="wrong_answer">Yanlış cevap</string>
-  <string name="colors_app">Application\'s colors</string>
-  <string name="colors_widget">Widget\'s colors</string>
+  <string name="colors_app">Uygulama renkleri</string>
+  <string name="colors_widget">Widget renkleri</string>
   <string name="settings_instant_search">Hızlı ara</string>
-  <string name="tour_request_start">You launched Omni Note for the first time, would you like to make an application tour?</string>
+  <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
+  <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
+  <string name="settings_text_size">Metin boyutu</string>
+  <string name="settings_category_behaviors">Davranışlar</string>
+  <string name="tour_request_start">Omni Notes\'u yeni yükledin, uygulamayı keşfetmeye ne dersin?</string>
   <string name="tour_listactivity_intro_title">Omni Notes\'a hoş geldiniz!</string>
   <string name="tour_listactivity_intro_detail">Devam etmek için \"İlerle\'ye\" dokun</string>
   <string name="tour_listactivity_actions_title">Eylemler</string>
@@ -247,6 +252,8 @@
   <string name="tour_detailactivity_reminder_detail">Uzun veya kısa dokunuşlar farklı işlevlere sahiptir(konum, hatırlatma)</string>
   <string name="tour_detailactivity_links_title">Bağlantılar</string>
   <string name="tour_detailactivity_links_detail">Double-click on web or e-mail addresses to copy or open them</string>
+  <string name="tour_detailactivity_swipe_title">Kaydır</string>
+  <string name="tour_detailactivity_swipe_detail">Create new notes without \n leaving the one you\'re editing</string>
   <string name="tour_detailactivity_save_title">Kaydet</string>
   <string name="tour_detailactivity_save_detail">Simply press \"up\" navigation icon or go back with your device button</string>
   <string name="tour_listactivity_final_title">Keyfini Çıkarın</string>
@@ -257,4 +264,6 @@
   <string name="stroke_size">Çizgi kalınlığı</string>
   <string name="note_thumbnail">not mini resmi</string>
   <string name="note_reminder_symbol">hatırlatma simgesi</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">Ingen applikation kan slutföra denna åtgärd</string>
   <string name="eraser">Suddigummi</string>
   <string name="image">Bild</string>
+  <string name="error">Fel</string>
+  <string name="archived">arkiverade</string>
+  <string name="files">Files</string>
   <string name="dashclock_description">Visar statistik och närliggande påminnelser från Omni Tools</string>
   <string name="settings">Inställningar</string>
   <string name="settings_about">Informatr</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">Aktivera Swype</string>
   <string name="settings_category_interface">Gränssnitt</string>
   <string name="settings_enable_animations">Animationer</string>
-  <string name="settings_choose_language">Språk</string>
   <string name="settings_category_notifications">Notifieringar</string>
   <string name="settings_enable_vibration">Vibration</string>
   <string name="settings_changelog">Ändringslogg</string>
@@ -208,7 +210,6 @@
   <string name="settings_notification_ringtone">Ringsignal</string>
   <string name="settings_enable_tag_marker_full">Fullfärg</string>
   <string name="settings_enable_tag_marker_full_summary">Anteckningar helt färgade både i listan än i detalj</string>
-  <string name="colors">Färger</string>
   <string name="settings_enable_tag_marker_full_list_only">Endast list</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Tvinga fullfärg endast i anteckningslistan medan in på detaljer bara den lilla markören är färgad </string>
   <string name="settings_notification_snooze_delay">Snooze fördröjning</string>
@@ -230,6 +231,10 @@
   <string name="colors_app">Applikationens färger</string>
   <string name="colors_widget">Widgetens färger</string>
   <string name="settings_instant_search">Snabbsökning</string>
+  <string name="settings_navdrawer_on_exit">Öppna navigationsmeny vid avstängning</string>
+  <string name="settings_navdrawer_on_exit_summary">Tryck \"tillbaka\" när du är i anteckningslistan för att öppna navigationsmeny istället för att gå till hemskärmen</string>
+  <string name="settings_text_size">Textstorlek</string>
+  <string name="settings_category_behaviors">Beteénde</string>
   <string name="tour_request_start">Detta är första gången du kör Omni Tools, vill du få en genomgång av applikationen?</string>
   <string name="tour_listactivity_intro_title">Välkommen till Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Tryck \"Fortsätt\" för att fortsätta touren</string>
@@ -247,6 +252,8 @@
   <string name="tour_detailactivity_reminder_detail">Korta  eller långa funktioner på objekt (bifogningar, plats, påminnelse) har ny effekt!</string>
   <string name="tour_detailactivity_links_title">Länkar</string>
   <string name="tour_detailactivity_links_detail">Dubbelklicka på webb eller mejladdresser för att öppna dem</string>
+  <string name="tour_detailactivity_swipe_title">Dra</string>
+  <string name="tour_detailactivity_swipe_detail">Skapa nya anteckningar \n utan att stänga den du skriver</string>
   <string name="tour_detailactivity_save_title">Spara</string>
   <string name="tour_detailactivity_save_detail">Tryck helt enkelt på navigationsikonen som pekar \"Upp\" eller gå tillbaka med din Androids tillbakaknapp</string>
   <string name="tour_listactivity_final_title">Njut!</string>
@@ -257,4 +264,6 @@
   <string name="stroke_size">stroke storlek</string>
   <string name="note_thumbnail">Anteckningsminiatyr</string>
   <string name="note_reminder_symbol">Anteckningspåminnelsesymbol</string>
+  <string name="navigation_drawer_open">Öppna navigeringsbyrån</string>
+  <string name="navigation_drawer_close">Stäng navigationsbyrån</string>
 </resources>

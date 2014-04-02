@@ -133,9 +133,9 @@
   <string name="shortcut_added">קיצור דרך התווסף לעמוד הבית</string>
   <string name="shortcut_note_deleted">קיצור הדרך מוביל להערה שנמחקה</string>
   <string name="widget_simple_description">וידג\'טים פשוטים עם כפתורים</string>
-  <string name="widget_list_description">Scrollable list widget with buttons</string>
+  <string name="widget_list_description">וידג\'ט עם כפתורים ורשימה נגללת</string>
   <string name="notes">הערות</string>
-  <string name="show_thumbnails">Show attachment\'s thumbnails</string>
+  <string name="show_thumbnails">הצגת תמונות ממוזערות לקבצים המצורפים</string>
   <string name="choose_action">בחירת פעולה לביצוע</string>
   <string name="edit">עריכה</string>
   <string name="reminders">תזכורות</string>
@@ -146,7 +146,10 @@
   <string name="copy">העתקה</string>
   <string name="no_application_can_perform_this_action">אין אפליקציה שיכולה לבצע פעולה זו</string>
   <string name="eraser">Eraser</string>
-  <string name="image">Image</string>
+  <string name="image">תמונה</string>
+  <string name="error">Error</string>
+  <string name="archived">בארכיון</string>
+  <string name="files">Files</string>
   <string name="dashclock_description">Displays some statistics and approaching reminders from Omni Notes</string>
   <string name="settings">הגדרות</string>
   <string name="settings_about">מידע</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">אפשור כתיבה בהחלקה (Swipe)</string>
   <string name="settings_category_interface">ממשק</string>
   <string name="settings_enable_animations">אנימציות</string>
-  <string name="settings_choose_language">בחירת שפה</string>
   <string name="settings_category_notifications">התראות</string>
   <string name="settings_enable_vibration">רטט</string>
   <string name="settings_changelog">רשימת שינויים</string>
@@ -198,7 +200,7 @@
   <string name="confirm_removing_backup">אישור הסרת גיבוי</string>
   <string name="confirm_restoring_backup">אישור שחזור הגיבוי</string>
   <string name="data_deletion_completed">מחיקת נתונים הושלמה</string>
-  <string name="settings_checked_items_behavior">Checklists</string>
+  <string name="settings_checked_items_behavior">רשימות סימון</string>
   <string name="settings_checked_items_behavior_summary">מה לעשות כאשר פריט מסומן?</string>
   <string name="settings_category_preferences">העדפות</string>
   <string name="settings_category_beta">בטא</string>
@@ -211,7 +213,6 @@
   <string name="settings_notification_ringtone">רינגטון</string>
   <string name="settings_enable_tag_marker_full">צבע מלא</string>
   <string name="settings_enable_tag_marker_full_summary">הערות צבועות במלואן גם ברשימת ההערות וגם בתוך ההערה עצמה</string>
-  <string name="colors">צבעים</string>
   <string name="settings_enable_tag_marker_full_list_only">רק רשימה</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">לכפות צבע מלא רק ברשימת ההערות, בעוד שבתוך ההערה עצמה יופיע סמן צבוע קטן </string>
   <string name="settings_notification_snooze_delay">השהיית נודניק</string>
@@ -232,7 +233,11 @@
   <string name="wrong_answer">תשובה שגויה</string>
   <string name="colors_app">Application\'s colors</string>
   <string name="colors_widget">צבעי הוידג\'ט</string>
-  <string name="settings_instant_search">Instant search</string>
+  <string name="settings_instant_search">חיפוש מהיר</string>
+  <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
+  <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
+  <string name="settings_text_size">גודל הטקסט</string>
+  <string name="settings_category_behaviors">Behaviors</string>
   <string name="tour_request_start">You launched Omni Note for the first time, would you like to make an application tour?</string>
   <string name="tour_listactivity_intro_title">ברוך הבא ל-Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">לחצו על \"הבא\" להמשך הסיור</string>
@@ -241,7 +246,7 @@
   <string name="tour_listactivity_home_title">ניווט</string>
   <string name="tour_listactivity_home_detail">Navigation menu allows you to move through notes with filters and tags</string>
   <string name="tour_listactivity_tag_title">תגיות</string>
-  <string name="tour_listactivity_tag_detail">הוספת צבע לתגיות כדי לשמור על רעיונותיכם ביעילות</string>
+  <string name="tour_listactivity_tag_detail">הוספת צבע לתגיות כדי שרעיונותיכם יהיו מאורגנים</string>
   <string name="tour_detailactivity_attachment_title">Improve</string>
   <string name="tour_detailactivity_attachment_detail">Add a lot of different attachment types to your notes!</string>
   <string name="tour_detailactivity_action_title">עשו עוד</string>
@@ -250,6 +255,8 @@
   <string name="tour_detailactivity_reminder_detail">Short or long pressions on objects (attachments, location, reminder) have different effect!</string>
   <string name="tour_detailactivity_links_title">קישורים</string>
   <string name="tour_detailactivity_links_detail">Double-click on web or e-mail addresses to copy or open them</string>
+  <string name="tour_detailactivity_swipe_title">Swipe</string>
+  <string name="tour_detailactivity_swipe_detail">Create new notes without \n leaving the one you\'re editing</string>
   <string name="tour_detailactivity_save_title">שמירה</string>
   <string name="tour_detailactivity_save_detail">Simply press \"up\" navigation icon or go back with your device button</string>
   <string name="tour_listactivity_final_title">תהנו</string>
@@ -260,4 +267,6 @@
   <string name="stroke_size">stroke size</string>
   <string name="note_thumbnail">תמונה מוקטנת של הערה</string>
   <string name="note_reminder_symbol">סימון תזכורת הערה</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

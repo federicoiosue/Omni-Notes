@@ -43,4 +43,9 @@
     <item>Nur Streifen</item>
     <item>Notizliste</item>
   </string-array>
+  <string-array name="text_size">
+    <item>Klein</item>
+    <item>Standard</item>
+    <item>Groß</item>
+  </string-array>
 </resources>

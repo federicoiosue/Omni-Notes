@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">Нет соответсвующего приложения</string>
   <string name="eraser">Ластик</string>
   <string name="image">Изображение</string>
+  <string name="error">Error</string>
+  <string name="archived">archived</string>
+  <string name="files">Files</string>
   <string name="dashclock_description">Отображает небольшую статистику и приближающиеся напоминания из Omni Notes</string>
   <string name="settings">Настройки</string>
   <string name="settings_about">О программе</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">Включить Swype</string>
   <string name="settings_category_interface">Интерфейс</string>
   <string name="settings_enable_animations">Анимации</string>
-  <string name="settings_choose_language">Язык</string>
   <string name="settings_category_notifications">Уведомления</string>
   <string name="settings_enable_vibration">Вибрация</string>
   <string name="settings_changelog">История изменений</string>
@@ -208,7 +210,6 @@
   <string name="settings_notification_ringtone">Выбрать рингтон</string>
   <string name="settings_enable_tag_marker_full">Полное окрашивание</string>
   <string name="settings_enable_tag_marker_full_summary">Заметки полностью окрашены как в списке, так и в редакторе</string>
-  <string name="colors">Окрашивание</string>
   <string name="settings_enable_tag_marker_full_list_only">Только в списке</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Окрашивать лишь список, по-прежнему использовать метки в редакторе </string>
   <string name="settings_notification_snooze_delay">Откладывать напоминания на</string>
@@ -230,6 +231,10 @@
   <string name="colors_app">Окрашивание приложения</string>
   <string name="colors_widget">Окрашивание виджета</string>
   <string name="settings_instant_search">Мгновенный поиск</string>
+  <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
+  <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
+  <string name="settings_text_size">Text size</string>
+  <string name="settings_category_behaviors">Behaviors</string>
   <string name="tour_request_start">Вы запустили Omni Notes впервые, желаете пройти обучение?</string>
   <string name="tour_listactivity_intro_title">Omni Notes приветствует Вас!</string>
   <string name="tour_listactivity_intro_detail">Нажмите «Продолжить» для начала обучения</string>
@@ -247,6 +252,8 @@
   <string name="tour_detailactivity_reminder_detail">Короткие или длительные нажатия на объектах (вложениях, размещениях, напоминаниях) действуют по-разному!</string>
   <string name="tour_detailactivity_links_title">Ссылки</string>
   <string name="tour_detailactivity_links_detail">Дважды щелкните по адресу эл. почты или сайта, чтобы открыть или скопировать его</string>
+  <string name="tour_detailactivity_swipe_title">Swipe</string>
+  <string name="tour_detailactivity_swipe_detail">Create new notes without \n leaving the one you\'re editing</string>
   <string name="tour_detailactivity_save_title">Сохранение</string>
   <string name="tour_detailactivity_save_detail">Просто нажмите на значок навигации или вернитесь с помощью клавиши устройства</string>
   <string name="tour_listactivity_final_title">Приятного пользования!</string>
@@ -257,4 +264,6 @@
   <string name="stroke_size">Размер строки</string>
   <string name="note_thumbnail">Эскиз заметки</string>
   <string name="note_reminder_symbol">символ напоминания</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

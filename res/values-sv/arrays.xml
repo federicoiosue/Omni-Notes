@@ -43,4 +43,9 @@
     <item>Endast remsa</item>
     <item>Anteckningslista</item>
   </string-array>
+  <string-array name="text_size">
+    <item>Liten</item>
+    <item>Standard</item>
+    <item>Stor</item>
+  </string-array>
 </resources>

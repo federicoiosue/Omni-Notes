@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">Geen toepassing kan deze actie uitvoeren</string>
   <string name="eraser">Gum</string>
   <string name="image">Afbeelding</string>
+  <string name="error">Fout</string>
+  <string name="archived">gearchiveerd</string>
+  <string name="files">Files</string>
   <string name="dashclock_description">Sommige statistieken en de naderende herinneringen van Omni notities worden weergegeven</string>
   <string name="settings">Instellingen</string>
   <string name="settings_about">Informatie</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">Inschakelen swype</string>
   <string name="settings_category_interface">Interface</string>
   <string name="settings_enable_animations">Animaties</string>
-  <string name="settings_choose_language">Taal</string>
   <string name="settings_category_notifications">Notificaties</string>
   <string name="settings_enable_vibration">Vibratie</string>
   <string name="settings_changelog">Wijzigingen</string>
@@ -208,7 +210,6 @@
   <string name="settings_notification_ringtone">Beltoon</string>
   <string name="settings_enable_tag_marker_full">Vol kleur</string>
   <string name="settings_enable_tag_marker_full_summary">Notities volledig gekleurd, zowel in de lijst als in detail</string>
-  <string name="colors">Kleuren</string>
   <string name="settings_enable_tag_marker_full_list_only">Alleen lijst</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Dwing vol kleur alleen in de lijst me notities in detail alleen de kleine marker gekleurd </string>
   <string name="settings_notification_snooze_delay">Snooze vertraging</string>
@@ -230,6 +231,10 @@
   <string name="colors_app">Toepassing kleuren</string>
   <string name="colors_widget">Widget kleuren</string>
   <string name="settings_instant_search">Direct zoeken</string>
+  <string name="settings_navdrawer_on_exit">Navigatiemenu op exit.</string>
+  <string name="settings_navdrawer_on_exit_summary">De \"terug\" knop indrukken in notities lijst opent het navigatie menu in plaats van te sluiten</string>
+  <string name="settings_text_size">Tekstgrootte</string>
+  <string name="settings_category_behaviors">Gedrag</string>
   <string name="tour_request_start">U startte Omni Notes voor de eerste keer, zou u een rondleiding willen van de toepassing?</string>
   <string name="tour_listactivity_intro_title">Welkom bij Omni notities!</string>
   <string name="tour_listactivity_intro_detail">Druk op \"Verdergaan\" om door te gaan met de tour</string>
@@ -247,6 +252,8 @@
   <string name="tour_detailactivity_reminder_detail">Korte of lange drukken op objecten (bijlagen, locatie, herinnering) hebben verschillende effecten!</string>
   <string name="tour_detailactivity_links_title">Links</string>
   <string name="tour_detailactivity_links_detail">Dubbelklik op web of e-mail adressen om te kopiëren of te openen</string>
+  <string name="tour_detailactivity_swipe_title">Veeg</string>
+  <string name="tour_detailactivity_swipe_detail">Nieuwe notities maken zonder\ndegene die u aan het bewerken\n bent te verlaten</string>
   <string name="tour_detailactivity_save_title">Opslaan</string>
   <string name="tour_detailactivity_save_detail">Druk gewoon op \"op\" navigatie pictogram of ga terug met uw knop van het apparaat</string>
   <string name="tour_listactivity_final_title">Geniet</string>
@@ -257,4 +264,6 @@
   <string name="stroke_size">strijk grootte</string>
   <string name="note_thumbnail">miniatuur van notitie</string>
   <string name="note_reminder_symbol">notitie herinnering symbool</string>
+  <string name="navigation_drawer_open">Open navigatiebalk</string>
+  <string name="navigation_drawer_close">Sluit navigatiebalk</string>
 </resources>

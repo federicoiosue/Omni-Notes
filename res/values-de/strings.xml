@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">Aktion mit keiner Anwendung ausführbar</string>
   <string name="eraser">Radiergummi</string>
   <string name="image">Bild</string>
+  <string name="error">Fehler</string>
+  <string name="archived">archivierte</string>
+  <string name="files">Dateien</string>
   <string name="dashclock_description">Zeige Statistiken und sich nähernde Errinerungen</string>
   <string name="settings">Einstellungen</string>
   <string name="settings_about">Info</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">Wischgeste aktivieren</string>
   <string name="settings_category_interface">Oberfläche</string>
   <string name="settings_enable_animations">Animationen</string>
-  <string name="settings_choose_language">Sprache</string>
   <string name="settings_category_notifications">Benachrichtigungen</string>
   <string name="settings_enable_vibration">Vibration</string>
   <string name="settings_changelog">Was ist neu?</string>
@@ -208,7 +210,6 @@
   <string name="settings_notification_ringtone">Klingelton</string>
   <string name="settings_enable_tag_marker_full">Notizfarbe</string>
   <string name="settings_enable_tag_marker_full_summary">Hintergrund der Notiz in der Übersicht und Detailansicht färben.</string>
-  <string name="colors">Farben</string>
   <string name="settings_enable_tag_marker_full_list_only">Nur in Listenansicht</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Hintergrundfarbe nur in der Übersicht verwenden. In der Detailansicht wird nur ein kleiner Marker mit der Farbe angezeigt. </string>
   <string name="settings_notification_snooze_delay">Schlummerverzögerung</string>
@@ -230,6 +231,10 @@
   <string name="colors_app">Anwendungsfarben</string>
   <string name="colors_widget">Widgetfarben</string>
   <string name="settings_instant_search">Sofortsuche</string>
+  <string name="settings_navdrawer_on_exit">Navigationsmenü öffnen bei \"Zurücktaste\"</string>
+  <string name="settings_navdrawer_on_exit_summary">Drücken der \"Zurücktaste\" in der Notizliste, öffnet das Navigationsmenü, anstatt die Anwendung zu beenden</string>
+  <string name="settings_text_size">Schriftgröße</string>
+  <string name="settings_category_behaviors">Verhalten</string>
   <string name="tour_request_start">Sie haben Omni Notes das erste Mal gestartet. Möchten Sie eine Anwendungstour machen?</string>
   <string name="tour_listactivity_intro_title">Willkommen bei Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Drücken Sie \"Weiter\",\num die Tour fortzusetzen.</string>
@@ -247,6 +252,8 @@
   <string name="tour_detailactivity_reminder_detail">Kurzes oder langes Drücken auf ein Objekt (Anhänge, Standort, Erinnerung) haben unterschiedliche Effekte!</string>
   <string name="tour_detailactivity_links_title">Links</string>
   <string name="tour_detailactivity_links_detail">Doppelklicken Sie auf Internet- oder E-Mail-Adressen um diese zu kopieren oder zu öffnen</string>
+  <string name="tour_detailactivity_swipe_title">Wischgesten</string>
+  <string name="tour_detailactivity_swipe_detail">Neue Notiz erstellen, ohne\ndie Aktuelle zu verlassen</string>
   <string name="tour_detailactivity_save_title">Speichern</string>
   <string name="tour_detailactivity_save_detail">Um eine Notiz zu speichern, gehen mit dem oberen Navigation-Symbol oder mit der Zurücktaste Ihres Gerätes zur Notizliste zurück</string>
   <string name="tour_listactivity_final_title">Viel Spaß!</string>
@@ -257,4 +264,6 @@
   <string name="stroke_size">Strichstärke</string>
   <string name="note_thumbnail">Vorschaubild</string>
   <string name="note_reminder_symbol">Erinnerungssymbol</string>
+  <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
+  <string name="navigation_drawer_close">Navigationsleiste schließen</string>
 </resources>

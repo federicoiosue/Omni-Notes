@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">Žiadna aplikácia nemôže vykonať túto akciu</string>
   <string name="eraser">Guma</string>
   <string name="image">Obrázok</string>
+  <string name="error">Chyba</string>
+  <string name="archived">archivované</string>
+  <string name="files">Súbory</string>
   <string name="dashclock_description">Zobrazí niektoré štatistiky a blížiace sa pripomienky z Omni Notes</string>
   <string name="settings">Nastavenia</string>
   <string name="settings_about">Informácie</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">Povoliť swype</string>
   <string name="settings_category_interface">Rozhranie</string>
   <string name="settings_enable_animations">Animácie</string>
-  <string name="settings_choose_language">Jazyk</string>
   <string name="settings_category_notifications">Upozornenia</string>
   <string name="settings_enable_vibration">Vibrácie</string>
   <string name="settings_changelog">Zoznam zmien</string>
@@ -208,7 +210,6 @@
   <string name="settings_notification_ringtone">Vyzváňanie</string>
   <string name="settings_enable_tag_marker_full">Plná farba</string>
   <string name="settings_enable_tag_marker_full_summary">Poznámky plne zafarbené ako v zozname, tak aj v detaile</string>
-  <string name="colors">Farby</string>
   <string name="settings_enable_tag_marker_full_list_only">Len zoznam</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Vynútiť plnú farbu iba v zozname poznámok a zároveň v detaile je len malá značka zafarbená </string>
   <string name="settings_notification_snooze_delay">Oneskorenie odloženia</string>
@@ -230,6 +231,10 @@
   <string name="colors_app">Farby aplikácie</string>
   <string name="colors_widget">Fabry miniaplikácie</string>
   <string name="settings_instant_search">Rýchle hľadanie</string>
+  <string name="settings_navdrawer_on_exit">Navigačná ponuka po ukončení</string>
+  <string name="settings_navdrawer_on_exit_summary">Po stlačení tlačidla \"Späť\" v zozname poznámok sa otvorí navigačná ponuka namiesto ukončenia aplikácie</string>
+  <string name="settings_text_size">Veľkosť textu</string>
+  <string name="settings_category_behaviors">Správania</string>
   <string name="tour_request_start">Spustili ste Omni Notes po prvý krát. Chcete si prezieť prehliadku aplikácie?</string>
   <string name="tour_listactivity_intro_title">Vitajte v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Stlačte \"Pokračovať\" na pokračovanie v prehliadke</string>
@@ -247,6 +252,8 @@
   <string name="tour_detailactivity_reminder_detail">Krátke alebo dlhé stlačenie objektov (prílohy, poloha, pripomienky) má odlišný efekt!</string>
   <string name="tour_detailactivity_links_title">Odkazy</string>
   <string name="tour_detailactivity_links_detail">Dvakrát kliknite na webové alebo e-mailové adresy na ich skopírovanie alebo otvorenie</string>
+  <string name="tour_detailactivity_swipe_title">Potiahnite</string>
+  <string name="tour_detailactivity_swipe_detail">Vytvorte nové poznámky bez \n opustenia tej, ktorú upravujete</string>
   <string name="tour_detailactivity_save_title">Ukladajte</string>
   <string name="tour_detailactivity_save_detail">Jednoducho stlačte ikonu navigácie \"hore\" alebo použite tlačidlo Späť na vašom zariadení</string>
   <string name="tour_listactivity_final_title">Užívajte</string>
@@ -257,4 +264,6 @@
   <string name="stroke_size">Veľkosť hrúbky</string>
   <string name="note_thumbnail">Náhľad poznámky</string>
   <string name="note_reminder_symbol">Symbol pripomienky poznámky</string>
+  <string name="navigation_drawer_open">Otvoriť navigačnú ponuku</string>
+  <string name="navigation_drawer_close">Zatvoriť navigačnú ponuku</string>
 </resources>

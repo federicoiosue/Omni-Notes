@@ -43,4 +43,9 @@
     <item>Маленький індикатор</item>
     <item>У списку нотаток</item>
   </string-array>
+  <string-array name="text_size">
+    <item>Small</item>
+    <item>Default</item>
+    <item>Large</item>
+  </string-array>
 </resources>

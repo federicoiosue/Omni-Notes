@@ -43,4 +43,9 @@
     <item>Iba pás</item>
     <item>Zoznam poznámok</item>
   </string-array>
+  <string-array name="text_size">
+    <item>Malé</item>
+    <item>Predvolené</item>
+    <item>Veľké</item>
+  </string-array>
 </resources>

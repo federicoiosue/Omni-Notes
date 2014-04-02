@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">Немає програм для цієї дії</string>
   <string name="eraser">Очищувач</string>
   <string name="image">Зображення</string>
+  <string name="error">Error</string>
+  <string name="archived">archived</string>
+  <string name="files">Files</string>
   <string name="dashclock_description">Відображає деяку статистику і найближчі події в Omni Notes</string>
   <string name="settings">Налаштування</string>
   <string name="settings_about">Інформація</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">Увімкнути Swype</string>
   <string name="settings_category_interface">Інтерфейс</string>
   <string name="settings_enable_animations">Анімації</string>
-  <string name="settings_choose_language">Вибір мови</string>
   <string name="settings_category_notifications">Сповіщення</string>
   <string name="settings_enable_vibration">Вібрація</string>
   <string name="settings_changelog">Історія змін</string>
@@ -211,7 +213,6 @@
   <string name="settings_notification_ringtone">Рингтон</string>
   <string name="settings_enable_tag_marker_full">Повноколірна</string>
   <string name="settings_enable_tag_marker_full_summary">Нотатки повністю кольорові</string>
-  <string name="colors">Кольори</string>
   <string name="settings_enable_tag_marker_full_list_only">Лише список</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Примусово застосовувати повний колір лише в списку нотаток, в той час як для деталей замальовувати лише маленький маркер </string>
   <string name="settings_notification_snooze_delay">Затримка</string>
@@ -233,6 +234,10 @@
   <string name="colors_app">Кольори програми</string>
   <string name="colors_widget">Кольори віджета</string>
   <string name="settings_instant_search">Миттєвий пошук</string>
+  <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
+  <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
+  <string name="settings_text_size">Text size</string>
+  <string name="settings_category_behaviors">Behaviors</string>
   <string name="tour_request_start">Ви запустили Omni Notes вперше, бажаєте ознайомитись з коротким довідником?</string>
   <string name="tour_listactivity_intro_title">Ласкаво просимо до Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">натисніть \"Продовжити\", щоб ознайомитися з програмою</string>
@@ -250,6 +255,8 @@
   <string name="tour_detailactivity_reminder_detail">Короткі або тривалі натискання по елементах (вкладення, розташування, нагадування) мають різний ефект!</string>
   <string name="tour_detailactivity_links_title">Посилання</string>
   <string name="tour_detailactivity_links_detail">Двічі торкніться веб-посилання чи адреси електронної пошти, щоб скопіювати чи відкрити їх</string>
+  <string name="tour_detailactivity_swipe_title">Swipe</string>
+  <string name="tour_detailactivity_swipe_detail">Create new notes without \n leaving the one you\'re editing</string>
   <string name="tour_detailactivity_save_title">Збереження</string>
   <string name="tour_detailactivity_save_detail">Лише натисніть навігаційну іконку \"вгору\" чи натисніть кнопку \"назад\" на вашому пристрої</string>
   <string name="tour_listactivity_final_title">Насолоджуйтесь</string>
@@ -260,4 +267,6 @@
   <string name="stroke_size">розмір окреслення</string>
   <string name="note_thumbnail">мініатюра нотатки</string>
   <string name="note_reminder_symbol">Символ нагадування</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

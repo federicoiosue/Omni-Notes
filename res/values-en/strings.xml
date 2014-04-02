@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">No application found for this action</string>
   <string name="eraser">Eraser</string>
   <string name="image">Image</string>
+  <string name="error">Error</string>
+  <string name="archived">archived</string>
+  <string name="files">Files</string>
   <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
   <string name="settings">Settings</string>
   <string name="settings_about">Info</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">Enable swype</string>
   <string name="settings_category_interface">Interface</string>
   <string name="settings_enable_animations">Animations</string>
-  <string name="settings_choose_language">Language</string>
   <string name="settings_category_notifications">Notifications</string>
   <string name="settings_enable_vibration">Vibration</string>
   <string name="settings_changelog">Changelog</string>
@@ -208,7 +210,6 @@
   <string name="settings_notification_ringtone">Ringtone</string>
   <string name="settings_enable_tag_marker_full">Full color</string>
   <string name="settings_enable_tag_marker_full_summary">Fully colored notes in list view and detail view</string>
-  <string name="colors">Colors</string>
   <string name="settings_enable_tag_marker_full_list_only">Only list</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Enables full color in list view. In detail view only the tag marker will be colored</string>
   <string name="settings_notification_snooze_delay">Second reminder delay</string>
@@ -230,6 +231,10 @@
   <string name="colors_app">Application color scheme</string>
   <string name="colors_widget">Widget color scheme</string>
   <string name="settings_instant_search">Instant search</string>
+  <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
+  <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
+  <string name="settings_text_size">Text size</string>
+  <string name="settings_category_behaviors">Behaviors</string>
   <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>
   <string name="tour_listactivity_intro_title">Welcome to Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">press \"Proceed\" to continue the tour</string>
@@ -247,6 +252,8 @@
   <string name="tour_detailactivity_reminder_detail">Long pression have different effects on an object (attachment, location, reminder) than short pression!</string>
   <string name="tour_detailactivity_links_title">Links</string>
   <string name="tour_detailactivity_links_detail">Double-click on an URL or e-mail address to copy or open it</string>
+  <string name="tour_detailactivity_swipe_title">Swipe</string>
+  <string name="tour_detailactivity_swipe_detail">Create new notes without \n leaving the one you\'re editing</string>
   <string name="tour_detailactivity_save_title">Save</string>
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
@@ -257,4 +264,6 @@
   <string name="stroke_size">stroke size</string>
   <string name="note_thumbnail">note thumbnail</string>
   <string name="note_reminder_symbol">note reminder symbol</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

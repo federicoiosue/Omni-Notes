@@ -147,6 +147,9 @@
   <string name="no_application_can_perform_this_action">कोई एप्लीकेशन ये काम नहीं कर सकती</string>
   <string name="eraser">इरेज़र</string>
   <string name="image">छवि</string>
+  <string name="error">त्रुटि</string>
+  <string name="archived">संग्रहीत</string>
+  <string name="files">Files</string>
   <string name="dashclock_description">रिमाइंडर और कुछ आंकड़े ओमनी नोटस कि और से दिखाए</string>
   <string name="settings">सेटिंग्स</string>
   <string name="settings_about">जानकारी</string>
@@ -168,7 +171,6 @@
   <string name="settings_enable_swype">स्वीप् सक्षम करें</string>
   <string name="settings_category_interface">इंटरफ़ेस</string>
   <string name="settings_enable_animations">एनिमेशन</string>
-  <string name="settings_choose_language">भाषा</string>
   <string name="settings_category_notifications">सूचनाएँ</string>
   <string name="settings_enable_vibration">कंपन</string>
   <string name="settings_changelog">परिवर्तन लॉग इन</string>
@@ -208,7 +210,6 @@
   <string name="settings_notification_ringtone">रिंगटोन</string>
   <string name="settings_enable_tag_marker_full">पूर्ण रंग</string>
   <string name="settings_enable_tag_marker_full_summary">नोट्स को दोनों सूचि में और विस्तार में पूरा रंगीन कर दिया गया हे</string>
-  <string name="colors">रंग</string>
   <string name="settings_enable_tag_marker_full_list_only">केवल सूची</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">केवल नोट सूचि में पूरा रंग करे जबकि विस्तार में खली छोटे मरकर को रंग किया जायेगा</string>
   <string name="settings_notification_snooze_delay">झपकी में देरी</string>
@@ -230,6 +231,10 @@
   <string name="colors_app">एप्लीकेशन का रंग</string>
   <string name="colors_widget">विजेट के रंग</string>
   <string name="settings_instant_search">त्वरित खोज</string>
+  <string name="settings_navdrawer_on_exit">बाहर निकलने पर नेविगेशन मेनू</string>
+  <string name="settings_navdrawer_on_exit_summary">नोट सूचि जब खुली हो तब \"वापस जाना\" बटन दबाने पर नेविगेशन मेनू खुलेगा न कि बहार जायेगा</string>
+  <string name="settings_text_size">पाठ का आकार</string>
+  <string name="settings_category_behaviors">Behaviors</string>
   <string name="tour_request_start">आपने ओमनी नोट पहला बार खोला हे, क्या आप एप्लीकेशन का टूर लेना चाहते हे ?</string>
   <string name="tour_listactivity_intro_title">ओमनी नोट्स में आपका स्वागत है!</string>
   <string name="tour_listactivity_intro_detail">टूर जारी रखने के लिए \"आगे बढ़ें\" दबाएँ</string>
@@ -247,6 +252,8 @@
   <string name="tour_detailactivity_reminder_detail">छोटे या बड़े प्रेशन्स का वस्तु(अटैचमेंट, जगह, रिमाइंडर) पर अलग प्रभाव होता हे </string>
   <string name="tour_detailactivity_links_title">कड़ियाँ</string>
   <string name="tour_detailactivity_links_detail">वेब और ईमेल पते को कॉपी के खोलने के पिए दो बार क्लिक करे</string>
+  <string name="tour_detailactivity_swipe_title">उंगली गुमाईए</string>
+  <string name="tour_detailactivity_swipe_detail">नयी नोट बनाये \nअभी खुली नोट को छोड़े बिना</string>
   <string name="tour_detailactivity_save_title">सेव</string>
   <string name="tour_detailactivity_save_detail">सरलता से \"उप\" बटन दबाये के पीछे जाइए आपले मोबाइल के बटन से</string>
   <string name="tour_listactivity_final_title">आनंद लें</string>
@@ -257,4 +264,6 @@
   <string name="stroke_size">स्ट्रोक का आकार</string>
   <string name="note_thumbnail">नोट थंबनेल</string>
   <string name="note_reminder_symbol">नोट रिमाइंडर प्रतीक</string>
+  <string name="navigation_drawer_open">नेविगेशन ड्रावर खोले</string>
+  <string name="navigation_drawer_close">नेविगेशन ड्रावर बंद करें</string>
 </resources>

@@ -43,4 +43,9 @@
     <item>Só uns pequenos marcadores</item>
     <item>Listaxe de notas</item>
   </string-array>
+  <string-array name="text_size">
+    <item>Pequeno</item>
+    <item>Predefinido</item>
+    <item>Grande</item>
+  </string-array>
 </resources>

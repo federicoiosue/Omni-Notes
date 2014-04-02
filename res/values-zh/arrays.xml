@@ -43,4 +43,9 @@
     <item>仅条状颜色标识</item>
     <item>记事列表全彩</item>
   </string-array>
+  <string-array name="text_size">
+    <item>小字体</item>
+    <item>默认</item>
+    <item>大字体</item>
+  </string-array>
 </resources>

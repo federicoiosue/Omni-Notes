@@ -35,12 +35,17 @@
   <string-array name="colors_app">
     <item>Etkisizleştir</item>
     <item>Strip only</item>
-    <item>Notes list only</item>
-    <item>Complete</item>
+    <item>Sadece listeler</item>
+    <item>Tamamı</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Disabled</item>
+    <item>Devre dışı</item>
     <item>Strip only</item>
-    <item>Notes list</item>
+    <item>Not listesi</item>
+  </string-array>
+  <string-array name="text_size">
+    <item>Küçük</item>
+    <item>Varsayılan</item>
+    <item>Büyük</item>
   </string-array>
 </resources>
