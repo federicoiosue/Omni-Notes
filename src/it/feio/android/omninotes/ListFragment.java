@@ -655,7 +655,7 @@ public class ListFragment extends Fragment implements UndoListener {
 		Bundle b = new Bundle();
 		b.putParcelable(Constants.INTENT_NOTE, note);
 		mDetailFragment.setArguments(b);
-		transaction.replace(R.id.fragment_container, mDetailFragment).addToBackStack("list").commit();
+		transaction.replace(R.id.fragment_container, mDetailFragment, mActivity.FRAGMENT_DETAIL_TAG).addToBackStack(mActivity.FRAGMENT_LIST_TAG).commit();
 		mActivity.getDrawerToggle().setDrawerIndicatorEnabled(false);
 	}
 

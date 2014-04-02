@@ -275,6 +275,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	@Override
 	public void onPause() {
 		super.onPause();
+		if (mRecorder != null) {
+			mRecorder.release();
+			mRecorder = null;
+		}
+		Crouton.cancelAllCroutons();
 		restoreLayouts();
 	}
 	
@@ -783,11 +788,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		Bundle bundle = new Bundle();		
 		bundle.putString(DatePickerFragment.DEFAULT_DATE, getAlarmDate());
 		newFragment.setArguments(bundle);
-		newFragment.show(mActivity.getSupportFragmentManager(), "datePicker");
+		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
 	
 	private void showTimePickerDialog(View v) {
 		TimePickerFragment newFragment = new TimePickerFragment();
+		Bundle bundle = new Bundle();		
+		bundle.putString(TimePickerFragment.DEFAULT_TIME, getAlarmTime());
+		newFragment.setArguments(bundle);
 		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
 
@@ -2133,7 +2141,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 						Bundle b = new Bundle();
 						b.putParcelable(Constants.INTENT_NOTE, new Note());
 						mDetailFragment.setArguments(b);
-						transaction.replace(R.id.fragment_container, mDetailFragment, mActivity.FRAGMENT_DETAIL_TAG).addToBackStack("list").commit();
+						transaction.replace(R.id.fragment_container, mDetailFragment, mActivity.FRAGMENT_DETAIL_TAG).addToBackStack(mActivity.FRAGMENT_DETAIL_TAG).commit();
 //						mActivity.getDrawerToggle().setDrawerIndicatorEnabled(false);
 						
 					}

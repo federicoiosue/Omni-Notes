@@ -19,9 +19,10 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class MainActivity extends BaseActivity {
 	
-	
-	final String FRAGMENT_LIST_TAG = "fragment_list";
-	final String FRAGMENT_DETAIL_TAG = "fragment_detail";
+
+	public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
+	public final String FRAGMENT_LIST_TAG = "fragment_list";
+	public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
 
 	/**
 	 * Used to store the last screen title. For use in
@@ -40,7 +41,7 @@ public class MainActivity extends BaseActivity {
 		mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer);
 		if (mNavigationDrawerFragment == null) {
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-			fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment()).commit();
+			fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment(), FRAGMENT_DRAWER_TAG).commit();
 		}
 		
 		if (mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
@@ -157,19 +158,19 @@ public class MainActivity extends BaseActivity {
 	}
 	
 	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		Fragment f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
-		if (f != null) {
-			MediaRecorder mRecorder = ((DetailFragment)f).mRecorder;
-			if (mRecorder != null) {
-				mRecorder.release();
-				mRecorder = null;
-			}
-		}
-		Crouton.cancelAllCroutons();
-	}
+//	@Override
+//	protected void onPause() {
+//		super.onPause();
+//		Fragment f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
+//		if (f != null) {
+//			MediaRecorder mRecorder = ((DetailFragment)f).mRecorder;
+//			if (mRecorder != null) {
+//				mRecorder.release();
+//				mRecorder = null;
+//			}
+//		}
+//		Crouton.cancelAllCroutons();
+//	}
 
 
 	public DrawerLayout getDrawerLayout() {
