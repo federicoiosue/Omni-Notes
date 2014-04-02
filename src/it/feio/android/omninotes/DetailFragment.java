@@ -2231,17 +2231,19 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	}
 	
 	private void restoreLayouts() {
-		ViewGroup wrapper = ((ViewGroup)root.findViewById(R.id.detail_wrapper));
-		if (root.indexOfChild(keyboardPlaceholder) != -1) {
-			root.removeView(keyboardPlaceholder);		
+		if (root != null) {
+			ViewGroup wrapper = ((ViewGroup)root.findViewById(R.id.detail_wrapper));
+			if (root.indexOfChild(keyboardPlaceholder) != -1) {
+				root.removeView(keyboardPlaceholder);		
+			}
+			keyboardPlaceholder = null;
+			if (wrapper.indexOfChild(titleCardView) == -1) {
+				wrapper.addView(titleCardView, 0);
+			}
+			if (wrapper.indexOfChild(timestampsView) == -1) {
+				wrapper.addView(timestampsView);
+			}		
 		}
-		keyboardPlaceholder = null;
-		if (wrapper.indexOfChild(titleCardView) == -1) {
-			wrapper.addView(titleCardView, 0);
-		}
-		if (wrapper.indexOfChild(timestampsView) == -1) {
-			wrapper.addView(timestampsView);
-		}		
 	}
 
 
