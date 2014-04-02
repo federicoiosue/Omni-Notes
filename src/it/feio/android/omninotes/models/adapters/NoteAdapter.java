@@ -202,9 +202,12 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			titleText = note.getTitle();
 			contentText = note.getContent();
 		} else {
-			String[] arr = note.getContent().split(System.getProperty("line.separator"));
-			titleText = arr.length > 0 ? arr[0] : "";
-			contentText = arr.length > 1 ? arr[1] : "";
+//			String[] arr = note.getContent().split(System.getProperty("line.separator"));
+//			titleText = arr.length > 0 ? arr[0] : "";
+//			contentText = arr.length > 1 ? arr[1] : "";
+			int index = note.getContent() != null ? note.getContent().indexOf(System.getProperty("line.separator")) : -1;
+			titleText = index == -1 ? note.getContent() : note.getContent().substring(0, index);
+			contentText = index == -1 ? "" : note.getContent().substring(index, note.getContent().length());
 		}
 		
 		// Masking title and content string if note is locked
@@ -226,7 +229,8 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 				.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
 				it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
 				.replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
-				it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY);
+				it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY)
+				.replace(System.getProperty("line.separator"), "<br/>");
 
 		return new String[]{titleText, contentText};		
 	}
