@@ -300,7 +300,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		handleIntents();
 		
 //		note = (Note) mActivity.getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
-		note = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);	
+		if (note == null) {
+			note = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);
+		}
 		if (noteTmp == null) {
 			if (note == null) note = new Note();
 			noteTmp = new Note(note);
@@ -348,19 +350,14 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void handleIntents() {
 		Intent i = mActivity.getIntent();
 		
-		// Action called from widget
-		if (Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())) {
-			takePhoto();
-			i.setAction(null);
-		}
-		
 		// Action called from home shortcut
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())) {
 			afterSavedReturnsToList = false;
 			DbHelper db = new DbHelper(mActivity);
-			noteTmp = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+			note = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+			noteTmp = new Note(note);
 			// Checks if the note pointed from the shortcut has been deleted
-			if (noteTmp == null) {	
+			if (note == null || noteTmp == null) {	
 				mActivity.showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
 				mActivity.finish();
 			}
@@ -391,6 +388,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				}
 			}
 			
+			
+			// Sub-action is to take a photo
+			if (Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())) {
+				takePhoto();
+			}
+			
+			i.setAction(null);			
 		}
 		
 		
@@ -1729,8 +1733,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 	private String getNoteTitle() {
 		String res = "";
-		if (getView().findViewById(R.id.title) != null) {
-			res = ((EditText) getView().findViewById(R.id.title)).getText().toString();
+		if (mActivity.findViewById(R.id.title) != null) {
+			res = ((EditText) mActivity.findViewById(R.id.title)).getText().toString();
 		}
 		return res;
 	}
@@ -1743,9 +1747,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			// a com.neopixl.pixlui.components.edittext.EditText but a standard
 			// android.widget.EditText
 			try {
-				content = ((EditText) getView().findViewById(R.id.content)).getText().toString();
+				content = ((EditText) mActivity.findViewById(R.id.content)).getText().toString();
 			} catch (ClassCastException e) {
-				content = ((android.widget.EditText)  getView().findViewById(R.id.content)).getText().toString();
+				content = ((android.widget.EditText)  mActivity.findViewById(R.id.content)).getText().toString();
 			}
 		} else {
 				if (mChecklistManager != null) {
