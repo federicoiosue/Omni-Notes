@@ -367,24 +367,30 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			i.setAction(null);
 		}
 		
-		// Check if is launched from a widget with tags to set tag
-		if (Constants.ACTION_WIDGET.equals(i.getAction()) && i.hasExtra(Constants.INTENT_WIDGET)) {
+		// Check if is launched from a widget
+		if (Constants.ACTION_WIDGET.equals(i.getAction())) {
+
 			afterSavedReturnsToList = false;
-			String widgetId = i.getExtras().get(Constants.INTENT_WIDGET).toString();
-			if (widgetId != null) {
-				String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
-				String pattern = DbHelper.KEY_TAG + " = ";
-				if (sqlCondition.lastIndexOf(pattern) != -1) {
-					String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length()).trim();		
-					Tag tag;
-					try {
-						tag = db.getTag(Integer.parseInt(tagId));
-						noteTmp = new Note();
-						DbHelper db = new DbHelper(mActivity);
-						noteTmp.setTag(tag);
-					} catch (NumberFormatException e) {}			
+			
+			//  with tags to set tag
+			if (i.hasExtra(Constants.INTENT_WIDGET)) {
+				String widgetId = i.getExtras().get(Constants.INTENT_WIDGET).toString();
+				if (widgetId != null) {
+					String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
+					String pattern = DbHelper.KEY_TAG + " = ";
+					if (sqlCondition.lastIndexOf(pattern) != -1) {
+						String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length()).trim();		
+						Tag tag;
+						try {
+							tag = db.getTag(Integer.parseInt(tagId));
+							noteTmp = new Note();
+							DbHelper db = new DbHelper(mActivity);
+							noteTmp.setTag(tag);
+						} catch (NumberFormatException e) {}			
+					}
 				}
 			}
+			
 		}
 		
 		
@@ -2035,8 +2041,10 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void addShortcut() {
 		Intent shortcutIntent = new Intent(mActivity, getClass());
 		shortcutIntent.putExtra(Constants.INTENT_KEY, noteTmp.get_id());
-		shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
+//		shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
+		shortcutIntent.setAction(Intent.ACTION_MAIN);
 		Intent addIntent = new Intent();
+		addIntent.putExtra(Constants.ACTION_SHORTCUT, true);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
 		String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : note.getCreationShort(mActivity);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
