@@ -158,9 +158,9 @@ public class MainActivity extends BaseActivity {
 	}
 	
 	
-//	@Override
-//	protected void onPause() {
-//		super.onPause();
+	@Override
+	protected void onPause() {
+		super.onPause();
 //		Fragment f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
 //		if (f != null) {
 //			MediaRecorder mRecorder = ((DetailFragment)f).mRecorder;
@@ -169,8 +169,8 @@ public class MainActivity extends BaseActivity {
 //				mRecorder = null;
 //			}
 //		}
-//		Crouton.cancelAllCroutons();
-//	}
+		Crouton.cancelAllCroutons();
+	}
 
 
 	public DrawerLayout getDrawerLayout() {

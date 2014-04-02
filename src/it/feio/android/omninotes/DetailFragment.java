@@ -279,7 +279,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			mRecorder.release();
 			mRecorder = null;
 		}
-		Crouton.cancelAllCroutons();
 		restoreLayouts();
 	}
 	
@@ -1017,9 +1016,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			if (!TextUtils.isEmpty(msg)) {
 				mActivity.showToast(msg, Toast.LENGTH_SHORT);
 			}
-//			mActivity.onBackPressed(); //TODO Resolve this
 			mActivity.finish();
 			return true;
+		} else {
+			if (!TextUtils.isEmpty(msg)) {
+				Crouton.makeText(mActivity, msg, ONStyle.CONFIRM).show();
+			}
 		}
 		
 		// Unregistering layout observer
@@ -1049,6 +1051,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
+			afterSavedReturnsToList = true;
 			saveNote(null);
 			break;
 		case R.id.menu_archive:
@@ -1708,12 +1711,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			saveNoteTask.execute(noteTmp);
 		}
 
-//		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
-		if (afterSavedReturnsToList) {
-			Crouton.makeText(mActivity, getString(R.string.note_updated), ONStyle.CONFIRM).show();
-		}
+		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
+//		if (afterSavedReturnsToList) {
+//			Crouton.makeText(mActivity, getString(R.string.note_updated), ONStyle.CONFIRM).show();
+//		}
 		
-		mActivity.notifyAppWidgets(mActivity);
+		MainActivity.notifyAppWidgets(mActivity);
 	}
 	
 
