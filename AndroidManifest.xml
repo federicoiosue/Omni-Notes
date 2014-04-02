@@ -17,7 +17,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="93"
+    android:versionCode="94"
     android:versionName="4.5.0" >
 
     <uses-sdk

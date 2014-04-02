@@ -1014,17 +1014,21 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		}
 		
 		// Unregistering layout observer
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-		} else {
-			root.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-		}	
+		if (root != null) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+			} else {
+				root.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+			}	
+		}
 		
 		// Otherwise the result is passed to ListActivity
 		mActivity.getSupportFragmentManager().popBackStack(); 
 		if (mActivity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-			mActivity.getDrawerToggle().setDrawerIndicatorEnabled(true);
 			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+		}
+		if (mActivity.getDrawerToggle() != null) {
+			mActivity.getDrawerToggle().setDrawerIndicatorEnabled(true);
 		}
 		
 		return true;
