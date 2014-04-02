@@ -23,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import android.app.ActivityManager.MemoryInfo;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -54,38 +55,54 @@ public class BitmapHelper {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static Bitmap decodeSampledFromUri(Context ctx, Uri uri, int reqWidth, int reqHeight)
+	public static Bitmap decodeSampledFromUri(Context mContext, Uri uri, int reqWidth, int reqHeight)
 			throws FileNotFoundException {
 
-		// Decoding con inJustDecodeBounds=true per controllare le dimensioni evitando errori di memoria
-		final BitmapFactory.Options options = new BitmapFactory.Options();
+		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeStream(ctx.getContentResolver().openInputStream(uri), null, options);
+		BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri), null, options);
+
+		// Setting decode options
+		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+		options.inJustDecodeBounds = false;
+
+		// Bitmap is now decoded for real using calculated inSampleSize
+		Bitmap bmp = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri), null, options);
+		return bmp;
+	}
+	
+	
+	
+	/**
+	 * Decoding with inJustDecodeBounds=true to check sampling index without breaking memory
+	 * @param mContext
+	 * @param uri
+	 * @param reqWidth
+	 * @param reqHeight
+	 * @return
+	 * @throws FileNotFoundException
+	 */
+	private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
+			throws FileNotFoundException {
 
 		// Calcolo dell'inSampleSize e delle nuove dimensioni proporzionate
 		final int height = options.outHeight;
 		final int width = options.outWidth;
 		int inSampleSize = 1;
-		if (height > reqHeight || width > reqWidth) {			
+		if (height > reqHeight || width > reqWidth) {
 			final int halfHeight = height / 2;
-	        final int halfWidth = width / 2;
+			final int halfWidth = width / 2;
 
-	        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-	        // height and width larger than the requested height and width.
-	        while ((halfHeight / inSampleSize) > reqHeight
-	                && (halfWidth / inSampleSize) > reqWidth) {
-	            inSampleSize *= 2;
-	        }
+			// Calculate the largest inSampleSize value that is a power of 2 and
+			// keeps both
+			// height and width larger than the requested height and width.
+			while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
+				inSampleSize *= 2;
+			}
 		}
-
-		// Setting decode options
-		options.inJustDecodeBounds = false;
-		options.inSampleSize = inSampleSize;
-
-		// Bitmap is now decoded for real using calculated inSampleSize
-		Bitmap bmp = BitmapFactory.decodeStream(ctx.getContentResolver().openInputStream(uri), null, options);
-		return bmp;
+		return inSampleSize;
 	}
+	
 	
 	
 	public static Uri getUri(Context mContext, int resource_id) {
@@ -313,7 +330,7 @@ public class BitmapHelper {
 	public static Bitmap getBitmapFromAttachment(Context mContext, Attachment mAttachment, int width, int height) {
 		Bitmap bmp = null;
 		String path = mAttachment.getUri().getPath();	
-		
+				
 		// Video
 		if (Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
 			// Tries to retrieve full path from ContentResolver if is a new video
@@ -345,14 +362,20 @@ public class BitmapHelper {
 
 		// Audio
 		} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
-			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
-					mContext.getResources(), R.drawable.play), width, height);
+//			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
+//					mContext.getResources(), R.drawable.play), width, height);
+			bmp = ThumbnailUtils.extractThumbnail(
+					decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R.drawable.play),
+							width, height), width, height);
 		
 		// File
 		} else if (Constants.MIME_TYPE_FILES.equals(mAttachment.getMime_type())) {
 //			if( (new File(FileHelper.getPath(mContext, mAttachment.getUri())).exists()) ) {
-				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
-						mContext.getResources(), R.drawable.files), width, height);
+//				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
+//						mContext.getResources(), R.drawable.files), width, height);
+				bmp = ThumbnailUtils.extractThumbnail(
+						decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R.drawable.files),
+								width, height), width, height);
 //			} else {
 //				return null;
 //			}
@@ -377,9 +400,9 @@ public class BitmapHelper {
 		Bitmap thumbnail = Bitmap.createBitmap(width, height,
 				Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(thumbnail);
-		Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+//		Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
-		canvas.drawBitmap(checkIfBroken(mContext, video, height, height), 0, 0, null);
+//		canvas.drawBitmap(checkIfBroken(mContext, video, height, height), 0, 0, null);
 		canvas.drawBitmap(mark, 0, 0, null);
 
 		return thumbnail;
@@ -397,15 +420,15 @@ public class BitmapHelper {
 	 * @param height
 	 * @return
 	 */
-	private static Bitmap checkIfBroken(Context mContext, Bitmap bmp, int width, int height) {
-		// In case no thumbnail can be extracted from video
-		if (bmp == null) {
-			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
-					mContext.getResources(), R.drawable.attachment_broken),
-					width, height);
-		}
-		return bmp;
-	}
+//	private static Bitmap checkIfBroken(Context mContext, Bitmap bmp, int width, int height) {
+//		// In case no thumbnail can be extracted from video
+//		if (bmp == null) {
+//			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
+//					mContext.getResources(), R.drawable.attachment_broken),
+//					width, height);
+//		}
+//		return bmp;
+//	}
 	
 	
 	
@@ -413,6 +436,57 @@ public class BitmapHelper {
 	private static int dpToPx(Context mContext, int dp) {
 		float density = mContext.getResources().getDisplayMetrics().density;
 		return Math.round((float) dp * density);
+	}
+	
+	
+	
+	
+	
+	public static Bitmap decodeSampledBitmapFromResourceMemOpt(InputStream inputStream, int reqWidth, int reqHeight) {
+
+		byte[] byteArr = new byte[0];
+		byte[] buffer = new byte[1024];
+		int len;
+		int count = 0;
+		
+//		int[] pids = { android.os.Process.myPid() };
+//        MemoryInfo myMemInfo = mAM.getProcessMemoryInfo(pids)[0];
+
+		try {
+			while ((len = inputStream.read(buffer)) > -1) {
+				if (len != 0) {
+					if (count + len > byteArr.length) {
+						byte[] newbuf = new byte[(count + len) * 2];
+						System.arraycopy(byteArr, 0, newbuf, 0, count);
+						byteArr = newbuf;
+					}
+
+					System.arraycopy(buffer, 0, byteArr, count, len);
+					count += len;
+				}
+			}
+
+			final BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inJustDecodeBounds = true;
+			BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+			options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+			options.inPurgeable = true;
+			options.inInputShareable = true;
+			options.inJustDecodeBounds = false;
+			options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+//			int[] pids = { android.os.Process.myPid() };
+//			MemoryInfo myMemInfo = mAM.getProcessMemoryInfo(pids)[0];
+//			Log.e(Constants.TAG, "dalvikPss (decoding) = " + myMemInfo.dalvikPss);
+
+			return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return null;
+		}
 	}
 	
 }
