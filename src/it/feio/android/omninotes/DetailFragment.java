@@ -1372,10 +1372,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 					isRecording = false;
 					stopRecording();
 					Attachment attachment = new Attachment(Uri.parse(recordName), Constants.MIME_TYPE_AUDIO);
+					attachment.setMoveWhenNoteSaved(false);
 					attachment.setLength(audioRecordingTime);
 					noteTmp.getAttachmentsList().add(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
-					mGridView.autoresize();
+					mGridView.autoresize();					
+					// Updates sharing intent after attachment insertion
+					updateShareIntent();
 					attachmentDialog.dismiss();
 				}
 				break;
@@ -1485,6 +1488,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			switch (requestCode) {
 			case TAKE_PHOTO:
 				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
+				attachment.setMoveWhenNoteSaved(false);
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
@@ -1513,6 +1517,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				// Gingerbread doesn't allow custom folder so data are retrieved from intent 
 				if(Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
 					attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
+					attachment.setMoveWhenNoteSaved(false);
 				} else {
 					attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_VIDEO);
 				}
@@ -1565,6 +1570,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				break;
 			case SKETCH:
 				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_SKETCH);
+				attachment.setMoveWhenNoteSaved(false);
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();

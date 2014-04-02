@@ -26,6 +26,9 @@ public class Attachment implements Parcelable {
 	private long size;
 	private long length;
 	private String mime_type;
+	
+	// Not stored in db
+	private boolean moveWhenNoteSaved = true;
 
 	public Attachment(Uri uri, String mime_type) {
 		super();
@@ -96,6 +99,16 @@ public class Attachment implements Parcelable {
 	public void setMime_type(String mime_type) {
 		this.mime_type = mime_type;
 	}
+
+	public boolean getMoveWhenNoteSaved() {
+		return moveWhenNoteSaved;
+	}
+
+	public void setMoveWhenNoteSaved(boolean moveWhenNoteSaved) {
+		this.moveWhenNoteSaved = moveWhenNoteSaved;
+	}
+	
+	
 
 	@Override
 	public int describeContents() {

@@ -92,18 +92,30 @@ public class StorageManager {
 		}
 		File file = createNewAttachmentFile(mContext, extension);
 
+		InputStream is;
+		OutputStream os;
 		try {
-			InputStream is = mContext.getContentResolver().openInputStream(uri);
-			OutputStream os = new FileOutputStream(file);
+			is = mContext.getContentResolver().openInputStream(uri);
+			os = new FileOutputStream(file);
 			copyFile(is, os);
 		} catch (IOException e) {
 			try {
 //				InputStream is = new FileInputStream(uri.getPath());
-				InputStream is = new FileInputStream(FileHelper.getPath(mContext, uri));
-				OutputStream os = new FileOutputStream(file);
+				is = new FileInputStream(FileHelper.getPath(mContext, uri));
+				os = new FileOutputStream(file);
 				copyFile(is, os);
-			} catch (FileNotFoundException e1) {
-				Log.e(Constants.TAG, "Error writing " + file, e1);
+			// It's a path!!
+			} catch (NullPointerException e1) {
+				try {
+					is = new FileInputStream(uri.getPath());
+					os = new FileOutputStream(file);
+					copyFile(is, os);
+				} catch (FileNotFoundException e2) {
+					Log.e(Constants.TAG, "Error writing " + file, e2);
+					file = null;
+				}
+			} catch (FileNotFoundException e2) {
+				Log.e(Constants.TAG, "Error writing " + file, e2);
 				file = null;
 			}
 		}

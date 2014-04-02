@@ -102,9 +102,11 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 				
 			
 			// The copy will be made only if it's a new attachment or if attachment directory is not yet the destination one
-			if (attachment.getId() != 0 || 
-					uri.getPath().contains(mDetailFragmentReference.get().getActivity().getExternalFilesDir(null).getAbsolutePath()))
+//			if (attachment.getId() != 0 || 
+//					uri.getPath().contains(mDetailFragmentReference.get().getActivity().getExternalFilesDir(null).getAbsolutePath())) {
+			if (!attachment.getMoveWhenNoteSaved()) {
 				break;
+			}
 			
 			String extension = "";
 			if (attachment.getMime_type().equals(Constants.MIME_TYPE_AUDIO))
