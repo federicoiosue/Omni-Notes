@@ -419,17 +419,26 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	    	// audio recording attached the case must be handled in specific way
 		    if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {
 		    	String mimeType = StorageManager.getMimeTypeInternal(mActivity, i.getType());
-		    	noteTmp.addAttachment(new Attachment(uri, mimeType));
+		    	Attachment mAttachment = new Attachment(uri, mimeType);
+		    	if (Constants.MIME_TYPE_FILES.equals(mimeType)) {
+			    	mAttachment.setName(uri.getLastPathSegment());
+		    	}
+		    	noteTmp.addAttachment(mAttachment);
 		    }
 		    
 		    // Multiple attachment data
 		    ArrayList<Uri> uris = i.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 		    if (uris != null) {
+		    	Attachment mAttachment;
 		    	for (Uri uriSingle : uris) {
 		    		String mimeGeneral = StorageManager.getMimeType(mActivity, uriSingle);
 		    		if (mimeGeneral != null) {
 		    			String mimeType = StorageManager.getMimeTypeInternal(mActivity, mimeGeneral);
-		    			noteTmp.addAttachment(new Attachment(uriSingle, mimeType));	
+		    			mAttachment = new Attachment(uriSingle, mimeType);
+				    	if (Constants.MIME_TYPE_FILES.equals(mimeType)) {
+					    	mAttachment.setName(uriSingle.getLastPathSegment());
+				    	}
+				    	noteTmp.addAttachment(mAttachment);
 		    		} else {
 		    			mActivity.showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
 		    		}

@@ -447,7 +447,7 @@ public class StorageManager {
 			} else if (mimeType.contains("video/")) {
 				mimeType = Constants.MIME_TYPE_VIDEO;
 			} else {
-				mimeType = null;
+				mimeType = Constants.MIME_TYPE_FILES;
 			}
 		}
 		return mimeType;
