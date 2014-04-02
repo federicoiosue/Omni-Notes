@@ -544,7 +544,7 @@ public class ListFragment extends Fragment implements UndoListener {
 						@Override
 						public boolean onQueryTextChange(String arg0) {
 							if (prefs.getBoolean("settings_instant_search", false)) {
-								Intent i = new Intent(mActivity, ListFragment.class);
+								Intent i = new Intent(mActivity, MainActivity.class);
 								i.setAction(Intent.ACTION_SEARCH);
 								i.putExtra(SearchManager.QUERY, arg0);
 								startActivity(i);
