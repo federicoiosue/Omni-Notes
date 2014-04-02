@@ -99,7 +99,7 @@
     </string-array>
         
     <integer-array name="text_size_offset">
-        <item >-3</item>
+        <item >-2</item>
         <item >0</item>
         <item >3</item>
     </integer-array>

@@ -22,6 +22,7 @@ import it.feio.android.omninotes.models.listeners.OnAttachingFileErrorListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.date.DateHelper;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -102,8 +104,12 @@ public class AttachmentAdapter extends BaseAdapter {
 		
 		AttachmentHolder holder;
 		if (convertView == null) {
-			holder = new AttachmentHolder();
 	    	convertView = inflater.inflate(R.layout.gridview_item, parent, false);
+
+			// Overrides font sizes with the one selected from user
+			Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS), convertView);
+
+			holder = new AttachmentHolder();
 			holder.image = (SquareImageView) convertView.findViewById(R.id.gridview_item_picture);
 			holder.text = (TextView) convertView.findViewById(R.id.gridview_item_text);
 			convertView.setTag(holder);
