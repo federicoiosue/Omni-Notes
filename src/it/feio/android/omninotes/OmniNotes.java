@@ -143,6 +143,8 @@ public class OmniNotes extends Application {
 							, DISK_CACHE_SIZE);
 				} catch (IOException e) {
 					Log.e(Constants.TAG, "Error retrieving disk cache", e);
+				} catch (NullPointerException e) {
+					Log.e(Constants.TAG, "Error retrieving disk cache", e);
 				}
 				mDiskCacheStarting = false; // Finished initialization
 				mDiskCacheLock.notifyAll(); // Wake any waiting threads
