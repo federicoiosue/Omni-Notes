@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -80,6 +81,19 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			mDetailFragmentReference.get().goHome();
 		}
 	}
+	
+	
+	/**
+	 * Cheks if activity is still alive and not finishing
+	 * @param weakDetailFragmentReference
+	 * @return True or false
+	 */
+	private boolean isAlive(WeakReference<DetailFragment> weakDetailFragmentReference) {
+		if (weakDetailFragmentReference.get() == null || weakDetailFragmentReference.get().getActivity().isFinishing()) {
+			return false;
+		}
+		return true;
+	}
 
 	
 	/**
@@ -108,6 +122,9 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 				break;
 			}
 			
+			// Avoids trying to save attachment if fragment has been removed
+			if(!isAlive(mDetailFragmentReference)) continue;
+			
 			String extension = "";
 			if (attachment.getMime_type().equals(Constants.MIME_TYPE_AUDIO))
 				extension = Constants.MIME_TYPE_AUDIO_EXT;
@@ -120,8 +137,10 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_FILES)) {
 //				extension = StorageManager.getMimeType(mDetailFragmentReference.get().getActivity(), attachment.getUri());
 //			extension = StorageManager.getRealPathFromURI(mDetailFragmentReference.get().getActivity(), attachment.getUri());
-				String path = FileHelper.getPath(mDetailFragmentReference.get().getActivity(), attachment.getUri());
-				extension = path.substring(path.lastIndexOf("."), path.length());
+				String path = FileHelper.getPath(mDetailFragmentReference.get().getActivity(), uri);
+				if (path != null) {
+					extension = path.substring(path.lastIndexOf("."), path.length());
+				}
 			}				
 				
 			destination = StorageManager.createExternalStoragePrivateFile(mDetailFragmentReference.get().getActivity(), uri, extension);

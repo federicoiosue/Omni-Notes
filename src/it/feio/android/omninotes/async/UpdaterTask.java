@@ -147,7 +147,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	/**
 	 * Cheks if activity is still alive and not finishing
 	 * @param weakActivityReference
-	 * @return
+	 * @return True or false
 	 */
 	private boolean isAlive(WeakReference<Activity> weakActivityReference) {
 		if (weakActivityReference.get() == null || weakActivityReference.get().isFinishing()) {
