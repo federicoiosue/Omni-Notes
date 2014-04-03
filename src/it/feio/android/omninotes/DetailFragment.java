@@ -23,11 +23,13 @@ import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.ImageAndTextItem;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
+import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileErrorListener;
 import it.feio.android.omninotes.models.listeners.OnSketchSavedListener;
@@ -54,6 +56,7 @@ import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -105,6 +108,7 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -1454,23 +1458,30 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 //		intent.setAction(Intent.ACTION_GET_CONTENT);
 		intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
+		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+		
+		ArrayList<ImageAndTextItem> options = new ArrayList<ImageAndTextItem>();
+		options.add(new ImageAndTextItem(R.drawable.ic_photo_dark, getString(R.string.image)) );
+		options.add(new ImageAndTextItem(R.drawable.ic_action_video, getString(R.string.video)) );
+		
 		alertDialogBuilder
-				.setPositiveButton(getString(R.string.video), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						intent.setType("video/*");
-//						intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
-//					            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-						startActivityForResult(intent, GALLERY);
-					}
-				}).setNegativeButton(getString(R.string.image), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						intent.setType("image/*");
-//						intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
-//					            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-						startActivityForResult(intent, GALLERY);
-					}
-				});
+		.setAdapter(new ImageAndTextAdapter(mActivity, options), new DialogInterface.OnClickListener() {			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				switch (which) {
+				case 0:
+					intent.setType("image/*");
+					startActivityForResult(intent, GALLERY);
+					break;
+				case 1:
+					intent.setType("video/*");
+					startActivityForResult(intent, GALLERY);
+					break;
+				}				
+			}
+		});
+		
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
 	}	

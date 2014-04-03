@@ -16,12 +16,15 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.models.ImageAndTextItem;
+import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -516,21 +519,31 @@ public class SettingsActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-				// set dialog message
+				
+				ArrayList<ImageAndTextItem> options = new ArrayList<ImageAndTextItem>();
+				options.add(new ImageAndTextItem(R.drawable.ic_paypal, getString(R.string.paypal)) );
+				options.add(new ImageAndTextItem(R.drawable.ic_bitcoin, getString(R.string.bitcoin)) );
+				
 				alertDialogBuilder
-						.setPositiveButton(getString(R.string.paypal), new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								Intent intent = new Intent(Intent.ACTION_VIEW);
-								intent.setData(Uri.parse(getString(R.string.paypal_url)));
-								startActivity(intent);
-							}
-						}).setNegativeButton(getString(R.string.bitcoin), new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								Intent intent = new Intent(Intent.ACTION_VIEW);
-								intent.setData(Uri.parse(getString(R.string.bitcoin_url)));
-								startActivity(intent);
-							}
-						});
+				.setAdapter(new ImageAndTextAdapter(activity, options), new DialogInterface.OnClickListener() {			
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+						case 0:
+							Intent intentPaypal = new Intent(Intent.ACTION_VIEW);
+							intentPaypal.setData(Uri.parse(getString(R.string.paypal_url)));
+							startActivity(intentPaypal);
+							break;
+						case 1:
+							Intent intentBitcoin = new Intent(Intent.ACTION_VIEW);
+							intentBitcoin.setData(Uri.parse(getString(R.string.bitcoin_url)));
+							startActivity(intentBitcoin);
+							break;
+						}				
+					}
+				});
+				
+				
 				// create alert dialog
 				AlertDialog alertDialog = alertDialogBuilder.create();
 				// show it
