@@ -365,7 +365,8 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 
 		// Displaying the popup at the specified location, + offsets (transformed 
 		// dp to pixel to support multiple screen sizes)
-		popup.showAsDropDown(anchor, 0, DensityUtil.convertDpToPixel(isErasing ? -120 : -390, mActivity));
+//		popup.showAsDropDown(anchor, 0, DensityUtil.convertDpToPixel(isErasing ? -120 : -390, mActivity));
+		popup.showAsDropDown(anchor, 0, 0);
 		
 		// Stroke size seekbar initialization and event managing
 		SeekBar mSeekBar;
