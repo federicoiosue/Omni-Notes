@@ -1454,7 +1454,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 	
 	private void takePhoto() {
-		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_IMAGE_EXT));		
+		File f = StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_IMAGE_EXT);
+		if (f == null) {
+			Crouton.makeText(mActivity, R.string.error, ONStyle.ALERT).show();
+			return;
+		}
+		attachmentUri = Uri.fromFile(f);		
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		startActivityForResult(intent, TAKE_PHOTO);
@@ -1469,7 +1474,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		}		
 		// File is stored in custom ON folder to speedup the attachment 
 		if(Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-			attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_VIDEO_EXT));
+			File f = StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_VIDEO_EXT);
+			if (f == null) {
+				Crouton.makeText(mActivity, R.string.error, ONStyle.ALERT).show();
+				return;
+			}
+			attachmentUri = Uri.fromFile(f);	
 			takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		}
 		String maxVideoSizeStr = "".equals(prefs.getString("settings_max_video_size", "")) ? "0" : prefs.getString("settings_max_video_size", "");
@@ -1480,7 +1490,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 	
 	private void takeSketch(Attachment attachment) {
-		attachmentUri = Uri.fromFile(StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_SKETCH_EXT));	
+		File f = StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_SKETCH_EXT);
+		if (f == null) {
+			Crouton.makeText(mActivity, R.string.error, ONStyle.ALERT).show();
+			return;
+		}
+		attachmentUri = Uri.fromFile(f);	
 		Intent intent = new Intent(mActivity, SketchActivity.class);		
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		// An already prepared attachment is going to be sketched
@@ -1963,7 +1978,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	}
 
 	private void startRecording() {
-		recordName = StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_AUDIO_EXT).getAbsolutePath();
+		File f = StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_AUDIO_EXT);
+		if (f == null) {
+			Crouton.makeText(mActivity, R.string.error, ONStyle.ALERT).show();
+			return;
+		}
+		recordName = f.getAbsolutePath();
 		mRecorder = new MediaRecorder();
 		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);

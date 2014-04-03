@@ -238,11 +238,14 @@ public class StorageManager {
 	
 	
 	public static File createNewAttachmentFile(Context mContext, String extension){
-		Calendar now = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
-		String name = sdf.format(now.getTime());
-		name += extension != null ? extension : "";
-		File f = new File(mContext.getExternalFilesDir(null), name);
+		File f = null;
+		if (checkStorage()) {
+			Calendar now = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
+			String name = sdf.format(now.getTime());
+			name += extension != null ? extension : "";
+			f = new File(mContext.getExternalFilesDir(null), name);
+		}
 		return f;
 	}
 	
