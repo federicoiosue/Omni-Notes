@@ -94,8 +94,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public DbHelper(Context ctx) {
 		super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
 		this.ctx = ctx;
-		this.prefs = PreferenceManager
-				.getDefaultSharedPreferences(ctx);
+		this.prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, ctx.MODE_MULTI_PROCESS);
 	}
 	
 	public String getDatabaseName() {

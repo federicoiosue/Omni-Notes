@@ -72,8 +72,9 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
 	@Override
 	public void onDestroy() {
-		PreferenceManager
-				.getDefaultSharedPreferences(app)
+//		PreferenceManager
+//		.getDefaultSharedPreferences(app)
+		app.getSharedPreferences(Constants.PREFS_NAME, app.MODE_MULTI_PROCESS)
 				.edit()
 				.remove(Constants.PREF_WIDGET_PREFIX
 						+ String.valueOf(appWidgetId)).commit();
@@ -153,13 +154,8 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
 	public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition, boolean thumbnails) {
 		Log.d(Constants.TAG, "Widget configuration updated");
-		PreferenceManager
-				.getDefaultSharedPreferences(mContext)
-				.edit()
-				.putString(
-						Constants.PREF_WIDGET_PREFIX
-								+ String.valueOf(mAppWidgetId), sqlCondition)
-				.commit();
+		mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS).edit()
+				.putString(Constants.PREF_WIDGET_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).commit();
 		showThumbnails = thumbnails;
 	}
 	

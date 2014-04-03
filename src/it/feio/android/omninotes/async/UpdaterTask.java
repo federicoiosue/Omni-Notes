@@ -38,7 +38,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -75,8 +74,10 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			promptUpdate = isVersionUpdated(json.getString("softwareVersion"));
 
 			// Getting from preferences last update check
-			SharedPreferences prefs = PreferenceManager
-					.getDefaultSharedPreferences(mActivity.get());
+			if (!isAlive(mActivity)) {
+				return null;
+			}
+			SharedPreferences prefs = mActivity.get().getSharedPreferences(Constants.PREFS_NAME, mActivity.get().MODE_MULTI_PROCESS);
 
 			long now = System.currentTimeMillis();
 			if (promptUpdate
@@ -136,15 +137,23 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	
 	@Override
 	protected void onPostExecute(Void result) {	
-				
-		// Check if activity is still finishing
-		if (mActivity.get() == null || mActivity.get().isFinishing()) {
-			return;
-		}
 		
-		if (promptUpdate) {
+		if (isAlive(mActivity) && promptUpdate) {
 			promptUpdate();
 		}
+	}
+	
+	
+	/**
+	 * Cheks if activity is still alive and not finishing
+	 * @param weakActivityReference
+	 * @return
+	 */
+	private boolean isAlive(WeakReference<Activity> weakActivityReference) {
+		if (weakActivityReference.get() == null || weakActivityReference.get().isFinishing()) {
+			return false;
+		}
+		return true;
 	}
 
 	

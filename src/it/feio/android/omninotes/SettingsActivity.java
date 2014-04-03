@@ -177,7 +177,7 @@ public class SettingsActivity extends PreferenceActivity {
 								String sizeString = size > 1024 ? size/1024 + "Mb" : size + "Kb";
 								
 								// Check preference presence
-								String prefName = StorageManager.getDefaultSharedPreferences(activity).getName();
+								String prefName = StorageManager.getSharedPreferencesFile(activity).getName();
 								boolean hasPreferences = (new File(backupDir, prefName)).exists();
 								
 								String message = getString(R.string.confirm_restoring_backup) + " " 

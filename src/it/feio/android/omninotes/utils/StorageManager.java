@@ -313,7 +313,7 @@ public class StorageManager {
 	}
 	
 	
-	public static File getDefaultSharedPreferences(Context mContext){
+	public static File getSharedPreferencesFile(Context mContext){
 		File appData = mContext.getFilesDir().getParentFile();
 		String packageName = mContext.getApplicationContext().getPackageName();
 		File prefsPath = new File(appData 

@@ -212,7 +212,7 @@ public class DataBackupIntentService extends IntentService {
 	 * @return
 	 */
 	private boolean exportSettings(File backupDir) {
-		File preferences = StorageManager.getDefaultSharedPreferences(this);
+		File preferences = StorageManager.getSharedPreferencesFile(this);
 		return (StorageManager.copyFile(preferences, new File(backupDir, preferences.getName())) );
 	}
 
@@ -223,21 +223,11 @@ public class DataBackupIntentService extends IntentService {
 	 * @return
 	 */
 	private boolean importSettings(File backupDir) {
-		File preferences = StorageManager.getDefaultSharedPreferences(this);
+		File preferences = StorageManager.getSharedPreferencesFile(this);
 		File preferenceBackup = new File(backupDir, preferences.getName());
 		return (StorageManager.copyFile(preferenceBackup, preferences));
 	}
-//	/**
-//	 * Imports settings 
-//	 * @param backupDir
-//	 * @return
-//	 */
-//	private boolean importSettings(File backupDir) {
-//		boolean res = true;
-//		File preferenceBackup = new File(backupDir, StorageManager.getDefaultSharedPreferences(this).getName());
-//		
-//		return res;
-//	}
+	
 
 	
 	/**
