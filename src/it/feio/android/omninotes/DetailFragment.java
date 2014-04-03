@@ -81,9 +81,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.ShareActionProvider;
@@ -206,6 +208,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private long startAudioRecordingTime;
 	private long audioRecordingTimeStart;
 	private long audioRecordingTime;
+	private boolean showKeyboard;
 
 
 	@Override
@@ -224,7 +227,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
+//		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
         return inflater.inflate(R.layout.fragment_detail, container, false);
 	}
 	
@@ -261,6 +264,17 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		
 	    if (mShareActionProvider != null) {
 	    	updateShareIntent();
+	    }
+	    
+	    if (showKeyboard) {
+	    	// Navigation drawer is closed after a while to avoid lag
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+			        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+				}
+			}, 700);
 	    }
 	}
 	
@@ -495,8 +509,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		if (note.get_id() == 0 && !noteTmp.isChanged(note)) {			
 			// Force focus and shows soft keyboard
 			content.requestFocus();
-			InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-	        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+//			InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+//	        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+			showKeyboard = true;
 		}
 
 		// Restore checklist
