@@ -26,6 +26,7 @@ import java.util.Arrays;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,11 +85,13 @@ public class NavDrawerAdapter extends BaseAdapter {
 	    holder.txtTitle.setText(mTitle[position].toString());
 		
 		if (isSelected(parent, position)) {
-			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
-					R.color.drawer_text_selected));
+//			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
+//					R.color.drawer_text_selected));
+			holder.txtTitle.setTypeface(null,Typeface.BOLD);
 		} else {
-			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
-					R.color.actionbar_title_text));
+//			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
+//					R.color.actionbar_title_text));
+			holder.txtTitle.setTypeface(null,Typeface.NORMAL);
 		}
 
 		// Set the results into ImageView checking if an icon is present before

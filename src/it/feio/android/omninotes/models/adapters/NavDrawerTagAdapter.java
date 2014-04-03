@@ -30,6 +30,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -97,12 +98,14 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 		// Set the results into TextViews	
 	    holder.txtTitle.setText(tag.getName());
 		
-		if (isSelected(parent, position)) {
-			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
-					R.color.drawer_text_selected));
+	    if (isSelected(parent, position)) {
+//			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
+//					R.color.drawer_text_selected));
+			holder.txtTitle.setTypeface(null,Typeface.BOLD);
 		} else {
-			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
-					R.color.actionbar_title_text));
+//			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
+//					R.color.actionbar_title_text));
+			holder.txtTitle.setTypeface(null,Typeface.NORMAL);
 		}
 
 		// Set the results into ImageView checking if an icon is present before
