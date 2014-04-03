@@ -115,6 +115,11 @@ public class ListFragment extends Fragment implements UndoListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mActivity = (MainActivity) getActivity();		
+		prefs = mActivity.prefs;
+		db = mActivity.db;
+		
 		setHasOptionsMenu(true);
 		setRetainInstance(false);
 	}
@@ -135,8 +140,6 @@ public class ListFragment extends Fragment implements UndoListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		mActivity = (MainActivity) getActivity();
 		
 		// Show the Up button in the action bar.
 //		if (mActivity.getSupportActionBar() != null) {
@@ -144,9 +147,6 @@ public class ListFragment extends Fragment implements UndoListener {
 //			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
 //			mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 //		}
-		
-		prefs = mActivity.prefs;
-		db = mActivity.db;
 
 		// Restores savedInstanceState
 		if (savedInstanceState != null) {
@@ -445,6 +445,10 @@ public class ListFragment extends Fragment implements UndoListener {
 
 		inflater.inflate(R.menu.menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
+		
+//		if (mActivity == null) {
+//			mActivity = (MainActivity)getActivity();
+//		}
 
 		// Setting the conditions to show determinate items in CAB
 		// If the nav drawer is open, hide action items related to the content

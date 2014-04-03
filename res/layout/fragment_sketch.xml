@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true" >
+    android:fitsSystemWindows="false"
+    android:clipToPadding="false" >
 
     <LinearLayout
         android:id="@+id/drawing_question"
@@ -25,7 +26,6 @@
             android:id="@+id/eraserView"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/gray_bg"
             android:orientation="horizontal"
             android:padding="4dp" >
 

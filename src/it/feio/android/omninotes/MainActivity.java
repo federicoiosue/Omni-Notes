@@ -22,6 +22,7 @@ public class MainActivity extends BaseActivity {
 	public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
 	public final String FRAGMENT_LIST_TAG = "fragment_list";
 	public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
+	public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
 
 	/**
 	 * Used to store the last screen title. For use in
@@ -129,13 +130,32 @@ public class MainActivity extends BaseActivity {
 	}
 	
 	
+	/*
+	 * (non-Javadoc)
+	 * @see android.support.v7.app.ActionBarActivity#onBackPressed()
+	 * 
+	 * Overrides the onBackPressed behavior for the attached fragments
+	 */
 	public void onBackPressed() {
-		Fragment f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
+
+		Fragment f;
+		
+		// SketchFragment
+		f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
+		if (f != null) {
+//			((SketchFragment)f).save();
+			mFragmentManager.popBackStack(); 
+			return;
+		} 
+		
+		// DetailFragment
+		f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
 		if (f != null) {
 			((DetailFragment)f).saveNote(null);	
 			return;
 		} 
-		
+
+		// ListFragment
 		f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
 			// Before exiting from app the navigation drawer is opened
@@ -149,6 +169,7 @@ public class MainActivity extends BaseActivity {
 		super.onBackPressed();
 	}
 
+	
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {

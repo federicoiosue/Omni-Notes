@@ -20,28 +20,28 @@
     android:id="@+id/detail_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:focusableInTouchMode="true"
-    android:orientation="vertical"
-        android:animateLayoutChanges="true" >
+    android:orientation="vertical" >
 
     <LinearLayout
-            android:id="@+id/detail_wrapper"
+        android:id="@+id/detail_wrapper"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:animateLayoutChanges="true"
         android:background="@color/gray_bg"
         android:orientation="vertical"
         android:paddingLeft="@dimen/padding_half"
-        android:paddingRight="@dimen/padding_half"
-        android:animateLayoutChanges="true"  >
+        android:paddingRight="@dimen/padding_half" >
 
         <LinearLayout
             android:id="@+id/detail_tile_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
             android:background="@drawable/bg_card"
-            android:paddingBottom="2dp"
-            android:layout_marginBottom="6dp" >
+            android:paddingBottom="2dp" >
 
             <LinearLayout
                 android:id="@+id/title_wrapper"
@@ -202,10 +202,10 @@
         </LinearLayout>
     </LinearLayout>
 
-<!--     <View -->
-<!--         android:id="@+id/keyboard_placeholder" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="0dp" > -->
-<!--     </View> -->
+    <!-- <View -->
+    <!-- android:id="@+id/keyboard_placeholder" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="0dp" > -->
+    <!-- </View> -->
 
 </LinearLayout>

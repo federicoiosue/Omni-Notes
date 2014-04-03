@@ -30,6 +30,7 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileErrorListener;
+import it.feio.android.omninotes.models.listeners.OnSketchSavedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
@@ -139,7 +140,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  * a {@link ItemDetailFragment}.
  */
 public class DetailFragment extends Fragment implements OnDateSetListener,
-OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener, OnTouchListener, OnGlobalLayoutListener {
+OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener, OnTouchListener, OnGlobalLayoutListener, OnSketchSavedListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -210,6 +211,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		mActivity = (MainActivity) getActivity();			
+		prefs = mActivity.prefs;
+		db = mActivity.db;
+		
+		init();
+		
 		setHasOptionsMenu(true);
 		setRetainInstance(false);
 	}
@@ -223,11 +231,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		mActivity = (MainActivity) getActivity();	
-		
-		prefs = mActivity.prefs;
-		db = mActivity.db;
 		
 		// Show the Up button in the action bar.
 		if (mActivity.getSupportActionBar() != null) {
@@ -254,7 +257,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			orientationChanged = savedInstanceState.getBoolean("orientationChanged");
 		}
 		
-		init();
+		initViews();
+		
+	    if (mShareActionProvider != null) {
+	    	updateShareIntent();
+	    }
 	}
 	
 	
@@ -297,8 +304,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void init() {
 
 		// Handling of Intent actions
-		handleIntents();
 		
+		handleIntents();
 //		note = (Note) mActivity.getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
 		if (note == null) {
 			note = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);
@@ -317,7 +324,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		initNote();
 
 		// Views initialization
-		initViews();
+//		initViews();
 	}
 
 	
@@ -560,7 +567,22 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				return true;
 			}
 		});
+
 		
+
+		// Some fields can be filled by third party application and are always
+		// shown
+		mGridView = (ExpandableHeightGridView) getView().findViewById(R.id.gridview);
+		mAttachmentAdapter = new AttachmentAdapter((Activity)mActivity, noteTmp.getAttachmentsList(), mGridView);
+		mAttachmentAdapter.setOnErrorListener(new OnAttachingFileErrorListener() {			
+			@Override
+			public void onAttachingFileErrorOccurred(Attachment mAttachment) {
+				Crouton.makeText(mActivity, R.string.error_saving_attachments, ONStyle.ALERT).show();
+				noteTmp.getAttachmentsList().remove(mAttachment);
+				mAttachmentAdapter.notifyDataSetChanged();
+				mGridView.autoresize();
+			}
+		});
 
 		// Initialzation of gridview for images
 		mGridView.setAdapter(mAttachmentAdapter);
@@ -865,21 +887,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 //			mActivity.currentLatitude = noteTmp.getLatitude() != null ? noteTmp.getLatitude() : null ;
 //			mActivity.currentLongitude = noteTmp.getLongitude() != null ? noteTmp.getLatitude() : null;
 //		}
-		
-
-		// Some fields can be filled by third party application and are always
-		// shown
-		mGridView = (ExpandableHeightGridView) getView().findViewById(R.id.gridview);
-		mAttachmentAdapter = new AttachmentAdapter((Activity)mActivity, noteTmp.getAttachmentsList(), mGridView);
-		mAttachmentAdapter.setOnErrorListener(new OnAttachingFileErrorListener() {			
-			@Override
-			public void onAttachingFileErrorOccurred(Attachment mAttachment) {
-				Crouton.makeText(mActivity, R.string.error_saving_attachments, ONStyle.ALERT).show();
-				noteTmp.getAttachmentsList().remove(mAttachment);
-				mAttachmentAdapter.notifyDataSetChanged();
-				mGridView.autoresize();
-			}
-		});
 	}
 
 	
@@ -965,9 +972,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	    MenuItem item = menu.findItem(R.id.menu_share);
 	    // Fetch and store ShareActionProvider
 	    mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-	    if (mShareActionProvider != null) {
-	    	updateShareIntent();
-	    }
 	    
 	    // Show instructions on first launch
 	    final String instructionName = Constants.PREF_TOUR_PREFIX + "detail";
@@ -1496,14 +1500,27 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			return;
 		}
 		attachmentUri = Uri.fromFile(f);	
-		Intent intent = new Intent(mActivity, SketchActivity.class);		
-		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
+//		Intent intent = new Intent(mActivity, SketchActivity.class);		
+//		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		// An already prepared attachment is going to be sketched
-		if (attachment != null) {
-			intent.putExtra("base", attachment.getUri());
-		}
-		startActivityForResult(intent, SKETCH);
+//		if (attachment != null) {
+//			intent.putExtra("base", attachment.getUri());
+//		}
+//		startActivityForResult(intent, SKETCH);
 //		mActivity.animateTransition(mActivity.TRANSITION_FORWARD);
+		
+		// Fragments replacing
+		FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
+		mActivity.animateTransition(transaction, mActivity.TRANSITION_HORIZONTAL);
+		SketchFragment mSketchFragment = new SketchFragment();
+		Bundle b = new Bundle();
+		b.putParcelable(MediaStore.EXTRA_OUTPUT, attachmentUri);
+		if (attachment != null) {
+			b.putParcelable("base", attachment.getUri());
+		}
+		mSketchFragment.setArguments(b);
+		transaction.replace(R.id.fragment_container, mSketchFragment, mActivity.FRAGMENT_SKETCH_TAG).addToBackStack(mActivity.FRAGMENT_DETAIL_TAG).commit();
+//		mActivity.getDrawerToggle().setDrawerIndicatorEnabled(false);
 	}
 
 	
@@ -1620,7 +1637,16 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			updateShareIntent();
 		}
 	}
-	
+
+
+	@Override
+	public void onSketchSaved(Uri attachmentUri) {
+		Attachment attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_SKETCH);
+		attachment.setMoveWhenNoteSaved(false);
+		noteTmp.getAttachmentsList().add(attachment);
+		mAttachmentAdapter.notifyDataSetChanged();
+		mGridView.autoresize();
+	}
 	
 		
 	/**
