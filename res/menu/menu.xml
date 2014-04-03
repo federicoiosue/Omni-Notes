@@ -32,15 +32,15 @@
         app:showAsAction="always"
         android:title="@string/add_note"
         android:visible="false"/>
-    <item
-        android:id="@+id/menu_share"
-        android:icon="@drawable/ic_action_share"
-        android:orderInCategory="200"
-        app:showAsAction="always"
-        android:title="@string/share"
-        android:visible="false"
-        app:actionProviderClass=
-            "android.support.v7.widget.ShareActionProvider"/>
+<!--     <item -->
+<!--         android:id="@+id/menu_share" -->
+<!--         android:icon="@drawable/ic_action_share" -->
+<!--         android:orderInCategory="200" -->
+<!--         app:showAsAction="always" -->
+<!--         android:title="@string/share" -->
+<!--         android:visible="false" -->
+<!--         app:actionProviderClass= -->
+<!--             "android.support.v7.widget.ShareActionProvider"/> -->
     <item
         android:id="@+id/menu_attachment"
         android:icon="@drawable/ic_action_attachment"
@@ -55,6 +55,13 @@
         app:showAsAction="always"
         android:title="@string/tag"
         android:visible="false"/>
+    <item
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ic_action_share"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom"
+        android:title="@string/share"
+        android:visible="false" />
     <item
         android:id="@+id/menu_archive"
         android:icon="@drawable/ic_archive_dark"

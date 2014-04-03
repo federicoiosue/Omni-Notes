@@ -154,8 +154,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private static final int DETAIL = 8;
 	private static final int FILES = 9;
 
+	private static final int SHARED_INTENT_ALL = 101;
+	private static final int SHARED_INTENT_TITLE = 102;
+	private static final int SHARED_INTENT_CONTENT = 103;
+	private static final int SHARED_INTENT_ATTACHMENT = 104;
+
 	private MainActivity mActivity;
-	private ShareActionProvider mShareActionProvider;
+//	private ShareActionProvider mShareActionProvider;
 	private LinearLayout reminder_layout;
 	private TextView datetime;	
 	private Uri attachmentUri;
@@ -262,12 +267,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		
 		initViews();
 		
-	    if (mShareActionProvider != null) {
-	    	updateShareIntent();
-	    }
+//	    if (mShareActionProvider != null) {
+//	    	updateShareIntent();
+//	    }
 	    
 	    if (showKeyboard) {
-	    	// Navigation drawer is closed after a while to avoid lag
+	    	// Delayed keyboard appearance
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -317,11 +322,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 	private void init() {
 
-		// Handling of Intent actions
-		
+		// Handling of Intent actions		
 		handleIntents();
-//		note = (Note) mActivity.getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
+		
 		if (note == null) {
+//			note = (Note) mActivity.getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
 			note = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);
 		}
 		if (noteTmp == null) {
@@ -336,9 +341,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 		// Note initialization
 		initNote();
-
-		// Views initialization
-//		initViews();
 	}
 
 	
@@ -986,7 +988,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		// Locate MenuItem with ShareActionProvider
 	    MenuItem item = menu.findItem(R.id.menu_share);
 	    // Fetch and store ShareActionProvider
-	    mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+//	    mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 	    
 	    // Show instructions on first launch
 	    final String instructionName = Constants.PREF_TOUR_PREFIX + "detail";
@@ -1088,6 +1090,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			break;
 		case R.id.menu_unarchive:
 			saveNote(false);
+			break;
+		case R.id.menu_share:
+			shareNote();
 			break;
 		case R.id.menu_attachment:
 			showPopup(mActivity.findViewById(R.id.menu_attachment));
@@ -1410,7 +1415,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();					
 					// Updates sharing intent after attachment insertion
-					updateShareIntent();
+//					updateShareIntent();
 					attachmentDialog.dismiss();
 				}
 				break;
@@ -1649,7 +1654,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			}
 			
 			// Updates sharing intent after attachment insertion
-			updateShareIntent();
+//			updateShareIntent();
 		}
 	}
 
@@ -1822,32 +1827,170 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	/**
 	 * Updates share intent 
 	 */
-	private void updateShareIntent() {
+//	private void updateShareIntent() {
+//		
+//		if (mShareActionProvider == null) return;
+//		
+//		// Changed fields
+//		String title = getNoteTitle();		
+//		String content = title + System.getProperty("line.separator") + getNoteContent();
+//
+//		// Definition of shared content
+//		String text = content + System.getProperty("line.separator")
+//				+ System.getProperty("line.separator") + getResources().getString(R.string.shared_content_sign);
+//		
+//		// Prepare sharing intent with only text
+//		if (noteTmp.getAttachmentsList().size() == 0) {
+//			shareIntent.setAction(Intent.ACTION_SEND);
+//			shareIntent.setType("text/plain");
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+//
+//			// Intent with single image attachment
+//		} else if (noteTmp.getAttachmentsList().size() == 1) {
+//			shareIntent.setAction(Intent.ACTION_SEND);
+//			shareIntent.setType(noteTmp.getAttachmentsList().get(0).getMime_type());
+//			shareIntent.putExtra(Intent.EXTRA_STREAM, noteTmp.getAttachmentsList().get(0).getUri());
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+//
+//			// Intent with multiple images
+//		} else if (noteTmp.getAttachmentsList().size() > 1) {
+//			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+//			ArrayList<Uri> uris = new ArrayList<Uri>();
+//			// A check to decide the mime type of attachments to share is done here
+//			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
+//			for (Attachment attachment : noteTmp.getAttachmentsList()) {
+//				uris.add(attachment.getUri());
+//				mimeTypes.put(attachment.getMime_type(), true);
+//			}
+//			// If many mime types are present a general type is assigned to intent
+//			if (mimeTypes.size() > 1) {
+//				shareIntent.setType("*/*");
+//			} else {
+//				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
+//			}
+//			
+//			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+//		}
+//
+//	      mShareActionProvider.setShareIntent(shareIntent);
+//	}
+	
+	/**
+	 * Updates share intent 
+	 */
+//	private void updateShareIntent(int whatIsChanged) {
+//		
+//		if (mShareActionProvider == null) return;
+//		
+//		switch (whatIsChanged) {
+//		case SHARED_INTENT_ALL:
+//			
+//			break;
+//			
+//		case SHARED_INTENT_TITLE:
+//			sharedIntentTitle = getNoteTitle();	
+//			break;
+//			
+//		case SHARED_INTENT_CONTENT:
+//			sharedIntentContent = title + System.getProperty("line.separator")
+//					+ getNoteContent() + System.getProperty("line.separator")
+//					+ System.getProperty("line.separator")
+//					+ getResources().getString(R.string.shared_content_sign);
+//			;
+//			break;
+//			
+//		case SHARED_INTENT_ATTACHMENT:
+//			sharedIntentContent = title + System.getProperty("line.separator") + getNoteContent();
+//			break;
+//
+//		}
+//		
+//
+//		
+//		// Prepare sharing intent with only text
+//		if (noteTmp.getAttachmentsList().size() == 0) {
+//			shareIntent.setAction(Intent.ACTION_SEND);
+//			shareIntent.setType("text/plain");
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, sharedIntentTitle);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, sharedIntentContent);
+//
+//			// Intent with single image attachment
+//		} else if (noteTmp.getAttachmentsList().size() == 1) {
+//			shareIntent.setAction(Intent.ACTION_SEND);
+//			shareIntent.setType(noteTmp.getAttachmentsList().get(0).getMime_type());
+//			shareIntent.putExtra(Intent.EXTRA_STREAM, noteTmp.getAttachmentsList().get(0).getUri());
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, sharedIntentTitle);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, sharedIntentContent);
+//
+//			// Intent with multiple images
+//		} else if (noteTmp.getAttachmentsList().size() > 1) {
+//			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+//			ArrayList<Uri> uris = new ArrayList<Uri>();
+//			// A check to decide the mime type of attachments to share is done here
+//			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
+//			for (Attachment attachment : noteTmp.getAttachmentsList()) {
+//				uris.add(attachment.getUri());
+//				mimeTypes.put(attachment.getMime_type(), true);
+//			}
+//			// If many mime types are present a general type is assigned to intent
+//			if (mimeTypes.size() > 1) {
+//				shareIntent.setType("*/*");
+//			} else {
+//				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
+//			}
+//			
+//			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, sharedIntentTitle);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, sharedIntentContent);
+//		}
+//
+//	      mShareActionProvider.setShareIntent(shareIntent);
+//	}
+	
+	
+	/**
+	 * Notes sharing
+	 */
+	private void shareNote() {
 		
-		if (mShareActionProvider == null) return;
+		String titleText = ((EditText) mActivity.findViewById(R.id.title)).getText().toString();
 		
-		// Changed fields
-		String title = getNoteTitle();		
-		String content = title + System.getProperty("line.separator") + getNoteContent();
+		String contentText = titleText 
+								+ System.getProperty("line.separator")
+								+ getNoteContent() 
+								+ System.getProperty("line.separator")
+								+ System.getProperty("line.separator")
+								+ getResources().getString(R.string.shared_content_sign);
+		
+		
+//		// Check if some text has ben inserted or is an empty note
+//		if ((title + content).length() == 0 && attachmentsList.size() == 0) {
+//			Log.d(Constants.TAG, "Empty note not shared");
+////			showToast(getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT);
+//			Crouton.makeText(this, R.string.empty_note_not_shared, ONStyle.INFO).show();
+//			return;
+//		}
 
-		// Definition of shared content
-		String text = content + System.getProperty("line.separator")
-				+ System.getProperty("line.separator") + getResources().getString(R.string.shared_content_sign);
-		
+
+		Intent shareIntent = new Intent();
 		// Prepare sharing intent with only text
 		if (noteTmp.getAttachmentsList().size() == 0) {
 			shareIntent.setAction(Intent.ACTION_SEND);
 			shareIntent.setType("text/plain");
-			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
+			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 
 			// Intent with single image attachment
 		} else if (noteTmp.getAttachmentsList().size() == 1) {
 			shareIntent.setAction(Intent.ACTION_SEND);
 			shareIntent.setType(noteTmp.getAttachmentsList().get(0).getMime_type());
 			shareIntent.putExtra(Intent.EXTRA_STREAM, noteTmp.getAttachmentsList().get(0).getUri());
-			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
+			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 
 			// Intent with multiple images
 		} else if (noteTmp.getAttachmentsList().size() > 1) {
@@ -1867,11 +2010,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			}
 			
 			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
+			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 		}
 
-	      mShareActionProvider.setShareIntent(shareIntent);
+		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
 	}
 	
 	
@@ -2091,12 +2234,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		updateShareIntent();
+//		updateShareIntent();
 	}
 
 	@Override
 	public void onCheckListChanged() {
-		updateShareIntent();
+//		updateShareIntent();
 	}
 	
 	
