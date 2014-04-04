@@ -16,6 +16,7 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.async.DeleteNoteTask;
+import it.feio.android.omninotes.async.NoteLoaderTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
@@ -25,8 +26,10 @@ import it.feio.android.omninotes.models.UndoBarController;
 import it.feio.android.omninotes.models.UndoBarController.UndoListener;
 import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
+import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
+import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
@@ -88,7 +91,7 @@ import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
-public class ListFragment extends Fragment implements UndoListener {
+public class ListFragment extends Fragment implements UndoListener, OnNotesLoadedListener {
 
 	static final int REQUEST_CODE_DETAIL = 1;
 	private static final int REQUEST_CODE_TAG = 2;
@@ -780,19 +783,112 @@ public class ListFragment extends Fragment implements UndoListener {
 
 	
 	
+//	/**
+//	 * Notes list adapter initialization and association to view
+//	 */
+//	void initNotesList(Intent intent) {
+//
+//		Log.v(Constants.TAG, "initNotesList: intent action " + intent.getAction());
+//
+//		List<Note> notes;
+//		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+//			notes = handleIntent(intent);
+//			intent.setAction(null);
+//		} else {
+//			DbHelper db = new DbHelper(mActivity.getApplicationContext());
+//			// Check if is launched from a widget with tags to set tag
+//			if ((Constants.ACTION_WIDGET_SHOW_LIST.equals(intent.getAction()) && intent.hasExtra(Constants.INTENT_WIDGET)) 
+//					|| !TextUtils.isEmpty(mActivity.navigationTmp)) {
+//				String widgetId = intent.hasExtra(Constants.INTENT_WIDGET) ? intent.getExtras()
+//						.get(Constants.INTENT_WIDGET).toString() : null;
+//				if (widgetId != null) {
+//					String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
+//					String pattern = DbHelper.KEY_TAG + " = ";
+//					if (sqlCondition.lastIndexOf(pattern) != -1) {
+//						String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length())
+//								.trim();
+//						mActivity.navigationTmp = !TextUtils.isEmpty(tagId) ? tagId : null;
+//					}
+//				}
+//				notes = db.getNotesWithTag(mActivity.navigationTmp);
+//				intent.removeExtra(Constants.INTENT_WIDGET);
+//
+//			} else {
+//				notes = db.getAllNotes(true);
+//			}
+//		}
+//		int layout = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
+//				: R.layout.note_layout;
+//		mAdapter = new NoteAdapter(mActivity, layout, notes);
+//
+//		// if (prefs.getBoolean("settings_enable_animations", true) &&
+//		// showListAnimation) {
+//		// SwingBottomInAnimationAdapter swingInAnimationAdapter = new
+//		// SwingBottomInAnimationAdapter(mAdapter);
+//		// // Assign the ListView to the AnimationAdapter and vice versa
+//		// swingInAnimationAdapter.setAbsListView(listView);
+//		// listView.setAdapter(swingInAnimationAdapter);
+//		// showListAnimation = false;
+//		// } else {
+//		// listView.setAdapter(mAdapter);
+//		// }
+//
+//		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter, new OnDismissCallback() {
+//			@Override
+//			public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
+//				for (int position : reverseSortedPositions) {
+//					Note note = mAdapter.getItem(position);
+//					selectedNotes.add(note);
+//					mAdapter.remove(note);
+//					listView.invalidateViews();
+//
+//					// Advice to user
+//					Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
+//
+//					// Creation of undo bar
+//					ubc.showUndoBar(false, getString(R.string.note_deleted), null);
+//					undoDelete = true;
+//				}
+//			}
+//		});
+//		adapter.setAbsListView(listView);
+//		listView.setAdapter(adapter);
+//
+//		// Replace listview with Mr. Jingles if it is empty
+//		if (notes.size() == 0)
+//			listView.setEmptyView(getView().findViewById(R.id.empty_list));
+//
+//		// Restores listview position when turning back to list
+//		if (listView != null && notes.size() > 0) {
+//			if (listView.getCount() > listViewPosition) {
+//				listView.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+//			} else {
+//				listView.setSelectionFromTop(0, 0);
+//			}
+//		}
+//		
+//		// Fade in the list view
+//		animate(listView).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+//	}
+
+	
+	
 	/**
 	 * Notes list adapter initialization and association to view
 	 */
 	void initNotesList(Intent intent) {
-
-		Log.v(Constants.TAG, "initNotesList: intent action " + intent.getAction());
-
+		
+//		AlphaManager.setAlpha(listView, 0);
+		
 		List<Note> notes;
+		NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mActivity, this);
+		
+		// Searching
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			notes = handleIntent(intent);
 			intent.setAction(null);
+
 		} else {
-			DbHelper db = new DbHelper(mActivity.getApplicationContext());
 			// Check if is launched from a widget with tags to set tag
 			if ((Constants.ACTION_WIDGET_SHOW_LIST.equals(intent.getAction()) && intent.hasExtra(Constants.INTENT_WIDGET)) 
 					|| !TextUtils.isEmpty(mActivity.navigationTmp)) {
@@ -807,47 +903,48 @@ public class ListFragment extends Fragment implements UndoListener {
 						mActivity.navigationTmp = !TextUtils.isEmpty(tagId) ? tagId : null;
 					}
 				}
-				notes = db.getNotesWithTag(mActivity.navigationTmp);
 				intent.removeExtra(Constants.INTENT_WIDGET);
+				mNoteLoaderTask.execute("getNotesWithTag", mActivity.navigationTmp);
 
+			// Gets all notes
 			} else {
-				notes = db.getAllNotes(true);
+//				notes = db.getAllNotes(true);
+				mNoteLoaderTask.execute("getAllNotes", "true");
 			}
 		}
+	}
+	
+	
+
+
+	@Override
+	public void onNotesLoaded(ArrayList<Note> notes) {
 		int layout = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
 				: R.layout.note_layout;
 		mAdapter = new NoteAdapter(mActivity, layout, notes);
 
-		// if (prefs.getBoolean("settings_enable_animations", true) &&
-		// showListAnimation) {
-		// SwingBottomInAnimationAdapter swingInAnimationAdapter = new
-		// SwingBottomInAnimationAdapter(mAdapter);
-		// // Assign the ListView to the AnimationAdapter and vice versa
-		// swingInAnimationAdapter.setAbsListView(listView);
-		// listView.setAdapter(swingInAnimationAdapter);
-		// showListAnimation = false;
-		// } else {
-		// listView.setAdapter(mAdapter);
-		// }
+		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter,
+				new OnDismissCallback() {
+					@Override
+					public void onDismiss(AbsListView listView,
+							int[] reverseSortedPositions) {
+						for (int position : reverseSortedPositions) {
+							Note note = mAdapter.getItem(position);
+							selectedNotes.add(note);
+							mAdapter.remove(note);
+							listView.invalidateViews();
 
-		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter, new OnDismissCallback() {
-			@Override
-			public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
-				for (int position : reverseSortedPositions) {
-					Note note = mAdapter.getItem(position);
-					selectedNotes.add(note);
-					mAdapter.remove(note);
-					listView.invalidateViews();
+							// Advice to user
+							Crouton.makeText(mActivity, R.string.note_deleted,
+									ONStyle.ALERT).show();
 
-					// Advice to user
-					Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
-
-					// Creation of undo bar
-					ubc.showUndoBar(false, getString(R.string.note_deleted), null);
-					undoDelete = true;
-				}
-			}
-		});
+							// Creation of undo bar
+							ubc.showUndoBar(false,
+									getString(R.string.note_deleted), null);
+							undoDelete = true;
+						}
+					}
+				});
 		adapter.setAbsListView(listView);
 		listView.setAdapter(adapter);
 
@@ -858,16 +955,25 @@ public class ListFragment extends Fragment implements UndoListener {
 		// Restores listview position when turning back to list
 		if (listView != null && notes.size() > 0) {
 			if (listView.getCount() > listViewPosition) {
-				listView.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+				listView.setSelectionFromTop(listViewPosition,
+						listViewPositionOffset);
 			} else {
 				listView.setSelectionFromTop(0, 0);
 			}
 		}
-		
-		// Fade in the list view
-		animate(listView).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
 
+		// Fade in the list view
+		animate(listView).setDuration(
+				getResources().getInteger(R.integer.list_view_fade_anim))
+				.alpha(1);
 	}
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * Handle search intent
