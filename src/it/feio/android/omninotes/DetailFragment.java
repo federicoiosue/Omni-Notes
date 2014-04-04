@@ -56,7 +56,6 @@ import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -88,10 +87,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.ShareActionProvider;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -108,7 +104,6 @@ import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -1320,8 +1315,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		attachmentDialog.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
 		attachmentDialog.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 		attachmentDialog.setFocusable(true);
-		attachmentDialog.setOnDismissListener(new OnDismissListener() {
-			
+		attachmentDialog.setOnDismissListener(new OnDismissListener() {			
 			@Override
 			public void onDismiss() {
 				if (isRecording) {

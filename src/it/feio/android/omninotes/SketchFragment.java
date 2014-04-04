@@ -1,7 +1,6 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.checklistview.utils.AlphaManager;
-import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 import it.feio.android.omninotes.models.listeners.OnSketchSavedListener;
@@ -143,7 +142,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 		}
 
 		stroke = (ImageView) mActivity.findViewById(R.id.sketch_stroke);
-		stroke.setBackgroundResource(R.drawable.image_borders);	
+//		stroke.setBackgroundResource(R.drawable.image_borders);	
 		stroke.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -151,13 +150,16 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 					showPopup(v, SketchView.STROKE);
 				} else {
 					mSketchView.setMode(SketchView.STROKE);
-					eraser.setBackgroundResource(0);
-					stroke.setBackgroundResource(R.drawable.image_borders);					
+//					eraser.setBackgroundResource(0);
+//					stroke.setBackgroundResource(R.drawable.image_borders);			
+					AlphaManager.setAlpha(eraser, 0.4f);			
+					AlphaManager.setAlpha(stroke, 1f);		
 				}
 			}
 		});
 
-		eraser = (ImageView) mActivity.findViewById(R.id.sketch_eraser);
+		eraser = (ImageView) mActivity.findViewById(R.id.sketch_eraser);	
+		AlphaManager.setAlpha(eraser, 0.4f);			
 		eraser.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -165,8 +167,10 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 					showPopup(v, SketchView.ERASER);
 				} else {
 					mSketchView.setMode(SketchView.ERASER);
-					stroke.setBackgroundResource(0);
-					eraser.setBackgroundResource(R.drawable.image_borders);					
+//					stroke.setBackgroundResource(0);
+//					eraser.setBackgroundResource(R.drawable.image_borders);			
+					AlphaManager.setAlpha(stroke, 0.4f);			
+					AlphaManager.setAlpha(eraser, 1f);					
 				}
 			}
 		});
@@ -217,10 +221,12 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 
 		// Inflate the popup_layout.xml
 		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(ActionBarActivity.LAYOUT_INFLATER_SERVICE);
-		popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, (ViewGroup) mActivity.findViewById(R.id.layout_root));
+//		popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, (ViewGroup) mActivity.findViewById(R.id.layout_root));
+		popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, null);
 		// And the one for eraser
 		LayoutInflater inflaterEraser = (LayoutInflater) mActivity.getSystemService(ActionBarActivity.LAYOUT_INFLATER_SERVICE);
-		popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, (ViewGroup) mActivity.findViewById(R.id.layout_root));
+//		popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, (ViewGroup) mActivity.findViewById(R.id.layout_root));
+		popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, null);
 
 		// Actual stroke shape size is retrieved
 		strokeImageView = (ImageView) popupLayout.findViewById(R.id.stroke_circle);
@@ -366,7 +372,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 		// Displaying the popup at the specified location, + offsets (transformed 
 		// dp to pixel to support multiple screen sizes)
 //		popup.showAsDropDown(anchor, 0, DensityUtil.convertDpToPixel(isErasing ? -120 : -390, mActivity));
-		popup.showAsDropDown(anchor, 0, 0);
+		popup.showAsDropDown(anchor);
 		
 		// Stroke size seekbar initialization and event managing
 		SeekBar mSeekBar;
