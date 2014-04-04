@@ -1064,6 +1064,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		}
 		
 		// Otherwise the result is passed to ListActivity
+		mActivity.loadNotesSync = true;
 		mActivity.getSupportFragmentManager().popBackStack(); 
 		if (mActivity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
 			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);

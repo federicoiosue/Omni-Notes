@@ -17,19 +17,16 @@ import android.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class MainActivity extends BaseActivity {
-	
 
 	public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
 	public final String FRAGMENT_LIST_TAG = "fragment_list";
 	public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
 	public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
 
-	/**
-	 * Used to store the last screen title. For use in
-	 * {@link #restoreActionBar()}.
-	 */
 	private FragmentManager mFragmentManager;
 	private NavigationDrawerFragment mNavigationDrawerFragment;
+	
+	public boolean loadNotesSync = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -298,5 +295,5 @@ public class MainActivity extends BaseActivity {
 			getDrawerToggle().setDrawerIndicatorEnabled(false);
 		}
 	}
-
+	
 }

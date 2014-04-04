@@ -29,7 +29,6 @@ import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
-import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
@@ -87,9 +86,9 @@ import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 public class ListFragment extends Fragment implements UndoListener, OnNotesLoadedListener {
 
@@ -893,7 +892,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			intent.setAction(null);
 			// Get the intent, verify the action and get the query
 			String pattern = intent.getStringExtra(SearchManager.QUERY);
-			mNoteLoaderTask.execute("getMatchingNotes", pattern);
+			if (mActivity.loadNotesSync) {
+				DbHelper db = new DbHelper(mActivity);
+				onNotesLoaded((ArrayList<Note>) db.getMatchingNotes(pattern));
+				mActivity.loadNotesSync = false;
+			} else {
+				mNoteLoaderTask.execute("getMatchingNotes", pattern);
+			}
 
 		} else {
 			// Check if is launched from a widget with tags to set tag
@@ -911,12 +916,24 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					}
 				}
 				intent.removeExtra(Constants.INTENT_WIDGET);
-				mNoteLoaderTask.execute("getNotesWithTag", mActivity.navigationTmp);
+				if (mActivity.loadNotesSync) {
+					DbHelper db = new DbHelper(mActivity);
+					onNotesLoaded((ArrayList<Note>) db.getNotesWithTag(mActivity.navigationTmp));
+					mActivity.loadNotesSync = false;
+				} else {
+					mNoteLoaderTask.execute("getNotesWithTag", mActivity.navigationTmp);
+				}
 
 			// Gets all notes
 			} else {
 //				notes = db.getAllNotes(true);
-				mNoteLoaderTask.execute("getAllNotes", true);
+				if (mActivity.loadNotesSync) {
+					DbHelper db = new DbHelper(mActivity);
+					onNotesLoaded((ArrayList<Note>) db.getAllNotes(true));
+					mActivity.loadNotesSync = false;
+				} else {
+					mNoteLoaderTask.execute("getAllNotes", true);
+				}
 			}
 		}
 	}
