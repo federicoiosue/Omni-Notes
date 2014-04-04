@@ -15,6 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
@@ -34,6 +35,7 @@ import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileErrorListener;
 import it.feio.android.omninotes.models.listeners.OnSketchSavedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
+import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
@@ -213,13 +215,15 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private long audioRecordingTimeStart;
 	private long audioRecordingTime;
 	private boolean showKeyboard;
+	private DetailFragment mFragment;
 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		mActivity = (MainActivity) getActivity();			
+		mActivity = (MainActivity) getActivity();
+		mFragment = this;			
 		prefs = mActivity.prefs;
 		db = mActivity.db;
 		
@@ -269,6 +273,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 //	    if (mShareActionProvider != null) {
 //	    	updateShareIntent();
 //	    }
+		
+
+		mActivity.hideLoading();
 	    
 	    if (showKeyboard) {
 	    	// Delayed keyboard appearance
@@ -387,7 +394,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		}
 		
 		// Check if is launched from a widget
-		if (Constants.ACTION_WIDGET.equals(i.getAction())) {
+		if (Constants.ACTION_WIDGET.equals(i.getAction())
+			|| Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction()) ) {
 
 			afterSavedReturnsToList = false;
 			
@@ -403,7 +411,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 						try {
 							tag = db.getTag(Integer.parseInt(tagId));
 							noteTmp = new Note();
-							DbHelper db = new DbHelper(mActivity);
 							noteTmp.setTag(tag);
 						} catch (NumberFormatException e) {}			
 					}
@@ -496,13 +503,13 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		setTagMarkerColor(noteTmp.getTag());		
 		
 		// Sets links clickable in title and content Views
-		title = (EditText) getView().findViewById(R.id.title);
+		title = (EditText) getView().findViewById(R.id.detail_title);
 		title.setText(noteTmp.getTitle());
 		title.addTextChangedListener(this);		
 		title.gatherLinksForText();
 		title.setOnTextLinkClickListener(this);
 		
-		content = (EditText) getView().findViewById(R.id.content);
+		content = (EditText) getView().findViewById(R.id.detail_content);
 		content.setText(noteTmp.getContent());
 		content.addTextChangedListener(this);
 		content.gatherLinksForText();
@@ -520,6 +527,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		if (noteTmp.isChecklist()) {
 			noteTmp.setChecklist(false);
 //			toggleChecklistView.setVisibility(View.INVISIBLE);
+			AlphaManager.setAlpha(toggleChecklistView, 0);
 			toggleChecklist2();
 		}
 		
@@ -998,7 +1006,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			list.add(new Integer[]{R.id.menu_attachment, R.string.tour_detailactivity_attachment_title, R.string.tour_detailactivity_attachment_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{R.id.menu_tag, R.string.tour_detailactivity_action_title, R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title, R.string.tour_detailactivity_reminder_detail, null});
-			list.add(new Integer[]{R.id.title, R.string.tour_detailactivity_links_title, R.string.tour_detailactivity_links_detail, null});
+			list.add(new Integer[]{R.id.detail_title, R.string.tour_detailactivity_links_title, R.string.tour_detailactivity_links_detail, null});
 			list.add(new Integer[]{null, R.string.tour_detailactivity_swipe_title, R.string.tour_detailactivity_swipe_detail, null, -10, Display.getUsableSize(mActivity).y/3, 80, Display.getUsableSize(mActivity).y/3});
 			list.add(new Integer[]{0, R.string.tour_detailactivity_save_title, R.string.tour_detailactivity_save_detail, ShowcaseView.ITEM_ACTION_HOME});
 			mActivity.showCaseView(list, new OnShowcaseAcknowledged() {			
@@ -1064,7 +1072,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		}
 		
 		// Otherwise the result is passed to ListActivity
-		mActivity.loadNotesSync = true;
+//		mActivity.loadNotesSync = true;
 		mActivity.getSupportFragmentManager().popBackStack(); 
 		if (mActivity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
 			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -1191,17 +1199,17 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	}
 	
 	@SuppressLint("NewApi")
-	private void toggleChecklist2(boolean keepChecked, boolean showChecks) {
+	private void toggleChecklist2(final boolean keepChecked, final boolean showChecks) {
 		
-//		class ChecklistTask extends AsyncTask<Void, Void, View> {
-//			private View targetView;
-//
-//			public ChecklistTask(View targetView) {
-//				mActivity.targetView = targetView;
-//			}
-//
-//			@Override
-//			protected View doInBackground(Void... params) {
+		class ChecklistTask extends AsyncTask<Void, Void, View> {
+			private View targetView;
+
+			public ChecklistTask(View targetView) {
+				this.targetView = targetView;
+			}
+
+			@Override
+			protected View doInBackground(Void... params) {
 
 				// Get instance and set options to convert EditText to CheckListView
 				mChecklistManager = ChecklistManager.getInstance(mActivity);
@@ -1210,11 +1218,11 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				mChecklistManager.setShowChecks(true);
 				mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
 				// Set the textChangedListener on the replaced view
-				mChecklistManager.setCheckListChangedListener(this);
-				mChecklistManager.addTextChangedListener(this);
+				mChecklistManager.setCheckListChangedListener(mFragment);
+				mChecklistManager.addTextChangedListener(mFragment);
 				
 				// Links parsing options
-				mChecklistManager.setOnTextLinkClickListener(this);
+				mChecklistManager.setOnTextLinkClickListener(mFragment);
 				
 				// Options for converting back to simple text
 				mChecklistManager.setKeepChecked(keepChecked);
@@ -1223,33 +1231,34 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				// Switches the views
 				View newView = null;
 				try {
-					newView = mChecklistManager.convert(toggleChecklistView);								
+					newView = mChecklistManager.convert(this.targetView);								
 				} catch (ViewNotSupportedException e) {
 					Log.e(Constants.TAG, "Error switching checklist view", e);
 				}
 				
-//				return newView;
-//			}
-//
-//			@Override
-//			protected void onPostExecute(View newView) {
-//				super.onPostExecute(newView);
+				return newView;
+			}
+
+			@Override
+			protected void onPostExecute(View newView) {
+				super.onPostExecute(newView);
 				// Switches the views	
 				if (newView != null) {
-					mChecklistManager.replaceViews(toggleChecklistView, newView);
+					mChecklistManager.replaceViews(this.targetView, newView);
 					toggleChecklistView = newView;					
 //					fade(toggleChecklistView, true);
+					animate(this.targetView).alpha(1).scaleXBy(0).scaleX(1).scaleYBy(0).scaleY(1);
 					noteTmp.setChecklist(!noteTmp.isChecklist());
 				}				
-//			}
-//		}
-//		
-//		ChecklistTask task = new ChecklistTask(toggleChecklistView);		
-//		if (Build.VERSION.SDK_INT >= 11) {
-//			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//		} else {
-//			task.execute();
-//		}
+			}
+		}
+		
+		ChecklistTask task = new ChecklistTask(toggleChecklistView);		
+		if (Build.VERSION.SDK_INT >= 11) {
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+		} else {
+			task.execute();
+		}
 		
 	}
 	
@@ -1800,8 +1809,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 	private String getNoteTitle() {
 		String res = "";
-		if (mActivity.findViewById(R.id.title) != null) {
-			res = ((EditText) mActivity.findViewById(R.id.title)).getText().toString();
+		if (mActivity.findViewById(R.id.detail_title) != null) {
+			res = ((EditText) mActivity.findViewById(R.id.detail_title)).getText().toString();
 		}
 		return res;
 	}
@@ -1814,9 +1823,9 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			// a com.neopixl.pixlui.components.edittext.EditText but a standard
 			// android.widget.EditText
 			try {
-				content = ((EditText) mActivity.findViewById(R.id.content)).getText().toString();
+				content = ((EditText) mActivity.findViewById(R.id.detail_content)).getText().toString();
 			} catch (ClassCastException e) {
-				content = ((android.widget.EditText)  mActivity.findViewById(R.id.content)).getText().toString();
+				content = ((android.widget.EditText)  mActivity.findViewById(R.id.detail_content)).getText().toString();
 			}
 		} else {
 				if (mChecklistManager != null) {
@@ -1963,7 +1972,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	 */
 	private void shareNote() {
 		
-		String titleText = ((EditText) mActivity.findViewById(R.id.title)).getText().toString();
+		String titleText = ((EditText) mActivity.findViewById(R.id.detail_title)).getText().toString();
 		
 		String contentText = titleText 
 								+ System.getProperty("line.separator")

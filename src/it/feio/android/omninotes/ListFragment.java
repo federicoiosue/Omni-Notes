@@ -15,6 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.NoteLoaderTask;
 import it.feio.android.omninotes.async.UpdaterTask;
@@ -32,6 +33,7 @@ import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.SpinnerDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,7 +90,6 @@ import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 public class ListFragment extends Fragment implements UndoListener, OnNotesLoadedListener {
 
@@ -235,7 +236,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	@Override
 	public void onPause() {
 		super.onPause();
-		if (searchView != null) MenuItemCompat.collapseActionView(searchMenuItem);
+//		if (searchView != null && searchView.isEnabled()) {
+//			MenuItemCompat.collapseActionView(searchMenuItem);
+//		}
 		commitPending();
 		stopJingles();
 		Crouton.cancelAllCroutons();
@@ -639,6 +642,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	}
 
 	void editNote(Note note) {
+		
+		mActivity.showLoading();
+		
 		if (note.get_id() == 0) {
 			Log.d(Constants.TAG, "Adding new note");
 			// if navigation is a tag it will be set into note
@@ -882,8 +888,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 */
 	void initNotesList(Intent intent) {
 		
-//		AlphaManager.setAlpha(listView, 0);
-		
 		List<Note> notes;
 		NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mActivity, this);
 		
@@ -895,10 +899,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			if (mActivity.loadNotesSync) {
 				DbHelper db = new DbHelper(mActivity);
 				onNotesLoaded((ArrayList<Note>) db.getMatchingNotes(pattern));
-				mActivity.loadNotesSync = false;
 			} else {
 				mNoteLoaderTask.execute("getMatchingNotes", pattern);
 			}
+			mActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
 
 		} else {
 			// Check if is launched from a widget with tags to set tag
@@ -919,21 +923,20 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				if (mActivity.loadNotesSync) {
 					DbHelper db = new DbHelper(mActivity);
 					onNotesLoaded((ArrayList<Note>) db.getNotesWithTag(mActivity.navigationTmp));
-					mActivity.loadNotesSync = false;
 				} else {
 					mNoteLoaderTask.execute("getNotesWithTag", mActivity.navigationTmp);
 				}
+				mActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
 
 			// Gets all notes
 			} else {
-//				notes = db.getAllNotes(true);
 				if (mActivity.loadNotesSync) {
 					DbHelper db = new DbHelper(mActivity);
 					onNotesLoaded((ArrayList<Note>) db.getAllNotes(true));
-					mActivity.loadNotesSync = false;
 				} else {
 					mNoteLoaderTask.execute("getAllNotes", true);
 				}
+				mActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
 			}
 		}
 	}

@@ -4,7 +4,9 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.SpinnerDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -22,11 +24,13 @@ public class MainActivity extends BaseActivity {
 	public final String FRAGMENT_LIST_TAG = "fragment_list";
 	public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
 	public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
+	public final String FRAGMENT_SPINNER_TAG = "fragment_spinner";
 
 	private FragmentManager mFragmentManager;
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 	
-	public boolean loadNotesSync = false;
+	public boolean loadNotesSync = Constants.LOAD_NOTES_SYNC;
+	public SpinnerDialog mSpinnerDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -188,6 +192,13 @@ public class MainActivity extends BaseActivity {
 //		}
 		Crouton.cancelAllCroutons();
 	}
+	
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// TODO Auto-generated method stub
+		super.onConfigurationChanged(newConfig);
+	}
 
 
 	public DrawerLayout getDrawerLayout() {
@@ -211,18 +222,16 @@ public class MainActivity extends BaseActivity {
 		Intent i = mActivity.getIntent();
 		
 		// Action called from widget
-		if (Intent.ACTION_PICK.equals(i.getAction())
-				|| Constants.ACTION_SHORTCUT.equals(i.getAction())
-//				|| i.hasExtra(Constants.INTENT_WIDGET)
-				|| Constants.ACTION_WIDGET.equals(i.getAction())
-				|| Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
-				
-				|| ( ( Intent.ACTION_SEND.equals(i.getAction()) 
-						|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction()) 
-						|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) ) 
-						&& i.getType() != null)		
-						
-						) {
+		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
+			|| Constants.ACTION_WIDGET.equals(i.getAction())
+			|| Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
+			
+			|| ( ( Intent.ACTION_SEND.equals(i.getAction()) 
+					|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction()) 
+					|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) ) 
+					&& i.getType() != null)		
+					
+					) {
 			Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
 			if (note == null) {
 				note = new Note();
@@ -295,5 +304,26 @@ public class MainActivity extends BaseActivity {
 			getDrawerToggle().setDrawerIndicatorEnabled(false);
 		}
 	}
+	
+	
+	
+	/**
+	 * Shows loading spinner 
+	 */
+	public void showLoading() {
+		mSpinnerDialog = new SpinnerDialog();
+		mSpinnerDialog.show(mFragmentManager, FRAGMENT_SPINNER_TAG);
+	}
+	
+	/**
+	 * Hides loading spinner 
+	 */
+	public void hideLoading() {
+		if (mSpinnerDialog != null) {
+			mSpinnerDialog.dismiss();
+		}
+	}
+	
+	
 	
 }

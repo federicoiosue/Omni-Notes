@@ -65,8 +65,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
 		// Create an Intent to launch DetailActivity to take a photo
 		Intent intentDetailPhoto = new Intent(context, MainActivity.class);
-		intentDetail.setAction(Constants.ACTION_WIDGET);
-		intentDetailPhoto.putExtra(Constants.ACTION_WIDGET_TAKE_PHOTO, true);
+		intentDetailPhoto.setAction(Constants.ACTION_WIDGET_TAKE_PHOTO);
 		intentDetailPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
 		PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, widgetId, intentDetailPhoto,
 				Intent.FLAG_ACTIVITY_NEW_TASK);
