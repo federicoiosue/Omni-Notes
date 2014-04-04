@@ -349,7 +349,7 @@ public class BaseActivity extends ActionBarActivity {
 		lp.setMargins(12, 12, 12, getResources().getDimensionPixelSize(R.dimen.showcase_margin_bottom));
 		co.buttonLayoutParams = lp;				
 		
-		co.fadeInDuration = 500;
+		co.fadeInDuration = 700;
 		
 		ItemViewProperties ivp;
 		for (Integer[] view : viewsArrays) {

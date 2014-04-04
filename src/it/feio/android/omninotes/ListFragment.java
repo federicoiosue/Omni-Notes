@@ -171,7 +171,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		UpdaterTask task = new UpdaterTask(mActivity);
 		task.execute();
 
-		ubc = new UndoBarController(getView().findViewById(R.id.undobar), this);
+		ubc = new UndoBarController(mActivity.findViewById(R.id.undobar), this);
 	}
 
 
@@ -204,7 +204,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Starts a little animation on Mr.Jingles!
 	 */
 	private void initEasterEgg() {
-		empyListItem = (TextView) getView().findViewById(R.id.empty_list);
+		empyListItem = (TextView) mActivity.findViewById(R.id.empty_list);
 		empyListItem.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -390,7 +390,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Notes list initialization. Data, actions and callback are defined here.
 	 */
 	private void initListView() {
-		listView = (ListView) getView().findViewById(R.id.notes_list);
+		listView = (ListView) mActivity.findViewById(R.id.notes_list);
 
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		listView.setItemsCanFocus(false);
@@ -434,7 +434,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		});
 
 		// listView.setOnTouchListener(screenTouches);
-		((InterceptorLinearLayout) getView().findViewById(R.id.list_root)).setOnViewTouchedListener(screenTouches);
+		((InterceptorLinearLayout) mActivity.findViewById(R.id.list_root)).setOnViewTouchedListener(screenTouches);
 	}
 
 	OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
@@ -861,7 +861,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 //
 //		// Replace listview with Mr. Jingles if it is empty
 //		if (notes.size() == 0)
-//			listView.setEmptyView(getView().findViewById(R.id.empty_list));
+//			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
 //
 //		// Restores listview position when turning back to list
 //		if (listView != null && notes.size() > 0) {
@@ -957,7 +957,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Replace listview with Mr. Jingles if it is empty
 		if (notes.size() == 0)
-			listView.setEmptyView(getView().findViewById(R.id.empty_list));
+			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
 
 		// Restores listview position when turning back to list
 		if (listView != null && notes.size() > 0) {
@@ -1011,12 +1011,12 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			mAdapter.remove(note);
 		}
 		// Refresh view
-		ListView l = (ListView) getView().findViewById(R.id.notes_list);
+		ListView l = (ListView) mActivity.findViewById(R.id.notes_list);
 		l.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
 		if (l.getCount() == 0)
-			listView.setEmptyView(getView().findViewById(R.id.empty_list));
+			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
 
 		mActionMode.finish(); // Action picked, so close the CAB
 
@@ -1077,7 +1077,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		listView.clearChoices();
 
 		// Refresh view
-		((ListView) getView().findViewById(R.id.notes_list)).invalidateViews();
+		((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
 		// Advice to user
 		Crouton.makeText(mActivity, archivedStatus, ONStyle.INFO).show();
 
@@ -1163,7 +1163,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 							db.updateNote(note, false);
 						}
 						// Refresh view
-						((ListView) getView().findViewById(R.id.notes_list)).invalidateViews();
+						((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
 						// Advice to user
 						Crouton.makeText(mActivity, R.string.notes_tag_removed, ONStyle.INFO).show();
 						selectedNotes.clear();
@@ -1197,7 +1197,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			db.updateNote(note, false);
 		}
 		// Refresh view
-		((ListView) getView().findViewById(R.id.notes_list)).invalidateViews();
+		((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
 		// Advice to user
 		String msg = getResources().getText(R.string.notes_tagged_as) + " '" + tag.getName() + "'";
 		Crouton.makeText(mActivity, msg, ONStyle.INFO).show();
