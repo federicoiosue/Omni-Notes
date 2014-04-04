@@ -113,13 +113,15 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private MainActivity mActivity;
 	private SharedPreferences prefs;
 	private DbHelper db;
+	private ListFragment mFragment;
 
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mActivity = (MainActivity) getActivity();		
+		mActivity = (MainActivity) getActivity();	
+		mFragment = this;
 		prefs = mActivity.prefs;
 		db = mActivity.db;
 		
@@ -234,6 +236,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	@Override
 	public void onPause() {
 		super.onPause();
+		if (searchView != null) MenuItemCompat.collapseActionView(searchMenuItem);
 		commitPending();
 		stopJingles();
 		Crouton.cancelAllCroutons();
@@ -549,12 +552,14 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 						}
 
 						@Override
-						public boolean onQueryTextChange(String arg0) {
-							if (prefs.getBoolean("settings_instant_search", false)) {
-								Intent i = new Intent(mActivity, MainActivity.class);
-								i.setAction(Intent.ACTION_SEARCH);
-								i.putExtra(SearchManager.QUERY, arg0);
-								startActivity(i);
+						public boolean onQueryTextChange(String pattern) {
+							if (prefs.getBoolean("settings_instant_search", false) && pattern.length() > 0) {
+//								Intent i = new Intent(mActivity, MainActivity.class);
+//								i.setAction(Intent.ACTION_SEARCH);
+//								i.putExtra(SearchManager.QUERY, pattern);
+//								startActivity(i);
+								NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mActivity, mFragment);
+								mNoteLoaderTask.execute("getMatchingNotes", pattern);
 								return true;
 							} else {
 								return false;
@@ -885,8 +890,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		
 		// Searching
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			notes = handleIntent(intent);
 			intent.setAction(null);
+			// Get the intent, verify the action and get the query
+			String pattern = intent.getStringExtra(SearchManager.QUERY);
+			mNoteLoaderTask.execute("getMatchingNotes", pattern);
 
 		} else {
 			// Check if is launched from a widget with tags to set tag
@@ -909,7 +916,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			// Gets all notes
 			} else {
 //				notes = db.getAllNotes(true);
-				mNoteLoaderTask.execute("getAllNotes", "true");
+				mNoteLoaderTask.execute("getAllNotes", true);
 			}
 		}
 	}
@@ -981,20 +988,20 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * @param intent
 	 * @return
 	 */
-	private List<Note> handleIntent(Intent intent) {
-		List<Note> notesList = new ArrayList<Note>();
-		// Get the intent, verify the action and get the query
-		String pattern = intent.getStringExtra(SearchManager.QUERY);
-		Log.d(Constants.TAG, "Search launched");
-		DbHelper db = new DbHelper(mActivity);
-		notesList = db.getMatchingNotes(pattern);
-		Log.d(Constants.TAG, "Found " + notesList.size() + " elements matching");
-		// if (searchView != null)
-		// searchView.clearFocus();
-		return notesList;
+//	private List<Note> handleIntent(Intent intent) {
+//		List<Note> notesList = new ArrayList<Note>();
+//		// Get the intent, verify the action and get the query
+//		String pattern = intent.getStringExtra(SearchManager.QUERY);
+//		Log.d(Constants.TAG, "Search launched");
+//		DbHelper db = new DbHelper(mActivity);
+//		notesList = db.getMatchingNotes(pattern);
+//		Log.d(Constants.TAG, "Found " + notesList.size() + " elements matching");
+//		// if (searchView != null)
+//		// searchView.clearFocus();
+//		return notesList;
+//	}
 
-	}
-
+	
 	/**
 	 * Batch note deletion
 	 */

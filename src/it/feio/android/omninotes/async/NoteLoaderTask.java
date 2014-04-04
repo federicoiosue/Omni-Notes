@@ -27,7 +27,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class NoteLoaderTask extends AsyncTask<String, Void, ArrayList<Note>> {
+public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 
 	private final Activity mActivity;
 	private OnNotesLoadedListener mOnNotesLoadedListener;
@@ -39,30 +39,24 @@ public class NoteLoaderTask extends AsyncTask<String, Void, ArrayList<Note>> {
 	}
 
 	@Override
-	protected ArrayList<Note> doInBackground(String... params) {
+	protected ArrayList<Note> doInBackground(Object... params) {
 		ArrayList<Note> notes = new ArrayList<Note>();
-		String methodName = params[0];
-		String methodArgs = params[1];
+		String methodName = params[0].toString();
+		Object methodArgs = params[1];
 		DbHelper db = new DbHelper(mActivity.getApplicationContext());
-		
-		Boolean paramBoolean = null;
 
-		Class[] paramString = new Class[1];
-		paramString[0] = String.class;
+		Class[] paramClass = new Class[1];
 		
-		try {
-			paramBoolean = Boolean.parseBoolean(methodArgs);
-			paramString[0] = boolean.class;
-		} catch (Exception e) {}
+		if (Boolean.class.isAssignableFrom(methodArgs.getClass())) {
+			paramClass[0] = Boolean.class;			
+		} else {
+			paramClass[0] = String.class;			
+		}
 
 		Method method;
 		try {
-			method = db.getClass().getDeclaredMethod(methodName, paramString);
-			if (paramBoolean != null) {
-				notes = (ArrayList<Note>) method.invoke(db, Boolean.parseBoolean(methodArgs));
-			} else {
-				notes = (ArrayList<Note>) method.invoke(db, methodArgs);
-			}
+			method = db.getClass().getDeclaredMethod(methodName, paramClass);
+			notes = (ArrayList<Note>) method.invoke(db, paramClass[0].cast(methodArgs));
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Error retrieving notes", e);
 		}
@@ -70,6 +64,7 @@ public class NoteLoaderTask extends AsyncTask<String, Void, ArrayList<Note>> {
 		return notes;
 	}
 
+	
 	@Override
 	protected void onPostExecute(ArrayList<Note> notes) {
 		super.onPostExecute(notes);

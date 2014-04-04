@@ -35,7 +35,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -291,7 +290,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 *            consideration or if all notes have to be retrieved
 	 * @return Notes list
 	 */
-	public List<Note> getAllNotes(boolean checkNavigation) {
+	public List<Note> getAllNotes(Boolean checkNavigation) {
 
 		// Checking if archived or reminders notes must be shown
 		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
