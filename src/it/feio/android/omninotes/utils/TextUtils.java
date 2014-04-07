@@ -10,20 +10,21 @@ public class TextUtils {
 	 * @return
 	 */
 	public static Spanned[] parseTitleAndContent(Note note) {
+		
+		final int CONTENT_SUBSTRING_LENGTH = 300; 
+		
 		// Defining title and content texts	
 		String titleText, contentText;
+		
+		String content = limit(note.getContent(), CONTENT_SUBSTRING_LENGTH);
+		
 		if (note.getTitle().length() > 0) {
 			titleText = note.getTitle();
-			contentText = note.getContent();
+			contentText = content;
 		} else {
-//			String[] arr = note.getContent().split(System.getProperty("line.separator"));
-//			titleText = arr.length > 0 ? arr[0] : "";
-//			contentText = arr.length > 1 ? arr[1] : "";
-			int index = note.getContent() != null ? note.getContent().indexOf(System.getProperty("line.separator")) : -1;
-			int length = note.getContent().length();
-			titleText = index == -1 ? note.getContent() : note.getContent().substring(0, index);
-//			contentText = index == -1 ? "" : note.getContent().substring(index, note.getContent().length());
-			contentText = index == -1 ? "" : note.getContent().substring(index, length < index + 50 ? length : index + 50);
+			int index = content != null ? content.indexOf(System.getProperty("line.separator")) : -1;
+			titleText = index == -1 ? content : content.substring(0, index);
+			contentText = index == -1 ? "" : content.substring(index);
 		}
 		
 		// Masking title and content string if note is locked
@@ -51,5 +52,17 @@ public class TextUtils {
 		
 
 		return new Spanned[] { Html.fromHtml(titleText), Html.fromHtml(contentText) };	
+	}
+	
+	
+	
+	
+	public static String limit(String value, int length) {
+		StringBuilder buf = new StringBuilder(value);
+		if (buf.length() > length) {
+			buf.setLength(length);
+		      buf.append("...");
+		}
+		return buf.toString();
 	}
 }

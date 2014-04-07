@@ -20,7 +20,7 @@ import android.os.AsyncTask;
 public class BitmapWorkerTask extends
 		AsyncTask<Attachment, Void, Bitmap> {
 
-	private final int FADE_IN_TIME = 150;
+	private final int FADE_IN_TIME = 200;
 	
 	private final Activity mActivity;
 	private final WeakReference<SquareImageView> imageViewReference;
@@ -68,17 +68,17 @@ public class BitmapWorkerTask extends
 		return bmp;
 	}
 
-	@Override
-	protected void onCancelled() {
-		// TODO Auto-generated method stub
-		super.onCancelled();
-	}
+//	@Override
+//	protected void onCancelled() {
+//		// TODO Auto-generated method stub
+//		super.onCancelled();
+//	}
 	
-	@Override
-	protected void onCancelled(Bitmap result) {
-		// TODO Auto-generated method stub
-		super.onCancelled(result);
-	}
+//	@Override
+//	protected void onCancelled(Bitmap result) {
+//		// TODO Auto-generated method stub
+//		super.onCancelled(result);
+//	}
 	
 	@Override
 	protected void onPostExecute(Bitmap bitmap) {

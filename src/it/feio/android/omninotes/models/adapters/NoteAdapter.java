@@ -24,7 +24,6 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
-import it.feio.android.omninotes.utils.TextUtils;
 
 import java.util.List;
 
@@ -36,8 +35,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,6 +97,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	    	holder.attachmentThumbnail = (SquareImageView) convertView.findViewById(R.id.attachmentThumbnail);	    	
 	    	
 	    	convertView.setTag(holder);
+			
 	    } else {
 	        holder = (NoteAdapterViewHolder) convertView.getTag();
 	    }
@@ -159,6 +157,10 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 				loadThumbnail(holder, mAttachment);
 			}
 		}
+
+//		Animation animation = AnimationUtils.loadAnimation(mActivity, R.animator.fade_in);
+//		animation.setDuration(60);
+//		convertView.startAnimation(animation);
 		
 		return convertView;
 	}
@@ -171,7 +173,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 */
 	public static String getDateText(Context mContext, Note note) {
 		String dateText;
-		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS);
 		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
 		
 		// Creation
@@ -244,7 +246,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 */
 	private void colorNote(Note note, View v, NoteAdapterViewHolder holder) {
 
-		String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
+		String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS).getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
 		
 		// Checking preference
 		if (!colorsPref.equals("disabled")) {

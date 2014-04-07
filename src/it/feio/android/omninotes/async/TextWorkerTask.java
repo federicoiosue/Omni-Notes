@@ -8,6 +8,7 @@ import java.lang.ref.WeakReference;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.text.Spanned;
+import android.view.View;
 import android.widget.TextView;
 
 
@@ -38,7 +39,10 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
 
 		if (isAlive()) {
 			titleTextView.setText(titleAndContent[0]);
-			contentTextView.setText(titleAndContent[1]);
+			if (titleAndContent[1].length() > 0) {
+				contentTextView.setText(titleAndContent[1]);
+				contentTextView.setVisibility(View.VISIBLE);	
+			}
 			return;
 		}
 	}
