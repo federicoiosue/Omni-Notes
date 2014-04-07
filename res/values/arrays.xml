@@ -93,15 +93,19 @@
     </string-array>
         
     <string-array name="text_size_values">
-        <item >small</item>
+        <item >-2</item>
+        <item >-1</item>
         <item >default</item>
-        <item >large</item>
+        <item >+1</item>
+        <item >+2</item>
     </string-array>
         
     <integer-array name="text_size_offset">
+        <item >-3</item>
         <item >-2</item>
         <item >0</item>
         <item >3</item>
+        <item >5</item>
     </integer-array>
         
     <string-array name="languages">

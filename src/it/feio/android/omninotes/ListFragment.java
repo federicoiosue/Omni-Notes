@@ -33,7 +33,6 @@ import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
-import it.feio.android.omninotes.utils.SpinnerDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -642,8 +641,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	}
 
 	void editNote(Note note) {
-		
-		mActivity.showLoading();
 		
 		if (note.get_id() == 0) {
 			Log.d(Constants.TAG, "Adding new note");
