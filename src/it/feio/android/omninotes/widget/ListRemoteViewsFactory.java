@@ -8,6 +8,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.TextUtils;
 
 import java.util.List;
 
@@ -20,8 +21,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -93,10 +94,10 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 		
 		Note note = notes.get(position);
 		
-		String[] titleAndContent = NoteAdapter.parseTitleAndContent(note);
+		Spanned[] titleAndContent = TextUtils.parseTitleAndContent(note);
 
-		row.setTextViewText(R.id.note_title, Html.fromHtml(titleAndContent[0]));
-		row.setTextViewText(R.id.note_content, Html.fromHtml(titleAndContent[1]));
+		row.setTextViewText(R.id.note_title, titleAndContent[0]);
+		row.setTextViewText(R.id.note_content, titleAndContent[1]);
 		
 		color(note, row);
 		

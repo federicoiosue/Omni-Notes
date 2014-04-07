@@ -17,12 +17,14 @@ package it.feio.android.omninotes.models.adapters;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.BitmapWorkerTask;
+import it.feio.android.omninotes.async.TextWorkerTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.TextUtils;
 
 import java.util.List;
 
@@ -35,6 +37,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.text.Html;
+import android.text.Spanned;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,16 +104,21 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	        holder = (NoteAdapterViewHolder) convertView.getTag();
 	    }
 		
-		String[] titleAndContent = parseTitleAndContent(note);
+	    
+//		Spanned[] titleAndContent = TextUtils.parseTitleAndContent(note);
+//		// Setting note title	
+//		holder.title.setText(titleAndContent[0]);		
+//		// Setting note content	
+//		holder.content.setText(titleAndContent[1]);
+//		holder.content.setVisibility(View.VISIBLE);		
+	    TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content);
+	    if (Build.VERSION.SDK_INT >= 11) {
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+		} else {
+			task.execute(note);
+		}
 
-		// Setting note title	
-		holder.title.setText(Html.fromHtml(titleAndContent[0]));
 		
-		// Setting note content	
-		holder.content.setText(Html.fromHtml(titleAndContent[1]));
-		holder.content.setVisibility(View.VISIBLE);
-		
-
 		// Evaluates the archived state...
 		holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
 		// ...the location
@@ -191,49 +199,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 	
 	
-	/**
-	 * @param note
-	 * @return
-	 */
-	public static String[] parseTitleAndContent(Note note) {
-		// Defining title and content texts	
-		String titleText, contentText;
-		if (note.getTitle().length() > 0) {
-			titleText = note.getTitle();
-			contentText = note.getContent();
-		} else {
-//			String[] arr = note.getContent().split(System.getProperty("line.separator"));
-//			titleText = arr.length > 0 ? arr[0] : "";
-//			contentText = arr.length > 1 ? arr[1] : "";
-			int index = note.getContent() != null ? note.getContent().indexOf(System.getProperty("line.separator")) : -1;
-			titleText = index == -1 ? note.getContent() : note.getContent().substring(0, index);
-			contentText = index == -1 ? "" : note.getContent().substring(index, note.getContent().length());
-		}
-		
-		// Masking title and content string if note is locked
-		if (note.isLocked()) {
-			// This checks if a part of content is used as title and should be partially masked 
-			if (!note.getTitle().equals(titleText) && titleText.length() > 2) {	
-				titleText = titleText.substring(0, 2) + titleText.substring(2).replaceAll(".", Constants.MASK_CHAR);
-			}
-			contentText = contentText.replaceAll(".", Constants.MASK_CHAR);
-		}
-		
-		// Replacing checkmarks symbols with html entities
-		titleText = titleText
-				.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
-				it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
-				.replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
-				it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY);
-		contentText = contentText
-				.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
-				it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
-				.replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
-				it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY)
-				.replace(System.getProperty("line.separator"), "<br/>");
-
-		return new String[]{titleText, contentText};		
-	}
+	
 	
 
 	public SparseBooleanArray getSelectedItems() {
