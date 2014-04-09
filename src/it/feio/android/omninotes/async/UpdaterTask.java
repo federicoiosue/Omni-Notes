@@ -46,18 +46,20 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
-	private final WeakReference<Activity> mActivity;
+	private final WeakReference<Activity> mActivityReference;
+	private final Activity mActivity;
 	String url;
 	private String packageName;
 	private boolean promptUpdate = false;
 
 	public UpdaterTask(Activity mActivity) {
-		this.mActivity = new WeakReference<Activity>(mActivity);
+		this.mActivityReference = new WeakReference<Activity>(mActivity);
+		this.mActivity = mActivity;
 	}
 
 	@Override
 	protected void onPreExecute() {
-		String packageName = mActivity.get().getApplicationContext().getPackageName();
+		String packageName = mActivity.getApplicationContext().getPackageName();
 		url = Constants.PS_METADATA_FETCHER_URL + Constants.PLAY_STORE_URL
 				+ packageName;
 		super.onPreExecute();
@@ -74,10 +76,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			promptUpdate = isVersionUpdated(json.getString("softwareVersion"));
 
 			// Getting from preferences last update check
-			if (!isAlive(mActivity)) {
-				return null;
-			}
-			SharedPreferences prefs = mActivity.get().getSharedPreferences(Constants.PREFS_NAME, mActivity.get().MODE_MULTI_PROCESS);
+			SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS);
 
 			long now = System.currentTimeMillis();
 			if (promptUpdate
@@ -101,7 +100,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 		
 		// Confirm dialog creation
 		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				mActivity.get());
+				mActivityReference.get());
 		alertDialogBuilder
 				.setCancelable(false)
 				.setMessage(R.string.new_update_available)
@@ -111,10 +110,10 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
 								if(!isGooglePlayAvailable()) {
-									Crouton.makeText(mActivity.get(), R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
+									Crouton.makeText(mActivityReference.get(), R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
 									return;
 								}
-								mActivity.get().startActivity(new Intent(
+								mActivityReference.get().startActivity(new Intent(
 										Intent.ACTION_VIEW, Uri
 												.parse("market://details?id="
 														+ packageName)));
@@ -138,7 +137,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	@Override
 	protected void onPostExecute(Void result) {	
 		
-		if (isAlive(mActivity) && promptUpdate) {
+		if (isAlive(mActivityReference) && promptUpdate) {
 			promptUpdate();
 		}
 	}
@@ -164,30 +163,28 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	public String getAppData() {
 		StringBuilder sb = new StringBuilder();
 		
-		if (mActivity.get() != null && !mActivity.get().isFinishing()) {
-			packageName = mActivity.get().getApplicationContext().getPackageName();
+		packageName = mActivity.getPackageName();
 
-			try {
-				// get URL content
-				URL url = new URL(Constants.PS_METADATA_FETCHER_URL
-						+ Constants.PLAY_STORE_URL + packageName);
-				URLConnection conn = url.openConnection();
-	
-				// open the stream and put it into BufferedReader
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-						conn.getInputStream()));
-	
-				String inputLine;
-	
-				while ((inputLine = br.readLine()) != null) {
-					sb.append(inputLine);
-				}
-	
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+		try {
+			// get URL content
+			URL url = new URL(Constants.PS_METADATA_FETCHER_URL
+					+ Constants.PLAY_STORE_URL + packageName);
+			URLConnection conn = url.openConnection();
+
+			// open the stream and put it into BufferedReader
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					conn.getInputStream()));
+
+			String inputLine;
+
+			while ((inputLine = br.readLine()) != null) {
+				sb.append(inputLine);
 			}
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	
 		return sb.toString();
@@ -204,8 +201,8 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 		boolean result = false;
 
 		// Retrieval of installed app version
-		PackageInfo pInfo = mActivity.get().getPackageManager().getPackageInfo(
-				mActivity.get().getPackageName(), 0);
+		PackageInfo pInfo = mActivity.getPackageManager().getPackageInfo(
+				mActivity.getPackageName(), 0);
 		String installedVersion = pInfo.versionName;
 
 		// Parsing version string to obtain major.minor.point (excluding eventually beta)
@@ -242,7 +239,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 */
 	private boolean isGooglePlayAvailable() {
         boolean googlePlayStoreInstalled;
-        int val= GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity.get());
+        int val= GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
         googlePlayStoreInstalled = val == ConnectionResult.SUCCESS;
         return googlePlayStoreInstalled;
     }
