@@ -204,6 +204,8 @@ public class FileHelper {
 				}
 				
 			} catch (Exception e) {}
+		} else {
+			fileName = uri.getLastPathSegment();
 		}
 		return fileName;
 	}

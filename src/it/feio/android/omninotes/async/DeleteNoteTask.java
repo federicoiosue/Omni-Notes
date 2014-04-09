@@ -32,6 +32,7 @@ public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {
 		this.mActivity = mActivity;
 	}
 
+	
 	@Override
 	protected Integer doInBackground(Note... params) {
 		Integer result = null;
@@ -56,19 +57,10 @@ public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {
 		return result;
 	}
 	
+	
 	@Override
 	protected void onPostExecute(Integer result) {
-		super.onPostExecute(result);
-		// Informs the user about update
-//		if (result != null) {
-//			Log.d(Constants.TAG, "Deleted note with id '" + result + "'");
-//			Toast.makeText(mContext, mContext.getResources().getText(R.string.note_deleted), Toast.LENGTH_SHORT).show();
-//		} else {
-//			Log.e(Constants.TAG, "Note with id '" + result + "' has not been deleted");
-//			Toast.makeText(mContext, mContext.getResources().getText(R.string.error_occurred_deleting_note), Toast.LENGTH_LONG).show();
-//			
-//		}
-		
-		((BaseActivity) mActivity).notifyAppWidgets(mActivity);
+		super.onPostExecute(result);		
+		BaseActivity.notifyAppWidgets(mActivity);
 	}
 }
