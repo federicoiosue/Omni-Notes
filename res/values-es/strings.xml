@@ -151,6 +151,7 @@
   <string name="error">Error</string>
   <string name="archived">archived</string>
   <string name="files">Files</string>
+  <string name="merge">Merge</string>
   <string name="dashclock_description">Muestra algunas estadísticas y recordatorios cercanos de Omni Notes</string>
   <string name="settings">Configuración</string>
   <string name="settings_about">Información</string>

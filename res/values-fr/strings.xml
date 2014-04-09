@@ -150,6 +150,7 @@
   <string name="error">Erreur</string>
   <string name="archived">archivé</string>
   <string name="files">Fichiers</string>
+  <string name="merge">Merge</string>
   <string name="dashclock_description">Affiche quelques statistiques et rappels proches d\'Omni Notes</string>
   <string name="settings">Paramètres</string>
   <string name="settings_about">Infos</string>

@@ -44,8 +44,10 @@
     <item>记事列表全彩</item>
   </string-array>
   <string-array name="text_size">
-    <item>小字体</item>
-    <item>默认</item>
-    <item>大字体</item>
+    <item>Smallest</item>
+    <item>Small</item>
+    <item>Default</item>
+    <item>Large</item>
+    <item>Largest</item>
   </string-array>
 </resources>

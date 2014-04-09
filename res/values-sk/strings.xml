@@ -150,6 +150,7 @@
   <string name="error">Chyba</string>
   <string name="archived">archivované</string>
   <string name="files">Súbory</string>
+  <string name="merge">Merge</string>
   <string name="dashclock_description">Zobrazí niektoré štatistiky a blížiace sa pripomienky z Omni Notes</string>
   <string name="settings">Nastavenia</string>
   <string name="settings_about">Informácie</string>

@@ -150,6 +150,7 @@
   <string name="error">Error</string>
   <string name="archived">archived</string>
   <string name="files">Files</string>
+  <string name="merge">Merge</string>
   <string name="dashclock_description">ສະແດງສະຖິຕິຈຳນວນໜຶ່ງ ແລະ ເຂົ້າເຖິງໂຕເຕືອນຄວາມຈຳຈາກ Omni Notes</string>
   <string name="settings">ການ​ຕັ້ງຄ່າ</string>
   <string name="settings_about">ຂໍ້​ມູນ</string>

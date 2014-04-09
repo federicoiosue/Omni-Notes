@@ -44,8 +44,10 @@
     <item>Notizliste</item>
   </string-array>
   <string-array name="text_size">
-    <item>Klein</item>
-    <item>Standard</item>
-    <item>Groß</item>
+    <item>Smallest</item>
+    <item>Small</item>
+    <item>Default</item>
+    <item>Large</item>
+    <item>Largest</item>
   </string-array>
 </resources>

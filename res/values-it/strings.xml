@@ -151,6 +151,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="error">Errore</string>
   <string name="archived">archiviate</string>
   <string name="files">File</string>
+  <string name="merge">Merge</string>
   <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
   <string name="settings">Impostazioni</string>
   <string name="settings_about">Info</string>

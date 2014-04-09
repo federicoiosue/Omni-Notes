@@ -150,6 +150,7 @@
   <string name="error">Fel</string>
   <string name="archived">arkiverade</string>
   <string name="files">Files</string>
+  <string name="merge">Merge</string>
   <string name="dashclock_description">Visar statistik och närliggande påminnelser från Omni Tools</string>
   <string name="settings">Inställningar</string>
   <string name="settings_about">Informatr</string>

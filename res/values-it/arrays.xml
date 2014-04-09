@@ -44,8 +44,10 @@
     <item>Lista note</item>
   </string-array>
   <string-array name="text_size">
+    <item>Piccolissimo</item>
     <item>Piccolo</item>
-    <item>Predefinito</item>
+    <item>Normale</item>
     <item>Grande</item>
+    <item>Grandissimo</item>
   </string-array>
 </resources>
