@@ -86,6 +86,7 @@ public interface Constants {
 	final String ACTION_WIDGET = "action_widget";
 	final String ACTION_WIDGET_TAKE_PHOTO = "action_widget_take_photo";
 	final String ACTION_WIDGET_SHOW_LIST = "action_widget_show_list";
+	final String ACTION_NOTIFICATION_CLICK = "action_notification_click";
 	
 	final String MESSAGE = "message";
 

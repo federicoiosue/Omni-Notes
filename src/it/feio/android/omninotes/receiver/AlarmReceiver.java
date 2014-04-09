@@ -63,6 +63,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 	private void createNotification(Context mContext, Note note) {
 		
 		// Retrieving preferences
+		@SuppressWarnings("static-access")
 		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS);
 
 		// Prepare text contents
@@ -95,11 +96,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 			mBuilder.setVibrate(pattern);
 		
 		
-		Bundle bundle = new Bundle();
-		// Add the parameters to bundle as
-		bundle.putParcelable(Constants.INTENT_NOTE, note);
-		
-		
 		// Sets up the Snooze and Dismiss action buttons that will appear in the
 		// big view of the notification.
 		Intent dismissIntent = new Intent(mContext, it.feio.android.omninotes.async.NotificationService.class);
@@ -120,13 +116,15 @@ public class AlarmReceiver extends BroadcastReceiver {
 		
 
 		// Next create the bundle and initialize it
-		Intent intent = new Intent(mContext, it.feio.android.omninotes.DetailFragment.class);		
-		// Add this bundle to the intent
+		Intent intent = new Intent(mContext, it.feio.android.omninotes.MainActivity.class);		
+		Bundle bundle = new Bundle();
+		bundle.putParcelable(Constants.INTENT_NOTE, note);
 		intent.putExtras(bundle);
+		
 		// Sets the Activity to start in a new, empty task
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		// Workaround to fix problems with multiple notifications
-	    intent.setAction(Long.toString(System.currentTimeMillis()));
+	    intent.setAction(Constants.ACTION_NOTIFICATION_CLICK + Long.toString(System.currentTimeMillis()));
 
 		// Creates the PendingIntent
 		PendingIntent notifyIntent = PendingIntent.getActivity(mContext, 0, intent,

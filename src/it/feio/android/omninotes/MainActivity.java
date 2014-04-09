@@ -201,6 +201,7 @@ public class MainActivity extends BaseActivity {
 	}
 
 
+	
 	public DrawerLayout getDrawerLayout() {
 		if ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer) != null) {
 			return ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer)).mDrawerLayout;
@@ -208,6 +209,7 @@ public class MainActivity extends BaseActivity {
 			return null;
 		}
 	}
+	
 	
 	public ActionBarDrawerToggle getDrawerToggle() {
 		if ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer) != null) {
@@ -218,8 +220,11 @@ public class MainActivity extends BaseActivity {
 	}
 	
 	
+	
 	private void handleIntents() {
 		Intent i = mActivity.getIntent();
+		
+		if (i.getAction() == null) return;
 		
 		// Action called from widget
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
@@ -230,6 +235,8 @@ public class MainActivity extends BaseActivity {
 					|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction()) 
 					|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) ) 
 					&& i.getType() != null)		
+				
+			|| i.getAction().contains(Constants.ACTION_NOTIFICATION_CLICK)
 					
 					) {
 			Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
@@ -238,60 +245,9 @@ public class MainActivity extends BaseActivity {
 			}
 			switchToDetail(note);
 		}
-		
-		
-//		/**
-//		 * Handles third party apps requests of sharing
-//		 */
-//		else if ( ( Intent.ACTION_SEND.equals(i.getAction()) 
-//				|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction()) 
-//				|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) ) 
-//				&& i.getType() != null) {
-//
-//			Note note = new Note();
-//			
-//			// Text title
-//			String title = i.getStringExtra(Intent.EXTRA_SUBJECT);
-//			if (title != null) {
-//				note.setTitle(title);
-//			}
-//			
-//			// Text content
-//			String content = i.getStringExtra(Intent.EXTRA_TEXT);
-//			if (content != null) {
-//				note.setContent(content);
-//			}
-//			
-//			// Single attachment data
-//			Uri uri = (Uri) i.getParcelableExtra(Intent.EXTRA_STREAM);
-//	    	// Due to the fact that Google Now passes intent as text but with 
-//	    	// audio recording attached the case must be handled in specific way
-//		    if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {
-//		    	String mimeType = StorageManager.getMimeTypeInternal(mActivity, i.getType());
-//		    	note.addAttachment(new Attachment(uri, mimeType));
-//		    }
-//		    
-//		    // Multiple attachment data
-//		    ArrayList<Uri> uris = i.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-//		    if (uris != null) {
-//		    	for (Uri uriSingle : uris) {
-//		    		String mimeGeneral = StorageManager.getMimeType(mActivity, uriSingle);
-//		    		if (mimeGeneral != null) {
-//		    			String mimeType = StorageManager.getMimeTypeInternal(mActivity, mimeGeneral);
-//		    			note.addAttachment(new Attachment(uriSingle, mimeType));	
-//		    		} else {
-////		    			showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
-//		    			Crouton.makeText(mActivity, R.string.error_importing_some_attachments, ONStyle.ALERT).show();
-//		    		}
-//				}
-//		    }
-//		    switchToDetail(note);
-//		}
-		
-
-		
 	}
 
+	
 	public void switchToDetail(Note note) {
 		FragmentTransaction transaction = mFragmentManager.beginTransaction();
 		animateTransition(transaction, TRANSITION_HORIZONTAL);
