@@ -20,6 +20,7 @@ import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListView;
+import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
@@ -32,7 +33,7 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
-import it.feio.android.omninotes.models.listeners.OnAttachingFileErrorListener;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnSketchSavedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AlphaManager;
@@ -143,7 +144,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  * a {@link ItemDetailFragment}.
  */
 public class DetailFragment extends Fragment implements OnDateSetListener,
-OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener, OnTouchListener, OnGlobalLayoutListener, OnSketchSavedListener {
+OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener, OnTouchListener, OnGlobalLayoutListener, OnSketchSavedListener, OnAttachingFileListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -595,15 +596,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		// shown
 		mGridView = (ExpandableHeightGridView) getView().findViewById(R.id.gridview);
 		mAttachmentAdapter = new AttachmentAdapter((Activity)mActivity, noteTmp.getAttachmentsList(), mGridView);
-		mAttachmentAdapter.setOnErrorListener(new OnAttachingFileErrorListener() {			
-			@Override
-			public void onAttachingFileErrorOccurred(Attachment mAttachment) {
-				Crouton.makeText(mActivity, R.string.error_saving_attachments, ONStyle.ALERT).show();
-				noteTmp.getAttachmentsList().remove(mAttachment);
-				mAttachmentAdapter.notifyDataSetChanged();
-				mGridView.autoresize();
-			}
-		});
+		mAttachmentAdapter.setOnErrorListener(this);
 
 		// Initialzation of gridview for images
 		mGridView.setAdapter(mAttachmentAdapter);
@@ -1572,24 +1565,22 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				mGridView.autoresize();
 				break;
 			case GALLERY:
-				String mimeType = StorageManager.getMimeTypeInternal(mActivity,  intent.getData());
-				// Manages unknow formats
-				if (mimeType == null) {
-					Crouton.makeText(mActivity, R.string.error_saving_attachments,
-							ONStyle.WARN).show();
-					break;
-				}				
-//				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { 
-//					final int takeFlags = intent.getFlags()
-//				            & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-//				            | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//					// Check for the freshest data.
-//					getContentResolver().takePersistableUriPermission(intent.getData(), takeFlags);
-//				}				
-				attachment = new Attachment(intent.getData(), mimeType);
-				noteTmp.getAttachmentsList().add(attachment);
-				mAttachmentAdapter.notifyDataSetChanged();
-				mGridView.autoresize();
+				Uri uri = intent.getData();
+//				String mimeType = StorageManager.getMimeTypeInternal(mActivity, uri);
+//				// Manages unknow formats
+//				if (mimeType == null) {
+//					Crouton.makeText(mActivity, R.string.error_saving_attachments,
+//							ONStyle.WARN).show();
+//					break;
+//				} else {				
+				
+					AttachmentTask task = new AttachmentTask(this, uri, this);
+					task.execute();
+					
+//					noteTmp.getAttachmentsList().add(attachment);
+//					mAttachmentAdapter.notifyDataSetChanged();
+//					mGridView.autoresize();
+//				}
 				break;
 			case TAKE_VIDEO:
 				// Gingerbread doesn't allow custom folder so data are retrieved from intent 
@@ -2455,6 +2446,28 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				wrapper.addView(timestampsView);
 			}		
 		}
+	}
+
+	
+	
+	
+	@Override
+	public void onAttachingFileErrorOccurred(Attachment mAttachment) {
+		Crouton.makeText(mActivity, R.string.error_saving_attachments, ONStyle.ALERT).show();
+		if (noteTmp.getAttachmentsList().contains(mAttachment)) {
+			noteTmp.getAttachmentsList().remove(mAttachment);
+			mAttachmentAdapter.notifyDataSetChanged();
+			mGridView.autoresize();
+		}
+	}
+
+	
+	
+	@Override
+	public void onAttachingFileFinished(Attachment mAttachment) {
+		noteTmp.getAttachmentsList().add(mAttachment);
+		mAttachmentAdapter.notifyDataSetChanged();
+		mGridView.autoresize();
 	}
 
 

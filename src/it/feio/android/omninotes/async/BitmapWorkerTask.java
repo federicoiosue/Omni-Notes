@@ -2,7 +2,7 @@ package it.feio.android.omninotes.async;
 
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.listeners.OnAttachingFileErrorListener;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.BitmapHelper;
 
@@ -27,7 +27,7 @@ public class BitmapWorkerTask extends
 	private int width;
 	private int height;
 	private boolean wasCached = true;
-	private OnAttachingFileErrorListener mOnAttachingFileErrorListener;
+	private OnAttachingFileListener mOnAttachingFileErrorListener;
 	private Attachment mAttachment;
 	
 
@@ -121,7 +121,7 @@ public class BitmapWorkerTask extends
 	
 	
 		
-	public void setOnErrorListener(OnAttachingFileErrorListener listener) {
+	public void setOnErrorListener(OnAttachingFileListener listener) {
 		this.mOnAttachingFileErrorListener = listener;
 	}
 

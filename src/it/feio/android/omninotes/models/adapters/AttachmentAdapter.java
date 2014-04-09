@@ -18,7 +18,7 @@ package it.feio.android.omninotes.models.adapters;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.BitmapWorkerTask;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.listeners.OnAttachingFileErrorListener;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
@@ -47,7 +47,7 @@ public class AttachmentAdapter extends BaseAdapter {
 	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
 	private ExpandableHeightGridView mGridView;
 	private LayoutInflater inflater;
-	private OnAttachingFileErrorListener mOnAttachingFileErrorListener;
+	private OnAttachingFileListener mOnAttachingFileErrorListener;
 
 	public AttachmentAdapter(Activity mActivity, List<Attachment> attachmentsList, ExpandableHeightGridView mGridView) {
 		this.mActivity = mActivity;
@@ -198,7 +198,7 @@ public class AttachmentAdapter extends BaseAdapter {
     
     
 
-	public void setOnErrorListener(OnAttachingFileErrorListener listener) {
+	public void setOnErrorListener(OnAttachingFileListener listener) {
 		this.mOnAttachingFileErrorListener = listener;
 	}
 	
