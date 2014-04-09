@@ -102,14 +102,8 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	        holder = (NoteAdapterViewHolder) convertView.getTag();
 	    }
 		
-	    
-//		Spanned[] titleAndContent = TextUtils.parseTitleAndContent(note);
-//		// Setting note title	
-//		holder.title.setText(titleAndContent[0]);		
-//		// Setting note content	
-//		holder.content.setText(titleAndContent[1]);
-//		holder.content.setVisibility(View.VISIBLE);		
-	    TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content);
+	    		
+	    TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
 	    if (Build.VERSION.SDK_INT >= 11) {
 			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
 		} else {

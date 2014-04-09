@@ -17,12 +17,14 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
 	private final WeakReference<Activity> mActivityWeakReference;
 	private TextView titleTextView;
 	private TextView contentTextView;
+	private boolean expandedView;
 
 	public TextWorkerTask(Activity activity, TextView titleTextView,
-			TextView contentTextView) {
+			TextView contentTextView, boolean expandedView) {
 		mActivityWeakReference = new WeakReference<Activity>(activity);
 		this.titleTextView = titleTextView;
 		this.contentTextView = contentTextView;
+		this.expandedView = expandedView;
 	}
 
 	
@@ -43,7 +45,11 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
 				contentTextView.setText(titleAndContent[1]);
 				contentTextView.setVisibility(View.VISIBLE);	
 			} else {
-				contentTextView.setVisibility(View.GONE);				
+				if (expandedView) {
+					contentTextView.setVisibility(View.INVISIBLE);
+				} else {
+					contentTextView.setVisibility(View.GONE);
+				}
 			}
 			return;
 		}
