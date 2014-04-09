@@ -164,6 +164,7 @@
   <string name="error">Error</string>
   <string name="archived">archived</string>
   <string name="files">Files</string>
+  <string name="merge">Merge</string>
 
     <!-- Settings -->
   <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
