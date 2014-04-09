@@ -69,32 +69,6 @@ public class AttachmentAdapter extends BaseAdapter {
 	}
 
 	
-//	// create a new ImageView for each item referenced by the Adapter
-//	@SuppressLint("NewApi")
-//	public View getView(int position, View convertView, ViewGroup parent) {
-//		
-//		Log.v(Constants.TAG, "GridView called for position " + position);
-//		
-//		SquareImageView imageView;
-//		if (convertView == null) {// not recylcled
-//			imageView = new SquareImageView(mActivity);
-//		} else {
-//			imageView = (SquareImageView) convertView;
-//		}	
-//		
-////		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, imageView, mGridView.getItemHeight(), mGridView.getItemHeight());
-//		ThumbnailLoaderTask task = new ThumbnailLoaderTask(mActivity, imageView, Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
-//		if (Build.VERSION.SDK_INT >= 11) {
-//			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, attachmentsList.get(position));
-//		} else {
-//			task.execute(attachmentsList.get(position));
-//		}
-//		
-//		return imageView;
-//	}
-	// create a new ImageView for each item referenced by the Adapter
-	
-	
 	
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
@@ -136,6 +110,8 @@ public class AttachmentAdapter extends BaseAdapter {
 			}
 			holder.text.setText(text);
 			holder.text.setVisibility(View.VISIBLE);
+		} else {
+			holder.text.setVisibility(View.GONE);
 		}
 		
 		// Draw name in case the type is an audio recording (or file in the future)
