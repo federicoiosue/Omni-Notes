@@ -559,7 +559,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 //								i.setAction(Intent.ACTION_SEARCH);
 //								i.putExtra(SearchManager.QUERY, pattern);
 //								startActivity(i);
-								NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mActivity, mFragment);
+								NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
 								mNoteLoaderTask.execute("getMatchingNotes", pattern);
 								return true;
 							} else {
@@ -886,7 +886,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	void initNotesList(Intent intent) {
 		
 		List<Note> notes;
-		NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mActivity, this);
+		NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
 		
 		// Searching
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {

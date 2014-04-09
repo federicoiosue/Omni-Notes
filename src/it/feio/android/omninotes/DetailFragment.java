@@ -324,8 +324,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	
 	
 	private void init() {
-
-		mActivity.showLoading();
 		
 		// Handling of Intent actions		
 		handleIntents();
@@ -1248,7 +1246,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 //					fade(toggleChecklistView, true);
 					animate(this.targetView).alpha(1).scaleXBy(0).scaleX(1).scaleYBy(0).scaleY(1);
 					noteTmp.setChecklist(!noteTmp.isChecklist());
-					mActivity.hideLoading();
 				}				
 			}
 		}

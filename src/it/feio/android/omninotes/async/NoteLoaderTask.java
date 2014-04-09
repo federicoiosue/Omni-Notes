@@ -24,48 +24,49 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 
-	private final WeakReference<Activity> mActivityReference;
+	private final WeakReference<Fragment> mFragmentReference;
 	private OnNotesLoadedListener mOnNotesLoadedListener;
 
-	
-	public NoteLoaderTask(Activity mActivity,
+	public NoteLoaderTask(Fragment mFragment,
 			OnNotesLoadedListener mOnNotesLoadedListener) {
-		mActivityReference = new WeakReference<Activity>(mActivity);
+		mFragmentReference = new WeakReference<Fragment>(mFragment);
 		this.mOnNotesLoadedListener = mOnNotesLoadedListener;
 	}
 
-	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected ArrayList<Note> doInBackground(Object... params) {
 		ArrayList<Note> notes = new ArrayList<Note>();
 		String methodName = params[0].toString();
 		Object methodArgs = params[1];
-		DbHelper db = new DbHelper(mActivityReference.get());
+		DbHelper db = new DbHelper(mFragmentReference.get().getActivity());
 
 		// If null argument an empty list will be returned
 		if (methodArgs == null) {
 			return notes;
 		}
-		
+
 		// Checks the argument class with reflection
-		Class[] paramClass = new Class[1];		
+		@SuppressWarnings("rawtypes")
+		Class[] paramClass = new Class[1];
 		if (Boolean.class.isAssignableFrom(methodArgs.getClass())) {
-			paramClass[0] = Boolean.class;			
+			paramClass[0] = Boolean.class;
 		} else {
-			paramClass[0] = String.class;			
+			paramClass[0] = String.class;
 		}
 
-		// Retrieves and calls the right method 
+		// Retrieves and calls the right method
 		Method method;
 		try {
 			method = db.getClass().getDeclaredMethod(methodName, paramClass);
-			notes = (ArrayList<Note>) method.invoke(db, paramClass[0].cast(methodArgs));
+			notes = (ArrayList<Note>) method.invoke(db,
+					paramClass[0].cast(methodArgs));
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Error retrieving notes", e);
 		}
@@ -73,12 +74,21 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 		return notes;
 	}
 
-	
 	@Override
 	protected void onPostExecute(ArrayList<Note> notes) {
 		super.onPostExecute(notes);
-		if (mActivityReference.get() != null && !mActivityReference.get().isFinishing()) {
+		if (isAlive()) {
 			mOnNotesLoadedListener.onNotesLoaded(notes);
 		}
+	}
+
+	private boolean isAlive() {
+		if (mFragmentReference.get() != null
+				&& mFragmentReference.get().getActivity() != null
+				&& !mFragmentReference.get().getActivity().isFinishing()
+				&& mFragmentReference.get().isAdded()) {
+			return true;
+		}
+		return false;
 	}
 }
