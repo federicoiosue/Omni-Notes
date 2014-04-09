@@ -49,9 +49,9 @@
     </string-array>
 
     <string-array name="checked_items_behavior">
-        <item >Hold on position</item>
-        <item >Move at end of all the items</item>
-        <item >Move after unchecked but on top of unchecked</item>
+        <item>Keep position</item>
+	    <item>Move to the end of the list</item>
+	    <item>Move to the end of unchecked items</item>
     </string-array>
         
     <string-array name="checked_items_behavior_values">
