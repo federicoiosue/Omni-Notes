@@ -16,7 +16,22 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.5.0" changeDate="Apr 1, 2014">
+    <changelogversion versionName="4.5.0 Beta 4" changeDate="Apr 9, 2014">
+        <changelogtext>[b]New![/b] Faster files attachment process and automatic file types recognition</changelogtext> 
+        <changelogtext>[b]New![/b] More custom text sizes</changelogtext> 
+        <changelogtext>[u]Fixed[/u] Notes list scrolling heavy lag</changelogtext>  
+        <changelogtext>[u]Fixed[/u] A lot of crash reports you've sent me have been resolved</changelogtext>  
+    </changelogversion>
+
+    <changelogversion versionName="4.5.0 Beta 3" changeDate="Apr 3, 2014">
+        <changelogtext>Various bugfixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="4.5.0 Beta 2" changeDate="Apr 2, 2014">
+        <changelogtext>Various bugfixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="4.5.0 Beta 1" changeDate="Apr 1, 2014">
         <changelogtext>[b]New![/b] Application largely rewritten (brand new UI management) to improve animations, smoothness and usability</changelogtext> 
         <changelogtext>[b]New![/b] Files attachment support: you can now include anything!</changelogtext> 
         <changelogtext>[b]New![/b] Added custom font sizes changeable from the Settings->Interface menu</changelogtext>
