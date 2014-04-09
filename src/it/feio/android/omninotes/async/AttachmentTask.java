@@ -9,21 +9,31 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 
 
 public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
 	private final WeakReference<Fragment> mFragmentWeakReference;
+	private final Activity mActivity;
 	private OnAttachingFileListener mOnAttachingFileListener;
 	private Uri uri;
+	private String fileName;
 
 	public AttachmentTask(Fragment mFragment, Uri uri, OnAttachingFileListener mOnAttachingFileListener) {
+		this(mFragment, uri, null, mOnAttachingFileListener);
+	}
+
+	public AttachmentTask(Fragment mFragment, Uri uri, String fileName, OnAttachingFileListener mOnAttachingFileListener) {
 		mFragmentWeakReference = new WeakReference<Fragment>(mFragment);
 		this.uri = uri;
+		this.fileName = TextUtils.isEmpty(fileName) ? "" : fileName;
 		this.mOnAttachingFileListener = mOnAttachingFileListener;
+		this.mActivity = mFragment.getActivity();
 	}
 
 	
@@ -31,18 +41,17 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 	protected Attachment doInBackground(Void... params) {
 		
 		String extension = FileHelper.getFileExtension(
-				FileHelper.getNameFromUri(mFragmentWeakReference.get()
-						.getActivity(), uri)).toLowerCase(Locale.getDefault());
+				FileHelper.getNameFromUri(mActivity, uri)).toLowerCase(Locale.getDefault());
 		
-		File f = StorageManager.createExternalStoragePrivateFile(
-				mFragmentWeakReference.get().getActivity(), uri, extension);
+		String mimeType = StorageManager.getMimeTypeInternal(mActivity, uri);
 		
-		String mimeType = StorageManager.getMimeTypeInternal(
-				mFragmentWeakReference.get().getActivity(), uri);
+		File f = StorageManager.createExternalStoragePrivateFile(mActivity, uri, extension);
 		
 		if (f == null) return null;
 		
 		Attachment mAttachment = new Attachment(Uri.fromFile(f), mimeType);
+		mAttachment.setName(fileName);
+		mAttachment.setSize(f.length());
 		mAttachment.setMoveWhenNoteSaved(false);
 		return mAttachment;
 	}
@@ -55,6 +64,10 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 				mOnAttachingFileListener.onAttachingFileFinished(mAttachment);
 			} else {
 				mOnAttachingFileListener.onAttachingFileErrorOccurred(mAttachment);
+			}
+		} else {
+			if (mAttachment != null) {
+				StorageManager.delete(mActivity, mAttachment.getUri().getPath());
 			}
 		}
 	}

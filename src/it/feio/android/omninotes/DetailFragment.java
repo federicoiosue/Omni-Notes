@@ -1604,23 +1604,29 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 //					} else {
 //						f = FileHelper.getFileFromUri(mActivity, filesUri);
 //					}
+					
 					String name = FileHelper.getNameFromUri(mActivity, filesUri);
-					String extension = FileHelper.getFileExtension(name).toLowerCase(Locale.getDefault());
-					File f = StorageManager.createExternalStoragePrivateFile(mActivity, filesUri, extension);
-					if (f.exists()) {
-						attachment = new Attachment(Uri.fromFile(f),
-								Constants.MIME_TYPE_FILES);
-						attachment.setName(name);
-						attachment.setSize(f.length());
-						attachment.setMoveWhenNoteSaved(false);
-						noteTmp.getAttachmentsList().add(attachment);
-						mAttachmentAdapter.notifyDataSetChanged();
-						mGridView.autoresize();
-					} else {
-						Crouton.makeText(mActivity,
-								R.string.error_saving_attachments,
-								ONStyle.ALERT).show();
-					}
+//					String extension = FileHelper.getFileExtension(name).toLowerCase(Locale.getDefault());
+//					File f = StorageManager.createExternalStoragePrivateFile(mActivity, filesUri, extension);
+//					if (f.exists()) {
+//						attachment = new Attachment(Uri.fromFile(f),
+//								Constants.MIME_TYPE_FILES);
+//						attachment.setName(name);
+//						attachment.setSize(f.length());
+//						attachment.setMoveWhenNoteSaved(false);
+//						noteTmp.getAttachmentsList().add(attachment);
+//						mAttachmentAdapter.notifyDataSetChanged();
+//						mGridView.autoresize();
+//					} else {
+//						Crouton.makeText(mActivity,
+//								R.string.error_saving_attachments,
+//								ONStyle.ALERT).show();
+//					}
+
+					
+					AttachmentTask task1 = new AttachmentTask(this, filesUri, name, this);
+					task1.execute();
+					
 				} else {
 					Crouton.makeText(mActivity,
 							R.string.error_saving_attachments, ONStyle.ALERT)
