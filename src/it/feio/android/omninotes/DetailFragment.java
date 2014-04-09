@@ -1433,6 +1433,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			case R.id.files:
 				Intent filesIntent;
 				filesIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//				filesIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 				filesIntent.addCategory(Intent.CATEGORY_OPENABLE);
 				filesIntent.setType("*/*");
 				startActivityForResult(filesIntent, FILES);
@@ -1458,8 +1459,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void takeGalleryKitKat() {
 		
 		final Intent intent = new Intent();
-//		intent.setAction(Intent.ACTION_GET_CONTENT);
-		intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+//		intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
@@ -1614,8 +1615,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 //					} else {
 //						f = FileHelper.getFileFromUri(mActivity, filesUri);
 //					}
-					String name = FileHelper.getFilePrefix(FileHelper.getNameFromUri(mActivity, filesUri));
-					String extension = FileHelper.getFileExtension(FileHelper.getNameFromUri(mActivity, filesUri));
+					String name = FileHelper.getNameFromUri(mActivity, filesUri);
+					String extension = FileHelper.getFileExtension(name).toLowerCase(Locale.getDefault());
 					File f = StorageManager.createExternalStoragePrivateFile(mActivity, filesUri, extension);
 					if (f.exists()) {
 						attachment = new Attachment(Uri.fromFile(f),

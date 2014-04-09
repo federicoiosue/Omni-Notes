@@ -23,7 +23,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import android.app.ActivityManager.MemoryInfo;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
