@@ -20,7 +20,8 @@
         <changelogtext>[b]New![/b] Faster files attachment process and automatic file types recognition</changelogtext> 
         <changelogtext>[b]New![/b] More custom text sizes</changelogtext> 
         <changelogtext>[u]Fixed[/u] Notes list scrolling heavy lag</changelogtext>  
-        <changelogtext>[u]Fixed[/u] A lot of crash reports you've sent me have been resolved</changelogtext>  
+        <changelogtext>[u]Fixed[/u] Issue opening the app or directly the notes using widgets, Dashclock and reminder notifications</changelogtext>  
+        <changelogtext>[u]Fixed[/u] A lot of other crashes and problems you've reported have been resolved</changelogtext>  
     </changelogversion>
 
     <changelogversion versionName="4.5.0 Beta 3" changeDate="Apr 3, 2014">
