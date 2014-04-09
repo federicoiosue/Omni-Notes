@@ -56,6 +56,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.io.FileUtils;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -1602,43 +1604,37 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
 				break;
-//			case RECORDING:
-//				if (resultCode == Activity.RESULT_OK) {
-//					Uri audioUri = intent.getData();
-//					attachment = new Attachment(audioUri, Constants.MIME_TYPE_AUDIO);
-//					attachment.setLength(audioRecordingTime);
-//					noteTmp.getAttachmentsList().add(attachment);
-//					mAttachmentAdapter.notifyDataSetChanged();
-//					mGridView.autoresize();
-//				} else {
-//					Log.e(Constants.TAG, "Audio recording unsuccessful");
-//				}
-//				break;
 			case FILES:
 				if (resultCode == Activity.RESULT_OK) {
 					Uri filesUri = intent.getData();
 					// A check on the existence of the file is done
-					if (FileHelper.getPath(mActivity, filesUri) != null) {
-						File f = new File(FileHelper.getPath(mActivity, filesUri));
-						if (f.exists()) {						
-	//						attachment = new Attachment(filesUri, Constants.MIME_TYPE_FILES);
-							attachment = new Attachment(Uri.fromFile(f), Constants.MIME_TYPE_FILES);
-							attachment.setName(f.getName());
-							attachment.setSize(f.length());
-							noteTmp.getAttachmentsList().add(attachment);
-							mAttachmentAdapter.notifyDataSetChanged();
-							mGridView.autoresize();						
-						} else {
-							Crouton.makeText(mActivity, R.string.error_saving_attachments,
-									ONStyle.ALERT).show();
-						}
+//					File f = null;
+//					if (FileHelper.getPath(mActivity, filesUri) != null) {
+//						f = new File(FileHelper.getPath(mActivity, filesUri));
+//					} else {
+//						f = FileHelper.getFileFromUri(mActivity, filesUri);
+//					}
+					String name = FileHelper.getFilePrefix(FileHelper.getNameFromUri(mActivity, filesUri));
+					String extension = FileHelper.getFileExtension(FileHelper.getNameFromUri(mActivity, filesUri));
+					File f = StorageManager.createExternalStoragePrivateFile(mActivity, filesUri, extension);
+					if (f.exists()) {
+						attachment = new Attachment(Uri.fromFile(f),
+								Constants.MIME_TYPE_FILES);
+						attachment.setName(name);
+						attachment.setSize(f.length());
+						attachment.setMoveWhenNoteSaved(false);
+						noteTmp.getAttachmentsList().add(attachment);
+						mAttachmentAdapter.notifyDataSetChanged();
+						mGridView.autoresize();
 					} else {
-						Crouton.makeText(mActivity, R.string.error_saving_attachments,
+						Crouton.makeText(mActivity,
+								R.string.error_saving_attachments,
 								ONStyle.ALERT).show();
 					}
 				} else {
-					Crouton.makeText(mActivity, R.string.error_saving_attachments,
-							ONStyle.ALERT).show();
+					Crouton.makeText(mActivity,
+							R.string.error_saving_attachments, ONStyle.ALERT)
+							.show();
 				}
 				break;
 			case SET_PASSWORD:
@@ -1688,7 +1684,7 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		// Checks if some new files have been attached and must be removed
 		if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
 			for (Attachment newAttachment: noteTmp.getAttachmentsList()) {
-				if (!note.getAttachmentsList().contains(newAttachment)) {
+				if (!note.getAttachmentsList().contains(newAttachment) && !newAttachment.getMoveWhenNoteSaved()) {
 					StorageManager.delete(mActivity, newAttachment.getUri().getPath());
 				}
 			}

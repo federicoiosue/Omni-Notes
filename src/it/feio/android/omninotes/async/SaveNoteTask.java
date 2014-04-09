@@ -138,7 +138,8 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 //			extension = StorageManager.getRealPathFromURI(mDetailFragmentReference.get().getActivity(), attachment.getUri());
 				String path = FileHelper.getPath(mDetailFragmentReference.get().getActivity(), uri);
 				if (path != null) {
-					extension = path.substring(path.lastIndexOf("."), path.length());
+//					extension = path.substring(path.lastIndexOf("."), path.length());
+					extension = FileHelper.getFileExtension(path);
 				}
 			}				
 				
