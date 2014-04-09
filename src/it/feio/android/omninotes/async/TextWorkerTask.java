@@ -42,6 +42,8 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
 			if (titleAndContent[1].length() > 0) {
 				contentTextView.setText(titleAndContent[1]);
 				contentTextView.setVisibility(View.VISIBLE);	
+			} else {
+				contentTextView.setVisibility(View.GONE);				
 			}
 			return;
 		}

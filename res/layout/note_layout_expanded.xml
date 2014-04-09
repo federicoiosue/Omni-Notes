@@ -36,7 +36,7 @@
             android:layout_height="match_parent"
             android:background="@null" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -58,8 +58,9 @@
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/note_content"
+                android:layout_below="@+id/note_title"
                 android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:maxLines="2"
                 android:textAppearance="@style/Text.Normal"
@@ -69,7 +70,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|left"
+                android:layout_alignParentBottom="true"
                 android:orientation="horizontal" >
 
                 <com.neopixl.pixlui.components.textview.TextView
@@ -116,7 +117,7 @@
                     android:src="@drawable/ic_action_secure"
                     android:visibility="gone" />
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
 
         <it.feio.android.omninotes.models.views.SquareImageView
             android:id="@+id/attachmentThumbnail"
