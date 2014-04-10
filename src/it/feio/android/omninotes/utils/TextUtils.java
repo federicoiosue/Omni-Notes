@@ -16,7 +16,7 @@ public class TextUtils {
 		// Defining title and content texts	
 		String titleText, contentText;
 		
-		String content = limit(note.getContent(), CONTENT_SUBSTRING_LENGTH);
+		String content = limit(note.getContent().trim(), CONTENT_SUBSTRING_LENGTH);
 		
 		if (note.getTitle().length() > 0) {
 			titleText = note.getTitle();
