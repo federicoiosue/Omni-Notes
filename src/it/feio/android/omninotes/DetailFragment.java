@@ -1784,8 +1784,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	 * @param archive
 	 *            Boolean flag used to archive note. If null actual note state is used.
 	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB) void saveNote(Boolean archive) {
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB) void saveNote(Boolean archive) {
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent());	
@@ -1853,10 +1853,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 			// a com.neopixl.pixlui.components.edittext.EditText but a standard
 			// android.widget.EditText
 			try {
-				content = ((EditText) mActivity.findViewById(R.id.detail_content)).getText().toString();
-			} catch (ClassCastException e) {
-				content = ((android.widget.EditText)  mActivity.findViewById(R.id.detail_content)).getText().toString();
-			}
+				try {
+					content = ((EditText) getActivity().findViewById(R.id.detail_content)).getText().toString();
+				} catch (ClassCastException e) {
+					content = ((android.widget.EditText)  getActivity().findViewById(R.id.detail_content)).getText().toString();
+				}
+			}catch (NullPointerException e) {}
 		} else {
 				if (mChecklistManager != null) {
 					mChecklistManager.setKeepChecked(true);
