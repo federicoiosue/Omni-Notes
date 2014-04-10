@@ -16,6 +16,11 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.5.0 Beta 5" changeDate="Apr 10, 2014">
+        <changelogtext>[b]New![/b] Single note sharing directly from list</changelogtext> 
+        <changelogtext>[u]Fixed[/u] Checklists creation</changelogtext>  
+    </changelogversion>
+
     <changelogversion versionName="4.5.0 Beta 4" changeDate="Apr 9, 2014">
         <changelogtext>[b]New![/b] Faster files attachment process and automatic file types recognition</changelogtext> 
         <changelogtext>[b]New![/b] More custom text sizes</changelogtext> 

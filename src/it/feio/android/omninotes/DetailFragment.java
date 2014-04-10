@@ -53,7 +53,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -1839,8 +1838,8 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 
 	private String getNoteTitle() {
 		String res = "";
-		if (mActivity.findViewById(R.id.detail_title) != null) {
-			res = ((EditText) mActivity.findViewById(R.id.detail_title)).getText().toString();
+		if (getActivity().findViewById(R.id.detail_title) != null) {
+			res = ((EditText) getActivity().findViewById(R.id.detail_title)).getText().toString();
 		}
 		return res;
 	}
@@ -2002,66 +2001,72 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	/**
 	 * Notes sharing
 	 */
-	private void shareNote() {
-		
-		String titleText = ((EditText) mActivity.findViewById(R.id.detail_title)).getText().toString();
-		
-		String contentText = titleText 
-								+ System.getProperty("line.separator")
-								+ getNoteContent() 
-								+ System.getProperty("line.separator")
-								+ System.getProperty("line.separator")
-								+ getResources().getString(R.string.shared_content_sign);
-		
-		
-//		// Check if some text has ben inserted or is an empty note
-//		if ((title + content).length() == 0 && attachmentsList.size() == 0) {
-//			Log.d(Constants.TAG, "Empty note not shared");
-////			showToast(getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT);
-//			Crouton.makeText(this, R.string.empty_note_not_shared, ONStyle.INFO).show();
-//			return;
+//	private void shareNote() {
+//		
+//		String titleText = ((EditText) mActivity.findViewById(R.id.detail_title)).getText().toString();
+//		
+//		String contentText = titleText 
+//				+ System.getProperty("line.separator")
+//				+ getNoteContent() 
+//				+ System.getProperty("line.separator")
+//				+ System.getProperty("line.separator")
+//				+ getResources().getString(R.string.shared_content_sign);
+//		
+//		
+////		// Check if some text has ben inserted or is an empty note
+////		if ((title + content).length() == 0 && attachmentsList.size() == 0) {
+////			Log.d(Constants.TAG, "Empty note not shared");
+//////			showToast(getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT);
+////			Crouton.makeText(this, R.string.empty_note_not_shared, ONStyle.INFO).show();
+////			return;
+////		}
+//		
+//		
+//		Intent shareIntent = new Intent();
+//		// Prepare sharing intent with only text
+//		if (noteTmp.getAttachmentsList().size() == 0) {
+//			shareIntent.setAction(Intent.ACTION_SEND);
+//			shareIntent.setType("text/plain");
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
+//			
+//			// Intent with single image attachment
+//		} else if (noteTmp.getAttachmentsList().size() == 1) {
+//			shareIntent.setAction(Intent.ACTION_SEND);
+//			shareIntent.setType(noteTmp.getAttachmentsList().get(0).getMime_type());
+//			shareIntent.putExtra(Intent.EXTRA_STREAM, noteTmp.getAttachmentsList().get(0).getUri());
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
+//			
+//			// Intent with multiple images
+//		} else if (noteTmp.getAttachmentsList().size() > 1) {
+//			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+//			ArrayList<Uri> uris = new ArrayList<Uri>();
+//			// A check to decide the mime type of attachments to share is done here
+//			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
+//			for (Attachment attachment : noteTmp.getAttachmentsList()) {
+//				uris.add(attachment.getUri());
+//				mimeTypes.put(attachment.getMime_type(), true);
+//			}
+//			// If many mime types are present a general type is assigned to intent
+//			if (mimeTypes.size() > 1) {
+//				shareIntent.setType("*/*");
+//			} else {
+//				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
+//			}
+//			
+//			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
+//			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 //		}
-
-
-		Intent shareIntent = new Intent();
-		// Prepare sharing intent with only text
-		if (noteTmp.getAttachmentsList().size() == 0) {
-			shareIntent.setAction(Intent.ACTION_SEND);
-			shareIntent.setType("text/plain");
-			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
-			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
-
-			// Intent with single image attachment
-		} else if (noteTmp.getAttachmentsList().size() == 1) {
-			shareIntent.setAction(Intent.ACTION_SEND);
-			shareIntent.setType(noteTmp.getAttachmentsList().get(0).getMime_type());
-			shareIntent.putExtra(Intent.EXTRA_STREAM, noteTmp.getAttachmentsList().get(0).getUri());
-			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
-			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
-
-			// Intent with multiple images
-		} else if (noteTmp.getAttachmentsList().size() > 1) {
-			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-			ArrayList<Uri> uris = new ArrayList<Uri>();
-			// A check to decide the mime type of attachments to share is done here
-			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
-			for (Attachment attachment : noteTmp.getAttachmentsList()) {
-				uris.add(attachment.getUri());
-				mimeTypes.put(attachment.getMime_type(), true);
-			}
-			// If many mime types are present a general type is assigned to intent
-			if (mimeTypes.size() > 1) {
-				shareIntent.setType("*/*");
-			} else {
-				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
-			}
-			
-			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
-			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
-		}
-
-		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+//		
+//		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+//	}
+	private void shareNote() {		
+		Note sharedNote = new Note(noteTmp);
+		sharedNote.setTitle(getNoteTitle());
+		sharedNote.setContent(getNoteContent());
+		mActivity.shareNote(sharedNote);
 	}
 	
 	

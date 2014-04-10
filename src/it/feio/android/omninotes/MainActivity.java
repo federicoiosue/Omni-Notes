@@ -1,5 +1,11 @@
 package it.feio.android.omninotes;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.neopixl.pixlui.components.edittext.EditText;
+
+import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.AlphaManager;
@@ -7,6 +13,7 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SpinnerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -278,6 +285,64 @@ public class MainActivity extends BaseActivity {
 		if (mSpinnerDialog != null) {
 			mSpinnerDialog.dismiss();
 		}
+	}
+	
+	
+	
+	/**
+	 * Notes sharing
+	 */
+	public void shareNote(Note note) {
+		
+		String titleText = note.getTitle();
+		
+		String contentText = titleText 
+								+ System.getProperty("line.separator")
+								+ note.getContent() 
+								+ System.getProperty("line.separator")
+								+ System.getProperty("line.separator")
+								+ getResources().getString(R.string.shared_content_sign);
+		
+
+		Intent shareIntent = new Intent();
+		// Prepare sharing intent with only text
+		if (note.getAttachmentsList().size() == 0) {
+			shareIntent.setAction(Intent.ACTION_SEND);
+			shareIntent.setType("text/plain");
+			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
+			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
+
+			// Intent with single image attachment
+		} else if (note.getAttachmentsList().size() == 1) {
+			shareIntent.setAction(Intent.ACTION_SEND);
+			shareIntent.setType(note.getAttachmentsList().get(0).getMime_type());
+			shareIntent.putExtra(Intent.EXTRA_STREAM, note.getAttachmentsList().get(0).getUri());
+			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
+			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
+
+			// Intent with multiple images
+		} else if (note.getAttachmentsList().size() > 1) {
+			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+			ArrayList<Uri> uris = new ArrayList<Uri>();
+			// A check to decide the mime type of attachments to share is done here
+			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
+			for (Attachment attachment : note.getAttachmentsList()) {
+				uris.add(attachment.getUri());
+				mimeTypes.put(attachment.getMime_type(), true);
+			}
+			// If many mime types are present a general type is assigned to intent
+			if (mimeTypes.size() > 1) {
+				shareIntent.setType("*/*");
+			} else {
+				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
+			}
+			
+			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
+			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
+		}
+
+		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
 	}
 	
 	

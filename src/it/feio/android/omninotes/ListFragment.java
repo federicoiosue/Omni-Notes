@@ -37,6 +37,7 @@ import it.feio.android.omninotes.utils.Display;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -285,6 +286,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		}
 	}
 
+	
 	private final class ModeCallback implements Callback {
 
 		@Override
@@ -323,14 +325,12 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			// Here you can perform updates to the CAB due to
-			// an invalidate() request
-			Log.d(Constants.TAG, "CAB preparation");
 			boolean notes = getResources().getStringArray(R.array.navigation_list_codes)[0]
 					.equals(mActivity.navigation);
 			boolean archived = getResources().getStringArray(R.array.navigation_list_codes)[1]
 					.equals(mActivity.navigation);
 
+			menu.findItem(R.id.menu_share).setVisible(true);
 			menu.findItem(R.id.menu_archive).setVisible(notes);
 			menu.findItem(R.id.menu_unarchive).setVisible(archived);
 			menu.findItem(R.id.menu_tag).setVisible(true);
@@ -343,6 +343,14 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			// Respond to clicks on the actions in the CAB
 			switch (item.getItemId()) {
+			case R.id.menu_share:
+				Iterator<Note> i = selectedNotes.iterator();
+				while (i.hasNext()) {
+					Note note = i.next();
+					mActivity.shareNote(note);
+				}
+				mode.finish(); // Action picked, so close the CAB
+				return true;
 			case R.id.menu_delete:
 				deleteSelectedNotes();
 				return true;
@@ -381,10 +389,20 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			mAdapter.removeSelectedItem(position);
 			mAdapter.restoreDrawable(note, v);
 		}
+		
+		// Edit menu
+		if (selectedNotes.size() == 1) {
+			mActionMode.getMenu().findItem(R.id.menu_share).setVisible(true);
+		} else {
+			mActionMode.getMenu().findItem(R.id.menu_share).setVisible(false);
+		}
+		
+		// Close CAB if no items are selected
 		if (selectedNotes.size() == 0) {
 			selectedNotes.clear();
 			mActionMode.finish();
 		}
+		
 	}
 
 	/**
