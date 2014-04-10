@@ -20,6 +20,7 @@ import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.NoteLoaderTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
@@ -351,6 +352,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				}
 				mode.finish(); // Action picked, so close the CAB
 				return true;
+			case R.id.menu_merge:
+				merge();
+				return true;
 			case R.id.menu_delete:
 				deleteSelectedNotes();
 				return true;
@@ -391,11 +395,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		}
 		
 		// Edit menu
-		if (selectedNotes.size() == 1) {
-			mActionMode.getMenu().findItem(R.id.menu_share).setVisible(true);
-		} else {
-			mActionMode.getMenu().findItem(R.id.menu_share).setVisible(false);
-		}
+		boolean singleSelection = selectedNotes.size() == 1;
+		mActionMode.getMenu().findItem(R.id.menu_share).setVisible(singleSelection);
+		mActionMode.getMenu().findItem(R.id.menu_merge).setVisible(!singleSelection);
 		
 		// Close CAB if no items are selected
 		if (selectedNotes.size() == 0) {
@@ -1314,6 +1316,54 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			});
 		}		
 
+	}
+	
+	
+	
+	
+	/**
+	 * Merges all the selected notes
+	 */
+	public void merge() {
+		Note mergedNote = null;
+		StringBuilder content = new StringBuilder();
+		ArrayList<Attachment> attachments = new ArrayList<Attachment>();
+		
+		Note note;
+		Iterator<Note> j = selectedNotes.iterator();
+		while (j.hasNext()) { 
+			note = j.next();
+			
+			if (mergedNote == null) {
+				mergedNote = new Note();
+				mergedNote.setTitle(note.getTitle());
+				content.append(note.getContent());
+				
+			} else {				
+				content
+					.append(System.getProperty("line.separator"))
+					.append(note.getTitle())
+					.append(note.getContent());				
+			}
+			
+			attachments.addAll(note.getAttachmentsList());
+		}
+		
+		// Resets all the attachments id to force their note re-assign when saved
+		for (Attachment attachment : attachments) {
+			attachment.setId(0);
+		}
+
+		// Sets content text and attachments list
+		mergedNote.setContent(content.toString());
+		mergedNote.setAttachmentsList(attachments);
+
+		selectedNotes.clear();
+		mActionMode.finish();
+		
+		// Sets the intent action to be recognized from DetailFragment and switch fragment
+		mActivity.getIntent().setAction(Constants.ACTION_MERGE);		
+		mActivity.switchToDetail(mergedNote);
 	}
 	
 

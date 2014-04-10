@@ -376,6 +376,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 	private void handleIntents() {
 		Intent i = mActivity.getIntent();
 		
+		if (Constants.ACTION_MERGE.equals(i.getAction())) {
+			note = new Note();
+			noteTmp = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);
+			i.setAction(null);
+		}
+		
 		// Action called from home shortcut
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())) {
 			afterSavedReturnsToList = false;
