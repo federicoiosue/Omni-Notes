@@ -38,6 +38,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -90,7 +91,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e(Constants.TAG, "Error fetching app metadata");
 		}
 
 		return null;
@@ -182,14 +183,15 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			}
 
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			Log.e(Constants.TAG, "Error fetching app metadata", e);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(Constants.TAG, "Error fetching app metadata", e);
 		}
 	
 		return sb.toString();
 	}
 
+	
 	/**
 	 * Checks parsing "android:versionName" if app has been updated
 	 * 
