@@ -1188,69 +1188,110 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		toggleChecklist2(keepChecked, showChecks);
 	}
 	
+	
 	@SuppressLint("NewApi")
 	private void toggleChecklist2(final boolean keepChecked, final boolean showChecks) {
 		
-		class ChecklistTask extends AsyncTask<Void, Void, View> {
-			private View targetView;
-
-			public ChecklistTask(View targetView) {
-				this.targetView = targetView;
-			}
-
-			@Override
-			protected View doInBackground(Void... params) {
-
-				// Get instance and set options to convert EditText to CheckListView
-				mChecklistManager = ChecklistManager.getInstance(mActivity);
-				mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
-						String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
-				mChecklistManager.setShowChecks(true);
-				mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
-				// Set the textChangedListener on the replaced view
-				mChecklistManager.setCheckListChangedListener(mFragment);
-				mChecklistManager.addTextChangedListener(mFragment);
-				
-				// Links parsing options
-				mChecklistManager.setOnTextLinkClickListener(mFragment);
-				
-				// Options for converting back to simple text
-				mChecklistManager.setKeepChecked(keepChecked);
-				mChecklistManager.setShowChecks(showChecks);
-				
-				// Switches the views
-				View newView = null;
-				try {
-					newView = mChecklistManager.convert(this.targetView);								
-				} catch (ViewNotSupportedException e) {
-					Log.e(Constants.TAG, "Error switching checklist view", e);
-				}
-				
-				return newView;
-			}
-
-			@Override
-			protected void onPostExecute(View newView) {
-				super.onPostExecute(newView);
-				// Switches the views	
-				if (newView != null) {
-					mChecklistManager.replaceViews(this.targetView, newView);
-					toggleChecklistView = newView;					
-//					fade(toggleChecklistView, true);
-					animate(this.targetView).alpha(1).scaleXBy(0).scaleX(1).scaleYBy(0).scaleY(1);
-					noteTmp.setChecklist(!noteTmp.isChecklist());
-				}				
-			}
-		}
+		// AsyncTask processing doesn't work on some OS versions because in native classes
+		// (maybe TextView) another thread is launched and this brings to the folowing error:
+		// java.lang.RuntimeException: Can't create handler inside thread that has not called Looper.prepare()
 		
-		ChecklistTask task = new ChecklistTask(toggleChecklistView);		
-		if (Build.VERSION.SDK_INT >= 11) {
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		} else {
-			task.execute();
-		}
+//		class ChecklistTask extends AsyncTask<Void, Void, View> {
+//			private View targetView;
+//			
+//			public ChecklistTask(View targetView) {
+//				this.targetView = targetView;
+//			}
+//			
+//			@Override
+//			protected View doInBackground(Void... params) {
+//				
+//				// Get instance and set options to convert EditText to CheckListView
+//				mChecklistManager = ChecklistManager.getInstance(mActivity);
+//				mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
+//						String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
+//				mChecklistManager.setShowChecks(true);
+//				mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
+//				// Set the textChangedListener on the replaced view
+//				mChecklistManager.setCheckListChangedListener(mFragment);
+//				mChecklistManager.addTextChangedListener(mFragment);
+//				
+//				// Links parsing options
+//				mChecklistManager.setOnTextLinkClickListener(mFragment);
+//				
+//				// Options for converting back to simple text
+//				mChecklistManager.setKeepChecked(keepChecked);
+//				mChecklistManager.setShowChecks(showChecks);
+//				
+//				// Switches the views
+//				View newView = null;
+//				try {
+//					newView = mChecklistManager.convert(this.targetView);								
+//				} catch (ViewNotSupportedException e) {
+//					Log.e(Constants.TAG, "Error switching checklist view", e);
+//				}
+//				
+//				return newView;
+//			}
+//			
+//			@Override
+//			protected void onPostExecute(View newView) {
+//				super.onPostExecute(newView);
+//				// Switches the views	
+//				if (newView != null) {
+//					mChecklistManager.replaceViews(this.targetView, newView);
+//					toggleChecklistView = newView;					
+////					fade(toggleChecklistView, true);
+//					animate(this.targetView).alpha(1).scaleXBy(0).scaleX(1).scaleYBy(0).scaleY(1);
+//					noteTmp.setChecklist(!noteTmp.isChecklist());
+//				}				
+//			}
+//		}
+//		
+//		ChecklistTask task = new ChecklistTask(toggleChecklistView);		
+//		if (Build.VERSION.SDK_INT >= 11) {
+//			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//		} else {
+//			task.execute();
+//		}
 		
+		
+
+		// Get instance and set options to convert EditText to CheckListView
+		mChecklistManager = ChecklistManager.getInstance(mActivity);
+		mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
+				String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
+		mChecklistManager.setShowChecks(true);
+		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
+		// Set the textChangedListener on the replaced view
+		mChecklistManager.setCheckListChangedListener(mFragment);
+		mChecklistManager.addTextChangedListener(mFragment);
+		
+		// Links parsing options
+		mChecklistManager.setOnTextLinkClickListener(mFragment);
+		
+		// Options for converting back to simple text
+		mChecklistManager.setKeepChecked(keepChecked);
+		mChecklistManager.setShowChecks(showChecks);
+		
+		// Switches the views
+		View newView = null;
+		try {
+			newView = mChecklistManager.convert(toggleChecklistView);								
+		} catch (ViewNotSupportedException e) {
+			Log.e(Constants.TAG, "Error switching checklist view", e);
+		}
+			
+		// Switches the views	
+		if (newView != null) {
+			mChecklistManager.replaceViews(toggleChecklistView, newView);
+			toggleChecklistView = newView;					
+//			fade(toggleChecklistView, true);
+			animate(toggleChecklistView).alpha(1).scaleXBy(0).scaleX(1).scaleYBy(0).scaleY(1);
+			noteTmp.setChecklist(!noteTmp.isChecklist());
+		}		
 	}
+	
 	
 
 	/**
