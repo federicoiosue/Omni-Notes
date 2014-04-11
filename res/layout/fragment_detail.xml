@@ -143,8 +143,8 @@
 
                     <LinearLayout
                         android:id="@+id/reminder_layout"
+                       	android:layout_height="wrap_content"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
                         android:layout_marginBottom="5dp"
                         android:background="@drawable/icon_selector"
                         android:orientation="horizontal"
@@ -153,15 +153,15 @@
 
                         <ImageView
                             android:id="@+id/reminder"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                        	android:layout_height="25dp"
+                            android:layout_width="25dp"
                             android:contentDescription="@string/reminder"
                             android:src="@drawable/ic_reminder_dark" />
 
                         <com.neopixl.pixlui.components.textview.TextView
                             android:id="@+id/datetime"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:freezesText="true"
                             android:gravity="center_vertical"
                             android:hint="@string/add_reminder"
