@@ -21,6 +21,7 @@ import it.feio.android.omninotes.utils.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
@@ -47,6 +48,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
+	private final String BETA = " Beta ";
 	private final WeakReference<Activity> mActivityReference;
 	private final Activity mActivity;
 	String url;
@@ -91,7 +93,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			}
 
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Error fetching app metadata");
+			Log.e(Constants.TAG, "Error fetching app metadata", e);
 		}
 
 		return null;
@@ -173,14 +175,15 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			URLConnection conn = url.openConnection();
 
 			// open the stream and put it into BufferedReader
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-					conn.getInputStream()));
+			InputStream is = conn.getInputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
 			String inputLine;
 
 			while ((inputLine = br.readLine()) != null) {
 				sb.append(inputLine);
 			}
+			is.close();
 
 		} catch (MalformedURLException e) {
 			Log.e(Constants.TAG, "Error fetching app metadata", e);
@@ -208,8 +211,8 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 		String installedVersion = pInfo.versionName;
 
 		// Parsing version string to obtain major.minor.point (excluding eventually beta)
-		String[] playStoreVersionArray = playStoreVersion.split("b")[0].split("\\.");
-		String[] installedVersionArray = installedVersion.split("b")[0].split("\\.");	
+		String[] playStoreVersionArray = playStoreVersion.split(BETA)[0].split("\\.");
+		String[] installedVersionArray = installedVersion.split(BETA)[0].split("\\.");	
 		
 		// Versions strings are converted into integer
 		String playStoreVersionString = playStoreVersionArray[0];
