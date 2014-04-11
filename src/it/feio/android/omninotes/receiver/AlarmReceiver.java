@@ -16,6 +16,7 @@
 package it.feio.android.omninotes.receiver;
 
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
@@ -28,6 +29,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -98,25 +100,37 @@ public class AlarmReceiver extends BroadcastReceiver {
 		
 		// Sets up the Snooze and Dismiss action buttons that will appear in the
 		// big view of the notification.
-		Intent dismissIntent = new Intent(mContext, it.feio.android.omninotes.async.NotificationService.class);
+		Intent dismissIntent = new Intent(mContext, SnoozeActivity.class);
 		dismissIntent.setAction(Constants.ACTION_DISMISS);
 		dismissIntent.putExtra(Constants.INTENT_NOTE, note);
-		PendingIntent piDismiss = PendingIntent.getService(mContext, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent piDismiss = PendingIntent.getActivity(mContext, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-		Intent snoozeIntent = new Intent(mContext, it.feio.android.omninotes.async.NotificationService.class);
+		Intent snoozeIntent = new Intent(mContext, SnoozeActivity.class);
 		snoozeIntent.setAction(Constants.ACTION_SNOOZE);
 		snoozeIntent.putExtra(Constants.INTENT_NOTE, note);
-		PendingIntent piSnooze = PendingIntent.getService(mContext, 0, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		snoozeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		PendingIntent piSnooze = PendingIntent.getActivity(mContext, 0, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Intent postponeIntent = new Intent(mContext, SnoozeActivity.class);
+		postponeIntent.setAction(Constants.ACTION_POSTPONE);
+		postponeIntent.putExtra(Constants.INTENT_NOTE, note);
+		snoozeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		PendingIntent piPostpone = PendingIntent.getActivity(mContext, 0, postponeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		
+		String snoozeDelay = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS).getString("settings_notification_snooze_delay", "10");
 		
         //Sets the big view "big text" style  
-		mBuilder.addAction (R.drawable.ic_action_cancel_dark,
-       		mContext.getString(R.string.cancel), piDismiss)
+		mBuilder
+//		.addAction (R.drawable.ic_action_cancel_dark,
+//       		mContext.getString(R.string.cancel), piDismiss)
        .addAction (R.drawable.ic_action_alarms_dark,
-       		mContext.getString(R.string.snooze), piSnooze);
+    		   it.feio.android.omninotes.utils.TextUtils.capitalize(mContext.getString(R.string.snooze)) + ": " + snoozeDelay, piSnooze)
+        .addAction (R.drawable.ic_action_alarms_dark,
+       		it.feio.android.omninotes.utils.TextUtils.capitalize(mContext.getString(R.string.reminder)), piPostpone);
 		
 
 		// Next create the bundle and initialize it
-		Intent intent = new Intent(mContext, it.feio.android.omninotes.MainActivity.class);		
+		Intent intent = new Intent(mContext, SnoozeActivity.class);		
 		Bundle bundle = new Bundle();
 		bundle.putParcelable(Constants.INTENT_NOTE, note);
 		intent.putExtras(bundle);

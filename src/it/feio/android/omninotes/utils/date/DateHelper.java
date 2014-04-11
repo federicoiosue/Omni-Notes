@@ -115,6 +115,16 @@ public class DateHelper {
 		cal.set(Calendar.SECOND, 0);
 		return cal;		
 	}
+
+	
+	
+	public static Calendar getCalendar(Long dateTime) {
+		Calendar cal = Calendar.getInstance();
+		if (dateTime != null) {
+			cal.setTimeInMillis(dateTime);
+		}
+		return cal;		
+	}
 	
 	
 	

@@ -1,5 +1,7 @@
 package it.feio.android.omninotes.utils;
 
+import java.util.Locale;
+
 import it.feio.android.omninotes.models.Note;
 import android.text.Html;
 import android.text.Spanned;
@@ -64,5 +66,15 @@ public class TextUtils {
 		      buf.append("...");
 		}
 		return buf.toString();
+	}
+	
+	
+	
+	public static String capitalize(String string) {
+		StringBuilder res = new StringBuilder();
+		res
+			.append(string.substring(0, 1).toUpperCase(Locale.getDefault()))
+			.append(string.substring(1, string.length()).toLowerCase(Locale.getDefault()));		
+		return res.toString();
 	}
 }

@@ -59,6 +59,8 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -163,6 +165,8 @@ public class DetailFragment extends Fragment implements
 	int reminderYear, reminderMonth, reminderDay;
 	private String alarmDate = "", alarmTime = "";
 	private String dateTimeText = "";
+	public OnDateSetListener onDateSetListener;
+	public OnTimeSetListener onTimeSetListener;
 
 	// Audio recording
 	private static String recordName;
@@ -662,16 +666,13 @@ public class DetailFragment extends Fragment implements
 		reminder_layout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				if (prefs.getBoolean("settings_simple_calendar", false)) {
-//					timePickerCalledAlready = false;
-//					// Timepicker will be automatically called after date is inserted by user
-//					showDatePickerDialog(v);					
-//				} else {
-//					showDateTimeSelectors();					
-//				}
-				int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_GOOGLE : ReminderPickers.TYPE_GOOGLE;
-				ReminderPickers reminderPicker = ReminderPickers.getInstance(mActivity, mFragment, pickerType);
-				reminderPicker.pick();
+				int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP : ReminderPickers.TYPE_GOOGLE;
+				ReminderPickers reminderPicker = new ReminderPickers(mActivity, mFragment, pickerType);
+				if (noteTmp.getAlarm() != null) {
+					reminderPicker.pick(Long.parseLong(noteTmp.getAlarm()));
+				} else {
+					reminderPicker.pick();
+				}
 			}
 		});
 		reminder_layout.setOnLongClickListener(new OnLongClickListener() {
@@ -2110,7 +2111,9 @@ public class DetailFragment extends Fragment implements
 	@Override
 	public void onReminderPicked(long reminder) {
 		noteTmp.setAlarm(reminder);	
-		datetime.setText(getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(mActivity, reminder));
+		if (mFragment.isAdded()) {
+			datetime.setText(getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(mActivity, reminder));
+		}
 	}
 
 }

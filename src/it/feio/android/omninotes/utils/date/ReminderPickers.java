@@ -21,7 +21,6 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 	public static final int TYPE_GOOGLE = 0;
 	public static final int TYPE_AOSP = 1;
 	
-	private static volatile ReminderPickers instance = null;
 	private FragmentActivity mActivity;
 	private OnReminderPickedListener mOnReminderPickedListener;
 	private int pickerType;
@@ -29,13 +28,12 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 	private int reminderYear;
 	private int reminderMonth;
 	private int reminderDay;
-	private String alarmDate;
-	private String alarmTime;
 	
 	private boolean timePickerCalledAlready = false;
+	private long presetDateTime;
 	
 	
-	private ReminderPickers(FragmentActivity mActivity,
+	public ReminderPickers(FragmentActivity mActivity,
 			OnReminderPickedListener mOnReminderPickedListener, int pickerType) {
 		this.mActivity = mActivity;
 		this.mOnReminderPickedListener = mOnReminderPickedListener;
@@ -43,27 +41,18 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 	}
 
 	
-	public static ReminderPickers getInstance(FragmentActivity mActivity,
-			OnReminderPickedListener mOnReminderPickedListener, int pickerType) {
-		if (instance == null) {
-			instance = new ReminderPickers(mActivity,
-					mOnReminderPickedListener, pickerType);
-		}
-		return instance;
-	}
-	
-	
-	
+		
 	public void pick(){
 		pick(0);
 	}
 	
 	
 	public void pick(long presetDateTime){
+		this.presetDateTime = presetDateTime;
 		if (pickerType == TYPE_AOSP) {
 			timePickerCalledAlready = false;
 			// Timepicker will be automatically called after date is inserted by user
-			showDatePickerDialog();					
+			showDatePickerDialog(presetDateTime);					
 		} else {
 			showDateTimeSelectors(presetDateTime);					
 		}
@@ -88,8 +77,6 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 						reminderYear = year;
 						reminderMonth = monthOfYear;
 						reminderDay = dayOfMonth;
-						alarmDate = DateHelper.onDateSet(year, monthOfYear, dayOfMonth,
-								Constants.DATE_FORMAT_SHORT_DATE);
 						RadialTimePickerDialog mRadialTimePickerDialog = RadialTimePickerDialog.newInstance(
 								new RadialTimePickerDialog.OnTimeSetListener() {
 
@@ -118,18 +105,18 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 	 * @param v
 	 */
 
-	public void showDatePickerDialog() {
+	public void showDatePickerDialog(long presetDateTime) {
 		DatePickerFragment newFragment = new DatePickerFragment();
 		Bundle bundle = new Bundle();		
-		bundle.putString(DatePickerFragment.DEFAULT_DATE, alarmDate);
+		bundle.putLong(DatePickerFragment.DEFAULT_DATE, presetDateTime);
 		newFragment.setArguments(bundle);
 		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
 	
-	private void showTimePickerDialog() {
+	private void showTimePickerDialog(long presetDateTime) {
 		TimePickerFragment newFragment = new TimePickerFragment();
 		Bundle bundle = new Bundle();		
-		bundle.putString(TimePickerFragment.DEFAULT_TIME, alarmTime);
+		bundle.putLong(TimePickerFragment.DEFAULT_TIME, presetDateTime);
 		newFragment.setArguments(bundle);
 		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
@@ -139,10 +126,9 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 		reminderYear = year;
 		reminderMonth = monthOfYear;
 		reminderDay = dayOfMonth;
-		alarmDate = DateHelper.onDateSet(year, monthOfYear, dayOfMonth, Constants.DATE_FORMAT_SHORT_DATE);
 		if (!timePickerCalledAlready) {	// Used to avoid native bug that calls onPositiveButtonPressed in the onClose()
 			timePickerCalledAlready = true;
-			showTimePickerDialog();
+			showTimePickerDialog(presetDateTime);
 		}
 	}
 
