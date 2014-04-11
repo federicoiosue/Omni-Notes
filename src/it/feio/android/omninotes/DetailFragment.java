@@ -34,6 +34,7 @@ import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
+import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.listeners.OnSketchSavedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AlphaManager;
@@ -46,8 +47,7 @@ import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
-import it.feio.android.omninotes.utils.date.DatePickerFragment;
-import it.feio.android.omninotes.utils.date.TimePickerFragment;
+import it.feio.android.omninotes.utils.date.ReminderPickers;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,8 +60,6 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -115,17 +113,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -142,8 +135,9 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  * mActivity activity is mostly just a 'shell' activity containing nothing more than
  * a {@link ItemDetailFragment}.
  */
-public class DetailFragment extends Fragment implements OnDateSetListener,
-OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener, OnTouchListener, OnGlobalLayoutListener, OnSketchSavedListener, OnAttachingFileListener {
+public class DetailFragment extends Fragment implements OnReminderPickedListener, TextWatcher, CheckListChangedListener,
+		TextLinkClickListener, OnTouchListener, OnGlobalLayoutListener,
+		OnSketchSavedListener, OnAttachingFileListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -683,13 +677,16 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		reminder_layout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (prefs.getBoolean("settings_simple_calendar", false)) {
-					timePickerCalledAlready = false;
-					// Timepicker will be automatically called after date is inserted by user
-					showDatePickerDialog(v);					
-				} else {
-					showDateTimeSelectors();					
-				}
+//				if (prefs.getBoolean("settings_simple_calendar", false)) {
+//					timePickerCalledAlready = false;
+//					// Timepicker will be automatically called after date is inserted by user
+//					showDatePickerDialog(v);					
+//				} else {
+//					showDateTimeSelectors();					
+//				}
+				int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_GOOGLE : ReminderPickers.TYPE_GOOGLE;
+				ReminderPickers reminderPicker = ReminderPickers.getInstance(mActivity, mFragment, pickerType);
+				reminderPicker.pick();
 			}
 		});
 		reminder_layout.setOnLongClickListener(new OnLongClickListener() {
@@ -779,109 +776,6 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 				}	
 			}
 		}
-	}
-	
-	
-
-	/**
-	 * Show date and time pickers
-	 */
-	protected void showDateTimeSelectors() {
-
-		// Sets actual time or previously saved in note
-		Calendar cal = Calendar.getInstance();
-		if (noteTmp.getAlarm() != null)
-			cal.setTimeInMillis(Long.parseLong(noteTmp.getAlarm()));
-		final Calendar now = cal; 
-	CalendarDatePickerDialog mCalendarDatePickerDialog = CalendarDatePickerDialog.newInstance(
-				new CalendarDatePickerDialog.OnDateSetListener() {
-
-					@Override
-					public void onDateSet(CalendarDatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
-						reminderYear = year;
-						reminderMonth = monthOfYear;
-						reminderDay = dayOfMonth;
-						alarmDate = DateHelper.onDateSet(year, monthOfYear, dayOfMonth,
-								Constants.DATE_FORMAT_SHORT_DATE);
-						Log.d(Constants.TAG, "Date set");
-//						boolean is24HourMode = date_time_format.equals(Constants.DATE_FORMAT_SHORT);
-						RadialTimePickerDialog mRadialTimePickerDialog = RadialTimePickerDialog.newInstance(
-								new RadialTimePickerDialog.OnTimeSetListener() {
-
-									@Override
-									public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-
-										// Creation of string rapresenting alarm
-										// time
-//										alarmTime = DateHelper.onTimeSet(hourOfDay, minute,
-//												time_format);
-										alarmTime = DateHelper.getTimeShort(mActivity, hourOfDay, minute);
-										datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate + " "
-												+ getString(R.string.at_time) + " " + alarmTime);
-
-										// Setting alarm time in milliseconds
-										Calendar c = Calendar.getInstance();
-										c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
-										noteTmp.setAlarm(c.getTimeInMillis());										
-
-										Log.d(Constants.TAG, "Time set");
-									}
-								}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), DateHelper.is24HourMode(mActivity));
-						mRadialTimePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
-					}
-
-				}, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
-		mCalendarDatePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
-	}
-
-
-	
-	/**
-	 * Shows fallback date and time pickers for smaller screens 
-	 * 
-	 * @param v
-	 */
-
-	public void showDatePickerDialog(View v) {
-		DatePickerFragment newFragment = new DatePickerFragment();
-		Bundle bundle = new Bundle();		
-		bundle.putString(DatePickerFragment.DEFAULT_DATE, getAlarmDate());
-		newFragment.setArguments(bundle);
-		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
-	}
-	
-	private void showTimePickerDialog(View v) {
-		TimePickerFragment newFragment = new TimePickerFragment();
-		Bundle bundle = new Bundle();		
-		bundle.putString(TimePickerFragment.DEFAULT_TIME, getAlarmTime());
-		newFragment.setArguments(bundle);
-		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
-	}
-
-	@Override
-	public void onDateSet(DatePicker v, int year, int monthOfYear, int dayOfMonth) {
-		reminderYear = year;
-		reminderMonth = monthOfYear;
-		reminderDay = dayOfMonth;
-		alarmDate = DateHelper.onDateSet(year, monthOfYear, dayOfMonth, Constants.DATE_FORMAT_SHORT_DATE);
-		if (!timePickerCalledAlready) {	// Used to avoid native bug that calls onPositiveButtonPressed in the onClose()
-			timePickerCalledAlready = true;
-			showTimePickerDialog(v);
-		}
-	}
-
-	@Override
-	public void onTimeSet(TimePicker v, int hourOfDay, int minute) {
-
-		// Creation of string rapresenting alarm time
-		alarmTime = DateHelper.getTimeShort(mActivity, hourOfDay, minute);
-		datetime.setText(getString(R.string.alarm_set_on) + " " + alarmDate
-				+ " " + getString(R.string.at_time) + " " + alarmTime);
-
-		// Setting alarm time in milliseconds
-		Calendar c = Calendar.getInstance();
-		c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
-		noteTmp.setAlarm(c.getTimeInMillis());	
 	}
 	
 	
@@ -2530,6 +2424,12 @@ OnTimeSetListener, TextWatcher, CheckListChangedListener, TextLinkClickListener,
 		mGridView.autoresize();
 	}
 
+
+	@Override
+	public void onReminderPicked(long reminder) {
+		noteTmp.setAlarm(reminder);	
+		datetime.setText(getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(mActivity, reminder));
+	}
 
 }
 
