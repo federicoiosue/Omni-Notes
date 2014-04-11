@@ -673,6 +673,8 @@ public class DetailFragment extends Fragment implements
 				} else {
 					reminderPicker.pick();
 				}
+				onDateSetListener = reminderPicker;
+				onTimeSetListener = reminderPicker;
 			}
 		});
 		reminder_layout.setOnLongClickListener(new OnLongClickListener() {

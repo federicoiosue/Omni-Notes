@@ -15,7 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils.date;
 
-import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.R;
 
 import java.util.Calendar;
 
@@ -32,20 +32,20 @@ public class TimePickerFragment extends DialogFragment {
 	public static final String DEFAULT_TIME = "default_time";
 	
 	TextView timer_label;
-	private MainActivity mActivity;
+	private Activity mActivity;
 	private OnTimeSetListener mListener;
 	private Long defaultTime = null;
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mActivity = (MainActivity) activity;
+		mActivity = (Activity) activity;
 		if (getArguments().containsKey(DEFAULT_TIME)) {
 			this.defaultTime = getArguments().getLong(DEFAULT_TIME);
 		}
 
 		try {
-			mListener = (OnTimeSetListener) mActivity.getSupportFragmentManager().findFragmentByTag(mActivity.FRAGMENT_DETAIL_TAG);
+			mListener = (OnTimeSetListener) mActivity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnTimeSetListener");
@@ -60,7 +60,7 @@ public class TimePickerFragment extends DialogFragment {
 		int minute = cal.get(Calendar.MINUTE);
 
 		// Create a new instance of TimePickerDialog and return it
-		return new TimePickerDialog(mActivity, mListener, hour, minute, true);
+		return new TimePickerDialog(mActivity, R.style.Theme_AppCompat_Dialog_NoBackgroundOrDim, mListener, hour, minute, true);
 	}
 
 }

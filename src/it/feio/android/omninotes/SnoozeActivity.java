@@ -9,17 +9,23 @@ import it.feio.android.omninotes.utils.date.ReminderPickers;
 import java.util.Calendar;
 
 import android.app.AlarmManager;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 
-public class SnoozeActivity extends FragmentActivity implements OnReminderPickedListener {
+public class SnoozeActivity extends FragmentActivity implements OnReminderPickedListener, OnDateSetListener, OnTimeSetListener {
 
 	private Note note;
+	private OnDateSetListener mOnDateSetListener;
+	private OnTimeSetListener mOnTimeSetListener;
 
 
 	@Override
@@ -43,16 +49,11 @@ public class SnoozeActivity extends FragmentActivity implements OnReminderPicked
 		else if (Constants.ACTION_POSTPONE.equals(getIntent().getAction())) {
 			int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP : ReminderPickers.TYPE_GOOGLE;
 			ReminderPickers reminderPicker = new ReminderPickers(this, this, pickerType);
-			reminderPicker.pick();
+			reminderPicker.pick(Long.parseLong(note.getAlarm()));
+			mOnDateSetListener = reminderPicker;
+			mOnTimeSetListener = reminderPicker;
 		}
 		removeNotification(note);
-	}
-	
-	
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
-		super.onSaveInstanceState(outState);
 	}
 	
 	
@@ -78,6 +79,21 @@ public class SnoozeActivity extends FragmentActivity implements OnReminderPicked
 		note.setAlarm(reminder);	
 		setAlarm(note, reminder);
 		finish();
+	}
+
+
+
+	@Override
+	public void onDateSet(DatePicker view, int year, int monthOfYear,
+			int dayOfMonth) {
+		mOnDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
+	}
+
+
+
+	@Override
+	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+		mOnTimeSetListener.onTimeSet(view, hourOfDay, minute);
 	}
 	
 

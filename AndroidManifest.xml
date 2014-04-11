@@ -147,9 +147,6 @@
         </activity>
 
         <!-- Snooze reminder -->
-<!--         <activity -->
-<!--             android:name="it.feio.android.omninotes.SnoozeActivity" -->
-<!--             android:theme="@style/Theme.AppCompat.Dialog" /> -->
         <activity
             android:name="it.feio.android.omninotes.SnoozeActivity"
             android:theme="@android:style/Theme.NoDisplay"
@@ -187,10 +184,6 @@
 
         <!-- Data export and import service -->
         <service android:name="it.feio.android.omninotes.async.DataBackupIntentService" >
-        </service>
-
-        <!-- Notification action receiver service -->
-        <service android:name="it.feio.android.omninotes.async.NotificationService" >
         </service>
 
         <!-- Widget configuration Activity -->

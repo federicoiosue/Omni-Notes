@@ -1,16 +1,17 @@
 package it.feio.android.omninotes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import com.neopixl.pixlui.components.edittext.EditText;
-
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SpinnerDialog;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -23,9 +24,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
 
 	public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
 	public final String FRAGMENT_LIST_TAG = "fragment_list";
@@ -343,6 +346,25 @@ public class MainActivity extends BaseActivity {
 		}
 
 		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+	}
+
+
+	@Override
+	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+		DetailFragment f = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
+		if (f != null && f.isAdded()) {
+			f.onTimeSetListener.onTimeSet(view, hourOfDay, minute);
+		}
+	}
+
+
+	@Override
+	public void onDateSet(DatePicker view, int year, int monthOfYear,
+			int dayOfMonth) {
+		DetailFragment f = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
+		if (f != null && f.isAdded()) {
+			f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
+		}
 	}
 	
 	

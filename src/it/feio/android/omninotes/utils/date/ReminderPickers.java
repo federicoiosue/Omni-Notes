@@ -13,7 +13,6 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 
 public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
@@ -48,7 +47,7 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 	
 	
 	public void pick(long presetDateTime){
-		this.presetDateTime = presetDateTime;
+		this.presetDateTime = DateHelper.getCalendar(presetDateTime).getTimeInMillis();
 		if (pickerType == TYPE_AOSP) {
 			timePickerCalledAlready = false;
 			// Timepicker will be automatically called after date is inserted by user
@@ -65,10 +64,7 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 	protected void showDateTimeSelectors(long reminder) {
 
 		// Sets actual time or previously saved in note
-		Calendar cal = Calendar.getInstance();
-		if (reminder != 0)
-			cal.setTimeInMillis(reminder);
-		final Calendar now = cal; 
+		final Calendar now = DateHelper.getCalendar(reminder); 
 		CalendarDatePickerDialog mCalendarDatePickerDialog = CalendarDatePickerDialog.newInstance(
 				new CalendarDatePickerDialog.OnDateSetListener() {
 
@@ -81,13 +77,15 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 								new RadialTimePickerDialog.OnTimeSetListener() {
 
 									@Override
-									public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+									public void onTimeSet(
+											RadialTimePickerDialog dialog,
+											int hourOfDay, int minute) {
 										// Setting alarm time in milliseconds
 										Calendar c = Calendar.getInstance();
 										c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
 										if (mOnReminderPickedListener != null) {
 											mOnReminderPickedListener.onReminderPicked(c.getTimeInMillis());
-										}								
+										}	
 									}
 								}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), DateHelper.is24HourMode(mActivity));
 						mRadialTimePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
@@ -96,7 +94,6 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 				}, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
 		mCalendarDatePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
-
 
 	
 	/**

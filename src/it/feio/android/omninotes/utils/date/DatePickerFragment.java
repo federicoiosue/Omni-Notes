@@ -15,7 +15,7 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils.date;
 
-import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.R;
 
 import java.util.Calendar;
 
@@ -30,20 +30,20 @@ public class DatePickerFragment extends DialogFragment {
 
 	public static final String DEFAULT_DATE = "default_date";
 	
-	private MainActivity mActivity;
+	private Activity mActivity;
 	private OnDateSetListener mListener;
 	private Long defaultDate;
 	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mActivity = (MainActivity)activity;
+		mActivity = (Activity)activity;
 		if (getArguments().containsKey(DEFAULT_DATE)) {
 			this.defaultDate = getArguments().getLong(DEFAULT_DATE);
 		}
 
 		try {
-			mListener = (OnDateSetListener) mActivity.getSupportFragmentManager().findFragmentByTag(mActivity.FRAGMENT_DETAIL_TAG);
+			mListener = (OnDateSetListener) mActivity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnDateSetListener");
@@ -60,6 +60,6 @@ public class DatePickerFragment extends DialogFragment {
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 
 		// Create a new instance of DatePickerDialog and return it
-		return new DatePickerDialog(mActivity, mListener, year, month, day);
+		return new DatePickerDialog(mActivity, R.style.Theme_AppCompat_Dialog_NoBackgroundOrDim ,mListener, year, month, day);
 	}
 }
