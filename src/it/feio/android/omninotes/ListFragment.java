@@ -1120,7 +1120,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Creation of undo bar
 		if (archive) {
-			ubc.showUndoBar(false, selectedNotes.size() + getString(R.string.archived), null);
+			ubc.showUndoBar(false, selectedNotes.size() + " " + getString(R.string.archived), null);
 			undoArchive = true;
 		} else {
 			selectedNotes.clear();

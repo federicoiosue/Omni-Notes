@@ -104,11 +104,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		
 	    		
 	    TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
-	    if (Build.VERSION.SDK_INT >= 11) {
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
-		} else {
+//	    if (Build.VERSION.SDK_INT >= 11) {
+//			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+//		} else {
 			task.execute(note);
-		}
+//		}
 
 		
 		// Evaluates the archived state...
@@ -273,11 +273,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.attachmentThumbnail,
 					Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
 			holder.attachmentThumbnail.setAsyncTask(task);
-			if (Build.VERSION.SDK_INT >= 11) {
-				task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
-			} else {
+//			if (Build.VERSION.SDK_INT >= 11) {
+//				task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
+//			} else {
 				task.execute(mAttachment);
-			}
+//			}
 			holder.attachmentThumbnail.setVisibility(View.VISIBLE);
 //		}
 	}

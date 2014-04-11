@@ -19,7 +19,7 @@
     <changelogversion versionName="4.5.0 Beta 5" changeDate="Apr 10, 2014">
         <changelogtext>[b]New![/b] Merging: you can choose more notes to merge together in the order you decide</changelogtext> 
         <changelogtext>[b]New![/b] Single note sharing directly from list</changelogtext> 
-        <changelogtext>[u]Fixed[/u] Checklists creation</changelogtext>  
+        <changelogtext>[u]Fixed[/u] Checklists creation crashes on some devices</changelogtext>  
     </changelogversion>
 
     <changelogversion versionName="4.5.0 Beta 4" changeDate="Apr 9, 2014">
