@@ -18,7 +18,6 @@ package it.feio.android.omninotes;
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
-import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListView;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.DeleteNoteTask;
@@ -88,9 +87,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -135,9 +132,9 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  * mActivity activity is mostly just a 'shell' activity containing nothing more than
  * a {@link ItemDetailFragment}.
  */
-public class DetailFragment extends Fragment implements OnReminderPickedListener, TextWatcher, CheckListChangedListener,
-		TextLinkClickListener, OnTouchListener, OnGlobalLayoutListener,
-		OnSketchSavedListener, OnAttachingFileListener {
+public class DetailFragment extends Fragment implements
+		OnReminderPickedListener, TextLinkClickListener, OnTouchListener,
+		OnGlobalLayoutListener, OnSketchSavedListener, OnAttachingFileListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -149,13 +146,7 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 	private static final int DETAIL = 8;
 	private static final int FILES = 9;
 
-	private static final int SHARED_INTENT_ALL = 101;
-	private static final int SHARED_INTENT_TITLE = 102;
-	private static final int SHARED_INTENT_CONTENT = 103;
-	private static final int SHARED_INTENT_ATTACHMENT = 104;
-
 	private MainActivity mActivity;
-//	private ShareActionProvider mShareActionProvider;
 	private LinearLayout reminder_layout;
 	private TextView datetime;	
 	private Uri attachmentUri;
@@ -172,7 +163,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 	int reminderYear, reminderMonth, reminderDay;
 	private String alarmDate = "", alarmTime = "";
 	private String dateTimeText = "";
-	private boolean timePickerCalledAlready = false;
 
 	// Audio recording
 	private static String recordName;
@@ -189,13 +179,11 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 	
 	// Result intent
 	Intent resultIntent;
-	private Intent shareIntent = new Intent();
 	
 	// Flag to check if after editing it will return to ListActivity or not
 	// and in the last case a Toast will be shown instead than Crouton
 	boolean afterSavedReturnsToList = true;
 	private boolean swiping;
-	private int previousX;
 	private ViewGroup root;
 	private int startSwipeX;
 	private SharedPreferences prefs;
@@ -205,7 +193,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 	private View keyboardPlaceholder;
 	private View titleCardView;
 	private boolean orientationChanged;
-	private long startAudioRecordingTime;
 	private long audioRecordingTimeStart;
 	private long audioRecordingTime;
 	private boolean showKeyboard;
@@ -501,14 +488,12 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 		
 		// Sets links clickable in title and content Views
 		title = (EditText) getView().findViewById(R.id.detail_title);
-		title.setText(noteTmp.getTitle());
-		title.addTextChangedListener(this);		
+		title.setText(noteTmp.getTitle());	
 		title.gatherLinksForText();
 		title.setOnTextLinkClickListener(this);
 		
 		content = (EditText) getView().findViewById(R.id.detail_content);
 		content.setText(noteTmp.getContent());
-		content.addTextChangedListener(this);
 		content.gatherLinksForText();
 		content.setOnTextLinkClickListener(this);
 		if (note.get_id() == 0 && !noteTmp.isChanged(note)) {			
@@ -880,11 +865,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 
 		inflater.inflate(R.menu.menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
-		
-		// Locate MenuItem with ShareActionProvider
-	    MenuItem item = menu.findItem(R.id.menu_share);
-	    // Fetch and store ShareActionProvider
-//	    mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
 	    
 	    // Show instructions on first launch
 	    final String instructionName = Constants.PREF_TOUR_PREFIX + "detail";
@@ -1162,9 +1142,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 				String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
 		mChecklistManager.setShowChecks(true);
 		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
-		// Set the textChangedListener on the replaced view
-		mChecklistManager.setCheckListChangedListener(mFragment);
-		mChecklistManager.addTextChangedListener(mFragment);
 		
 		// Links parsing options
 		mChecklistManager.setOnTextLinkClickListener(mFragment);
@@ -1246,7 +1223,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 
 		// Inflate the popup_layout.xml
 		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-//		View layout = inflater.inflate(R.layout.attachment_dialog, (ViewGroup) getView().findViewById(R.id.attachment_dialog_root));
 		View layout = inflater.inflate(R.layout.attachment_dialog, null);
 
 		// Creating the PopupWindow
@@ -1289,19 +1265,11 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 		// Location
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
-
-		// Displaying the popup at the specified location, + offsets.
-//		ViewParent parent = anchor.getParent();
-//		if (parent != null) {
-//			ViewGroup parentView;
-			try {
-//				parentView = (ViewGroup)parent;
-//				parentView.removeView(anchor);
-				attachmentDialog.showAsDropDown(anchor);
-			} catch (Exception e){
-				Crouton.makeText(mActivity, R.string.error, ONStyle.ALERT).show();
-//			}
-			
+		
+		try {
+			attachmentDialog.showAsDropDown(anchor);
+		} catch (Exception e){
+			Crouton.makeText(mActivity, R.string.error, ONStyle.ALERT).show();			
 		}
 	}
 
@@ -1466,14 +1434,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 			return;
 		}
 		attachmentUri = Uri.fromFile(f);	
-//		Intent intent = new Intent(mActivity, SketchActivity.class);		
-//		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
-		// An already prepared attachment is going to be sketched
-//		if (attachment != null) {
-//			intent.putExtra("base", attachment.getUri());
-//		}
-//		startActivityForResult(intent, SKETCH);
-//		mActivity.animateTransition(mActivity.TRANSITION_FORWARD);
 		
 		// Fragments replacing
 		FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
@@ -1486,7 +1446,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 		}
 		mSketchFragment.setArguments(b);
 		transaction.replace(R.id.fragment_container, mSketchFragment, mActivity.FRAGMENT_SKETCH_TAG).addToBackStack(mActivity.FRAGMENT_DETAIL_TAG).commit();
-//		mActivity.getDrawerToggle().setDrawerIndicatorEnabled(false);
 	}
 
 	
@@ -1506,21 +1465,8 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 				break;
 			case GALLERY:
 				Uri uri = intent.getData();
-//				String mimeType = StorageManager.getMimeTypeInternal(mActivity, uri);
-//				// Manages unknow formats
-//				if (mimeType == null) {
-//					Crouton.makeText(mActivity, R.string.error_saving_attachments,
-//							ONStyle.WARN).show();
-//					break;
-//				} else {				
-				
-					AttachmentTask task = new AttachmentTask(this, uri, this);
-					task.execute();
-					
-//					noteTmp.getAttachmentsList().add(attachment);
-//					mAttachmentAdapter.notifyDataSetChanged();
-//					mGridView.autoresize();
-//				}
+				AttachmentTask task = new AttachmentTask(this, uri, this);
+				task.execute();
 				break;
 			case TAKE_VIDEO:
 				// Gingerbread doesn't allow custom folder so data are retrieved from intent 
@@ -1537,33 +1483,7 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 			case FILES:
 				if (resultCode == Activity.RESULT_OK) {
 					Uri filesUri = intent.getData();
-					// A check on the existence of the file is done
-//					File f = null;
-//					if (FileHelper.getPath(mActivity, filesUri) != null) {
-//						f = new File(FileHelper.getPath(mActivity, filesUri));
-//					} else {
-//						f = FileHelper.getFileFromUri(mActivity, filesUri);
-//					}
-					
-					String name = FileHelper.getNameFromUri(mActivity, filesUri);
-//					String extension = FileHelper.getFileExtension(name).toLowerCase(Locale.getDefault());
-//					File f = StorageManager.createExternalStoragePrivateFile(mActivity, filesUri, extension);
-//					if (f.exists()) {
-//						attachment = new Attachment(Uri.fromFile(f),
-//								Constants.MIME_TYPE_FILES);
-//						attachment.setName(name);
-//						attachment.setSize(f.length());
-//						attachment.setMoveWhenNoteSaved(false);
-//						noteTmp.getAttachmentsList().add(attachment);
-//						mAttachmentAdapter.notifyDataSetChanged();
-//						mGridView.autoresize();
-//					} else {
-//						Crouton.makeText(mActivity,
-//								R.string.error_saving_attachments,
-//								ONStyle.ALERT).show();
-//					}
-
-					
+					String name = FileHelper.getNameFromUri(mActivity, filesUri);					
 					AttachmentTask task1 = new AttachmentTask(this, filesUri, name, this);
 					task1.execute();
 					
@@ -1596,9 +1516,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 						ONStyle.CONFIRM).show();				
 				break;
 			}
-			
-			// Updates sharing intent after attachment insertion
-//			updateShareIntent();
 		}
 	}
 
@@ -1658,11 +1575,9 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 
 						// Informs the user about update
 						Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
-//						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_CANCELED);
-//						resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_deleted));
 						Crouton.makeText(mActivity, getString(R.string.note_deleted), ONStyle.ALERT).show();
 						
-						mActivity.notifyAppWidgets(mActivity);
+						MainActivity.notifyAppWidgets(mActivity);
 						
 						goHome();
 						return;
@@ -1773,195 +1688,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 	/**
 	 * Updates share intent 
 	 */
-//	private void updateShareIntent() {
-//		
-//		if (mShareActionProvider == null) return;
-//		
-//		// Changed fields
-//		String title = getNoteTitle();		
-//		String content = title + System.getProperty("line.separator") + getNoteContent();
-//
-//		// Definition of shared content
-//		String text = content + System.getProperty("line.separator")
-//				+ System.getProperty("line.separator") + getResources().getString(R.string.shared_content_sign);
-//		
-//		// Prepare sharing intent with only text
-//		if (noteTmp.getAttachmentsList().size() == 0) {
-//			shareIntent.setAction(Intent.ACTION_SEND);
-//			shareIntent.setType("text/plain");
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-//
-//			// Intent with single image attachment
-//		} else if (noteTmp.getAttachmentsList().size() == 1) {
-//			shareIntent.setAction(Intent.ACTION_SEND);
-//			shareIntent.setType(noteTmp.getAttachmentsList().get(0).getMime_type());
-//			shareIntent.putExtra(Intent.EXTRA_STREAM, noteTmp.getAttachmentsList().get(0).getUri());
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-//
-//			// Intent with multiple images
-//		} else if (noteTmp.getAttachmentsList().size() > 1) {
-//			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-//			ArrayList<Uri> uris = new ArrayList<Uri>();
-//			// A check to decide the mime type of attachments to share is done here
-//			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
-//			for (Attachment attachment : noteTmp.getAttachmentsList()) {
-//				uris.add(attachment.getUri());
-//				mimeTypes.put(attachment.getMime_type(), true);
-//			}
-//			// If many mime types are present a general type is assigned to intent
-//			if (mimeTypes.size() > 1) {
-//				shareIntent.setType("*/*");
-//			} else {
-//				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
-//			}
-//			
-//			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-//		}
-//
-//	      mShareActionProvider.setShareIntent(shareIntent);
-//	}
-	
-	/**
-	 * Updates share intent 
-	 */
-//	private void updateShareIntent(int whatIsChanged) {
-//		
-//		if (mShareActionProvider == null) return;
-//		
-//		switch (whatIsChanged) {
-//		case SHARED_INTENT_ALL:
-//			
-//			break;
-//			
-//		case SHARED_INTENT_TITLE:
-//			sharedIntentTitle = getNoteTitle();	
-//			break;
-//			
-//		case SHARED_INTENT_CONTENT:
-//			sharedIntentContent = title + System.getProperty("line.separator")
-//					+ getNoteContent() + System.getProperty("line.separator")
-//					+ System.getProperty("line.separator")
-//					+ getResources().getString(R.string.shared_content_sign);
-//			;
-//			break;
-//			
-//		case SHARED_INTENT_ATTACHMENT:
-//			sharedIntentContent = title + System.getProperty("line.separator") + getNoteContent();
-//			break;
-//
-//		}
-//		
-//
-//		
-//		// Prepare sharing intent with only text
-//		if (noteTmp.getAttachmentsList().size() == 0) {
-//			shareIntent.setAction(Intent.ACTION_SEND);
-//			shareIntent.setType("text/plain");
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, sharedIntentTitle);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, sharedIntentContent);
-//
-//			// Intent with single image attachment
-//		} else if (noteTmp.getAttachmentsList().size() == 1) {
-//			shareIntent.setAction(Intent.ACTION_SEND);
-//			shareIntent.setType(noteTmp.getAttachmentsList().get(0).getMime_type());
-//			shareIntent.putExtra(Intent.EXTRA_STREAM, noteTmp.getAttachmentsList().get(0).getUri());
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, sharedIntentTitle);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, sharedIntentContent);
-//
-//			// Intent with multiple images
-//		} else if (noteTmp.getAttachmentsList().size() > 1) {
-//			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-//			ArrayList<Uri> uris = new ArrayList<Uri>();
-//			// A check to decide the mime type of attachments to share is done here
-//			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
-//			for (Attachment attachment : noteTmp.getAttachmentsList()) {
-//				uris.add(attachment.getUri());
-//				mimeTypes.put(attachment.getMime_type(), true);
-//			}
-//			// If many mime types are present a general type is assigned to intent
-//			if (mimeTypes.size() > 1) {
-//				shareIntent.setType("*/*");
-//			} else {
-//				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
-//			}
-//			
-//			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, sharedIntentTitle);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, sharedIntentContent);
-//		}
-//
-//	      mShareActionProvider.setShareIntent(shareIntent);
-//	}
-	
-	
-	/**
-	 * Notes sharing
-	 */
-//	private void shareNote() {
-//		
-//		String titleText = ((EditText) mActivity.findViewById(R.id.detail_title)).getText().toString();
-//		
-//		String contentText = titleText 
-//				+ System.getProperty("line.separator")
-//				+ getNoteContent() 
-//				+ System.getProperty("line.separator")
-//				+ System.getProperty("line.separator")
-//				+ getResources().getString(R.string.shared_content_sign);
-//		
-//		
-////		// Check if some text has ben inserted or is an empty note
-////		if ((title + content).length() == 0 && attachmentsList.size() == 0) {
-////			Log.d(Constants.TAG, "Empty note not shared");
-//////			showToast(getResources().getText(R.string.empty_note_not_shared), Toast.LENGTH_SHORT);
-////			Crouton.makeText(this, R.string.empty_note_not_shared, ONStyle.INFO).show();
-////			return;
-////		}
-//		
-//		
-//		Intent shareIntent = new Intent();
-//		// Prepare sharing intent with only text
-//		if (noteTmp.getAttachmentsList().size() == 0) {
-//			shareIntent.setAction(Intent.ACTION_SEND);
-//			shareIntent.setType("text/plain");
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
-//			
-//			// Intent with single image attachment
-//		} else if (noteTmp.getAttachmentsList().size() == 1) {
-//			shareIntent.setAction(Intent.ACTION_SEND);
-//			shareIntent.setType(noteTmp.getAttachmentsList().get(0).getMime_type());
-//			shareIntent.putExtra(Intent.EXTRA_STREAM, noteTmp.getAttachmentsList().get(0).getUri());
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
-//			
-//			// Intent with multiple images
-//		} else if (noteTmp.getAttachmentsList().size() > 1) {
-//			shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-//			ArrayList<Uri> uris = new ArrayList<Uri>();
-//			// A check to decide the mime type of attachments to share is done here
-//			HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
-//			for (Attachment attachment : noteTmp.getAttachmentsList()) {
-//				uris.add(attachment.getUri());
-//				mimeTypes.put(attachment.getMime_type(), true);
-//			}
-//			// If many mime types are present a general type is assigned to intent
-//			if (mimeTypes.size() > 1) {
-//				shareIntent.setType("*/*");
-//			} else {
-//				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
-//			}
-//			
-//			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-//			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
-//			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
-//		}
-//		
-//		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
-//	}
 	private void shareNote() {		
 		Note sharedNote = new Note(noteTmp);
 		sharedNote.setTitle(getNoteTitle());
@@ -2022,13 +1748,10 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 	 * @return
 	 */
 	private String initAlarm(long alarmDateTime) {
-//		mActivity.alarmDateTime = alarmDateTime;
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(alarmDateTime);
 		alarmDate = DateHelper.onDateSet(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
 				cal.get(Calendar.DAY_OF_MONTH), Constants.DATE_FORMAT_SHORT_DATE);
-//		alarmTime = DateHelper.onTimeSet(cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
-//				time_format);
 		alarmTime = DateHelper.getTimeShort(mActivity, cal.getTimeInMillis());
 		String dateTimeText = getString(R.string.alarm_set_on) + " " + alarmDate + " " + getString(R.string.at_time)
 				+ " " + alarmTime;
@@ -2060,7 +1783,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 				startPlaying(uri);
 				recordingBitmap = ((BitmapDrawable)((ImageView)v.findViewById(R.id.gridview_item_picture)).getDrawable()).getBitmap();
 				((ImageView)v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
-//				((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.stop), mGridView.getItemHeight(), mGridView.getItemHeight()));				
 			// Otherwise just stops playing
 			} else {			
 				stopPlaying();	
@@ -2069,7 +1791,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 		} else {
 			isPlayingView = v;
 			startPlaying(uri);	
-//			Drawable d = ((ImageView)v).getDrawable();
 			Drawable d = ((ImageView)v.findViewById(R.id.gridview_item_picture)).getDrawable();
 			if (BitmapDrawable.class.isAssignableFrom(d.getClass())) {
 				recordingBitmap = ((BitmapDrawable)d).getBitmap();
@@ -2092,7 +1813,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 				@Override
 				public void onCompletion(MediaPlayer mp) {
 					mPlayer = null;
-//					((ImageView)isPlayingView).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.play), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 					((ImageView)isPlayingView.findViewById(R.id.gridview_item_picture)).setImageBitmap(recordingBitmap);
 					recordingBitmap = null;
 					isPlayingView = null;
@@ -2175,24 +1895,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 			v.startAnimation(mAnimation);
 		}
 	}
-
-	
-	@Override
-	public void afterTextChanged(Editable s) {}
-
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count,
-			int after) {}
-
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-//		updateShareIntent();
-	}
-
-	@Override
-	public void onCheckListChanged() {
-//		updateShareIntent();
-	}
 	
 	
 	/**
@@ -2261,10 +1963,10 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 					public void onClick(DialogInterface dialog, int id) {
 						// Creates a new text clip to put on the clipboard
 						if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-						    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) mActivity.getSystemService(mActivity.CLIPBOARD_SERVICE);
+						    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) mActivity.getSystemService(Activity.CLIPBOARD_SERVICE);
 						    clipboard.setText("text to clip");
 						} else {
-						    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) mActivity.getSystemService(mActivity.CLIPBOARD_SERVICE); 
+						    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) mActivity.getSystemService(Activity.CLIPBOARD_SERVICE); 
 						    android.content.ClipData clip = android.content.ClipData.newPlainText("text label", clickedString);
 						    clipboard.setPrimaryClip(clip);
 						}
@@ -2277,7 +1979,6 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 
 
 	
-	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
@@ -2288,22 +1989,10 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 		
 			case MotionEvent.ACTION_DOWN:
 				Log.v(Constants.TAG, "MotionEvent.ACTION_DOWN");
-				int w, h;
-//				Display display = mActivity.getWindowManager().getDefaultDisplay();
-//				int w, h;
-//				if (Build.VERSION.SDK_INT >= 13) {
-//					Point size = new Point();
-//					display.getSize(size);
-//					w = size.x;
-//					h = size.y;
-//				} else {
-//					w = display.getWidth();  // deprecated
-//					h = display.getHeight();  // deprecated					
-//				}
+				int w;
 				
 				Point displaySize = Display.getUsableSize(mActivity);
 				w = displaySize.x;
-				h = displaySize.y;
 				
 				if (x < Constants.SWIPE_MARGIN || x > w - Constants.SWIPE_MARGIN) {
 					swiping = true;
@@ -2323,24 +2012,17 @@ public class DetailFragment extends Fragment implements OnReminderPickedListener
 					Log.v(Constants.TAG, "MotionEvent.ACTION_MOVE at position " + x + ", " + y);	
 					if (Math.abs(x - startSwipeX) > Constants.SWIPE_OFFSET) {
 						swiping = false;
-//						Intent detailIntent = new Intent(mActivity, DetailFragment.class);
-//						detailIntent.putExtra(Constants.INTENT_NOTE, new Note());
-//						startActivityForResult(detailIntent, DETAIL);
 						FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
 						mActivity.animateTransition(transaction, mActivity.TRANSITION_VERTICAL);
 						DetailFragment mDetailFragment = new DetailFragment();
 						Bundle b = new Bundle();
 						b.putParcelable(Constants.INTENT_NOTE, new Note());
 						mDetailFragment.setArguments(b);
-						transaction.replace(R.id.fragment_container, mDetailFragment, mActivity.FRAGMENT_DETAIL_TAG).addToBackStack(mActivity.FRAGMENT_DETAIL_TAG).commit();
-//						mActivity.getDrawerToggle().setDrawerIndicatorEnabled(false);
-						
+						transaction.replace(R.id.fragment_container, mDetailFragment, mActivity.FRAGMENT_DETAIL_TAG).addToBackStack(mActivity.FRAGMENT_DETAIL_TAG).commit();						
 					}
 				}
 				break;
 		}
-
-		previousX = x;
 
 		return true;
 	}
