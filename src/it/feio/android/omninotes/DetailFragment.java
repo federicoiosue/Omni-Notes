@@ -61,7 +61,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -107,7 +106,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -214,8 +212,6 @@ public class DetailFragment extends Fragment implements
 		prefs = mActivity.prefs;
 		db = mActivity.db;
 		
-		init();
-		
 		setHasOptionsMenu(true);
 		setRetainInstance(false);
 	}
@@ -268,19 +264,9 @@ public class DetailFragment extends Fragment implements
 			orientationChanged = savedInstanceState.getBoolean("orientationChanged");
 		}
 		
-		initViews();
-	    
-	    if (showKeyboard) {
-//	    	// Delayed keyboard appearance
-			new Handler().postDelayed(new Runnable() {
-				@Override
-				public void run() {
-//					InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-//			        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-			    	KeyboardUtils.showKeyboard(content);
-				}
-			}, 700);
-	    }
+
+		
+		init();
 	}
 	
 	
@@ -341,6 +327,20 @@ public class DetailFragment extends Fragment implements
 
 		// Note initialization
 		initNote();
+		
+		initViews();
+	    
+	    if (showKeyboard) {
+//	    	// Delayed keyboard appearance
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+//					InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+//			        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+			    	KeyboardUtils.showKeyboard(content);
+				}
+			}, 700);
+	    }
 	}
 
 	
