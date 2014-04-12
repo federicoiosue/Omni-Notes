@@ -1152,12 +1152,15 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			undoDelete = false;
 			undoArchive = false;
 
-			// Clears data structures
-			selectedNotes.clear();
-			mAdapter.clearSelectedItems();
-			listView.clearChoices();
-
 			ubc.hideUndoBar(false);
+		}
+
+		// Clears data structures
+		selectedNotes.clear();
+		mAdapter.clearSelectedItems();
+		listView.clearChoices();
+		if (mActionMode != null) {
+			mActionMode.finish();
 		}
 	}
 	
