@@ -19,7 +19,10 @@
     <changelogversion versionName="4.5.0 Beta 5" changeDate="Apr 10, 2014">
         <changelogtext>[b]New![/b] Merging: you can choose more notes to merge together in the order you decide</changelogtext> 
         <changelogtext>[b]New![/b] Single note sharing directly from list</changelogtext> 
+        <changelogtext>[b]New![/b] Change your notes reminder directly from notification actions</changelogtext> 
         <changelogtext>[u]Fixed[/u] Checklists creation crashes on some devices</changelogtext>  
+        <changelogtext>[u]Fixed[/u] Reminder notification broken click on snooze action behavior</changelogtext>  
+        <changelogtext>[u]Fixed[/u] Checklist's custom font size now works well</changelogtext>  
     </changelogversion>
 
     <changelogversion versionName="4.5.0 Beta 4" changeDate="Apr 9, 2014">

@@ -29,7 +29,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -125,7 +124,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 //       		mContext.getString(R.string.cancel), piDismiss)
        .addAction (R.drawable.ic_action_alarms_dark,
     		   it.feio.android.omninotes.utils.TextUtils.capitalize(mContext.getString(R.string.snooze)) + ": " + snoozeDelay, piSnooze)
-        .addAction (R.drawable.ic_action_alarms_dark,
+        .addAction (R.drawable.ic_reminder,
        		it.feio.android.omninotes.utils.TextUtils.capitalize(mContext.getString(R.string.reminder)), piPostpone);
 		
 
