@@ -16,6 +16,10 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.5.0 Beta 6" changeDate="Apr 14, 2014">
+        <changelogtext>[u]Fixed[/u] Share option appearing with single note selected when opening overflow menu in notes list</changelogtext>  
+    </changelogversion>
+
     <changelogversion versionName="4.5.0 Beta 5" changeDate="Apr 12, 2014">
         <changelogtext>[b]New![/b] Merging: you can choose more notes to merge together in the order of selection</changelogtext> 
         <changelogtext>[b]New![/b] Single note sharing directly from list</changelogtext> 
