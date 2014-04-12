@@ -88,7 +88,11 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	 * @return True or false
 	 */
 	private boolean isAlive(WeakReference<DetailFragment> weakDetailFragmentReference) {
-		if (weakDetailFragmentReference.get() == null || weakDetailFragmentReference.get().getActivity().isFinishing()) {
+		if (weakDetailFragmentReference == null
+				|| weakDetailFragmentReference.get() == null
+				|| !weakDetailFragmentReference.get().isAdded()
+				|| weakDetailFragmentReference.get().getActivity()
+						.isFinishing()) {
 			return false;
 		}
 		return true;

@@ -17,7 +17,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="101"
+    android:versionCode="102"
     android:versionName="4.5.0 Beta 6" >
 
     <uses-sdk
