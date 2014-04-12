@@ -79,7 +79,7 @@ public class BaseActivity extends ActionBarActivity {
 	
 	protected DbHelper db;	
 	protected Activity mActivity;
-	protected Tracker tracker;
+	public Tracker gaTracker;
 	
 	protected SharedPreferences prefs;
 	
@@ -112,7 +112,7 @@ public class BaseActivity extends ActionBarActivity {
 		 */
 		if (TEST) {
 			StrictMode.enableDefaults();
-			GoogleAnalytics.getInstance(this).setDryRun(true);
+//			GoogleAnalytics.getInstance(this).setDryRun(true);
 		}
 		
 		mActivity = this;
@@ -146,10 +146,10 @@ public class BaseActivity extends ActionBarActivity {
 	
 	@Override
 	public void onStart() {
-		super.onStart();
 		// Google Analytics
 		EasyTracker.getInstance(this).activityStart(this);
-		tracker = GoogleAnalytics.getInstance(this).getTracker("UA-45502770-1");
+		gaTracker = GoogleAnalytics.getInstance(this).getTracker("UA-45502770-1");		
+		super.onStart();
 	}
 	
 	

@@ -64,6 +64,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		handleIntents();
 	}
 	
+	
 
 	@Override
 	protected void onNewIntent(Intent intent) {

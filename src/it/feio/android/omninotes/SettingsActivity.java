@@ -30,6 +30,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.Tracker;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -65,6 +69,7 @@ import android.widget.TextView;
 public class SettingsActivity extends PreferenceActivity {
 
 	final Activity activity = this;
+	private Tracker gaTracker;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -554,7 +559,6 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 		
 
-
 		
 		// About
 		Preference about = findPreference("settings_about");
@@ -568,6 +572,23 @@ public class SettingsActivity extends PreferenceActivity {
 			}
 		});
 
+	}
+
+	
+	@Override
+	public void onStart() {
+		// Google Analytics
+		EasyTracker.getInstance(this).activityStart(this);
+		gaTracker = GoogleAnalytics.getInstance(this).getTracker("UA-45502770-1");		
+		super.onStart();
+	}
+
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		// Google Analytics
+		EasyTracker.getInstance(this).activityStop(this);
 	}
 		
 	

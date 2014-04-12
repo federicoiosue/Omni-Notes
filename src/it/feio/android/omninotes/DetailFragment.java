@@ -120,6 +120,8 @@ import android.widget.Toast;
 
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.neopixl.pixlui.links.TextLinkClickListener;
@@ -218,11 +220,24 @@ public class DetailFragment extends Fragment implements
 		setRetainInstance(false);
 	}
 	
+	
+	@Override
+	public void onStart() {
+
+		// GA tracking
+		mActivity.gaTracker.set(Fields.SCREEN_NAME, getClass().getName());
+		mActivity.gaTracker.send(MapBuilder.createAppView().build());
+		
+		super.onStart();
+	}
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //		getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);		
         return inflater.inflate(R.layout.fragment_detail, container, false);
 	}
+	
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {

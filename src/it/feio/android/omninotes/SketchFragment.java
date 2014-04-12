@@ -41,6 +41,8 @@ import android.widget.PopupWindow.OnDismissListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.OpacityBar;
@@ -74,6 +76,17 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 		
 		setHasOptionsMenu(true);
 		setRetainInstance(false);
+	}
+	
+	
+	@Override
+	public void onStart() {
+
+		// GA tracking
+		mActivity.gaTracker.set(Fields.SCREEN_NAME, getClass().getName());
+		mActivity.gaTracker.send(MapBuilder.createAppView().build());
+		
+		super.onStart();
 	}
 
 	

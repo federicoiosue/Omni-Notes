@@ -86,6 +86,8 @@ import android.widget.ListView;
 
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
@@ -129,6 +131,18 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		setHasOptionsMenu(true);
 		setRetainInstance(false);
 	}
+	
+	
+	@Override
+	public void onStart() {
+
+		// GA tracking
+		mActivity.gaTracker.set(Fields.SCREEN_NAME, getClass().getName());
+		mActivity.gaTracker.send(MapBuilder.createAppView().build());
+		
+		super.onStart();
+	}
+	
 
 	
 	@Override
@@ -146,13 +160,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		// Show the Up button in the action bar.
-//		if (mActivity.getSupportActionBar() != null) {
-//			mActivity.getDrawerToggle().setDrawerIndicatorEnabled(true);
-//			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-//			mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//		}
 
 		// Restores savedInstanceState
 		if (savedInstanceState != null) {
