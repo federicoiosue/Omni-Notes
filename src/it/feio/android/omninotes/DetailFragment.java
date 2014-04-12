@@ -269,18 +269,15 @@ public class DetailFragment extends Fragment implements
 		}
 		
 		initViews();
-		
-//	    if (mShareActionProvider != null) {
-//	    	updateShareIntent();
-//	    }
 	    
 	    if (showKeyboard) {
-	    	// Delayed keyboard appearance
+//	    	// Delayed keyboard appearance
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-			        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+//					InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+//			        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+			    	KeyboardUtils.showKeyboard(content);
 				}
 			}, 700);
 	    }
