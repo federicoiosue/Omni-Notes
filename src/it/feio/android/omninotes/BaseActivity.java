@@ -274,7 +274,6 @@ public class BaseActivity extends ActionBarActivity {
 
 		            @Override
 		            public void onClick(View view) {
-		            	KeyboardUtils.hideKeyboard(passwordEditText);
 		            	// When positive button is pressed password correctness is checked
 		            	String oldPassword = prefs.getString(
 								Constants.PREF_PASSWORD, "");
@@ -285,6 +284,7 @@ public class BaseActivity extends ActionBarActivity {
 						// In case password is ok dialog is dismissed and result sent to callback
 		                if (result) {
 		                	dialog.dismiss();
+			            	KeyboardUtils.hideKeyboard(passwordEditText);
 							mPasswordValidator.onPasswordValidated(true);
 						// If password is wrong the auth flow is not interrupted and simply a message is shown
 		                } else {
@@ -299,6 +299,7 @@ public class BaseActivity extends ActionBarActivity {
 		            public void onClick(View view) {
 		            	KeyboardUtils.hideKeyboard(passwordEditText);
 	                	dialog.dismiss();
+		            	KeyboardUtils.hideKeyboard(passwordEditText);
 						mPasswordValidator.onPasswordValidated(false);
 		            }
 		        });
