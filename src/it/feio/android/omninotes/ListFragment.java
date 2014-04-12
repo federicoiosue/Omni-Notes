@@ -103,7 +103,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private ListView listView;
 	NoteAdapter mAdapter;
 	ActionMode mActionMode;
-	HashSet<Note> selectedNotes = new HashSet<Note>();
+	ArrayList<Note> selectedNotes = new ArrayList<Note>();
 	private SearchView searchView;
 	MenuItem searchMenuItem;
 	private TextView empyListItem;
@@ -352,9 +352,12 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			// Respond to clicks on the actions in the CAB
 			switch (item.getItemId()) {
 			case R.id.menu_share:
-				Iterator<Note> i = selectedNotes.iterator();
-				while (i.hasNext()) {
-					Note note = i.next();
+//				Iterator<Note> i = selectedNotes.iterator();
+//				while (i.hasNext()) {
+//					Note note = i.next();
+//					mActivity.shareNote(note);
+//				}
+				for (Note note : selectedNotes) {
 					mActivity.shareNote(note);
 				}
 				mode.finish(); // Action picked, so close the CAB
@@ -1336,10 +1339,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		StringBuilder content = new StringBuilder();
 		ArrayList<Attachment> attachments = new ArrayList<Attachment>();
 		
-		Note note;
-		Iterator<Note> j = selectedNotes.iterator();
-		while (j.hasNext()) { 
-			note = j.next();
+//		Note note;
+//		Iterator<Note> j = selectedNotes.iterator();
+//		while (j.hasNext()) { 
+//			note = j.next();
+		for (Note note : selectedNotes) {
 			
 			if (mergedNote == null) {
 				mergedNote = new Note();
@@ -1349,7 +1353,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			} else {				
 				content
 					.append(System.getProperty("line.separator"))
+					.append(System.getProperty("line.separator"))
 					.append(note.getTitle())
+					.append(System.getProperty("line.separator"))
 					.append(note.getContent());				
 			}
 			
