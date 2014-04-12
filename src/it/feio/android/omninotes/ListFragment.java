@@ -237,6 +237,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		}
 	}
+	
 
 	@Override
 	public void onPause() {
@@ -244,10 +245,20 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 //		if (searchView != null && searchView.isEnabled()) {
 //			MenuItemCompat.collapseActionView(searchMenuItem);
 //		}
+
+		// Clears data structures
+		selectedNotes.clear();
+		mAdapter.clearSelectedItems();
+		listView.clearChoices();
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
+		
 		commitPending();
 		stopJingles();
 		Crouton.cancelAllCroutons();
 	}
+	
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
@@ -1152,15 +1163,12 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			undoDelete = false;
 			undoArchive = false;
 
-			ubc.hideUndoBar(false);
-		}
+			// Clears data structures
+			selectedNotes.clear();
+			mAdapter.clearSelectedItems();
+			listView.clearChoices();
 
-		// Clears data structures
-		selectedNotes.clear();
-		mAdapter.clearSelectedItems();
-		listView.clearChoices();
-		if (mActionMode != null) {
-			mActionMode.finish();
+			ubc.hideUndoBar(false);
 		}
 	}
 	
