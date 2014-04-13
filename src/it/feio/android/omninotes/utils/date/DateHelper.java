@@ -120,7 +120,7 @@ public class DateHelper {
 	
 	public static Calendar getCalendar(Long dateTime) {
 		Calendar cal = Calendar.getInstance();
-		if (dateTime != null) {
+		if (dateTime != null && dateTime != 0) {
 			cal.setTimeInMillis(dateTime);
 		}
 		return cal;		

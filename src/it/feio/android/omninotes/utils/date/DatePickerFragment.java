@@ -60,6 +60,8 @@ public class DatePickerFragment extends DialogFragment {
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 
 		// Create a new instance of DatePickerDialog and return it
-		return new DatePickerDialog(mActivity, R.style.Theme_AppCompat_Dialog_NoBackgroundOrDim ,mListener, year, month, day);
+		DatePickerDialog dpd = new DatePickerDialog(mActivity, R.style.Theme_AppCompat_Dialog_NoBackgroundOrDim ,mListener, year, month, day);
+		dpd.setTitle("");
+		return dpd;
 	}
 }

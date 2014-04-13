@@ -60,7 +60,10 @@ public class TimePickerFragment extends DialogFragment {
 		int minute = cal.get(Calendar.MINUTE);
 
 		// Create a new instance of TimePickerDialog and return it
-		return new TimePickerDialog(mActivity, R.style.Theme_AppCompat_Dialog_NoBackgroundOrDim, mListener, hour, minute, true);
+		boolean is24HourMode = DateHelper.is24HourMode(mActivity);
+		TimePickerDialog tpd = new TimePickerDialog(mActivity, R.style.Theme_AppCompat_Dialog_NoBackgroundOrDim, mListener, hour, minute, is24HourMode);
+		tpd.setTitle("");
+		return tpd;
 	}
 
 }

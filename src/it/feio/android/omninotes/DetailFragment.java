@@ -680,11 +680,8 @@ public class DetailFragment extends Fragment implements
 			public void onClick(View v) {
 				int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP : ReminderPickers.TYPE_GOOGLE;
 				ReminderPickers reminderPicker = new ReminderPickers(mActivity, mFragment, pickerType);
-				if (noteTmp.getAlarm() != null) {
-					reminderPicker.pick(Long.parseLong(noteTmp.getAlarm()));
-				} else {
-					reminderPicker.pick();
-				}
+				Long presetDateTime = noteTmp.getAlarm() != null ? Long.parseLong(noteTmp.getAlarm()) : null;
+				reminderPicker.pick(presetDateTime);
 				onDateSetListener = reminderPicker;
 				onTimeSetListener = reminderPicker;
 			}

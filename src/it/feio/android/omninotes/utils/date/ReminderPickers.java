@@ -42,18 +42,18 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 	
 		
 	public void pick(){
-		pick(0);
+		pick(null);
 	}
 	
 	
-	public void pick(long presetDateTime){
+	public void pick(Long presetDateTime){
 		this.presetDateTime = DateHelper.getCalendar(presetDateTime).getTimeInMillis();
 		if (pickerType == TYPE_AOSP) {
 			timePickerCalledAlready = false;
 			// Timepicker will be automatically called after date is inserted by user
-			showDatePickerDialog(presetDateTime);					
+			showDatePickerDialog(this.presetDateTime);					
 		} else {
-			showDateTimeSelectors(presetDateTime);					
+			showDateTimeSelectors(this.presetDateTime);					
 		}
 	}
 	
@@ -110,6 +110,7 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
 	
+	
 	private void showTimePickerDialog(long presetDateTime) {
 		TimePickerFragment newFragment = new TimePickerFragment();
 		Bundle bundle = new Bundle();		
@@ -118,6 +119,7 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
 
+	
 	@Override
 	public void onDateSet(DatePicker v, int year, int monthOfYear, int dayOfMonth) {
 		reminderYear = year;
@@ -129,6 +131,7 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 		}
 	}
 
+	
 	@Override
 	public void onTimeSet(TimePicker v, int hourOfDay, int minute) {
 		// Setting alarm time in milliseconds
