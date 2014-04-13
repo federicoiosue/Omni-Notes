@@ -1217,7 +1217,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Merges all the selected notes
 	 */
 	public void merge() {
+		
 		Note mergedNote = null;
+		boolean locked = false;
 		StringBuilder content = new StringBuilder();
 		ArrayList<Attachment> attachments = new ArrayList<Attachment>();
 		
@@ -1232,11 +1234,22 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				content
 					.append(System.getProperty("line.separator"))
 					.append(System.getProperty("line.separator"))
-					.append(note.getTitle())
+					.append("----------------------")
 					.append(System.getProperty("line.separator"))
-					.append(note.getContent());				
+					.append(System.getProperty("line.separator"));
+				if (!TextUtils.isEmpty(note.getTitle())) {
+					content.append(note.getTitle());
+				}
+				if (!TextUtils.isEmpty(note.getTitle()) && !TextUtils.isEmpty(note.getContent())) {
+					content.append(System.getProperty("line.separator"))
+							.append(System.getProperty("line.separator"));
+				}
+				if (!TextUtils.isEmpty(note.getContent())) {
+					content.append(note.getContent());		
+				}
 			}
 			
+			locked = locked || note.isLocked();
 			attachments.addAll(note.getAttachmentsList());
 		}
 		
@@ -1247,6 +1260,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Sets content text and attachments list
 		mergedNote.setContent(content.toString());
+		mergedNote.setLocked(locked);
 		mergedNote.setAttachmentsList(attachments);
 
 		selectedNotes.clear();
