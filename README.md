@@ -1,39 +1,45 @@
 Omni-Notes
 ==========
 
-Note taking <b>open-source</b>application aimed to have both a <b>lightweight</b> footprint on system performances and <b>simple interface</b> but keeping <b>smart</b> behavior.
+Note taking <b>open-source</b> application aimed to have both a <b>simple interface</b> but keeping <b>smart</b> behavior.
 
 The project was created by the absence of such applications compatible with old phones and old versions of Android that would propose, however, an attractive look and aligned with the most recent design of the Google operating system
 
 
 **Follow the developments and post your comments and advice on Google+ Beta Comunity at http://goo.gl/eF6qqF**
 
-***Help to complete translations is needed, if you want give me an hand please send me an e-mail!***
+*Help to keep translations updated is always welcome, if you want give an hand checkout the translation project at [Crowdin][14]*
+
+##Features
+
 
 Actually the following functions are implemented:
+
 * Android KitKat-ready appearance
 * Add, modify, delete notes
-* Manage active and archived notes
+* Manage active, archived notes and filter the ones with reminder
 * Share notes
-* Note searching
-* Batch operations choosing multiple notes
-* Export/import notes to backup
-* Animations activables/deactivables
-* Multimedia attachments
-* Sketch-note mode
-* To-do list
+* Use tags to organize notes and add them some color
+* Mask notes to avoid others to look at that without having the password
+* Note searching and optimized search-as-you-type
+* Batch operations choosing multiple notes: merge, archive, delete
+* Export/import notes and settings to safe backup folder
+* Multimedia attachments: all file types are supported!
+* Sketch mode to add hand made drawings or notes
+* To-do list with customizable behavior
+* Gesture actions to delete and create notes in a faster way
+
 
 Further developments will include:
+
 * Notes sychronization
-* Direct sharing of notes between devices with Omni Notes app installed
 * Web interface to manage notes
-* Gesture actions
 
 You can find a complete changelog inside the application settings menu!
 
 ![Example Image][2]![Example Image][3]![Example Image][4]![Example Image][5]![Example Image][6]![Example Image][7]![Example Image][8]![Example Image][9]![Example Image][10]![Example Image][11]![Example Image][12]![Example Image][13]
 
-Try out the app on the [Play Store][1].
+Try out the free app on the [Play Store][1].
 
 
 ##Dependencies
@@ -74,15 +80,16 @@ Try out the app on the [Play Store][1].
 
 
  [1]: https://play.google.com/store/apps/details?id=it.feio.android.omninotes
- [2]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/01.png
- [3]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/02.png
- [4]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/03.png
- [5]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/04.png
- [6]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/05.png
- [7]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/06.png
- [8]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/07.png
- [9]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/08.png
- [10]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/09.png
- [11]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/10.png
- [12]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/11.png
- [13]: https://github.com/federicoiosue/Omni-Notes/blob/master/etc/play_store_pics/12.png
+ [2]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_00.png
+ [3]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_01.png
+ [4]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_02.png
+ [5]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_03.png
+ [6]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_04.png
+ [7]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_05.png
+ [8]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_06.png
+ [9]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_07.png
+ [10]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_08.png
+ [11]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_09.png
+ [12]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_10.png
+ [13]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_11.png
+ [14]: https://crowdin.net/project/omni-notes/
