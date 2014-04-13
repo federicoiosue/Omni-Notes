@@ -8,7 +8,7 @@ The project was created by the absence of such applications compatible with old 
 
 **Follow the developments and post your comments and advice on Google+ Beta Comunity at http://goo.gl/eF6qqF**
 
-*Help to keep translations updated is always welcome, if you want give an hand checkout the translation project at [Crowdin][14]*
+*Help to keep translations updated is always welcome, if you want give an hand checkout the translation project at [Crowdin][2]*
 
 ##Features
 
@@ -37,9 +37,21 @@ Further developments will include:
 
 You can find a complete changelog inside the application settings menu!
 
-![Example Image][2]![Example Image][3]![Example Image][4]![Example Image][5]![Example Image][6]![Example Image][7]![Example Image][8]![Example Image][9]![Example Image][10]![Example Image][11]![Example Image][12]![Example Image][13]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_00.png">][3]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_01.png">][4]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_02.png">][5]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_03.png">][6]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_04.png">][7]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_05.png">][8]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_06.png">][9]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_07.png">][10]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_08.png">][11]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_09.png">][12]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_10.png">][13]
+[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_11.png">][14]
 
-Try out the free app on the [Play Store][1].
+
+[<img src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png">][1]
 
 
 ##Dependencies
@@ -80,16 +92,16 @@ Try out the free app on the [Play Store][1].
 
 
  [1]: https://play.google.com/store/apps/details?id=it.feio.android.omninotes
- [2]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_00.png
- [3]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_01.png
- [4]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_02.png
- [5]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_03.png
- [6]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_04.png
- [7]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_05.png
- [8]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_06.png
- [9]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_07.png
- [10]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_08.png
- [11]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_09.png
- [12]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_10.png
- [13]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_11.png
- [14]: https://crowdin.net/project/omni-notes/
+ [2]: https://crowdin.net/project/omni-notes/
+ [3]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/01.png
+ [4]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/02.png
+ [5]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/03.png
+ [6]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/04.png
+ [7]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/05.png
+ [8]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/06.png
+ [9]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/07.png
+ [10]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/08.png
+ [11]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/09.png
+ [12]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/10.png
+ [13]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/11.png
+ [14]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/12.png
