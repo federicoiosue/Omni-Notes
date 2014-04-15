@@ -211,9 +211,6 @@ public class DetailFragment extends Fragment implements
 		mFragment = this;			
 		prefs = mActivity.prefs;
 		db = mActivity.db;
-		
-		setHasOptionsMenu(true);
-		setRetainInstance(false);
 	}
 	
 	
@@ -264,9 +261,11 @@ public class DetailFragment extends Fragment implements
 			orientationChanged = savedInstanceState.getBoolean("orientationChanged");
 		}
 		
-
 		
 		init();
+		
+		setHasOptionsMenu(true);
+		setRetainInstance(false);
 	}
 	
 	

@@ -251,7 +251,7 @@ public class Note implements Parcelable {
 	}
 
 	public Boolean isLocked() {
-		return locked;
+		return locked == null || locked == false ? false : true;
 	}
 
 	public void setLocked(Boolean locked) {
@@ -263,7 +263,7 @@ public class Note implements Parcelable {
 	}
 
 	public Boolean isChecklist() {
-		return checklist;
+		return checklist == null || checklist == false ? false : true;
 	}
 
 	public void setChecklist(Boolean checklist) {
