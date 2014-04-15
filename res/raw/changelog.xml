@@ -16,6 +16,11 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.5.0 Beta 7" changeDate="Apr 15 2014">
+        <changelogtext>[u]Fixed[/u] If merging notes even just one of them is masked the password will be required to continue</changelogtext> 
+        <changelogtext>[u]Fixed[/u] Crash opening notes on Android 4.1.x devices</changelogtext>  
+    </changelogversion>
+
     <changelogversion versionName="4.5.0 Beta 6" changeDate="Apr 12, 2014">
         <changelogtext>Updated translations</changelogtext> 
         <changelogtext>[u]Fixed[/u] Masked notes could not be opened without password but their content but their contents and attachments were still partially displayed</changelogtext> 
