@@ -25,12 +25,14 @@ import android.widget.Toast;
 
 public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	private final WeakReference<DetailFragment> mDetailFragmentReference;
+	private final Activity mActivity;
 	private boolean error = false;
 	private boolean updateLastModification = true;
 
 	public SaveNoteTask(DetailFragment activity, boolean updateLastModification) {
 		super();
 		mDetailFragmentReference = new WeakReference<DetailFragment>(activity);
+		mActivity = activity.getActivity();
 		this.updateLastModification = updateLastModification;
 	}
 
@@ -41,11 +43,11 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		purgeRemovedAttachments(note);
 		
 		if (!error) {
-			DbHelper db = new DbHelper(mDetailFragmentReference.get().getActivity());		
+			DbHelper db = new DbHelper(mActivity);		
 			// Note updating on database
 			note = db.updateNote(note, updateLastModification);
 		} else {
-			Toast.makeText(mDetailFragmentReference.get().getActivity(), mDetailFragmentReference.get().getActivity().getString(R.string.error_saving_attachments), Toast.LENGTH_SHORT).show();
+			Toast.makeText(mActivity, mActivity.getString(R.string.error_saving_attachments), Toast.LENGTH_SHORT).show();
 		}
 			
 		return note;
@@ -60,7 +62,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		}
 		// Remove from database deleted attachments
 		for (Attachment deletedAttachment : deletedAttachments) {
-			StorageManager.delete(mDetailFragmentReference.get().getActivity(), deletedAttachment.getUri().getPath());
+			StorageManager.delete(mActivity, deletedAttachment.getUri().getPath());
 		}
 	}
 
@@ -109,7 +111,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		for (Attachment attachment : note.getAttachmentsList()) {
 			
 			uri = attachment.getUri();
-//			uri = Uri.parse(FileHelper.getPath(mDetailFragmentReference.get().getActivity(), attachment.getUri()));
+//			uri = Uri.parse(FileHelper.getPath(mActivity, attachment.getUri()));
 			
 			if (uri == null) {
 				error = true;
@@ -119,7 +121,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			
 			// The copy will be made only if it's a new attachment or if attachment directory is not yet the destination one
 //			if (attachment.getId() != 0 || 
-//					uri.getPath().contains(mDetailFragmentReference.get().getActivity().getExternalFilesDir(null).getAbsolutePath())) {
+//					uri.getPath().contains(mActivity.getExternalFilesDir(null).getAbsolutePath())) {
 			if (!attachment.getMoveWhenNoteSaved()) {
 				break;
 			}
@@ -137,16 +139,16 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO))
 				extension = Constants.MIME_TYPE_VIDEO_EXT;
 			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_FILES)) {
-//				extension = StorageManager.getMimeType(mDetailFragmentReference.get().getActivity(), attachment.getUri());
-//			extension = StorageManager.getRealPathFromURI(mDetailFragmentReference.get().getActivity(), attachment.getUri());
-				String path = FileHelper.getPath(mDetailFragmentReference.get().getActivity(), uri);
+//				extension = StorageManager.getMimeType(mActivity, attachment.getUri());
+//			extension = StorageManager.getRealPathFromURI(mActivity, attachment.getUri());
+				String path = FileHelper.getPath(mActivity, uri);
 				if (path != null) {
 //					extension = path.substring(path.lastIndexOf("."), path.length());
 					extension = FileHelper.getFileExtension(path);
 				}
 			}				
 				
-			destination = StorageManager.createExternalStoragePrivateFile(mDetailFragmentReference.get().getActivity(), uri, extension);
+			destination = StorageManager.createExternalStoragePrivateFile(mActivity, uri, extension);
 			Log.v(Constants.TAG, "Moving attachment " + uri + " to " + destination);
 			
 			if (destination == null) {				
@@ -161,7 +163,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			// so they're stored in default location. Once the copy is done original can be deleted
 			if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1
 					&& attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO)) {
-				StorageManager.delete(mDetailFragmentReference.get().getActivity(), uri.getPath());
+				StorageManager.delete(mActivity, uri.getPath());
 			}
 		}
 	}
@@ -169,11 +171,11 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 
 
 	private void setAlarm(Note note) {
-		Intent intent = new Intent(mDetailFragmentReference.get().getActivity(), AlarmReceiver.class);
+		Intent intent = new Intent(mActivity, AlarmReceiver.class);
 		intent.putExtra(Constants.INTENT_NOTE, note);
-		PendingIntent sender = PendingIntent.getBroadcast(mDetailFragmentReference.get().getActivity(), Constants.INTENT_ALARM_CODE, intent,
+		PendingIntent sender = PendingIntent.getBroadcast(mActivity, Constants.INTENT_ALARM_CODE, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
-		AlarmManager am = (AlarmManager) mDetailFragmentReference.get().getActivity().getSystemService(Activity.ALARM_SERVICE);
+		AlarmManager am = (AlarmManager) mActivity.getSystemService(Activity.ALARM_SERVICE);
 		am.set(AlarmManager.RTC_WAKEUP, Long.parseLong(note.getAlarm()), sender);
 	}
 	
