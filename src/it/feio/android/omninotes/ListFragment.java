@@ -943,7 +943,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		if (l.getCount() == 0)
 			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
 
-		mActionMode.finish(); // Action picked, so close the CAB
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
 
 		// Advice to user
 		Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
@@ -1097,13 +1099,17 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 						// Advice to user
 						Crouton.makeText(mActivity, R.string.notes_tag_removed, ONStyle.INFO).show();
 						selectedNotes.clear();
-						mActionMode.finish(); // Action picked, so close the CAB
+						if (mActionMode != null) {
+							mActionMode.finish();
+						}
 					}
 				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						selectedNotes.clear();
-						mActionMode.finish(); // Action picked, so close the CAB
+						if (mActionMode != null) {
+							mActionMode.finish();
+						} 
 					}
 				});
 
@@ -1132,7 +1138,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		String msg = getResources().getText(R.string.notes_tagged_as) + " '" + tag.getName() + "'";
 		Crouton.makeText(mActivity, msg, ONStyle.INFO).show();
 		selectedNotes.clear();
-		mActionMode.finish(); // Action picked, so close the CAB
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
 	}
 	
 
@@ -1143,7 +1151,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		Crouton.cancelAllCroutons();
 		selectedNotes.clear();
 		if (mActionMode != null) {
-			mActionMode.finish(); // Action picked, so close the CAB
+			mActionMode.finish();
 		}
 		ubc.hideUndoBar(false);
 		initNotesList(mActivity.getIntent());
@@ -1264,7 +1272,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		mergedNote.setAttachmentsList(attachments);
 
 		selectedNotes.clear();
-		mActionMode.finish();
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
 		
 		// Sets the intent action to be recognized from DetailFragment and switch fragment
 		mActivity.getIntent().setAction(Constants.ACTION_MERGE);		
