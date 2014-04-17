@@ -9,12 +9,11 @@ import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.StorageManager;
-
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -76,7 +75,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		}
 
 		// Return back to parent activity now that the heavy work is done to speed up interface
-		if (mDetailFragmentReference.get().getActivity() != null && !mDetailFragmentReference.get().getActivity().isFinishing()) {
+		if (isAlive(mDetailFragmentReference)) {
 			mDetailFragmentReference.get().goHome();
 		}
 	}
@@ -174,7 +173,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		intent.putExtra(Constants.INTENT_NOTE, note);
 		PendingIntent sender = PendingIntent.getBroadcast(mDetailFragmentReference.get().getActivity(), Constants.INTENT_ALARM_CODE, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
-		AlarmManager am = (AlarmManager) mDetailFragmentReference.get().getActivity().getSystemService(mDetailFragmentReference.get().getActivity().ALARM_SERVICE);
+		AlarmManager am = (AlarmManager) mDetailFragmentReference.get().getActivity().getSystemService(Activity.ALARM_SERVICE);
 		am.set(AlarmManager.RTC_WAKEUP, Long.parseLong(note.getAlarm()), sender);
 	}
 	
