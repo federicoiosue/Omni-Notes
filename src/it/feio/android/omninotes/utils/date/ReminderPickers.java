@@ -4,16 +4,16 @@ import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Calendar;
+import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+import com.doomonafireball.betterpickers.timepicker.TimePicker;
 
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.DatePicker;
-import android.widget.TimePicker;
-
-import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 
 public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 
@@ -77,9 +77,7 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 								new RadialTimePickerDialog.OnTimeSetListener() {
 
 									@Override
-									public void onTimeSet(
-											RadialTimePickerDialog dialog,
-											int hourOfDay, int minute) {
+									public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
 										// Setting alarm time in milliseconds
 										Calendar c = Calendar.getInstance();
 										c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
@@ -118,10 +116,23 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 		newFragment.setArguments(bundle);
 		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
-
 	
+	
+
 	@Override
-	public void onDateSet(DatePicker v, int year, int monthOfYear, int dayOfMonth) {
+	public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
+		// Setting alarm time in milliseconds
+				Calendar c = Calendar.getInstance();
+				c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
+				if (mOnReminderPickedListener != null) {
+					mOnReminderPickedListener.onReminderPicked(c.getTimeInMillis());
+				}
+	}
+
+
+
+	@Override
+	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 		reminderYear = year;
 		reminderMonth = monthOfYear;
 		reminderDay = dayOfMonth;
@@ -129,16 +140,5 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 			timePickerCalledAlready = true;
 			showTimePickerDialog(presetDateTime);
 		}
-	}
-
-	
-	@Override
-	public void onTimeSet(TimePicker v, int hourOfDay, int minute) {
-		// Setting alarm time in milliseconds
-		Calendar c = Calendar.getInstance();
-		c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
-		if (mOnReminderPickedListener != null) {
-			mOnReminderPickedListener.onReminderPicked(c.getTimeInMillis());
-		}	
 	}
 }
