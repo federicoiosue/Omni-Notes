@@ -111,7 +111,6 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		for (Attachment attachment : note.getAttachmentsList()) {
 			
 			uri = attachment.getUri();
-//			uri = Uri.parse(FileHelper.getPath(mActivity, attachment.getUri()));
 			
 			if (uri == null) {
 				error = true;
@@ -120,8 +119,6 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 				
 			
 			// The copy will be made only if it's a new attachment or if attachment directory is not yet the destination one
-//			if (attachment.getId() != 0 || 
-//					uri.getPath().contains(mActivity.getExternalFilesDir(null).getAbsolutePath())) {
 			if (!attachment.getMoveWhenNoteSaved()) {
 				break;
 			}
@@ -139,11 +136,8 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO))
 				extension = Constants.MIME_TYPE_VIDEO_EXT;
 			else if (attachment.getMime_type().equals(Constants.MIME_TYPE_FILES)) {
-//				extension = StorageManager.getMimeType(mActivity, attachment.getUri());
-//			extension = StorageManager.getRealPathFromURI(mActivity, attachment.getUri());
 				String path = FileHelper.getPath(mActivity, uri);
 				if (path != null) {
-//					extension = path.substring(path.lastIndexOf("."), path.length());
 					extension = FileHelper.getFileExtension(path);
 				}
 			}				

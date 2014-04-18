@@ -383,12 +383,12 @@ public class DetailFragment extends Fragment implements
 			afterSavedReturnsToList = false;
 			DbHelper db = new DbHelper(mActivity);
 			note = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
-			noteTmp = new Note(note);
 			// Checks if the note pointed from the shortcut has been deleted
-			if (note == null || noteTmp == null) {	
+			if (note == null) {	
 				mActivity.showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
 				mActivity.finish();
 			}
+			noteTmp = new Note(note);
 			i.setAction(null);
 		}
 		
