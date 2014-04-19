@@ -284,6 +284,7 @@ public class DetailFragment extends Fragment implements
 	
 	
 	
+	@SuppressLint("NewApi") @SuppressWarnings("deprecation")
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -291,7 +292,18 @@ public class DetailFragment extends Fragment implements
 			mRecorder.release();
 			mRecorder = null;
 		}
-		restoreLayouts();
+		
+		// Must be restored to re-fill title EditText
+		restoreLayouts(); 
+		
+		// Unregistering layout observer
+		if (root != null) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+			} else {
+				root.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+			}	
+		}
 	}
 	
 	
@@ -897,7 +909,6 @@ public class DetailFragment extends Fragment implements
 	
 	
 	@SuppressLint("NewApi")
-	@SuppressWarnings("deprecation")
 	public boolean goHome() {
 		stopPlaying();
 		
@@ -918,15 +929,6 @@ public class DetailFragment extends Fragment implements
 			if (!TextUtils.isEmpty(msg)) {
 				Crouton.makeText(mActivity, msg, ONStyle.CONFIRM).show();
 			}
-		}
-		
-		// Unregistering layout observer
-		if (root != null) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-			} else {
-				root.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-			}	
 		}
 		
 		// Otherwise the result is passed to ListActivity
@@ -1206,6 +1208,7 @@ public class DetailFragment extends Fragment implements
 	
 	 
 	// The method that displays the popup.
+	@SuppressWarnings("deprecation")
 	private void showPopup(View anchor) {
 		DisplayMetrics metrics = new DisplayMetrics();
 		mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -1327,7 +1330,7 @@ public class DetailFragment extends Fragment implements
 				startActivityForResult(filesIntent, FILES);
 				attachmentDialog.dismiss();
 				break;
-			case R.id.sketch:
+			case R.id.sketch:				
 				takeSketch(null);
 				attachmentDialog.dismiss();
 			    break;
@@ -1417,6 +1420,7 @@ public class DetailFragment extends Fragment implements
 	
 	
 	private void takeSketch(Attachment attachment) {
+		
 		File f = StorageManager.createNewAttachmentFile(mActivity, Constants.MIME_TYPE_SKETCH_EXT);
 		if (f == null) {
 			Crouton.makeText(mActivity, R.string.error, ONStyle.ALERT).show();

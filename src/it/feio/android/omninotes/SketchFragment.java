@@ -81,7 +81,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	
 	@Override
 	public void onStart() {
-
 		// GA tracking
 		mActivity.gaTracker.set(Fields.SCREEN_NAME, getClass().getName());
 		mActivity.gaTracker.send(MapBuilder.createAppView().build());
@@ -104,8 +103,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	
 
 	@Override
-//	public void onActivityCreated(Bundle savedInstanceState) {
-//		super.onActivityCreated(savedInstanceState);
 	public void onAttach(android.app.Activity activity) {
 		super.onAttach(activity);
 		

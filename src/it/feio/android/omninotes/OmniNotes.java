@@ -7,7 +7,6 @@ import it.feio.android.omninotes.utils.SimpleDiskCache.BitmapEntry;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Locale;
 
 import org.acra.ACRA;
@@ -50,7 +49,7 @@ public class OmniNotes extends Application {
 	private SimpleDiskCache mDiskLruCache;
 	private final Object mDiskCacheLock = new Object();
 	private boolean mDiskCacheStarting = true;
-	private static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
+	private final int DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
 
 	@Override
 	public void onCreate() {
@@ -59,9 +58,6 @@ public class OmniNotes extends Application {
 
 		// The following line triggers the initialization of ACRA
 		ACRA.init(this);
-		HashMap<String, String> ACRAData = new HashMap<String, String>();
-//		ACRAData.put("my_app_info", "custom data");
-//		ACRA.getErrorReporter().setReportSender(new ACRAPostSender(ACRAData));
 
 		// Get an instance of list thumbs cache
 		InitCacheTask mInitCacheTask = new InitCacheTask();

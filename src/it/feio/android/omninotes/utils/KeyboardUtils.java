@@ -1,7 +1,9 @@
 package it.feio.android.omninotes.utils;
 
+import it.feio.android.omninotes.MainActivity;
 import android.content.Context;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 public class KeyboardUtils {
@@ -42,5 +44,15 @@ public class KeyboardUtils {
 			return;
 		}
 		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+		
+//		if (!isKeyboardShowed(view)) {
+//			imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, InputMethodManager.RESULT_HIDDEN);
+//		}
+		
+	}
+
+	public static void hideKeyboard(MainActivity mActivity) {
+		mActivity.getWindow().setSoftInputMode(
+			      WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 }
