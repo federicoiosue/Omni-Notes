@@ -24,6 +24,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -31,11 +32,13 @@ import android.util.Log;
 public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 
 	private final WeakReference<Fragment> mFragmentReference;
+	private final Activity mActivity;
 	private OnNotesLoadedListener mOnNotesLoadedListener;
 
 	public NoteLoaderTask(Fragment mFragment,
 			OnNotesLoadedListener mOnNotesLoadedListener) {
 		mFragmentReference = new WeakReference<Fragment>(mFragment);
+		mActivity = mFragment.getActivity();
 		this.mOnNotesLoadedListener = mOnNotesLoadedListener;
 	}
 
@@ -45,7 +48,7 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 		ArrayList<Note> notes = new ArrayList<Note>();
 		String methodName = params[0].toString();
 		Object methodArgs = params[1];
-		DbHelper db = new DbHelper(mFragmentReference.get().getActivity());
+		DbHelper db = new DbHelper(mActivity);
 
 		// If null argument an empty list will be returned
 		if (methodArgs == null) {
