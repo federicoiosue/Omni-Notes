@@ -17,37 +17,37 @@
 -->
 <resources>
   <string-array name="navigation_list">
-    <item>Note</item>
-    <item>Archivio</item>
-    <item>Promemoria</item>
+    <item>नोट्स</item>
+    <item>संग्रह</item>
+    <item>अनुस्मारक</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Titolo</item>
-    <item>Creazione</item>
-    <item>Ultima modifica</item>
-    <item>Promemoria</item>
+    <item>शीर्षक</item>
+    <item>निर्माण दिनांक</item>
+    <item>अंतिम संशोधन दिनांक</item>
+    <item>अनुस्मारक दिनांक</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Mantenere la posizione</item>
-    <item>Spostare in fondo all\'elenco</item>
-    <item>Spostare in basso ma sopra le voci già controllate</item>
+    <item>स्थिति पर पकड़ो</item>
+    <item>सभी आइटम के अंत में ले जाएँ</item>
+    <item>अनचेक के बाद जगह बदलो लेकिन  अनचेक पर </item>
   </string-array>
   <string-array name="colors_app">
-    <item>Disattivato</item>
-    <item>Solo una fascia</item>
-    <item>Solo nella lista note</item>
-    <item>Completo</item>
+    <item>अक्षम कर दिया गया</item>
+    <item>केवल स्ट्रिप </item>
+    <item>केवल नोट सूची</item>
+    <item>पूरा</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Disattivato</item>
-    <item>Solo una fascia</item>
-    <item>Lista note</item>
+    <item>अक्षम कर दिया गया</item>
+    <item>केवल स्ट्रिप</item>
+    <item>नोट सूची</item>
   </string-array>
   <string-array name="text_size">
-    <item>Piccolissimo</item>
-    <item>Piccolo</item>
-    <item>Normale</item>
-    <item>Grande</item>
-    <item>Grandissimo</item>
+    <item>सबसे छोटा</item>
+    <item>छोटा सा</item>
+    <item>डिफ़ॉल्ट</item>
+    <item>बड़ा</item>
+    <item>सबसे बड़ा</item>
   </string-array>
 </resources>

@@ -81,7 +81,7 @@
   <string name="tag_color">Couleur</string>
   <string name="tag_saved">Mot-clé enregistré</string>
   <string name="tag_deleted">Mot-clé supprimé</string>
-  <string name="tag_missing_title">Titre du tag manquant</string>
+  <string name="tag_missing_title">Titre de balise manquant</string>
   <string name="delete_this_tag">Supprimer ce mot-clé</string>
   <string name="tag">Mot-clé</string>
   <string name="tag_as">Marquer en tant que</string>
@@ -150,7 +150,7 @@
   <string name="error">Erreur</string>
   <string name="archived">archivé</string>
   <string name="files">Fichiers</string>
-  <string name="merge">Merge</string>
+  <string name="merge">Fusionner</string>
   <string name="dashclock_description">Affiche quelques statistiques et rappels proches d\'Omni Notes</string>
   <string name="settings">Paramètres</string>
   <string name="settings_about">Infos</string>
@@ -243,7 +243,7 @@
   <string name="tour_listactivity_actions_detail">Créer de nouvelles notes, les trier, accès aux préférences</string>
   <string name="tour_listactivity_home_title">Naviguer</string>
   <string name="tour_listactivity_home_detail">Le menu de navigation vous permet de parcourir les notes grâce aux filtres et aux tags</string>
-  <string name="tour_listactivity_tag_title">Tags</string>
+  <string name="tour_listactivity_tag_title">Balises</string>
   <string name="tour_listactivity_tag_detail">Ajouter des tags colorés pour garder vos pensées efficacement</string>
   <string name="tour_detailactivity_attachment_title">Améliorer</string>
   <string name="tour_detailactivity_attachment_detail">Ajouter différents types de pièces jointes à vos notes !</string>
@@ -252,7 +252,7 @@
   <string name="tour_detailactivity_reminder_title">Appuyez simplement</string>
   <string name="tour_detailactivity_reminder_detail">Des courtes ou longues pressions sur les objets (pièce jointes, emplacement, rappel) ont des effets différents !</string>
   <string name="tour_detailactivity_links_title">Liens</string>
-  <string name="tour_detailactivity_links_detail">Appuyer deux fois sur les adresses web ou de courriel pour copier ou les ouvrir</string>
+  <string name="tour_detailactivity_links_detail">Appuyer deux fois sur les adresses ou de courriel pour copier ou les ouvrir</string>
   <string name="tour_detailactivity_swipe_title">Glisser</string>
   <string name="tour_detailactivity_swipe_detail">Créer de nouvelles notes sans \n laisser celui que vous modifiez</string>
   <string name="tour_detailactivity_save_title">Sauvegarder</string>
@@ -263,7 +263,7 @@
   <string name="drawer_close">Fermer  le menu</string>
   <string name="reminder">rappel</string>
   <string name="stroke_size">Taille du trait</string>
-  <string name="note_thumbnail">note miniature</string>
+  <string name="note_thumbnail">note en vignette</string>
   <string name="note_reminder_symbol">symbole de rappel de note</string>
   <string name="navigation_drawer_open">Ouvrir le volet de navigation</string>
   <string name="navigation_drawer_close">Fermer le volet de navigation</string>

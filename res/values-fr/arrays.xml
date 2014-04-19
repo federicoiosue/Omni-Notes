@@ -34,7 +34,7 @@
   </string-array>
   <string-array name="colors_app">
     <item>Désactivé</item>
-    <item>Marge uniquement</item>
+    <item>Bande uniquement</item>
     <item>Liste des notes uniquement</item>
     <item>Complet</item>
   </string-array>
@@ -44,10 +44,10 @@
     <item>Liste de notes</item>
   </string-array>
   <string-array name="text_size">
-    <item>Smallest</item>
-    <item>Small</item>
-    <item>Default</item>
-    <item>Large</item>
-    <item>Largest</item>
+    <item>Plus petit</item>
+    <item>Petit</item>
+    <item>Par défaut</item>
+    <item>Grand</item>
+    <item>Plus grand</item>
   </string-array>
 </resources>

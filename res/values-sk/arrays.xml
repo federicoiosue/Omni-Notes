@@ -44,10 +44,10 @@
     <item>Zoznam poznámok</item>
   </string-array>
   <string-array name="text_size">
-    <item>Smallest</item>
-    <item>Small</item>
-    <item>Default</item>
-    <item>Large</item>
-    <item>Largest</item>
+    <item>Najmenšie</item>
+    <item>Malé</item>
+    <item>Predvolené</item>
+    <item>Veľké</item>
+    <item>Najväčšie</item>
   </string-array>
 </resources>

@@ -19,35 +19,35 @@
   <string-array name="navigation_list">
     <item>Notas</item>
     <item>Arquivo</item>
-    <item>Lembretes</item>
+    <item>Alertas</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Título</item>
     <item>Data de criação</item>
-    <item>Última atualização</item>
-    <item>Data de lembrete</item>
+    <item>Data da última modificação</item>
+    <item>Data do alerta</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Manter posição</item>
-    <item>Mover para o final de todos os itens</item>
-    <item>Mover para baixo dos marcados, mas acima dos não marcados</item>
+    <item>Manter na posição</item>
+    <item>Mover para o final da lista</item>
+    <item>Mover ao desmarcar para o topo das desmarcadas</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Desativado</item>
-    <item>Apenas marcadores</item>
-    <item>Apenas lista de notas</item>
+    <item>Desactivado</item>
+    <item>Apenas uma tira</item>
+    <item>Lista de notas apenas</item>
     <item>Completo</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Desativado</item>
-    <item>Apenas marcadores</item>
+    <item>Desactivado</item>
+    <item>Apenas uma tira</item>
     <item>Lista de notas</item>
   </string-array>
   <string-array name="text_size">
-    <item>Minúsculo</item>
+    <item>Muito pequeno</item>
     <item>Pequeno</item>
     <item>Normal</item>
     <item>Grande</item>
-    <item>Enorme</item>
+    <item>Muito grande</item>
   </string-array>
 </resources>

@@ -147,10 +147,10 @@
   <string name="no_application_can_perform_this_action">Нет соответсвующего приложения</string>
   <string name="eraser">Ластик</string>
   <string name="image">Изображение</string>
-  <string name="error">Error</string>
-  <string name="archived">archived</string>
-  <string name="files">Files</string>
-  <string name="merge">Merge</string>
+  <string name="error">Ошибка</string>
+  <string name="archived">Архив</string>
+  <string name="files">Файлы</string>
+  <string name="merge">Объединить</string>
   <string name="dashclock_description">Отображает небольшую статистику и приближающиеся напоминания из Omni Notes</string>
   <string name="settings">Настройки</string>
   <string name="settings_about">О программе</string>
@@ -232,10 +232,10 @@
   <string name="colors_app">Окрашивание приложения</string>
   <string name="colors_widget">Окрашивание виджета</string>
   <string name="settings_instant_search">Мгновенный поиск</string>
-  <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
-  <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
-  <string name="settings_text_size">Text size</string>
-  <string name="settings_category_behaviors">Behaviors</string>
+  <string name="settings_navdrawer_on_exit">Меню навигации на выходе</string>
+  <string name="settings_navdrawer_on_exit_summary">Нажатие клавиши «назад», когда в список заметок открывает меню навигации вместо выхода</string>
+  <string name="settings_text_size">Размер текста</string>
+  <string name="settings_category_behaviors">Поведения</string>
   <string name="tour_request_start">Вы запустили Omni Notes впервые, желаете пройти обучение?</string>
   <string name="tour_listactivity_intro_title">Omni Notes приветствует Вас!</string>
   <string name="tour_listactivity_intro_detail">Нажмите «Продолжить» для начала обучения</string>
@@ -253,8 +253,8 @@
   <string name="tour_detailactivity_reminder_detail">Короткие или длительные нажатия на объектах (вложениях, размещениях, напоминаниях) действуют по-разному!</string>
   <string name="tour_detailactivity_links_title">Ссылки</string>
   <string name="tour_detailactivity_links_detail">Дважды щелкните по адресу эл. почты или сайта, чтобы открыть или скопировать его</string>
-  <string name="tour_detailactivity_swipe_title">Swipe</string>
-  <string name="tour_detailactivity_swipe_detail">Create new notes without \n leaving the one you\'re editing</string>
+  <string name="tour_detailactivity_swipe_title">Жесты</string>
+  <string name="tour_detailactivity_swipe_detail">Создать новые заметки без \n оставив тот, который вы редактировали</string>
   <string name="tour_detailactivity_save_title">Сохранение</string>
   <string name="tour_detailactivity_save_detail">Просто нажмите на значок навигации или вернитесь с помощью клавиши устройства</string>
   <string name="tour_listactivity_final_title">Приятного пользования!</string>
@@ -265,6 +265,6 @@
   <string name="stroke_size">Размер строки</string>
   <string name="note_thumbnail">Эскиз заметки</string>
   <string name="note_reminder_symbol">символ напоминания</string>
-  <string name="navigation_drawer_open">Open navigation drawer</string>
-  <string name="navigation_drawer_close">Close navigation drawer</string>
+  <string name="navigation_drawer_open">Открыть управление</string>
+  <string name="navigation_drawer_close">Закрыть панель навигации</string>
 </resources>
