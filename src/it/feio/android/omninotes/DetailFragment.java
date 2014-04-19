@@ -169,7 +169,7 @@ public class DetailFragment extends Fragment implements
 	public OnTimeSetListener onTimeSetListener;
 
 	// Audio recording
-	private static String recordName;
+	private String recordName;
 	MediaRecorder mRecorder = null;
 	private MediaPlayer mPlayer = null;
 	private boolean isRecording = false;
@@ -272,7 +272,8 @@ public class DetailFragment extends Fragment implements
 	
 	
 	@Override
-	public void onSaveInstanceState(Bundle outState) {		
+	public void onSaveInstanceState(Bundle outState) {	
+//		if (noteTmp)
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent()); 
 		outState.putParcelable("note", noteTmp);
@@ -311,11 +312,10 @@ public class DetailFragment extends Fragment implements
 		handleIntents();
 		
 		if (note == null) {
-//			note = (Note) mActivity.getIntent().getParcelableExtra(Constants.INTENT_NOTE);	
 			note = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);
 		}
+		
 		if (noteTmp == null) {
-			if (note == null) note = new Note();
 			noteTmp = new Note(note);
 		}
 					
@@ -323,9 +323,10 @@ public class DetailFragment extends Fragment implements
 			checkNoteLock(noteTmp);
 			return;
 		}	
-
-		// Note initialization
-		initNote();
+		
+		if (noteTmp.getAlarm() != null) {
+			dateTimeText = initAlarm(Long.parseLong(noteTmp.getAlarm()));
+		}
 		
 		initViews();
 	    
@@ -774,29 +775,6 @@ public class DetailFragment extends Fragment implements
 		}
 	}
 	
-	
-
-	private void initNote() {
-
-		// Workaround to get widget acting correctly
-		if (note == null || note.get_id() == 0) {
-			note = new Note();
-		}
-		
-//		// Is a shared intent
-//		if (note.get_id() == 0) {
-//			note = new Note();
-//		}
-					
-		if (noteTmp.getAlarm() != null) {
-			dateTimeText = initAlarm(Long.parseLong(noteTmp.getAlarm()));
-		}
-		
-//		if (noteTmp.getLatitude() != null && noteTmp.getLongitude() != null) {
-//			mActivity.currentLatitude = noteTmp.getLatitude() != null ? noteTmp.getLatitude() : null ;
-//			mActivity.currentLongitude = noteTmp.getLongitude() != null ? noteTmp.getLatitude() : null;
-//		}
-	}
 
 	
 	@SuppressLint("NewApi")
