@@ -148,7 +148,7 @@ public class BitmapHelper {
 		} catch (FileNotFoundException e) {
 			Log.e(Constants.TAG, "Missing attachment file: " + uri.getPath());
 		}
-		
+		srcBmp = null;
 		return dstBmp;
 	}
 	
@@ -161,6 +161,7 @@ public class BitmapHelper {
 	 * @param reqWidth
 	 * @param reqHeight
 	 */
+	@SuppressWarnings("unused")
 	private static Bitmap scaleImage(Context mContext, Bitmap bitmap, int reqWidth, int reqHeight) {
 
 		// Get current dimensions AND the desired bounding box
@@ -337,7 +338,6 @@ public class BitmapHelper {
 					mAttachment.getUri());
 			// .. or directly from local directory otherwise
 			if (path == null) {
-//				path = mAttachment.getUri().getPath();
 				path = FileHelper.getPath(mContext, mAttachment.getUri());
 			}
 			bmp = ThumbnailUtils.createVideoThumbnail(path,
@@ -353,31 +353,21 @@ public class BitmapHelper {
 					|| Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())) {					
 			try {				
 				bmp = BitmapHelper.getThumbnail(mContext, mAttachment.getUri(), width, height);
-//				bmp = checkIfBroken(mContext, bmp, width, height);
 			} catch (NullPointerException e) {
-//				bmp = checkIfBroken(mContext, null, height, height);
 				bmp = null;
 			}
 
 		// Audio
 		} else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
-//			bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
-//					mContext.getResources(), R.drawable.play), width, height);
 			bmp = ThumbnailUtils.extractThumbnail(
 					decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R.drawable.play),
 							width, height), width, height);
 		
 		// File
 		} else if (Constants.MIME_TYPE_FILES.equals(mAttachment.getMime_type())) {
-//			if( (new File(FileHelper.getPath(mContext, mAttachment.getUri())).exists()) ) {
-//				bmp = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(
-//						mContext.getResources(), R.drawable.files), width, height);
 				bmp = ThumbnailUtils.extractThumbnail(
 						decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R.drawable.files),
 								width, height), width, height);
-//			} else {
-//				return null;
-//			}
 		}
 		
 		return bmp;
