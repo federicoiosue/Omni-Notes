@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
@@ -73,6 +74,10 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 		super.onCreate(savedInstanceState);
 		
 		mActivity = (MainActivity) getActivity();	
+		
+		// Forces potrait orientation to this fragment only
+		getActivity().setRequestedOrientation(
+	            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		setHasOptionsMenu(true);
 		setRetainInstance(false);
@@ -263,6 +268,10 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	public void onPause() {
 		super.onPause();
 		save();
+		
+		// Removes forced portrait orientation for this fragment
+		getActivity().setRequestedOrientation(
+                ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 	}
 	
 	
@@ -271,7 +280,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-//			save();
 			mActivity.onBackPressed();
 			break;
 		}
@@ -279,37 +287,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	}
 	
 
-//	public void save() {
-//		
-//		Bitmap bitmap = mSketchView.getBitmap();
-//		
-//		if (bitmap == null) {
-//			setResult(ActionBarActivity.RESULT_CANCELED);
-//		} else {
-//			
-//			try {			
-//				Uri uri = getIntent().getParcelableExtra(MediaStore.EXTRA_OUTPUT);
-//				File bitmapFile = new File(uri.getPath());
-//				FileOutputStream out = new FileOutputStream(bitmapFile);
-//				bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-//				
-//				if (bitmapFile.exists()) {
-//					Intent localIntent = new Intent().setData(Uri
-//							.fromFile(bitmapFile));
-//					setResult(ActionBarActivity.RESULT_OK, localIntent);
-//				} else {
-//					setResult(ActionBarActivity.RESULT_CANCELED);
-//				}
-//				
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				Log.d(Constants.TAG, "Error writing sketch image data");
-//			}
-//		}
-//		
-//		super.finish();
-////		animateTransition(TRANSITION_BACKWARD);
-//	}
 	public void save() {
 		
 		Bitmap bitmap = mSketchView.getBitmap();		

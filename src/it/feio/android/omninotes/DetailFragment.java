@@ -64,6 +64,7 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -273,7 +274,10 @@ public class DetailFragment extends Fragment implements
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {	
-//		if (noteTmp)
+		
+		// Must be restored to re-fill title EditText
+		restoreLayouts(); 
+
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent()); 
 		outState.putParcelable("note", noteTmp);
@@ -292,9 +296,6 @@ public class DetailFragment extends Fragment implements
 			mRecorder.release();
 			mRecorder = null;
 		}
-		
-		// Must be restored to re-fill title EditText
-		restoreLayouts(); 
 		
 		// Unregistering layout observer
 		if (root != null) {
@@ -913,7 +914,7 @@ public class DetailFragment extends Fragment implements
 		stopPlaying();
 		
 		// Hides keyboard
-	    KeyboardUtils.hideKeyboard(title);
+	    KeyboardUtils.hideKeyboard(content);
 
 	    String msg = resultIntent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
 	    
