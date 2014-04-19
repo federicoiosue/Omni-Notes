@@ -90,6 +90,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
@@ -109,14 +110,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 		super.onAttach(activity);
 		
 		mActivity = (MainActivity) getActivity();	
-		mActivity.setActionBarTitle(getString(R.string.title_activity_sketch));
-		
-		try {
-			mOnSketchSavedListener = (OnSketchSavedListener) mActivity.getSupportFragmentManager().findFragmentByTag(
-					mActivity.FRAGMENT_DETAIL_TAG);
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString() + " must implement OnDateSetListener");
-		}
 	}
 	
 	
@@ -124,19 +117,16 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
+		try {
+			mOnSketchSavedListener = (OnSketchSavedListener) mActivity.getSupportFragmentManager().findFragmentByTag(
+					mActivity.FRAGMENT_DETAIL_TAG);
+		} catch (ClassCastException e) {
+			throw new ClassCastException(mActivity.toString() + " must implement mOnSketchSavedListener");
+		}
+		
 		mSketchView = (SketchView) mActivity.findViewById(R.id.drawing);
 		mSketchView.setOnDrawChangedListener(this);
 		
-//		Uri baseUri = getIntent().getParcelableExtra("base");
-//		if (baseUri != null) {
-//			Bitmap bmp = null;
-//			try {
-//				bmp = BitmapFactory.decodeStream(mActivity.getContentResolver().openInputStream(baseUri));
-//				mSketchView.setBackgroundBitmap(this, bmp);
-//			} catch (FileNotFoundException e) {
-//				Log.e(Constants.TAG, "Error replacing sketch bitmap background");
-//			}
-//		}
 		Uri baseUri = getArguments().getParcelable("base");
 		if (baseUri != null) {
 			Bitmap bmp = null;
@@ -150,21 +140,19 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 
 		// Show the Up button in the action bar.
 		if (mActivity.getSupportActionBar() != null) {
-			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);			
+			mActivity.getSupportActionBar().setTitle(R.string.title_activity_sketch);
 			mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
 		stroke = (ImageView) mActivity.findViewById(R.id.sketch_stroke);
-//		stroke.setBackgroundResource(R.drawable.image_borders);	
 		stroke.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				if (mSketchView.getMode() == SketchView.STROKE) {			
 					showPopup(v, SketchView.STROKE);
 				} else {
-					mSketchView.setMode(SketchView.STROKE);
-//					eraser.setBackgroundResource(0);
-//					stroke.setBackgroundResource(R.drawable.image_borders);			
+					mSketchView.setMode(SketchView.STROKE);	
 					AlphaManager.setAlpha(eraser, 0.4f);			
 					AlphaManager.setAlpha(stroke, 1f);		
 				}
@@ -179,9 +167,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 				if (mSketchView.getMode() == SketchView.ERASER) {			
 					showPopup(v, SketchView.ERASER);
 				} else {
-					mSketchView.setMode(SketchView.ERASER);
-//					stroke.setBackgroundResource(0);
-//					eraser.setBackgroundResource(R.drawable.image_borders);			
+					mSketchView.setMode(SketchView.ERASER);		
 					AlphaManager.setAlpha(stroke, 0.4f);			
 					AlphaManager.setAlpha(eraser, 1f);					
 				}
@@ -247,7 +233,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 		size = circleDrawable.getIntrinsicWidth();
 		// Actual eraser shape size is retrieved
 		eraserImageView = (ImageView) popupEraserLayout.findViewById(R.id.stroke_circle);
-		final Drawable circleEraserDrawable = getResources().getDrawable(R.drawable.circle);
+//		final Drawable circleEraserDrawable = getResources().getDrawable(R.drawable.circle);
 		size = circleDrawable.getIntrinsicWidth();
 
 		setSeekbarProgress(SketchView.DEFAULT_STROKE_SIZE, SketchView.STROKE);

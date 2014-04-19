@@ -412,52 +412,6 @@ public class BaseActivity extends ActionBarActivity {
 	}
 	
 	
-	/**
-	 * Manages the activity transition animations
-	 * @param direction
-	 */
-//	protected void animateTransition(int direction) {
-//		boolean rtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
-//		if (prefs.getBoolean("settings_enable_animations", true)) {
-//			
-//			if (TRANSITION_BACKWARD == direction) {
-//				if (rtl) {
-//					overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
-//				} else {
-//					overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
-//				}
-//			}
-//			
-//			else if (TRANSITION_FORWARD == direction) {
-//				if (rtl) {
-//					overridePendingTransition(R.animator.slide_left, R.animator.slide_right);
-//				} else {
-//					overridePendingTransition(R.animator.slide_back_right, R.animator.slide_back_left);
-//				}
-//			}			
-//		}
-//	}
-//	protected void animateTransition(FragmentTransaction transaction, int direction) {
-//		boolean rtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
-//		if (prefs.getBoolean("settings_enable_animations", true)) {
-//			
-//			if (TRANSITION_BACKWARD == direction) {
-//				if (rtl) {
-//					transaction.setCustomAnimations(R.animator.slide_back_right, R.animator.slide_back_left);
-//				} else {
-//					transaction.setCustomAnimations(R.animator.slide_left, R.animator.slide_right);
-//				}
-//			}
-//			
-//			else if (TRANSITION_FORWARD == direction) {
-//				if (rtl) {
-//					transaction.setCustomAnimations(R.animator.slide_left, R.animator.slide_right);
-//				} else {
-//					transaction.setCustomAnimations(R.animator.slide_back_right, R.animator.slide_back_left);
-//				}
-//			}			
-//		}
-//	}
 	@SuppressLint("InlinedApi")
 	protected void animateTransition(FragmentTransaction transaction, int direction) {
 		boolean rtl = false;
@@ -473,10 +427,7 @@ public class BaseActivity extends ActionBarActivity {
 						R.animator.slide_left, R.animator.slide_right);
 			}
 		}
-		if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {			
-//			transaction.setCustomAnimations(
-//	                R.animator.card_flip_right_in, R.animator.card_flip_right_out,
-//	                R.animator.card_flip_left_in, R.animator.card_flip_left_out);
+		if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {		
 			transaction.setCustomAnimations(
 	                R.animator.anim_in, R.animator.anim_out, R.animator.anim_in_pop, R.animator.anim_out_pop);
 		}
@@ -487,21 +438,14 @@ public class BaseActivity extends ActionBarActivity {
 		// Creating a spannable to support custom fonts on ActionBar
 		int actionBarTitle = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
 		android.widget.TextView actionBarTitleView = (android.widget.TextView) getWindow().findViewById(actionBarTitle);
-//				actionBarTitleView.setTextAppearance(this, R.style.Text_Big);
 		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
 		if (actionBarTitleView != null) {
 		    actionBarTitleView.setTypeface(font);
 		}
 		
-//				SpannableString s = new SpannableString(title);
-//			    s.setSpan(new TypefaceSpan(font), 0, s.length(),
-//			            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-	 
-	    // Update the action bar title with the TypefaceSpan instance
-//			    ActionBar actionBar = getActionBar();
-//			    actionBar.setTitle(s);
-	    
-		getSupportActionBar().setTitle(title);
+	    if (getSupportActionBar() != null) {
+	    	getSupportActionBar().setTitle(title);
+	    }
 	}
 	
 	
