@@ -119,8 +119,8 @@ public class NavigationDrawerFragment extends Fragment {
 		// Retrieves data to fill tags list
 		ArrayList<Tag> tags = db.getTags();
 
+		mDrawerTagList = (ListView) getView().findViewById(R.id.drawer_tag_list);
 		if (tags.size() > 0) {
-			mDrawerTagList = (ListView) getView().findViewById(R.id.drawer_tag_list);
 			// Inflation of header view
 			LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			if (tagListHeader == null) {
