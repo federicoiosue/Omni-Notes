@@ -16,6 +16,10 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.5.0" changeDate="Apr 19 2014">
+        <changelogtext>Last bugfixing before stable release and translations updated</changelogtext> 
+    </changelogversion>
+
     <changelogversion versionName="4.5.0 Beta 7" changeDate="Apr 15 2014">
         <changelogtext>[u]Fixed[/u] If merging notes even just one of them is masked the password will be required to continue</changelogtext> 
         <changelogtext>[u]Fixed[/u] Crash opening notes on Android 4.1.x devices</changelogtext>  

@@ -28,6 +28,7 @@ public class TextUtils {
 			titleText = index == -1 ? content : content.substring(0, index);
 			contentText = index == -1 ? "" : content.substring(index);
 		}
+		content = null;
 		
 		// Masking title and content string if note is locked
 		if (note.isLocked()) {
