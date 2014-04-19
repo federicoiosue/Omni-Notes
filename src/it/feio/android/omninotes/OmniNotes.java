@@ -40,6 +40,7 @@ import android.util.Log;
 				resDialogCommentPrompt = R.string.crash_dialog_comment_prompt, 
 				resDialogText = R.string.crash_dialog_text
 				)
+
 public class OmniNotes extends Application {
 
 	private final static String PREF_LANG = "settings_language";
@@ -156,7 +157,7 @@ public class OmniNotes extends Application {
 
 	public void addBitmapToCache(String key, Bitmap bitmap) {
 		// Add to memory cache as before
-		if (mMemoryCache.get(key) == null) {
+		if (mMemoryCache != null && mMemoryCache.get(key) == null) {
 			if (key != null && bitmap != null) {
 				mMemoryCache.put(key, bitmap);
 			}
@@ -183,6 +184,11 @@ public class OmniNotes extends Application {
 	 * @return
 	 */
 	public Bitmap getBitmapFromCache(String key) {
+		
+		if (mMemoryCache == null) {
+			return null;
+		}
+		
 		// A first attempt is done with memory cache
 		Bitmap bitmap = mMemoryCache.get(key);
 		
