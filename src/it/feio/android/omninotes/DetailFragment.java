@@ -201,6 +201,7 @@ public class DetailFragment extends Fragment implements
 	private long audioRecordingTime;
 	private boolean showKeyboard;
 	private DetailFragment mFragment;
+	private Attachment sketchEdited;
 
 
 	@Override
@@ -267,6 +268,11 @@ public class DetailFragment extends Fragment implements
 			mAttachment.setMoveWhenNoteSaved(false);
 			noteTmp.getAttachmentsList().add(mAttachment);
 			mActivity.sketchUri = null;
+			// Removes previous version of edited image
+			if (sketchEdited  != null) {
+				noteTmp.getAttachmentsList().remove(sketchEdited);
+				sketchEdited = null;
+			}
 		}
 		
 		
@@ -685,7 +691,8 @@ public class DetailFragment extends Fragment implements
 						.setNeutralButton(R.string.edit, new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
-								takeSketch(mAttachmentAdapter.getItem(position));
+								sketchEdited = mAttachmentAdapter.getItem(position);
+								takeSketch(sketchEdited);
 							}
 						});
 				}
