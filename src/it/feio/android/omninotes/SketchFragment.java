@@ -3,7 +3,6 @@ package it.feio.android.omninotes;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
-import it.feio.android.omninotes.models.listeners.OnSketchSavedListener;
 import it.feio.android.omninotes.models.views.SketchView;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -66,7 +65,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	private int size;
 	private ColorPicker mColorPicker;
 	private int oldColor;
-	private OnSketchSavedListener mOnSketchSavedListener;
 
 	
 	@Override
@@ -74,10 +72,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 		super.onCreate(savedInstanceState);
 		
 		mActivity = (MainActivity) getActivity();	
-		
-		// Forces potrait orientation to this fragment only
-		getActivity().setRequestedOrientation(
-	            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		setHasOptionsMenu(true);
 		setRetainInstance(false);
@@ -118,13 +112,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		try {
-			mOnSketchSavedListener = (OnSketchSavedListener) mActivity.getSupportFragmentManager().findFragmentByTag(
-					mActivity.FRAGMENT_DETAIL_TAG);
-		} catch (ClassCastException e) {
-			throw new ClassCastException(mActivity.toString() + " must implement mOnSketchSavedListener");
-		}
 		
 		mSketchView = (SketchView) mActivity.findViewById(R.id.drawing);
 		mSketchView.setOnDrawChangedListener(this);
@@ -299,9 +286,10 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 				bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
 				out.close();
 				if (bitmapFile.exists()) {
-					if (mOnSketchSavedListener != null) {
-						mOnSketchSavedListener.onSketchSaved(uri);
-					}
+//					if (mOnSketchSavedListener != null) {
+//						mOnSketchSavedListener.onSketchSaved(uri);
+//					}					
+					mActivity.sketchUri = uri;
 				} else {
 					Crouton.makeText(mActivity, R.string.error, ONStyle.ALERT).show();
 				}

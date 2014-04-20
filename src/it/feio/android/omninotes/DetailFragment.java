@@ -34,7 +34,6 @@ import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
-import it.feio.android.omninotes.models.listeners.OnSketchSavedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.AppTourHelper;
@@ -137,7 +136,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  */
 public class DetailFragment extends Fragment implements
 		OnReminderPickedListener, TextLinkClickListener, OnTouchListener,
-		OnGlobalLayoutListener, OnSketchSavedListener, OnAttachingFileListener {
+		OnGlobalLayoutListener, OnAttachingFileListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -262,6 +261,14 @@ public class DetailFragment extends Fragment implements
 			orientationChanged = savedInstanceState.getBoolean("orientationChanged");
 		}
 		
+		// Added the sketched image if present returning from SketchFragment
+		if (mActivity.sketchUri != null) {
+			Attachment mAttachment = new Attachment(mActivity.sketchUri, Constants.MIME_TYPE_SKETCH);
+			mAttachment.setMoveWhenNoteSaved(false);
+			noteTmp.getAttachmentsList().add(mAttachment);
+			mActivity.sketchUri = null;
+		}
+		
 		
 		init();
 		
@@ -275,15 +282,16 @@ public class DetailFragment extends Fragment implements
 	@Override
 	public void onSaveInstanceState(Bundle outState) {	
 		
-		// Must be restored to re-fill title EditText
-		restoreLayouts(); 
-
-		noteTmp.setTitle(getNoteTitle());
-		noteTmp.setContent(getNoteContent()); 
-		outState.putParcelable("note", noteTmp);
-		outState.putParcelable("attachmentUri", attachmentUri);
-		outState.putBoolean("orientationChanged", orientationChanged);
-		super.onSaveInstanceState(outState);		
+			// Must be restored to re-fill title EditText
+			restoreLayouts(); 
+	
+			noteTmp.setTitle(getNoteTitle());
+			noteTmp.setContent(getNoteContent()); 
+			outState.putParcelable("note", noteTmp);
+			outState.putParcelable("attachmentUri", attachmentUri);
+			outState.putBoolean("orientationChanged", orientationChanged);
+	//		outState.putBoolean("orientationChanged", is);
+			super.onSaveInstanceState(outState);		
 	}
 	
 	
@@ -1429,6 +1437,10 @@ public class DetailFragment extends Fragment implements
 		}
 		attachmentUri = Uri.fromFile(f);	
 		
+		// Forces potrait orientation to this fragment only
+		getActivity().setRequestedOrientation(
+	            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// Fragments replacing
 		FragmentTransaction transaction = mActivity.getSupportFragmentManager().beginTransaction();
 		mActivity.animateTransition(transaction, mActivity.TRANSITION_HORIZONTAL);
@@ -1511,16 +1523,6 @@ public class DetailFragment extends Fragment implements
 				break;
 			}
 		}
-	}
-
-
-	@Override
-	public void onSketchSaved(Uri attachmentUri) {
-		Attachment attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_SKETCH);
-		attachment.setMoveWhenNoteSaved(false);
-		noteTmp.getAttachmentsList().add(attachment);
-		mAttachmentAdapter.notifyDataSetChanged();
-		mGridView.autoresize();
 	}
 	
 		

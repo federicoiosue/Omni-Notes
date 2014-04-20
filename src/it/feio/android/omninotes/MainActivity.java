@@ -41,6 +41,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	
 	public boolean loadNotesSync = Constants.LOAD_NOTES_SYNC;
 	public SpinnerDialog mSpinnerDialog;
+	
+	public Uri sketchUri;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
