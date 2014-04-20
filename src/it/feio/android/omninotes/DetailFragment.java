@@ -303,7 +303,7 @@ public class DetailFragment extends Fragment implements
 		if (mRecorder != null) {
 			mRecorder.release();
 			mRecorder = null;
-		}
+		}	   
 		
 		// Unregistering layout observer
 		if (root != null) {
@@ -313,6 +313,9 @@ public class DetailFragment extends Fragment implements
 				root.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 			}	
 		}
+		
+		KeyboardUtils.hideKeyboard(content);
+	    content.clearFocus();
 	}
 	
 	
@@ -361,7 +364,7 @@ public class DetailFragment extends Fragment implements
 			    	KeyboardUtils.showKeyboard(content);
 				}
 			}, 700);
-	    }
+	    } 
 	}
 
 	
@@ -920,9 +923,6 @@ public class DetailFragment extends Fragment implements
 	@SuppressLint("NewApi")
 	public boolean goHome() {
 		stopPlaying();
-		
-		// Hides keyboard
-	    KeyboardUtils.hideKeyboard(content);
 
 	    String msg = resultIntent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
 	    

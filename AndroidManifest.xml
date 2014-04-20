@@ -110,11 +110,11 @@
         </activity>
 
         <!-- Sketch -->
-        <activity
-            android:name="it.feio.android.omninotes.SketchActivity"
-            android:label="@string/title_activity_sketch"
-            android:screenOrientation="portrait" >
-        </activity>
+<!--         <activity -->
+<!--             android:name="it.feio.android.omninotes.SketchActivity" -->
+<!--             android:label="@string/title_activity_sketch" -->
+<!--             android:screenOrientation="portrait" > -->
+<!--         </activity> -->
 
         <!-- Settings -->
         <activity
