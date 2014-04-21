@@ -18,6 +18,7 @@ package it.feio.android.omninotes;
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
+import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListView;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.DeleteNoteTask;
@@ -88,7 +89,9 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -114,6 +117,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.espian.showcaseview.ShowcaseView;
@@ -136,7 +140,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  */
 public class DetailFragment extends Fragment implements
 		OnReminderPickedListener, TextLinkClickListener, OnTouchListener,
-		OnGlobalLayoutListener, OnAttachingFileListener {
+		OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -202,6 +206,9 @@ public class DetailFragment extends Fragment implements
 	private boolean showKeyboard;
 	private DetailFragment mFragment;
 	private Attachment sketchEdited;
+	
+	private ScrollView scrollView;
+	private int contentLineCounter = 1;
 
 
 	@Override
@@ -523,6 +530,9 @@ public class DetailFragment extends Fragment implements
 		root = (ViewGroup) getView().findViewById(R.id.detail_root);
 		root.setOnTouchListener(this);
 		
+		// ScrollView container
+		scrollView = (ScrollView) getView().findViewById(R.id.content_wrapper);
+		
 		// Title view card container
 		titleCardView = root.findViewById(R.id.detail_tile_card);
 		
@@ -549,6 +559,8 @@ public class DetailFragment extends Fragment implements
 //	        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 			showKeyboard = true;
 		}
+		// Avoids focused line goes under the keyboard 
+		content.addTextChangedListener(this);
 
 		// Restore checklist
 		toggleChecklistView = content;
@@ -1152,6 +1164,8 @@ public class DetailFragment extends Fragment implements
 		
 		// Links parsing options
 		mChecklistManager.setOnTextLinkClickListener(mFragment);
+		mChecklistManager.addTextChangedListener(mFragment);
+		mChecklistManager.setCheckListChangedListener(mFragment);
 		
 		// Options for converting back to simple text
 		mChecklistManager.setKeepChecked(keepChecked);
@@ -2117,7 +2131,40 @@ public class DetailFragment extends Fragment implements
 			datetime.setText(getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(mActivity, reminder));
 		}
 	}
+	
+	
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		scrollContent();
+	}
 
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+	}
+
+	@Override
+	public void onCheckListChanged() {
+		scrollContent();
+	}
+
+	private void scrollContent() {
+		if (noteTmp.isChecklist()) {
+			if (mChecklistManager.getCount() > contentLineCounter) {
+				scrollView.scrollBy(0, 60);
+			}
+			contentLineCounter = mChecklistManager.getCount();
+		} else {
+			if (content.getLineCount() > contentLineCounter) {
+				scrollView.scrollBy(0, 60);
+			}
+			contentLineCounter = content.getLineCount();
+		}
+	}
 }
 
 

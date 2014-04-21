@@ -16,8 +16,11 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.5.0" changeDate="Apr 19 2014">
+    <changelogversion versionName="4.5.0" changeDate="Apr 22 2014">
+        <changelogtext>[b]New![/b] Stable release: check all the new feature from 4.5.0 Betas to see what's new here</changelogtext> 
         <changelogtext>Last bugfixing before stable release and translations updated</changelogtext> 
+        <changelogtext>Changed the behavior of sketch picture editing> now the original image will be replaced by the edited one while previously it was preserved</changelogtext>
+        <changelogtext>[u]Fixed[/u] Issue appearing with some keyboards using Android KitKat that caused focused line to disappear under the keyboard itself</changelogtext>   
     </changelogversion>
 
     <changelogversion versionName="4.5.0 Beta 7" changeDate="Apr 15 2014">
