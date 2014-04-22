@@ -326,8 +326,10 @@ public class DetailFragment extends Fragment implements
 			}	
 		}
 		
-		KeyboardUtils.hideKeyboard(content);
-	    content.clearFocus();
+		if (content != null) {
+			KeyboardUtils.hideKeyboard(content);
+		    content.clearFocus();			
+		}
 	}
 	
 	
