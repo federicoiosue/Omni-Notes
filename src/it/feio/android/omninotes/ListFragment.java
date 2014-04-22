@@ -1238,22 +1238,26 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				mergedNote.setTitle(note.getTitle());
 				content.append(note.getContent());
 				
-			} else {				
-				content
-					.append(System.getProperty("line.separator"))
-					.append(System.getProperty("line.separator"))
-					.append("----------------------")
-					.append(System.getProperty("line.separator"))
-					.append(System.getProperty("line.separator"));
+			} else {	
+				if (content.length() > 0
+						&& (!TextUtils.isEmpty(note.getTitle()) 
+							|| !TextUtils.isEmpty(note.getContent()))) {
+					content.append(System.getProperty("line.separator"))
+							.append(System.getProperty("line.separator"))
+							.append("----------------------")
+							.append(System.getProperty("line.separator"))
+							.append(System.getProperty("line.separator"));
+				}
 				if (!TextUtils.isEmpty(note.getTitle())) {
 					content.append(note.getTitle());
 				}
-				if (!TextUtils.isEmpty(note.getTitle()) && !TextUtils.isEmpty(note.getContent())) {
+				if (!TextUtils.isEmpty(note.getTitle())
+						&& !TextUtils.isEmpty(note.getContent())) {
 					content.append(System.getProperty("line.separator"))
 							.append(System.getProperty("line.separator"));
 				}
 				if (!TextUtils.isEmpty(note.getContent())) {
-					content.append(note.getContent());		
+					content.append(note.getContent());
 				}
 			}
 			
