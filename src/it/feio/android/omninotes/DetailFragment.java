@@ -303,7 +303,6 @@ public class DetailFragment extends Fragment implements
 			outState.putParcelable("note", noteTmp);
 			outState.putParcelable("attachmentUri", attachmentUri);
 			outState.putBoolean("orientationChanged", orientationChanged);
-	//		outState.putBoolean("orientationChanged", is);
 			super.onSaveInstanceState(outState);		
 	}
 	
@@ -493,12 +492,15 @@ public class DetailFragment extends Fragment implements
 	    	// Due to the fact that Google Now passes intent as text but with 
 	    	// audio recording attached the case must be handled in specific way
 		    if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {
-		    	String mimeType = StorageManager.getMimeTypeInternal(mActivity, i.getType());
-		    	Attachment mAttachment = new Attachment(uri, mimeType);
-		    	if (Constants.MIME_TYPE_FILES.equals(mimeType)) {
-			    	mAttachment.setName(uri.getLastPathSegment());
-		    	}
-		    	noteTmp.addAttachment(mAttachment);
+//		    	String mimeType = StorageManager.getMimeTypeInternal(mActivity, i.getType());
+//		    	Attachment mAttachment = new Attachment(uri, mimeType);
+//		    	if (Constants.MIME_TYPE_FILES.equals(mimeType)) {
+//			    	mAttachment.setName(uri.getLastPathSegment());
+//		    	}
+//		    	noteTmp.addAttachment(mAttachment);
+				String name = FileHelper.getNameFromUri(mActivity, uri);					
+				AttachmentTask task = new AttachmentTask(this, uri, name, this);
+				task.execute();
 		    }
 		    
 		    // Multiple attachment data
@@ -507,16 +509,20 @@ public class DetailFragment extends Fragment implements
 		    	Attachment mAttachment;
 		    	for (Uri uriSingle : uris) {
 		    		String mimeGeneral = StorageManager.getMimeType(mActivity, uriSingle);
-		    		if (mimeGeneral != null) {
-		    			String mimeType = StorageManager.getMimeTypeInternal(mActivity, mimeGeneral);
-		    			mAttachment = new Attachment(uriSingle, mimeType);
-				    	if (Constants.MIME_TYPE_FILES.equals(mimeType)) {
-					    	mAttachment.setName(uriSingle.getLastPathSegment());
-				    	}
-				    	noteTmp.addAttachment(mAttachment);
-		    		} else {
-		    			mActivity.showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
-		    		}
+//		    		if (mimeGeneral != null) {
+//		    			String mimeType = StorageManager.getMimeTypeInternal(mActivity, mimeGeneral);
+//		    			mAttachment = new Attachment(uriSingle, mimeType);
+//				    	if (Constants.MIME_TYPE_FILES.equals(mimeType)) {
+//					    	mAttachment.setName(uriSingle.getLastPathSegment());
+//				    	}
+//				    	noteTmp.addAttachment(mAttachment);
+//		    		} else {
+//		    			mActivity.showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
+//		    		}
+					String name = FileHelper.getNameFromUri(mActivity, uriSingle);					
+					AttachmentTask task = new AttachmentTask(this, uriSingle, name, this);
+					task.execute();
+										
 				}
 		    }
 		}
