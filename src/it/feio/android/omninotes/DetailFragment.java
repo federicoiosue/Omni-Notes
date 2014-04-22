@@ -525,6 +525,8 @@ public class DetailFragment extends Fragment implements
 										
 				}
 		    }
+			
+			i.setAction(null);		
 		}
 		
 	}
