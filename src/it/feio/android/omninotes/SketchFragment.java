@@ -91,12 +91,12 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	@SuppressWarnings("unchecked")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			if (savedInstanceState.containsKey("listViewPosition")) {
-				mSketchView.setPaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable("paths"));
-				mSketchView.setUndonePaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable("undonePaths"));
-			}			
-		}		
+//		if (savedInstanceState != null) {
+//			if (savedInstanceState.containsKey("listViewPosition")) {
+//				mSketchView.setPaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable("paths"));
+//				mSketchView.setUndonePaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable("undonePaths"));
+//			}			
+//		}		
 		return inflater.inflate(R.layout.fragment_sketch, container, false);
 	}
 	
@@ -243,22 +243,22 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	}
 
 	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable("paths", mSketchView.getPaths());
-		outState.putSerializable("undonePaths", mSketchView.getUndonePaths());
-		super.onSaveInstanceState(outState);
-	}
+//	@Override
+//	public void onSaveInstanceState(Bundle outState) {
+//		outState.putSerializable("paths", mSketchView.getPaths());
+//		outState.putSerializable("undonePaths", mSketchView.getUndonePaths());
+//		super.onSaveInstanceState(outState);
+//	}
 	
 	
 	@Override
 	public void onPause() {
 		super.onPause();
-		save();
+//		save();
 		
 		// Removes forced portrait orientation for this fragment
-		getActivity().setRequestedOrientation(
-                ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+//		getActivity().setRequestedOrientation(
+//                ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 	}
 	
 	

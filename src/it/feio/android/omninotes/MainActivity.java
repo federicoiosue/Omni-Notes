@@ -13,6 +13,7 @@ import java.util.HashMap;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -157,7 +158,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		// SketchFragment
 		f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
 		if (f != null) {
-//			((SketchFragment)f).save();
+			((SketchFragment)f).save();
+			
+			// Removes forced portrait orientation for this fragment
+			setRequestedOrientation(
+	                ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+			
 			mFragmentManager.popBackStack(); 
 			return;
 		} 
