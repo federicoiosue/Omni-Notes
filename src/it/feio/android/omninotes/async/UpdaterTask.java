@@ -112,14 +112,17 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 							@Override
 							public void onClick(DialogInterface dialog, int id) {
-								if(!isGooglePlayAvailable()) {
-									Crouton.makeText(mActivityReference.get(), R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
-									return;
+								if(isGooglePlayAvailable()) {
+									mActivityReference.get().startActivity(new Intent(
+											Intent.ACTION_VIEW, Uri
+													.parse("market://details?id="
+															+ packageName)));
+								} else {
+									mActivityReference.get().startActivity(new Intent(
+											Intent.ACTION_VIEW, Uri
+													.parse(Constants.DRIVE_FOLDER_LAST_BUILD)));
 								}
-								mActivityReference.get().startActivity(new Intent(
-										Intent.ACTION_VIEW, Uri
-												.parse("market://details?id="
-														+ packageName)));
+								
 								dialog.dismiss();
 							}
 						})
