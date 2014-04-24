@@ -73,6 +73,7 @@ public class Display {
 	}
 	
 	
+	@SuppressLint("NewApi")
 	public static int getActionbarHeight(Object mObject) {
 		int res = 0;
 		if (Activity.class.isAssignableFrom(mObject.getClass())) {

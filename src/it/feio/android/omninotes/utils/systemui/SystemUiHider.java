@@ -1,4 +1,4 @@
-package it.feio.android.omninotes.util;
+package it.feio.android.omninotes.utils.systemui;
 
 import android.app.Activity;
 import android.os.Build;

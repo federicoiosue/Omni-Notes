@@ -680,7 +680,8 @@ public class DetailFragment extends Fragment implements
 					int clickedImage = 0;
 					ArrayList<Attachment> images = new ArrayList<Attachment>();
 					for (Attachment mAttachment : noteTmp.getAttachmentsList()) {
-						if (mAttachment.getMime_type().equals(Constants.MIME_TYPE_IMAGE)) {
+						if (mAttachment.getMime_type().equals(Constants.MIME_TYPE_IMAGE)
+						|| Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type()) ) {
 							images.add(mAttachment);
 							if (mAttachment.equals(attachment)) {
 								clickedImage = images.size() - 1;

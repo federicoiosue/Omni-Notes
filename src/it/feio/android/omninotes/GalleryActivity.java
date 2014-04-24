@@ -4,8 +4,8 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.ui.DepthPageTransformer;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
-import it.feio.android.omninotes.util.SystemUiHider;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.systemui.SystemUiHider;
 import java.util.ArrayList;
 import ru.truba.touchgallery.GalleryWidget.FilePagerAdapter;
 import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
@@ -118,7 +118,7 @@ public class GalleryActivity extends ActionBarActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		
-		((InterceptorFrameLayout) findViewById(R.id.gallery_root)).setOnViewTouchedListener(screenTouches);
+//		((InterceptorFrameLayout) findViewById(R.id.gallery_root)).setOnViewTouchedListener(screenTouches);
 		
 		mViewPager = (GalleryViewPager)findViewById(R.id.fullscreen_content);
 
