@@ -47,14 +47,12 @@ import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -119,7 +117,6 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.ScrollView;
 import android.widget.Toast;
-
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
@@ -127,7 +124,6 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.neopixl.pixlui.links.TextLinkClickListener;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 /**
@@ -661,10 +657,9 @@ public class DetailFragment extends Fragment implements
 				Attachment attachment = (Attachment) parent.getAdapter().getItem(position);
 				Uri uri = attachment.getUri();
 				Intent attachmentIntent = null;
-				if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
-						|| Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())
-						|| Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())
+				if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())
 					|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
+					
 					attachmentIntent = new Intent(Intent.ACTION_VIEW);
 //					attachmentIntent.setDataAndType(uri, attachment.getMime_type());					
 					attachmentIntent.setDataAndType(uri, StorageManager.getMimeType(mActivity, attachment.getUri()));
@@ -674,6 +669,25 @@ public class DetailFragment extends Fragment implements
 					} else {
 						Crouton.makeText(mActivity, R.string.feature_not_available_on_this_device, ONStyle.WARN).show();
 					}
+					
+				} else if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
+						|| Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {	
+					String title = it.feio.android.omninotes.utils.TextUtils.parseTitleAndContent(noteTmp)[0].toString();
+					int clickedImage = 0;
+					ArrayList<Attachment> images = new ArrayList<Attachment>();
+					for (Attachment mAttachment : noteTmp.getAttachmentsList()) {
+						if (mAttachment.getMime_type().equals(Constants.MIME_TYPE_IMAGE)) {
+							images.add(mAttachment);
+							if (mAttachment.equals(attachment)) {
+								clickedImage = images.size() - 1;
+							}
+						}
+					}
+					attachmentIntent = new Intent(mActivity, GalleryActivity.class);
+					attachmentIntent.putExtra(Constants.GALLERY_TITLE, title);
+					attachmentIntent.putParcelableArrayListExtra(Constants.GALLERY_IMAGES, images);
+					attachmentIntent.putExtra(Constants.GALLERY_CLICKED_IMAGE, clickedImage);
+					startActivity(attachmentIntent);
 					
 				} else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {					
 					playback(v, attachment.getUri()); 					

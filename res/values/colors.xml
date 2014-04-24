@@ -15,8 +15,9 @@
   limitations under the License.
 -->
 <resources>
+
     <color name="navigation_bg">#ffffffff</color>
-    <color name="gray_bg">#e2e2e2</color>    
+    <color name="gray_bg">#e2e2e2</color>
     <color name="list_bg">#eeffffff</color>
     <color name="list_bg_pressed">#88336699</color>
     <color name="list_bg_selected">#8833B5E5</color>
@@ -28,15 +29,16 @@
     <color name="drawer_line">#ee222222</color>
     <color name="text_gray">#2d2d2d</color>
     <color name="location_text">#ee2d2d2d</color>
-    <color name="selected">#8833B5E5</color>    
-    <color name="transparent">#00ffffff</color>    
-    <color name="audio_attachment_text">#aa000000</color>    
-    <color name="actionbar_title_text">#565656</color>    
-    
+    <color name="selected">#8833B5E5</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="audio_attachment_text">#aa000000</color>
+    <color name="actionbar_title_text">#565656</color>
+
     <!-- toasts -->
     <color name="confirm">#ee99CC00</color>
     <color name="warning">#eeFFBB33</color>
     <color name="alert">#eeFF4444</color>
     <color name="info">#ee33B5E5</color>
-    
+    <color name="black_overlay">#66000000</color>
+
 </resources>

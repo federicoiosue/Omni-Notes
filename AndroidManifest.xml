@@ -71,31 +71,46 @@
         <!-- List and Detail -->
         <activity
             android:name="it.feio.android.omninotes.MainActivity"
+            android:exported="true"
             android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:exported="true" >
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
-            
+
             <intent-filter>
                 <action android:name="com.google.android.gm.action.AUTO_SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="*/*" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="*/*" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="*/*" />
             </intent-filter>
+        </activity>
+        
+        <!-- Gallery -->
+        <activity
+            android:name="it.feio.android.omninotes.GalleryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+	        android:supportsRtl="true"
+	        android:theme="@style/FullscreenTheme" >
         </activity>
 
         <!-- Tags -->
@@ -142,11 +157,10 @@
         <!-- Snooze reminder -->
         <activity
             android:name="it.feio.android.omninotes.SnoozeActivity"
-            android:theme="@android:style/Theme.NoDisplay"
-            android:noHistory="true"
             android:excludeFromRecents="true"
-            android:launchMode="singleInstance" />
-        
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.NoDisplay" />
 
         <!-- ACRA -->
         <activity
