@@ -672,7 +672,11 @@ public class DetailFragment extends Fragment implements
 					
 				} else if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
 						|| Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {	
+					// Title
+					noteTmp.setTitle(getNoteTitle());
+					noteTmp.setContent(getNoteContent());
 					String title = it.feio.android.omninotes.utils.TextUtils.parseTitleAndContent(noteTmp)[0].toString();
+					// Images
 					int clickedImage = 0;
 					ArrayList<Attachment> images = new ArrayList<Attachment>();
 					for (Attachment mAttachment : noteTmp.getAttachmentsList()) {
@@ -683,6 +687,7 @@ public class DetailFragment extends Fragment implements
 							}
 						}
 					}
+					// Intent
 					attachmentIntent = new Intent(mActivity, GalleryActivity.class);
 					attachmentIntent.putExtra(Constants.GALLERY_TITLE, title);
 					attachmentIntent.putParcelableArrayListExtra(Constants.GALLERY_IMAGES, images);

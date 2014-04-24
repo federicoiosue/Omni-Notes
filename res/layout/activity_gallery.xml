@@ -1,5 +1,6 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<it.feio.android.omninotes.models.views.InterceptorFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gallery_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
@@ -54,4 +55,4 @@
         </LinearLayout>
     </FrameLayout>
 
-</FrameLayout>
+</it.feio.android.omninotes.models.views.InterceptorFrameLayout>

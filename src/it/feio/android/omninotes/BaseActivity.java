@@ -440,12 +440,12 @@ public class BaseActivity extends ActionBarActivity {
 		android.widget.TextView actionBarTitleView = (android.widget.TextView) getWindow().findViewById(actionBarTitle);
 		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
 		if (actionBarTitleView != null) {
-		    actionBarTitleView.setTypeface(font);
+			actionBarTitleView.setTypeface(font);
 		}
-		
-	    if (getSupportActionBar() != null) {
-	    	getSupportActionBar().setTitle(title);
-	    }
+
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setTitle(title);
+		}
 	}
 	
 	

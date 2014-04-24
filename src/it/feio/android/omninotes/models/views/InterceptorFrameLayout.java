@@ -4,17 +4,17 @@ import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
-public class InterceptorLinearLayout extends LinearLayout {
+public class InterceptorFrameLayout extends FrameLayout {
 
 	private OnViewTouchedListener mOnViewTouchedListener;
 
-	public InterceptorLinearLayout(Context context) {
+	public InterceptorFrameLayout(Context context) {
 		super(context);
 	}
 
-	public InterceptorLinearLayout(Context context, AttributeSet attrs) {
+	public InterceptorFrameLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 

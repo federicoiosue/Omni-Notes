@@ -34,10 +34,8 @@ import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -69,6 +67,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -80,7 +79,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
@@ -88,7 +86,6 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class ListFragment extends Fragment implements UndoListener, OnNotesLoadedListener {
@@ -473,7 +470,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 	OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
 		@Override
-		public void onViewTouchOccurred() {
+		public void onViewTouchOccurred(MotionEvent ev) {
 			commitPending();
 		}
 	};
