@@ -173,4 +173,8 @@
 
     <style name="ButtonBarButton" />
 
+
+    <style name="AppTheme.ActionBar.Fullscreen.TitleTextStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>

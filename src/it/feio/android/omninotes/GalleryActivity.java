@@ -5,15 +5,18 @@ import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.ui.DepthPageTransformer;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.systemui.SystemUiHider;
 import java.util.ArrayList;
 import ru.truba.touchgallery.GalleryWidget.FilePagerAdapter;
 import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
 import android.annotation.TargetApi;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -102,7 +105,7 @@ public class GalleryActivity extends ActionBarActivity {
 		// Upon interacting with UI controls, delay any scheduled hide()
 		// operations to prevent the jarring behavior of controls going away
 		// while interacting with the UI.
-		findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+//		findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
 		
 		initViews();
 		initData();
@@ -118,11 +121,9 @@ public class GalleryActivity extends ActionBarActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		
-//		((InterceptorFrameLayout) findViewById(R.id.gallery_root)).setOnViewTouchedListener(screenTouches);
+		((InterceptorFrameLayout) findViewById(R.id.gallery_root)).setOnViewTouchedListener(screenTouches);
 		
 		mViewPager = (GalleryViewPager)findViewById(R.id.fullscreen_content);
-
-		
 	}
 
 	
@@ -134,21 +135,21 @@ public class GalleryActivity extends ActionBarActivity {
 		ArrayList<Attachment> images = getIntent().getParcelableArrayListExtra(Constants.GALLERY_IMAGES);
 		int clickedImage = getIntent().getIntExtra(Constants.GALLERY_CLICKED_IMAGE, 0);
 		
-		ArrayList<String> imagesPaths = new ArrayList<String>();
-		for (Attachment mAttachment : images) {
-			imagesPaths.add(mAttachment.getUri().getPath());
-		}
-
 //		ArrayList<String> imagesPaths = new ArrayList<String>();
 //		for (Attachment mAttachment : images) {
-//			Uri uri = mAttachment.getUri();
-//			imagesPaths.add(FileHelper.getPath(this, uri));
+//			imagesPaths.add(mAttachment.getUri().getPath());
 //		}
+
+		ArrayList<String> imagesPaths = new ArrayList<String>();
+		for (Attachment mAttachment : images) {
+			Uri uri = mAttachment.getUri();
+			imagesPaths.add(FileHelper.getPath(this, uri));
+		}
 		
 		FilePagerAdapter  pagerAdapter = new FilePagerAdapter (this, imagesPaths);  
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			mViewPager.setPageTransformer(false, new DepthPageTransformer());
-		}
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//			mViewPager.setPageTransformer(false, new DepthPageTransformer());
+//		}
 		mViewPager.setOffscreenPageLimit(3);
 		mViewPager.setAdapter(pagerAdapter);
 		mViewPager.setCurrentItem(clickedImage);
@@ -200,14 +201,38 @@ public class GalleryActivity extends ActionBarActivity {
 
 
 	OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
+		
+		private final int MOVING_THRESHOLD = 30;
+
+		float x;
+		float y;
+		private boolean status_pressed = false;
+
 		@Override
 		public void onViewTouchOccurred(MotionEvent ev) {
+			if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
+				x = ev.getX();
+				y = ev.getY();
+				status_pressed = true;
+			}
+			if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_MOVE) {
+				float dx = Math.abs(x - ev.getX());
+				float dy = Math.abs(y - ev.getY());
+				double dxy = Math.sqrt(dx*dx + dy*dy);
+				Log.d(Constants.TAG, "Moved of " + dxy);
+				if (dxy >= MOVING_THRESHOLD) {
+					status_pressed = false;
+				}
+			}
 			if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-//				if (TOGGLE_ON_CLICK) {
-//					mSystemUiHider.toggle();
-//				} else {
-//					mSystemUiHider.show();
-//				}
+				if (status_pressed) {
+					if (TOGGLE_ON_CLICK) {
+						mSystemUiHider.toggle();
+					} else {
+						mSystemUiHider.show();
+					}
+					status_pressed = false;
+				}
 			}
 		}
 	};
