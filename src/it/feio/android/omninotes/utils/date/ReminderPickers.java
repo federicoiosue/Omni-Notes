@@ -2,18 +2,15 @@ package it.feio.android.omninotes.utils.date;
 
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.utils.Constants;
-
 import java.util.Calendar;
-import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
-import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
-import com.doomonafireball.betterpickers.timepicker.TimePicker;
-
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.DatePicker;
+import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
+import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 
 public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 
@@ -75,10 +72,8 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 						reminderDay = dayOfMonth;
 						RadialTimePickerDialog mRadialTimePickerDialog = RadialTimePickerDialog.newInstance(
 								new RadialTimePickerDialog.OnTimeSetListener() {
-									
 									@Override
-									public void onTimeSet(RadialTimePickerDialog dialog, int hourOfDay,
-											int minute) {
+									public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
 										// Setting alarm time in milliseconds
 										Calendar c = Calendar.getInstance();
 										c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
