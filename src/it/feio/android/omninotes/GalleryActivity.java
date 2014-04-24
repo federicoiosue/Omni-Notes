@@ -4,19 +4,29 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.ui.DepthPageTransformer;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
+import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.systemui.SystemUiHider;
 import java.util.ArrayList;
+import com.espian.showcaseview.ShowcaseView;
+import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import ru.truba.touchgallery.GalleryWidget.FilePagerAdapter;
 import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -53,6 +63,8 @@ public class GalleryActivity extends ActionBarActivity {
 	private SystemUiHider mSystemUiHider;
 
 	private GalleryViewPager mViewPager;
+
+	private ArrayList<Attachment> images;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +125,14 @@ public class GalleryActivity extends ActionBarActivity {
 	
 	
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu_gallery, menu);
+	    return true;
+	}
+	
+	
 	private void initViews() {
 		
 		// Show the Up button in the action bar.
@@ -132,14 +152,9 @@ public class GalleryActivity extends ActionBarActivity {
 	 */
 	private void initData() {
 		String title = getIntent().getStringExtra(Constants.GALLERY_TITLE);
-		ArrayList<Attachment> images = getIntent().getParcelableArrayListExtra(Constants.GALLERY_IMAGES);
+		images = getIntent().getParcelableArrayListExtra(Constants.GALLERY_IMAGES);
 		int clickedImage = getIntent().getIntExtra(Constants.GALLERY_CLICKED_IMAGE, 0);
 		
-//		ArrayList<String> imagesPaths = new ArrayList<String>();
-//		for (Attachment mAttachment : images) {
-//			imagesPaths.add(mAttachment.getUri().getPath());
-//		}
-
 		ArrayList<String> imagesPaths = new ArrayList<String>();
 		for (Attachment mAttachment : images) {
 			Uri uri = mAttachment.getUri();
@@ -156,47 +171,65 @@ public class GalleryActivity extends ActionBarActivity {
 		
 		getSupportActionBar().setTitle(title);
 	}
-
+	
 	
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		// Trigger the initial hide() shortly after the activity has been
-		// created, to briefly hint to the user that UI controls
-		// are available.
-		delayedHide(100);
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			break;
+		case R.id.menu_gallery:
+//			saveNote(true);
+			Attachment attachment = images.get(mViewPager.getCurrentItem());
+			Intent intent = new Intent(Intent.ACTION_VIEW);				
+			intent.setDataAndType(attachment.getUri(), StorageManager.getMimeType(this, attachment.getUri())); 
+			startActivity(intent);
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
+
+	
+//	@Override
+//	protected void onPostCreate(Bundle savedInstanceState) {
+//		super.onPostCreate(savedInstanceState);
+//		// Trigger the initial hide() shortly after the activity has been
+//		// created, to briefly hint to the user that UI controls
+//		// are available.
+//		delayedHide(100);
+//	}
 
 
 	/**
 	 * Touch listener to use for in-layout UI controls to delay hiding the system UI. This is to prevent the jarring behavior of controls going away while interacting with activity UI.
 	 */
-	View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-		@Override
-		public boolean onTouch(View view, MotionEvent motionEvent) {
-			if (AUTO_HIDE) {
-				delayedHide(AUTO_HIDE_DELAY_MILLIS);
-			}
-			return false;
-		}
-	};
+//	View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+//		@Override
+//		public boolean onTouch(View view, MotionEvent motionEvent) {
+//			if (AUTO_HIDE) {
+//				delayedHide(AUTO_HIDE_DELAY_MILLIS);
+//			}
+//			return false;
+//		}
+//	};
 
-	Handler mHideHandler = new Handler();
-	Runnable mHideRunnable = new Runnable() {
-		@Override
-		public void run() {
-			mSystemUiHider.hide();
-		}
-	};
+//	Handler mHideHandler = new Handler();
+//	Runnable mHideRunnable = new Runnable() {
+//		@Override
+//		public void run() {
+//			mSystemUiHider.hide();
+//		}
+//	};
 
 	
 	/**
 	 * Schedules a call to hide() in [delay] milliseconds, canceling any previously scheduled calls.
 	 */
-	private void delayedHide(int delayMillis) {
-		mHideHandler.removeCallbacks(mHideRunnable);
-		mHideHandler.postDelayed(mHideRunnable, delayMillis);
-	}
+//	private void delayedHide(int delayMillis) {
+//		mHideHandler.removeCallbacks(mHideRunnable);
+//		mHideHandler.postDelayed(mHideRunnable, delayMillis);
+//	}
 	
 
 
