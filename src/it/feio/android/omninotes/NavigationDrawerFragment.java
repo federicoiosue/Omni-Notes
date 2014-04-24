@@ -139,20 +139,22 @@ public class NavigationDrawerFragment extends Fragment {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 					mActivity.commitPending();
-					Object item = mDrawerTagList.getAdapter().getItem(position);
-					// Ensuring that clicked item is not the ListView header
-					if (item != null) {
-						Tag tag = (Tag) item;
-						String navigation = tag.getName();
-						Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
-						selectNavigationItem(mDrawerTagList, position);
-						mActivity.updateNavigation(String.valueOf(tag.getId()));
-						mDrawerTagList.setItemChecked(position, true);
-						if (mDrawerList != null)
-							mDrawerList.setItemChecked(0, false); // Called to
-																	// force
-																	// redraw
-						mActivity.initNotesList(mActivity.getIntent());
+					if (mDrawerTagList != null) {
+						Object item = mDrawerTagList.getAdapter().getItem(position);
+						// Ensuring that clicked item is not the ListView header
+						if (item != null) {
+							Tag tag = (Tag) item;
+							String navigation = tag.getName();
+							Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
+							selectNavigationItem(mDrawerTagList, position);
+							mActivity.updateNavigation(String.valueOf(tag.getId()));
+							mDrawerTagList.setItemChecked(position, true);
+							if (mDrawerList != null)
+								mDrawerList.setItemChecked(0, false); // Called to
+																		// force
+																		// redraw
+							mActivity.initNotesList(mActivity.getIntent());
+						}
 					}
 				}
 			});
