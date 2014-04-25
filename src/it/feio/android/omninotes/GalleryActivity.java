@@ -2,6 +2,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
+import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.StorageManager;
@@ -61,11 +62,14 @@ public class GalleryActivity extends ActionBarActivity {
 
 	private ArrayList<Attachment> images;
 
+	private GalleryActivity mActivity;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_gallery);
+		mActivity = this;
 
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
 		final View contentView = findViewById(R.id.fullscreen_content);
@@ -136,7 +140,7 @@ public class GalleryActivity extends ActionBarActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		
-//		((InterceptorFrameLayout) findViewById(R.id.gallery_root)).setOnViewTouchedListener(screenTouches);
+		((InterceptorFrameLayout) findViewById(R.id.gallery_root)).setOnViewTouchedListener(screenTouches);
 		
 		mViewPager = (GalleryViewPager)findViewById(R.id.fullscreen_content);
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {			
@@ -176,6 +180,11 @@ public class GalleryActivity extends ActionBarActivity {
 		
 		getSupportActionBar().setTitle(title);
 		getSupportActionBar().setSubtitle("(" + (clickedImage+1) + "/" + images.size() + ")");
+		
+		// If selected attachment is a video it will be immediately played
+		if (images.get(clickedImage).getMime_type().equals(Constants.MIME_TYPE_VIDEO)) {
+			viewMedia();
+		}
 	}
 	
 	
@@ -186,26 +195,39 @@ public class GalleryActivity extends ActionBarActivity {
 				onBackPressed();
 				break;
 			case R.id.menu_gallery_share: {
-				Attachment attachment = images.get(mViewPager.getCurrentItem());
-				Intent intent = new Intent(Intent.ACTION_SEND);
-				intent.setType(StorageManager.getMimeType(this, attachment.getUri()));
-				intent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
-				startActivity(intent);
+				shareMedia();
 				break;
 			}
 			case R.id.menu_gallery: {
-				Attachment attachment = images.get(mViewPager.getCurrentItem());
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setDataAndType(attachment.getUri(),
-						StorageManager.getMimeType(this, attachment.getUri()));
-				startActivity(intent);
+				viewMedia();
 				break;
 			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
 
 	
+	private void viewMedia() {
+		Attachment attachment = images.get(mViewPager.getCurrentItem());
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setDataAndType(attachment.getUri(),
+				StorageManager.getMimeType(this, attachment.getUri()));
+		startActivity(intent);
+	}
+
+
+
+	private void shareMedia() {
+		Attachment attachment = images.get(mViewPager.getCurrentItem());
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType(StorageManager.getMimeType(this, attachment.getUri()));
+		intent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
+		startActivity(intent);
+	}
+
+
 //	@Override
 //	protected void onPostCreate(Bundle savedInstanceState) {
 //		super.onPostCreate(savedInstanceState);
@@ -274,13 +296,21 @@ public class GalleryActivity extends ActionBarActivity {
 			}
 			if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
 				if (status_pressed) {
-					if (TOGGLE_ON_CLICK) {
-						mSystemUiHider.toggle();
-					} else {
-						mSystemUiHider.show();
-					}
+					click();
 					status_pressed = false;
 				}
+			}
+		}
+
+		private void click() {
+//			if (TOGGLE_ON_CLICK) {
+//				mSystemUiHider.toggle();
+//			} else {
+//				mSystemUiHider.show();
+//			}
+			Attachment attachment = images.get(mViewPager.getCurrentItem());
+			if (attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO)) {
+				viewMedia();
 			}
 		}
 	};

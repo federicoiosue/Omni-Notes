@@ -659,11 +659,9 @@ public class DetailFragment extends Fragment implements
 				Attachment attachment = (Attachment) parent.getAdapter().getItem(position);
 				Uri uri = attachment.getUri();
 				Intent attachmentIntent = null;
-				if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())
-					|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
+				if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
 					
-					attachmentIntent = new Intent(Intent.ACTION_VIEW);
-//					attachmentIntent.setDataAndType(uri, attachment.getMime_type());					
+					attachmentIntent = new Intent(Intent.ACTION_VIEW);				
 					attachmentIntent.setDataAndType(uri, StorageManager.getMimeType(mActivity, attachment.getUri()));
 					attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 					if (IntentChecker.isAvailable(mActivity.getApplicationContext(), attachmentIntent, null)) {
@@ -672,8 +670,10 @@ public class DetailFragment extends Fragment implements
 						Crouton.makeText(mActivity, R.string.feature_not_available_on_this_device, ONStyle.WARN).show();
 					}
 					
+				// Media files will be opened in internal gallery
 				} else if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
-						|| Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {	
+						|| Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())
+						|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {	
 					// Title
 					noteTmp.setTitle(getNoteTitle());
 					noteTmp.setContent(getNoteContent());
@@ -682,8 +682,9 @@ public class DetailFragment extends Fragment implements
 					int clickedImage = 0;
 					ArrayList<Attachment> images = new ArrayList<Attachment>();
 					for (Attachment mAttachment : noteTmp.getAttachmentsList()) {
-						if (mAttachment.getMime_type().equals(Constants.MIME_TYPE_IMAGE)
-						|| Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type()) ) {
+						if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
+						|| Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())
+						|| Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMime_type()) ) {
 							images.add(mAttachment);
 							if (mAttachment.equals(attachment)) {
 								clickedImage = images.size() - 1;
