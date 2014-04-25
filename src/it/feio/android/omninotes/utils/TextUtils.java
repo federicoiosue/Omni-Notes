@@ -1,8 +1,10 @@
 package it.feio.android.omninotes.utils;
 
+import it.feio.android.omninotes.models.Note;
+
 import java.util.Locale;
 
-import it.feio.android.omninotes.models.Note;
+import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
 
@@ -11,7 +13,7 @@ public class TextUtils {
 	 * @param note
 	 * @return
 	 */
-	public static Spanned[] parseTitleAndContent(Note note) {
+	public static Spanned[] parseTitleAndContent(Context mContext, Note note) {
 		
 		final int CONTENT_SUBSTRING_LENGTH = 300; 
 		
@@ -31,7 +33,8 @@ public class TextUtils {
 		content = null;
 		
 		// Masking title and content string if note is locked
-		if (note.isLocked()) {
+		if (note.isLocked()
+				&& !mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS).getBoolean("settings_password_access", false)) {
 			// This checks if a part of content is used as title and should be partially masked 
 			if (!note.getTitle().equals(titleText) && titleText.length() > 2) {	
 				titleText = titleText.substring(0, 2) + titleText.substring(2).replaceAll(".", Constants.MASK_CHAR);

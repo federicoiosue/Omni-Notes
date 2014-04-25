@@ -93,7 +93,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 		
 		Note note = notes.get(position);
 		
-		Spanned[] titleAndContent = TextUtils.parseTitleAndContent(note);
+		Spanned[] titleAndContent = TextUtils.parseTitleAndContent(app, note);
 
 		row.setTextViewText(R.id.note_title, titleAndContent[0]);
 		row.setTextViewText(R.id.note_content, titleAndContent[1]);

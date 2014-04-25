@@ -20,7 +20,6 @@ public class PasswordActivity extends BaseActivity {
 	private EditText passwordCheck;
 	private EditText password;
 	private Button confirm;
-	private String oldPassword;
 	private EditText question;
 	private EditText answer;
 	private EditText answerCheck;
@@ -56,7 +55,7 @@ public class PasswordActivity extends BaseActivity {
 					final String questionText = question.getText().toString();
 					final String answerText = answer.getText().toString();
 					if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
-						requestPassword(new PasswordValidator() {							
+						requestPassword(mActivity, new PasswordValidator() {							
 							@Override
 							public void onPasswordValidated(boolean result) {
 								if (result) {
@@ -112,8 +111,7 @@ public class PasswordActivity extends BaseActivity {
 				            @Override
 				            public void onClick(View view) {
 				            	// When positive button is pressed answer correctness is checked
-				            	String oldAnswer = prefs.getString(
-										Constants.PREF_PASSWORD_ANSWER, "");
+				            	String oldAnswer = prefs.getString(Constants.PREF_PASSWORD_ANSWER, "");
 								String answer = answerEditText.getText().toString();
 								// The check is done on password's hash stored in preferences
 								boolean result = Security.md5(answer).equals(oldAnswer);
@@ -124,6 +122,7 @@ public class PasswordActivity extends BaseActivity {
 									.remove(Constants.PREF_PASSWORD)
 									.remove(Constants.PREF_PASSWORD_QUESTION)
 									.remove(Constants.PREF_PASSWORD_ANSWER)
+									.remove("settings_password_access")
 									.commit();
 									db.unlockAllNotes();
 									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();

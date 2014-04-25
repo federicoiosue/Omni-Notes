@@ -141,7 +141,8 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// Attachment thumbnail
 		if (expandedView) {
 			// If note is locked or without attachments nothing is shown
-			if (note.isLocked() || note.getAttachmentsList().size() == 0) {
+			if ((note.isLocked() && !mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS).getBoolean("settings_password_access", false))
+					|| note.getAttachmentsList().size() == 0) {
 				holder.attachmentThumbnail.setImageResource(0);
 				holder.attachmentThumbnail.setVisibility(View.GONE);
 			}
@@ -240,7 +241,8 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 */
 	private void colorNote(Note note, View v, NoteAdapterViewHolder holder) {
 
-		String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS).getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
+		String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS)
+									.getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
 		
 		// Checking preference
 		if (!colorsPref.equals("disabled")) {

@@ -384,8 +384,10 @@ public class DetailFragment extends Fragment implements
 	 */
 	private void checkNoteLock(Note note) {
 		// If note is locked security password will be requested
-		if (noteTmp.isLocked() && prefs.getString(Constants.PREF_PASSWORD, null) != null) {
-			mActivity.requestPassword(new PasswordValidator() {					
+		if (noteTmp.isLocked() 
+				&& prefs.getString(Constants.PREF_PASSWORD, null) != null
+				&& !prefs.getBoolean("settings_password_access", false)) {
+			BaseActivity.requestPassword(mActivity, new PasswordValidator() {					
 				@Override
 				public void onPasswordValidated(boolean result) {
 					if (result) {
@@ -675,7 +677,7 @@ public class DetailFragment extends Fragment implements
 					// Title
 					noteTmp.setTitle(getNoteTitle());
 					noteTmp.setContent(getNoteContent());
-					String title = it.feio.android.omninotes.utils.TextUtils.parseTitleAndContent(noteTmp)[0].toString();
+					String title = it.feio.android.omninotes.utils.TextUtils.parseTitleAndContent(mActivity, noteTmp)[0].toString();
 					// Images
 					int clickedImage = 0;
 					ArrayList<Attachment> images = new ArrayList<Attachment>();
@@ -1758,13 +1760,14 @@ public class DetailFragment extends Fragment implements
 		}
 		
 		// If password has already been inserted will not be asked again
-		if (noteTmp.isPasswordChecked()) {
+		if (noteTmp.isPasswordChecked()
+				|| prefs.getBoolean("settings_password_access", false)) {
 			lockUnlock();
 			return;
 		}
 		
 		// Password will be requested here
-		mActivity.requestPassword(new PasswordValidator() {					
+		BaseActivity.requestPassword(mActivity, new PasswordValidator() {					
 			@Override
 			public void onPasswordValidated(boolean result) {
 				if (result) {

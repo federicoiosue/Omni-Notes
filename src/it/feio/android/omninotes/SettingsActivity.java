@@ -17,6 +17,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.models.ImageAndTextItem;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
@@ -48,6 +49,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -70,15 +72,22 @@ public class SettingsActivity extends PreferenceActivity {
 
 	final Activity activity = this;
 	private Tracker gaTracker;
-
-	@SuppressWarnings("deprecation")
+	private SharedPreferences prefs;
+	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.settings);
-		
-		final SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+		addPreferencesFromResource(R.xml.settings);		
+		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+	}
+	
 
+	@SuppressWarnings("deprecation")
+	@Override
+	protected void onResume() {
+		super.onResume();
 
 		// Export notes
 		Preference export = findPreference("settings_export_data");
@@ -294,6 +303,30 @@ public class SettingsActivity extends PreferenceActivity {
 			public boolean onPreferenceClick(Preference preference) {
 				Intent passwordIntent = new Intent(activity, PasswordActivity.class);
 				startActivity(passwordIntent);
+				return false;
+			}
+		});
+		
+		
+		// Use password to grant application access
+		final CheckBoxPreference passwordAccess = (CheckBoxPreference) findPreference("settings_password_access");
+		if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
+			passwordAccess.setEnabled(false);
+			passwordAccess.setChecked(false);
+		} else {
+			passwordAccess.setEnabled(true);
+		}
+		passwordAccess.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
+			@Override
+			public boolean onPreferenceChange(Preference preference, final Object newValue) {
+				BaseActivity.requestPassword(activity, new PasswordValidator() {					
+					@Override
+					public void onPasswordValidated(boolean result) {
+						if (result) {			
+							passwordAccess.setChecked((Boolean) newValue);
+						}
+					}
+				});
 				return false;
 			}
 		});

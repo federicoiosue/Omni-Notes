@@ -243,20 +243,19 @@ public class BaseActivity extends ActionBarActivity {
 	 * @param password
 	 * @param mPasswordValidator
 	 */
-	protected void requestPassword(final PasswordValidator mPasswordValidator) {
+	public static void requestPassword(final Activity mActivity, final PasswordValidator mPasswordValidator) {
 		
-		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				this);
+		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 
 		// Inflate layout
-		LayoutInflater inflater = getLayoutInflater();
+		LayoutInflater inflater = mActivity.getLayoutInflater();
 		final View v = inflater.inflate(R.layout.password_request_dialog_layout, null);
 		alertDialogBuilder.setView(v);
 
 		// Set dialog message and button
 		alertDialogBuilder
 			.setCancelable(false)
-			.setMessage(getString(R.string.insert_security_password))
+			.setMessage(mActivity.getString(R.string.insert_security_password))
 			.setPositiveButton(R.string.confirm, null)
 			.setNegativeButton(R.string.cancel, null);
 		
@@ -275,8 +274,8 @@ public class BaseActivity extends ActionBarActivity {
 		            @Override
 		            public void onClick(View view) {
 		            	// When positive button is pressed password correctness is checked
-		            	String oldPassword = prefs.getString(
-								Constants.PREF_PASSWORD, "");
+		            	String oldPassword = mActivity.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS)
+		            			.getString(Constants.PREF_PASSWORD, "");
 						String password = passwordEditText.getText().toString();
 						// The check is done on password's hash stored in preferences
 						boolean result = Security.md5(password).equals(oldPassword);
@@ -288,7 +287,7 @@ public class BaseActivity extends ActionBarActivity {
 							mPasswordValidator.onPasswordValidated(true);
 						// If password is wrong the auth flow is not interrupted and simply a message is shown
 		                } else {
-		                	passwordEditText.setError(getString(R.string.wrong_password));
+		                	passwordEditText.setError(mActivity.getString(R.string.wrong_password));
 		                }
 		            }
 		        });

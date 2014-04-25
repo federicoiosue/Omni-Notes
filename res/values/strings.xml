@@ -165,7 +165,6 @@
     <string name="archived">archived</string>
     <string name="files">Files</string>
     <string name="merge">Merge</string>
-    <string name="dummy_button">Dummy Button</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
@@ -197,6 +196,7 @@
     <string name="settings_category_data">Data</string>
     <string name="settings_backup">Backup</string>
     <string name="settings_password">Password</string>
+    <string name="settings_password_access">Request password on access</string>
     <string name="settings_password_instructions">Password ensures that notes won\'t be viewed or modified by other persons.\n\nWhen setting a new password, the previous one will be requested.\n\nSet an empty password to remove it</string>
     <string name="settings_password_not_matching">Wrong or missing password</string>
     <string name="insert_new_password">Insert a new password</string>

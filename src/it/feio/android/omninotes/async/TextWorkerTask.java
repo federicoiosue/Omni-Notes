@@ -15,6 +15,7 @@ import android.widget.TextView;
 public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
 
 	private final WeakReference<Activity> mActivityWeakReference;
+	private Activity mActivity;
 	private TextView titleTextView;
 	private TextView contentTextView;
 	private boolean expandedView;
@@ -22,6 +23,7 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
 	public TextWorkerTask(Activity activity, TextView titleTextView,
 			TextView contentTextView, boolean expandedView) {
 		mActivityWeakReference = new WeakReference<Activity>(activity);
+		mActivity = activity;
 		this.titleTextView = titleTextView;
 		this.contentTextView = contentTextView;
 		this.expandedView = expandedView;
@@ -31,7 +33,7 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
 	@Override
 	protected Spanned[] doInBackground(Note... params) {
 		Note note = params[0];
-		Spanned[] titleAndContent = TextUtils.parseTitleAndContent(note);
+		Spanned[] titleAndContent = TextUtils.parseTitleAndContent(mActivity, note);
 		return titleAndContent;
 	}
 	

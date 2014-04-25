@@ -2,6 +2,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
@@ -50,6 +51,32 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		// Checks password for app access
+		checkPassword();
+	}
+
+	
+	
+	private void checkPassword() {
+		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
+				&& prefs.getBoolean("settings_password_access", false)) {
+			requestPassword(this, new PasswordValidator() {
+				@Override
+				public void onPasswordValidated(boolean result) {
+					if (result) {			
+						init();
+					} else {
+						finish();
+					}
+				}
+			});
+		} else {	
+			init();
+		}
+	}
+	
+	
+	private void init() {
 		mFragmentManager = getSupportFragmentManager();
 		
 		mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer);
