@@ -72,7 +72,7 @@ import com.google.analytics.tracking.android.Tracker;
 @SuppressLint("Registered") 
 public class BaseActivity extends ActionBarActivity {
 
-	private final boolean TEST = true;
+	private final boolean TEST = false;
 
 	protected final int TRANSITION_VERTICAL = 0;
 	protected final int TRANSITION_HORIZONTAL = 1;

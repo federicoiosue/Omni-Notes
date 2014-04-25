@@ -16,8 +16,8 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.5.2" changeDate="Apr 26 2014">
-        <changelogtext>[b]New![/b] Internal gallery will be now used to show images and videos: in this way you can cycle all the media of the selected note</changelogtext>  
+    <changelogversion versionName="4.6.0 Beta 1" changeDate="Apr 25 2014">
+        <changelogtext>[b]New![/b] Images and videos will be displayed directly inside ON, in this way you'll be able to cycle all the media of the selected note</changelogtext>  
         <changelogtext>[b]New![/b] Option to use password to grant application access instead that single notes</changelogtext>    
         <changelogtext>[b]New![/b] Automatic updates available also for users without Google Play access</changelogtext>  
     </changelogversion>
