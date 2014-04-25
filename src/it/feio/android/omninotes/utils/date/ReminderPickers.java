@@ -73,7 +73,9 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 						RadialTimePickerDialog mRadialTimePickerDialog = RadialTimePickerDialog.newInstance(
 								new RadialTimePickerDialog.OnTimeSetListener() {
 									@Override
-									public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+									public void onTimeSet(
+											RadialTimePickerDialog dialog,
+											int hourOfDay, int minute) {
 										// Setting alarm time in milliseconds
 										Calendar c = Calendar.getInstance();
 										c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);

@@ -16,12 +16,19 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
+    
+    <item
+        android:id="@+id/menu_gallery_share"
+        android:icon="@drawable/ic_action_share_dark"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="@string/share"/>
 
     <item
         android:id="@+id/menu_gallery"
         android:icon="@drawable/ic_action_picture"
-        android:orderInCategory="100"
-        app:showAsAction="always"
+        android:orderInCategory="120"
+        app:showAsAction="ifRoom"
         android:title="@string/gallery"/>
    
 

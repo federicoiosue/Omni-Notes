@@ -2,17 +2,14 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
-import it.feio.android.omninotes.models.ui.DepthPageTransformer;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
-import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.systemui.SystemUiHider;
+
 import java.util.ArrayList;
-import com.espian.showcaseview.ShowcaseView;
-import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
+
 import ru.truba.touchgallery.GalleryWidget.FilePagerAdapter;
 import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
 import android.annotation.TargetApi;
@@ -21,7 +18,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -176,16 +172,25 @@ public class GalleryActivity extends ActionBarActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			onBackPressed();
-			break;
-		case R.id.menu_gallery:
-//			saveNote(true);
-			Attachment attachment = images.get(mViewPager.getCurrentItem());
-			Intent intent = new Intent(Intent.ACTION_VIEW);				
-			intent.setDataAndType(attachment.getUri(), StorageManager.getMimeType(this, attachment.getUri())); 
-			startActivity(intent);
-			break;
+			case android.R.id.home:
+				onBackPressed();
+				break;
+			case R.id.menu_gallery_share: {
+				Attachment attachment = images.get(mViewPager.getCurrentItem());
+				Intent intent = new Intent(Intent.ACTION_SEND);
+				intent.setType(StorageManager.getMimeType(this, attachment.getUri()));
+				intent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
+				startActivity(intent);
+				break;
+			}
+			case R.id.menu_gallery: {
+				Attachment attachment = images.get(mViewPager.getCurrentItem());
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setDataAndType(attachment.getUri(),
+						StorageManager.getMimeType(this, attachment.getUri()));
+				startActivity(intent);
+				break;
+			}
 		}
 		return super.onOptionsItemSelected(item);
 	}
