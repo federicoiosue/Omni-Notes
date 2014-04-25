@@ -137,7 +137,7 @@ public class GalleryActivity extends ActionBarActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 		
-		((InterceptorFrameLayout) findViewById(R.id.gallery_root)).setOnViewTouchedListener(screenTouches);
+//		((InterceptorFrameLayout) findViewById(R.id.gallery_root)).setOnViewTouchedListener(screenTouches);
 		
 		mViewPager = (GalleryViewPager)findViewById(R.id.fullscreen_content);
 	}

@@ -56,3 +56,4 @@ build/
 .jira-url
 atlassian-ide-plugin.xml
 /project.properties
+/lint.xml
