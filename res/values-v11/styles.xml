@@ -11,6 +11,7 @@
     <style name="FullscreenActionBarStyle" parent="android:Widget.Holo.ActionBar">
         <item name="android:background">@color/black_overlay</item>
         <item name="android:titleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item>
+        <item name="android:subtitleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item>
     </style>
 
 </resources>

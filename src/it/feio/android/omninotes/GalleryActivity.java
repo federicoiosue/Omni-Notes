@@ -2,7 +2,6 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
-import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.StorageManager;
@@ -17,7 +16,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -140,6 +139,16 @@ public class GalleryActivity extends ActionBarActivity {
 //		((InterceptorFrameLayout) findViewById(R.id.gallery_root)).setOnViewTouchedListener(screenTouches);
 		
 		mViewPager = (GalleryViewPager)findViewById(R.id.fullscreen_content);
+		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {			
+			@Override
+			public void onPageSelected(int arg0) {
+				getSupportActionBar().setSubtitle("(" + (arg0+1) + "/" + images.size() + ")");
+			}
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {}
+			@Override
+			public void onPageScrollStateChanged(int arg0) {}
+		});
 	}
 
 	
@@ -166,6 +175,7 @@ public class GalleryActivity extends ActionBarActivity {
 		mViewPager.setCurrentItem(clickedImage);
 		
 		getSupportActionBar().setTitle(title);
+		getSupportActionBar().setSubtitle("(" + (clickedImage+1) + "/" + images.size() + ")");
 	}
 	
 	
