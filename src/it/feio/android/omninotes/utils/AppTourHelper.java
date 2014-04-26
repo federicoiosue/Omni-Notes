@@ -53,6 +53,20 @@ public class AppTourHelper {
 	}
 	
 
+	public static boolean isPlaying(Context mContext) {
+		SharedPreferences prefs = init(mContext);
+		boolean isPlaying = false;
+		Map<String, ?> prefsMap = prefs.getAll();
+		for (String showcase : showcases) {
+			if (!prefsMap.containsKey(showcase)) {
+				isPlaying = true;
+				break;
+			}
+		}
+		return isPlaying;
+	}
+	
+
 	public static boolean neverDone(Context mContext) {
 		SharedPreferences prefs = init(mContext);
 		boolean res = true;

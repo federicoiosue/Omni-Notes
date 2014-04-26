@@ -364,7 +364,7 @@ public class DetailFragment extends Fragment implements
 		
 		initViews();
 	    
-	    if (showKeyboard) {
+	    if (showKeyboard && !AppTourHelper.isPlaying(mActivity)) {
 //	    	// Delayed keyboard appearance
 			new Handler().postDelayed(new Runnable() {
 				@Override

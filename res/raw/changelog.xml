@@ -16,6 +16,12 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.6.0 Beta 2" changeDate="Apr 28 2014">
+        <changelogtext>[b]New![/b] Double click to zoom in gallery</changelogtext>  
+        <changelogtext>[u]Fixed[/u] Imaged wrongly cropped in gallery</changelogtext>    
+        <changelogtext>[u]Fixed[/u] Keyboard appearing randomly during app tour</changelogtext>    
+    </changelogversion>
+
     <changelogversion versionName="4.6.0 Beta 1" changeDate="Apr 25 2014">
         <changelogtext>[b]New![/b] Images and videos will be displayed directly inside ON, in this way you'll be able to cycle all the media of the selected note</changelogtext>  
         <changelogtext>[b]New![/b] Option to use password to grant application access instead that single notes</changelogtext>    
