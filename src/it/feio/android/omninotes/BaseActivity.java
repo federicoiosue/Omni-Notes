@@ -147,7 +147,7 @@ public class BaseActivity extends ActionBarActivity {
 	@Override
 	public void onStart() {
 		// Google Analytics
-		EasyTracker.getInstance(this).activityStart(this);
+//		EasyTracker.getInstance(this).activityStart(this);
 		gaTracker = GoogleAnalytics.getInstance(this).getTracker("UA-45502770-1");		
 		super.onStart();
 	}
