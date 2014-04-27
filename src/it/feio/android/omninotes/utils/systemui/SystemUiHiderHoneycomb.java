@@ -48,14 +48,14 @@ public class SystemUiHiderHoneycomb extends SystemUiHiderBase {
 			// API 16 (Jelly Bean). It is safe to use them, as they are inlined
 			// at compile-time and do nothing on pre-Jelly Bean devices.
 			mShowFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-			mHideFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_FULLSCREEN;
+			mHideFlags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_FULLSCREEN;
 		}
 
 		if ((mFlags & FLAG_HIDE_NAVIGATION) != 0) {
 			// If the client requested hiding navigation, add relevant flags.
 			mShowFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 			mHideFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-			mTestFlags |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+			mTestFlags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 		}
 	}
 

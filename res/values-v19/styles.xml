@@ -24,5 +24,21 @@
     	<item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
     </style>
 
+    <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">@style/ButtonBar</item>
+        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/black_overlay</item>
+<!--         <item name="titleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
+<!--         <item name="subtitleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
+    </style>
+
 
 </resources>

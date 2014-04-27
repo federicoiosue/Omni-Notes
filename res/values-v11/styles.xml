@@ -1,17 +1,15 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="FullscreenTheme" parent="AppTheme">
+    <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
-<!--         <item name="android:windowBackground">@color/alert</item> -->
+        <item name="android:windowBackground">@color/alert</item>
         <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
     </style>
 
-    <style name="FullscreenActionBarStyle" parent="android:Widget.Holo.ActionBar">
+    <style name="FullscreenActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@color/black_overlay</item>
-        <item name="android:titleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item>
-        <item name="android:subtitleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item>
     </style>
 
 </resources>

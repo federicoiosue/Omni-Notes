@@ -18,8 +18,9 @@
 
     <changelogversion versionName="4.6.0 Beta 2" changeDate="Apr 28 2014">
         <changelogtext>[b]New![/b] Double click to zoom in gallery</changelogtext>  
+<!--         <changelogtext>[b]New![/b] Click on backup completed notification will open the backup directory (simply swipe to dismiss it)</changelogtext>   -->
         <changelogtext>[u]Fixed[/u] Imaged wrongly cropped in gallery</changelogtext>    
-        <changelogtext>[u]Fixed[/u] Keyboard appearing randomly during app tour</changelogtext>    
+        <changelogtext>[u]Fixed[/u] Keyboard appearing randomly during app tour and not closing when leaving edited checklist notes</changelogtext>    
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 1" changeDate="Apr 25 2014">

@@ -156,11 +156,17 @@
         <item name="android:text">@string/undo</item>
     </style>
 
-    <style name="FullscreenTheme" parent="AppTheme">
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@null</item>
+    <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="windowActionBarOverlay">true</item>
         <item name="metaButtonBarStyle">@style/ButtonBar</item>
         <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/black_overlay</item>
+<!--         <item name="titleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
+<!--         <item name="subtitleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
     </style>
 
     <style name="ButtonBar">
