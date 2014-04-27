@@ -18,15 +18,17 @@
     android:id="@+id/layout_root"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:paddingLeft="@dimen/horizontal_margin"
+    android:paddingStart="@dimen/horizontal_margin" 
+    android:paddingRight="@dimen/horizontal_margin" 
+    android:paddingEnd="@dimen/horizontal_margin" >
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/tag"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:gravity="bottom"
-        android:layout_marginLeft="@dimen/horizontal_margin" 
-        android:paddingRight="16dp"
         android:layout_marginBottom="1dp"
         android:textAllCaps="true"
         android:text="@string/tags"
@@ -36,8 +38,6 @@
     <View 
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/horizontal_margin"
-        android:layout_marginRight="@dimen/horizontal_margin"
         android:background="@color/drawer_line"
         />
 
