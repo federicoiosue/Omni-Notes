@@ -121,25 +121,6 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 				img.setColorFilter(cf);				
 			}
 			holder.imgIcon.setImageDrawable(img);
-			
-			// Checks if RTL language is set and inverts paddings left-right
-			boolean rtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
-//			if (rtl) {
-//				holder.imgIcon.setPadding(	DensityUtil.convertDpToPixel(2, mActivity),//-30
-//											DensityUtil.convertDpToPixel(7, mActivity),//25
-//											DensityUtil.convertDpToPixel(11, mActivity), //10
-//											DensityUtil.convertDpToPixel(7, mActivity));//25
-//			} else {
-//				holder.imgIcon.setPadding(	DensityUtil.convertDpToPixel(21, mActivity), //10
-//											DensityUtil.convertDpToPixel(7, mActivity),//25
-//											DensityUtil.convertDpToPixel(2, mActivity),//-30
-//											DensityUtil.convertDpToPixel(7, mActivity));//25				
-//			}
-//			float padding = mActivity.getResources().getDimension(R.dimen.actionobar_icon_padding);
-//			holder.imgIcon.setPadding(	DensityUtil.convertDpToPixel(padding, mActivity),//-30
-//										DensityUtil.convertDpToPixel(padding, mActivity),//25
-//										DensityUtil.convertDpToPixel(padding, mActivity), //10
-//										DensityUtil.convertDpToPixel(padding, mActivity));//25
 			holder.imgIcon.setPadding(8,8,8,8);
 		}
 

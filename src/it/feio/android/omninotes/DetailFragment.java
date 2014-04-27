@@ -322,8 +322,9 @@ public class DetailFragment extends Fragment implements
 			}	
 		}
 		
-		if (content != null) {
-			KeyboardUtils.hideKeyboard(content);
+		// Closes keyboard on exit
+		if (toggleChecklistView != null) {
+			KeyboardUtils.hideKeyboard(toggleChecklistView);			
 		    content.clearFocus();			
 		}
 	}
