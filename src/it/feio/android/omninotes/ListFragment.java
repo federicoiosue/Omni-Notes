@@ -242,6 +242,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 //		if (searchView != null && searchView.isEnabled()) {
 //			MenuItemCompat.collapseActionView(searchMenuItem);
 //		}
+		
+		commitPending();
+		stopJingles();
+		Crouton.cancelAllCroutons();
 
 		// Clears data structures
 		selectedNotes.clear();
@@ -250,10 +254,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		if (mActionMode != null) {
 			mActionMode.finish();
 		}
-		
-		commitPending();
-		stopJingles();
-		Crouton.cancelAllCroutons();
 	}
 	
 	
