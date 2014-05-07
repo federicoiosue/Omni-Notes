@@ -20,7 +20,9 @@
         <changelogtext>[b]New![/b] Double click to zoom in gallery</changelogtext>  
 <!--         <changelogtext>[b]New![/b] Click on backup completed notification will open the backup directory (simply swipe to dismiss it)</changelogtext>   -->
         <changelogtext>[u]Fixed[/u] Imaged wrongly cropped in gallery</changelogtext>    
-        <changelogtext>[u]Fixed[/u] Keyboard appearing randomly during app tour and not closing when leaving edited checklist notes</changelogtext>    
+        <changelogtext>[u]Fixed[/u] Keyboard appearing randomly during app tour and not closing when leaving edited checklist notes</changelogtext>   
+        <changelogtext>[u]Fixed[/u] Missing notes deletion when changing orientation or exiting app after swiped out a note</changelogtext>    
+        <changelogtext>[u]Fixed[/u] Now clicking on reminder notification works again correctly</changelogtext>    
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 1" changeDate="Apr 25 2014">

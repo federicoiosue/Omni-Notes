@@ -53,6 +53,12 @@ public class SnoozeActivity extends FragmentActivity implements OnReminderPicked
 			mOnDateSetListener = reminderPicker;
 			mOnTimeSetListener = reminderPicker;
 		}
+		else {
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.putExtra(Constants.INTENT_KEY, note.get_id());
+			intent.setAction(Constants.ACTION_NOTIFICATION_CLICK);
+			startActivity(intent);
+		}
 		removeNotification(note);
 	}
 	

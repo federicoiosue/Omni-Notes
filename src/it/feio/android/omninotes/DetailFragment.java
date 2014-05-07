@@ -417,7 +417,8 @@ public class DetailFragment extends Fragment implements
 		}
 		
 		// Action called from home shortcut
-		if (Constants.ACTION_SHORTCUT.equals(i.getAction())) {
+		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
+				|| Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())) {
 			afterSavedReturnsToList = false;
 			DbHelper db = new DbHelper(mActivity);
 			note = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));

@@ -274,6 +274,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		
 		// Action called from widget
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
+			|| Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())
 			|| Constants.ACTION_WIDGET.equals(i.getAction())
 			|| Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
 			
