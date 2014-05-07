@@ -93,7 +93,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			}
 
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Error fetching app metadata", e);
+			Log.w(Constants.TAG, "Error fetching app metadata", e);
 		}
 
 		return null;

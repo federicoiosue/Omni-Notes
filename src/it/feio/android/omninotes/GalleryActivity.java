@@ -7,11 +7,11 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.systemui.SystemUiHider;
+import it.feio.android.simplegallery.models.GalleryPagerAdapter;
+import it.feio.android.simplegallery.views.GalleryViewPager;
 
 import java.util.ArrayList;
 
-import ru.truba.touchgallery.GalleryWidget.FilePagerAdapter;
-import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -141,6 +141,7 @@ public class GalleryActivity extends ActionBarActivity {
 		((InterceptorFrameLayout) findViewById(R.id.gallery_root)).setOnViewTouchedListener(screenTouches);
 		
 		mViewPager = (GalleryViewPager)findViewById(R.id.fullscreen_content);
+		mViewPager.setPageTransformer(GalleryViewPager.PAGE_TRANSFORMER_ZOOM_OUT);
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {			
 			@Override
 			public void onPageSelected(int arg0) {
@@ -168,7 +169,8 @@ public class GalleryActivity extends ActionBarActivity {
 			imagesPaths.add(FileHelper.getPath(this, uri));
 		}
 		
-		FilePagerAdapter  pagerAdapter = new FilePagerAdapter (this, imagesPaths);  
+//		FilePagerAdapter  pagerAdapter = new FilePagerAdapter (this, imagesPaths);  
+		GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter (this, imagesPaths);  
 //		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 //			mViewPager.setPageTransformer(false, new DepthPageTransformer());
 //		}

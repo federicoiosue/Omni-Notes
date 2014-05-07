@@ -12,12 +12,18 @@
          TextureView, etc.
     -->
 
-    <ru.truba.touchgallery.GalleryWidget.GalleryViewPager
+<!--     <ru.truba.touchgallery.GalleryWidget.GalleryViewPager -->
+<!--         android:id="@+id/fullscreen_content" -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="match_parent" -->
+<!--         android:gravity="center" -->
+<!--         android:keepScreenOn="true"/> -->
+
+    <it.feio.android.simplegallery.views.GalleryViewPager
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"/>
+        android:gravity="center"/>
     
 <!--     <TextView  -->
 <!--         android:layout_width="match_parent" -->
