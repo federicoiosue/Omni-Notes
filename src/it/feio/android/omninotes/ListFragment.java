@@ -23,6 +23,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.UndoBarController;
 import it.feio.android.omninotes.models.UndoBarController.UndoListener;
@@ -34,8 +35,10 @@ import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -79,6 +82,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
@@ -86,6 +90,7 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class ListFragment extends Fragment implements UndoListener, OnNotesLoadedListener {
@@ -357,10 +362,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			// Respond to clicks on the actions in the CAB
 			switch (item.getItemId()) {
 			case R.id.menu_share:
-				for (Note note : selectedNotes) {
-					mActivity.shareNote(note);
-				}
-				mode.finish(); 
+				share();
 				return true;
 			case R.id.menu_merge:
 				merge();
@@ -1216,6 +1218,32 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	}
 	
 	
+	
+	/**
+	 * Shares the selected note from the list
+	 */
+	private void share() {
+		// Only one note should be selected to perform sharing but they'll be cycled anyhow
+		for (final Note note : selectedNotes) {
+			if (note.isLocked()) {
+				BaseActivity.requestPassword(mActivity, new PasswordValidator() {					
+					@Override
+					public void onPasswordValidated(boolean result) {
+						if (result) {
+							mActivity.shareNote(note);
+						} 
+					}
+				});
+			} else {
+				mActivity.shareNote(note);
+			}		
+		}
+
+		selectedNotes.clear();
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
+	}
 	
 	
 	/**
