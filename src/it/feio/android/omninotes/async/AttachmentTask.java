@@ -52,7 +52,7 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 		Attachment mAttachment = new Attachment(Uri.fromFile(f), mimeType);
 		mAttachment.setName(fileName);
 		mAttachment.setSize(f.length());
-		mAttachment.setMoveWhenNoteSaved(false);
+//		mAttachment.setMoveWhenNoteSaved(false);
 		return mAttachment;
 	}
 	

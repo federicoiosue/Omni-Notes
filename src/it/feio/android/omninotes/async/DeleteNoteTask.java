@@ -46,11 +46,11 @@ public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {
 			// Attachment deletion from storage
 			boolean attachmentsDeleted = false;
 			for (Attachment mAttachment : note.getAttachmentsList()) {
-				if (StorageManager.deleteExternalStoragePrivateFile(mActivity,
-						mAttachment.getUri().getLastPathSegment())
-						&& !mAttachment.getMoveWhenNoteSaved()) {
-					
-				}
+//				if (StorageManager.deleteExternalStoragePrivateFile(mActivity,
+//						mAttachment.getUri().getLastPathSegment())
+//						&& !mAttachment.getMoveWhenNoteSaved()) {
+				StorageManager.deleteExternalStoragePrivateFile(mActivity,
+						mAttachment.getUri().getLastPathSegment());
 			}
 			result = deleted && attachmentsDeleted ? note.get_id() : null;
 		}

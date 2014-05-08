@@ -34,6 +34,7 @@ import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
+import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AlphaManager;
@@ -140,7 +141,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
  */
 public class DetailFragment extends Fragment implements
 		OnReminderPickedListener, TextLinkClickListener, OnTouchListener,
-		OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener {
+		OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
@@ -270,7 +271,7 @@ public class DetailFragment extends Fragment implements
 		// Added the sketched image if present returning from SketchFragment
 		if (mActivity.sketchUri != null) {
 			Attachment mAttachment = new Attachment(mActivity.sketchUri, Constants.MIME_TYPE_SKETCH);
-			mAttachment.setMoveWhenNoteSaved(false);
+//			mAttachment.setMoveWhenNoteSaved(false);
 			noteTmp.getAttachmentsList().add(mAttachment);
 			mActivity.sketchUri = null;
 			// Removes previous version of edited image
@@ -310,6 +311,9 @@ public class DetailFragment extends Fragment implements
 	@Override
 	public void onPause() {
 		super.onPause();
+		
+		saveNote(null, null);
+		
 		if (mRecorder != null) {
 			mRecorder.release();
 			mRecorder = null;
@@ -510,9 +514,9 @@ public class DetailFragment extends Fragment implements
 		    // Multiple attachment data
 		    ArrayList<Uri> uris = i.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 		    if (uris != null) {
-		    	Attachment mAttachment;
+//		    	Attachment mAttachment;
 		    	for (Uri uriSingle : uris) {
-		    		String mimeGeneral = StorageManager.getMimeType(mActivity, uriSingle);
+//		    		String mimeGeneral = StorageManager.getMimeType(mActivity, uriSingle);
 //		    		if (mimeGeneral != null) {
 //		    			String mimeType = StorageManager.getMimeTypeInternal(mActivity, mimeGeneral);
 //		    			mAttachment = new Attachment(uriSingle, mimeType);
@@ -1016,13 +1020,13 @@ public class DetailFragment extends Fragment implements
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			afterSavedReturnsToList = true;
-			saveNote(null);
+			saveNote(null, this);
 			break;
 		case R.id.menu_archive:
-			saveNote(true);
+			saveNote(true, this);
 			break;
 		case R.id.menu_unarchive:
-			saveNote(false);
+			saveNote(false, this);
 			break;
 		case R.id.menu_share:
 			shareNote();
@@ -1374,7 +1378,7 @@ public class DetailFragment extends Fragment implements
 					isRecording = false;
 					stopRecording();
 					Attachment attachment = new Attachment(Uri.parse(recordName), Constants.MIME_TYPE_AUDIO);
-					attachment.setMoveWhenNoteSaved(false);
+//					attachment.setMoveWhenNoteSaved(false);
 					attachment.setLength(audioRecordingTime);
 					noteTmp.getAttachmentsList().add(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
@@ -1522,7 +1526,7 @@ public class DetailFragment extends Fragment implements
 			switch (requestCode) {
 			case TAKE_PHOTO:
 				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
-				attachment.setMoveWhenNoteSaved(false);
+//				attachment.setMoveWhenNoteSaved(false);
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
@@ -1536,7 +1540,7 @@ public class DetailFragment extends Fragment implements
 				// Gingerbread doesn't allow custom folder so data are retrieved from intent 
 				if(Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
 					attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
-					attachment.setMoveWhenNoteSaved(false);
+//					attachment.setMoveWhenNoteSaved(false);
 				} else {
 					attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_VIDEO);
 				}
@@ -1563,7 +1567,7 @@ public class DetailFragment extends Fragment implements
 				break;
 			case SKETCH:
 				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_SKETCH);
-				attachment.setMoveWhenNoteSaved(false);
+//				attachment.setMoveWhenNoteSaved(false);
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
@@ -1591,7 +1595,8 @@ public class DetailFragment extends Fragment implements
 		// Checks if some new files have been attached and must be removed
 		if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
 			for (Attachment newAttachment: noteTmp.getAttachmentsList()) {
-				if (!note.getAttachmentsList().contains(newAttachment) && !newAttachment.getMoveWhenNoteSaved()) {
+//				if (!note.getAttachmentsList().contains(newAttachment) && !newAttachment.getMoveWhenNoteSaved()) {
+				if (!note.getAttachmentsList().contains(newAttachment)) {
 					StorageManager.delete(mActivity, newAttachment.getUri().getPath());
 				}
 			}
@@ -1651,9 +1656,11 @@ public class DetailFragment extends Fragment implements
 	 * 
 	 * @param archive
 	 *            Boolean flag used to archive note. If null actual note state is used.
+	 * @param mOnNoteSaved 
 	 */
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB) void saveNote(Boolean archive) {
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB) 
+	void saveNote(Boolean archive, OnNoteSaved mOnNoteSaved) {
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent());	
@@ -1663,8 +1670,6 @@ public class DetailFragment extends Fragment implements
 		// is an empty note
 		if (noteTmp.isEmpty()) {
 			Log.d(Constants.TAG, "Empty note not saved");
-//			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_CODE, Activity.RESULT_FIRST_USER);
-//			resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.empty_note_not_saved));
 			Crouton.makeText(mActivity, getString(R.string.empty_note_not_saved), ONStyle.INFO).show();
 			goHome();
 			return;
@@ -1687,7 +1692,7 @@ public class DetailFragment extends Fragment implements
 		noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
 		// Saving changes to the note
-		SaveNoteTask saveNoteTask = new SaveNoteTask(this, updateLastModification);
+		SaveNoteTask saveNoteTask = new SaveNoteTask(this, mOnNoteSaved, updateLastModification);
 		// Forcing parallel execution disabled by default
 		if (Build.VERSION.SDK_INT >= 11) {
 			saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteTmp);
@@ -1696,11 +1701,14 @@ public class DetailFragment extends Fragment implements
 		}
 
 		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
-//		if (afterSavedReturnsToList) {
-//			Crouton.makeText(mActivity, getString(R.string.note_updated), ONStyle.CONFIRM).show();
-//		}
 		
 		MainActivity.notifyAppWidgets(mActivity);
+	}
+
+
+	@Override
+	public void onNoteSaved() {
+		goHome();
 	}
 	
 

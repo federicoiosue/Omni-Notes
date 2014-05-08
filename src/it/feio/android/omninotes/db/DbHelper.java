@@ -584,7 +584,7 @@ public class DbHelper extends SQLiteOpenHelper {
 					mAttachment = new Attachment(Integer.valueOf(cursor.getInt(0)),
 							Uri.parse(cursor.getString(1)), cursor.getString(2), Integer.valueOf(cursor.getInt(3)),
 							Long.valueOf(cursor.getInt(4)), cursor.getString(5));
-					mAttachment.setMoveWhenNoteSaved(false);
+//					mAttachment.setMoveWhenNoteSaved(false);
 					attachmentsList.add(mAttachment);
 				} while (cursor.moveToNext());
 			}
