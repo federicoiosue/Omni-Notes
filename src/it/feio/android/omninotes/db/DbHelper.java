@@ -579,10 +579,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
 			// Looping through all rows and adding to list
 			if (cursor.moveToFirst()) {
+				Attachment mAttachment;
 				do {
-					attachmentsList.add(new Attachment(Integer.valueOf(cursor.getInt(0)),
+					mAttachment = new Attachment(Integer.valueOf(cursor.getInt(0)),
 							Uri.parse(cursor.getString(1)), cursor.getString(2), Integer.valueOf(cursor.getInt(3)),
-							Long.valueOf(cursor.getInt(4)), cursor.getString(5)));
+							Long.valueOf(cursor.getInt(4)), cursor.getString(5));
+					mAttachment.setMoveWhenNoteSaved(false);
+					attachmentsList.add(mAttachment);
 				} while (cursor.moveToNext());
 			}
 

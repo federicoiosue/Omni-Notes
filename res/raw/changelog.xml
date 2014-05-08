@@ -22,7 +22,8 @@
         <changelogtext>[u]Fixed[/u] Missing notes deletion when changing orientation or exiting app after swiped out a note</changelogtext>    
         <changelogtext>[u]Fixed[/u] When trying to share masked notes from list password will be requested, as well as trying to merge</changelogtext>    
         <changelogtext>[u]Fixed[/u] Now clicking on reminder notification works again correctly</changelogtext>     
-        <changelogtext>[u]Fixed[/u] Imaged wrongly cropped in gallery</changelogtext>    
+        <changelogtext>[u]Fixed[/u] Imaged wrongly cropped in gallery</changelogtext>       
+        <changelogtext>[u]Fixed[/u] Attachment replication in file system on note editing</changelogtext>    
         <changelogtext>[u]Fixed[/u] Keyboard appearing randomly during app tour and not closing when leaving edited checklist notes</changelogtext>  
     </changelogversion>
 
