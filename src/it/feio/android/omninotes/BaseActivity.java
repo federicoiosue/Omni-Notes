@@ -65,9 +65,6 @@ import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews;
 import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.Tracker;
 
 @SuppressLint("Registered") 
 public class BaseActivity extends ActionBarActivity {
@@ -79,7 +76,6 @@ public class BaseActivity extends ActionBarActivity {
 	
 	protected DbHelper db;	
 	protected Activity mActivity;
-	public Tracker gaTracker;
 	
 	protected SharedPreferences prefs;
 	
@@ -134,29 +130,16 @@ public class BaseActivity extends ActionBarActivity {
 	            menuKeyField.setAccessible(true);
 	            menuKeyField.setBoolean(config, false);
 	        }
-	    } catch (Exception ex) {
-	        // Ignore exceptions
-	    }
-		
-		
+	    } catch (Exception ex) {}
+				
 		
 		super.onCreate(savedInstanceState);
-	}
-
-	
-	@Override
-	public void onStart() {
-		// Google Analytics
-//		EasyTracker.getInstance(this).activityStart(this);
-		gaTracker = GoogleAnalytics.getInstance(this).getTracker("UA-45502770-1");		
-		super.onStart();
 	}
 	
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 		// Navigation selected
 		String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
 		navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
@@ -167,8 +150,6 @@ public class BaseActivity extends ActionBarActivity {
 	@Override
 	public void onStop() {
 		super.onStop();
-		// Google Analytics
-		EasyTracker.getInstance(this).activityStop(this);
 		if (locationManager != null)
 			locationManager.removeUpdates(locationListener);
 	}

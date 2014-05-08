@@ -31,10 +31,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.Tracker;
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -68,13 +64,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.analytics.tracking.android.Tracker;
+
 public class SettingsActivity extends PreferenceActivity {
 
 	final Activity activity = this;
-	private Tracker gaTracker;
 	private SharedPreferences prefs;
-	
-	
+		
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -610,18 +610,10 @@ public class SettingsActivity extends PreferenceActivity {
 	
 	@Override
 	public void onStart() {
-		// Google Analytics
-		EasyTracker.getInstance(this).activityStart(this);
-		gaTracker = GoogleAnalytics.getInstance(this).getTracker("UA-45502770-1");		
+		// GA tracking
+		OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
+		OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());		
 		super.onStart();
-	}
-
-	
-	@Override
-	public void onStop() {
-		super.onStop();
-		// Google Analytics
-		EasyTracker.getInstance(this).activityStop(this);
 	}
 		
 	

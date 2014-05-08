@@ -81,9 +81,8 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	@Override
 	public void onStart() {
 		// GA tracking
-		mActivity.gaTracker.set(Fields.SCREEN_NAME, getClass().getName());
-		mActivity.gaTracker.send(MapBuilder.createAppView().build());
-		
+		OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
+		OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());	
 		super.onStart();
 	}
 

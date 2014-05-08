@@ -15,8 +15,8 @@
  ******************************************************************************/
 package it.feio.android.omninotes.async;
 
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.io.BufferedReader;
@@ -41,10 +41,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
@@ -79,6 +78,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			promptUpdate = isVersionUpdated(json.getString("softwareVersion"));
 
 			// Getting from preferences last update check
+			@SuppressWarnings("static-access")
 			SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS);
 
 			long now = System.currentTimeMillis();
@@ -118,6 +118,16 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 													.parse("market://details?id="
 															+ packageName)));
 								} else {
+
+									  // MapBuilder.createEvent().build() returns a Map of event fields and values
+									  // that are set and sent with the hit.
+									OmniNotes.getGaTracker().send(MapBuilder
+									      .createEvent("ui_action",     // Event category (required)
+									                   "button_press",  // Event action (required)
+									                   "Google Drive Update",   // Event label
+									                   null)            // Event value
+									      .build());
+
 									mActivityReference.get().startActivity(new Intent(
 											Intent.ACTION_VIEW, Uri
 													.parse(Constants.DRIVE_FOLDER_LAST_BUILD)));

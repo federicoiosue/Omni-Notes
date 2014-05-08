@@ -15,6 +15,9 @@ import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender.Method;
 import org.acra.sender.HttpSender.Type;
 
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.Tracker;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -44,6 +47,8 @@ public class OmniNotes extends Application {
 
 	private final static String PREF_LANG = "settings_language";
 	static SharedPreferences prefs;
+	private static Tracker mTracker;
+	private static GoogleAnalytics mGa;
 
 	private LruCache<String, Bitmap> mMemoryCache;
 	private SimpleDiskCache mDiskLruCache;
@@ -65,6 +70,9 @@ public class OmniNotes extends Application {
 
 		// Checks selected locale or default one
 		updateLanguage(this, null);
+		
+		// Google Analytics initialization
+	    initializeGa();
 
 		super.onCreate();
 	}
@@ -217,5 +225,57 @@ public class OmniNotes extends Application {
 		return bitmap;
 	}
 	
+	
+	/*
+	 * Method to handle basic Google Analytics initialization. This call will
+	 * not block as all Google Analytics work occurs off the main thread.
+	 */
+	private void initializeGa() {
+		mGa = GoogleAnalytics.getInstance(this);
+		mTracker = mGa.getTracker("UA-45502770-1");
+
+//		// Set dispatch period.
+//		GAServiceManager.getInstance().setLocalDispatchPeriod(
+//				GA_DISPATCH_PERIOD);
+//
+//		// Set dryRun flag.
+//		mGa.setDryRun(GA_IS_DRY_RUN);
+//
+//		// Set Logger verbosity.
+//		mGa.getLogger().setLogLevel(GA_LOG_VERBOSITY);
+//
+//		// Set the opt out flag when user updates a tracking preference.
+//		SharedPreferences userPrefs = PreferenceManager
+//				.getDefaultSharedPreferences(this);
+//		userPrefs
+//				.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+//					@Override
+//					public void onSharedPreferenceChanged(
+//							SharedPreferences sharedPreferences, String key) {
+//						if (key.equals(TRACKING_PREF_KEY)) {
+//							GoogleAnalytics
+//									.getInstance(getApplicationContext())
+//									.setAppOptOut(
+//											sharedPreferences.getBoolean(key,
+//													false));
+//						}
+//					}
+//				});
+	}
+
+	/*
+	 * Returns the Google Analytics tracker.
+	 */
+	public static Tracker getGaTracker() {
+		return mTracker;
+	}
+
+	/*
+	 * Returns the Google Analytics instance.
+	 */
+	public static GoogleAnalytics getGaInstance() {
+		return mGa;
+	}
+
 	
 }

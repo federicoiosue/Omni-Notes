@@ -47,12 +47,14 @@ import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -117,6 +119,7 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.ScrollView;
 import android.widget.Toast;
+
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
@@ -124,6 +127,7 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.neopixl.pixlui.links.TextLinkClickListener;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 /**
@@ -220,11 +224,9 @@ public class DetailFragment extends Fragment implements
 	
 	@Override
 	public void onStart() {
-
 		// GA tracking
-		mActivity.gaTracker.set(Fields.SCREEN_NAME, getClass().getName());
-		mActivity.gaTracker.send(MapBuilder.createAppView().build());
-		
+		OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
+		OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());	
 		super.onStart();
 	}
 	

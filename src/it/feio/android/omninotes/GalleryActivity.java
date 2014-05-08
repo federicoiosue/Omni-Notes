@@ -12,6 +12,9 @@ import it.feio.android.simplegallery.views.GalleryViewPager;
 
 import java.util.ArrayList;
 
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -118,6 +121,15 @@ public class GalleryActivity extends ActionBarActivity {
 		
 		initViews();
 		initData();
+	}
+
+	
+	@Override
+	public void onStart() {
+		// GA tracking
+		OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
+		OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());		
+		super.onStart();
 	}
 	
 	
