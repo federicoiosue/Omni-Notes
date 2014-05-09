@@ -538,6 +538,22 @@ public class DbHelper extends SQLiteOpenHelper {
 		}		
 		return notes;
 	}
+	
+	
+	
+	/**
+	 * Retrieves all notes related to tag it passed as parameter
+	 * @param tagId Tag integer identifier
+	 * @return List of notes with requested tag
+	 */
+	public List<Note> getNotesByTag(String tagString) {	
+		// Select All Query
+		String whereCondition = " WHERE "
+								+ KEY_CONTENT + " LIKE '%" + tagString + "%' ";
+		return getNotes(whereCondition, true);
+	}
+	
+	
 
 
 	

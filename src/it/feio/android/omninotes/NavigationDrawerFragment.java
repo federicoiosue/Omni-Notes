@@ -14,6 +14,7 @@ import it.feio.android.omninotes.utils.Constants;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -110,6 +111,10 @@ public class NavigationDrawerFragment extends Fragment {
 				if (mDrawerTagList != null)
 					mDrawerTagList.setItemChecked(0, false); // Called to force
 																// redraw
+				// Reset intent
+				mActivity.getIntent().setAction(Intent.ACTION_MAIN);
+				
+				// Call method to update notes list
 				mActivity.initNotesList(mActivity.getIntent());
 			}
 		});

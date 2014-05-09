@@ -16,6 +16,11 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.6.0 Beta 3" changeDate="May 10 2014">
+        <changelogtext>[b]New![/b] Old tags are now Categories and [b]real tags[/b] have been introduced</changelogtext>  
+        <changelogtext>[b]New![/b] Automatic and faster note saving</changelogtext>   
+    </changelogversion>
+
     <changelogversion versionName="4.6.0 Beta 2" changeDate="May 8 2014">
         <changelogtext>[b]New![/b] The applicatioon is now compatible (from Play Store) even with devices without gps</changelogtext>  
         <changelogtext>[b]New![/b] Double click to zoom in gallery and more responsive zooming</changelogtext>  

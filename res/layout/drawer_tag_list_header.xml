@@ -31,7 +31,7 @@
         android:gravity="bottom"
         android:layout_marginBottom="1dp"
         android:textAllCaps="true"
-        android:text="@string/tags"
+        android:text="@string/categories"
         android:textAppearance="@style/Text.Small"
         android:textColor="@color/actionbar_title_text" />
     

@@ -88,6 +88,7 @@ import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.neopixl.pixlui.links.UrlCompleter;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 
@@ -853,7 +854,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					mNoteLoaderTask.execute("getNotesWithTag", mActivity.navigationTmp);
 				}
 				mActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
-
+				
+			// Search for a tag
+			} else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+				mNoteLoaderTask.execute("getNotesByTag", intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, ""));
+				
 			// Gets all notes
 			} else {
 				if (mActivity.loadNotesSync) {

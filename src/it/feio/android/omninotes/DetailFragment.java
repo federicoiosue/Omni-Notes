@@ -1999,6 +1999,7 @@ public class DetailFragment extends Fragment implements
 						Intent intent = null;
 						try {
 							intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+							intent.addCategory(Intent.CATEGORY_BROWSABLE);
 						} catch (NullPointerException e) {
 							error = true;
 						}
