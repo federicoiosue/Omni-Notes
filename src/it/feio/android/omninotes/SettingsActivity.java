@@ -64,11 +64,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.google.analytics.tracking.android.Tracker;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -283,7 +280,7 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		// Maximum video attachment size
 		final EditTextPreference maxVideoSize = (EditTextPreference) findPreference("settings_max_video_size");
-		String maxVideoSizeValue = prefs.getString("settings_max_video_size", "");
+		String maxVideoSizeValue = prefs.getString("settings_max_video_size", getString(R.string.not_set));
 		maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String.valueOf(maxVideoSizeValue));
 		maxVideoSize.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
 			@Override

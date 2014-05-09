@@ -18,7 +18,7 @@ package it.feio.android.omninotes.db;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.AssetUtils;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -42,7 +42,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Database name
 	private static final String DATABASE_NAME = Constants.DATABASE_NAME;
 	// Database version aligned if possible to software version
-	private static final int DATABASE_VERSION = 450;
+	private static final int DATABASE_VERSION = 451;
 	// Sql query file directory
     private static final String SQL_DIR = "sql" ;
     
@@ -58,7 +58,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String KEY_ALARM = "alarm";
 	public static final String KEY_LATITUDE = "latitude";
 	public static final String KEY_LONGITUDE = "longitude";
-	public static final String KEY_TAG = "tag_id";
+	public static final String KEY_CATEGORY = "category_id";
 	public static final String KEY_LOCKED = "locked";
 	public static final String KEY_CHECKLIST = "checklist";
 	
@@ -73,13 +73,13 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String KEY_ATTACHMENT_MIME_TYPE = "mime_type"; 
 	public static final String KEY_ATTACHMENT_NOTE_ID = "note_id"; 	
 
-	// Tags table name
-	public static final String TABLE_TAGS = "tags";
-	// Tags table columns
-	public static final String KEY_TAG_ID = "tag_id"; 
-	public static final String KEY_TAG_NAME = "name"; 
-	public static final String KEY_TAG_DESCRIPTION = "description"; 
-	public static final String KEY_TAG_COLOR = "color"; 
+	// Categories table name
+	public static final String TABLE_CATEGORY = "categories";
+	// Categories table columns
+	public static final String KEY_CATEGORY_ID = "category_id"; 
+	public static final String KEY_CATEGORY_NAME = "name"; 
+	public static final String KEY_CATEGORY_DESCRIPTION = "description"; 
+	public static final String KEY_CATEGORY_COLOR = "color"; 
 	
 	// Queries    
     private static final String CREATE_QUERY = "create.sql";
@@ -165,7 +165,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		values.put(KEY_ALARM, note.getAlarm());
 		values.put(KEY_LATITUDE, note.getLatitude());
 		values.put(KEY_LONGITUDE, note.getLongitude());
-		values.put(KEY_TAG, note.getTag() != null ? note.getTag().getId() : null);
+		values.put(KEY_CATEGORY, note.getCategory() != null ? note.getCategory().getId() : null);
 		boolean locked = note.isLocked() != null ? note.isLocked() : false;
 		values.put(KEY_LOCKED, locked);
 		boolean checklist = note.isChecklist() != null ? note.isChecklist() : false;
@@ -240,7 +240,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 //		String query = "SELECT " + KEY_ID + "," + KEY_CREATION + "," + KEY_LAST_MODIFICATION + "," + KEY_TITLE + ","
 //				+ KEY_CONTENT + "," + KEY_ARCHIVED + "," + KEY_ALARM + "," + KEY_LATITUDE + "," + KEY_LONGITUDE + ","
-//				+ KEY_TAG + " FROM " + TABLE_NOTES + " LEFT JOIN " + TABLE_TAGS + " ON " + KEY_TAG + " = " + KEY_TAG_ID;
+//				+ KEY_CATEGORY + " FROM " + TABLE_NOTES + " LEFT JOIN " + TABLE_TAGS + " ON " + KEY_CATEGORY + " = " + KEY_CATEGORY_ID;
 //
 //		SQLiteDatabase db = null;
 //		Cursor cursor = null;
@@ -254,7 +254,7 @@ public class DbHelper extends SQLiteOpenHelper {
 //				int i = 0;
 //				note = new Note(Integer.parseInt(cursor.getString(i++)), cursor.getLong(i++), cursor.getLong(i++),
 //						cursor.getString(i++), cursor.getString(i++), cursor.getInt(i++), cursor.getString(i++),
-//						cursor.getString(i++), cursor.getString(i++), getTag(Integer.parseInt(cursor.getString(i++))),
+//						cursor.getString(i++), cursor.getString(i++), getCategory(Integer.parseInt(cursor.getString(i++))),
 //						cursor.getInt(i++), cursor.getInt(i++));
 //
 //				// Add eventual attachments uri
@@ -299,12 +299,12 @@ public class DbHelper extends SQLiteOpenHelper {
 		boolean notes = navigationListCodes[0].equals(navigation);
 		boolean archived = navigationListCodes[1].equals(navigation);
 		boolean reminders = navigationListCodes[2].equals(navigation);
-		boolean tag = !notes && ! archived && !reminders;		
+		boolean category = !notes && ! archived && !reminders;		
 		if (checkNavigation) {
 			whereCondition = notes ? " WHERE " + KEY_ARCHIVED + " != 1 " : whereCondition;			
 			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 " : whereCondition;
 			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 " : whereCondition;
-			whereCondition = tag ? " WHERE " + TABLE_NOTES + "." + KEY_TAG + " = " + navigation : whereCondition;
+			whereCondition = category ? " WHERE " + TABLE_NOTES + "." + KEY_CATEGORY + " = " + navigation : whereCondition;
 		}		
 		return getNotes(whereCondition, true);
 	}
@@ -346,12 +346,12 @@ public class DbHelper extends SQLiteOpenHelper {
 						+ KEY_LONGITUDE + "," 
 						+ KEY_LOCKED + "," 
 						+ KEY_CHECKLIST + "," 
-						+ KEY_TAG + "," 
-						+ KEY_TAG_NAME + "," 
-						+ KEY_TAG_DESCRIPTION + "," 
-						+ KEY_TAG_COLOR 
+						+ KEY_CATEGORY + "," 
+						+ KEY_CATEGORY_NAME + "," 
+						+ KEY_CATEGORY_DESCRIPTION + "," 
+						+ KEY_CATEGORY_COLOR 
 					+ " FROM " + TABLE_NOTES 
-					+ " LEFT JOIN " + TABLE_TAGS + " USING( " + KEY_TAG + ") "						
+					+ " LEFT JOIN " + TABLE_CATEGORY + " USING( " + KEY_CATEGORY + ") "						
 					+ whereCondition
 					+ (order ? " ORDER BY " + sort_column + sort_order : "");
 
@@ -380,9 +380,9 @@ public class DbHelper extends SQLiteOpenHelper {
 					note.setLocked("1".equals(cursor.getString(i++)));
 					note.setChecklist("1".equals(cursor.getString(i++)));
 					
-					// Set tag
-					Tag tag = new Tag(cursor.getInt(i++), cursor.getString(i++), cursor.getString(i++), cursor.getString(i++));
-					note.setTag(tag);
+					// Set category
+					Category category = new Category(cursor.getInt(i++), cursor.getString(i++), cursor.getString(i++), cursor.getString(i++));
+					note.setCategory(category);
 					
 					// Add eventual attachments uri
 					note.setAttachmentsList(getNoteAttachments(note));
@@ -523,15 +523,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	
 	/**
-	 * Retrieves all notes related to tag it passed as parameter
-	 * @param tagId Tag integer identifier
-	 * @return List of notes with requested tag
+	 * Retrieves all notes related to Category it passed as parameter
+	 * @param categoryId Category integer identifier
+	 * @return List of notes with requested category
 	 */
-	public List<Note> getNotesWithTag(String tagId) {	
+	public List<Note> getNotesByCategory(String categoryId) {	
 		List<Note> notes;
 		try {
-			int id = Integer.parseInt(tagId);
-			String whereCondition = " WHERE " + KEY_TAG_ID + " = " + id;
+			int id = Integer.parseInt(categoryId);
+			String whereCondition = " WHERE " + KEY_CATEGORY_ID + " = " + id;
 			notes = getNotes(whereCondition, true);
 		} catch (NumberFormatException e) {
 			notes = getAllNotes(true);
@@ -542,9 +542,9 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	/**
-	 * Retrieves all notes related to tag it passed as parameter
-	 * @param tagId Tag integer identifier
-	 * @return List of notes with requested tag
+	 * Retrieves all notes related to category it passed as parameter
+	 * @param categoryId Category integer identifier
+	 * @return List of notes with requested category
 	 */
 	public List<Note> getNotesByTag(String tagString) {	
 		// Select All Query
@@ -616,18 +616,18 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 
 	/**
-	 * Retrieves tags list from database
-	 * @return List of tags
+	 * Retrieves categories list from database
+	 * @return List of categories
 	 */
-	public ArrayList<Tag> getTags() {		
-		ArrayList<Tag> tagsList = new ArrayList<Tag>();
+	public ArrayList<Category> getCategories() {		
+		ArrayList<Category> categoriesList = new ArrayList<Category>();
 		String sql = "SELECT " 
-						+ KEY_TAG_ID + "," 
-						+ KEY_TAG_NAME + ","
-						+ KEY_TAG_DESCRIPTION  + ","
-						+ KEY_TAG_COLOR
-					+ " FROM " + TABLE_TAGS
-					+ " ORDER BY IFNULL(NULLIF(" + KEY_TAG_NAME + ", ''),'zzzzzzzz') ";
+						+ KEY_CATEGORY_ID + "," 
+						+ KEY_CATEGORY_NAME + ","
+						+ KEY_CATEGORY_DESCRIPTION  + ","
+						+ KEY_CATEGORY_COLOR
+					+ " FROM " + TABLE_CATEGORY
+					+ " ORDER BY IFNULL(NULLIF(" + KEY_CATEGORY_NAME + ", ''),'zzzzzzzz') ";
 		
 		SQLiteDatabase db = null;
 		Cursor cursor = null;
@@ -639,7 +639,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			// Looping through all rows and adding to list
 			if (cursor.moveToFirst()) {
 				do {
-					tagsList.add(new Tag(Integer.valueOf(cursor.getInt(0)),
+					categoriesList.add(new Category(Integer.valueOf(cursor.getInt(0)),
 							cursor.getString(1), cursor.getString(2), cursor
 									.getString(3)));
 				} while (cursor.moveToNext());
@@ -651,16 +651,16 @@ public class DbHelper extends SQLiteOpenHelper {
 			if (db != null)
 				db.close();
 		}
-		return tagsList;
+		return categoriesList;
 	}
 
 	
 	/**
-	 * Updates or insert a new a tag
-	 * @param tag Tag to be updated or inserted
-	 * @return Rows affected or new inserted tag id
+	 * Updates or insert a new a category
+	 * @param category Category to be updated or inserted
+	 * @return Rows affected or new inserted category id
 	 */
-	public long updateTag(Tag tag) {
+	public long updateCategory(Category category) {
 
 		long res;
 		SQLiteDatabase db = null;
@@ -669,21 +669,21 @@ public class DbHelper extends SQLiteOpenHelper {
 			db = this.getWritableDatabase();
 
 			ContentValues values = new ContentValues();
-			values.put(KEY_TAG_NAME, tag.getName());
-			values.put(KEY_TAG_DESCRIPTION, tag.getDescription());
-			values.put(KEY_TAG_COLOR, tag.getColor());
+			values.put(KEY_CATEGORY_NAME, category.getName());
+			values.put(KEY_CATEGORY_DESCRIPTION, category.getDescription());
+			values.put(KEY_CATEGORY_COLOR, category.getColor());
 
 			// Updating row
-			if (tag.getId() != null) {
-				values.put(KEY_TAG_ID, tag.getId());
-				res = db.update(TABLE_TAGS, values, KEY_TAG_ID + " = ?",
-						new String[] { String.valueOf(tag.getId()) });
-				Log.d(Constants.TAG, "Updated tag titled '" + tag.getName()
+			if (category.getId() != null) {
+				values.put(KEY_CATEGORY_ID, category.getId());
+				res = db.update(TABLE_CATEGORY, values, KEY_CATEGORY_ID + " = ?",
+						new String[] { String.valueOf(category.getId()) });
+				Log.d(Constants.TAG, "Updated category titled '" + category.getName()
 						+ "'");
-				// Inserting new tag
+				// Inserting new category
 			} else {
-				res = db.insert(TABLE_TAGS, null, values);
-				Log.d(Constants.TAG, "Saved new tag titled '" + tag.getName()
+				res = db.insert(TABLE_CATEGORY, null, values);
+				Log.d(Constants.TAG, "Saved new category titled '" + category.getName()
 						+ "' with id: " + res);
 			}
 
@@ -698,27 +698,27 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	/**
-	 * Deletion of  a tag
-	 * @param tag Tag to be deleted
-	 * @return Number 1 if tag's record has been deleted, 0 otherwise
+	 * Deletion of  a category
+	 * @param category Category to be deleted
+	 * @return Number 1 if category's record has been deleted, 0 otherwise
 	 */
-	public long deleteTag(Tag tag) {		
+	public long deleteCategory(Category category) {		
 		long deleted;
 
 		SQLiteDatabase db = null;
 		try {
 			db = this.getWritableDatabase();
-			// Un-tag notes associated with this tag
+			// Un-categorize notes associated with this category
 			ContentValues values = new ContentValues();
-			values.put(KEY_TAG, "");
+			values.put(KEY_CATEGORY, "");
 
 			// Updating row
-			db.update(TABLE_NOTES, values, KEY_TAG + " = ?",
-					new String[] { String.valueOf(tag.getId()) });
+			db.update(TABLE_NOTES, values, KEY_CATEGORY + " = ?",
+					new String[] { String.valueOf(category.getId()) });
 
-			// Delete tag
-			deleted = db.delete(TABLE_TAGS, KEY_TAG_ID + " = ?",
-					new String[] { String.valueOf(tag.getId()) });
+			// Delete category
+			deleted = db.delete(TABLE_CATEGORY, KEY_CATEGORY_ID + " = ?",
+					new String[] { String.valueOf(category.getId()) });
 
 		} finally {
 			if (db != null)
@@ -729,19 +729,19 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	
 	/**
-	 * Get note TAG
+	 * Get note Category
 	 * @param id
 	 * @return
 	 */
-	public Tag getTag(Integer id) {		
-		Tag tag = null;
+	public Category getCategory(Integer id) {		
+		Category category = null;
 		String sql = "SELECT " 
-							+ KEY_TAG_ID + "," 
-							+ KEY_TAG_NAME + ","
-							+ KEY_TAG_DESCRIPTION  + ","
-							+ KEY_TAG_COLOR
-						+ " FROM " + TABLE_TAGS
-						+ " WHERE " + KEY_TAG_ID + " = " + id;
+							+ KEY_CATEGORY_ID + "," 
+							+ KEY_CATEGORY_NAME + ","
+							+ KEY_CATEGORY_DESCRIPTION  + ","
+							+ KEY_CATEGORY_COLOR
+						+ " FROM " + TABLE_CATEGORY
+						+ " WHERE " + KEY_CATEGORY_ID + " = " + id;
 
 		SQLiteDatabase db = null;
 		Cursor cursor = null;
@@ -752,7 +752,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 			// Looping through all rows and adding to list
 			if (cursor.moveToFirst()) {
-				tag = new Tag(cursor.getInt(0), cursor.getString(1),
+				category = new Category(cursor.getInt(0), cursor.getString(1),
 						cursor.getString(2), cursor.getString(3));
 			}
 
@@ -762,16 +762,16 @@ public class DbHelper extends SQLiteOpenHelper {
 			if (db != null)
 				db.close();
 		}
-		return tag;
+		return category;
 	}
 	
 
 	
-	public int getTaggedCount(Tag tag) {		
+	public int getCategorizedCount(Category category) {		
 		int count = 0;
 		String sql = "SELECT COUNT(*)" 
 					+ " FROM " + TABLE_NOTES
-					+ " WHERE " + KEY_TAG + " = " + tag.getId();
+					+ " WHERE " + KEY_CATEGORY + " = " + category.getId();
 		
 		SQLiteDatabase db = null;
 		Cursor cursor = null;

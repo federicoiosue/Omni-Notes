@@ -1,7 +1,7 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;
@@ -30,40 +30,40 @@ import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 
-public class TagActivity extends Activity {
+public class CategoryActivity extends Activity {
 
 	private final float SATURATION = 0.4f;
 	private final float VALUE = 0.9f;
 
-	Tag tag;
+	Category category;
 	EditText title;
 	EditText description;
 	ColorPicker picker;
 	Button deleteBtn;
 	Button saveBtn;
 	Button discardBtn;
-	private TagActivity mActivity;
+	private CategoryActivity mActivity;
 	private AlertDialog dialog;
 	private boolean colorChanged = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_tag);
+		setContentView(R.layout.activity_category);
 		
 		mActivity = this;
 
 		// Retrieving intent
-		tag = getIntent().getParcelableExtra(Constants.INTENT_TAG);
+		category = getIntent().getParcelableExtra(Constants.INTENT_TAG);
 
 		// Getting Views from layout
 		initViews();
 
-		if (tag == null) {
-			Log.d(Constants.TAG, "Adding new tag");
-			tag = new Tag();
+		if (category == null) {
+			Log.d(Constants.TAG, "Adding new category");
+			category = new Category();
 		} else {
-			Log.d(Constants.TAG, "Editing tag " + tag.getName());
+			Log.d(Constants.TAG, "Editing category " + category.getName());
 			populateViews();
 		}
 	}
@@ -77,9 +77,9 @@ public class TagActivity extends Activity {
 	
 
 	private void initViews() {
-		title = (EditText) findViewById(R.id.tag_title);
-		description = (EditText) findViewById(R.id.tag_description);
-		picker = (ColorPicker) findViewById(R.id.colorpicker_tag);
+		title = (EditText) findViewById(R.id.category_title);
+		description = (EditText) findViewById(R.id.category_description);
+		picker = (ColorPicker) findViewById(R.id.colorpicker_category);
 		picker.setOnColorChangedListener(new OnColorChangedListener() {			
 			@Override
 			public void onColorChanged(int color) {
@@ -103,10 +103,10 @@ public class TagActivity extends Activity {
 		});
 
 		// Added invisible saturation and value bars to get achieve pastel colors
-		SaturationBar saturationbar = (SaturationBar) findViewById(R.id.saturationbar_tag);
+		SaturationBar saturationbar = (SaturationBar) findViewById(R.id.saturationbar_category);
 		saturationbar.setSaturation(SATURATION);
 		picker.addSaturationBar(saturationbar);
-		ValueBar valuebar = (ValueBar) findViewById(R.id.valuebar_tag);
+		ValueBar valuebar = (ValueBar) findViewById(R.id.valuebar_category);
 		valuebar.setValue(VALUE);
 		picker.addValueBar(valuebar);
 
@@ -118,17 +118,17 @@ public class TagActivity extends Activity {
 		deleteBtn.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				deleteTag();
+				deleteCategory();
 			}
 		});
 		saveBtn.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				// In case tag name is not compiled a message will be shown
+				// In case category name is not compiled a message will be shown
                 if (title.getText().toString().length() > 0) {
-    				saveTag();
+    				saveCategory();
                 } else {
-                	title.setError(getString(R.string.tag_missing_title));
+                	title.setError(getString(R.string.category_missing_title));
                 }
 			}
 		});
@@ -141,10 +141,10 @@ public class TagActivity extends Activity {
 	}
 
 	private void populateViews() {
-		title.setText(tag.getName());
-		description.setText(tag.getDescription());
+		title.setText(category.getName());
+		description.setText(category.getDescription());
 		// Reset picker to saved color
-		String color = tag.getColor();
+		String color = category.getColor();
 		if (color != null && color.length() > 0) {
 			picker.setColor(Integer.parseInt(color));
 			picker.setOldCenterColor(Integer.parseInt(color));
@@ -154,39 +154,39 @@ public class TagActivity extends Activity {
 
 	
 	/**
-	 * Tag saving
+	 * Category saving
 	 */
-	private void saveTag() {
-		tag.setName(title.getText().toString());
-		tag.setDescription(description.getText().toString());
-		if (colorChanged || tag.getColor() == null)
-			tag.setColor(String.valueOf(picker.getColor()));
+	private void saveCategory() {
+		category.setName(title.getText().toString());
+		category.setDescription(description.getText().toString());
+		if (colorChanged || category.getColor() == null)
+			category.setColor(String.valueOf(picker.getColor()));
 		
 		// Saved to DB and new id or update result catched
 		DbHelper db = new DbHelper(this);
-		long n = db.updateTag(tag);
+		long n = db.updateCategory(category);
 		
-		// If tag has no its an insertion and id is filled from db
-		if (tag.getId() == null) {
-			tag.setId((int)n);
+		// If category has no its an insertion and id is filled from db
+		if (category.getId() == null) {
+			category.setId((int)n);
 		}		
 		
 		// Sets result to show proper message
-		getIntent().putExtra(Constants.INTENT_TAG, tag);
+		getIntent().putExtra(Constants.INTENT_TAG, category);
 		setResult(RESULT_OK, getIntent());
 		finish();
 	}
 
-	private void deleteTag() {
+	private void deleteCategory() {
 		
-		// Retrieving how many notes are tagged with tag to be deleted
+		// Retrieving how many notes are categorized with category to be deleted
 		DbHelper db = new DbHelper(this);
-		int count = db.getTaggedCount(tag);
+		int count = db.getCategorizedCount(category);
 		String msg;
 		if (count > 0)
-			msg = getString(R.string.delete_tag_confirmation).replace("$1$", String.valueOf(count));
+			msg = getString(R.string.delete_category_confirmation).replace("$1$", String.valueOf(count));
 		else
-			msg = getString(R.string.delete_unused_tag_confirmation);
+			msg = getString(R.string.delete_unused_category_confirmation);
 	
 		// Showing dialog
 		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -195,15 +195,15 @@ public class TagActivity extends Activity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						// Changes navigation if actually are shown notes associated with this tag
+						// Changes navigation if actually are shown notes associated with this category
 						SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 						String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
 						String navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
-						if (String.valueOf(tag.getId()).equals(navigation))
+						if (String.valueOf(category.getId()).equals(navigation))
 							prefs.edit().putString(Constants.PREF_NAVIGATION, navNotes).commit();
-						// Removes tag and edit notes associated with it
+						// Removes category and edit notes associated with it
 						DbHelper db = new DbHelper(mActivity);
-						db.deleteTag(tag);
+						db.deleteCategory(category);
 						
 						// Sets result to show proper message
 						setResult(RESULT_CANCELED);

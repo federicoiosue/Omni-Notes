@@ -35,7 +35,7 @@ public class Note implements Parcelable {
 	private String alarm;
 	private Double latitude;
 	private Double longitude;
-	private Tag tag;
+	private Category category;
 	private Boolean locked;
 	private Boolean checklist;
 	private ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
@@ -55,7 +55,7 @@ public class Note implements Parcelable {
 	}
 	
 	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived,
-			String alarm, String latitude, String longitude, Tag tag, Integer locked, Integer checklist) {
+			String alarm, String latitude, String longitude, Category category, Integer locked, Integer checklist) {
 		super();
 		this._id = _id;
 		this.title = title;
@@ -66,7 +66,7 @@ public class Note implements Parcelable {
 		this.alarm = alarm;
 		setLatitude(latitude);
 		setLongitude(longitude);
-		setTag(tag);
+		setCategory(category);
 		setLocked(locked == 1 ? true : false);
 		setChecklist(checklist == 1 ? true : false);
 	}
@@ -82,7 +82,7 @@ public class Note implements Parcelable {
 		setAlarm(note.getAlarm());
 		setLatitude(note.getLatitude());
 		setLongitude(note.getLongitude());
-		setTag(note.getTag());
+		setCategory(note.getCategory());
 		setLocked(note.isLocked());
 		setChecklist(note.isChecklist());
 		ArrayList<Attachment> list = new ArrayList<Attachment>();
@@ -102,7 +102,7 @@ public class Note implements Parcelable {
 		setAlarm(in.readString());
 		setLatitude(in.readString());
 		setLongitude(in.readString());
-		setTag((Tag)in.readParcelable(Tag.class.getClassLoader()));
+		setCategory((Category)in.readParcelable(Category.class.getClassLoader()));
 		setLocked(in.readInt());
 		setChecklist(in.readInt());
 		in.readList(attachmentsList, Attachment.class.getClassLoader());
@@ -242,12 +242,12 @@ public class Note implements Parcelable {
 		}
 	}
 
-	public Tag getTag() {
-		return tag;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setTag(Tag tag) {
-		this.tag = tag;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public Boolean isLocked() {
@@ -327,8 +327,8 @@ public class Note implements Parcelable {
 			return res;
 		}
 
-		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), getAlarm(), getLatitude(), getLongitude(), getTag(), isLocked(), isChecklist()};
-		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.getAlarm(), note.getLatitude(), note.getLongitude(), note.getTag(), note.isLocked(), note.isChecklist()};
+		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), getAlarm(), getLatitude(), getLongitude(), getCategory(), isLocked(), isChecklist()};
+		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.getAlarm(), note.getLatitude(), note.getLongitude(), note.getCategory(), note.isLocked(), note.isChecklist()};
 		if (EqualityChecker.check(a, b)) {
 			res = true;		
 		}
@@ -348,7 +348,7 @@ public class Note implements Parcelable {
 		Note emptyNote = new Note();
 		// Field to exclude for comparison
 		emptyNote.setCreation(getCreation());
-		emptyNote.setTag(getTag());
+		emptyNote.setCategory(getCategory());
 		// Check
 		if (isChanged(emptyNote))
 			return false;
@@ -377,7 +377,7 @@ public class Note implements Parcelable {
 		parcel.writeString(getAlarm());
 		parcel.writeString(String.valueOf(getLatitude()));
 		parcel.writeString(String.valueOf(getLongitude()));
-		parcel.writeParcelable(getTag(), 0);
+		parcel.writeParcelable(getCategory(), 0);
 		parcel.writeInt(isLocked() ? 1 : 0);
 		parcel.writeInt(isChecklist() ? 1 : 0);
 		parcel.writeList(getAttachmentsList());

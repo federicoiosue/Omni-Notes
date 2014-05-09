@@ -173,11 +173,11 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 			row.setInt(R.id.tag_marker, "setBackgroundColor", Color.parseColor("#00000000"));
 
 			// If tag is set the color will be applied on the appropriate target
-			if (note.getTag() != null && note.getTag().getColor() != null) {
+			if (note.getCategory() != null && note.getCategory().getColor() != null) {
 				if (colorsPref.equals("list")) {
-					row.setInt(R.id.card_layout, "setBackgroundColor", Integer.parseInt(note.getTag().getColor()));					
+					row.setInt(R.id.card_layout, "setBackgroundColor", Integer.parseInt(note.getCategory().getColor()));					
 				} else {
-					row.setInt(R.id.tag_marker, "setBackgroundColor", Integer.parseInt(note.getTag().getColor()));
+					row.setInt(R.id.tag_marker, "setBackgroundColor", Integer.parseInt(note.getCategory().getColor()));
 				}
 			} else {
 				row.setInt(R.id.tag_marker, "setBackgroundColor", 0);

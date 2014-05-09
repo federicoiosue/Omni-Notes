@@ -125,8 +125,8 @@
 
         <!-- Tags -->
         <activity
-            android:name="it.feio.android.omninotes.TagActivity"
-            android:label="@string/title_activity_tag"
+            android:name="it.feio.android.omninotes.CategoryActivity"
+            android:label="@string/title_activity_category"
             android:parentActivityName="it.feio.android.omninotes.ListFragment"
             android:theme="@style/Theme.AppCompat.Dialog" >
             <meta-data

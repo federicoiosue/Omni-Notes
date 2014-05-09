@@ -22,7 +22,7 @@
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 2" changeDate="May 8 2014">
-        <changelogtext>[b]New![/b] The applicatioon is now compatible (from Play Store) even with devices without gps</changelogtext>  
+        <changelogtext>[b]New![/b] The application is now compatible (from Play Store) even with devices without gps</changelogtext>  
         <changelogtext>[b]New![/b] Double click to zoom in gallery and more responsive zooming</changelogtext>  
 <!--         <changelogtext>[b]New![/b] Click on backup completed notification will open the backup directory (simply swipe to dismiss it)</changelogtext>   --> 
         <changelogtext>[u]Fixed[/u] Missing notes deletion when changing orientation or exiting app after swiped out a note</changelogtext>    

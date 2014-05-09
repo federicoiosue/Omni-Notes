@@ -29,10 +29,10 @@ import it.feio.android.omninotes.models.ImageAndTextItem;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
-import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
+import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
@@ -145,7 +145,6 @@ public class DetailFragment extends Fragment implements
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int GALLERY = 2;
-//	private static final int RECORDING = 3;
 	private static final int TAKE_VIDEO = 4;
 	private static final int SET_PASSWORD = 5;
 	private static final int SKETCH = 6;
@@ -271,7 +270,6 @@ public class DetailFragment extends Fragment implements
 		// Added the sketched image if present returning from SketchFragment
 		if (mActivity.sketchUri != null) {
 			Attachment mAttachment = new Attachment(mActivity.sketchUri, Constants.MIME_TYPE_SKETCH);
-//			mAttachment.setMoveWhenNoteSaved(false);
 			noteTmp.getAttachmentsList().add(mAttachment);
 			mActivity.sketchUri = null;
 			// Removes previous version of edited image
@@ -448,14 +446,14 @@ public class DetailFragment extends Fragment implements
 				String widgetId = i.getExtras().get(Constants.INTENT_WIDGET).toString();
 				if (widgetId != null) {
 					String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
-					String pattern = DbHelper.KEY_TAG + " = ";
+					String pattern = DbHelper.KEY_CATEGORY + " = ";
 					if (sqlCondition.lastIndexOf(pattern) != -1) {
 						String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length()).trim();		
-						Tag tag;
+						Category tag;
 						try {
-							tag = db.getTag(Integer.parseInt(tagId));
+							tag = db.getCategory(Integer.parseInt(tagId));
 							noteTmp = new Note();
-							noteTmp.setTag(tag);
+							noteTmp.setCategory(tag);
 						} catch (NumberFormatException e) {}			
 					}
 				}
@@ -556,7 +554,7 @@ public class DetailFragment extends Fragment implements
 		Fonts.overrideTextSize(mActivity, prefs, root);
 
 		// Color of tag marker if note is tagged a function is active in preferences
-		setTagMarkerColor(noteTmp.getTag());		
+		setTagMarkerColor(noteTmp.getCategory());		
 		
 		// Sets links clickable in title and content Views
 		title = (EditText) getView().findViewById(R.id.detail_title);
@@ -830,7 +828,7 @@ public class DetailFragment extends Fragment implements
 	/**
 	 * Colors tag marker in note title TextView
 	 */
-	private void setTagMarkerColor(Tag tag) {
+	private void setTagMarkerColor(Category tag) {
 		
 		String colorsPref = prefs.getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
 		
@@ -946,7 +944,7 @@ public class DetailFragment extends Fragment implements
 	    	onCreateOptionsMenuAlreadyCalled = true;
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			list.add(new Integer[]{R.id.menu_attachment, R.string.tour_detailactivity_attachment_title, R.string.tour_detailactivity_attachment_detail, ShowcaseView.ITEM_ACTION_ITEM});
-			list.add(new Integer[]{R.id.menu_tag, R.string.tour_detailactivity_action_title, R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
+			list.add(new Integer[]{R.id.menu_category, R.string.tour_detailactivity_action_title, R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title, R.string.tour_detailactivity_reminder_detail, null});
 			list.add(new Integer[]{R.id.detail_title, R.string.tour_detailactivity_links_title, R.string.tour_detailactivity_links_detail, null});
 			list.add(new Integer[]{null, R.string.tour_detailactivity_swipe_title, R.string.tour_detailactivity_swipe_detail, null, -10, Display.getUsableSize(mActivity).y/3, 80, Display.getUsableSize(mActivity).y/3});
@@ -966,7 +964,7 @@ public class DetailFragment extends Fragment implements
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.menu_share).setVisible(true);
 		menu.findItem(R.id.menu_attachment).setVisible(true);
-		menu.findItem(R.id.menu_tag).setVisible(true);
+		menu.findItem(R.id.menu_category).setVisible(true);
 		menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
 		menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
 		menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
@@ -1034,7 +1032,7 @@ public class DetailFragment extends Fragment implements
 		case R.id.menu_attachment:
 			showPopup(mActivity.findViewById(R.id.menu_attachment));
 			break;
-		case R.id.menu_tag:
+		case R.id.menu_category:
 			tagNote();
 			break;
 		case R.id.menu_checklist_on:
@@ -1239,26 +1237,26 @@ public class DetailFragment extends Fragment implements
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 
 		// Retrieves all available tags
-		final ArrayList<Tag> tags = db.getTags();
+		final ArrayList<Category> tags = db.getCategories();
 		
 		alertDialogBuilder.setTitle(R.string.tag_as)
-							.setAdapter(new NavDrawerTagAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
+							.setAdapter(new NavDrawerCategoryAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									noteTmp.setTag(tags.get(which));
+									noteTmp.setCategory(tags.get(which));
 									setTagMarkerColor(tags.get(which));
 								}
-							}).setPositiveButton(R.string.add_tag, new DialogInterface.OnClickListener() {
+							}).setPositiveButton(R.string.add_category, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
-									Intent intent = new Intent(mActivity, TagActivity.class);		
+									Intent intent = new Intent(mActivity, CategoryActivity.class);		
 									intent.putExtra("noHome", true);
 									startActivityForResult(intent, TAG);
 								}
-							}).setNeutralButton(R.string.remove_tag, new DialogInterface.OnClickListener() {
+							}).setNeutralButton(R.string.remove_category, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
-									noteTmp.setTag(null);
+									noteTmp.setCategory(null);
 									setTagMarkerColor(null);
 								}
 							}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -1378,13 +1376,10 @@ public class DetailFragment extends Fragment implements
 					isRecording = false;
 					stopRecording();
 					Attachment attachment = new Attachment(Uri.parse(recordName), Constants.MIME_TYPE_AUDIO);
-//					attachment.setMoveWhenNoteSaved(false);
 					attachment.setLength(audioRecordingTime);
 					noteTmp.getAttachmentsList().add(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
-					mGridView.autoresize();					
-					// Updates sharing intent after attachment insertion
-//					updateShareIntent();
+					mGridView.autoresize();		
 					attachmentDialog.dismiss();
 				}
 				break;
@@ -1526,7 +1521,6 @@ public class DetailFragment extends Fragment implements
 			switch (requestCode) {
 			case TAKE_PHOTO:
 				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
-//				attachment.setMoveWhenNoteSaved(false);
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
@@ -1540,7 +1534,6 @@ public class DetailFragment extends Fragment implements
 				// Gingerbread doesn't allow custom folder so data are retrieved from intent 
 				if(Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
 					attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
-//					attachment.setMoveWhenNoteSaved(false);
 				} else {
 					attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_VIDEO);
 				}
@@ -1567,16 +1560,15 @@ public class DetailFragment extends Fragment implements
 				break;
 			case SKETCH:
 				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_SKETCH);
-//				attachment.setMoveWhenNoteSaved(false);
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
 				break;
 			case TAG:
-				Crouton.makeText(mActivity, R.string.tag_saved,
+				Crouton.makeText(mActivity, R.string.category_saved,
 						ONStyle.CONFIRM).show();
-				Tag tag = intent.getParcelableExtra("tag");
-				noteTmp.setTag(tag);
+				Category tag = intent.getParcelableExtra("tag");
+				noteTmp.setCategory(tag);
 				setTagMarkerColor(tag);
 				break;
 			case DETAIL:
@@ -1684,7 +1676,7 @@ public class DetailFragment extends Fragment implements
 		// Checks if only tag has been changed and then force to not update 
 		// last modification date
 		boolean updateLastModification = true;
-		note.setTag(noteTmp.getTag());
+		note.setCategory(noteTmp.getCategory());
 		if (!noteTmp.isChanged(note)) {
 			updateLastModification = false;
 		}		

@@ -32,15 +32,6 @@
         app:showAsAction="always"
         android:title="@string/add_note"
         android:visible="false"/>
-<!--     <item -->
-<!--         android:id="@+id/menu_share" -->
-<!--         android:icon="@drawable/ic_action_share" -->
-<!--         android:orderInCategory="200" -->
-<!--         app:showAsAction="always" -->
-<!--         android:title="@string/share" -->
-<!--         android:visible="false" -->
-<!--         app:actionProviderClass= -->
-<!--             "android.support.v7.widget.ShareActionProvider"/> -->
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_action_share"
@@ -63,11 +54,11 @@
         android:title="@string/attachment"
         android:visible="false"/>
     <item
-        android:id="@+id/menu_tag"
+        android:id="@+id/menu_category"
         android:icon="@drawable/ic_action_labels"
         android:orderInCategory="320"
         app:showAsAction="always"
-        android:title="@string/tag"
+        android:title="@string/category"
         android:visible="false"/>
     <item
         android:id="@+id/menu_archive"
@@ -137,11 +128,11 @@
         android:title="@string/sort"
         android:visible="false"/>
     <item
-        android:id="@+id/menu_add_tag"
+        android:id="@+id/menu_add_category"
         android:icon="@drawable/ic_action_new_label"
         android:orderInCategory="700"
         app:showAsAction="always"
-        android:title="@string/add_tag"
+        android:title="@string/add_category"
         android:visible="false"/>
     <item
         android:id="@+id/menu_expanded_view"

@@ -25,11 +25,11 @@
             android:text="@string/notes" />
 
         <RadioButton
-            android:id="@+id/widget_config_tags"
+            android:id="@+id/widget_config_categories"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/tags" />
+            android:text="@string/categories" />
     </RadioGroup>
 
     <Spinner

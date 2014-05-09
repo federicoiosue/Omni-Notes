@@ -15,16 +15,14 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models.adapters;
 
-import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -34,7 +32,6 @@ import android.graphics.LightingColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.text.TextUtilsCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,18 +40,18 @@ import android.widget.ImageView;
 
 import com.neopixl.pixlui.components.textview.TextView;
 
-public class NavDrawerTagAdapter extends BaseAdapter {
+public class NavDrawerCategoryAdapter extends BaseAdapter {
 
 	private Activity mActivity;
 	private int layout;
-	private ArrayList<Tag> tags;
+	private ArrayList<Category> tags;
 	private LayoutInflater inflater;
 
-	public NavDrawerTagAdapter(Activity mActivity, ArrayList<Tag> tags) {
+	public NavDrawerCategoryAdapter(Activity mActivity, ArrayList<Category> tags) {
 		this(mActivity, tags, null);		
 	}
 
-	public NavDrawerTagAdapter(Activity mActivity, ArrayList<Tag> tags, String navigationTmp) {
+	public NavDrawerCategoryAdapter(Activity mActivity, ArrayList<Category> tags, String navigationTmp) {
 		this.mActivity = mActivity;
 		this.layout = R.layout.drawer_list_item;		
 		this.tags = tags;	
@@ -79,7 +76,7 @@ public class NavDrawerTagAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		// Finds elements
-		Tag tag = tags.get(position);
+		Category tag = tags.get(position);
 		
 		NoteDrawerTagAdapterViewHolder holder;
 	    if (convertView == null) {
@@ -161,7 +158,7 @@ public class NavDrawerTagAdapter extends BaseAdapter {
  * @author fede
  *
  */
-class NoteDrawerTagAdapterViewHolder {	
+class NoteDrawerCategoryAdapterViewHolder {	
 	ImageView imgIcon;
 	TextView txtTitle;
 }

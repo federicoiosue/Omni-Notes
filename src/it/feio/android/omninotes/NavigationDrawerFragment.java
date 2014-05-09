@@ -2,11 +2,11 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.Tag;
-import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
+import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
@@ -54,7 +54,7 @@ public class NavigationDrawerFragment extends Fragment {
 	private ListView mDrawerList;
 	private ListView mDrawerTagList;
 	private View tagListHeader;
-	private Tag candidateSelectedTag;
+	private Category candidateSelectedCategory;
 	private MainActivity mActivity;
 	private SharedPreferences prefs;
 	private DbHelper db;
@@ -122,7 +122,7 @@ public class NavigationDrawerFragment extends Fragment {
 		// Sets the adapter for the TAGS navigation list view
 
 		// Retrieves data to fill tags list
-		ArrayList<Tag> tags = db.getTags();
+		ArrayList<Category> tags = db.getCategories();
 
 		mDrawerTagList = (ListView) getView().findViewById(R.id.drawer_tag_list);
 		if (tags.size() > 0) {
@@ -137,7 +137,7 @@ public class NavigationDrawerFragment extends Fragment {
 				mDrawerTagList.addHeaderView(tagListHeader);
 				mDrawerTagList.setHeaderDividersEnabled(true);
 			}
-			mDrawerTagList.setAdapter(new NavDrawerTagAdapter(mActivity, tags, mActivity.navigationTmp));
+			mDrawerTagList.setAdapter(new NavDrawerCategoryAdapter(mActivity, tags, mActivity.navigationTmp));
 
 			// Sets click events
 			mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
@@ -148,7 +148,7 @@ public class NavigationDrawerFragment extends Fragment {
 						Object item = mDrawerTagList.getAdapter().getItem(position);
 						// Ensuring that clicked item is not the ListView header
 						if (item != null) {
-							Tag tag = (Tag) item;
+							Category tag = (Category) item;
 							String navigation = tag.getName();
 							Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 							selectNavigationItem(mDrawerTagList, position);
@@ -172,10 +172,10 @@ public class NavigationDrawerFragment extends Fragment {
 						Object item = mDrawerTagList.getAdapter().getItem(position);
 						// Ensuring that clicked item is not the ListView header
 						if (item != null) {
-							mActivity.editTag((Tag) item);
+							mActivity.editTag((Category) item);
 						}
 					} else {
-						Crouton.makeText(mActivity, R.string.tag_deleted, ONStyle.ALERT).show();
+						Crouton.makeText(mActivity, R.string.category_deleted, ONStyle.ALERT).show();
 					}
 					return true;
 				}
@@ -223,7 +223,7 @@ public class NavigationDrawerFragment extends Fragment {
 //						&& !prefs.getBoolean(instructionName, false)
 			    		AppTourHelper.isMyTurn(mActivity, instructionName)) {
 					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-					list.add(new Integer[] { R.id.menu_add_tag, R.string.tour_listactivity_tag_title,
+					list.add(new Integer[] { R.id.menu_add_category, R.string.tour_listactivity_tag_title,
 							R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM });
 					mActivity.showCaseView(list, new OnShowcaseAcknowledged() {
 						@Override
@@ -258,7 +258,7 @@ public class NavigationDrawerFragment extends Fragment {
 			mTitle = (CharSequence)itemSelected;	
 		// Is a tag
 		} else {
-			mTitle = ((Tag)itemSelected).getName();
+			mTitle = ((Category)itemSelected).getName();
 		}
 		// Navigation drawer is closed after a while to avoid lag
 		new Handler().postDelayed(new Runnable() {

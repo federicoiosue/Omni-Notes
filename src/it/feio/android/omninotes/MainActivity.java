@@ -3,7 +3,7 @@ package it.feio.android.omninotes;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SpinnerDialog;
@@ -118,7 +118,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 	}
 
-	public void editTag(Tag tag) {
+	public void editTag(Category tag) {
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
 			((ListFragment)f).editTag(tag);			

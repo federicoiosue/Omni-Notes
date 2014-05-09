@@ -30,7 +30,7 @@
         android:orientation="horizontal" >
 
         <View
-            android:id="@+id/tag_marker"
+            android:id="@+id/category_marker"
             android:layout_width="10dp"
             android:layout_height="match_parent"
             android:background="@null" />

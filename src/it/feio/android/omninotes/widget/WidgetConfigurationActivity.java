@@ -2,14 +2,13 @@ package it.feio.android.omninotes.widget;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Tag;
-import it.feio.android.omninotes.models.adapters.NavDrawerTagAdapter;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,9 +23,9 @@ public class WidgetConfigurationActivity extends Activity {
 
 	private Activity mActivity;
 	private Button configOkButton;
-	private Spinner tagSpinner;
+	private Spinner categorySpinner;
 	private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-	private ArrayList<Tag> tags;
+	private ArrayList<Category> categories;
 	private String sqlCondition;
 	private RadioGroup mRadioGroup;
 
@@ -45,21 +44,21 @@ public class WidgetConfigurationActivity extends Activity {
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				switch (checkedId) {
 				case R.id.widget_config_notes:
-					tagSpinner.setEnabled(false);
+					categorySpinner.setEnabled(false);
 					break;
 
-				case R.id.widget_config_tags:
-					tagSpinner.setEnabled(true);
+				case R.id.widget_config_categories:
+					categorySpinner.setEnabled(true);
 					break;
 				}
 			}
 		});
 
-		tagSpinner = (Spinner) findViewById(R.id.widget_config_spinner);
-		tagSpinner.setEnabled(false);
+		categorySpinner = (Spinner) findViewById(R.id.widget_config_spinner);
+		categorySpinner.setEnabled(false);
 		DbHelper db = new DbHelper(mActivity);
-		tags = db.getTags();
-		tagSpinner.setAdapter(new NavDrawerTagAdapter(mActivity, tags));
+		categories = db.getCategories();
+		categorySpinner.setAdapter(new NavDrawerCategoryAdapter(mActivity, categories));
 
 		configOkButton = (Button) findViewById(R.id.widget_config_confirm);
 		configOkButton.setOnClickListener(new OnClickListener() {
@@ -70,9 +69,9 @@ public class WidgetConfigurationActivity extends Activity {
 				if (mRadioGroup.getCheckedRadioButtonId() == R.id.widget_config_notes) {
 					sqlCondition = " WHERE " + DbHelper.KEY_ARCHIVED + " != 1 ";
 				} else {
-					Tag tag = (Tag) tagSpinner.getSelectedItem();
+					Category tag = (Category) categorySpinner.getSelectedItem();
 					sqlCondition = " WHERE " + DbHelper.TABLE_NOTES + "."
-							+ DbHelper.KEY_TAG + " = " + tag.getId();
+							+ DbHelper.KEY_CATEGORY + " = " + tag.getId();
 				}
 
 				CheckBox showThumbnailsCheckBox = (CheckBox) findViewById(R.id.show_thumbnails);
@@ -92,9 +91,9 @@ public class WidgetConfigurationActivity extends Activity {
 		});
 				
 		// Checks if no tags are available and then disable that option
-		if (tags.size() == 0) {
+		if (categories.size() == 0) {
 			mRadioGroup.setVisibility(View.GONE);
-			tagSpinner.setVisibility(View.GONE);
+			categorySpinner.setVisibility(View.GONE);
 		}
 
 		Intent intent = getIntent();

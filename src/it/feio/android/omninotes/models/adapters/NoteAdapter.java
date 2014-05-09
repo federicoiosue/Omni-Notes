@@ -81,7 +81,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
     		    	
 	    	holder.root = convertView.findViewById(R.id.root);
 	    	holder.cardLayout = convertView.findViewById(R.id.card_layout);
-	    	holder.tagMarker = convertView.findViewById(R.id.tag_marker);
+	    	holder.categoryMarker = convertView.findViewById(R.id.category_marker);
 
 	    	holder.title = (TextView) convertView.findViewById(R.id.note_title);
 	    	holder.content = (TextView) convertView.findViewById(R.id.note_content);
@@ -251,14 +251,14 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			v.setBackgroundColor(Color.parseColor("#00000000"));
 
 			// If tag is set the color will be applied on the appropriate target
-			if (note.getTag() != null && note.getTag().getColor() != null) {
+			if (note.getCategory() != null && note.getCategory().getColor() != null) {
 				if (colorsPref.equals("complete") || colorsPref.equals("list")) {
-					v.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+					v.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
 				} else {
 					if (holder != null) {
-						holder.tagMarker.setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+						holder.categoryMarker.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
 					} else {
-						v.findViewById(R.id.tag_marker).setBackgroundColor(Integer.parseInt(note.getTag().getColor()));
+						v.findViewById(R.id.tag_marker).setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
 					}
 				}
 			} else {
@@ -303,7 +303,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// cancelled
 		return true;
 	}
-
 }
 
 
@@ -312,7 +311,7 @@ class NoteAdapterViewHolder {
 	
 	View root;
 	View cardLayout;
-	View tagMarker;
+	View categoryMarker;
 	
 	TextView title;
 	TextView content;
