@@ -235,7 +235,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	}
 
 	/**
-	 * Color of tag marker if note is tagged a function is active in preferences
+	 * Color of category marker if note is categorized a function is active in preferences
 	 * @param note
 	 * @param rowView
 	 */
@@ -250,7 +250,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			// Resetting transparent color to the view
 			v.setBackgroundColor(Color.parseColor("#00000000"));
 
-			// If tag is set the color will be applied on the appropriate target
+			// If category is set the color will be applied on the appropriate target
 			if (note.getCategory() != null && note.getCategory().getColor() != null) {
 				if (colorsPref.equals("complete") || colorsPref.equals("list")) {
 					v.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
@@ -258,11 +258,11 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 					if (holder != null) {
 						holder.categoryMarker.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
 					} else {
-						v.findViewById(R.id.tag_marker).setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
+						v.findViewById(R.id.category_marker).setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
 					}
 				}
 			} else {
-				v.findViewById(R.id.tag_marker).setBackgroundColor(0);
+				v.findViewById(R.id.category_marker).setBackgroundColor(0);
 			}
 		}
 	}

@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	public void editTag(Category tag) {
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
-			((ListFragment)f).editTag(tag);			
+			((ListFragment)f).editCategory(tag);			
 		} 
 	}
 

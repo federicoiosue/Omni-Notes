@@ -1239,7 +1239,7 @@ public class DetailFragment extends Fragment implements
 		// Retrieves all available tags
 		final ArrayList<Category> tags = db.getCategories();
 		
-		alertDialogBuilder.setTitle(R.string.tag_as)
+		alertDialogBuilder.setTitle(R.string.categorize_as)
 							.setAdapter(new NavDrawerCategoryAdapter(mActivity, tags), new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {

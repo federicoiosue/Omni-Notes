@@ -26,9 +26,16 @@
         android:title="@string/search"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_tags"
+        android:icon="@drawable/ic_action_labels"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="@string/tags"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_action_new"
-        android:orderInCategory="100"
+        android:orderInCategory="150"
         app:showAsAction="always"
         android:title="@string/add_note"
         android:visible="false"/>
@@ -42,7 +49,7 @@
     <item
         android:id="@+id/menu_merge"
         android:icon="@drawable/ic_action_add_to_queue"
-        android:orderInCategory="200"
+        android:orderInCategory="250"
         app:showAsAction="ifRoom"
         android:title="@string/merge"
         android:visible="false" />
@@ -55,7 +62,7 @@
         android:visible="false"/>
     <item
         android:id="@+id/menu_category"
-        android:icon="@drawable/ic_action_labels"
+        android:icon="@drawable/ic_action_category"
         android:orderInCategory="320"
         app:showAsAction="always"
         android:title="@string/category"
@@ -129,7 +136,7 @@
         android:visible="false"/>
     <item
         android:id="@+id/menu_add_category"
-        android:icon="@drawable/ic_action_new_label"
+        android:icon="@drawable/ic_action_new_category"
         android:orderInCategory="700"
         app:showAsAction="always"
         android:title="@string/add_category"

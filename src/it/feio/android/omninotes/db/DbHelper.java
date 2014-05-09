@@ -17,15 +17,19 @@ package it.feio.android.omninotes.db;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.AssetUtils;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -538,6 +542,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		}		
 		return notes;
 	}
+
 	
 	
 	
@@ -546,11 +551,57 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @param categoryId Category integer identifier
 	 * @return List of notes with requested category
 	 */
-	public List<Note> getNotesByTag(String tagString) {	
-		// Select All Query
+	public List<String> getTags() {	
+		HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
+		
 		String whereCondition = " WHERE "
-								+ KEY_CONTENT + " LIKE '%" + tagString + "%' ";
-		return getNotes(whereCondition, true);
+								+ KEY_CONTENT + " LIKE '%#%' ";
+		List<Note> notes = getNotes(whereCondition, true);
+		
+		Pattern pattern = Pattern.compile("(#[a-zA-Z0-9_-]+)");		
+		for (Note note : notes) {
+			Matcher matcher = pattern.matcher(note.getContent());
+		    while (matcher.find()) {
+		    	tagsMap.put(matcher.group(), true);
+		    }
+		}
+		List<String> tags = new ArrayList<String>();
+		tags.addAll(tagsMap.keySet());
+		Collections.sort(tags);
+		return tags;
+	}
+	
+	
+	/**
+	 * Retrieves all notes related to category it passed as parameter
+	 * @param categoryId Category integer identifier
+	 * @return List of notes with requested category
+	 */
+	public List<Note> getNotesByTag(String tag) {	
+		ArrayList<String> tags = new ArrayList<String>();
+		if (tag.indexOf(",") != -1) {
+			return getNotesByTag(tag.split(","));
+		} else {
+			return getNotesByTag(new String[]{tag} );			
+		}
+	}
+	
+	/**
+	 * Retrieves all notes related to category it passed as parameter
+	 * @param categoryId Category integer identifier
+	 * @return List of notes with requested category
+	 */
+	public List<Note> getNotesByTag(String[] tags) {	
+		// Select All Query
+		StringBuilder whereCondition  = new StringBuilder();
+		whereCondition.append(" WHERE " + KEY_CONTENT);		
+		for (int i =0;i<tags.length;i++) {
+			if (i!=0) {
+				whereCondition.append(" OR " + KEY_CONTENT);
+			}
+			whereCondition.append(" LIKE '%" + tags[i] + "%' ");
+		}
+		return getNotes(whereCondition.toString(), true);
 	}
 	
 	
