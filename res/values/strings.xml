@@ -47,7 +47,7 @@
     <string name="note_trashed">Note(s) trashed</string>
     <string name="note_untrashed">Note(s) restored from trash</string>
     <string name="untrash">Restore from trash</string>  
-    <string name="delete">Delete permanently</string>    
+    <string name="delete">Delete</string>    
     <string name="note_deleted">Note(s) deleted permanently</string>
     <string name="archive">Archive</string>
     <string name="unarchive">Restore from archive</string>

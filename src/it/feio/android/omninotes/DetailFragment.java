@@ -209,6 +209,7 @@ public class DetailFragment extends Fragment implements
 	
 	private ScrollView scrollView;
 	private int contentLineCounter = 1;
+	public boolean goBack = false;
 
 
 	@Override
@@ -310,7 +311,10 @@ public class DetailFragment extends Fragment implements
 	public void onPause() {
 		super.onPause();
 		
-		saveNote(null, null);
+		// Checks "goBack" value to avoid performing a double saving
+		if (!goBack) {
+			saveNote(null, null);
+		}
 		
 		if (mRecorder != null) {
 			mRecorder.release();
@@ -1025,22 +1029,17 @@ public class DetailFragment extends Fragment implements
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			afterSavedReturnsToList = true;
+			goBack = true;
 			saveNote(null, this);
-			break;
-		case R.id.menu_archive:
-			saveNote(true, this);
-			break;
-		case R.id.menu_unarchive:
-			saveNote(false, this);
-			break;
-		case R.id.menu_share:
-			shareNote();
 			break;
 		case R.id.menu_attachment:
 			showPopup(mActivity.findViewById(R.id.menu_attachment));
 			break;
 		case R.id.menu_category:
 			tagNote();
+			break;
+		case R.id.menu_share:
+			shareNote();
 			break;
 		case R.id.menu_checklist_on:
 			toggleChecklist();
@@ -1057,8 +1056,17 @@ public class DetailFragment extends Fragment implements
 		case R.id.menu_add_shortcut:
 			addShortcut();
 			break;
+		case R.id.menu_archive:
+			saveNote(true, this);
+			break;
+		case R.id.menu_unarchive:
+			saveNote(false, this);
+			break;
 		case R.id.menu_trash:
-			deleteNote();
+			trashNote(true);
+			break;
+		case R.id.menu_untrash:
+			trashNote(false);
 			break;
 		case R.id.menu_discard_changes:
 			discard();
@@ -1606,48 +1614,28 @@ public class DetailFragment extends Fragment implements
 	
 
 	@SuppressLint("NewApi")
-	private void deleteNote() {
-
-		// Confirm dialog creation
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
-		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
-				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						// Simply return to the previous
-						// activity/fragment if it was a new note
-						if (noteTmp.get_id() == 0) {
-							goHome();
-							return;
-						}
-
-						// Saving changes to the note
-						DeleteNoteTask deleteNoteTask = new DeleteNoteTask(mActivity);
-						// Forceing parallel execution disabled by default
-						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-							deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
-						} else {
-							deleteNoteTask.execute(note);
-						}
-
-						// Informs the user about update
-						Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
-						Crouton.makeText(mActivity, getString(R.string.note_deleted), ONStyle.ALERT).show();
-						
-						MainActivity.notifyAppWidgets(mActivity);
-						
-						goHome();
-						return;
-					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-					}
-				});
-		AlertDialog alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
+	private void trashNote(boolean trashed) {
+		// Simply return to the previous
+		// activity/fragment if it was a new note
+		if (noteTmp.get_id() == 0) {
+			goHome();
+			return;
+		}
+	
+		noteTmp.setTrashed(trashed);
+		db.trashNote(noteTmp);
+	
+		// Informs the user about update
+		Log.d(Constants.TAG, "Trashed note with id '" + noteTmp.get_id() + "'");
+		if (trashed) {
+			Crouton.makeText(mActivity, getString(R.string.note_trashed), ONStyle.WARN).show();
+		} else {
+			Crouton.makeText(mActivity, getString(R.string.note_untrashed), ONStyle.INFO).show();
+		}
+		
+		MainActivity.notifyAppWidgets(mActivity);
+		
+		goHome();
 	}
 
 	/**
@@ -1667,7 +1655,7 @@ public class DetailFragment extends Fragment implements
 		
 		// Check if some text or attachments of any type have been inserted or
 		// is an empty note
-		if (noteTmp.isEmpty()) {
+		if (goBack && noteTmp.isEmpty()) {
 			Log.d(Constants.TAG, "Empty note not saved");
 			Crouton.makeText(mActivity, getString(R.string.empty_note_not_saved), ONStyle.INFO).show();
 			goHome();
@@ -1676,14 +1664,16 @@ public class DetailFragment extends Fragment implements
 		
 		// Checks if nothing is changed to avoid committing if possible (check)
 		if (!noteTmp.isChanged(note)) {
-			goHome();
+			onNoteSaved();
 			return;
 		}		
 		
-		// Checks if only tag has been changed and then force to not update 
-		// last modification date
+		// Checks if only tag, archive or trash status have been
+		// changed and then force to not update last modification date
 		boolean updateLastModification = true;
 		note.setCategory(noteTmp.getCategory());
+		note.setArchived(noteTmp.isArchived());
+		note.setTrashed(noteTmp.isTrashed());
 		if (!noteTmp.isChanged(note)) {
 			updateLastModification = false;
 		}		
@@ -1698,7 +1688,10 @@ public class DetailFragment extends Fragment implements
 		} else {
 			saveNoteTask.execute(noteTmp);
 		}
-
+		
+		// Note status is aligned with noteTmp saved right now
+		note = new Note(noteTmp);
+		
 		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
 		
 		MainActivity.notifyAppWidgets(mActivity);
@@ -1707,7 +1700,9 @@ public class DetailFragment extends Fragment implements
 
 	@Override
 	public void onNoteSaved() {
-		goHome();
+		if (goBack) {
+			goHome();
+		}
 	}
 	
 

@@ -1005,7 +1005,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		}
 
 		// Advice to user
-		Crouton.makeText(mActivity, trash ? R.string.note_trashed : R.string.note_untrashed, ONStyle.WARN).show();
+		if (trash) {
+			Crouton.makeText(mActivity, getString(R.string.note_trashed), ONStyle.WARN).show();
+		} else {
+			Crouton.makeText(mActivity, getString(R.string.note_untrashed), ONStyle.INFO).show();
+		}
 
 		// Creation of undo bar
 		if (trash) {

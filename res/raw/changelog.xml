@@ -21,6 +21,8 @@
         <changelogtext>[b]New![/b] Trash is now available to perform one step more before permanently destroy your notes!</changelogtext>  
         <changelogtext>[b]New![/b] Automatic and faster note saving</changelogtext>   
         <changelogtext>The order of note editor menu actions is changed a little to improve its efficiency</changelogtext>   
+        <changelogtext>Moving notes to archive or trash and restoring them will no more affect last modification date</changelogtext>   
+  		<changelogtext>[u]Fixed[/u] Crashes when note is auto-saved and attachments replication issues introduced in last beta release</changelogtext>    
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 2" changeDate="May 8 2014">
