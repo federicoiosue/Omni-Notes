@@ -419,7 +419,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	public void trashNote(Note note) {
 		note.setTrashed(true);
-		updateNote(note, true);
+		updateNote(note, false);
 	}
 	
 	
@@ -429,7 +429,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	public void untrashNote(Note note) {
 		note.setTrashed(false);
-		updateNote(note, true);
+		updateNote(note, false);
 	}
 
 	
