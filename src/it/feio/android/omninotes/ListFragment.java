@@ -49,7 +49,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -111,7 +110,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private AnimationDrawable jinglesAnimation;
 	private int listViewPosition;
 	private int listViewPositionOffset;
-	private boolean undoDelete = false, undoArchive = false;
+	private boolean undoTrash = false, undoArchive = false;
 	private UndoBarController ubc;
 	private boolean sendToArchive;
 	private MainActivity mActivity;
@@ -346,14 +345,21 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
 			boolean notes = getResources().getStringArray(R.array.navigation_list_codes)[0]
 					.equals(mActivity.navigation);
-			boolean archived = getResources().getStringArray(R.array.navigation_list_codes)[1]
+			boolean archive = getResources().getStringArray(R.array.navigation_list_codes)[1]
+					.equals(mActivity.navigation);
+			boolean trash = getResources().getStringArray(R.array.navigation_list_codes)[3]
 					.equals(mActivity.navigation);
 
-			menu.findItem(R.id.menu_archive).setVisible(notes);
-			menu.findItem(R.id.menu_unarchive).setVisible(archived);
-			menu.findItem(R.id.menu_category).setVisible(true);
-			menu.findItem(R.id.menu_delete).setVisible(true);
-			menu.findItem(R.id.menu_settings).setVisible(false);
+			if (trash) {
+				menu.findItem(R.id.menu_untrash).setVisible(true);
+				menu.findItem(R.id.menu_delete).setVisible(true);
+			} else {
+				menu.findItem(R.id.menu_archive).setVisible(notes);
+				menu.findItem(R.id.menu_unarchive).setVisible(archive);
+				menu.findItem(R.id.menu_category).setVisible(true);
+				menu.findItem(R.id.menu_trash).setVisible(true);
+				menu.findItem(R.id.menu_settings).setVisible(false);
+			}
 			return true;
 		}
 
@@ -361,14 +367,14 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			// Respond to clicks on the actions in the CAB
 			switch (item.getItemId()) {
+			case R.id.menu_category:
+				categorizeSelectedNotes();
+				return true;
 			case R.id.menu_share:
 				share();
 				return true;
 			case R.id.menu_merge:
 				merge();
-				return true;
-			case R.id.menu_delete:
-				deleteSelectedNotes();
 				return true;
 			case R.id.menu_archive:
 				archiveSelectedNotes(true);
@@ -378,8 +384,14 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				archiveSelectedNotes(false);
 				mode.finish();
 				return true;
-			case R.id.menu_category:
-				categorizeSelectedNotes();
+			case R.id.menu_trash:
+				trashSelectedNotes(true);
+				return true;
+			case R.id.menu_untrash:
+				trashSelectedNotes(false);
+				return true;
+			case R.id.menu_delete:
+				deleteSelectedNotes();
 				return true;
 			default:
 				return false;
@@ -408,8 +420,14 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		
 		// Edit menu
 		boolean singleSelection = selectedNotes.size() == 1;
-		mActionMode.getMenu().findItem(R.id.menu_share).setVisible(singleSelection);
-		mActionMode.getMenu().findItem(R.id.menu_merge).setVisible(!singleSelection);
+		
+		// Checks if we're in trash
+		boolean trash = getResources().getStringArray(R.array.navigation_list_codes)[3]
+				.equals(mActivity.navigation);
+		if (!trash) {
+			mActionMode.getMenu().findItem(R.id.menu_share).setVisible(singleSelection);
+			mActionMode.getMenu().findItem(R.id.menu_merge).setVisible(!singleSelection);
+		}
 		
 		// Close CAB if no items are selected
 		if (selectedNotes.size() == 0) {
@@ -927,13 +945,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 							listView.invalidateViews();
 
 							// Advice to user
-							Crouton.makeText(mActivity, R.string.note_deleted,
-									ONStyle.ALERT).show();
+							Crouton.makeText(mActivity, R.string.note_trashed,
+									ONStyle.WARN).show();
 
 							// Creation of undo bar
 							ubc.showUndoBar(false,
-									getString(R.string.note_deleted), null);
-							undoDelete = true;
+									getString(R.string.note_trashed), null);
+							undoTrash = true;
 						}
 					}
 				});
@@ -959,17 +977,20 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				getResources().getInteger(R.integer.list_view_fade_anim))
 				.alpha(1);
 	}
-	
-	
+		
 
 	
 	/**
-	 * Batch note deletion
+	 * Batch note trashing
 	 */
-	public void deleteSelectedNotes() {
+	public void trashSelectedNotes(boolean trash) {
 		int selectedNotesSize = selectedNotes.size();
 		for (Note note : selectedNotes) {
 			mAdapter.remove(note);
+			// Restore it performed immediately, otherwise undo bar
+			if (!trash) {
+				trashNote(note, false);
+			}
 		}
 		// Refresh view
 		ListView l = (ListView) mActivity.findViewById(R.id.notes_list);
@@ -984,16 +1005,88 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		}
 
 		// Advice to user
-		Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
+		Crouton.makeText(mActivity, trash ? R.string.note_trashed : R.string.note_untrashed, ONStyle.WARN).show();
 
 		// Creation of undo bar
-		ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.deleted), null);
-		undoDelete = true;
+		if (trash) {
+			ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.trashed), null);
+			undoTrash = true;
+		} else {
+			selectedNotes.clear();
+		}
 	}
 
 	
 	/**
-	 * Single note deletion
+	 * Single note logical deletion
+	 * 
+	 * @param note
+	 *            Note to be deleted
+	 */
+	@SuppressLint("NewApi")
+	protected void trashNote(Note note, boolean trash) {
+		if (trash) {
+			db.trashNote(note);
+		} else {
+			db.untrashNote(note);
+		}
+		// Update adapter content
+		mAdapter.remove(note);
+		// Informs about update
+		Log.d(Constants.TAG, "Trashed/restored note with id '" + note.get_id() + "'");
+	}
+	
+
+	
+	/**
+	 * Batch note permanent deletion
+	 */
+	private void deleteSelectedNotes() {
+		// Confirm dialog creation
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
+				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						deleteSelectedNotes2();
+					}
+				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {}
+				});
+		alertDialogBuilder.create().show();
+	}	
+	
+	
+	/**
+	 * Performs notes permanent deletion after confirmation by the user
+	 */
+	private void deleteSelectedNotes2() {
+		for (Note note : selectedNotes) {
+			mAdapter.remove(note);
+			deleteNote(note);
+		}	
+		selectedNotes.clear();
+		
+		// Refresh view
+		ListView l = (ListView) mActivity.findViewById(R.id.notes_list);
+		l.invalidateViews();
+	
+		// If list is empty again Mr Jingles will appear again
+		if (l.getCount() == 0)
+			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
+	
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
+	
+		// Advice to user
+		Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
+	}
+
+		
+	/**
+	 * Single note permanent deletion
 	 * 
 	 * @param note
 	 *            Note to be deleted
@@ -1003,18 +1096,15 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Saving changes to the note
 		DeleteNoteTask deleteNoteTask = new DeleteNoteTask(mActivity);
-		// Forceing parallel execution disabled by default
+		// Forcing parallel execution disabled by default
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
 		} else {
 			deleteNoteTask.execute(note);
 		}
 
-		// Update adapter content
-		mAdapter.remove(note);
-
 		// Informs about update
-		Log.d(Constants.TAG, "Deleted note with id '" + note.get_id() + "'");
+		Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
 	}
 
 	
@@ -1182,7 +1272,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 	@Override
 	public void onUndo(Parcelable token) {
-		undoDelete = false;
+		undoTrash = false;
 		undoArchive = false;
 		Crouton.cancelAllCroutons();
 		selectedNotes.clear();
@@ -1195,16 +1285,16 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 	
 	void commitPending() {
-		if (undoDelete || undoArchive) {
+		if (undoTrash || undoArchive) {
 
 			for (Note note : selectedNotes) {
-				if (undoDelete)
-					deleteNote(note);
+				if (undoTrash)
+					trashNote(note, true);
 				else if (undoArchive)
 					archiveNote(note, sendToArchive);
 			}
 
-			undoDelete = false;
+			undoTrash = false;
 			undoArchive = false;
 
 			// Clears data structures

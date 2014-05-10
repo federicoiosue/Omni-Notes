@@ -962,18 +962,25 @@ public class DetailFragment extends Fragment implements
 	
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		menu.findItem(R.id.menu_share).setVisible(true);
-		menu.findItem(R.id.menu_attachment).setVisible(true);
-		menu.findItem(R.id.menu_category).setVisible(true);
-		menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
-		menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
-		menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
-		menu.findItem(R.id.menu_unlock).setVisible(noteTmp.isLocked());
-		menu.findItem(R.id.menu_add_shortcut).setVisible(noteTmp.get_id() != 0);
-		menu.findItem(R.id.menu_delete).setVisible(true);
-		menu.findItem(R.id.menu_discard_changes).setVisible(true);
-		menu.findItem(R.id.menu_archive).setVisible(!noteTmp.isArchived());
-		menu.findItem(R.id.menu_unarchive).setVisible(noteTmp.isArchived());
+		// If note is trashed only this options will be available from menu
+		if(noteTmp.isTrashed()) {
+			menu.findItem(R.id.menu_untrash).setVisible(true);
+			menu.findItem(R.id.menu_delete).setVisible(true);
+		// Otherwise all other actions will be available
+		} else {
+			menu.findItem(R.id.menu_share).setVisible(true);
+			menu.findItem(R.id.menu_attachment).setVisible(true);
+			menu.findItem(R.id.menu_category).setVisible(true);
+			menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
+			menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
+			menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
+			menu.findItem(R.id.menu_unlock).setVisible(noteTmp.isLocked());
+			menu.findItem(R.id.menu_add_shortcut).setVisible(noteTmp.get_id() != 0);
+			menu.findItem(R.id.menu_discard_changes).setVisible(true);
+			menu.findItem(R.id.menu_archive).setVisible(!noteTmp.isArchived());
+			menu.findItem(R.id.menu_unarchive).setVisible(noteTmp.isArchived());
+			menu.findItem(R.id.menu_trash).setVisible(true);
+		}
 	}
 
 	
@@ -1050,7 +1057,7 @@ public class DetailFragment extends Fragment implements
 		case R.id.menu_add_shortcut:
 			addShortcut();
 			break;
-		case R.id.menu_delete:
+		case R.id.menu_trash:
 			deleteNote();
 			break;
 		case R.id.menu_discard_changes:

@@ -57,3 +57,6 @@ build/
 atlassian-ide-plugin.xml
 /project.properties
 /lint.xml
+
+# Unix temp lock files
+*~

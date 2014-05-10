@@ -32,6 +32,7 @@ CREATE
 		title TEXT,
 		content TEXT,
 		archived INTEGER,
+		trashed INTEGER,
 		alarm INTEGER DEFAULT null,
 		latitude REAL,
 		longitude REAL,

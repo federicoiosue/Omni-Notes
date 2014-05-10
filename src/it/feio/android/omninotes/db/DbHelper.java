@@ -59,6 +59,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String KEY_TITLE = "title";
 	public static final String KEY_CONTENT = "content";
 	public static final String KEY_ARCHIVED = "archived";
+	public static final String KEY_TRASHED = "trashed";
 	public static final String KEY_ALARM = "alarm";
 	public static final String KEY_LATITUDE = "latitude";
 	public static final String KEY_LONGITUDE = "longitude";
@@ -164,8 +165,10 @@ public class DbHelper extends SQLiteOpenHelper {
 		values.put(KEY_CONTENT, note.getContent());
 		values.put(KEY_LAST_MODIFICATION, updateLastModification ? Calendar
 				.getInstance().getTimeInMillis() : note.getLastModification());
-		boolean archive = note.isArchived() != null ? note.isArchived() : false;
-		values.put(KEY_ARCHIVED, archive);
+//		boolean archive = note.isArchived() != null ? note.isArchived() : false;
+//		values.put(KEY_ARCHIVED, archive);
+		values.put(KEY_ARCHIVED, note.isArchived());
+		values.put(KEY_TRASHED, note.isTrashed());
 		values.put(KEY_ALARM, note.getAlarm());
 		values.put(KEY_LATITUDE, note.getLatitude());
 		values.put(KEY_LONGITUDE, note.getLongitude());
@@ -242,35 +245,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	public Note getNote(int id) {
 
-//		String query = "SELECT " + KEY_ID + "," + KEY_CREATION + "," + KEY_LAST_MODIFICATION + "," + KEY_TITLE + ","
-//				+ KEY_CONTENT + "," + KEY_ARCHIVED + "," + KEY_ALARM + "," + KEY_LATITUDE + "," + KEY_LONGITUDE + ","
-//				+ KEY_CATEGORY + " FROM " + TABLE_NOTES + " LEFT JOIN " + TABLE_TAGS + " ON " + KEY_CATEGORY + " = " + KEY_CATEGORY_ID;
-//
-//		SQLiteDatabase db = null;
-//		Cursor cursor = null;
-//		Note note = null;
-//		try {
-//			db = getReadableDatabase();
-//			cursor = db.rawQuery(query, null);
-//			if (cursor != null) {
-//				cursor.moveToFirst();
-//
-//				int i = 0;
-//				note = new Note(Integer.parseInt(cursor.getString(i++)), cursor.getLong(i++), cursor.getLong(i++),
-//						cursor.getString(i++), cursor.getString(i++), cursor.getInt(i++), cursor.getString(i++),
-//						cursor.getString(i++), cursor.getString(i++), getCategory(Integer.parseInt(cursor.getString(i++))),
-//						cursor.getInt(i++), cursor.getInt(i++));
-//
-//				// Add eventual attachments uri
-//				note.setAttachmentsList(getNoteAttachments(note));
-//
-//			}
-//		} finally {
-//			cursor.close();
-//			db.close();
-//		}
-//		return note;
-		
 		String whereCondition = " WHERE "
 								+ KEY_ID + " = " + id;
 		
@@ -303,11 +277,13 @@ public class DbHelper extends SQLiteOpenHelper {
 		boolean notes = navigationListCodes[0].equals(navigation);
 		boolean archived = navigationListCodes[1].equals(navigation);
 		boolean reminders = navigationListCodes[2].equals(navigation);
-		boolean category = !notes && ! archived && !reminders;		
+		boolean trashed = navigationListCodes[3].equals(navigation);
+		boolean category = !notes && ! archived && !reminders && !trashed;		
 		if (checkNavigation) {
-			whereCondition = notes ? " WHERE " + KEY_ARCHIVED + " != 1 " : whereCondition;			
+			whereCondition = notes ? " WHERE " + KEY_ARCHIVED + " != 1 AND " + KEY_TRASHED + " != 1" : whereCondition;			
 			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 " : whereCondition;
-			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 " : whereCondition;
+			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 " : whereCondition;	
+			whereCondition = trashed ? " WHERE " + KEY_TRASHED + " = 1 " : whereCondition;
 			whereCondition = category ? " WHERE " + TABLE_NOTES + "." + KEY_CATEGORY + " = " + navigation : whereCondition;
 		}		
 		return getNotes(whereCondition, true);
@@ -345,6 +321,7 @@ public class DbHelper extends SQLiteOpenHelper {
 						+ KEY_TITLE + "," 
 						+ KEY_CONTENT + "," 
 						+ KEY_ARCHIVED + "," 
+						+ KEY_TRASHED + "," 
 						+ KEY_ALARM + "," 
 						+ KEY_LATITUDE + "," 
 						+ KEY_LONGITUDE + "," 
@@ -378,6 +355,7 @@ public class DbHelper extends SQLiteOpenHelper {
 					note.setTitle(cursor.getString(i++));
 					note.setContent(cursor.getString(i++));
 					note.setArchived("1".equals(cursor.getString(i++)));
+					note.setTrashed("1".equals(cursor.getString(i++)));
 					note.setAlarm(cursor.getString(i++));		
 					note.setLatitude(cursor.getString(i++));
 					note.setLongitude(cursor.getString(i++));
@@ -431,6 +409,27 @@ public class DbHelper extends SQLiteOpenHelper {
 				db.close();
 		}
 		return count;
+	}
+
+	
+	
+	/**
+	 * Trashes single note
+	 * @param note
+	 */
+	public void trashNote(Note note) {
+		note.setTrashed(true);
+		updateNote(note, true);
+	}
+	
+	
+	/**
+	 * Trashes single note
+	 * @param note
+	 */
+	public void untrashNote(Note note) {
+		note.setTrashed(false);
+		updateNote(note, true);
 	}
 
 	

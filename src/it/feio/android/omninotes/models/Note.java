@@ -32,6 +32,7 @@ public class Note implements Parcelable {
 	private Long creation;
 	private Long lastModification;
 	private Boolean archived;
+	private Boolean trashed;
 	private String alarm;
 	private Double latitude;
 	private Double longitude;
@@ -50,11 +51,12 @@ public class Note implements Parcelable {
 		this.title = "";
 		this.content = "";
 		this.archived = false;
+		this.trashed = false;
 		this.locked = false;
 		this.checklist = false;
 	}
 	
-	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived,
+	public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived, Integer trashed,
 			String alarm, String latitude, String longitude, Category category, Integer locked, Integer checklist) {
 		super();
 		this._id = _id;
@@ -63,6 +65,7 @@ public class Note implements Parcelable {
 		this.creation = creation;
 		this.lastModification = lastModification;
 		this.archived = archived == 1 ? true : false;
+		this.trashed = trashed == 1 ? true : false;
 		this.alarm = alarm;
 		setLatitude(latitude);
 		setLongitude(longitude);
@@ -79,6 +82,7 @@ public class Note implements Parcelable {
 		setCreation(note.getCreation());
 		setLastModification(note.getLastModification());
 		setArchived(note.isArchived());
+		setTrashed(note.isTrashed());
 		setAlarm(note.getAlarm());
 		setLatitude(note.getLatitude());
 		setLongitude(note.getLongitude());
@@ -99,6 +103,7 @@ public class Note implements Parcelable {
 		setTitle(in.readString());
 		setContent(in.readString());
 		setArchived(in.readInt());
+		setTrashed(in.readInt());
 		setAlarm(in.readString());
 		setLatitude(in.readString());
 		setLongitude(in.readString());
@@ -186,6 +191,18 @@ public class Note implements Parcelable {
 
 	public void setArchived(int archived) {
 		this.archived = archived == 1 ? true : false;
+	}
+
+	public Boolean isTrashed() {
+		return trashed == null || trashed == false ? false : true;
+	}
+
+	public void setTrashed(Boolean trashed) {
+		this.trashed = trashed;
+	}
+
+	public void setTrashed(int trashed) {
+		this.trashed = trashed == 1 ? true : false;
 	}
 
 	public String getAlarm() {
@@ -327,8 +344,8 @@ public class Note implements Parcelable {
 			return res;
 		}
 
-		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), getAlarm(), getLatitude(), getLongitude(), getCategory(), isLocked(), isChecklist()};
-		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.getAlarm(), note.getLatitude(), note.getLongitude(), note.getCategory(), note.isLocked(), note.isChecklist()};
+		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), isTrashed(), getAlarm(), getLatitude(), getLongitude(), getCategory(), isLocked(), isChecklist()};
+		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.isTrashed(), note.getAlarm(), note.getLatitude(), note.getLongitude(), note.getCategory(), note.isLocked(), note.isChecklist()};
 		if (EqualityChecker.check(a, b)) {
 			res = true;		
 		}
@@ -374,6 +391,7 @@ public class Note implements Parcelable {
 		parcel.writeString(getTitle());
 		parcel.writeString(getContent());
 		parcel.writeInt(isArchived() ? 1 : 0);
+		parcel.writeInt(isTrashed() ? 1 : 0);
 		parcel.writeString(getAlarm());
 		parcel.writeString(String.valueOf(getLatitude()));
 		parcel.writeString(String.valueOf(getLongitude()));

@@ -122,10 +122,10 @@ public class NavigationDrawerFragment extends Fragment {
 		// Sets the adapter for the TAGS navigation list view
 
 		// Retrieves data to fill tags list
-		ArrayList<Category> tags = db.getCategories();
+		ArrayList<Category> categories = db.getCategories();
 
 		mDrawerTagList = (ListView) getView().findViewById(R.id.drawer_tag_list);
-		if (tags.size() > 0) {
+		if (categories.size() > 0) {
 			// Inflation of header view
 			LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			if (tagListHeader == null) {
@@ -137,7 +137,7 @@ public class NavigationDrawerFragment extends Fragment {
 				mDrawerTagList.addHeaderView(tagListHeader);
 				mDrawerTagList.setHeaderDividersEnabled(true);
 			}
-			mDrawerTagList.setAdapter(new NavDrawerCategoryAdapter(mActivity, tags, mActivity.navigationTmp));
+			mDrawerTagList.setAdapter(new NavDrawerCategoryAdapter(mActivity, categories, mActivity.navigationTmp));
 
 			// Sets click events
 			mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {

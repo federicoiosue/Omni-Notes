@@ -39,11 +39,16 @@
     <string name="content">Content</string>
     <string name="save">Save</string>
     <string name="share">Share</string>
-    <string name="archive">Archive</string>
     <string name="undo">Undo</string>
-    <string name="undo_message">Undo delete</string>
+    <string name="trash">Trash</string>
+    <string name="trashed">trashed</string>
+    <string name="note_trashed">Note(s) trashed</string>
+    <string name="note_untrashed">Note(s) restored from trash</string>
+    <string name="untrash">Restore from trash</string>  
+    <string name="delete">Delete permanently</string>    
+    <string name="note_deleted">Note(s) deleted permanently</string>
+    <string name="archive">Archive</string>
     <string name="unarchive">Restore from archive</string>
-    <string name="delete">Delete</string>
     <string name="creation">Created:</string>
     <string name="last_update">Updated:</string>
     <string name="delete_note_confirmation">Confirm note deletion?</string>
@@ -54,7 +59,6 @@
     <string name="empty_note_not_shared">Can\'t share an empty note</string>
     <string name="note_archived">Note archived</string>
     <string name="note_unarchived">Note restored from archive</string>
-    <string name="note_deleted">Note deleted</string>
     <string name="note">Note</string>
     <string name="share_message_chooser">Share with</string>
     <string name="shared_content_sign">\n【by Omni Notes】</string>
