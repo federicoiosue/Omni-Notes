@@ -40,7 +40,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/eraser"
-                android:src="@drawable/ic_action_remove" />
+                android:src="@drawable/ic_eraser" />
 
             <ImageView
                 android:id="@+id/sketch_undo"
