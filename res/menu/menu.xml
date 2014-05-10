@@ -122,7 +122,7 @@
         android:visible="false"/>
     <item
         android:id="@+id/menu_untrash"
-        android:icon="@drawable/ic_action_discard"
+        android:icon="@drawable/ic_action_untrash"
         android:orderInCategory="1100"
         app:showAsAction="ifRoom"
         android:title="@string/untrash"
