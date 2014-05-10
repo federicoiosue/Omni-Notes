@@ -1182,11 +1182,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// Retrieves all available categories
 		final ArrayList<Category> categories = db.getCategories();
 
-		// If there is no category a message will be shown
-		if (categories.size() == 0) {
-			Crouton.makeText(mActivity, R.string.no_categories_created, ONStyle.WARN).show();
-		}
-
 		// A single choice dialog will be displayed
 		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
 		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
