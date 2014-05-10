@@ -280,7 +280,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		boolean trashed = navigationListCodes[3].equals(navigation);
 		boolean category = !notes && ! archived && !reminders && !trashed;		
 		if (checkNavigation) {
-			whereCondition = notes ? " WHERE " + KEY_ARCHIVED + " != 1 AND " + KEY_TRASHED + " != 1" : whereCondition;			
+			whereCondition = notes ? " WHERE " + KEY_ARCHIVED + " IS NOT 1 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;			
 			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 " : whereCondition;
 			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 " : whereCondition;	
 			whereCondition = trashed ? " WHERE " + KEY_TRASHED + " = 1 " : whereCondition;
