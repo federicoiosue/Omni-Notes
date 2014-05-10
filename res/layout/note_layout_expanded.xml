@@ -40,10 +40,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-   			android:minHeight="100dp"
+            android:minHeight="100dp"
             android:orientation="vertical"
             android:paddingBottom="7dp"
+            android:paddingStart="6dp"
             android:paddingLeft="6dp"
+            android:paddingEnd="16dp"
             android:paddingRight="16dp"
             android:paddingTop="7dp" >
 
