@@ -16,13 +16,12 @@ The project was created by the absence of such applications compatible with old 
 Actually the following functions are implemented:
 
 * Android KitKat-ready appearance
-* Add, modify, delete notes
-* Manage active, archived notes and filter the ones with reminder
-* Share notes
-* Use tags to organize notes and add them some color
+* Manage active, archived, trashed notes and filter the ones with reminder
+* Add, modify, share notes
+* Use categories to organize notes and add them some color
 * Mask notes to avoid others to look at that without having the password
-* Note searching and optimized search-as-you-type
-* Batch operations choosing multiple notes: merge, archive, delete
+* Note searching by text or tags and optimized search-as-you-type mode
+* Batch operations choosing multiple notes: merge, archive, trash, delete
 * Export/import notes and settings to safe backup folder
 * Multimedia attachments: all file types are supported!
 * Sketch mode to add hand made drawings or notes
@@ -56,11 +55,13 @@ You can find a complete changelog inside the application settings menu!
 
 ##Dependencies
 
-* https://github.com/gabrielemariotti/changeloglib
-* https://github.com/LarsWerkman/HoloColorPicker
 * https://github.com/derekbrameyer/android-betterpickers
+* https://github.com/gabrielemariotti/changeloglib
 * https://github.com/federicoiosue/CheckListView
+* https://github.com/LarsWerkman/HoloColorPicker
 * https://github.com/keyboardsurfer
+* https://github.com/federicoiosue/SimpleGallery
+* https://github.com/federicoiosue/PixlUI
 
 
 ##Developed By
