@@ -1324,8 +1324,8 @@ public class DetailFragment extends Fragment implements
 		android.widget.TextView cameraSelection = (android.widget.TextView) layout.findViewById(R.id.camera);
 		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Gallery
-		android.widget.TextView gallerySelection = (android.widget.TextView) layout.findViewById(R.id.gallery);
-		gallerySelection.setOnClickListener(new AttachmentOnClickListener());
+//		android.widget.TextView gallerySelection = (android.widget.TextView) layout.findViewById(R.id.gallery);
+//		gallerySelection.setOnClickListener(new AttachmentOnClickListener());
 		// Audio recording
 		android.widget.TextView recordingSelection = (android.widget.TextView) layout.findViewById(R.id.recording);
 		recordingSelection.setOnClickListener(new AttachmentOnClickListener());
@@ -1365,20 +1365,20 @@ public class DetailFragment extends Fragment implements
 				attachmentDialog.dismiss();
 				break;
 			// Image from gallery
-			case R.id.gallery:
-				Intent galleryIntent;
-				if (Build.VERSION.SDK_INT >= 19) {
-//					galleryIntent = new Intent(Intent.ACTION_PICK,
-//							android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-					takeGalleryKitKat();
-				} else {
-					galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-					galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
-					galleryIntent.setType("*/*");
-					startActivityForResult(galleryIntent, GALLERY);
-				}
-				attachmentDialog.dismiss();
-				break;
+//			case R.id.gallery:
+//				Intent galleryIntent;
+//				if (Build.VERSION.SDK_INT >= 19) {
+////					galleryIntent = new Intent(Intent.ACTION_PICK,
+////							android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//					takeGalleryKitKat();
+//				} else {
+//					galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//					galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
+//					galleryIntent.setType("*/*");
+//					startActivityForResult(galleryIntent, GALLERY);
+//				}
+//				attachmentDialog.dismiss();
+//				break;
 			// Microphone recording
 			case R.id.recording:
 				if (!isRecording) {
@@ -1664,7 +1664,7 @@ public class DetailFragment extends Fragment implements
 		
 		// Checks if nothing is changed to avoid committing if possible (check)
 		if (!noteTmp.isChanged(note)) {
-			onNoteSaved();
+			onNoteSaved(noteTmp);
 			return;
 		}		
 		
@@ -1699,7 +1699,8 @@ public class DetailFragment extends Fragment implements
 
 
 	@Override
-	public void onNoteSaved() {
+	public void onNoteSaved(Note noteSaved) {
+		noteTmp = new Note(noteSaved);
 		if (goBack) {
 			goHome();
 		}

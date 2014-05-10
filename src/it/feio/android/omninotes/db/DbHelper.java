@@ -209,9 +209,9 @@ public class DbHelper extends SQLiteOpenHelper {
 				valuesAttachments.put(KEY_ATTACHMENT_NAME, attachment.getName());
 				valuesAttachments.put(KEY_ATTACHMENT_SIZE, attachment.getSize());
 				valuesAttachments.put(KEY_ATTACHMENT_LENGTH, attachment.getLength());
-				resAttachment = db.insert(TABLE_ATTACHMENTS, null, valuesAttachments);
-				Log.d(Constants.TAG, "Saved new attachment with uri '"
-						+ attachment.getUri().toString() + "' with id: " + resAttachment);
+				attachment.setId((int) db.insert(TABLE_ATTACHMENTS, null, valuesAttachments));
+//				Log.d(Constants.TAG, "Saved new attachment with uri '"
+//						+ attachment.getUri().toString() + "' with id: " + attachment.getId());
 			} else {
 				deletedAttachments.remove(attachment);
 			}

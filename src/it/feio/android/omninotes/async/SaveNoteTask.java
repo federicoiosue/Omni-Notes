@@ -80,7 +80,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		}
 
 		if (this.mOnNoteSaved != null) {
-			mOnNoteSaved.onNoteSaved();
+			mOnNoteSaved.onNoteSaved(note);
 		}
 		// Return back to parent activity now that the heavy work is done to speed up interface
 //		if (isAlive(mDetailFragmentReference)) {
