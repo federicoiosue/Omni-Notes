@@ -36,6 +36,8 @@ Further developments will include:
 
 You can find a complete changelog inside the application settings menu!
 
+If you need some help on how to use the application you'll find everything you need into the [Help Online](etc/help/help.md)
+
 [<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_00.png">][3]
 [<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_01.png">][4]
 [<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_02.png">][5]
