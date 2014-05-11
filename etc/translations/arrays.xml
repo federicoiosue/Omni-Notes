@@ -20,6 +20,7 @@
         <item>Notes</item>
         <item>Archive</item>
         <item>Reminders</item>
+        <item>Trash</item>
     </string-array>
 
     <string-array name="sortable_columns_human_readable">
@@ -55,6 +56,7 @@
         <item >Large</item>
         <item >Largest</item>
     </string-array>
+        
     
     
 

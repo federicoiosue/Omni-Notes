@@ -21,15 +21,14 @@ import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListView;
 import it.feio.android.omninotes.async.AttachmentTask;
-import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.ImageAndTextItem;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
@@ -89,6 +88,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -547,7 +547,7 @@ public class DetailFragment extends Fragment implements
 		// Sets onTouchListener to the whole activity to swipe notes
 		root = (ViewGroup) getView().findViewById(R.id.detail_root);
 		root.setOnTouchListener(this);
-		
+				
 		// ScrollView container
 		scrollView = (ScrollView) getView().findViewById(R.id.content_wrapper);
 		
@@ -966,6 +966,13 @@ public class DetailFragment extends Fragment implements
 	
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
+		
+		// Closes search view if left open in List fragment
+		MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
+		if (searchMenuItem != null) {		
+			MenuItemCompat.collapseActionView(searchMenuItem);
+		}
+		
 		// If note is trashed only this options will be available from menu
 		if(noteTmp.isTrashed()) {
 			menu.findItem(R.id.menu_untrash).setVisible(true);
@@ -1700,7 +1707,7 @@ public class DetailFragment extends Fragment implements
 
 	@Override
 	public void onNoteSaved(Note noteSaved) {
-		noteTmp = new Note(noteSaved);
+//		noteTmp = new Note(noteSaved);
 		if (goBack) {
 			goHome();
 		}

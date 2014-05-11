@@ -16,9 +16,10 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.6.0 Beta 3" changeDate="May 10 2014">
+    <changelogversion versionName="4.6.0 Beta 3" changeDate="May 11 2014">
         <changelogtext>[b]New![/b] Real tags!! Old tags are now Categories and tags are now managed directly by inserting "#..." into notes content. You can filter by tag using the tag icon when in search mode</changelogtext>
         <changelogtext>[b]New![/b] Trash is now available to perform one step more before permanently destroy your notes!</changelogtext>  
+        <changelogtext>[b]New![/b] Persistent search results on Ice Scream Sandwitch and newer devices (search query can't be unfortunately restored if I want to keep retrocompatibility)</changelogtext>   
         <changelogtext>[b]New![/b] Automatic and faster note saving</changelogtext>   
         <changelogtext>The order of note editor menu actions is changed a little to improve its efficiency</changelogtext>   
         <changelogtext>Moving notes to archive or trash and restoring them will no more affect last modification date</changelogtext>   

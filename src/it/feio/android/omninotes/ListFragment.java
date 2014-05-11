@@ -117,6 +117,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private SharedPreferences prefs;
 	private DbHelper db;
 	private ListFragment mFragment;
+	private String searchQuery;
 
 	
 	@Override
@@ -243,9 +244,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	@Override
 	public void onPause() {
 		super.onPause();
-//		if (searchView != null && searchView.isEnabled()) {
-//			MenuItemCompat.collapseActionView(searchMenuItem);
-//		}
 		
 		commitPending();
 		stopJingles();
@@ -547,6 +545,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * 
 	 * @param menu
 	 */
+//	@SuppressLint("NewApi")
+	@SuppressLint("NewApi")
 	private void initSearchView(final Menu menu) {
 
 		// Save item as class attribute to make it collapse on drawer opening
@@ -562,27 +562,26 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				Log.d(Constants.TAG, "Search focus");
+//				Log.d(Constants.TAG, "Search focus");
+//				 searchView.setIconified(!hasFocus);
+//				MenuItemCompat.collapseActionView(searchMenuItem);
 				menu.findItem(R.id.menu_add).setVisible(!hasFocus);
 				menu.findItem(R.id.menu_sort).setVisible(!hasFocus);
 				menu.findItem(R.id.menu_contracted_view).setVisible(!hasFocus);
 				menu.findItem(R.id.menu_expanded_view).setVisible(!hasFocus);
 				menu.findItem(R.id.menu_tags).setVisible(hasFocus);
-				// searchView.setIconified(!hasFocus);
+				menu.findItem(R.id.menu_settings).setVisible(!hasFocus);
 			}
 		});
 
-		// Sets events on searchView closing to restore full notes list
-		MenuItem menuItem = menu.findItem(R.id.menu_search);
-
-		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-		if (currentapiVersion >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
 
 				@Override
 				public boolean onMenuItemActionCollapse(MenuItem item) {
 					// Reinitialize notes list to all notes when search is
 					// collapsed
+					searchQuery = null;
 					Log.i(Constants.TAG, "onMenuItemActionCollapse " + item.getItemId());
 					mActivity.getIntent().setAction(Intent.ACTION_MAIN);
 					initNotesList(mActivity.getIntent());
@@ -592,9 +591,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				@Override
 				public boolean onMenuItemActionExpand(MenuItem item) {
 					Log.i(Constants.TAG, "onMenuItemActionExpand " + item.getItemId());
-
+					
 					searchView.setOnQueryTextListener(new OnQueryTextListener() {
-
 						@Override
 						public boolean onQueryTextSubmit(String arg0) {
 							if (prefs.getBoolean("settings_instant_search", false)) {
@@ -611,6 +609,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 //								i.setAction(Intent.ACTION_SEARCH);
 //								i.putExtra(SearchManager.QUERY, pattern);
 //								startActivity(i);
+								searchQuery = pattern;
 								NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
 								mNoteLoaderTask.execute("getMatchingNotes", pattern);
 								return true;
@@ -625,7 +624,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		} else {
 			// Do something for phones running an SDK before froyo
 			searchView.setOnCloseListener(new OnCloseListener() {
-
 				@Override
 				public boolean onClose() {
 					Log.i(Constants.TAG, "mSearchView on close ");
@@ -634,6 +632,24 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					return false;
 				}
 			});
+		}
+		
+		// A previous search has been performed and SearchView has still not
+		// been manually closed so it must be re-expanded and filled with query 
+		if (searchQuery != null) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+				searchView.setFocusable(true);
+				searchView.setIconified(false);
+				searchView.requestFocusFromTouch();
+				searchMenuItem.expandActionView();
+				searchView.setQuery(searchQuery, true);
+//			} else {
+//				searchView.setIconifiedByDefault(true);
+//				searchView.setFocusable(true);
+//				searchView.setIconified(false);
+//				searchView.requestFocusFromTouch();
+//				searchView.setQuery(searchQuery, true);
+			}
 		}
 	}
 	
@@ -869,17 +885,24 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	void initNotesList(Intent intent) {
 		
 		NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
-		
+
 		// Searching
-		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+		
+		// For previous OS versions search resuming is not supported
+		if (searchQuery != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			searchQuery = null;
+		}
+		if (searchQuery != null || Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			intent.setAction(null);
 			// Get the intent, verify the action and get the query
-			String pattern = intent.getStringExtra(SearchManager.QUERY);
+			if (searchQuery == null) {
+				searchQuery = intent.getStringExtra(SearchManager.QUERY);
+			}
 			if (mActivity.loadNotesSync) {
 				DbHelper db = new DbHelper(mActivity);
-				onNotesLoaded((ArrayList<Note>) db.getMatchingNotes(pattern));
+				onNotesLoaded((ArrayList<Note>) db.getMatchingNotes(searchQuery));
 			} else {
-				mNoteLoaderTask.execute("getMatchingNotes", pattern);
+				mNoteLoaderTask.execute("getMatchingNotes", searchQuery);
 			}
 			mActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
 
