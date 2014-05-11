@@ -207,6 +207,9 @@ public class NavigationDrawerFragment extends Fragment {
 			}
 
 			public void onDrawerOpened(View drawerView) {
+				// Finishes action mode
+				mActivity.finishActionMode();
+				
 				// Stops search service
 				if (mActivity.getSearchMenuItem() != null && MenuItemCompat.isActionViewExpanded(mActivity.getSearchMenuItem()))
 					MenuItemCompat.collapseActionView(mActivity.getSearchMenuItem());

@@ -267,6 +267,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	}
 	
 	
+	/**
+	 * Finishes multiselection mode started by ListFragment
+	 */
+	public void finishActionMode() {
+		ListFragment fragment = (ListFragment)mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG);
+		if (fragment != null) {
+			fragment.finishActionMode();
+		} 
+	}
+	
 	
 	private void handleIntents() {
 		Intent i = mActivity.getIntent();

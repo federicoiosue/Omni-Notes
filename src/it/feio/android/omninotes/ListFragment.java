@@ -397,6 +397,17 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		}
 	};
 
+
+	
+	public void finishActionMode() {
+		selectedNotes.clear();
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
+	}
+	
+	
+
 	/**
 	 * Manage check/uncheck of notes in list during multiple selection phase
 	 * 
@@ -429,8 +440,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		
 		// Close CAB if no items are selected
 		if (selectedNotes.size() == 0) {
-			selectedNotes.clear();
-			mActionMode.finish();
+			finishActionMode();
 		}
 		
 	}
@@ -1093,7 +1103,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			mAdapter.remove(note);
 			deleteNote(note);
 		}	
-		selectedNotes.clear();
+		
+		finishActionMode();
 		
 		// Refresh view
 		ListView l = (ListView) mActivity.findViewById(R.id.notes_list);
@@ -1102,10 +1113,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// If list is empty again Mr Jingles will appear again
 		if (l.getCount() == 0)
 			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
-	
-		if (mActionMode != null) {
-			mActionMode.finish();
-		}
 	
 		// Advice to user
 		Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
@@ -1285,10 +1292,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// Advice to user
 		String msg = getResources().getText(R.string.notes_categorized_as) + " '" + category.getName() + "'";
 		Crouton.makeText(mActivity, msg, ONStyle.INFO).show();
-		selectedNotes.clear();
-		if (mActionMode != null) {
-			mActionMode.finish();
-		}
+		finishActionMode();
 	}
 	
 
