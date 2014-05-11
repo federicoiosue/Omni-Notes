@@ -584,82 +584,57 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			}
 		});
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
+		MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
 
-				@Override
-				public boolean onMenuItemActionCollapse(MenuItem item) {
-					// Reinitialize notes list to all notes when search is
-					// collapsed
-					searchQuery = null;
-					Log.i(Constants.TAG, "onMenuItemActionCollapse " + item.getItemId());
-					mActivity.getIntent().setAction(Intent.ACTION_MAIN);
-					initNotesList(mActivity.getIntent());
-					return true;
-				}
+			@Override
+			public boolean onMenuItemActionCollapse(MenuItem item) {
+				// Reinitialize notes list to all notes when search is
+				// collapsed
+				searchQuery = null;
+				Log.i(Constants.TAG, "onMenuItemActionCollapse " + item.getItemId());
+				mActivity.getIntent().setAction(Intent.ACTION_MAIN);
+				initNotesList(mActivity.getIntent());
+				return true;
+			}
 
-				@Override
-				public boolean onMenuItemActionExpand(MenuItem item) {
-					Log.i(Constants.TAG, "onMenuItemActionExpand " + item.getItemId());
-					
-					searchView.setOnQueryTextListener(new OnQueryTextListener() {
-						@Override
-						public boolean onQueryTextSubmit(String arg0) {
-							if (prefs.getBoolean("settings_instant_search", false)) {
-								return true;
-							} else {
-								return false;
-							}
+			@Override
+			public boolean onMenuItemActionExpand(MenuItem item) {
+				Log.i(Constants.TAG, "onMenuItemActionExpand " + item.getItemId());
+				
+				searchView.setOnQueryTextListener(new OnQueryTextListener() {
+					@Override
+					public boolean onQueryTextSubmit(String arg0) {
+						if (prefs.getBoolean("settings_instant_search", false)) {
+							return true;
+						} else {
+							return false;
 						}
+					}
 
-						@Override
-						public boolean onQueryTextChange(String pattern) {
-							if (prefs.getBoolean("settings_instant_search", false) && pattern.length() > 0) {
+					@Override
+					public boolean onQueryTextChange(String pattern) {
+						if (prefs.getBoolean("settings_instant_search", false) && pattern.length() > 0) {
 //								Intent i = new Intent(mActivity, MainActivity.class);
 //								i.setAction(Intent.ACTION_SEARCH);
 //								i.putExtra(SearchManager.QUERY, pattern);
 //								startActivity(i);
-								searchQuery = pattern;
-								NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
-								mNoteLoaderTask.execute("getMatchingNotes", pattern);
-								return true;
-							} else {
-								return false;
-							}
+							searchQuery = pattern;
+							NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
+							mNoteLoaderTask.execute("getMatchingNotes", pattern);
+							return true;
+						} else {
+							return false;
 						}
-					});
-					return true;
-				}
-			});
-		} else {
-			// Do something for phones running an SDK before froyo
-			searchView.setOnCloseListener(new OnCloseListener() {
-				@Override
-				public boolean onClose() {
-					Log.i(Constants.TAG, "mSearchView on close ");
-					mActivity.getIntent().setAction(Intent.ACTION_MAIN);
-					initNotesList(mActivity.getIntent());
-					return false;
-				}
-			});
-		}
+					}
+				});
+				return true;
+			}
+		});
 		
 		// A previous search has been performed and SearchView has still not
 		// been manually closed so it must be re-expanded and filled with query 
 		if (searchQuery != null) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-				searchView.setFocusable(true);
-				searchView.setIconified(false);
-				searchView.requestFocusFromTouch();
-				searchMenuItem.expandActionView();
-				searchView.setQuery(searchQuery, true);
-//			} else {
-//				searchView.setIconifiedByDefault(true);
-//				searchView.setFocusable(true);
-//				searchView.setIconified(false);
-//				searchView.requestFocusFromTouch();
-//				searchView.setQuery(searchQuery, true);
-			}
+			MenuItemCompat.expandActionView(searchMenuItem);
 		}
 	}
 	
@@ -896,12 +871,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		
 		NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
 
-		// Searching
-		
-		// For previous OS versions search resuming is not supported
-		if (searchQuery != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			searchQuery = null;
-		}
+		// Searching		
 		if (searchQuery != null || Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			intent.setAction(null);
 			// Get the intent, verify the action and get the query
