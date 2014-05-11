@@ -470,18 +470,21 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	/**
-	 * Getting notes matching pattern with title or content text
+	 * Gets notes matching pattern with title or content text
 	 * 
-	 * @param checkNavigation
-	 *            Tells if navigation status (notes, archived) must be kept in
-	 *            consideration or if all notes have to be retrieved
+	 * @param pattern String to match with
 	 * @return Notes list
 	 */
 	public List<Note> getMatchingNotes(String pattern) {
-		// Select All Query
+		
+		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
+		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		boolean trash = navigationListCodes[3].equals(navigation);
+		
 		String whereCondition = " WHERE "
+								+ KEY_TRASHED + (trash ? " IS 1" : " IS NOT 1") + " AND (" 
 								+ KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR "
-								+ KEY_CONTENT + " LIKE '%" + pattern + "%' ";
+								+ KEY_CONTENT + " LIKE '%" + pattern + "%' )";
 		return getNotes(whereCondition, true);
 	}
 	
