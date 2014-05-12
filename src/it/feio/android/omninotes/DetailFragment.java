@@ -938,7 +938,7 @@ public class DetailFragment extends Fragment implements
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-		inflater.inflate(R.menu.menu, menu);
+		inflater.inflate(R.menu.menu_detail, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	    
 	    // Show instructions on first launch
@@ -979,18 +979,18 @@ public class DetailFragment extends Fragment implements
 			menu.findItem(R.id.menu_delete).setVisible(true);
 		// Otherwise all other actions will be available
 		} else {
-			menu.findItem(R.id.menu_share).setVisible(true);
-			menu.findItem(R.id.menu_attachment).setVisible(true);
-			menu.findItem(R.id.menu_category).setVisible(true);
+//			menu.findItem(R.id.menu_share).setVisible(true);
+//			menu.findItem(R.id.menu_attachment).setVisible(true);
+//			menu.findItem(R.id.menu_category).setVisible(true);
 			menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
 			menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
 			menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
 			menu.findItem(R.id.menu_unlock).setVisible(noteTmp.isLocked());
 			menu.findItem(R.id.menu_add_shortcut).setVisible(noteTmp.get_id() != 0);
-			menu.findItem(R.id.menu_discard_changes).setVisible(true);
+//			menu.findItem(R.id.menu_discard_changes).setVisible(true);
 			menu.findItem(R.id.menu_archive).setVisible(!noteTmp.isArchived());
 			menu.findItem(R.id.menu_unarchive).setVisible(noteTmp.isArchived());
-			menu.findItem(R.id.menu_trash).setVisible(true);
+//			menu.findItem(R.id.menu_trash).setVisible(true);
 		}
 	}
 

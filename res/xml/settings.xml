@@ -173,23 +173,25 @@
     
     
     <PreferenceCategory android:title="@string/settings_category_about" >
-        
-        <Preference
-            android:key="settings_tour_show_again"
-            android:title="@string/settings_tour_show_again" />
-   
-	    <Preference
-	        android:key="settings_help"
-	        android:title="@string/help" >
-		        <intent
-			        android:action="android.intent.action.VIEW"
-			        android:data="@string/help_online_url" />
-	    </Preference>
-	    
-        <Preference
-            android:key="settings_changelog"
-            android:title="@string/settings_changelog" >
-        </Preference>
+              <PreferenceScreen
+             android:key="settings_backup"
+             android:persistent="false"
+             android:title="@string/help" >
+             <Preference
+                 android:key="settings_tour_show_again"
+                 android:title="@string/settings_tour_show_again" />
+             <Preference
+                 android:key="settings_online_manual"
+                 android:title="@string/online_manual" >
+                 <intent
+                     android:action="android.intent.action.VIEW"
+                     android:data="@string/help_online_url" />
+             </Preference>
+             <Preference
+                 android:key="settings_changelog"
+                 android:title="@string/settings_changelog" >
+             </Preference>
+         </PreferenceScreen>
    
 	    <Preference
 	        android:key="settings_donation"

@@ -19,153 +19,107 @@
 
     <item
         android:id="@+id/menu_search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         android:icon="@drawable/ic_action_search"
         android:orderInCategory="100"
-        app:showAsAction="collapseActionView|always"
         android:title="@string/search"
-        android:visible="false"/>
+        android:visible="false"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/menu_tags"
         android:icon="@drawable/ic_action_labels"
         android:orderInCategory="200"
-        app:showAsAction="always"
         android:title="@string/tags"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="300"
-        app:showAsAction="always"
         android:title="@string/add_note"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_action_share"
         android:orderInCategory="400"
-        app:showAsAction="ifRoom"
         android:title="@string/share"
-        android:visible="false" />
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_merge"
         android:icon="@drawable/ic_action_add_to_queue"
         android:orderInCategory="400"
-        app:showAsAction="ifRoom"
         android:title="@string/merge"
-        android:visible="false" />
-    <item
-        android:id="@+id/menu_attachment"
-        android:icon="@drawable/ic_action_attachment"
-        android:orderInCategory="500"
-        app:showAsAction="always"
-        android:title="@string/attachment"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_category"
         android:icon="@drawable/ic_action_category"
         android:orderInCategory="600"
-        app:showAsAction="always"
         android:title="@string/category"
-        android:visible="false"/>
-    <item
-        android:id="@+id/menu_checklist_on"
-        android:orderInCategory="700"
-        app:showAsAction="ifRoom"
-        android:title="@string/checklist_on"
-        android:visible="false"/>
-    <item
-        android:id="@+id/menu_checklist_off"
-        android:orderInCategory="700"
-        app:showAsAction="ifRoom"
-        android:title="@string/checklist_off"
-        android:visible="false"/>
-    <item
-        android:id="@+id/menu_lock"
-        android:icon="@drawable/ic_action_secure"
-        android:orderInCategory="800"
-        app:showAsAction="ifRoom"
-        android:title="@string/lock"
-        android:visible="false"/>
-    <item
-        android:id="@+id/menu_unlock"
-        android:icon="@drawable/ic_action_secure"
-        android:orderInCategory="800"
-        app:showAsAction="ifRoom"
-        android:title="@string/unlock"
-        android:visible="false"/>
-    <item
-        android:id="@+id/menu_add_shortcut"
-        android:orderInCategory="900"
-        app:showAsAction="ifRoom"
-        android:title="@string/add_shortcut"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_archive"
         android:icon="@drawable/ic_archive_dark"
         android:orderInCategory="1000"
-        app:showAsAction="ifRoom"
         android:title="@string/archive"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_unarchive"
         android:icon="@drawable/ic_unarchive_dark"
         android:orderInCategory="1000"
-        app:showAsAction="ifRoom"
         android:title="@string/unarchive"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_trash"
         android:icon="@drawable/ic_action_discard"
         android:orderInCategory="1100"
-        app:showAsAction="ifRoom"
         android:title="@string/trash"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_untrash"
         android:icon="@drawable/ic_action_untrash"
         android:orderInCategory="1100"
-        app:showAsAction="ifRoom"
         android:title="@string/untrash"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_delete"
         android:icon="@drawable/ic_action_cancel"
         android:orderInCategory="1200"
-        app:showAsAction="ifRoom"
         android:title="@string/delete"
-        android:visible="false"/>
-    <item
-        android:id="@+id/menu_discard_changes"
-        android:icon="@drawable/ic_action_undo"
-        android:orderInCategory="1300"
-        app:showAsAction="ifRoom"
-        android:title="@string/discard_changes"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_sort"
         android:icon="@drawable/ic_action_sort_by_size"
         android:orderInCategory="600"
-        app:showAsAction="ifRoom"
         android:title="@string/sort"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_add_category"
         android:icon="@drawable/ic_action_new_category"
         android:orderInCategory="700"
-        app:showAsAction="always"
         android:title="@string/add_category"
-        android:visible="false"/>
+        android:visible="false"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_expanded_view"
         android:orderInCategory="800"
-        android:title="@string/expanded_view"
         android:showAsAction="never"
+        android:title="@string/expanded_view"
         android:visible="false"/>
     <item
         android:id="@+id/menu_contracted_view"
         android:orderInCategory="800"
-        android:title="@string/contracted_view"
         android:showAsAction="never"
+        android:title="@string/contracted_view"
         android:visible="false"/>
     <item
         android:id="@+id/menu_settings"

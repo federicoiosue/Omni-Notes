@@ -143,7 +143,13 @@ public class NavigationDrawerFragment extends Fragment {
 			mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-					mActivity.commitPending();
+					
+					// Commits pending deletion or archiviation
+					mActivity.commitPending();				
+					// Stops search service
+					if (mActivity.getSearchMenuItem() != null && MenuItemCompat.isActionViewExpanded(mActivity.getSearchMenuItem()))
+						MenuItemCompat.collapseActionView(mActivity.getSearchMenuItem());
+					
 					if (mDrawerTagList != null) {
 						Object item = mDrawerTagList.getAdapter().getItem(position);
 						// Ensuring that clicked item is not the ListView header
@@ -207,13 +213,10 @@ public class NavigationDrawerFragment extends Fragment {
 			}
 
 			public void onDrawerOpened(View drawerView) {
-				// Finishes action mode
-				mActivity.finishActionMode();
-				
-				// Stops search service
-				if (mActivity.getSearchMenuItem() != null && MenuItemCompat.isActionViewExpanded(mActivity.getSearchMenuItem()))
-					MenuItemCompat.collapseActionView(mActivity.getSearchMenuItem());
 
+				// Finishes action mode
+				mActivity.finishActionMode();	
+				
 				mTitle = mActivity.getSupportActionBar().getTitle();
 				mActivity.getSupportActionBar()
 						.setTitle(mActivity.getApplicationContext().getString(R.string.app_name));

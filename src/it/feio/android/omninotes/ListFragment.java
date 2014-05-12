@@ -62,7 +62,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SearchView.OnCloseListener;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.TextUtils;
 import android.util.Log;
@@ -309,7 +308,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			// Inflate the menu for the CAB
 			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.menu, menu);
+			inflater.inflate(R.menu.menu_list, menu);
 			mActionMode = mode;
 			return true;
 		}
@@ -508,21 +507,22 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-		inflater.inflate(R.menu.menu, menu);
+		inflater.inflate(R.menu.menu_list, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 
-		// Setting the conditions to show determinate items in CAB
-		// If the nav drawer is open, hide action items related to the content
-		// view
-		boolean drawerOpen;
-		if (mActivity.getDrawerLayout() != null) {
-			drawerOpen = mActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START);
-		} else {
-			drawerOpen = false;
-		}
+		// Initialization of SearchView
+		initSearchView(menu);
 
-		// If archived or reminders notes are shown the "add new note" item must
-		// be hidden
+		initShowCase();
+	}
+
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		// Defines the conditions to set actionbar items visible or not
+		boolean drawerOpen = (mActivity.getDrawerLayout() != null && mActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START)) ? true : false;		
+		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
+		// "Add" item must be shown only from main navigation
 		String navArchived = getResources().getStringArray(R.array.navigation_list_codes)[1];
 		String navReminders = getResources().getStringArray(R.array.navigation_list_codes)[2];
 		String navTrash = getResources().getStringArray(R.array.navigation_list_codes)[3];
@@ -532,19 +532,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add_category).setVisible(drawerOpen);
-		menu.findItem(R.id.menu_settings).setVisible(true);
-
-		// Initialization of SearchView
-		initSearchView(menu);
-
-		initShowCase();
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
-		menu.findItem(R.id.menu_expanded_view).setVisible(!expandedView);
-		menu.findItem(R.id.menu_contracted_view).setVisible(expandedView);
+		menu.findItem(R.id.menu_tags).setVisible(!drawerOpen);
+		menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView);
+		menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView);	
+		menu.findItem(R.id.menu_settings).setVisible(!drawerOpen);
 	}
 
 	
