@@ -63,6 +63,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -79,6 +80,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -532,7 +534,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add_category).setVisible(drawerOpen);
-		menu.findItem(R.id.menu_tags).setVisible(!drawerOpen);
+//		menu.findItem(R.id.menu_tags).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView);
 		menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView);	
 		menu.findItem(R.id.menu_settings).setVisible(!drawerOpen);
@@ -582,7 +584,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				// Reinitialize notes list to all notes when search is
 				// collapsed
 				searchQuery = null;
-				Log.i(Constants.TAG, "onMenuItemActionCollapse " + item.getItemId());
+//				Log.i(Constants.TAG, "onMenuItemActionCollapse " + item.getItemId());
 				mActivity.getIntent().setAction(Intent.ACTION_MAIN);
 				initNotesList(mActivity.getIntent());
 				return true;
@@ -590,7 +592,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 			@Override
 			public boolean onMenuItemActionExpand(MenuItem item) {
-				Log.i(Constants.TAG, "onMenuItemActionExpand " + item.getItemId());
+//				Log.i(Constants.TAG, "onMenuItemActionExpand " + item.getItemId());
 				
 				searchView.setOnQueryTextListener(new OnQueryTextListener() {
 					@Override
@@ -624,9 +626,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		
 		// A previous search has been performed and SearchView has still not
 		// been manually closed so it must be re-expanded and filled with query 
-		if (searchQuery != null) {
-			MenuItemCompat.expandActionView(searchMenuItem);
-		}
+//		if (searchQuery != null) {
+//			MenuItemCompat.expandActionView(searchMenuItem);
+//		}
 	}
 	
 	
@@ -876,6 +878,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				mNoteLoaderTask.execute("getMatchingNotes", searchQuery);
 			}
 			mActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
+			
+			toggleSearchLabel(true);
 
 		} else {
 			// Check if is launched from a widget with categories to set tag
@@ -915,6 +919,29 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				}
 				mActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
 			}
+		}
+	}
+	
+	
+	
+	public void toggleSearchLabel(boolean active) {
+		if (active) {
+			((android.widget.TextView) mActivity.findViewById(R.id.search_query)).setText(Html.fromHtml("<i>" + getString(R.string.search) + ":</i> " + searchQuery.toString()));
+			mActivity.findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
+			mActivity.findViewById(R.id.search_cancel).setOnClickListener(new OnClickListener() {				
+				@Override
+				public void onClick(View v) {
+					mActivity.findViewById(R.id.search_layout).setVisibility(View.GONE);
+					searchQuery = null;
+					mActivity.getIntent().setAction(Intent.ACTION_MAIN);
+					initNotesList(mActivity.getIntent());
+				}
+			});
+		} else {
+			mActivity.findViewById(R.id.search_layout).setVisibility(View.GONE);
+			searchQuery = null;
+			mActivity.getIntent().setAction(Intent.ACTION_MAIN);
+			initNotesList(mActivity.getIntent());
 		}
 	}
 	

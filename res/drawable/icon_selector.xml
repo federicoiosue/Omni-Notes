@@ -16,8 +16,12 @@
 -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/selected" android:state_pressed="true" />
-    <item android:drawable="@color/list_bg_selected" android:state_pressed="false" android:state_selected="true"/>
-    <item android:drawable="@color/list_bg_selected" android:state_checked="true"/>
+<!--     <item android:drawable="@color/selected" android:state_pressed="true" /> -->
+<!--     <item android:drawable="@color/list_bg_selected" android:state_pressed="false" android:state_selected="true"/> -->
+<!--     <item android:drawable="@color/list_bg_selected" android:state_checked="true"/> -->
+<item android:state_pressed="true" android:drawable="@drawable/list_selector_pressed" />
+    <item android:state_focused="true" android:drawable="@drawable/list_selector_focused" />
+    <item android:drawable="@android:color/transparent" />
+
 
 </selector>

@@ -24,6 +24,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
+        
+        <LinearLayout
+            android:id="@+id/search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone" 
+            android:paddingLeft="16dp"
+            android:paddingTop="6dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="6dp">
+
+<!--             <com.neopixl.pixlui.components.textview.TextView -->
+                <TextView
+                android:id="@+id/search_query"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/search_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_action_cancel" />
+        </LinearLayout>
 
         <ListView
             android:id="@+id/notes_list"
@@ -34,6 +59,8 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:scrollbarSize="4dp"
+                        android:drawSelectorOnTop="true"
+                        android:listSelector="@drawable/icon_selector"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbarThumbVertical="@drawable/scroll_bar" >
         </ListView>

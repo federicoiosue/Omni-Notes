@@ -153,7 +153,7 @@ public class GalleryActivity extends ActionBarActivity {
 		((InterceptorFrameLayout) findViewById(R.id.gallery_root)).setOnViewTouchedListener(screenTouches);
 		
 		mViewPager = (GalleryViewPager)findViewById(R.id.fullscreen_content);
-		mViewPager.setPageTransformer(GalleryViewPager.PAGE_TRANSFORMER_ZOOM_OUT);
+//		mViewPager.setPageTransformer(GalleryViewPager.PAGE_TRANSFORMER_DEPTH);
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {			
 			@Override
 			public void onPageSelected(int arg0) {

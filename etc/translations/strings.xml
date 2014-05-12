@@ -164,6 +164,7 @@
     <string name="merge">Merge</string>
     <string name="not_set">not set</string>
     <string name="help">Help</string>
+    <string name="online_manual">Online manual</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
