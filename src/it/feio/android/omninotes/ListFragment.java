@@ -80,7 +80,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -863,6 +862,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	void initNotesList(Intent intent) {
 		
 		NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
+		
+		// Search for a tag
+		// A workaround to simplify it's to simulate normal search
+		if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getCategories().contains(Intent.CATEGORY_BROWSABLE)) {
+//			mNoteLoaderTask.execute("getNotesByTag", intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, ""));
+			searchQuery = intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, "");
+		}
 
 		// Searching		
 		if (searchQuery != null || Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -904,10 +910,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					mNoteLoaderTask.execute("getNotesWithTag", mActivity.navigationTmp);
 				}
 				mActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
-				
-			// Search for a tag
-			} else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-				mNoteLoaderTask.execute("getNotesByTag", intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, ""));
 				
 			// Gets all notes
 			} else {

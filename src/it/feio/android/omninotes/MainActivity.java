@@ -1,9 +1,9 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SpinnerDialog;
@@ -304,6 +304,36 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			}
 			switchToDetail(note);
 		}
+		
+		// Tag search
+		if (Intent.ACTION_VIEW.equals(i.getAction())) {
+			switchToList();
+		}
+	}
+	
+	
+
+
+	
+	public void switchToList() {
+		FragmentTransaction transaction = mFragmentManager.beginTransaction();
+		animateTransition(transaction, TRANSITION_HORIZONTAL);
+		ListFragment mListFragment = new ListFragment();
+		transaction.replace(R.id.fragment_container, mListFragment, FRAGMENT_LIST_TAG).addToBackStack(FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
+		if (getDrawerToggle() != null) {
+			getDrawerToggle().setDrawerIndicatorEnabled(false);
+		}
+		mFragmentManager.getFragments();
+//		mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer);
+//		if (mNavigationDrawerFragment == null) {
+//			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+//			fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment(), FRAGMENT_DRAWER_TAG).commit();
+//		}
+//		
+//		if (mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
+//			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+//			fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG).commit();
+//		}
 	}
 
 	

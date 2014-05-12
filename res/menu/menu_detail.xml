@@ -18,87 +18,93 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
+        android:id="@+id/menu_attachment"
+        android:icon="@drawable/ic_action_attachment"
+        android:orderInCategory="100"
+        android:title="@string/attachment"
+        app:showAsAction="always"/>
+<!--     <item -->
+<!--         android:id="@+id/menu_tag" -->
+<!--         android:icon="@drawable/ic_action_labels" -->
+<!--         android:orderInCategory="200" -->
+<!--         android:title="@string/tag" -->
+<!--         app:showAsAction="always"/> -->
+    <item
+        android:id="@+id/menu_category"
+        android:icon="@drawable/ic_action_category"
+        android:orderInCategory="300"
+        android:title="@string/category"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_action_share"
         android:orderInCategory="400"
         android:title="@string/share"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/menu_attachment"
-        android:icon="@drawable/ic_action_attachment"
-        android:orderInCategory="500"
-        android:title="@string/attachment"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/menu_category"
-        android:icon="@drawable/ic_action_category"
-        android:orderInCategory="600"
-        android:title="@string/category"
-        app:showAsAction="always"/>
-    <item
         android:id="@+id/menu_checklist_on"
-        android:orderInCategory="700"
+        android:orderInCategory="500"
         android:title="@string/checklist_on"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_checklist_off"
-        android:orderInCategory="700"
+        android:orderInCategory="500"
         android:title="@string/checklist_off"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_lock"
         android:icon="@drawable/ic_action_secure"
-        android:orderInCategory="800"
+        android:orderInCategory="600"
         android:title="@string/lock"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_unlock"
         android:icon="@drawable/ic_action_secure"
-        android:orderInCategory="800"
+        android:orderInCategory="600"
         android:title="@string/unlock"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_add_shortcut"
-        android:orderInCategory="900"
+        android:orderInCategory="700"
         android:title="@string/add_shortcut"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_archive"
         android:icon="@drawable/ic_archive_dark"
-        android:orderInCategory="1000"
+        android:orderInCategory="800"
         android:title="@string/archive"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_unarchive"
         android:icon="@drawable/ic_unarchive_dark"
-        android:orderInCategory="1000"
+        android:orderInCategory="800"
         android:title="@string/unarchive"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_trash"
         android:icon="@drawable/ic_action_discard"
-        android:orderInCategory="1100"
+        android:orderInCategory="900"
         android:title="@string/trash"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_untrash"
         android:icon="@drawable/ic_action_untrash"
-        android:orderInCategory="1100"
+        android:orderInCategory="900"
         android:title="@string/untrash"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_discard_changes"
         android:icon="@drawable/ic_action_undo"
-        android:orderInCategory="1300"
+        android:orderInCategory="1000"
         android:title="@string/discard_changes"
         app:showAsAction="ifRoom"/>
 
