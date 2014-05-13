@@ -114,6 +114,11 @@
                 android:defaultValue="false"
                 android:key="settings_instant_search"
                 android:title="@string/settings_instant_search" />   
+           
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="settings_swipe_to_trash"
+                android:title="@string/settings_swipe_to_trash" />   
 
             <EditTextPreference
                 android:inputType="number"

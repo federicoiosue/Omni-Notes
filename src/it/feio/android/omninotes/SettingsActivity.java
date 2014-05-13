@@ -278,6 +278,31 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 		
 		
+		
+		// Swiping action
+		final CheckBoxPreference swipeToTrash = (CheckBoxPreference) findPreference("settings_swipe_to_trash");
+		if (prefs.getBoolean("settings_swipe_to_trash", false)) {
+			swipeToTrash.setChecked(true);
+			swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
+		} else {
+			swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
+			swipeToTrash.setChecked(false);
+		}
+		swipeToTrash.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
+			@Override
+			public boolean onPreferenceChange(Preference preference, final Object newValue) {
+				if ((Boolean) newValue) {
+					swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
+				} else {
+					swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
+				}
+				swipeToTrash.setChecked((Boolean) newValue);
+				return false;
+			}
+		});
+		
+		
+		
 		// Maximum video attachment size
 		final EditTextPreference maxVideoSize = (EditTextPreference) findPreference("settings_max_video_size");
 		String maxVideoSizeValue = prefs.getString("settings_max_video_size", getString(R.string.not_set));

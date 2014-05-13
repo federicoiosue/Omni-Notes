@@ -214,6 +214,9 @@ public class NavigationDrawerFragment extends Fragment {
 
 			public void onDrawerOpened(View drawerView) {
 
+				// Commits all pending actions
+				mActivity.commitPending();	
+
 				// Finishes action mode
 				mActivity.finishActionMode();	
 				

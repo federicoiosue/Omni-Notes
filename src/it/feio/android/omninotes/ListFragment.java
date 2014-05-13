@@ -968,7 +968,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				: R.layout.note_layout;
 		mAdapter = new NoteAdapter(mActivity, layout, notes);
 
-		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter,
+		// A specifi
+		boolean whereInTrash = getResources().getStringArray(R.array.navigation_list_codes)[3]
+				.equals(mActivity.navigation);
+		
+		listView.setAdapter(null);
+		if (!whereInTrash) {
+			SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter,
 				new OnDismissCallback() {
 					@Override
 					public void onDismiss(AbsListView listView,
@@ -978,20 +984,21 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 							selectedNotes.add(note);
 							mAdapter.remove(note);
 							listView.invalidateViews();
-
-							// Advice to user
-							Crouton.makeText(mActivity, R.string.note_trashed,
-									ONStyle.WARN).show();
-
-							// Creation of undo bar
-							ubc.showUndoBar(false,
-									getString(R.string.note_trashed), null);
-							undoTrash = true;
+	
+							// Depending on settings and note status this action will archive or trash
+							if (prefs.getBoolean("settings_swipe_to_trash", false) || note.isArchived()) {
+								trashSelectedNotes(true);
+							} else {
+								archiveSelectedNotes(true);
+							}
 						}
 					}
 				});
-		adapter.setAbsListView(listView);
-		listView.setAdapter(adapter);
+			adapter.setAbsListView(listView);
+			listView.setAdapter(adapter);
+		} else {
+			listView.setAdapter(mAdapter);
+		}
 
 		// Replace listview with Mr. Jingles if it is empty
 		if (notes.size() == 0)

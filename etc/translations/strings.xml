@@ -81,7 +81,7 @@
     <string name="backup_existing">Backup already exist. It\'ll be overwritten</string>
     <string name="tag">Tag</string>
     <string name="tags">Tags</string>
-    <string name="add_tag">Add a tag</string>
+    <string name="add_tag">Add tags</string>
     <string name="select_tags">Select tag(s)</string>
     <string name="categories">Categories</string>
     <string name="edit_tag">Edit category</string>
@@ -253,6 +253,9 @@
     <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
     <string name="settings_text_size">Text size</string>
     <string name="settings_category_behaviors">Behaviors</string>
+    <string name="settings_swipe_to_trash">Swipe to trash</string>
+    <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
+    <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
 
     <!-- Instructions -->
     <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>
