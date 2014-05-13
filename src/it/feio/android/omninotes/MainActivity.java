@@ -1,5 +1,6 @@
 package it.feio.android.omninotes;
 
+import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -11,12 +12,15 @@ import it.feio.android.omninotes.utils.SpinnerDialog;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -426,6 +430,31 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
 	}
+	
+	
+
+	
+	/**
+	 * Single note permanent deletion
+	 * 
+	 * @param note
+	 *            Note to be deleted
+	 */
+	@SuppressLint("NewApi")
+	public void deleteNote(Note note) {
+
+		// Saving changes to the note
+		DeleteNoteTask deleteNoteTask = new DeleteNoteTask(mActivity);
+		// Forcing parallel execution disabled by default
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+		} else {
+			deleteNoteTask.execute(note);
+		}
+
+		// Informs about update
+		Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
+	}
 
 
 	@Override
@@ -436,6 +465,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 	}
 
+	
 
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear,

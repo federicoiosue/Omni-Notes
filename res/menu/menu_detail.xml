@@ -24,16 +24,16 @@
         android:title="@string/attachment"
         app:showAsAction="always"/>
     <item
-        android:id="@+id/menu_tag"
-        android:icon="@drawable/ic_action_labels"
-        android:orderInCategory="200"
-        android:title="@string/add_tag"
-        app:showAsAction="always"/>
-    <item
         android:id="@+id/menu_category"
         android:icon="@drawable/ic_action_category"
-        android:orderInCategory="300"
+        android:orderInCategory="200"
         android:title="@string/category"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_tag"
+        android:icon="@drawable/ic_action_labels"
+        android:orderInCategory="300"
+        android:title="@string/add_tag"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_share"

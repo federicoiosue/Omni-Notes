@@ -1091,7 +1091,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private void deleteSelectedNotes2() {
 		for (Note note : selectedNotes) {
 			mAdapter.remove(note);
-			deleteNote(note);
+			mActivity.deleteNote(note);
 		}	
 		
 		finishActionMode();
@@ -1106,29 +1106,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	
 		// Advice to user
 		Crouton.makeText(mActivity, R.string.note_deleted, ONStyle.ALERT).show();
-	}
-
-		
-	/**
-	 * Single note permanent deletion
-	 * 
-	 * @param note
-	 *            Note to be deleted
-	 */
-	@SuppressLint("NewApi")
-	protected void deleteNote(Note note) {
-
-		// Saving changes to the note
-		DeleteNoteTask deleteNoteTask = new DeleteNoteTask(mActivity);
-		// Forcing parallel execution disabled by default
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
-		} else {
-			deleteNoteTask.execute(note);
-		}
-
-		// Informs about update
-		Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
 	}
 
 	

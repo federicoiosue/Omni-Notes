@@ -973,26 +973,24 @@ public class DetailFragment extends Fragment implements
 		MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
 		if (searchMenuItem != null) {		
 			MenuItemCompat.collapseActionView(searchMenuItem);
-		}
+		}		
 		
+		boolean newNote = noteTmp.get_id() == 0;
+
+		menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
+		menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
+		menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
+		menu.findItem(R.id.menu_unlock).setVisible(noteTmp.isLocked());
 		// If note is trashed only this options will be available from menu
 		if(noteTmp.isTrashed()) {
 			menu.findItem(R.id.menu_untrash).setVisible(true);
 			menu.findItem(R.id.menu_delete).setVisible(true);
 		// Otherwise all other actions will be available
 		} else {
-//			menu.findItem(R.id.menu_share).setVisible(true);
-//			menu.findItem(R.id.menu_attachment).setVisible(true);
-//			menu.findItem(R.id.menu_category).setVisible(true);
-			menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
-			menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
-			menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
-			menu.findItem(R.id.menu_unlock).setVisible(noteTmp.isLocked());
-			menu.findItem(R.id.menu_add_shortcut).setVisible(noteTmp.get_id() != 0);
-//			menu.findItem(R.id.menu_discard_changes).setVisible(true);
-			menu.findItem(R.id.menu_archive).setVisible(!noteTmp.isArchived());
-			menu.findItem(R.id.menu_unarchive).setVisible(noteTmp.isArchived());
-//			menu.findItem(R.id.menu_trash).setVisible(true);
+			menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
+			menu.findItem(R.id.menu_archive).setVisible(!newNote && !noteTmp.isArchived());
+			menu.findItem(R.id.menu_unarchive).setVisible(!newNote && noteTmp.isArchived());
+			menu.findItem(R.id.menu_trash).setVisible(!newNote);
 		}
 	}
 
@@ -1045,7 +1043,7 @@ public class DetailFragment extends Fragment implements
 			showPopup(mActivity.findViewById(R.id.menu_attachment));
 			break;
 		case R.id.menu_tag:
-			addTag();
+			addTags();
 			break;
 		case R.id.menu_category:
 			tagNote();
@@ -1082,6 +1080,9 @@ public class DetailFragment extends Fragment implements
 			break;
 		case R.id.menu_discard_changes:
 			discard();
+			break;
+		case R.id.menu_delete:
+			deleteNote();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -1634,8 +1635,7 @@ public class DetailFragment extends Fragment implements
 			return;
 		}
 	
-		noteTmp.setTrashed(trashed);
-		db.trashNote(noteTmp);
+		db.untrashNote(noteTmp);
 	
 		// Informs the user about update
 		Log.d(Constants.TAG, "Trashed note with id '" + noteTmp.get_id() + "'");
@@ -1649,6 +1649,33 @@ public class DetailFragment extends Fragment implements
 		
 		goHome();
 	}
+	
+	
+	
+	private void deleteNote() {
+		// Confirm dialog creation
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
+				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						mActivity.deleteNote(noteTmp);
+						Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
+							Crouton.makeText(mActivity, getString(R.string.note_deleted), ONStyle.ALERT).show();
+						
+						MainActivity.notifyAppWidgets(mActivity);
+						
+						goHome();
+					}
+				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {}
+				});
+		alertDialogBuilder.create().show();		
+	}
+	
+	
+	
 
 	/**
 	 * Save new notes, modify them or archive
@@ -2224,9 +2251,9 @@ public class DetailFragment extends Fragment implements
 	
 	
 	/**
-	 * Add a previously created tag to content
+	 * Add previously created tags to content
 	 */
-	private void addTag() {
+	private void addTags() {
 			contentCursorPosition = content.getSelectionStart();
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 
@@ -2239,9 +2266,12 @@ public class DetailFragment extends Fragment implements
 				return;
 			}
 
-			// Selected tags
+			// Selected tags filled with false
 			final boolean[] selectedTags = new boolean[tags.size()];
 			Arrays.fill(selectedTags, Boolean.FALSE);
+			
+			// String of choosen tags in order of selection
+			final StringBuilder sbTags = new StringBuilder();
 
 			// Dialog and events creation
 			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
@@ -2251,24 +2281,42 @@ public class DetailFragment extends Fragment implements
 				.setMultiChoiceItems(tagsArray, selectedTags, new DialogInterface.OnMultiChoiceClickListener() {						
 					@Override
 					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-						selectedTags[which] = isChecked;
+//						selectedTags[which] = isChecked;
+						if (isChecked) {
+							// To divide tags a head space is inserted
+							if (sbTags.length() > 0) {
+								sbTags.append(" ");
+							}
+							sbTags.append(tags.get(which));
+						} else {
+							int start = sbTags.indexOf(tags.get(which));
+							int end = tags.get(which).length();
+							// To remove head or tail space
+							if (start > 0) {
+								start--; 
+							} else {
+								end++;
+							}
+							sbTags.replace(start, end, "");
+						}
 					}
 				})
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// Retrieves selected tags
-						for (int i = 0; i < selectedTags.length; i++) {
-							if (!selectedTags[i]) {
-								tags.remove(tagsArray[i]);
-							}
-						}
+//						// Retrieves selected tags
+//						for (int i = 0; i < selectedTags.length; i++) {
+//							if (!selectedTags[i]) {
+//								tags.remove(tagsArray[i]);
+//							}
+//						}
 						
 						StringBuilder sb = new StringBuilder(getNoteContent());
-						String tagsText = " " + (String) tags.toString().subSequence(1, tags.toString().length()-1) + " ";
-						sb.insert(contentCursorPosition, tagsText);
+//						String tagsText = " " + (String) tags.toString().subSequence(1, tags.toString().length()-1) + " ";
+//						sb.insert(contentCursorPosition, tagsText);
+						sb.insert(contentCursorPosition, " " + sbTags.toString() + " ");
 						content.setText(sb.toString());
-						content.setSelection(contentCursorPosition + tagsText.length());
+						content.setSelection(contentCursorPosition + sbTags.length() + 1);
 					}
 				})
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {					
