@@ -586,6 +586,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				// collapsed
 				searchQuery = null;
 //				Log.i(Constants.TAG, "onMenuItemActionCollapse " + item.getItemId());
+				toggleSearchLabel(false);
 				mActivity.getIntent().setAction(Intent.ACTION_MAIN);
 				initNotesList(mActivity.getIntent());
 				return true;
@@ -883,8 +884,12 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				mNoteLoaderTask.execute("getNotesByTag", searchQuery);
 			} else {			
 				// Get the intent, verify the action and get the query
-				if (searchQuery == null) {
+//				if (searchQuery == null) {
+//					searchQuery = intent.getStringExtra(SearchManager.QUERY);
+//				}
+				if (intent.getStringExtra(SearchManager.QUERY) != null) {
 					searchQuery = intent.getStringExtra(SearchManager.QUERY);
+					searchTags = null;
 				}
 				if (mActivity.loadNotesSync) {
 					DbHelper db = new DbHelper(mActivity);

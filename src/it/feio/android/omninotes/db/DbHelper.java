@@ -275,18 +275,18 @@ public class DbHelper extends SQLiteOpenHelper {
 		// Checking if archived or reminders notes must be shown
 		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
 		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
-		String whereCondition = "";
 		boolean notes = navigationListCodes[0].equals(navigation);
 		boolean archived = navigationListCodes[1].equals(navigation);
 		boolean reminders = navigationListCodes[2].equals(navigation);
 		boolean trashed = navigationListCodes[3].equals(navigation);
-		boolean category = !notes && ! archived && !reminders && !trashed;		
+		boolean category = !notes && ! archived && !reminders && !trashed;	
+		String whereCondition = "";	
 		if (checkNavigation) {
 			whereCondition = notes ? " WHERE " + KEY_ARCHIVED + " IS NOT 1 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;			
-			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 " : whereCondition;
-			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 " : whereCondition;	
+			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;
+			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;	
 			whereCondition = trashed ? " WHERE " + KEY_TRASHED + " = 1 " : whereCondition;
-			whereCondition = category ? " WHERE " + TABLE_NOTES + "." + KEY_CATEGORY + " = " + navigation : whereCondition;
+			whereCondition = category ? " WHERE " + TABLE_NOTES + "." + KEY_CATEGORY + " = " + navigation + " AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;
 		}		
 		return getNotes(whereCondition, true);
 	}
@@ -539,7 +539,9 @@ public class DbHelper extends SQLiteOpenHelper {
 		List<Note> notes;
 		try {
 			int id = Integer.parseInt(categoryId);
-			String whereCondition = " WHERE " + KEY_CATEGORY_ID + " = " + id;
+			String whereCondition = " WHERE " 
+									+ KEY_CATEGORY_ID + " = " + id
+									+ " AND " + KEY_TRASHED + " IS NOT 1";
 			notes = getNotes(whereCondition, true);
 		} catch (NumberFormatException e) {
 			notes = getAllNotes(true);
@@ -581,7 +583,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return List of notes with requested category
 	 */
 	public List<Note> getNotesByTag(String tag) {	
-		ArrayList<String> tags = new ArrayList<String>();
 		if (tag.indexOf(",") != -1) {
 			return getNotesByTag(tag.split(","));
 		} else {
@@ -604,6 +605,13 @@ public class DbHelper extends SQLiteOpenHelper {
 			}
 			whereCondition.append(" LIKE '%" + tags[i] + "%' ");
 		}
+		
+		// Trashed notes must be included in search results only if search if performed from trash
+		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
+		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		boolean trashed = navigationListCodes[3].equals(navigation);
+		whereCondition.append(" AND " + KEY_TRASHED + " IS " + (trashed ? "" : " NOT ") + " 1");
+		
 		return getNotes(whereCondition.toString(), true);
 	}
 	

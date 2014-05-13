@@ -22,7 +22,8 @@
 <!--         <changelogtext>[b]New![/b] Toggle the number of associated notes next to the category</changelogtext> -->
   		<changelogtext>Swiping notes from list will now archive them again instead of trashing</changelogtext>   
   		<changelogtext>More precise hashtag parsing to avoid false positives</changelogtext>  
-  		<changelogtext>[u]Fixed[/u] Missing trashing or archiving if changing navigation immediatelly after having swiped a note</changelogtext>    
+  		<changelogtext>[u]Fixed[/u] Missing trashing or archiving if changing navigation immediatelly after having swiped a note</changelogtext>  
+  		<changelogtext>[u]Fixed[/u] Trashed notes are now correctly retrieved only by performing searches directly from trash</changelogtext>    
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 3" changeDate="May 13 2014">
