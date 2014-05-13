@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.neopixl.pixlui.links.RegexPatternsConstants;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -560,11 +562,10 @@ public class DbHelper extends SQLiteOpenHelper {
 								+ KEY_CONTENT + " LIKE '%#%' ";
 		List<Note> notes = getNotes(whereCondition, true);
 		
-		Pattern pattern = Pattern.compile("(#[a-zA-Z0-9_-]+)");		
 		for (Note note : notes) {
-			Matcher matcher = pattern.matcher(note.getContent());
+			Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getContent());
 		    while (matcher.find()) {
-		    	tagsMap.put(matcher.group(), true);
+		    	tagsMap.put(matcher.group().trim(), true);
 		    }
 		}
 		List<String> tags = new ArrayList<String>();
