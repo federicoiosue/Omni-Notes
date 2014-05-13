@@ -17,7 +17,6 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="4.6.0 Beta 4" changeDate="May 13 2014">
-        <changelogtext>[b]New![/b] Help Online</changelogtext>
         <changelogtext>[b]New![/b] Swipe on notes behavior can now be changed from settings</changelogtext>
 <!--         <changelogtext>[b]New![/b] Toggle the number of associated notes next to the category</changelogtext> -->
   		<changelogtext>Swiping notes from list will now archive them again instead of trashing</changelogtext>   
@@ -27,6 +26,7 @@
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 3" changeDate="May 13 2014">
+        <changelogtext>[b]New![/b] Help Online</changelogtext>
         <changelogtext>[b]New![/b] Real tags!! Old tags are now Categories and tags are now managed directly by inserting "#..." into notes content. You can filter by tag using the tag icon when in search mode</changelogtext>
         <changelogtext>[b]New![/b] Trash is now available to perform one step more before permanently destroy your notes!</changelogtext>  
         <changelogtext>[b]New![/b] A lot search feature changes: persistent search results (search query can't be unfortunately restored if I want to keep retrocompatibility); Trashed notes will be fine only performing search from inside trash itself; Bugfixes</changelogtext>   
