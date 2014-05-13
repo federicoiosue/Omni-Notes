@@ -972,7 +972,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		boolean whereInTrash = getResources().getStringArray(R.array.navigation_list_codes)[3]
 				.equals(mActivity.navigation);
 		
-		listView.setAdapter(null);
 		if (!whereInTrash) {
 			SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter,
 				new OnDismissCallback() {

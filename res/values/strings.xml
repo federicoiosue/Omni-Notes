@@ -270,6 +270,9 @@
     <string name="settings_swipe_to_trash">Swipe to trash</string>
     <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
     <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
+    <string name="settings_show_category_count">Note count</string>
+    <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
+    
 
     <!-- Instructions -->
     <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>
