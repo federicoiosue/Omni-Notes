@@ -118,6 +118,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private DbHelper db;
 	private ListFragment mFragment;
 	private String searchQuery;
+	private String searchTags;
 
 	
 	@Override
@@ -867,23 +868,30 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// A workaround to simplify it's to simulate normal search
 		if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getCategories().contains(Intent.CATEGORY_BROWSABLE)) {
 //			mNoteLoaderTask.execute("getNotesByTag", intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, ""));
-			searchQuery = intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, "");
+			searchTags = intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, "");
 		}
 
 		// Searching		
-		if (searchQuery != null || Intent.ACTION_SEARCH.equals(intent.getAction())) {
+		if (searchTags != null || searchQuery != null || Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			intent.setAction(null);
-			// Get the intent, verify the action and get the query
-			if (searchQuery == null) {
-				searchQuery = intent.getStringExtra(SearchManager.QUERY);
+			
+			// Using tags
+			if (searchTags != null) {
+				searchQuery = searchTags;
+				mNoteLoaderTask.execute("getNotesByTag", searchQuery);
+			} else {			
+				// Get the intent, verify the action and get the query
+				if (searchQuery == null) {
+					searchQuery = intent.getStringExtra(SearchManager.QUERY);
+				}
+				if (mActivity.loadNotesSync) {
+					DbHelper db = new DbHelper(mActivity);
+					onNotesLoaded((ArrayList<Note>) db.getMatchingNotes(searchQuery));
+				} else {
+					mNoteLoaderTask.execute("getMatchingNotes", searchQuery);
+				}
+				mActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
 			}
-			if (mActivity.loadNotesSync) {
-				DbHelper db = new DbHelper(mActivity);
-				onNotesLoaded((ArrayList<Note>) db.getMatchingNotes(searchQuery));
-			} else {
-				mNoteLoaderTask.execute("getMatchingNotes", searchQuery);
-			}
-			mActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
 			
 			toggleSearchLabel(true);
 
@@ -933,14 +941,17 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			mActivity.findViewById(R.id.search_cancel).setOnClickListener(new OnClickListener() {				
 				@Override
 				public void onClick(View v) {
-					mActivity.findViewById(R.id.search_layout).setVisibility(View.GONE);
-					searchQuery = null;
-					mActivity.getIntent().setAction(Intent.ACTION_MAIN);
-					initNotesList(mActivity.getIntent());
+//					mActivity.findViewById(R.id.search_layout).setVisibility(View.GONE);
+//					searchTags = null;
+//					searchQuery = null;
+//					mActivity.getIntent().setAction(Intent.ACTION_MAIN);
+//					initNotesList(mActivity.getIntent());
+					toggleSearchLabel(false);
 				}
 			});
 		} else {
 			mActivity.findViewById(R.id.search_layout).setVisibility(View.GONE);
+			searchTags = null;
 			searchQuery = null;
 			mActivity.getIntent().setAction(Intent.ACTION_MAIN);
 			initNotesList(mActivity.getIntent());
@@ -1472,9 +1483,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 							}
 						}
 						
+						// Saved here to allow persisting search
+						searchTags = tags.toString().substring(1, tags.toString().length()-1).replace(" ", "");
+						initNotesList(mActivity.getIntent());
+						
 						// Fires an intent to search related notes
-						NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
-						mNoteLoaderTask.execute("getNotesByTag", tags.toString().substring(1, tags.toString().length()-1).replace(" ", ""));
+//						NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
+//						mNoteLoaderTask.execute("getNotesByTag", searchQuery);
 					}
 				})
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {					
