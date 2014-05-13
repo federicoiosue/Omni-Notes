@@ -23,12 +23,12 @@
         android:orderInCategory="100"
         android:title="@string/attachment"
         app:showAsAction="always"/>
-<!--     <item -->
-<!--         android:id="@+id/menu_tag" -->
-<!--         android:icon="@drawable/ic_action_labels" -->
-<!--         android:orderInCategory="200" -->
-<!--         android:title="@string/tag" -->
-<!--         app:showAsAction="always"/> -->
+    <item
+        android:id="@+id/menu_tag"
+        android:icon="@drawable/ic_action_labels"
+        android:orderInCategory="200"
+        android:title="@string/add_tag"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_category"
         android:icon="@drawable/ic_action_category"

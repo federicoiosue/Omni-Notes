@@ -51,6 +51,7 @@ import it.feio.android.omninotes.utils.date.ReminderPickers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -210,6 +211,7 @@ public class DetailFragment extends Fragment implements
 	private ScrollView scrollView;
 	private int contentLineCounter = 1;
 	public boolean goBack = false;
+	private int contentCursorPosition;
 
 
 	@Override
@@ -1041,6 +1043,9 @@ public class DetailFragment extends Fragment implements
 			break;
 		case R.id.menu_attachment:
 			showPopup(mActivity.findViewById(R.id.menu_attachment));
+			break;
+		case R.id.menu_tag:
+			addTag();
 			break;
 		case R.id.menu_category:
 			tagNote();
@@ -2215,6 +2220,63 @@ public class DetailFragment extends Fragment implements
 			contentLineCounter = content.getLineCount();
 		}
 	}
+	
+	
+	
+	/**
+	 * Add a previously created tag to content
+	 */
+	private void addTag() {
+			contentCursorPosition = content.getSelectionStart();
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+
+			// Retrieves all available categories
+			final List<String> tags = db.getTags();
+
+			// If there is no tag a message will be shown
+			if (tags.size() == 0) {
+				Crouton.makeText(mActivity, R.string.no_tags_created, ONStyle.WARN).show();
+				return;
+			}
+
+			// Selected tags
+			final boolean[] selectedTags = new boolean[tags.size()];
+			Arrays.fill(selectedTags, Boolean.FALSE);
+
+			// Dialog and events creation
+			AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+			final String[] tagsArray = tags.toArray(new String[tags.size()]);
+			builder
+				.setTitle(R.string.select_tags)
+				.setMultiChoiceItems(tagsArray, selectedTags, new DialogInterface.OnMultiChoiceClickListener() {						
+					@Override
+					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+						selectedTags[which] = isChecked;
+					}
+				})
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Retrieves selected tags
+						for (int i = 0; i < selectedTags.length; i++) {
+							if (!selectedTags[i]) {
+								tags.remove(tagsArray[i]);
+							}
+						}
+						
+						StringBuilder sb = new StringBuilder(getNoteContent());
+						String tagsText = " " + (String) tags.toString().subSequence(1, tags.toString().length()-1) + " ";
+						sb.insert(contentCursorPosition, tagsText);
+						content.setText(sb.toString());
+						content.setSelection(contentCursorPosition + tagsText.length());
+					}
+				})
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {}
+				});
+			builder.create().show();
+		}
 }
 
 

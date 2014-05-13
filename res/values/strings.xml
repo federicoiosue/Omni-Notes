@@ -95,6 +95,7 @@
     <string name="backup_existing">Backup already exist. It\'ll be overwritten</string>
     <string name="tag">Tag</string>
     <string name="tags">Tags</string>
+    <string name="add_tag">Add a tag</string>
     <string name="select_tags">Select tag(s)</string>
     <string name="categories">Categories</string>
     <string name="edit_tag">Edit category</string>
@@ -218,12 +219,12 @@
     <string name="password_successfully_removed">Password successfully removed</string>
     <string name="wrong_password">Wrong password</string>
     <string name="agree_unlocking_all_notes">Remove password\nand unmask all masked notes?</string>
-    <string name="settings_enable_tag_marker">Tag markers</string>
+    <string name="settings_enable_tag_marker">Category markers</string>
     <string name="settings_backup_summary">Import or export app data</string>
     <string name="settings_max_video_size_summary">Maximum allowed size in MB</string>
     <string name="settings_password_summary">Edit security password</string>
     <string name="settings_enable_animations_summary">Enable/disable animations in notes list</string>
-    <string name="settings_enable_tag_marker_summary">Show/hide colored markers for tags</string>
+    <string name="settings_enable_tag_marker_summary">Show/hide colored markers for categories</string>
     <string name="settings_enable_editor_links_summary">Make typed URLs and e-mail addresses automatically clickable</string>
     <string name="confirm_removing_backup">Really delete backup?</string>
     <string name="confirm_restoring_backup">Really restore from backup?</string>
