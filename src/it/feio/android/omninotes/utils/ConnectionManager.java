@@ -17,7 +17,6 @@ package it.feio.android.omninotes.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.preference.PreferenceManager;
 
 
 public class ConnectionManager {

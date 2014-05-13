@@ -16,7 +16,6 @@
 package it.feio.android.omninotes;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
-import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.NoteLoaderTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
@@ -49,7 +48,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -117,8 +115,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private SharedPreferences prefs;
 	private DbHelper db;
 	private ListFragment mFragment;
+	
+	// Search variables
 	private String searchQuery;
 	private String searchTags;
+	private boolean goBackOnToggleSearchLabel = false;
 
 	
 	@Override
@@ -869,6 +870,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getCategories().contains(Intent.CATEGORY_BROWSABLE)) {
 //			mNoteLoaderTask.execute("getNotesByTag", intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, ""));
 			searchTags = intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, "");
+			goBackOnToggleSearchLabel = true;
 		}
 
 		// Searching		
@@ -941,11 +943,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			mActivity.findViewById(R.id.search_cancel).setOnClickListener(new OnClickListener() {				
 				@Override
 				public void onClick(View v) {
-//					mActivity.findViewById(R.id.search_layout).setVisibility(View.GONE);
-//					searchTags = null;
-//					searchQuery = null;
-//					mActivity.getIntent().setAction(Intent.ACTION_MAIN);
-//					initNotesList(mActivity.getIntent());
 					toggleSearchLabel(false);
 				}
 			});
@@ -953,8 +950,12 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			mActivity.findViewById(R.id.search_layout).setVisibility(View.GONE);
 			searchTags = null;
 			searchQuery = null;
-			mActivity.getIntent().setAction(Intent.ACTION_MAIN);
-			initNotesList(mActivity.getIntent());
+			if (!goBackOnToggleSearchLabel) {
+				mActivity.getIntent().setAction(Intent.ACTION_MAIN);
+				initNotesList(mActivity.getIntent());
+			} else {
+				mActivity.onBackPressed();
+			}
 		}
 	}
 	

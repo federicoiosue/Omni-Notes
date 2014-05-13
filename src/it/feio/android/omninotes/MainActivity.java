@@ -328,16 +328,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			getDrawerToggle().setDrawerIndicatorEnabled(false);
 		}
 		mFragmentManager.getFragments();
-//		mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer);
-//		if (mNavigationDrawerFragment == null) {
-//			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-//			fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment(), FRAGMENT_DRAWER_TAG).commit();
-//		}
-//		
-//		if (mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
-//			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-//			fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG).commit();
-//		}
 	}
 
 	

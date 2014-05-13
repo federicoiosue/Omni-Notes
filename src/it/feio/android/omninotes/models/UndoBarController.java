@@ -17,11 +17,11 @@
 package it.feio.android.omninotes.models;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
+import it.feio.android.checklistview.utils.AlphaManager;
+import it.feio.android.omninotes.R;
 
 import java.util.Locale;
 
-import it.feio.android.checklistview.utils.AlphaManager;
-import it.feio.android.omninotes.R;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;

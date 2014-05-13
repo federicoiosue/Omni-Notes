@@ -15,9 +15,6 @@ import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender.Method;
 import org.acra.sender.HttpSender.Type;
 
-import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.Tracker;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -28,6 +25,9 @@ import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.Tracker;
 
 @ReportsCrashes(
 				formKey = "", 

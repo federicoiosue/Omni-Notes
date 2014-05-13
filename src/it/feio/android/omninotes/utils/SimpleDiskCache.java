@@ -21,10 +21,10 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 
-import com.jakewharton.disklrucache.DiskLruCache;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.jakewharton.disklrucache.DiskLruCache;
 
 
 public class SimpleDiskCache {

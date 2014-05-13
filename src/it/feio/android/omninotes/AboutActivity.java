@@ -15,11 +15,11 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
-
 import android.os.Bundle;
 import android.webkit.WebView;
+
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 public class AboutActivity extends BaseActivity {
 

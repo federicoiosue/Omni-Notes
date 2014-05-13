@@ -12,9 +12,6 @@ import it.feio.android.simplegallery.views.GalleryViewPager;
 
 import java.util.ArrayList;
 
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +23,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.MapBuilder;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e. status bar and navigation/system bar) with user interaction.
