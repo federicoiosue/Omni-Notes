@@ -17,12 +17,14 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="4.6.0 Beta 4" changeDate="May 13 2014">
-        <changelogtext>[b]New![/b] Swipe on notes behavior can now be changed from settings</changelogtext>
+        <changelogtext>[b]New![/b] Swipe on notes behavior can now be changed from settings: by default now a note will be first archived, then trashed. Trash will not allow swiping actions for security.</changelogtext>
 <!--         <changelogtext>[b]New![/b] Toggle the number of associated notes next to the category</changelogtext> -->
+  		<changelogtext>More precise hashtag parsing to avoid false positives</changelogtext>    
   		<changelogtext>Swiping notes from list will now archive them again instead of trashing</changelogtext>   
-  		<changelogtext>More precise hashtag parsing to avoid false positives</changelogtext>  
+  		<changelogtext>Improved speed in archive/trash undo actions by avoiding data refresh</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Missing trashing or archiving if changing navigation immediatelly after having swiped a note</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Trashed notes are now correctly retrieved only by performing searches directly from trash</changelogtext>    
+  		<changelogtext>[u]Fixed[/u] Notes saved also if you choose to discard changes</changelogtext>    
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 3" changeDate="May 13 2014">

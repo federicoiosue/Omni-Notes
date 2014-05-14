@@ -1048,12 +1048,12 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			mAdapter.remove(note);
 		}
 		// Refresh view
-		ListView l = (ListView) mActivity.findViewById(R.id.notes_list);
-		l.invalidateViews();
+//		ListView l = (ListView) mActivity.findViewById(R.id.notes_list);
+//		l.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
-		if (l.getCount() == 0)
-			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
+//		if (listView.getCount() == 0)
+//			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
 
 		if (mActionMode != null) {
 			mActionMode.finish();
@@ -1168,7 +1168,12 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		listView.clearChoices();
 
 		// Refresh view
-		((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
+//		((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
+
+		// If list is empty again Mr Jingles will appear again
+//		if (listView.getCount() == 0)
+//			listView.setEmptyView(mActivity.findViewById(R.id.empty_list));
+		
 		// Advice to user
 		Crouton.makeText(mActivity, archivedStatus, ONStyle.INFO).show();
 

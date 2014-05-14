@@ -165,6 +165,7 @@ public class DetailFragment extends Fragment implements
 
 	private Note note;
 	private Note noteTmp;
+	private Note noteOriginal;
 
 	// Reminder
 	int reminderYear, reminderMonth, reminderDay;
@@ -265,7 +266,9 @@ public class DetailFragment extends Fragment implements
 		
 		// Restored temp note after orientation change
 		if (savedInstanceState != null) {
-			noteTmp = savedInstanceState.getParcelable("note");
+			noteTmp = savedInstanceState.getParcelable("noteTmp");
+			note = savedInstanceState.getParcelable("note");
+			noteOriginal = savedInstanceState.getParcelable("noteOriginal");
 			attachmentUri = savedInstanceState.getParcelable("attachmentUri");
 			orientationChanged = savedInstanceState.getBoolean("orientationChanged");
 		}
@@ -300,7 +303,9 @@ public class DetailFragment extends Fragment implements
 	
 			noteTmp.setTitle(getNoteTitle());
 			noteTmp.setContent(getNoteContent()); 
-			outState.putParcelable("note", noteTmp);
+			outState.putParcelable("noteTmp", noteTmp);
+			outState.putParcelable("note", note);
+			outState.putParcelable("noteOriginal", noteOriginal);
 			outState.putParcelable("attachmentUri", attachmentUri);
 			outState.putBoolean("orientationChanged", orientationChanged);
 			super.onSaveInstanceState(outState);		
@@ -315,7 +320,7 @@ public class DetailFragment extends Fragment implements
 		
 		// Checks "goBack" value to avoid performing a double saving
 		if (!goBack) {
-			saveNote(null, null);
+			saveNote(null, this);
 		}
 		
 		if (mRecorder != null) {
@@ -356,8 +361,12 @@ public class DetailFragment extends Fragment implements
 		// Handling of Intent actions		
 		handleIntents();
 		
+		if (noteOriginal == null) {
+			noteOriginal = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);
+		}
+		
 		if (note == null) {
-			note = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);
+			note = new Note(noteOriginal);
 		}
 		
 		if (noteTmp == null) {
@@ -421,7 +430,8 @@ public class DetailFragment extends Fragment implements
 		Intent i = mActivity.getIntent();
 		
 		if (Constants.ACTION_MERGE.equals(i.getAction())) {
-			note = new Note();
+			noteOriginal = new Note();
+			note = new Note(noteOriginal);
 			noteTmp = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);
 			i.setAction(null);
 		}
@@ -431,13 +441,14 @@ public class DetailFragment extends Fragment implements
 				|| Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())) {
 			afterSavedReturnsToList = false;
 			DbHelper db = new DbHelper(mActivity);
-			note = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+			noteOriginal = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
 			// Checks if the note pointed from the shortcut has been deleted
-			if (note == null) {	
+			if (noteOriginal == null) {	
 				mActivity.showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
 				mActivity.finish();
 			}
-			noteTmp = new Note(note);
+			note = new Note(noteOriginal);
+			noteTmp = new Note(noteOriginal);
 			i.setAction(null);
 		}
 		
@@ -1611,17 +1622,35 @@ public class DetailFragment extends Fragment implements
 	/**
 	 * Discards changes done to the note and eventually delete new attachments
 	 */
+	@SuppressLint("NewApi")
 	private void discard() {
 		// Checks if some new files have been attached and must be removed
 		if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
 			for (Attachment newAttachment: noteTmp.getAttachmentsList()) {
-//				if (!note.getAttachmentsList().contains(newAttachment) && !newAttachment.getMoveWhenNoteSaved()) {
 				if (!note.getAttachmentsList().contains(newAttachment)) {
 					StorageManager.delete(mActivity, newAttachment.getUri().getPath());
 				}
 			}
 		}
-		goHome();
+		
+		goBack = true;
+		
+		if (!noteTmp.equals(noteOriginal)) {
+			// Restore original status of the note
+			if (noteOriginal.get_id() == 0) {
+				mActivity.deleteNote(noteTmp);
+				goHome();
+			} else {
+				SaveNoteTask saveNoteTask = new SaveNoteTask(this, this, false);
+				if (Build.VERSION.SDK_INT >= 11) {
+					saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
+				} else {
+					saveNoteTask.execute(noteOriginal);
+				}
+			}
+		} else {
+			goHome();
+		}
 	}
 	
 	
@@ -1729,7 +1758,7 @@ public class DetailFragment extends Fragment implements
 		}
 		
 		// Note status is aligned with noteTmp saved right now
-		note = new Note(noteTmp);
+//		note = new Note(noteTmp);
 		
 		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
 		
@@ -1739,7 +1768,7 @@ public class DetailFragment extends Fragment implements
 
 	@Override
 	public void onNoteSaved(Note noteSaved) {
-//		noteTmp = new Note(noteSaved);
+		note = new Note(noteSaved);
 		if (goBack) {
 			goHome();
 		}
