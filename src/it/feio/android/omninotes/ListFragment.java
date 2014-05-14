@@ -64,6 +64,7 @@ import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -108,13 +109,17 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private AnimationDrawable jinglesAnimation;
 	private int listViewPosition;
 	private int listViewPositionOffset;
-	private boolean undoTrash = false, undoArchive = false;
 	private UndoBarController ubc;
 	private boolean sendToArchive;
 	private MainActivity mActivity;
 	private SharedPreferences prefs;
 	private DbHelper db;
 	private ListFragment mFragment;
+	
+	// Undo archive/trash
+	private boolean undoTrash = false;
+	private boolean undoArchive = false;
+	private SparseArray<Note> undoNotesList = new SparseArray<Note>();
 	
 	// Search variables
 	private String searchQuery;
@@ -986,8 +991,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 						for (int position : reverseSortedPositions) {
 							Note note = mAdapter.getItem(position);
 							selectedNotes.add(note);
-							mAdapter.remove(note);
-							listView.invalidateViews();
+//							mAdapter.remove(note);
+//							listView.invalidateViews();
 	
 							// Depending on settings and note status this action will archive or trash
 							if (prefs.getBoolean("settings_swipe_to_trash", false) || note.isArchived()) {
@@ -1032,11 +1037,15 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	public void trashSelectedNotes(boolean trash) {
 		int selectedNotesSize = selectedNotes.size();
 		for (Note note : selectedNotes) {
-			mAdapter.remove(note);
 			// Restore it performed immediately, otherwise undo bar
 			if (!trash) {
 				trashNote(note, false);
+			} else {
+				// Saves notes to be eventually restored at right position
+				undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
 			}
+			// Removes note adapter
+			mAdapter.remove(note);
 		}
 		// Refresh view
 		ListView l = (ListView) mActivity.findViewById(R.id.notes_list);
@@ -1142,13 +1151,16 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				.getText(R.string.note_unarchived).toString();
 
 		for (Note note : selectedNotes) {
-			// Update adapter content
-			mAdapter.remove(note);
 			// If is restore it will be done immediately, otherwise the undo bar
 			// will be shown
 			if (!archive) {
 				archiveNote(note, false);
+			} else {
+				// Saves notes to be eventually restored at right position
+				undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
 			}
+			// Update adapter content
+			mAdapter.remove(note);
 		}
 
 		// Clears data structures
@@ -1291,12 +1303,18 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		undoTrash = false;
 		undoArchive = false;
 		Crouton.cancelAllCroutons();
+		
+		// Cycles removed items to re-insert into adapter
+		for (Note note : selectedNotes) {
+			mAdapter.insert(note, undoNotesList.keyAt(undoNotesList.indexOfValue(note)));
+		}		
+		undoNotesList.clear();
 		selectedNotes.clear();
+		
 		if (mActionMode != null) {
 			mActionMode.finish();
 		}
 		ubc.hideUndoBar(false);
-		initNotesList(mActivity.getIntent());
 	}
 
 	
@@ -1315,6 +1333,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 			// Clears data structures
 			selectedNotes.clear();
+			undoNotesList.clear();
 			mAdapter.clearSelectedItems();
 			listView.clearChoices();
 
