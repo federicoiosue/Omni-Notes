@@ -1286,6 +1286,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private void categorizeSelectedNotes2(Category category) {
 		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
 		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		
 		for (Note note : selectedNotes) {
 			// Update adapter content if actual navigation is the category
 			// associated with actually cycled note
@@ -1295,8 +1296,15 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			note.setCategory(category);
 			db.updateNote(note, false);
 		}
-		// Refresh view
+		
+		// Refreshes list
 		((ListView) mActivity.findViewById(R.id.notes_list)).invalidateViews();
+
+		// Refreshes navigation drawer if is set to show categories count numbers
+		if (prefs.getBoolean("settings_show_category_count", false)) {
+			mActivity.initNavigationDrawer();
+		}
+		
 		// Advice to user
 		String msg = getResources().getText(R.string.notes_categorized_as) + " '" + category.getName() + "'";
 		Crouton.makeText(mActivity, msg, ONStyle.INFO).show();

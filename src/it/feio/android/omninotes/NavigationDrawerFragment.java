@@ -129,7 +129,7 @@ public class NavigationDrawerFragment extends Fragment {
 			// Inflation of header view
 			LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			if (tagListHeader == null) {
-				tagListHeader = inflater.inflate(R.layout.drawer_tag_list_header,
+				tagListHeader = inflater.inflate(R.layout.drawer_category_list_header,
 						(ViewGroup) getView().findViewById(R.id.layout_root));
 			}
 			// Adds the "tag" label as header

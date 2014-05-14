@@ -35,7 +35,8 @@
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="50dp"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/icon_text_margin"
@@ -45,6 +46,14 @@
             android:textAppearance="@style/Text.Big"
             android:textColor="@color/drawer_text"
             pixlui:typeface="Roboto-Regular.ttf" />
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        	android:paddingEnd="@dimen/horizontal_margin"
+        	android:paddingRight="@dimen/horizontal_margin"
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
 
     <View

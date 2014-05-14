@@ -23,6 +23,7 @@ public class Category implements Parcelable {
 	private String name;
 	private String description;
 	private String color;
+	private int count;
 
 	private Category(Parcel in) {
 		setId(in.readInt());
@@ -42,6 +43,16 @@ public class Category implements Parcelable {
 		this.name = title;
 		this.description = description;
 		this.color = color;
+	}
+	
+	
+	public Category(Integer id, String title, String description, String color, int count) {
+		super();
+		this.id = id;
+		this.name = title;
+		this.description = description;
+		this.color = color;
+		this.count = count;
 	}
 
 
@@ -77,6 +88,14 @@ public class Category implements Parcelable {
 
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 	@Override

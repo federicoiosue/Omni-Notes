@@ -29,9 +29,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.neopixl.pixlui.links.RegexPatternsConstants;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -42,6 +39,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
+
+import com.neopixl.pixlui.links.RegexPatternsConstants;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -683,13 +682,29 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	public ArrayList<Category> getCategories() {		
 		ArrayList<Category> categoriesList = new ArrayList<Category>();
+//		String sql = "SELECT " 
+//				+ KEY_CATEGORY_ID + "," 
+//				+ KEY_CATEGORY_NAME + ","
+//				+ KEY_CATEGORY_DESCRIPTION  + ","
+//				+ KEY_CATEGORY_COLOR
+//			+ " FROM " + TABLE_CATEGORY
+//			+ " ORDER BY IFNULL(NULLIF(" + KEY_CATEGORY_NAME + ", ''),'zzzzzzzz') ";
 		String sql = "SELECT " 
-						+ KEY_CATEGORY_ID + "," 
-						+ KEY_CATEGORY_NAME + ","
-						+ KEY_CATEGORY_DESCRIPTION  + ","
-						+ KEY_CATEGORY_COLOR
-					+ " FROM " + TABLE_CATEGORY
-					+ " ORDER BY IFNULL(NULLIF(" + KEY_CATEGORY_NAME + ", ''),'zzzzzzzz') ";
+				+ KEY_CATEGORY_ID + "," 
+				+ KEY_CATEGORY_NAME + ","
+				+ KEY_CATEGORY_DESCRIPTION  + ","
+				+ KEY_CATEGORY_COLOR  + ","
+				+ " COUNT(*) count"
+			+ " FROM " + TABLE_CATEGORY
+			+ " LEFT JOIN " + TABLE_NOTES + " USING( " + KEY_CATEGORY + ") "
+			+ " WHERE " + KEY_TRASHED + " IS NOT 1"
+			+ " GROUP BY " 
+				+ KEY_CATEGORY_ID + "," 
+				+ KEY_CATEGORY_NAME + ","
+				+ KEY_CATEGORY_DESCRIPTION  + ","
+				+ KEY_CATEGORY_COLOR 
+			+ " ORDER BY IFNULL(NULLIF(" + KEY_CATEGORY_NAME + ", ''),'zzzzzzzz') ";
+				
 		
 		SQLiteDatabase db = null;
 		Cursor cursor = null;
@@ -703,7 +718,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				do {
 					categoriesList.add(new Category(Integer.valueOf(cursor.getInt(0)),
 							cursor.getString(1), cursor.getString(2), cursor
-									.getString(3)));
+									.getString(3), cursor.getInt(4)));
 				} while (cursor.moveToNext());
 			}
 

@@ -44,28 +44,28 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
 
 	private Activity mActivity;
 	private int layout;
-	private ArrayList<Category> tags;
+	private ArrayList<Category> categories;
 	private LayoutInflater inflater;
 
-	public NavDrawerCategoryAdapter(Activity mActivity, ArrayList<Category> tags) {
-		this(mActivity, tags, null);		
+	public NavDrawerCategoryAdapter(Activity mActivity, ArrayList<Category> categories) {
+		this(mActivity, categories, null);		
 	}
 
-	public NavDrawerCategoryAdapter(Activity mActivity, ArrayList<Category> tags, String navigationTmp) {
+	public NavDrawerCategoryAdapter(Activity mActivity, ArrayList<Category> categories, String navigationTmp) {
 		this.mActivity = mActivity;
 		this.layout = R.layout.drawer_list_item;		
-		this.tags = tags;	
+		this.categories = categories;	
 		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 	}
 
 	@Override
 	public int getCount() {
-		return tags.size();
+		return categories.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return tags.get(position);
+		return categories.get(position);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		// Finds elements
-		Category tag = tags.get(position);
+		Category category = categories.get(position);
 		
 		NoteDrawerCategoryAdapterViewHolder holder;
 	    if (convertView == null) {
@@ -89,13 +89,14 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
     		    	
 	    	holder.imgIcon = (ImageView) convertView.findViewById(R.id.icon);
 	    	holder.txtTitle = (TextView) convertView.findViewById(R.id.title);
+	    	holder.count = (android.widget.TextView) convertView.findViewById(R.id.count);
 	    	convertView.setTag(holder);
 	    } else {
 	        holder = (NoteDrawerCategoryAdapterViewHolder) convertView.getTag();
 	    }
 	
 		// Set the results into TextViews	
-	    holder.txtTitle.setText(tag.getName());
+	    holder.txtTitle.setText(category.getName());
 		
 	    if (isSelected(parent, position)) {
 //			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
@@ -108,9 +109,9 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
 		}
 
 		// Set the results into ImageView checking if an icon is present before
-		if (tag.getColor() != null && tag.getColor().length() > 0) {
+		if (category.getColor() != null && category.getColor().length() > 0) {
 			Drawable img = mActivity.getResources().getDrawable(R.drawable.square);
-			ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(tag.getColor()));
+			ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(category.getColor()));
 			// Before API 16 the object is mutable yet
 			if (Build.VERSION.SDK_INT >= 16) {
 				img.mutate().setColorFilter(cf);
@@ -119,6 +120,11 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
 			}
 			holder.imgIcon.setImageDrawable(img);
 			holder.imgIcon.setPadding(8,8,8,8);
+		}
+		
+		// Sets category count if set in preferences
+		if (mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean("settings_show_category_count", false)) {
+			holder.count.setText(String.valueOf(category.getCount()));
 		}
 
 		return convertView;
@@ -142,7 +148,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
 						.getString(Constants.PREF_NAVIGATION,
 								navigationListCodes[0]);
 		
-		if (navigation.equals(String.valueOf(tags.get(position).getId()))) {
+		if (navigation.equals(String.valueOf(categories.get(position).getId()))) {
 			return true;
 		} else {
 			return false;
@@ -161,4 +167,5 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
 class NoteDrawerCategoryAdapterViewHolder {	
 	ImageView imgIcon;
 	TextView txtTitle;
+	android.widget.TextView count;
 }
