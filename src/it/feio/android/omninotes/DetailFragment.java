@@ -414,6 +414,7 @@ public class DetailFragment extends Fragment implements
 						noteTmp.setPasswordChecked(true);
 						init();
 					} else {
+						goBack = true;
 						goHome();
 					}
 				}
