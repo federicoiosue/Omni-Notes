@@ -115,7 +115,12 @@ public class OmniNotes extends Application {
 			prefs.edit().putString(PREF_LANG, lang).commit();
 
 		} else if (!TextUtils.isEmpty(language)) {
-			cfg.locale = new Locale(language);
+			// Checks country
+			if (language.contains("_")) {
+				cfg.locale = new Locale(language.split("_")[0], language.split("_")[1]);
+			} else {
+				cfg.locale = new Locale(language);				
+			}
 		}
 
 		ctx.getResources().updateConfiguration(cfg, null);
