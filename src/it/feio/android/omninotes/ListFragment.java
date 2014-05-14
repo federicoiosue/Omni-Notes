@@ -979,35 +979,36 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		mAdapter = new NoteAdapter(mActivity, layout, notes);
 
 		// A specifi
-		boolean whereInTrash = getResources().getStringArray(R.array.navigation_list_codes)[3]
+		final boolean weAreInTrash = getResources().getStringArray(R.array.navigation_list_codes)[3]
 				.equals(mActivity.navigation);
 		
-		if (!whereInTrash) {
-			SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter,
-				new OnDismissCallback() {
-					@Override
-					public void onDismiss(AbsListView listView,
-							int[] reverseSortedPositions) {
-						for (int position : reverseSortedPositions) {
-							Note note = mAdapter.getItem(position);
-							selectedNotes.add(note);
-//							mAdapter.remove(note);
-//							listView.invalidateViews();
-	
-							// Depending on settings and note status this action will archive or trash
+		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter,
+			new OnDismissCallback() {
+				@Override
+				public void onDismiss(AbsListView listView,
+						int[] reverseSortedPositions) {
+					for (int position : reverseSortedPositions) {
+						Note note = mAdapter.getItem(position);
+						selectedNotes.add(note);
+
+						// Depending on settings and note status this action will...
+						// ...restore
+						if (weAreInTrash) {
+							trashSelectedNotes(false);
+						} else {
+							// ...trash
 							if (prefs.getBoolean("settings_swipe_to_trash", false) || note.isArchived()) {
 								trashSelectedNotes(true);
+								// ...archive
 							} else {
 								archiveSelectedNotes(true);
 							}
 						}
 					}
-				});
-			adapter.setAbsListView(listView);
-			listView.setAdapter(adapter);
-		} else {
-			listView.setAdapter(mAdapter);
-		}
+				}
+			});
+		adapter.setAbsListView(listView);
+		listView.setAdapter(adapter);		
 
 		// Replace listview with Mr. Jingles if it is empty
 		if (notes.size() == 0)
