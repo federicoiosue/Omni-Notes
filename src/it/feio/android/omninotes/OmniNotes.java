@@ -44,6 +44,8 @@ import com.google.analytics.tracking.android.Tracker;
 				)
 
 public class OmniNotes extends Application {
+	
+	private static Context mContext;
 
 	private final static String PREF_LANG = "settings_language";
 	static SharedPreferences prefs;
@@ -58,7 +60,10 @@ public class OmniNotes extends Application {
 
 	@Override
 	public void onCreate() {
-		Log.d(Constants.TAG, "App onCreate()");
+//		Log.d(Constants.TAG, "App onCreate()");
+		
+		mContext = getApplicationContext();
+		
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
 		// The following line triggers the initialization of ACRA
@@ -86,6 +91,15 @@ public class OmniNotes extends Application {
 		super.onConfigurationChanged(newConfig);
 		updateLanguage(this, language);
 	}
+	
+	
+
+
+    public static Context getAppContext() {
+        return OmniNotes.mContext;
+    }
+    
+    
 
 	/**
 	 * Updates default language with forced one

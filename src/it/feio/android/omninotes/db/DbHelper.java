@@ -694,10 +694,13 @@ public class DbHelper extends SQLiteOpenHelper {
 				+ KEY_CATEGORY_NAME + ","
 				+ KEY_CATEGORY_DESCRIPTION  + ","
 				+ KEY_CATEGORY_COLOR  + ","
-				+ " COUNT(*) count"
+				+ " COUNT(" + KEY_ID + ") count"
 			+ " FROM " + TABLE_CATEGORY
-			+ " LEFT JOIN " + TABLE_NOTES + " USING( " + KEY_CATEGORY + ") "
-			+ " WHERE " + KEY_TRASHED + " IS NOT 1"
+			+ " LEFT JOIN (" 
+				+ " SELECT " + KEY_ID + ", " + KEY_CATEGORY 
+				+ " FROM " + TABLE_NOTES
+				+ " WHERE " + KEY_TRASHED + " IS NOT 1"
+			+ ") USING( " + KEY_CATEGORY + ") "
 			+ " GROUP BY " 
 				+ KEY_CATEGORY_ID + "," 
 				+ KEY_CATEGORY_NAME + ","

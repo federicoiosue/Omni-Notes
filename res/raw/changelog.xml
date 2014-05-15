@@ -26,6 +26,7 @@
   		<changelogtext>[u]Fixed[/u] Trashed notes are now correctly retrieved only by performing searches directly from trash</changelogtext>    
   		<changelogtext>[u]Fixed[/u] Notes saved also if you choose to discard changes</changelogtext>     
   		<changelogtext>[u]Fixed[/u] Note text content deletion when canceling password insertion on note detail entering</changelogtext>    
+  		<changelogtext>[u]Fixed[/u] Languages with country code not working (ex. pt_PT, pt_BR)</changelogtext>    
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 3" changeDate="May 13 2014">
