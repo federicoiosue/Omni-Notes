@@ -85,8 +85,8 @@
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="settings_show_category_count"
-                android:summary="@string/settings_show_category_count"
-                android:title="@string/settings_show_category_count_summary" />   
+                android:summary="@string/settings_show_category_count_summary"
+                android:title="@string/settings_show_category_count" />   
             
             <ListPreference
                 android:entries="@array/colors_app"
