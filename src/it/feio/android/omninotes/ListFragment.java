@@ -160,6 +160,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			if (savedInstanceState.containsKey("listViewPosition")) {
 				listViewPosition = savedInstanceState.getInt("listViewPosition");
 				listViewPositionOffset = savedInstanceState.getInt("listViewPositionOffset");
+				searchQuery = savedInstanceState.getString("searchQuery");
+				searchTags = savedInstanceState.getString("searchTags");
 			}			
 		}		
 		return inflater.inflate(R.layout.fragment_list, container, false);
@@ -275,6 +277,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		refreshListScrollPosition();
 		outState.putInt("listViewPosition", listViewPosition);
 		outState.putInt("listViewPositionOffset", listViewPositionOffset);
+		outState.putString("searchQuery", searchQuery);
+		outState.putString("searchTags", searchTags);
 	}
 	
 	
@@ -613,6 +617,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					public boolean onQueryTextChange(String pattern) {
 						if (prefs.getBoolean("settings_instant_search", false) && pattern.length() > 0) {
 							searchQuery = pattern;
+//							mActivity.setIntent(mActivity.getIntent().setAction(Intent.ACTION_SEARCH));
 							NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
 							mNoteLoaderTask.execute("getMatchingNotes", pattern);
 							return true;
@@ -869,7 +874,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Searching		
 		if (searchTags != null || searchQuery != null || Intent.ACTION_SEARCH.equals(intent.getAction())) {
-//			intent.setAction(null);
 			
 			// Using tags
 			if (searchTags != null) {
