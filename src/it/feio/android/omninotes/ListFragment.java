@@ -987,6 +987,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				@Override
 				public void onDismiss(AbsListView listView,
 						int[] reverseSortedPositions) {
+					
+					// Avoids conflicts with action mode
+					finishActionMode();
+					
 					for (int position : reverseSortedPositions) {
 						Note note = mAdapter.getItem(position);
 						selectedNotes.add(note);
