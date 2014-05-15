@@ -1299,7 +1299,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		listView.clearChoices();
 		
 		// Refreshes list
-//		listView.invalidateViews();
+		listView.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
 		if (listView.getCount() == 0)
@@ -1308,6 +1308,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// Refreshes navigation drawer if is set to show categories count numbers
 		if (prefs.getBoolean("settings_show_category_count", false)) {
 			mActivity.initNavigationDrawer();
+		}
+
+		if (mActionMode != null) {
+			mActionMode.finish();
 		}
 		
 		// Advice to user
