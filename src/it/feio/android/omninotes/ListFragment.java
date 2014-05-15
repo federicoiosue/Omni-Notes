@@ -557,7 +557,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * 
 	 * @param menu
 	 */
-//	@SuppressLint("NewApi")
 	@SuppressLint("NewApi")
 	private void initSearchView(final Menu menu) {
 
@@ -574,9 +573,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-//				Log.d(Constants.TAG, "Search focus");
-//				 searchView.setIconified(!hasFocus);
-//				MenuItemCompat.collapseActionView(searchMenuItem);
 				menu.findItem(R.id.menu_add).setVisible(!hasFocus);
 				menu.findItem(R.id.menu_sort).setVisible(!hasFocus);
 				menu.findItem(R.id.menu_contracted_view).setVisible(!hasFocus);
@@ -593,8 +589,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				// Reinitialize notes list to all notes when search is
 				// collapsed
 				searchQuery = null;
-//				Log.i(Constants.TAG, "onMenuItemActionCollapse " + item.getItemId());
-				toggleSearchLabel(false);
+				if (mActivity.findViewById(R.id.search_layout).getVisibility() == View.VISIBLE) {
+					toggleSearchLabel(false);
+				}
 				mActivity.getIntent().setAction(Intent.ACTION_MAIN);
 				initNotesList(mActivity.getIntent());
 				return true;
@@ -602,8 +599,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 			@Override
 			public boolean onMenuItemActionExpand(MenuItem item) {
-//				Log.i(Constants.TAG, "onMenuItemActionExpand " + item.getItemId());
-				
 				searchView.setOnQueryTextListener(new OnQueryTextListener() {
 					@Override
 					public boolean onQueryTextSubmit(String arg0) {
@@ -617,10 +612,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					@Override
 					public boolean onQueryTextChange(String pattern) {
 						if (prefs.getBoolean("settings_instant_search", false) && pattern.length() > 0) {
-//								Intent i = new Intent(mActivity, MainActivity.class);
-//								i.setAction(Intent.ACTION_SEARCH);
-//								i.putExtra(SearchManager.QUERY, pattern);
-//								startActivity(i);
 							searchQuery = pattern;
 							NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
 							mNoteLoaderTask.execute("getMatchingNotes", pattern);
@@ -633,12 +624,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				return true;
 			}
 		});
-		
-		// A previous search has been performed and SearchView has still not
-		// been manually closed so it must be re-expanded and filled with query 
-//		if (searchQuery != null) {
-//			MenuItemCompat.expandActionView(searchMenuItem);
-//		}
 	}
 	
 	
@@ -871,20 +856,20 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Notes list adapter initialization and association to view
 	 */
 	void initNotesList(Intent intent) {
+		Log.d(Constants.TAG, "initNotesList intent: " + intent.getAction());
 		
 		NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
 		
 		// Search for a tag
 		// A workaround to simplify it's to simulate normal search
 		if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getCategories().contains(Intent.CATEGORY_BROWSABLE)) {
-//			mNoteLoaderTask.execute("getNotesByTag", intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, ""));
 			searchTags = intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, "");
 			goBackOnToggleSearchLabel = true;
 		}
 
 		// Searching		
 		if (searchTags != null || searchQuery != null || Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			intent.setAction(null);
+//			intent.setAction(null);
 			
 			// Using tags
 			if (searchTags != null) {
@@ -892,9 +877,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				mNoteLoaderTask.execute("getNotesByTag", searchQuery);
 			} else {			
 				// Get the intent, verify the action and get the query
-//				if (searchQuery == null) {
-//					searchQuery = intent.getStringExtra(SearchManager.QUERY);
-//				}
 				if (intent.getStringExtra(SearchManager.QUERY) != null) {
 					searchQuery = intent.getStringExtra(SearchManager.QUERY);
 					searchTags = null;
@@ -965,6 +947,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			searchQuery = null;
 			if (!goBackOnToggleSearchLabel) {
 				mActivity.getIntent().setAction(Intent.ACTION_MAIN);
+				if (searchView != null) {
+					searchMenuItem.collapseActionView();
+				}
 				initNotesList(mActivity.getIntent());
 			} else {
 				mActivity.onBackPressed();
