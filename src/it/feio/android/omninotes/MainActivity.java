@@ -133,7 +133,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
 //			List view is set as transparent to perform a fade in animation and give a smoother sensation
-			AlphaManager.setAlpha(findViewById(R.id.notes_list), 0);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+				AlphaManager.setAlpha(findViewById(R.id.notes_list), 0);
+			}
 			((ListFragment)f).toggleSearchLabel(false);
 			((ListFragment)f).initNotesList(intent);			
 		} 
