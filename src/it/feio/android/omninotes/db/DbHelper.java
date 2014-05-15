@@ -21,6 +21,7 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.AssetUtils;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Navigation;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -560,7 +561,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
 		
 		String whereCondition = " WHERE "
-								+ KEY_CONTENT + " LIKE '%#%' ";
+								+ KEY_CONTENT + " LIKE '%#%' "
+								+ " AND " + KEY_TRASHED + " IS " + (Navigation.checkNavigation(Navigation.TRASH) ? "" : " NOT ") + " 1";
 		List<Note> notes = getNotes(whereCondition, true);
 		
 		for (Note note : notes) {
@@ -606,10 +608,10 @@ public class DbHelper extends SQLiteOpenHelper {
 		}
 		
 		// Trashed notes must be included in search results only if search if performed from trash
-		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
-		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
-		boolean trashed = navigationListCodes[3].equals(navigation);
-		whereCondition.append(" AND " + KEY_TRASHED + " IS " + (trashed ? "" : " NOT ") + " 1");
+//		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
+//		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+//		boolean trashed = navigationListCodes[3].equals(navigation);
+		whereCondition.append(" AND " + KEY_TRASHED + " IS " + (Navigation.checkNavigation(Navigation.TRASH) ? "" : " NOT ") + " 1");
 		
 		return getNotes(whereCondition.toString(), true);
 	}
