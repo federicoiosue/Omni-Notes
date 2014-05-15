@@ -1325,7 +1325,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		
 		// Creation of undo bar
 		if (category == null) {
-			ubc.showUndoBar(false, selectedNotes.size() + " " + getString(R.string.notes_category_removed), null);
+			ubc.showUndoBar(false, getString(R.string.notes_category_removed), null);
 			undoCategorize = true;
 			undoCategorizeCategory = category;
 		} else {

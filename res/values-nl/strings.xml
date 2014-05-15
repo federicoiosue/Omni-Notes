@@ -79,6 +79,7 @@
   <string name="backup_existing">Backup bestaande, het zal overschreven worden</string>
   <string name="tag">Tag</string>
   <string name="tags">Tags</string>
+  <string name="add_tag">Add tags</string>
   <string name="select_tags">Selecteer tag(s)</string>
   <string name="categories">Categorieën</string>
   <string name="edit_tag">Bewerk categorie</string>
@@ -161,6 +162,7 @@
   <string name="merge">Samenvoegen</string>
   <string name="not_set">niet ingesteld</string>
   <string name="help">Help</string>
+  <string name="online_manual">Online manual</string>
   <string name="dashclock_description">Sommige statistieken en de naderende herinneringen van Omni notities worden weergegeven</string>
   <string name="settings">Instellingen</string>
   <string name="settings_about">Informatie</string>
@@ -199,12 +201,12 @@
   <string name="password_successfully_removed">Wachtwoord succesvol verwijderd</string>
   <string name="wrong_password">Verkeerd paswoord</string>
   <string name="agree_unlocking_all_notes">Bevetig paswoord verwijderen\nen alle gesloten notities ontsluiten?</string>
-  <string name="settings_enable_tag_marker">Tag markeerders</string>
+  <string name="settings_enable_tag_marker">Category markers</string>
   <string name="settings_backup_summary">Importeer of exporteer app data</string>
   <string name="settings_max_video_size_summary">Max toegelaten grootte in MB</string>
   <string name="settings_password_summary">Bewerk app\'s beveiligingspaswoord</string>
   <string name="settings_enable_animations_summary">In- of uitschakelen van animaties in de lijst van notities</string>
-  <string name="settings_enable_tag_marker_summary">In-of uitschakelen label gekleurde markeringen</string>
+  <string name="settings_enable_tag_marker_summary">Show/hide colored markers for categories</string>
   <string name="settings_enable_editor_links_summary">In- of uitschakelen automatisch highlighten van links en e-mail in editor</string>
   <string name="confirm_removing_backup">Bevestig backup verwijderen</string>
   <string name="confirm_restoring_backup">Bevestig back-up terugzetten</string>
@@ -247,6 +249,11 @@
   <string name="settings_navdrawer_on_exit_summary">De \"terug\" knop indrukken in notities lijst opent het navigatie menu in plaats van te sluiten</string>
   <string name="settings_text_size">Tekstgrootte</string>
   <string name="settings_category_behaviors">Gedrag</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
+  <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
+  <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
+  <string name="settings_show_category_count">Note count</string>
+  <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
   <string name="tour_request_start">U startte Omni Notes voor de eerste keer, zou u een rondleiding willen van de toepassing?</string>
   <string name="tour_listactivity_intro_title">Welkom bij Omni notities!</string>
   <string name="tour_listactivity_intro_detail">Druk op \"Verdergaan\" om door te gaan met de tour</string>

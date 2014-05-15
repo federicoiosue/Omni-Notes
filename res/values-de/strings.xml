@@ -79,6 +79,7 @@
   <string name="backup_existing">Sicherung bestehender Daten. Alte Sicherung wird überschrieben.</string>
   <string name="tag">Stichwort</string>
   <string name="tags">Stichworte</string>
+  <string name="add_tag">Stichworte hinzufügen</string>
   <string name="select_tags">Stichwort(e) auswählen</string>
   <string name="categories">Kategorien</string>
   <string name="edit_tag">Kategorie bearbeiten</string>
@@ -161,6 +162,7 @@
   <string name="merge">Zusammenführen</string>
   <string name="not_set">nicht festgelegt</string>
   <string name="help">Hilfe</string>
+  <string name="online_manual">Onlinehandbuch</string>
   <string name="dashclock_description">Zeige Statistiken und sich nähernde Errinerungen</string>
   <string name="settings">Einstellungen</string>
   <string name="settings_about">Info</string>
@@ -199,12 +201,12 @@
   <string name="password_successfully_removed">Passwort erfolgreich entfernt</string>
   <string name="wrong_password">Passwort falsch!</string>
   <string name="agree_unlocking_all_notes">Sicherheitspasswort wirklich entfernen\nund freischalten aller verschlüsselten Notizen?</string>
-  <string name="settings_enable_tag_marker">Stichworte hervorheben</string>
+  <string name="settings_enable_tag_marker">Kategoriemarkierungen</string>
   <string name="settings_backup_summary">Importieren oder Exportieren der Anwendungsdaten</string>
   <string name="settings_max_video_size_summary">Max. zulässige Größe in MB</string>
   <string name="settings_password_summary">Sicherheitspasswort der Anwendung festlegen</string>
   <string name="settings_enable_animations_summary">Ein- oder Ausschalten von Animationen in der Notizübersicht</string>
-  <string name="settings_enable_tag_marker_summary">Aktivieren oder Deaktivieren von farbigen Stichworten</string>
+  <string name="settings_enable_tag_marker_summary">Ein-/Ausblenden von farbigen Markierungen für Kategorien</string>
   <string name="settings_enable_editor_links_summary">Aktivieren oder deaktivieren der automatischen Erkennung von Links und E-Mail-Adressen im Editor</string>
   <string name="confirm_removing_backup">Entfernen der Sicherungskopie bestätigen</string>
   <string name="confirm_restoring_backup">Wiederherstellen der Sicherung bestätigen</string>
@@ -247,6 +249,11 @@
   <string name="settings_navdrawer_on_exit_summary">Drücken der \"Zurücktaste\" in der Notizliste, öffnet das Navigationsmenü, anstatt die Anwendung zu beenden</string>
   <string name="settings_text_size">Schriftgröße</string>
   <string name="settings_category_behaviors">Verhalten</string>
+  <string name="settings_swipe_to_trash">Wischen, um in den Papierkorb zu verschieben</string>
+  <string name="settings_swipe_to_trash_summary_1">Wischen von Notizen zum archivieren</string>
+  <string name="settings_swipe_to_trash_summary_2">Wischen von Notizen um sie in den Papierkorb zu verschieben</string>
+  <string name="settings_show_category_count">Notizzähler</string>
+  <string name="settings_show_category_count_summary">Zeigt die Anzahl der zugeordneten Notizen neben der Kategorie</string>
   <string name="tour_request_start">Sie haben Omni Notes das erste Mal gestartet. Möchten Sie eine Anwendungstour machen?</string>
   <string name="tour_listactivity_intro_title">Willkommen bei Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Drücken Sie \"Weiter\",\num die Tour fortzusetzen.</string>

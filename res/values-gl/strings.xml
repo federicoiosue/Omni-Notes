@@ -79,6 +79,7 @@
   <string name="backup_existing">Xa hai unha copia de seguranza; a nova sobreescribirase</string>
   <string name="tag">Etiqueta</string>
   <string name="tags">Etiquetas</string>
+  <string name="add_tag">Add tags</string>
   <string name="select_tags">Seleccionar etiqueta(s)</string>
   <string name="categories">Categorías</string>
   <string name="edit_tag">Editar categoría</string>
@@ -161,6 +162,7 @@
   <string name="merge">Fusionar</string>
   <string name="not_set">sen definir</string>
   <string name="help">Axuda</string>
+  <string name="online_manual">Online manual</string>
   <string name="dashclock_description">Mostrar algunhas estatísticas e recordatorios próximos de Omni Notes</string>
   <string name="settings">Axustes</string>
   <string name="settings_about">Información</string>
@@ -202,12 +204,12 @@
   <string name="password_successfully_removed">O contrasinal eliminouse correctamente</string>
   <string name="wrong_password">Contrasinal incorrecto</string>
   <string name="agree_unlocking_all_notes">De acordo en eliminar o contrasinal\ne desenmascarar todas as notas?</string>
-  <string name="settings_enable_tag_marker">Marcadores de etiquetas</string>
+  <string name="settings_enable_tag_marker">Category markers</string>
   <string name="settings_backup_summary">Importar ou exportar datos do aplicativo</string>
   <string name="settings_max_video_size_summary">Tamaño máximo permitido en Mb</string>
   <string name="settings_password_summary">Editar o contrasinal de seguranza</string>
   <string name="settings_enable_animations_summary">Activar ou desactivar animacións na listaxe de notas</string>
-  <string name="settings_enable_tag_marker_summary">Activar ou desactivar os marcadores de cores nas etiquetas</string>
+  <string name="settings_enable_tag_marker_summary">Show/hide colored markers for categories</string>
   <string name="settings_enable_editor_links_summary">Activar ou desactivar o resaltado automático de ligazóns e enderezos electrónicos no editor</string>
   <string name="confirm_removing_backup">Confirmar a eliminación da copia de seguranza</string>
   <string name="confirm_restoring_backup">Confirmar a restauración da copia de seguranza</string>
@@ -250,6 +252,11 @@
   <string name="settings_navdrawer_on_exit_summary">Ao tocar \"Atrás\" na listaxe de notas ábrese o menú de navegación no canto de saír</string>
   <string name="settings_text_size">Tamaño do texto</string>
   <string name="settings_category_behaviors">Comportamentos</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
+  <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
+  <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
+  <string name="settings_show_category_count">Note count</string>
+  <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
   <string name="tour_request_start">Iniciaches Omni Notes por vez primeira, gustaríache dar unha volta polo aplicativo a modo de titorial?</string>
   <string name="tour_listactivity_intro_title">Benvido/a a Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">toca \"Continuar\" para seguir vendo a introdución</string>

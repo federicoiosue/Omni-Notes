@@ -79,6 +79,7 @@
   <string name="backup_existing">备份已存在，该备份将被覆盖</string>
   <string name="tag">标签</string>
   <string name="tags">标签</string>
+  <string name="add_tag">添加标签</string>
   <string name="select_tags">选择标签</string>
   <string name="categories">类别</string>
   <string name="edit_tag">编辑类别</string>
@@ -161,6 +162,7 @@
   <string name="merge">合并</string>
   <string name="not_set">未设置</string>
   <string name="help">帮助</string>
+  <string name="online_manual">在线用户手册</string>
   <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
   <string name="settings">设置</string>
   <string name="settings_about">信息</string>
@@ -199,12 +201,12 @@
   <string name="password_successfully_removed">密码移除成功</string>
   <string name="wrong_password">密码错误</string>
   <string name="agree_unlocking_all_notes">同意移除安全密码\n并取消隐藏所有已隐藏记事？</string>
-  <string name="settings_enable_tag_marker">标签标记</string>
+  <string name="settings_enable_tag_marker">类别标记</string>
   <string name="settings_backup_summary">导入或导出应用程序数据</string>
   <string name="settings_max_video_size_summary">文件大小上限(MB)</string>
   <string name="settings_password_summary">编辑应用程序的安全密码</string>
   <string name="settings_enable_animations_summary">启用或禁用记事列表动画</string>
-  <string name="settings_enable_tag_marker_summary">启用或禁用标签彩色标记</string>
+  <string name="settings_enable_tag_marker_summary">显示/隐藏类别的颜色标记</string>
   <string name="settings_enable_editor_links_summary">在编辑器中启用或禁用链接与邮件地址自动高亮显示</string>
   <string name="confirm_removing_backup">确认删除备份</string>
   <string name="confirm_restoring_backup">确认还原备份</string>
@@ -247,6 +249,11 @@
   <string name="settings_navdrawer_on_exit_summary">在记事列表视图下点击后退键打开导航菜单而非退出应用</string>
   <string name="settings_text_size">字体大小</string>
   <string name="settings_category_behaviors">行为</string>
+  <string name="settings_swipe_to_trash">滑动删除</string>
+  <string name="settings_swipe_to_trash_summary_1">滑动以将记事归档</string>
+  <string name="settings_swipe_to_trash_summary_2">滑动以删除记事</string>
+  <string name="settings_show_category_count">记事数量</string>
+  <string name="settings_show_category_count_summary">在类别名称旁显示关联的记事数量</string>
   <string name="tour_request_start">这是您第一次使用Omni Note，您是否希望观看用户引导？</string>
   <string name="tour_listactivity_intro_title">欢迎使用 Omni Notes ！</string>
   <string name="tour_listactivity_intro_detail">点击\"继续\"观看引导</string>
