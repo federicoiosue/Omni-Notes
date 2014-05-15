@@ -88,7 +88,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	    	holder.date = (TextView) convertView.findViewById(R.id.note_date);
 
 	    	holder.archiveIcon = (ImageView) convertView.findViewById(R.id.archivedIcon);
-	    	holder.trashIcon = (ImageView) convertView.findViewById(R.id.trashedIcon);
+//	    	holder.trashIcon = (ImageView) convertView.findViewById(R.id.trashedIcon);
 	    	holder.locationIcon = (ImageView) convertView.findViewById(R.id.locationIcon);
 	    	holder.alarmIcon = (ImageView) convertView.findViewById(R.id.alarmIcon);
 	    	holder.lockedIcon = (ImageView) convertView.findViewById(R.id.lockedIcon);
@@ -115,7 +115,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// Evaluates the archived state...
 		holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
 		// .. the trashed state
-		holder.trashIcon.setVisibility(note.isTrashed() ? View.VISIBLE : View.GONE);
+//		holder.trashIcon.setVisibility(note.isTrashed() ? View.VISIBLE : View.GONE);
 		// ...the location
 		holder.locationIcon.setVisibility(note.getLongitude() != null && note.getLongitude() != 0 ? View.VISIBLE : View.GONE);
 		// ...the presence of an alarm
@@ -321,7 +321,7 @@ class NoteAdapterViewHolder {
 	TextView date;
 
 	ImageView archiveIcon;
-	ImageView trashIcon;
+//	ImageView trashIcon;
 	ImageView locationIcon;
 	ImageView alarmIcon;
 	ImageView lockedIcon;
