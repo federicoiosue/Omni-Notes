@@ -602,16 +602,6 @@ public class DetailFragment extends Fragment implements
 		
 		// Initialization of location TextView
 		locationTextView = (TextView) getView().findViewById(R.id.location);
-//		if (((MainActivity)getActivity()).currentLatitude != 0 && ((MainActivity)getActivity()).currentLongitude != 0) {
-//			if (noteTmp.getAddress() != null && noteTmp.getAddress().length() > 0) {
-//				locationTextView.setVisibility(View.VISIBLE);
-//				locationTextView.setText(noteTmp.getAddress());
-//			} else {
-//				// Sets visibility now to avoid jumps on populating location
-//				locationTextView.setVisibility(View.INVISIBLE);	
-//				setAddress(locationTextView);
-//			}
-//		}
 		if (noteTmp.getLatitude() != null && noteTmp.getLatitude() != 0 && noteTmp.getLongitude() != null
 				&& noteTmp.getLongitude() != 0) {
 			if (noteTmp.getAddress() != null && noteTmp.getAddress().length() > 0) {
@@ -927,6 +917,7 @@ public class DetailFragment extends Fragment implements
 			protected void onPostExecute(String result) {
 				super.onPostExecute(result);
 				if (result.length() > 0 && !result.equals(ERROR_MSG)) {
+					noteTmp.setAddress(result);
 					this.mlocationTextView.setVisibility(View.VISIBLE);
 					this.mlocationTextView.setText(result);
 					fade(mlocationTextView, true);

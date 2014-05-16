@@ -36,6 +36,7 @@ public class Note implements Parcelable {
 	private String alarm;
 	private Double latitude;
 	private Double longitude;
+	private String address;
 	private Category category;
 	private Boolean locked;
 	private Boolean checklist;
@@ -43,7 +44,6 @@ public class Note implements Parcelable {
 	private ArrayList<Attachment> attachmentsListOld = new ArrayList<Attachment>();
 	
 	// Not saved in DB
-	private String address;
 	private boolean passwordChecked = false;
 
 	public Note() {
@@ -69,7 +69,7 @@ public class Note implements Parcelable {
 		this.alarm = alarm;
 		setLatitude(latitude);
 		setLongitude(longitude);
-		setCategory(category);
+		setAddress(address);
 		setLocked(locked == 1 ? true : false);
 		setChecklist(checklist == 1 ? true : false);
 	}
@@ -86,6 +86,7 @@ public class Note implements Parcelable {
 		setAlarm(note.getAlarm());
 		setLatitude(note.getLatitude());
 		setLongitude(note.getLongitude());
+		setAddress(note.getAddress());
 		setCategory(note.getCategory());
 		setLocked(note.isLocked());
 		setChecklist(note.isChecklist());
@@ -107,6 +108,7 @@ public class Note implements Parcelable {
 		setAlarm(in.readString());
 		setLatitude(in.readString());
 		setLongitude(in.readString());
+		setAddress(in.readString());
 		setCategory((Category)in.readParcelable(Category.class.getClassLoader()));
 		setLocked(in.readInt());
 		setChecklist(in.readInt());
@@ -395,6 +397,7 @@ public class Note implements Parcelable {
 		parcel.writeString(getAlarm());
 		parcel.writeString(String.valueOf(getLatitude()));
 		parcel.writeString(String.valueOf(getLongitude()));
+		parcel.writeString(getAddress());
 		parcel.writeParcelable(getCategory(), 0);
 		parcel.writeInt(isLocked() ? 1 : 0);
 		parcel.writeInt(isChecklist() ? 1 : 0);

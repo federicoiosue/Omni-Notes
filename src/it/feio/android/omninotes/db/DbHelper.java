@@ -48,7 +48,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Database name
 	private static final String DATABASE_NAME = Constants.DATABASE_NAME;
 	// Database version aligned if possible to software version
-	private static final int DATABASE_VERSION = 452;
+	private static final int DATABASE_VERSION = 453;
 	// Sql query file directory
     private static final String SQL_DIR = "sql" ;
     
@@ -65,6 +65,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String KEY_ALARM = "alarm";
 	public static final String KEY_LATITUDE = "latitude";
 	public static final String KEY_LONGITUDE = "longitude";
+	public static final String KEY_ADDRESS = "address";
 	public static final String KEY_CATEGORY = "category_id";
 	public static final String KEY_LOCKED = "locked";
 	public static final String KEY_CHECKLIST = "checklist";
@@ -174,6 +175,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		values.put(KEY_ALARM, note.getAlarm());
 		values.put(KEY_LATITUDE, note.getLatitude());
 		values.put(KEY_LONGITUDE, note.getLongitude());
+		values.put(KEY_ADDRESS, note.getAddress());
 		values.put(KEY_CATEGORY, note.getCategory() != null ? note.getCategory().getId() : null);
 		boolean locked = note.isLocked() != null ? note.isLocked() : false;
 		values.put(KEY_LOCKED, locked);
@@ -327,6 +329,7 @@ public class DbHelper extends SQLiteOpenHelper {
 						+ KEY_ALARM + "," 
 						+ KEY_LATITUDE + "," 
 						+ KEY_LONGITUDE + "," 
+						+ KEY_ADDRESS + "," 
 						+ KEY_LOCKED + "," 
 						+ KEY_CHECKLIST + "," 
 						+ KEY_CATEGORY + "," 
@@ -361,6 +364,7 @@ public class DbHelper extends SQLiteOpenHelper {
 					note.setAlarm(cursor.getString(i++));		
 					note.setLatitude(cursor.getString(i++));
 					note.setLongitude(cursor.getString(i++));
+					note.setAddress(cursor.getString(i++));
 					note.setLocked("1".equals(cursor.getString(i++)));
 					note.setChecklist("1".equals(cursor.getString(i++)));
 					
