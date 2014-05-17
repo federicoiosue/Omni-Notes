@@ -19,6 +19,7 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Stats;
 import it.feio.android.omninotes.utils.AssetUtils;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
@@ -272,25 +273,112 @@ public class DbHelper extends SQLiteOpenHelper {
 	 *            consideration or if all notes have to be retrieved
 	 * @return Notes list
 	 */
+//	public List<Note> getAllNotes(Boolean checkNavigation) {
+//
+//		// Checking if archived or reminders notes must be shown
+//		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
+//		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+//		boolean notes = navigationListCodes[0].equals(navigation);
+//		boolean archived = navigationListCodes[1].equals(navigation);
+//		boolean reminders = navigationListCodes[2].equals(navigation);
+//		boolean trashed = navigationListCodes[3].equals(navigation);
+//		boolean category = !notes && ! archived && !reminders && !trashed;	
+//		String whereCondition = "";	
+//		if (checkNavigation) {
+//			whereCondition = notes ? " WHERE " + KEY_ARCHIVED + " IS NOT 1 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;			
+//			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;
+//			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;	
+//			whereCondition = trashed ? " WHERE " + KEY_TRASHED + " = 1 " : whereCondition;
+//			whereCondition = category ? " WHERE " + TABLE_NOTES + "." + KEY_CATEGORY + " = " + navigation + " AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;
+//		}		
+//		return getNotes(whereCondition, true);
+//	}
 	public List<Note> getAllNotes(Boolean checkNavigation) {
-
-		// Checking if archived or reminders notes must be shown
-		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
-		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
-		boolean notes = navigationListCodes[0].equals(navigation);
-		boolean archived = navigationListCodes[1].equals(navigation);
-		boolean reminders = navigationListCodes[2].equals(navigation);
-		boolean trashed = navigationListCodes[3].equals(navigation);
-		boolean category = !notes && ! archived && !reminders && !trashed;	
 		String whereCondition = "";	
 		if (checkNavigation) {
-			whereCondition = notes ? " WHERE " + KEY_ARCHIVED + " IS NOT 1 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;			
-			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;
-			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;	
-			whereCondition = trashed ? " WHERE " + KEY_TRASHED + " = 1 " : whereCondition;
-			whereCondition = category ? " WHERE " + TABLE_NOTES + "." + KEY_CATEGORY + " = " + navigation + " AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;
-		}		
+			int navigation = Navigation.getNavigation();
+			switch (navigation) {
+				case Navigation.NOTES:
+					return getNotesActive();
+				case Navigation.ARCHIVED:
+					return getNotesArchived();
+				case Navigation.REMINDERS:
+					return getNotesWithReminder(true);
+				case Navigation.TRASH:
+					return getNotesTrashed();
+				case Navigation.CATEGORY:
+					return getNotesByCategory(Navigation.getCategory());
+				default:
+					return getNotes(whereCondition, true);
+			}
+		} else {
+			return getNotes(whereCondition, true);
+		}
+		
+	}
+	
+
+	
+	public List<Note> getNotesActive() {
+		String whereCondition = " WHERE " + KEY_ARCHIVED + " IS NOT 1 AND " + KEY_TRASHED + " IS NOT 1 ";
 		return getNotes(whereCondition, true);
+	}
+	
+	
+	public List<Note> getNotesArchived() {
+		String whereCondition = " WHERE " + KEY_ARCHIVED + " = 1 AND " + KEY_TRASHED + " IS NOT 1 ";
+		return getNotes(whereCondition, true);
+	}
+	
+	
+	
+	public List<Note> getNotesTrashed() {
+		String whereCondition = " WHERE " + KEY_TRASHED + " = 1 ";
+		return getNotes(whereCondition, true);
+	}
+	
+	
+	
+	public int getWords() {
+		String whereCondition = "";
+		List<Note> notes = getNotes(whereCondition, false);
+		int count = 0;
+		for (Note note : notes) {
+			String[] fields = {note.getTitle(), note.getContent()};
+			for (String field : fields) {
+			    boolean word = false;
+			    int endOfLine = field.length() - 1;
+				for (int i = 0; i < field.length(); i++) {
+			        // if the char is a letter, word = true.
+			        if (Character.isLetter(field.charAt(i)) && i != endOfLine) {
+			            word = true;
+			            // if char isn't a letter and there have been letters before,
+			            // counter goes up.
+			        } else if (!Character.isLetter(field.charAt(i)) && word) {
+			        	count++;
+			            word = false;
+			            // last word of String; if it doesn't end with a non letter, it
+			            // wouldn't count without this.
+			        } else if (Character.isLetter(field.charAt(i)) && i == endOfLine) {
+			        	count++;
+			        }
+			    }
+			}
+		}
+		return count;
+	}
+	
+	
+	
+	public int getChars() {
+		String whereCondition = "";
+		List<Note> notes = getNotes(whereCondition, false);
+		int count = 0;
+		for (Note note : notes) {
+			count += note.getTitle().length();
+			count += note.getContent().length();
+		}
+		return count;
 	}
 	
 	
@@ -504,7 +592,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	public List<Note> getNotesWithReminder(boolean passed) {
 		// Select query
 		String whereCondition = " WHERE " + KEY_ALARM 
-								+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis());
+								+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis())
+								+  " AND " + KEY_TRASHED + " IS NOT 1";
 		return getNotes(whereCondition, false);
 	}
 	
@@ -532,6 +621,20 @@ public class DbHelper extends SQLiteOpenHelper {
 		return getAttachments(whereCondition);
 	}
 
+	
+
+	public List<Note> getChecklists() {		
+		String whereCondition = " WHERE " + KEY_CHECKLIST + " = 1";
+		return getNotes(whereCondition, false);
+	}
+
+	
+
+	public List<Note> getMasked() {		
+		String whereCondition = " WHERE " + KEY_LOCKED + " = 1";
+		return getNotes(whereCondition, false);
+	}
+	
 
 	
 	/**
@@ -622,7 +725,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 
-
 	
 	/**
 	 * Retrieves all attachments
@@ -631,6 +733,11 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	public ArrayList<Attachment> getAllAttachments() {		
 		return getAttachments("");
+	}
+	
+
+	public ArrayList<Attachment> getAttachmentsOfType(String mimeType) {
+		return getAttachments(" WHERE " + KEY_ATTACHMENT_MIME_TYPE + " = '" + mimeType + "'");
 	}
 
 
@@ -896,6 +1003,37 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 	
 	
+	
+	
+	/**
+	 * Retrieves statistics data based on app usage
+	 * @return
+	 */
+	public Stats getStats() {
+		Stats mStats = new Stats();
+
+		mStats.setNotesActive(getNotesActive().size());
+		mStats.setNotesArchived(getNotesArchived().size());
+		mStats.setNotesTrashed(getNotesTrashed().size());
+		mStats.setReminders(getNotesWithReminder(true).size());
+		mStats.setRemindersFutures(getNotesWithReminder(false).size());
+		mStats.setNotesChecklist(getChecklists().size());
+		mStats.setNotesMasked(getMasked().size());
+		mStats.setCategories(getCategories().size());
+		mStats.setTags(getTags().size());
+
+		mStats.setAttachments(getAllAttachments().size());
+		mStats.setImages(getAttachmentsOfType(Constants.MIME_TYPE_IMAGE).size());
+		mStats.setVideos(getAttachmentsOfType(Constants.MIME_TYPE_VIDEO).size());
+		mStats.setAudioRecordings(getAttachmentsOfType(Constants.MIME_TYPE_AUDIO).size());
+		mStats.setSketches(getAttachmentsOfType(Constants.MIME_TYPE_SKETCH).size());
+		mStats.setFiles(getAttachmentsOfType(Constants.MIME_TYPE_FILES).size());
+		
+		mStats.setWords(getWords());
+		mStats.setChars(getChars());
+		
+		return mStats;
+	}
 	
 	 
 }

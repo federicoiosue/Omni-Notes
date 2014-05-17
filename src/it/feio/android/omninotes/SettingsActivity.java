@@ -17,6 +17,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.models.ImageAndTextItem;
+import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.utils.AppTourHelper;
@@ -45,6 +46,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -52,7 +54,6 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
-import android.support.v4.view.GravityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -69,10 +70,20 @@ import android.widget.TextView;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+
 public class SettingsActivity extends PreferenceActivity {
+
+	private final int ABOUT_CLICK_DELAY = 2500;
+	private int ABOUT_CLICKS_REQUIRED = 5;
 
 	final Activity activity = this;
 	private SharedPreferences prefs;
+
+	AboutOrStatsThread mAboutOrStatsThread;
+	private int aboutClickCounter = 0;
+	private long aboutClickLast = 0;
+	private Thread aboutHandler;
 		
 	
 	@Override
@@ -622,8 +633,7 @@ public class SettingsActivity extends PreferenceActivity {
 				// show it
 				alertDialog.show();
 				return false;
-			}
-			
+			}			
 		});
 		
 
@@ -631,16 +641,50 @@ public class SettingsActivity extends PreferenceActivity {
 		// About
 		Preference about = findPreference("settings_about");
 		about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-				Intent aboutIntent = new Intent(activity, AboutActivity.class);
-				startActivity(aboutIntent);
+				if (mAboutOrStatsThread != null && !mAboutOrStatsThread.isAlive()) {
+					aboutClickCounter = 0;
+				}
+				if (aboutClickCounter == 0) {
+					aboutClickCounter++;			
+					mAboutOrStatsThread = new AboutOrStatsThread(activity, aboutClickCounter);
+					mAboutOrStatsThread.start();
+//					new Handler().postDelayed(new Runnable() {
+//						private int aboutClickCounterInternal = aboutClickCounter;
+//						@Override
+//						public void run() {
+//							try {
+//								while (aboutClickCounterInternal != aboutClickCounter) {
+//									if (aboutClickCounter >= ABOUT_CLICKS_REQUIRED) {
+//										// Launches StatsActivity
+//										Intent statsIntent = new Intent(activity,
+//												AboutActivity.class);
+//										activity.startActivity(statsIntent);
+//										break;
+//									}
+//									Thread.sleep(ABOUT_CLICK_DELAY + 200);
+//									aboutClickCounterInternal = aboutClickCounter;
+//								}
+//								if (aboutClickCounter < ABOUT_CLICKS_REQUIRED) {
+//									aboutClickCounter = 0;
+//									// Launches about Activity
+//									Intent aboutIntent = new Intent(activity, AboutActivity.class);
+//									activity.startActivity(aboutIntent);
+//								}
+//							} catch (InterruptedException e) {
+//							}
+//						}
+//					}, ABOUT_CLICK_DELAY + 200);
+				} else {
+//					aboutClickCounter++;
+					mAboutOrStatsThread.setAboutClickCounter(++aboutClickCounter);
+				}
 				return false;
 			}
 		});
-
 	}
+	
 
 	
 	@Override
@@ -652,18 +696,6 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 		
 	
-	
-//	private void restartApp() {
-////		Intent intent = getBaseContext()
-////				.getPackageManager()
-////				.getLaunchIntentForPackage(getBaseContext()
-////				.getPackageName());	
-//		Intent intent = new Intent(this, ListActivity.class);
-//		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-//		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//	    startActivity(intent);
-//	    finish();
-//	}
 	
 	
 	
@@ -685,4 +717,58 @@ public class SettingsActivity extends PreferenceActivity {
 	}
 	
 	
+}
+
+
+
+
+/**
+ * Thread to launch about screen or stats dialog depending on clicks
+ * @author fede
+ *
+ */
+class AboutOrStatsThread extends Thread {
+
+	private final int ABOUT_CLICK_DELAY = 1500;
+	private int ABOUT_CLICKS_REQUIRED = 5;
+	private int aboutClickCounter;
+	private Context mContext;
+	private boolean startAbout = true;
+
+	private int aboutClickCounterInternal;
+
+	AboutOrStatsThread(Context mContext, int aboutClickCounter) {
+		this.mContext = mContext;
+		this.aboutClickCounterInternal = aboutClickCounter;
+
+	}
+
+	@Override
+	public void run() {
+		try {
+			Thread.sleep(ABOUT_CLICK_DELAY);
+			while (aboutClickCounterInternal != aboutClickCounter) {
+				if (aboutClickCounter >= ABOUT_CLICKS_REQUIRED) {
+					// Launches StatsActivity
+					Intent statsIntent = new Intent(mContext,
+							StatsActivity.class);
+					mContext.startActivity(statsIntent);
+					startAbout = false;
+					break;
+				}
+				Thread.sleep(ABOUT_CLICK_DELAY);
+				aboutClickCounterInternal = aboutClickCounter;
+			}
+			if (startAbout) {
+				// Launches about Activity
+				Intent aboutIntent = new Intent(mContext, AboutActivity.class);
+				mContext.startActivity(aboutIntent);
+			}
+		} catch (InterruptedException e) {
+		}
+	}
+
+	public void setAboutClickCounter(int aboutClickCounter) {
+		this.aboutClickCounter = aboutClickCounter;
+	}
 }
