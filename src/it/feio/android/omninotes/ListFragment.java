@@ -260,7 +260,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		Crouton.cancelAllCroutons();
 
 		// Clears data structures
-		selectedNotes.clear();
+//		selectedNotes.clear();
 		mAdapter.clearSelectedItems();
 		listView.clearChoices();
 		if (mActionMode != null) {
