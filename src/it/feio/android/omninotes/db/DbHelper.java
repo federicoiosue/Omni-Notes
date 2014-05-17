@@ -168,9 +168,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		values.put(KEY_TITLE, note.getTitle());
 		values.put(KEY_CONTENT, note.getContent());
 		values.put(KEY_LAST_MODIFICATION, updateLastModification ? Calendar
-				.getInstance().getTimeInMillis() : note.getLastModification());
-//		boolean archive = note.isArchived() != null ? note.isArchived() : false;
-//		values.put(KEY_ARCHIVED, archive);
+				.getInstance().getTimeInMillis() : (note.getLastModification() != null ? note.getLastModification() : Calendar
+						.getInstance().getTimeInMillis()));
 		values.put(KEY_ARCHIVED, note.isArchived());
 		values.put(KEY_TRASHED, note.isTrashed());
 		values.put(KEY_ALARM, note.getAlarm());

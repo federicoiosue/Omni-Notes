@@ -950,7 +950,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			if (!goBackOnToggleSearchLabel) {
 				((MainActivity)getActivity()).getIntent().setAction(Intent.ACTION_MAIN);
 				if (searchView != null) {
-					searchMenuItem.collapseActionView();
+					MenuItemCompat.collapseActionView(searchMenuItem);
 				}
 				initNotesList(((MainActivity)getActivity()).getIntent());
 			} else {
