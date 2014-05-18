@@ -160,7 +160,8 @@
         <!-- Info -->
         <activity
             android:name="it.feio.android.omninotes.AboutActivity"
-            android:label="@string/title_activity_about" >
+            android:label="@string/title_activity_about"
+            android:launchMode="singleTop" >
         </activity>
 
         <!-- Snooze reminder -->
@@ -174,9 +175,6 @@
         <!-- Stats -->
         <activity
             android:name="it.feio.android.omninotes.StatsActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Dialog" />
 
         <!-- ACRA -->
