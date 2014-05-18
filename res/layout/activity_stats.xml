@@ -16,27 +16,30 @@
 -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:padding="16dp" >
 
     <TableLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:shrinkColumns="*"
-        android:stretchColumns="*" >
+        android:stretchColumns="*"
+        android:focusable="true" >
 
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Total notes"
                 android:textStyle="bold" >
             </TextView>
@@ -51,14 +54,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Active notes"
                 android:textStyle="bold" >
             </TextView>
@@ -73,14 +77,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Archived notes"
                 android:textStyle="bold" >
             </TextView>
@@ -95,14 +100,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Trashed notes"
                 android:textStyle="bold" >
             </TextView>
@@ -117,14 +123,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Reminders"
                 android:textStyle="bold" >
             </TextView>
@@ -139,14 +146,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Futures reminders"
                 android:textStyle="bold" >
             </TextView>
@@ -161,14 +169,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Checklists"
                 android:textStyle="bold" >
             </TextView>
@@ -183,14 +192,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Masked notes"
                 android:textStyle="bold" >
             </TextView>
@@ -205,14 +215,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Categories"
                 android:textStyle="bold" >
             </TextView>
@@ -227,14 +238,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Tags"
                 android:textStyle="bold" >
             </TextView>
@@ -249,14 +261,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Attachments"
                 android:textStyle="bold" >
             </TextView>
@@ -271,14 +284,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Images"
                 android:textStyle="bold" >
             </TextView>
@@ -293,14 +307,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Videos"
                 android:textStyle="bold" >
             </TextView>
@@ -315,14 +330,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Audio recordings"
                 android:textStyle="bold" >
             </TextView>
@@ -337,14 +353,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Sketches"
                 android:textStyle="bold" >
             </TextView>
@@ -359,14 +376,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Files"
                 android:textStyle="bold" >
             </TextView>
@@ -381,14 +399,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Words"
                 android:textStyle="bold" >
             </TextView>
@@ -403,14 +422,15 @@
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
-                android:paddingRight="5dp"
+                android:paddingRight="7dp"
                 android:text="Chars"
                 android:textStyle="bold" >
             </TextView>
