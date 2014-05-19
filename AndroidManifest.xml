@@ -179,7 +179,7 @@
 
         <!-- Stats -->
         <activity
-            android:name="it.feio.android.omninotes.DriveActivity"/>
+            android:name="it.feio.android.omninotes.utils.sync.drive.DriveActivity"/>
 
         <!-- ACRA -->
         <activity

@@ -17,6 +17,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.sync.drive.DriveActivity;
 
 import java.util.Calendar;
 
@@ -85,7 +86,8 @@ public class SplashScreenActivity extends BaseActivity {
 	
 	
 	private void launchMainActivity() {
-		launchMainActivity.setClass(this, MainActivity.class);
+//		launchMainActivity.setClass(this, MainActivity.class);
+		launchMainActivity.setClass(this, DriveActivity.class);
 		startActivity(launchMainActivity);
 		finish();
 	}
