@@ -7,7 +7,9 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -66,7 +68,17 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
 		listView = (ListView) findViewById(R.id.drive_list);
 		mDriveResultsAdapter = new DriveResultsAdapter(mContext);
 		listView.setAdapter(mDriveResultsAdapter);
-		DriveHelper.getInstance(mContext).connect(this, this);
+		
+//		DriveHelper.getInstance(mContext).connect(this, this);
+		
+		List<Attachment> attachments = (new DbHelper(mContext)).getAttachmentsOfType(Constants.MIME_TYPE_FILES);
+		List<File> list = new ArrayList<>();
+		for (Attachment mAttachment : attachments) {
+			File f = new File(mAttachment.getUri().getPath());
+			list.add(f);
+		}
+		
+		new DriveSyncTask(mContext).execute(list);
 	}
 
 	/**
@@ -98,53 +110,8 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
 	@Override
 	public void onConnected(Bundle connectionHint) {
 		Log.i(TAG, "GoogleApiClient connected");
-		final String fileName = FILE_TEST + "_" + Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + Calendar.getInstance().get(Calendar.MINUTE);
-		
-		 syncAttachment((new DbHelper(mContext)).getAllAttachments().get(1));
 	}
 	
-
-	private void syncAttachment(final Attachment mAttachment) {
-		
-		// Searches to find file
-		DriveHelper.getInstance(mContext).searchByTitle(mAttachment.getUri().getLastPathSegment(), new ResultCallback<DriveApi.MetadataBufferResult>() {			
-			@Override
-			public void onResult(MetadataBufferResult result) {
-				if (result.getMetadataBuffer().getCount() == 0) {
-					
-					// Creates a new file
-					DriveHelper.getInstance(mContext).createFile(mAttachment.getUri().getLastPathSegment(), StorageManager.getMimeType(mAttachment.getUri().getPath()),
-							new ResultCallback<DriveFileResult>() {
-						@Override
-						public void onResult(
-								DriveFileResult result) {
-							if (!result.getStatus()
-									.isSuccess()) {
-								showMessage("Error while trying to create the file");
-								return;
-							}
-							
-							// Writes content
-							DriveHelper.getInstance(mContext).writeFile(new File(mAttachment.getUri().getPath()), new ResultCallback<Status>() {					
-								@Override
-								public void onResult(Status result) {
-									if (!result.isSuccess()) {
-										showMessage("Error writing file");
-										return;
-									}
-									DriveHelper.getInstance(mContext).list(resultCallback);
-								}
-							});
-						}
-					});
-				} else {
-					DriveHelper.getInstance(mContext).list(resultCallback);
-				}
-				
-			}
-		});
-		
-	}
 	
 	
 
