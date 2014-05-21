@@ -28,5 +28,20 @@
         android:scrollbarSize="4dp"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbarThumbVertical="@drawable/scroll_bar" />
+    
+    
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/settings"
+        android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingStart="@dimen/horizontal_margin"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:layout_marginBottom="1dp"
+        android:textAllCaps="true"
+        android:text="@string/settings"
+        android:textAppearance="@style/Text.Normal"
+        android:textColor="@color/actionbar_title_text" />
 
 </LinearLayout>

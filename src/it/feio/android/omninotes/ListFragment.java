@@ -368,7 +368,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				menu.findItem(R.id.menu_unarchive).setVisible(archive);
 				menu.findItem(R.id.menu_category).setVisible(true);
 				menu.findItem(R.id.menu_trash).setVisible(true);
-				menu.findItem(R.id.menu_settings).setVisible(false);
+//				menu.findItem(R.id.menu_settings).setVisible(false);
 			}
 			return true;
 		}
@@ -548,7 +548,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 //		menu.findItem(R.id.menu_tags).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView);
 		menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView);	
-		menu.findItem(R.id.menu_settings).setVisible(!drawerOpen);
+//		menu.findItem(R.id.menu_settings).setVisible(!drawerOpen);
 	}
 
 	
@@ -580,7 +580,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				menu.findItem(R.id.menu_contracted_view).setVisible(!hasFocus);
 				menu.findItem(R.id.menu_expanded_view).setVisible(!hasFocus);
 				menu.findItem(R.id.menu_tags).setVisible(hasFocus);
-				menu.findItem(R.id.menu_settings).setVisible(!hasFocus);
+//				menu.findItem(R.id.menu_settings).setVisible(!hasFocus);
 			}
 		});
 

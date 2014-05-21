@@ -27,6 +27,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -205,7 +206,6 @@ public class NavigationDrawerFragment extends Fragment {
 		R.string.drawer_open, /* "open drawer" description for accessibility */
 		R.string.drawer_close /* "close drawer" description for accessibility */
 		) {
-
 			public void onDrawerClosed(View view) {
 				mActivity.getSupportActionBar().setTitle(mTitle);
 				mActivity.supportInvalidateOptionsMenu(); // creates call to
@@ -252,6 +252,18 @@ public class NavigationDrawerFragment extends Fragment {
 				}
 			}
 		};
+		
+		// Settings textview
+		getActivity().findViewById(R.id.settings).setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+				startActivity(settingsIntent);
+			}
+		});
+		
+		
+		
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		

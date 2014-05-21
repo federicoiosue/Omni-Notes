@@ -155,16 +155,16 @@ public class BaseActivity extends ActionBarActivity {
 	}
 
 	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_settings:
-			Intent settingsIntent = new Intent(this, SettingsActivity.class);
-			startActivity(settingsIntent);
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		switch (item.getItemId()) {
+//		case R.id.menu_settings:
+//			Intent settingsIntent = new Intent(this, SettingsActivity.class);
+//			startActivity(settingsIntent);
+//			break;
+//		}
+//		return super.onOptionsItemSelected(item);
+//	}
 	
 	
 
