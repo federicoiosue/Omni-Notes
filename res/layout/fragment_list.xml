@@ -59,8 +59,8 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:scrollbarSize="4dp"
-                        android:drawSelectorOnTop="true"
-                        android:listSelector="@drawable/icon_selector"
+            android:drawSelectorOnTop="true"
+            android:listSelector="@drawable/icon_selector"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbarThumbVertical="@drawable/scroll_bar" >
         </ListView>
