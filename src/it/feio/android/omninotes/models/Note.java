@@ -346,8 +346,8 @@ public class Note implements Parcelable {
 			return res;
 		}
 
-		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), isTrashed(), getAlarm(), getLatitude(), getLongitude(), getCategory(), isLocked(), isChecklist()};
-		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.isTrashed(), note.getAlarm(), note.getLatitude(), note.getLongitude(), note.getCategory(), note.isLocked(), note.isChecklist()};
+		Object[] a = {get_id(), getTitle(), getContent(), getCreation(), getLastModification(), isArchived(), isTrashed(), getAlarm(), getLatitude(), getLongitude()};
+		Object[] b = {note.get_id(), note.getTitle(), note.getContent(), note.getCreation(), note.getLastModification(), note.isArchived(), note.isTrashed(), note.getAlarm(), note.getLatitude(), note.getLongitude()};
 		if (EqualityChecker.check(a, b)) {
 			res = true;		
 		}
