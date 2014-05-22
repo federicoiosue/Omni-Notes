@@ -34,6 +34,7 @@
     <dimen name="tag_circle_padding">25dp</dimen>
     
     <dimen name="padding_top_kitkat">0dp</dimen>
+    <dimen name="padding_bottom_kitkat">0dp</dimen>
     <dimen name="showcase_margin_bottom">12dp</dimen>
 
     <dimen name="widget_height">50dp</dimen>

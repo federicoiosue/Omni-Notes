@@ -20,6 +20,7 @@ import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListView;
+import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
@@ -2272,7 +2273,7 @@ public class DetailFragment extends Fragment implements
 	 * Add previously created tags to content
 	 */
 	private void addTags() {
-			contentCursorPosition = content.getSelectionStart();
+			contentCursorPosition = getCursorIndex();
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
 
 			// Retrieves all available categories
@@ -2322,16 +2323,29 @@ public class DetailFragment extends Fragment implements
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						StringBuilder sb = new StringBuilder(getNoteContent());
-						if (content.hasFocus()) {
-							sb.insert(contentCursorPosition, " " + sbTags.toString() + " ");
-							content.setText(sb.toString());
-							content.setSelection(contentCursorPosition + sbTags.length() + 1);
+						StringBuilder sb;
+						if (!noteTmp.isChecklist()) {
+							sb = new StringBuilder(getNoteContent());
+							if (content.hasFocus()) {
+								sb.insert(contentCursorPosition, " " + sbTags.toString() + " ");
+								content.setText(sb.toString());
+								content.setSelection(contentCursorPosition + sbTags.length() + 1);
+							} else {
+								sb	.append(System.getProperty("line.separator"))
+									.append(System.getProperty("line.separator"))
+									.append(sbTags.toString());
+								content.setText(sb.toString());
+							}
 						} else {
-							sb	.append(System.getProperty("line.separator"))
-								.append(System.getProperty("line.separator"))
-								.append(sbTags.toString());
-							content.setText(sb.toString());
+							CheckListViewItem mCheckListViewItem = mChecklistManager.getFocusedItemView();
+							if (mCheckListViewItem != null) {
+								sb = new StringBuilder(mCheckListViewItem.getText());
+								sb.insert(contentCursorPosition, " " + sbTags.toString() + " ");
+								mCheckListViewItem.setText(sb.toString());
+								mCheckListViewItem.getEditText().setSelection(contentCursorPosition + sbTags.length() + 1);
+							} else {
+								title.append(" " + sbTags.toString());
+							}
 						}
 					}
 				})
@@ -2341,6 +2355,20 @@ public class DetailFragment extends Fragment implements
 				});
 			builder.create().show();
 		}
+
+
+	private int getCursorIndex() {
+		if (!noteTmp.isChecklist()) {
+			return content.getSelectionStart();
+		} else {
+			CheckListViewItem mCheckListViewItem = mChecklistManager.getFocusedItemView();
+			if (mCheckListViewItem != null) {
+				return mCheckListViewItem.getEditText().getSelectionStart();
+			} else {
+				return 0;
+			}
+		}
+	}
 }
 
 

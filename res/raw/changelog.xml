@@ -16,6 +16,10 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.6.0" changeDate="May 22, 2014">    
+  		<changelogtext>Moved to stable!</changelogtext>    
+    </changelogversion>
+
     <changelogversion versionName="4.6.0 Beta 5" changeDate="May 17 2014">   
   		<changelogtext>[b]New![/b] Application stats</changelogtext>   
   		<changelogtext>[b]New![/b] More efficient location recording. Uses less battery and the address is retrieved even if device is offline</changelogtext>    

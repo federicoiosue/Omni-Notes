@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:background="@color/navigation_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:paddingBottom="@dimen/padding_bottom_kitkat" >
 
     <ListView
         android:id="@+id/drawer_nav_list"
@@ -40,7 +41,8 @@
         android:paddingBottom="10dp"
         android:paddingLeft="20dp"
         android:paddingStart="20dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="10dp"
+      	android:background="@drawable/icon_selector" >
 
         <ImageView
             android:layout_width="24dp"
@@ -58,8 +60,7 @@
             android:textAllCaps="true"
             android:textAppearance="@style/Text.Normal"
             android:textColor="@color/actionbar_title_text"
-            pixlui:typeface="Roboto-Regular.ttf"
-       		android:background="@drawable/icon_selector" />
+            pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>
 
 </LinearLayout>
