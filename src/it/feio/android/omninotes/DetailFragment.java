@@ -2322,19 +2322,17 @@ public class DetailFragment extends Fragment implements
 				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-//						// Retrieves selected tags
-//						for (int i = 0; i < selectedTags.length; i++) {
-//							if (!selectedTags[i]) {
-//								tags.remove(tagsArray[i]);
-//							}
-//						}
-						
 						StringBuilder sb = new StringBuilder(getNoteContent());
-//						String tagsText = " " + (String) tags.toString().subSequence(1, tags.toString().length()-1) + " ";
-//						sb.insert(contentCursorPosition, tagsText);
-						sb.insert(contentCursorPosition, " " + sbTags.toString() + " ");
-						content.setText(sb.toString());
-						content.setSelection(contentCursorPosition + sbTags.length() + 1);
+						if (content.hasFocus()) {
+							sb.insert(contentCursorPosition, " " + sbTags.toString() + " ");
+							content.setText(sb.toString());
+							content.setSelection(contentCursorPosition + sbTags.length() + 1);
+						} else {
+							sb	.append(System.getProperty("line.separator"))
+								.append(System.getProperty("line.separator"))
+								.append(sbTags.toString());
+							content.setText(sb.toString());
+						}
 					}
 				})
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {					
