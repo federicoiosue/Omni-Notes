@@ -232,6 +232,13 @@ public class DetailFragment extends Fragment implements
 		super.onStart();
 	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();		
+		// Adding a layout observer to perform calculus when showing keyboard
+		root.getViewTreeObserver().addOnGlobalLayoutListener(this);
+	}
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -824,9 +831,6 @@ public class DetailFragment extends Fragment implements
 				+ lastModification : "");
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
-		
-		// Adding a layout observer to perform calculus when showing keyboard
-		root.getViewTreeObserver().addOnGlobalLayoutListener(this);
 	}
 
 
