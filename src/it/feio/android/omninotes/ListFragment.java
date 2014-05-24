@@ -113,7 +113,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private UndoBarController ubc;
 	private boolean sendToArchive;
 	private SharedPreferences prefs;
-	private DbHelper db;
 	private ListFragment mFragment;
 	
 	// Undo archive/trash
@@ -135,7 +134,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		
 		mFragment = this;
 		prefs = ((MainActivity)getActivity()).prefs;
-		db = ((MainActivity)getActivity()).db;
 		
 		setHasOptionsMenu(true);
 		setRetainInstance(false);
@@ -206,7 +204,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		if (index >= 0 && index < navigationListCodes.length) {
 			title = navigationList[index];
 		} else {
-			ArrayList<Category> categories = db.getCategories();
+			ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 			for (Category tag : categories) {
 				if (navigation.equals(String.valueOf(tag.getId())))
 					title = tag.getName();
@@ -535,20 +533,16 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// Defines the conditions to set actionbar items visible or not
 		boolean drawerOpen = (((MainActivity)getActivity()).getDrawerLayout() != null && ((MainActivity)getActivity()).getDrawerLayout().isDrawerOpen(GravityCompat.START)) ? true : false;		
 		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
-		// "Add" item must be shown only from main navigation
-		String navArchived = getResources().getStringArray(R.array.navigation_list_codes)[1];
-		String navReminders = getResources().getStringArray(R.array.navigation_list_codes)[2];
-		String navTrash = getResources().getStringArray(R.array.navigation_list_codes)[3];
-		boolean showAdd = !navArchived.equals(((MainActivity)getActivity()).navigation) && !navReminders.equals(((MainActivity)getActivity()).navigation) && !navTrash.equals(((MainActivity)getActivity()).navigation);
+		// "Add" item must be shown only from main navigation;
+		boolean showAdd = Navigation.checkNavigation(new Integer[]{Navigation.NOTES, Navigation.CATEGORY});
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add_category).setVisible(drawerOpen);
-//		menu.findItem(R.id.menu_tags).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView);
 		menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView);	
-//		menu.findItem(R.id.menu_settings).setVisible(!drawerOpen);
+		menu.findItem(R.id.menu_empty_trash).setVisible(!drawerOpen && Navigation.checkNavigation(Navigation.TRASH));	
 	}
 
 	
@@ -659,6 +653,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		case R.id.menu_contracted_view:
 			switchNotesView();
 			break;
+		case R.id.menu_empty_trash:
+			emptyTrash();
+			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -700,7 +697,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				} else {
 					tagId = Integer.parseInt(((MainActivity)getActivity()).navigation);
 				}
-				note.setCategory(db.getCategory(tagId));
+				note.setCategory(DbHelper.getInstance(getActivity()).getCategory(tagId));
 			} catch (NumberFormatException e) {
 			}
 		} else {
@@ -796,7 +793,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	
 
 	private void sortNotes() {
-//		onCreateDialog().show();
 		// Two array are used, one with db columns and a corrispective with
 		// column names human readables
 		final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
@@ -822,36 +818,23 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		builder.create().show();
 	}
 
-//	/**
-//	 * Creation of a dialog for choose sorting criteria
-//	 * 
-//	 * @return
-//	 */
-//	public Dialog onCreateDialog() {
-//		// Two array are used, one with db columns and a corrispective with
-//		// column names human readables
-//		final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
-//		final String[] arrayDialog = getResources().getStringArray(R.array.sortable_columns_human_readable);
-//
-//		int selected = Arrays.asList(arrayDb).indexOf(prefs.getString(Constants.PREF_SORTING_COLUMN, arrayDb[0]));
-//
-//		// Dialog and events creation
-//		AlertDialog.Builder builder = new AlertDialog.Builder(((MainActivity)getActivity()));
-//		builder.setTitle(R.string.select_sorting_column)
-//				.setSingleChoiceItems(arrayDialog, selected, new DialogInterface.OnClickListener() {
-//
-//					// On choosing the new criteria will be saved into
-//					// preferences and listview redesigned
-//					public void onClick(DialogInterface dialog, int which) {
-//						prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which]).commit();
-//						initNotesList(((MainActivity)getActivity()).getIntent());
-//						// Updates app widgets
-//						BaseActivity.notifyAppWidgets(((MainActivity)getActivity()));
-//						dialog.dismiss();
-//					}
-//				});
-//		return builder.create();
-//	}
+
+	
+	private void emptyTrash() {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
+		alertDialogBuilder.setMessage(R.string.empty_trash_confirmation)
+				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						DbHelper.getInstance(getActivity()).emptyTrash();
+						mAdapter.clear();
+					}
+				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int id) {}
+				});
+		alertDialogBuilder.create().show();
+	}
 	
 	
 	
@@ -884,8 +867,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					searchTags = null;
 				}
 				if (((MainActivity)getActivity()).loadNotesSync) {
-					DbHelper db = new DbHelper(((MainActivity)getActivity()));
-					onNotesLoaded((ArrayList<Note>) db.getMatchingNotes(searchQuery));
+					onNotesLoaded((ArrayList<Note>) DbHelper.getInstance(getActivity()).getMatchingNotes(searchQuery));
 				} else {
 					mNoteLoaderTask.execute("getMatchingNotes", searchQuery);
 				}
@@ -911,8 +893,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				}
 				intent.removeExtra(Constants.INTENT_WIDGET);
 				if (((MainActivity)getActivity()).loadNotesSync) {
-					DbHelper db = new DbHelper(((MainActivity)getActivity()));
-					onNotesLoaded((ArrayList<Note>) db.getNotesByCategory(((MainActivity)getActivity()).navigationTmp));
+					onNotesLoaded((ArrayList<Note>) DbHelper.getInstance(getActivity()).getNotesByCategory(((MainActivity)getActivity()).navigationTmp));
 				} else {
 					mNoteLoaderTask.execute("getNotesWithTag", ((MainActivity)getActivity()).navigationTmp);
 				}
@@ -921,8 +902,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			// Gets all notes
 			} else {
 				if (((MainActivity)getActivity()).loadNotesSync) {
-					DbHelper db = new DbHelper(((MainActivity)getActivity()));
-					onNotesLoaded((ArrayList<Note>) db.getAllNotes(true));
+					onNotesLoaded((ArrayList<Note>) DbHelper.getInstance(getActivity()).getAllNotes(true));
 				} else {
 					mNoteLoaderTask.execute("getAllNotes", true);
 				}
@@ -1085,9 +1065,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	@SuppressLint("NewApi")
 	protected void trashNote(Note note, boolean trash) {
 		if (trash) {
-			db.trashNote(note);
+			DbHelper.getInstance(getActivity()).trashNote(note);
 		} else {
-			db.untrashNote(note);
+			DbHelper.getInstance(getActivity()).untrashNote(note);
 		}
 		// Update adapter content
 		mAdapter.remove(note);
@@ -1189,9 +1169,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	
 	private void archiveNote(Note note, boolean archive) {
 		// Deleting note using DbHelper
-		DbHelper db = new DbHelper(((MainActivity)getActivity()));
 		note.setArchived(archive);
-		db.updateNote(note, true);
+		DbHelper.getInstance(getActivity()).updateNote(note, true);
 
 		// Update adapter content
 		mAdapter.remove(note);
@@ -1221,7 +1200,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
 
 		// Retrieves all available categories
-		final ArrayList<Category> categories = db.getCategories();
+		final ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 
 		// A single choice dialog will be displayed
 		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
@@ -1326,7 +1305,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 	private void categorizeSelectedNotes3(Note note, Category category) {
 		note.setCategory(category);
-		db.updateNote(note, false);
+		DbHelper.getInstance(getActivity()).updateNote(note, false);
 	}
 	
 
@@ -1524,7 +1503,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
 
 			// Retrieves all available categories
-			final List<String> tags = db.getTags();
+			final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
 
 			// If there is no category a message will be shown
 			if (tags.size() == 0) {

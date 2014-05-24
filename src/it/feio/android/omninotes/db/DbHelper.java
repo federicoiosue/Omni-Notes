@@ -96,14 +96,25 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String UPGRADE_QUERY_SUFFIX = ".sql";
 
 
-	private final Context ctx;
+	private final Context mContext;
 	private final SharedPreferences prefs;
+	
+	private static DbHelper instance = null;
+	
+	
+	   public static DbHelper getInstance(Context ctx) {
+	      if(instance == null) {
+	         instance = new DbHelper(ctx);
+	      }
+	      return instance;
+	   }
 
-	public DbHelper(Context ctx) {
-		super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
-		this.ctx = ctx;
-		this.prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, ctx.MODE_MULTI_PROCESS);
+	private DbHelper(Context mContext) {
+		super(mContext, DATABASE_NAME, null, DATABASE_VERSION);
+		this.mContext = mContext;
+		this.prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS);
 	}
+	
 	
 	public String getDatabaseName() {
 		return DATABASE_NAME;
@@ -127,7 +138,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i(Constants.TAG, "Upgrading database version from " + oldVersion + " to " + newVersion );
         try {
-            for( String sqlFile : AssetUtils.list(SQL_DIR, ctx.getAssets())) {
+            for( String sqlFile : AssetUtils.list(SQL_DIR, mContext.getAssets())) {
                 if ( sqlFile.startsWith(UPGRADE_QUERY_PREFIX)) {
                     int fileVersion = Integer.parseInt(sqlFile.substring(UPGRADE_QUERY_PREFIX.length(),  sqlFile.length() - UPGRADE_QUERY_SUFFIX.length())); 
                     if ( fileVersion > oldVersion && fileVersion <= newVersion ) {
@@ -144,7 +155,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	protected void execSqlFile(String sqlFile, SQLiteDatabase db ) throws SQLException, IOException {
         Log.i(Constants.TAG, "  exec sql file: {}" + sqlFile );
-        for( String sqlInstruction : SqlParser.parseSqlFile( SQL_DIR + "/" + sqlFile, ctx.getAssets())) {
+        for( String sqlInstruction : SqlParser.parseSqlFile( SQL_DIR + "/" + sqlFile, mContext.getAssets())) {
         	Log.v(Constants.TAG, "    sql: {}" + sqlInstruction );
         	try {
         		db.execSQL(sqlInstruction);
@@ -272,26 +283,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	 *            consideration or if all notes have to be retrieved
 	 * @return Notes list
 	 */
-//	public List<Note> getAllNotes(Boolean checkNavigation) {
-//
-//		// Checking if archived or reminders notes must be shown
-//		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
-//		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
-//		boolean notes = navigationListCodes[0].equals(navigation);
-//		boolean archived = navigationListCodes[1].equals(navigation);
-//		boolean reminders = navigationListCodes[2].equals(navigation);
-//		boolean trashed = navigationListCodes[3].equals(navigation);
-//		boolean category = !notes && ! archived && !reminders && !trashed;	
-//		String whereCondition = "";	
-//		if (checkNavigation) {
-//			whereCondition = notes ? " WHERE " + KEY_ARCHIVED + " IS NOT 1 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;			
-//			whereCondition = archived ? " WHERE " + KEY_ARCHIVED + " = 1 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;
-//			whereCondition = reminders ? " WHERE " + KEY_ALARM + " != 0 AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;	
-//			whereCondition = trashed ? " WHERE " + KEY_TRASHED + " = 1 " : whereCondition;
-//			whereCondition = category ? " WHERE " + TABLE_NOTES + "." + KEY_CATEGORY + " = " + navigation + " AND " + KEY_TRASHED + " IS NOT 1 " : whereCondition;
-//		}		
-//		return getNotes(whereCondition, true);
-//	}
 	public List<Note> getAllNotes(Boolean checkNavigation) {
 		String whereCondition = "";	
 		if (checkNavigation) {
@@ -559,6 +550,17 @@ public class DbHelper extends SQLiteOpenHelper {
 
 		return result;
 	}
+	
+	
+	
+	/**
+	 * Empties trash deleting all trashed notes
+	 */
+	public void emptyTrash() {
+		for (Note note: getNotesTrashed()) {
+			deleteNote(note);
+		}
+	}
 
 	
 	
@@ -570,7 +572,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	public List<Note> getMatchingNotes(String pattern) {
 		
-		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
+		String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
 		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 		boolean trash = navigationListCodes[3].equals(navigation);
 		
@@ -714,9 +716,6 @@ public class DbHelper extends SQLiteOpenHelper {
 		}
 		
 		// Trashed notes must be included in search results only if search if performed from trash
-//		String[] navigationListCodes = ctx.getResources().getStringArray(R.array.navigation_list_codes);
-//		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
-//		boolean trashed = navigationListCodes[3].equals(navigation);
 		whereCondition.append(" AND " + KEY_TRASHED + " IS " + (Navigation.checkNavigation(Navigation.TRASH) ? "" : " NOT ") + " 1");
 		
 		return getNotes(whereCondition.toString(), true);
@@ -794,13 +793,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	public ArrayList<Category> getCategories() {		
 		ArrayList<Category> categoriesList = new ArrayList<Category>();
-//		String sql = "SELECT " 
-//				+ KEY_CATEGORY_ID + "," 
-//				+ KEY_CATEGORY_NAME + ","
-//				+ KEY_CATEGORY_DESCRIPTION  + ","
-//				+ KEY_CATEGORY_COLOR
-//			+ " FROM " + TABLE_CATEGORY
-//			+ " ORDER BY IFNULL(NULLIF(" + KEY_CATEGORY_NAME + ", ''),'zzzzzzzz') ";
 		String sql = "SELECT " 
 				+ KEY_CATEGORY_ID + "," 
 				+ KEY_CATEGORY_NAME + ","

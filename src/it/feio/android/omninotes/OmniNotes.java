@@ -1,5 +1,6 @@
 package it.feio.android.omninotes;
 
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SimpleDiskCache;

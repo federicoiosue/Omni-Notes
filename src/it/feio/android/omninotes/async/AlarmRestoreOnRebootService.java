@@ -28,7 +28,7 @@ public class AlarmRestoreOnRebootService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.i(Constants.TAG, "System rebooted: service refreshing reminders");
 
-		Context ctx = getApplicationContext();
+		Context mContext = getApplicationContext();
 
 //		PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
 //		PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, Constants.TAG);
@@ -36,15 +36,15 @@ public class AlarmRestoreOnRebootService extends Service {
 //		wl.acquire();
 		
 		// Refresh widgets data
-		BaseActivity.notifyAppWidgets(ctx);
+		BaseActivity.notifyAppWidgets(mContext);
 
 		// Retrieves all notes with reminder set
 		try {
-			DbHelper db = new DbHelper(ctx);
+			DbHelper db = DbHelper.getInstance(mContext);
 			List<Note> notes = db.getNotesWithReminder(false);
 			Log.d(Constants.TAG, "Found " + notes.size() + " reminders");
 			for (Note note : notes) {
-				setAlarm(ctx, note);
+				setAlarm(mContext, note);
 			}
 		}
 		

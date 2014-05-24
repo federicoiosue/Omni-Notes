@@ -116,9 +116,6 @@ public class BaseActivity extends ActionBarActivity {
 		// Preloads shared preferences for all derived classes
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 		
-		// Preparation of DbHelper
-		db = new DbHelper(this);
-		
 		// Starts location manager
 		setLocationManager();
 

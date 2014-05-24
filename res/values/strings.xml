@@ -177,6 +177,8 @@
     <string name="files">Files</string>
     <string name="merge">Merge</string>
     <string name="not_set">not set</string>
+    <string name="empty_trash">Empty trash</string>
+    <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
     <string name="help">Help</string>
     <string name="online_manual">Online manual</string>
 

@@ -56,7 +56,7 @@ public class WidgetConfigurationActivity extends Activity {
 
 		categorySpinner = (Spinner) findViewById(R.id.widget_config_spinner);
 		categorySpinner.setEnabled(false);
-		DbHelper db = new DbHelper(mActivity);
+		DbHelper db = DbHelper.getInstance(mActivity);
 		categories = db.getCategories();
 		categorySpinner.setAdapter(new NavDrawerCategoryAdapter(mActivity, categories));
 

@@ -197,7 +197,6 @@ public class DetailFragment extends Fragment implements
 	private ViewGroup root;
 	private int startSwipeX;
 	private SharedPreferences prefs;
-	private DbHelper db;
 	private boolean onCreateOptionsMenuAlreadyCalled = false;
 	private View timestampsView;
 	private View keyboardPlaceholder;
@@ -220,7 +219,6 @@ public class DetailFragment extends Fragment implements
 		super.onCreate(savedInstanceState);
 		mFragment = this;			
 		prefs = ((MainActivity)getActivity()).prefs;
-		db = ((MainActivity)getActivity()).db;
 	}
 	
 	
@@ -446,8 +444,7 @@ public class DetailFragment extends Fragment implements
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
 				|| Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())) {
 			afterSavedReturnsToList = false;
-			DbHelper db = new DbHelper(((MainActivity)getActivity()));
-			noteOriginal = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+			noteOriginal = DbHelper.getInstance(getActivity()).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
 			// Checks if the note pointed from the shortcut has been deleted
 			if (noteOriginal == null) {	
 				((MainActivity)getActivity()).showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
@@ -474,14 +471,13 @@ public class DetailFragment extends Fragment implements
 						String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length()).trim();		
 						Category tag;
 						try {
-							tag = db.getCategory(Integer.parseInt(tagId));
+							tag = DbHelper.getInstance(getActivity()).getCategory(Integer.parseInt(tagId));
 							noteTmp = new Note();
 							noteTmp.setCategory(tag);
 						} catch (NumberFormatException e) {}			
 					}
 				}
 			}
-			
 			
 			// Sub-action is to take a photo
 			if (Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())) {
@@ -535,23 +531,10 @@ public class DetailFragment extends Fragment implements
 		    // Multiple attachment data
 		    ArrayList<Uri> uris = i.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 		    if (uris != null) {
-//		    	Attachment mAttachment;
 		    	for (Uri uriSingle : uris) {
-//		    		String mimeGeneral = StorageManager.getMimeType(((MainActivity)getActivity()), uriSingle);
-//		    		if (mimeGeneral != null) {
-//		    			String mimeType = StorageManager.getMimeTypeInternal(((MainActivity)getActivity()), mimeGeneral);
-//		    			mAttachment = new Attachment(uriSingle, mimeType);
-//				    	if (Constants.MIME_TYPE_FILES.equals(mimeType)) {
-//					    	mAttachment.setName(uriSingle.getLastPathSegment());
-//				    	}
-//				    	noteTmp.addAttachment(mAttachment);
-//		    		} else {
-//		    			((MainActivity)getActivity()).showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
-//		    		}
 					String name = FileHelper.getNameFromUri(((MainActivity)getActivity()), uriSingle);					
 					AttachmentTask task = new AttachmentTask(this, uriSingle, name, this);
-					task.execute();
-										
+					task.execute();	
 				}
 		    }
 			
@@ -669,7 +652,6 @@ public class DetailFragment extends Fragment implements
 
 		// Initialzation of gridview for images
 		mGridView.setAdapter(mAttachmentAdapter);
-		// mGridView.setExpanded(true);
 		mGridView.autoresize();
 
 		// Click events for images in gridview (zooms image)
@@ -1270,7 +1252,7 @@ public class DetailFragment extends Fragment implements
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
 
 		// Retrieves all available tags
-		final ArrayList<Category> tags = db.getCategories();
+		final ArrayList<Category> tags = DbHelper.getInstance(getActivity()).getCategories();
 		
 		alertDialogBuilder.setTitle(R.string.categorize_as)
 							.setAdapter(new NavDrawerCategoryAdapter(((MainActivity)getActivity()), tags), new DialogInterface.OnClickListener() {
@@ -1382,22 +1364,6 @@ public class DetailFragment extends Fragment implements
 				takePhoto();
 				attachmentDialog.dismiss();
 				break;
-			// Image from gallery
-//			case R.id.gallery:
-//				Intent galleryIntent;
-//				if (Build.VERSION.SDK_INT >= 19) {
-////					galleryIntent = new Intent(Intent.ACTION_PICK,
-////							android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//					takeGalleryKitKat();
-//				} else {
-//					galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-//					galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
-//					galleryIntent.setType("*/*");
-//					startActivityForResult(galleryIntent, GALLERY);
-//				}
-//				attachmentDialog.dismiss();
-//				break;
-			// Microphone recording
 			case R.id.recording:
 				if (!isRecording) {
 					isRecording = true;
@@ -1658,7 +1624,7 @@ public class DetailFragment extends Fragment implements
 			return;
 		}
 	
-		db.untrashNote(noteTmp);
+		DbHelper.getInstance(getActivity()).untrashNote(noteTmp);
 	
 		// Informs the user about update
 		Log.d(Constants.TAG, "Trashed note with id '" + noteTmp.get_id() + "'");
@@ -1965,7 +1931,6 @@ public class DetailFragment extends Fragment implements
 		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 		mRecorder.setAudioEncodingBitRate(16);
-//		mRecorder.setAudioSamplingRate(44100);
 		mRecorder.setOutputFile(recordName);
 
 		try {
@@ -2281,7 +2246,7 @@ public class DetailFragment extends Fragment implements
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
 
 			// Retrieves all available categories
-			final List<String> tags = db.getTags();
+			final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
 
 			// If there is no tag a message will be shown
 			if (tags.size() == 0) {

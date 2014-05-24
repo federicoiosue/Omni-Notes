@@ -44,7 +44,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	public ListRemoteViewsFactory(Application app, Intent intent) {
 		this.app = (OmniNotes) app;
 		appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-		db = new DbHelper(app);
+		db = DbHelper.getInstance(app);
 	}
 
 	

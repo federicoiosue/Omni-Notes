@@ -58,7 +58,7 @@ public class ImportExportExcel {
 		try {
 
 			if (db == null) {
-				db = new DbHelper(context);
+				db = DbHelper.getInstance(context);
 				db.getReadableDatabase();
 			}
 
@@ -127,7 +127,7 @@ public class ImportExportExcel {
 
 		try {
 			if (db == null) {
-				db = new DbHelper(context);
+				db = DbHelper.getInstance(context);
 				db.getWritableDatabase();
 			}
 			StringBuffer lineBuf = new StringBuffer();
