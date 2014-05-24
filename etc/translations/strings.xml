@@ -163,8 +163,11 @@
     <string name="files">Files</string>
     <string name="merge">Merge</string>
     <string name="not_set">not set</string>
+    <string name="empty_trash">Empty trash</string>
+    <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
     <string name="help">Help</string>
     <string name="online_manual">Online manual</string>
+    <string name="tags_added">Tags added</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
@@ -258,6 +261,7 @@
     <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
     <string name="settings_show_category_count">Note count</string>
     <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
+    
 
     <!-- Instructions -->
     <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>
