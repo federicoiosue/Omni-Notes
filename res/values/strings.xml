@@ -181,6 +181,7 @@
     <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
     <string name="help">Help</string>
     <string name="online_manual">Online manual</string>
+    <string name="tags_added">Tags added</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>

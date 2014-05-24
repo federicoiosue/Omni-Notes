@@ -2269,7 +2269,6 @@ public class DetailFragment extends Fragment implements
 				.setMultiChoiceItems(tagsArray, selectedTags, new DialogInterface.OnMultiChoiceClickListener() {						
 					@Override
 					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-//						selectedTags[which] = isChecked;
 						if (isChecked) {
 							// To divide tags a head space is inserted
 							if (sbTags.length() > 0) {

@@ -674,7 +674,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		List<Note> notes = getNotes(whereCondition, true);
 		
 		for (Note note : notes) {
-			Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getContent());
+			Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getTitle() + " " + note.getContent());
 		    while (matcher.find()) {
 		    	tagsMap.put(matcher.group().trim(), true);
 		    }

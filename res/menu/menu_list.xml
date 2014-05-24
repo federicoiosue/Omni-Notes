@@ -26,13 +26,6 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="collapseActionView|always"/>
     <item
-        android:id="@+id/menu_tags"
-        android:icon="@drawable/ic_action_labels"
-        android:orderInCategory="200"
-        android:title="@string/tags"
-        android:visible="false"
-        app:showAsAction="always"/>
-    <item
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="300"
@@ -107,6 +100,13 @@
         android:icon="@drawable/ic_action_new_category"
         android:orderInCategory="700"
         android:title="@string/add_category"
+        android:visible="false"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_tags"
+        android:icon="@drawable/ic_action_labels"
+        android:orderInCategory="750"
+        android:title="@string/tags"
         android:visible="false"
         app:showAsAction="always"/>
     <item

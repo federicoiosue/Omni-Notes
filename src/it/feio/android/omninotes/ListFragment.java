@@ -38,7 +38,9 @@ import it.feio.android.omninotes.utils.Navigation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -88,6 +90,7 @@ import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.neopixl.pixlui.links.RegexPatternsConstants;
 import com.neopixl.pixlui.links.UrlCompleter;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
@@ -365,6 +368,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				menu.findItem(R.id.menu_archive).setVisible(notes);
 				menu.findItem(R.id.menu_unarchive).setVisible(archive);
 				menu.findItem(R.id.menu_category).setVisible(true);
+				menu.findItem(R.id.menu_tags).setVisible(true);
 				menu.findItem(R.id.menu_trash).setVisible(true);
 //				menu.findItem(R.id.menu_settings).setVisible(false);
 			}
@@ -377,6 +381,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			switch (item.getItemId()) {
 			case R.id.menu_category:
 				categorizeSelectedNotes();
+				return true;
+			case R.id.menu_tags:
+				tagSelectedNotes();
 				return true;
 			case R.id.menu_share:
 				share();
@@ -1308,6 +1315,117 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		DbHelper.getInstance(getActivity()).updateNote(note, false);
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Bulk tag selected notes
+	 */
+	private void tagSelectedNotes() {
+		
+			// Retrieves all available tags
+			final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
+
+			// If there is no category a message will be shown
+			if (tags.size() == 0) {
+				Crouton.makeText(((MainActivity)getActivity()), R.string.no_tags_created, ONStyle.WARN).show();
+				return;
+			}
+
+			// Selected tags
+			final boolean[] selectedTags = new boolean[tags.size()];
+			Arrays.fill(selectedTags, Boolean.FALSE);
+
+			// Dialog and events creation
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			final String[] tagsArray = tags.toArray(new String[tags.size()]);
+			builder
+				.setTitle(R.string.select_tags)
+				.setMultiChoiceItems(tagsArray, selectedTags, new DialogInterface.OnMultiChoiceClickListener() {						
+					@Override
+					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+						selectedTags[which] = isChecked;
+					}
+				})
+				.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						tagSelectedNotes2(tags, selectedTags);						
+					}
+				})
+				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						selectedNotes.clear();
+						if (mActionMode != null) {
+							mActionMode.finish();
+						} 
+					}
+				});
+			builder.create().show();
+		}
+	
+	
+	private void tagSelectedNotes2(List<String> tags, boolean[] selectedTags) {
+		
+		// Retrieves selected tags
+		for (Note note: selectedNotes) {
+			
+			HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
+			Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getContent());
+		    while (matcher.find()) {
+		    	tagsMap.put(matcher.group().trim(), true);
+		    }
+			
+			// String of choosen tags in order of selection
+			StringBuilder sbTags = new StringBuilder();
+			for (int i = 0; i < selectedTags.length; i++) {				
+				if (!selectedTags[i] || tagsMap.containsKey(tags.get(i))) continue;		
+				// To divide tags a head space is inserted
+				if (sbTags.length() > 0) {
+					sbTags.append(" ");
+				}
+				sbTags.append(tags.get(i));				
+			}
+			
+			sbTags
+				.insert(0, System.getProperty("line.separator"))
+				.insert(0, System.getProperty("line.separator"));
+			
+			if (note.isChecklist()) {
+				note.setTitle(note.getTitle() + sbTags); 
+			} else {
+				note.setContent(note.getContent() + sbTags); 
+			}
+			DbHelper.getInstance(getActivity()).updateNote(note, false);
+		}	
+
+		// Clears data structures
+		mAdapter.clearSelectedItems();
+		listView.clearChoices();
+		
+		// Refreshes list
+		listView.invalidateViews();
+
+		// If list is empty again Mr Jingles will appear again
+		if (listView.getCount() == 0)
+			listView.setEmptyView(((MainActivity)getActivity()).findViewById(R.id.empty_list));
+
+		// Refreshes navigation drawer if is set to show categories count numbers
+		if (prefs.getBoolean("settings_show_category_count", false)) {
+			((MainActivity)getActivity()).initNavigationDrawer();
+		}
+
+		if (mActionMode != null) {
+			mActionMode.finish();
+		}
+		
+		Crouton.makeText(getActivity(), R.string.tags_added, ONStyle.INFO).show();	
+	}
+	
+	
+	
 
 	@Override
 	public void onUndo(Parcelable token) {
@@ -1330,7 +1448,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		ubc.hideUndoBar(false);
 	}
 
-	
+
 	void commitPending() {
 		if (undoTrash || undoArchive || undoCategorize) {
 
@@ -1360,7 +1478,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 			ubc.hideUndoBar(false);
 		}
-		
 	}
 	
 	
@@ -1500,8 +1617,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Search notes by tags
 	 */
 	private void filterByTags() {
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
-
+			
 			// Retrieves all available categories
 			final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
 
@@ -1516,7 +1632,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			Arrays.fill(selectedTags, Boolean.FALSE);
 
 			// Dialog and events creation
-			AlertDialog.Builder builder = new AlertDialog.Builder(((MainActivity)getActivity()));
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			final String[] tagsArray = tags.toArray(new String[tags.size()]);
 			builder
 				.setTitle(R.string.select_tags)
