@@ -185,10 +185,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// Activity title initialization
 		initTitle();
 
-		// Launching update task
-		UpdaterTask task = new UpdaterTask(((MainActivity)getActivity()));
-		task.execute();
-
 		ubc = new UndoBarController(((MainActivity)getActivity()).findViewById(R.id.undobar), this);
 	}
 

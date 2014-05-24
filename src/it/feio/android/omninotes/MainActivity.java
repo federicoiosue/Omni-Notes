@@ -1,6 +1,7 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.async.DeleteNoteTask;
+import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -57,6 +58,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		
 		// Checks password for app access
 		checkPassword();
+
+		// Launching update task
+		UpdaterTask task = new UpdaterTask(this);
+		task.execute();
 	}
 
 	
