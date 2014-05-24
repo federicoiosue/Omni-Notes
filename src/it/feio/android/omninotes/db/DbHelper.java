@@ -240,7 +240,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.setTransactionSuccessful();
 		db.endTransaction();
 		
-		db.close();
+//		db.close();
 
 		// Fill the note with correct data before returning it
 		note.set_id(note.get_id() != 0 ? note.get_id() : (int)resNote);
@@ -462,8 +462,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (db != null)
-				db.close();	
+//			if (db != null)
+//				db.close();	
 		}
 
 		return noteList;
@@ -489,8 +489,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (db != null)
-				db.close();
+//			if (db != null)
+//				db.close();
 		}
 		return count;
 	}
@@ -544,8 +544,8 @@ public class DbHelper extends SQLiteOpenHelper {
 					&& deletedAttachments == note.getAttachmentsList().size();
 
 		} finally {
-			if (db != null)
-				db.close();
+//			if (db != null)
+//				db.close();
 		}
 
 		return result;
@@ -780,8 +780,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (db != null)
-				db.close();
+//			if (db != null)
+//				db.close();
 		}
 		return attachmentsList;
 	}
@@ -832,8 +832,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (db != null)
-				db.close();
+//			if (db != null)
+//				db.close();
 		}
 		return categoriesList;
 	}
@@ -872,8 +872,8 @@ public class DbHelper extends SQLiteOpenHelper {
 			}
 
 		} finally {
-			if (db != null)
-				db.close();
+//			if (db != null)
+//				db.close();
 		}
 
 		// Returning result
@@ -905,8 +905,8 @@ public class DbHelper extends SQLiteOpenHelper {
 					new String[] { String.valueOf(category.getId()) });
 
 		} finally {
-			if (db != null)
-				db.close();
+//			if (db != null)
+//				db.close();
 		}
 		return deleted;
 	}
@@ -943,8 +943,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (db != null)
-				db.close();
+//			if (db != null)
+//				db.close();
 		}
 		return category;
 	}
@@ -971,8 +971,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (db != null)
-				db.close();
+//			if (db != null)
+//				db.close();
 		}
 		return count;		
 	}
