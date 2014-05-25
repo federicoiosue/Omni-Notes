@@ -161,8 +161,11 @@
   <string name="files">文件</string>
   <string name="merge">合并</string>
   <string name="not_set">未设置</string>
+  <string name="empty_trash">Empty trash</string>
+  <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
   <string name="help">帮助</string>
   <string name="online_manual">在线用户手册</string>
+  <string name="tags_added">Tags added</string>
   <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
   <string name="settings">设置</string>
   <string name="settings_about">信息</string>

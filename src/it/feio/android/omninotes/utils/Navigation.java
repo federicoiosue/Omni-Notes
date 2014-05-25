@@ -1,12 +1,12 @@
 package it.feio.android.omninotes.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import android.content.Context;
 
 public class Navigation {

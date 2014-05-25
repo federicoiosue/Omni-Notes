@@ -20,7 +20,7 @@
     <item>نقط</item>
     <item>الأرشيف</item>
     <item>التنبيهات</item>
-    <item>Trash</item>
+    <item>نفايات</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>العنوان</item>

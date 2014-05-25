@@ -79,6 +79,7 @@
   <string name="backup_existing">ישנו גיבוי קיים. הוא יוחלף</string>
   <string name="tag">תגית</string>
   <string name="tags">תגיות</string>
+  <string name="add_tag">Add tags</string>
   <string name="select_tags">בחירת תגיות</string>
   <string name="categories">קטגוריות</string>
   <string name="edit_tag">עריכת קטגוריה</string>
@@ -160,7 +161,11 @@
   <string name="files">קבצים</string>
   <string name="merge">איחוד</string>
   <string name="not_set">לא נקבע</string>
+  <string name="empty_trash">Empty trash</string>
+  <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
   <string name="help">עזרה</string>
+  <string name="online_manual">Online manual</string>
+  <string name="tags_added">Tags added</string>
   <string name="dashclock_description">הצגת נתונים סטטיסטיים ותזכורות שתוקפן עומד לפוג מ-Omni Notes</string>
   <string name="settings">הגדרות</string>
   <string name="settings_about">מידע</string>
@@ -199,12 +204,12 @@
   <string name="password_successfully_removed">סיסמה הוסרה בהצלחה</string>
   <string name="wrong_password">סיסמה שגויה</string>
   <string name="agree_unlocking_all_notes">הסכמה להסרת ססמת האבטחה\nוחשיפת כל ההערות המוסוות?</string>
-  <string name="settings_enable_tag_marker">סמני תגיות</string>
+  <string name="settings_enable_tag_marker">Category markers</string>
   <string name="settings_backup_summary">ייבוא או ייצוא נתוני האפליקציה</string>
   <string name="settings_max_video_size_summary">גודל מירבי מותר ב-MB</string>
   <string name="settings_password_summary">עריכת סיסמת האבטחה</string>
   <string name="settings_enable_animations_summary">אפשור/נטרול אנימציות ברשימת ההערות</string>
-  <string name="settings_enable_tag_marker_summary">אפשור/נטרול סמני תגיות צבועים</string>
+  <string name="settings_enable_tag_marker_summary">Show/hide colored markers for categories</string>
   <string name="settings_enable_editor_links_summary">הפיכת קישורים ואימיילים כתובים ללחיצים אוטומטית</string>
   <string name="confirm_removing_backup">אישור הסרת גיבוי?</string>
   <string name="confirm_restoring_backup">אישור שחזור מהגיבוי?</string>
@@ -247,6 +252,11 @@
   <string name="settings_navdrawer_on_exit_summary">לחיצה על \"חזרה\" כאשר נמצאים ברשימת ההערות תפתח את תפריט הניווט במקום לצאת</string>
   <string name="settings_text_size">גודל הטקסט</string>
   <string name="settings_category_behaviors">התנהגויות</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
+  <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
+  <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
+  <string name="settings_show_category_count">Note count</string>
+  <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
   <string name="tour_request_start">זוהי הפעם הראשונה שאתם משתמשים ב-Omni Note, ברצונכם לעשות סיור באפליקציה?</string>
   <string name="tour_listactivity_intro_title">ברוך הבא ל-Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">לחצו על \"הבא\" להמשך הסיור</string>

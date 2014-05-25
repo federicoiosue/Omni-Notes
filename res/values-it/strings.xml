@@ -162,8 +162,11 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="files">File</string>
   <string name="merge">Unisci</string>
   <string name="not_set">non impostato</string>
+  <string name="empty_trash">Svuota il cestino</string>
+  <string name="empty_trash_confirmation">Confermi la cancellazione di tutte le note nel cestino?</string>
   <string name="help">Guida</string>
   <string name="online_manual">Manuale on-line</string>
+  <string name="tags_added">Tag aggiunti</string>
   <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
   <string name="settings">Impostazioni</string>
   <string name="settings_about">Info</string>

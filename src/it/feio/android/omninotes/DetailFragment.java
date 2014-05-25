@@ -26,12 +26,10 @@ import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.ImageAndTextItem;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
-import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
@@ -147,13 +145,12 @@ public class DetailFragment extends Fragment implements
 		OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved {
 
 	private static final int TAKE_PHOTO = 1;
-//	private static final int GALLERY = 2;
-	private static final int TAKE_VIDEO = 4;
-	private static final int SET_PASSWORD = 5;
-	private static final int SKETCH = 6;
-	private static final int TAG = 7;
-	private static final int DETAIL = 8;
-	private static final int FILES = 9;
+	private static final int TAKE_VIDEO = 2;
+	private static final int SET_PASSWORD = 3;
+	private static final int SKETCH = 4;
+	private static final int TAG = 5;
+	private static final int DETAIL = 6;
+	private static final int FILES = 7;
 	
 	private LinearLayout reminder_layout;
 	private TextView datetime;	
