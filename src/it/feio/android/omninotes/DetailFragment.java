@@ -147,7 +147,7 @@ public class DetailFragment extends Fragment implements
 		OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved {
 
 	private static final int TAKE_PHOTO = 1;
-	private static final int GALLERY = 2;
+//	private static final int GALLERY = 2;
 	private static final int TAKE_VIDEO = 4;
 	private static final int SET_PASSWORD = 5;
 	private static final int SKETCH = 6;
@@ -1318,9 +1318,6 @@ public class DetailFragment extends Fragment implements
 		// Camera
 		android.widget.TextView cameraSelection = (android.widget.TextView) layout.findViewById(R.id.camera);
 		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
-		// Gallery
-//		android.widget.TextView gallerySelection = (android.widget.TextView) layout.findViewById(R.id.gallery);
-//		gallerySelection.setOnClickListener(new AttachmentOnClickListener());
 		// Audio recording
 		android.widget.TextView recordingSelection = (android.widget.TextView) layout.findViewById(R.id.recording);
 		recordingSelection.setOnClickListener(new AttachmentOnClickListener());
@@ -1403,44 +1400,6 @@ public class DetailFragment extends Fragment implements
 	}
 
 
-	/**
-	 * Shows a dialog to choose between image or video attachment for storage access framework app
-	 */
-	@TargetApi(19)
-	private void takeGalleryKitKat() {
-		
-		final Intent intent = new Intent();
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-//		intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-		intent.addCategory(Intent.CATEGORY_OPENABLE);
-		
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
-		
-		ArrayList<ImageAndTextItem> options = new ArrayList<ImageAndTextItem>();
-		options.add(new ImageAndTextItem(R.drawable.ic_photo_dark, getString(R.string.image)) );
-		options.add(new ImageAndTextItem(R.drawable.ic_action_video, getString(R.string.video)) );
-		
-		alertDialogBuilder
-		.setAdapter(new ImageAndTextAdapter(((MainActivity)getActivity()), options), new DialogInterface.OnClickListener() {			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-				case 0:
-					intent.setType("image/*");
-					startActivityForResult(intent, GALLERY);
-					break;
-				case 1:
-					intent.setType("video/*");
-					startActivityForResult(intent, GALLERY);
-					break;
-				}				
-			}
-		});
-		
-		AlertDialog alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
-	}	
-	
 
 	
 	private void takePhoto() {
@@ -1518,11 +1477,6 @@ public class DetailFragment extends Fragment implements
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
-				break;
-			case GALLERY:
-				Uri uri = intent.getData();
-				AttachmentTask task = new AttachmentTask(this, uri, this);
-				task.execute();
 				break;
 			case TAKE_VIDEO:
 				// Gingerbread doesn't allow custom folder so data are retrieved from intent 
@@ -1890,7 +1844,6 @@ public class DetailFragment extends Fragment implements
 				recordingBitmap = ((BitmapDrawable)((TransitionDrawable)d).getDrawable(1)).getBitmap();
 			}
 			((ImageView)v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(((MainActivity)getActivity()).getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
-//			((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(((MainActivity)getActivity()).getResources(), R.drawable.stop), mGridView.getItemHeight(), mGridView.getItemHeight()));
 			}
 	}
 	
