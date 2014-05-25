@@ -6,7 +6,9 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.SpannedString;
 
 public class TextUtils {
 	/**
@@ -43,21 +45,28 @@ public class TextUtils {
 		}
 		
 		// Replacing checkmarks symbols with html entities
-		titleText = titleText
-				.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
-				it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
-				.replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
-				it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY);
-		contentText = contentText
-				.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
-				it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
-				.replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
-				it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY)
-				.replace(System.getProperty("line.separator"), "<br/>");
-
+		Spanned titleSpanned, contentSpanned;
+		if (note.isChecklist()) {
+			titleText = titleText
+					.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
+					it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
+					.replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
+					it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY);
+			titleSpanned = Html.fromHtml(titleText);
+			contentText = contentText
+					.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
+					it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
+					.replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
+					it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY)
+					.replace(System.getProperty("line.separator"), "<br/>");
+			contentSpanned = Html.fromHtml(contentText);
+		} else {
+			titleSpanned = new SpannedString(titleText);
+			contentSpanned = new SpannedString(contentText);
+		}
 		
 
-		return new Spanned[] { Html.fromHtml(titleText), Html.fromHtml(contentText) };	
+		return new Spanned[] {titleSpanned, contentSpanned};	
 	}
 	
 	
