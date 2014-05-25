@@ -38,13 +38,11 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	private OmniNotes app;
 	private int appWidgetId;
 	private List<Note> notes;
-	private DbHelper db;
 
 	
 	public ListRemoteViewsFactory(Application app, Intent intent) {
 		this.app = (OmniNotes) app;
 		appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-		db = DbHelper.getInstance(app);
 	}
 
 	
@@ -55,7 +53,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 				.getString(
 						Constants.PREF_WIDGET_PREFIX
 								+ String.valueOf(appWidgetId), "");
-		notes = db.getNotes(condition, true);
+		notes = DbHelper.getInstance(app).getNotes(condition, true);
 	}
 
 	
@@ -66,14 +64,12 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 				.getString(
 						Constants.PREF_WIDGET_PREFIX
 								+ String.valueOf(appWidgetId), "");
-		notes = db.getNotes(condition, true);
+		notes = DbHelper.getInstance(app).getNotes(condition, true);
 	}
 	
 
 	@Override
 	public void onDestroy() {
-//		PreferenceManager
-//		.getDefaultSharedPreferences(app)
 		app.getSharedPreferences(Constants.PREFS_NAME, app.MODE_MULTI_PROCESS)
 				.edit()
 				.remove(Constants.PREF_WIDGET_PREFIX
