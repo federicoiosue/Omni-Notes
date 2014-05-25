@@ -18,9 +18,14 @@ public class Stats {
 	int audioRecordings;
 	int sketches;
 	int files;
+	int location;
 
 	int words;
+	int wordsMax;
+	int wordsAvg;
 	int chars;
+	int charsMax;
+	int charsAvg;
 	long usageTime;
 	
 
@@ -116,6 +121,38 @@ public class Stats {
 		this.chars = chars;
 	}
 
+	public int getWordsMax() {
+		return wordsMax;
+	}
+
+	public void setWordsMax(int wordsMax) {
+		this.wordsMax = wordsMax;
+	}
+
+	public int getWordsAvg() {
+		return wordsAvg;
+	}
+
+	public void setWordsAvg(int wordsAvg) {
+		this.wordsAvg = wordsAvg;
+	}
+
+	public int getCharsMax() {
+		return charsMax;
+	}
+
+	public void setCharsMax(int charsMax) {
+		this.charsMax = charsMax;
+	}
+
+	public int getCharsAvg() {
+		return charsAvg;
+	}
+
+	public void setCharsAvg(int charsAvg) {
+		this.charsAvg = charsAvg;
+	}
+
 	public int getAttachments() {
 		return attachments;
 	}
@@ -162,6 +199,14 @@ public class Stats {
 
 	public void setFiles(int files) {
 		this.files = files;
+	}
+
+	public int getLocation() {
+		return location;
+	}
+
+	public void setLocation(int location) {
+		this.location = location;
 	}
 
 	public long getUsageTime() {

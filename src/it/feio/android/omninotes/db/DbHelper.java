@@ -329,45 +329,54 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	
-	public int getWords() {
-		String whereCondition = "";
-		List<Note> notes = getNotes(whereCondition, false);
+	public List<Note> getNotesWithLocation() {
+		String whereCondition = " WHERE " + KEY_LONGITUDE + " IS NOT NULL ";
+		return getNotes(whereCondition, true);
+	}
+	
+	
+	
+	/**
+	 * Counts words in a note
+	 * @param note
+	 * @return
+	 */
+	public int getWords(Note note) {
 		int count = 0;
-		for (Note note : notes) {
-			String[] fields = {note.getTitle(), note.getContent()};
-			for (String field : fields) {
-			    boolean word = false;
-			    int endOfLine = field.length() - 1;
-				for (int i = 0; i < field.length(); i++) {
-			        // if the char is a letter, word = true.
-			        if (Character.isLetter(field.charAt(i)) && i != endOfLine) {
-			            word = true;
-			            // if char isn't a letter and there have been letters before,
-			            // counter goes up.
-			        } else if (!Character.isLetter(field.charAt(i)) && word) {
-			        	count++;
-			            word = false;
-			            // last word of String; if it doesn't end with a non letter, it
-			            // wouldn't count without this.
-			        } else if (Character.isLetter(field.charAt(i)) && i == endOfLine) {
-			        	count++;
-			        }
-			    }
-			}
+		String[] fields = {note.getTitle(), note.getContent()};
+		for (String field : fields) {
+		    boolean word = false;
+		    int endOfLine = field.length() - 1;
+			for (int i = 0; i < field.length(); i++) {
+		        // if the char is a letter, word = true.
+		        if (Character.isLetter(field.charAt(i)) && i != endOfLine) {
+		            word = true;
+		            // if char isn't a letter and there have been letters before,
+		            // counter goes up.
+		        } else if (!Character.isLetter(field.charAt(i)) && word) {
+		        	count++;
+		            word = false;
+		            // last word of String; if it doesn't end with a non letter, it
+		            // wouldn't count without this.
+		        } else if (Character.isLetter(field.charAt(i)) && i == endOfLine) {
+		        	count++;
+		        }
+		    }
 		}
 		return count;
 	}
 	
 	
 	
-	public int getChars() {
-		String whereCondition = "";
-		List<Note> notes = getNotes(whereCondition, false);
+	/**
+	 * Counts chars in a note
+	 * @param note
+	 * @return
+	 */
+	public int getChars(Note note) {
 		int count = 0;
-		for (Note note : notes) {
-			count += note.getTitle().length();
-			count += note.getContent().length();
-		}
+		count += note.getTitle().length();
+		count += note.getContent().length();
 		return count;
 	}
 	
@@ -1025,9 +1034,39 @@ public class DbHelper extends SQLiteOpenHelper {
 		mStats.setAudioRecordings(getAttachmentsOfType(Constants.MIME_TYPE_AUDIO).size());
 		mStats.setSketches(getAttachmentsOfType(Constants.MIME_TYPE_SKETCH).size());
 		mStats.setFiles(getAttachmentsOfType(Constants.MIME_TYPE_FILES).size());
+		mStats.setLocation(getNotesWithLocation().size());
+
+		int totalWords = 0;
+		int totalChars = 0;
+		int maxWords = 0;
+		int maxChars = 0;
+		int avgWords = 0;
+		int avgChars = 0;
 		
-		mStats.setWords(getWords());
-		mStats.setChars(getChars());
+		List<Note> notes = getAllNotes(false);
+		int words, chars;
+		for (Note note : notes) {
+			words = getWords(note);
+			chars = getChars(note);
+			if (words > maxWords) {
+				maxWords = words;
+			}
+			if (chars > maxChars) {
+				maxChars = chars;
+			}
+			totalWords += words;
+			totalChars += chars;
+		}
+		avgWords = totalWords / notes.size();
+		avgChars = totalChars / notes.size();
+		
+		
+		mStats.setWords(totalWords);
+		mStats.setWordsMax(maxWords);
+		mStats.setWordsAvg(avgWords);
+		mStats.setChars(totalChars);
+		mStats.setCharsMax(maxChars);
+		mStats.setCharsAvg(avgChars);
 		
 		return mStats;
 	}

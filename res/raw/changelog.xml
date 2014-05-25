@@ -16,10 +16,11 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.6.0 Beta 6" changeDate="May 24, 2014">    
+    <changelogversion versionName="4.6.0 Beta 6" changeDate="May 25, 2014">    
   		<changelogtext>[b]New![/b] Bulk notes tagging</changelogtext>  
   		<changelogtext>[b]New![/b] Empty trash action</changelogtext>   
-  		<changelogtext>[u]Fixed[/u] Layout not fitting content in detail when using KitKat</changelogtext>  
+  		<changelogtext>[b]New![/b] More statistics about notes</changelogtext>   
+  		<changelogtext>[u]Fixed[/u] Keyboard covering text in notes detail when using KitKat</changelogtext>  
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 5" changeDate="May 17 2014">   
