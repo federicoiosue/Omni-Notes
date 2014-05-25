@@ -1655,9 +1655,8 @@ public class DetailFragment extends Fragment implements
 		
 		// Checks if nothing is changed to avoid committing if possible (check)
 		if (!noteTmp.isChanged(note)) {
-//			onNoteSaved(noteTmp);
 			exitMessage = "";
-			goHome();
+			onNoteSaved(noteTmp);
 			return;
 		}		
 		
