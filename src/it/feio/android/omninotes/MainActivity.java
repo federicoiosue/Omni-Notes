@@ -211,7 +211,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
 		if (f != null) {
 			((DetailFragment)f).goBack = true;
-			((DetailFragment)f).saveNote(null, (DetailFragment)f);	
+			((DetailFragment)f).saveNote((DetailFragment)f);	
 			return;
 		} 
 

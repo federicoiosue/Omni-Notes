@@ -42,6 +42,7 @@
         android:paddingLeft="20dp"
         android:paddingStart="20dp"
         android:paddingTop="10dp"
+        android:layout_marginTop="7dp"
       	android:background="@drawable/icon_selector" >
 
         <ImageView

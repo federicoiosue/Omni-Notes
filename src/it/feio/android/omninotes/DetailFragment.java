@@ -132,6 +132,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 import com.neopixl.pixlui.links.TextLinkClickListener;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * An activity representing a single Item detail screen. ((MainActivity)getActivity()) activity is only
@@ -187,12 +188,13 @@ public class DetailFragment extends Fragment implements
 	View toggleChecklistView;
 	private ChecklistManager mChecklistManager;
 	
-	// Result intent
-	Intent resultIntent;
+	// Values to print result
+	private String exitMessage;
+	private Style exitCroutonStyle = ONStyle.CONFIRM;
 	
 	// Flag to check if after editing it will return to ListActivity or not
 	// and in the last case a Toast will be shown instead than Crouton
-	boolean afterSavedReturnsToList = true;
+	private boolean afterSavedReturnsToList = true;
 	private boolean swiping;
 	private ViewGroup root;
 	private int startSwipeX;
@@ -265,8 +267,6 @@ public class DetailFragment extends Fragment implements
 			((MainActivity)getActivity()).getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		}	
 		
-		resultIntent = new Intent();
-		
 		// Restored temp note after orientation change
 		if (savedInstanceState != null) {
 			noteTmp = savedInstanceState.getParcelable("noteTmp");
@@ -287,7 +287,6 @@ public class DetailFragment extends Fragment implements
 				sketchEdited = null;
 			}
 		}
-		
 		
 		init();
 		
@@ -323,7 +322,7 @@ public class DetailFragment extends Fragment implements
 		
 		// Checks "goBack" value to avoid performing a double saving
 		if (!goBack) {
-			saveNote(null, this);
+			saveNote(this);
 		}
 		
 		if (mRecorder != null) {
@@ -986,25 +985,22 @@ public class DetailFragment extends Fragment implements
 	@SuppressLint("NewApi")
 	public boolean goHome() {
 		stopPlaying();
-
-	    String msg = resultIntent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
 	    
 		// The activity has managed a shared intent from third party app and
 		// performs a normal onBackPressed instead of returning back to ListActivity
 		if (!afterSavedReturnsToList) {
-			if (!TextUtils.isEmpty(msg)) {
-				((MainActivity)getActivity()).showToast(msg, Toast.LENGTH_SHORT);
+			if (!TextUtils.isEmpty(exitMessage)) {
+				((MainActivity)getActivity()).showToast(exitMessage, Toast.LENGTH_SHORT);
 			}
-			((MainActivity)getActivity()).finish();
+			getActivity().finish();
 			return true;
 		} else {
-			if (!TextUtils.isEmpty(msg)) {
-				Crouton.makeText(((MainActivity)getActivity()), msg, ONStyle.CONFIRM).show();
+			if (!TextUtils.isEmpty(exitMessage)) {
+				Crouton.makeText(getActivity(), exitMessage, exitCroutonStyle).show();
 			}
 		}
 		
 		// Otherwise the result is passed to ListActivity
-//		((MainActivity)getActivity()).loadNotesSync = true;
 		((MainActivity)getActivity()).getSupportFragmentManager().popBackStack(); 
 		if (((MainActivity)getActivity()).getSupportFragmentManager().getBackStackEntryCount() == 1) {
 			((MainActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -1023,8 +1019,7 @@ public class DetailFragment extends Fragment implements
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			afterSavedReturnsToList = true;
-			goBack = true;
-			saveNote(null, this);
+			saveAndExit(this);
 			break;
 		case R.id.menu_attachment:
 			showPopup(((MainActivity)getActivity()).findViewById(R.id.menu_attachment));
@@ -1054,10 +1049,10 @@ public class DetailFragment extends Fragment implements
 			addShortcut();
 			break;
 		case R.id.menu_archive:
-			saveNote(true, this);
+			archiveNote(true);
 			break;
 		case R.id.menu_unarchive:
-			saveNote(false, this);
+			archiveNote(false);
 			break;
 		case R.id.menu_trash:
 			trashNote(true);
@@ -1616,27 +1611,35 @@ public class DetailFragment extends Fragment implements
 	
 
 	@SuppressLint("NewApi")
-	private void trashNote(boolean trashed) {
-		// Simply return to the previous
-		// activity/fragment if it was a new note
+	private void archiveNote(boolean archive) {
+		// Simply go back if is a new note
 		if (noteTmp.get_id() == 0) {
 			goHome();
 			return;
 		}
 	
-		DbHelper.getInstance(getActivity()).untrashNote(noteTmp);
+		noteTmp.setArchived(archive);
+		goBack = true;
+		exitMessage = archive ? getString(R.string.note_archived) : getString(R.string.note_unarchived);
+		exitCroutonStyle = archive ? ONStyle.WARN : ONStyle.INFO;
+		saveNote(this);	
+	}
 	
-		// Informs the user about update
-		Log.d(Constants.TAG, "Trashed note with id '" + noteTmp.get_id() + "'");
-		if (trashed) {
-			Crouton.makeText(((MainActivity)getActivity()), getString(R.string.note_trashed), ONStyle.WARN).show();
-		} else {
-			Crouton.makeText(((MainActivity)getActivity()), getString(R.string.note_untrashed), ONStyle.INFO).show();
+	
+
+	@SuppressLint("NewApi")
+	private void trashNote(boolean trash) {
+		// Simply go back if is a new note
+		if (noteTmp.get_id() == 0) {
+			goHome();
+			return;
 		}
-		
-		MainActivity.notifyAppWidgets(((MainActivity)getActivity()));
-		
-		goHome();
+	
+		noteTmp.setTrashed(trash);
+		goBack = true;
+		exitMessage = trash ? getString(R.string.note_trashed) : getString(R.string.note_untrashed);
+		exitCroutonStyle = trash ? ONStyle.WARN : ONStyle.INFO;
+		saveNote(this);	
 	}
 	
 	
@@ -1665,6 +1668,15 @@ public class DetailFragment extends Fragment implements
 	
 	
 	
+	
+	public void saveAndExit(OnNoteSaved mOnNoteSaved) {		
+		exitMessage = getString(R.string.note_updated);
+		exitCroutonStyle = ONStyle.CONFIRM;
+		goBack = true;
+		saveNote(mOnNoteSaved);
+	}
+	
+	
 
 	/**
 	 * Save new notes, modify them or archive
@@ -1675,11 +1687,10 @@ public class DetailFragment extends Fragment implements
 	 */
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB) 
-	void saveNote(Boolean archive, OnNoteSaved mOnNoteSaved) {
+	void saveNote(OnNoteSaved mOnNoteSaved) {
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent());	
-		noteTmp.setArchived(archive == null ? noteTmp.isArchived() : archive);
 		
 		// Check if some text or attachments of any type have been inserted or
 		// is an empty note
@@ -1716,11 +1727,6 @@ public class DetailFragment extends Fragment implements
 		} else {
 			saveNoteTask.execute(noteTmp);
 		}
-		
-		// Note status is aligned with noteTmp saved right now
-//		note = new Note(noteTmp);
-		
-		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
 		
 		MainActivity.notifyAppWidgets(((MainActivity)getActivity()));
 	}
@@ -2243,11 +2249,10 @@ public class DetailFragment extends Fragment implements
 	 */
 	private void addTags() {
 			contentCursorPosition = getCursorIndex();
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
 
 			// Retrieves all available categories
 			final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
-
+			
 			// If there is no tag a message will be shown
 			if (tags.size() == 0) {
 				Crouton.makeText(((MainActivity)getActivity()), R.string.no_tags_created, ONStyle.WARN).show();

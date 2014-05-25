@@ -17,7 +17,6 @@ package it.feio.android.omninotes;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import it.feio.android.omninotes.async.NoteLoaderTask;
-import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -96,6 +95,7 @@ import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class ListFragment extends Fragment implements UndoListener, OnNotesLoadedListener {
 
@@ -823,14 +823,19 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 
 	
+	/**
+	 * Empties trash deleting all the notes
+	 */
 	private void emptyTrash() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
 		alertDialogBuilder.setMessage(R.string.empty_trash_confirmation)
 				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						DbHelper.getInstance(getActivity()).emptyTrash();
-						mAdapter.clear();
+					public void onClick(DialogInterface dialog, int id) {						
+						for (int i = 0; i < mAdapter.getCount(); i++) {
+							selectedNotes.add(mAdapter.getItem(i));			
+						}
+						deleteSelectedNotes2();
 					}
 				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
@@ -1035,7 +1040,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 //		l.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
-		if (listView.getCount() == 0)
+		if (mAdapter.getCount() == 0)
 			listView.setEmptyView(((MainActivity)getActivity()).findViewById(R.id.empty_list));
 
 		if (mActionMode != null) {
@@ -1067,11 +1072,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 */
 	@SuppressLint("NewApi")
 	protected void trashNote(Note note, boolean trash) {
-		if (trash) {
-			DbHelper.getInstance(getActivity()).trashNote(note);
-		} else {
-			DbHelper.getInstance(getActivity()).untrashNote(note);
-		}
+		DbHelper.getInstance(getActivity()).trashNote(note, trash);
 		// Update adapter content
 		mAdapter.remove(note);
 		// Informs about update
@@ -1108,6 +1109,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			mAdapter.remove(note);
 			((MainActivity)getActivity()).deleteNote(note);
 		}	
+
+		// Clears data structures
+		mAdapter.clearSelectedItems();
+		listView.clearChoices();
 		
 		finishActionMode();
 		
@@ -1116,7 +1121,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 //		l.invalidateViews();
 	
 		// If list is empty again Mr Jingles will appear again
-		if (listView.getCount() == 0)
+		if (mAdapter.getCount() == 0)
 			listView.setEmptyView(((MainActivity)getActivity()).findViewById(R.id.empty_list));
 	
 		// Advice to user
@@ -1130,8 +1135,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	public void archiveSelectedNotes(boolean archive) {
 		// Used in undo bar commit
 		sendToArchive = archive;
-		String archivedStatus = archive ? getResources().getText(R.string.note_archived).toString() : getResources()
-				.getText(R.string.note_unarchived).toString();
 
 		for (Note note : selectedNotes) {
 			// If is restore it will be done immediately, otherwise the undo bar
@@ -1154,11 +1157,15 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 //		((ListView) ((MainActivity)getActivity()).findViewById(R.id.notes_list)).invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
-		if (listView.getCount() == 0)
-			listView.setEmptyView(((MainActivity)getActivity()).findViewById(R.id.empty_list));
+		if (mAdapter.getCount() == 0)
+			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 		
 		// Advice to user
-		Crouton.makeText(((MainActivity)getActivity()), archivedStatus, ONStyle.INFO).show();
+		String archivedStatus = archive ? getResources().getText(R.string.note_archived).toString() : getResources()
+				.getText(R.string.note_unarchived).toString();
+		int msg = archive ? R.string.note_archived : R.string.note_unarchived;
+		Style style = archive ? ONStyle.WARN : ONStyle.INFO;
+		Crouton.makeText(getActivity(), msg, style).show();
 
 		// Creation of undo bar
 		if (archive) {
@@ -1172,8 +1179,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	
 	private void archiveNote(Note note, boolean archive) {
 		// Deleting note using DbHelper
-		note.setArchived(archive);
-		DbHelper.getInstance(getActivity()).updateNote(note, true);
+		DbHelper.getInstance(getActivity()).archiveNote(note, archive);
 
 		// Update adapter content
 		mAdapter.remove(note);
@@ -1210,7 +1216,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 
 		alertDialogBuilder.setTitle(R.string.categorize_as)
-				.setAdapter(new NavDrawerCategoryAdapter(((MainActivity)getActivity()), categories), new DialogInterface.OnClickListener() {
+				.setAdapter(new NavDrawerCategoryAdapter(getActivity(), categories), new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// Moved to other method, ((MainActivity)getActivity()) way the same code
@@ -1221,7 +1227,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				}).setPositiveButton(R.string.add_category, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						Intent intent = new Intent(((MainActivity)getActivity()), CategoryActivity.class);
+						Intent intent = new Intent(getActivity(), CategoryActivity.class);
 						intent.putExtra("noHome", true);
 						startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
 					}
@@ -1275,7 +1281,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		listView.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
-		if (listView.getCount() == 0)
+		if (mAdapter.getCount() == 0)
 			listView.setEmptyView(((MainActivity)getActivity()).findViewById(R.id.empty_list));
 
 		// Refreshes navigation drawer if is set to show categories count numbers
@@ -1405,7 +1411,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		listView.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
-		if (listView.getCount() == 0)
+		if (mAdapter.getCount() == 0)
 			listView.setEmptyView(((MainActivity)getActivity()).findViewById(R.id.empty_list));
 
 		// Refreshes navigation drawer if is set to show categories count numbers

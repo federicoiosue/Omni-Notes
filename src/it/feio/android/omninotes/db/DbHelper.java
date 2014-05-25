@@ -498,21 +498,21 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	/**
-	 * Trashes single note
+	 * Archives/restore single note
 	 * @param note
 	 */
-	public void trashNote(Note note) {
-		note.setTrashed(true);
+	public void archiveNote(Note note, boolean archive) {
+		note.setArchived(archive);
 		updateNote(note, false);
 	}
 	
 	
 	/**
-	 * Trashes single note
+	 * Trashes/restore single note
 	 * @param note
 	 */
-	public void untrashNote(Note note) {
-		note.setTrashed(false);
+	public void trashNote(Note note, boolean trash) {
+		note.setTrashed(trash);
 		updateNote(note, false);
 	}
 
@@ -666,15 +666,20 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return List of notes with requested category
 	 */
 	public List<String> getTags() {	
+		return getTags(null);
+	}
+	
+	public List<String> getTags(Note note) {	
 		HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
 		
 		String whereCondition = " WHERE "
+								+ note != null ? KEY_ID + " = " + note.get_id() : ""
 								+ KEY_CONTENT + " LIKE '%#%' "
 								+ " AND " + KEY_TRASHED + " IS " + (Navigation.checkNavigation(Navigation.TRASH) ? "" : " NOT ") + " 1";
-		List<Note> notes = getNotes(whereCondition, true);
+		List<Note> notesRetrieved = getNotes(whereCondition, true);
 		
-		for (Note note : notes) {
-			Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getTitle() + " " + note.getContent());
+		for (Note noteRetrieved : notesRetrieved) {
+			Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(noteRetrieved.getTitle() + " " + noteRetrieved.getContent());
 		    while (matcher.find()) {
 		    	tagsMap.put(matcher.group().trim(), true);
 		    }
@@ -684,6 +689,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		Collections.sort(tags);
 		return tags;
 	}
+
 	
 	
 	/**
