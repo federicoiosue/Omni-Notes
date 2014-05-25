@@ -673,7 +673,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
 		
 		String whereCondition = " WHERE "
-								+ note != null ? KEY_ID + " = " + note.get_id() : ""
+								+ (note != null ? KEY_ID + " = " + note.get_id() : "")
 								+ KEY_CONTENT + " LIKE '%#%' "
 								+ " AND " + KEY_TRASHED + " IS " + (Navigation.checkNavigation(Navigation.TRASH) ? "" : " NOT ") + " 1";
 		List<Note> notesRetrieved = getNotes(whereCondition, true);

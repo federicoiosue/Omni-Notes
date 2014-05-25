@@ -992,7 +992,7 @@ public class DetailFragment extends Fragment implements
 			getActivity().finish();
 			return true;
 		} else {
-			if (!TextUtils.isEmpty(exitMessage)) {
+			if (!TextUtils.isEmpty(exitMessage) && exitCroutonStyle != null) {
 				Crouton.makeText(getActivity(), exitMessage, exitCroutonStyle).show();
 			}
 		}
@@ -1647,14 +1647,17 @@ public class DetailFragment extends Fragment implements
 		// is an empty note
 		if (goBack && noteTmp.isEmpty()) {
 			Log.d(Constants.TAG, "Empty note not saved");
-			Crouton.makeText(((MainActivity)getActivity()), getString(R.string.empty_note_not_saved), ONStyle.INFO).show();
+			exitMessage = getString(R.string.empty_note_not_saved);
+			exitCroutonStyle = ONStyle.INFO;
 			goHome();
 			return;
 		}
 		
 		// Checks if nothing is changed to avoid committing if possible (check)
 		if (!noteTmp.isChanged(note)) {
-			onNoteSaved(noteTmp);
+//			onNoteSaved(noteTmp);
+			exitMessage = "";
+			goHome();
 			return;
 		}		
 		
