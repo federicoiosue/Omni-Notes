@@ -944,6 +944,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			} else {
 				((MainActivity)getActivity()).onBackPressed();
 			}
+			goBackOnToggleSearchLabel = false;
+			if (Intent.ACTION_VIEW.equals(getActivity().getIntent().getAction())) {
+				getActivity().getIntent().setAction(null);
+			}
+				
 		}
 	}
 	
