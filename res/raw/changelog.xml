@@ -20,7 +20,9 @@
   		<changelogtext>[b]New![/b] Bulk notes tagging</changelogtext>  
   		<changelogtext>[b]New![/b] Empty trash action</changelogtext>   
   		<changelogtext>[b]New![/b] More statistics about notes</changelogtext>   
+  		<changelogtext>[b]New![/b] Moved settings on side panel to match last design patterns</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Keyboard covering text in notes detail when using KitKat</changelogtext>  
+  		<changelogtext>[u]Fixed[/u] Panorama picture support</changelogtext>  
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 5" changeDate="May 17 2014">   
