@@ -42,7 +42,7 @@ public class ONDashClockExtension extends DashClockExtension {
 	@Override
 	protected void onUpdateData(int reason) {
 
-		DbHelper db = new DbHelper(this);
+		DbHelper db = DbHelper.getInstance(this);
 		int notes = db.getAllNotes(false).size();
 		int remindersTotal = db.getNotesWithReminder(true).size();
 		int remindersNotExpired = db.getNotesWithReminder(false).size();

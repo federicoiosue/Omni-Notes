@@ -47,7 +47,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		purgeRemovedAttachments(note);
 		
 		if (!error) {
-			DbHelper db = new DbHelper(mActivity);		
+			DbHelper db = DbHelper.getInstance(mActivity);		
 			// Note updating on database
 			note = db.updateNote(note, updateLastModification);
 		} else {

@@ -3,6 +3,10 @@ package it.feio.android.omninotes.utils;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import android.content.Context;
 
 public class Navigation {
@@ -64,11 +68,19 @@ public class Navigation {
 	 * @return
 	 */
 	public static boolean checkNavigation(int navigationToCheck) {
-		if (navigationToCheck == getNavigation()) {
-			return true;
-		} else {
-			return false;
+		return checkNavigation(new Integer[]{navigationToCheck});
+	}
+	
+	public static boolean checkNavigation(Integer[] navigationsToCheck) {
+		boolean res = false;
+		int navigation = getNavigation();
+		for (int navigationToCheck : new ArrayList<Integer>(Arrays.asList(navigationsToCheck))) {
+			if (navigation == navigationToCheck) {
+				res = true;
+				break;
+			}
 		}
+		return res;
 	}
 	
 	

@@ -58,7 +58,6 @@ public class NavigationDrawerFragment extends Fragment {
 	private Category candidateSelectedCategory;
 	private MainActivity mActivity;
 	private SharedPreferences prefs;
-	private DbHelper db;
 	private CharSequence mTitle;
 
 
@@ -80,7 +79,6 @@ public class NavigationDrawerFragment extends Fragment {
 		mActivity = (MainActivity) getActivity();
 		
 		prefs = mActivity.prefs;
-		db = mActivity.db;
 	}
 	
 	
@@ -123,7 +121,7 @@ public class NavigationDrawerFragment extends Fragment {
 		// Sets the adapter for the TAGS navigation list view
 
 		// Retrieves data to fill tags list
-		ArrayList<Category> categories = db.getCategories();
+		ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 
 		mDrawerTagList = (ListView) getView().findViewById(R.id.drawer_tag_list);
 		if (categories.size() > 0) {

@@ -196,7 +196,7 @@ public class DataBackupIntentService extends IntentService {
 		File attachmentsDir = StorageManager.getAttachmentDir(this);
 		File destinationattachmentsDir = new File(backupDir, attachmentsDir.getName());
 		
-		DbHelper db = new DbHelper(this);
+		DbHelper db = DbHelper.getInstance(this);
 		ArrayList<Attachment> list = db.getAllAttachments();
 		
 		for (Attachment attachment : list) {

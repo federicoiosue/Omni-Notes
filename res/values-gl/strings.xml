@@ -161,8 +161,11 @@
   <string name="files">Ficheiros</string>
   <string name="merge">Fusionar</string>
   <string name="not_set">sen definir</string>
+  <string name="empty_trash">Empty trash</string>
+  <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
   <string name="help">Axuda</string>
   <string name="online_manual">Online manual</string>
+  <string name="tags_added">Tags added</string>
   <string name="dashclock_description">Mostrar algunhas estatísticas e recordatorios próximos de Omni Notes</string>
   <string name="settings">Axustes</string>
   <string name="settings_about">Información</string>

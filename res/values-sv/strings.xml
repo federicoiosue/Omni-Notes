@@ -79,6 +79,7 @@
   <string name="backup_existing">Backup finns, kommer skrivas över</string>
   <string name="tag">Etikett</string>
   <string name="tags">Taggar</string>
+  <string name="add_tag">Add tags</string>
   <string name="select_tags">Välj etikett(er)</string>
   <string name="categories">Kategorier</string>
   <string name="edit_tag">Ändra kategori</string>
@@ -160,7 +161,11 @@
   <string name="files">Filer</string>
   <string name="merge">Slå ihop</string>
   <string name="not_set">inte inställd</string>
+  <string name="empty_trash">Empty trash</string>
+  <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
   <string name="help">Hjälp</string>
+  <string name="online_manual">Online manual</string>
+  <string name="tags_added">Tags added</string>
   <string name="dashclock_description">Visar statistik och närliggande påminnelser från Omni Tools</string>
   <string name="settings">Inställningar</string>
   <string name="settings_about">Informatr</string>
@@ -199,12 +204,12 @@
   <string name="password_successfully_removed">Lösenord har tagits bort</string>
   <string name="wrong_password">Fel lösenord</string>
   <string name="agree_unlocking_all_notes">Acceptera att ta bort lösenord\n och ta bort maskering på alla maskerade anteckningar?</string>
-  <string name="settings_enable_tag_marker">Tagg markörer</string>
+  <string name="settings_enable_tag_marker">Category markers</string>
   <string name="settings_backup_summary">Importera eller exportera app uppgifter</string>
   <string name="settings_max_video_size_summary">Max tillåten storlek i MB</string>
   <string name="settings_password_summary">Redigera appens säkerhetslösenord</string>
   <string name="settings_enable_animations_summary">Sätta på eller av animationer i listan på anteckningar</string>
-  <string name="settings_enable_tag_marker_summary">Aktivera eller inaktivera taggar färgade markörer</string>
+  <string name="settings_enable_tag_marker_summary">Show/hide colored markers for categories</string>
   <string name="settings_enable_editor_links_summary">Aktivera eller inaktivera automatisk markering av länkar och e-post i editorn</string>
   <string name="confirm_removing_backup">Bekräfta att ta bort säkerhetskopia</string>
   <string name="confirm_restoring_backup">Acceptera återställning till backup</string>
@@ -247,6 +252,11 @@
   <string name="settings_navdrawer_on_exit_summary">Tryck \"tillbaka\" när du är i anteckningslistan för att öppna navigationsmeny istället för att gå till hemskärmen</string>
   <string name="settings_text_size">Textstorlek</string>
   <string name="settings_category_behaviors">Beteénde</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
+  <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
+  <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
+  <string name="settings_show_category_count">Note count</string>
+  <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
   <string name="tour_request_start">Detta är första gången du kör Omni Tools, vill du få en genomgång av applikationen?</string>
   <string name="tour_listactivity_intro_title">Välkommen till Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Tryck \"Fortsätt\" för att fortsätta touren</string>

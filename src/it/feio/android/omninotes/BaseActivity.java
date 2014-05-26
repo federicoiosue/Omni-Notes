@@ -53,7 +53,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Button;
@@ -115,9 +114,6 @@ public class BaseActivity extends ActionBarActivity {
 
 		// Preloads shared preferences for all derived classes
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-		
-		// Preparation of DbHelper
-		db = new DbHelper(this);
 		
 		// Starts location manager
 		setLocationManager();

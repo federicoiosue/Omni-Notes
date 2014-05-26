@@ -33,7 +33,7 @@ public class StatsActivity extends Activity {
 
 			@Override
 			protected Stats doInBackground(Void... params) {
-				Stats mStats = (new DbHelper(mContext)).getStats();
+				Stats mStats = (DbHelper.getInstance(mContext)).getStats();
 				return mStats;
 			}
 
@@ -72,8 +72,13 @@ public class StatsActivity extends Activity {
 		((TextView)findViewById(R.id.stat_attachments_audiorecordings)).setText(String.valueOf(mStats.getAudioRecordings()));
 		((TextView)findViewById(R.id.stat_attachments_sketches)).setText(String.valueOf(mStats.getSketches()));
 		((TextView)findViewById(R.id.stat_attachments_files)).setText(String.valueOf(mStats.getFiles()));
-		
+		((TextView)findViewById(R.id.stat_locations)).setText(String.valueOf(mStats.getLocation()));
+
 		((TextView)findViewById(R.id.stat_words)).setText(String.valueOf(mStats.getWords()));
+		((TextView)findViewById(R.id.stat_words_max)).setText(String.valueOf(mStats.getWordsMax()));
+		((TextView)findViewById(R.id.stat_words_avg)).setText(String.valueOf(mStats.getWordsAvg()));
 		((TextView)findViewById(R.id.stat_chars)).setText(String.valueOf(mStats.getChars()));
+		((TextView)findViewById(R.id.stat_chars_max)).setText(String.valueOf(mStats.getCharsMax()));
+		((TextView)findViewById(R.id.stat_chars_avg)).setText(String.valueOf(mStats.getCharsAvg()));
 	}
 }

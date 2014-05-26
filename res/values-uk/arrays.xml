@@ -20,7 +20,7 @@
     <item>Нотатки</item>
     <item>Архів</item>
     <item>Нагадування</item>
-    <item>Trash</item>
+    <item>Сміття</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Назвою</item>

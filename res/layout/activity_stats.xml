@@ -408,12 +408,81 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
+                android:text="Locations"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/stat_locations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end|right"
+                android:paddingEnd="5dp"
+                android:paddingRight="7dp"
                 android:text="Words"
                 android:textStyle="bold" >
             </TextView>
 
             <TextView
                 android:id="@+id/stat_words"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end|right"
+                android:paddingEnd="5dp"
+                android:paddingRight="7dp"
+                android:text="Max words"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/stat_words_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end|right"
+                android:paddingEnd="5dp"
+                android:paddingRight="7dp"
+                android:text="Average words"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/stat_words_avg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
             </TextView>
@@ -441,6 +510,53 @@
                 android:layout_height="wrap_content" >
             </TextView>
         </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end|right"
+                android:paddingEnd="5dp"
+                android:paddingRight="7dp"
+                android:text="Max chars"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/stat_chars_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TextView>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="2dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end|right"
+                android:paddingEnd="5dp"
+                android:paddingRight="7dp"
+                android:text="Average chars"
+                android:textStyle="bold" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/stat_chars_avg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TextView>
+        </TableRow>
+        
     </TableLayout>
 
 </ScrollView>

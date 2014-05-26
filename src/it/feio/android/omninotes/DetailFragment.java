@@ -26,12 +26,10 @@ import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.ImageAndTextItem;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
-import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
@@ -132,6 +130,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 import com.neopixl.pixlui.links.TextLinkClickListener;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * An activity representing a single Item detail screen. ((MainActivity)getActivity()) activity is only
@@ -146,13 +145,12 @@ public class DetailFragment extends Fragment implements
 		OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved {
 
 	private static final int TAKE_PHOTO = 1;
-	private static final int GALLERY = 2;
-	private static final int TAKE_VIDEO = 4;
-	private static final int SET_PASSWORD = 5;
-	private static final int SKETCH = 6;
-	private static final int TAG = 7;
-	private static final int DETAIL = 8;
-	private static final int FILES = 9;
+	private static final int TAKE_VIDEO = 2;
+	private static final int SET_PASSWORD = 3;
+	private static final int SKETCH = 4;
+	private static final int TAG = 5;
+	private static final int DETAIL = 6;
+	private static final int FILES = 7;
 	
 	private LinearLayout reminder_layout;
 	private TextView datetime;	
@@ -187,17 +185,17 @@ public class DetailFragment extends Fragment implements
 	View toggleChecklistView;
 	private ChecklistManager mChecklistManager;
 	
-	// Result intent
-	Intent resultIntent;
+	// Values to print result
+	private String exitMessage;
+	private Style exitCroutonStyle = ONStyle.CONFIRM;
 	
 	// Flag to check if after editing it will return to ListActivity or not
 	// and in the last case a Toast will be shown instead than Crouton
-	boolean afterSavedReturnsToList = true;
+	private boolean afterSavedReturnsToList = true;
 	private boolean swiping;
 	private ViewGroup root;
 	private int startSwipeX;
 	private SharedPreferences prefs;
-	private DbHelper db;
 	private boolean onCreateOptionsMenuAlreadyCalled = false;
 	private View timestampsView;
 	private View keyboardPlaceholder;
@@ -220,7 +218,6 @@ public class DetailFragment extends Fragment implements
 		super.onCreate(savedInstanceState);
 		mFragment = this;			
 		prefs = ((MainActivity)getActivity()).prefs;
-		db = ((MainActivity)getActivity()).db;
 	}
 	
 	
@@ -230,6 +227,13 @@ public class DetailFragment extends Fragment implements
 		OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
 		OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());	
 		super.onStart();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();		
+		// Adding a layout observer to perform calculus when showing keyboard
+		root.getViewTreeObserver().addOnGlobalLayoutListener(this);
 	}
 	
 	
@@ -260,8 +264,6 @@ public class DetailFragment extends Fragment implements
 			((MainActivity)getActivity()).getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		}	
 		
-		resultIntent = new Intent();
-		
 		// Restored temp note after orientation change
 		if (savedInstanceState != null) {
 			noteTmp = savedInstanceState.getParcelable("noteTmp");
@@ -282,7 +284,6 @@ public class DetailFragment extends Fragment implements
 				sketchEdited = null;
 			}
 		}
-		
 		
 		init();
 		
@@ -318,7 +319,7 @@ public class DetailFragment extends Fragment implements
 		
 		// Checks "goBack" value to avoid performing a double saving
 		if (!goBack) {
-			saveNote(null, this);
+			saveNote(this);
 		}
 		
 		if (mRecorder != null) {
@@ -439,8 +440,7 @@ public class DetailFragment extends Fragment implements
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
 				|| Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())) {
 			afterSavedReturnsToList = false;
-			DbHelper db = new DbHelper(((MainActivity)getActivity()));
-			noteOriginal = db.getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+			noteOriginal = DbHelper.getInstance(getActivity()).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
 			// Checks if the note pointed from the shortcut has been deleted
 			if (noteOriginal == null) {	
 				((MainActivity)getActivity()).showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
@@ -467,14 +467,13 @@ public class DetailFragment extends Fragment implements
 						String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length()).trim();		
 						Category tag;
 						try {
-							tag = db.getCategory(Integer.parseInt(tagId));
+							tag = DbHelper.getInstance(getActivity()).getCategory(Integer.parseInt(tagId));
 							noteTmp = new Note();
 							noteTmp.setCategory(tag);
 						} catch (NumberFormatException e) {}			
 					}
 				}
 			}
-			
 			
 			// Sub-action is to take a photo
 			if (Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())) {
@@ -528,23 +527,10 @@ public class DetailFragment extends Fragment implements
 		    // Multiple attachment data
 		    ArrayList<Uri> uris = i.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 		    if (uris != null) {
-//		    	Attachment mAttachment;
 		    	for (Uri uriSingle : uris) {
-//		    		String mimeGeneral = StorageManager.getMimeType(((MainActivity)getActivity()), uriSingle);
-//		    		if (mimeGeneral != null) {
-//		    			String mimeType = StorageManager.getMimeTypeInternal(((MainActivity)getActivity()), mimeGeneral);
-//		    			mAttachment = new Attachment(uriSingle, mimeType);
-//				    	if (Constants.MIME_TYPE_FILES.equals(mimeType)) {
-//					    	mAttachment.setName(uriSingle.getLastPathSegment());
-//				    	}
-//				    	noteTmp.addAttachment(mAttachment);
-//		    		} else {
-//		    			((MainActivity)getActivity()).showToast(getString(R.string.error_importing_some_attachments), Toast.LENGTH_SHORT);
-//		    		}
 					String name = FileHelper.getNameFromUri(((MainActivity)getActivity()), uriSingle);					
 					AttachmentTask task = new AttachmentTask(this, uriSingle, name, this);
-					task.execute();
-										
+					task.execute();	
 				}
 		    }
 			
@@ -662,7 +648,6 @@ public class DetailFragment extends Fragment implements
 
 		// Initialzation of gridview for images
 		mGridView.setAdapter(mAttachmentAdapter);
-		// mGridView.setExpanded(true);
 		mGridView.autoresize();
 
 		// Click events for images in gridview (zooms image)
@@ -824,9 +809,6 @@ public class DetailFragment extends Fragment implements
 				+ lastModification : "");
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
-		
-		// Adding a layout observer to perform calculus when showing keyboard
-		root.getViewTreeObserver().addOnGlobalLayoutListener(this);
 	}
 
 
@@ -1000,25 +982,22 @@ public class DetailFragment extends Fragment implements
 	@SuppressLint("NewApi")
 	public boolean goHome() {
 		stopPlaying();
-
-	    String msg = resultIntent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
 	    
 		// The activity has managed a shared intent from third party app and
 		// performs a normal onBackPressed instead of returning back to ListActivity
 		if (!afterSavedReturnsToList) {
-			if (!TextUtils.isEmpty(msg)) {
-				((MainActivity)getActivity()).showToast(msg, Toast.LENGTH_SHORT);
+			if (!TextUtils.isEmpty(exitMessage)) {
+				((MainActivity)getActivity()).showToast(exitMessage, Toast.LENGTH_SHORT);
 			}
-			((MainActivity)getActivity()).finish();
+			getActivity().finish();
 			return true;
 		} else {
-			if (!TextUtils.isEmpty(msg)) {
-				Crouton.makeText(((MainActivity)getActivity()), msg, ONStyle.CONFIRM).show();
+			if (!TextUtils.isEmpty(exitMessage) && exitCroutonStyle != null) {
+				Crouton.makeText(getActivity(), exitMessage, exitCroutonStyle).show();
 			}
 		}
 		
 		// Otherwise the result is passed to ListActivity
-//		((MainActivity)getActivity()).loadNotesSync = true;
 		((MainActivity)getActivity()).getSupportFragmentManager().popBackStack(); 
 		if (((MainActivity)getActivity()).getSupportFragmentManager().getBackStackEntryCount() == 1) {
 			((MainActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -1037,8 +1016,7 @@ public class DetailFragment extends Fragment implements
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			afterSavedReturnsToList = true;
-			goBack = true;
-			saveNote(null, this);
+			saveAndExit(this);
 			break;
 		case R.id.menu_attachment:
 			showPopup(((MainActivity)getActivity()).findViewById(R.id.menu_attachment));
@@ -1068,10 +1046,10 @@ public class DetailFragment extends Fragment implements
 			addShortcut();
 			break;
 		case R.id.menu_archive:
-			saveNote(true, this);
+			archiveNote(true);
 			break;
 		case R.id.menu_unarchive:
-			saveNote(false, this);
+			archiveNote(false);
 			break;
 		case R.id.menu_trash:
 			trashNote(true);
@@ -1266,7 +1244,7 @@ public class DetailFragment extends Fragment implements
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
 
 		// Retrieves all available tags
-		final ArrayList<Category> tags = db.getCategories();
+		final ArrayList<Category> tags = DbHelper.getInstance(getActivity()).getCategories();
 		
 		alertDialogBuilder.setTitle(R.string.categorize_as)
 							.setAdapter(new NavDrawerCategoryAdapter(((MainActivity)getActivity()), tags), new DialogInterface.OnClickListener() {
@@ -1337,9 +1315,6 @@ public class DetailFragment extends Fragment implements
 		// Camera
 		android.widget.TextView cameraSelection = (android.widget.TextView) layout.findViewById(R.id.camera);
 		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
-		// Gallery
-//		android.widget.TextView gallerySelection = (android.widget.TextView) layout.findViewById(R.id.gallery);
-//		gallerySelection.setOnClickListener(new AttachmentOnClickListener());
 		// Audio recording
 		android.widget.TextView recordingSelection = (android.widget.TextView) layout.findViewById(R.id.recording);
 		recordingSelection.setOnClickListener(new AttachmentOnClickListener());
@@ -1378,22 +1353,6 @@ public class DetailFragment extends Fragment implements
 				takePhoto();
 				attachmentDialog.dismiss();
 				break;
-			// Image from gallery
-//			case R.id.gallery:
-//				Intent galleryIntent;
-//				if (Build.VERSION.SDK_INT >= 19) {
-////					galleryIntent = new Intent(Intent.ACTION_PICK,
-////							android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//					takeGalleryKitKat();
-//				} else {
-//					galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-//					galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
-//					galleryIntent.setType("*/*");
-//					startActivityForResult(galleryIntent, GALLERY);
-//				}
-//				attachmentDialog.dismiss();
-//				break;
-			// Microphone recording
 			case R.id.recording:
 				if (!isRecording) {
 					isRecording = true;
@@ -1438,44 +1397,6 @@ public class DetailFragment extends Fragment implements
 	}
 
 
-	/**
-	 * Shows a dialog to choose between image or video attachment for storage access framework app
-	 */
-	@TargetApi(19)
-	private void takeGalleryKitKat() {
-		
-		final Intent intent = new Intent();
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-//		intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-		intent.addCategory(Intent.CATEGORY_OPENABLE);
-		
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
-		
-		ArrayList<ImageAndTextItem> options = new ArrayList<ImageAndTextItem>();
-		options.add(new ImageAndTextItem(R.drawable.ic_photo_dark, getString(R.string.image)) );
-		options.add(new ImageAndTextItem(R.drawable.ic_action_video, getString(R.string.video)) );
-		
-		alertDialogBuilder
-		.setAdapter(new ImageAndTextAdapter(((MainActivity)getActivity()), options), new DialogInterface.OnClickListener() {			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				switch (which) {
-				case 0:
-					intent.setType("image/*");
-					startActivityForResult(intent, GALLERY);
-					break;
-				case 1:
-					intent.setType("video/*");
-					startActivityForResult(intent, GALLERY);
-					break;
-				}				
-			}
-		});
-		
-		AlertDialog alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
-	}	
-	
 
 	
 	private void takePhoto() {
@@ -1553,11 +1474,6 @@ public class DetailFragment extends Fragment implements
 				noteTmp.getAttachmentsList().add(attachment);
 				mAttachmentAdapter.notifyDataSetChanged();
 				mGridView.autoresize();
-				break;
-			case GALLERY:
-				Uri uri = intent.getData();
-				AttachmentTask task = new AttachmentTask(this, uri, this);
-				task.execute();
 				break;
 			case TAKE_VIDEO:
 				// Gingerbread doesn't allow custom folder so data are retrieved from intent 
@@ -1646,27 +1562,35 @@ public class DetailFragment extends Fragment implements
 	
 
 	@SuppressLint("NewApi")
-	private void trashNote(boolean trashed) {
-		// Simply return to the previous
-		// activity/fragment if it was a new note
+	private void archiveNote(boolean archive) {
+		// Simply go back if is a new note
 		if (noteTmp.get_id() == 0) {
 			goHome();
 			return;
 		}
 	
-		db.untrashNote(noteTmp);
+		noteTmp.setArchived(archive);
+		goBack = true;
+		exitMessage = archive ? getString(R.string.note_archived) : getString(R.string.note_unarchived);
+		exitCroutonStyle = archive ? ONStyle.WARN : ONStyle.INFO;
+		saveNote(this);	
+	}
 	
-		// Informs the user about update
-		Log.d(Constants.TAG, "Trashed note with id '" + noteTmp.get_id() + "'");
-		if (trashed) {
-			Crouton.makeText(((MainActivity)getActivity()), getString(R.string.note_trashed), ONStyle.WARN).show();
-		} else {
-			Crouton.makeText(((MainActivity)getActivity()), getString(R.string.note_untrashed), ONStyle.INFO).show();
+	
+
+	@SuppressLint("NewApi")
+	private void trashNote(boolean trash) {
+		// Simply go back if is a new note
+		if (noteTmp.get_id() == 0) {
+			goHome();
+			return;
 		}
-		
-		MainActivity.notifyAppWidgets(((MainActivity)getActivity()));
-		
-		goHome();
+	
+		noteTmp.setTrashed(trash);
+		goBack = true;
+		exitMessage = trash ? getString(R.string.note_trashed) : getString(R.string.note_untrashed);
+		exitCroutonStyle = trash ? ONStyle.WARN : ONStyle.INFO;
+		saveNote(this);	
 	}
 	
 	
@@ -1695,6 +1619,15 @@ public class DetailFragment extends Fragment implements
 	
 	
 	
+	
+	public void saveAndExit(OnNoteSaved mOnNoteSaved) {		
+		exitMessage = getString(R.string.note_updated);
+		exitCroutonStyle = ONStyle.CONFIRM;
+		goBack = true;
+		saveNote(mOnNoteSaved);
+	}
+	
+	
 
 	/**
 	 * Save new notes, modify them or archive
@@ -1705,23 +1638,24 @@ public class DetailFragment extends Fragment implements
 	 */
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB) 
-	void saveNote(Boolean archive, OnNoteSaved mOnNoteSaved) {
+	void saveNote(OnNoteSaved mOnNoteSaved) {
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent());	
-		noteTmp.setArchived(archive == null ? noteTmp.isArchived() : archive);
 		
 		// Check if some text or attachments of any type have been inserted or
 		// is an empty note
 		if (goBack && noteTmp.isEmpty()) {
 			Log.d(Constants.TAG, "Empty note not saved");
-			Crouton.makeText(((MainActivity)getActivity()), getString(R.string.empty_note_not_saved), ONStyle.INFO).show();
+			exitMessage = getString(R.string.empty_note_not_saved);
+			exitCroutonStyle = ONStyle.INFO;
 			goHome();
 			return;
 		}
 		
 		// Checks if nothing is changed to avoid committing if possible (check)
 		if (!noteTmp.isChanged(note)) {
+			exitMessage = "";
 			onNoteSaved(noteTmp);
 			return;
 		}		
@@ -1746,11 +1680,6 @@ public class DetailFragment extends Fragment implements
 		} else {
 			saveNoteTask.execute(noteTmp);
 		}
-		
-		// Note status is aligned with noteTmp saved right now
-//		note = new Note(noteTmp);
-		
-		resultIntent.putExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE, getString(R.string.note_updated));
 		
 		MainActivity.notifyAppWidgets(((MainActivity)getActivity()));
 	}
@@ -1914,7 +1843,6 @@ public class DetailFragment extends Fragment implements
 				recordingBitmap = ((BitmapDrawable)((TransitionDrawable)d).getDrawable(1)).getBitmap();
 			}
 			((ImageView)v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(((MainActivity)getActivity()).getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
-//			((ImageView)v).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(((MainActivity)getActivity()).getResources(), R.drawable.stop), mGridView.getItemHeight(), mGridView.getItemHeight()));
 			}
 	}
 	
@@ -1961,7 +1889,6 @@ public class DetailFragment extends Fragment implements
 		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 		mRecorder.setAudioEncodingBitRate(16);
-//		mRecorder.setAudioSamplingRate(44100);
 		mRecorder.setOutputFile(recordName);
 
 		try {
@@ -2274,11 +2201,10 @@ public class DetailFragment extends Fragment implements
 	 */
 	private void addTags() {
 			contentCursorPosition = getCursorIndex();
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
 
 			// Retrieves all available categories
-			final List<String> tags = db.getTags();
-
+			final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
+			
 			// If there is no tag a message will be shown
 			if (tags.size() == 0) {
 				Crouton.makeText(((MainActivity)getActivity()), R.string.no_tags_created, ONStyle.WARN).show();
@@ -2300,7 +2226,6 @@ public class DetailFragment extends Fragment implements
 				.setMultiChoiceItems(tagsArray, selectedTags, new DialogInterface.OnMultiChoiceClickListener() {						
 					@Override
 					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-//						selectedTags[which] = isChecked;
 						if (isChecked) {
 							// To divide tags a head space is inserted
 							if (sbTags.length() > 0) {
