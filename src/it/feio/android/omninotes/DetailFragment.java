@@ -233,7 +233,9 @@ public class DetailFragment extends Fragment implements
 	public void onResume() {
 		super.onResume();		
 		// Adding a layout observer to perform calculus when showing keyboard
-		root.getViewTreeObserver().addOnGlobalLayoutListener(this);
+		if (root != null) {
+			root.getViewTreeObserver().addOnGlobalLayoutListener(this);
+		}
 	}
 	
 	
@@ -1037,10 +1039,10 @@ public class DetailFragment extends Fragment implements
 			toggleChecklist();
 			break;
 		case R.id.menu_lock:
-			lockNote();
+			maskNote();
 			break;
 		case R.id.menu_unlock:
-			lockNote();
+			maskNote();
 			break;
 		case R.id.menu_add_shortcut:
 			addShortcut();
@@ -1501,7 +1503,7 @@ public class DetailFragment extends Fragment implements
 				break;
 			case SET_PASSWORD:
 				noteTmp.setPasswordChecked(true);
-				lockUnlock();
+				maskUnmask();
 				break;
 			case SKETCH:
 				attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_SKETCH);
@@ -1744,7 +1746,7 @@ public class DetailFragment extends Fragment implements
 	/**
 	 * Notes locking with security password to avoid viewing, editing or deleting from unauthorized
 	 */
-	private void lockNote() {
+	private void maskNote() {
 		Log.d(Constants.TAG, "Locking or unlocking note " + note.get_id());
 		
 		// If security password is not set yes will be set right now
@@ -1757,7 +1759,7 @@ public class DetailFragment extends Fragment implements
 		// If password has already been inserted will not be asked again
 		if (noteTmp.isPasswordChecked()
 				|| prefs.getBoolean("settings_password_access", false)) {
-			lockUnlock();
+			maskUnmask();
 			return;
 		}
 		
@@ -1766,14 +1768,14 @@ public class DetailFragment extends Fragment implements
 			@Override
 			public void onPasswordValidated(boolean result) {
 				if (result) {
-					lockUnlock();
+					maskUnmask();
 				} 
 			}
 		});
 	}
 	
 	
-	private void lockUnlock(){
+	private void maskUnmask(){
 		if (noteTmp.isLocked()) {
 			Crouton.makeText(((MainActivity)getActivity()), R.string.save_note_to_unlock_it, ONStyle.INFO).show();
 			((MainActivity)getActivity()).supportInvalidateOptionsMenu();
