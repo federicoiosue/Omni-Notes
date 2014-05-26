@@ -32,9 +32,7 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -384,8 +382,7 @@ public class SettingsActivity extends PreferenceActivity {
 				
 				if (!config.locale.getCountry().equals(locale)) {
 					OmniNotes.updateLanguage(getApplicationContext(), value.toString());
-										
-					restartApp();
+					OmniNotes.restartApp(getApplicationContext());
 				}
 				return false;
 			}
@@ -531,7 +528,7 @@ public class SettingsActivity extends PreferenceActivity {
 								StorageManager.delete(activity, cacheDir.getAbsolutePath());
 								// App tour is flagged as skipped anyhow
 								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
-								restartApp();
+								OmniNotes.restartApp(getApplicationContext());
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 
@@ -570,7 +567,7 @@ public class SettingsActivity extends PreferenceActivity {
 										.putString(Constants.PREF_NAVIGATION,
 												getResources().getStringArray(R.array.navigation_list_codes)[0])
 										.commit();
-								restartApp();
+								OmniNotes.restartApp(getApplicationContext());
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
@@ -657,27 +654,6 @@ public class SettingsActivity extends PreferenceActivity {
 		OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
 		OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());		
 		super.onStart();
-	}
-		
-	
-	
-	
-	
-	private void restartApp() {
-		Intent intent = new Intent(this, MainActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//		NavUtils.navigateUpFromSameTask(this);
-		int mPendingIntentId = 123456;
-		PendingIntent mPendingIntent = PendingIntent.getActivity(this,
-				mPendingIntentId, intent,
-				PendingIntent.FLAG_CANCEL_CURRENT);
-		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100,
-				mPendingIntent);
-		System.exit(0);
-		
-//		Process.killProcess(Process.myPid());
 	}
 	
 	

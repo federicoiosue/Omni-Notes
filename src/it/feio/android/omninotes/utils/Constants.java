@@ -84,6 +84,7 @@ public interface Constants {
 	final String ACTION_DATA_IMPORT = "action_data_import";
 	final String ACTION_DATA_DELETE = "action_data_delete";
 	final String ACTION_START_APP = "action_start_app";
+	final String ACTION_RESTART_APP = "action_restart_app";
 	final String ACTION_DISMISS = "action_dismiss";
 	final String ACTION_SNOOZE = "action_snooze";
 	final String ACTION_POSTPONE = "action_postpone";

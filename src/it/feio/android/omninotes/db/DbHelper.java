@@ -330,7 +330,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	public List<Note> getNotesWithLocation() {
-		String whereCondition = " WHERE " + KEY_LONGITUDE + " IS NOT NULL ";
+		String whereCondition = " WHERE " + KEY_LONGITUDE + " IS NOT NULL "
+									+ " OR " + KEY_LONGITUDE + " != 0";
 		return getNotes(whereCondition, true);
 	}
 	
@@ -430,11 +431,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
 		Log.d(Constants.TAG, "Query: " + query);
 
-		SQLiteDatabase db = null;
 		Cursor cursor = null;
 		try {
-			db = this.getReadableDatabase();
-			cursor = db.rawQuery(query, null);
+			cursor = getReadableDatabase().rawQuery(query, null);
 	
 			// Looping through all rows and adding to list
 			if (cursor.moveToFirst()) {

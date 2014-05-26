@@ -150,6 +150,7 @@ public class DataBackupIntentService extends IntentService {
 		Intent intentLaunch;
 		if (Constants.ACTION_DATA_IMPORT.equals(intent.getAction())) {
 			 intentLaunch = new Intent(ctx, MainActivity.class);
+			 intentLaunch.setAction(Constants.ACTION_RESTART_APP);
 		} else {
 			 intentLaunch = new Intent();
 		}
@@ -157,7 +158,6 @@ public class DataBackupIntentService extends IntentService {
 		// Add this bundle to the intent
 		intentLaunch.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
 		intentLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//		intentLaunch.setAction(Constants.ACTION_START_APP);
 		
 		// Creates the PendingIntent
 		PendingIntent notifyIntent = PendingIntent.getActivity(ctx, 0, intentLaunch, PendingIntent.FLAG_UPDATE_CURRENT);

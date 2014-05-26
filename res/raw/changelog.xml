@@ -16,11 +16,18 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.6.0 Beta 7" changeDate="May 27, 2014">    
+<!--   		<changelogtext>[b]New![/b] Draggable checklist items!</changelogtext>   -->
+  		<changelogtext>[u]Fixed[/u] Masked notes causing crashes</changelogtext>  
+  		<changelogtext>[u]Fixed[/u] Note not loading after data restore</changelogtext>  
+    </changelogversion>
+
     <changelogversion versionName="4.6.0 Beta 6" changeDate="May 25, 2014">    
   		<changelogtext>[b]New![/b] Bulk notes tagging</changelogtext>  
   		<changelogtext>[b]New![/b] Empty trash action</changelogtext>   
   		<changelogtext>[b]New![/b] More statistics about notes</changelogtext>   
-  		<changelogtext>[b]New![/b] Moved settings on side panel to match last design patterns</changelogtext>  
+  		<changelogtext>[b]New![/b] Moved settings on side panel to match lastest design patterns</changelogtext>  
+  		<changelogtext>Some optimizations have been made to improve notes'list responsivity</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Keyboard covering text in notes detail when using KitKat</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Panorama picture support</changelogtext>  
     </changelogversion>

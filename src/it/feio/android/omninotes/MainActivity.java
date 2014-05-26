@@ -295,6 +295,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		
 		if (i.getAction() == null) return;
 		
+		if (i.getAction() == Constants.ACTION_RESTART_APP) {
+			OmniNotes.restartApp(getApplicationContext());
+		}
+		
 		// Action called from widget
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
 			|| Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())
