@@ -225,8 +225,6 @@ public class DbHelper extends SQLiteOpenHelper {
 				valuesAttachments.put(KEY_ATTACHMENT_SIZE, attachment.getSize());
 				valuesAttachments.put(KEY_ATTACHMENT_LENGTH, attachment.getLength());
 				attachment.setId((int) db.insert(TABLE_ATTACHMENTS, null, valuesAttachments));
-//				Log.d(Constants.TAG, "Saved new attachment with uri '"
-//						+ attachment.getUri().toString() + "' with id: " + attachment.getId());
 			} else {
 				deletedAttachments.remove(attachment);
 			}
@@ -578,16 +576,18 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @param pattern String to match with
 	 * @return Notes list
 	 */
-	public List<Note> getMatchingNotes(String pattern) {
+	public List<Note> getNotesByPattern(String pattern) {
 		
-		String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
-		boolean trash = navigationListCodes[3].equals(navigation);
+//		String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
+//		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+//		boolean trash = navigationListCodes[3].equals(navigation);
 		
 		String whereCondition = " WHERE "
-								+ KEY_TRASHED + (trash ? " IS 1" : " IS NOT 1") + " AND (" 
-								+ KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR "
-								+ KEY_CONTENT + " LIKE '%" + pattern + "%' )";
+								+ KEY_TRASHED + (Navigation.checkNavigation(Navigation.TRASH) ? " IS 1" : " IS NOT 1") 
+								+ " AND (" 
+									+ " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR " + KEY_CONTENT + " LIKE '%" + pattern + "%' ))"
+									+ " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + pattern + "%' )"
+								+ ")";
 		return getNotes(whereCondition, true);
 	}
 	

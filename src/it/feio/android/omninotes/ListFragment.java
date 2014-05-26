@@ -875,7 +875,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					searchTags = null;
 				}
 				if (((MainActivity)getActivity()).loadNotesSync) {
-					onNotesLoaded((ArrayList<Note>) DbHelper.getInstance(getActivity()).getMatchingNotes(searchQuery));
+					onNotesLoaded((ArrayList<Note>) DbHelper.getInstance(getActivity()).getNotesByPattern(searchQuery));
 				} else {
 					mNoteLoaderTask.execute("getMatchingNotes", searchQuery);
 				}

@@ -18,6 +18,7 @@
 
     <changelogversion versionName="4.6.0 Beta 7" changeDate="May 27, 2014">    
 <!--   		<changelogtext>[b]New![/b] Draggable checklist items!</changelogtext>   -->
+  		<changelogtext>[b]New![/b] Masked notes are no more searchable by content, just by title</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Masked notes causing crashes</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Note not loading after data restore</changelogtext>  
     </changelogversion>
