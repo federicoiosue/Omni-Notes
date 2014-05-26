@@ -610,11 +610,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 					@Override
 					public boolean onQueryTextChange(String pattern) {
-						if (prefs.getBoolean("settings_instant_search", false) && pattern.length() > 0) {
+						if (prefs.getBoolean("settings_instant_search", false)) {
 							searchQuery = pattern;
 //							((MainActivity)getActivity()).setIntent(((MainActivity)getActivity()).getIntent().setAction(Intent.ACTION_SEARCH));
 							NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
-							mNoteLoaderTask.execute("getMatchingNotes", pattern);
+							mNoteLoaderTask.execute("getNotesByPattern", pattern);
 							return true;
 						} else {
 							return false;
@@ -877,7 +877,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				if (((MainActivity)getActivity()).loadNotesSync) {
 					onNotesLoaded((ArrayList<Note>) DbHelper.getInstance(getActivity()).getNotesByPattern(searchQuery));
 				} else {
-					mNoteLoaderTask.execute("getMatchingNotes", searchQuery);
+					mNoteLoaderTask.execute("getNotesByPattern", searchQuery);
 				}
 				((MainActivity)getActivity()).loadNotesSync = Constants.LOAD_NOTES_SYNC;
 			}
@@ -903,7 +903,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				if (((MainActivity)getActivity()).loadNotesSync) {
 					onNotesLoaded((ArrayList<Note>) DbHelper.getInstance(getActivity()).getNotesByCategory(((MainActivity)getActivity()).navigationTmp));
 				} else {
-					mNoteLoaderTask.execute("getNotesWithTag", ((MainActivity)getActivity()).navigationTmp);
+					mNoteLoaderTask.execute("getNotesByTag", ((MainActivity)getActivity()).navigationTmp);
 				}
 				((MainActivity)getActivity()).loadNotesSync = Constants.LOAD_NOTES_SYNC;
 				
