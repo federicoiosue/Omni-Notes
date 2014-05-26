@@ -21,6 +21,7 @@
   		<changelogtext>[b]New![/b] Masked notes are no more searchable by content, just by title</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Masked notes causing crashes</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Note not loading after data restore</changelogtext>  
+  		<changelogtext>[u]Fixed[/u] Widgets showing trashed notes</changelogtext>  
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 6" changeDate="May 25, 2014">    
