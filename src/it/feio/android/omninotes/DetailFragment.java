@@ -1027,7 +1027,7 @@ public class DetailFragment extends Fragment implements
 			addTags();
 			break;
 		case R.id.menu_category:
-			tagNote();
+			categorizeNote();
 			break;
 		case R.id.menu_share:
 			shareNote();
@@ -1240,20 +1240,20 @@ public class DetailFragment extends Fragment implements
 	
 
 	/**
-	 * Tags note choosing from a list of previously created tags
+	 * Categorize note choosing from a list of previously created categories
 	 */
-	private void tagNote() {
+	private void categorizeNote() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
 
 		// Retrieves all available tags
-		final ArrayList<Category> tags = DbHelper.getInstance(getActivity()).getCategories();
+		final ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 		
 		alertDialogBuilder.setTitle(R.string.categorize_as)
-							.setAdapter(new NavDrawerCategoryAdapter(((MainActivity)getActivity()), tags), new DialogInterface.OnClickListener() {
+							.setAdapter(new NavDrawerCategoryAdapter(((MainActivity)getActivity()), categories), new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									noteTmp.setCategory(tags.get(which));
-									setTagMarkerColor(tags.get(which));
+									noteTmp.setCategory(categories.get(which));
+									setTagMarkerColor(categories.get(which));
 								}
 							}).setPositiveButton(R.string.add_category, new DialogInterface.OnClickListener() {
 								@Override
