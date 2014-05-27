@@ -221,6 +221,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			// Before exiting from app the navigation drawer is opened
 			if (prefs.getBoolean("settings_navdrawer_on_exit",  false) && getDrawerLayout() != null && !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
 				getDrawerLayout().openDrawer(GravityCompat.START);
+			} else if (!prefs.getBoolean("settings_navdrawer_on_exit",  false) && getDrawerLayout() != null && getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+				getDrawerLayout().closeDrawer(GravityCompat.START);
 			} else {
 				super.onBackPressed();
 			}
