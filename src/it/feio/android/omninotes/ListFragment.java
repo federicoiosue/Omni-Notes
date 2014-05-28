@@ -611,6 +611,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					@Override
 					public boolean onQueryTextChange(String pattern) {
 						if (prefs.getBoolean("settings_instant_search", false)) {
+							getActivity().findViewById(R.id.search_layout).setVisibility(View.GONE);;
 							searchQuery = pattern;
 //							((MainActivity)getActivity()).setIntent(((MainActivity)getActivity()).getIntent().setAction(Intent.ACTION_SEARCH));
 							NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
@@ -921,17 +922,21 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	
 	
 	
-	public void toggleSearchLabel(boolean active) {
-		if (active) {
-			((android.widget.TextView) ((MainActivity)getActivity()).findViewById(R.id.search_query)).setText(Html.fromHtml("<i>" + getString(R.string.search) + ":</i> " + searchQuery.toString()));
-			((MainActivity)getActivity()).findViewById(R.id.search_layout).setVisibility(View.VISIBLE);
-			((MainActivity)getActivity()).findViewById(R.id.search_cancel).setOnClickListener(new OnClickListener() {				
+	public void toggleSearchLabel(boolean activate) {
+		View searchLabel = getActivity().findViewById(R.id.search_layout);
+		boolean isActive = searchLabel.getVisibility() == View.VISIBLE;
+		if (!isActive && activate) {
+			((android.widget.TextView) getActivity().findViewById(R.id.search_query)).setText(Html.fromHtml("<i>" + getString(R.string.search) + ":</i> " + searchQuery.toString()));
+			searchLabel.setVisibility(View.VISIBLE);
+			getActivity().findViewById(R.id.search_cancel).setOnClickListener(new OnClickListener() {				
 				@Override
 				public void onClick(View v) {
 					toggleSearchLabel(false);
 				}
 			});
-		} else {
+		} 
+		
+		else if (isActive && !activate) {
 			((MainActivity)getActivity()).findViewById(R.id.search_layout).setVisibility(View.GONE);
 			searchTags = null;
 			searchQuery = null;
@@ -940,9 +945,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				if (searchView != null) {
 					MenuItemCompat.collapseActionView(searchMenuItem);
 				}
-				initNotesList(((MainActivity)getActivity()).getIntent());
+				initNotesList(getActivity().getIntent());
 			} else {
-				((MainActivity)getActivity()).onBackPressed();
+				getActivity().onBackPressed();
 			}
 			goBackOnToggleSearchLabel = false;
 			if (Intent.ACTION_VIEW.equals(getActivity().getIntent().getAction())) {
@@ -959,7 +964,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	public void onNotesLoaded(ArrayList<Note> notes) {
 		int layout = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
 				: R.layout.note_layout;
-		mAdapter = new NoteAdapter(((MainActivity)getActivity()), layout, notes);
+		mAdapter = new NoteAdapter(getActivity(), layout, notes);
 
 		// A specifical behavior is performed basing on navigation		
 		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter,
