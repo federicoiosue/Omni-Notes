@@ -54,7 +54,7 @@ public class NavigationDrawerFragment extends Fragment {
 	TypedArray mNavigationIconsArray;
 	private ListView mDrawerList;
 	private ListView mDrawerTagList;
-	private View tagListHeader;
+	private View tagListHeader, tagListFooter;
 	private Category candidateSelectedCategory;
 	private MainActivity mActivity;
 	private SharedPreferences prefs;
@@ -125,17 +125,33 @@ public class NavigationDrawerFragment extends Fragment {
 
 		mDrawerTagList = (ListView) getView().findViewById(R.id.drawer_tag_list);
 		if (categories.size() > 0) {
+			
 			// Inflation of header view
 			LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 			if (tagListHeader == null) {
-				tagListHeader = inflater.inflate(R.layout.drawer_category_list_header,
-						(ViewGroup) getView().findViewById(R.id.layout_root));
+				tagListHeader = inflater.inflate(R.layout.drawer_category_list_header, null);
 			}
-			// Adds the "tag" label as header
 			if (mDrawerTagList.getHeaderViewsCount() == 0) {
 				mDrawerTagList.addHeaderView(tagListHeader);
 				mDrawerTagList.setHeaderDividersEnabled(true);
 			}
+			
+			// Inflation of footer view
+			if (tagListFooter == null) {
+				tagListFooter = inflater.inflate(R.layout.drawer_category_list_footer, null);
+			}
+			if (mDrawerTagList.getFooterViewsCount() == 0) {
+				mDrawerTagList.addFooterView(tagListFooter);
+				mDrawerTagList.setFooterDividersEnabled(true);
+			}
+			tagListFooter.setOnClickListener(new OnClickListener() {			
+				@Override
+				public void onClick(View v) {
+					Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+					startActivity(settingsIntent);
+				}
+			});
+			
 			mDrawerTagList.setAdapter(new NavDrawerCategoryAdapter(mActivity, categories, mActivity.navigationTmp));
 
 			// Sets click events
@@ -249,18 +265,7 @@ public class NavigationDrawerFragment extends Fragment {
 					});
 				}
 			}
-		};
-		
-		// Settings textview
-		getActivity().findViewById(R.id.settings).setOnClickListener(new OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
-				startActivity(settingsIntent);
-			}
-		});
-		
-		
+		};		
 		
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);

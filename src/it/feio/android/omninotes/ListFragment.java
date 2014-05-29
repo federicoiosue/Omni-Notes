@@ -611,7 +611,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					@Override
 					public boolean onQueryTextChange(String pattern) {
 						if (prefs.getBoolean("settings_instant_search", false)) {
-							getActivity().findViewById(R.id.search_layout).setVisibility(View.GONE);;
+							getActivity().findViewById(R.id.search_layout).setVisibility(View.GONE);
 							searchQuery = pattern;
 //							((MainActivity)getActivity()).setIntent(((MainActivity)getActivity()).getIntent().setAction(Intent.ACTION_SEARCH));
 							NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);

@@ -32,36 +32,5 @@
         android:scrollbarThumbVertical="@drawable/scroll_bar"
         android:listSelector="@drawable/icon_selector" />
     
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="12dp"
-        android:paddingLeft="20dp"
-        android:paddingStart="20dp"
-        android:paddingTop="12dp"
-        android:layout_marginTop="7dp"
-      	android:background="@drawable/icon_selector" >
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:padding="4dp"
-            android:src="@drawable/ic_settings" />
-
-        <com.neopixl.pixlui.components.textview.TextView
-            android:id="@+id/settings"
-            android:layout_width="@dimen/navigation_drawer_width"
-            android:layout_height="match_parent"
-            android:paddingLeft="@dimen/icon_text_margin"
-            android:paddingStart="@dimen/icon_text_margin"
-            android:text="@string/settings"
-            android:textAllCaps="true"
-            android:textAppearance="@style/Text.Normal"
-            android:textColor="@color/actionbar_title_text"
-            pixlui:typeface="Roboto-Regular.ttf" />
-    </LinearLayout>
 
 </LinearLayout>
