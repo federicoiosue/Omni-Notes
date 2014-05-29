@@ -613,8 +613,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					public boolean onQueryTextChange(String pattern) {
 						if (prefs.getBoolean("settings_instant_search", false)) {
 							getActivity().findViewById(R.id.search_layout).setVisibility(View.GONE);
+							searchTags = null;
 							searchQuery = pattern;
-//							((MainActivity)getActivity()).setIntent(((MainActivity)getActivity()).getIntent().setAction(Intent.ACTION_SEARCH));
 							NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
 							mNoteLoaderTask.execute("getNotesByPattern", pattern);
 							return true;
@@ -867,7 +867,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		if (searchTags != null || searchQuery != null || Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			
 			// Using tags
-			if (searchTags != null) {
+			if (searchTags != null && intent.getStringExtra(SearchManager.QUERY) == null) {
 				searchQuery = searchTags;
 				mNoteLoaderTask.execute("getNotesByTag", searchQuery);
 			} else {			
@@ -926,7 +926,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	public void toggleSearchLabel(boolean activate) {
 		View searchLabel = getActivity().findViewById(R.id.search_layout);
 		boolean isActive = searchLabel.getVisibility() == View.VISIBLE;
-		if (!isActive && activate) {
+		if (activate) {
 			((android.widget.TextView) getActivity().findViewById(R.id.search_query)).setText(Html.fromHtml("<i>" + getString(R.string.search) + ":</i> " + searchQuery.toString()));
 			searchLabel.setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.search_cancel).setOnClickListener(new OnClickListener() {				
@@ -1684,7 +1684,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 						
 						// Saved here to allow persisting search
 						searchTags = tags.toString().substring(1, tags.toString().length()-1).replace(" ", "");
-						initNotesList(((MainActivity)getActivity()).getIntent());
+						Intent intent = getActivity().getIntent();
+//						intent.setAction(null);
+						intent.removeExtra(SearchManager.QUERY);
+						initNotesList(intent);
 						
 						// Fires an intent to search related notes
 //						NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
