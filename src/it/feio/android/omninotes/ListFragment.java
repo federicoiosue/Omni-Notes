@@ -123,6 +123,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private boolean undoArchive = false;
 	private boolean undoCategorize = false;
 	private Category undoCategorizeCategory = null;
+	private Category removedCategory;
 	private SparseArray<Note> undoNotesList = new SparseArray<Note>();
 	
 	// Search variables
@@ -1274,12 +1275,16 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				categorizeSelectedNotes3(note, category);
 			} else {
 				// Saves notes to be eventually restored at right position
+				removedCategory = note.getCategory();
 				undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
 			}
 			// Update adapter content if actual navigation is the category
 			// associated with actually cycled note
 			if (Navigation.checkNavigation(Navigation.CATEGORY) && !Navigation.checkNavigationCategory(category)) {
 				mAdapter.remove(note);
+			} else {
+				note.setCategory(category);
+				mAdapter.replace(note, mAdapter.getPosition(note));
 			}
 		}
 
@@ -1441,18 +1446,31 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 	@Override
 	public void onUndo(Parcelable token) {
-		undoTrash = false;
-		undoArchive = false;
-		undoCategorize = true;
-		undoCategorizeCategory = null;
-		Crouton.cancelAllCroutons();
 		
 		// Cycles removed items to re-insert into adapter
 		for (Note note : selectedNotes) {
-			mAdapter.insert(note, undoNotesList.keyAt(undoNotesList.indexOfValue(note)));
-		}		
+			// Manages trash/archive undo or notes removed from category navigated actually
+			if (!undoCategorize || Navigation.checkNavigationCategory(removedCategory)) {
+				mAdapter.insert(note,
+						undoNotesList.keyAt(undoNotesList.indexOfValue(note)));
+			// Replaces category colred strip
+			} else {
+				note.setCategory(removedCategory);
+				mAdapter.replace(note, mAdapter.getPosition(note));
+			}
+		}	
+
+		listView.invalidateViews();		
+			
 		undoNotesList.clear();
 		selectedNotes.clear();
+		
+		undoTrash = false;
+		undoArchive = false;
+		undoCategorize = false;
+		removedCategory = null;
+		undoCategorizeCategory = null;
+		Crouton.cancelAllCroutons();
 		
 		if (mActionMode != null) {
 			mActionMode.finish();

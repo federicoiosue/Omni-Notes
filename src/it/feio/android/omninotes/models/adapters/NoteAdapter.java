@@ -306,6 +306,16 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		// cancelled
 		return true;
 	}
+	
+	
+	/**
+	 * Replaces notes
+	 * @param note
+	 */
+	public void replace(Note note, int index) {
+		notes.remove(index);
+		notes.add(index, note);
+	}
 }
 
 
