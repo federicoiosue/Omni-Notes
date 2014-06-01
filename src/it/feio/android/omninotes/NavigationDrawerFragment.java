@@ -24,7 +24,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
+//import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,8 +53,8 @@ public class NavigationDrawerFragment extends Fragment {
 	String[] mNavigationArray;
 	TypedArray mNavigationIconsArray;
 	private ListView mDrawerList;
-	private ListView mDrawerTagList;
-	private View tagListHeader, tagListFooter;
+	private ListView mDrawerCategoriesList;
+	private View categoriesListHeader, settingsListFooter;
 	private Category candidateSelectedCategory;
 	private MainActivity mActivity;
 	private SharedPreferences prefs;
@@ -103,12 +103,12 @@ public class NavigationDrawerFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				mActivity.commitPending();
 				String navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
-				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
+//				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(mDrawerList, position);
 				mActivity.updateNavigation(navigation);
 				mDrawerList.setItemChecked(position, true);
-				if (mDrawerTagList != null)
-					mDrawerTagList.setItemChecked(0, false); // Called to force
+				if (mDrawerCategoriesList != null)
+					mDrawerCategoriesList.setItemChecked(0, false); // Called to force
 																// redraw
 				// Reset intent
 				mActivity.getIntent().setAction(Intent.ACTION_MAIN);
@@ -123,90 +123,88 @@ public class NavigationDrawerFragment extends Fragment {
 		// Retrieves data to fill tags list
 		ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 
-		mDrawerTagList = (ListView) getView().findViewById(R.id.drawer_tag_list);
-		if (categories.size() > 0) {
-			
-			// Inflation of header view
-			LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-			if (tagListHeader == null) {
-				tagListHeader = inflater.inflate(R.layout.drawer_category_list_header, null);
-			}
-			if (mDrawerTagList.getHeaderViewsCount() == 0) {
-				mDrawerTagList.addHeaderView(tagListHeader);
-				mDrawerTagList.setHeaderDividersEnabled(true);
-			}
-			
-			// Inflation of footer view
-			if (tagListFooter == null) {
-				tagListFooter = inflater.inflate(R.layout.drawer_category_list_footer, null);
-			}
-			if (mDrawerTagList.getFooterViewsCount() == 0) {
-				mDrawerTagList.addFooterView(tagListFooter);
-				mDrawerTagList.setFooterDividersEnabled(true);
-			}
-			tagListFooter.setOnClickListener(new OnClickListener() {			
-				@Override
-				public void onClick(View v) {
-					Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
-					startActivity(settingsIntent);
-				}
-			});
-			
-			mDrawerTagList.setAdapter(new NavDrawerCategoryAdapter(mActivity, categories, mActivity.navigationTmp));
+		mDrawerCategoriesList = (ListView) getView().findViewById(R.id.drawer_tag_list);
 
-			// Sets click events
-			mDrawerTagList.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+		// Inflater used for header and footer
+		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 					
-					// Commits pending deletion or archiviation
-					mActivity.commitPending();				
-					// Stops search service
-					if (mActivity.getSearchMenuItem() != null && MenuItemCompat.isActionViewExpanded(mActivity.getSearchMenuItem()))
-						MenuItemCompat.collapseActionView(mActivity.getSearchMenuItem());
-					
-					if (mDrawerTagList != null) {
-						Object item = mDrawerTagList.getAdapter().getItem(position);
-						// Ensuring that clicked item is not the ListView header
-						if (item != null) {
-							Category tag = (Category) item;
-							String navigation = tag.getName();
-							Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
-							selectNavigationItem(mDrawerTagList, position);
-							mActivity.updateNavigation(String.valueOf(tag.getId()));
-							mDrawerTagList.setItemChecked(position, true);
-							if (mDrawerList != null)
-								mDrawerList.setItemChecked(0, false); // Called to
-																		// force
-																		// redraw
-							mActivity.initNotesList(mActivity.getIntent());
-						}
-					}
-				}
-			});
-
-			// Sets long click events
-			mDrawerTagList.setOnItemLongClickListener(new OnItemLongClickListener() {
-				@Override
-				public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
-					if (mDrawerTagList.getAdapter() != null) {
-						Object item = mDrawerTagList.getAdapter().getItem(position);
-						// Ensuring that clicked item is not the ListView header
-						if (item != null) {
-							mActivity.editTag((Category) item);
-						}
-					} else {
-						Crouton.makeText(mActivity, R.string.category_deleted, ONStyle.ALERT).show();
-					}
-					return true;
-				}
-			});
-		} else {
-			if (mDrawerTagList != null) {
-				mDrawerTagList.removeAllViewsInLayout();
-				mDrawerTagList = null;
-			}
+		// Inflation of header view
+		if (categoriesListHeader == null) {
+			categoriesListHeader = inflater.inflate(R.layout.drawer_category_list_header, null);
 		}
+		
+		// Inflation of footer view used for settings
+		if (settingsListFooter == null) {
+			settingsListFooter = inflater.inflate(R.layout.drawer_category_list_footer, null);
+		}		
+		settingsListFooter.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+				startActivity(settingsIntent);
+			}
+		});
+		mDrawerCategoriesList.removeHeaderView(categoriesListHeader);
+		mDrawerCategoriesList.removeHeaderView(settingsListFooter);	
+		mDrawerCategoriesList.removeFooterView(settingsListFooter);	
+		if (categories.size() == 0) {
+			mDrawerCategoriesList.addHeaderView(settingsListFooter);
+		}
+		else if (categories.size() > 0) {
+			mDrawerCategoriesList.addHeaderView(categoriesListHeader);
+			mDrawerCategoriesList.addFooterView(settingsListFooter);
+		} 
+		
+		
+		mDrawerCategoriesList.setAdapter(new NavDrawerCategoryAdapter(mActivity, categories, mActivity.navigationTmp));
+
+		// Sets click events
+		mDrawerCategoriesList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				
+				// Commits pending deletion or archiviation
+				mActivity.commitPending();				
+				// Stops search service
+				if (mActivity.getSearchMenuItem() != null && MenuItemCompat.isActionViewExpanded(mActivity.getSearchMenuItem()))
+					MenuItemCompat.collapseActionView(mActivity.getSearchMenuItem());
+				
+				if (mDrawerCategoriesList != null) {
+					Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+					// Ensuring that clicked item is not the ListView header
+					if (item != null) {
+						Category tag = (Category) item;
+						String navigation = tag.getName();
+//							Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
+						selectNavigationItem(mDrawerCategoriesList, position);
+						mActivity.updateNavigation(String.valueOf(tag.getId()));
+						mDrawerCategoriesList.setItemChecked(position, true);
+						if (mDrawerList != null)
+							mDrawerList.setItemChecked(0, false); // Called to
+																	// force
+																	// redraw
+						mActivity.initNotesList(mActivity.getIntent());
+					}
+				}
+			}
+		});
+
+		// Sets long click events
+		mDrawerCategoriesList.setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
+				if (mDrawerCategoriesList.getAdapter() != null) {
+					Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+					// Ensuring that clicked item is not the ListView header
+					if (item != null) {
+						mActivity.editTag((Category) item);
+					}
+				} else {
+					Crouton.makeText(mActivity, R.string.category_deleted, ONStyle.ALERT).show();
+				}
+				return true;
+			}
+		});		
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
 		mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
