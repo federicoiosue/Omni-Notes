@@ -121,8 +121,12 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	// Undo archive/trash
 	private boolean undoTrash = false;
 	private boolean undoArchive = false;
+	private boolean undoCategorize = false;
 	private Category undoCategorizeCategory = null;
+//	private Category removedCategory;
 	private SparseArray<Note> undoNotesList = new SparseArray<Note>();
+	// Used to remember removed categories from notes
+	private HashMap<Note, Category> undoCategoryList = new HashMap<Note, Category>();
 	
 	// Search variables
 	private String searchQuery;
@@ -1269,21 +1273,22 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		for (Note note : selectedNotes) {
 			// If is restore it will be done immediately, otherwise the undo bar
 			// will be shown
-//			if (category != null) {
+			if (category != null) {
 				categorizeSelectedNotes3(note, category);
-//			} else {
-//				// Update adapter content if actual navigation is the category
-//				// associated with actually cycled note
-				if (Navigation.checkNavigation(Navigation.CATEGORY) && !Navigation.checkNavigationCategory(category)) {
-//					// Saves notes to be eventually restored at right position
-//					undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
-					mAdapter.remove(note);
-//				} else {
-//					undoNotesList.put(mAdapter.getPosition(note), note);
-//					note.setCategory(category);
-//					mAdapter.replace(note, mAdapter.getPosition(note));
-				}
-//			}
+			} else {
+				// Saves categories associated to eventually undo
+				undoCategoryList.put(note, note.getCategory());
+				// Saves notes to be eventually restored at right position
+				undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
+			}
+			// Update adapter content if actual navigation is the category
+			// associated with actually cycled note
+			if (Navigation.checkNavigation(Navigation.CATEGORY) && !Navigation.checkNavigationCategory(category)) {
+				mAdapter.remove(note);
+			} else {
+				note.setCategory(category);
+				mAdapter.replace(note, mAdapter.getPosition(note));
+			}
 		}
 
 		// Clears data structures
@@ -1316,13 +1321,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		Crouton.makeText(((MainActivity)getActivity()), msg, ONStyle.INFO).show();
 		
 		// Creation of undo bar
-//		if (category == null) {
-//			ubc.showUndoBar(false, getString(R.string.notes_category_removed), null);
-//			undoCategorize = true;
-//			undoCategorizeCategory = category;
-//		} else {
+		if (category == null) {
+			ubc.showUndoBar(false, getString(R.string.notes_category_removed), null);
+			undoCategorize = true;
+			undoCategorizeCategory = category;
+		} else {
 			selectedNotes.clear();
-//		}		
+		}		
 	}
 
 	private void categorizeSelectedNotes3(Note note, Category category) {
@@ -1447,8 +1452,15 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		
 		// Cycles removed items to re-insert into adapter
 		for (Note note : selectedNotes) {
-			mAdapter.insert(note,
-					undoNotesList.keyAt(undoNotesList.indexOfValue(note)));
+			// Manages trash/archive undo or notes removed from category navigated actually
+			if (!undoCategorize || Navigation.checkNavigationCategory(undoCategoryList.get(note))) {
+				mAdapter.insert(note,
+						undoNotesList.keyAt(undoNotesList.indexOfValue(note)));
+			// Replaces category colred strip
+			} else {
+				note.setCategory(undoCategoryList.get(note));
+				mAdapter.replace(note, mAdapter.getPosition(note));
+			}
 		}	
 
 		listView.invalidateViews();		
@@ -1458,7 +1470,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		
 		undoTrash = false;
 		undoArchive = false;
-//		undoCategorize = false;
+		undoCategorize = false;
+		undoNotesList.clear();
+		undoCategoryList.clear();
 		undoCategorizeCategory = null;
 		Crouton.cancelAllCroutons();
 		
@@ -1470,16 +1484,15 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 
 	void commitPending() {
-//		if (undoTrash || undoArchive || undoCategorize) {
-		if (undoTrash || undoArchive) {
+		if (undoTrash || undoArchive || undoCategorize) {
 
 			for (Note note : selectedNotes) {
 				if (undoTrash)
 					trashNote(note, true);
 				else if (undoArchive)
 					archiveNote(note, sendToArchive);
-//				else if (undoCategorize)
-//					categorizeSelectedNotes3(note, undoCategorizeCategory);
+				else if (undoCategorize)
+					categorizeSelectedNotes3(note, undoCategorizeCategory);
 			}
 			// Refreshes navigation drawer if is set to show categories count numbers
 			if (prefs.getBoolean("settings_show_category_count", false)) {
@@ -1488,12 +1501,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 			undoTrash = false;
 			undoArchive = false;
-//			undoCategorize = false;
+			undoCategorize = false;
 			undoCategorizeCategory = null;
 
 			// Clears data structures
 			selectedNotes.clear();
 			undoNotesList.clear();
+			undoCategoryList.clear();
 			mAdapter.clearSelectedItems();
 			listView.clearChoices();
 
