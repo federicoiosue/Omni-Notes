@@ -265,6 +265,9 @@ public class NavigationDrawerFragment extends Fragment {
 			}
 		};		
 		
+        // just styling option
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		
 		mDrawerToggle.setDrawerIndicatorEnabled(true);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		
