@@ -15,7 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.db;
 
-import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -329,7 +328,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	public List<Note> getNotesWithLocation() {
 		String whereCondition = " WHERE " + KEY_LONGITUDE + " IS NOT NULL "
-									+ " OR " + KEY_LONGITUDE + " != 0";
+									+ "AND " + KEY_LONGITUDE + " != 0 ";
 		return getNotes(whereCondition, true);
 	}
 	
