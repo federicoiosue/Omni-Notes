@@ -20,7 +20,7 @@
     <item>Notas</item>
     <item>Arquivo</item>
     <item>Lembretes</item>
-    <item>Trash</item>
+    <item>Lixeira</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Título</item>

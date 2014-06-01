@@ -20,7 +20,7 @@
     <item>Notlar</item>
     <item>Arşiv</item>
     <item>Hatırlatmalar</item>
-    <item>Trash</item>
+    <item>Çöp kutusu</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Başlık</item>
@@ -30,7 +30,7 @@
   </string-array>
   <string-array name="checked_items_behavior">
     <item>Yerinde kalsın</item>
-    <item>En sona taşı</item>
+    <item>En alta taşı</item>
     <item>Onaylanmışların üstüne, onaylanmamışların altına taşı</item>
   </string-array>
   <string-array name="colors_app">

@@ -161,11 +161,11 @@
   <string name="files">Файлы</string>
   <string name="merge">Объединить</string>
   <string name="not_set">не задано</string>
-  <string name="empty_trash">Empty trash</string>
-  <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
+  <string name="empty_trash">Очистить корзину</string>
+  <string name="empty_trash_confirmation">Подтверждаете удаление всех заметок в корзине?</string>
   <string name="help">Справка</string>
   <string name="online_manual">Онлайн руководство</string>
-  <string name="tags_added">Tags added</string>
+  <string name="tags_added">Теги добавлены</string>
   <string name="dashclock_description">Отображает небольшую статистику и приближающиеся напоминания из Omni Notes</string>
   <string name="settings">Настройки</string>
   <string name="settings_about">О программе</string>

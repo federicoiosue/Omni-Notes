@@ -161,11 +161,11 @@
   <string name="files">Dateien</string>
   <string name="merge">Zusammenführen</string>
   <string name="not_set">nicht festgelegt</string>
-  <string name="empty_trash">Empty trash</string>
-  <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
+  <string name="empty_trash">Papierkorb leeren</string>
+  <string name="empty_trash_confirmation">Alle Notizen im Papierkorb löschen?</string>
   <string name="help">Hilfe</string>
   <string name="online_manual">Onlinehandbuch</string>
-  <string name="tags_added">Tags added</string>
+  <string name="tags_added">Stichworte hinzugefügt</string>
   <string name="dashclock_description">Zeige Statistiken und sich nähernde Errinerungen</string>
   <string name="settings">Einstellungen</string>
   <string name="settings_about">Info</string>

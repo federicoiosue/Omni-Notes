@@ -161,11 +161,11 @@
   <string name="files">Bestanden</string>
   <string name="merge">Samenvoegen</string>
   <string name="not_set">niet ingesteld</string>
-  <string name="empty_trash">Empty trash</string>
-  <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
+  <string name="empty_trash">Prullenbak legen</string>
+  <string name="empty_trash_confirmation">Bevestig alle weggegooide notities verwijderen?</string>
   <string name="help">Help</string>
   <string name="online_manual">Online handboek</string>
-  <string name="tags_added">Tags added</string>
+  <string name="tags_added">Tags toegevoegd</string>
   <string name="dashclock_description">Sommige statistieken en de naderende herinneringen van Omni notities worden weergegeven</string>
   <string name="settings">Instellingen</string>
   <string name="settings_about">Informatie</string>

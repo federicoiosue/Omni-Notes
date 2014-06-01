@@ -79,7 +79,7 @@
   <string name="backup_existing">ישנו גיבוי קיים. הוא יוחלף</string>
   <string name="tag">תגית</string>
   <string name="tags">תגיות</string>
-  <string name="add_tag">Add tags</string>
+  <string name="add_tag">הוספת תגיות</string>
   <string name="select_tags">בחירת תגיות</string>
   <string name="categories">קטגוריות</string>
   <string name="edit_tag">עריכת קטגוריה</string>
@@ -161,11 +161,11 @@
   <string name="files">קבצים</string>
   <string name="merge">איחוד</string>
   <string name="not_set">לא נקבע</string>
-  <string name="empty_trash">Empty trash</string>
+  <string name="empty_trash">ריקון אשפה</string>
   <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
   <string name="help">עזרה</string>
-  <string name="online_manual">Online manual</string>
-  <string name="tags_added">Tags added</string>
+  <string name="online_manual">מדריך מקוון</string>
+  <string name="tags_added">תגיות התווספו</string>
   <string name="dashclock_description">הצגת נתונים סטטיסטיים ותזכורות שתוקפן עומד לפוג מ-Omni Notes</string>
   <string name="settings">הגדרות</string>
   <string name="settings_about">מידע</string>
@@ -255,7 +255,7 @@
   <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
   <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
-  <string name="settings_show_category_count">Note count</string>
+  <string name="settings_show_category_count">מספר ההערות</string>
   <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
   <string name="tour_request_start">זוהי הפעם הראשונה שאתם משתמשים ב-Omni Note, ברצונכם לעשות סיור באפליקציה?</string>
   <string name="tour_listactivity_intro_title">ברוך הבא ל-Omni Notes!</string>

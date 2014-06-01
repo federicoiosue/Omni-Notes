@@ -161,11 +161,11 @@
   <string name="files">Súbory</string>
   <string name="merge">Spojiť</string>
   <string name="not_set">nenastavená</string>
-  <string name="empty_trash">Empty trash</string>
-  <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
+  <string name="empty_trash">Vyprázdniť kôš</string>
+  <string name="empty_trash_confirmation">Potvrdzujete vymazanie všetkých zahodených poznámok v koši?</string>
   <string name="help">Pomocník</string>
   <string name="online_manual">Návod na internete</string>
-  <string name="tags_added">Tags added</string>
+  <string name="tags_added">Značky boli pridané</string>
   <string name="dashclock_description">Zobrazí niektoré štatistiky a blížiace sa pripomienky z Omni Notes</string>
   <string name="settings">Nastavenia</string>
   <string name="settings_about">Informácie</string>
