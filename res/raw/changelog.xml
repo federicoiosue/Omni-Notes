@@ -19,6 +19,8 @@
     <changelogversion versionName="4.6.0 Beta 8" changeDate="Jun 2, 2014">    
 <!--   		<changelogtext>[b]New![/b] Draggable checklist items!</changelogtext>   -->
   		<changelogtext>[b]New![/b] Revisited side panel with settings and shadow</changelogtext>  
+  		<changelogtext>[b]New![/b] Search improved by allowing non-stop text and tags insertion without resetting the results</changelogtext>
+  		<changelogtext>[b]New![/b] Non-ascii alphabet support for tags</changelogtext>  
   		<changelogtext>[b]New![/b] Added new Chines (Taiwan) language and updated the others</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Categorization actions broken when inside note editor or when undoing multipe notes categories removal</changelogtext>
   		<changelogtext>[u]Fixed[/u] Wrong locations count in statistics</changelogtext>  
