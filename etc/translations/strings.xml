@@ -226,7 +226,7 @@
     <string name="settings_beta">Google+</string>
     <string name="settings_beta_summary">Subscribe to the community to keep up to date with the latest features</string>
     <string name="donate">Donate</string>
-    <string name="donate_summary">Support the development of this non-profit app with a donation</string>
+    <string name="donate_summary">Support the development of this app with a non-profit donation</string>
     <string name="settings_choose_language">Language</string>
     <string name="settings_notification_ringtone">Ringtone</string>
     <string name="settings_enable_tag_marker_full">Full color</string>
