@@ -35,13 +35,14 @@
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/settings"
         android:layout_width="@dimen/navigation_drawer_width"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
         android:paddingLeft="@dimen/icon_text_margin"
         android:paddingStart="@dimen/icon_text_margin"
         android:text="@string/settings"
         android:textAllCaps="true"
         android:textAppearance="@style/Text.Normal"
-        android:textColor="@color/actionbar_title_text"
+        android:textColor="@color/drawer_text"
         pixlui:typeface="Roboto-Regular.ttf" />
 
 </LinearLayout>
