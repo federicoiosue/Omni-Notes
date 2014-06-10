@@ -1206,7 +1206,7 @@ public class DetailFragment extends Fragment implements
 		// Get instance and set options to convert EditText to CheckListView
 		mChecklistManager = ChecklistManager.getInstance(((MainActivity)getActivity()));
 		mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
-				String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
+				String.valueOf(it.feio.android.checklistview.Settings.CHECKED_HOLD))));
 		mChecklistManager.setShowChecks(true);
 		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
 		

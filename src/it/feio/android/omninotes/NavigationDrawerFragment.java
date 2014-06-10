@@ -10,10 +10,10 @@ import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
-
+import it.feio.android.omninotes.utils.Fonts;
 import java.util.ArrayList;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -33,10 +33,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
-
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 /**
@@ -137,6 +135,10 @@ public class NavigationDrawerFragment extends Fragment {
 		if (settingsListFooter == null) {
 			settingsListFooter = inflater.inflate(R.layout.drawer_category_list_footer, null);
 		}		
+
+		// Overrides font sizes with the one selected from user
+		Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS), settingsListFooter);
+		
 		settingsListFooter.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {

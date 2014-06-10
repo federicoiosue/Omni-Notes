@@ -16,7 +16,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="7dp"
     android:background="@drawable/icon_selector"
     android:gravity="center_vertical"
@@ -35,7 +35,7 @@
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/settings"
         android:layout_width="@dimen/navigation_drawer_width"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="@dimen/icon_text_margin"
         android:paddingStart="@dimen/icon_text_margin"
         android:text="@string/settings"
