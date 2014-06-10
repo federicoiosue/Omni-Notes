@@ -860,7 +860,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		
 		// Search for a tag
 		// A workaround to simplify it's to simulate normal search
-		if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getCategories().contains(Intent.CATEGORY_BROWSABLE)) {
+		if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getCategories() != null
+				&& intent.getCategories().contains(Intent.CATEGORY_BROWSABLE)) {
 			searchTags = intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, "");
 			goBackOnToggleSearchLabel = true;
 		}
