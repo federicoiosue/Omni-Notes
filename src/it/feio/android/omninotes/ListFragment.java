@@ -261,7 +261,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Clears data structures
 //		selectedNotes.clear();
-		mAdapter.clearSelectedItems();
+		if (mAdapter != null) {
+			mAdapter.clearSelectedItems();
+		}
 		listView.clearChoices();
 		if (mActionMode != null) {
 			mActionMode.finish();
