@@ -176,9 +176,11 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	 */
 	private Fragment checkFragmentInstance(int id, Object instanceClass) {
 		Fragment result = null;
-		Fragment fragment = mFragmentManager.findFragmentById(id);
-		if (instanceClass.equals(fragment.getClass())) {
-			result = fragment;
+		if (mFragmentManager != null) {
+			Fragment fragment = mFragmentManager.findFragmentById(id);
+			if (instanceClass.equals(fragment.getClass())) {
+				result = fragment;
+			}
 		}
 		return result;
 	}
