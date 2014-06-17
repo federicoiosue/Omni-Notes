@@ -164,12 +164,12 @@ public class CategoryActivity extends Activity {
 		
 		// Saved to DB and new id or update result catched
 		DbHelper db = DbHelper.getInstance(this);
-		long n = db.updateCategory(category);
+		category = db.updateCategory(category);
 		
 		// If category has no its an insertion and id is filled from db
-		if (category.getId() == null) {
-			category.setId((int)n);
-		}		
+//		if (category.getId() == null) {
+//			category.setId((int)n);
+//		}		
 		
 		// Sets result to show proper message
 		getIntent().putExtra(Constants.INTENT_TAG, category);

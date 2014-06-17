@@ -857,9 +857,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @param category Category to be updated or inserted
 	 * @return Rows affected or new inserted category id
 	 */
-	public long updateCategory(Category category) {
+	public Category updateCategory(Category category) {
 
-		long res;
 		SQLiteDatabase db = null;
 		
 		try {
@@ -873,15 +872,16 @@ public class DbHelper extends SQLiteOpenHelper {
 			// Updating row
 			if (category.getId() != null) {
 				values.put(KEY_CATEGORY_ID, category.getId());
-				res = db.update(TABLE_CATEGORY, values, KEY_CATEGORY_ID + " = ?",
+				db.update(TABLE_CATEGORY, values, KEY_CATEGORY_ID + " = ?",
 						new String[] { String.valueOf(category.getId()) });
 				Log.d(Constants.TAG, "Updated category titled '" + category.getName()
 						+ "'");
 				// Inserting new category
 			} else {
-				res = db.insert(TABLE_CATEGORY, null, values);
+				long id = db.insert(TABLE_CATEGORY, null, values);
 				Log.d(Constants.TAG, "Saved new category titled '" + category.getName()
-						+ "' with id: " + res);
+						+ "' with id: " + id);
+				category.setId((int) id);
 			}
 
 		} finally {
@@ -890,7 +890,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		}
 
 		// Returning result
-		return res;
+		return category;
 	}
 	
 	
