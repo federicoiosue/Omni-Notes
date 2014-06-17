@@ -149,8 +149,8 @@ public class SettingsActivity extends PreferenceActivity {
 							public void onClick(DialogInterface dialog, int id) {
 								// An IntentService will be launched to accomplish the export task
 								Intent service = new Intent(activity, DataBackupIntentService.class);
-								service.setAction(Constants.ACTION_DATA_EXPORT);
-								service.putExtra(Constants.INTENT_BACKUP_NAME, fileNameEditText.getText().toString());
+								service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
+								service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, fileNameEditText.getText().toString());
 								activity.startService(service);
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -226,8 +226,8 @@ public class SettingsActivity extends PreferenceActivity {
 												dialog.dismiss();
 												// An IntentService will be launched to accomplish the import task
 												Intent service = new Intent(activity, DataBackupIntentService.class);
-												service.setAction(Constants.ACTION_DATA_IMPORT);
-												service.putExtra(Constants.INTENT_BACKUP_NAME, backups[position]);
+												service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
+												service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backups[position]);
 												activity.startService(service);
 											}
 										})
@@ -267,8 +267,8 @@ public class SettingsActivity extends PreferenceActivity {
 												dialog.dismiss();	
 												// An IntentService will be launched to accomplish the import task
 												Intent service = new Intent(activity, DataBackupIntentService.class);
-												service.setAction(Constants.ACTION_DATA_DELETE);
-												service.putExtra(Constants.INTENT_BACKUP_NAME, backups[position]);
+												service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
+												service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backups[position]);
 												activity.startService(service);
 											}
 										})
@@ -831,10 +831,12 @@ public class SettingsActivity extends PreferenceActivity {
 				case SPRINGPAD_IMPORT:
 					if (resultCode == Activity.RESULT_OK) {
 						Uri filesUri = intent.getData();
-						String name = FileHelper.getPath(this, filesUri);
-						Importer importer = new Importer();
-						importer.doImport(name);
-						importer.getSpringpadNotes();
+						String path = FileHelper.getPath(this, filesUri);
+						// An IntentService will be launched to accomplish the import task
+						Intent service = new Intent(activity, DataBackupIntentService.class);
+						service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_SPRINGPAD);
+						service.putExtra(DataBackupIntentService.EXTRA_SPRINGPAD_BACKUP, path);
+						activity.startService(service);
 					} else {
 						Crouton.makeText(this, R.string.error_saving_attachments, ONStyle.ALERT)
 								.show();

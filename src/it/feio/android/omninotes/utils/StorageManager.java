@@ -16,7 +16,7 @@
 package it.feio.android.omninotes.utils;
 
 import it.feio.android.omninotes.R;
-
+import it.feio.android.omninotes.models.Attachment;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -466,6 +466,24 @@ public class StorageManager {
 			}
 		}
 		return mimeType;
+	}
+	
+	
+	
+	public static Attachment createAttachmentFromUri(Context mContext, Uri uri) {
+		String name = FileHelper.getNameFromUri(mContext, uri);
+		String extension = FileHelper
+				.getFileExtension(FileHelper.getNameFromUri(mContext, uri)).toLowerCase(
+						Locale.getDefault());
+		String mimeType = StorageManager.getMimeTypeInternal(mContext, uri);
+		File f = StorageManager.createExternalStoragePrivateFile(mContext, uri, extension);
+		Attachment mAttachment = null;
+		if (f != null) {
+			mAttachment = new Attachment(Uri.fromFile(f), mimeType);
+			mAttachment.setName(name);
+			mAttachment.setSize(f.length());
+		}
+		return mAttachment;
 	}
 	
 	

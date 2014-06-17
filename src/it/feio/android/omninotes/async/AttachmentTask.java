@@ -39,21 +39,7 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 	
 	@Override
 	protected Attachment doInBackground(Void... params) {
-		
-		String extension = FileHelper.getFileExtension(
-				FileHelper.getNameFromUri(mActivity, uri)).toLowerCase(Locale.getDefault());
-		
-		String mimeType = StorageManager.getMimeTypeInternal(mActivity, uri);
-		
-		File f = StorageManager.createExternalStoragePrivateFile(mActivity, uri, extension);
-		
-		if (f == null) return null;
-		
-		Attachment mAttachment = new Attachment(Uri.fromFile(f), mimeType);
-		mAttachment.setName(fileName);
-		mAttachment.setSize(f.length());
-//		mAttachment.setMoveWhenNoteSaved(false);
-		return mAttachment;
+		return StorageManager.createAttachmentFromUri(mActivity, uri);
 	}
 	
 

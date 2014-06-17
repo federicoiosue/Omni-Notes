@@ -33,6 +33,14 @@ import android.util.Log;
  *
  */
 public class DateHelper {
+	
+	public static String getSortableDate() {
+		String result = null;
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
+		Date now = Calendar.getInstance().getTime();
+		result = sdf.format(now);
+		return result;
+	}
 
 	public static String getString(long date, String format) {
 		Date d = new Date(date);

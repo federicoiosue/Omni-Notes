@@ -177,6 +177,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(KEY_TITLE, note.getTitle());
 		values.put(KEY_CONTENT, note.getContent());
+		values.put(KEY_CREATION, note.getCreation() != null ? note.getCreation() : Calendar.getInstance().getTimeInMillis());
 		values.put(KEY_LAST_MODIFICATION, updateLastModification ? Calendar
 				.getInstance().getTimeInMillis() : (note.getLastModification() != null ? note.getLastModification() : Calendar
 						.getInstance().getTimeInMillis()));
@@ -203,9 +204,9 @@ public class DbHelper extends SQLiteOpenHelper {
 			}
 			Log.d(Constants.TAG, "Updated note titled '" + note.getTitle()
 					+ "'");
-			// Inserting new note
+			
+		// Inserting new note
 		} else {
-			values.put(KEY_CREATION, Calendar.getInstance().getTimeInMillis());
 			resNote = db.insert(TABLE_NOTES, null, values);
 			Log.d(Constants.TAG, "Saved new note titled '" + note.getTitle()
 					+ "' with id: " + resNote);

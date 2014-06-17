@@ -70,8 +70,6 @@ public interface Constants {
 	final String GALLERY_CLICKED_IMAGE = "gallery_clicked_image";
 	final String GALLERY_IMAGES = "gallery_images";
 	final int INTENT_ALARM_CODE = 12345;
-	final String INTENT_BACKUP_NAME = "backup_name";
-	final String INTENT_BACKUP_INCLUDE_SETTINGS = "backup_include_settings";
 	final String INTENT_TAG = "tag";
 	final String INTENT_DETAIL_RESULT_CODE = "detail_result_code";
 	final String INTENT_DETAIL_RESULT_MESSAGE = "detail_result_message";
@@ -80,9 +78,6 @@ public interface Constants {
 	final String INTENT_UPDATE_DASHCLOCK = "update_dashclock";
 
 	// Custom intent actions
-	final String ACTION_DATA_EXPORT = "action_data_export";
-	final String ACTION_DATA_IMPORT = "action_data_import";
-	final String ACTION_DATA_DELETE = "action_data_delete";
 	final String ACTION_START_APP = "action_start_app";
 	final String ACTION_RESTART_APP = "action_restart_app";
 	final String ACTION_DISMISS = "action_dismiss";
