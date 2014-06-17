@@ -203,10 +203,6 @@
                      android:action="android.intent.action.VIEW"
                      android:data="@string/help_online_url" />
              </Preference>
-             <Preference
-                 android:key="settings_changelog"
-                 android:title="@string/settings_changelog" >
-             </Preference>
          </PreferenceScreen>
    
 	    <Preference
@@ -214,6 +210,11 @@
 	        android:title="@string/donate"
         	android:summary="@string/donate_summary" >
 	    </Preference>
+	    
+        <Preference
+            android:key="settings_changelog"
+            android:title="@string/settings_changelog" >
+        </Preference>
         
         <Preference
             android:key="settings_about"
