@@ -40,6 +40,7 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.StorageManager;
@@ -51,13 +52,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -71,8 +72,6 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
@@ -875,12 +874,13 @@ public class DetailFragment extends Fragment implements
 			private final String ERROR_MSG = getString(R.string.location_not_found);
 			private TextView mlocationTextView;
 			private double lat, lon;
+			private Context mContext;
 
-			public LocatorTask(TextView locationTextView, double lat, double lon) {
+			public LocatorTask(Context mContext, TextView locationTextView, double lat, double lon) {
+				this.mContext = mContext;
 				this.mlocationTextView = locationTextView;
 				this.lat = lat;
-				this.lon = lon;
-				
+				this.lon = lon;				
 			}
 
 			@Override
@@ -888,18 +888,8 @@ public class DetailFragment extends Fragment implements
 				
 				String addressString = "";
 				try {
-					Geocoder gcd = new Geocoder(((MainActivity)getActivity()), Locale.getDefault());
-					List<Address> addresses = gcd.getFromLocation(this.lat, this.lon, 1);
-					if (addresses.size() > 0) {
-						Address address = addresses.get(0);
-						if (address != null) {
-							addressString = address.getThoroughfare() + ", " + address.getLocality();
-						} else {
-							addressString = ERROR_MSG;
-						}
-					} else {
-						addressString = ERROR_MSG;
-					}
+					addressString = GeocodeHelper.getAddressFromCoordinates(mContext, this.lat, this.lon); 
+					addressString = TextUtils.isEmpty(addressString) ? ERROR_MSG : addressString;
 				} catch (IOException ex) {
 					addressString = ERROR_MSG;
 				}
@@ -920,7 +910,7 @@ public class DetailFragment extends Fragment implements
 			}
 		}
 
-		LocatorTask task = new LocatorTask(locationTextView, lat, lon);		
+		LocatorTask task = new LocatorTask(getActivity(), locationTextView, lat, lon);		
 		if (Build.VERSION.SDK_INT >= 11) {
 			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		} else {
