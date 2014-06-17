@@ -11,6 +11,12 @@ import android.view.View;
 import android.view.WindowManager;
 
 public class Display {
+	
+	
+	public static View getRootView(Activity mActivity) {
+		return mActivity.getWindow().getDecorView().findViewById(android.R.id.content);
+	}
+	
 
 	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")

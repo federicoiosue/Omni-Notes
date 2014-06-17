@@ -19,7 +19,6 @@ import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
-import it.feio.android.checklistview.models.CheckListView;
 import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
@@ -46,7 +45,6 @@ import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,7 +52,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -95,6 +92,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -102,6 +100,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnDragListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
@@ -120,7 +119,6 @@ import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.ScrollView;
 import android.widget.Toast;
-
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
@@ -128,7 +126,6 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.neopixl.pixlui.links.TextLinkClickListener;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
@@ -542,6 +539,7 @@ public class DetailFragment extends Fragment implements
 	}
 
 	
+	@SuppressLint("NewApi")
 	private void initViews() {
 				
 		// Sets onTouchListener to the whole activity to swipe notes
@@ -565,6 +563,16 @@ public class DetailFragment extends Fragment implements
 		title.setText(noteTmp.getTitle());	
 		title.gatherLinksForText();
 		title.setOnTextLinkClickListener(this);
+		// To avoid dropping here the  dragged checklist items
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			title.setOnDragListener(new OnDragListener() {			
+				@Override
+				public boolean onDrag(View v, DragEvent event) {
+					((View)event.getLocalState()).setVisibility(View.VISIBLE);
+					return true;
+				}
+			});
+		}
 		
 		content = (EditText) getView().findViewById(R.id.detail_content);
 		content.setText(noteTmp.getContent());
