@@ -24,13 +24,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import org.apache.commons.io.FileUtils;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -453,7 +456,7 @@ public class StorageManager {
 	 * @param mimeType
 	 * @return
 	 */
-	public static String getMimeTypeInternal(Context mContext, String mimeType) {	
+	public static String getMimeTypeInternal(Context mContext, String mimeType) {
 		if (mimeType != null) {
 			if (mimeType.contains("image/")) {
 				mimeType = Constants.MIME_TYPE_IMAGE;
@@ -472,9 +475,8 @@ public class StorageManager {
 	
 	public static Attachment createAttachmentFromUri(Context mContext, Uri uri) {
 		String name = FileHelper.getNameFromUri(mContext, uri);
-		String extension = FileHelper
-				.getFileExtension(FileHelper.getNameFromUri(mContext, uri)).toLowerCase(
-						Locale.getDefault());
+		String extension = FileHelper.getFileExtension(FileHelper.getNameFromUri(mContext, uri))
+				.toLowerCase(Locale.getDefault());
 		String mimeType = StorageManager.getMimeTypeInternal(mContext, uri);
 		File f = StorageManager.createExternalStoragePrivateFile(mContext, uri, extension);
 		Attachment mAttachment = null;
@@ -484,6 +486,46 @@ public class StorageManager {
 			mAttachment.setSize(f.length());
 		}
 		return mAttachment;
+	}
+	
+	
+	
+	/**
+	 * Creates new attachment from web content
+	 * 
+	 * @param mContext
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
+	public static File createNewAttachmentFileFromHttp(Context mContext, String url)
+			throws IOException {
+		return getFromHttp(url, createNewAttachmentFile(mContext, FileHelper.getFileExtension(url)));
+	}
+	
+	
+	/**
+	 * Retrieves a file from its web url
+	 * 
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
+	public static File getFromHttp(String url, File file) throws IOException {
+		URL imageUrl = new URL(url);
+		// HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
+		// conn.setConnectTimeout(30000);
+		// conn.setReadTimeout(30000);
+		// conn.setInstanceFollowRedirects(true);
+		// InputStream is=conn.getInputStream();
+		// OutputStream os = new FileOutputStream(f);
+		// Utils.CopyStream(is, os);
+
+		// File file = File.createTempFile("img", ".jpg");
+
+		FileUtils.copyURLToFile(imageUrl, file);
+		// os.close();
+		return file;
 	}
 	
 	

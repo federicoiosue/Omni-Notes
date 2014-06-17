@@ -14,6 +14,8 @@ import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
 import it.feio.android.springpadimporter.models.SpringpadNote;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.IntentService;
@@ -27,6 +29,7 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
 
@@ -146,8 +149,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		
 		// And then notes are created
 		Note note;
-		Attachment mAttachment;
-		Uri uri;
+		Attachment mAttachment = null;
+		Uri uri = null;
 		for (SpringpadNote springpadNote : notes) {
 			note = new Note();
 			note.setTitle(springpadNote.getName());
@@ -165,22 +168,46 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			// Image 
 			String image = springpadNote.getImage();
 			if (image != null) {
-				uri = Uri.parse(importer.getWorkingPath() + image);
-				mAttachment = StorageManager.createAttachmentFromUri(this, uri);
-				if (mAttachment != null) {					
-					note.addAttachment(StorageManager.createAttachmentFromUri(this, uri));
+				try {
+					File file = StorageManager.createNewAttachmentFileFromHttp(this, image);
+					uri = Uri.fromFile(file);
+					String mimeType = StorageManager.getMimeType(uri.getPath());
+					mAttachment = new Attachment(uri, mimeType);
+				} catch (MalformedURLException e) {
+					uri = Uri.parse(importer.getWorkingPath() + image);
+					mAttachment = StorageManager.createAttachmentFromUri(this, uri);
+				} catch (IOException e) {
+					Log.e(Constants.TAG, "Error retrieving Springpad online image");
 				}
+				if (mAttachment != null) {					
+					note.addAttachment(mAttachment);
+				}
+				mAttachment = null;
 			}
 			
 			// Other attachments
 			for (SpringpadAttachment springpadAttachment : springpadNote.getAttachments()) {
 				// The attachment could be the image itself so it's jumped
 				if (image != null && image.equals(springpadAttachment.getUrl())) continue;
-				uri = Uri.parse(importer.getWorkingPath() + springpadAttachment.getUrl());
-				mAttachment = StorageManager.createAttachmentFromUri(this, uri);
-				if (mAttachment != null) {					
-					note.addAttachment(StorageManager.createAttachmentFromUri(this, uri));
+				
+				// Tryies first with online images
+				try {
+					File file = StorageManager.createNewAttachmentFileFromHttp(this,
+							springpadAttachment.getUrl());
+					uri = Uri.fromFile(file);
+					String mimeType = StorageManager.getMimeType(uri.getPath());
+					mAttachment = new Attachment(uri, mimeType);
+				} catch (MalformedURLException e) {
+					uri = Uri.parse(importer.getWorkingPath() + springpadAttachment.getUrl());
+					mAttachment = StorageManager.createAttachmentFromUri(this, uri);
+				} catch (IOException e) {
+					Log.e(Constants.TAG, "Error retrieving Springpad online image");
 				}
+				if (mAttachment != null) {						
+					note.addAttachment(mAttachment);
+				}
+				uri = null;
+				mAttachment = null;
 			}
 			
 			// The note is saved

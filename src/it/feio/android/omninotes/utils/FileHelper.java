@@ -287,7 +287,7 @@ public class FileHelper {
 
 	public static String getFileExtension(String fileName) {
 		String extension = "";
-		int index = fileName.indexOf(".");
+		int index = fileName.lastIndexOf(".");
 		if (index != -1) {
 			extension = fileName.substring(index, fileName.length());			
 		} 
