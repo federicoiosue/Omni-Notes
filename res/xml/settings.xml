@@ -39,6 +39,11 @@
                     android:title="@string/settings_import" >
                 </Preference>
                 
+                <Preference
+                    android:key="settings_import_from_springpad"
+                    android:title="@string/settings_import_from_springpad" >
+                </Preference>
+                
             </PreferenceScreen>
 
             <Preference

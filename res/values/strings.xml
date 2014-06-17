@@ -194,6 +194,7 @@
     <string name="settings_sync_import_export">Sync and Backups</string>
     <string name="settings_export">Export</string>
     <string name="settings_import">Import and delete</string>
+    <string name="settings_import_from_springpad">Import notes from Springpad</string>
     <string name="export_success">File exported successfully into folder</string>
     <string name="export_fail">File export failed</string>
     <string name="import_success">File imported successfully</string>
