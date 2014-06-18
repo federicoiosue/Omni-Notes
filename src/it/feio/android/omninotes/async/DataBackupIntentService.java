@@ -8,6 +8,7 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.springpadimporter.Importer;
@@ -129,24 +130,22 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
 
 	synchronized private void importDataFromSpringpad(Intent intent) {
-		
+
 		// Backupped notes retrieval
 		String backupPath = intent.getStringExtra(EXTRA_SPRINGPAD_BACKUP);
 		Importer importer = new Importer();
 		importer.doImport(backupPath);
 		List<SpringpadNote> notes = importer.getSpringpadNotes();
-		
+
 		// If nothing is retrieved it will exit
-		if (notes == null || notes.size() == 0) {
-			return;
-		}
-		
+		if (notes == null || notes.size() == 0) { return; }
+
 		// Otherwise a new category will be create to host notes
 		Category cat = new Category();
 		cat.setName("Springpad_" + DateHelper.getSortableDate());
 		cat.setColor(String.valueOf(Color.parseColor("#F9EA1B")));
 		DbHelper.getInstance(this).updateCategory(cat);
-		
+
 		// And then notes are created
 		Note note;
 		Attachment mAttachment = null;
@@ -154,18 +153,30 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		for (SpringpadNote springpadNote : notes) {
 			note = new Note();
 			note.setTitle(springpadNote.getName());
-			CharSequence content = TextUtils.isEmpty(springpadNote.getText()) ? "" : Html.fromHtml(springpadNote.getText());
-			note.setContent(
-					content + System.getProperty("line.separator")
-					+ (springpadNote.getTags().size() > 0 ? "#" + TextUtils.join(" #", springpadNote.getTags()) : "") 
-					);
-			String address = springpadNote.getAddresses() != null ? springpadNote.getAddresses().getAddress() : "";
-			note.setAddress(address);
+			CharSequence content = TextUtils.isEmpty(springpadNote.getText()) ? "" : Html
+					.fromHtml(springpadNote.getText());
+			note.setContent(content
+					+ System.getProperty("line.separator")
+					+ (springpadNote.getTags().size() > 0 ? "#"
+							+ TextUtils.join(" #", springpadNote.getTags()) : ""));
+			String address = springpadNote.getAddresses() != null ? springpadNote.getAddresses()
+					.getAddress() : "";
+			if (!TextUtils.isEmpty(address)) {
+				try {
+					double[] coords = GeocodeHelper.getCoordinatesFromAddress(this, address);
+					note.setLatitude(coords[0]);
+					note.setLongitude(coords[1]);
+				} catch (IOException e) {
+					Log.e(Constants.TAG,
+							"An error occurred trying to resolve address to coords during Springpad import");
+				}
+				note.setAddress(address);
+			}
 			note.setCreation(springpadNote.getCreated().getTime());
 			note.setLastModification(springpadNote.getModified().getTime());
 			note.setCategory(cat);
-			
-			// Image 
+
+			// Image
 			String image = springpadNote.getImage();
 			if (image != null) {
 				try {
@@ -179,17 +190,17 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				} catch (IOException e) {
 					Log.e(Constants.TAG, "Error retrieving Springpad online image");
 				}
-				if (mAttachment != null) {					
+				if (mAttachment != null) {
 					note.addAttachment(mAttachment);
 				}
 				mAttachment = null;
 			}
-			
+
 			// Other attachments
 			for (SpringpadAttachment springpadAttachment : springpadNote.getAttachments()) {
 				// The attachment could be the image itself so it's jumped
 				if (image != null && image.equals(springpadAttachment.getUrl())) continue;
-				
+
 				// Tryies first with online images
 				try {
 					File file = StorageManager.createNewAttachmentFileFromHttp(this,
@@ -203,16 +214,16 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				} catch (IOException e) {
 					Log.e(Constants.TAG, "Error retrieving Springpad online image");
 				}
-				if (mAttachment != null) {						
+				if (mAttachment != null) {
 					note.addAttachment(mAttachment);
 				}
 				uri = null;
 				mAttachment = null;
 			}
-			
+
 			// The note is saved
-			DbHelper.getInstance(this).updateNote(note, false);	
-			
+			DbHelper.getInstance(this).updateNote(note, false);
+
 		};
 
 		String title = getString(R.string.data_import_completed);
@@ -382,14 +393,14 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 	@Override
 	public void onAttachingFileErrorOccurred(Attachment mAttachment) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 
 	@Override
 	public void onAttachingFileFinished(Attachment mAttachment) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
