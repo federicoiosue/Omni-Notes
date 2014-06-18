@@ -614,14 +614,15 @@ public class DetailFragment extends Fragment implements
 			public void onClick(View v) {
 				String urlTag = Constants.TAG
 						+ (noteTmp.getTitle() != null ? System.getProperty("line.separator") + noteTmp.getTitle() : "")
-						+ (noteTmp.getContent() != null ? System.getProperty("line.separator") + noteTmp.getContent() : "");
-//				final String uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() + "("
-//						+ urlTag + ")&z=15";
-				final String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() 
+						+ (noteTmp.getContent() != null ? System.getProperty("line.separator") + noteTmp.getContent() : "");				
+				String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() 
 						+ "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() 
 						+ "(" + urlTag + ")";
-
 				Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
+				if (!IntentChecker.isAvailable(getActivity(), locationIntent, null)) {
+					uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
+					locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
+				}
 				startActivity(locationIntent);
 			}
 		});
