@@ -2,7 +2,7 @@
  * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use ((MainActivity)getActivity()) file except in compliance with the License.
+ * you may not use getActivity() file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
  *   http://www.apache.org/licenses/LICENSE-2.0
@@ -129,11 +129,11 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
- * An activity representing a single Item detail screen. ((MainActivity)getActivity()) activity is only
+ * An activity representing a single Item detail screen. getActivity() activity is only
  * used on handset devices. On tablet-size devices, item details are presented
  * side-by-side with a list of items in a {@link ItemListActivity}.
  * <p>
- * ((MainActivity)getActivity()) activity is mostly just a 'shell' activity containing nothing more than
+ * getActivity() activity is mostly just a 'shell' activity containing nothing more than
  * a {@link ItemDetailFragment}.
  */
 public class DetailFragment extends Fragment implements
@@ -615,8 +615,12 @@ public class DetailFragment extends Fragment implements
 				String urlTag = Constants.TAG
 						+ (noteTmp.getTitle() != null ? System.getProperty("line.separator") + noteTmp.getTitle() : "")
 						+ (noteTmp.getContent() != null ? System.getProperty("line.separator") + noteTmp.getContent() : "");
-				final String uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() + "("
-						+ urlTag + ")&z=15";
+//				final String uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() + "("
+//						+ urlTag + ")&z=15";
+				final String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() 
+						+ "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() 
+						+ "(" + urlTag + ")";
+
 				Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
 				startActivity(locationIntent);
 			}
@@ -652,7 +656,7 @@ public class DetailFragment extends Fragment implements
 		// Some fields can be filled by third party application and are always
 		// shown
 		mGridView = (ExpandableHeightGridView) getView().findViewById(R.id.gridview);
-		mAttachmentAdapter = new AttachmentAdapter((Activity)((MainActivity)getActivity()), noteTmp.getAttachmentsList(), mGridView);
+		mAttachmentAdapter = new AttachmentAdapter(getActivity(), noteTmp.getAttachmentsList(), mGridView);
 		mAttachmentAdapter.setOnErrorListener(this);
 
 		// Initialzation of gridview for images
@@ -670,10 +674,10 @@ public class DetailFragment extends Fragment implements
 					attachmentIntent = new Intent(Intent.ACTION_VIEW);				
 					attachmentIntent.setDataAndType(uri, StorageManager.getMimeType(((MainActivity)getActivity()), attachment.getUri()));
 					attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-					if (IntentChecker.isAvailable(((MainActivity)getActivity()).getApplicationContext(), attachmentIntent, null)) {
+					if (IntentChecker.isAvailable(getActivity().getApplicationContext(), attachmentIntent, null)) {
 						startActivity(attachmentIntent);
 					} else {
-						Crouton.makeText(((MainActivity)getActivity()), R.string.feature_not_available_on_this_device, ONStyle.WARN).show();
+						Crouton.makeText(getActivity(), R.string.feature_not_available_on_this_device, ONStyle.WARN).show();
 					}
 					
 				// Media files will be opened in internal gallery
@@ -683,7 +687,7 @@ public class DetailFragment extends Fragment implements
 					// Title
 					noteTmp.setTitle(getNoteTitle());
 					noteTmp.setContent(getNoteContent());
-					String title = it.feio.android.omninotes.utils.TextUtils.parseTitleAndContent(((MainActivity)getActivity()), noteTmp)[0].toString();
+					String title = it.feio.android.omninotes.utils.TextUtils.parseTitleAndContent(getActivity(), noteTmp)[0].toString();
 					// Images
 					int clickedImage = 0;
 					ArrayList<Attachment> images = new ArrayList<Attachment>();
@@ -698,7 +702,7 @@ public class DetailFragment extends Fragment implements
 						}
 					}
 					// Intent
-					attachmentIntent = new Intent(((MainActivity)getActivity()), GalleryActivity.class);
+					attachmentIntent = new Intent(getActivity(), GalleryActivity.class);
 					attachmentIntent.putExtra(Constants.GALLERY_TITLE, title);
 					attachmentIntent.putParcelableArrayListExtra(Constants.GALLERY_IMAGES, images);
 					attachmentIntent.putExtra(Constants.GALLERY_CLICKED_IMAGE, clickedImage);
@@ -719,7 +723,7 @@ public class DetailFragment extends Fragment implements
 				// To avoid deleting audio attachment during playback
 				if (mPlayer != null) return false;
 				
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 				alertDialogBuilder.setMessage(R.string.delete_selected_image)
 						.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
 							@Override
@@ -771,7 +775,7 @@ public class DetailFragment extends Fragment implements
 		reminder_layout.setOnLongClickListener(new OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 				alertDialogBuilder.setMessage(R.string.remove_reminder)
 						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
@@ -801,11 +805,11 @@ public class DetailFragment extends Fragment implements
 		datetime.setText(dateTimeText);
 		
 		// Timestamps view
-		timestampsView = ((MainActivity)getActivity()).findViewById(R.id.detail_timestamps);
+		timestampsView = getActivity().findViewById(R.id.detail_timestamps);
 		
 		// Footer dates of creation... 
 		TextView creationTextView = (TextView) getView().findViewById(R.id.creation);
-		String creation = noteTmp.getCreationShort(((MainActivity)getActivity()));
+		String creation = noteTmp.getCreationShort(getActivity());
 		creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " "
 				+ creation : "");
 		if (creationTextView.getText().length() == 0)
@@ -813,7 +817,7 @@ public class DetailFragment extends Fragment implements
 		
 		// ... and last modification
 		TextView lastModificationTextView = (TextView) getView().findViewById(R.id.last_modification);
-		String lastModification = noteTmp.getLastModificationShort(((MainActivity)getActivity()));
+		String lastModification = noteTmp.getLastModificationShort(getActivity());
 		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " "
 				+ lastModification : "");
 		if (lastModificationTextView.getText().length() == 0)
@@ -905,7 +909,7 @@ public class DetailFragment extends Fragment implements
 					this.mlocationTextView.setText(result);
 					fade(mlocationTextView, true);
 				} else {
-					Crouton.makeText(((MainActivity)getActivity()), ERROR_MSG, ONStyle.ALERT).show();
+					Crouton.makeText(getActivity(), ERROR_MSG, ONStyle.ALERT).show();
 				}				
 			}
 		}
@@ -928,7 +932,7 @@ public class DetailFragment extends Fragment implements
 	    
 	    // Show instructions on first launch
 	    final String instructionName = Constants.PREF_TOUR_PREFIX + "detail";
-	    if (AppTourHelper.isMyTurn(((MainActivity)getActivity()), instructionName)
+	    if (AppTourHelper.isMyTurn(getActivity(), instructionName)
 	    		&& !onCreateOptionsMenuAlreadyCalled ) {			
 	    	onCreateOptionsMenuAlreadyCalled = true;
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
@@ -936,7 +940,7 @@ public class DetailFragment extends Fragment implements
 			list.add(new Integer[]{R.id.menu_category, R.string.tour_detailactivity_action_title, R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
 			list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title, R.string.tour_detailactivity_reminder_detail, null});
 			list.add(new Integer[]{R.id.detail_title, R.string.tour_detailactivity_links_title, R.string.tour_detailactivity_links_detail, null});
-			list.add(new Integer[]{null, R.string.tour_detailactivity_swipe_title, R.string.tour_detailactivity_swipe_detail, null, -10, Display.getUsableSize(((MainActivity)getActivity())).y/3, 80, Display.getUsableSize(((MainActivity)getActivity())).y/3});
+			list.add(new Integer[]{null, R.string.tour_detailactivity_swipe_title, R.string.tour_detailactivity_swipe_detail, null, -10, Display.getUsableSize(getActivity()).y/3, 80, Display.getUsableSize(getActivity()).y/3});
 			list.add(new Integer[]{0, R.string.tour_detailactivity_save_title, R.string.tour_detailactivity_save_detail, ShowcaseView.ITEM_ACTION_HOME});
 			((MainActivity)getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {			
 				@Override
@@ -998,8 +1002,8 @@ public class DetailFragment extends Fragment implements
 		}
 		
 		// Otherwise the result is passed to ListActivity
-		((MainActivity)getActivity()).getSupportFragmentManager().popBackStack(); 
-		if (((MainActivity)getActivity()).getSupportFragmentManager().getBackStackEntryCount() == 1) {
+		getActivity().getSupportFragmentManager().popBackStack(); 
+		if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 1) {
 			((MainActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
 		}
 		if (((MainActivity)getActivity()).getDrawerToggle() != null) {
@@ -1019,7 +1023,7 @@ public class DetailFragment extends Fragment implements
 			saveAndExit(this);
 			break;
 		case R.id.menu_attachment:
-			showPopup(((MainActivity)getActivity()).findViewById(R.id.menu_attachment));
+			showPopup(getActivity().findViewById(R.id.menu_attachment));
 			break;
 		case R.id.menu_tag:
 			addTags();
@@ -1086,10 +1090,10 @@ public class DetailFragment extends Fragment implements
 			return;
 		}
 		
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
 		// Inflate the popup_layout.xml
-		LayoutInflater inflater = (LayoutInflater) ((MainActivity)getActivity()).getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		final View layout = inflater.inflate(R.layout.dialog_remove_checklist_layout, (ViewGroup) getView().findViewById(R.id.layout_root));
 
 		// Retrieves options checkboxes and initialize their values
@@ -1151,7 +1155,7 @@ public class DetailFragment extends Fragment implements
 //			protected View doInBackground(Void... params) {
 //				
 //				// Get instance and set options to convert EditText to CheckListView
-//				mChecklistManager = ChecklistManager.getInstance(((MainActivity)getActivity()));
+//				mChecklistManager = ChecklistManager.getInstance(getActivity());
 //				mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
 //						String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
 //				mChecklistManager.setShowChecks(true);
@@ -1202,7 +1206,7 @@ public class DetailFragment extends Fragment implements
 		
 
 		// Get instance and set options to convert EditText to CheckListView
-		mChecklistManager = ChecklistManager.getInstance(((MainActivity)getActivity()));
+		mChecklistManager = ChecklistManager.getInstance(getActivity());
 		mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
 				String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
 		mChecklistManager.setShowChecks(true);
@@ -1241,13 +1245,13 @@ public class DetailFragment extends Fragment implements
 	 * Categorize note choosing from a list of previously created categories
 	 */
 	private void categorizeNote() {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
 		// Retrieves all available tags
 		final ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 		
 		alertDialogBuilder.setTitle(R.string.categorize_as)
-							.setAdapter(new NavDrawerCategoryAdapter(((MainActivity)getActivity()), categories), new DialogInterface.OnClickListener() {
+							.setAdapter(new NavDrawerCategoryAdapter(getActivity(), categories), new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									noteTmp.setCategory(categories.get(which));
@@ -1256,7 +1260,7 @@ public class DetailFragment extends Fragment implements
 							}).setPositiveButton(R.string.add_category, new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int id) {
-									Intent intent = new Intent(((MainActivity)getActivity()), CategoryActivity.class);		
+									Intent intent = new Intent(getActivity(), CategoryActivity.class);		
 									intent.putExtra("noHome", true);
 									startActivityForResult(intent, TAG);
 								}
@@ -1287,14 +1291,14 @@ public class DetailFragment extends Fragment implements
 	@SuppressWarnings("deprecation")
 	private void showPopup(View anchor) {
 		DisplayMetrics metrics = new DisplayMetrics();
-		((MainActivity)getActivity()).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
 		// Inflate the popup_layout.xml
-		LayoutInflater inflater = (LayoutInflater) ((MainActivity)getActivity()).getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		View layout = inflater.inflate(R.layout.attachment_dialog, null);
 
 		// Creating the PopupWindow
-		attachmentDialog = new PopupWindow(((MainActivity)getActivity()));
+		attachmentDialog = new PopupWindow(getActivity());
 		attachmentDialog.setContentView(layout);
 		attachmentDialog.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
 		attachmentDialog.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -1334,7 +1338,7 @@ public class DetailFragment extends Fragment implements
 		try {
 			attachmentDialog.showAsDropDown(anchor);
 		} catch (Exception e){
-			Crouton.makeText(((MainActivity)getActivity()), R.string.error, ONStyle.ALERT).show();			
+			Crouton.makeText(getActivity(), R.string.error, ONStyle.ALERT).show();			
 		}
 	}
 
@@ -1400,9 +1404,9 @@ public class DetailFragment extends Fragment implements
 
 	
 	private void takePhoto() {
-		File f = StorageManager.createNewAttachmentFile(((MainActivity)getActivity()), Constants.MIME_TYPE_IMAGE_EXT);
+		File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_IMAGE_EXT);
 		if (f == null) {
-			Crouton.makeText(((MainActivity)getActivity()), R.string.error, ONStyle.ALERT).show();
+			Crouton.makeText(getActivity(), R.string.error, ONStyle.ALERT).show();
 			return;
 		}
 		attachmentUri = Uri.fromFile(f);		
@@ -1414,15 +1418,15 @@ public class DetailFragment extends Fragment implements
 	
 	private void takeVideo() {
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-		if (!IntentChecker.isAvailable(((MainActivity)getActivity()), takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
-			Crouton.makeText(((MainActivity)getActivity()), R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
+		if (!IntentChecker.isAvailable(getActivity(), takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
+			Crouton.makeText(getActivity(), R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
 			return;
 		}		
 		// File is stored in custom ON folder to speedup the attachment 
 		if(Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-			File f = StorageManager.createNewAttachmentFile(((MainActivity)getActivity()), Constants.MIME_TYPE_VIDEO_EXT);
+			File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_VIDEO_EXT);
 			if (f == null) {
-				Crouton.makeText(((MainActivity)getActivity()), R.string.error, ONStyle.ALERT).show();
+				Crouton.makeText(getActivity(), R.string.error, ONStyle.ALERT).show();
 				return;
 			}
 			attachmentUri = Uri.fromFile(f);	
@@ -1437,9 +1441,9 @@ public class DetailFragment extends Fragment implements
 	
 	private void takeSketch(Attachment attachment) {
 		
-		File f = StorageManager.createNewAttachmentFile(((MainActivity)getActivity()), Constants.MIME_TYPE_SKETCH_EXT);
+		File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_SKETCH_EXT);
 		if (f == null) {
-			Crouton.makeText(((MainActivity)getActivity()), R.string.error, ONStyle.ALERT).show();
+			Crouton.makeText(getActivity(), R.string.error, ONStyle.ALERT).show();
 			return;
 		}
 		attachmentUri = Uri.fromFile(f);	
@@ -1449,7 +1453,7 @@ public class DetailFragment extends Fragment implements
 	            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		// Fragments replacing
-		FragmentTransaction transaction = ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction();
+		FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 		((MainActivity)getActivity()).animateTransition(transaction, ((MainActivity)getActivity()).TRANSITION_HORIZONTAL);
 		SketchFragment mSketchFragment = new SketchFragment();
 		Bundle b = new Bundle();
@@ -1489,12 +1493,12 @@ public class DetailFragment extends Fragment implements
 			case FILES:
 				if (resultCode == Activity.RESULT_OK) {
 					Uri filesUri = intent.getData();
-					String name = FileHelper.getNameFromUri(((MainActivity)getActivity()), filesUri);					
+					String name = FileHelper.getNameFromUri(getActivity(), filesUri);					
 					AttachmentTask task1 = new AttachmentTask(this, filesUri, name, this);
 					task1.execute();
 					
 				} else {
-					Crouton.makeText(((MainActivity)getActivity()),
+					Crouton.makeText(getActivity(),
 							R.string.error_saving_attachments, ONStyle.ALERT)
 							.show();
 				}
@@ -1510,14 +1514,14 @@ public class DetailFragment extends Fragment implements
 				mGridView.autoresize();
 				break;
 			case TAG:
-				Crouton.makeText(((MainActivity)getActivity()), R.string.category_saved,
+				Crouton.makeText(getActivity(), R.string.category_saved,
 						ONStyle.CONFIRM).show();
 				Category tag = intent.getParcelableExtra("tag");
 				noteTmp.setCategory(tag);
 				setTagMarkerColor(tag);
 				break;
 			case DETAIL:
-				Crouton.makeText(((MainActivity)getActivity()), R.string.note_updated,
+				Crouton.makeText(getActivity(), R.string.note_updated,
 						ONStyle.CONFIRM).show();				
 				break;
 			}
@@ -1534,7 +1538,7 @@ public class DetailFragment extends Fragment implements
 		if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
 			for (Attachment newAttachment: noteTmp.getAttachmentsList()) {
 				if (!note.getAttachmentsList().contains(newAttachment)) {
-					StorageManager.delete(((MainActivity)getActivity()), newAttachment.getUri().getPath());
+					StorageManager.delete(getActivity(), newAttachment.getUri().getPath());
 				}
 			}
 		}
@@ -1597,16 +1601,16 @@ public class DetailFragment extends Fragment implements
 	
 	private void deleteNote() {
 		// Confirm dialog creation
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
 				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						((MainActivity)getActivity()).deleteNote(noteTmp);
 						Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
-							Crouton.makeText(((MainActivity)getActivity()), getString(R.string.note_deleted), ONStyle.ALERT).show();
+							Crouton.makeText(getActivity(), getString(R.string.note_deleted), ONStyle.ALERT).show();
 						
-						MainActivity.notifyAppWidgets(((MainActivity)getActivity()));
+						MainActivity.notifyAppWidgets(getActivity());
 						
 						goHome();
 					}
@@ -1681,7 +1685,7 @@ public class DetailFragment extends Fragment implements
 			saveNoteTask.execute(noteTmp);
 		}
 		
-		MainActivity.notifyAppWidgets(((MainActivity)getActivity()));
+		MainActivity.notifyAppWidgets(getActivity());
 	}
 
 
@@ -1749,7 +1753,7 @@ public class DetailFragment extends Fragment implements
 		
 		// If security password is not set yes will be set right now
 		if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
-			Intent passwordIntent = new Intent(((MainActivity)getActivity()), PasswordActivity.class);
+			Intent passwordIntent = new Intent(getActivity(), PasswordActivity.class);
 			startActivityForResult(passwordIntent, SET_PASSWORD);
 			return;
 		}
@@ -1762,7 +1766,7 @@ public class DetailFragment extends Fragment implements
 		}
 		
 		// Password will be requested here
-		BaseActivity.requestPassword(((MainActivity)getActivity()), new PasswordValidator() {					
+		BaseActivity.requestPassword(getActivity(), new PasswordValidator() {					
 			@Override
 			public void onPasswordValidated(boolean result) {
 				if (result) {
@@ -1775,11 +1779,11 @@ public class DetailFragment extends Fragment implements
 	
 	private void maskUnmask(){
 		if (noteTmp.isLocked()) {
-			Crouton.makeText(((MainActivity)getActivity()), R.string.save_note_to_unlock_it, ONStyle.INFO).show();
-			((MainActivity)getActivity()).supportInvalidateOptionsMenu();
+			Crouton.makeText(getActivity(), R.string.save_note_to_unlock_it, ONStyle.INFO).show();
+			getActivity().supportInvalidateOptionsMenu();
 		} else {
-			Crouton.makeText(((MainActivity)getActivity()), R.string.save_note_to_lock_it, ONStyle.INFO).show();
-			((MainActivity)getActivity()).supportInvalidateOptionsMenu();
+			Crouton.makeText(getActivity(), R.string.save_note_to_lock_it, ONStyle.INFO).show();
+			getActivity().supportInvalidateOptionsMenu();
 		}
 		noteTmp.setLocked(!noteTmp.isLocked());
 	}
@@ -1797,7 +1801,7 @@ public class DetailFragment extends Fragment implements
 		cal.setTimeInMillis(alarmDateTime);
 		alarmDate = DateHelper.onDateSet(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
 				cal.get(Calendar.DAY_OF_MONTH), Constants.DATE_FORMAT_SHORT_DATE);
-		alarmTime = DateHelper.getTimeShort(((MainActivity)getActivity()), cal.getTimeInMillis());
+		alarmTime = DateHelper.getTimeShort(getActivity(), cal.getTimeInMillis());
 		String dateTimeText = getString(R.string.alarm_set_on) + " " + alarmDate + " " + getString(R.string.at_time)
 				+ " " + alarmTime;
 		return dateTimeText;
@@ -1827,7 +1831,7 @@ public class DetailFragment extends Fragment implements
 				isPlayingView = v;
 				startPlaying(uri);
 				recordingBitmap = ((BitmapDrawable)((ImageView)v.findViewById(R.id.gridview_item_picture)).getDrawable()).getBitmap();
-				((ImageView)v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(((MainActivity)getActivity()).getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+				((ImageView)v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 			// Otherwise just stops playing
 			} else {			
 				stopPlaying();	
@@ -1842,14 +1846,14 @@ public class DetailFragment extends Fragment implements
 			} else {
 				recordingBitmap = ((BitmapDrawable)((TransitionDrawable)d).getDrawable(1)).getBitmap();
 			}
-			((ImageView)v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(((MainActivity)getActivity()).getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+			((ImageView)v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
 			}
 	}
 	
 	private void startPlaying(Uri uri) {
 		mPlayer = new MediaPlayer();
 		try {
-			mPlayer.setDataSource(((MainActivity)getActivity()), uri);
+			mPlayer.setDataSource(getActivity(), uri);
 			mPlayer.prepare();
 			mPlayer.start();
 			mPlayer.setOnCompletionListener(new OnCompletionListener() {
@@ -1878,9 +1882,9 @@ public class DetailFragment extends Fragment implements
 	}
 
 	private void startRecording() {
-		File f = StorageManager.createNewAttachmentFile(((MainActivity)getActivity()), Constants.MIME_TYPE_AUDIO_EXT);
+		File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_AUDIO_EXT);
 		if (f == null) {
-			Crouton.makeText(((MainActivity)getActivity()), R.string.error, ONStyle.ALERT).show();
+			Crouton.makeText(getActivity(), R.string.error, ONStyle.ALERT).show();
 			return;
 		}
 		recordName = f.getAbsolutePath();
@@ -1924,7 +1928,7 @@ public class DetailFragment extends Fragment implements
 		final int visibility = visibilityTemp;
 		
 		if (prefs.getBoolean("settings_enable_animations", true)) {
-			Animation mAnimation = AnimationUtils.loadAnimation(((MainActivity)getActivity()), anim);
+			Animation mAnimation = AnimationUtils.loadAnimation(getActivity(), anim);
 			mAnimation.setAnimationListener(new AnimationListener() {				
 				@Override
 				public void onAnimationStart(Animation animation) {}			
@@ -1944,20 +1948,20 @@ public class DetailFragment extends Fragment implements
 	 * Adding shortcut on Home screen
 	 */
 	private void addShortcut() {
-		Intent shortcutIntent = new Intent(((MainActivity)getActivity()), MainActivity.class);
+		Intent shortcutIntent = new Intent(getActivity(), MainActivity.class);
 		shortcutIntent.putExtra(Constants.INTENT_KEY, noteTmp.get_id());
 		shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
 		
 		Intent addIntent = new Intent();
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-		String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : note.getCreationShort(((MainActivity)getActivity()));
+		String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : note.getCreationShort(getActivity());
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-				Intent.ShortcutIconResource.fromContext(((MainActivity)getActivity()), R.drawable.ic_stat_notification_icon));
+				Intent.ShortcutIconResource.fromContext(getActivity(), R.drawable.ic_stat_notification_icon));
 		addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 		
-		((MainActivity)getActivity()).sendBroadcast(addIntent);
-		Crouton.makeText(((MainActivity)getActivity()), R.string.shortcut_added, ONStyle.INFO).show();		
+		getActivity().sendBroadcast(addIntent);
+		Crouton.makeText(getActivity(), R.string.shortcut_added, ONStyle.INFO).show();		
 	}
 
 
@@ -1970,7 +1974,7 @@ public class DetailFragment extends Fragment implements
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public void onTextLinkClick(View view, final String clickedString, final String url) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity)getActivity()));
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 		alertDialogBuilder.setMessage(clickedString)
 				.setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
 					@Override
@@ -1989,11 +1993,11 @@ public class DetailFragment extends Fragment implements
 								|| error
 								|| !IntentChecker
 										.isAvailable(
-												((MainActivity)getActivity()),
+												getActivity(),
 												intent,
 												new String[] { PackageManager.FEATURE_CAMERA })) {
 							Crouton.makeText(
-									((MainActivity)getActivity()),
+									getActivity(),
 									R.string.no_application_can_perform_this_action,
 									ONStyle.ALERT).show();
 							return;
@@ -2008,10 +2012,10 @@ public class DetailFragment extends Fragment implements
 					public void onClick(DialogInterface dialog, int id) {
 						// Creates a new text clip to put on the clipboard
 						if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-						    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) ((MainActivity)getActivity()).getSystemService(Activity.CLIPBOARD_SERVICE);
+						    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
 						    clipboard.setText("text to clip");
 						} else {
-						    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ((MainActivity)getActivity()).getSystemService(Activity.CLIPBOARD_SERVICE); 
+						    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Activity.CLIPBOARD_SERVICE); 
 						    android.content.ClipData clip = android.content.ClipData.newPlainText("text label", clickedString);
 						    clipboard.setPrimaryClip(clip);
 						}
@@ -2036,7 +2040,7 @@ public class DetailFragment extends Fragment implements
 				Log.v(Constants.TAG, "MotionEvent.ACTION_DOWN");
 				int w;
 				
-				Point displaySize = Display.getUsableSize(((MainActivity)getActivity()));
+				Point displaySize = Display.getUsableSize(getActivity());
 				w = displaySize.x;
 				
 				if (x < Constants.SWIPE_MARGIN || x > w - Constants.SWIPE_MARGIN) {
@@ -2057,7 +2061,7 @@ public class DetailFragment extends Fragment implements
 					Log.v(Constants.TAG, "MotionEvent.ACTION_MOVE at position " + x + ", " + y);	
 					if (Math.abs(x - startSwipeX) > Constants.SWIPE_OFFSET) {
 						swiping = false;
-						FragmentTransaction transaction = ((MainActivity)getActivity()).getSupportFragmentManager().beginTransaction();
+						FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 						((MainActivity)getActivity()).animateTransition(transaction, ((MainActivity)getActivity()).TRANSITION_VERTICAL);
 						DetailFragment mDetailFragment = new DetailFragment();
 						Bundle b = new Bundle();
@@ -2077,7 +2081,7 @@ public class DetailFragment extends Fragment implements
 	@Override
 	public void onGlobalLayout() {
 		
-		int screenHeight = Display.getUsableSize(((MainActivity)getActivity())).y;
+		int screenHeight = Display.getUsableSize(getActivity()).y;
 		int heightDiff = screenHeight - Display.getVisibleSize(root).y;
 		// boolean keyboardVisible = heightDiff > screenHeight / 3;
 		boolean keyboardVisible = heightDiff > 150;
@@ -2098,16 +2102,16 @@ public class DetailFragment extends Fragment implements
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
 				&& !title.hasFocus()) {
 			wrapper.removeView(titleCardView);
-//			heightDiff -= Display.getActionbarHeight(((MainActivity)getActivity())) + Display.getStatusBarHeight(((MainActivity)getActivity()));
-			heightDiff -= Display.getStatusBarHeight(((MainActivity)getActivity()));
+//			heightDiff -= Display.getActionbarHeight(getActivity()) + Display.getStatusBarHeight(getActivity());
+			heightDiff -= Display.getStatusBarHeight(getActivity());
 			if (orientationChanged) {
 				orientationChanged = false;
-				heightDiff -= Display.getActionbarHeight(((MainActivity)getActivity()));
+				heightDiff -= Display.getActionbarHeight(getActivity());
 			}
 		}
 		wrapper.removeView(timestampsView);
 
-		keyboardPlaceholder = new View(((MainActivity)getActivity())); 
+		keyboardPlaceholder = new View(getActivity()); 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
 		}
@@ -2134,7 +2138,7 @@ public class DetailFragment extends Fragment implements
 	
 	@Override
 	public void onAttachingFileErrorOccurred(Attachment mAttachment) {
-		Crouton.makeText(((MainActivity)getActivity()), R.string.error_saving_attachments, ONStyle.ALERT).show();
+		Crouton.makeText(getActivity(), R.string.error_saving_attachments, ONStyle.ALERT).show();
 		if (noteTmp.getAttachmentsList().contains(mAttachment)) {
 			noteTmp.getAttachmentsList().remove(mAttachment);
 			mAttachmentAdapter.notifyDataSetChanged();
@@ -2156,7 +2160,7 @@ public class DetailFragment extends Fragment implements
 	public void onReminderPicked(long reminder) {
 		noteTmp.setAlarm(reminder);	
 		if (mFragment.isAdded()) {
-			datetime.setText(getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(((MainActivity)getActivity()), reminder));
+			datetime.setText(getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(getActivity(), reminder));
 		}
 	}
 	
@@ -2207,7 +2211,7 @@ public class DetailFragment extends Fragment implements
 			
 			// If there is no tag a message will be shown
 			if (tags.size() == 0) {
-				Crouton.makeText(((MainActivity)getActivity()), R.string.no_tags_created, ONStyle.WARN).show();
+				Crouton.makeText(getActivity(), R.string.no_tags_created, ONStyle.WARN).show();
 				return;
 			}
 
@@ -2219,7 +2223,7 @@ public class DetailFragment extends Fragment implements
 			final StringBuilder sbTags = new StringBuilder();
 
 			// Dialog and events creation
-			AlertDialog.Builder builder = new AlertDialog.Builder(((MainActivity)getActivity()));
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			final String[] tagsArray = tags.toArray(new String[tags.size()]);
 			builder
 				.setTitle(R.string.select_tags)
