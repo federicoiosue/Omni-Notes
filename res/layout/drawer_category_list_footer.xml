@@ -17,14 +17,11 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="7dp"
     android:background="@drawable/icon_selector"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingBottom="12dp"
-    android:paddingLeft="20dp"
-    android:paddingStart="20dp"
-    android:paddingTop="12dp" >
+    android:paddingLeft="@dimen/horizontal_margin"
+    android:paddingStart="@dimen/horizontal_margin">
 
     <ImageView
         android:layout_width="24dp"

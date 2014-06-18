@@ -119,7 +119,8 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
 				img.setColorFilter(cf);				
 			}
 			holder.imgIcon.setImageDrawable(img);
-			holder.imgIcon.setPadding(8,8,8,8);
+			int padding = 12;
+			holder.imgIcon.setPadding(padding,padding,padding,padding);
 		}
 		
 		// Sets category count if set in preferences
