@@ -10,11 +10,10 @@ import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.StorageManager;
-import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
-import it.feio.android.springpadimporter.models.SpringpadItem;
 import it.feio.android.springpadimporter.models.SpringpadElement;
+import it.feio.android.springpadimporter.models.SpringpadItem;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -172,6 +171,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			
 			// Otherwise is a note or comparable content
 			note = new Note();
+			
+			// Checks if it's an Event to add reminder
+			if (springpadElement.getType().equals(SpringpadElement.TYPE_EVENT)) {
+				note.setAlarm(springpadElement.getDate().getTime());
+			}
+			
 			// Title and content
 			note.setTitle(springpadElement.getName());
 			CharSequence content = TextUtils.isEmpty(springpadElement.getText()) ? "" : Html.fromHtml(springpadElement

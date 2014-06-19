@@ -16,6 +16,7 @@
   limitations under the License.
 -->
 <resources>
+    
 
     <!-- Activities -->
     <string name="title_item_list">Notes</string>
@@ -178,8 +179,10 @@
     <string name="reset_all_data_confirmation">Erase all of the app\'s data? (backups will be preserved)</string>
     <string name="action_settings">Settings</string>
     <string name="settings_sync_import_export">Sync and Backups</string>
-    <string name="settings_export">Export</string>
-    <string name="settings_import">Import and delete</string>
+    <string name="settings_export">Backup</string>
+    <string name="settings_import">Restore or delete backups</string>
+    <string name="settings_import_from_springpad">Import notes from Springpad</string>
+    <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>    
     <string name="export_success">File exported successfully into folder</string>
     <string name="export_fail">File export failed</string>
     <string name="import_success">File imported successfully</string>
