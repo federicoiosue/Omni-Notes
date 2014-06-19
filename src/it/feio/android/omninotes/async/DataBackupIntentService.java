@@ -12,6 +12,7 @@ import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
+import it.feio.android.springpadimporter.models.SpringpadComment;
 import it.feio.android.springpadimporter.models.SpringpadElement;
 import it.feio.android.springpadimporter.models.SpringpadItem;
 import java.io.File;
@@ -143,12 +144,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		// If nothing is retrieved it will exit
 		if (elements == null || elements.size() == 0) { return; }
 
-//		 Otherwise a new category will be create to host notes
-//		Category categoryDefault = new Category();
-//		categoryDefault.setName("Springpad_" + DateHelper.getSortableDate());
-//		categoryDefault.setColor(String.valueOf(Color.parseColor("#F9EA1B")));
-//		DbHelper.getInstance(this).updateCategory(categoryDefault);
-		
+		// Otherwise a new category will be create to host notes
+		// Category categoryDefault = new Category();
+		// categoryDefault.setName("Springpad_" + DateHelper.getSortableDate());
+		// categoryDefault.setColor(String.valueOf(Color.parseColor("#F9EA1B")));
+		// DbHelper.getInstance(this).updateCategory(categoryDefault);
+
 		// These maps are used to associate with post processing notes to categories (notebooks)
 		HashMap<String, Category> categoriesWithUuid = new HashMap<String, Category>();
 		HashMap<Note, String> notesWithcategory = new HashMap<Note, String>();
@@ -158,7 +159,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		Attachment mAttachment = null;
 		Uri uri = null;
 		for (SpringpadElement springpadElement : elements) {
-			
+
 			// Checks if is a notebook (category)
 			if (springpadElement.getType().equals(SpringpadElement.TYPE_NOTEBOOK)) {
 				Category cat = new Category();
@@ -168,20 +169,69 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				categoriesWithUuid.put(springpadElement.getUuid(), cat);
 				continue;
 			}
-			
+
 			// Otherwise is a note or comparable content
 			note = new Note();
-			
-			// Checks if it's an Event to add reminder
-			if (springpadElement.getType().equals(SpringpadElement.TYPE_EVENT)) {
-				note.setAlarm(springpadElement.getDate().getTime());
-			}
-			
-			// Title and content
+
+			// Title
 			note.setTitle(springpadElement.getName());
-			CharSequence content = TextUtils.isEmpty(springpadElement.getText()) ? "" : Html.fromHtml(springpadElement
-					.getText());
+
+			// Content dependent from type of Springpad note
+			StringBuilder content = new StringBuilder();
+			content.append(TextUtils.isEmpty(springpadElement.getText()) ? "" : Html
+					.fromHtml(springpadElement.getText()));
+			content.append(TextUtils.isEmpty(springpadElement.getDescription()) ? "" : springpadElement.getDescription());
+			
+			if (springpadElement.getType().equals(SpringpadElement.TYPE_VIDEO)) {
+				content.append(System.getProperty("line.separator")).append(springpadElement.getUrl());
+			}
+			if (springpadElement.getType().equals(SpringpadElement.TYPE_TVSHOW)) {
+				content.append(System.getProperty("line.separator")).append(
+						TextUtils.join(", ", springpadElement.getCast()));
+			}
+			if (springpadElement.getType().equals(SpringpadElement.TYPE_BOOK)) {
+				content.append(System.getProperty("line.separator")).append("Author: ")
+						.append(springpadElement.getAuthor()).append(System.getProperty("line.separator"))
+						.append("Publication date: ").append(springpadElement.getPublicationDate());
+			}
+			if (springpadElement.getType().equals(SpringpadElement.TYPE_RECIPE)) {
+				content.append(System.getProperty("line.separator")).append("Ingredients: ")
+						.append(springpadElement.getIngredients()).append(System.getProperty("line.separator"))
+						.append("Directions: ").append(springpadElement.getDirections());
+			}
+			if (springpadElement.getType().equals(SpringpadElement.TYPE_BOOKMARK)) {
+				content.append(System.getProperty("line.separator")).append(springpadElement.getUrl());
+			}
+			if (springpadElement.getType().equals(SpringpadElement.TYPE_BUSINESS)) {
+				content.append(System.getProperty("line.separator")).append("Phone number: ")
+						.append(springpadElement.getPhoneNumbers().getPhone());
+			}
+			if (springpadElement.getType().equals(SpringpadElement.TYPE_PRODUCT)) {
+				content.append(System.getProperty("line.separator")).append("Category: ")
+						.append(springpadElement.getCategory()).append(System.getProperty("line.separator"))
+						.append("Manufacturer: ").append(springpadElement.getManufacturer())
+						.append(System.getProperty("line.separator")).append("Price: ")
+						.append(springpadElement.getPrice());
+			}
+			if (springpadElement.getType().equals(SpringpadElement.TYPE_WINE)) {
+				content.append(System.getProperty("line.separator")).append("Wine type: ")
+						.append(springpadElement.getWine_type()).append(System.getProperty("line.separator"))
+						.append("Varietal: ").append(springpadElement.getVarietal())
+						.append(System.getProperty("line.separator")).append("Price: ")
+						.append(springpadElement.getPrice());
+			}
+			if (springpadElement.getType().equals(SpringpadElement.TYPE_ALBUM)) {
+				content.append(System.getProperty("line.separator")).append("Artist: ")
+						.append(springpadElement.getArtist());
+			}
+			for (SpringpadComment springpadComment : springpadElement.getComments()) {
+				content.append(System.getProperty("line.separator")).append(springpadComment.getCommenter())
+						.append(" commented at 0").append(springpadComment.getDate())
+						.append(": ").append(springpadElement.getArtist());
+			}
+
 			note.setContent(content.toString());
+
 			// Checklists
 			if (springpadElement.getType().equals(SpringpadElement.TYPE_CHECKLIST)) {
 				StringBuilder sb = new StringBuilder();
@@ -194,15 +244,19 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				note.setContent(sb.toString());
 				note.setChecklist(true);
 			}
+
 			// Tags
-			String tags = springpadElement.getTags().size() > 0 ? "#" + TextUtils.join(" #", springpadElement.getTags()) : "";
+			String tags = springpadElement.getTags().size() > 0 ? "#"
+					+ TextUtils.join(" #", springpadElement.getTags()) : "";
 			if (note.isChecklist()) {
 				note.setTitle(note.getTitle() + tags);
 			} else {
 				note.setContent(note.getContent() + System.getProperty("line.separator") + tags);
 			}
+
 			// Address
-			String address = springpadElement.getAddresses() != null ? springpadElement.getAddresses().getAddress() : "";
+			String address = springpadElement.getAddresses() != null ? springpadElement.getAddresses().getAddress()
+					: "";
 			if (!TextUtils.isEmpty(address)) {
 				try {
 					double[] coords = GeocodeHelper.getCoordinatesFromAddress(this, address);
@@ -214,6 +268,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				}
 				note.setAddress(address);
 			}
+
+			// Reminder
+			if (springpadElement.getDate() != null) {
+				note.setAlarm(springpadElement.getDate().getTime());
+			}
+
 			// Creation, modification, category
 			note.setCreation(springpadElement.getCreated().getTime());
 			note.setLastModification(springpadElement.getModified().getTime());
@@ -261,25 +321,24 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				uri = null;
 				mAttachment = null;
 			}
-			
+
 			// If the note has a category is added to the map to be post-processed
 			if (springpadElement.getNotebooks().size() > 0) {
 				notesWithcategory.put(note, springpadElement.getNotebooks().get(0));
 			}
-			
+
 			// The note is saved
 			DbHelper.getInstance(this).updateNote(note, false);
 
 		};
-		
+
 		// Categories association post-process
 		Iterator iterator = notesWithcategory.entrySet().iterator();
 		while (iterator.hasNext()) {
 			Map.Entry mapEntry = (Map.Entry) iterator.next();
-			System.out.println("The key is: " + mapEntry.getKey()
-				+ ",value is :" + mapEntry.getValue());
-			Note noteWithcategory = (Note)mapEntry.getKey();
-			String uuid = (String)mapEntry.getValue();
+			System.out.println("The key is: " + mapEntry.getKey() + ",value is :" + mapEntry.getValue());
+			Note noteWithcategory = (Note) mapEntry.getKey();
+			String uuid = (String) mapEntry.getValue();
 			noteWithcategory.setCategory(categoriesWithUuid.get(uuid));
 			DbHelper.getInstance(this).updateNote(noteWithcategory, false);
 		}
