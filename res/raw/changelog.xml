@@ -18,6 +18,7 @@
 
     <changelogversion versionName="4.6.0 Beta 9" changeDate="Jun 18, 2014">    
   		<changelogtext>[b]New![/b] Import notes from Springpad</changelogtext>     
+  		<changelogtext>[u]Fixed[/u] Checklist's item's drag and drop improvements (still under development)</changelogtext>
   		<changelogtext>[u]Fixed[/u] Error on opening locations on many devices</changelogtext>
     </changelogversion>
 
