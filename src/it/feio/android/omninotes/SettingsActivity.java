@@ -295,165 +295,19 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		
 		
-		
-		
-		
-		
-		
 		// Import notes from Springpad export zip file
 		Preference importFromSpringpad = findPreference("settings_import_from_springpad");
 		importFromSpringpad.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-//				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
-//
-//				final CharSequence[] backups = StorageManager.getExternalStoragePublicDir().list();
-//				alertDialogBuilder.setTitle(R.string.data_import_message).setItems(backups, null);
-//
-//				// create alert dialog
-//				final AlertDialog alertDialog = alertDialogBuilder.create();
-//
-//				// OnShow is overridden to allow long-click on item so user can remove them
-//				alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-//
-//					@Override
-//					public void onShow(final DialogInterface dialog) {
-//
-//						ListView lv = alertDialog.getListView();
-//						lv.setOnItemClickListener(new OnItemClickListener() {
-//
-//							@Override
-//							public void onItemClick(AdapterView<?> parent, View view,
-//									final int position, long id) {
-//								final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-//										activity);
-//
-//								// Retrieves backup size
-//								File backupDir = StorageManager.getBackupDir(backups[position]
-//										.toString());
-//								long size = StorageManager.getSize(backupDir) / 1024;
-//								String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
-//
-//								// Check preference presence
-//								String prefName = StorageManager.getSharedPreferencesFile(activity)
-//										.getName();
-//								boolean hasPreferences = (new File(backupDir, prefName)).exists();
-//
-//								String message = getString(R.string.confirm_restoring_backup)
-//										+ " "
-//										+ backups[position]
-//										+ " ("
-//										+ sizeString
-//										+ (hasPreferences ? " "
-//												+ getString(R.string.settings_included) : "") + ")";
-//
-//								// Set dialog message and button
-//								alertDialogBuilder
-//										.setMessage(message)
-//										.setPositiveButton(R.string.confirm, new OnClickListener() {
-//
-//											@Override
-//											public void onClick(DialogInterface dialogInner,
-//													int which) {
-//												dialogInner.dismiss();
-//												dialog.dismiss();
-//												// An IntentService will be launched to accomplish the import task
-//												Intent service = new Intent(activity,
-//														DataBackupIntentService.class);
-//												service.setAction(Constants.ACTION_DATA_IMPORT);
-//												service.putExtra(Constants.INTENT_BACKUP_NAME,
-//														backups[position]);
-//												activity.startService(service);
-//											}
-//										})
-//										.setNegativeButton(R.string.cancel, new OnClickListener() {
-//
-//											@Override
-//											public void onClick(DialogInterface dialog, int which) {
-//												dialog.cancel();
-//											}
-//										});
-//
-//								alertDialogBuilder.create().show();
-//							}
-//						});
-//
-//						// Creation of backup removal dialog
-//						lv.setOnItemLongClickListener(new OnItemLongClickListener() {
-//
-//							@Override
-//							public boolean onItemLongClick(AdapterView<?> parent, View view,
-//									final int position, long id) {
-//								final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-//										activity);
-//
-//								// Retrieves backup size
-//								File backupDir = StorageManager.getBackupDir(backups[position]
-//										.toString());
-//								long size = StorageManager.getSize(backupDir) / 1024;
-//								String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
-//
-//								// Set dialog message and button
-//								alertDialogBuilder
-//										.setMessage(
-//												getString(R.string.confirm_removing_backup) + " "
-//														+ backups[position] + " (" + sizeString
-//														+ ")")
-//										.setPositiveButton(R.string.confirm, new OnClickListener() {
-//
-//											@Override
-//											public void onClick(DialogInterface dialogInner,
-//													int which) {
-//												dialogInner.dismiss();
-//												dialog.dismiss();
-//												// An IntentService will be launched to accomplish the import task
-//												Intent service = new Intent(activity,
-//														DataBackupIntentService.class);
-//												service.setAction(Constants.ACTION_DATA_DELETE);
-//												service.putExtra(Constants.INTENT_BACKUP_NAME,
-//														backups[position]);
-//												activity.startService(service);
-//											}
-//										})
-//										.setNegativeButton(R.string.cancel, new OnClickListener() {
-//
-//											@Override
-//											public void onClick(DialogInterface dialog, int which) {
-//												dialog.cancel();
-//											}
-//										});
-//
-//								alertDialogBuilder.create().show();
-//								return true;
-//							}
-//						});
-//					}
-//				});
-//
-//				// show it
-//				alertDialog.show();
-				
-				
-				
 				Intent intent;
 				intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.addCategory(Intent.CATEGORY_OPENABLE);
 				intent.setType("application/zip");
 				startActivityForResult(intent, SPRINGPAD_IMPORT );
-				
-				
-				
-				
-				
-				
 				return false;
 			}
 		});
-		
-		
-		
-		
-		
 		
 		
 		

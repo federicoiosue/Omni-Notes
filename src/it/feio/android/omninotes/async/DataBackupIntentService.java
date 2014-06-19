@@ -13,6 +13,7 @@ import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
+import it.feio.android.springpadimporter.models.SpringpadItem;
 import it.feio.android.springpadimporter.models.SpringpadNote;
 import java.io.File;
 import java.io.IOException;
@@ -152,15 +153,33 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		Uri uri = null;
 		for (SpringpadNote springpadNote : notes) {
 			note = new Note();
+			// Tags
+			String tags = springpadNote.getTags().size() > 0 ? "#" + TextUtils.join(" #", springpadNote.getTags()) : "";
+			// Title and content
 			note.setTitle(springpadNote.getName());
-			CharSequence content = TextUtils.isEmpty(springpadNote.getText()) ? "" : Html
-					.fromHtml(springpadNote.getText());
-			note.setContent(content
-					+ System.getProperty("line.separator")
-					+ (springpadNote.getTags().size() > 0 ? "#"
-							+ TextUtils.join(" #", springpadNote.getTags()) : ""));
-			String address = springpadNote.getAddresses() != null ? springpadNote.getAddresses()
-					.getAddress() : "";
+			CharSequence content = TextUtils.isEmpty(springpadNote.getText()) ? "" : Html.fromHtml(springpadNote
+					.getText());
+			note.setContent(content.toString());
+			// Checklists
+			if (springpadNote.getItems().size() > 0) {
+				StringBuilder sb = new StringBuilder();
+				String checkmark;
+				for (SpringpadItem mSpringpadItem : springpadNote.getItems()) {
+					checkmark = mSpringpadItem.getComplete() ? it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM
+							: it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
+					sb.append(checkmark).append(mSpringpadItem.getName()).append(System.getProperty("line.separator"));
+				}
+				note.setContent(sb.toString());
+				note.setChecklist(true);
+			}
+			// Tags insertion
+			if (note.isChecklist()) {
+				note.setTitle(note.getTitle() + tags);
+			} else {
+				note.setContent(note.getContent() + System.getProperty("line.separator") + tags);
+			}
+			// Address
+			String address = springpadNote.getAddresses() != null ? springpadNote.getAddresses().getAddress() : "";
 			if (!TextUtils.isEmpty(address)) {
 				try {
 					double[] coords = GeocodeHelper.getCoordinatesFromAddress(this, address);
@@ -172,6 +191,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				}
 				note.setAddress(address);
 			}
+			// Creation, modification, category
 			note.setCreation(springpadNote.getCreated().getTime());
 			note.setLastModification(springpadNote.getModified().getTime());
 			note.setCategory(cat);
@@ -203,8 +223,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
 				// Tryies first with online images
 				try {
-					File file = StorageManager.createNewAttachmentFileFromHttp(this,
-							springpadAttachment.getUrl());
+					File file = StorageManager.createNewAttachmentFileFromHttp(this, springpadAttachment.getUrl());
 					uri = Uri.fromFile(file);
 					String mimeType = StorageManager.getMimeType(uri.getPath());
 					mAttachment = new Attachment(uri, mimeType);
@@ -257,8 +276,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 	private void createNotification(Intent intent, Context ctx, String title, String message) {
 
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ctx)
-				.setSmallIcon(R.drawable.ic_stat_notification_icon).setContentTitle(title)
-				.setContentText(message).setAutoCancel(true);
+				.setSmallIcon(R.drawable.ic_stat_notification_icon).setContentTitle(title).setContentText(message)
+				.setAutoCancel(true);
 
 		// Ringtone options
 		String ringtone = prefs.getString("settings_notification_ringtone", null);
@@ -268,8 +287,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
 		// Vibration options
 		long[] pattern = { 500, 500 };
-		if (prefs.getBoolean("settings_notification_vibration", true))
-			mBuilder.setVibrate(pattern);
+		if (prefs.getBoolean("settings_notification_vibration", true)) mBuilder.setVibrate(pattern);
 
 		// The behavior differs depending on intent action
 		Intent intentLaunch;
@@ -286,8 +304,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		intentLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		// Creates the PendingIntent
-		PendingIntent notifyIntent = PendingIntent.getActivity(ctx, 0, intentLaunch,
-				PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent notifyIntent = PendingIntent.getActivity(ctx, 0, intentLaunch, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		// Puts the PendingIntent into the notification builder
 		mBuilder.setContentIntent(notifyIntent);
@@ -327,8 +344,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		ArrayList<Attachment> list = db.getAllAttachments();
 
 		for (Attachment attachment : list) {
-			StorageManager.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri()
-					.getPath()));
+			StorageManager.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri().getPath()));
 		}
 		return true;
 	}
