@@ -16,6 +16,11 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.6.0 Beta 10" changeDate="Jun 20, 2014">    
+  		<changelogtext>[b]New![/b] Even more Springpad content types are supported: now even links, phone numbers and reminders are imported</changelogtext>     
+  		<changelogtext>[u]Fixed[/u] Changelog crashing</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="4.6.0 Beta 9" changeDate="Jun 18, 2014">    
   		<changelogtext>[b]New![/b] Import notes from Springpad</changelogtext>     
   		<changelogtext>[u]Fixed[/u] Checklist's item's drag and drop improvements (still under development)</changelogtext>

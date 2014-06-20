@@ -14,7 +14,8 @@ public class TextUtils {
 	 */
 	public static Spanned[] parseTitleAndContent(Context mContext, Note note) {
 
-		final int CONTENT_SUBSTRING_LENGTH = 300;
+		final int CONTENT_SUBSTRING_LENGTH = 250;
+		final int TITLE_SUBSTRING_OF_CONTENT_LIMIT = 25;
 
 		// Defining title and content texts
 		String titleText, contentText;
@@ -25,9 +26,8 @@ public class TextUtils {
 			titleText = note.getTitle();
 			contentText = content;
 		} else {
-			int index = content != null ? content.indexOf(System.getProperty("line.separator")) : -1;
-			titleText = index == -1 ? content : content.substring(0, index);
-			contentText = index == -1 ? "" : content.substring(index);
+			titleText = limit(content, TITLE_SUBSTRING_OF_CONTENT_LIMIT);
+			contentText = content.length() > TITLE_SUBSTRING_OF_CONTENT_LIMIT ? content.substring(TITLE_SUBSTRING_OF_CONTENT_LIMIT) : "";
 		}
 		content = null;
 
@@ -36,10 +36,10 @@ public class TextUtils {
 				&& !mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS).getBoolean(
 						"settings_password_access", false)) {
 			// This checks if a part of content is used as title and should be partially masked
-			if (!note.getTitle().equals(titleText) && titleText.length() > 2) {
-				titleText = titleText.substring(0, 2) + titleText.substring(2).replaceAll(".", Constants.MASK_CHAR);
+			if (!note.getTitle().equals(titleText) && titleText.length() > 3) {
+				titleText = limit(titleText, 4);
 			}
-			contentText = contentText.replaceAll(".", Constants.MASK_CHAR);
+			contentText = "";
 		}
 
 		// Replacing checkmarks symbols with html entities
