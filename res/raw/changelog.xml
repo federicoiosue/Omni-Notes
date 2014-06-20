@@ -17,8 +17,10 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="4.6.0 Beta 10" changeDate="Jun 20, 2014">    
-  		<changelogtext>[b]New![/b] Even more Springpad content types are supported: now even links, phone numbers and reminders are imported</changelogtext>     
-  		<changelogtext>[u]Fixed[/u] Changelog crashing</changelogtext>
+  		<changelogtext>[b]New![/b] Even more Springpad content types are supported: now even links, phone numbers and reminders are imported and specific meta-informations of books, TV shows, movies or music albums are merged into note content</changelogtext>   
+  		<changelogtext>Text rapresentation in notes list has changed a little to improve performances (ex. no more useless asteriscs for masked notes or shorter title when it's extracted from content)</changelogtext>     
+  		<changelogtext>[u]Fixed[/u] Changelog crashing</changelogtext>  
+  		<changelogtext>[u]Fixed[/u] Minor bug-fixes</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 9" changeDate="Jun 18, 2014">    
