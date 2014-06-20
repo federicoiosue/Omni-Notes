@@ -128,7 +128,7 @@ public class Note implements Parcelable {
 	}
 
 	public void setTitle(String title) {
-		this.title = title;
+		this.title = title == null ? "" : title;
 	}
 
 	public String getContent() {
@@ -136,7 +136,7 @@ public class Note implements Parcelable {
 	}
 
 	public void setContent(String content) {
-		this.content = content;
+		this.content = content == null ? "" : content;
 	}
 
 	public Long getCreation() {
