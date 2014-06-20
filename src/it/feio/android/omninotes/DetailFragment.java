@@ -1959,7 +1959,7 @@ public class DetailFragment extends Fragment implements
 		String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : note.getCreationShort(getActivity());
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-				Intent.ShortcutIconResource.fromContext(getActivity(), R.drawable.ic_stat_notification_icon));
+				Intent.ShortcutIconResource.fromContext(getActivity(), R.drawable.ic_shortcut));
 		addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 		
 		getActivity().sendBroadcast(addIntent);

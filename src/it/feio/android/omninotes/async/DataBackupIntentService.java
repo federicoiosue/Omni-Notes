@@ -9,6 +9,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.GeocodeHelper;
+import it.feio.android.omninotes.utils.NotificationsHelper;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
@@ -24,14 +25,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import android.app.IntentService;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -64,6 +63,10 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		// wl.acquire();
 
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+
+		// Creates an indeterminate processing notification until the work is complete
+		new NotificationsHelper(this).createNotification(R.drawable.ic_stat_notification_icon, getString(R.string.working), null)
+				.setIndeterminate().show();
 
 		// If an alarm has been fired a notification must be generated
 		if (ACTION_DATA_EXPORT.equals(intent.getAction())) {
@@ -178,10 +181,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
 			// Content dependent from type of Springpad note
 			StringBuilder content = new StringBuilder();
-			content.append(TextUtils.isEmpty(springpadElement.getText()) ? "" : Html
-					.fromHtml(springpadElement.getText()));
-			content.append(TextUtils.isEmpty(springpadElement.getDescription()) ? "" : springpadElement.getDescription());
-			
+			content.append(TextUtils.isEmpty(springpadElement.getText()) ? "" : Html.fromHtml(springpadElement
+					.getText()));
+			content.append(TextUtils.isEmpty(springpadElement.getDescription()) ? "" : springpadElement
+					.getDescription());
+
 			if (springpadElement.getType().equals(SpringpadElement.TYPE_VIDEO)) {
 				content.append(System.getProperty("line.separator")).append(springpadElement.getUrl());
 			}
@@ -226,8 +230,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			}
 			for (SpringpadComment springpadComment : springpadElement.getComments()) {
 				content.append(System.getProperty("line.separator")).append(springpadComment.getCommenter())
-						.append(" commented at 0").append(springpadComment.getDate())
-						.append(": ").append(springpadElement.getArtist());
+						.append(" commented at 0").append(springpadComment.getDate()).append(": ")
+						.append(springpadElement.getArtist());
 			}
 
 			note.setContent(content.toString());
@@ -371,48 +375,29 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 	 * @param ctx
 	 * @param message
 	 */
-	private void createNotification(Intent intent, Context ctx, String title, String message) {
-
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ctx)
-				.setSmallIcon(R.drawable.ic_stat_notification_icon).setContentTitle(title).setContentText(message)
-				.setAutoCancel(true);
-
-		// Ringtone options
-		String ringtone = prefs.getString("settings_notification_ringtone", null);
-		if (ringtone != null) {
-			mBuilder.setSound(Uri.parse(ringtone));
-		}
-
-		// Vibration options
-		long[] pattern = { 500, 500 };
-		if (prefs.getBoolean("settings_notification_vibration", true)) mBuilder.setVibrate(pattern);
+	private void createNotification(Intent intent, Context mContext, String title, String message) {
 
 		// The behavior differs depending on intent action
 		Intent intentLaunch;
 		if (DataBackupIntentService.ACTION_DATA_IMPORT.equals(intent.getAction())
 				|| DataBackupIntentService.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
-			intentLaunch = new Intent(ctx, MainActivity.class);
+			intentLaunch = new Intent(mContext, MainActivity.class);
 			intentLaunch.setAction(Constants.ACTION_RESTART_APP);
 		} else {
 			intentLaunch = new Intent();
 		}
-
 		// Add this bundle to the intent
 		intentLaunch.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intentLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
 		// Creates the PendingIntent
-		PendingIntent notifyIntent = PendingIntent.getActivity(ctx, 0, intentLaunch, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent notifyIntent = PendingIntent.getActivity(mContext, 0, intentLaunch,
+				PendingIntent.FLAG_UPDATE_CURRENT);
 
-		// Puts the PendingIntent into the notification builder
-		mBuilder.setContentIntent(notifyIntent);
-		// Notifications are issued by sending them to the
-		// NotificationManager system service.
-		NotificationManager mNotificationManager = (NotificationManager) ctx
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		// Builds an anonymous Notification object from the builder, and
-		// passes it to the NotificationManager
-		mNotificationManager.notify(0, mBuilder.build());
+		NotificationsHelper mNotificationsHelper = new NotificationsHelper(mContext);
+		mNotificationsHelper.createNotification(R.drawable.ic_stat_notification_icon, title, notifyIntent)
+				.setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null));
+		if (prefs.getBoolean("settings_notification_vibration", true)) mNotificationsHelper.setVibration();
+		mNotificationsHelper.show();
 	}
 
 
