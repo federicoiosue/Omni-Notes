@@ -16,6 +16,13 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.6.0 Beta 11" changeDate="Jun 22, 2014">    
+  		<changelogtext>[b]New![/b] Asturian and Catalan languages supported</changelogtext>   
+  		<changelogtext>[b]New![/b] Higher resolution icons for notifications and notes shortcuts on home launcher</changelogtext>  
+  		<changelogtext>[b]New![/b] During data backup/restore/input an incon informing about the task state is shown</changelogtext>     
+  		<changelogtext>[u]Fixed[/u] Blocking bug on Springpad importing process</changelogtext>  
+    </changelogversion>
+
     <changelogversion versionName="4.6.0 Beta 10" changeDate="Jun 20, 2014">    
   		<changelogtext>[b]New![/b] Even more Springpad content types are supported: now even links, phone numbers and reminders are imported and specific meta-informations of books, TV shows, movies or music albums are merged into note content</changelogtext>   
   		<changelogtext>Text rapresentation in notes list has changed a little to improve performances (ex. no more useless asteriscs for masked notes or shorter title when it's extracted from content)</changelogtext>     
