@@ -20,6 +20,7 @@
   		<changelogtext>[b]New![/b] Asturian and Catalan languages supported</changelogtext>   
   		<changelogtext>[b]New![/b] Higher resolution icons for notifications and notes shortcuts on home launcher</changelogtext>  
   		<changelogtext>[b]New![/b] During data backup/restore/input an incon informing about the task state is shown</changelogtext>     
+  		<changelogtext>[b]New![/b] Bottom margins are now calculated to adapt to device's navigation bar size. Even for the hacked ones...</changelogtext>     
   		<changelogtext>[u]Fixed[/u] Some notes imported from Springpad caused app crash during list scrolling</changelogtext>  
     </changelogversion>
 

@@ -807,6 +807,13 @@ public class DetailFragment extends Fragment implements
 		
 		// Timestamps view
 		timestampsView = getActivity().findViewById(R.id.detail_timestamps);
+		// Bottom padding set for translucent navbar in Kitkat
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
+			int timestampsViewPaddingBottom = navBarHeight > 0 ? navBarHeight - 22 : timestampsView.getPaddingBottom();
+			timestampsView.setPadding(timestampsView.getPaddingStart(), timestampsView.getPaddingTop(),
+					timestampsView.getPaddingEnd(), timestampsViewPaddingBottom);
+		}
 		
 		// Footer dates of creation... 
 		TextView creationTextView = (TextView) getView().findViewById(R.id.creation);
