@@ -26,7 +26,8 @@ public class NotificationsHelper {
 	 * @param message
 	 */
 	public NotificationsHelper createNotification(int icon, String title, PendingIntent notifyIntent) {
-		mBuilder = new NotificationCompat.Builder(mContext).setContentTitle(title).setAutoCancel(true);
+		mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(icon).setContentTitle(title)
+				.setAutoCancel(true);
 		// Puts the PendingIntent into the notification builder
 		mBuilder.setContentIntent(notifyIntent);
 		return this;
@@ -76,10 +77,15 @@ public class NotificationsHelper {
 
 
 	public void show() {
+		show(null);
+	}
+
+
+	public void show(Integer id) {
 		NotificationManager mNotificationManager = (NotificationManager) mContext
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		// Builds an anonymous Notification object from the builder, and
 		// passes it to the NotificationManager
-		mNotificationManager.notify(0, mBuilder.build());
+		mNotificationManager.notify(id == null ? 0 : id, mBuilder.build());
 	}
 }

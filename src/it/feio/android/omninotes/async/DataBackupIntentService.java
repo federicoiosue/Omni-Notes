@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import exceptions.ImportException;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -34,6 +35,7 @@ import android.net.Uri;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
 
@@ -65,7 +67,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
 		// Creates an indeterminate processing notification until the work is complete
-		new NotificationsHelper(this).createNotification(R.drawable.ic_stat_notification_icon, getString(R.string.working), null)
+		new NotificationsHelper(this)
+				.createNotification(R.drawable.ic_stat_notification_icon, getString(R.string.working), null)
 				.setIndeterminate().show();
 
 		// If an alarm has been fired a notification must be generated
@@ -141,7 +144,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		// Backupped notes retrieval
 		String backupPath = intent.getStringExtra(EXTRA_SPRINGPAD_BACKUP);
 		Importer importer = new Importer();
-		importer.doImport(backupPath);
+		try {
+			importer.doImport(backupPath);
+		} catch (ImportException e) {
+			Toast.makeText(this, getString(R.string.error) + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
+		}
 		List<SpringpadElement> elements = importer.getSpringpadNotes();
 
 		// If nothing is retrieved it will exit
