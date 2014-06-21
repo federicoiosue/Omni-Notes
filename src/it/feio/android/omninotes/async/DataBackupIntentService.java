@@ -147,7 +147,10 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		try {
 			importer.doImport(backupPath);
 		} catch (ImportException e) {
-			Toast.makeText(this, getString(R.string.error) + ": " + e.getMessage(), Toast.LENGTH_LONG).show();
+			new NotificationsHelper(this)
+					.createNotification(R.drawable.ic_stat_notification_icon,
+							getString(R.string.import_fail), null).show();
+			return;
 		}
 		List<SpringpadElement> elements = importer.getSpringpadNotes();
 

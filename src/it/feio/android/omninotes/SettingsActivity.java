@@ -16,7 +16,6 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.ImageAndTextItem;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
@@ -25,7 +24,6 @@ import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.StorageManager;
-import it.feio.android.springpadimporter.Importer;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
