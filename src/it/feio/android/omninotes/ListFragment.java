@@ -475,9 +475,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// If device runs KitKat a footer is added to list to avoid 
 		// navigation bar transparency covering items
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			TextView footer = new TextView(getActivity());
-			footer.setHeight(Display.getNavigationBarHeightKitkat(getActivity()));
-			listView.addFooterView(footer);
+			int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
+			listView.setPadding(listView.getPaddingLeft(), listView.getPaddingTop(), listView.getPaddingRight(), navBarHeight);
 		}
 
 		// Note long click to start CAB mode
