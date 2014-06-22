@@ -124,6 +124,7 @@ public class Note implements Parcelable {
 	}
 
 	public String getTitle() {
+		if (title == null) return "";
 		return title;
 	}
 
@@ -132,6 +133,7 @@ public class Note implements Parcelable {
 	}
 
 	public String getContent() {
+		if (content == null) return "";
 		return content;
 	}
 
