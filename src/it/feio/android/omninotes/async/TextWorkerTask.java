@@ -1,7 +1,7 @@
 package it.feio.android.omninotes.async;
 
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.TextUtils;
+import it.feio.android.omninotes.utils.TextHelper;
 
 import java.lang.ref.WeakReference;
 
@@ -33,7 +33,7 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
 	@Override
 	protected Spanned[] doInBackground(Note... params) {
 		Note note = params[0];
-		Spanned[] titleAndContent = TextUtils.parseTitleAndContent(mActivity, note);
+		Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
 		return titleAndContent;
 	}
 	

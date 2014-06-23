@@ -688,7 +688,7 @@ public class DetailFragment extends Fragment implements
 					// Title
 					noteTmp.setTitle(getNoteTitle());
 					noteTmp.setContent(getNoteContent());
-					String title = it.feio.android.omninotes.utils.TextUtils.parseTitleAndContent(getActivity(), noteTmp)[0].toString();
+					String title = it.feio.android.omninotes.utils.TextHelper.parseTitleAndContent(getActivity(), noteTmp)[0].toString();
 					// Images
 					int clickedImage = 0;
 					ArrayList<Attachment> images = new ArrayList<Attachment>();

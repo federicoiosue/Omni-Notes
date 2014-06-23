@@ -476,7 +476,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// navigation bar transparency covering items
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
-			listView.setPadding(listView.getPaddingLeft(), listView.getPaddingTop(), listView.getPaddingRight(), navBarHeight);
+			listView.setPadding(listView.getPaddingLeft(), listView.getPaddingTop(), listView.getPaddingRight(),
+					navBarHeight);
 		}
 
 		// Note long click to start CAB mode

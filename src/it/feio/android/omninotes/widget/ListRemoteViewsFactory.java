@@ -8,7 +8,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.TextUtils;
+import it.feio.android.omninotes.utils.TextHelper;
 
 import java.util.List;
 
@@ -89,7 +89,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 		
 		Note note = notes.get(position);
 		
-		Spanned[] titleAndContent = TextUtils.parseTitleAndContent(app, note);
+		Spanned[] titleAndContent = TextHelper.parseTitleAndContent(app, note);
 
 		row.setTextViewText(R.id.note_title, titleAndContent[0]);
 		row.setTextViewText(R.id.note_content, titleAndContent[1]);
