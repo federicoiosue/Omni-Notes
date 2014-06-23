@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import exceptions.ImportException;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -35,7 +34,7 @@ import android.net.Uri;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
+import exceptions.ImportException;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
 
@@ -149,7 +148,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		} catch (ImportException e) {
 			new NotificationsHelper(this)
 					.createNotification(R.drawable.ic_stat_notification_icon,
-							getString(R.string.import_fail), null).show();
+							getString(R.string.import_fail) + ": " + e.getMessage(), null).show();
 			return;
 		}
 		List<SpringpadElement> elements = importer.getSpringpadNotes();
@@ -216,7 +215,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			if (springpadElement.getType().equals(SpringpadElement.TYPE_BOOKMARK)) {
 				content.append(System.getProperty("line.separator")).append(springpadElement.getUrl());
 			}
-			if (springpadElement.getType().equals(SpringpadElement.TYPE_BUSINESS)) {
+			if (springpadElement.getType().equals(SpringpadElement.TYPE_BUSINESS)
+					&& springpadElement.getPhoneNumbers() != null) {
 				content.append(System.getProperty("line.separator")).append("Phone number: ")
 						.append(springpadElement.getPhoneNumbers().getPhone());
 			}
