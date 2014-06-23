@@ -7,7 +7,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.SpannedString;
 
-public class TextUtils {
+public class TextHelper {
 	/**
 	 * @param note
 	 * @return
