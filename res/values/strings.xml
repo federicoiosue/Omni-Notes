@@ -183,6 +183,7 @@
     <string name="online_manual">Online manual</string>
     <string name="tags_added">Tags added</string>
     <string name="working">Working...</string>    
+    <string name="imported">imported</string>    
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>

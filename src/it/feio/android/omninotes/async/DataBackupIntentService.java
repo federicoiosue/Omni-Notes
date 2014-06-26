@@ -47,6 +47,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 	public final static String EXTRA_SPRINGPAD_BACKUP = "extra_springpad_backup";
 
 	private SharedPreferences prefs;
+	private NotificationsHelper mNotificationsHelper;
+	
+	private int importedSpringpadNotes, importedSpringpadNotebooks;
 
 
 	public DataBackupIntentService() {
@@ -66,7 +69,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
 		// Creates an indeterminate processing notification until the work is complete
-		new NotificationsHelper(this)
+		mNotificationsHelper = new NotificationsHelper(this)
 				.createNotification(R.drawable.ic_stat_notification_icon, getString(R.string.working), null)
 				.setIndeterminate().show();
 
@@ -145,6 +148,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		Importer importer = new Importer();
 		try {
 			importer.doImport(backupPath);
+			// Updating notification
+			updateImportNotification(importer);
 		} catch (ImportException e) {
 			new NotificationsHelper(this)
 					.createNotification(R.drawable.ic_stat_notification_icon,
@@ -179,6 +184,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				cat.setColor(String.valueOf(Color.parseColor("#F9EA1B")));
 				DbHelper.getInstance(this).updateCategory(cat);
 				categoriesWithUuid.put(springpadElement.getUuid(), cat);
+				
+				// Updating notification
+				importedSpringpadNotebooks++;
+				updateImportNotification(importer);
+				
 				continue;
 			}
 
@@ -343,6 +353,10 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
 			// The note is saved
 			DbHelper.getInstance(this).updateNote(note, false);
+			
+			// Updating notification
+			importedSpringpadNotes++;
+			updateImportNotification(importer);
 
 		};
 
@@ -356,10 +370,26 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			noteWithcategory.setCategory(categoriesWithUuid.get(uuid));
 			DbHelper.getInstance(this).updateNote(noteWithcategory, false);
 		}
+		
+		// Delete temp data
+		try {
+			importer.clean();
+		} catch (IOException e) {
+			Log.w(Constants.TAG, "Springpad import temp files not deleted");
+		}
 
 		String title = getString(R.string.data_import_completed);
 		String text = getString(R.string.click_to_refresh_application);
 		createNotification(intent, this, title, text);
+	}
+
+
+	private void updateImportNotification(Importer importer) {
+		mNotificationsHelper.setMessage(
+				importer.getNotebooksCount() + " " + getString(R.string.categories) + " ("
+						+ importedSpringpadNotebooks + " " + getString(R.string.imported) + "), "
+						+ +importer.getNotesCount() + " " + getString(R.string.notes) + " ("
+						+ importedSpringpadNotes + " " + getString(R.string.imported) + ")").show();
 	}
 
 

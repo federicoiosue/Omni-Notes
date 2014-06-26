@@ -11,6 +11,7 @@ public class NotificationsHelper {
 
 	private Context mContext;
 	private Builder mBuilder;
+	private NotificationManager mNotificationManager;
 
 
 	public NotificationsHelper(Context mContext) {
@@ -76,16 +77,19 @@ public class NotificationsHelper {
 	}
 
 
-	public void show() {
+	public NotificationsHelper show() {
 		show(null);
+		return this;
 	}
 
 
-	public void show(Integer id) {
-		NotificationManager mNotificationManager = (NotificationManager) mContext
-				.getSystemService(Context.NOTIFICATION_SERVICE);
+	public NotificationsHelper show(Integer id) {
+		if (mNotificationManager == null) {
+			mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+		}
 		// Builds an anonymous Notification object from the builder, and
 		// passes it to the NotificationManager
 		mNotificationManager.notify(id == null ? 0 : id, mBuilder.build());
+		return this;
 	}
 }
