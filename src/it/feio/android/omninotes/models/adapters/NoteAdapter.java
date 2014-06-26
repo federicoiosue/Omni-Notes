@@ -24,9 +24,8 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
-
+import it.feio.android.omninotes.utils.TextHelper;
 import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -35,6 +34,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.text.Spanned;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,12 +103,17 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	        holder = (NoteAdapterViewHolder) convertView.getTag();
 	    }
 		
-	    		
-	    TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
-	    if (Build.VERSION.SDK_INT >= 11) {
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+		if (note.isChecklist()) {
+			TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
+			if (Build.VERSION.SDK_INT >= 11) {
+				task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+			} else {
+				task.execute(note);
+			}
 		} else {
-			task.execute(note);
+			Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
+			holder.title.setText(titleAndContent[0]);
+			holder.content.setText(titleAndContent[1]);			
 		}
 
 

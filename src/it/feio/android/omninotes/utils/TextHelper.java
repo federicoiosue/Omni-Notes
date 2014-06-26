@@ -67,12 +67,16 @@ public class TextHelper {
 
 
 	public static String limit(String value, int length) {
-		StringBuilder buf = new StringBuilder(value);
-		if (buf.length() > length) {
-			buf.setLength(length);
-			buf.append("...");
+//		StringBuilder buf = new StringBuilder(value);
+//		if (buf.length() > length) {
+//			buf.setLength(length);
+//			buf.append("...");
+//		}
+//		return buf.toString();
+		if (value.length() > length) {
+			value = value.substring(0, length);
 		}
-		return buf.toString();
+		return value;
 	}
 
 

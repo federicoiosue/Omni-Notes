@@ -4,17 +4,14 @@ import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SimpleDiskCache;
 import it.feio.android.omninotes.utils.SimpleDiskCache.BitmapEntry;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
-
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender.Method;
 import org.acra.sender.HttpSender.Type;
-
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
@@ -28,7 +25,6 @@ import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 
@@ -153,8 +149,8 @@ public class OmniNotes extends Application {
 			// OutOfMemory exception. Stored in kilobytes as LruCache takes an
 			// int in its constructor.
 			final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-			// Use 1/8th of the available memory for this memory cache.
-			final int cacheSize = maxMemory / 8;
+			// Use 1/10th of the available memory for this memory cache.
+			final int cacheSize = maxMemory / 10;
 			mMemoryCache = new LruCache<String, Bitmap>(cacheSize);
 			
 			synchronized (mDiskCacheLock) {
