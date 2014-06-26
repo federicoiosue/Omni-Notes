@@ -14,9 +14,7 @@ import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.Fonts;
 import java.util.ArrayList;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,9 +53,9 @@ public class NavigationDrawerFragment extends Fragment {
 	private ListView mDrawerList;
 	private ListView mDrawerCategoriesList;
 	private View categoriesListHeader, settingsListFooter;
-	private Category candidateSelectedCategory;
+	//private Category candidateSelectedCategory;
 	private MainActivity mActivity;
-	private SharedPreferences prefs;
+	//private SharedPreferences prefs;
 	private CharSequence mTitle;
 
 
@@ -74,11 +72,9 @@ public class NavigationDrawerFragment extends Fragment {
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		
-		mActivity = (MainActivity) getActivity();
-		
-		prefs = mActivity.prefs;
+		super.onActivityCreated(savedInstanceState);		
+		mActivity = (MainActivity) getActivity();		
+		//prefs = mActivity.prefs;
 	}
 	
 	
@@ -145,9 +141,6 @@ public class NavigationDrawerFragment extends Fragment {
 		if (settingsListFooter == null) {
 			settingsListFooter = inflater.inflate(R.layout.drawer_category_list_footer, null);
 		}		
-
-		// Overrides font sizes with the one selected from user
-		Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS), settingsListFooter);
 		
 		settingsListFooter.setOnClickListener(new OnClickListener() {			
 			@Override
@@ -166,6 +159,9 @@ public class NavigationDrawerFragment extends Fragment {
 			mDrawerCategoriesList.addHeaderView(categoriesListHeader);
 			mDrawerCategoriesList.addFooterView(settingsListFooter);
 		} 
+
+		// Overrides font sizes with the one selected from user
+		Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS), settingsListFooter);
 		
 		
 		mDrawerCategoriesList.setAdapter(new NavDrawerCategoryAdapter(mActivity, categories, mActivity.navigationTmp));
@@ -186,7 +182,7 @@ public class NavigationDrawerFragment extends Fragment {
 					// Ensuring that clicked item is not the ListView header
 					if (item != null) {
 						Category tag = (Category) item;
-						String navigation = tag.getName();
+						//String navigation = tag.getName();
 //							Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 						selectNavigationItem(mDrawerCategoriesList, position);
 						mActivity.updateNavigation(String.valueOf(tag.getId()));
