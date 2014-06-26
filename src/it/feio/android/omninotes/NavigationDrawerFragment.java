@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -52,11 +53,13 @@ public class NavigationDrawerFragment extends Fragment {
 	TypedArray mNavigationIconsArray;
 	private ListView mDrawerList;
 	private ListView mDrawerCategoriesList;
-	private View categoriesListHeader, settingsListFooter;
+	private View categoriesListHeader;
+	private View settingsView, settingsViewCat;
 	//private Category candidateSelectedCategory;
 	private MainActivity mActivity;
 	//private SharedPreferences prefs;
 	private CharSequence mTitle;
+	private final String SETTINGS_VIEW_TAG = "settings_view_tag";
 
 
 	@Override
@@ -96,7 +99,9 @@ public class NavigationDrawerFragment extends Fragment {
 		}
 
 		// Sets the adapter for the MAIN navigation list view
-		mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
+		if (mDrawerList == null) {
+			mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
+		}
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
 		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
 		mDrawerList.setAdapter(new NavDrawerAdapter(mActivity, mNavigationArray, mNavigationIconsArray));
@@ -127,8 +132,10 @@ public class NavigationDrawerFragment extends Fragment {
 		// Retrieves data to fill tags list
 		ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 
-		mDrawerCategoriesList = (ListView) getView().findViewById(R.id.drawer_tag_list);
-
+		if (mDrawerCategoriesList == null) {
+			mDrawerCategoriesList = (ListView) getView().findViewById(R.id.drawer_tag_list);
+		}
+		
 		// Inflater used for header and footer
 		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 					
@@ -137,35 +144,51 @@ public class NavigationDrawerFragment extends Fragment {
 			categoriesListHeader = inflater.inflate(R.layout.drawer_category_list_header, null);
 		}
 		
-		// Inflation of footer view used for settings
-		if (settingsListFooter == null) {
-			settingsListFooter = inflater.inflate(R.layout.drawer_category_list_footer, null);
-		}		
-		
-		settingsListFooter.setOnClickListener(new OnClickListener() {			
+		// Inflation of Settings view 
+		if (settingsView == null) {
+			settingsView = ((ViewStub) getActivity().findViewById(R.id.settings_placeholder)).inflate();
+		}				
+		settingsView.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
 				startActivity(settingsIntent);
 			}
 		});
-		mDrawerCategoriesList.removeHeaderView(categoriesListHeader);
-		mDrawerCategoriesList.removeHeaderView(settingsListFooter);	
-		mDrawerCategoriesList.removeFooterView(settingsListFooter);	
+		
+		if (settingsViewCat == null) {
+			settingsViewCat = inflater.inflate(R.layout.drawer_category_list_footer, null);
+		}			
+		settingsViewCat.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+				startActivity(settingsIntent);
+			}
+		});
+		
+		if (mDrawerCategoriesList.getAdapter() == null) {
+			mDrawerCategoriesList.addHeaderView(categoriesListHeader);	
+			mDrawerCategoriesList.addFooterView(settingsViewCat);	
+		}
 		if (categories.size() == 0) {
-			mDrawerCategoriesList.addHeaderView(settingsListFooter);
+			categoriesListHeader.setVisibility(View.GONE);
+			settingsViewCat.setVisibility(View.GONE);
+			settingsView.setVisibility(View.VISIBLE);
 		}
 		else if (categories.size() > 0) {
-			mDrawerCategoriesList.addHeaderView(categoriesListHeader);
-			mDrawerCategoriesList.addFooterView(settingsListFooter);
+			settingsView.setVisibility(View.GONE);
+			categoriesListHeader.setVisibility(View.VISIBLE);
+			settingsViewCat.setVisibility(View.VISIBLE);
 		} 
 
-		// Overrides font sizes with the one selected from user
-		Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS), settingsListFooter);
-		
-		
 		mDrawerCategoriesList.setAdapter(new NavDrawerCategoryAdapter(mActivity, categories, mActivity.navigationTmp));
-
+		
+		
+		// Overrides font sizes with the one selected from user
+		Fonts.overrideTextSize(mActivity,
+				mActivity.getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS), settingsView);
+		
 		// Sets click events
 		mDrawerCategoriesList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -177,22 +200,18 @@ public class NavigationDrawerFragment extends Fragment {
 				if (mActivity.getSearchMenuItem() != null && MenuItemCompat.isActionViewExpanded(mActivity.getSearchMenuItem()))
 					MenuItemCompat.collapseActionView(mActivity.getSearchMenuItem());
 				
-				if (mDrawerCategoriesList != null) {
-					Object item = mDrawerCategoriesList.getAdapter().getItem(position);
-					// Ensuring that clicked item is not the ListView header
-					if (item != null) {
-						Category tag = (Category) item;
-						//String navigation = tag.getName();
+				Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+				// Ensuring that clicked item is not the ListView header
+				if (item != null) {
+					Category tag = (Category) item;
+					//String navigation = tag.getName();
 //							Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
-						selectNavigationItem(mDrawerCategoriesList, position);
-						mActivity.updateNavigation(String.valueOf(tag.getId()));
-						mDrawerCategoriesList.setItemChecked(position, true);
-						if (mDrawerList != null)
-							mDrawerList.setItemChecked(0, false); // Called to
-																	// force
-																	// redraw
-						mActivity.initNotesList(mActivity.getIntent());
-					}
+					selectNavigationItem(mDrawerCategoriesList, position);
+					mActivity.updateNavigation(String.valueOf(tag.getId()));
+					mDrawerCategoriesList.setItemChecked(position, true);
+					if (mDrawerList != null)
+						mDrawerList.setItemChecked(0, false); // Forces redraw
+					mActivity.initNotesList(mActivity.getIntent());
 				}
 			}
 		});

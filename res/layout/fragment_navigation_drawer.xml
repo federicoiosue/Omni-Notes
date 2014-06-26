@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:background="@color/navigation_bg"
-    android:orientation="vertical" 
-     >
+    android:orientation="vertical" >
 
     <ListView
         android:id="@+id/drawer_nav_list"
@@ -18,6 +17,13 @@
         android:dividerHeight="0dp"
         android:listSelector="@drawable/icon_selector" />
 
+    <ViewStub
+        android:id="@+id/settings_placeholder"
+        android:inflatedId="@+id/settings_view"
+        android:layout_width="@dimen/navigation_drawer_width"
+        android:layout_height="wrap_content"
+        android:layout="@layout/drawer_category_list_footer" />
+
     <ListView
         android:id="@+id/drawer_tag_list"
         android:layout_width="@dimen/navigation_drawer_width"
@@ -25,11 +31,10 @@
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
+        android:listSelector="@drawable/icon_selector"
         android:overScrollMode="never"
         android:scrollbarSize="4dp"
         android:scrollbarStyle="outsideOverlay"
-        android:scrollbarThumbVertical="@drawable/scroll_bar"
-        android:listSelector="@drawable/icon_selector" />
-    
+        android:scrollbarThumbVertical="@drawable/scroll_bar" />
 
 </LinearLayout>
