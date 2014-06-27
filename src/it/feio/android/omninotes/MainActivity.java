@@ -266,7 +266,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 	
 	public DrawerLayout getDrawerLayout() {
-		if (mFragmentManager.findFragmentById(R.id.navigation_drawer) != null) {
+		if (mFragmentManager!= null && mFragmentManager.findFragmentById(R.id.navigation_drawer) != null) {
 			return ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer)).mDrawerLayout;
 		} else {
 			return null;
