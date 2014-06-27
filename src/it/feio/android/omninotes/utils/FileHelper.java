@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
@@ -14,6 +13,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class FileHelper {
@@ -286,6 +286,7 @@ public class FileHelper {
 	}
 
 	public static String getFileExtension(String fileName) {
+		if (TextUtils.isEmpty(fileName)) return "";
 		String extension = "";
 		int index = fileName.lastIndexOf(".");
 		if (index != -1) {
