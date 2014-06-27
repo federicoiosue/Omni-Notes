@@ -59,7 +59,7 @@ public class BitmapWorkerTask extends
 		// Creates thumbnail	
 		if (bmp == null) {		
 			wasCached = false;
-			bmp = BitmapHelper.getBitmapFromAttachment(mActivity, mAttachment, width, height);
+			bmp = BitmapHelper.getBitmapFromAttachment(mActivity.getApplication(), mAttachment, width, height);
 			if (bmp != null) {
 				app.addBitmapToCache(cacheKey, bmp);
 			}

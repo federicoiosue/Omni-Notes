@@ -55,7 +55,7 @@ public class OmniNotes extends Application {
 	private SimpleDiskCache mDiskLruCache;
 	private final Object mDiskCacheLock = new Object();
 	private boolean mDiskCacheStarting = true;
-	private final int DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
+	private final int DISK_CACHE_SIZE = 1024 * 1024 * 20; // 20MB
 
 	@Override
 	public void onCreate() {
@@ -149,8 +149,8 @@ public class OmniNotes extends Application {
 			// OutOfMemory exception. Stored in kilobytes as LruCache takes an
 			// int in its constructor.
 			final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-			// Use 1/10th of the available memory for this memory cache.
-			final int cacheSize = maxMemory / 10;
+			// Use 1/16th of the available memory for this memory cache.
+			final int cacheSize = maxMemory / 16;
 			mMemoryCache = new LruCache<String, Bitmap>(cacheSize);
 			
 			synchronized (mDiskCacheLock) {

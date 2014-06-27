@@ -39,6 +39,7 @@ import android.net.Uri;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 import exceptions.ImportException;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
@@ -76,7 +77,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		// Creates an indeterminate processing notification until the work is complete
 		mNotificationsHelper = new NotificationsHelper(this)
 				.createNotification(R.drawable.ic_stat_notification_icon, getString(R.string.working), null)
-				.setIndeterminate().show();
+				.setIndeterminate().setOngoing().show();
 
 		// If an alarm has been fired a notification must be generated
 		if (ACTION_DATA_EXPORT.equals(intent.getAction())) {
@@ -331,8 +332,15 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			for (SpringpadAttachment springpadAttachment : springpadElement.getAttachments()) {
 				// The attachment could be the image itself so it's jumped
 				if (image != null && image.equals(springpadAttachment.getUrl())) continue;
-
-				// Tryies first with online images
+				
+				if (TextUtils.isEmpty(springpadAttachment.getUrl())) {
+					Toast.makeText(this,
+							getString(R.string.error_importing_some_attachments) + " " + springpadElement.getName(),
+							Toast.LENGTH_SHORT).show();
+					continue;
+				};
+				
+				// Tries first with online images
 				try {
 					File file = StorageManager.createNewAttachmentFileFromHttp(this, springpadAttachment.getUrl());
 					uri = Uri.fromFile(file);

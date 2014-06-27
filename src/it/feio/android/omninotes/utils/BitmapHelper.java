@@ -57,7 +57,7 @@ public class BitmapHelper {
 	public static Bitmap decodeSampledFromUri(Context mContext, Uri uri, int reqWidth, int reqHeight)
 			throws FileNotFoundException {
 
-		BitmapFactory.Options options = new BitmapFactory.Options();
+		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri), null, options);
 
@@ -242,7 +242,8 @@ public class BitmapHelper {
 		android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
 		// set default bitmap config if none
 		if (bitmapConfig == null) {
-			bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+//			bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888;
+			bitmapConfig = android.graphics.Bitmap.Config.RGB_565;
 		}
 		// if bitmap is not mutable a copy is done
 		if (!bitmap.isMutable())
@@ -386,8 +387,8 @@ public class BitmapHelper {
 		Bitmap mark = ThumbnailUtils.extractThumbnail(
 				BitmapFactory.decodeResource(mContext.getResources(),
 						R.drawable.play_no_bg), width, height);
-		Bitmap thumbnail = Bitmap.createBitmap(width, height,
-				Bitmap.Config.ARGB_8888);
+//		Bitmap thumbnail = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		Bitmap thumbnail = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
 		Canvas canvas = new Canvas(thumbnail);
 //		Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
 
