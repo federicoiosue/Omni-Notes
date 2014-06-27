@@ -18,7 +18,8 @@
 
     <changelogversion versionName="4.6.0 Beta 12" changeDate="Jun 27, 2014">    
   		<changelogtext>[b]New![/b] More detailed notifications when importing, restoring or making notes backups</changelogtext>  
-  		<changelogtext>[b]New![/b] Memory optimizations aimed to improve notes list scrolling and resources consumption</changelogtext>         
+  		<changelogtext>[b]New![/b] Memory optimizations aimed to improve notes list scrolling and resources consumption</changelogtext>   
+  		<changelogtext>[b]New![/b] Vibration on checklist items drag</changelogtext>         
   		<changelogtext>[u]Fixed[/u] Springpad failed Business notes import</changelogtext>       
   		<changelogtext>[u]Fixed[/u] Crash on Android 2.3.x on note detail quit</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Check on available application to open Springpad zip file to avoid crashes</changelogtext>  
