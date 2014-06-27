@@ -103,18 +103,18 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	        holder = (NoteAdapterViewHolder) convertView.getTag();
 	    }
 		
-		if (note.isChecklist()) {
+//		if (note.isChecklist()) {
 			TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
 			if (Build.VERSION.SDK_INT >= 11) {
 				task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
 			} else {
 				task.execute(note);
 			}
-		} else {
-			Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
-			holder.title.setText(titleAndContent[0]);
-			holder.content.setText(titleAndContent[1]);			
-		}
+//		} else {
+//			Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
+//			holder.title.setText(titleAndContent[0]);
+//			holder.content.setText(titleAndContent[1]);			
+//		}
 
 
 		// Evaluates the archived state...
