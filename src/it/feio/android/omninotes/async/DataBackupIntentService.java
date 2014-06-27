@@ -20,10 +20,14 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -34,6 +38,7 @@ import android.net.Uri;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 import exceptions.ImportException;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
@@ -466,8 +471,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		DbHelper db = DbHelper.getInstance(this);
 		ArrayList<Attachment> list = db.getAllAttachments();
 
+		int exported = 0;
 		for (Attachment attachment : list) {
 			StorageManager.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri().getPath()));
+			mNotificationsHelper.setMessage(exported++ + "/" + list.size() + " " + getString(R.string.attachment))
+					.show();
 		}
 		return true;
 	}
@@ -525,7 +533,26 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		StorageManager.delete(this, attachmentsDir.getAbsolutePath());
 		// Moving back
 		File backupAttachmentsDir = new File(backupDir, attachmentsDir.getName());
-		return (StorageManager.copyDirectory(backupAttachmentsDir, attachmentsDir));
+		
+//		return (StorageManager.copyDirectory(backupAttachmentsDir, attachmentsDir));
+		boolean result = true;
+		Collection list = FileUtils.listFiles(backupAttachmentsDir, FileFilterUtils.trueFileFilter(),
+				TrueFileFilter.INSTANCE);
+		Iterator<File> i = list.iterator();
+		int imported = 0;
+		File file = null;
+		while (i.hasNext()) {
+			try {
+				file = i.next();
+				FileUtils.copyFileToDirectory(file, attachmentsDir, true);
+				mNotificationsHelper.setMessage(imported++ + "/" + list.size() + " " + getString(R.string.attachment))
+						.show();
+			} catch (IOException e) {
+				result = false;
+				Log.e(Constants.TAG, "Error importing the attachment " + file.getName());
+			}
+		}
+		return result;
 	}
 
 

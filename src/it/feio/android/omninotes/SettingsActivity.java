@@ -23,6 +23,7 @@ import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.StorageManager;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -39,6 +40,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -68,7 +70,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class SettingsActivity extends PreferenceActivity {
 
-	final Activity activity = this;
+	final Activity mActivity = this;
 	private SharedPreferences prefs;
 
 	AboutOrStatsThread mAboutOrStatsThread;
@@ -107,10 +109,10 @@ public class SettingsActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
 				
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 				
 				// Inflate layout
-				LayoutInflater inflater = activity.getLayoutInflater();
+				LayoutInflater inflater = mActivity.getLayoutInflater();
 				View v = inflater.inflate(R.layout.dialog_backup_layout, null);
 				alertDialogBuilder.setView(v);
 				
@@ -146,10 +148,10 @@ public class SettingsActivity extends PreferenceActivity {
 
 							public void onClick(DialogInterface dialog, int id) {
 								// An IntentService will be launched to accomplish the export task
-								Intent service = new Intent(activity, DataBackupIntentService.class);
+								Intent service = new Intent(mActivity, DataBackupIntentService.class);
 								service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
 								service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, fileNameEditText.getText().toString());
-								activity.startService(service);
+								mActivity.startService(service);
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 
@@ -176,7 +178,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 				
 				final CharSequence[] backups = StorageManager.getExternalStoragePublicDir().list();
 				alertDialogBuilder.setTitle(R.string.data_import_message)
@@ -197,7 +199,7 @@ public class SettingsActivity extends PreferenceActivity {
 				    		@Override
 							public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 								final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-										activity);
+										mActivity);
 								
 								// Retrieves backup size
 								File backupDir = StorageManager.getBackupDir(backups[position].toString());
@@ -205,7 +207,7 @@ public class SettingsActivity extends PreferenceActivity {
 								String sizeString = size > 1024 ? size/1024 + "Mb" : size + "Kb";
 								
 								// Check preference presence
-								String prefName = StorageManager.getSharedPreferencesFile(activity).getName();
+								String prefName = StorageManager.getSharedPreferencesFile(mActivity).getName();
 								boolean hasPreferences = (new File(backupDir, prefName)).exists();
 								
 								String message = getString(R.string.confirm_restoring_backup) + " " 
@@ -223,10 +225,10 @@ public class SettingsActivity extends PreferenceActivity {
 												dialogInner.dismiss();
 												dialog.dismiss();
 												// An IntentService will be launched to accomplish the import task
-												Intent service = new Intent(activity, DataBackupIntentService.class);
+												Intent service = new Intent(mActivity, DataBackupIntentService.class);
 												service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
 												service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backups[position]);
-												activity.startService(service);
+												mActivity.startService(service);
 											}
 										})
 										.setNegativeButton(R.string.cancel, new OnClickListener() {
@@ -247,7 +249,7 @@ public class SettingsActivity extends PreferenceActivity {
 							@Override
 							public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 								final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-										activity);
+										mActivity);
 								
 								// Retrieves backup size
 								File backupDir = StorageManager.getBackupDir(backups[position].toString());
@@ -264,10 +266,10 @@ public class SettingsActivity extends PreferenceActivity {
 												dialogInner.dismiss();
 												dialog.dismiss();	
 												// An IntentService will be launched to accomplish the import task
-												Intent service = new Intent(activity, DataBackupIntentService.class);
+												Intent service = new Intent(mActivity, DataBackupIntentService.class);
 												service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
 												service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backups[position]);
-												activity.startService(service);
+												mActivity.startService(service);
 											}
 										})
 										.setNegativeButton(R.string.cancel, new OnClickListener() {
@@ -302,6 +304,10 @@ public class SettingsActivity extends PreferenceActivity {
 				intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.addCategory(Intent.CATEGORY_OPENABLE);
 				intent.setType("application/zip");
+				if (!IntentChecker.isAvailable(mActivity, intent, null)) {
+					Crouton.makeText(mActivity, R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
+					return false;
+				}	
 				startActivityForResult(intent, SPRINGPAD_IMPORT );
 				return false;
 			}
@@ -354,7 +360,7 @@ public class SettingsActivity extends PreferenceActivity {
 		password.setOnPreferenceClickListener(new OnPreferenceClickListener() {			
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				Intent passwordIntent = new Intent(activity, PasswordActivity.class);
+				Intent passwordIntent = new Intent(mActivity, PasswordActivity.class);
 				startActivity(passwordIntent);
 				return false;
 			}
@@ -372,7 +378,7 @@ public class SettingsActivity extends PreferenceActivity {
 		passwordAccess.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
 			@Override
 			public boolean onPreferenceChange(Preference preference, final Object newValue) {
-				BaseActivity.requestPassword(activity, new PasswordValidator() {					
+				BaseActivity.requestPassword(mActivity, new PasswordValidator() {					
 					@Override
 					public void onPasswordValidated(boolean result) {
 						if (result) {			
@@ -505,7 +511,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-				Intent changelogIntent = new Intent(activity, ChangelogActivity.class);
+				Intent changelogIntent = new Intent(mActivity, ChangelogActivity.class);
 				startActivity(changelogIntent);
 				return false;
 			}
@@ -529,7 +535,7 @@ public class SettingsActivity extends PreferenceActivity {
 
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 
 				// set dialog message
 				alertDialogBuilder
@@ -538,12 +544,12 @@ public class SettingsActivity extends PreferenceActivity {
 
 							public void onClick(DialogInterface dialog, int id) {
 								prefs.edit().clear().commit();
-								File db = activity.getDatabasePath(Constants.DATABASE_NAME);
-								StorageManager.delete(activity, db.getAbsolutePath());
-								File attachmentsDir = StorageManager.getAttachmentDir(activity);
-								StorageManager.delete(activity, attachmentsDir.getAbsolutePath());
-								File cacheDir = StorageManager.getCacheDir(activity);
-								StorageManager.delete(activity, cacheDir.getAbsolutePath());
+								File db = mActivity.getDatabasePath(Constants.DATABASE_NAME);
+								StorageManager.delete(mActivity, db.getAbsolutePath());
+								File attachmentsDir = StorageManager.getAttachmentDir(mActivity);
+								StorageManager.delete(mActivity, attachmentsDir.getAbsolutePath());
+								File cacheDir = StorageManager.getCacheDir(mActivity);
+								StorageManager.delete(mActivity, cacheDir.getAbsolutePath());
 								// App tour is flagged as skipped anyhow
 								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
 								OmniNotes.restartApp(getApplicationContext());
@@ -574,13 +580,13 @@ public class SettingsActivity extends PreferenceActivity {
 		instructions.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 				// set dialog message
 				alertDialogBuilder
 						.setMessage(getString(R.string.settings_tour_show_again_summary) + "?")
 						.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int id) {
-								AppTourHelper.reset(activity);
+								AppTourHelper.reset(mActivity);
 								prefs.edit()
 										.putString(Constants.PREF_NAVIGATION,
 												getResources().getStringArray(R.array.navigation_list_codes)[0])
@@ -608,14 +614,14 @@ public class SettingsActivity extends PreferenceActivity {
 		donation.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 				
 				ArrayList<ImageAndTextItem> options = new ArrayList<ImageAndTextItem>();
 				options.add(new ImageAndTextItem(R.drawable.ic_paypal, getString(R.string.paypal)) );
 				options.add(new ImageAndTextItem(R.drawable.ic_bitcoin, getString(R.string.bitcoin)) );
 				
 				alertDialogBuilder
-				.setAdapter(new ImageAndTextAdapter(activity, options), new DialogInterface.OnClickListener() {			
+				.setAdapter(new ImageAndTextAdapter(mActivity, options), new DialogInterface.OnClickListener() {			
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						switch (which) {
@@ -654,7 +660,7 @@ public class SettingsActivity extends PreferenceActivity {
 				}
 				if (aboutClickCounter == 0) {
 					aboutClickCounter++;			
-					mAboutOrStatsThread = new AboutOrStatsThread(activity, aboutClickCounter);
+					mAboutOrStatsThread = new AboutOrStatsThread(mActivity, aboutClickCounter);
 					mAboutOrStatsThread.start();
 				} else {
 					mAboutOrStatsThread.setAboutClickCounter(++aboutClickCounter);
@@ -685,12 +691,12 @@ public class SettingsActivity extends PreferenceActivity {
 						Uri filesUri = intent.getData();
 						String path = FileHelper.getPath(this, filesUri);
 						// An IntentService will be launched to accomplish the import task
-						Intent service = new Intent(activity, DataBackupIntentService.class);
+						Intent service = new Intent(mActivity, DataBackupIntentService.class);
 						service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_SPRINGPAD);
 						service.putExtra(DataBackupIntentService.EXTRA_SPRINGPAD_BACKUP, path);
-						activity.startService(service);
+						mActivity.startService(service);
 					} else {
-						Crouton.makeText(this, R.string.error_saving_attachments, ONStyle.ALERT)
+						Crouton.makeText(this, R.string.error, ONStyle.ALERT)
 								.show();
 					}
 					break;

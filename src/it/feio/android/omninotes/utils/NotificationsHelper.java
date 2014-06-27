@@ -1,8 +1,10 @@
 package it.feio.android.omninotes.utils;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
@@ -87,6 +89,15 @@ public class NotificationsHelper {
 		if (mNotificationManager == null) {
 			mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 		}
+		
+		Notification mNotification = mBuilder.build();
+		
+		if (mNotification.contentIntent == null) {
+			// Creates a dummy PendingIntent
+			mBuilder.setContentIntent(PendingIntent.getActivity(mContext, 0, new Intent(),
+					PendingIntent.FLAG_UPDATE_CURRENT));
+		}
+		
 		// Builds an anonymous Notification object from the builder, and
 		// passes it to the NotificationManager
 		mNotificationManager.notify(id == null ? 0 : id, mBuilder.build());
