@@ -309,7 +309,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
 			// Image
 			String image = springpadElement.getImage();
-			if (image != null) {
+			if (!TextUtils.isEmpty(image)) {
 				try {
 					File file = StorageManager.createNewAttachmentFileFromHttp(this, image);
 					uri = Uri.fromFile(file);
