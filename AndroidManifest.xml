@@ -17,8 +17,8 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.feio.android.omninotes"
-    android:versionCode="122"
-    android:versionName="4.6.0 Beta 12" >
+    android:versionCode="123"
+    android:versionName="4.6.0 Beta 13" >
 
     <uses-sdk
         android:minSdkVersion="9"
