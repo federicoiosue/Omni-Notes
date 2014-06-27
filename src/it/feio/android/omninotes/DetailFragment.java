@@ -1229,6 +1229,9 @@ public class DetailFragment extends Fragment implements
 		mChecklistManager.setKeepChecked(keepChecked);
 		mChecklistManager.setShowChecks(showChecks);
 		
+		// Vibration
+		mChecklistManager.setDragVibrationEnabled(true);
+		
 		// Switches the views
 		View newView = null;
 		try {
