@@ -11,6 +11,7 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.NotificationsHelper;
 import it.feio.android.omninotes.utils.StorageManager;
+import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
 import it.feio.android.springpadimporter.models.SpringpadComment;
@@ -38,7 +39,6 @@ import android.net.Uri;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 import exceptions.ImportException;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
@@ -474,7 +474,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		int exported = 0;
 		for (Attachment attachment : list) {
 			StorageManager.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri().getPath()));
-			mNotificationsHelper.setMessage(exported++ + "/" + list.size() + " " + getString(R.string.attachment))
+			mNotificationsHelper.setMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + exported++ + "/" + list.size())
 					.show();
 		}
 		return true;
@@ -545,7 +545,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			try {
 				file = i.next();
 				FileUtils.copyFileToDirectory(file, attachmentsDir, true);
-				mNotificationsHelper.setMessage(imported++ + "/" + list.size() + " " + getString(R.string.attachment))
+				mNotificationsHelper.setMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + imported++ + "/" + list.size())
 						.show();
 			} catch (IOException e) {
 				result = false;
