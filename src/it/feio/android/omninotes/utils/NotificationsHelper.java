@@ -79,6 +79,12 @@ public class NotificationsHelper {
 	}
 
 
+	public NotificationsHelper setOngoing() {
+		mBuilder.setOngoing(true);
+		return this;
+	}
+
+
 	public NotificationsHelper show() {
 		show(null);
 		return this;
