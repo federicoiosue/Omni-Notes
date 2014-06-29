@@ -20,14 +20,17 @@ public class TextHelper {
 		// Defining title and content texts
 		String titleText, contentText;
 
-		String content = limit(note.getContent().trim(), CONTENT_SUBSTRING_LENGTH);
+		String content = note.getContent();
 
 		if (note.getTitle().length() > 0) {
 			titleText = note.getTitle();
-			contentText = content;
+			contentText = limit(note.getContent().trim(), CONTENT_SUBSTRING_LENGTH, false);
 		} else {
-			titleText = limit(content, TITLE_SUBSTRING_OF_CONTENT_LIMIT);
-			contentText = content.length() > TITLE_SUBSTRING_OF_CONTENT_LIMIT ? content.substring(TITLE_SUBSTRING_OF_CONTENT_LIMIT) : "";
+			titleText = limit(content, TITLE_SUBSTRING_OF_CONTENT_LIMIT, true);
+//			contentText = content.length() > TITLE_SUBSTRING_OF_CONTENT_LIMIT ? content.substring(TITLE_SUBSTRING_OF_CONTENT_LIMIT) : "";
+			String contentRemaining = content.replace(titleText, "").trim();
+			contentText = contentRemaining.length() > TITLE_SUBSTRING_OF_CONTENT_LIMIT ? contentRemaining
+					.substring(0, TITLE_SUBSTRING_OF_CONTENT_LIMIT) : "";
 		}
 		content = null;
 
@@ -37,7 +40,7 @@ public class TextHelper {
 						"settings_password_access", false)) {
 			// This checks if a part of content is used as title and should be partially masked
 			if (!note.getTitle().equals(titleText) && titleText.length() > 3) {
-				titleText = limit(titleText, 4);
+				titleText = limit(titleText, 4, false);
 			}
 			contentText = "";
 		}
@@ -66,17 +69,15 @@ public class TextHelper {
 	}
 
 
-	public static String limit(String value, int length) {
-//		StringBuilder buf = new StringBuilder(value);
-//		if (buf.length() > length) {
-//			buf.setLength(length);
-//			buf.append("...");
-//		}
-//		return buf.toString();
-		if (value.length() > length) {
-			value = value.substring(0, length);
+	public static String limit(String value, int length, boolean singleLine) {
+		StringBuilder buf = new StringBuilder(value);
+		int indexNewLine = buf.indexOf(System.getProperty("line.separator"));
+		int endIndex = indexNewLine < length ? indexNewLine : length < buf.length() ? length : -1;
+		if (endIndex != -1) {
+			buf.setLength(endIndex);
+			buf.append("...");
 		}
-		return value;
+		return buf.toString();
 	}
 
 

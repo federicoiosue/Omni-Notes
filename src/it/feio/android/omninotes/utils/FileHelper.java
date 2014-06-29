@@ -194,16 +194,20 @@ public class FileHelper {
 	public static String getNameFromUri(Context mContext, Uri uri) {
 		String fileName = "";
 		// Trying to retrieve file name from content resolver
-		Cursor c = mContext.getContentResolver().query(uri, new String[]{"_display_name"}, null, null, null);
-		if (c != null) {
-			try {
-				if (c.moveToFirst()) {
-					fileName = c.getString(0);
-				}
-				
-			} catch (Exception e) {}
-		} else {
-			fileName = uri.getLastPathSegment();
+		try {
+			Cursor c = mContext.getContentResolver().query(uri, new String[]{"_display_name"}, null, null, null);
+			if (c != null) {
+				try {
+					if (c.moveToFirst()) {
+						fileName = c.getString(0);
+					}
+					
+				} catch (Exception e) {}
+			} else {
+				fileName = uri.getLastPathSegment();
+			}
+		} catch (SecurityException e) {
+			return null;
 		}
 		return fileName;
 	}
