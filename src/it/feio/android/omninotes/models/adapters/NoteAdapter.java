@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
+tas * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.TextHelper;
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -35,6 +36,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.text.Spanned;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,19 +104,23 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	    } else {
 	        holder = (NoteAdapterViewHolder) convertView.getTag();
 	    }
-		
-//		if (note.isChecklist()) {
-			TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
-			if (Build.VERSION.SDK_INT >= 11) {
-				task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+	    
+		try {
+			if (note.isChecklist()) {
+				TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
+				if (Build.VERSION.SDK_INT >= 11) {
+					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+				} else {
+					task.execute(note);
+				}
 			} else {
-				task.execute(note);
+				Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
+				holder.title.setText(titleAndContent[0]);
+				holder.content.setText(titleAndContent[1]);
 			}
-//		} else {
-//			Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
-//			holder.title.setText(titleAndContent[0]);
-//			holder.content.setText(titleAndContent[1]);			
-//		}
+		} catch (RejectedExecutionException e) {
+			Log.w(Constants.TAG, "Oversized tasks pool to load texts!");
+		}
 
 
 		// Evaluates the archived state...
@@ -283,10 +289,14 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.attachmentThumbnail,
 					Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
 			holder.attachmentThumbnail.setAsyncTask(task);
-			if (Build.VERSION.SDK_INT >= 11) {
-				task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
-			} else {
-				task.execute(mAttachment);
+			try {
+				if (Build.VERSION.SDK_INT >= 11) {
+					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
+				} else {
+					task.execute(mAttachment);
+				}
+			} catch (RejectedExecutionException e) {
+				Log.w(Constants.TAG, "Oversized tasks pool to load thumbnails!");
 			}
 			holder.attachmentThumbnail.setVisibility(View.VISIBLE);
 //		}
