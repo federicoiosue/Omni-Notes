@@ -53,7 +53,7 @@
                     android:id="@+id/note_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="top|start"
+                    android:gravity="top|left"
                     android:singleLine="true"
                     android:textAppearance="@style/Text.Big.Widget"
                     android:textColor="@color/list_note_title"

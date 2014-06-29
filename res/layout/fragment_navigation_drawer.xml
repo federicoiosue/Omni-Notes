@@ -4,7 +4,7 @@
     android:id="@+id/left_drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="start"
+    android:layout_gravity="left|start"
     android:background="@color/navigation_bg"
     android:orientation="vertical" >
 

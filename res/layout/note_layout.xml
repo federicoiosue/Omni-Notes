@@ -57,7 +57,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="top|start"
+                    android:gravity="top|left"
                     android:singleLine="true"
                     android:textAppearance="@style/Text.Big"
                     pixlui:typeface="RobotoSlab-Bold.ttf" />
@@ -115,7 +115,7 @@
                 android:id="@+id/note_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_gravity="left|start"
                 android:singleLine="true"
                 android:textAppearance="@style/Text.Normal"
                 android:visibility="gone"
