@@ -39,6 +39,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
@@ -500,6 +501,9 @@ public class StorageManager {
 	 */
 	public static File createNewAttachmentFileFromHttp(Context mContext, String url)
 			throws IOException {
+		if (TextUtils.isEmpty(url)) {
+			return null;
+		}
 		return getFromHttp(url, createNewAttachmentFile(mContext, FileHelper.getFileExtension(url)));
 	}
 	

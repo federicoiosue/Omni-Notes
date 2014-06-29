@@ -39,7 +39,6 @@ import android.net.Uri;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 import exceptions.ImportException;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
@@ -309,7 +308,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			note.setLastModification(springpadElement.getModified().getTime());
 
 			// Image
-			String image = springpadElement.getImage();
+			String image = springpadElement.getImage();			
 			if (!TextUtils.isEmpty(image)) {
 				try {
 					File file = StorageManager.createNewAttachmentFileFromHttp(this, image);
@@ -327,16 +326,16 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				}
 				mAttachment = null;
 			}
-
+			
 			// Other attachments
 			for (SpringpadAttachment springpadAttachment : springpadElement.getAttachments()) {
 				// The attachment could be the image itself so it's jumped
 				if (image != null && image.equals(springpadAttachment.getUrl())) continue;
 				
 				if (TextUtils.isEmpty(springpadAttachment.getUrl())) {
-					Toast.makeText(this,
-							getString(R.string.error_importing_some_attachments) + " " + springpadElement.getName(),
-							Toast.LENGTH_SHORT).show();
+//					Toast.makeText(this,
+//							getString(R.string.error_importing_some_attachments) + " " + springpadElement.getName(),
+//							Toast.LENGTH_SHORT).show();
 					continue;
 				};
 				
@@ -370,7 +369,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			// Updating notification
 			importedSpringpadNotes++;
 			updateImportNotification(importer);
-
 		};
 
 		// Categories association post-process
