@@ -16,6 +16,13 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="4.6.0 Beta 13" changeDate="Jun 30, 2014">    
+  		<changelogtext>[u]Fixed[/u] Bottom of notes list is translucent again in KitKat</changelogtext>  
+  		<changelogtext>[u]Fixed[/u] App crashes when (really) fast-scrolling notes' list after ON upgrade</changelogtext>  
+  		<changelogtext>[u]Fixed[/u] Crashes for unsupported RTL in Samsung devices with Android minor of version 4.2.x</changelogtext>  
+  		<changelogtext>[u]Fixed[/u] Errors reported from users trying to import notes from HUGE Springpad archives</changelogtext>  
+    </changelogversion>
+
     <changelogversion versionName="4.6.0 Beta 12" changeDate="Jun 27, 2014">    
   		<changelogtext>[b]New![/b] More detailed notifications when importing, restoring or making notes backups</changelogtext>  
   		<changelogtext>[b]New![/b] Memory optimizations aimed to improve notes list scrolling and resources consumption</changelogtext>   
