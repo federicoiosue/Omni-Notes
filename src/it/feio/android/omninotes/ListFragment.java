@@ -132,6 +132,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private String searchQuery;
 	private String searchTags;
 	private boolean goBackOnToggleSearchLabel = false;
+	private TextView listFooter;
 
 	
 	@Override
@@ -476,14 +477,18 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// navigation bar transparency covering items
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
-			listView.setPadding(listView.getPaddingLeft(), listView.getPaddingTop(), listView.getPaddingRight(),
-					navBarHeight);
+//			listView.setPadding(listView.getPaddingLeft(), listView.getPaddingTop(), listView.getPaddingRight(),
+//					navBarHeight);
+			listFooter = new TextView(getActivity());
+			listFooter.setHeight(navBarHeight + 30);
+			listView.addFooterView(listFooter);
 		}
 
 		// Note long click to start CAB mode
 		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
+				if (view.equals(listFooter)) return true;
 				if (mActionMode != null) {
 					return false;
 				}
@@ -499,6 +504,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
+				if (view.equals(listFooter)) return;
 				if (mActionMode == null) {
 					Note note = mAdapter.getItem(position);
 					editNote(note);
