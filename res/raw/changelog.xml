@@ -17,6 +17,7 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="4.6.0 Beta 13" changeDate="Jun 30, 2014">    
+  		<changelogtext>Checklist items drag and drop improved with smoother and slowered scrolling and vibration added on touch</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Bottom of notes list is translucent again in KitKat</changelogtext>  
   		<changelogtext>[u]Fixed[/u] App crashes when (really) fast-scrolling notes' list after ON upgrade</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Crashes for unsupported RTL in Samsung devices with Android minor of version 4.2.x</changelogtext>  
