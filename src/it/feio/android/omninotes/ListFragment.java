@@ -824,6 +824,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					public void onClick(DialogInterface dialog, int which) {
 						prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which]).commit();
 						initNotesList(((MainActivity)getActivity()).getIntent());
+						// Resets list scrolling position
+						listViewPositionOffset = 0;
+						listViewPosition = 0;
+						listView.setSelectionFromTop(listViewPosition, listViewPositionOffset);
 						// Updates app widgets
 						BaseActivity.notifyAppWidgets(((MainActivity)getActivity()));
 						dialog.dismiss();
