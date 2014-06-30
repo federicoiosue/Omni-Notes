@@ -1010,12 +1010,14 @@ public class DetailFragment extends Fragment implements
 		}
 		
 		// Otherwise the result is passed to ListActivity
-		getActivity().getSupportFragmentManager().popBackStack(); 
-		if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 1) {
-			((MainActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
-		}
-		if (((MainActivity)getActivity()).getDrawerToggle() != null) {
-			((MainActivity)getActivity()).getDrawerToggle().setDrawerIndicatorEnabled(true);
+		if (getActivity().getSupportFragmentManager() != null) {
+			getActivity().getSupportFragmentManager().popBackStack();
+			if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 1) {
+				((MainActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+			}
+			if (((MainActivity) getActivity()).getDrawerToggle() != null) {
+				((MainActivity) getActivity()).getDrawerToggle().setDrawerIndicatorEnabled(true);
+			}
 		}
 		
 		return true;
