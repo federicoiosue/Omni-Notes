@@ -567,7 +567,7 @@ public class DetailFragment extends Fragment implements
 			title.setOnDragListener(new OnDragListener() {			
 				@Override
 				public boolean onDrag(View v, DragEvent event) {
-					((View)event.getLocalState()).setVisibility(View.VISIBLE);
+//					((View)event.getLocalState()).setVisibility(View.VISIBLE);
 					return true;
 				}
 			});
