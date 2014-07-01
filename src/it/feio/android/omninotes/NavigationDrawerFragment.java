@@ -147,6 +147,8 @@ public class NavigationDrawerFragment extends Fragment {
 		// Inflation of Settings view 
 		if (settingsView == null) {
 			settingsView = ((ViewStub) getActivity().findViewById(R.id.settings_placeholder)).inflate();
+			Fonts.overrideTextSize(mActivity,
+					mActivity.getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS), settingsView);
 		}				
 		settingsView.setOnClickListener(new OnClickListener() {			
 			@Override
@@ -158,6 +160,8 @@ public class NavigationDrawerFragment extends Fragment {
 		
 		if (settingsViewCat == null) {
 			settingsViewCat = inflater.inflate(R.layout.drawer_category_list_footer, null);
+			Fonts.overrideTextSize(mActivity,
+					mActivity.getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS), settingsViewCat);
 		}			
 		settingsViewCat.setOnClickListener(new OnClickListener() {			
 			@Override
@@ -183,12 +187,7 @@ public class NavigationDrawerFragment extends Fragment {
 		} 
 
 		mDrawerCategoriesList.setAdapter(new NavDrawerCategoryAdapter(mActivity, categories, mActivity.navigationTmp));
-		
-		
-		// Overrides font sizes with the one selected from user
-		Fonts.overrideTextSize(mActivity,
-				mActivity.getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS), settingsView);
-		
+				
 		// Sets click events
 		mDrawerCategoriesList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
