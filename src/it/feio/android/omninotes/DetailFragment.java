@@ -1417,13 +1417,20 @@ public class DetailFragment extends Fragment implements
 
 	
 	private void takePhoto() {
+		// Checks for camera app available
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if (!IntentChecker.isAvailable(getActivity(), intent, new String[]{PackageManager.FEATURE_CAMERA})) {
+			Crouton.makeText(getActivity(), R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
+			return;
+		}	
+		// Checks for created file validity
 		File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_IMAGE_EXT);
 		if (f == null) {
 			Crouton.makeText(getActivity(), R.string.error, ONStyle.ALERT).show();
 			return;
 		}
+		// Launches intent
 		attachmentUri = Uri.fromFile(f);		
-		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		startActivityForResult(intent, TAKE_PHOTO);
 	}
