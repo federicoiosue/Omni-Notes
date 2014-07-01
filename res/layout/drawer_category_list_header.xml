@@ -13,6 +13,16 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
+<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" -->
+<!--     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui" -->
+<!--     android:id="@+id/layout_root" -->
+<!--     android:layout_width="fill_parent" -->
+<!--     android:layout_height="wrap_content" -->
+<!--     android:orientation="vertical"  -->
+<!--     android:paddingLeft="@dimen/horizontal_margin" -->
+<!--     android:paddingStart="@dimen/horizontal_margin"  -->
+<!--     android:paddingRight="@dimen/horizontal_margin"  -->
+<!--     android:paddingEnd="@dimen/horizontal_margin" > -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:id="@+id/layout_root"
@@ -20,9 +30,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" 
     android:paddingLeft="@dimen/horizontal_margin"
-    android:paddingStart="@dimen/horizontal_margin" 
-    android:paddingRight="@dimen/horizontal_margin" 
-    android:paddingEnd="@dimen/horizontal_margin" >
+    android:paddingRight="@dimen/horizontal_margin"  >
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/tag"

@@ -39,6 +39,7 @@
   		<changelogtext>[u]Fixed[/u] Notes list title and content extraction</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Blank navigation side panel when rotating screen</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Huge fonts on some devices</changelogtext>    
+  		<changelogtext>[u]Fixed[/u] Notes title deleted when writing content in landscape mode</changelogtext>    
   		<changelogtext>[u]Fixed[/u] Settings item in side panel changing indefinitelly sizes when non standard font size is selected</changelogtext>  
     </changelogversion>
 
