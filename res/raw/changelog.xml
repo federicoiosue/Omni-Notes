@@ -33,10 +33,11 @@
 <!--   		<changelogtext>[u]Fixed[/u] Zillions of bugs</changelogtext>   -->
 <!--     </changelogversion> -->
 
-    <changelogversion versionName="4.6.0 Beta 14" changeDate="Jun 1, 2014">    
+    <changelogversion versionName="4.6.0 Beta 14" changeDate="Jun 2, 2014">   
+  		<changelogtext>Changed the behavior or search by tag: now will be retrieved the notes that matches all the selected tags</changelogtext>    
   		<changelogtext>[u]Fixed[/u] Notes list title and content extraction</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Blank navigation side panel when rotating screen</changelogtext>  
-  		<changelogtext>[u]Fixed[/u] Huge fonts on some devices</changelogtext>   
+  		<changelogtext>[u]Fixed[/u] Huge fonts on some devices</changelogtext>    
   		<changelogtext>[u]Fixed[/u] Settings item in side panel changing indefinitelly sizes when non standard font size is selected</changelogtext>  
     </changelogversion>
 

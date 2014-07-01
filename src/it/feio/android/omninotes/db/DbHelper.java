@@ -724,7 +724,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		whereCondition.append(" WHERE " + KEY_CONTENT);		
 		for (int i =0;i<tags.length;i++) {
 			if (i!=0) {
-				whereCondition.append(" OR " + KEY_CONTENT);
+				whereCondition.append(" AND " + KEY_CONTENT);
 			}
 			whereCondition.append(" LIKE '%" + tags[i] + "%' ");
 		}
