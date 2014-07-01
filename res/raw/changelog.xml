@@ -33,6 +33,11 @@
 <!--   		<changelogtext>[u]Fixed[/u] Zillions of bugs</changelogtext>   -->
 <!--     </changelogversion> -->
 
+    <changelogversion versionName="4.6.0 Beta 14" changeDate="Jun 1, 2014">    
+  		<changelogtext>[u]Fixed[/u] Notes list title and content extraction</changelogtext>  
+  		<changelogtext>[u]Fixed[/u] Huge fonts on some devices</changelogtext>  
+    </changelogversion>
+
     <changelogversion versionName="4.6.0 Beta 13" changeDate="Jun 30, 2014">    
   		<changelogtext>Checklist items drag and drop improved with smoother and slowered scrolling and vibration added on touch</changelogtext>  
   		<changelogtext>[u]Fixed[/u] Bottom of notes list is translucent again in KitKat</changelogtext>  
