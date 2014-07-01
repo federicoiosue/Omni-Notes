@@ -31,8 +31,7 @@ public class Fonts {
 			} else if (v instanceof TextView) {
 				// ((TextView) v).setTypeface(Typeface.createFromAsset(
 				// context.getAssets(), "font.ttf"));
-				float currentSize = DensityUtil.pxToDp(
-						Math.round(((TextView) v).getTextSize()), context);
+				float currentSize = DensityUtil.pxToDp(((TextView) v).getTextSize(), context);
 				int index = Arrays
 						.asList(context.getResources().getStringArray(
 								R.array.text_size_values))
