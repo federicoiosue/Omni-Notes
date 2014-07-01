@@ -99,9 +99,9 @@ public class NavigationDrawerFragment extends Fragment {
 		}
 
 		// Sets the adapter for the MAIN navigation list view
-		if (mDrawerList == null) {
+//		if (mDrawerList == null) {
 			mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
-		}
+//		}
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
 		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
 		mDrawerList.setAdapter(new NavDrawerAdapter(mActivity, mNavigationArray, mNavigationIconsArray));
@@ -132,9 +132,9 @@ public class NavigationDrawerFragment extends Fragment {
 		// Retrieves data to fill tags list
 		ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 
-		if (mDrawerCategoriesList == null) {
+//		if (mDrawerCategoriesList == null) {
 			mDrawerCategoriesList = (ListView) getView().findViewById(R.id.drawer_tag_list);
-		}
+//		}
 		
 		// Inflater used for header and footer
 		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);

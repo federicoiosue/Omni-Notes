@@ -540,7 +540,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		// Moving back
 		File backupAttachmentsDir = new File(backupDir, attachmentsDir.getName());
 		
-//		return (StorageManager.copyDirectory(backupAttachmentsDir, attachmentsDir));
 		boolean result = true;
 		Collection list = FileUtils.listFiles(backupAttachmentsDir, FileFilterUtils.trueFileFilter(),
 				TrueFileFilter.INSTANCE);
