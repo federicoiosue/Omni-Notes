@@ -20,17 +20,14 @@ public class TextHelper {
 		// Defining title and content texts
 		String titleText, contentText;
 
-		String content = note.getContent();
+		String content = note.getContent().trim();
 
 		if (note.getTitle().length() > 0) {
 			titleText = note.getTitle();
-			contentText = limit(note.getContent().trim(), CONTENT_SUBSTRING_LENGTH, false);
+			contentText = limit(note.getContent().trim(), 0, CONTENT_SUBSTRING_LENGTH, false, true);
 		} else {
-			titleText = limit(content, TITLE_SUBSTRING_OF_CONTENT_LIMIT, true);
-//			contentText = content.length() > TITLE_SUBSTRING_OF_CONTENT_LIMIT ? content.substring(TITLE_SUBSTRING_OF_CONTENT_LIMIT) : "";
-			String contentRemaining = content.replace(titleText, "").trim();
-			contentText = contentRemaining.length() > TITLE_SUBSTRING_OF_CONTENT_LIMIT ? contentRemaining
-					.substring(0, TITLE_SUBSTRING_OF_CONTENT_LIMIT) : "";
+			titleText = limit(content, 0, TITLE_SUBSTRING_OF_CONTENT_LIMIT, true, false);
+			contentText = limit(content.replace(titleText, "").trim(), 0, CONTENT_SUBSTRING_LENGTH, false, false);
 		}
 		content = null;
 
@@ -40,7 +37,7 @@ public class TextHelper {
 						"settings_password_access", false)) {
 			// This checks if a part of content is used as title and should be partially masked
 			if (!note.getTitle().equals(titleText) && titleText.length() > 3) {
-				titleText = limit(titleText, 4, false);
+				titleText = limit(titleText, 0, 4, false, false);
 			}
 			contentText = "";
 		}
@@ -69,13 +66,16 @@ public class TextHelper {
 	}
 
 
-	public static String limit(String value, int length, boolean singleLine) {
-		StringBuilder buf = new StringBuilder(value);
+	public static String limit(String value, int start, int length, boolean singleLine, boolean elipsize) {
+		if (start > value.length()) { return null; }
+		StringBuilder buf = new StringBuilder(value.substring(start));
 		int indexNewLine = buf.indexOf(System.getProperty("line.separator"));
-		int endIndex = indexNewLine < length ? indexNewLine : length < buf.length() ? length : -1;
+		int endIndex = singleLine && indexNewLine < length ? indexNewLine : length < buf.length() ? length : -1;
 		if (endIndex != -1) {
 			buf.setLength(endIndex);
-			buf.append("...");
+			if (elipsize) {
+				buf.append("...");
+			}
 		}
 		return buf.toString();
 	}
