@@ -1724,6 +1724,8 @@ public class DetailFragment extends Fragment implements
 		if (getActivity().findViewById(R.id.detail_title) != null) {
 			Editable editableTitle = ((EditText) getActivity().findViewById(R.id.detail_title)).getText();
 			res = TextUtils.isEmpty(editableTitle) ? "" : editableTitle.toString();
+		} else {
+			res = title.getText().toString();
 		}
 		return res;
 	}
