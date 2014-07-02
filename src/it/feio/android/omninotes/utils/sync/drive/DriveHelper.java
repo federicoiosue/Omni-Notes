@@ -235,6 +235,9 @@ public class DriveHelper {
 	
 	public List<Metadata> searchByTitle(String title) {
 		Query query = new Query.Builder()
+		.addFilter(Filters.in(SearchableField.PARENTS, Drive.DriveApi
+//				.getAppFolder(mGoogleApiClient)
+				.getRootFolder(mGoogleApiClient).getDriveId()))
 		.addFilter(Filters.eq(SearchableField.TITLE, title))
 		.addFilter(Filters.eq(SearchableField.TRASHED, false))
 			.build();

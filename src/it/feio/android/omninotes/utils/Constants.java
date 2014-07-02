@@ -23,6 +23,7 @@ public interface Constants {
 	final String PREFS_NAME = PACKAGE + "_preferences";
 	final String APP_STORAGE_DIRECTORY = TAG;
 	final String APP_STORAGE_DIRECTORY_ATTACHMENTS = "attachments";
+	final String APP_STORAGE_DIRECTORY_SB_SYNC = "db_sync";
 
 	// Splash screen timer
 	static int SPLASH_TIME_OUT = 1200;

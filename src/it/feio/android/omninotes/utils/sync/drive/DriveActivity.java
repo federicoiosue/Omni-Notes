@@ -71,14 +71,14 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
 		
 //		DriveHelper.getInstance(mContext).connect(this, this);
 		
-		List<Attachment> attachments = (new DbHelper(mContext)).getAttachmentsOfType(Constants.MIME_TYPE_FILES);
-		List<File> list = new ArrayList<>();
+		List<Attachment> attachments = DbHelper.getInstance(mContext).getAttachmentsOfType(Constants.MIME_TYPE_FILES);
+		List<File> list = new ArrayList<File>();
 		for (Attachment mAttachment : attachments) {
 			File f = new File(mAttachment.getUri().getPath());
 			list.add(f);
 		}
 		
-		new DriveSyncTask(mContext).execute(list);
+//		new DriveSyncTask(mContext).execute(list);
 	}
 
 	/**

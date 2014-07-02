@@ -184,6 +184,7 @@
     <string name="tags_added">Tags added</string>
     <string name="working">Working...</string>    
     <string name="imported">imported</string>    
+    <string name="synchronize">Synchronize</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>

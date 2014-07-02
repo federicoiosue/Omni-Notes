@@ -73,9 +73,27 @@ public class StorageManager {
 		// Constants.TAG + File.separator;
 		return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
 	}
+	
 
 	public static File getAttachmentDir(Context mContext) {
 		return mContext.getExternalFilesDir(null);
+	}
+
+	
+	/**
+	 * Retrieves the folderwhere to store data to sync notes
+	 * @param mContext
+	 * @return
+	 */
+	public static File getDbSyncDir(Context mContext) {
+		File extFilesDir = mContext.getExternalFilesDir(null);
+		File dbSyncDir = new File (extFilesDir, Constants.APP_STORAGE_DIRECTORY_SB_SYNC);
+		dbSyncDir.mkdirs();
+		if (dbSyncDir.exists() && dbSyncDir.isDirectory()) {
+			return dbSyncDir;
+		} else {
+			return null;
+		}
 	}
 
 

@@ -17,6 +17,7 @@ package it.feio.android.omninotes;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import it.feio.android.omninotes.async.NoteLoaderTask;
+import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;

@@ -26,6 +26,13 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="collapseActionView|always"/>
     <item
+        android:id="@+id/menu_tags"
+        android:icon="@drawable/ic_action_labels"
+        android:orderInCategory="200"
+        android:title="@string/tags"
+        android:visible="false"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/menu_add"
         android:icon="@drawable/ic_action_new"
         android:orderInCategory="300"
