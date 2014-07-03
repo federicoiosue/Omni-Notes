@@ -40,6 +40,7 @@ import android.net.Uri;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 import exceptions.ImportException;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
@@ -207,8 +208,18 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			content.append(TextUtils.isEmpty(springpadElement.getDescription()) ? "" : springpadElement
 					.getDescription());
 
+			// Some notes could have been exported wrongly
+			if (springpadElement.getType() == null) {
+				Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show();
+				continue;
+			}
+			
 			if (springpadElement.getType().equals(SpringpadElement.TYPE_VIDEO)) {
-				content.append(System.getProperty("line.separator")).append(springpadElement.getUrl());
+				try {
+					content.append(System.getProperty("line.separator")).append(springpadElement.getVideos().get(0));
+				} catch (IndexOutOfBoundsException e) {
+					content.append(System.getProperty("line.separator")).append(springpadElement.getUrl());
+				}
 			}
 			if (springpadElement.getType().equals(SpringpadElement.TYPE_TVSHOW)) {
 				content.append(System.getProperty("line.separator")).append(
