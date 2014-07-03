@@ -17,7 +17,6 @@ package it.feio.android.omninotes;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import it.feio.android.omninotes.async.NoteLoaderTask;
-import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -35,13 +34,12 @@ import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.Navigation;
-
+import it.feio.android.omninotes.utils.sync.drive.DriveSyncTask;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -84,7 +82,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
@@ -94,7 +91,6 @@ import com.neopixl.pixlui.links.RegexPatternsConstants;
 import com.neopixl.pixlui.links.UrlCompleter;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
@@ -373,6 +369,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				menu.findItem(R.id.menu_category).setVisible(true);
 				menu.findItem(R.id.menu_tags).setVisible(true);
 				menu.findItem(R.id.menu_trash).setVisible(true);
+				menu.findItem(R.id.menu_synchronize).setVisible(true);	
 //				menu.findItem(R.id.menu_settings).setVisible(false);
 			}
 			return true;
@@ -410,6 +407,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				return true;
 			case R.id.menu_delete:
 				deleteSelectedNotes();
+				return true;
+			case R.id.menu_synchronize:
+				synchronizeSelectedNotes();
 				return true;
 			default:
 				return false;
@@ -1458,6 +1458,19 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		
 		Crouton.makeText(getActivity(), R.string.tags_added, ONStyle.INFO).show();	
 	}
+	
+	
+	
+	
+	private void synchronizeSelectedNotes() {
+		new DriveSyncTask(getActivity()).execute(new ArrayList<Note>(selectedNotes));
+		// Clears data structures
+		mAdapter.clearSelectedItems();
+		listView.clearChoices();
+		finishActionMode();
+	}
+	
+	
 	
 	
 	
