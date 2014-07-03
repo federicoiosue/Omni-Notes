@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import listeners.ZipProgressesListener;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -152,6 +153,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		String backupPath = intent.getStringExtra(EXTRA_SPRINGPAD_BACKUP);
 		Importer importer = new Importer();
 		try {
+			importer.setZipProgressesListener(new ZipProgressesListener() {
+				@Override
+				public void onZipProgress(int percentage) {
+					mNotificationsHelper.setMessage(getString(R.string.extracted) + " " + percentage + "%").show();
+				}
+			});
 			importer.doImport(backupPath);
 			// Updating notification
 			updateImportNotification(importer);
@@ -166,38 +173,28 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		// If nothing is retrieved it will exit
 		if (elements == null || elements.size() == 0) { return; }
 
-		// Otherwise a new category will be create to host notes
-		// Category categoryDefault = new Category();
-		// categoryDefault.setName("Springpad_" + DateHelper.getSortableDate());
-		// categoryDefault.setColor(String.valueOf(Color.parseColor("#F9EA1B")));
-		// DbHelper.getInstance(this).updateCategory(categoryDefault);
-
 		// These maps are used to associate with post processing notes to categories (notebooks)
 		HashMap<String, Category> categoriesWithUuid = new HashMap<String, Category>();
-		HashMap<Note, String> notesWithcategory = new HashMap<Note, String>();
+//		HashMap<Note, String> notesWithcategory = new HashMap<Note, String>();
+		
+		// Adding all the notebooks (categories)
+		for (SpringpadElement springpadElement : importer.getNotebooks()) {
+			Category cat = new Category();
+			cat.setName(springpadElement.getName());
+			cat.setColor(String.valueOf(Color.parseColor("#F9EA1B")));
+			DbHelper.getInstance(this).updateCategory(cat);
+			categoriesWithUuid.put(springpadElement.getUuid(), cat);
+			
+			// Updating notification
+			importedSpringpadNotebooks++;
+			updateImportNotification(importer);
+		}
 
 		// And then notes are created
 		Note note;
 		Attachment mAttachment = null;
 		Uri uri = null;
-		for (SpringpadElement springpadElement : elements) {
-
-			// Checks if is a notebook (category)
-			if (springpadElement.getType().equals(SpringpadElement.TYPE_NOTEBOOK)) {
-				Category cat = new Category();
-				cat.setName(springpadElement.getName());
-				cat.setColor(String.valueOf(Color.parseColor("#F9EA1B")));
-				DbHelper.getInstance(this).updateCategory(cat);
-				categoriesWithUuid.put(springpadElement.getUuid(), cat);
-				
-				// Updating notification
-				importedSpringpadNotebooks++;
-				updateImportNotification(importer);
-				
-				continue;
-			}
-
-			// Otherwise is a note or comparable content
+		for (SpringpadElement springpadElement : importer.getNotes()) {
 			note = new Note();
 
 			// Title
@@ -317,7 +314,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 					mAttachment = new Attachment(uri, mimeType);
 				} catch (MalformedURLException e) {
 					uri = Uri.parse(importer.getWorkingPath() + image);
-					mAttachment = StorageManager.createAttachmentFromUri(this, uri);
+					mAttachment = StorageManager.createAttachmentFromUri(this, uri, true);
 				} catch (IOException e) {
 					Log.e(Constants.TAG, "Error retrieving Springpad online image");
 				}
@@ -347,7 +344,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 					mAttachment = new Attachment(uri, mimeType);
 				} catch (MalformedURLException e) {
 					uri = Uri.parse(importer.getWorkingPath() + springpadAttachment.getUrl());
-					mAttachment = StorageManager.createAttachmentFromUri(this, uri);
+					mAttachment = StorageManager.createAttachmentFromUri(this, uri, true);
 				} catch (IOException e) {
 					Log.e(Constants.TAG, "Error retrieving Springpad online image");
 				}
@@ -360,7 +357,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
 			// If the note has a category is added to the map to be post-processed
 			if (springpadElement.getNotebooks().size() > 0) {
-				notesWithcategory.put(note, springpadElement.getNotebooks().get(0));
+//				notesWithcategory.put(note, springpadElement.getNotebooks().get(0));
+				note.setCategory(categoriesWithUuid.get(springpadElement.getNotebooks().get(0)));
 			}
 
 			// The note is saved
@@ -372,15 +370,15 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		};
 
 		// Categories association post-process
-		Iterator iterator = notesWithcategory.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Map.Entry mapEntry = (Map.Entry) iterator.next();
-			System.out.println("The key is: " + mapEntry.getKey() + ",value is :" + mapEntry.getValue());
-			Note noteWithcategory = (Note) mapEntry.getKey();
-			String uuid = (String) mapEntry.getValue();
-			noteWithcategory.setCategory(categoriesWithUuid.get(uuid));
-			DbHelper.getInstance(this).updateNote(noteWithcategory, false);
-		}
+//		Iterator iterator = notesWithcategory.entrySet().iterator();
+//		while (iterator.hasNext()) {
+//			Map.Entry mapEntry = (Map.Entry) iterator.next();
+//			System.out.println("The key is: " + mapEntry.getKey() + ",value is :" + mapEntry.getValue());
+//			Note noteWithcategory = (Note) mapEntry.getKey();
+//			String uuid = (String) mapEntry.getValue();
+//			noteWithcategory.setCategory(categoriesWithUuid.get(uuid));
+//			DbHelper.getInstance(this).updateNote(noteWithcategory, false);
+//		}
 		
 		// Delete temp data
 		try {

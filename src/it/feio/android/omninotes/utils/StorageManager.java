@@ -33,7 +33,6 @@ import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -261,14 +260,19 @@ public class StorageManager {
 	
 	public static File createNewAttachmentFile(Context mContext, String extension){
 		File f = null;
-		if (checkStorage()) {
-			Calendar now = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
-			String name = sdf.format(now.getTime());
-			name += extension != null ? extension : "";
-			f = new File(mContext.getExternalFilesDir(null), name);
+		if (checkStorage()) {			
+			f = new File(mContext.getExternalFilesDir(null), createNewAttachmentName(extension));
 		}
 		return f;
+	}
+	
+	
+	public static String createNewAttachmentName(String extension) {
+		Calendar now = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
+		String name = sdf.format(now.getTime());
+		name += extension != null ? extension : "";
+		return name;
 	}
 	
 	
@@ -489,18 +493,43 @@ public class StorageManager {
 		}
 		return mimeType;
 	}
+
 	
 	
-	
+	/**
+	 * Creates a new attachment file copying data from source file
+	 * @param mContext
+	 * @param uri
+	 * @return
+	 */
 	public static Attachment createAttachmentFromUri(Context mContext, Uri uri) {
+		return createAttachmentFromUri(mContext, uri, false);
+	}
+		
+		
+		/**
+		 * @param mContext
+		 * @param uri
+		 * @return
+		 */
+	public static Attachment createAttachmentFromUri(Context mContext, Uri uri, boolean moveSource) {
 		String name = FileHelper.getNameFromUri(mContext, uri);
-		String extension = FileHelper.getFileExtension(FileHelper.getNameFromUri(mContext, uri))
-				.toLowerCase(Locale.getDefault());
-		String mimeType = StorageManager.getMimeTypeInternal(mContext, uri);
-		File f = StorageManager.createExternalStoragePrivateFile(mContext, uri, extension);
+		String extension = FileHelper.getFileExtension(FileHelper.getNameFromUri(mContext, uri)).toLowerCase(
+				Locale.getDefault());
+		File f = null;
+		if (moveSource) {
+			f = createNewAttachmentFile(mContext, extension);
+			try {
+				FileUtils.moveFile(new File(uri.getPath()), f);
+			} catch (IOException e) {
+				Log.e(Constants.TAG, "Can't move file " + uri.getPath());
+			}
+		} else {
+			f = StorageManager.createExternalStoragePrivateFile(mContext, uri, extension);
+		}
 		Attachment mAttachment = null;
 		if (f != null) {
-			mAttachment = new Attachment(Uri.fromFile(f), mimeType);
+			mAttachment = new Attachment(Uri.fromFile(f), StorageManager.getMimeTypeInternal(mContext, uri));
 			mAttachment.setName(name);
 			mAttachment.setSize(f.length());
 		}
