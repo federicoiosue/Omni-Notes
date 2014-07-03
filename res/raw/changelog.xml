@@ -34,6 +34,7 @@
 <!--     </changelogversion> -->
     <changelogversion versionName="4.6.0 Beta 15" changeDate="Jun 4, 2014">   
   		<changelogtext>Optimized stats retrieval, now is almost instantly, unless your really have thousands of notes</changelogtext>   
+  		<changelogtext>[u]Fixed[/u] Managed some reported issues with Springpad corrupted archives</changelogtext>   
 	</changelogversion>
 	
     <changelogversion versionName="4.6.0 Beta 14" changeDate="Jun 2, 2014">   
