@@ -730,7 +730,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		b.putParcelable(Constants.INTENT_NOTE, note);
 		mDetailFragment.setArguments(b);
 		transaction.replace(R.id.fragment_container, mDetailFragment, ((MainActivity)getActivity()).FRAGMENT_DETAIL_TAG).addToBackStack(((MainActivity)getActivity()).FRAGMENT_LIST_TAG).commit();
-		((MainActivity)getActivity()).getDrawerToggle().setDrawerIndicatorEnabled(false);
+		if (((MainActivity)getActivity()).getDrawerToggle() != null) {
+			((MainActivity)getActivity()).getDrawerToggle().setDrawerIndicatorEnabled(false);
+		}
 	}
 
 	@Override
