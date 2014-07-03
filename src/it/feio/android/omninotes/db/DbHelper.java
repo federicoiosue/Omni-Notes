@@ -687,15 +687,22 @@ public class DbHelper extends SQLiteOpenHelper {
 		List<Note> notesRetrieved = getNotes(whereCondition, true);
 		
 		for (Note noteRetrieved : notesRetrieved) {
-			Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(noteRetrieved.getTitle() + " " + noteRetrieved.getContent());
-		    while (matcher.find()) {
-		    	tagsMap.put(matcher.group().trim(), true);
-		    }
+			tagsMap.putAll(retrieveTags(noteRetrieved));
 		}
 		List<String> tags = new ArrayList<String>();
 		tags.addAll(tagsMap.keySet());
 		Collections.sort(tags);
 		return tags;
+	}
+	
+	
+	public HashMap<String, Boolean> retrieveTags(Note note) {
+		HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
+		Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getTitle() + " " + note.getContent());
+		while (matcher.find()) {
+			tagsMap.put(matcher.group().trim(), true);
+		}
+		return tagsMap;
 	}
 
 	
@@ -1014,37 +1021,97 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * Retrieves statistics data based on app usage
 	 * @return
 	 */
+//	public Stats getStats() {
+//		Stats mStats = new Stats();
+//
+//		mStats.setNotesActive(getNotesActive().size());
+//		mStats.setNotesArchived(getNotesArchived().size());
+//		mStats.setNotesTrashed(getNotesTrashed().size());
+//		mStats.setReminders(getNotesWithReminder(true).size());
+//		mStats.setRemindersFutures(getNotesWithReminder(false).size());
+//		mStats.setNotesChecklist(getChecklists().size());
+//		mStats.setNotesMasked(getMasked().size());
+//		mStats.setCategories(getCategories().size());
+//		mStats.setTags(getTags().size());
+//
+//		mStats.setAttachments(getAllAttachments().size());
+//		mStats.setImages(getAttachmentsOfType(Constants.MIME_TYPE_IMAGE).size());
+//		mStats.setVideos(getAttachmentsOfType(Constants.MIME_TYPE_VIDEO).size());
+//		mStats.setAudioRecordings(getAttachmentsOfType(Constants.MIME_TYPE_AUDIO).size());
+//		mStats.setSketches(getAttachmentsOfType(Constants.MIME_TYPE_SKETCH).size());
+//		mStats.setFiles(getAttachmentsOfType(Constants.MIME_TYPE_FILES).size());
+//		mStats.setLocation(getNotesWithLocation().size());
+//
+//		int totalWords = 0;
+//		int totalChars = 0;
+//		int maxWords = 0;
+//		int maxChars = 0;
+//		int avgWords = 0;
+//		int avgChars = 0;
+//		
+//		List<Note> notes = getAllNotes(false);
+//		int words, chars;
+//		for (Note note : notes) {
+//			words = getWords(note);
+//			chars = getChars(note);
+//			if (words > maxWords) {
+//				maxWords = words;
+//			}
+//			if (chars > maxChars) {
+//				maxChars = chars;
+//			}
+//			totalWords += words;
+//			totalChars += chars;
+//		}
+//		avgWords = totalWords / notes.size();
+//		avgChars = totalChars / notes.size();
+//		
+//		
+//		mStats.setWords(totalWords);
+//		mStats.setWordsMax(maxWords);
+//		mStats.setWordsAvg(avgWords);
+//		mStats.setChars(totalChars);
+//		mStats.setCharsMax(maxChars);
+//		mStats.setCharsAvg(avgChars);
+//		
+//		return mStats;
+//	}
 	public Stats getStats() {
 		Stats mStats = new Stats();
-
-		mStats.setNotesActive(getNotesActive().size());
-		mStats.setNotesArchived(getNotesArchived().size());
-		mStats.setNotesTrashed(getNotesTrashed().size());
-		mStats.setReminders(getNotesWithReminder(true).size());
-		mStats.setRemindersFutures(getNotesWithReminder(false).size());
-		mStats.setNotesChecklist(getChecklists().size());
-		mStats.setNotesMasked(getMasked().size());
-		mStats.setCategories(getCategories().size());
-		mStats.setTags(getTags().size());
-
-		mStats.setAttachments(getAllAttachments().size());
-		mStats.setImages(getAttachmentsOfType(Constants.MIME_TYPE_IMAGE).size());
-		mStats.setVideos(getAttachmentsOfType(Constants.MIME_TYPE_VIDEO).size());
-		mStats.setAudioRecordings(getAttachmentsOfType(Constants.MIME_TYPE_AUDIO).size());
-		mStats.setSketches(getAttachmentsOfType(Constants.MIME_TYPE_SKETCH).size());
-		mStats.setFiles(getAttachmentsOfType(Constants.MIME_TYPE_FILES).size());
-		mStats.setLocation(getNotesWithLocation().size());
-
-		int totalWords = 0;
-		int totalChars = 0;
-		int maxWords = 0;
-		int maxChars = 0;
-		int avgWords = 0;
-		int avgChars = 0;
 		
-		List<Note> notes = getAllNotes(false);
+		// Categories
+		mStats.setCategories(getCategories().size());
+		
+		// Everything about notes and their text stats
+		int notesActive = 0, notesArchived = 0, notesTrashed = 0, reminders = 0, remindersFuture = 0, checklists = 0, notesMasked = 0, tags = 0, locations = 0;
+		int totalWords = 0, totalChars = 0, maxWords = 0, maxChars = 0, avgWords = 0, avgChars = 0;			
 		int words, chars;
+		List<Note> notes = getAllNotes(false);
 		for (Note note : notes) {
+			if (note.isTrashed()) {
+				notesTrashed++;
+			} else if (note.isArchived()) {
+				notesArchived++;
+			} else {
+				notesActive++;
+			}
+			if (note.getAlarm() != null && Long.parseLong(note.getAlarm()) > 0) {
+				if (Long.parseLong(note.getAlarm()) > Calendar.getInstance().getTimeInMillis()) {
+					remindersFuture++;
+				} else {
+					reminders++;
+				}
+			}
+			if (note.isChecklist()) {
+				checklists++;
+			}
+			if (note.isLocked()) {
+				notesMasked++;
+			}
+			tags += retrieveTags(note).size();
+			if (note.getLongitude() != null && note.getLongitude() != 0) {
+				locations++;
+			}
 			words = getWords(note);
 			chars = getChars(note);
 			if (words > maxWords) {
@@ -1056,16 +1123,47 @@ public class DbHelper extends SQLiteOpenHelper {
 			totalWords += words;
 			totalChars += chars;
 		}
+		mStats.setNotesActive(notesActive);
+		mStats.setNotesArchived(notesArchived);
+		mStats.setNotesTrashed(notesTrashed);
+		mStats.setReminders(reminders);
+		mStats.setRemindersFutures(remindersFuture);
+		mStats.setNotesChecklist(checklists);
+		mStats.setNotesMasked(notesMasked);
+		mStats.setTags(tags);
+		mStats.setLocation(locations);
 		avgWords = totalWords / notes.size();
 		avgChars = totalChars / notes.size();
-		
-		
+				
 		mStats.setWords(totalWords);
 		mStats.setWordsMax(maxWords);
 		mStats.setWordsAvg(avgWords);
 		mStats.setChars(totalChars);
 		mStats.setCharsMax(maxChars);
 		mStats.setCharsAvg(avgChars);
+				
+		// Everything about attachments
+		int attachmentsAll = 0, images = 0, videos = 0, audioRecordings = 0, sketches = 0, files = 0;
+		List<Attachment> attachments = getAllAttachments();
+		for (Attachment attachment : attachments) {
+			if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
+				images++;
+			} else if (Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
+				videos++;
+			} else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
+				audioRecordings++;
+			} else if (Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {
+				sketches++;
+			} else if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
+				files++;
+			}
+		}
+		mStats.setAttachments(attachmentsAll);
+		mStats.setImages(images);
+		mStats.setVideos(videos);
+		mStats.setAudioRecordings(audioRecordings);
+		mStats.setSketches(sketches);
+		mStats.setFiles(files);
 		
 		return mStats;
 	}
