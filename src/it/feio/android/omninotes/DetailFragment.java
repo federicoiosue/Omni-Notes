@@ -1663,6 +1663,12 @@ public class DetailFragment extends Fragment implements
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB) 
 	void saveNote(OnNoteSaved mOnNoteSaved) {
+		
+		// Saving is avoided if note is masked and password still note inserted
+		if (note.isLocked() && !note.isPasswordChecked()) {
+			return;
+		}
+		
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent());	
