@@ -122,10 +122,10 @@ public class AlarmReceiver extends BroadcastReceiver {
 		mBuilder
 //		.addAction (R.drawable.ic_action_cancel_dark,
 //       		mContext.getString(R.string.cancel), piDismiss)
-       .addAction (R.drawable.ic_action_alarms_dark,
+       .addAction (R.drawable.ic_snooze_reminder,
     		   it.feio.android.omninotes.utils.TextHelper.capitalize(mContext.getString(R.string.snooze)) + ": " + snoozeDelay, piSnooze)
         .addAction (R.drawable.ic_reminder,
-       		it.feio.android.omninotes.utils.TextHelper.capitalize(mContext.getString(R.string.reminder)), piPostpone);
+       		it.feio.android.omninotes.utils.TextHelper.capitalize(mContext.getString(R.string.add_reminder)), piPostpone);
 		
 
 		// Next create the bundle and initialize it
