@@ -369,8 +369,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				menu.findItem(R.id.menu_category).setVisible(true);
 				menu.findItem(R.id.menu_tags).setVisible(true);
 				menu.findItem(R.id.menu_trash).setVisible(true);
-				menu.findItem(R.id.menu_synchronize).setVisible(true);	
-//				menu.findItem(R.id.menu_settings).setVisible(false);
+//				menu.findItem(R.id.menu_synchronize).setVisible(true);	
 			}
 			return true;
 		}
@@ -408,9 +407,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			case R.id.menu_delete:
 				deleteSelectedNotes();
 				return true;
-			case R.id.menu_synchronize:
-				synchronizeSelectedNotes();
-				return true;
+//			case R.id.menu_synchronize:
+//				synchronizeSelectedNotes();
+//				return true;
 			default:
 				return false;
 			}

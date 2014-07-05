@@ -199,7 +199,9 @@
     <string name="settings_export">Backup</string>
     <string name="settings_import">Restore or delete backups</string>
     <string name="settings_import_from_springpad">Import notes from Springpad</string>
-    <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>    
+    <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>   
+    <string name="settings_sync_drive">Sync with Google Drive</string>
+    <string name="settings_sync_drive_summary">Register the application to synchronize data on Google Drive storage service</string>    
     <string name="export_success">File exported successfully into folder</string>
     <string name="export_fail">File export failed</string>
     <string name="import_success">File imported successfully</string>

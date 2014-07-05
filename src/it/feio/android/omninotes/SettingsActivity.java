@@ -315,6 +315,26 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		
 		
+		// Import notes from Springpad export zip file
+//		Preference syncWithDrive = findPreference("settings_backup_drive");
+//		importFromSpringpad.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+//			@Override
+//			public boolean onPreferenceClick(Preference arg0) {
+//				Intent intent;
+//				intent = new Intent(Intent.ACTION_GET_CONTENT);
+//				intent.addCategory(Intent.CATEGORY_OPENABLE);
+//				intent.setType("application/zip");
+//				if (!IntentChecker.isAvailable(mActivity, intent, null)) {
+//					Crouton.makeText(mActivity, R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
+//					return false;
+//				}
+//				startActivityForResult(intent, SPRINGPAD_IMPORT);
+//				return false;
+//			}
+//		});
+		
+		
+		
 		
 		// Swiping action
 		final CheckBoxPreference swipeToTrash = (CheckBoxPreference) findPreference("settings_swipe_to_trash");
