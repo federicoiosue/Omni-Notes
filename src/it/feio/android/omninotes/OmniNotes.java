@@ -55,7 +55,7 @@ public class OmniNotes extends Application {
 	private SimpleDiskCache mDiskLruCache;
 	private final Object mDiskCacheLock = new Object();
 	private boolean mDiskCacheStarting = true;
-	private final int DISK_CACHE_SIZE = 1024 * 1024 * 20; // 20MB
+	private final int DISK_CACHE_SIZE = 1024 * 1024 * 50; // 20MB
 
 	@Override
 	public void onCreate() {
