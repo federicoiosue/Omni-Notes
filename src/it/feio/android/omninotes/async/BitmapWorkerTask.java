@@ -46,19 +46,14 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 		// AsyncTask both for list and detail
 		String cacheKey = path + width + height;
 
-		// Requesting from Application an instance of the cache
-		// OmniNotes app = ((OmniNotes) mActivity.getApplication());
-
 		// Fetch from cache if possible
-		// bmp = app.getBitmapFromCache(cacheKey);
-		OmniNotes.getBitmapCache().getBitmap(cacheKey);
+		bmp = OmniNotes.getBitmapCache().getBitmap(cacheKey);
 
 		// Creates thumbnail
 		if (bmp == null) {
 			wasCached = false;
 			bmp = BitmapHelper.getBitmapFromAttachment(mActivity.getApplication(), mAttachment, width, height);
 			if (bmp != null) {
-				// app.addBitmapToCache(cacheKey, bmp);
 				OmniNotes.getBitmapCache().addBitmap(cacheKey, bmp);
 			}
 		}

@@ -3,10 +3,12 @@ package it.feio.android.omninotes.utils;
 import it.feio.android.omninotes.utils.SimpleDiskCache.BitmapEntry;
 import java.io.File;
 import java.io.IOException;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 
@@ -79,6 +81,15 @@ public class BitmapCache extends LruCache<String, Bitmap> {
 		}
 	}
 
+
+	@SuppressLint("NewApi")
+	@Override
+	protected int sizeOf(String key, Bitmap value) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) { return value.getByteCount(); }
+		return value.getRowBytes() * value.getHeight();
+	}
+
+	
 
 	public void addBitmap(String key, Bitmap bitmap) {
 		// Add to memory cache as before

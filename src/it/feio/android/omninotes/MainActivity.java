@@ -104,6 +104,15 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	}
 	
 	
+	
+	@Override
+	public void onLowMemory() {
+		Log.w(Constants.TAG, "Low memory, bitmap cache will be cleaned!");
+		OmniNotes.getBitmapCache().evictAll();
+		super.onLowMemory();
+	}
+	
+	
 
 	@Override
 	protected void onNewIntent(Intent intent) {
