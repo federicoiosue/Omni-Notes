@@ -1,5 +1,6 @@
 package it.feio.android.omninotes;
 
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
@@ -7,9 +8,9 @@ import it.feio.android.omninotes.utils.Security;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,16 +25,16 @@ public class PasswordActivity extends BaseActivity {
 	private EditText answer;
 	private EditText answerCheck;
 	private Button reset;
+	private PasswordActivity mActivity;
 
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_password);
-
-		setActionBarTitle(getString(R.string.title_activity_password));
-		
+		setContentView(R.layout.activity_password);		
+		mActivity = this;
+		setActionBarTitle(getString(R.string.title_activity_password));		
 		initViews();
 	}
 
@@ -84,8 +85,7 @@ public class PasswordActivity extends BaseActivity {
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 				
 				// Inflate layout
-				LayoutInflater inflater = mActivity.getLayoutInflater();
-				View layout = inflater.inflate(R.layout.password_reset_dialog_layout, null);
+				View layout = getLayoutInflater().inflate(R.layout.password_reset_dialog_layout, null);
 				alertDialogBuilder.setView(layout);
 				TextView questionTextView = (TextView) layout.findViewById(R.id.reset_password_question);
 				questionTextView.setText(prefs.getString(Constants.PREF_PASSWORD_QUESTION, ""));
@@ -124,7 +124,7 @@ public class PasswordActivity extends BaseActivity {
 									.remove(Constants.PREF_PASSWORD_ANSWER)
 									.remove("settings_password_access")
 									.commit();
-									db.unlockAllNotes();
+									DbHelper.getInstance(getApplicationContext()).unlockAllNotes();
 									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
 				                } else {
 				                	answerEditText.setError(getString(R.string.wrong_answer));
@@ -157,13 +157,11 @@ public class PasswordActivity extends BaseActivity {
 				return;
 			}		
 			
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-					mActivity);
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 			alertDialogBuilder
 					.setMessage(R.string.agree_unlocking_all_notes)
 					.setPositiveButton(R.string.confirm,
 							new DialogInterface.OnClickListener() {
-
 								@Override
 								public void onClick(DialogInterface dialog,
 										int id) {
@@ -172,9 +170,9 @@ public class PasswordActivity extends BaseActivity {
 											.remove(Constants.PREF_PASSWORD_QUESTION)
 											.remove(Constants.PREF_PASSWORD_ANSWER)
 											.commit();
-									db.unlockAllNotes();
-//									onBackPressed();
+									DbHelper.getInstance(getApplicationContext()).unlockAllNotes();
 									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
+//									onBackPressed(); 
 								}
 							})
 					.setNegativeButton(R.string.cancel,

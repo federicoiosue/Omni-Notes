@@ -17,11 +17,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.sync.drive.DriveActivity;
-
 import java.util.Calendar;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,9 +28,6 @@ import android.view.Window;
 
 public class SplashScreenActivity extends BaseActivity {
 	
-	private Intent launchMainActivity = new Intent();
-	private Activity mActivity;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,7 +36,6 @@ public class SplashScreenActivity extends BaseActivity {
 		// Hiding actionbar for splashscreen
 		getSupportActionBar().hide();
 		
-		mActivity = this;
 		init();
 	}
 
@@ -86,8 +78,8 @@ public class SplashScreenActivity extends BaseActivity {
 	
 	
 	private void launchMainActivity() {
-		launchMainActivity.setClass(this, MainActivity.class);
-		startActivity(launchMainActivity);
+		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+		startActivity(intent);
 		finish();
 	}
 
@@ -99,8 +91,8 @@ public class SplashScreenActivity extends BaseActivity {
 	 */
 	private void requestShowCaseViewVisualization() {
 		
-		if (AppTourHelper.neverDone(this)) {		
-			final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		if (AppTourHelper.neverDone(getApplicationContext())) {		
+			final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
 			alertDialogBuilder
 				.setTitle(R.string.app_name)
 				.setMessage(R.string.tour_request_start)
@@ -112,11 +104,11 @@ public class SplashScreenActivity extends BaseActivity {
 			}).setNegativeButton(R.string.not_now, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int id) {
-					AppTourHelper.skip(mActivity);
+					AppTourHelper.skip(getApplicationContext());
 					launchMainActivity();
 				}
 			});
-			if (!mActivity.isFinishing()) {
+			if (!this.isFinishing()) {
 				alertDialogBuilder.create().show();
 			} else {
 				launchMainActivity();

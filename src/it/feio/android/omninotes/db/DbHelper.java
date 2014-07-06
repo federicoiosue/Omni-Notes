@@ -22,7 +22,6 @@ import it.feio.android.omninotes.models.Stats;
 import it.feio.android.omninotes.utils.AssetUtils;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,7 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
-
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -40,7 +39,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
-
 import com.neopixl.pixlui.links.RegexPatternsConstants;
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -99,14 +97,14 @@ public class DbHelper extends SQLiteOpenHelper {
 	private final SharedPreferences prefs;
 	
 	private static DbHelper instance = null;
-	
-	
-	   public static DbHelper getInstance(Context ctx) {
-	      if(instance == null) {
-	         instance = new DbHelper(ctx);
-	      }
-	      return instance;
-	   }
+
+
+	public static DbHelper getInstance(Context ctx) {
+		if (instance == null) {
+			instance = new DbHelper(ctx.getApplicationContext());
+		}
+		return instance;
+	}
 
 	private DbHelper(Context mContext) {
 		super(mContext, DATABASE_NAME, null, DATABASE_VERSION);

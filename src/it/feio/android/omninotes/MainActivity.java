@@ -295,7 +295,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	
 	
 	private void handleIntents() {
-		Intent i = mActivity.getIntent();
+		Intent i = getIntent();
 		
 		if (i.getAction() == null) return;
 		
@@ -449,7 +449,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	public void deleteNote(Note note) {
 
 		// Saving changes to the note
-		DeleteNoteTask deleteNoteTask = new DeleteNoteTask(mActivity);
+		DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getApplicationContext());
 		// Forcing parallel execution disabled by default
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);

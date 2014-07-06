@@ -320,28 +320,6 @@ public class NavigationDrawerFragment extends Fragment {
 			}
 		}, 500);
 		
-	}
-
-	/**
-	 * Callbacks interface that all activities using this fragment must
-	 * implement.
-	 */
-//	public static interface NavigationDrawerCallbacks {
-//		/**
-//		 * Called when an item in the navigation drawer is selected.
-//		 */
-//		void onNavigationDrawerItemSelected(int position);
-//		/**
-//		 * Called when a note should be edited.
-//		 */
-//		void onRequestNoteEdit(int position);
-//	}
-	
-	
-	
-//	public void refreshNavigationDrawerData() {
-//		initNavigationDrawer();
-//	}
-	
+	}	
 	
 }

@@ -479,7 +479,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
 //			listView.setPadding(listView.getPaddingLeft(), listView.getPaddingTop(), listView.getPaddingRight(),
 //					navBarHeight);
-			listFooter = new TextView(getActivity());
+			listFooter = new TextView(getActivity().getApplicationContext());
 			listFooter.setHeight(navBarHeight + 30);
 			listView.addFooterView(listFooter);
 		}

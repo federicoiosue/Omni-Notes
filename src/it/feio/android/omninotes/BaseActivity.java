@@ -16,17 +16,14 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.checklistview.utils.DensityUtil;
-import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Locale;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -59,7 +56,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
-
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews;
 import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
@@ -72,9 +68,6 @@ public class BaseActivity extends ActionBarActivity {
 
 	protected final int TRANSITION_VERTICAL = 0;
 	protected final int TRANSITION_HORIZONTAL = 1;
-	
-	protected DbHelper db;	
-	protected Activity mActivity;
 	
 	protected SharedPreferences prefs;
 	
@@ -109,8 +102,6 @@ public class BaseActivity extends ActionBarActivity {
 			StrictMode.enableDefaults();
 //			GoogleAnalytics.getInstance(this).setDryRun(true);
 		}
-		
-		mActivity = this;
 
 		// Preloads shared preferences for all derived classes
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
