@@ -16,22 +16,27 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.6.0" changeDate="Jul 30, 2014">    
-		<changelogtext>[b]New![/b] Help Online</changelogtext>
-		<changelogtext>[b]New![/b] Real tags!! Old tags are now Categories and tags are now managed directly by inserting "#..." into notes content. You can filter by tag using the tag icon when in search mode</changelogtext>
-		<changelogtext>[b]New![/b] Draggable checklist items!</changelogtext>  
-		<changelogtext>[b]New![/b] Images and videos will be displayed directly inside ON, in this way you'll be able to cycle all the media of the selected note</changelogtext>  
-		<changelogtext>[b]New![/b] A trash is now available to perform one step more before permanently destroy your notes!</changelogtext>  
-		<changelogtext>[b]New![/b] A lot search feature changes: persistent search results (search query can't be unfortunately restored if I want to keep retrocompatibility); Trashed notes will be fine only performing search from inside trash itself; Bugfixes</changelogtext>   
-		<changelogtext>[b]New![/b] Automatic and faster note saving</changelogtext>   
-		<changelogtext>[b]New![/b] Swipe on notes behavior can now be changed from settings: by default now a note will be first archived, then trashed. Swiping into trash will instead restore notes to their previous state. Swiping into categories will remove the category.</changelogtext>
-		<changelogtext>[b]New![/b] Import notes from Springpad</changelogtext>     
-		<changelogtext>[b]New![/b] Option to use password to grant application access instead that single notes</changelogtext>    
-		<changelogtext>[b]New![/b] Automatic updates available also for users without Google Play access</changelogtext>  
-		<changelogtext>[b]New![/b] Application stats</changelogtext>   
-		<changelogtext>[b]New![/b] Asturian, Catalan, Taiwanese languages supported</changelogtext>  
-  		<changelogtext>[u]Fixed[/u] Zillions of bugs</changelogtext>  
-    </changelogversion>
+<!--     <changelogversion versionName="4.6.0" changeDate="Jul 30, 2014">     -->
+<!-- 		<changelogtext>[b]New![/b] Help Online</changelogtext> -->
+<!-- 		<changelogtext>[b]New![/b] Real tags!! Old tags are now Categories and tags are now managed directly by inserting "#..." into notes content. You can filter by tag using the tag icon when in search mode</changelogtext> -->
+<!-- 		<changelogtext>[b]New![/b] Draggable checklist items!</changelogtext>   -->
+<!-- 		<changelogtext>[b]New![/b] Images and videos will be displayed directly inside ON, in this way you'll be able to cycle all the media of the selected note</changelogtext>   -->
+<!-- 		<changelogtext>[b]New![/b] A trash is now available to perform one step more before permanently destroy your notes!</changelogtext>   -->
+<!-- 		<changelogtext>[b]New![/b] A lot search feature changes: persistent search results (search query can't be unfortunately restored if I want to keep retrocompatibility); Trashed notes will be fine only performing search from inside trash itself; Bugfixes</changelogtext>    -->
+<!-- 		<changelogtext>[b]New![/b] Automatic and faster note saving</changelogtext>    -->
+<!-- 		<changelogtext>[b]New![/b] Swipe on notes behavior can now be changed from settings: by default now a note will be first archived, then trashed. Swiping into trash will instead restore notes to their previous state. Swiping into categories will remove the category.</changelogtext> -->
+<!-- 		<changelogtext>[b]New![/b] Import notes from Springpad</changelogtext>      -->
+<!-- 		<changelogtext>[b]New![/b] Option to use password to grant application access instead that single notes</changelogtext>     -->
+<!-- 		<changelogtext>[b]New![/b] Automatic updates available also for users without Google Play access</changelogtext>   -->
+<!-- 		<changelogtext>[b]New![/b] Application stats</changelogtext>    -->
+<!-- 		<changelogtext>[b]New![/b] Asturian, Catalan, Taiwanese languages supported</changelogtext>   -->
+<!--   		<changelogtext>[u]Fixed[/u] Zillions of bugs</changelogtext>   -->
+<!--     </changelogversion> -->
+    
+    <changelogversion versionName="4.6.0 Beta 16" changeDate="Jul 6, 2014">   
+  		<changelogtext>[b]New![/b] [i]Archive[/i] and  [i]Restore from archive[/i] actions can now be performed also from inside categories.</changelogtext>
+  		<changelogtext>Further improved memory management</changelogtext>
+	</changelogversion>
     
     <changelogversion versionName="4.6.0 Beta 15" changeDate="Jul 6, 2014">   
   		<changelogtext>Updated translations</changelogtext>
