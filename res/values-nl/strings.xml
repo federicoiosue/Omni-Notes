@@ -166,6 +166,10 @@
   <string name="help">Help</string>
   <string name="online_manual">Online handboek</string>
   <string name="tags_added">Tags toegevoegd</string>
+  <string name="working">Werken...</string>
+  <string name="imported">geïmporteerd</string>
+  <string name="synchronize">Synchroniseren</string>
+  <string name="extracted">Uitgepakt</string>
   <string name="dashclock_description">Sommige statistieken en de naderende herinneringen van Omni notities worden weergegeven</string>
   <string name="settings">Instellingen</string>
   <string name="settings_about">Informatie</string>
@@ -174,8 +178,10 @@
   <string name="reset_all_data_confirmation">Bevestig verwijdering van alle app data (backups worden behouden)?</string>
   <string name="action_settings">Instellingen</string>
   <string name="settings_sync_import_export">Synchronisatie en back-ups</string>
-  <string name="settings_export">Exporteer</string>
-  <string name="settings_import">Importeer en verwijder</string>
+  <string name="settings_export">Back-up</string>
+  <string name="settings_import">Terugplaatsen of verwijderen van back-ups</string>
+  <string name="settings_import_from_springpad">Notities importeren uit Springpad</string>
+  <string name="settings_import_from_springpad_summary">Selecteer uw uit Springpad geëxporteerd archief en zorg ervoor dat u verbonden bent met internet</string>
   <string name="export_success">Bestand succesvol geexporteerd naar de map</string>
   <string name="export_fail">&gt;Bestand exporteren mislukt</string>
   <string name="import_success">Bestand succesvol geimporteerd</string>
@@ -222,7 +228,7 @@
   <string name="settings_beta">Google+ </string>
   <string name="settings_beta_summary">Registreer voor de gemeenschap om de laatste nieuwe preview-functies te krijgen</string>
   <string name="donate">Doneren</string>
-  <string name="donate_summary">Help me om deze app te blijven ontwikkelen met een non-profit donatie</string>
+  <string name="donate_summary">Ondersteun de ontwikkeling van deze app met een non-profit donatie</string>
   <string name="settings_choose_language">Taal</string>
   <string name="settings_notification_ringtone">Beltoon</string>
   <string name="settings_enable_tag_marker_full">Vol kleur</string>

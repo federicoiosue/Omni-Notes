@@ -167,6 +167,10 @@
   <string name="help">Help</string>
   <string name="online_manual">Online manual</string>
   <string name="tags_added">Tags added</string>
+  <string name="working">Working...</string>
+  <string name="imported">imported</string>
+  <string name="synchronize">Synchronize</string>
+  <string name="extracted">Extracted</string>
   <string name="dashclock_description">Muestra algunas estadísticas y recordatorios cercanos de Omni Notes</string>
   <string name="settings">Configuración</string>
   <string name="settings_about">Información</string>
@@ -175,8 +179,10 @@
   <string name="reset_all_data_confirmation">¿Está seguro de querer eliminar todos los datos de la aplicación (las copias de seguridad se conservarán)?</string>
   <string name="action_settings">Configuración</string>
   <string name="settings_sync_import_export">Sincronización y copias de seguridad</string>
-  <string name="settings_export">Exportar</string>
-  <string name="settings_import">Importar y borrar</string>
+  <string name="settings_export">Copia de seguridad</string>
+  <string name="settings_import">Restore or delete backups</string>
+  <string name="settings_import_from_springpad">Import notes from Springpad</string>
+  <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>
   <string name="export_success">Archivo exportado exitosamente a la carpeta</string>
   <string name="export_fail">Error al exportar</string>
   <string name="import_success">El archivo ha sido importado correctamente</string>
@@ -223,7 +229,7 @@
   <string name="settings_beta">Google+</string>
   <string name="settings_beta_summary">Inscríbete a la comunidad para obtener todas las últimas características</string>
   <string name="donate">Donar</string>
-  <string name="donate_summary">Ayúdame a seguir desarrollando esta aplicación con una donación sin ánimo de lucro</string>
+  <string name="donate_summary">Support the development of this app with a non-profit donation</string>
   <string name="settings_choose_language">Idioma</string>
   <string name="settings_notification_ringtone">Tono</string>
   <string name="settings_enable_tag_marker_full">A todo color</string>

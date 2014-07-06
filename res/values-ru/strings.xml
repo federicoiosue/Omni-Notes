@@ -162,10 +162,14 @@
   <string name="merge">Объединить</string>
   <string name="not_set">не задано</string>
   <string name="empty_trash">Очистить корзину</string>
-  <string name="empty_trash_confirmation">Подтверждаете удаление всех заметок в корзине?</string>
+  <string name="empty_trash_confirmation">Вы согласны удалить все заметки из корзины?</string>
   <string name="help">Справка</string>
   <string name="online_manual">Онлайн руководство</string>
-  <string name="tags_added">Теги добавлены</string>
+  <string name="tags_added">Метки добавлены</string>
+  <string name="working">Обработка...</string>
+  <string name="imported">импортированные</string>
+  <string name="synchronize">Синхронизировать</string>
+  <string name="extracted">Извлеченные</string>
   <string name="dashclock_description">Отображает небольшую статистику и приближающиеся напоминания из Omni Notes</string>
   <string name="settings">Настройки</string>
   <string name="settings_about">О программе</string>
@@ -174,8 +178,10 @@
   <string name="reset_all_data_confirmation">Вы согласны удалить все данные приложения?  Рез. копии не будут затронуты</string>
   <string name="action_settings">Настройки</string>
   <string name="settings_sync_import_export">Синхронизация и резервное копирование</string>
-  <string name="settings_export">Экспорт</string>
-  <string name="settings_import">Импорт и удаление</string>
+  <string name="settings_export">Резервные копии</string>
+  <string name="settings_import">Восстановление или удаление резервных копий</string>
+  <string name="settings_import_from_springpad">Перенести заметки из Springpad</string>
+  <string name="settings_import_from_springpad_summary">Выберите экспортированный из Springpad архив и убедитесь, что Вы подключены к интернету</string>
   <string name="export_success">Файл успешно экспортирован в папку</string>
   <string name="export_fail">Экспорт файла не удался</string>
   <string name="import_success">Файл успешно импортирован</string>
@@ -222,7 +228,7 @@
   <string name="settings_beta">Google+</string>
   <string name="settings_beta_summary">Вступите в сообщество для получения новейших предварительных функций</string>
   <string name="donate">Поддержать</string>
-  <string name="donate_summary">Поддержите разработку приложения небольшой суммой денег</string>
+  <string name="donate_summary">Поддержать развитие приложения бескорыстным пожертвованием</string>
   <string name="settings_choose_language">Язык</string>
   <string name="settings_notification_ringtone">Выбрать рингтон</string>
   <string name="settings_enable_tag_marker_full">Полное окрашивание</string>
@@ -256,7 +262,7 @@
   <string name="settings_swipe_to_trash_summary_1">Проведение по заметкам пальцев заархивирует их</string>
   <string name="settings_swipe_to_trash_summary_2">Проведение по заметкам пальцем удалит их</string>
   <string name="settings_show_category_count">Счетчик заметок</string>
-  <string name="settings_show_category_count_summary">Показывает количество заметок связанных с данной категорией</string>
+  <string name="settings_show_category_count_summary">Показывает количество заметок связанных с  категорией</string>
   <string name="tour_request_start">Вы запустили Omni Notes впервые, желаете пройти обучение?</string>
   <string name="tour_listactivity_intro_title">Omni Notes приветствует Вас!</string>
   <string name="tour_listactivity_intro_detail">Нажмите «Продолжить» для начала обучения</string>

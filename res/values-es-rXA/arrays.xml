@@ -19,14 +19,14 @@
   <string-array name="navigation_list">
     <item>Notes</item>
     <item>Ficheru</item>
-    <item>Recordatorios</item>
+    <item>Avisos</item>
     <item>Papelera</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Títulu</item>
     <item>Data de creación</item>
     <item>Cabera modificación fecha</item>
-    <item>Data de recordatoriu</item>
+    <item>Data del avisu</item>
   </string-array>
   <string-array name="checked_items_behavior">
     <item>Caltener posición</item>
@@ -34,13 +34,13 @@
     <item>Dir a la primera ensin marcar</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Deshabiitáu</item>
+    <item>Deshabilitáu</item>
     <item>Namái la tira</item>
     <item>Namái llistáu de notes</item>
     <item>Completu</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Deshabiitáu</item>
+    <item>Deshabilitáu</item>
     <item>Namái la tira</item>
     <item>Llista de notes</item>
   </string-array>

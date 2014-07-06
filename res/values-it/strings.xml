@@ -167,6 +167,10 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="help">Guida</string>
   <string name="online_manual">Manuale on-line</string>
   <string name="tags_added">Tag aggiunti</string>
+  <string name="working">Sto lavorando...</string>
+  <string name="imported">importate</string>
+  <string name="synchronize">Sincronizza</string>
+  <string name="extracted">Estratte</string>
   <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
   <string name="settings">Impostazioni</string>
   <string name="settings_about">Info</string>
@@ -175,8 +179,10 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="reset_all_data_confirmation">Confermi la rimozione di tutti i dati (i backup verranno conservati)?</string>
   <string name="action_settings">Impostazioni</string>
   <string name="settings_sync_import_export">Sincronizzazione e backup</string>
-  <string name="settings_export">Esportazione</string>
-  <string name="settings_import">Ripristino ed eliminazione</string>
+  <string name="settings_export">Backup</string>
+  <string name="settings_import">Ripristina o cancella backup</string>
+  <string name="settings_import_from_springpad">Importa le note da Springpad</string>
+  <string name="settings_import_from_springpad_summary">Seleziona l\'archivio delle note esportate da Springpad ed assicurati di essere connesso ad internet</string>
   <string name="export_success">File esportato con successo nella cartella</string>
   <string name="export_fail">Esportazione file non riuscita</string>
   <string name="import_success">File importato con successo</string>
@@ -225,7 +231,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_beta">Google+</string>
   <string name="settings_beta_summary">Iscriviti alla comunità per avere tutte le ultimissime funzionalità in anteprima</string>
   <string name="donate">Dona</string>
-  <string name="donate_summary">Aiuta lo sviluppo di questa app con una donazione senza scopo di lucro</string>
+  <string name="donate_summary">Supporta lo sviluppo dell\'applicazione con una donazione senza fini di lucro</string>
   <string name="settings_choose_language">Lingua</string>
   <string name="settings_notification_ringtone">Scegli suoneria</string>
   <string name="settings_enable_tag_marker_full">A colori</string>

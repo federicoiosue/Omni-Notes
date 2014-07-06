@@ -166,6 +166,10 @@
   <string name="help">Ajuda</string>
   <string name="online_manual">Manual en línia</string>
   <string name="tags_added">S\'han afegit etiquetes</string>
+  <string name="working">Working...</string>
+  <string name="imported">imported</string>
+  <string name="synchronize">Synchronize</string>
+  <string name="extracted">Extracted</string>
   <string name="dashclock_description">Mostra algunes estadístiques i recordatoris expirats de l\'Omni Notes</string>
   <string name="settings">Configuració</string>
   <string name="settings_about">Informació</string>

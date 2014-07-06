@@ -166,6 +166,10 @@
   <string name="help">Pomocník</string>
   <string name="online_manual">Návod na internete</string>
   <string name="tags_added">Značky boli pridané</string>
+  <string name="working">Pracovanie...</string>
+  <string name="imported">importovaných</string>
+  <string name="synchronize">Synchronizovať</string>
+  <string name="extracted">extrahovaných</string>
   <string name="dashclock_description">Zobrazí niektoré štatistiky a blížiace sa pripomienky z Omni Notes</string>
   <string name="settings">Nastavenia</string>
   <string name="settings_about">Informácie</string>
@@ -174,8 +178,10 @@
   <string name="reset_all_data_confirmation">Potvrdzujete odstránenie všetkých údajov aplikácie (zálohy budú zachované)?</string>
   <string name="action_settings">Nastavenia</string>
   <string name="settings_sync_import_export">Synchronizácia a zálohovanie</string>
-  <string name="settings_export">Exportovať</string>
-  <string name="settings_import">Importovať a vymazať</string>
+  <string name="settings_export">Zálohovať</string>
+  <string name="settings_import">Obnoviť alebo vymazať zálohy</string>
+  <string name="settings_import_from_springpad">Importovať poznámky zo Springpad</string>
+  <string name="settings_import_from_springpad_summary">Vybrať váš exportovaný archív zo Springpad a uistiť sa, že ste pripojený k internetu</string>
   <string name="export_success">Súbor bol úspešne exportovaný do priečinka</string>
   <string name="export_fail">Nepodarilo sa exportovať súbor</string>
   <string name="import_success">Súbor bol úspešne importovaný</string>
@@ -222,7 +228,7 @@
   <string name="settings_beta">Google+</string>
   <string name="settings_beta_summary">Zaregistrujte sa v komunite na získanie všetkých najnovších funkcií</string>
   <string name="donate">Dar</string>
-  <string name="donate_summary">Aby som mohol aj naďalej rozvíjať túto aplikáciu, pomôžte mi pomocou neziskového daru</string>
+  <string name="donate_summary">Podporiť vývoj tejto aplikácie prostredníctvom neziskového daru</string>
   <string name="settings_choose_language">Jazyk</string>
   <string name="settings_notification_ringtone">Zvonenie</string>
   <string name="settings_enable_tag_marker_full">Plná farba</string>

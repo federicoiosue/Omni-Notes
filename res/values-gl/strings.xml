@@ -166,6 +166,10 @@
   <string name="help">Axuda</string>
   <string name="online_manual">Manual en liña</string>
   <string name="tags_added">Etiquetas engadidas</string>
+  <string name="working">A traballar...</string>
+  <string name="imported">importadas</string>
+  <string name="synchronize">Sincronizar</string>
+  <string name="extracted">Extraídas</string>
   <string name="dashclock_description">Mostrar algunhas estatísticas e recordatorios próximos de Omni Notes</string>
   <string name="settings">Axustes</string>
   <string name="settings_about">Información</string>
@@ -174,8 +178,10 @@
   <string name="reset_all_data_confirmation">Tes a certeza de querer eliminar todos os datos do aplicativo (agás os das copias de seguranza)?</string>
   <string name="action_settings">Axustes</string>
   <string name="settings_sync_import_export">Sincronización e copias de seguranza</string>
-  <string name="settings_export">Exportar</string>
-  <string name="settings_import">Importar e eliminar</string>
+  <string name="settings_export">Copia de seguranza</string>
+  <string name="settings_import">Restaurar ou eliminar copias de seguranza</string>
+  <string name="settings_import_from_springpad">Importar notas do Springpad</string>
+  <string name="settings_import_from_springpad_summary">Selecciona o teu ficheiro exportado do Springpad e asegúrate de ter conexión á internet</string>
   <string name="export_success">Ficheiro exportado satisfactoriamente ao cartafol</string>
   <string name="export_fail">Erro ao exportar o ficheiro</string>
   <string name="import_success">Ficheiro importado satisfactoriamente</string>
@@ -225,7 +231,7 @@
   <string name="settings_beta">Google+</string>
   <string name="settings_beta_summary">Rexístrate na comunidade para ter acceso ás últimas funcionalidades</string>
   <string name="donate">Doar</string>
-  <string name="donate_summary">Contribúe ao desenvolvemento deste aplicativo mediante unha doazón sen ánimo de lucro</string>
+  <string name="donate_summary">Apoia o desenvolvemento deste aplicativo cunha doazón sen fins lucrativos</string>
   <string name="settings_choose_language">Idioma</string>
   <string name="settings_notification_ringtone">Ton de chamada</string>
   <string name="settings_enable_tag_marker_full">A toda cor</string>

@@ -166,6 +166,10 @@
   <string name="help">Hilfe</string>
   <string name="online_manual">Onlinehandbuch</string>
   <string name="tags_added">Stichworte hinzugefügt</string>
+  <string name="working">Verarbeite...</string>
+  <string name="imported">importiert</string>
+  <string name="synchronize">Synchronisiere</string>
+  <string name="extracted">Extrahiere</string>
   <string name="dashclock_description">Zeige Statistiken und sich nähernde Errinerungen</string>
   <string name="settings">Einstellungen</string>
   <string name="settings_about">Info</string>
@@ -174,8 +178,10 @@
   <string name="reset_all_data_confirmation">Bestätigen Sie das Entfernen aller Anwendungsdaten\n(Sicherungen bleiben erhalten)</string>
   <string name="action_settings">Einstellungen</string>
   <string name="settings_sync_import_export">Synchronisation und Datensicherung</string>
-  <string name="settings_export">Exportieren</string>
-  <string name="settings_import">Importieren / Löschen</string>
+  <string name="settings_export">Sicherung</string>
+  <string name="settings_import">Wiederherstellen oder Löschen von Sicherungen</string>
+  <string name="settings_import_from_springpad">Importieren von Notizen aus Springpad</string>
+  <string name="settings_import_from_springpad_summary">Wählen Sie Ihr exportiertes Springpadarchiv aus und achten Sie darauf, dass Sie mit dem Internet verbunden sind</string>
   <string name="export_success">Datei erfolgreich in Ordner exportiert</string>
   <string name="export_fail">Dateiexport fehlgeschlagen</string>
   <string name="import_success">Datei erfolgreich importiert</string>
@@ -222,7 +228,7 @@
   <string name="settings_beta">Google+ </string>
   <string name="settings_beta_summary">Folgen Sie der Community um eine Vorschau auf die neuesten Funktionen zu erhalten</string>
   <string name="donate">Spenden</string>
-  <string name="donate_summary">Helfen Sie mir mit einer Spende diese Anwendung weiter zu entwickeln</string>
+  <string name="donate_summary">Unterstützen Sie die Entwicklung dieser APP mit einer Spende</string>
   <string name="settings_choose_language">Sprache</string>
   <string name="settings_notification_ringtone">Klingelton</string>
   <string name="settings_enable_tag_marker_full">Notizfarbe</string>
