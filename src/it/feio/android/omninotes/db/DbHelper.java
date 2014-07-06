@@ -29,7 +29,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -600,6 +599,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		// Select query
 		String whereCondition = " WHERE " + KEY_ALARM 
 								+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis())
+								+  " AND " + KEY_ARCHIVED + " IS NOT 1"
 								+  " AND " + KEY_TRASHED + " IS NOT 1";
 		return getNotes(whereCondition, false);
 	}
