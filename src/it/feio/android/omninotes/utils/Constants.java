@@ -35,7 +35,7 @@ public interface Constants {
 	final String PS_METADATA_FETCHER_URL = "http://www.iosue.it/federico/apps/PSMetadataFetcher/get_app_data.php?url=";
 	final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=";
 	static long UPDATE_MIN_FREQUENCY = 24 * 60 * 60 * 1000; // 1 day
-	final String DRIVE_FOLDER_LAST_BUILD = "https://drive.google.com/folderview?id=0B0nF1sdYwc1lallyMmR2YnlwS1k&usp=sharing";
+	final String DRIVE_FOLDER_LAST_BUILD = "http://goo.gl/R10Tr5";
 
 	// Notes swipe
 	final int SWIPE_MARGIN = 30;
