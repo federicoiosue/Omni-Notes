@@ -92,7 +92,7 @@ public class SplashScreenActivity extends BaseActivity {
 	private void requestShowCaseViewVisualization() {
 		
 		if (AppTourHelper.neverDone(getApplicationContext())) {		
-			final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
+			final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 			alertDialogBuilder
 				.setTitle(R.string.app_name)
 				.setMessage(R.string.tour_request_start)
