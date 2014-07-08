@@ -423,22 +423,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			mAdapter.removeSelectedItem(position);
 			mAdapter.restoreDrawable(note, v);
 		}
-
-		// Edit menu
-		// boolean singleSelection = selectedNotes.size() == 1;
-
-		// Checks if we're in trash
-		// boolean trash = getResources().getStringArray(R.array.navigation_list_codes)[3]
-		// .equals(((MainActivity)getActivity()).navigation);
-		// if (!trash) {
-		// if (singleSelection) {
-		// mActionMode.getMenu().findItem(R.id.menu_share).setVisible(true);
-		// mActionMode.getMenu().findItem(R.id.menu_archive).setVisible(!selectedNotes.get(0).isArchived());
-		// mActionMode.getMenu().findItem(R.id.menu_unarchive).setVisible(selectedNotes.get(0).isArchived());
-		// } else {
-		// mActionMode.getMenu().findItem(R.id.menu_merge).setVisible(true);
-		// }
-		// }
 		prepareActionModeMenu();
 
 		// Close CAB if no items are selected
@@ -465,11 +449,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		} else {
 			if (selectedNotes.size() == 1) {
 				mActionMode.getMenu().findItem(R.id.menu_share).setVisible(true);
+				mActionMode.getMenu().findItem(R.id.menu_merge).setVisible(false);
 				mActionMode.getMenu().findItem(R.id.menu_archive)
 						.setVisible(showArchive && !selectedNotes.get(0).isArchived());
 				mActionMode.getMenu().findItem(R.id.menu_unarchive)
 						.setVisible(showUnarchive && selectedNotes.get(0).isArchived());
 			} else {
+				mActionMode.getMenu().findItem(R.id.menu_share).setVisible(false);
 				mActionMode.getMenu().findItem(R.id.menu_merge).setVisible(true);
 				mActionMode.getMenu().findItem(R.id.menu_archive).setVisible(showArchive);
 				mActionMode.getMenu().findItem(R.id.menu_unarchive).setVisible(showUnarchive);
