@@ -459,12 +459,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 		// Saving changes to the note
 		DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getApplicationContext());
-		// Forcing parallel execution disabled by default
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
-		} else {
+		// Removed parallel computation to avoid concurrency on pool errors
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//			deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+//		} else {
 			deleteNoteTask.execute(note);
-		}
+//		}
 
 		// Informs about update
 		Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
