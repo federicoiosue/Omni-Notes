@@ -19,6 +19,7 @@
     <changelogversion versionName="4.6.1" changeDate="Jul 8, 2014">   
   		<changelogtext>Tags are now sorted with case insensitive criteria</changelogtext>
   		<changelogtext>[u]Fixed[/u] Can't exit masked notes</changelogtext>
+  		<changelogtext>[u]Fixed[/u] Visualization of share/merge options when selecting notes from list</changelogtext>
 	</changelogversion>
 
     <changelogversion versionName="4.6.0" changeDate="Jul 7, 2014">    
