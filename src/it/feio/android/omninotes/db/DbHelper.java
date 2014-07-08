@@ -689,7 +689,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		}
 		List<String> tags = new ArrayList<String>();
 		tags.addAll(tagsMap.keySet());
-		Collections.sort(tags);
+		Collections.sort(tags, String.CASE_INSENSITIVE_ORDER);
 		return tags;
 	}
 	
