@@ -1691,6 +1691,7 @@ public class DetailFragment extends Fragment implements
 		note.setCategory(noteTmp.getCategory());
 		note.setArchived(noteTmp.isArchived());
 		note.setTrashed(noteTmp.isTrashed());
+		note.setLocked(noteTmp.isLocked());
 		if (!noteTmp.isChanged(note)) {
 			updateLastModification = false;
 		}		
