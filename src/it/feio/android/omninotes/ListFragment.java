@@ -704,9 +704,27 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		}
 
 	}
+	
+	
+	
+	
+	void editNote(final Note note) {
+		if (note.isLocked()) {
+			BaseActivity.requestPassword(((MainActivity) getActivity()), new PasswordValidator() {
+				@Override
+				public void onPasswordValidated(boolean result) {
+					if (result) {
+						editNote2(note);
+					}
+				}
+			});
+		} else {
+			editNote2(note);
+		}
+	}
 
 
-	void editNote(Note note) {
+	void editNote2(Note note) {
 
 		if (note.get_id() == 0) {
 			Log.d(Constants.TAG, "Adding new note");
