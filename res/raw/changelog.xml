@@ -17,6 +17,7 @@
 <changelog bulletedList="true">
     
     <changelogversion versionName="4.6.2" changeDate="Jul 9, 2014">   
+  		<changelogtext>[b]New![/b] Select all the notes in list at once</changelogtext>
   		<changelogtext>More characters shown in notes title and content in list</changelogtext>
   		<changelogtext>Masking or unmasking notes will not update their modification date anymore</changelogtext>
   		<changelogtext>[u]Fixed[/u] Crash on double swipe under notes list</changelogtext>

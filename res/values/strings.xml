@@ -186,6 +186,7 @@
     <string name="imported">imported</string>    
     <string name="synchronize">Synchronize</string>
     <string name="extracted">Extracted</string>
+    <string name="select_all">Select all</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>

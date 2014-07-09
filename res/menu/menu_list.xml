@@ -18,6 +18,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
+        android:id="@+id/menu_select_all"
+        android:icon="@drawable/ic_action_select_all"
+        android:orderInCategory="50"
+        app:showAsAction="always"
+        android:title="@string/select_all"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_action_search"
         android:orderInCategory="100"

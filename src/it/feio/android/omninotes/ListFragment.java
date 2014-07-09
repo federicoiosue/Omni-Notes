@@ -387,6 +387,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				case R.id.menu_delete:
 					deleteSelectedNotes();
 					return true;
+				case R.id.menu_select_all:
+					selectAllNotes();
+					return true;
 					// case R.id.menu_synchronize:
 					// synchronizeSelectedNotes();
 					// return true;
@@ -448,21 +451,23 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			menu.findItem(R.id.menu_delete).setVisible(true);
 		} else {
 			if (selectedNotes.size() == 1) {
-				mActionMode.getMenu().findItem(R.id.menu_share).setVisible(true);
-				mActionMode.getMenu().findItem(R.id.menu_merge).setVisible(false);
-				mActionMode.getMenu().findItem(R.id.menu_archive)
+				menu.findItem(R.id.menu_share).setVisible(true);
+				menu.findItem(R.id.menu_merge).setVisible(false);
+				menu.findItem(R.id.menu_archive)
 						.setVisible(showArchive && !selectedNotes.get(0).isArchived());
-				mActionMode.getMenu().findItem(R.id.menu_unarchive)
+				menu.findItem(R.id.menu_unarchive)
 						.setVisible(showUnarchive && selectedNotes.get(0).isArchived());
 			} else {
-				mActionMode.getMenu().findItem(R.id.menu_share).setVisible(false);
-				mActionMode.getMenu().findItem(R.id.menu_merge).setVisible(true);
-				mActionMode.getMenu().findItem(R.id.menu_archive).setVisible(showArchive);
-				mActionMode.getMenu().findItem(R.id.menu_unarchive).setVisible(showUnarchive);
+				menu.findItem(R.id.menu_share).setVisible(false);
+				menu.findItem(R.id.menu_merge).setVisible(true);
+				menu.findItem(R.id.menu_archive).setVisible(showArchive);
+				menu.findItem(R.id.menu_unarchive).setVisible(showUnarchive);
+				
 			}
 			menu.findItem(R.id.menu_category).setVisible(true);
 			menu.findItem(R.id.menu_tags).setVisible(true);
 			menu.findItem(R.id.menu_trash).setVisible(true);
+			menu.findItem(R.id.menu_select_all).setVisible(true);
 			// menu.findItem(R.id.menu_synchronize).setVisible(true);
 		}
 	}
@@ -1125,6 +1130,24 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		mAdapter.remove(note);
 		// Informs about update
 		Log.d(Constants.TAG, "Trashed/restored note with id '" + note.get_id() + "'");
+	}
+
+
+	/**
+	 * Selects all notes in list
+	 */
+	private void selectAllNotes() {
+		for (int i = 0; i < listView.getChildCount(); i++) {
+			LinearLayout v = (LinearLayout) listView.getChildAt(i).findViewById(R.id.card_layout);
+			v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+		}
+		selectedNotes.clear();
+		for (int i = 0; i < mAdapter.getCount(); i++) {
+			selectedNotes.add(mAdapter.getItem(i));
+			mAdapter.addSelectedItem(i);
+		}
+		prepareActionModeMenu();
+		setCabTitle();
 	}
 
 
