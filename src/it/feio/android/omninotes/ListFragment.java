@@ -467,9 +467,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			menu.findItem(R.id.menu_category).setVisible(true);
 			menu.findItem(R.id.menu_tags).setVisible(true);
 			menu.findItem(R.id.menu_trash).setVisible(true);
-			menu.findItem(R.id.menu_select_all).setVisible(true);
 			// menu.findItem(R.id.menu_synchronize).setVisible(true);
 		}
+		menu.findItem(R.id.menu_select_all).setVisible(true);
 	}
 
 
@@ -1139,7 +1139,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private void selectAllNotes() {
 		for (int i = 0; i < listView.getChildCount(); i++) {
 			LinearLayout v = (LinearLayout) listView.getChildAt(i).findViewById(R.id.card_layout);
-			v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+			// Checks null to avoid the footer
+			if (v != null) {
+				v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+			}
 		}
 		selectedNotes.clear();
 		for (int i = 0; i < mAdapter.getCount(); i++) {
