@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import listeners.ZipProgressesListener;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -148,6 +147,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 	}
 
 
+	/**
+	 * Imports notes and notebooks from Springpad exported archive
+	 * 
+	 * @param intent
+	 */
 	synchronized private void importDataFromSpringpad(Intent intent) {
 
 		// Backupped notes retrieval
@@ -176,9 +180,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
 		// These maps are used to associate with post processing notes to categories (notebooks)
 		HashMap<String, Category> categoriesWithUuid = new HashMap<String, Category>();
-//		HashMap<Note, String> notesWithcategory = new HashMap<Note, String>();
 		
-		// Adding all the notebooks (categories)
+		// Adds all the notebooks (categories)
 		for (SpringpadElement springpadElement : importer.getNotebooks()) {
 			Category cat = new Category();
 			cat.setName(springpadElement.getName());
@@ -190,7 +193,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			importedSpringpadNotebooks++;
 			updateImportNotification(importer);
 		}
-
+		// And creates a default one for notes without notebook 
+		Category defaulCategory = new Category();
+		defaulCategory.setName("Springpad");
+		defaulCategory.setColor(String.valueOf(Color.parseColor("#F9EA1B")));
+		DbHelper.getInstance(this).updateCategory(defaulCategory);
+		
 		// And then notes are created
 		Note note;
 		Attachment mAttachment = null;
@@ -341,9 +349,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				if (image != null && image.equals(springpadAttachment.getUrl())) continue;
 				
 				if (TextUtils.isEmpty(springpadAttachment.getUrl())) {
-//					Toast.makeText(this,
-//							getString(R.string.error_importing_some_attachments) + " " + springpadElement.getName(),
-//							Toast.LENGTH_SHORT).show();
 					continue;
 				};
 				
@@ -368,8 +373,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
 			// If the note has a category is added to the map to be post-processed
 			if (springpadElement.getNotebooks().size() > 0) {
-//				notesWithcategory.put(note, springpadElement.getNotebooks().get(0));
 				note.setCategory(categoriesWithUuid.get(springpadElement.getNotebooks().get(0)));
+			} else {
+				note.setCategory(defaulCategory);				
 			}
 
 			// The note is saved
@@ -379,17 +385,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			importedSpringpadNotes++;
 			updateImportNotification(importer);
 		};
-
-		// Categories association post-process
-//		Iterator iterator = notesWithcategory.entrySet().iterator();
-//		while (iterator.hasNext()) {
-//			Map.Entry mapEntry = (Map.Entry) iterator.next();
-//			System.out.println("The key is: " + mapEntry.getKey() + ",value is :" + mapEntry.getValue());
-//			Note noteWithcategory = (Note) mapEntry.getKey();
-//			String uuid = (String) mapEntry.getValue();
-//			noteWithcategory.setCategory(categoriesWithUuid.get(uuid));
-//			DbHelper.getInstance(this).updateNote(noteWithcategory, false);
-//		}
 		
 		// Delete temp data
 		try {
