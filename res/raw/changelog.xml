@@ -17,7 +17,7 @@
 <changelog bulletedList="true">
     
     <changelogversion versionName="4.6.2" changeDate="Jul 9, 2014">   
-  		<changelogtext>Raised the number of characters shown in note items in list</changelogtext>
+  		<changelogtext>More characters shown in notes title and content in list</changelogtext>
   		<changelogtext>Masking or unmasking notes will not update their modification date anymore</changelogtext>
   		<changelogtext>[u]Fixed[/u] Crash on double swipe under notes list</changelogtext>
   		<changelogtext>[u]Fixed[/u] Can't exit masked notes (regression bug)</changelogtext>
