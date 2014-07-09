@@ -14,8 +14,8 @@ public class TextHelper {
 	 */
 	public static Spanned[] parseTitleAndContent(Context mContext, Note note) {
 
-		final int CONTENT_SUBSTRING_LENGTH = 250;
-		final int TITLE_SUBSTRING_OF_CONTENT_LIMIT = 25;
+		final int CONTENT_SUBSTRING_LENGTH = 400;
+		final int TITLE_SUBSTRING_OF_CONTENT_LIMIT = 50;
 
 		// Defining title and content texts
 		String titleText, contentText;
