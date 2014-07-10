@@ -848,7 +848,7 @@ public class DetailFragment extends Fragment implements
 			ArrayList<View> target = new ArrayList<View>();
 			if (colorsPref.equals("complete")){
 				target.add(getView().findViewById(R.id.title_wrapper));
-				target.add(getView().findViewById(R.id.content_wrapper));
+				target.add(getView().findViewById(R.id.detail_content_card));
 			} else {
 				target.add(getView().findViewById(R.id.tag_marker));
 			}
