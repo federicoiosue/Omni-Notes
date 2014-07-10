@@ -16,6 +16,10 @@
 -->
 <changelog bulletedList="true">
     
+    <changelogversion versionName="4.6.3" changeDate="Jul 11, 2014">   
+  		<changelogtext>Updated Spanish and Ukrainian languages</changelogtext>
+	</changelogversion>
+    
     <changelogversion versionName="4.6.2" changeDate="Jul 10, 2014">   
   		<changelogtext>[b]New![/b] Select all the notes in list at once</changelogtext>
   		<changelogtext>[b]New![/b] Springpad imported notes without native notebook are associated with a default "Springpad" category</changelogtext>
