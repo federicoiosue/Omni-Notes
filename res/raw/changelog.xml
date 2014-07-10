@@ -18,6 +18,7 @@
     
     <changelogversion versionName="4.6.3" changeDate="Jul 11, 2014">   
   		<changelogtext>Updated Spanish and Ukrainian languages</changelogtext>
+  		<changelogtext>[u]Fixed[/u] Last checklist item added not saved</changelogtext>
 	</changelogversion>
     
     <changelogversion versionName="4.6.2" changeDate="Jul 10, 2014">   
