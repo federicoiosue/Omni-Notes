@@ -16,9 +16,9 @@ public class BitmapCache extends LruCache<String, Bitmap> {
 
 	/**
 	 * Get max available VM memory, exceeding this amount will throw an OutOfMemory exception. Stored in kilobytes as
-	 * LruCache takes an int in its constructor. Use 1/8th of the available memory for this memory cache.
+	 * LruCache takes an int in its constructor. Use 1/4th of the available memory for this memory cache.
 	 */
-	public static int MEMORY_CACHE_DEFAULT_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024) / 8;
+	public static int MEMORY_CACHE_DEFAULT_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024) / 4;
 
 	/**
 	 * Default size of space used for store data on physical disk cache. 20 Megabytes.
