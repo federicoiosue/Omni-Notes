@@ -124,6 +124,7 @@
         <item >Français (French)</item>
         <item >Deutsch (German)</item>
         <item >Galego (Galician)</item>
+        <item >ελληνικά (Greek)</item>
         <item >עברית (Hebrew)</item>
         <item >हिंदी (Hindi)</item>
         <item >Italiano (Italian)</item>
@@ -150,6 +151,7 @@
         <item >fr</item>
         <item >de</item>
         <item >gl</item>
+        <item >el</item>
         <item >iw</item>
         <item >hi</item>
         <item >it</item>

@@ -17,6 +17,7 @@
 <changelog bulletedList="true">
     
     <changelogversion versionName="4.6.3" changeDate="Jul 11, 2014">   
+  		<changelogtext>[b]New![/b] Greek language support</changelogtext>
   		<changelogtext>Updated Spanish and Ukrainian languages</changelogtext>
   		<changelogtext>[u]Fixed[/u] Last checklist item added not saved</changelogtext>
   		<changelogtext>[u]Fixed[/u] Note content wrongly colored when "complete" colorization option is selected</changelogtext>
