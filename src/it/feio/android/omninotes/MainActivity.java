@@ -9,10 +9,8 @@ import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SpinnerDialog;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -20,7 +18,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -254,14 +251,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	@Override
 	protected void onPause() {
 		super.onPause();
-//		Fragment f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
-//		if (f != null) {
-//			MediaRecorder mRecorder = ((DetailFragment)f).mRecorder;
-//			if (mRecorder != null) {
-//				mRecorder.release();
-//				mRecorder = null;
-//			}
-//		}
 		Crouton.cancelAllCroutons();
 	}
 	

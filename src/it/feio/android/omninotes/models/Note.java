@@ -95,6 +95,7 @@ public class Note implements Parcelable {
 			list.add(mAttachment);
 		}
 		setAttachmentsList(list);
+		setPasswordChecked(note.isPasswordChecked());
 	}
 
 	private Note(Parcel in) {

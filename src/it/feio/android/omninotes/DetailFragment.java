@@ -370,10 +370,10 @@ public class DetailFragment extends Fragment implements
 			noteTmp = new Note(note);
 		}
 					
-//		if (noteTmp != null && noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
-//			checkNoteLock(noteTmp);
-//			return;
-//		}	
+		if (noteTmp != null && noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
+			checkNoteLock(noteTmp);
+			return;
+		}	
 		
 		if (noteTmp.getAlarm() != null) {
 			dateTimeText = initAlarm(Long.parseLong(noteTmp.getAlarm()));
@@ -386,8 +386,6 @@ public class DetailFragment extends Fragment implements
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
-//					InputMethodManager imm = (InputMethodManager) ((MainActivity)getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
-//			        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 			    	KeyboardUtils.showKeyboard(content);
 				}
 			}, 700);
@@ -1663,6 +1661,11 @@ public class DetailFragment extends Fragment implements
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB) 
 	void saveNote(OnNoteSaved mOnNoteSaved) {
+		
+//		// Saving is avoided if note is masked and password still note inserted
+//		if (noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
+//			return;
+//		}
 		
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());

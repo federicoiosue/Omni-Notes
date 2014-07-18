@@ -719,6 +719,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				@Override
 				public void onPasswordValidated(boolean result) {
 					if (result) {
+						note.setPasswordChecked(true);
 						editNote2(note);
 					}
 				}
@@ -751,19 +752,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		refreshListScrollPosition();
 
 		// Fragments replacing
-		FragmentTransaction transaction = ((MainActivity) getActivity()).getSupportFragmentManager().beginTransaction();
-		((MainActivity) getActivity()).animateTransition(transaction,
-				((MainActivity) getActivity()).TRANSITION_HORIZONTAL);
-		DetailFragment mDetailFragment = new DetailFragment();
-		Bundle b = new Bundle();
-		b.putParcelable(Constants.INTENT_NOTE, note);
-		mDetailFragment.setArguments(b);
-		transaction
-				.replace(R.id.fragment_container, mDetailFragment, ((MainActivity) getActivity()).FRAGMENT_DETAIL_TAG)
-				.addToBackStack(((MainActivity) getActivity()).FRAGMENT_LIST_TAG).commit();
-		if (((MainActivity) getActivity()).getDrawerToggle() != null) {
-			((MainActivity) getActivity()).getDrawerToggle().setDrawerIndicatorEnabled(false);
-		}
+		((MainActivity) getActivity()).switchToDetail(note);
 	}
 
 
