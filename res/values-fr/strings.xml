@@ -166,10 +166,10 @@
   <string name="help">Aide</string>
   <string name="online_manual">Manuel en ligne</string>
   <string name="tags_added">Balises ajoutées</string>
-  <string name="working">Working...</string>
-  <string name="imported">imported</string>
-  <string name="synchronize">Synchronize</string>
-  <string name="extracted">Extracted</string>
+  <string name="working">Opération en cours...</string>
+  <string name="imported">importé</string>
+  <string name="synchronize">Synchroniser</string>
+  <string name="extracted">Extrait</string>
   <string name="dashclock_description">Affiche quelques statistiques et rappels proches d\'Omni Notes</string>
   <string name="settings">Paramètres</string>
   <string name="settings_about">Infos</string>
@@ -179,9 +179,9 @@
   <string name="action_settings">Paramètres</string>
   <string name="settings_sync_import_export">Synchronisation et sauvegarde</string>
   <string name="settings_export">Sauvegarder</string>
-  <string name="settings_import">Restore or delete backups</string>
-  <string name="settings_import_from_springpad">Import notes from Springpad</string>
-  <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>
+  <string name="settings_import">Restaurer ou supprimer les sauvegardes</string>
+  <string name="settings_import_from_springpad">Importer les notes de Springpad</string>
+  <string name="settings_import_from_springpad_summary">Sélectionnez votre archive Springpad exportée et assurez-vous d\'être connecté à internet</string>
   <string name="export_success">Fichier exporté avec succès dans le dossier</string>
   <string name="export_fail">L\'exportation du fichier a échoué</string>
   <string name="import_success">Fichier importé avec succès</string>
@@ -228,7 +228,7 @@
   <string name="settings_beta">Google+</string>
   <string name="settings_beta_summary">Rejoindre la communauté pour obtenir les toutes dernières fonctionnalités en avant-première</string>
   <string name="donate">Faire un don</string>
-  <string name="donate_summary">Support the development of this app with a non-profit donation</string>
+  <string name="donate_summary">Soutenir le développement de cette application avec un don à but non lucratif</string>
   <string name="settings_choose_language">Langue</string>
   <string name="settings_notification_ringtone">Sonnerie</string>
   <string name="settings_enable_tag_marker_full">Couleur</string>
