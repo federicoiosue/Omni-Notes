@@ -16,6 +16,10 @@
 -->
 <changelog bulletedList="true">
     
+    <changelogversion versionName="4.6.4" changeDate="Jul 19, 2014">   
+  		<changelogtext>[u]Fixed[/u] Missing password request when opening a note from widgets or shortcuts</changelogtext>
+	</changelogversion>
+    
     <changelogversion versionName="4.6.3" changeDate="Jul 13, 2014">   
   		<changelogtext>[b]New![/b] Greek language support</changelogtext>
   		<changelogtext>Updated Spanish and Ukrainian languages</changelogtext>
