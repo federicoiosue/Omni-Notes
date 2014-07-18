@@ -57,7 +57,6 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
 		// Create an Intent to launch ListActivity
 		Intent intentList = new Intent(context, MainActivity.class);
-//		PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, 0);
 		intentList.setAction(Constants.ACTION_WIDGET_SHOW_LIST);
 		intentList.putExtra(Constants.INTENT_WIDGET, widgetId);
 		PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, 

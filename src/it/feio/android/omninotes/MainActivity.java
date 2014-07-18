@@ -2,6 +2,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.UpdaterTask;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -317,8 +318,23 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 					) {
 			Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
 			if (note == null) {
+				note = DbHelper.getInstance(this).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+			}
+			
+			// Checks if the same note is already opened to avoid to open again
+			Fragment detailFragment = mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
+			if (note != null && detailFragment != null && detailFragment.isVisible()) {
+				Note openedNote = ((DetailFragment)detailFragment).getCurrentNote();
+				if (note.get_id() == openedNote.get_id()) {
+					return;
+				}
+			} 
+			
+			// Empty note instantiation
+			if (note == null) {
 				note = new Note();
 			}
+			
 			switchToDetail(note);
 		}
 		

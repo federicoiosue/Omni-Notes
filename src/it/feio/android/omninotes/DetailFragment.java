@@ -2327,6 +2327,16 @@ public class DetailFragment extends Fragment implements
 			}
 		}
 	}
+	
+	
+	/**
+	 * Used to check currently opened note from activity to avoid openind multiple times the same one
+	 * 
+	 * @return
+	 */
+	public Note getCurrentNote() {
+		return note;
+	}
 }
 
 

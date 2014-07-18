@@ -17,6 +17,7 @@
 <changelog bulletedList="true">
     
     <changelogversion versionName="4.6.4" changeDate="Jul 19, 2014">   
+  		<changelogtext>[u]Fixed[/u] Multiple instances of the same note cannot be opened at the same time anymore, eventually the previous one is moved in the foreground</changelogtext>
   		<changelogtext>[u]Fixed[/u] Missing password request when opening a note from widgets or shortcuts</changelogtext>
 	</changelogversion>
     
