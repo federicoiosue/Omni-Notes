@@ -1229,8 +1229,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		if (mAdapter.getCount() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Advice to user
-		String archivedStatus = archive ? getResources().getText(R.string.note_archived).toString() : getResources()
-				.getText(R.string.note_unarchived).toString();
+		String archivedStatus = archive ? getActivity().getResources().getText(R.string.note_archived).toString()
+				: getActivity().getResources().getText(R.string.note_unarchived).toString();
 		int msg = archive ? R.string.note_archived : R.string.note_unarchived;
 		Style style = archive ? ONStyle.WARN : ONStyle.INFO;
 		Crouton.makeText(getActivity(), msg, style).show();
