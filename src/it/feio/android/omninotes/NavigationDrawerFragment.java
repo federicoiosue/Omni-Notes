@@ -55,12 +55,12 @@ public class NavigationDrawerFragment extends Fragment {
 	private ListView mDrawerCategoriesList;
 	private View categoriesListHeader;
 	private View settingsView, settingsViewCat;
-	//private Category candidateSelectedCategory;
 	private MainActivity mActivity;
-	//private SharedPreferences prefs;
 	private CharSequence mTitle;
-	private final String SETTINGS_VIEW_TAG = "settings_view_tag";
 
+	// Categories list scrolling
+	private int listViewPosition;
+	private int listViewPositionOffset;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +70,12 @@ public class NavigationDrawerFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			if (savedInstanceState.containsKey("listViewPosition")) {
+				listViewPosition = savedInstanceState.getInt("listViewPosition");
+				listViewPositionOffset = savedInstanceState.getInt("listViewPositionOffset");
+			}
+		}
         return inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 	}
 	
@@ -80,6 +86,23 @@ public class NavigationDrawerFragment extends Fragment {
 		//prefs = mActivity.prefs;
 	}
 	
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		refreshListScrollPosition();
+		outState.putInt("listViewPosition", listViewPosition);
+		outState.putInt("listViewPositionOffset", listViewPositionOffset);
+	}
+
+
+	private void refreshListScrollPosition() {
+		if (mDrawerCategoriesList != null) {
+			listViewPosition = mDrawerCategoriesList.getFirstVisiblePosition();
+			View v = mDrawerCategoriesList.getChildAt(0);
+			listViewPositionOffset = (v == null) ? 0 : v.getTop();
+		}
+	}
 	
 
 	/**
@@ -99,9 +122,7 @@ public class NavigationDrawerFragment extends Fragment {
 		}
 
 		// Sets the adapter for the MAIN navigation list view
-//		if (mDrawerList == null) {
-			mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
-//		}
+		mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
 		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
 		mDrawerList.setAdapter(new NavDrawerAdapter(mActivity, mNavigationArray, mNavigationIconsArray));
@@ -132,9 +153,7 @@ public class NavigationDrawerFragment extends Fragment {
 		// Retrieves data to fill tags list
 		ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 
-//		if (mDrawerCategoriesList == null) {
-			mDrawerCategoriesList = (ListView) getView().findViewById(R.id.drawer_tag_list);
-//		}
+		mDrawerCategoriesList = (ListView) getView().findViewById(R.id.drawer_tag_list);
 		
 		// Inflater used for header and footer
 		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -203,8 +222,6 @@ public class NavigationDrawerFragment extends Fragment {
 				// Ensuring that clicked item is not the ListView header
 				if (item != null) {
 					Category tag = (Category) item;
-					//String navigation = tag.getName();
-//							Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 					selectNavigationItem(mDrawerCategoriesList, position);
 					mActivity.updateNavigation(String.valueOf(tag.getId()));
 					mDrawerCategoriesList.setItemChecked(position, true);
@@ -231,8 +248,17 @@ public class NavigationDrawerFragment extends Fragment {
 				return true;
 			}
 		});		
+		
+		// Restores listview position when turning back to list
+		if (mDrawerCategoriesList != null && categories.size() > 0) {
+			if (mDrawerCategoriesList.getCount() > listViewPosition) {
+				mDrawerCategoriesList.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+			} else {
+				mDrawerCategoriesList.setSelectionFromTop(0, 0);
+			}
+		}
 
-		// enable ActionBar app icon to behave as action to toggle nav drawer
+		// Enable ActionBar app icon to behave as action to toggle nav drawer
 		mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mActivity.getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -245,9 +271,12 @@ public class NavigationDrawerFragment extends Fragment {
 		R.string.drawer_close /* "close drawer" description for accessibility */
 		) {
 			public void onDrawerClosed(View view) {
+				// Saves the scrolling of the categories list
+				refreshListScrollPosition();
+				// Restore title
 				mActivity.getSupportActionBar().setTitle(mTitle);
-				mActivity.supportInvalidateOptionsMenu(); // creates call to
-															// onPrepareOptionsMenu()
+				// Call to onPrepareOptionsMenu()
+				mActivity.supportInvalidateOptionsMenu(); 
 			}
 
 			public void onDrawerOpened(View drawerView) {
@@ -266,9 +295,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 				// Show instructions on first launch
 				final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
-				if (
-//						&& !prefs.getBoolean(instructionName, false)
-			    		AppTourHelper.isMyTurn(mActivity, instructionName)) {
+				if (AppTourHelper.isMyTurn(mActivity, instructionName)) {
 					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 					list.add(new Integer[] { R.id.menu_add_category, R.string.tour_listactivity_tag_title,
 							R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM });
