@@ -1806,6 +1806,12 @@ public class DetailFragment extends Fragment implements
 	
 	
 	private void maskUnmask(){
+		// Empty password has been set
+		if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
+			Crouton.makeText(getActivity(), R.string.password_not_set, ONStyle.WARN).show();
+			return;
+		}
+		// Otherwise masking is performed
 		if (noteTmp.isLocked()) {
 			Crouton.makeText(getActivity(), R.string.save_note_to_unlock_it, ONStyle.INFO).show();
 			getActivity().supportInvalidateOptionsMenu();
@@ -1814,7 +1820,7 @@ public class DetailFragment extends Fragment implements
 			getActivity().supportInvalidateOptionsMenu();
 		}
 		noteTmp.setLocked(!noteTmp.isLocked());
-		noteTmp.setPasswordChecked(true);
+		noteTmp.setPasswordChecked(true);			
 	}
 	
 	

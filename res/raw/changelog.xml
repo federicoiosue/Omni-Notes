@@ -22,6 +22,7 @@
   		<changelogtext>Updated French translation</changelogtext>
   		<changelogtext>[u]Fixed[/u] Multiple instances of the same note cannot be opened at the same time anymore, eventually the previous one is moved in the foreground</changelogtext>
   		<changelogtext>[u]Fixed[/u] Missing password request when opening a note from widgets or shortcuts</changelogtext>
+  		<changelogtext>[u]Fixed[/u] Notes masked even with empty password set</changelogtext>
 	</changelogversion>
     
     <changelogversion versionName="4.6.3" changeDate="Jul 13, 2014">   
