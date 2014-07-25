@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="@string/notes" />
+            android:text="@string/title_item_list" />
 
         <RadioButton
             android:id="@+id/widget_config_categories"
