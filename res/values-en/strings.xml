@@ -190,7 +190,7 @@
   <string name="import_warning">Importing data could overwrite current notes. Proceed?</string>
   <string name="export_warning">Exported file will overwrite existing one. Proceed?</string>
   <string name="settings_category_gestures">Gestures</string>
-  <string name="settings_enable_swype">Enable swype</string>
+  <string name="settings_enable_swype">Enable swipe</string>
   <string name="settings_category_interface">Interface</string>
   <string name="settings_enable_animations">Animations</string>
   <string name="settings_category_notifications">Notifications</string>
@@ -263,7 +263,7 @@
   <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
   <string name="settings_show_category_count">Note count</string>
   <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
-  <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>
+  <string name="tour_request_start">You launched Omni Notes for the first time, would you like to take the application tour?</string>
   <string name="tour_listactivity_intro_title">Welcome to Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">press \"Proceed\" to continue the tour</string>
   <string name="tour_listactivity_actions_title">Actions</string>
@@ -285,7 +285,7 @@
   <string name="tour_detailactivity_save_title">Save</string>
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \n\n The opensource alternative \n for productivity and \n leisure note-taking \n\n Press \"Proceed\" to end tour \n and start inserting your first note!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \n\n The opensource alternative \n for productivity and \n leisure note-taking \n\n Press \"Proceed\" to end tour \n and create your first note!</string>
   <string name="drawer_open">drawer open</string>
   <string name="drawer_close">drawer closed</string>
   <string name="reminder">reminder</string>
