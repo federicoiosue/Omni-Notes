@@ -40,9 +40,9 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -76,12 +76,13 @@ public class SettingsActivity extends PreferenceActivity {
 	AboutOrStatsThread mAboutOrStatsThread;
 	private int aboutClickCounter = 0;
 	private final int SPRINGPAD_IMPORT = 0;
+	private final int RINGTONE_REQUEST_CODE = 100;
 		
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.settings);		
+		addPreferencesFromResource(R.xml.settings);	
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 	}
 	
@@ -720,9 +721,18 @@ public class SettingsActivity extends PreferenceActivity {
 								.show();
 					}
 					break;
+					
+				case RINGTONE_REQUEST_CODE:
+					Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+					prefs.edit().putString("settings_notification_ringtone", uri.toString()).commit();
+					break;
 			}
 		}
 	}
+	
+	
+	
+	
 	
 	
 	
