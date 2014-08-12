@@ -359,42 +359,41 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			switch (item.getItemId()) {
 				case R.id.menu_category:
 					categorizeSelectedNotes();
-					return true;
+					break;
 				case R.id.menu_tags:
 					tagSelectedNotes();
-					return true;
+					break;
 				case R.id.menu_share:
 					share();
-					return true;
+					break;
 				case R.id.menu_merge:
 					merge();
-					return true;
+					break;
 				case R.id.menu_archive:
 					archiveSelectedNotes(true);
 					mode.finish();
-					return true;
+					break;
 				case R.id.menu_unarchive:
 					archiveSelectedNotes(false);
 					mode.finish();
-					return true;
+					break;
 				case R.id.menu_trash:
 					trashSelectedNotes(true);
-					return true;
+					break;
 				case R.id.menu_untrash:
 					trashSelectedNotes(false);
-					return true;
+					break;
 				case R.id.menu_delete:
 					deleteSelectedNotes();
-					return true;
+					break;
 				case R.id.menu_select_all:
 					selectAllNotes();
-					return true;
-					// case R.id.menu_synchronize:
-					// synchronizeSelectedNotes();
-					// return true;
-				default:
-					return false;
+					break;
+				case R.id.menu_synchronize:
+					synchronizeSelectedNotes();
+				 	break;
 			}
+			return true;
 		}
 	};
 
@@ -466,7 +465,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			menu.findItem(R.id.menu_category).setVisible(true);
 			menu.findItem(R.id.menu_tags).setVisible(true);
 			menu.findItem(R.id.menu_trash).setVisible(true);
-			// menu.findItem(R.id.menu_synchronize).setVisible(true);
+//			menu.findItem(R.id.menu_synchronize).setVisible(true);
 		}
 		menu.findItem(R.id.menu_select_all).setVisible(true);
 	}
