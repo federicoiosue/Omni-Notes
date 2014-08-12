@@ -170,7 +170,7 @@
 
             <RingtonePreference
                 android:key="settings_notification_ringtone"
-                android:ringtoneType="notification"
+                android:ringtoneType="all"
                 android:title="@string/settings_notification_ringtone" />
             
 		    <EditTextPreference
