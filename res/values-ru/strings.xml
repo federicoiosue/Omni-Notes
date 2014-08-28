@@ -220,7 +220,7 @@
   <string name="confirm_removing_backup">Удалить резервную копию?</string>
   <string name="confirm_restoring_backup">Подтвердите восстановление</string>
   <string name="data_deletion_completed">Удаление данных завершено</string>
-  <string name="settings_checked_items_behavior">Перечни</string>
+  <string name="settings_checked_items_behavior">Категории</string>
   <string name="settings_checked_items_behavior_summary">Что предпринять, если пункт выбран?</string>
   <string name="settings_category_preferences">Параметры</string>
   <string name="settings_category_beta">Бета-тестирование</string>
