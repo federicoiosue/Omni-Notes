@@ -26,9 +26,9 @@
   <string name="save">Сохранить</string>
   <string name="share">Поделиться</string>
   <string name="undo">Отмена</string>
-  <string name="trash">Выбросить</string>
-  <string name="trashed">выброшено</string>
-  <string name="note_trashed">Заметка выброшена</string>
+  <string name="trash">Удалить</string>
+  <string name="trashed">удалено</string>
+  <string name="note_trashed">Заметка удалена</string>
   <string name="note_untrashed">Заметка восстановлена из корзины</string>
   <string name="untrash">Восстановить из корзины</string>
   <string name="delete">Удалить</string>
@@ -79,10 +79,10 @@
   <string name="backup_existing">Резервная копия уже существует и будет перезаписана</string>
   <string name="tag">Метка</string>
   <string name="tags">Метки</string>
-  <string name="add_tag">Добавить теги</string>
-  <string name="select_tags">Выберите заметкуи</string>
+  <string name="add_tag">Добавить метку</string>
+  <string name="select_tags">Выберите метки</string>
   <string name="categories">Категории</string>
-  <string name="edit_tag">Изменить категорию</string>
+  <string name="edit_tag">Изменить метку</string>
   <string name="add_category">Добавить категорию</string>
   <string name="category_title">Название</string>
   <string name="category_description">Описание</string>
@@ -101,7 +101,7 @@
   <string name="no_tags_created">Пока не создано ни одной метки</string>
   <string name="no_categories_created">Не создано ни одной категории</string>
   <string name="notes_category_removed">Категория убрана из заметок</string>
-  <string name="notes_categorized_as">Заметки categorized</string>
+  <string name="notes_categorized_as">Категория установлена</string>
   <string name="insert_security_password">Введите пароль безопасности</string>
   <string name="lock">Скрыть</string>
   <string name="save_note_to_lock_it">Сохраните заметку для её сокрытия</string>
@@ -118,7 +118,7 @@
   <string name="checklist_keep_checked">Оставляя выделенные пункты</string>
   <string name="checklist_keep_symbols">Сохраняя отметки (запомнить выбранные пункты)</string>
   <string name="sketch">Очерк</string>
-  <string name="crash_dialog_text">В Omni Notes что-то пошло не так!\n\nНе против ли Вы отправить отчет разработчику?</string>
+  <string name="crash_dialog_text">В Omni Notes что-то пошло не так!\n\nВы не против отправить отчет разработчику?</string>
   <string name="crash_dialog_comment_prompt">Дополните Ваш отчёт комментарием здесь:</string>
   <string name="new_update_available">Доступна новая версия Omni Notes, хотите провести обновление?</string>
   <string name="update">Обновить и оценить!</string>
@@ -220,7 +220,7 @@
   <string name="confirm_removing_backup">Удалить резервную копию?</string>
   <string name="confirm_restoring_backup">Подтвердите восстановление</string>
   <string name="data_deletion_completed">Удаление данных завершено</string>
-  <string name="settings_checked_items_behavior">Перечни</string>
+  <string name="settings_checked_items_behavior">Категории</string>
   <string name="settings_checked_items_behavior_summary">Что предпринять, если пункт выбран?</string>
   <string name="settings_category_preferences">Параметры</string>
   <string name="settings_category_beta">Бета-тестирование</string>
@@ -255,11 +255,11 @@
   <string name="colors_widget">Окрашивание виджета</string>
   <string name="settings_instant_search">Мгновенный поиск</string>
   <string name="settings_navdrawer_on_exit">Меню навигации на выходе</string>
-  <string name="settings_navdrawer_on_exit_summary">Нажатие клавиши «назад», когда в список заметок открывает меню навигации вместо выхода</string>
+  <string name="settings_navdrawer_on_exit_summary">Нажатие клавиши «назад» в списке заметок открывает меню навигации вместо выхода</string>
   <string name="settings_text_size">Размер текста</string>
   <string name="settings_category_behaviors">Поведения</string>
   <string name="settings_swipe_to_trash">Очистить корзину</string>
-  <string name="settings_swipe_to_trash_summary_1">Проведение по заметкам пальцев заархивирует их</string>
+  <string name="settings_swipe_to_trash_summary_1">Проведение по заметкам пальцем заархивирует их</string>
   <string name="settings_swipe_to_trash_summary_2">Проведение по заметкам пальцем удалит их</string>
   <string name="settings_show_category_count">Счетчик заметок</string>
   <string name="settings_show_category_count_summary">Показывает количество заметок связанных с  категорией</string>
@@ -271,7 +271,7 @@
   <string name="tour_listactivity_home_title">Навигация</string>
   <string name="tour_listactivity_home_detail">Меню навигации позволяет перемещаться между отфильтрованными и помеченными заметками</string>
   <string name="tour_listactivity_tag_title">Метки</string>
-  <string name="tour_listactivity_tag_detail">Добавляйте цветные метки, и Ваши замыслы будут всегда упорядочены</string>
+  <string name="tour_listactivity_tag_detail">Добавляйте цветные метки, и Ваши мысли будут всегда упорядочены</string>
   <string name="tour_detailactivity_attachment_title">Дополняйте</string>
   <string name="tour_detailactivity_attachment_detail">Добавляя множество различных вложений!</string>
   <string name="tour_detailactivity_action_title">Дальше - больше</string>
