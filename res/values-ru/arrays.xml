@@ -20,18 +20,18 @@
     <item>Заметки</item>
     <item>Архив</item>
     <item>Напоминания</item>
-    <item>Мусор</item>
+    <item>Корзина</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Заголовкам</item>
+    <item>Заголовку</item>
     <item>Дате создания</item>
-    <item>Последнее изменение</item>
-    <item>Времени напоминаний</item>
+    <item>Дате изменения</item>
+    <item>Времени напоминания</item>
   </string-array>
   <string-array name="checked_items_behavior">
     <item>Оставлять на месте</item>
     <item>Перемещать в конец списка</item>
-    <item>Перемещать выше других выбранных пунктов</item>
+    <item>Перемещать выше других остальных</item>
   </string-array>
   <string-array name="colors_app">
     <item>Отключено</item>
