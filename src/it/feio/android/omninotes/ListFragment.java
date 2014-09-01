@@ -1021,10 +1021,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					// ...restore
 					if (Navigation.checkNavigation(Navigation.TRASH)) {
 						trashSelectedNotes(false);
-					}
-					// removes category
-					else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
-						categorizeSelectedNotes2(null);
 					} else {
 						// ...trash
 						if (prefs.getBoolean("settings_swipe_to_trash", false)
