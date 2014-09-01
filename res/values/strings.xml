@@ -182,7 +182,7 @@
     <string name="help">Help</string>
     <string name="online_manual">Online manual</string>
     <string name="tags_added">Tags added</string>
-    <string name="working">Working...</string>    
+    <string name="working">Working…</string>    
     <string name="imported">imported</string>    
     <string name="synchronize">Synchronize</string>
     <string name="extracted">Extracted</string>
@@ -320,5 +320,6 @@
     <string name="note_reminder_symbol">note reminder symbol</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="more_colors">More colors…</string>
 
 </resources>

@@ -2,6 +2,7 @@ package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.adapters.PaletteColorPickerAdapter;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;
@@ -22,8 +23,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ViewSwitcher;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
@@ -34,6 +39,13 @@ public class CategoryActivity extends Activity {
 
 	private final float SATURATION = 0.4f;
 	private final float VALUE = 0.9f;
+	
+	private final String colors[][] = {
+			{ "0044AA", "660099", "337700", "DD4400", "990000", "404040", },
+			{ "0099CC", "9933CC", "669900", "FF8800", "CC0000", "606060", },
+			{ "44B5E5", "AA66CC", "99CC00", "FFBB33", "FF4444", "909090", },
+			{ "77F5FF", "CC99FF", "CCFF33", "FFFF66", "FF7777", "E0E0E0", },
+		};
 
 	Category category;
 	EditText title;
@@ -42,6 +54,9 @@ public class CategoryActivity extends Activity {
 	Button deleteBtn;
 	Button saveBtn;
 	Button discardBtn;
+	Button moreColorsBtn;
+	GridView palette;
+	private Integer lastPaletteColor;
 	private CategoryActivity mActivity;
 	private AlertDialog dialog;
 	private boolean colorChanged = false;
@@ -102,7 +117,18 @@ public class CategoryActivity extends Activity {
 			}
 		});
 
-		// Added invisible saturation and value bars to get achieve pastel colors
+		palette = (GridView) findViewById(R.id.colorPalette);
+		palette.setAdapter(new PaletteColorPickerAdapter(this, colors));
+		palette.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				colorChanged = true;
+				lastPaletteColor = (Integer)parent.getItemAtPosition(position);
+				picker.setColor(lastPaletteColor);
+			}
+		});
+		
+		// Added invisible saturation and value bars to achieve pastel colors
 		SaturationBar saturationbar = (SaturationBar) findViewById(R.id.saturationbar_category);
 		saturationbar.setSaturation(SATURATION);
 		picker.addSaturationBar(saturationbar);
@@ -110,11 +136,18 @@ public class CategoryActivity extends Activity {
 		valuebar.setValue(VALUE);
 		picker.addValueBar(valuebar);
 
+		moreColorsBtn = (Button) findViewById(R.id.moreColors);
 		deleteBtn = (Button) findViewById(R.id.delete);
 		saveBtn = (Button) findViewById(R.id.save);
 		discardBtn = (Button) findViewById(R.id.discard);
 		
 		// Buttons events
+		moreColorsBtn.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				((ViewSwitcher)findViewById(R.id.colorChooserSwitcher)).showNext();
+			}
+		});
 		deleteBtn.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -159,7 +192,15 @@ public class CategoryActivity extends Activity {
 	private void saveCategory() {
 		category.setName(title.getText().toString());
 		category.setDescription(description.getText().toString());
-		if (colorChanged || category.getColor() == null)
+		
+		if ((colorChanged) &&
+			(
+				((ViewSwitcher)findViewById(R.id.colorChooserSwitcher)).getCurrentView() == 
+				findViewById(R.id.colorPaletteGroup)
+			)
+		) {
+			category.setColor(String.valueOf(lastPaletteColor));
+		} else if (colorChanged || category.getColor() == null)
 			category.setColor(String.valueOf(picker.getColor()));
 		
 		// Saved to DB and new id or update result catched
