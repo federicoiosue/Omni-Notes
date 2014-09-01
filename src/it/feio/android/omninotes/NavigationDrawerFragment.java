@@ -12,9 +12,12 @@ import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.Fonts;
+
 import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,7 +27,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-//import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,9 +36,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
+
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+//import android.util.Log;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation
@@ -57,6 +62,7 @@ public class NavigationDrawerFragment extends Fragment {
 	private View settingsView, settingsViewCat;
 	private MainActivity mActivity;
 	private CharSequence mTitle;
+	private SharedPreferences prefs;
 
 	// Categories list scrolling
 	private int listViewPosition;
@@ -66,6 +72,8 @@ public class NavigationDrawerFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+		
+		prefs = ((MainActivity)getActivity()).prefs;
 	}
 
 	@Override
@@ -109,7 +117,6 @@ public class NavigationDrawerFragment extends Fragment {
 	 * Initialization of compatibility navigation drawer
 	 */
 	public void initNavigationDrawer() {
-
 		mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
 		mDrawerLayout.setFocusableInTouchMode(false);
 		
@@ -123,8 +130,13 @@ public class NavigationDrawerFragment extends Fragment {
 
 		// Sets the adapter for the MAIN navigation list view
 		mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
-		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
-		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
+		if (prefs.getBoolean("settings_enable_archive", true)) {
+			mNavigationArray = getResources().getStringArray(R.array.navigation_list);
+			mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
+		} else {
+			mNavigationArray = getResources().getStringArray(R.array.navigation_list_noarchive);
+			mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons_noarchive);
+		}
 		mDrawerList.setAdapter(new NavDrawerAdapter(mActivity, mNavigationArray, mNavigationIconsArray));
 
 		// Sets click events
@@ -132,7 +144,12 @@ public class NavigationDrawerFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				mActivity.commitPending();
-				String navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
+				String navigation;
+				if (prefs.getBoolean("settings_enable_archive", true)) {
+					navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
+				} else {
+					navigation = getResources().getStringArray(R.array.navigation_list_codes_noarchive)[position];
+				}
 //				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(mDrawerList, position);
 				mActivity.updateNavigation(navigation);

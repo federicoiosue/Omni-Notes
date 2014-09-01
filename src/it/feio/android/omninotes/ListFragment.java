@@ -1004,7 +1004,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				: R.layout.note_layout;
 		mAdapter = new NoteAdapter(getActivity(), layout, notes);
 
-		// A specifical behavior is performed basing on navigation
+		// A specific behavior is performed basing on navigation
 		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter, new OnDismissCallback() {
 			@Override
 			public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
@@ -1018,16 +1018,16 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					// listView.invalidateViews();
 
 					// Depending on settings and note status this action will...
-					// ...restore
 					if (Navigation.checkNavigation(Navigation.TRASH)) {
+						// ...restore
 						trashSelectedNotes(false);
 					} else {
-						// ...trash
-						if (prefs.getBoolean("settings_swipe_to_trash", false)
+						if ((!prefs.getBoolean("settings_enable_archive", true) && prefs.getBoolean("settings_swipe_to_trash", false))
 								|| Navigation.checkNavigation(Navigation.ARCHIVED)) {
+							// ...trash
 							trashSelectedNotes(true);
-							// ...archive
 						} else {
+							// ...archive
 							archiveSelectedNotes(true);
 						}
 					}

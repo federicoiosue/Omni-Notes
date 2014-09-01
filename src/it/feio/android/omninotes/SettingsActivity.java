@@ -335,10 +335,34 @@ public class SettingsActivity extends PreferenceActivity {
 //		});
 		
 		
-		
+		// Enable archive?
+		final CheckBoxPreference enableArchive = (CheckBoxPreference) findPreference("settings_enable_archive");
+		final CheckBoxPreference swipeToTrash = (CheckBoxPreference) findPreference("settings_swipe_to_trash");
+		if (prefs.getBoolean("settings_enable_archive", false)) {
+			enableArchive.setChecked(true);
+		} else {
+			enableArchive.setChecked(false);
+			prefs.edit().putBoolean("settings_swipe_to_trash", true);
+			prefs.edit().commit();
+		}
+		enableArchive.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
+			@Override
+			public boolean onPreferenceChange(Preference preference, final Object newValue) {
+				enableArchive.setChecked((Boolean) newValue);
+				if (!(Boolean)newValue) {
+					/* TODO: ask + move the notes from archive to trash (or cancel) */
+					/* TODO: switch current list from archive to trash, if active */
+					
+					/* If archive is disabled, trash notes directly*/
+					swipeToTrash.setChecked(true);
+					swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));					
+				}
+				return false;
+			}
+		});
+				
 		
 		// Swiping action
-		final CheckBoxPreference swipeToTrash = (CheckBoxPreference) findPreference("settings_swipe_to_trash");
 		if (prefs.getBoolean("settings_swipe_to_trash", false)) {
 			swipeToTrash.setChecked(true);
 			swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
