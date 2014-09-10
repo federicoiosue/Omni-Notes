@@ -9,10 +9,8 @@ import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
-
-import java.util.ArrayList;
 import java.util.Calendar;
-
+import java.util.List;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -58,7 +56,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	}
 	
 	private void purgeRemovedAttachments(Note note) {
-		ArrayList<Attachment> deletedAttachments = note.getAttachmentsListOld();
+		List<Attachment> deletedAttachments = note.getAttachmentsListOld();
 		for (Attachment attachment : note.getAttachmentsList()) {
 			if (attachment.getId() != 0) {
 				deletedAttachments.remove(attachment);

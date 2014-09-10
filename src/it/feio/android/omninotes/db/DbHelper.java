@@ -211,7 +211,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		
 		// Updating attachments
 		ContentValues valuesAttachments = new ContentValues();
-		ArrayList<Attachment> deletedAttachments = note.getAttachmentsListOld();
+		List<Attachment> deletedAttachments = note.getAttachmentsListOld();
 		for (Attachment attachment : note.getAttachmentsList()) {
 			// Updating attachment
 			if (attachment.getId() == 0) {
