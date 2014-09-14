@@ -1,0 +1,8 @@
+Look here for complete changelog: http://goo.gl/za0xad
+Look to the changelog inside the app for more technical changes!
+
+4.5.0
+Smoother and animated transitions
+Files attachment support: you can now include anything!
+Custom font sizes
+Added an option to open navigation drawer instead of leaving app on first "back" press when in notes list

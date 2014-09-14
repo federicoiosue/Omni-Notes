@@ -1,0 +1,25 @@
+Note taking open-source application aimed to have both a lightweight footprint on system performances and simple interface but keeping smart behavior.
+
+The project was created by the absence of such applications compatible with old phones and old versions of Android that would propose, however, an attractive look and aligned with the most recent design of the Google operating system
+
+The application left the closed Beta but it's still in Beta stage, so please report any misbehaviour.
+Follow the developments and post your comments and advice on Google+ Beta Comunity at https://plus.google.com/u/0/communities/112276053772152071903
+
+Help to complete translations is needed, if you want give me an hand please send me an e-mail!
+
+Actually the following functions are implemented:
+&bull; Android KitKat-ready appearance
+&bull; Add, modify, delete notes
+&bull; Manage active and archived notes
+&bull; Share notes
+&bull; Note searching
+&bull; Batch operations choosing multiple notes
+&bull; Export/import notes to backup
+&bull; Animations activables/deactivables
+&bull; Multimedia attachments
+&bull; To-do list
+&bull; Sketch-note mode
+&bull; Google Now integration: just tell "write a note" followed by the content
+&bull; Multiple widgets, DashClock extension, Android 4.2 lockscreen compatibility
+&bull; Notes shortcut on home screen
+&bull; Multilanguage: Arabic, Chinese, Dutch, French, English, German, Hebrew, Italian, Lao, Portuguese (Brazilian), Russian, Slovak, Spanish, Swedish, Turkish, Ukrainian
