@@ -26,7 +26,7 @@
   <string name="save">Uložiť</string>
   <string name="share">Zdieľať</string>
   <string name="undo">Späť</string>
-  <string name="trash">Kôš</string>
+  <string name="trash">Zahodiť do kôša</string>
   <string name="trashed">zahodené do koša</string>
   <string name="note_trashed">Poznámky boli zahodené do koša</string>
   <string name="note_untrashed">Poznámky boli obnovené z koša</string>

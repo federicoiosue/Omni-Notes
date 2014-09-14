@@ -45,10 +45,10 @@
     <item>Seznam beležk</item>
   </string-array>
   <string-array name="text_size">
-    <item>Najmanjša</item>
-    <item>Mala</item>
+    <item>Zelo  majhna</item>
+    <item>Majhna</item>
     <item>Privzeto</item>
     <item>Velika</item>
-    <item>Največji</item>
+    <item>Zelo velika</item>
   </string-array>
 </resources>

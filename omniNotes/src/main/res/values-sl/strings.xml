@@ -229,7 +229,7 @@ vnesti starega.\n\nZa odstranitev gesla pustite prazno</string>
   <string name="settings_beta">Google+</string>
   <string name="settings_beta_summary">Prijavite se v skupnost za dostop do delovnih različic</string>
   <string name="donate">Doniraj</string>
-  <string name="donate_summary">Support the development of this application with a non-profit donation</string>
+  <string name="donate_summary">Podpirati razvoj te vloge z neprofitno darovanja</string>
   <string name="settings_choose_language">Jezik</string>
   <string name="settings_notification_ringtone">Zvonenje</string>
   <string name="settings_enable_tag_marker_full">Polne barve</string>
@@ -257,7 +257,7 @@ vnesti starega.\n\nZa odstranitev gesla pustite prazno</string>
   <string name="settings_instant_search">Hitro iskanje</string>
   <string name="settings_navdrawer_on_exit">Navigacijski meni na izhodu</string>
   <string name="settings_navdrawer_on_exit_summary">Nujen \"nazaj\" v seznam zapiskov odpira menije namesto izhoda</string>
-  <string name="settings_text_size">Velikost besedila</string>
+  <string name="settings_text_size">Velikost pisave</string>
   <string name="settings_category_behaviors">Vedenje</string>
   <string name="settings_swipe_to_trash">Obrišite, da se premaknete v koš</string>
   <string name="settings_swipe_to_trash_summary_1">Drsna ugotavlja s prstom, bo shranjevanje</string>
