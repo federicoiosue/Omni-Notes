@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- the theme applied to the application or activity -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="actionBarStyle">@style/AppTheme.ActionBarStyle</item>
+        <item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="AppTheme.ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="background">@color/gray_bg</item>
+    </style>
+
+    <!-- ShowcaseView styles -->
+    <style name="CustomShowcaseTheme" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">#ee2d2d2d</item>
+        <item name="sv_buttonBackgroundColor">#CF3119</item>
+        <item name="sv_buttonText">@string/proceed</item>
+        <item name="sv_titleTextAppearance">@style/TourTitle</item>
+        <item name="sv_detailTextAppearance">@style/TourDetail</item>
+    </style>
+
+    <style name="TourTitle" parent="TextAppearance.ShowcaseView.Title.Light">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <!-- <item name="android:textColor">#0099CC</item> -->
+    </style>
+
+    <style name="TourDetail" parent="TextAppearance.ShowcaseView.Detail.Light">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <!-- Preferences -->
+    <style name="Theme.Preferences" parent="@style/Theme.AppCompat.Light">
+        <item name="android:listViewStyle">@style/lightListView</item>
+    </style>
+
+    <style name="lightListView">
+        <item name="android:background">#ffffff<item></item></item>
+    </style>
+
+    <style name="Theme.AppCompat.Dialog" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@drawable/bg_card</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="Theme.AppCompat.Dialog.NoBackgroundOrDim" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="Theme.AppCompat.Dialog.About" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@color/about_bg</item>
+    </style>
+
+    <style name="Button.Dialog" parent="Widget.AppCompat.ActionButton">
+        <item name="android:textColor">@color/list_note_dates</item>
+    </style>
+
+    <style name="Text.Big" parent="android:attr/textAppearanceSmall">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/actionbar_title_text</item>
+    </style>
+
+    <style name="Text.Normal" parent="android:attr/textAppearanceSmall">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/actionbar_title_text</item>
+    </style>
+
+    <style name="Text.Small" parent="android:attr/textAppearanceSmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/list_note_dates</item>
+    </style>
+
+    <style name="Text.Big.Widget" parent="@style/Text.Big">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Text.Normal.Widget" parent="@style/Text.Normal">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Text.Small.Widget" parent="@style/Text.Small">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="UndoBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginBottom">@dimen/undobar_margin_bottom</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/undobar</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="UndoBarMessage">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:textAppearance">?android:textAppearanceMedium</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="UndoBarDivider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/undobar_divider</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="UndoBarButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:background">@drawable/undobar_button</item>
+        <item name="android:drawableLeft">@drawable/ic_undobar_undo</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:textAppearance">@style/Text.Small</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:text">@string/undo</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="metaButtonBarStyle">@style/ButtonBar</item>
+        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/black_overlay</item>
+<!--         <item name="titleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
+<!--         <item name="subtitleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
+    </style>
+
+    <style name="ButtonBar">
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:background">@android:drawable/bottom_bar</item>
+    </style>
+
+    <style name="ButtonBarButton" />
+
+
+    <style name="AppTheme.ActionBar.Fullscreen.TitleTextStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+</resources>

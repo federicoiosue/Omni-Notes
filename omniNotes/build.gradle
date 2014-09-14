@@ -1,0 +1,45 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "20.0.0"
+
+    defaultConfig {
+        applicationId "it.feio.android.omninotes"
+        minSdkVersion 9
+        targetSdkVersion 19
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile ("com.doomonafireball.betterpickers:library:1.5.2") {
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
+    compile 'com.larswerkman:HoloColorPicker:1.4'
+    compile 'com.jakewharton:disklrucache:2.0.2'
+    compile 'de.keyboardsurfer.android.widget:crouton:1.8.5'
+    compile 'com.nhaarman.listviewanimations:library:2.6.0'
+    compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
+    compile 'ch.acra:acra:4.5.0'
+    compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
+    compile 'com.android.support:appcompat-v7:19.1.0'
+    compile 'com.google.android.gms:play-services:+'
+    compile files('libs/libGoogleAnalyticsServices.jar')
+
+    compile 'it.feio.android:checklistview:2.0'
+    compile 'it.feio.android:pixlUI:2.0'
+    compile ('it.feio.android:showcaseview:3.2.0') {
+        exclude group: 'org.mockito'
+        exclude group: 'org.robolectric'
+    }
+    compile 'it.feio.android:simplegallery:1.0.0'
+    compile 'it.feio.android:springpadimporter:1.0.0'
+    compile 'it.feio.android:omninotes_commons:0.0.1-SNAPSHOT'
+}
