@@ -30,7 +30,7 @@ dependencies {
     compile 'ch.acra:acra:4.5.0'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
     compile 'com.android.support:appcompat-v7:19.1.0'
-    compile 'com.google.android.gms:play-services:+'
+    compile 'com.google.android.gms:play-services:5.+'
     compile files('libs/libGoogleAnalyticsServices.jar')
 
     compile 'it.feio.android:checklistview:2.0'

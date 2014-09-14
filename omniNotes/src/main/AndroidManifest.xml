@@ -127,7 +127,7 @@
         <activity
             android:name="it.feio.android.omninotes.CategoryActivity"
             android:label="@string/title_activity_category"
-            android:parentActivityName="it.feio.android.omninotes.ListFragment"
+            android:parentActivityName="it.feio.android.omninotes.MainActivity"
             android:theme="@style/Theme.AppCompat.Dialog" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -138,7 +138,7 @@
         <activity
             android:name="it.feio.android.omninotes.SettingsActivity"
             android:label="@string/settings"
-            android:parentActivityName="it.feio.android.omninotes.ListFragment"
+            android:parentActivityName="it.feio.android.omninotes.MainActivity"
             android:theme="@style/Theme.Preferences" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
