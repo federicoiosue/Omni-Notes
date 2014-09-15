@@ -21,9 +21,6 @@ import android.os.Parcelable;
 
 public class Note extends it.feio.android.omninotes.commons.models.Note implements Parcelable {
 
-	private List<Attachment> attachmentsList = new ArrayList<Attachment>();
-	private List<Attachment> attachmentsListOld = new ArrayList<Attachment>();
-
 	// Not saved in DB
 	private boolean passwordChecked = false;
 
@@ -43,11 +40,6 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
 	public Note(Note note) {
 		super(note);
-		// ArrayList<Attachment> list = new ArrayList<Attachment>();
-		// for (Attachment mAttachment : note.getAttachmentsList()) {
-		// list.add(mAttachment);
-		// }
-		// setAttachmentsList(list);
 		setPasswordChecked(note.isPasswordChecked());
 	}
 
@@ -67,7 +59,7 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 		setCategory((Category) in.readParcelable(Category.class.getClassLoader()));
 		setLocked(in.readInt());
 		setChecklist(in.readInt());
-		in.readList(attachmentsList, Attachment.class.getClassLoader());
+		in.readList(getAttachmentsList(), Attachment.class.getClassLoader());
 	}
 
 
@@ -88,27 +80,29 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
 
 	public List<Attachment> getAttachmentsList() {
-		return attachmentsList;
+		return (List<Attachment>)super.getAttachmentsList();
 	}
 
 
 	public void setAttachmentsList(ArrayList<Attachment> attachmentsList) {
-		this.attachmentsList = attachmentsList;
+		super.setAttachmentsList(attachmentsList);
 	}
 
 
 	public void addAttachment(Attachment attachment) {
-		this.attachmentsList.add(attachment);
+        List<Attachment> attachmentsList = ((List<Attachment>)super.getAttachmentsList());
+        attachmentsList.add(attachment);
+        setAttachmentsList(attachmentsList);
 	}
 
 
 	public List<Attachment> getAttachmentsListOld() {
-		return attachmentsListOld;
+        return (List<Attachment>)super.getAttachmentsListOld();
 	}
 
 
 	public void setAttachmentsListOld(ArrayList<Attachment> attachmentsListOld) {
-		this.attachmentsListOld = attachmentsListOld;
+		super.setAttachmentsListOld(attachmentsListOld);
 	}
 
 
