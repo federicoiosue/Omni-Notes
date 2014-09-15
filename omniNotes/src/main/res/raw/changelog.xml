@@ -15,12 +15,17 @@
   limitations under the License.
 -->
 <changelog bulletedList="true">
-    
-    <changelogversion versionName="4.6.5" changeDate="Aug 12, 2014">   
-  		<changelogtext>[b]New![/b] All device sounds are now available as notifications</changelogtext>
-  		<changelogtext>Updated a lot of translation strings: Chinese, French, Slovak, Slovenian, Russian</changelogtext>
-  		<changelogtext>[u]Fixed[/u] Notification selection from settings</changelogtext>
-	</changelogversion>
+
+    <changelogversion versionName="4.6.6" changeDate="Sep 16, 2014">
+        <changelogtext>[b]New![/b] Searching action in categories will find only notes belonging to the currently selected category</changelogtext>
+        <changelogtext>Updated translation: English, Slovenian, Slovak</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="4.6.5" changeDate="Aug 12, 2014">
+        <changelogtext>[b]New![/b] All device sounds are now available as notifications</changelogtext>
+        <changelogtext>Updated a lot of translation strings: Chinese, French, Slovak, Slovenian, Russian</changelogtext>
+        <changelogtext>[u]Fixed[/u] Notification selection from settings</changelogtext>
+    </changelogversion>
     
     <changelogversion versionName="4.6.4" changeDate="Jul 19, 2014">   
   		<changelogtext>[b]New![/b] The scrolling of the categories list is preserved through navigation changes</changelogtext>

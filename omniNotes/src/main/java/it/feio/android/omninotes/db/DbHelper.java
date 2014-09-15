@@ -574,14 +574,10 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return Notes list
 	 */
 	public List<Note> getNotesByPattern(String pattern) {
-		
-//		String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-//		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
-//		boolean trash = navigationListCodes[3].equals(navigation);
-		
 		String whereCondition = " WHERE "
-								+ KEY_TRASHED + (Navigation.checkNavigation(Navigation.TRASH) ? " IS 1" : " IS NOT 1") 
-								+ " AND (" 
+								+ KEY_TRASHED + (Navigation.checkNavigation(Navigation.TRASH) ? " IS 1" : " IS NOT 1")
+								+ (Navigation.checkNavigation(Navigation.CATEGORY) ? " AND " + KEY_CATEGORY + " = " + Navigation.getCategory() : "")
+								+ " AND ("
 									+ " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR " + KEY_CONTENT + " LIKE '%" + pattern + "%' ))"
 									+ " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + pattern + "%' )"
 								+ ")";
@@ -596,7 +592,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return Notes list
 	 */
 	public List<Note> getNotesWithReminder(boolean passed) {
-		// Select query
 		String whereCondition = " WHERE " + KEY_ALARM 
 								+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis())
 								+  " AND " + KEY_ARCHIVED + " IS NOT 1"
@@ -611,7 +606,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return Notes list
 	 */
 	public List<Note> getTodayReminders() {
-		// Select query
 		String whereCondition = " WHERE DATE(" + KEY_ALARM + "/1000, 'unixepoch') = DATE('now')";
 		return getNotes(whereCondition, false);
 	}
