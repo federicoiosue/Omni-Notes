@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=ready&title=Ready)](https://waffle.io/federicoiosue/Omni-Notes)
 Omni-Notes
 ==========
 
