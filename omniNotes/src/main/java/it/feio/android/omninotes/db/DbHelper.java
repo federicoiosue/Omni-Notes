@@ -22,6 +22,8 @@ import it.feio.android.omninotes.models.Stats;
 import it.feio.android.omninotes.utils.AssetUtils;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.Security;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -167,13 +169,20 @@ public class DbHelper extends SQLiteOpenHelper {
 		
 		long resNote, resAttachment;
 		SQLiteDatabase db = this.getWritableDatabase();
+
+        String content;
+        if (note.isLocked()) {
+            content = Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""));
+        } else {
+            content = note.getContent();
+        }
 		
 		// To ensure note and attachments insertions are atomical and boost performances transaction are used
 		db.beginTransaction();
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_TITLE, note.getTitle());
-		values.put(KEY_CONTENT, note.getContent());
+		values.put(KEY_CONTENT, content);
 		values.put(KEY_CREATION, note.getCreation() != null ? note.getCreation() : Calendar.getInstance().getTimeInMillis());
 		values.put(KEY_LAST_MODIFICATION, updateLastModification ? Calendar
 				.getInstance().getTimeInMillis() : (note.getLastModification() != null ? note.getLastModification() : Calendar
@@ -448,6 +457,11 @@ public class DbHelper extends SQLiteOpenHelper {
 					note.setAddress(cursor.getString(i++));
 					note.setLocked("1".equals(cursor.getString(i++)));
 					note.setChecklist("1".equals(cursor.getString(i++)));
+
+                    // Eventual decryption of content
+                    if (note.isLocked()) {
+                        note.setContent(Security.decrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, "")));
+                    }
 					
 					// Set category
 					Category category = new Category(cursor.getInt(i++), cursor.getString(i++), cursor.getString(i++), cursor.getString(i++));

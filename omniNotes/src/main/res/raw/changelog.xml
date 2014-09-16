@@ -17,6 +17,7 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="4.6.6" changeDate="Sep 16, 2014">
+        <changelogtext>[b]New![/b] Masking notes now enhance your protection by encrypting note content too</changelogtext>
         <changelogtext>[b]New![/b] Searching action in categories will find only notes belonging to the currently selected category</changelogtext>
         <changelogtext>Updated translation: English, Slovenian, Slovak</changelogtext>
     </changelogversion>
