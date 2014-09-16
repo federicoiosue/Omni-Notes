@@ -8,6 +8,7 @@ import java.util.Calendar;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.DatePicker;
 
@@ -101,11 +102,11 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 	 */
 
 	public void showDatePickerDialog(long presetDateTime) {
-		DatePickerFragment newFragment = new DatePickerFragment();
-		Bundle bundle = new Bundle();		
-		bundle.putLong(DatePickerFragment.DEFAULT_DATE, presetDateTime);
-		newFragment.setArguments(bundle);
-		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
+        Bundle b = new Bundle();
+		b.putLong(DatePickerDialogFragment.DEFAULT_DATE, presetDateTime);
+        DialogFragment picker = new DatePickerDialogFragment();
+        picker.setArguments(b);
+        picker.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
 	
 	
@@ -116,18 +117,17 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 		newFragment.setArguments(bundle);
 		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 	}
-	
-	
 
-	@Override
-	public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
-		// Setting alarm time in milliseconds
-				Calendar c = Calendar.getInstance();
-				c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
-				if (mOnReminderPickedListener != null) {
-					mOnReminderPickedListener.onReminderPicked(c.getTimeInMillis());
-				}
-	}
+
+    @Override
+    public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
+        // Setting alarm time in milliseconds
+        Calendar c = Calendar.getInstance();
+        c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
+        if (mOnReminderPickedListener != null) {
+            mOnReminderPickedListener.onReminderPicked(c.getTimeInMillis());
+        }
+    }
 
 
 

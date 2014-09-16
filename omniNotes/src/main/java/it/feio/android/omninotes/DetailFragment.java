@@ -128,14 +128,7 @@ import com.neopixl.pixlui.links.TextLinkClickListener;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-/**
- * An activity representing a single Item detail screen. getActivity() activity is only
- * used on handset devices. On tablet-size devices, item details are presented
- * side-by-side with a list of items in a {@link ItemListActivity}.
- * <p>
- * getActivity() activity is mostly just a 'shell' activity containing nothing more than
- * a {@link ItemDetailFragment}.
- */
+
 public class DetailFragment extends Fragment implements
 		OnReminderPickedListener, TextLinkClickListener, OnTouchListener,
 		OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved {
@@ -764,7 +757,7 @@ public class DetailFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP : ReminderPickers.TYPE_GOOGLE;
-				ReminderPickers reminderPicker = new ReminderPickers(((MainActivity)getActivity()), mFragment, pickerType);
+				ReminderPickers reminderPicker = new ReminderPickers(getActivity(), mFragment, pickerType);
 				Long presetDateTime = noteTmp.getAlarm() != null ? Long.parseLong(noteTmp.getAlarm()) : null;
 				reminderPicker.pick(presetDateTime);
 				onDateSetListener = reminderPicker;
