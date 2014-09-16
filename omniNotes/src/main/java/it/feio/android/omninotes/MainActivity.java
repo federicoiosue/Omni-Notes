@@ -403,10 +403,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		
 		String contentText = titleText 
 								+ System.getProperty("line.separator")
-								+ note.getContent() 
-								+ System.getProperty("line.separator")
-								+ System.getProperty("line.separator")
-								+ getResources().getString(R.string.shared_content_sign);
+								+ note.getContent();
 		
 
 		Intent shareIntent = new Intent();
