@@ -2323,8 +2323,8 @@ public class DetailFragment extends Fragment implements
 	}
 
 
-    public void setContentViewText(String text) {
-        content.setText(text);
+    public void appendToContentViewText(String text) {
+        content.setText(getNoteContent() + System.getProperty("line.separator") + text);
     }
 	
 	

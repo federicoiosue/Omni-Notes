@@ -480,7 +480,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    df.setContentViewText(message);
+                    df.appendToContentViewText(message);
                 }
             });
         }
