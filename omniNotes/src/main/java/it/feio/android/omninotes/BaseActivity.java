@@ -16,6 +16,7 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.checklistview.utils.DensityUtil;
+import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.KeyboardUtils;
@@ -23,6 +24,7 @@ import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -208,8 +210,6 @@ public class BaseActivity extends ActionBarActivity {
 	/**
 	 * Method to validate security password to protect notes.
 	 * It uses an interface callback.
-	 * @param password
-	 * @param mPasswordValidator
 	 */
 	public static void requestPassword(final Activity mActivity, final PasswordValidator mPasswordValidator) {
 		
@@ -271,21 +271,40 @@ public class BaseActivity extends ActionBarActivity {
 		        });
 		    }
 		});
-		
 
 		dialog.show();
 		
 		// Force focus and shows soft keyboard
-//		passwordEditText.requestFocus();
-//		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 		KeyboardUtils.showKeyboard(passwordEditText);
-
 	}
-	
-	
-	
-	protected void updateNavigation(String nav){
+
+
+    /**
+     * Method to validate security password to protect a list of notes.
+     * It uses an interface callback.
+     */
+    public static void requestPassword(final Activity mActivity, List<Note> notes, final PasswordValidator mPasswordValidator) {
+        boolean askForPassword = false;
+        for (Note note : notes) {
+            if (note.isLocked()) {
+                askForPassword = true;
+                break;
+            }
+        }
+        if (askForPassword) {
+            BaseActivity.requestPassword(mActivity, new PasswordValidator() {
+                @Override
+                public void onPasswordValidated(boolean result) {
+                    mPasswordValidator.onPasswordValidated(result);
+                }
+            });
+        } else {
+            mPasswordValidator.onPasswordValidated(true);
+        }
+    }
+
+
+    protected void updateNavigation(String nav){
 		prefs.edit().putString(Constants.PREF_NAVIGATION, nav).commit();
 		navigation = nav;
 		navigationTmp = null;

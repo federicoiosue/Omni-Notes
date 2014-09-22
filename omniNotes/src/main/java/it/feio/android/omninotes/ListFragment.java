@@ -357,7 +357,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			// Respond to clicks on the actions in the CAB
 			switch (item.getItemId()) {
 				case R.id.menu_category:
-					categorizeSelectedNotes();
+					categorizeNotesDialog();
 					break;
 				case R.id.menu_tags:
 					tagSelectedNotes();
@@ -369,11 +369,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					merge();
 					break;
 				case R.id.menu_archive:
-					archiveSelectedNotes(true);
+					archiveNotes(true);
 					mode.finish();
 					break;
 				case R.id.menu_unarchive:
-					archiveSelectedNotes(false);
+					archiveNotes(false);
 					mode.finish();
 					break;
 				case R.id.menu_trash:
@@ -383,7 +383,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					trashSelectedNotes(false);
 					break;
 				case R.id.menu_delete:
-					deleteSelectedNotes();
+					deleteNotes();
 					break;
 				case R.id.menu_select_all:
 					selectAllNotes();
@@ -802,7 +802,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			case REQUEST_CODE_CATEGORY_NOTES:
 				if (intent != null) {
 					Category tag = intent.getParcelableExtra(Constants.INTENT_TAG);
-					categorizeSelectedNotes2(tag);
+					categorizeNotesExecute(tag);
 				}
 				break;
 
@@ -851,17 +851,18 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 		alertDialogBuilder.setMessage(R.string.empty_trash_confirmation)
 				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						for (int i = 0; i < mAdapter.getCount(); i++) {
-							selectedNotes.add(mAdapter.getItem(i));
-						}
-						deleteSelectedNotes2();
-					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {}
-				});
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        for (int i = 0; i < mAdapter.getCount(); i++) {
+                            selectedNotes.add(mAdapter.getItem(i));
+                        }
+                        deleteNotesExecute();
+                    }
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
 		alertDialogBuilder.create().show();
 	}
 
@@ -951,11 +952,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					+ getString(R.string.search) + ":</i> " + searchQuery));
 			searchLabel.setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.search_cancel).setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					toggleSearchLabel(false);
-				}
-			});
+                @Override
+                public void onClick(View v) {
+                    toggleSearchLabel(false);
+                }
+            });
 		}
 
 		else {
@@ -1007,7 +1008,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					}
 					// removes category
 					else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
-						categorizeSelectedNotes2(null);
+						categorizeNotesExecute(null);
 					} else {
 						// ...trash
 						if (prefs.getBoolean("settings_swipe_to_trash", false)
@@ -1015,7 +1016,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 							trashSelectedNotes(true);
 							// ...archive
 						} else {
-							archiveSelectedNotes(true);
+							archiveNotes(true);
 						}
 					}
 				}
@@ -1127,14 +1128,21 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	/**
 	 * Batch note permanent deletion
 	 */
-	private void deleteSelectedNotes() {
+	private void deleteNotes() {
 		// Confirm dialog creation
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
 				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						deleteSelectedNotes2();
+                        BaseActivity.requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
+                            @Override
+                            public void onPasswordValidated(boolean result) {
+                                if (result) {
+                                    deleteNotesExecute();
+                                }
+                            }
+                        });
 					}
 				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
@@ -1147,7 +1155,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	/**
 	 * Performs notes permanent deletion after confirmation by the user
 	 */
-	private void deleteSelectedNotes2() {
+	private void deleteNotesExecute() {
 		for (Note note : selectedNotes) {
 			mAdapter.remove(note);
 			((MainActivity) getActivity()).deleteNote(note);
@@ -1159,10 +1167,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		finishActionMode();
 
-		// Refresh view
-		// ListView l = (ListView) ((MainActivity)getActivity()).findViewById(R.id.notes_list);
-		// l.invalidateViews();
-
 		// If list is empty again Mr Jingles will appear again
 		if (mAdapter.getCount() == 0)
 			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
@@ -1172,67 +1176,80 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	}
 
 
-	/**
-	 * Batch note archiviation
-	 */
-	public void archiveSelectedNotes(boolean archive) {
-		// Used in undo bar commit
-		sendToArchive = archive;
+    /**
+     * Batch note archiviation - Notes protection check
+     */
+    public void archiveNotes(final boolean archive) {
+        BaseActivity.requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
+            @Override
+            public void onPasswordValidated(boolean result) {
+                if (result) {
+                    archiveNotesExecute(archive);
+                }
+            }
+        });
+    }
 
-		for (Note note : selectedNotes) {
-			// If is restore it will be done immediately, otherwise the undo bar
-			// will be shown
-			if (!archive) {
-				archiveNote(note, false);
-			} else {
-				// Saves notes to be eventually restored at right position
-				undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
-			}
-			
-			// Updates adapter content. If actual navigation is a category
-			// the item will not be removed but replaced to fit the new state
-			if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
-				mAdapter.remove(note);
-			} else {
-				note.setArchived(archive);
-				mAdapter.replace(note, mAdapter.getPosition(note));
-			}
-		}
 
-		// Clears data structures
-		mAdapter.clearSelectedItems();
-		listView.clearChoices();
+    /**
+     * Batch note archiviation
+     */
+    public void archiveNotesExecute(boolean archive) {
+        // Used in undo bar commit
+        sendToArchive = archive;
 
-		// Refresh view
-		listView.invalidateViews();
+        for (Note note : selectedNotes) {
+            // If is restore it will be done immediately, otherwise the undo bar
+            // will be shown
+            if (!archive) {
+                archiveNote(note, false);
+            } else {
+                // Saves notes to be eventually restored at right position
+                undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
+            }
 
-		// If list is empty again Mr Jingles will appear again
-		if (mAdapter.getCount() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+            // Updates adapter content. If actual navigation is a category
+            // the item will not be removed but replaced to fit the new state
+            if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
+                mAdapter.remove(note);
+            } else {
+                note.setArchived(archive);
+                mAdapter.replace(note, mAdapter.getPosition(note));
+            }
+        }
 
-		// Advice to user
-		int msg = archive ? R.string.note_archived : R.string.note_unarchived;
-		Style style = archive ? ONStyle.WARN : ONStyle.INFO;
-		Crouton.makeText(getActivity(), msg, style).show();
+        // Clears data structures
+        mAdapter.clearSelectedItems();
+        listView.clearChoices();
 
-		// Creation of undo bar
-		if (archive) {
-			ubc.showUndoBar(false, selectedNotes.size() + " " + getString(R.string.archived), null);
-			undoArchive = true;
-		} else {
-			selectedNotes.clear();
-		}
-	}
+        // Refresh view
+        listView.invalidateViews();
+
+        // If list is empty again Mr Jingles will appear again
+        if (mAdapter.getCount() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+
+        // Advice to user
+        int msg = archive ? R.string.note_archived : R.string.note_unarchived;
+        Style style = archive ? ONStyle.WARN : ONStyle.INFO;
+        Crouton.makeText(getActivity(), msg, style).show();
+
+        // Creation of undo bar
+        if (archive) {
+            ubc.showUndoBar(false, selectedNotes.size() + " " + getString(R.string.archived), null);
+            undoArchive = true;
+        } else {
+            selectedNotes.clear();
+        }
+    }
 
 
 	private void archiveNote(Note note, boolean archive) {
 		// Deleting note using DbHelper
 		DbHelper.getInstance(getActivity()).archiveNote(note, archive);
-
 		// Update adapter content
 		if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
 			mAdapter.remove(note);
 		}
-		
 		// Informs the user about update
 		BaseActivity.notifyAppWidgets(getActivity());
 		Log.d(Constants.TAG, "Note with id '" + note.get_id() + "' " + (archive ? "archived" : "restored from archive"));
@@ -1254,7 +1271,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	/**
 	 * Tag selected notes
 	 */
-	private void categorizeSelectedNotes() {
+	private void categorizeNotesDialog() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
 		// Retrieves all available categories
@@ -1269,7 +1286,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 								// Moved to other method, ((MainActivity)getActivity()) way the same code
 								// block can be called
 								// also by onActivityResult when a new tag is created
-								categorizeSelectedNotes2(categories.get(which));
+                                categorizeNotesCheckProtection(categories.get(which));
 							}
 						}).setPositiveButton(R.string.add_category, new DialogInterface.OnClickListener() {
 					@Override
@@ -1281,7 +1298,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				}).setNeutralButton(R.string.remove_category, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						categorizeSelectedNotes2(null);
+                        categorizeNotesCheckProtection(null);
 					}
 				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
@@ -1301,12 +1318,24 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	}
 
 
-	private void categorizeSelectedNotes2(Category category) {
+    private void categorizeNotesCheckProtection(final Category category) {
+        BaseActivity.requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
+            @Override
+            public void onPasswordValidated(boolean result) {
+                if (result) {
+                    categorizeNotesExecute(category);
+                }
+            }
+        });
+    }
+
+
+	private void categorizeNotesExecute(Category category) {
 		for (Note note : selectedNotes) {
 			// If is restore it will be done immediately, otherwise the undo bar
 			// will be shown
 			if (category != null) {
-				categorizeSelectedNotes3(note, category);
+				categorizeNote(note, category);
 			} else {
 				// Saves categories associated to eventually undo
 				undoCategoryList.put(note, note.getCategory());
@@ -1363,58 +1392,73 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	}
 
 
-	private void categorizeSelectedNotes3(Note note, Category category) {
+	private void categorizeNote(Note note, Category category) {
 		note.setCategory(category);
 		DbHelper.getInstance(getActivity()).updateNote(note, false);
 	}
 
 
-	/**
-	 * Bulk tag selected notes
-	 */
-	private void tagSelectedNotes() {
-
-		// Retrieves all available tags
-		final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
-
-		// If there is no category a message will be shown
-		if (tags.size() == 0) {
-			Crouton.makeText(getActivity(), R.string.no_tags_created, ONStyle.WARN).show();
-			return;
-		}
-
-		// Selected tags
-		final boolean[] selectedTags = new boolean[tags.size()];
-		Arrays.fill(selectedTags, Boolean.FALSE);
-
-		// Dialog and events creation
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		final String[] tagsArray = tags.toArray(new String[tags.size()]);
-		builder.setTitle(R.string.select_tags)
-				.setMultiChoiceItems(tagsArray, selectedTags, new DialogInterface.OnMultiChoiceClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-						selectedTags[which] = isChecked;
-					}
-				}).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						tagSelectedNotes2(tags, selectedTags);
-					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						selectedNotes.clear();
-						if (mActionMode != null) {
-							mActionMode.finish();
-						}
-					}
-				});
-		builder.create().show();
-	}
+    /**
+     * Bulk tag selected notes
+     */
+    private void tagSelectedNotes() {
+        BaseActivity.requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
+            @Override
+            public void onPasswordValidated(boolean result) {
+                if (result) {
+                    tagNotesElaborate();
+                }
+            }
+        });
+    }
 
 
-	private void tagSelectedNotes2(List<String> tags, boolean[] selectedTags) {
+    /**
+     * Bulk tag selected notes
+     */
+    private void tagNotesElaborate() {
+
+        // Retrieves all available tags
+        final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
+
+        // If there is no tag a message will be shown
+        if (tags.size() == 0) {
+            Crouton.makeText(getActivity(), R.string.no_tags_created, ONStyle.WARN).show();
+            return;
+        }
+
+        // Selected tags
+        final boolean[] selectedTags = new boolean[tags.size()];
+        Arrays.fill(selectedTags, Boolean.FALSE);
+
+        // Dialog and events creation
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final String[] tagsArray = tags.toArray(new String[tags.size()]);
+        builder.setTitle(R.string.select_tags)
+                .setMultiChoiceItems(tagsArray, selectedTags, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        selectedTags[which] = isChecked;
+                    }
+                }).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                tagNotesExecute(tags, selectedTags);
+            }
+        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                selectedNotes.clear();
+                if (mActionMode != null) {
+                    mActionMode.finish();
+                }
+            }
+        });
+        builder.create().show();
+    }
+
+
+	private void tagNotesExecute(List<String> tags, boolean[] selectedTags) {
 
 		// Retrieves selected tags
 		for (Note note : selectedNotes) {
@@ -1527,7 +1571,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					trashNote(note, true);
 				else if (undoArchive)
 					archiveNote(note, sendToArchive);
-				else if (undoCategorize) categorizeSelectedNotes3(note, undoCategorizeCategory);
+				else if (undoCategorize) categorizeNote(note, undoCategorizeCategory);
 			}
 			// Refreshes navigation drawer if is set to show categories count numbers
 			if (prefs.getBoolean("settings_show_category_count", false)) {
