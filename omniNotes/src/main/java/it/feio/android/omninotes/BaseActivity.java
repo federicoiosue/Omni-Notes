@@ -281,9 +281,15 @@ public class BaseActivity extends ActionBarActivity {
 
     /**
      * Method to validate security password to protect a list of notes.
+     * When "Request password on access" in switched on this check not required all the times.
      * It uses an interface callback.
      */
-    public static void requestPassword(final Activity mActivity, List<Note> notes, final PasswordValidator mPasswordValidator) {
+    public void requestPassword(final Activity mActivity, List<Note> notes, final PasswordValidator mPasswordValidator) {
+        if (prefs.getBoolean("settings_password_access", false)) {
+            mPasswordValidator.onPasswordValidated(true);
+            return;
+        }
+
         boolean askForPassword = false;
         for (Note note : notes) {
             if (note.isLocked()) {
@@ -294,8 +300,8 @@ public class BaseActivity extends ActionBarActivity {
         if (askForPassword) {
             BaseActivity.requestPassword(mActivity, new PasswordValidator() {
                 @Override
-                public void onPasswordValidated(boolean result) {
-                    mPasswordValidator.onPasswordValidated(result);
+                public void onPasswordValidated(boolean passwordConfirmed) {
+                    mPasswordValidator.onPasswordValidated(passwordConfirmed);
                 }
             });
         } else {

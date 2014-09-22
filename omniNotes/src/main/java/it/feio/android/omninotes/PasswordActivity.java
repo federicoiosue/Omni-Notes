@@ -58,8 +58,8 @@ public class PasswordActivity extends BaseActivity {
 					if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
 						requestPassword(mActivity, new PasswordValidator() {							
 							@Override
-							public void onPasswordValidated(boolean result) {
-								if (result) {
+							public void onPasswordValidated(boolean passwordConfirmed) {
+								if (passwordConfirmed) {
 									updatePassword(passwordText, questionText, answerText);
 								}
 								

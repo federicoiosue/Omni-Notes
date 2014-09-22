@@ -353,45 +353,20 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 
 		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			// Respond to clicks on the actions in the CAB
-			switch (item.getItemId()) {
-				case R.id.menu_category:
-					categorizeNotesDialog();
-					break;
-				case R.id.menu_tags:
-					tagSelectedNotes();
-					break;
-				case R.id.menu_share:
-					share();
-					break;
-				case R.id.menu_merge:
-					merge();
-					break;
-				case R.id.menu_archive:
-					archiveNotes(true);
-					mode.finish();
-					break;
-				case R.id.menu_unarchive:
-					archiveNotes(false);
-					mode.finish();
-					break;
-				case R.id.menu_trash:
-					trashSelectedNotes(true);
-					break;
-				case R.id.menu_untrash:
-					trashSelectedNotes(false);
-					break;
-				case R.id.menu_delete:
-					deleteNotes();
-					break;
-				case R.id.menu_select_all:
-					selectAllNotes();
-					break;
-				case R.id.menu_synchronize:
-					synchronizeSelectedNotes();
-				 	break;
-			}
+		public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
+            Integer[] protectedActions = {R.id.menu_select_all, R.id.menu_merge};
+            if (!Arrays.asList(protectedActions).contains(item.getItemId())) {
+                ((MainActivity)getActivity()).requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
+                    @Override
+                    public void onPasswordValidated(boolean passwordConfirmed) {
+                        if (passwordConfirmed) {
+                            performAction(item, mode);
+                        }
+                    }
+                });
+            } else {
+                performAction(item, mode);
+            }
 			return true;
 		}
 	}
@@ -581,94 +556,155 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Expands the widget hiding other actionbar icons
 		searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				menu.findItem(R.id.menu_add).setVisible(!hasFocus);
-				menu.findItem(R.id.menu_sort).setVisible(!hasFocus);
-				menu.findItem(R.id.menu_contracted_view).setVisible(!hasFocus);
-				menu.findItem(R.id.menu_expanded_view).setVisible(!hasFocus);
-				menu.findItem(R.id.menu_tags).setVisible(hasFocus);
-			}
-		});
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                menu.findItem(R.id.menu_add).setVisible(!hasFocus);
+                menu.findItem(R.id.menu_sort).setVisible(!hasFocus);
+                menu.findItem(R.id.menu_contracted_view).setVisible(!hasFocus);
+                menu.findItem(R.id.menu_expanded_view).setVisible(!hasFocus);
+                menu.findItem(R.id.menu_tags).setVisible(hasFocus);
+            }
+        });
 
 		MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
 
-			@Override
-			public boolean onMenuItemActionCollapse(MenuItem item) {
-				// Reinitialize notes list to all notes when search is
-				// collapsed
-				searchQuery = null;
-				if (getActivity().findViewById(R.id.search_layout).getVisibility() == View.VISIBLE) {
-					toggleSearchLabel(false);
-				}
-				getActivity().getIntent().setAction(Intent.ACTION_MAIN);
-				initNotesList(getActivity().getIntent());
-				return true;
-			}
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Reinitialize notes list to all notes when search is
+                // collapsed
+                searchQuery = null;
+                if (getActivity().findViewById(R.id.search_layout).getVisibility() == View.VISIBLE) {
+                    toggleSearchLabel(false);
+                }
+                getActivity().getIntent().setAction(Intent.ACTION_MAIN);
+                initNotesList(getActivity().getIntent());
+                return true;
+            }
 
 
-			@Override
-			public boolean onMenuItemActionExpand(MenuItem item) {
-				searchView.setOnQueryTextListener(new OnQueryTextListener() {
-					@Override
-					public boolean onQueryTextSubmit(String arg0) {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                searchView.setOnQueryTextListener(new OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String arg0) {
                         return prefs.getBoolean("settings_instant_search", false);
-					}
+                    }
 
-					@Override
-					public boolean onQueryTextChange(String pattern) {
-						if (prefs.getBoolean("settings_instant_search", false)) {
-							getActivity().findViewById(R.id.search_layout).setVisibility(View.GONE);
-							searchTags = null;
-							searchQuery = pattern;
-							NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
-							mNoteLoaderTask.execute("getNotesByPattern", pattern);
-							return true;
-						} else {
-							return false;
-						}
-					}
-				});
-				return true;
-			}
-		});
+                    @Override
+                    public boolean onQueryTextChange(String pattern) {
+                        if (prefs.getBoolean("settings_instant_search", false)) {
+                            getActivity().findViewById(R.id.search_layout).setVisibility(View.GONE);
+                            searchTags = null;
+                            searchQuery = pattern;
+                            NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
+                            mNoteLoaderTask.execute("getNotesByPattern", pattern);
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+                return true;
+            }
+        });
 	}
 
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				if (((MainActivity) getActivity()).getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
-					((MainActivity) getActivity()).getDrawerLayout().closeDrawer(GravityCompat.START);
-				} else {
-					((MainActivity) getActivity()).getDrawerLayout().openDrawer(GravityCompat.START);
-				}
-				break;
-			case R.id.menu_tags:
-				filterByTags();
-				break;
-			case R.id.menu_add:
-				editNote(new Note());
-				break;
-			case R.id.menu_sort:
-				sortNotes();
-				break;
-			case R.id.menu_add_category:
-				editCategory(null);
-				break;
-			case R.id.menu_expanded_view:
-				switchNotesView();
-				break;
-			case R.id.menu_contracted_view:
-				switchNotesView();
-				break;
-			case R.id.menu_empty_trash:
-				emptyTrash();
-				break;
-		}
+	public boolean onOptionsItemSelected(final MenuItem item) {
+        Integer[] protectedActions = {R.id.menu_empty_trash};
+        if (Arrays.asList(protectedActions).contains(item.getItemId())) {
+            ((MainActivity)getActivity()).requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
+                @Override
+                public void onPasswordValidated(boolean passwordConfirmed) {
+                    if (passwordConfirmed) {
+                        performAction(item, null);
+                    }
+                }
+            });
+        } else {
+            performAction(item, null);
+        }
 		return super.onOptionsItemSelected(item);
 	}
+
+
+    /**
+     * Performs one of the ActionBar button's actions after checked notes protection
+     */
+    public boolean performAction(MenuItem item, ActionMode actionMode) {
+        if (actionMode == null) {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    if (((MainActivity) getActivity()).getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+                        ((MainActivity) getActivity()).getDrawerLayout().closeDrawer(GravityCompat.START);
+                    } else {
+                        ((MainActivity) getActivity()).getDrawerLayout().openDrawer(GravityCompat.START);
+                    }
+                    break;
+                case R.id.menu_tags:
+                    filterByTags();
+                    break;
+                case R.id.menu_add:
+                    editNote(new Note());
+                    break;
+                case R.id.menu_sort:
+                    sortNotes();
+                    break;
+                case R.id.menu_add_category:
+                    editCategory(null);
+                    break;
+                case R.id.menu_expanded_view:
+                    switchNotesView();
+                    break;
+                case R.id.menu_contracted_view:
+                    switchNotesView();
+                    break;
+                case R.id.menu_empty_trash:
+                    emptyTrash();
+                    break;
+            }
+        } else {
+            switch (item.getItemId()) {
+                case R.id.menu_category:
+                    categorizeNotes();
+                    break;
+                case R.id.menu_tags:
+                    tagNotes();
+                    break;
+                case R.id.menu_share:
+                    share();
+                    break;
+                case R.id.menu_merge:
+                    merge();
+                    break;
+                case R.id.menu_archive:
+                    archiveNotes(true);
+                    actionMode.finish();
+                    break;
+                case R.id.menu_unarchive:
+                    archiveNotes(false);
+                    actionMode.finish();
+                    break;
+                case R.id.menu_trash:
+                    trashSelectedNotes(true);
+                    break;
+                case R.id.menu_untrash:
+                    trashSelectedNotes(false);
+                    break;
+                case R.id.menu_delete:
+                    deleteNotes();
+                    break;
+                case R.id.menu_select_all:
+                    selectAllNotes();
+                    break;
+                case R.id.menu_synchronize:
+                    synchronizeSelectedNotes();
+                    break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 	private void switchNotesView() {
@@ -697,11 +733,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	
 	
 	void editNote(final Note note) {
-		if (note.isLocked()) {
+		if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
 			BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
 				@Override
-				public void onPasswordValidated(boolean result) {
-					if (result) {
+				public void onPasswordValidated(boolean passwordConfirmed) {
+					if (passwordConfirmed) {
 						note.setPasswordChecked(true);
 						editNote2(note);
 					}
@@ -1135,10 +1171,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-                        BaseActivity.requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
+                        ((MainActivity)getActivity()).requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
                             @Override
-                            public void onPasswordValidated(boolean result) {
-                                if (result) {
+                            public void onPasswordValidated(boolean passwordConfirmed) {
+                                if (passwordConfirmed) {
                                     deleteNotesExecute();
                                 }
                             }
@@ -1177,24 +1213,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 
     /**
-     * Batch note archiviation - Notes protection check
-     */
-    public void archiveNotes(final boolean archive) {
-        BaseActivity.requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
-            @Override
-            public void onPasswordValidated(boolean result) {
-                if (result) {
-                    archiveNotesExecute(archive);
-                }
-            }
-        });
-    }
-
-
-    /**
      * Batch note archiviation
      */
-    public void archiveNotesExecute(boolean archive) {
+    public void archiveNotes(boolean archive) {
         // Used in undo bar commit
         sendToArchive = archive;
 
@@ -1257,9 +1278,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 
 	/**
-	 * Tags addition and editing
-	 * 
-	 * @param tag
+	 * Categories addition and editing
 	 */
 	void editCategory(Category category) {
 		Intent categoryIntent = new Intent(getActivity(), CategoryActivity.class);
@@ -1269,9 +1288,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 
 	/**
-	 * Tag selected notes
+	 * Associates to or removes categories
 	 */
-	private void categorizeNotesDialog() {
+	private void categorizeNotes() {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
 		// Retrieves all available categories
@@ -1286,7 +1305,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 								// Moved to other method, ((MainActivity)getActivity()) way the same code
 								// block can be called
 								// also by onActivityResult when a new tag is created
-                                categorizeNotesCheckProtection(categories.get(which));
+                                categorizeNotesExecute(categories.get(which));
 							}
 						}).setPositiveButton(R.string.add_category, new DialogInterface.OnClickListener() {
 					@Override
@@ -1298,7 +1317,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				}).setNeutralButton(R.string.remove_category, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-                        categorizeNotesCheckProtection(null);
+                        categorizeNotesExecute(null);
 					}
 				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
@@ -1316,18 +1335,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// show it
 		alertDialog.show();
 	}
-
-
-    private void categorizeNotesCheckProtection(final Category category) {
-        BaseActivity.requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
-            @Override
-            public void onPasswordValidated(boolean result) {
-                if (result) {
-                    categorizeNotesExecute(category);
-                }
-            }
-        });
-    }
 
 
 	private void categorizeNotesExecute(Category category) {
@@ -1401,22 +1408,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
     /**
      * Bulk tag selected notes
      */
-    private void tagSelectedNotes() {
-        BaseActivity.requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
-            @Override
-            public void onPasswordValidated(boolean result) {
-                if (result) {
-                    tagNotesElaborate();
-                }
-            }
-        });
-    }
-
-
-    /**
-     * Bulk tag selected notes
-     */
-    private void tagNotesElaborate() {
+    private void tagNotes() {
 
         // Retrieves all available tags
         final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
@@ -1638,18 +1630,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private void share() {
 		// Only one note should be selected to perform sharing but they'll be cycled anyhow
 		for (final Note note : selectedNotes) {
-			if (note.isLocked()) {
-				BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
-					@Override
-					public void onPasswordValidated(boolean result) {
-						if (result) {
-							((MainActivity) getActivity()).shareNote(note);
-						}
-					}
-				});
-			} else {
-				((MainActivity) getActivity()).shareNote(note);
-			}
+            ((MainActivity) getActivity()).shareNote(note);
 		}
 
 		selectedNotes.clear();

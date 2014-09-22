@@ -69,8 +69,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 				&& prefs.getBoolean("settings_password_access", false)) {
 			requestPassword(this, new PasswordValidator() {
 				@Override
-				public void onPasswordValidated(boolean result) {
-					if (result) {			
+				public void onPasswordValidated(boolean passwordConfirmed) {
+					if (passwordConfirmed) {
 						init();
 					} else {
 						finish();

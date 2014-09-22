@@ -398,8 +398,8 @@ public class DetailFragment extends Fragment implements
 				&& !prefs.getBoolean("settings_password_access", false)) {
 			BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
 				@Override
-				public void onPasswordValidated(boolean result) {
-					if (result) {
+				public void onPasswordValidated(boolean passwordConfirmed) {
+					if (passwordConfirmed) {
 						noteTmp.setPasswordChecked(true);
 						init();
 					} else {
@@ -1792,8 +1792,8 @@ public class DetailFragment extends Fragment implements
 		// Password will be requested here
 		BaseActivity.requestPassword(getActivity(), new PasswordValidator() {					
 			@Override
-			public void onPasswordValidated(boolean result) {
-				if (result) {
+			public void onPasswordValidated(boolean passwordConfirmed) {
+				if (passwordConfirmed) {
 					maskUnmask();
 				} 
 			}

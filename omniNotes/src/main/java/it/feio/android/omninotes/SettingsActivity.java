@@ -401,8 +401,8 @@ public class SettingsActivity extends PreferenceActivity {
 			public boolean onPreferenceChange(Preference preference, final Object newValue) {
 				BaseActivity.requestPassword(mActivity, new PasswordValidator() {					
 					@Override
-					public void onPasswordValidated(boolean result) {
-						if (result) {			
+					public void onPasswordValidated(boolean passwordConfirmed) {
+						if (passwordConfirmed) {
 							passwordAccess.setChecked((Boolean) newValue);
 						}
 					}
