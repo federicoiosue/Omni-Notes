@@ -28,6 +28,7 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.PushBulletMessage;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
@@ -125,6 +126,8 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.neopixl.pixlui.links.TextLinkClickListener;
+import com.pushbullet.android.extension.MessagingExtension;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
@@ -1338,6 +1341,9 @@ public class DetailFragment extends Fragment implements
 		// Location
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Desktop note with PushBullet
+		android.widget.TextView pushbulletSelection = (android.widget.TextView) layout.findViewById(R.id.pushbullet);
+        pushbulletSelection.setOnClickListener(new AttachmentOnClickListener());
 		
 		try {
 			attachmentDialog.showAsDropDown(anchor);
@@ -1400,7 +1406,15 @@ public class DetailFragment extends Fragment implements
 				setAddress();
 				attachmentDialog.dismiss();
 				break;
-			}	
+			case R.id.pushbullet:
+                final PushBulletMessage m = new PushBulletMessage("A sample message at " + System.currentTimeMillis());
+                String sender = getString(R.string.app_name);
+                MessagingExtension.mirrorMessage(getActivity(), sender, sender, m.message,
+                        BitmapFactory.decodeResource(getResources(), R.drawable.ic_stat_notification_icon),
+                        null, R.drawable.ic_stat_notification_icon);
+                attachmentDialog.dismiss();
+				break;
+			}
 		}
 	}
 
@@ -1538,7 +1552,9 @@ public class DetailFragment extends Fragment implements
 			}
 		}
 	}
-	
+
+
+
 		
 	/**
 	 * Discards changes done to the note and eventually delete new attachments
@@ -2326,6 +2342,11 @@ public class DetailFragment extends Fragment implements
 			}
 		}
 	}
+
+
+    public void setContentViewText(String text) {
+        content.setText(text);
+    }
 	
 	
 	/**

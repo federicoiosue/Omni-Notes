@@ -7,6 +7,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SpinnerDialog;
@@ -31,9 +32,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import com.neopixl.pixlui.components.edittext.EditText;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
-public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
+public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, OnPushBulletReplyListener {
 
 	public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
 	public final String FRAGMENT_LIST_TAG = "fragment_list";
@@ -41,6 +46,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
 	public final String FRAGMENT_SPINNER_TAG = "fragment_spinner";
 
+    private static MainActivity instance;
 	private FragmentManager mFragmentManager;
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 	
@@ -53,6 +59,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+        instance = this;
 		
 		// Checks password for app access
 		checkPassword();
@@ -81,6 +89,11 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			init();
 		}
 	}
+
+
+    public static MainActivity getInstance() {
+        return instance;
+    }
 	
 	
 	private void init() {
@@ -177,8 +190,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	
 	/**
 	 * Checks if allocated fragment is of the required type and then returns it or returns null
-	 * @param id
-	 * @param instanceClass
 	 * @return
 	 */
 	private Fragment checkFragmentInstance(int id, Object instanceClass) {
@@ -491,7 +502,18 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
 		}
 	}
-	
-	
-	
+
+
+    @Override
+    public void onPushBulletReply(final String message) {
+        final DetailFragment df = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
+        if (df != null) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    df.setContentViewText(message);
+                }
+            });
+        }
+    }
 }

@@ -47,19 +47,6 @@
             android:textSize="17sp"
             pixlui:typeface="Roboto-Regular.ttf" />
 
-<!--         <com.neopixl.pixlui.components.textview.TextView -->
-<!--             android:id="@+id/gallery" -->
-<!--             android:layout_width="match_parent" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:background="@drawable/icon_selector" -->
-<!--             android:drawableLeft="@drawable/ic_photo_dark" -->
-<!--             android:drawablePadding="4dp" -->
-<!--             android:gravity="center_vertical" -->
-<!--             android:padding="8dp" -->
-<!--             android:text="@string/gallery" -->
-<!--             android:textSize="17sp" -->
-<!--             pixlui:typeface="Roboto-Regular.ttf" /> -->
-
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/video"
             android:layout_width="match_parent"
@@ -122,6 +109,19 @@
             android:gravity="center_vertical"
             android:padding="8dp"
             android:text="@string/location"
+            android:textSize="17sp"
+            pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/pushbullet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_selector"
+            android:drawableLeft="@drawable/ic_action_desktop"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="@string/pushbullet"
             android:textSize="17sp"
             pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>

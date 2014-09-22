@@ -16,10 +16,13 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.6.6" changeDate="Sep 16, 2014">
+    <changelogversion versionName="4.7.0" changeDate="Sep 22, 2014">
+        <changelogtext>[b]New![/b] Fill your notes content using desktop notifications with PushBullet!</changelogtext>
         <changelogtext>[b]New![/b] Masking notes now enhance your protection by encrypting note content too</changelogtext>
         <changelogtext>[b]New![/b] Searching action in categories will find only notes belonging to the currently selected category</changelogtext>
         <changelogtext>Updated translation: English, Slovenian, Slovak</changelogtext>
+        <changelogtext>Removed "[by Omni Notes]" string from shared content</changelogtext>
+        <changelogtext>[u]Fixed[/u] Could I miss some various bugs smashing? Thanks to the users that are using GitHub to report issues!</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.6.5" changeDate="Aug 12, 2014">

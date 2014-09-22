@@ -16,11 +16,13 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="it.feio.android.omninotes"
     android:versionCode="135"
-    android:versionName="4.6.6" >
+    android:versionName="4.7.0" >
 
     <uses-sdk
+        tools:node="replace"
         android:minSdkVersion="9"
         android:targetSdkVersion="21" />
 
@@ -36,6 +38,8 @@
     <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+    <uses-permission android:name="com.pushbullet.android.permission.READ_MESSAGING_EXTENSION_DATA" />
+    <uses-permission android:name="com.pushbullet.android.permission.SEND_MESSAGES" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -106,16 +110,16 @@
 
                 <data android:mimeType="*/*" />
             </intent-filter>
-            
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="hashtag" />
             </intent-filter>
-    
+
         </activity>
-        
+
         <!-- Gallery -->
         <activity
             android:name="it.feio.android.omninotes.GalleryActivity"
@@ -280,6 +284,18 @@
             <!-- android:name="settingsActivity" -->
             <!-- android:value=".ExampleSettingsActivity" /> -->
         </service>
+
+        <service
+            android:name=".extensions.PushBulletExtension"
+            android:permission="com.pushbullet.android.permission.READ_MESSAGING_EXTENSION_DATA">
+            <intent-filter>
+                <action android:name="com.pushbullet.android.extension.MessagingExtension" />
+            </intent-filter>
+            <meta-data
+                android:name="protocolVersion"
+                android:value="1" />
+        </service>
+
     </application>
 
 </manifest>
