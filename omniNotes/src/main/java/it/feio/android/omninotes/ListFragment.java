@@ -181,7 +181,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// Activity title initialization
 		initTitle();
 
-		ubc = new UndoBarController(((MainActivity) getActivity()).findViewById(R.id.undobar), this);
+		ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
 	}
 
 
@@ -213,7 +213,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Starts a little animation on Mr.Jingles!
 	 */
 	private void initEasterEgg() {
-		empyListItem = (TextView) ((MainActivity) getActivity()).findViewById(R.id.empty_list);
+		empyListItem = (TextView) getActivity().findViewById(R.id.empty_list);
 		empyListItem.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -288,7 +288,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	public void onResume() {
 		super.onResume();
 		Log.v(Constants.TAG, "OnResume");
-		initNotesList(((MainActivity) getActivity()).getIntent());
+		initNotesList(getActivity().getIntent());
 
 		// Navigation drawer initialization to ensure data refresh
 		((MainActivity) getActivity()).initNavigationDrawer();
@@ -299,12 +299,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Restores again DefaultSharedPreferences too reload in case of data
 		// erased from Settings
-		prefs = ((MainActivity) getActivity()).getSharedPreferences(Constants.PREFS_NAME,
-				((MainActivity) getActivity()).MODE_MULTI_PROCESS);
+        prefs = getActivity().getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS);
 
 		// Menu is invalidated to start again instructions tour if requested
 		if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "list", false)) {
-			((MainActivity) getActivity()).supportInvalidateOptionsMenu();
+			getActivity().supportInvalidateOptionsMenu();
 		}
 	}
 
@@ -342,7 +341,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			Log.d(Constants.TAG, "Closed multiselection contextual menu");
 
 			// Updates app widgets
-			BaseActivity.notifyAppWidgets(((MainActivity) getActivity()));
+			BaseActivity.notifyAppWidgets(getActivity());
 		}
 
 
@@ -395,7 +394,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			}
 			return true;
 		}
-	};
+	}
 
 
 	public void finishActionMode() {
@@ -408,9 +407,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 	/**
 	 * Manage check/uncheck of notes in list during multiple selection phase
-	 * 
-	 * @param view
-	 * @param position
 	 */
 	private void toggleListViewItem(View view, int position) {
 		Note note = mAdapter.getItem(position);
@@ -475,7 +471,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Notes list initialization. Data, actions and callback are defined here.
 	 */
 	private void initListView() {
-		listView = (ListView) ((MainActivity) getActivity()).findViewById(R.id.notes_list);
+		listView = (ListView) getActivity().findViewById(R.id.notes_list);
 
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		listView.setItemsCanFocus(false);
@@ -522,7 +518,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		});
 
 		// listView.setOnTouchListener(screenTouches);
-		((InterceptorLinearLayout) ((MainActivity) getActivity()).findViewById(R.id.list_root))
+		((InterceptorLinearLayout) getActivity().findViewById(R.id.list_root))
 				.setOnViewTouchedListener(screenTouches);
 	}
 
@@ -551,7 +547,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	public void onPrepareOptionsMenu(Menu menu) {
 		// Defines the conditions to set actionbar items visible or not
 		boolean drawerOpen = (((MainActivity) getActivity()).getDrawerLayout() != null && ((MainActivity) getActivity())
-				.getDrawerLayout().isDrawerOpen(GravityCompat.START)) ? true : false;
+                .getDrawerLayout().isDrawerOpen(GravityCompat.START));
 		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
 		// "Add" item must be shown only from main navigation;
 		boolean showAdd = Navigation.checkNavigation(new Integer[] { Navigation.NOTES, Navigation.CATEGORY });
@@ -569,8 +565,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	/**
 	 * SearchView initialization. It's a little complex because it's not using SearchManager but is implementing on its
 	 * own.
-	 * 
-	 * @param menu
 	 */
 	@SuppressLint("NewApi")
 	private void initSearchView(final Menu menu) {
@@ -579,11 +573,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		searchMenuItem = menu.findItem(R.id.menu_search);
 
 		// Associate searchable configuration with the SearchView
-		SearchManager searchManager = (SearchManager) ((MainActivity) getActivity())
-				.getSystemService(Context.SEARCH_SERVICE);
+		SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 		searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
 		searchView
-				.setSearchableInfo(searchManager.getSearchableInfo(((MainActivity) getActivity()).getComponentName()));
+				.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 		searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
 		// Expands the widget hiding other actionbar icons
@@ -605,11 +598,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				// Reinitialize notes list to all notes when search is
 				// collapsed
 				searchQuery = null;
-				if (((MainActivity) getActivity()).findViewById(R.id.search_layout).getVisibility() == View.VISIBLE) {
+				if (getActivity().findViewById(R.id.search_layout).getVisibility() == View.VISIBLE) {
 					toggleSearchLabel(false);
 				}
-				((MainActivity) getActivity()).getIntent().setAction(Intent.ACTION_MAIN);
-				initNotesList(((MainActivity) getActivity()).getIntent());
+				(getActivity().getIntent().setAction(Intent.ACTION_MAIN);
+				initNotesList(getActivity().getIntent());
 				return true;
 			}
 
@@ -619,13 +612,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				searchView.setOnQueryTextListener(new OnQueryTextListener() {
 					@Override
 					public boolean onQueryTextSubmit(String arg0) {
-						if (prefs.getBoolean("settings_instant_search", false)) {
-							return true;
-						} else {
-							return false;
-						}
+                        return prefs.getBoolean("settings_instant_search", false);
 					}
-
 
 					@Override
 					public boolean onQueryTextChange(String pattern) {
@@ -686,12 +674,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private void switchNotesView() {
 		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
 		prefs.edit().putBoolean(Constants.PREF_EXPANDED_VIEW, !expandedView).commit();
-
 		// Change list view
-		initNotesList(((MainActivity) getActivity()).getIntent());
-
+		initNotesList(getActivity().getIntent());
 		// Called to switch menu voices
-		((MainActivity) getActivity()).supportInvalidateOptionsMenu();
+		getActivity().supportInvalidateOptionsMenu();
 	}
 
 
@@ -705,7 +691,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				mActionMode.setTitle(String.valueOf(selectedNotes.size()));
 				break;
 		}
-
 	}
 	
 	
@@ -713,7 +698,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	
 	void editNote(final Note note) {
 		if (note.isLocked()) {
-			BaseActivity.requestPassword(((MainActivity) getActivity()), new PasswordValidator() {
+			BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
 				@Override
 				public void onPasswordValidated(boolean result) {
 					if (result) {
@@ -766,25 +751,23 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					String intentMsg = intent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
 					// If no message is returned nothing will be shown
 					if (!TextUtils.isEmpty(intentMsg)) {
-						final String message = intentMsg != null ? intent
-								.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE) : "";
+						final String message = intent.getStringExtra(Constants.INTENT_DETAIL_RESULT_MESSAGE);
 						// Dialog retarded to give time to activity's views of being
 						// completely initialized
 						new Handler().postDelayed(new Runnable() {
 							@Override
 							public void run() {
-								// The dialog style is choosen depending on result
-								// code
+								// The dialog style is choosen depending on result code
 								switch (resultCode) {
 									case Activity.RESULT_OK:
-										Crouton.makeText(((MainActivity) getActivity()), message, ONStyle.CONFIRM)
+										Crouton.makeText(getActivity(), message, ONStyle.CONFIRM)
 												.show();
 										break;
 									case Activity.RESULT_FIRST_USER:
-										Crouton.makeText(((MainActivity) getActivity()), message, ONStyle.INFO).show();
+										Crouton.makeText(getActivity(), message, ONStyle.INFO).show();
 										break;
 									case Activity.RESULT_CANCELED:
-										Crouton.makeText(((MainActivity) getActivity()), message, ONStyle.ALERT).show();
+										Crouton.makeText(getActivity(), message, ONStyle.ALERT).show();
 										break;
 
 									default:
@@ -802,12 +785,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				// The dialog style is choosen depending on result code
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						Crouton.makeText(((MainActivity) getActivity()), R.string.category_saved, ONStyle.CONFIRM)
-								.show();
+						Crouton.makeText(getActivity(), R.string.category_saved, ONStyle.CONFIRM).show();
 						((MainActivity) getActivity()).initNavigationDrawer();
 						break;
 					case Activity.RESULT_CANCELED:
-						Crouton.makeText(((MainActivity) getActivity()), R.string.category_deleted, ONStyle.ALERT)
+						Crouton.makeText(getActivity(), R.string.category_deleted, ONStyle.ALERT)
 								.show();
 						break;
 
@@ -840,7 +822,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		int selected = Arrays.asList(arrayDb).indexOf(prefs.getString(Constants.PREF_SORTING_COLUMN, arrayDb[0]));
 
 		// Dialog and events creation
-		AlertDialog.Builder builder = new AlertDialog.Builder(((MainActivity) getActivity()));
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(R.string.select_sorting_column).setSingleChoiceItems(arrayDialog, selected,
 				new DialogInterface.OnClickListener() {
 
@@ -848,13 +830,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					// preferences and listview redesigned
 					public void onClick(DialogInterface dialog, int which) {
 						prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which]).commit();
-						initNotesList(((MainActivity) getActivity()).getIntent());
+						initNotesList(getActivity().getIntent());
 						// Resets list scrolling position
 						listViewPositionOffset = 0;
 						listViewPosition = 0;
 						listView.setSelectionFromTop(listViewPosition, listViewPositionOffset);
 						// Updates app widgets
-						BaseActivity.notifyAppWidgets(((MainActivity) getActivity()));
+						BaseActivity.notifyAppWidgets(getActivity());
 						dialog.dismiss();
 					}
 				});
@@ -866,7 +848,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Empties trash deleting all the notes
 	 */
 	private void emptyTrash() {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity) getActivity()));
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 		alertDialogBuilder.setMessage(R.string.empty_trash_confirmation)
 				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 					@Override
@@ -913,7 +895,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					searchQuery = intent.getStringExtra(SearchManager.QUERY);
 					searchTags = null;
 				}
-				if (((MainActivity) getActivity()).loadNotesSync) {
+				if (getActivity().loadNotesSync) {
 					onNotesLoaded((ArrayList<Note>) DbHelper.getInstance(getActivity()).getNotesByPattern(searchQuery));
 				} else {
 					mNoteLoaderTask.execute("getNotesByPattern", searchQuery);
@@ -966,7 +948,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		boolean isActive = searchLabel.getVisibility() == View.VISIBLE;
 		if (activate) {
 			((android.widget.TextView) getActivity().findViewById(R.id.search_query)).setText(Html.fromHtml("<i>"
-					+ getString(R.string.search) + ":</i> " + searchQuery.toString()));
+					+ getString(R.string.search) + ":</i> " + searchQuery));
 			searchLabel.setVisibility(View.VISIBLE);
 			getActivity().findViewById(R.id.search_cancel).setOnClickListener(new OnClickListener() {
 				@Override
@@ -976,25 +958,26 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			});
 		}
 
-		else if (isActive && !activate) {
-			((MainActivity) getActivity()).findViewById(R.id.search_layout).setVisibility(View.GONE);
-			searchTags = null;
-			searchQuery = null;
-			if (!goBackOnToggleSearchLabel) {
-				((MainActivity) getActivity()).getIntent().setAction(Intent.ACTION_MAIN);
-				if (searchView != null) {
-					MenuItemCompat.collapseActionView(searchMenuItem);
-				}
-				initNotesList(getActivity().getIntent());
-			} else {
-				getActivity().onBackPressed();
-			}
-			goBackOnToggleSearchLabel = false;
-			if (Intent.ACTION_VIEW.equals(getActivity().getIntent().getAction())) {
-				getActivity().getIntent().setAction(null);
-			}
-
-		}
+		else {
+            if (isActive) {
+                getActivity().findViewById(R.id.search_layout).setVisibility(View.GONE);
+                searchTags = null;
+                searchQuery = null;
+                if (!goBackOnToggleSearchLabel) {
+                    getActivity().getIntent().setAction(Intent.ACTION_MAIN);
+                    if (searchView != null) {
+                        MenuItemCompat.collapseActionView(searchMenuItem);
+                    }
+                    initNotesList(getActivity().getIntent());
+                } else {
+                    getActivity().onBackPressed();
+                }
+                goBackOnToggleSearchLabel = false;
+                if (Intent.ACTION_VIEW.equals(getActivity().getIntent().getAction())) {
+                    getActivity().getIntent().setAction(null);
+                }
+            }
+        }
 	}
 
 
@@ -1042,7 +1025,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		listView.setAdapter(adapter);
 
 		// Replace listview with Mr. Jingles if it is empty
-		if (notes.size() == 0) listView.setEmptyView(((MainActivity) getActivity()).findViewById(R.id.empty_list));
+		if (notes.size() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Restores listview position when turning back to list
 		if (listView != null && notes.size() > 0) {
@@ -1081,7 +1064,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// If list is empty again Mr Jingles will appear again
 		if (mAdapter.getCount() == 0)
-			listView.setEmptyView(((MainActivity) getActivity()).findViewById(R.id.empty_list));
+			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		if (mActionMode != null) {
 			mActionMode.finish();
@@ -1089,9 +1072,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Advice to user
 		if (trash) {
-			Crouton.makeText(((MainActivity) getActivity()), getString(R.string.note_trashed), ONStyle.WARN).show();
+			Crouton.makeText(getActivity(), getString(R.string.note_trashed), ONStyle.WARN).show();
 		} else {
-			Crouton.makeText(((MainActivity) getActivity()), getString(R.string.note_untrashed), ONStyle.INFO).show();
+			Crouton.makeText(getActivity(), getString(R.string.note_untrashed), ONStyle.INFO).show();
 		}
 
 		// Creation of undo bar
@@ -1146,7 +1129,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 */
 	private void deleteSelectedNotes() {
 		// Confirm dialog creation
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity) getActivity()));
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
 				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 					@Override
@@ -1182,10 +1165,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// If list is empty again Mr Jingles will appear again
 		if (mAdapter.getCount() == 0)
-			listView.setEmptyView(((MainActivity) getActivity()).findViewById(R.id.empty_list));
+			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Advice to user
-		Crouton.makeText(((MainActivity) getActivity()), R.string.note_deleted, ONStyle.ALERT).show();
+		Crouton.makeText(getActivity(), R.string.note_deleted, ONStyle.ALERT).show();
 	}
 
 
@@ -1227,8 +1210,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		if (mAdapter.getCount() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Advice to user
-		String archivedStatus = archive ? getActivity().getResources().getText(R.string.note_archived).toString()
-				: getActivity().getResources().getText(R.string.note_unarchived).toString();
 		int msg = archive ? R.string.note_archived : R.string.note_unarchived;
 		Style style = archive ? ONStyle.WARN : ONStyle.INFO;
 		Crouton.makeText(getActivity(), msg, style).show();
@@ -1253,7 +1234,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		}
 		
 		// Informs the user about update
-		BaseActivity.notifyAppWidgets(((MainActivity) getActivity()));
+		BaseActivity.notifyAppWidgets(getActivity());
 		Log.d(Constants.TAG, "Note with id '" + note.get_id() + "' " + (archive ? "archived" : "restored from archive"));
 	}
 
@@ -1264,7 +1245,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * @param tag
 	 */
 	void editCategory(Category category) {
-		Intent categoryIntent = new Intent(((MainActivity) getActivity()), CategoryActivity.class);
+		Intent categoryIntent = new Intent(getActivity(), CategoryActivity.class);
 		categoryIntent.putExtra(Constants.INTENT_TAG, category);
 		startActivityForResult(categoryIntent, REQUEST_CODE_CATEGORY);
 	}
@@ -1274,14 +1255,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Tag selected notes
 	 */
 	private void categorizeSelectedNotes() {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity) getActivity()));
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
 		// Retrieves all available categories
 		final ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
-
-		// A single choice dialog will be displayed
-		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
-		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 
 		alertDialogBuilder
 				.setTitle(R.string.categorize_as)
@@ -1355,7 +1332,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// If list is empty again Mr Jingles will appear again
 		if (mAdapter.getCount() == 0)
-			listView.setEmptyView(((MainActivity) getActivity()).findViewById(R.id.empty_list));
+			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Refreshes navigation drawer if is set to show categories count numbers
 		if (prefs.getBoolean("settings_show_category_count", false)) {
@@ -1373,7 +1350,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		} else {
 			msg = getResources().getText(R.string.notes_category_removed).toString();
 		}
-		Crouton.makeText(((MainActivity) getActivity()), msg, ONStyle.INFO).show();
+		Crouton.makeText(getActivity(), msg, ONStyle.INFO).show();
 
 		// Creation of undo bar
 		if (category == null) {
@@ -1402,7 +1379,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// If there is no category a message will be shown
 		if (tags.size() == 0) {
-			Crouton.makeText(((MainActivity) getActivity()), R.string.no_tags_created, ONStyle.WARN).show();
+			Crouton.makeText(getActivity(), R.string.no_tags_created, ONStyle.WARN).show();
 			return;
 		}
 
@@ -1478,7 +1455,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// If list is empty again Mr Jingles will appear again
 		if (mAdapter.getCount() == 0)
-			listView.setEmptyView(((MainActivity) getActivity()).findViewById(R.id.empty_list));
+			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Refreshes navigation drawer if is set to show categories count numbers
 		if (prefs.getBoolean("settings_show_category_count", false)) {
@@ -1578,7 +1555,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Show instructions on first launch
 		final String instructionName = Constants.PREF_TOUR_PREFIX + "list";
-		if (AppTourHelper.isMyTurn(((MainActivity) getActivity()), instructionName)) {
+		if (AppTourHelper.isMyTurn(getActivity(), instructionName)) {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			list.add(new Integer[] { 0, R.string.tour_listactivity_intro_title,
 					R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE });
@@ -1589,7 +1566,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-					AppTourHelper.complete(((MainActivity) getActivity()), instructionName);
+					AppTourHelper.complete(getActivity(), instructionName);
 					((MainActivity) getActivity()).getDrawerLayout().openDrawer(GravityCompat.START);
 				}
 			});
@@ -1597,14 +1574,14 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Show instructions on first launch
 		final String instructionName2 = Constants.PREF_TOUR_PREFIX + "list2";
-		if (AppTourHelper.isMyTurn(((MainActivity) getActivity()), instructionName2)) {
+		if (AppTourHelper.isMyTurn(getActivity(), instructionName2)) {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			list.add(new Integer[] { null, R.string.tour_listactivity_final_title,
 					R.string.tour_listactivity_final_detail, null });
 			((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-					AppTourHelper.complete(((MainActivity) getActivity()), instructionName2);
+					AppTourHelper.complete(getActivity(), instructionName2);
 				}
 			});
 		}
@@ -1618,7 +1595,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// Only one note should be selected to perform sharing but they'll be cycled anyhow
 		for (final Note note : selectedNotes) {
 			if (note.isLocked()) {
-				BaseActivity.requestPassword(((MainActivity) getActivity()), new PasswordValidator() {
+				BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
 					@Override
 					public void onPasswordValidated(boolean result) {
 						if (result) {
@@ -1693,7 +1670,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		}
 
 		// Sets the intent action to be recognized from DetailFragment and switch fragment
-		((MainActivity) getActivity()).getIntent().setAction(Constants.ACTION_MERGE);
+		getActivity().getIntent().setAction(Constants.ACTION_MERGE);
 		((MainActivity) getActivity()).switchToDetail(mergedNote);
 	}
 
@@ -1708,7 +1685,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// If there is no category a message will be shown
 		if (tags.size() == 0) {
-			Crouton.makeText(((MainActivity) getActivity()), R.string.no_tags_created, ONStyle.WARN).show();
+			Crouton.makeText(getActivity(), R.string.no_tags_created, ONStyle.WARN).show();
 			return;
 		}
 

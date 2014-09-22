@@ -10,7 +10,6 @@ import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.SpinnerDialog;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.annotation.SuppressLint;
@@ -32,10 +31,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
-import com.neopixl.pixlui.components.edittext.EditText;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, OnPushBulletReplyListener {
@@ -44,14 +39,11 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	public final String FRAGMENT_LIST_TAG = "fragment_list";
 	public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
 	public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
-	public final String FRAGMENT_SPINNER_TAG = "fragment_spinner";
 
     private static MainActivity instance;
 	private FragmentManager mFragmentManager;
-	private NavigationDrawerFragment mNavigationDrawerFragment;
-	
-	public boolean loadNotesSync = Constants.LOAD_NOTES_SYNC;
-	public SpinnerDialog mSpinnerDialog;
+
+    public boolean loadNotesSync = Constants.LOAD_NOTES_SYNC;
 	
 	public Uri sketchUri;
 
@@ -98,8 +90,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	
 	private void init() {
 		mFragmentManager = getSupportFragmentManager();
-		
-		mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer);
+
+        NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer);
 		if (mNavigationDrawerFragment == null) {
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 			fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment(), FRAGMENT_DRAWER_TAG).commit();
@@ -182,15 +174,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 	public void initNavigationDrawer() {
 		Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
-		if (f != null) {
-			((NavigationDrawerFragment)f).initNavigationDrawer();	
-		} 
+		if (f != null) ((NavigationDrawerFragment) f).initNavigationDrawer();
 	}
 	
 	
 	/**
 	 * Checks if allocated fragment is of the required type and then returns it or returns null
-	 * @return
 	 */
 	private Fragment checkFragmentInstance(int id, Object instanceClass) {
 		Fragment result = null;
@@ -269,7 +258,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
 	}
 
@@ -309,7 +297,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		
 		if (i.getAction() == null) return;
 		
-		if (i.getAction() == Constants.ACTION_RESTART_APP) {
+		if (Constants.ACTION_RESTART_APP.equals(i.getAction())) {
 			OmniNotes.restartApp(getApplicationContext());
 		}
 		
@@ -381,25 +369,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_LIST_TAG).commitAllowingStateLoss();
 		if (getDrawerToggle() != null) {
 			getDrawerToggle().setDrawerIndicatorEnabled(false);
-		}
-	}
-	
-	
-	
-	/**
-	 * Shows loading spinner 
-	 */
-	public void showLoading() {
-		mSpinnerDialog = new SpinnerDialog();
-		mSpinnerDialog.show(mFragmentManager, FRAGMENT_SPINNER_TAG);
-	}
-	
-	/**
-	 * Hides loading spinner 
-	 */
-	public void hideLoading() {
-		if (mSpinnerDialog != null) {
-			mSpinnerDialog.dismiss();
 		}
 	}
 	

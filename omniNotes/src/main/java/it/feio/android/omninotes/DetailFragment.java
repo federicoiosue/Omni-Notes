@@ -158,7 +158,6 @@ public class DetailFragment extends Fragment implements
 	private Note noteOriginal;
 
 	// Reminder
-	int reminderYear, reminderMonth, reminderDay;
 	private String alarmDate = "", alarmTime = "";
 	private String dateTimeText = "";
 	public OnDateSetListener onDateSetListener;
@@ -366,7 +365,7 @@ public class DetailFragment extends Fragment implements
 			noteTmp = new Note(note);
 		}
 					
-		if (noteTmp != null && noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
+		if (noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
 			checkNoteLock(noteTmp);
 			return;
 		}	
@@ -377,7 +376,7 @@ public class DetailFragment extends Fragment implements
 		
 		initViews();
 	    
-	    if (showKeyboard && !AppTourHelper.isPlaying(((MainActivity)getActivity()))) {
+	    if (showKeyboard && !AppTourHelper.isPlaying(getActivity())) {
 //	    	// Delayed keyboard appearance
 			new Handler().postDelayed(new Runnable() {
 				@Override
@@ -391,14 +390,13 @@ public class DetailFragment extends Fragment implements
 	
 	/**
 	 * Checks note lock and password before showing note content
-	 * @param note
 	 */
 	private void checkNoteLock(Note note) {
 		// If note is locked security password will be requested
-		if (noteTmp.isLocked() 
+		if (note.isLocked()
 				&& prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& !prefs.getBoolean("settings_password_access", false)) {
-			BaseActivity.requestPassword(((MainActivity)getActivity()), new PasswordValidator() {					
+			BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
 				@Override
 				public void onPasswordValidated(boolean result) {
 					if (result) {
@@ -413,13 +411,13 @@ public class DetailFragment extends Fragment implements
 		} else {
 			noteTmp.setPasswordChecked(true);
 			init();
-		}		
+		}
 	}
 	
 	
 
 	private void handleIntents() {
-		Intent i = ((MainActivity)getActivity()).getIntent();
+		Intent i = getActivity().getIntent();
 		
 		if (Constants.ACTION_MERGE.equals(i.getAction())) {
 			noteOriginal = new Note();
@@ -436,7 +434,7 @@ public class DetailFragment extends Fragment implements
 			// Checks if the note pointed from the shortcut has been deleted
 			if (noteOriginal == null) {	
 				((MainActivity)getActivity()).showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
-				((MainActivity)getActivity()).finish();
+				getActivity().finish();
 			}
 			note = new Note(noteOriginal);
 			noteTmp = new Note(noteOriginal);
@@ -511,7 +509,7 @@ public class DetailFragment extends Fragment implements
 //			    	mAttachment.setName(uri.getLastPathSegment());
 //		    	}
 //		    	noteTmp.addAttachment(mAttachment);
-				String name = FileHelper.getNameFromUri(((MainActivity)getActivity()), uri);					
+				String name = FileHelper.getNameFromUri(getActivity(), uri);
 				AttachmentTask task = new AttachmentTask(this, uri, name, this);
 				task.execute();
 		    }
@@ -520,7 +518,7 @@ public class DetailFragment extends Fragment implements
 		    ArrayList<Uri> uris = i.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
 		    if (uris != null) {
 		    	for (Uri uriSingle : uris) {
-					String name = FileHelper.getNameFromUri(((MainActivity)getActivity()), uriSingle);					
+					String name = FileHelper.getNameFromUri(getActivity(), uriSingle);
 					AttachmentTask task = new AttachmentTask(this, uriSingle, name, this);
 					task.execute();	
 				}
@@ -546,7 +544,7 @@ public class DetailFragment extends Fragment implements
 		titleCardView = root.findViewById(R.id.detail_tile_card);
 		
 		// Overrides font sizes with the one selected from user
-		Fonts.overrideTextSize(((MainActivity)getActivity()), prefs, root);
+		Fonts.overrideTextSize(getActivity(), prefs, root);
 
 		// Color of tag marker if note is tagged a function is active in preferences
 		setTagMarkerColor(noteTmp.getCategory());		
@@ -574,8 +572,6 @@ public class DetailFragment extends Fragment implements
 		if (note.get_id() == 0 && !noteTmp.isChanged(note)) {			
 			// Force focus and shows soft keyboard
 			content.requestFocus();
-//			InputMethodManager imm = (InputMethodManager) ((MainActivity)getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
-//	        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 			showKeyboard = true;
 		}
 		// Avoids focused line goes under the keyboard 
@@ -585,7 +581,6 @@ public class DetailFragment extends Fragment implements
 		toggleChecklistView = content;
 		if (noteTmp.isChecklist()) {
 			noteTmp.setChecklist(false);
-//			toggleChecklistView.setVisibility(View.INVISIBLE);
 			AlphaManager.setAlpha(toggleChecklistView, 0);
 			toggleChecklist2();
 		}
@@ -665,9 +660,9 @@ public class DetailFragment extends Fragment implements
 				Uri uri = attachment.getUri();
 				Intent attachmentIntent = null;
 				if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
-					
-					attachmentIntent = new Intent(Intent.ACTION_VIEW);				
-					attachmentIntent.setDataAndType(uri, StorageManager.getMimeType(((MainActivity)getActivity()), attachment.getUri()));
+
+					attachmentIntent = new Intent(Intent.ACTION_VIEW);
+					attachmentIntent.setDataAndType(uri, StorageManager.getMimeType(getActivity(), attachment.getUri()));
 					attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 					if (IntentChecker.isAvailable(getActivity().getApplicationContext(), attachmentIntent, null)) {
 						startActivity(attachmentIntent);
@@ -1519,17 +1514,10 @@ public class DetailFragment extends Fragment implements
 				mGridView.autoresize();
 				break;
 			case FILES:
-				if (resultCode == Activity.RESULT_OK) {
-					Uri filesUri = intent.getData();
-					String name = FileHelper.getNameFromUri(getActivity(), filesUri);					
-					AttachmentTask task1 = new AttachmentTask(this, filesUri, name, this);
-					task1.execute();
-					
-				} else {
-					Crouton.makeText(getActivity(),
-							R.string.error_saving_attachments, ONStyle.ALERT)
-							.show();
-				}
+                Uri filesUri = intent.getData();
+                String name = FileHelper.getNameFromUri(getActivity(), filesUri);
+                AttachmentTask task1 = new AttachmentTask(this, filesUri, name, this);
+                task1.execute();
 				break;
 			case SET_PASSWORD:
 				noteTmp.setPasswordChecked(true);
@@ -1665,10 +1653,6 @@ public class DetailFragment extends Fragment implements
 
 	/**
 	 * Save new notes, modify them or archive
-	 * 
-	 * @param archive
-	 *            Boolean flag used to archive note. If null actual note state is used.
-	 * @param mOnNoteSaved 
 	 */
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB) 
@@ -1760,7 +1744,7 @@ public class DetailFragment extends Fragment implements
 				} catch (ClassCastException e) {
 					content = ((android.widget.EditText)  getActivity().findViewById(R.id.detail_content)).getText().toString();
 				}
-			}catch (NullPointerException e) {}
+			} catch (NullPointerException e) {}
 		} else {
 				if (mChecklistManager != null) {
 					mChecklistManager.setKeepChecked(true);
@@ -1839,9 +1823,6 @@ public class DetailFragment extends Fragment implements
 
 	/**
 	 * Used to set actual alarm state when initializing a note to be edited
-	 * 
-	 * @param alarmDateTime
-	 * @return
 	 */
 	private String initAlarm(long alarmDateTime) {
 		Calendar cal = Calendar.getInstance();
@@ -1849,9 +1830,8 @@ public class DetailFragment extends Fragment implements
 		alarmDate = DateHelper.onDateSet(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
 				cal.get(Calendar.DAY_OF_MONTH), Constants.DATE_FORMAT_SHORT_DATE);
 		alarmTime = DateHelper.getTimeShort(getActivity(), cal.getTimeInMillis());
-		String dateTimeText = getString(R.string.alarm_set_on) + " " + alarmDate + " " + getString(R.string.at_time)
+		return getString(R.string.alarm_set_on) + " " + alarmDate + " " + getString(R.string.at_time)
 				+ " " + alarmTime;
-		return dateTimeText;
 	}
 
 	public String getAlarmDate() {
@@ -1866,8 +1846,6 @@ public class DetailFragment extends Fragment implements
 
 	/**
 	 * Audio recordings playback
-	 * @param v
-	 * @param uri
 	 */
 	private void playback(View v, Uri uri) {
 		// Some recording is playing right now
@@ -2047,9 +2025,7 @@ public class DetailFragment extends Fragment implements
 									getActivity(),
 									R.string.no_application_can_perform_this_action,
 									ONStyle.ALERT).show();
-							return;
-						} else {		
-						
+						} else {
 							startActivity(intent);
 						}
 					}
@@ -2354,8 +2330,6 @@ public class DetailFragment extends Fragment implements
 	
 	/**
 	 * Used to check currently opened note from activity to avoid openind multiple times the same one
-	 * 
-	 * @return
 	 */
 	public Note getCurrentNote() {
 		return note;

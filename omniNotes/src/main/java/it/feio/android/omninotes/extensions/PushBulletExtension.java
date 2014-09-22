@@ -17,15 +17,13 @@
 package it.feio.android.omninotes.extensions;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.pushbullet.android.extension.MessagingExtension;
 
 import it.feio.android.omninotes.MainActivity;
-import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
 
 public class PushBulletExtension extends MessagingExtension {
-    private static final String TAG = "SampleMessagingExtension";
+    private static final String TAG = "PushBulletExtension";
 
 
     @Override
@@ -40,7 +38,5 @@ public class PushBulletExtension extends MessagingExtension {
     @Override
     protected void onConversationDismissed(final String conversationIden) {
         Log.i(TAG, "Pushbullet MessagingExtension: onConversationDismissed(" + conversationIden + ")");
-//        LaunchActivity.sMessages.remove(conversationIden);
-//        LaunchActivity.updateNotification(this, LaunchActivity.sMessages.values());
     }
 }
