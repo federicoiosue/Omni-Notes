@@ -1342,8 +1342,11 @@ public class DetailFragment extends Fragment implements
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Desktop note with PushBullet
-		android.widget.TextView pushbulletSelection = (android.widget.TextView) layout.findViewById(R.id.pushbullet);
-        pushbulletSelection.setOnClickListener(new AttachmentOnClickListener());
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            android.widget.TextView pushbulletSelection = (android.widget.TextView) layout.findViewById(R.id.pushbullet);
+            pushbulletSelection.setVisibility(View.VISIBLE);
+            pushbulletSelection.setOnClickListener(new AttachmentOnClickListener());
+        }
 		
 		try {
 			attachmentDialog.showAsDropDown(anchor);

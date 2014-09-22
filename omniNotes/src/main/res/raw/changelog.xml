@@ -21,7 +21,7 @@
         <changelogtext>[b]New![/b] Masking notes now enhance your protection by encrypting note content too</changelogtext>
         <changelogtext>[b]New![/b] Searching action in categories will find only notes belonging to the currently selected category</changelogtext>
         <changelogtext>Updated translation: English, Slovenian, Slovak</changelogtext>
-        <changelogtext>Removed "[by Omni Notes]" string from shared content</changelogtext>
+        <changelogtext>Removed "【da Omni Notes】" string from shared content</changelogtext>
         <changelogtext>[u]Fixed[/u] Could I miss some various bugs smashing? Thanks to the users that are using GitHub to report issues!</changelogtext>
     </changelogversion>
 

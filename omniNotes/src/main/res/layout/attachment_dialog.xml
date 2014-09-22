@@ -122,6 +122,7 @@
             android:gravity="center_vertical"
             android:padding="8dp"
             android:text="@string/pushbullet"
+            android:visibility="gone"
             android:textSize="17sp"
             pixlui:typeface="Roboto-Regular.ttf" />
     </LinearLayout>
