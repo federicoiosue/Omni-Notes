@@ -1,20 +1,10 @@
 package it.feio.android.omninotes;
 
-import it.feio.android.omninotes.async.DeleteNoteTask;
-import it.feio.android.omninotes.async.UpdaterTask;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
-import it.feio.android.omninotes.utils.AlphaManager;
-import it.feio.android.omninotes.utils.Constants;
-import java.util.ArrayList;
-import java.util.HashMap;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -31,7 +21,22 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import it.feio.android.omninotes.async.DeleteNoteTask;
+import it.feio.android.omninotes.async.UpdaterTask;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
+import it.feio.android.omninotes.utils.AlphaManager;
+import it.feio.android.omninotes.utils.AppTourHelper;
+import it.feio.android.omninotes.utils.Constants;
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, OnPushBulletReplyListener {
 
@@ -53,9 +58,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		setContentView(R.layout.activity_main);
 
         instance = this;
-		
-		// Checks password for app access
-		checkPassword();
+
+        // This method starts the bootstrap chain.
+		requestShowCaseViewVisualization();
 
 		// Launching update task
 		UpdaterTask task = new UpdaterTask(this);
@@ -451,6 +456,36 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		// Informs about update
 		Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
 	}
+
+
+    /**
+     * Showcase view displaying request for first launch
+     */
+    private void requestShowCaseViewVisualization() {
+
+        if (AppTourHelper.neverDone(getApplicationContext())) {
+            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder
+                    .setTitle(R.string.app_name)
+                    .setMessage(R.string.tour_request_start)
+                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            checkPassword();
+                        }
+                    }).setNegativeButton(R.string.not_now, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    AppTourHelper.skip(getApplicationContext());
+                    checkPassword();
+                }
+            });
+            alertDialogBuilder.create().show();
+        } else {
+            checkPassword();
+        }
+    }
+
 
 
 	@Override

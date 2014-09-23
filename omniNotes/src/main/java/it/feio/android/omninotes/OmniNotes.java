@@ -1,13 +1,5 @@
 package it.feio.android.omninotes;
 
-import it.feio.android.omninotes.utils.BitmapCache;
-import it.feio.android.omninotes.utils.Constants;
-import java.util.Locale;
-import org.acra.ACRA;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
-import org.acra.sender.HttpSender.Method;
-import org.acra.sender.HttpSender.Type;
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
@@ -16,8 +8,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.text.TextUtils;
+
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
+
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+import org.acra.sender.HttpSender.Method;
+import org.acra.sender.HttpSender.Type;
+
+import java.util.Locale;
+
+import it.feio.android.omninotes.utils.BitmapCache;
+import it.feio.android.omninotes.utils.Constants;
 
 @ReportsCrashes(formKey = "", httpMethod = Method.PUT, reportType = Type.JSON, formUri = "http://feio.cloudant.com/acra-omninotes/_design/acra-storage/_update/report", formUriBasicAuthLogin = "thelescivessiandesedclik", formUriBasicAuthPassword = "uScXIHpchNKfuCdgbm3nHTjo", mode = ReportingInteractionMode.DIALOG, resDialogCommentPrompt = R.string.crash_dialog_comment_prompt, resDialogText = R.string.crash_dialog_text)
 public class OmniNotes extends Application {
@@ -64,9 +68,6 @@ public class OmniNotes extends Application {
 
 	/**
 	 * Updates default language with forced one
-	 * 
-	 * @param ctx
-	 * @param lang
 	 */
 	public static void updateLanguage(Context ctx, String lang) {
 		Configuration cfg = new Configuration();
