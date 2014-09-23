@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	public MenuItem getSearchMenuItem() {
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
-			return ((ListFragment)f).searchMenuItem;			
+			return ((ListFragment)f).getSearchMenuItem();
 		} else {
 			return null;
 		}

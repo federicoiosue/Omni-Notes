@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -97,11 +98,12 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private static final int REQUEST_CODE_CATEGORY_NOTES = 3;
 
 	private ListView listView;
-	NoteAdapter mAdapter;
-	ActionMode mActionMode;
-	ArrayList<Note> selectedNotes = new ArrayList<Note>();
+    private NoteAdapter mAdapter;
+    private ActionMode mActionMode;
+	private List<Note> selectedNotes = new ArrayList<Note>();
+    private List<Note> modifiedNotes;
 	private SearchView searchView;
-	MenuItem searchMenuItem;
+    private MenuItem searchMenuItem;
 	private TextView empyListItem;
 	private AnimationDrawable jinglesAnimation;
 	private int listViewPosition;
@@ -119,7 +121,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	// private Category removedCategory;
 	private SparseArray<Note> undoNotesList = new SparseArray<Note>();
 	// Used to remember removed categories from notes
-	private HashMap<Note, Category> undoCategoryList = new HashMap<Note, Category>();
+	private Map<Note, Category> undoCategoryList = new HashMap<Note, Category>();
 
 	// Search variables
 	private String searchQuery;
@@ -128,7 +130,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private TextView listFooter;
 
 
-	@Override
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -332,8 +334,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				}
 			}
 
+            // Backups modified notes in another structure to perform post-elaborations
+            modifiedNotes = new ArrayList<Note>(selectedNotes);
+
 			// Clears data structures
-			// selectedNotes.clear();
+			selectedNotes.clear();
 			mAdapter.clearSelectedItems();
 			listView.clearChoices();
 
@@ -687,10 +692,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
                     actionMode.finish();
                     break;
                 case R.id.menu_trash:
-                    trashSelectedNotes(true);
+                    trashNotes(true);
                     break;
                 case R.id.menu_untrash:
-                    trashSelectedNotes(false);
+                    trashNotes(false);
                     break;
                 case R.id.menu_delete:
                     deleteNotes();
@@ -1035,22 +1040,21 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				for (int position : reverseSortedPositions) {
 					Note note = mAdapter.getItem(position);
 					selectedNotes.add(note);
-					// listView.invalidateViews();
 
 					// Depending on settings and note status this action will...
 					// ...restore
 					if (Navigation.checkNavigation(Navigation.TRASH)) {
-						trashSelectedNotes(false);
+						trashNotes(false);
 					}
-					// removes category
+					// ...removes category
 					else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
 						categorizeNotesExecute(null);
 					} else {
 						// ...trash
 						if (prefs.getBoolean("settings_swipe_to_trash", false)
 								|| Navigation.checkNavigation(Navigation.ARCHIVED)) {
-							trashSelectedNotes(true);
-							// ...archive
+							trashNotes(true);
+                        // ...archive
 						} else {
 							archiveNotes(true);
 						}
@@ -1081,7 +1085,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	/**
 	 * Batch note trashing
 	 */
-	public void trashSelectedNotes(boolean trash) {
+	public void trashNotes(boolean trash) {
 		int selectedNotesSize = selectedNotes.size();
 		for (Note note : selectedNotes) {
 			// Restore it performed immediately, otherwise undo bar
@@ -1095,9 +1099,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			// Removes note adapter
 			mAdapter.remove(note);
 		}
-		// Refresh view
-		// ListView l = (ListView) ((MainActivity)getActivity()).findViewById(R.id.notes_list);
-		// l.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
 		if (mAdapter.getCount() == 0)
@@ -1519,7 +1520,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	public void onUndo(Parcelable token) {
 
 		// Cycles removed items to re-insert into adapter
-		for (Note note : selectedNotes) {
+		for (Note note : modifiedNotes) {
 			//   Manages uncategorize or archive  undo
 			if ( (undoCategorize && !Navigation.checkNavigationCategory(undoCategoryList.get(note)))
 				|| undoArchive && Navigation.checkNavigation(Navigation.CATEGORY)){
@@ -1538,7 +1539,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		listView.invalidateViews();
 
 		undoNotesList.clear();
-		selectedNotes.clear();
+        modifiedNotes.clear();
 
 		undoTrash = false;
 		undoArchive = false;
@@ -1558,7 +1559,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	void commitPending() {
 		if (undoTrash || undoArchive || undoCategorize) {
 
-			for (Note note : selectedNotes) {
+			for (Note note : modifiedNotes) {
 				if (undoTrash)
 					trashNote(note, true);
 				else if (undoArchive)
@@ -1576,7 +1577,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			undoCategorizeCategory = null;
 
 			// Clears data structures
-			selectedNotes.clear();
+            modifiedNotes.clear();
 			undoNotesList.clear();
 			undoCategoryList.clear();
 			mAdapter.clearSelectedItems();
@@ -1755,4 +1756,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		builder.create().show();
 	}
 
+
+    public MenuItem getSearchMenuItem() {
+        return searchMenuItem;
+    }
 }
