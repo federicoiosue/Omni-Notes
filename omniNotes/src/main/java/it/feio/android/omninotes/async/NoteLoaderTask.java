@@ -85,13 +85,10 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 		}
 	}
 
-	private boolean isAlive() {
-		if (mFragmentReference.get() != null
-				&& mFragmentReference.get().getActivity() != null
-				&& !mFragmentReference.get().getActivity().isFinishing()
-				&& mFragmentReference.get().isAdded()) {
-			return true;
-		}
-		return false;
-	}
+    private boolean isAlive() {
+        return mFragmentReference.get() != null
+                && mFragmentReference.get().getActivity() != null
+                && !mFragmentReference.get().getActivity().isFinishing()
+                && mFragmentReference.get().isAdded();
+    }
 }

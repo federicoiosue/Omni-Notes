@@ -109,7 +109,8 @@ public interface Constants {
 	final String PREF_TOUR_PREFIX = "tour_";
 	final String PREF_EXPANDED_VIEW = "expanded_view";
 	final String PREF_COLORS_APP_DEFAULT = "strip";
-	final String PREF_WIDGET_PREFIX = "widget_";
+    final String PREF_WIDGET_PREFIX = "widget_";
+    final String PREF_SHOW_UNCATEGORIZED = "settings_show_uncategorized";
 
 	final String EXPORT_FILE_NAME = TAG;
 

@@ -298,8 +298,10 @@ public class DbHelper extends SQLiteOpenHelper {
 					return getNotesArchived();
 				case Navigation.REMINDERS:
 					return getNotesWithReminder(true);
-				case Navigation.TRASH:
-					return getNotesTrashed();
+                case Navigation.TRASH:
+                    return getNotesTrashed();
+                case Navigation.UNCATEGORIZED:
+                    return getNotesUncategorized();
 				case Navigation.CATEGORY:
 					return getNotesByCategory(Navigation.getCategory());
 				default:
@@ -323,13 +325,21 @@ public class DbHelper extends SQLiteOpenHelper {
 		String whereCondition = " WHERE " + KEY_ARCHIVED + " = 1 AND " + KEY_TRASHED + " IS NOT 1 ";
 		return getNotes(whereCondition, true);
 	}
-	
-	
-	
-	public List<Note> getNotesTrashed() {
-		String whereCondition = " WHERE " + KEY_TRASHED + " = 1 ";
-		return getNotes(whereCondition, true);
-	}
+
+
+
+    public List<Note> getNotesTrashed() {
+        String whereCondition = " WHERE " + KEY_TRASHED + " = 1 ";
+        return getNotes(whereCondition, true);
+    }
+
+
+
+    public List<Note> getNotesUncategorized() {
+    String whereCondition = " WHERE "
+                + KEY_CATEGORY_ID + " IS NULL AND " + KEY_TRASHED + " IS NOT 1";
+        return getNotes(whereCondition, true);
+    }
 	
 	
 	

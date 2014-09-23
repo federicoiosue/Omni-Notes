@@ -3,6 +3,7 @@ package it.feio.android.omninotes;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
@@ -13,6 +14,9 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.Fonts;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -37,6 +41,7 @@ import android.widget.ListView;
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import it.feio.android.omninotes.utils.Navigation;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation
@@ -125,7 +130,16 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
 		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
-		mDrawerList.setAdapter(new NavDrawerAdapter(mActivity, mNavigationArray, mNavigationIconsArray));
+        boolean showUncategorized = mActivity.getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS).getBoolean(Constants.PREF_SHOW_UNCATEGORIZED, false);
+        List<NavigationItem> items = new ArrayList<NavigationItem>();
+        for (int i = 0; i < mNavigationArray.length; i++) {
+            // Checks if "uncategorized" must be shown
+            if (showUncategorized || i != Navigation.UNCATEGORIZED) {
+                NavigationItem item = new NavigationItem(mNavigationArray[i], mNavigationIconsArray.getResourceId(i, 0));
+                items.add(item);
+            }
+        }
+        mDrawerList.setAdapter(new NavDrawerAdapter(mActivity, items));
 
 		// Sets click events
 		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
@@ -133,13 +147,11 @@ public class NavigationDrawerFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				mActivity.commitPending();
 				String navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
-//				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(mDrawerList, position);
 				mActivity.updateNavigation(navigation);
 				mDrawerList.setItemChecked(position, true);
 				if (mDrawerCategoriesList != null)
-					mDrawerCategoriesList.setItemChecked(0, false); // Called to force
-																// redraw
+					mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
 				// Reset intent
 				mActivity.getIntent().setAction(Intent.ACTION_MAIN);
 				
@@ -328,13 +340,14 @@ public class NavigationDrawerFragment extends Fragment {
 	}
 
 
-	/** Swaps fragments in the main content view 
-	 * @param list */
+	/**
+     * Swaps fragments in the main content view
+	 */
 	private void selectNavigationItem(ListView list, int position) {
 		Object itemSelected = list.getItemAtPosition(position);
-		if (itemSelected.getClass().isAssignableFrom(String.class)) {
-			mTitle = (CharSequence)itemSelected;	
-		// Is a tag
+		if (itemSelected.getClass().isAssignableFrom(NavigationItem.class)) {
+			mTitle = ((NavigationItem)itemSelected).getText();
+		// Is a category
 		} else {
 			mTitle = ((Category)itemSelected).getName();
 		}

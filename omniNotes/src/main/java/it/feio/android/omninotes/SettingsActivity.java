@@ -315,8 +315,7 @@ public class SettingsActivity extends PreferenceActivity {
 		});
 		
 		
-		
-		// Import notes from Springpad export zip file
+
 //		Preference syncWithDrive = findPreference("settings_backup_drive");
 //		importFromSpringpad.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 //			@Override
@@ -333,31 +332,43 @@ public class SettingsActivity extends PreferenceActivity {
 //				return false;
 //			}
 //		});
-		
-		
-		
-		
-		// Swiping action
-		final CheckBoxPreference swipeToTrash = (CheckBoxPreference) findPreference("settings_swipe_to_trash");
-		if (prefs.getBoolean("settings_swipe_to_trash", false)) {
-			swipeToTrash.setChecked(true);
-			swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
-		} else {
-			swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
-			swipeToTrash.setChecked(false);
-		}
-		swipeToTrash.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
-			@Override
-			public boolean onPreferenceChange(Preference preference, final Object newValue) {
-				if ((Boolean) newValue) {
-					swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
-				} else {
-					swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
-				}
-				swipeToTrash.setChecked((Boolean) newValue);
-				return false;
-			}
-		});
+
+
+
+
+        // Swiping action
+        final CheckBoxPreference swipeToTrash = (CheckBoxPreference) findPreference("settings_swipe_to_trash");
+        if (prefs.getBoolean("settings_swipe_to_trash", false)) {
+            swipeToTrash.setChecked(true);
+            swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
+        } else {
+            swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
+            swipeToTrash.setChecked(false);
+        }
+        swipeToTrash.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, final Object newValue) {
+                if ((Boolean) newValue) {
+                    swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
+                } else {
+                    swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
+                }
+                swipeToTrash.setChecked((Boolean) newValue);
+                return false;
+            }
+        });
+
+
+
+        // Show uncategorized notes in menu
+        final CheckBoxPreference showUncategorized = (CheckBoxPreference) findPreference(Constants.PREF_SHOW_UNCATEGORIZED);
+        showUncategorized.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, final Object newValue) {
+                showUncategorized.setChecked((Boolean) newValue);
+                return false;
+            }
+        });
 		
 		
 		

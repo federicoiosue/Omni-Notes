@@ -21,6 +21,7 @@
         <changelogtext>[b]New![/b] Masking notes now enhance your protection by encrypting note content too</changelogtext>
         <changelogtext>[b]New![/b] Masked notes cannot be archived, trashed, tagged or categorized anymore without knowing the password</changelogtext>
         <changelogtext>[b]New![/b] Searching action in categories will find only notes belonging to the currently selected category</changelogtext>
+        <changelogtext>[b]New![/b] From inside settings you can activate an option to add a new navigation item that will show you just not categorized notes</changelogtext>
         <changelogtext>Updated translation: English, Slovenian, Slovak</changelogtext>
         <changelogtext>Removed "【by Omni Notes】" appendix from shared content</changelogtext>
         <changelogtext>[u]Fixed[/u] Could I miss some various bugs smashing? Thanks to the users that are using GitHub to report issues!</changelogtext>

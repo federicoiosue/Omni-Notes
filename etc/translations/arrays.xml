@@ -21,6 +21,7 @@
         <item>Archive</item>
         <item>Reminders</item>
         <item>Trash</item>
+        <item>Uncategorized</item>
     </string-array>
 
     <string-array name="sortable_columns_human_readable">
@@ -55,9 +56,7 @@
         <item >Default</item>
         <item >Large</item>
         <item >Largest</item>
-    </string-array>
-        
-    
+    </string-array>    
     
 
 </resources>

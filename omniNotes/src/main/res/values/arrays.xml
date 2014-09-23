@@ -21,6 +21,7 @@
         <item>Archive</item>
         <item>Reminders</item>
         <item>Trash</item>
+        <item>Uncategorized</item>
     </string-array>
 
     <string-array name="navigation_list_codes">
@@ -28,6 +29,7 @@
         <item>Archive</item>
         <item>Reminders</item>
         <item>Trash</item>
+        <item>Uncategorized</item>
     </string-array>
 
     <integer-array name="navigation_list_icons">
@@ -35,6 +37,7 @@
         <item>@drawable/ic_archive_dark</item>
         <item>@drawable/ic_reminder_dark</item>
         <item>@drawable/ic_action_discard</item>
+        <item>@drawable/ic_uncategorized</item>
     </integer-array>
 
     <string-array name="sortable_columns">

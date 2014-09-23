@@ -131,19 +131,24 @@
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="settings_instant_search"
-                android:title="@string/settings_instant_search" />   
-           
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="settings_swipe_to_trash"
-                android:title="@string/settings_swipe_to_trash" />   
+                android:title="@string/settings_instant_search" />
 
-            <EditTextPreference
+             <CheckBoxPreference
+                 android:defaultValue="false"
+                 android:key="settings_swipe_to_trash"
+                 android:title="@string/settings_swipe_to_trash" />
+
+             <CheckBoxPreference
+                 android:defaultValue="false"
+                 android:key="settings_show_uncategorized"
+                 android:title="@string/settings_show_uncategorized"
+                 android:summary="@string/settings_show_uncategorized_summary" />
+
+             <EditTextPreference
                 android:inputType="number"
                 android:key="settings_max_video_size"
                 android:summary="@string/settings_max_video_size_summary"
-                android:title="@string/settings_max_video_size" >
-            </EditTextPreference>
+                android:title="@string/settings_max_video_size" />
             
             <ListPreference
                 android:defaultValue="0"

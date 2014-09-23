@@ -18,10 +18,13 @@ package it.feio.android.omninotes.models.adapters;
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -38,25 +41,23 @@ import com.neopixl.pixlui.components.textview.TextView;
 public class NavDrawerAdapter extends BaseAdapter {
 
 	private Activity mActivity;
-	private Object[] mTitle;
-	private TypedArray mIcon;
+    private List<NavigationItem> items = new ArrayList<NavigationItem>();
 	private LayoutInflater inflater;
 
-	public NavDrawerAdapter(Activity mActivity, Object[] title, TypedArray icon) {
+	public NavDrawerAdapter(Activity mActivity, List<NavigationItem> items) {
 		this.mActivity = mActivity;
-		this.mTitle = title;
-		this.mIcon = icon;
+		this.items = items;
 		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
 	public int getCount() {
-		return mTitle.length;
+		return items.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mTitle[position];
+		return items.get(position);
 	}
 
 	@Override
@@ -82,23 +83,15 @@ public class NavDrawerAdapter extends BaseAdapter {
 	    }
 
 		// Set the results into TextViews	
-	    holder.txtTitle.setText(mTitle[position].toString());
+	    holder.txtTitle.setText(items.get(position).getText());
 		
 		if (isSelected(parent, position)) {
-//			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
-//					R.color.drawer_text_selected));
 			holder.txtTitle.setTypeface(null,Typeface.BOLD);
 		} else {
-//			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
-//					R.color.actionbar_title_text));
 			holder.txtTitle.setTypeface(null,Typeface.NORMAL);
 		}
 
-		// Set the results into ImageView checking if an icon is present before
-		if (mIcon != null && mIcon.length() >= position) {
-			int imgRes = mIcon.getResourceId(position, 0);
-			holder.imgIcon.setImageResource(imgRes);
-		}
+        holder.imgIcon.setImageResource(items.get(position).getIcon());
 
 		return convertView;
 	}
@@ -128,15 +121,8 @@ public class NavDrawerAdapter extends BaseAdapter {
 		
 		String navigationLocalized = mActivity.getResources().getStringArray(R.array.navigation_list)[index];
 		
-		// Check the selected one
-		Object itemSelected = mTitle[position];
-		String title= itemSelected.toString();			
-		
-		if (navigationLocalized.equals(title)) {
-			return true;
-		} else {
-			return false;
-		}			
+		// Checks the selected one
+		return navigationLocalized.equals(items.get(position).getText());
 	}
 
 }
