@@ -29,7 +29,7 @@
     
     <dimen name="icon_text_margin">12dp</dimen>    
 
-    <dimen name="navigation_drawer_width">240dp</dimen>
+    <dimen name="navigation_drawer_width">300dp</dimen>
     
     <dimen name="tag_circle_padding">25dp</dimen>
     
@@ -42,3 +42,4 @@
     <dimen name="undobar_margin_bottom">20dp</dimen>
     
 </resources>
+pa
