@@ -600,12 +600,8 @@ public class DetailFragment extends Fragment implements
 		locationTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String urlTag = Constants.TAG
-						+ (noteTmp.getTitle() != null ? System.getProperty("line.separator") + noteTmp.getTitle() : "")
-						+ (noteTmp.getContent() != null ? System.getProperty("line.separator") + noteTmp.getContent() : "");
 				String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
-						+ "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
-						+ "(" + urlTag + ")";
+						+ "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
 				Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
 				if (!IntentChecker.isAvailable(getActivity(), locationIntent, null)) {
 					uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
