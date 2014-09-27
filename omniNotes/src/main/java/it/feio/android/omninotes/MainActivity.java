@@ -266,14 +266,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		super.onConfigurationChanged(newConfig);
 	}
 
-
 	
 	public DrawerLayout getDrawerLayout() {
-		if (mFragmentManager!= null && mFragmentManager.findFragmentById(R.id.navigation_drawer) != null) {
-			return ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer)).mDrawerLayout;
-		} else {
-			return null;
-		}
+        return ((DrawerLayout) findViewById(R.id.drawer_layout));
 	}
 	
 	

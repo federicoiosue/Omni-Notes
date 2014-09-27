@@ -253,9 +253,7 @@ public class DetailFragment extends Fragment implements
 		}
 		
 		// Force the navigation drawer to stay closed
-		if (((MainActivity)getActivity()).getDrawerLayout() != null) {
-			((MainActivity)getActivity()).getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-		}	
+        ((MainActivity)getActivity()).getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		
 		// Restored temp note after orientation change
 		if (savedInstanceState != null) {
