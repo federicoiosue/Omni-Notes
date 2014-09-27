@@ -32,6 +32,7 @@ import it.feio.android.omninotes.models.PushBulletMessage;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
+import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
@@ -41,6 +42,7 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.GeoUtils;
 import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.KeyboardUtils;
@@ -134,7 +136,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class DetailFragment extends Fragment implements
 		OnReminderPickedListener, TextLinkClickListener, OnTouchListener,
-		OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved {
+		OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved, OnGeoUtilResultListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int TAKE_VIDEO = 2;
@@ -591,9 +593,8 @@ public class DetailFragment extends Fragment implements
 				locationTextView.setVisibility(View.VISIBLE);
 				locationTextView.setText(noteTmp.getAddress());
 			} else {
-				// Sets visibility now to avoid jumps on populating location
-				resolveAddress(noteTmp.getLatitude(), noteTmp.getLongitude());
-			}
+                GeoUtils.getInstance(getActivity()).resolveAddress(noteTmp.getLatitude(), noteTmp.getLongitude(), this);
+            }
 		}
 
 		locationTextView.setOnClickListener(new OnClickListener() {
@@ -601,9 +602,9 @@ public class DetailFragment extends Fragment implements
 			public void onClick(View v) {
 				String urlTag = Constants.TAG
 						+ (noteTmp.getTitle() != null ? System.getProperty("line.separator") + noteTmp.getTitle() : "")
-						+ (noteTmp.getContent() != null ? System.getProperty("line.separator") + noteTmp.getContent() : "");				
-				String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() 
-						+ "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude() 
+						+ (noteTmp.getContent() != null ? System.getProperty("line.separator") + noteTmp.getContent() : "");
+				String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
+						+ "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
 						+ "(" + urlTag + ")";
 				Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
 				if (!IntentChecker.isAvailable(getActivity(), locationIntent, null)) {
@@ -852,74 +853,72 @@ public class DetailFragment extends Fragment implements
 			}
 		}
 	}
-	
 
-	
-	@SuppressLint("NewApi")
-	private void setAddress() {
-		double lat = ((MainActivity)getActivity()).currentLatitude;
-		double lon = ((MainActivity)getActivity()).currentLongitude;
-		noteTmp.setLatitude(lat);
-		noteTmp.setLongitude(lon);
-		resolveAddress(lat, lon);
-	}
-	
-	
-	
-	@SuppressLint("NewApi")
-	private void resolveAddress(double lat, double lon) {
-		class LocatorTask extends AsyncTask<Void, Void, String> {
-			
-			private final String ERROR_MSG = getString(R.string.location_not_found);
-			private TextView mlocationTextView;
-			private double lat, lon;
-			private Context mContext;
 
-			public LocatorTask(Context mContext, TextView locationTextView, double lat, double lon) {
-				this.mContext = mContext;
-				this.mlocationTextView = locationTextView;
-				this.lat = lat;
-				this.lon = lon;				
-			}
+    @SuppressLint("NewApi")
+    private void setAddress() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View v = inflater.inflate(R.layout.dialog_backup_layout, null);
+        alertDialogBuilder.setView(v);
 
-			@Override
-			protected String doInBackground(Void... params) {
-				
-				String addressString = "";
-				try {
-					addressString = GeocodeHelper.getAddressFromCoordinates(mContext, this.lat, this.lon); 
-					addressString = TextUtils.isEmpty(addressString) ? ERROR_MSG : addressString;
-				} catch (IOException ex) {
-					addressString = ERROR_MSG;
-				}
-				return addressString;
-			}
+        alertDialogBuilder
+                .setPositiveButton(R.string.add_category, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        android.widget.EditText editText = (android.widget.EditText) v.findViewById(R.id.export_file_name);
+                        if (TextUtils.isEmpty(editText.getText().toString())) {
+                            double lat = ((MainActivity) getActivity()).currentLatitude;
+                            double lon = ((MainActivity) getActivity()).currentLongitude;
+                            noteTmp.setLatitude(lat);
+                            noteTmp.setLongitude(lon);
+                            GeoUtils.getInstance(getActivity()).resolveAddress(noteTmp.getLatitude(), noteTmp.getLongitude(), mFragment);
+                        } else {
+                            GeoUtils.getInstance(getActivity()).resolveCoordinates(editText.getText().toString(), mFragment);
+                        }
+                    }
+                });
 
-			@Override
-			protected void onPostExecute(String result) {
-				super.onPostExecute(result);
-				if (result.length() > 0 && !result.equals(ERROR_MSG)) {
-					noteTmp.setAddress(result);
-					this.mlocationTextView.setVisibility(View.VISIBLE);
-					this.mlocationTextView.setText(result);
-					fade(mlocationTextView, true);
-				} else {
-					Crouton.makeText(getActivity(), ERROR_MSG, ONStyle.ALERT).show();
-				}				
-			}
-		}
+        alertDialogBuilder.create().show();
+    }
 
-		LocatorTask task = new LocatorTask(getActivity(), locationTextView, lat, lon);		
-		if (Build.VERSION.SDK_INT >= 11) {
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-		} else {
-			task.execute();
-		}
-	}
-	
-	
-	
-	@Override
+
+    @Override
+    public void onAddressResolved(String address) {
+        if (!TextUtils.isEmpty(address)) {
+            noteTmp.setAddress(address);
+            locationTextView.setVisibility(View.VISIBLE);
+            locationTextView.setText(address);
+            fade(locationTextView, true);
+        } else {
+            Crouton.makeText(getActivity(), getString(R.string.location_not_found), ONStyle.ALERT).show();
+        }
+    }
+
+
+    @Override
+    public void onCoordinatesResolved(double[] coords) {
+        if (coords != null) {
+            noteTmp.setLatitude(coords[0]);
+            noteTmp.setLongitude(coords[1]);
+            GeoUtils.getInstance(getActivity()).resolveAddress(coords[0], coords[1], new OnGeoUtilResultListener() {
+                @Override
+                public void onAddressResolved(String address) {
+                    noteTmp.setAddress(address);
+                    locationTextView.setVisibility(View.VISIBLE);
+                    locationTextView.setText(address);
+                    fade(locationTextView, true);
+                }
+                @Override
+                public void onCoordinatesResolved(double[] coords) {
+                }
+            });
+        } else {
+            Crouton.makeText(getActivity(), getString(R.string.location_not_found), ONStyle.ALERT).show();
+        }
+    }
+
+    @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
 		inflater.inflate(R.menu.menu_detail, menu);
@@ -1388,7 +1387,6 @@ public class DetailFragment extends Fragment implements
 			case R.id.files:
 				Intent filesIntent;
 				filesIntent = new Intent(Intent.ACTION_GET_CONTENT);
-//				filesIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 				filesIntent.addCategory(Intent.CATEGORY_OPENABLE);
 				filesIntent.setType("*/*");
 				startActivityForResult(filesIntent, FILES);

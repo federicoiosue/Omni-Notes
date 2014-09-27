@@ -16,8 +16,9 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.7.0" changeDate="Sep 24, 2014">
+    <changelogversion versionName="4.7.0" changeDate="Sep 28, 2014">
         <changelogtext>[b]New![/b] Fill your notes content using desktop notifications with PushBullet!</changelogtext>
+        <changelogtext>[b]New![/b] Custom note location, for now only address input is implemented, no position selection on a map</changelogtext>
         <changelogtext>[b]New![/b] Masking notes now enhance your protection by encrypting note content too</changelogtext>
         <changelogtext>[b]New![/b] Masked notes cannot be archived, trashed, tagged or categorized anymore without knowing the password</changelogtext>
         <changelogtext>[b]New![/b] Searching action in categories will find only notes belonging to the currently selected category</changelogtext>
