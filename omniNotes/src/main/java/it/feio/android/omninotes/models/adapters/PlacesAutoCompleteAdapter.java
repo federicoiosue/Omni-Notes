@@ -11,7 +11,7 @@ import it.feio.android.omninotes.utils.GeocodeHelper;
 
 public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
 
-    private static final int MIN_CHARS = 3;
+    private static final int MIN_CHARS = 7;
 
     private ArrayList<String> resultList;
 

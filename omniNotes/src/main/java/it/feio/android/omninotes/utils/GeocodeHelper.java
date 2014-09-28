@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +25,7 @@ import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 
 public class GeocodeHelper {
 
-    private static final String LOG_TAG = "ExampleApp";
+    private static final String LOG_TAG = Constants.TAG;
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
     private static final String OUT_JSON = "/json";
@@ -83,7 +84,6 @@ public class GeocodeHelper {
         double[] result = new double[2];
         Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
         List<Address> addresses = geocoder.getFromLocationName(address, 1);
-        // Address address = addresses.get(0);
         if (addresses.size() > 0) {
             double latitude = addresses.get(0).getLatitude();
             double longitude = addresses.get(0).getLongitude();
@@ -148,10 +148,10 @@ public class GeocodeHelper {
                 jsonResults.append(buff, 0, read);
             }
         } catch (MalformedURLException e) {
-//            Log.e(LOG_TAG, "Error processing Places API URL", e);
+            Log.e(LOG_TAG, "Error processing Places API URL", e);
             return resultList;
         } catch (IOException e) {
-//            Log.e(LOG_TAG, "Error connecting to Places API", e);
+            Log.e(LOG_TAG, "Error connecting to Places API", e);
             return resultList;
         } finally {
             if (conn != null) {
@@ -170,7 +170,7 @@ public class GeocodeHelper {
                 resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
             }
         } catch (JSONException e) {
-//            Log.e(LOG_TAG, "Cannot process JSON results", e);
+            Log.e(LOG_TAG, "Cannot process JSON results", e);
         }
 
         return resultList;
