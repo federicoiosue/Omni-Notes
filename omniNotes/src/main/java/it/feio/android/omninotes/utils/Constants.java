@@ -111,6 +111,7 @@ public interface Constants {
 	final String PREF_COLORS_APP_DEFAULT = "strip";
     final String PREF_WIDGET_PREFIX = "widget_";
     final String PREF_SHOW_UNCATEGORIZED = "settings_show_uncategorized";
+    final String PREF_AUTO_LOCATION = "settings_auto_location";
 
 	final String EXPORT_FILE_NAME = TAG;
 

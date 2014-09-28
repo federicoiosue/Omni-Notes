@@ -592,6 +592,11 @@ public class DetailFragment extends Fragment implements
 
 		// Initialization of location TextView
 		locationTextView = (TextView) getView().findViewById(R.id.location);
+        // Automatic location insertion
+        if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
+            noteTmp.setLatitude(((MainActivity) getActivity()).currentLatitude);
+            noteTmp.setLongitude(((MainActivity) getActivity()).currentLongitude);
+        }
 		if (noteTmp.getLatitude() != null && noteTmp.getLatitude() != 0 && noteTmp.getLongitude() != null
 				&& noteTmp.getLongitude() != 0) {
 			if (noteTmp.getAddress() != null && noteTmp.getAddress().length() > 0) {
@@ -1673,11 +1678,6 @@ public class DetailFragment extends Fragment implements
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	void saveNote(OnNoteSaved mOnNoteSaved) {
 
-//		// Saving is avoided if note is masked and password still note inserted
-//		if (noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
-//			return;
-//		}
-
 		// Changed fields
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent());
@@ -1705,7 +1705,10 @@ public class DetailFragment extends Fragment implements
 		note.setCategory(noteTmp.getCategory());
 		note.setArchived(noteTmp.isArchived());
 		note.setTrashed(noteTmp.isTrashed());
-		note.setLocked(noteTmp.isLocked());
+        note.setLocked(noteTmp.isLocked());
+        note.setLatitude(noteTmp.getLatitude());
+        note.setLongitude(noteTmp.getLongitude());
+        note.setAddress(noteTmp.getAddress());
 		if (!noteTmp.isChanged(note)) {
 			updateLastModification = false;
 		}

@@ -15,23 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.models.ImageAndTextItem;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
-import it.feio.android.omninotes.utils.AppTourHelper;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.FileHelper;
-import it.feio.android.omninotes.utils.IntentChecker;
-import it.feio.android.omninotes.utils.StorageManager;
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -64,9 +47,29 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.models.ImageAndTextItem;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
+import it.feio.android.omninotes.utils.AppTourHelper;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.StorageManager;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -366,6 +369,17 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, final Object newValue) {
                 showUncategorized.setChecked((Boolean) newValue);
+                return false;
+            }
+        });
+
+
+        // Show Automatically adds location to new notes
+        final CheckBoxPreference autoLocation = (CheckBoxPreference) findPreference(Constants.PREF_AUTO_LOCATION);
+        autoLocation.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, final Object newValue) {
+                autoLocation.setChecked((Boolean) newValue);
                 return false;
             }
         });
