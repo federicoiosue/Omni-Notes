@@ -1684,13 +1684,14 @@ public class DetailFragment extends Fragment implements
 
 		// Check if some text or attachments of any type have been inserted or
 		// is an empty note
-		if (goBack && noteTmp.isEmpty()) {
-			Log.d(Constants.TAG, "Empty note not saved");
-			exitMessage = getString(R.string.empty_note_not_saved);
-			exitCroutonStyle = ONStyle.INFO;
-			goHome();
-			return;
-		}
+        if (goBack && TextUtils.isEmpty(noteTmp.getTitle()) && TextUtils.isEmpty(noteTmp.getContent())
+                && noteTmp.getAttachmentsList().size() == 0) {
+            Log.d(Constants.TAG, "Empty note not saved");
+            exitMessage = getString(R.string.empty_note_not_saved);
+            exitCroutonStyle = ONStyle.INFO;
+            goHome();
+            return;
+        }
 
 		// Checks if nothing is changed to avoid committing if possible (check)
 		if (!noteTmp.isChanged(note)) {
@@ -1706,9 +1707,6 @@ public class DetailFragment extends Fragment implements
 		note.setArchived(noteTmp.isArchived());
 		note.setTrashed(noteTmp.isTrashed());
         note.setLocked(noteTmp.isLocked());
-        note.setLatitude(noteTmp.getLatitude());
-        note.setLongitude(noteTmp.getLongitude());
-        note.setAddress(noteTmp.getAddress());
 		if (!noteTmp.isChanged(note)) {
 			updateLastModification = false;
 		}
