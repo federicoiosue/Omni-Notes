@@ -188,6 +188,8 @@
     <string name="synchronize">Synchronize</string>
     <string name="extracted">Extracted</string>
     <string name="select_all">Select all</string>
+    <string name="search_location">Search location</string>
+    <string name="use_current_location">Use current location</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
@@ -287,7 +289,7 @@
     <string name="settings_show_uncategorized_summary">Adds a voice in navigation menu for not categorized notes</string>
     <string name="settings_show_category_count">Note count</string>
     <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
-    
+
 
     <!-- Instructions -->
     <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>
