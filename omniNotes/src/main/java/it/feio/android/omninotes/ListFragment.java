@@ -101,7 +101,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
     private NoteAdapter mAdapter;
     private ActionMode mActionMode;
 	private List<Note> selectedNotes = new ArrayList<Note>();
-    private List<Note> modifiedNotes;
+    private List<Note> modifiedNotes = new ArrayList<Note>();
 	private SearchView searchView;
     private MenuItem searchMenuItem;
 	private TextView empyListItem;
@@ -121,7 +121,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	// private Category removedCategory;
 	private SparseArray<Note> undoNotesList = new SparseArray<Note>();
 	// Used to remember removed categories from notes
-	private Map<Note, Category> undoCategoryList = new HashMap<Note, Category>();
+	private Map<Note, Category> undoCategoryMap = new HashMap<Note, Category>();
 
 	// Search variables
 	private String searchQuery;
@@ -379,6 +379,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 	public void finishActionMode() {
 		selectedNotes.clear();
+        modifiedNotes.clear();
 		if (mActionMode != null) {
 			mActionMode.finish();
 		}
@@ -1095,6 +1096,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			} else {
 				// Saves notes to be eventually restored at right position
 				undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
+                modifiedNotes.add(note);
 			}
 			// Removes note adapter
 			mAdapter.remove(note);
@@ -1228,6 +1230,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
             } else {
                 // Saves notes to be eventually restored at right position
                 undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
+                modifiedNotes.add(note);
             }
 
             // Updates adapter content. If actual navigation is a category
@@ -1346,9 +1349,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				categorizeNote(note, category);
 			} else {
 				// Saves categories associated to eventually undo
-				undoCategoryList.put(note, note.getCategory());
+				undoCategoryMap.put(note, note.getCategory());
 				// Saves notes to be eventually restored at right position
 				undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
+                modifiedNotes.add(note);
 			}
 			// Update adapter content if actual navigation is the category
 			// associated with actually cycled note
@@ -1522,10 +1526,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// Cycles removed items to re-insert into adapter
 		for (Note note : modifiedNotes) {
 			//   Manages uncategorize or archive  undo
-			if ( (undoCategorize && !Navigation.checkNavigationCategory(undoCategoryList.get(note)))
+			if ( (undoCategorize && !Navigation.checkNavigationCategory(undoCategoryMap.get(note)))
 				|| undoArchive && Navigation.checkNavigation(Navigation.CATEGORY)){
 				if (undoCategorize) {
-					note.setCategory(undoCategoryList.get(note));
+					note.setCategory(undoCategoryMap.get(note));
 				} else if (undoArchive) {
 					note.setArchived(false);
 				}
@@ -1545,7 +1549,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		undoArchive = false;
 		undoCategorize = false;
 		undoNotesList.clear();
-		undoCategoryList.clear();
+		undoCategoryMap.clear();
 		undoCategorizeCategory = null;
 		Crouton.cancelAllCroutons();
 
@@ -1579,7 +1583,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			// Clears data structures
             modifiedNotes.clear();
 			undoNotesList.clear();
-			undoCategoryList.clear();
+			undoCategoryMap.clear();
 			mAdapter.clearSelectedItems();
 			listView.clearChoices();
 

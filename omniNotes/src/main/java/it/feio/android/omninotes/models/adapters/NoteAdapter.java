@@ -325,10 +325,13 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	
 	/**
 	 * Replaces notes
-	 * @param note
 	 */
 	public void replace(Note note, int index) {
-		notes.remove(index);
+        if (notes.indexOf(note) != -1) {
+            notes.remove(index);
+        }  else {
+            index = notes.size();
+        }
 		notes.add(index, note);
 	}
 }
