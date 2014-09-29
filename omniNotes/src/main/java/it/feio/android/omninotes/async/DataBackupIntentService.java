@@ -543,7 +543,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		StorageManager.delete(this, attachmentsDir.getAbsolutePath());
 		// Moving back
 		File backupAttachmentsDir = new File(backupDir, attachmentsDir.getName());
-		
+		if (!backupAttachmentsDir.exists()) return true;
 		boolean result = true;
 		Collection list = FileUtils.listFiles(backupAttachmentsDir, FileFilterUtils.trueFileFilter(),
 				TrueFileFilter.INSTANCE);
