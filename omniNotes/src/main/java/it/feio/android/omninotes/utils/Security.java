@@ -1,5 +1,7 @@
 package it.feio.android.omninotes.utils;
 
+import android.util.Base64;
+
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -13,8 +15,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
-
-import android.util.Base64;
 
 public class Security {
 
@@ -77,7 +77,13 @@ public class Security {
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
             SecretKey key = keyFactory.generateSecret(keySpec);
 
-            byte[] encrypedPwdBytes = Base64.decode(value, Base64.DEFAULT);
+            byte[] encrypedPwdBytes;
+            // try-catch ensure compatibility with old masked (without encryption) values
+            try {
+                encrypedPwdBytes = Base64.decode(value, Base64.DEFAULT);
+            } catch (IllegalArgumentException e) {
+                return value;
+            }
             // cipher is not thread safe
             Cipher cipher = Cipher.getInstance("DES");
             cipher.init(Cipher.DECRYPT_MODE, key);
