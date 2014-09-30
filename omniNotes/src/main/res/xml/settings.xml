@@ -92,7 +92,13 @@
                 android:defaultValue="false"
                 android:key="settings_simple_calendar"
                 android:summary="@string/settings_simple_calendar_summary"
-                android:title="@string/settings_simple_calendar" />   
+                android:title="@string/settings_simple_calendar" />
+
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="settings_show_uncategorized"
+                android:title="@string/settings_show_uncategorized"
+                android:summary="@string/settings_show_uncategorized_summary" />
           
             <CheckBoxPreference
                 android:defaultValue="false"
@@ -137,12 +143,6 @@
                  android:defaultValue="false"
                  android:key="settings_swipe_to_trash"
                  android:title="@string/settings_swipe_to_trash" />
-
-             <CheckBoxPreference
-                 android:defaultValue="false"
-                 android:key="settings_show_uncategorized"
-                 android:title="@string/settings_show_uncategorized"
-                 android:summary="@string/settings_show_uncategorized_summary" />
 
              <CheckBoxPreference
                  android:defaultValue="false"
