@@ -829,7 +829,7 @@ public class DetailFragment extends Fragment implements
 
 
 	/**
-	 * Colors tag marker in note title TextView
+	 * Colors tag marker in note's title and content elements
 	 */
 	private void setTagMarkerColor(Category tag) {
 
@@ -842,7 +842,7 @@ public class DetailFragment extends Fragment implements
 			ArrayList<View> target = new ArrayList<View>();
 			if (colorsPref.equals("complete")){
 				target.add(getView().findViewById(R.id.title_wrapper));
-				target.add(getView().findViewById(R.id.detail_content_card));
+				target.add(getView().findViewById(R.id.content_wrapper));
 			} else {
 				target.add(getView().findViewById(R.id.tag_marker));
 			}
