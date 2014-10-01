@@ -1,16 +1,18 @@
 package it.feio.android.omninotes.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 public class AppTourHelper {
 
-	private static final String[] showcasesSuffixes = {"list", "navdrawer", "detail", "list2"};
-	private static ArrayList<String> showcases;
+    public static final String PREF_TOUR_COMPLETE = Constants.PREF_TOUR_PREFIX + "skipped";
+	private static final String[] SHOWCASES_SUFFIXES = {"list", "navdrawer", "detail", "list2"};
+
+    private static ArrayList<String> showcases;
 
 	private static SharedPreferences init(Context mContext) {
 		showcases = getShowcases();
@@ -20,14 +22,14 @@ public class AppTourHelper {
 	
 	public static ArrayList<String> getShowcases() {
 		ArrayList<String> showcases = new ArrayList<String>();
-		for (String showcaseSuffix : showcasesSuffixes) {
+		for (String showcaseSuffix : SHOWCASES_SUFFIXES) {
 			showcases.add(Constants.PREF_TOUR_PREFIX + showcaseSuffix);
 		}
 		return showcases;
 	}
 	
 	
-	public static boolean isMyTurn(Context mContext, String showcaseName) {
+	public static boolean isStepTurn(Context mContext, String showcaseName) {
 		boolean res = true;
 		SharedPreferences prefs = init(mContext);
 		
@@ -65,34 +67,28 @@ public class AppTourHelper {
 		}
 		return isPlaying;
 	}
-	
 
-	public static boolean neverDone(Context mContext) {
-		SharedPreferences prefs = init(mContext);
-		boolean res = true;
-		Map<String, ?> prefsMap = prefs.getAll();
-		final Iterator<?> it = prefsMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry mapEntry = (Map.Entry) it.next();
-			String key = mapEntry.getKey().toString();
-			if (key.contains(Constants.PREF_TOUR_PREFIX)) {
-				res = false;
-				break;
-			}
-		}
-		// for (String showcase : showcases) {
-		// if (prefs.contains(showcase)) {
-		// res = false;
-		// break;
-		// }
-		// }
-		return res;
-	}
+
+    public static boolean neverDone(Context mContext) {
+        SharedPreferences prefs = init(mContext);
+        boolean res = true;
+        Map<String, ?> prefsMap = prefs.getAll();
+        final Iterator<?> it = prefsMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry mapEntry = (Map.Entry) it.next();
+            String key = mapEntry.getKey().toString();
+            if (key.contains(Constants.PREF_TOUR_PREFIX)) {
+                res = false;
+                break;
+            }
+        }
+        return res;
+    }
 
 	
-	public static void skip(Context mContext) {
+	public static void complete(Context mContext) {
 		SharedPreferences prefs = init(mContext);
-		prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
+		prefs.edit().putBoolean(PREF_TOUR_COMPLETE, true).commit();
 		for (String showcase : showcases) {
 			prefs.edit().putBoolean(showcase, true).commit();
 			break;
@@ -102,7 +98,7 @@ public class AppTourHelper {
 	
 	public static void reset(Context mContext) {
 		SharedPreferences prefs = init(mContext);
-		prefs.edit().remove(Constants.PREF_TOUR_PREFIX + "skipped").commit();
+        prefs.edit().remove(PREF_TOUR_COMPLETE).commit();
 		for (String showcase : showcases) {
 			if (prefs.contains(showcase)) {
 				prefs.edit().remove(showcase).commit();
@@ -110,10 +106,16 @@ public class AppTourHelper {
 		}
 	}
 
-	
-	public static void complete(Context mContext, String showcase) {
-		SharedPreferences prefs = init(mContext);
-		prefs.edit().putBoolean(showcase, true).commit();
-	}
+
+    public static void completeStep(Context mContext, String showcase) {
+        SharedPreferences prefs = init(mContext);
+        prefs.edit().putBoolean(showcase, true).commit();
+    }
+
+
+    public static boolean mustRun(Context mContext) {
+        SharedPreferences prefs = init(mContext);
+        return !prefs.getBoolean(PREF_TOUR_COMPLETE, false);
+    }
 
 }

@@ -286,7 +286,7 @@
     <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
     <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
     <string name="settings_show_uncategorized">Group not categorized</string>
-    <string name="settings_show_uncategorized_summary">Adds a voice in navigation menu for not categorized notes</string>
+    <string name="settings_show_uncategorized_summary">Adds a new item in navigation menu for not categorized notes</string>
     <string name="settings_show_category_count">Note count</string>
     <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
     <string name="settings_auto_location">Automatic location</string>

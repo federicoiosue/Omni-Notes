@@ -1,5 +1,33 @@
 package it.feio.android.omninotes;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.res.TypedArray;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ListView;
+
+import com.espian.showcaseview.ShowcaseView;
+import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -13,35 +41,9 @@ import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.Fonts;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.content.res.TypedArray;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
-//import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ListView;
-import com.espian.showcaseview.ShowcaseView;
-import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.utils.Navigation;
+
+//import android.util.Log;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation
@@ -307,14 +309,14 @@ public class NavigationDrawerFragment extends Fragment {
 
 				// Show instructions on first launch
 				final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
-				if (AppTourHelper.isMyTurn(mActivity, instructionName)) {
+				if (AppTourHelper.isStepTurn(mActivity, instructionName)) {
 					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 					list.add(new Integer[] { R.id.menu_add_category, R.string.tour_listactivity_tag_title,
 							R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM });
 					mActivity.showCaseView(list, new OnShowcaseAcknowledged() {
 						@Override
 						public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-							AppTourHelper.complete(mActivity, instructionName);
+							AppTourHelper.completeStep(mActivity, instructionName);
 							mDrawerLayout.closeDrawer(GravityCompat.START);
 
 							// Attaches a dummy image as example

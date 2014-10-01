@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         return instance;
     }
 	
-	
+
 	private void init() {
 		mFragmentManager = getSupportFragmentManager();
 
@@ -458,7 +458,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
      */
     private void requestShowCaseViewVisualization() {
 
-        if (AppTourHelper.neverDone(getApplicationContext())) {
+        if (AppTourHelper.mustRun(getApplicationContext())) {
             final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder
                     .setTitle(R.string.app_name)
@@ -471,7 +471,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
                     }).setNegativeButton(R.string.not_now, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-                    AppTourHelper.skip(getApplicationContext());
+                    AppTourHelper.complete(getApplicationContext());
                     checkPassword();
                 }
             });

@@ -17,14 +17,10 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="it.feio.android.omninotes"
-    android:versionCode="136"
-    android:versionName="4.7.0" >
+    package="it.feio.android.omninotes" >
 
     <uses-sdk
-        tools:node="replace"
-        android:minSdkVersion="9"
-        android:targetSdkVersion="21" />
+        tools:node="replace" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

@@ -17,7 +17,6 @@
 -->
 <resources>
 
-
     <!-- Activities -->
     <string name="title_item_list">Notes</string>
     <string name="add_note">Add Note</string>
@@ -33,8 +32,8 @@
     <string name="trashed">trashed</string>
     <string name="note_trashed">Note(s) trashed</string>
     <string name="note_untrashed">Note(s) restored from trash</string>
-    <string name="untrash">Restore from trash</string>
-    <string name="delete">Delete</string>
+    <string name="untrash">Restore from trash</string>  
+    <string name="delete">Delete</string>    
     <string name="note_deleted">Note(s) deleted permanently</string>
     <string name="archive">Archive</string>
     <string name="unarchive">Restore from archive</string>
@@ -170,8 +169,8 @@
     <string name="help">Help</string>
     <string name="online_manual">Online manual</string>
     <string name="tags_added">Tags added</string>
-    <string name="working">Working...</string>
-    <string name="imported">imported</string>
+    <string name="working">Working...</string>    
+    <string name="imported">imported</string>    
     <string name="synchronize">Synchronize</string>
     <string name="extracted">Extracted</string>
     <string name="select_all">Select all</string>
@@ -190,9 +189,9 @@
     <string name="settings_export">Backup</string>
     <string name="settings_import">Restore or delete backups</string>
     <string name="settings_import_from_springpad">Import notes from Springpad</string>
-    <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>
+    <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>   
     <string name="settings_sync_drive">Sync with Google Drive</string>
-    <string name="settings_sync_drive_summary">Register the application to synchronize data on Google Drive storage service</string>
+    <string name="settings_sync_drive_summary">Register the application to synchronize data on Google Drive storage service</string>    
     <string name="export_success">File exported successfully into folder</string>
     <string name="export_fail">File export failed</string>
     <string name="import_success">File imported successfully</string>
@@ -273,7 +272,7 @@
     <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
     <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
     <string name="settings_show_uncategorized">Group not categorized</string>
-    <string name="settings_show_uncategorized_summary">Adds a voice in navigation menu for not categorized notes</string>
+    <string name="settings_show_uncategorized_summary">Adds a new item in navigation menu for not categorized notes</string>
     <string name="settings_show_category_count">Note count</string>
     <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
     <string name="settings_auto_location">Automatic location</string>

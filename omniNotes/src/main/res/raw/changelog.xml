@@ -18,15 +18,13 @@
 
     <changelogversion versionName="4.7.0" changeDate="Sep 28, 2014">
         <changelogtext>[b]New![/b] Fill your notes content using desktop notifications with PushBullet!</changelogtext>
-        <changelogtext>[b]New![/b] Search for a custom location to be added to your notes instead of just using the current one</changelogtext>
-        <changelogtext>[b]New![/b] Optionally choose to automatically add location to your new notes</changelogtext>
-        <changelogtext>[b]New![/b] Enhance your notes masking protection by encrypting note content</changelogtext>
-        <changelogtext>[b]New![/b] Masked notes cannot be archived, trashed, tagged or categorized anymore without knowing the password</changelogtext>
+        <changelogtext>[b]New![/b] Search for a custom location to be added to your notes instead of just using the current one or optionally choose to automatically add location to your new notes</changelogtext>
+        <changelogtext>[b]New![/b] Security enhancements: your masked notes' content will be from now encrypted and these notes will be protected even from archive, trash, tagging or categorization actions</changelogtext>
         <changelogtext>[b]New![/b] Searching action in categories will find only notes belonging to the currently selected category</changelogtext>
         <changelogtext>[b]New![/b] Optionally add an "Uncategorized" item in navigation menu by activating it from settings to filter notes without category</changelogtext>
         <changelogtext>Updated a lot of language localizations, thank you very much translators!</changelogtext>
         <changelogtext>Removed "【by Omni Notes】" appendix from shared content</changelogtext>
-        <changelogtext>[u]Fixed[/u] Could I miss some various bugs smashing? Thanks to the users that are using GitHub to report issues!</changelogtext>
+        <changelogtext>[u]Fixed[/u] Could I miss some serious bugs smashing? Thanks to the users that are using the issue tracking tools to report issues helping me to improve the app!</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.6.5" changeDate="Aug 12, 2014">

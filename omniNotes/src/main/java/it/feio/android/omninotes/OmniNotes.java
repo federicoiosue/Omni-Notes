@@ -140,16 +140,20 @@ public class OmniNotes extends Application {
 	/**
 	 * Performs a full app restart
 	 */
-	public static void restartApp(Context mContext) {
-		Intent intent = new Intent(mContext, MainActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		int mPendingIntentId = 123456;
-		PendingIntent mPendingIntent = PendingIntent.getActivity(mContext, mPendingIntentId, intent,
-				PendingIntent.FLAG_CANCEL_CURRENT);
-		AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-		System.exit(0);
+	public static void restartApp(final Context mContext) {
+
+        if (MainActivity.getInstance() != null) {
+            MainActivity.getInstance().finish();
+            Intent intent = new Intent(mContext, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            int mPendingIntentId = 123456;
+            PendingIntent mPendingIntent = PendingIntent.getActivity(mContext, mPendingIntentId, intent,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
+            AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+            System.exit(0);
+        }
 	}
 
 }

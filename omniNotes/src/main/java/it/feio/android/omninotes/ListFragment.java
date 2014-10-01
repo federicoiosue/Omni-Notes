@@ -289,7 +289,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.v(Constants.TAG, "OnResume");
 		initNotesList(getActivity().getIntent());
 
 		// Navigation drawer initialization to ensure data refresh
@@ -1593,10 +1592,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 
 	private void initShowCase() {
-
 		// Show instructions on first launch
 		final String instructionName = Constants.PREF_TOUR_PREFIX + "list";
-		if (AppTourHelper.isMyTurn(getActivity(), instructionName)) {
+		if (AppTourHelper.isStepTurn(getActivity(), instructionName)) {
+            ((MainActivity) getActivity()).getDrawerLayout().closeDrawer(GravityCompat.START);
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			list.add(new Integer[] { 0, R.string.tour_listactivity_intro_title,
 					R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE });
@@ -1607,7 +1606,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-					AppTourHelper.complete(getActivity(), instructionName);
+					AppTourHelper.completeStep(getActivity(), instructionName);
 					((MainActivity) getActivity()).getDrawerLayout().openDrawer(GravityCompat.START);
 				}
 			});
@@ -1615,14 +1614,15 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Show instructions on first launch
 		final String instructionName2 = Constants.PREF_TOUR_PREFIX + "list2";
-		if (AppTourHelper.isMyTurn(getActivity(), instructionName2)) {
+		if (AppTourHelper.isStepTurn(getActivity(), instructionName2)) {
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			list.add(new Integer[] { null, R.string.tour_listactivity_final_title,
 					R.string.tour_listactivity_final_detail, null });
 			((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
 				@Override
 				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-					AppTourHelper.complete(getActivity(), instructionName2);
+					AppTourHelper.completeStep(getActivity(), instructionName2);
+                    AppTourHelper.complete(getActivity());
 				}
 			});
 		}

@@ -597,7 +597,7 @@ public class SettingsActivity extends PreferenceActivity {
 								File cacheDir = StorageManager.getCacheDir(mActivity);
 								StorageManager.delete(mActivity, cacheDir.getAbsolutePath());
 								// App tour is flagged as skipped anyhow
-								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
+//								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
 								OmniNotes.restartApp(getApplicationContext());
 							}
 						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {

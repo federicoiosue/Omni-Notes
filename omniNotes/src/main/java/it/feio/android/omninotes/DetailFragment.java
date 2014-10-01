@@ -950,7 +950,7 @@ public class DetailFragment extends Fragment implements
 
 	    // Show instructions on first launch
 	    final String instructionName = Constants.PREF_TOUR_PREFIX + "detail";
-	    if (AppTourHelper.isMyTurn(getActivity(), instructionName)
+	    if (AppTourHelper.isStepTurn(getActivity(), instructionName)
 	    		&& !onCreateOptionsMenuAlreadyCalled ) {
 	    	onCreateOptionsMenuAlreadyCalled = true;
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
