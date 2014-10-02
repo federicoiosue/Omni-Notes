@@ -26,6 +26,7 @@ android {
 }
 
 dependencies {
+    androidTestCompile 'junit:junit:4.+'
     compile('com.doomonafireball.betterpickers:library:1.5.2') {
         exclude group: 'com.android.support', module: 'support-v4'
     }
@@ -49,5 +50,4 @@ dependencies {
     compile 'it.feio.android:simplegallery:1.0.0'
     compile 'it.feio.android:springpadimporter:1.0.0'
     compile 'it.feio.android:omninotes_commons:0.0.1-SNAPSHOT'
-    androidTestCompile 'junit:junit:4.+'
 }
