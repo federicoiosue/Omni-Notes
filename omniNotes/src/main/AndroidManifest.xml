@@ -61,7 +61,7 @@
 
         <!-- List and Detail -->
         <activity
-            android:name="it.feio.android.omninotes.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTop" >

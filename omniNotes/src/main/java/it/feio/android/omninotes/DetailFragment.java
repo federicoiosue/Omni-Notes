@@ -592,13 +592,13 @@ public class DetailFragment extends Fragment implements
 
 		// Initialization of location TextView
 		locationTextView = (TextView) getView().findViewById(R.id.location);
-        // Automatic location insertion
-        if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
-            noteTmp.setLatitude(((MainActivity) getActivity()).currentLatitude);
-            noteTmp.setLongitude(((MainActivity) getActivity()).currentLongitude);
-        }
 		if (noteTmp.getLatitude() != null && noteTmp.getLatitude() != 0 && noteTmp.getLongitude() != null
-				&& noteTmp.getLongitude() != 0) {
+                && noteTmp.getLongitude() != 0) {
+            // Automatic location insertion
+            if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
+                noteTmp.setLatitude(((MainActivity) getActivity()).currentLatitude);
+                noteTmp.setLongitude(((MainActivity) getActivity()).currentLongitude);
+            }
 			if (noteTmp.getAddress() != null && noteTmp.getAddress().length() > 0) {
 				locationTextView.setVisibility(View.VISIBLE);
 				locationTextView.setText(noteTmp.getAddress());
