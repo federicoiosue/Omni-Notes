@@ -1,6 +1,7 @@
 package it.feio.android.omninotes.utils;
 
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -77,13 +78,7 @@ public class Security {
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
             SecretKey key = keyFactory.generateSecret(keySpec);
 
-            byte[] encrypedPwdBytes;
-            // try-catch ensure compatibility with old masked (without encryption) values
-            try {
-                encrypedPwdBytes = Base64.decode(value, Base64.DEFAULT);
-            } catch (IllegalArgumentException e) {
-                return value;
-            }
+            byte[] encrypedPwdBytes = Base64.decode(value, Base64.DEFAULT);
             // cipher is not thread safe
             Cipher cipher = Cipher.getInstance("DES");
             cipher.init(Cipher.DECRYPT_MODE, key);
@@ -91,19 +86,30 @@ public class Security {
 
             decryptedValue = new String(decrypedValueBytes);
         } catch (InvalidKeyException e) {
-            e.printStackTrace();
+            Log.e(Constants.TAG, "Error decrypting", e);
+            return value;
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            Log.e(Constants.TAG, "Error decrypting", e);
+            return value;
         } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
+            Log.e(Constants.TAG, "Error decrypting", e);
+            return value;
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            Log.e(Constants.TAG, "Error decrypting", e);
+            return value;
         } catch (BadPaddingException e) {
-            e.printStackTrace();
+            Log.e(Constants.TAG, "Error decrypting", e);
+            return value;
         } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
+            Log.e(Constants.TAG, "Error decrypting", e);
+            return value;
         } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
+            Log.e(Constants.TAG, "Error decrypting", e);
+            return value;
+        // try-catch ensure compatibility with old masked (without encryption) values
+        } catch (IllegalArgumentException e) {
+            Log.e(Constants.TAG, "Error decrypting", e);
+            return value;
         }
         return decryptedValue;
     }
