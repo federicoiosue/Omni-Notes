@@ -71,7 +71,7 @@ If you need some help on how to use the application you'll find everything you n
 ##Developed By
 
 
-* Federico Iosue - <federico.iosue@gmail.com>
+* Federico Iosue (<federico.iosue@gmail.com>) - [Website](http://www.iosue.it/federico)
 
 
 
