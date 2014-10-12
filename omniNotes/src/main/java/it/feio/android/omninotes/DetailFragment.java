@@ -114,6 +114,7 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.PushBulletMessage;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
@@ -1850,22 +1851,22 @@ public class DetailFragment extends Fragment implements
 
         final int visibility = visibilityTemp;
 
-        Animation mAnimation = AnimationUtils.loadAnimation(getActivity(), anim);
-        mAnimation.setAnimationListener(new AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
+            Animation mAnimation = AnimationUtils.loadAnimation(getActivity(), anim);
+            mAnimation.setAnimationListener(new AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                v.setVisibility(visibility);
-            }
-        });
-        v.startAnimation(mAnimation);
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    v.setVisibility(visibility);
+                }
+            });
+            v.startAnimation(mAnimation);
     }
 
     /**
