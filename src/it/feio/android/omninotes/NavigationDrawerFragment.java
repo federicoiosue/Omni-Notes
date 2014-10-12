@@ -229,7 +229,7 @@ public class NavigationDrawerFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				
-				// Commits pending deletion or archiviation
+				// Commits pending deletion or archivation
 				mActivity.commitPending();				
 				// Stops search service
 				if (mActivity.getSearchMenuItem() != null && MenuItemCompat.isActionViewExpanded(mActivity.getSearchMenuItem()))
@@ -345,6 +345,10 @@ public class NavigationDrawerFragment extends Fragment {
 	}
 
 
+	public void setTitle(String title) {
+		mTitle = title;
+	}
+	
 	/** Swaps fragments in the main content view 
 	 * @param list */
 	private void selectNavigationItem(ListView list, int position) {
@@ -362,8 +366,6 @@ public class NavigationDrawerFragment extends Fragment {
 				mActivity.getSupportActionBar().setTitle(mTitle);
 				mDrawerLayout.closeDrawer(GravityCompat.START);
 			}
-		}, 500);
-		
-	}	
-	
+		}, 500);	
+	}
 }

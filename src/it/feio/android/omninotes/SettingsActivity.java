@@ -16,6 +16,8 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ImageAndTextItem;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
@@ -348,19 +350,43 @@ public class SettingsActivity extends PreferenceActivity {
 		enableArchive.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
 			@Override
 			public boolean onPreferenceChange(Preference preference, final Object newValue) {
-				enableArchive.setChecked((Boolean) newValue);
-				if (!(Boolean)newValue) {
-					/* TODO: ask + move the notes from archive to trash (or cancel) */
-					/* TODO: switch current list from archive to trash, if active */
+				DbHelper db = DbHelper.getInstance(mActivity);
+				if (db.getArchivedCount() > 0) {
+					final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 					
-					/* If archive is disabled, trash notes directly*/
-					swipeToTrash.setChecked(true);
-					swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));					
+					// Set dialog message and button
+					alertDialogBuilder.setMessage(getString(R.string.confirm_trashing_archive))
+						.setPositiveButton(R.string.confirm, new OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								DbHelper db = DbHelper.getInstance(mActivity);
+								for (Note note : db.getNotesArchived()) {
+									db.archiveNote(note, false);
+									db.trashNote(note, true);
+								}
+								
+								enableArchive.setChecked((Boolean) newValue);
+								if (!(Boolean)newValue) {
+									/* If archive is disabled, trash notes directly*/
+									swipeToTrash.setChecked(true);
+									swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));					
+								}
+								dialog.dismiss();	
+							}
+						})
+						.setNegativeButton(R.string.cancel, new OnClickListener() {								
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								enableArchive.setChecked(true);
+								dialog.cancel();											
+							}
+						});
+					
+					alertDialogBuilder.create().show();
 				}
-				return false;
+				return true;
 			}
 		});
-				
 		
 		// Swiping action
 		if (prefs.getBoolean("settings_swipe_to_trash", false)) {

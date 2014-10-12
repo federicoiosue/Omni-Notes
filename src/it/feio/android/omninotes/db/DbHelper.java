@@ -997,6 +997,32 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 	
 
+	public int getArchivedCount() {		
+		int count = 0;
+		String sql = "SELECT COUNT(*)" 
+					+ " FROM " + TABLE_NOTES
+					+ " WHERE " + KEY_ARCHIVED + " = 1 AND " + KEY_TRASHED + " IS NOT 1 ";
+		
+		SQLiteDatabase db = null;
+		Cursor cursor = null;
+		try {
+			db = this.getReadableDatabase();
+			cursor = db.rawQuery(sql, null);
+
+			// Looping through all rows and adding to list
+			if (cursor.moveToFirst()) {
+				count = cursor.getInt(0);
+			}
+
+		} finally {
+			if (cursor != null)
+				cursor.close();
+//			if (db != null)
+//				db.close();
+		}
+		return count;		
+	}
+	
 	
 	/**
 	 * Unlocks all notes after security password removal

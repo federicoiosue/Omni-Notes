@@ -166,7 +166,7 @@
   <string name="help">Pomocník</string>
   <string name="online_manual">Návod na internete</string>
   <string name="tags_added">Značky boli pridané</string>
-  <string name="working">Pracovanie...</string>
+  <string name="working">Pracujem…</string>
   <string name="imported">importovaných</string>
   <string name="synchronize">Synchronizovať</string>
   <string name="extracted">extrahovaných</string>
@@ -294,4 +294,5 @@
   <string name="note_reminder_symbol">Symbol pripomienky poznámky</string>
   <string name="navigation_drawer_open">Otvoriť navigačnú ponuku</string>
   <string name="navigation_drawer_close">Zatvoriť navigačnú ponuku</string>
+  <string name="confirm_trashing_archive">Zakázaním archívu budú všetky poznámky z archívu presunuté do koša.</string>
 </resources>

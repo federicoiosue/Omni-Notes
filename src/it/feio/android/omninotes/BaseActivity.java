@@ -20,7 +20,10 @@ import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Security;
+import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
+
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Locale;

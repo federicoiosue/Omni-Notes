@@ -443,6 +443,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		boolean showArchive = navigation == Navigation.NOTES || navigation == Navigation.REMINDERS
 				|| navigation == Navigation.CATEGORY;
 		boolean showUnarchive = navigation == Navigation.ARCHIVED || navigation == Navigation.CATEGORY;
+		showArchive &= prefs.getBoolean("settings_enable_archive", true);
+		showUnarchive &= prefs.getBoolean("settings_enable_archive", true);
 
 		if (navigation == Navigation.TRASH) {
 			menu.findItem(R.id.menu_untrash).setVisible(true);

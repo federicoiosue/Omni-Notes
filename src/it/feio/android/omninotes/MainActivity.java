@@ -255,7 +255,24 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		Crouton.cancelAllCroutons();
 	}
 	
-	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		if (!prefs.getBoolean("settings_enable_archive", true)) { /* TODO: check what is shown currently */
+			/* If archive is disabled, switch current view away from archive... This is mess... */
+			navigation = getResources().getStringArray(R.array.navigation_list_codes)[0];
+			updateNavigation(navigation);
+			getIntent().setAction(Intent.ACTION_MAIN);
+			initNotesList(getIntent());
+			getSupportActionBar().setTitle(navigation);
+			if (mFragmentManager != null) {
+				// Make sure the title is kept when nav. drawer is closed
+				((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer)).setTitle(navigation);
+			}
+		}
+	}
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		// TODO Auto-generated method stub
