@@ -59,6 +59,7 @@
   <string name="delete_selected_image">Vymazať vybranú prílohu?</string>
   <string name="gallery">Galéria</string>
   <string name="location">Poloha</string>
+  <string name="pushbullet">Pushbullet</string>
   <string name="remove_location">Odstrániť polohu?</string>
   <string name="remove_reminder">Odstrániť pripomienku?</string>
   <string name="add_reminder">Pridať pripomienku</string>
@@ -170,6 +171,9 @@
   <string name="imported">importovaných</string>
   <string name="synchronize">Synchronizovať</string>
   <string name="extracted">extrahovaných</string>
+  <string name="select_all">Vybrať všetky</string>
+  <string name="search_location">Hľadať polohu</string>
+  <string name="use_current_location">Použiť aktuálnu polohu</string>
   <string name="dashclock_description">Zobrazí niektoré štatistiky a blížiace sa pripomienky z Omni Notes</string>
   <string name="settings">Nastavenia</string>
   <string name="settings_about">Informácie</string>
@@ -182,6 +186,8 @@
   <string name="settings_import">Obnoviť alebo vymazať zálohy</string>
   <string name="settings_import_from_springpad">Importovať poznámky zo Springpad</string>
   <string name="settings_import_from_springpad_summary">Vybrať váš exportovaný archív zo Springpad a uistiť sa, že ste pripojený k internetu</string>
+  <string name="settings_sync_drive">Synchronizovať s Diskom Google</string>
+  <string name="settings_sync_drive_summary">Synchronizovať údaje na Disk Google</string>
   <string name="export_success">Súbor bol úspešne exportovaný do priečinka</string>
   <string name="export_fail">Nepodarilo sa exportovať súbor</string>
   <string name="import_success">Súbor bol úspešne importovaný</string>
@@ -261,8 +267,12 @@
   <string name="settings_swipe_to_trash">Potiahnúť pre zahodenie do koša</string>
   <string name="settings_swipe_to_trash_summary_1">Potiahnutím archivovať poznámky</string>
   <string name="settings_swipe_to_trash_summary_2">Potiahnutím zahodiť poznámky do koša</string>
+  <string name="settings_show_uncategorized">Skupina Nekategorizované</string>
+  <string name="settings_show_uncategorized_summary">Pridať novú položku do navigačnej ponuky pre nekategorizované poznámky</string>
   <string name="settings_show_category_count">Počet poznámok</string>
   <string name="settings_show_category_count_summary">Zobraziť počet priradených poznámok vedľa kategórie</string>
+  <string name="settings_auto_location">Automatická poloha</string>
+  <string name="settings_auto_location_summary">Automaticky pridať polohu do nových poznámok</string>
   <string name="tour_request_start">Spustili ste Omni Notes po prvý krát. Chcete si prezieť prehliadku aplikácie?</string>
   <string name="tour_listactivity_intro_title">Vitajte v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Stlačte \"Pokračovať\" pre pokračovanie v prehliadke</string>

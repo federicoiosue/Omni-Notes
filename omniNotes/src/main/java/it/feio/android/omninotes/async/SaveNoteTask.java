@@ -89,7 +89,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	private void setAlarm(Note note) {
 		Intent intent = new Intent(mActivity, AlarmReceiver.class);
 		intent.putExtra(Constants.INTENT_NOTE, note);
-		PendingIntent sender = PendingIntent.getBroadcast(mActivity, Constants.INTENT_ALARM_CODE, intent,
+		PendingIntent sender = PendingIntent.getBroadcast(mActivity, note.getCreation().intValue(), intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 		AlarmManager am = (AlarmManager) mActivity.getSystemService(Activity.ALARM_SERVICE);
 		am.set(AlarmManager.RTC_WAKEUP, Long.parseLong(note.getAlarm()), sender);
