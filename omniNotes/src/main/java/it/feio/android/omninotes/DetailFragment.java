@@ -1850,22 +1850,22 @@ public class DetailFragment extends Fragment implements
 
         final int visibility = visibilityTemp;
 
-        Animation mAnimation = AnimationUtils.loadAnimation(getActivity(), anim);
-        mAnimation.setAnimationListener(new AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
+            Animation mAnimation = AnimationUtils.loadAnimation(getActivity(), anim);
+            mAnimation.setAnimationListener(new AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                v.setVisibility(visibility);
-            }
-        });
-        v.startAnimation(mAnimation);
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    v.setVisibility(visibility);
+                }
+            });
+            v.startAnimation(mAnimation);
     }
 
     /**
