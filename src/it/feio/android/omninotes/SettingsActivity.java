@@ -26,6 +26,8 @@ import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.Navigation.NavigationResources;
 import it.feio.android.omninotes.utils.StorageManager;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -659,8 +661,7 @@ public class SettingsActivity extends PreferenceActivity {
 							public void onClick(DialogInterface dialog, int id) {
 								AppTourHelper.reset(mActivity);
 								prefs.edit()
-										.putString(Constants.PREF_NAVIGATION,
-												getResources().getStringArray(R.array.navigation_list_codes)[0])
+										.putString(Constants.PREF_NAVIGATION, Navigation.GetNavigationResources(true).mNavigationCodes[0])
 										.commit();
 								OmniNotes.restartApp(getApplicationContext());
 							}

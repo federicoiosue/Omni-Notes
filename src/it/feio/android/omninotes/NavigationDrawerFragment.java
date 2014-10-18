@@ -12,12 +12,16 @@ import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.Navigation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,8 +58,6 @@ public class NavigationDrawerFragment extends Fragment {
 
 	ActionBarDrawerToggle mDrawerToggle;
 	DrawerLayout mDrawerLayout;
-	String[] mNavigationArray;
-	TypedArray mNavigationIconsArray;
 	private ListView mDrawerList;
 	private ListView mDrawerCategoriesList;
 	private View categoriesListHeader;
@@ -112,11 +114,11 @@ public class NavigationDrawerFragment extends Fragment {
 		}
 	}
 	
-
 	/**
 	 * Initialization of compatibility navigation drawer
 	 */
 	public void initNavigationDrawer() {
+		final Navigation.NavigationResources navRes = Navigation.GetNavigationResources(false);
 		mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
 		mDrawerLayout.setFocusableInTouchMode(false);
 		
@@ -130,26 +132,14 @@ public class NavigationDrawerFragment extends Fragment {
 
 		// Sets the adapter for the MAIN navigation list view
 		mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
-		if (prefs.getBoolean("settings_enable_archive", true)) {
-			mNavigationArray = getResources().getStringArray(R.array.navigation_list);
-			mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
-		} else {
-			mNavigationArray = getResources().getStringArray(R.array.navigation_list_noarchive);
-			mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons_noarchive);
-		}
-		mDrawerList.setAdapter(new NavDrawerAdapter(mActivity, mNavigationArray, mNavigationIconsArray));
+		mDrawerList.setAdapter(new NavDrawerAdapter(mActivity, navRes.mNavigationTitles, navRes.mNavigationIcons));
 
 		// Sets click events
 		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				mActivity.commitPending();
-				String navigation;
-				if (prefs.getBoolean("settings_enable_archive", true)) {
-					navigation = getResources().getStringArray(R.array.navigation_list_codes)[position];
-				} else {
-					navigation = getResources().getStringArray(R.array.navigation_list_codes_noarchive)[position];
-				}
+				String navigation = navRes.mNavigationCodes[position];
 //				Log.d(Constants.TAG, "Selected voice " + navigation + " on navigation menu");
 				selectNavigationItem(mDrawerList, position);
 				mActivity.updateNavigation(navigation);

@@ -258,6 +258,7 @@
   <string name="settings_navdrawer_on_exit_summary">Po stlačení tlačidla \"Späť\" v zozname poznámok sa otvorí navigačná ponuka namiesto ukončenia aplikácie</string>
   <string name="settings_text_size">Veľkosť textu</string>
   <string name="settings_category_behaviors">Správania</string>
+  <string name="settings_enable_archive">Archív poznámok</string>
   <string name="settings_swipe_to_trash">Potiahnúť pre zahodenie do koša</string>
   <string name="settings_swipe_to_trash_summary_1">Potiahnutím archivovať poznámky</string>
   <string name="settings_swipe_to_trash_summary_2">Potiahnutím zahodiť poznámky do koša</string>

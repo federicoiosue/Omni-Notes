@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 
 public class Navigation {
 
@@ -17,6 +18,49 @@ public class Navigation {
 	public static final int TRASH = 3;
 	public static final int CATEGORY = 4;
 	
+	public static class NavigationResources {
+		boolean archive;
+		public String[] mNavigationTitles;
+		public String[] mNavigationCodes;
+		public TypedArray mNavigationIcons;
+	}
+
+	/**
+	 * Returns current navigation drawer resources, depending on whether
+	 * or not the archive is enabled.
+	 * @param basic true, if caller only needs the list and/or list codes to reset something to the first item
+	 */
+	public static NavigationResources GetNavigationResources(boolean basic) {
+		Context mContext = OmniNotes.getAppContext();
+		NavigationResources rv = new NavigationResources();
+		@SuppressWarnings("static-access")
+		boolean archive = mContext
+			.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS)
+			.getBoolean("settings_enable_archive", true);
+		
+		rv.archive = archive;
+		rv.mNavigationTitles = mContext.getResources().getStringArray(R.array.navigation_list);
+		rv.mNavigationCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
+		
+		if (!basic) {
+			if (archive) {
+				rv.mNavigationIcons = mContext.getResources().obtainTypedArray(R.array.navigation_list_icons);
+			} else {
+				rv.mNavigationIcons = mContext.getResources().obtainTypedArray(R.array.navigation_list_icons_noarchive);
+				
+				ArrayList<String> l1 = new ArrayList<String>(Arrays.asList(rv.mNavigationCodes));
+				int idx = l1.indexOf("Archive");
+				l1.remove(idx);
+				rv.mNavigationCodes = l1.toArray(new String[l1.size()]);
+				
+				ArrayList<String> l2 = new ArrayList<String>(Arrays.asList(rv.mNavigationTitles));
+				l2.remove(idx);
+				rv.mNavigationTitles = l2.toArray(new String[l2.size()]);
+			}
+		}
+		
+		return rv;
+	}
 	
 	/**
 	 * Returns actual navigation status
@@ -44,8 +88,7 @@ public class Navigation {
 			return CATEGORY;
 		} 
 	}
-	
-	
+		
 	
 	/**
 	 * Retrieves category currently shown

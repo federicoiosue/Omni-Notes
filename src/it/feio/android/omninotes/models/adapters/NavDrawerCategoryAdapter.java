@@ -21,6 +21,7 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.Navigation;
 
 import java.util.ArrayList;
 
@@ -133,11 +134,8 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
 
 	
 	
-	private boolean isSelected(ViewGroup parent, int position) {	
-		
-		// Getting actual navigation selection
-		String[] navigationListCodes = mActivity.getResources().getStringArray(
-				R.array.navigation_list_codes);
+	private boolean isSelected(ViewGroup parent, int position) {
+		String[] navigationListCodes = Navigation.GetNavigationResources(true).mNavigationCodes;
 		
 		// Managing temporary navigation indicator when coming from a widget
 		String navigationTmp = ListFragment.class.isAssignableFrom(mActivity

@@ -189,14 +189,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Activity title initialization based on navigation
 	 */
 	private void initTitle() {
-		String[] navigationList = getResources().getStringArray(R.array.navigation_list);
-		String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
-		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
-		int index = Arrays.asList(navigationListCodes).indexOf(navigation);
+		Navigation.NavigationResources navRes = Navigation.GetNavigationResources(false);
+		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navRes.mNavigationCodes[0]);
+		int index = Arrays.asList(navRes.mNavigationCodes).indexOf(navigation);
 		CharSequence title = "";
 		// If is a traditional navigation item
-		if (index >= 0 && index < navigationListCodes.length) {
-			title = navigationList[index];
+		if (index >= 0 && index < navRes.mNavigationCodes.length) {
+			title = navRes.mNavigationTitles[index];
 		} else {
 			ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 			for (Category tag : categories) {
@@ -1278,8 +1277,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		final ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 
 		// A single choice dialog will be displayed
-		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
-		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, Navigation.GetNavigationResources(true).mNavigationCodes[0]);
 
 		alertDialogBuilder
 				.setTitle(R.string.categorize_as)
