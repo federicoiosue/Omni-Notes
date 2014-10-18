@@ -32,14 +32,9 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
-import com.larswerkman.holocolorpicker.SaturationBar;
-import com.larswerkman.holocolorpicker.ValueBar;
+import com.larswerkman.holocolorpicker.SVBar;
 
 public class CategoryActivity extends Activity {
-
-	private final float SATURATION = 0.4f;
-	private final float VALUE = 0.9f;
-	
 	private final String colors[][] = {
 			{ "0044AA", "660099", "337700", "DD4400", "990000", "404040", },
 			{ "0099CC", "9933CC", "669900", "FF8800", "CC0000", "606060", },
@@ -56,10 +51,9 @@ public class CategoryActivity extends Activity {
 	Button discardBtn;
 	Button moreColorsBtn;
 	GridView palette;
-	private Integer lastPaletteColor;
+	private Integer chosenColor;
 	private CategoryActivity mActivity;
 	private AlertDialog dialog;
-	private boolean colorChanged = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +71,11 @@ public class CategoryActivity extends Activity {
 		if (category == null) {
 			Log.d(Constants.TAG, "Adding new category");
 			category = new Category();
+			category.setColor(String.valueOf(Color.parseColor("#" + colors[1][2])));
+			populateViews(true);
 		} else {
 			Log.d(Constants.TAG, "Editing category " + category.getName());
-			populateViews();
+			populateViews(false);
 		}
 	}
 	
@@ -98,19 +94,19 @@ public class CategoryActivity extends Activity {
 		picker.setOnColorChangedListener(new OnColorChangedListener() {			
 			@Override
 			public void onColorChanged(int color) {
-				picker.setOldCenterColor(picker.getColor());
-				colorChanged = true;
+				title.setBackgroundColor(color);
+				chosenColor = picker.getColor();
 			}
 		});
 		// Long click on color picker to remove color
-		picker.setOnLongClickListener(new OnLongClickListener() {			
+		picker.setOnLongClickListener(new OnLongClickListener() {	
 			@Override
 			public boolean onLongClick(View v) {
 				picker.setColor(Color.WHITE);
 				return true;
 			}
 		});
-		picker.setOnClickListener(new OnClickListener() {			
+		picker.setOnClickListener(new OnClickListener() {	
 			@Override
 			public void onClick(View v) {
 				picker.setColor(Color.WHITE);
@@ -122,25 +118,21 @@ public class CategoryActivity extends Activity {
 		palette.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				colorChanged = true;
-				lastPaletteColor = (Integer)parent.getItemAtPosition(position);
-				picker.setColor(lastPaletteColor);
+				chosenColor = (Integer)parent.getItemAtPosition(position);
+				picker.setColor(chosenColor);
+				title.setBackgroundColor(chosenColor);
 			}
 		});
 		
 		// Added invisible saturation and value bars to achieve pastel colors
-		SaturationBar saturationbar = (SaturationBar) findViewById(R.id.saturationbar_category);
-		saturationbar.setSaturation(SATURATION);
-		picker.addSaturationBar(saturationbar);
-		ValueBar valuebar = (ValueBar) findViewById(R.id.valuebar_category);
-		valuebar.setValue(VALUE);
-		picker.addValueBar(valuebar);
+		SVBar SVBar = (SVBar) findViewById(R.id.svbar_category);
+		picker.addSVBar(SVBar);
 
 		moreColorsBtn = (Button) findViewById(R.id.moreColors);
 		deleteBtn = (Button) findViewById(R.id.delete);
 		saveBtn = (Button) findViewById(R.id.save);
 		discardBtn = (Button) findViewById(R.id.discard);
-		
+
 		// Buttons events
 		moreColorsBtn.setOnClickListener(new OnClickListener() {			
 			@Override
@@ -173,16 +165,20 @@ public class CategoryActivity extends Activity {
 		});
 	}
 
-	private void populateViews() {
-		title.setText(category.getName());
-		description.setText(category.getDescription());
+	private void populateViews(boolean newCategory) {
 		// Reset picker to saved color
 		String color = category.getColor();
 		if (color != null && color.length() > 0) {
-			picker.setColor(Integer.parseInt(color));
-			picker.setOldCenterColor(Integer.parseInt(color));
+			chosenColor = Integer.parseInt(color);
+			title.setBackgroundColor(chosenColor);
+			picker.setColor(chosenColor);
+			picker.setOldCenterColor(chosenColor);
 		}
-		deleteBtn.setVisibility(View.VISIBLE);
+		if (!newCategory) {
+			title.setText(category.getName());
+			description.setText(category.getDescription());
+			deleteBtn.setVisibility(View.VISIBLE);
+		}
 	}
 
 	
@@ -193,15 +189,7 @@ public class CategoryActivity extends Activity {
 		category.setName(title.getText().toString());
 		category.setDescription(description.getText().toString());
 		
-		if ((colorChanged) &&
-			(
-				((ViewSwitcher)findViewById(R.id.colorChooserSwitcher)).getCurrentView() == 
-				findViewById(R.id.colorPaletteGroup)
-			)
-		) {
-			category.setColor(String.valueOf(lastPaletteColor));
-		} else if (colorChanged || category.getColor() == null)
-			category.setColor(String.valueOf(picker.getColor()));
+		category.setColor(String.valueOf(chosenColor));
 		
 		// Saved to DB and new id or update result catched
 		DbHelper db = DbHelper.getInstance(this);

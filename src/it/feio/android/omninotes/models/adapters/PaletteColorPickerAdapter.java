@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 public class PaletteColorPickerAdapter extends BaseAdapter {
 
@@ -38,19 +37,19 @@ public class PaletteColorPickerAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ImageView imageView;
+		View myView;
 
 		if (convertView == null) {
-			imageView = new ImageView(context);
-			imageView.setLayoutParams(new GridView.LayoutParams(colorGridColumnWidth, colorGridColumnWidth));
+			myView = new View(context);
+			myView.setLayoutParams(new GridView.LayoutParams(colorGridColumnWidth, colorGridColumnWidth));
 		} else {
-			imageView = (ImageView) convertView;
+			myView = (View) convertView;
 		}
 
-		imageView.setBackgroundColor(colorList.get(position));
-		imageView.setId(position);
+		myView.setBackgroundColor(colorList.get(position));
+		myView.setId(position);
 
-		return imageView;
+		return myView;
 	}
 
 	public int getCount() {
