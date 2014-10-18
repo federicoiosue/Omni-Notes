@@ -55,6 +55,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
+            <!-- android:listSelector="@android:color/darker_gray" -->
             <GridView
                 android:id="@+id/colorPalette"
                 android:layout_width="match_parent"
@@ -64,7 +65,7 @@
                 android:drawSelectorOnTop="true"
                 android:gravity="center"
                 android:horizontalSpacing="3dp"
-                android:listSelector="@android:color/darker_gray"
+                android:listSelector="@drawable/color_selector"
                 android:numColumns="6"
                 android:paddingTop="10dp"
                 android:verticalSpacing="3dp" >
