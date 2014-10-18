@@ -296,4 +296,5 @@
   <string name="navigation_drawer_open">Otvoriť navigačnú ponuku</string>
   <string name="navigation_drawer_close">Zatvoriť navigačnú ponuku</string>
   <string name="confirm_trashing_archive">Zakázaním archívu budú všetky poznámky z archívu presunuté do koša.</string>
+  <string name="more_colors">Ďalšie farby…</string>
 </resources>
