@@ -1,3 +1,5 @@
+[![Stories in Ready](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=ready&title=Ready)](https://waffle.io/federicoiosue/Omni-Notes)
+[![Stories in In Progress](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=In%20Progress&title=In Progress)](https://waffle.io/federicoiosue/Omni-Notes)
 Omni-Notes
 ==========
 
@@ -69,7 +71,7 @@ If you need some help on how to use the application you'll find everything you n
 ##Developed By
 
 
-* Federico Iosue - <federico.iosue@gmail.com>
+* Federico Iosue (<federico.iosue@gmail.com>) - [Website](http://www.iosue.it/federico)
 
 
 
