@@ -189,14 +189,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Activity title initialization based on navigation
 	 */
 	private void initTitle() {
-		String[] navigationList = getResources().getStringArray(R.array.navigation_list);
-		String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
-		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
-		int index = Arrays.asList(navigationListCodes).indexOf(navigation);
+		Navigation.NavigationResources navRes = Navigation.GetNavigationResources(false);
+		String navigation = prefs.getString(Constants.PREF_NAVIGATION, navRes.mNavigationCodes[0]);
+		int index = Arrays.asList(navRes.mNavigationCodes).indexOf(navigation);
 		CharSequence title = "";
 		// If is a traditional navigation item
-		if (index >= 0 && index < navigationListCodes.length) {
-			title = navigationList[index];
+		if (index >= 0 && index < navRes.mNavigationCodes.length) {
+			title = navRes.mNavigationTitles[index];
 		} else {
 			ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 			for (Category tag : categories) {
@@ -443,6 +442,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		boolean showArchive = navigation == Navigation.NOTES || navigation == Navigation.REMINDERS
 				|| navigation == Navigation.CATEGORY;
 		boolean showUnarchive = navigation == Navigation.ARCHIVED || navigation == Navigation.CATEGORY;
+		showArchive &= prefs.getBoolean("settings_enable_archive", true);
+		showUnarchive &= prefs.getBoolean("settings_enable_archive", true);
 
 		if (navigation == Navigation.TRASH) {
 			menu.findItem(R.id.menu_untrash).setVisible(true);
@@ -1004,7 +1005,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				: R.layout.note_layout;
 		mAdapter = new NoteAdapter(getActivity(), layout, notes);
 
-		// A specifical behavior is performed basing on navigation
+		// A specific behavior is performed basing on navigation
 		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter, new OnDismissCallback() {
 			@Override
 			public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
@@ -1018,20 +1019,16 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 					// listView.invalidateViews();
 
 					// Depending on settings and note status this action will...
-					// ...restore
 					if (Navigation.checkNavigation(Navigation.TRASH)) {
+						// ...restore
 						trashSelectedNotes(false);
-					}
-					// removes category
-					else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
-						categorizeSelectedNotes2(null);
 					} else {
-						// ...trash
-						if (prefs.getBoolean("settings_swipe_to_trash", false)
+						if ((!prefs.getBoolean("settings_enable_archive", true) && prefs.getBoolean("settings_swipe_to_trash", false))
 								|| Navigation.checkNavigation(Navigation.ARCHIVED)) {
+							// ...trash
 							trashSelectedNotes(true);
-							// ...archive
 						} else {
+							// ...archive
 							archiveSelectedNotes(true);
 						}
 					}
@@ -1280,8 +1277,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		final ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 
 		// A single choice dialog will be displayed
-		final String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
-		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+		final String navigation = prefs.getString(Constants.PREF_NAVIGATION, Navigation.GetNavigationResources(true).mNavigationCodes[0]);
 
 		alertDialogBuilder
 				.setTitle(R.string.categorize_as)

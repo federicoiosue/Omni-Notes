@@ -19,8 +19,12 @@ import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.Security;
+import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
+
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -128,8 +132,10 @@ public class BaseActivity extends ActionBarActivity {
 	protected void onResume() {
 		super.onResume();
 		// Navigation selected
-		String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
-		navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
+		navigation = prefs.getString(
+			Constants.PREF_NAVIGATION,
+			Navigation.GetNavigationResources(true).mNavigationCodes[0]
+		);
 		Log.d(Constants.TAG, prefs.getAll().toString());
 	}
 

@@ -964,9 +964,9 @@ public class DetailFragment extends Fragment implements
 		
 		// Closes search view if left open in List fragment
 		MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
-		if (searchMenuItem != null) {		
+		if (searchMenuItem != null) {
 			MenuItemCompat.collapseActionView(searchMenuItem);
-		}		
+		}
 		
 		boolean newNote = noteTmp.get_id() == 0;
 
@@ -981,8 +981,14 @@ public class DetailFragment extends Fragment implements
 		// Otherwise all other actions will be available
 		} else {
 			menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
-			menu.findItem(R.id.menu_archive).setVisible(!newNote && !noteTmp.isArchived());
-			menu.findItem(R.id.menu_unarchive).setVisible(!newNote && noteTmp.isArchived());
+			menu.findItem(R.id.menu_archive).setVisible(
+				!newNote && !noteTmp.isArchived() &&
+				prefs.getBoolean("settings_enable_archive", true)
+			);
+			menu.findItem(R.id.menu_unarchive).setVisible(
+				!newNote && noteTmp.isArchived() &&
+				prefs.getBoolean("settings_enable_archive", true)
+			);
 			menu.findItem(R.id.menu_trash).setVisible(!newNote);
 		}
 	}

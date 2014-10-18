@@ -1,5 +1,6 @@
 package it.feio.android.omninotes;
 
+import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
@@ -9,13 +10,20 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.SpinnerDialog;
+import it.feio.android.omninotes.utils.StorageManager;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -255,7 +263,27 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		Crouton.cancelAllCroutons();
 	}
 	
-	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		if (!prefs.getBoolean("settings_enable_archive", true) && navigation.equals("Archive")) {
+			if (mFragmentManager != null) {
+				NavigationDrawerFragment naviFragment = (NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer);
+				Navigation.NavigationResources navRes = Navigation.GetNavigationResources(true);
+				naviFragment.setTitle(navRes.mNavigationTitles[0]);
+				
+				/* If archive is disabled, switch current view away from archive... This is mess... */
+				updateNavigation(navRes.mNavigationCodes[0]);
+				getIntent().setAction(Intent.ACTION_MAIN);
+				initNotesList(getIntent());
+
+				// Make sure the title is kept when nav. drawer is closed
+				getSupportActionBar().setTitle(navRes.mNavigationTitles[0]); 
+			}
+		}
+	}
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		// TODO Auto-generated method stub

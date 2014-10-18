@@ -166,7 +166,7 @@
   <string name="help">Pomocník</string>
   <string name="online_manual">Návod na internete</string>
   <string name="tags_added">Značky boli pridané</string>
-  <string name="working">Pracovanie...</string>
+  <string name="working">Pracujem…</string>
   <string name="imported">importovaných</string>
   <string name="synchronize">Synchronizovať</string>
   <string name="extracted">extrahovaných</string>
@@ -258,6 +258,7 @@
   <string name="settings_navdrawer_on_exit_summary">Po stlačení tlačidla \"Späť\" v zozname poznámok sa otvorí navigačná ponuka namiesto ukončenia aplikácie</string>
   <string name="settings_text_size">Veľkosť textu</string>
   <string name="settings_category_behaviors">Správania</string>
+  <string name="settings_enable_archive">Archív poznámok</string>
   <string name="settings_swipe_to_trash">Potiahnúť pre zahodenie do koša</string>
   <string name="settings_swipe_to_trash_summary_1">Potiahnutím archivovať poznámky</string>
   <string name="settings_swipe_to_trash_summary_2">Potiahnutím zahodiť poznámky do koša</string>
@@ -294,4 +295,6 @@
   <string name="note_reminder_symbol">Symbol pripomienky poznámky</string>
   <string name="navigation_drawer_open">Otvoriť navigačnú ponuku</string>
   <string name="navigation_drawer_close">Zatvoriť navigačnú ponuku</string>
+  <string name="confirm_trashing_archive">Zakázaním archívu budú všetky poznámky z archívu presunuté do koša.</string>
+  <string name="more_colors">Ďalšie farby…</string>
 </resources>

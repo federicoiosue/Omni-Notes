@@ -16,6 +16,8 @@
 package it.feio.android.omninotes;
 
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ImageAndTextItem;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
@@ -24,6 +26,8 @@ import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.Navigation.NavigationResources;
 import it.feio.android.omninotes.utils.StorageManager;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -335,10 +339,58 @@ public class SettingsActivity extends PreferenceActivity {
 //		});
 		
 		
-		
+		// Enable archive?
+		final CheckBoxPreference enableArchive = (CheckBoxPreference) findPreference("settings_enable_archive");
+		final CheckBoxPreference swipeToTrash = (CheckBoxPreference) findPreference("settings_swipe_to_trash");
+		if (prefs.getBoolean("settings_enable_archive", false)) {
+			enableArchive.setChecked(true);
+		} else {
+			enableArchive.setChecked(false);
+			prefs.edit().putBoolean("settings_swipe_to_trash", true);
+			prefs.edit().commit();
+		}
+		enableArchive.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {			
+			@Override
+			public boolean onPreferenceChange(Preference preference, final Object newValue) {
+				DbHelper db = DbHelper.getInstance(mActivity);
+				if (db.getArchivedCount() > 0) {
+					final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+					
+					// Set dialog message and button
+					alertDialogBuilder.setMessage(getString(R.string.confirm_trashing_archive))
+						.setPositiveButton(R.string.confirm, new OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								DbHelper db = DbHelper.getInstance(mActivity);
+								for (Note note : db.getNotesArchived()) {
+									db.archiveNote(note, false);
+									db.trashNote(note, true);
+								}
+								
+								enableArchive.setChecked((Boolean) newValue);
+								if (!(Boolean)newValue) {
+									/* If archive is disabled, trash notes directly*/
+									swipeToTrash.setChecked(true);
+									swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));					
+								}
+								dialog.dismiss();	
+							}
+						})
+						.setNegativeButton(R.string.cancel, new OnClickListener() {								
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								enableArchive.setChecked(true);
+								dialog.cancel();											
+							}
+						});
+					
+					alertDialogBuilder.create().show();
+				}
+				return true;
+			}
+		});
 		
 		// Swiping action
-		final CheckBoxPreference swipeToTrash = (CheckBoxPreference) findPreference("settings_swipe_to_trash");
 		if (prefs.getBoolean("settings_swipe_to_trash", false)) {
 			swipeToTrash.setChecked(true);
 			swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
@@ -609,8 +661,7 @@ public class SettingsActivity extends PreferenceActivity {
 							public void onClick(DialogInterface dialog, int id) {
 								AppTourHelper.reset(mActivity);
 								prefs.edit()
-										.putString(Constants.PREF_NAVIGATION,
-												getResources().getStringArray(R.array.navigation_list_codes)[0])
+										.putString(Constants.PREF_NAVIGATION, Navigation.GetNavigationResources(true).mNavigationCodes[0])
 										.commit();
 								OmniNotes.restartApp(getApplicationContext());
 							}

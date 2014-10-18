@@ -134,9 +134,13 @@
                 android:title="@string/settings_instant_search" />   
            
             <CheckBoxPreference
+                android:key="settings_enable_archive"
+                android:title="@string/settings_enable_archive"
+                android:defaultValue="true" />
+            <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="settings_swipe_to_trash"
-                android:title="@string/settings_swipe_to_trash" />   
+                android:title="@string/settings_swipe_to_trash" android:dependency="settings_enable_archive"/>   
 
             <EditTextPreference
                 android:inputType="number"
@@ -153,6 +157,7 @@
                 android:title="@string/settings_checked_items_behavior"
                 android:dialogTitle="@string/settings_checked_items_behavior_summary" >
             </ListPreference>
+            
            
             
         </PreferenceScreen>

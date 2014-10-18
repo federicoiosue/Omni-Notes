@@ -20,6 +20,7 @@ import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.Navigation;
 
 import java.util.Arrays;
 
@@ -105,10 +106,7 @@ public class NavDrawerAdapter extends BaseAdapter {
 
 	
 	private boolean isSelected(ViewGroup parent, int position) {
-		
-		// Getting actual navigation selection
-		String[] navigationListCodes =mActivity.getResources().getStringArray(
-				R.array.navigation_list_codes);
+		Navigation.NavigationResources navRes = Navigation.GetNavigationResources(false);
 		
 		// Managing temporary navigation indicator when coming from a widget
 		String navigationTmp = ListFragment.class.isAssignableFrom(mActivity
@@ -118,19 +116,19 @@ public class NavDrawerAdapter extends BaseAdapter {
 		String navigation = navigationTmp != null ? navigationTmp
 				: mActivity.getSharedPreferences(Constants.PREFS_NAME, Activity.MODE_MULTI_PROCESS)
 						.getString(Constants.PREF_NAVIGATION,
-								navigationListCodes[0]);
+								navRes.mNavigationCodes[0]);
 
 		// Finding selected item from standard navigation items or tags
-		int index = Arrays.asList(navigationListCodes).indexOf(navigation);
+		int index = Arrays.asList(navRes.mNavigationCodes).indexOf(navigation);
 		
 		if (index == -1) 
 			return false;
 		
-		String navigationLocalized = mActivity.getResources().getStringArray(R.array.navigation_list)[index];
+		String navigationLocalized = navRes.mNavigationTitles[index];
 		
 		// Check the selected one
 		Object itemSelected = mTitle[position];
-		String title= itemSelected.toString();			
+		String title = itemSelected.toString();
 		
 		if (navigationLocalized.equals(title)) {
 			return true;

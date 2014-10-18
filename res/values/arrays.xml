@@ -22,6 +22,12 @@
         <item>Reminders</item>
         <item>Trash</item>
     </string-array>
+    
+    <string-array name="navigation_list_noarchive">
+        <item>Notes</item>
+        <item>Reminders</item>
+        <item>Trash</item>
+    </string-array>
 
     <string-array name="navigation_list_codes">
         <item>Notes</item>
@@ -29,10 +35,22 @@
         <item>Reminders</item>
         <item>Trash</item>
     </string-array>
+    
+    <string-array name="navigation_list_codes_noarchive">
+        <item>Notes</item>
+        <item>Reminders</item>
+        <item>Trash</item>
+    </string-array>
 
     <integer-array name="navigation_list_icons">
         <item>@drawable/ic_note_dark</item>
         <item>@drawable/ic_archive_dark</item>
+        <item>@drawable/ic_reminder_dark</item>
+        <item>@drawable/ic_action_discard</item>
+    </integer-array>
+    
+    <integer-array name="navigation_list_icons_noarchive">
+        <item>@drawable/ic_note_dark</item>
         <item>@drawable/ic_reminder_dark</item>
         <item>@drawable/ic_action_discard</item>
     </integer-array>
