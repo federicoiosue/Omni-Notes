@@ -7,8 +7,8 @@ android {
         applicationId "it.feio.android.omninotes"
         minSdkVersion 9
         targetSdkVersion 19
-        versionCode 139
-        versionName "4.7.0"
+        versionCode 140
+        versionName "4.7.1"
     }
     buildTypes {
         release {
