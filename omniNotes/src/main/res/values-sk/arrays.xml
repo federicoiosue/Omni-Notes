@@ -21,6 +21,7 @@
     <item>Archív</item>
     <item>Pripomienky</item>
     <item>Kôš</item>
+    <item>Nekategorizované</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Názov</item>

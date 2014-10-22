@@ -182,7 +182,7 @@
   <string name="reset_all_data_confirmation">Bestätigen Sie das Entfernen aller Anwendungsdaten\n(Sicherungen bleiben erhalten)</string>
   <string name="action_settings">Einstellungen</string>
   <string name="settings_sync_import_export">Synchronisation und Datensicherung</string>
-  <string name="settings_export">Sicherung</string>
+  <string name="settings_export">Neue Sicherung erstellen</string>
   <string name="settings_import">Wiederherstellen oder Löschen von Sicherungen</string>
   <string name="settings_import_from_springpad">Importieren von Notizen aus Springpad</string>
   <string name="settings_import_from_springpad_summary">Wählen Sie Ihr exportiertes Springpadarchiv aus und achten Sie darauf, dass Sie mit dem Internet verbunden sind</string>
@@ -268,11 +268,11 @@
   <string name="settings_swipe_to_trash_summary_1">Wischen von Notizen zum archivieren</string>
   <string name="settings_swipe_to_trash_summary_2">Wischen von Notizen um sie in den Papierkorb zu verschieben</string>
   <string name="settings_show_uncategorized">Gruppe nicht kategorisiert</string>
-  <string name="settings_show_uncategorized_summary">Adds a new item in navigation menu for not categorized notes</string>
+  <string name="settings_show_uncategorized_summary">Fügt dem Navigationsmenü einen neuen Eintrag für nicht kategorisierte Notizen hinzu</string>
   <string name="settings_show_category_count">Notizzähler</string>
   <string name="settings_show_category_count_summary">Zeigt die Anzahl der zugeordneten Notizen neben der Kategorie</string>
-  <string name="settings_auto_location">Automatic location</string>
-  <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
+  <string name="settings_auto_location">Standort hinzufügen</string>
+  <string name="settings_auto_location_summary">Fügt einer neuen Notiz den aktuellen Standort hinzu</string>
   <string name="tour_request_start">Sie haben Omni Notes das erste Mal gestartet. Möchten Sie eine Anwendungstour machen?</string>
   <string name="tour_listactivity_intro_title">Willkommen bei Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Drücken Sie \"Weiter\",\num die Tour fortzusetzen.</string>

@@ -21,6 +21,7 @@
     <item>Arhiv</item>
     <item>Opomniki</item>
     <item>Smeti</item>
+    <item>Nekategorizirane</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Naslov</item>
