@@ -124,6 +124,7 @@ import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.AppTourHelper;
+import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
@@ -577,18 +578,18 @@ public class DetailFragment extends Fragment implements
 
         // Initialization of location TextView
         locationTextView = (TextView) getView().findViewById(R.id.location);
-        if (noteTmp.getLatitude() != null && noteTmp.getLatitude() != 0 && noteTmp.getLongitude() != null
-                && noteTmp.getLongitude() != 0) {
-            // Automatic location insertion
-            if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
-                noteTmp.setLatitude(((MainActivity) getActivity()).currentLatitude);
-                noteTmp.setLongitude(((MainActivity) getActivity()).currentLongitude);
-            }
-            if (noteTmp.getAddress() != null && noteTmp.getAddress().length() > 0) {
+        if (isNoteLocationValid()) {
+            if (!TextUtils.isEmpty(noteTmp.getAddress())) {
                 locationTextView.setVisibility(View.VISIBLE);
                 locationTextView.setText(noteTmp.getAddress());
             } else {
                 GeocodeHelper.getAddressFromCoordinates(getActivity(), noteTmp.getLatitude(), noteTmp.getLongitude(), mFragment);
+            }
+        } else {
+            // Automatic location insertion
+            if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
+                noteTmp.setLatitude(((MainActivity) getActivity()).currentLatitude);
+                noteTmp.setLongitude(((MainActivity) getActivity()).currentLongitude);
             }
         }
 
@@ -846,6 +847,12 @@ public class DetailFragment extends Fragment implements
 
     @SuppressLint("NewApi")
     private void setAddress() {
+        if (!ConnectionManager.internetAvailable(getActivity())) {
+            noteTmp.setLatitude(((MainActivity) getActivity()).currentLatitude);
+            noteTmp.setLongitude(((MainActivity) getActivity()).currentLongitude);
+            onAddressResolved("");
+            return;
+        }
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_location, null);
@@ -895,14 +902,19 @@ public class DetailFragment extends Fragment implements
 
     @Override
     public void onAddressResolved(String address) {
-        if (!TextUtils.isEmpty(address)) {
-            noteTmp.setAddress(address);
-            locationTextView.setVisibility(View.VISIBLE);
-            locationTextView.setText(address);
-            fade(locationTextView, true);
-        } else {
-            Crouton.makeText(getActivity(), getString(R.string.location_not_found), ONStyle.ALERT).show();
+        if (TextUtils.isEmpty(address)) {
+            if (!isNoteLocationValid()) {
+                Crouton.makeText(getActivity(), getString(R.string.location_not_found), ONStyle.ALERT).show();
+                return;
+            }
+            address = noteTmp.getLatitude() + ", " + noteTmp.getLongitude();
         }
+        if (!GeocodeHelper.areCoordinates(address)) {
+            noteTmp.setAddress(address);
+        }
+        locationTextView.setVisibility(View.VISIBLE);
+        locationTextView.setText(address);
+        fade(locationTextView, true);
     }
 
 
@@ -914,7 +926,9 @@ public class DetailFragment extends Fragment implements
             GeocodeHelper.getAddressFromCoordinates(getActivity(), coords[0], coords[1], new OnGeoUtilResultListener() {
                 @Override
                 public void onAddressResolved(String address) {
-                    noteTmp.setAddress(address);
+                    if (!GeocodeHelper.areCoordinates(address)) {
+                        noteTmp.setAddress(address);
+                    }
                     locationTextView.setVisibility(View.VISIBLE);
                     locationTextView.setText(address);
                     fade(locationTextView, true);
@@ -2213,6 +2227,13 @@ public class DetailFragment extends Fragment implements
      */
     public Note getCurrentNote() {
         return note;
+    }
+
+    private boolean isNoteLocationValid() {
+        return noteTmp.getLatitude() != null
+                && noteTmp.getLatitude() != 0
+                && noteTmp.getLongitude() != null
+                && noteTmp.getLongitude() != 0;
     }
 
     /**

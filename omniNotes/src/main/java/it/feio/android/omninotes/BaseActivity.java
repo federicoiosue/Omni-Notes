@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,17 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import it.feio.android.checklistview.utils.DensityUtil;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.KeyboardUtils;
-import it.feio.android.omninotes.utils.Security;
-import it.feio.android.omninotes.widget.ListWidgetProvider;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -58,24 +47,38 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
+
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews;
 import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 
-@SuppressLint("Registered") 
-public class BaseActivity extends ActionBarActivity {
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import it.feio.android.checklistview.utils.DensityUtil;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.GeocodeHelper;
+import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.Security;
+import it.feio.android.omninotes.widget.ListWidgetProvider;
+
+@SuppressLint("Registered")
+public class BaseActivity extends ActionBarActivity implements LocationListener {
 
 	private final boolean TEST = false;
 
 	protected final int TRANSITION_VERTICAL = 0;
 	protected final int TRANSITION_HORIZONTAL = 1;
-	
+
 	protected SharedPreferences prefs;
-	
+
 	// Location variables
 	protected LocationManager locationManager;
-	protected LocationListener locationListener;
 	protected Location currentLocation;
 	protected double currentLatitude;
 	protected double currentLongitude;
@@ -89,7 +92,7 @@ public class BaseActivity extends ActionBarActivity {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu_list, menu);
-				
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -104,13 +107,10 @@ public class BaseActivity extends ActionBarActivity {
 			StrictMode.enableDefaults();
 //			GoogleAnalytics.getInstance(this).setDryRun(true);
 		}
-
 		// Preloads shared preferences for all derived classes
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-		
 		// Starts location manager
-		setLocationManager();
-
+		locationManager = GeocodeHelper.getLocationManager(this, this);
 		// Force menu overflow icon
 		try {
 	        ViewConfiguration config = ViewConfiguration.get(this);
@@ -120,12 +120,10 @@ public class BaseActivity extends ActionBarActivity {
 	            menuKeyField.setBoolean(config, false);
 	        }
 	    } catch (Exception ex) {}
-				
-		
 		super.onCreate(savedInstanceState);
 	}
-	
-	
+
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -135,84 +133,57 @@ public class BaseActivity extends ActionBarActivity {
 		Log.d(Constants.TAG, prefs.getAll().toString());
 	}
 
-	
+
 	@Override
 	public void onStop() {
 		super.onStop();
 		if (locationManager != null)
-			locationManager.removeUpdates(locationListener);
+			locationManager.removeUpdates(this);
 	}
 
-	
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		switch (item.getItemId()) {
-//		case R.id.menu_settings:
-//			Intent settingsIntent = new Intent(this, SettingsActivity.class);
-//			startActivity(settingsIntent);
-//			break;
-//		}
-//		return super.onOptionsItemSelected(item);
-//	}
-	
-	
 
-	private void setLocationManager() {
-		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-		locationListener = new LocationListener() {
-			public void onLocationChanged(Location location) {
-				updateLocation(location);
-			}
-
-			public void onStatusChanged(String provider, int status,
-					Bundle extras) {
-			}
-
-			public void onProviderEnabled(String provider) {
-			}
-
-			public void onProviderDisabled(String provider) {
-			}
-		};
-
-		// A check is done to avoid crash when NETWORK_PROVIDER is not 
-		// available (ex. on emulator with API >= 11)
-		if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
-			locationManager.requestLocationUpdates(
-				LocationManager.NETWORK_PROVIDER, 60000, 50, locationListener);
-		} else {
-			locationManager.requestLocationUpdates(
-					LocationManager.PASSIVE_PROVIDER, 60000, 50, locationListener);
-		}
-	}
-    
-    void updateLocation(Location location){
+    @Override
+    public void onLocationChanged(Location location) {
         currentLocation = location;
         currentLatitude = currentLocation.getLatitude();
         currentLongitude = currentLocation.getLongitude();
     }
-    
-    
 
-	protected boolean navigationArchived() {
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+
+    protected boolean navigationArchived() {
 		return "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
 	}
+
 
 	protected void showToast(CharSequence text, int duration) {
 		if (prefs.getBoolean("settings_enable_info", true)) {
 			Toast.makeText(getApplicationContext(), text, duration).show();
 		}
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Method to validate security password to protect notes.
 	 * It uses an interface callback.
 	 */
 	public static void requestPassword(final Activity mActivity, final PasswordValidator mPasswordValidator) {
-		
+
 		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
 
 		// Inflate layout
@@ -226,10 +197,10 @@ public class BaseActivity extends ActionBarActivity {
 			.setMessage(mActivity.getString(R.string.insert_security_password))
 			.setPositiveButton(R.string.confirm, null)
 			.setNegativeButton(R.string.cancel, null);
-		
+
 		AlertDialog dialog = alertDialogBuilder.create();
     	final EditText passwordEditText = (EditText)v.findViewById(R.id.password_request);
-		
+
 		// Set a listener for dialog button press
 		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
 
@@ -273,7 +244,7 @@ public class BaseActivity extends ActionBarActivity {
 		});
 
 		dialog.show();
-		
+
 		// Force focus and shows soft keyboard
 		KeyboardUtils.showKeyboard(passwordEditText);
 	}
@@ -315,9 +286,9 @@ public class BaseActivity extends ActionBarActivity {
 		navigation = nav;
 		navigationTmp = null;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Builds ShowcaseView and show it
 	 * @param viewsArrays
@@ -326,7 +297,7 @@ public class BaseActivity extends ActionBarActivity {
 	 *            titleResId, messageResId, itemType, scale, configOptions
 	 */
 	protected void showCaseView(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
-		
+
 		final float scale = 0.6F;
 		ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
 		ShowcaseViews mViews;
@@ -335,21 +306,21 @@ public class BaseActivity extends ActionBarActivity {
 		} else {
 			mViews = new ShowcaseViews(this);
 		}
-		
+
 		LayoutParams lp = new LayoutParams(300, 300);
 		lp.bottomMargin = DensityUtil.dpToPx(100, this);
 		lp.setMargins(12, 12, 12, getResources().getDimensionPixelSize(R.dimen.showcase_margin_bottom));
-		co.buttonLayoutParams = lp;				
-		
+		co.buttonLayoutParams = lp;
+
 		co.fadeInDuration = 700;
-		
+
 		ItemViewProperties ivp;
 		for (Integer[] view : viewsArrays) {
-			
+
 			// No showcase
 			if (view[0] == null) {
 				ivp = new ItemViewProperties(view[1], view[2], co);
-				
+
 			// No actionbar or reflection types
 			} else if (view[3] == null) {
 				ivp = new ItemViewProperties(view[0], view[1], view[2], scale, co);
@@ -357,21 +328,21 @@ public class BaseActivity extends ActionBarActivity {
 				ivp = new ItemViewProperties(view[0], view[1], view[2], view[3], scale, co);
 			}
 			mViews.addView(ivp);
-			
+
 			// Animated hand gesture
 			if (view.length > 4) {
 				int index = viewsArrays.indexOf(view);
 				mViews.addAnimatedGestureToView(index, view[4], view[5], view[6], view[7], true);
-			}			
+			}
 		}
-		
+
 		mViews.show();
-		
+
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * Retrieves resource by name
 	 * @param aString
@@ -383,7 +354,7 @@ public class BaseActivity extends ActionBarActivity {
 		return getString(resId);
 	}
 
-	
+
 	/**
 	 * Notifies App Widgets about data changes so they can update theirselves
 	 */
@@ -397,12 +368,12 @@ public class BaseActivity extends ActionBarActivity {
 			Log.d(Constants.TAG, "Notifies AppWidget data changed for widgets " + ids);
 			mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 		}
-		
+
 		// Dashclock
 	    LocalBroadcastManager.getInstance(mActivity).sendBroadcast(new Intent(Constants.INTENT_UPDATE_DASHCLOCK));
 	}
-	
-	
+
+
 	@SuppressLint("InlinedApi")
 	protected void animateTransition(FragmentTransaction transaction, int direction) {
 		boolean rtl = false;
@@ -418,13 +389,13 @@ public class BaseActivity extends ActionBarActivity {
 						R.animator.slide_left, R.animator.slide_right);
 			}
 		}
-		if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {		
+		if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			transaction.setCustomAnimations(
 	                R.animator.anim_in, R.animator.anim_out, R.animator.anim_in_pop, R.animator.anim_out_pop);
 		}
 	}
-	
-	
+
+
 	protected void setActionBarTitle(String title) {
 		// Creating a spannable to support custom fonts on ActionBar
 		int actionBarTitle = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
@@ -438,15 +409,15 @@ public class BaseActivity extends ActionBarActivity {
 			getSupportActionBar().setTitle(title);
 		}
 	}
-	
-	
-	
+
+
+
 	public String getNavigationTmp() {
 		return navigationTmp;
 	}
-	
-	
 
-	
+
+
+
 
 }

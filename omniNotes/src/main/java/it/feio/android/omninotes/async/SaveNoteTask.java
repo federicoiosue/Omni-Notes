@@ -1,5 +1,15 @@
 package it.feio.android.omninotes.async;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.widget.Toast;
+
+import java.util.Calendar;
+import java.util.List;
+
 import it.feio.android.omninotes.DetailFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
@@ -9,14 +19,6 @@ import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageManager;
-import java.util.Calendar;
-import java.util.List;
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.widget.Toast;
 
 public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	
@@ -88,7 +90,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 
 	private void setAlarm(Note note) {
 		Intent intent = new Intent(mActivity, AlarmReceiver.class);
-		intent.putExtra(Constants.INTENT_NOTE, note);
+		intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
 		PendingIntent sender = PendingIntent.getBroadcast(mActivity, note.getCreation().intValue(), intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 		AlarmManager am = (AlarmManager) mActivity.getSystemService(Activity.ALARM_SERVICE);
