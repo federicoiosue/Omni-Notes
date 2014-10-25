@@ -55,6 +55,7 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -541,40 +542,9 @@ public class DetailFragment extends Fragment implements
         setTagMarkerColor(noteTmp.getCategory());
 
         // Sets links clickable in title and content Views
-        title = (EditText) getView().findViewById(R.id.detail_title);
-        title.setText(noteTmp.getTitle());
-        title.gatherLinksForText();
-        title.setOnTextLinkClickListener(this);
-        // To avoid dropping here the  dragged checklist items
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            title.setOnDragListener(new OnDragListener() {
-                @Override
-                public boolean onDrag(View v, DragEvent event) {
-//					((View)event.getLocalState()).setVisibility(View.VISIBLE);
-                    return true;
-                }
-            });
-        }
+        title = initTitle();
 
-        content = (EditText) getView().findViewById(R.id.detail_content);
-        content.setText(noteTmp.getContent());
-        content.gatherLinksForText();
-        content.setOnTextLinkClickListener(this);
-        if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
-            // Force focus and shows soft keyboard
-            content.requestFocus();
-            showKeyboard = true;
-        }
-        // Avoids focused line goes under the keyboard
-        content.addTextChangedListener(this);
-
-        // Restore checklist
-        toggleChecklistView = content;
-        if (noteTmp.isChecklist()) {
-            noteTmp.setChecklist(false);
-            AlphaManager.setAlpha(toggleChecklistView, 0);
-            toggleChecklist2();
-        }
+        content = initContent();
 
         // Initialization of location TextView
         locationTextView = (TextView) getView().findViewById(R.id.location);
@@ -809,6 +779,57 @@ public class DetailFragment extends Fragment implements
                 + lastModification : "");
         if (lastModificationTextView.getText().length() == 0)
             lastModificationTextView.setVisibility(View.GONE);
+    }
+
+    private EditText initTitle() {
+        EditText title = (EditText) getView().findViewById(R.id.detail_title);
+        title.setText(noteTmp.getTitle());
+        title.gatherLinksForText();
+        title.setOnTextLinkClickListener(this);
+        // To avoid dropping here the  dragged checklist items
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            title.setOnDragListener(new OnDragListener() {
+                @Override
+                public boolean onDrag(View v, DragEvent event) {
+//					((View)event.getLocalState()).setVisibility(View.VISIBLE);
+                    return true;
+                }
+            });
+        }
+        //When editor action is pressed focus is moved to last character in content field
+        title.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(android.widget.TextView v, int actionId, KeyEvent event) {
+                content.requestFocus();
+                content.setSelection(content.getText().length());
+                return false;
+            }
+        });
+        return title;
+    }
+
+    private EditText initContent() {
+        EditText content = (EditText) getView().findViewById(R.id.detail_content);
+        content.setText(noteTmp.getContent());
+        content.gatherLinksForText();
+        content.setOnTextLinkClickListener(this);
+        if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
+            // Force focus and shows soft keyboard
+            content.requestFocus();
+            showKeyboard = true;
+        }
+        // Avoids focused line goes under the keyboard
+        content.addTextChangedListener(this);
+
+        // Restore checklist
+        toggleChecklistView = content;
+        if (noteTmp.isChecklist()) {
+            noteTmp.setChecklist(false);
+            AlphaManager.setAlpha(toggleChecklistView, 0);
+            toggleChecklist2();
+        }
+
+        return content;
     }
 
 
