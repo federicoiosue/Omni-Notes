@@ -54,6 +54,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -99,7 +100,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -1478,10 +1481,18 @@ public class DetailFragment extends Fragment implements
                     mGridView.autoresize();
                     break;
                 case FILES:
-                    Uri filesUri = intent.getData();
-                    String name = FileHelper.getNameFromUri(getActivity(), filesUri);
-                    AttachmentTask task1 = new AttachmentTask(this, filesUri, name, this);
-                    task1.execute();
+                    List<Uri> uris = new ArrayList<Uri>();
+                    if (intent.getClipData() != null) {
+                        for (int i = 0; i < intent.getClipData().getItemCount(); i++) {
+                            uris.add(intent.getClipData().getItemAt(i).getUri());
+                        }
+                    } else {
+                        uris.add(intent.getData());
+                    }
+                    for (Uri uri : uris) {
+                        String name = FileHelper.getNameFromUri(getActivity(), uri);
+                        new AttachmentTask(this, uri, name, this).execute();
+                    }
                     break;
                 case SET_PASSWORD:
                     noteTmp.setPasswordChecked(true);
@@ -2296,6 +2307,7 @@ public class DetailFragment extends Fragment implements
                 case R.id.files:
                     Intent filesIntent;
                     filesIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                    filesIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                     filesIntent.addCategory(Intent.CATEGORY_OPENABLE);
                     filesIntent.setType("*/*");
                     startActivityForResult(filesIntent, FILES);
