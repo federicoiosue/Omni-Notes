@@ -744,12 +744,12 @@ public class DbHelper extends SQLiteOpenHelper {
 	public List<Note> getNotesByTag(String[] tags) {	
 		// Select All Query
 		StringBuilder whereCondition  = new StringBuilder();
-		whereCondition.append(" WHERE " + KEY_CONTENT);		
+		whereCondition.append(" WHERE ");
 		for (int i =0;i<tags.length;i++) {
 			if (i!=0) {
-				whereCondition.append(" AND " + KEY_CONTENT);
+				whereCondition.append(" AND ");
 			}
-			whereCondition.append(" LIKE '%" + tags[i] + "%' ");
+			whereCondition.append("(" + KEY_CONTENT + " LIKE '%" + tags[i] + "%' OR " + KEY_TITLE + " LIKE '%" + tags[i] + "%')");
 		}
 		
 		// Trashed notes must be included in search results only if search if performed from trash

@@ -16,10 +16,9 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.7.2" changeDate="Oct 26, 2014">
-        <changelogtext>[b]New![/b] Multiple attachments at once (depends on third party apps and Android >= 4.3)</changelogtext>
+    <changelogversion versionName="4.7.2" changeDate="Oct 28, 2014">
         <changelogtext>Pressing "next" from title field will now move to the end of content</changelogtext>
-        <changelogtext>[u]Fixed[/u] Geolocation misbehavors. Now having only GPS switched on allows to grab coordinates and whenever you'll enter again into the note with data connection active they'll be resolved to address automatically</changelogtext>
+        <changelogtext>[u]Fixed[/u] Search by tag now uses also note titles</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.7.1" changeDate="Oct 26, 2014">
