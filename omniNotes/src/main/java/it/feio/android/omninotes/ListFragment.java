@@ -30,6 +30,7 @@ import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.sync.drive.DriveSyncTask;
 import java.util.ArrayList;
@@ -1745,7 +1746,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 						// Saved here to allow persisting search
 						searchTags = tags.toString().substring(1, tags.toString().length() - 1).replace(" ", "");
 						Intent intent = getActivity().getIntent();
-						// intent.setAction(null);
+
+                        // Hides keyboard
+                        searchView.clearFocus();
+                        KeyboardUtils.hideKeyboard(searchView);
+
 						intent.removeExtra(SearchManager.QUERY);
 						initNotesList(intent);
 
