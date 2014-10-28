@@ -8,7 +8,7 @@ android {
         minSdkVersion 9
         targetSdkVersion 19
         versionCode 140
-        versionName "4.7.1"
+        versionName "4.7.2"
     }
     buildTypes {
         release {
