@@ -1,19 +1,16 @@
 package it.feio.android.omninotes.async;
 
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
-import it.feio.android.omninotes.utils.FileHelper;
-import it.feio.android.omninotes.utils.StorageManager;
-
-import java.io.File;
-import java.lang.ref.WeakReference;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+
+import java.lang.ref.WeakReference;
+
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
+import it.feio.android.omninotes.utils.StorageManager;
 
 
 public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {

@@ -28,8 +28,6 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 
-import it.feio.android.omninotes.utils.date.DateHelper;
-
 /**
  * <p>This class provides a usable {@link android.app.DatePickerDialog} wrapped as a {@link android.support.v4.app.DialogFragment},
  * using the compatibility package v4. Its main advantage is handling Issue 34833 

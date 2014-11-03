@@ -1,10 +1,11 @@
 package it.feio.android.omninotes.utils;
 
-import it.feio.android.omninotes.MainActivity;
 import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
+import it.feio.android.omninotes.MainActivity;
 
 public class KeyboardUtils {
 

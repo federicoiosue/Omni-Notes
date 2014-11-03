@@ -15,20 +15,8 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models.adapters;
 
-import it.feio.android.omninotes.BaseActivity;
-import it.feio.android.omninotes.ListFragment;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.NavigationItem;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Fonts;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +25,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.neopixl.pixlui.components.textview.TextView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import it.feio.android.omninotes.BaseActivity;
+import it.feio.android.omninotes.ListFragment;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.models.NavigationItem;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Fonts;
 
 public class NavDrawerAdapter extends BaseAdapter {
 

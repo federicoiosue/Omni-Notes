@@ -1,9 +1,5 @@
 package it.feio.android.omninotes.async;
 
-import it.feio.android.omninotes.MainActivity;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.utils.Constants;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,6 +9,11 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
+
+import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.utils.Constants;
 
 public class ONDashClockExtension extends DashClockExtension {
 	

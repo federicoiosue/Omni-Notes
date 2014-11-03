@@ -16,12 +16,6 @@
 
 package it.feio.android.omninotes.models;
 
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
-import it.feio.android.checklistview.utils.AlphaManager;
-import it.feio.android.omninotes.R;
-
-import java.util.Locale;
-
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
@@ -32,6 +26,13 @@ import android.widget.TextView;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.view.ViewPropertyAnimator;
+
+import java.util.Locale;
+
+import it.feio.android.checklistview.utils.AlphaManager;
+import it.feio.android.omninotes.R;
+
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 public class UndoBarController {
     private View mBarView;

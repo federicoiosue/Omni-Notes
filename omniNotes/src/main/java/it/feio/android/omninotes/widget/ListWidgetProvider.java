@@ -1,8 +1,5 @@
 package it.feio.android.omninotes.widget;
 
-import it.feio.android.omninotes.MainActivity;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.utils.Constants;
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -12,6 +9,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
+
+import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.utils.Constants;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ListWidgetProvider extends WidgetProvider {

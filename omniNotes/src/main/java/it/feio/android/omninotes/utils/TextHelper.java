@@ -1,11 +1,13 @@
 package it.feio.android.omninotes.utils;
 
-import it.feio.android.omninotes.models.Note;
-import java.util.Locale;
 import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.SpannedString;
+
+import java.util.Locale;
+
+import it.feio.android.omninotes.models.Note;
 
 public class TextHelper {
 	/**

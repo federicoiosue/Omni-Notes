@@ -1,11 +1,12 @@
 package it.feio.android.omninotes.widget;
 
 
-import it.feio.android.omninotes.R;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
+
+import it.feio.android.omninotes.R;
 
 public class SimpleWidgetProvider extends WidgetProvider {
 	

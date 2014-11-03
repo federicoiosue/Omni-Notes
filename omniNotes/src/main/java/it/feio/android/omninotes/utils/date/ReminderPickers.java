@@ -1,10 +1,5 @@
 package it.feio.android.omninotes.utils.date;
 
-import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
-import it.feio.android.omninotes.utils.Constants;
-
-import java.util.Calendar;
-
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
@@ -15,6 +10,11 @@ import android.widget.DatePicker;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+
+import java.util.Calendar;
+
+import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
+import it.feio.android.omninotes.utils.Constants;
 
 public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 

@@ -1,9 +1,10 @@
 package it.feio.android.omninotes.models;
 
-import it.feio.android.omninotes.R;
 import android.widget.LinearLayout.LayoutParams;
+
 import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import it.feio.android.omninotes.R;
 
 public class ONStyle {
 public static final int DURATION_INFINITE = -1;

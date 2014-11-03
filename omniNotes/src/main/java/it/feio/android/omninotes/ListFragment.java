@@ -91,7 +91,6 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Navigation;
-import it.feio.android.omninotes.utils.sync.drive.DriveSyncTask;
 import roboguice.util.Ln;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
@@ -708,9 +707,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
                 case R.id.menu_select_all:
                     selectAllNotes();
                     break;
-                case R.id.menu_synchronize:
-                    synchronizeSelectedNotes();
-                    break;
+//                case R.id.menu_synchronize:
+//                    synchronizeSelectedNotes();
+//                    break;
             }
         }
         return super.onOptionsItemSelected(item);
@@ -1515,13 +1514,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	}
 
 
-	private void synchronizeSelectedNotes() {
-		new DriveSyncTask(getActivity()).execute(new ArrayList<Note>(selectedNotes));
-		// Clears data structures
-		mAdapter.clearSelectedItems();
-		listView.clearChoices();
-		finishActionMode();
-	}
+//	private void synchronizeSelectedNotes() {
+//		new DriveSyncTask(getActivity()).execute(new ArrayList<Note>(selectedNotes));
+//		// Clears data structures
+//		mAdapter.clearSelectedItems();
+//		listView.clearChoices();
+//		finishActionMode();
+//	}
 
 
 	@Override
