@@ -53,8 +53,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.Pair;
 import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -100,9 +98,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -139,6 +135,7 @@ import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
+import roboguice.util.Ln;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
@@ -1219,7 +1216,7 @@ public class DetailFragment extends Fragment implements
 //				try {
 //					newView = mChecklistManager.convert(this.targetView);
 //				} catch (ViewNotSupportedException e) {
-//					Log.e(Constants.TAG, "Error switching checklist view", e);
+//					Ln.e("Error switching checklist view", e);
 //				}
 //
 //				return newView;
@@ -1271,7 +1268,7 @@ public class DetailFragment extends Fragment implements
         try {
             newView = mChecklistManager.convert(toggleChecklistView);
         } catch (ViewNotSupportedException e) {
-            Log.e(Constants.TAG, "Error switching checklist view", e);
+            Ln.e("Error switching checklist view", e);
         }
 
         // Switches the views
@@ -1591,7 +1588,7 @@ public class DetailFragment extends Fragment implements
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         ((MainActivity) getActivity()).deleteNote(noteTmp);
-                        Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
+                        Ln.d("Deleted note with id '" + noteTmp.get_id() + "'");
                         Crouton.makeText(getActivity(), getString(R.string.note_deleted), ONStyle.ALERT).show();
 
                         MainActivity.notifyAppWidgets(getActivity());
@@ -1628,7 +1625,7 @@ public class DetailFragment extends Fragment implements
         // is an empty note
         if (goBack && TextUtils.isEmpty(noteTmp.getTitle()) && TextUtils.isEmpty(noteTmp.getContent())
                 && noteTmp.getAttachmentsList().size() == 0) {
-            Log.d(Constants.TAG, "Empty note not saved");
+            Ln.d("Empty note not saved");
             exitMessage = getString(R.string.empty_note_not_saved);
             exitCroutonStyle = ONStyle.INFO;
             goHome();
@@ -1724,7 +1721,7 @@ public class DetailFragment extends Fragment implements
      * Notes locking with security password to avoid viewing, editing or deleting from unauthorized
      */
     private void maskNote() {
-        Log.d(Constants.TAG, "Locking or unlocking note " + note.get_id());
+        Ln.d("Locking or unlocking note " + note.get_id());
 
         // If security password is not set yes will be set right now
         if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
@@ -1838,7 +1835,7 @@ public class DetailFragment extends Fragment implements
                 }
             });
         } catch (IOException e) {
-            Log.e(Constants.TAG, "prepare() failed");
+            Ln.e("prepare() failed");
         }
     }
 
@@ -1871,7 +1868,7 @@ public class DetailFragment extends Fragment implements
             audioRecordingTimeStart = Calendar.getInstance().getTimeInMillis();
             mRecorder.start();
         } catch (IOException e) {
-            Log.e(Constants.TAG, "prepare() failed");
+            Ln.e("prepare() failed");
         }
     }
 
@@ -2001,7 +1998,7 @@ public class DetailFragment extends Fragment implements
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
-                Log.v(Constants.TAG, "MotionEvent.ACTION_DOWN");
+                Ln.v("MotionEvent.ACTION_DOWN");
                 int w;
 
                 Point displaySize = Display.getUsableSize(getActivity());
@@ -2015,14 +2012,14 @@ public class DetailFragment extends Fragment implements
                 break;
 
             case MotionEvent.ACTION_UP:
-                Log.v(Constants.TAG, "MotionEvent.ACTION_UP");
+                Ln.v("MotionEvent.ACTION_UP");
                 if (swiping)
                     swiping = false;
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 if (swiping) {
-                    Log.v(Constants.TAG, "MotionEvent.ACTION_MOVE at position " + x + ", " + y);
+                    Ln.v("MotionEvent.ACTION_MOVE at position " + x + ", " + y);
                     if (Math.abs(x - startSwipeX) > Constants.SWIPE_OFFSET) {
                         swiping = false;
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();

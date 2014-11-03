@@ -15,6 +15,21 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models.adapters;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.BitmapWorkerTask;
 import it.feio.android.omninotes.models.Attachment;
@@ -24,22 +39,7 @@ import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.date.DateHelper;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
+import roboguice.util.Ln;
 
 public class AttachmentAdapter extends BaseAdapter {
 		
@@ -72,7 +72,7 @@ public class AttachmentAdapter extends BaseAdapter {
 	
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
-		Log.v(Constants.TAG, "GridView called for position " + position);
+		Ln.v("GridView called for position " + position);
 		
 		Attachment mAttachment = attachmentsList.get(position);
 		
@@ -119,10 +119,10 @@ public class AttachmentAdapter extends BaseAdapter {
 			holder.text.setText(mAttachment.getName());
 			holder.text.setVisibility(View.VISIBLE);
 		}
-		
+
 		// Starts the AsyncTask to draw bitmap into ImageView
 		loadThumbnail(holder, mAttachment);
-		
+
 		return convertView;
 	}
  

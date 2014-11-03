@@ -37,7 +37,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -66,6 +65,7 @@ import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
+import roboguice.util.Ln;
 
 @SuppressLint("Registered")
 public class BaseActivity extends ActionBarActivity implements LocationListener {
@@ -130,7 +130,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 		// Navigation selected
 		String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
 		navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
-		Log.d(Constants.TAG, prefs.getAll().toString());
+		Ln.d(prefs.getAll().toString());
 	}
 
 
@@ -365,7 +365,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 			AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
 			int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity,
 					ListWidgetProvider.class));
-			Log.d(Constants.TAG, "Notifies AppWidget data changed for widgets " + ids);
+			Ln.d("Notifies AppWidget data changed for widgets " + ids);
 			mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 		}
 

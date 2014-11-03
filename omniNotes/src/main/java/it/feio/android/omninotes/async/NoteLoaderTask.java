@@ -15,19 +15,18 @@
  ******************************************************************************/
 package it.feio.android.omninotes.async;
 
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
-import it.feio.android.omninotes.utils.Constants;
+import android.app.Activity;
+import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import android.app.Activity;
-import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
+import roboguice.util.Ln;
 
 public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 
@@ -71,7 +70,7 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 			notes = (ArrayList<Note>) method.invoke(db,
 					paramClass[0].cast(methodArgs));
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Error retrieving notes", e);
+			Ln.e(e, "Error retrieving notes");
 		}
 
 		return notes;

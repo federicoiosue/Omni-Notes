@@ -15,22 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.db;
 
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.Stats;
-import it.feio.android.omninotes.utils.AssetUtils;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Navigation;
-import it.feio.android.omninotes.utils.Security;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Matcher;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -39,8 +23,26 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.util.Log;
+
 import com.neopixl.pixlui.links.RegexPatternsConstants;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
+
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Stats;
+import it.feio.android.omninotes.utils.AssetUtils;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.Security;
+import roboguice.util.Ln;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -123,7 +125,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		try {
-            Log.i(Constants.TAG, "Database creation");
+            Ln.i("Database creation");
             execSqlFile(CREATE_QUERY, db);
         } catch( IOException exception ) {
             throw new RuntimeException("Database creation failed", exception);
@@ -134,7 +136,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	// Upgrading database
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i(Constants.TAG, "Upgrading database version from " + oldVersion + " to " + newVersion );
+        Ln.i("Upgrading database version from " + oldVersion + " to " + newVersion);
         try {
             for( String sqlFile : AssetUtils.list(SQL_DIR, mContext.getAssets())) {
                 if ( sqlFile.startsWith(UPGRADE_QUERY_PREFIX)) {
@@ -144,7 +146,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     }
                 }
             }
-            Log.i(Constants.TAG, "Database upgrade successful");
+            Ln.i("Database upgrade successful");
         } catch( IOException exception ) {
             throw new RuntimeException("Database upgrade failed", exception );
         }
@@ -152,13 +154,13 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	protected void execSqlFile(String sqlFile, SQLiteDatabase db ) throws SQLException, IOException {
-        Log.i(Constants.TAG, "  exec sql file: {}" + sqlFile );
+        Ln.i("  exec sql file: {}" + sqlFile );
         for( String sqlInstruction : SqlParser.parseSqlFile( SQL_DIR + "/" + sqlFile, mContext.getAssets())) {
-        	Log.v(Constants.TAG, "    sql: {}" + sqlInstruction );
+        	Ln.v("    sql: {}" + sqlInstruction );
         	try {
         		db.execSQL(sqlInstruction);
         	} catch (Exception e) {
-        		Log.e(Constants.TAG, "Error executing command: " + sqlInstruction, e);
+        		Ln.e(e, "Error executing command: " + sqlInstruction);
         	}
         }
     }
@@ -208,14 +210,12 @@ public class DbHelper extends SQLiteOpenHelper {
 			if (resNote == 0) {
 				resNote = db.insert(TABLE_NOTES, null, values);
 			}
-			Log.d(Constants.TAG, "Updated note titled '" + note.getTitle()
-					+ "'");
+			Ln.d("Updated note titled '" + note.getTitle() + "'");
 			
 		// Inserting new note
 		} else {
 			resNote = db.insert(TABLE_NOTES, null, values);
-			Log.d(Constants.TAG, "Saved new note titled '" + note.getTitle()
-					+ "' with id: " + resNote);
+			Ln.d("Saved new note titled '" + note.getTitle() + "' with id: " + resNote);
 		}
 		
 		// Updating attachments
@@ -443,7 +443,7 @@ public class DbHelper extends SQLiteOpenHelper {
 					+ whereCondition
 					+ (order ? " ORDER BY " + sort_column + sort_order : "");
 
-		Log.d(Constants.TAG, "Query: " + query);
+		Ln.d("Query: " + query);
 
 		Cursor cursor = null;
 		try {
@@ -898,22 +898,17 @@ public class DbHelper extends SQLiteOpenHelper {
 				values.put(KEY_CATEGORY_ID, category.getId());
 				db.update(TABLE_CATEGORY, values, KEY_CATEGORY_ID + " = ?",
 						new String[] { String.valueOf(category.getId()) });
-				Log.d(Constants.TAG, "Updated category titled '" + category.getName()
-						+ "'");
+				Ln.d("Updated category titled '" + category.getName() + "'");
 				// Inserting new category
 			} else {
 				long id = db.insert(TABLE_CATEGORY, null, values);
-				Log.d(Constants.TAG, "Saved new category titled '" + category.getName()
-						+ "' with id: " + id);
+				Ln.d("Saved new category titled '" + category.getName() + "' with id: " + id);
 				category.setId((int) id);
 			}
 
 		} finally {
-//			if (db != null)
-//				db.close();
 		}
 
-		// Returning result
 		return category;
 	}
 	

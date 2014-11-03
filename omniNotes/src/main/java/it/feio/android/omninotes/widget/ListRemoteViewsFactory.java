@@ -1,17 +1,5 @@
 package it.feio.android.omninotes.widget;
 
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.adapters.NoteAdapter;
-import it.feio.android.omninotes.utils.BitmapHelper;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.TextHelper;
-
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.app.Application;
 import android.appwidget.AppWidgetManager;
@@ -22,10 +10,22 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
+
+import java.util.List;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.adapters.NoteAdapter;
+import it.feio.android.omninotes.utils.BitmapHelper;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.TextHelper;
+import roboguice.util.Ln;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ListRemoteViewsFactory implements RemoteViewsFactory {
@@ -48,7 +48,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	
 	@Override
 	public void onCreate() {
-		Log.d(Constants.TAG, "Created widget " + appWidgetId);
+		Ln.d("Created widget " + appWidgetId);
 		String condition = app.getSharedPreferences(Constants.PREFS_NAME, app.MODE_MULTI_PROCESS)
 				.getString(
 						Constants.PREF_WIDGET_PREFIX
@@ -59,7 +59,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	
 	@Override
 	public void onDataSetChanged() {
-		Log.d(Constants.TAG, "onDataSetChanged widget " + appWidgetId);
+		Ln.d("onDataSetChanged widget " + appWidgetId);
 		String condition = app.getSharedPreferences(Constants.PREFS_NAME, app.MODE_MULTI_PROCESS)
 				.getString(
 						Constants.PREF_WIDGET_PREFIX
@@ -150,7 +150,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 	}
 
 	public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition, boolean thumbnails) {
-		Log.d(Constants.TAG, "Widget configuration updated");
+		Ln.d("Widget configuration updated");
 		mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS).edit()
 				.putString(Constants.PREF_WIDGET_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).commit();
 		showThumbnails = thumbnails;

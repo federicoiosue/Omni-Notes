@@ -1,11 +1,5 @@
 package it.feio.android.omninotes.async;
 
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
-import it.feio.android.omninotes.models.views.SquareImageView;
-import it.feio.android.omninotes.utils.BitmapHelper;
-import java.lang.ref.WeakReference;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -14,6 +8,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
+
+import java.lang.ref.WeakReference;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
+import it.feio.android.omninotes.models.views.SquareImageView;
+import it.feio.android.omninotes.utils.BitmapHelper;
 
 public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 
@@ -91,12 +93,12 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 			if (imageView != null && this == (BitmapWorkerTask) imageView.getAsyncTask()) {
 
 				// If the bitmap was already cached it will be directly attached to view
-				if (wasCached) {
-					imageView.setImageBitmap(bitmap);
-				}
-
-				// Otherwise a fading transaction will be used to shot it
-				else {
+//				if (wasCached) {
+//					imageView.setImageBitmap(bitmap);
+//				}
+//
+//				// Otherwise a fading transaction will be used to shot it
+//				else {
 					// Transition with transparent drawabale and the final bitmap
 					final TransitionDrawable td = new TransitionDrawable(
 							new Drawable[] { new ColorDrawable(Color.TRANSPARENT),
@@ -105,7 +107,7 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 						imageView.setImageDrawable(td);
 						td.startTransition(FADE_IN_TIME);
 					}
-				}
+//				}
 			}
 		} else {
 			if (this.mOnAttachingFileErrorListener != null) {

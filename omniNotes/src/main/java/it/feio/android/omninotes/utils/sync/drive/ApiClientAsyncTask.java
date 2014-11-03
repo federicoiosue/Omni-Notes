@@ -1,17 +1,18 @@
 package it.feio.android.omninotes.utils.sync.drive;
 
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Bundle;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.drive.Drive;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-
 import java.util.concurrent.CountDownLatch;
+
+import roboguice.util.Ln;
 
 /**
  * An AsyncTask that maintains a connected client.
@@ -29,7 +30,7 @@ public abstract class ApiClientAsyncTask<Params, Progress, Result> extends
 
 	@Override
 	protected final Result doInBackground(Params... params) {
-		Log.d("TAG", "in background");
+		Ln.d("in background");
 		final CountDownLatch latch = new CountDownLatch(1);
 		mClient.registerConnectionCallbacks(new ConnectionCallbacks() {
 			@Override

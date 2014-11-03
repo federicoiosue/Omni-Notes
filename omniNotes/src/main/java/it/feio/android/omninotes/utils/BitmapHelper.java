@@ -15,14 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils;
 
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.Attachment;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -37,7 +29,15 @@ import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore.Images.Thumbnails;
-import android.util.Log;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.models.Attachment;
+import roboguice.util.Ln;
 
 
 public class BitmapHelper {
@@ -146,7 +146,7 @@ public class BitmapHelper {
 				dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height);
 			}
 		} catch (FileNotFoundException e) {
-			Log.e(Constants.TAG, "Missing attachment file: " + uri.getPath());
+			Ln.e(e, "Missing attachment file: " + uri.getPath());
 		}
 		srcBmp = null;
 		return dstBmp;
@@ -216,7 +216,7 @@ public class BitmapHelper {
 			// Rotate the bitmap
 			resultBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 		} catch (Exception exception) {
-			Log.d(Constants.TAG, "Could not rotate the image");
+			Ln.d("Could not rotate the image");
 		}
 		return resultBitmap;
 	}
@@ -469,7 +469,7 @@ public class BitmapHelper {
 
 //			int[] pids = { android.os.Process.myPid() };
 //			MemoryInfo myMemInfo = mAM.getProcessMemoryInfo(pids)[0];
-//			Log.e(Constants.TAG, "dalvikPss (decoding) = " + myMemInfo.dalvikPss);
+//			Ln.e("dalvikPss (decoding) = " + myMemInfo.dalvikPss);
 
 			return BitmapFactory.decodeByteArray(byteArr, 0, count, options);
 

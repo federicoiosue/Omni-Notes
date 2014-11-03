@@ -1,22 +1,10 @@
 package it.feio.android.omninotes.utils.sync.drive;
 
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.StorageManager;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -28,11 +16,18 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveApi.MetadataBufferResult;
-import com.google.android.gms.drive.DriveFolder.DriveFileResult;
 import com.google.android.gms.drive.Metadata;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.utils.Constants;
+import roboguice.util.Ln;
 
 public class DriveActivity extends Activity implements ConnectionCallbacks,
 		OnConnectionFailedListener {
@@ -109,7 +104,7 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
 	 */
 	@Override
 	public void onConnected(Bundle connectionHint) {
-		Log.i(TAG, "GoogleApiClient connected");
+		Ln.i("GoogleApiClient connected");
 	}
 	
 	
@@ -120,7 +115,7 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
 	 */
 	@Override
 	public void onConnectionSuspended(int cause) {
-		Log.i(TAG, "GoogleApiClient connection suspended");
+		Ln.i(TAG, "GoogleApiClient connection suspended");
 	}
 
 	/**
@@ -130,7 +125,7 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
 	 */
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
-		Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
+		Ln.i("GoogleApiClient connection failed: " + result.toString());
 		if (!result.hasResolution()) {
 			// show the localized error dialog.
 			GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,
@@ -140,7 +135,7 @@ public class DriveActivity extends Activity implements ConnectionCallbacks,
 		try {
 			result.startResolutionForResult(this, REQUEST_CODE_RESOLUTION);
 		} catch (SendIntentException e) {
-			Log.e(TAG, "Exception while starting resolution activity", e);
+			Ln.e(e, "Exception while starting resolution activity");
 		}
 	}
 

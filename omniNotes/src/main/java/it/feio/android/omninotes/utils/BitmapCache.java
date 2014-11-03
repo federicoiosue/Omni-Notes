@@ -1,8 +1,5 @@
 package it.feio.android.omninotes.utils;
 
-import it.feio.android.omninotes.utils.SimpleDiskCache.BitmapEntry;
-import java.io.File;
-import java.io.IOException;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -10,7 +7,12 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.util.LruCache;
-import android.util.Log;
+
+import java.io.File;
+import java.io.IOException;
+
+import it.feio.android.omninotes.utils.SimpleDiskCache.BitmapEntry;
+import roboguice.util.Ln;
 
 public class BitmapCache extends LruCache<String, Bitmap> {
 
@@ -65,14 +67,14 @@ public class BitmapCache extends LruCache<String, Bitmap> {
 				try {
 					version = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
 				} catch (NameNotFoundException e) {
-					Log.e(Constants.TAG, "Error retrieving package name", e);
+					Ln.e("Error retrieving package name", e);
 				}
 				try {
 					mDiskLruCache = SimpleDiskCache.open(params[0], version, maxDiskSize);
 				} catch (IOException e) {
-					Log.e(Constants.TAG, "Error retrieving disk cache", e);
+					Ln.e("Error retrieving disk cache", e);
 				} catch (NullPointerException e) {
-					Log.e(Constants.TAG, "Error retrieving disk cache", e);
+					Ln.e("Error retrieving disk cache", e);
 				}
 				mDiskCacheStarting = false; // Finished initialization
 				mDiskCacheLock.notifyAll(); // Wake any waiting threads
@@ -139,7 +141,7 @@ public class BitmapCache extends LruCache<String, Bitmap> {
 							bitmap = bitmapEntry.getBitmap();
 						}
 					} catch (IOException e) {
-						Log.e(Constants.TAG, "Error retrieving bitmap from disk cache");
+						Ln.e("Error retrieving bitmap from disk cache");
 					}
 				}
 			}

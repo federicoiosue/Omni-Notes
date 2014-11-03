@@ -7,7 +7,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
+import roboguice.util.Ln;
 
 public class GeocodeHelper {
 
@@ -174,10 +174,10 @@ public class GeocodeHelper {
                 jsonResults.append(buff, 0, read);
             }
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error processing Places API URL", e);
+            Ln.e(e, "Error processing Places API URL");
             return resultList;
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error connecting to Places API", e);
+            Ln.e(e, "Error connecting to Places API");
             return resultList;
         } finally {
             if (conn != null) {
@@ -196,7 +196,7 @@ public class GeocodeHelper {
                 resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Cannot process JSON results", e);
+            Ln.e(LOG_TAG, "Cannot process JSON results", e);
         }
 
         return resultList;

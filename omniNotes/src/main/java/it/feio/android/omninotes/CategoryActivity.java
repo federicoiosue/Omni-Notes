@@ -1,12 +1,5 @@
 package it.feio.android.omninotes;
 
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.utils.Constants;
-
-import java.io.File;
-import java.io.FileOutputStream;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -29,6 +21,14 @@ import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
+
+import java.io.File;
+import java.io.FileOutputStream;
+
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.utils.Constants;
+import roboguice.util.Ln;
 
 public class CategoryActivity extends Activity {
 
@@ -60,10 +60,10 @@ public class CategoryActivity extends Activity {
 		initViews();
 
 		if (category == null) {
-			Log.d(Constants.TAG, "Adding new category");
+			Ln.d("Adding new category");
 			category = new Category();
 		} else {
-			Log.d(Constants.TAG, "Editing category " + category.getName());
+			Ln.d("Editing category " + category.getName());
 			populateViews();
 		}
 	}
@@ -265,7 +265,7 @@ public void save(Bitmap bitmap) {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.d(Constants.TAG, "Error writing sketch image data");
+			Ln.d("Error writing sketch image data");
 		}
 	}
 }

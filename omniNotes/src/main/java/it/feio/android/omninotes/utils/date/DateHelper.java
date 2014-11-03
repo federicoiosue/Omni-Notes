@@ -15,16 +15,16 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils.date;
 
-import it.feio.android.omninotes.utils.Constants;
+import android.content.Context;
+import android.text.format.DateUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import android.content.Context;
-import android.text.format.DateUtils;
-import android.util.Log;
+import it.feio.android.omninotes.utils.Constants;
+import roboguice.util.Ln;
 
 
 /**
@@ -59,10 +59,10 @@ public class DateHelper {
 		try {
 			cal.setTime(sdf.parse(str));
 		} catch (ParseException e) {
-			Log.e(Constants.TAG, "Malformed datetime string" + e.getMessage());
+			Ln.e(e, "Malformed datetime string" + e.getMessage());
 
 		} catch (NullPointerException e) {
-			Log.d(Constants.TAG, "Date or time not set");
+			Ln.e(e, "Date or time not set");
 		}
 		return cal;
 	}
@@ -113,7 +113,7 @@ public class DateHelper {
 			cDate.setTime(sdfDate.parse(date));
 			cTime.setTime(sdfTime.parse(time));
 		} catch (ParseException e) {
-			Log.e(Constants.TAG, "Date or time parsing error: " + e.getMessage());
+			Ln.e(e, "Date or time parsing error: " + e.getMessage());
 		}
 		cal.set(Calendar.YEAR, cDate.get(Calendar.YEAR));
 		cal.set(Calendar.MONTH, cDate.get(Calendar.MONTH));
@@ -148,7 +148,7 @@ public class DateHelper {
 			try {
 				date = sdf.parse(dateString);
 			} catch (ParseException e1) {
-				Log.e(Constants.TAG, "String is not formattable into date");
+				Ln.e(e, "String is not formattable into date");
 			}
 		}
 

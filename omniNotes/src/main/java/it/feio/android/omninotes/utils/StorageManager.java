@@ -15,8 +15,21 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils;
 
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.Attachment;
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.os.StatFs;
+import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
+import android.widget.Toast;
+
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,20 +41,10 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-import org.apache.commons.io.FileUtils;
-import android.annotation.SuppressLint;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.os.StatFs;
-import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.util.Log;
-import android.webkit.MimeTypeMap;
-import android.widget.Toast;
+
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.models.Attachment;
+import roboguice.util.Ln;
 
 public class StorageManager {
 
@@ -132,11 +135,11 @@ public class StorageManager {
 					os = new FileOutputStream(file);
 					copyFile(is, os);
 				} catch (FileNotFoundException e2) {
-					Log.e(Constants.TAG, "Error writing " + file, e2);
+					Ln.e(e2, "Error writing " + file);
 					file = null;
 				}
 			} catch (FileNotFoundException e2) {
-				Log.e(Constants.TAG, "Error writing " + file, e2);
+				Ln.e(e2, "Error writing " + file);
 				file = null;
 			}
 		}
@@ -150,7 +153,7 @@ public class StorageManager {
 		try {
 			return copyFile(new FileInputStream(source), new FileOutputStream(destination));
 		} catch (FileNotFoundException e) {
-			Log.e(Constants.TAG, "Error copying file", e);
+			Ln.e(e, "Error copying file");
 			return false;
 		}
 	}
@@ -174,7 +177,7 @@ public class StorageManager {
 //			os.close();
 //			res = true;
 //		} catch (IOException e) {
-//			Log.e(Constants.TAG, "Error copying file", e);
+//			Ln.e("Error copying file", e);
 //		}
 //		return res;
 //	}
@@ -190,7 +193,7 @@ public class StorageManager {
 			os.close();
 			res = true;
 		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error copying file", e);
+			Ln.e("Error copying file", e);
 		}
 		return res;
 	}
@@ -305,7 +308,7 @@ public class StorageManager {
 		try {
 			copyFile(new FileInputStream(file), new FileOutputStream(destination));
 		} catch (FileNotFoundException e) {
-			Log.e(Constants.TAG, "Error copying file to backup", e);
+			Ln.e(e, "Error copying file to backup");
 			destination = null;
 		}
 		
@@ -420,7 +423,7 @@ public class StorageManager {
 			try {
 				res = res && copyFile(new FileInputStream(sourceLocation), new FileOutputStream(targetLocation));
 			} catch (FileNotFoundException e) {
-				Log.e(Constants.TAG, "Error copying directory", e);
+				Ln.e(e, "Error copying directory");
 				res = false;
 			}
 		}		
@@ -522,7 +525,7 @@ public class StorageManager {
 			try {
 				FileUtils.moveFile(new File(uri.getPath()), f);
 			} catch (IOException e) {
-				Log.e(Constants.TAG, "Can't move file " + uri.getPath());
+				Ln.e(e, "Can't move file " + uri.getPath());
 			}
 		} else {
 			f = StorageManager.createExternalStoragePrivateFile(mContext, uri, extension);

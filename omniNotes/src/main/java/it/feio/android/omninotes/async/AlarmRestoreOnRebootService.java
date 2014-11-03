@@ -6,7 +6,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 
 import java.util.List;
 
@@ -15,6 +14,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
+import roboguice.util.Ln;
 
 public class AlarmRestoreOnRebootService extends Service {
 
@@ -26,7 +26,7 @@ public class AlarmRestoreOnRebootService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.i(Constants.TAG, "System rebooted: service refreshing reminders");
+		Ln.i("System rebooted: service refreshing reminders");
 
 		Context mContext = getApplicationContext();
 
@@ -42,7 +42,7 @@ public class AlarmRestoreOnRebootService extends Service {
 		try {
 			DbHelper db = DbHelper.getInstance(mContext);
 			List<Note> notes = db.getNotesWithReminder(false);
-			Log.d(Constants.TAG, "Found " + notes.size() + " reminders");
+			Ln.d("Found " + notes.size() + " reminders");
 			for (Note note : notes) {
 				setAlarm(mContext, note);
 			}

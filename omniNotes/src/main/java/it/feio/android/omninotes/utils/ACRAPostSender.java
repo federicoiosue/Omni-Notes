@@ -1,15 +1,5 @@
 package it.feio.android.omninotes.utils;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import org.acra.ReportField;
 import org.acra.collector.CrashReportData;
 import org.acra.sender.ReportSender;
@@ -21,7 +11,17 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
-import android.util.Log;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import roboguice.util.Ln;
 
 
 public class ACRAPostSender implements ReportSender {
@@ -38,7 +38,7 @@ public class ACRAPostSender implements ReportSender {
 	public void send(CrashReportData report) throws ReportSenderException {
 
 		String url = getUrl();
-		Log.e(Constants.TAG, "Sending crash report to " + url);
+		Ln.i("Sending crash report to " + url);
 
 		try {
 			DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -93,7 +93,7 @@ public class ACRAPostSender implements ReportSender {
 			httpPost.setEntity(new UrlEncodedFormEntity(parameters, HTTP.UTF_8));
 			httpClient.execute(httpPost);
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Error sending crash report", e);
+			Ln.e(e, "Error sending crash report");
 		}
 	}
 	
