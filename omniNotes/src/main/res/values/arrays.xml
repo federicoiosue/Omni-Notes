@@ -121,7 +121,7 @@
         <item >Asturianu (Asturian)</item>
         <item >Català (Catalan)</item>
         <item >中文 (Chinese)</item>
-        <item >台灣 (Taiwan)</item>
+        <item >Čeština (Czech)</item>
         <item >Nederlands (Dutch)</item>
         <item >English (English)</item>
         <item >Français (French)</item>
@@ -141,6 +141,7 @@
         <item >Slovenščina (Slovenian)</item>
         <item >Español (Spanish)</item>
         <item >Kinesiska (Swedish)</item>
+        <item >臺灣話 (Taiwanese)</item>
         <item >Türkçe (Turkish)</item>
         <item >Українська (Ukrainian)</item>
     </string-array>
@@ -150,7 +151,7 @@
         <item >es_XA</item>
         <item >ca_ES</item>
         <item >zh_CN</item>
-        <item >zh_TW</item>
+        <item >cs</item>
         <item >nl</item>
         <item >en</item>
         <item >fr</item>
@@ -170,6 +171,7 @@
         <item >sl</item>
         <item >es</item>
         <item >sv</item>
+        <item >zh_TW</item>
         <item >tr</item>
         <item >uk</item>
     </string-array>
