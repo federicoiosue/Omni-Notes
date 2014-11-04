@@ -3,17 +3,19 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 19
     buildToolsVersion "20.0.0"
+
     defaultConfig {
         applicationId "it.feio.android.omninotes"
         minSdkVersion 9
         targetSdkVersion 19
-        versionCode 140
-        versionName "4.7.2"
+        versionName project.VERSION_NAME
+        versionCode Integer.parseInt(project.VERSION_CODE)
     }
+    
     buildTypes {
         release {
-//            runProguard true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             applicationVariants.all { variant ->
                 def file = variant.outputFile
                 variant.outputFile = new File(file.parent, file.name.replace(".apk", "-" + defaultConfig.versionName + ".apk"))
@@ -48,7 +50,7 @@ dependencies {
     }
     compile 'com.pushbullet:android-extensions:+@aar'
     compile 'org.roboguice:roboguice:2.0'
-    compile 'it.feio.android:simplegallery:1.0.0'
+    compile 'it.feio.android:simplegallery:1.0.1'
     compile 'it.feio.android:springpadimporter:1.0.0'
     compile 'it.feio.android:omninotes_commons:1.0.2-SNAPSHOT'
 }
