@@ -90,7 +90,6 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.neopixl.pixlui.links.TextLinkClickListener;
 import com.pushbullet.android.extension.MessagingExtension;
 
 import java.io.File;
@@ -135,6 +134,7 @@ import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
+import it.feio.android.pixlui.links.TextLinkClickListener;
 import roboguice.util.Ln;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;

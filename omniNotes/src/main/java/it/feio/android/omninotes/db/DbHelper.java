@@ -24,8 +24,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
-import com.neopixl.pixlui.links.RegexPatternsConstants;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,6 +40,7 @@ import it.feio.android.omninotes.utils.AssetUtils;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.Security;
+import it.feio.android.pixlui.links.RegexPatternsConstants;
 import roboguice.util.Ln;
 
 public class DbHelper extends SQLiteOpenHelper {

@@ -43,7 +43,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:5.0.89'
     compile files('libs/libGoogleAnalyticsServices.jar')
     compile 'it.feio.android:checklistview:2.0'
-    compile 'it.feio.android:pixlUI:2.0'
+    compile 'it.feio.android:pixlUI:2.1'
     compile('it.feio.android:showcaseview:3.2.0') {
         exclude group: 'org.mockito'
         exclude group: 'org.robolectric'

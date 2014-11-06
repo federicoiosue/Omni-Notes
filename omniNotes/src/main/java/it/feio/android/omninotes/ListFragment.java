@@ -58,8 +58,6 @@ import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.neopixl.pixlui.links.RegexPatternsConstants;
-import com.neopixl.pixlui.links.UrlCompleter;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 
@@ -91,6 +89,8 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.pixlui.links.RegexPatternsConstants;
+import it.feio.android.pixlui.links.UrlCompleter;
 import roboguice.util.Ln;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
