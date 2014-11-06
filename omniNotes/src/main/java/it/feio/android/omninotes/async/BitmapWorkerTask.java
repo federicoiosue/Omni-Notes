@@ -19,7 +19,8 @@ import it.feio.android.omninotes.utils.BitmapHelper;
 
 public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 
-	private final int FADE_IN_TIME = 200;
+    private final int FADE_IN_TIME = 200;
+    private final int QUALITY_FACTOR = 90;
 
 	private final Activity mActivity;
 	private final WeakReference<SquareImageView> imageViewReference;
@@ -33,14 +34,13 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 	public BitmapWorkerTask(Activity activity, SquareImageView imageView, int width, int height) {
 		this.mActivity = activity;
 		imageViewReference = new WeakReference<SquareImageView>(imageView);
-		this.width = width;
-		this.height = height;
+		this.width = width / 100 * QUALITY_FACTOR;
+		this.height = height / 100 * QUALITY_FACTOR;
 	}
 
 
 	@Override
 	protected Bitmap doInBackground(Attachment... params) {
-		Bitmap bmp = null;
 		mAttachment = params[0];
 
 		String path = mAttachment.getUri().getPath();
@@ -49,7 +49,7 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 		String cacheKey = path + width + height;
 
 		// Fetch from cache if possible
-		bmp = OmniNotes.getBitmapCache().getBitmap(cacheKey);
+		Bitmap bmp = OmniNotes.getBitmapCache().getBitmap(cacheKey);
 
 		// Creates thumbnail
 		if (bmp == null) {
@@ -59,7 +59,6 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 				OmniNotes.getBitmapCache().addBitmap(cacheKey, bmp);
 			}
 		}
-
 		return bmp;
 	}
 
@@ -90,15 +89,15 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 			final SquareImageView imageView = imageViewReference.get();
 
 			// Checks if is still the task in charge to load image on that imageView
-			if (imageView != null && this == (BitmapWorkerTask) imageView.getAsyncTask()) {
+			if (imageView != null && this == imageView.getAsyncTask()) {
 
 				// If the bitmap was already cached it will be directly attached to view
-//				if (wasCached) {
-//					imageView.setImageBitmap(bitmap);
-//				}
-//
-//				// Otherwise a fading transaction will be used to shot it
-//				else {
+				if (wasCached) {
+					imageView.setImageBitmap(bitmap);
+				}
+
+				// Otherwise a fading transaction will be used to shot it
+				else {
 					// Transition with transparent drawabale and the final bitmap
 					final TransitionDrawable td = new TransitionDrawable(
 							new Drawable[] { new ColorDrawable(Color.TRANSPARENT),
@@ -107,7 +106,7 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 						imageView.setImageDrawable(td);
 						td.startTransition(FADE_IN_TIME);
 					}
-//				}
+				}
 			}
 		} else {
 			if (this.mOnAttachingFileErrorListener != null) {
