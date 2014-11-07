@@ -1,4 +1,4 @@
-package it.feio.android.test.utils;
+package it.feio.android.utils;
 
 import android.test.InstrumentationTestCase;
 
