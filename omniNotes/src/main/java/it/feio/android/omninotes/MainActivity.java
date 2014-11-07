@@ -38,6 +38,7 @@ import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import roboguice.util.Ln;
 
+
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, OnPushBulletReplyListener {
 
 	public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
@@ -320,14 +321,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 				note = DbHelper.getInstance(this).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
 			}
 
-			// Checks if the same note is already opened to avoid to open again
-			Fragment detailFragment = mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
-			if (note != null && detailFragment != null && detailFragment.isVisible()) {
-				Note openedNote = ((DetailFragment)detailFragment).getCurrentNote();
-				if (note.get_id() == openedNote.get_id()) {
-					return;
-				}
-			}
+            // Checks if the same note is already opened to avoid to open again
+            if (note != null) {
+                note = removeExistentDetailFragment(note);
+            }
 
 			// Empty note instantiation
 			if (note == null) {
@@ -343,11 +340,22 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 	}
 
+    private Note removeExistentDetailFragment(Note note) {
+        for (Fragment fragment : mFragmentManager.getFragments()) {
+            if (fragment.getTag().equals(FRAGMENT_DETAIL_TAG)) {
+                Note openedNote = ((DetailFragment)fragment).getCurrentNote();
+                if (note.get_id() == openedNote.get_id()) {
+                    note = openedNote;
+                    mFragmentManager.beginTransaction().remove(fragment).commit();
+                    break;
+                }
+            }
+        }
+        return note;
+    }
 
 
-
-
-	public void switchToList() {
+    public void switchToList() {
 		FragmentTransaction transaction = mFragmentManager.beginTransaction();
 		animateTransition(transaction, TRANSITION_HORIZONTAL);
 		ListFragment mListFragment = new ListFragment();

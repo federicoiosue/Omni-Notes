@@ -49,7 +49,7 @@ dependencies {
         exclude group: 'org.robolectric'
     }
     compile 'com.pushbullet:android-extensions:+@aar'
-    compile 'org.roboguice:roboguice:2.0'
+    compile 'org.roboguice:roboguice:3.0'
     compile 'it.feio.android:simplegallery:1.0.1'
     compile 'it.feio.android:springpadimporter:1.0.0'
     compile 'it.feio.android:omninotes_commons:1.0.2-SNAPSHOT'
