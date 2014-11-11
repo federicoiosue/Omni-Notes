@@ -16,12 +16,15 @@
 -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="4.7.2" changeDate="Oct 28, 2014">
+    <changelogversion versionName="4.7.2" changeDate="No v11, 2014">
         <changelogtext>[b]New![/b] Multiple file are now attachable to notes at once</changelogtext>
         <changelogtext>[b]New![/b] Czeck language support</changelogtext>
         <changelogtext>Pressing "next" from title field will now move to the end of content</changelogtext>
+        <changelogtext>[u]Fixed[/u] Attachments deletion when the app was restarted (on some hardware
+            configurations)</changelogtext>
         <changelogtext>[u]Fixed[/u] Search by tag now uses also note titles</changelogtext>
-        <changelogtext>[u]Fixed[/u] Attachments deletion when the app was restarted (on some hardware configurations)</changelogtext>
+        <changelogtext>[u]Fixed[/u] Notes queued one to each other when app is opened many times from
+            widget</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.7.1" changeDate="Oct 26, 2014">
