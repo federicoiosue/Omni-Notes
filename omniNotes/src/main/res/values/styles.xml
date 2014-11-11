@@ -18,9 +18,11 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- the theme applied to the application or activity -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="actionBarStyle">@style/AppTheme.ActionBarStyle</item>
         <item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue</item>
     </style>
 
     <!-- ActionBar styles -->

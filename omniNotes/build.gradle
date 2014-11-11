@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
         applicationId "it.feio.android.omninotes"
         minSdkVersion 9
-        targetSdkVersion 19
+        targetSdkVersion 21
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
@@ -29,18 +29,22 @@ android {
 
 dependencies {
     androidTestCompile 'junit:junit:4.+'
-    compile('com.doomonafireball.betterpickers:library:1.5.2') {
-        exclude group: 'com.android.support', module: 'support-v4'
-    }
+    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile 'com.larswerkman:HoloColorPicker:1.4'
     compile 'com.jakewharton:disklrucache:2.0.2'
-    compile 'de.keyboardsurfer.android.widget:crouton:1.8.5'
+    compile 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     compile 'com.nhaarman.listviewanimations:library:2.6.0'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
     compile 'ch.acra:acra:4.5.0'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
-    compile 'com.android.support:appcompat-v7:19.1.0'
-    compile 'com.google.android.gms:play-services:5.0.89'
+
+
+//    compile 'com.android.support:support-v4:21.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.0'
+//    compile 'com.google.android.gms:play-services:5.0.89'
+    compile 'com.google.android.gms:play-services:6.1.71'
+    
+
     compile files('libs/libGoogleAnalyticsServices.jar')
     compile 'it.feio.android:checklistview:2.0'
     compile 'it.feio.android:pixlUI:2.1'
@@ -48,9 +52,9 @@ dependencies {
         exclude group: 'org.mockito'
         exclude group: 'org.robolectric'
     }
-    compile 'com.pushbullet:android-extensions:+@aar'
+    compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'org.roboguice:roboguice:3.0'
-    compile 'it.feio.android:simplegallery:1.0.1'
+    compile 'it.feio.android:simplegallery:1.1.0'
     compile 'it.feio.android:springpadimporter:1.0.0'
     compile 'it.feio.android:omninotes_commons:1.0.2-SNAPSHOT'
 }
