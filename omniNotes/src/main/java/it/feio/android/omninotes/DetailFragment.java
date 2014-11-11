@@ -1545,6 +1545,7 @@ public class DetailFragment extends Fragment implements
                     saveNoteTask.execute(noteOriginal);
                 }
             }
+            MainActivity.notifyAppWidgets(getActivity());
         } else {
             goHome();
         }
