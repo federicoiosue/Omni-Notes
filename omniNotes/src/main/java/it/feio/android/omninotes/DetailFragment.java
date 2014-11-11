@@ -1590,9 +1590,7 @@ public class DetailFragment extends Fragment implements
                         ((MainActivity) getActivity()).deleteNote(noteTmp);
                         Ln.d("Deleted note with id '" + noteTmp.get_id() + "'");
                         Crouton.makeText(getActivity(), getString(R.string.note_deleted), ONStyle.ALERT).show();
-
                         MainActivity.notifyAppWidgets(getActivity());
-
                         goHome();
                     }
                 }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
