@@ -1,5 +1,30 @@
 package it.feio.android.omninotes.async;
 
+import android.app.IntentService;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.Uri;
+import android.text.Html;
+import android.text.TextUtils;
+import android.widget.Toast;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import exceptions.ImportException;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
@@ -17,30 +42,8 @@ import it.feio.android.springpadimporter.models.SpringpadAttachment;
 import it.feio.android.springpadimporter.models.SpringpadComment;
 import it.feio.android.springpadimporter.models.SpringpadElement;
 import it.feio.android.springpadimporter.models.SpringpadItem;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import listeners.ZipProgressesListener;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-import android.app.IntentService;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.net.Uri;
-import android.text.Html;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Toast;
-import exceptions.ImportException;
+import roboguice.util.Ln;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
 
@@ -91,7 +94,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		}
 
 		// Release the lock
-		// Log.d(TAG, "Releasing power lock, all done");
+		// Ln.d(TAG, "Releasing power lock, all done");
 		// wl.release();
 
 	}
@@ -308,8 +311,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 					note.setLatitude(coords[0]);
 					note.setLongitude(coords[1]);
 				} catch (IOException e) {
-					Log.e(Constants.TAG,
-							"An error occurred trying to resolve address to coords during Springpad import");
+					Ln.e(e, "An error occurred trying to resolve address to coords during Springpad import");
 				}
 				note.setAddress(address);
 			}
@@ -335,7 +337,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 					uri = Uri.parse(importer.getWorkingPath() + image);
 					mAttachment = StorageManager.createAttachmentFromUri(this, uri, true);
 				} catch (IOException e) {
-					Log.e(Constants.TAG, "Error retrieving Springpad online image");
+					Ln.e(e, "Error retrieving Springpad online image");
 				}
 				if (mAttachment != null) {
 					note.addAttachment(mAttachment);
@@ -362,7 +364,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 					uri = Uri.parse(importer.getWorkingPath() + springpadAttachment.getUrl());
 					mAttachment = StorageManager.createAttachmentFromUri(this, uri, true);
 				} catch (IOException e) {
-					Log.e(Constants.TAG, "Error retrieving Springpad online image");
+					Ln.e(e, "Error retrieving Springpad online image");
 				}
 				if (mAttachment != null) {
 					note.addAttachment(mAttachment);
@@ -390,7 +392,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		try {
 			importer.clean();
 		} catch (IOException e) {
-			Log.w(Constants.TAG, "Springpad import temp files not deleted");
+			Ln.w(e, "Springpad import temp files not deleted");
 		}
 
 		String title = getString(R.string.data_import_completed);
@@ -558,7 +560,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 						.show();
 			} catch (IOException e) {
 				result = false;
-				Log.e(Constants.TAG, "Error importing the attachment " + file.getName());
+				Ln.e(e, "Error importing the attachment " + file.getName());
 			}
 		}
 		return result;

@@ -59,6 +59,7 @@
   <string name="delete_selected_image">Izbrišem izbrane priponke?</string>
   <string name="gallery">Galerija</string>
   <string name="location">Lokacija</string>
+  <string name="pushbullet">Pushbullet (aplikacija)</string>
   <string name="remove_location">Odstranim lokacijo?</string>
   <string name="remove_reminder">Odstranim opomnik?</string>
   <string name="add_reminder">Dodaj opomnik</string>
@@ -170,6 +171,9 @@
   <string name="imported">uvožena</string>
   <string name="synchronize">Sinhroniziraj</string>
   <string name="extracted">ekstrahiraj</string>
+  <string name="select_all">Izberi vse</string>
+  <string name="search_location">Iskanje lokacije</string>
+  <string name="use_current_location">Uporaba trenutno lokacijo</string>
   <string name="dashclock_description">Prikaz nekaterih statistik in bližnjih opomnikov iz Omni Notes</string>
   <string name="settings">Nastavitve</string>
   <string name="settings_about">Info</string>
@@ -182,6 +186,8 @@
   <string name="settings_import">Obnoviti ali jo izbrisati varnostne kopije</string>
   <string name="settings_import_from_springpad">Uvažanje beležke iz Springpad</string>
   <string name="settings_import_from_springpad_summary">Izberite Springpad, ki se izvažajo Arhiv in se prepričajte, za povezavo z internetom</string>
+  <string name="settings_sync_drive">Sinhronizacijo z Google Drive</string>
+  <string name="settings_sync_drive_summary">Register aplikacija sinhronizacijo podatkov na Google Drive shrambe storitev</string>
   <string name="export_success">Datoteka je bila uspešno izvožena v mapo</string>
   <string name="export_fail">Izvoz datoteke ni uspel</string>
   <string name="import_success">Datoteka uspešno uvožena</string>
@@ -262,8 +268,12 @@ vnesti starega.\n\nZa odstranitev gesla pustite prazno</string>
   <string name="settings_swipe_to_trash">Obrišite, da se premaknete v koš</string>
   <string name="settings_swipe_to_trash_summary_1">Drsna ugotavlja s prstom, bo shranjevanje</string>
   <string name="settings_swipe_to_trash_summary_2">Drsna beležke s prstom, bodo premaknjeni v koš</string>
+  <string name="settings_show_uncategorized">Skupina ni kategorizirana</string>
+  <string name="settings_show_uncategorized_summary">Doda nov element v navigacijski meni ne kategoriziranih opomb</string>
   <string name="settings_show_category_count">Beležka preštej</string>
   <string name="settings_show_category_count_summary">Pokaže število pripadajočimi beležkami poleg kategorije</string>
+  <string name="settings_auto_location">Samodejna lokacija</string>
+  <string name="settings_auto_location_summary">Samodejno doda mesto za nove opombe</string>
   <string name="tour_request_start">Si želite ob prvem zagonu ogledati krajšo predstavitev aplikacije?</string>
   <string name="tour_listactivity_intro_title">Dobrodošli v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">klikni \'Nadaljuj\' za nadaljevanje predstavitve</string>

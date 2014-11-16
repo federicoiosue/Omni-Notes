@@ -37,7 +37,6 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,6 +69,7 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.StorageManager;
+import roboguice.util.Ln;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -569,7 +569,7 @@ public class SettingsActivity extends PreferenceActivity {
 			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
 			versionString = pInfo.versionName;
 		} catch (NameNotFoundException e) {
-			Log.e(Constants.TAG, "Error retrieving version", e);
+			Ln.e("Error retrieving version", e);
 		}
 		changelog.setSummary(versionString);
 

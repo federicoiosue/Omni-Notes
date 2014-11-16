@@ -1,6 +1,5 @@
 package it.feio.android.omninotes.utils;
 
-import it.feio.android.omninotes.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,6 +11,8 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.neopixl.pixlui.components.textview.TextView;
+
+import it.feio.android.omninotes.R;
 
 public class AppRater {
 	private final static String APP_TITLE = "Omni Notes";

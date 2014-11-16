@@ -3,9 +3,10 @@ package it.feio.android.omninotes.utils;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,8 +21,11 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
+import roboguice.util.Ln;
 
 public class GeocodeHelper {
 
@@ -30,6 +34,28 @@ public class GeocodeHelper {
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
     private static final String OUT_JSON = "/json";
     private static final String API_KEY = "AIzaSyBq_nZEz9sZMwEJ28qmbg20CFG1Xo1JGp0";
+
+
+    public static LocationManager getLocationManager(Context context, final LocationListener locationListener) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        // A check is done to avoid crash when NETWORK_PROVIDER is not
+        // available (ex. on emulator with API >= 11)
+        if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)
+                && locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER, 60000, 50, locationListener);
+        }
+        if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)
+                && locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER, 60000, 50, locationListener);
+        } else {
+            locationManager.requestLocationUpdates(
+                    LocationManager.PASSIVE_PROVIDER, 60000, 50, locationListener);
+        }
+        return locationManager;
+    }
+
 
     public static String getAddressFromCoordinates(Context mContext, double latitude,
                                                    double longitude) throws IOException {
@@ -148,10 +174,10 @@ public class GeocodeHelper {
                 jsonResults.append(buff, 0, read);
             }
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error processing Places API URL", e);
+            Ln.e(e, "Error processing Places API URL");
             return resultList;
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error connecting to Places API", e);
+            Ln.e(e, "Error connecting to Places API");
             return resultList;
         } finally {
             if (conn != null) {
@@ -170,9 +196,16 @@ public class GeocodeHelper {
                 resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Cannot process JSON results", e);
+            Ln.e(LOG_TAG, "Cannot process JSON results", e);
         }
 
         return resultList;
+    }
+
+
+    public static boolean areCoordinates(String string) {
+        Pattern p = Pattern.compile("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$");
+        Matcher m = p.matcher(string);
+        return m.matches();
     }
 }

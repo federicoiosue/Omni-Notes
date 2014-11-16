@@ -1,7 +1,5 @@
 package it.feio.android.omninotes;
 
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Stats;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +7,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Stats;
 
 public class StatsActivity extends Activity {
 

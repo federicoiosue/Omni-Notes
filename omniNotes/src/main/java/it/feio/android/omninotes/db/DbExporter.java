@@ -1,6 +1,8 @@
 package it.feio.android.omninotes.db;
 
-import it.feio.android.omninotes.utils.Constants;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,10 +10,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
-import android.util.Log;
+import roboguice.util.Ln;
 
 /**
  * Android DataExporter that allows the passed in SQLiteDatabase to be exported
@@ -43,8 +42,8 @@ public class DbExporter {
 
 	public void export(String dbName, String exportFileNamePrefix)
 			throws IOException {
-		Log.i(Constants.TAG, "exporting database - " + dbName
-				+ " exportFileNamePrefix=" + exportFileNamePrefix);
+		Ln.i("exporting database - " + dbName
+                + " exportFileNamePrefix=" + exportFileNamePrefix);
 
 		this.xmlBuilder = new XmlBuilder();
 		this.xmlBuilder.start(dbName);
@@ -52,12 +51,12 @@ public class DbExporter {
 		// get the tables
 		String sql = "select * from sqlite_master";
 		Cursor c = this.db.rawQuery(sql, new String[0]);
-		Log.d(Constants.TAG, "select * from sqlite_master, cur size "
+		Ln.d("select * from sqlite_master, cur size "
 				+ c.getCount());
 		if (c.moveToFirst()) {
 			do {
 				String tableName = c.getString(c.getColumnIndex("name"));
-				Log.d(Constants.TAG, "table name " + tableName);
+				Ln.d("table name " + tableName);
 
 				// skip metadata, sequence, and uidx (unique indexes)
 				if (!tableName.equals("android_metadata")
@@ -69,11 +68,11 @@ public class DbExporter {
 		}
 		String xmlString = this.xmlBuilder.end();
 		this.writeToFile(xmlString, exportFileNamePrefix + ".xml");
-		Log.i(Constants.TAG, "exporting database complete");
+		Ln.i("exporting database complete");
 	}
 
 	private void exportTable(final String tableName) throws IOException {
-		Log.d(Constants.TAG, "exporting table - " + tableName);
+		Ln.d("exporting table - " + tableName);
 		this.xmlBuilder.openTable(tableName);
 		String sql = "select * from " + tableName;
 		Cursor c = this.db.rawQuery(sql, new String[0]);

@@ -59,6 +59,7 @@
   <string name="delete_selected_image">Supprimer la pièce jointe sélectionnée ?</string>
   <string name="gallery">Galerie</string>
   <string name="location">Emplacement </string>
+  <string name="pushbullet">Pushbullet</string>
   <string name="remove_location">Supprimer la position ?</string>
   <string name="remove_reminder">Supprimer le rappel ?</string>
   <string name="add_reminder">Ajouter un rappel</string>
@@ -170,6 +171,9 @@
   <string name="imported">importé</string>
   <string name="synchronize">Concorder</string>
   <string name="extracted">Extrait</string>
+  <string name="select_all">Select all</string>
+  <string name="search_location">Search location</string>
+  <string name="use_current_location">Use current location</string>
   <string name="dashclock_description">Affiche quelques statistiques et rappels proches d\'Omni Notes</string>
   <string name="settings">Paramètres</string>
   <string name="settings_about">Infos</string>
@@ -182,6 +186,8 @@
   <string name="settings_import">Restaurer ou supprimer les sauvegardes</string>
   <string name="settings_import_from_springpad">Importer les notes de Springpad</string>
   <string name="settings_import_from_springpad_summary">Sélectionnez votre archive Springpad exportée et assurez-vous d\'être connecté à internet</string>
+  <string name="settings_sync_drive">Sync with Google Drive</string>
+  <string name="settings_sync_drive_summary">Register the application to synchronize data on Google Drive storage service</string>
   <string name="export_success">Fichier exporté avec succès dans le dossier</string>
   <string name="export_fail">L\'exportation du fichier a échoué</string>
   <string name="import_success">Fichier importé avec succès</string>
@@ -261,8 +267,12 @@
   <string name="settings_swipe_to_trash">Glisser pour effacer</string>
   <string name="settings_swipe_to_trash_summary_1">Glisser les notes avec le doigt pour les archiver</string>
   <string name="settings_swipe_to_trash_summary_2">Glisser les notes avec le doigt les mettront à la corbeille</string>
+  <string name="settings_show_uncategorized">Group not categorized</string>
+  <string name="settings_show_uncategorized_summary">Adds a new item in navigation menu for not categorized notes</string>
   <string name="settings_show_category_count">Nombre de notes</string>
   <string name="settings_show_category_count_summary">Affiche le nombre de notes associées à côté de la catégorie</string>
+  <string name="settings_auto_location">Automatic location</string>
+  <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
   <string name="tour_request_start">Vous avez lancé Omni Note pour la première fois, souhaitez-vous faire un tour de l\'application ?</string>
   <string name="tour_listactivity_intro_title">Bienvenue dans Omni Notes !</string>
   <string name="tour_listactivity_intro_detail">Appuyez sur \"Continuer\" pour continuer la présentation</string>

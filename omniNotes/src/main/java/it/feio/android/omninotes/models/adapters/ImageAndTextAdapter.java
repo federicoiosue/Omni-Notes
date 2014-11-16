@@ -15,13 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models.adapters;
 
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.ImageAndTextItem;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Fonts;
-
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -31,6 +24,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.neopixl.pixlui.components.textview.TextView;
+
+import java.util.ArrayList;
+
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.models.ImageAndTextItem;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Fonts;
 
 public class ImageAndTextAdapter extends BaseAdapter {
 

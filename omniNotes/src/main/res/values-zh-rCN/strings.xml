@@ -59,6 +59,7 @@
   <string name="delete_selected_image">删除选定的附件？</string>
   <string name="gallery">图库</string>
   <string name="location">位置</string>
+  <string name="pushbullet">Pushbullet</string>
   <string name="remove_location">删除位置？</string>
   <string name="remove_reminder">删除提醒？</string>
   <string name="add_reminder">添加提醒</string>
@@ -170,6 +171,9 @@
   <string name="imported">已导入</string>
   <string name="synchronize">同步</string>
   <string name="extracted">已解压</string>
+  <string name="select_all">全选</string>
+  <string name="search_location">搜索位置</string>
+  <string name="use_current_location">使用当前位置</string>
   <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
   <string name="settings">设置</string>
   <string name="settings_about">信息</string>
@@ -182,6 +186,8 @@
   <string name="settings_import">还原或删除备份</string>
   <string name="settings_import_from_springpad">从Sringpad导入记事</string>
   <string name="settings_import_from_springpad_summary">选择您的Springpad导出存档并确保已连接至网络</string>
+  <string name="settings_sync_drive">与Google Drive同步</string>
+  <string name="settings_sync_drive_summary">注册本应用以将数据同步至Google Drive储存服务</string>
   <string name="export_success">文件成功导出到文件夹</string>
   <string name="export_fail">文件导出失败</string>
   <string name="import_success">文件成功导入</string>
@@ -261,8 +267,12 @@
   <string name="settings_swipe_to_trash">滑动删除</string>
   <string name="settings_swipe_to_trash_summary_1">滑动以将记事归档</string>
   <string name="settings_swipe_to_trash_summary_2">滑动以删除记事</string>
+  <string name="settings_show_uncategorized">未分类组</string>
+  <string name="settings_show_uncategorized_summary">在导航菜单中添加未分类记事项</string>
   <string name="settings_show_category_count">记事数量</string>
   <string name="settings_show_category_count_summary">在类别名称旁显示关联的记事数量</string>
+  <string name="settings_auto_location">自动位置</string>
+  <string name="settings_auto_location_summary">自动将位置信息添加至新记事</string>
   <string name="tour_request_start">这是您第一次使用Omni Note，您是否希望观看用户引导？</string>
   <string name="tour_listactivity_intro_title">欢迎使用 Omni Notes ！</string>
   <string name="tour_listactivity_intro_detail">点击\"继续\"观看引导</string>

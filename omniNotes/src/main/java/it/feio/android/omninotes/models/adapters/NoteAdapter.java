@@ -15,6 +15,25 @@ tas * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
  ******************************************************************************/
 package it.feio.android.omninotes.models.adapters;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.util.SparseBooleanArray;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
+
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.BitmapWorkerTask;
 import it.feio.android.omninotes.async.TextWorkerTask;
@@ -24,26 +43,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
-import it.feio.android.omninotes.utils.TextHelper;
-import java.util.List;
-import java.util.concurrent.RejectedExecutionException;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.text.Spanned;
-import android.util.Log;
-import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import roboguice.util.Ln;
 
 
 public class NoteAdapter extends ArrayAdapter<Note> {
@@ -119,7 +119,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 //				holder.content.setText(titleAndContent[1]);
 //			}
 		} catch (RejectedExecutionException e) {
-			Log.w(Constants.TAG, "Oversized tasks pool to load texts!");
+			Ln.w(e, "Oversized tasks pool to load texts!");
 		}
 
 
@@ -296,7 +296,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 					task.execute(mAttachment);
 				}
 			} catch (RejectedExecutionException e) {
-				Log.w(Constants.TAG, "Oversized tasks pool to load thumbnails!");
+				Ln.w(e, "Oversized tasks pool to load thumbnails!");
 			}
 			holder.attachmentThumbnail.setVisibility(View.VISIBLE);
 //		}

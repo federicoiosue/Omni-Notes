@@ -1,7 +1,6 @@
 package it.feio.android.omninotes.utils;
 
 import android.util.Base64;
-import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -16,6 +15,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+
+import roboguice.util.Ln;
 
 public class Security {
 
@@ -86,29 +87,29 @@ public class Security {
 
             decryptedValue = new String(decrypedValueBytes);
         } catch (InvalidKeyException e) {
-            Log.e(Constants.TAG, "Error decrypting", e);
+            Ln.e(e, "Error decrypting");
             return value;
         } catch (UnsupportedEncodingException e) {
-            Log.e(Constants.TAG, "Error decrypting", e);
+            Ln.e(e, "Error decrypting");
             return value;
         } catch (InvalidKeySpecException e) {
-            Log.e(Constants.TAG, "Error decrypting", e);
+            Ln.e(e, "Error decrypting");
             return value;
         } catch (NoSuchAlgorithmException e) {
-            Log.e(Constants.TAG, "Error decrypting", e);
+            Ln.e(e, "Error decrypting");
             return value;
         } catch (BadPaddingException e) {
-            Log.e(Constants.TAG, "Error decrypting", e);
+            Ln.e(e, "Error decrypting");
             return value;
         } catch (NoSuchPaddingException e) {
-            Log.e(Constants.TAG, "Error decrypting", e);
+            Ln.e(e, "Error decrypting");
             return value;
         } catch (IllegalBlockSizeException e) {
-            Log.e(Constants.TAG, "Error decrypting", e);
+            Ln.e(e, "Error decrypting");
             return value;
         // try-catch ensure compatibility with old masked (without encryption) values
         } catch (IllegalArgumentException e) {
-            Log.e(Constants.TAG, "Error decrypting", e);
+            Ln.e(e, "Error decrypting");
             return value;
         }
         return decryptedValue;

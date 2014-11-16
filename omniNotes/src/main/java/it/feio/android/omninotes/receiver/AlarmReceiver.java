@@ -15,11 +15,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes.receiver;
 
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.SnoozeActivity;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.date.DateHelper;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -30,6 +25,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
+
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.SnoozeActivity;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.date.DateHelper;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -101,18 +102,18 @@ public class AlarmReceiver extends BroadcastReceiver {
 		// big view of the notification.
 		Intent dismissIntent = new Intent(mContext, SnoozeActivity.class);
 		dismissIntent.setAction(Constants.ACTION_DISMISS);
-		dismissIntent.putExtra(Constants.INTENT_NOTE, note);
+		dismissIntent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
 		PendingIntent piDismiss = PendingIntent.getActivity(mContext, 0, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		Intent snoozeIntent = new Intent(mContext, SnoozeActivity.class);
 		snoozeIntent.setAction(Constants.ACTION_SNOOZE);
-		snoozeIntent.putExtra(Constants.INTENT_NOTE, note);
+		snoozeIntent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
 		snoozeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent piSnooze = PendingIntent.getActivity(mContext, 0, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		Intent postponeIntent = new Intent(mContext, SnoozeActivity.class);
 		postponeIntent.setAction(Constants.ACTION_POSTPONE);
-		postponeIntent.putExtra(Constants.INTENT_NOTE, note);
+		postponeIntent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
 		snoozeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent piPostpone = PendingIntent.getActivity(mContext, 0, postponeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		

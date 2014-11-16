@@ -1,10 +1,11 @@
 package it.feio.android.omninotes.models.views;
 
-import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
+
+import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 
 public class InterceptorLinearLayout extends LinearLayout {
 

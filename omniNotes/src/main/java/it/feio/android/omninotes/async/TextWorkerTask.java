@@ -1,15 +1,15 @@
 package it.feio.android.omninotes.async;
 
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.TextHelper;
-
-import java.lang.ref.WeakReference;
-
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
+
+import java.lang.ref.WeakReference;
+
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.TextHelper;
 
 
 public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {

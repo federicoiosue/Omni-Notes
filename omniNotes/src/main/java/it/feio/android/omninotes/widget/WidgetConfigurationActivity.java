@@ -1,12 +1,5 @@
 package it.feio.android.omninotes.widget;
 
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
-
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -18,6 +11,13 @@ import android.widget.CheckBox;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
+
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 
 public class WidgetConfigurationActivity extends Activity {
 

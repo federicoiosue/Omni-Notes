@@ -15,9 +15,21 @@
  ******************************************************************************/
 package it.feio.android.omninotes.async;
 
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.utils.Constants;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
+import android.os.AsyncTask;
+
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,22 +40,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.json.JSONObject;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.util.Log;
-
-import com.google.analytics.tracking.android.MapBuilder;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.utils.Constants;
+import roboguice.util.Ln;
 
 public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
@@ -93,7 +93,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			}
 
 		} catch (Exception e) {
-			Log.w(Constants.TAG, "Error fetching app metadata", e);
+			Ln.w(e, "Error fetching app metadata");
 		}
 
 		return null;
@@ -199,9 +199,9 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			is.close();
 
 		} catch (MalformedURLException e) {
-			Log.e(Constants.TAG, "Error fetching app metadata", e);
+			Ln.e(e, "Error fetching app metadata");
 		} catch (IOException e) {
-			Log.w(Constants.TAG, "Error fetching app metadata", e);
+			Ln.w(e, "Error fetching app metadata");
 		}
 	
 		return sb.toString();

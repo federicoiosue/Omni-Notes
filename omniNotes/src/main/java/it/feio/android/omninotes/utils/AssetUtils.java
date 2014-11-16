@@ -15,11 +15,11 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils;
 
+import android.content.res.AssetManager;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-
-import android.content.res.AssetManager;
 
 public class AssetUtils {
 

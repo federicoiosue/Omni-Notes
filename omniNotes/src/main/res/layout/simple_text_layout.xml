@@ -3,4 +3,5 @@
     android:id="@+id/textview"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"/>
+    android:textAppearance="@style/Text.Normal"
+    android:padding="6dp" />

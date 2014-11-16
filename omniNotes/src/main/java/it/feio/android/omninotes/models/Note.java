@@ -12,12 +12,14 @@
  ******************************************************************************/
 package it.feio.android.omninotes.models;
 
-import it.feio.android.omninotes.utils.date.DateHelper;
-import java.util.ArrayList;
-import java.util.List;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import it.feio.android.omninotes.utils.date.DateHelper;
 
 public class Note extends it.feio.android.omninotes.commons.models.Note implements Parcelable {
 

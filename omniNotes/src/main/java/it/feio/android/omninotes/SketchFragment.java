@@ -1,15 +1,5 @@
 package it.feio.android.omninotes;
 
-import it.feio.android.checklistview.utils.AlphaManager;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
-import it.feio.android.omninotes.models.views.SketchView;
-import it.feio.android.omninotes.utils.Constants;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -22,7 +12,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +32,16 @@ import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import it.feio.android.checklistview.utils.AlphaManager;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
+import it.feio.android.omninotes.models.views.SketchView;
+import roboguice.util.Ln;
 
 public class SketchFragment extends Fragment implements OnDrawChangedListener{
 
@@ -117,7 +115,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 				bmp = BitmapFactory.decodeStream(mActivity.getContentResolver().openInputStream(baseUri));
 				mSketchView.setBackgroundBitmap(mActivity, bmp);
 			} catch (FileNotFoundException e) {
-				Log.e(Constants.TAG, "Error replacing sketch bitmap background");
+				Ln.e(e, "Error replacing sketch bitmap background");
 			}
 		}
 
@@ -289,7 +287,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 				}
 	
 			} catch (Exception e) {
-				Log.d(Constants.TAG, "Error writing sketch image data", e);
+				Ln.e(e, "Error writing sketch image data");
 			}
 		}
 //		mActivity.getSupportFragmentManager().popBackStack(); 
@@ -359,7 +357,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 		
 		int newSize = (int) Math.round( (size/100f) * calcProgress);
 		int offset = (int) Math.round( (size-newSize) / 2);					
-		Log.v(Constants.TAG, "Stroke size " + newSize + " (" + calcProgress + "%)");
+		Ln.v("Stroke size " + newSize + " (" + calcProgress + "%)");
 		
 		LayoutParams lp = new LayoutParams(newSize, newSize);
 		lp.setMargins(offset, offset, offset, offset);	

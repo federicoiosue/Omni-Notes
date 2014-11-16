@@ -1,13 +1,5 @@
 package it.feio.android.omninotes;
 
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
-import it.feio.android.omninotes.receiver.AlarmReceiver;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.date.ReminderPickers;
-
-import java.util.Calendar;
-
 import android.app.AlarmManager;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.NotificationManager;
@@ -20,6 +12,14 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+
+import java.util.Calendar;
+
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
+import it.feio.android.omninotes.receiver.AlarmReceiver;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.date.ReminderPickers;
 
 public class SnoozeActivity extends FragmentActivity implements OnReminderPickedListener, OnDateSetListener, OnTimeSetListener {
 
@@ -71,7 +71,7 @@ public class SnoozeActivity extends FragmentActivity implements OnReminderPicked
 	
 	private void setAlarm(Note note, long newAlarm) {
 		Intent intent = new Intent(this, AlarmReceiver.class);
-		intent.putExtra(Constants.INTENT_NOTE, note);
+		intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
 		PendingIntent sender = PendingIntent.getBroadcast(this, Constants.INTENT_ALARM_CODE, intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 		AlarmManager am = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);

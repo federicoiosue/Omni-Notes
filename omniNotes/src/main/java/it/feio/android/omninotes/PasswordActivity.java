@@ -1,20 +1,20 @@
 package it.feio.android.omninotes;
 
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Security;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Security;
 
 public class PasswordActivity extends BaseActivity {
 

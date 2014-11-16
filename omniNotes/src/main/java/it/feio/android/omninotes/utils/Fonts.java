@@ -1,16 +1,16 @@
 package it.feio.android.omninotes.utils;
 
-import it.feio.android.checklistview.utils.DensityUtil;
-import it.feio.android.omninotes.R;
-
-import java.util.Arrays;
-
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.Arrays;
+
+import it.feio.android.checklistview.utils.DensityUtil;
+import it.feio.android.omninotes.R;
+import roboguice.util.Ln;
 
 public class Fonts {
 	/**
@@ -42,7 +42,7 @@ public class Fonts {
 				((TextView) v).setTextSize(currentSize + offset);
 			}
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Error setting font size", e);
+			Ln.e(e, "Error setting font size");
 		}
 	}
 }

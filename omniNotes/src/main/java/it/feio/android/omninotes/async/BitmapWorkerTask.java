@@ -1,11 +1,5 @@
 package it.feio.android.omninotes.async;
 
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
-import it.feio.android.omninotes.models.views.SquareImageView;
-import it.feio.android.omninotes.utils.BitmapHelper;
-import java.lang.ref.WeakReference;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -15,9 +9,18 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 
+import java.lang.ref.WeakReference;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
+import it.feio.android.omninotes.models.views.SquareImageView;
+import it.feio.android.omninotes.utils.BitmapHelper;
+
 public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 
-	private final int FADE_IN_TIME = 200;
+    private final int FADE_IN_TIME = 200;
+    private final int QUALITY_FACTOR = 90;
 
 	private final Activity mActivity;
 	private final WeakReference<SquareImageView> imageViewReference;
@@ -31,14 +34,13 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 	public BitmapWorkerTask(Activity activity, SquareImageView imageView, int width, int height) {
 		this.mActivity = activity;
 		imageViewReference = new WeakReference<SquareImageView>(imageView);
-		this.width = width;
-		this.height = height;
+		this.width = width / 100 * QUALITY_FACTOR;
+		this.height = height / 100 * QUALITY_FACTOR;
 	}
 
 
 	@Override
 	protected Bitmap doInBackground(Attachment... params) {
-		Bitmap bmp = null;
 		mAttachment = params[0];
 
 		String path = mAttachment.getUri().getPath();
@@ -47,7 +49,7 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 		String cacheKey = path + width + height;
 
 		// Fetch from cache if possible
-		bmp = OmniNotes.getBitmapCache().getBitmap(cacheKey);
+		Bitmap bmp = OmniNotes.getBitmapCache().getBitmap(cacheKey);
 
 		// Creates thumbnail
 		if (bmp == null) {
@@ -57,7 +59,6 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 				OmniNotes.getBitmapCache().addBitmap(cacheKey, bmp);
 			}
 		}
-
 		return bmp;
 	}
 
@@ -88,7 +89,7 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 			final SquareImageView imageView = imageViewReference.get();
 
 			// Checks if is still the task in charge to load image on that imageView
-			if (imageView != null && this == (BitmapWorkerTask) imageView.getAsyncTask()) {
+			if (imageView != null && this == imageView.getAsyncTask()) {
 
 				// If the bitmap was already cached it will be directly attached to view
 				if (wasCached) {

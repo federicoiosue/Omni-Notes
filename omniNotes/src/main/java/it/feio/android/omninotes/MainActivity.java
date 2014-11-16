@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -37,6 +36,8 @@ import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
+import roboguice.util.Ln;
+
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, OnPushBulletReplyListener {
 
@@ -49,7 +50,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	private FragmentManager mFragmentManager;
 
     public boolean loadNotesSync = Constants.LOAD_NOTES_SYNC;
-	
+
 	public Uri sketchUri;
 
 	@Override
@@ -67,8 +68,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		task.execute();
 	}
 
-	
-	
+
+
 	private void checkPassword() {
 		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& prefs.getBoolean("settings_password_access", false)) {
@@ -82,7 +83,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 					}
 				}
 			});
-		} else {	
+		} else {
 			init();
 		}
 	}
@@ -91,7 +92,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public static MainActivity getInstance() {
         return instance;
     }
-	
+
 
 	private void init() {
 		mFragmentManager = getSupportFragmentManager();
@@ -101,26 +102,26 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 			fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment(), FRAGMENT_DRAWER_TAG).commit();
 		}
-		
+
 		if (mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 			fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG).commit();
 		}
-		
+
 		// Handling of Intent actions
 		handleIntents();
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void onLowMemory() {
-		Log.w(Constants.TAG, "Low memory, bitmap cache will be cleaned!");
+		Ln.w("Low memory, bitmap cache will be cleaned!");
 		OmniNotes.getBitmapCache().evictAll();
 		super.onLowMemory();
 	}
-	
-	
+
+
 
 	@Override
 	protected void onNewIntent(Intent intent) {
@@ -129,12 +130,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 		setIntent(intent);
 		handleIntents();
-		Log.d(Constants.TAG, "onNewIntent");
+		Ln.d("onNewIntent");
 		super.onNewIntent(intent);
 	}
 
-	
-	
+
+
 	public MenuItem getSearchMenuItem() {
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
@@ -147,8 +148,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	public void editTag(Category tag) {
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
-			((ListFragment)f).editCategory(tag);			
-		} 
+			((ListFragment)f).editCategory(tag);
+		}
 	}
 
 	public void initNotesList(Intent intent) {
@@ -159,30 +160,30 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 				AlphaManager.setAlpha(findViewById(R.id.notes_list), 0);
 			}
 			((ListFragment)f).toggleSearchLabel(false);
-			((ListFragment)f).initNotesList(intent);			
-		} 
+			((ListFragment)f).initNotesList(intent);
+		}
 	}
 
 	public void commitPending() {
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
-			((ListFragment)f).commitPending();			
-		} 
+			((ListFragment)f).commitPending();
+		}
 	}
 
 	public void editNote(Note note) {
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
-			((ListFragment)f).editNote(note);	
-		} 
+			((ListFragment)f).editNote(note);
+		}
 	}
 
 	public void initNavigationDrawer() {
 		Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
 		if (f != null) ((NavigationDrawerFragment) f).initNavigationDrawer();
 	}
-	
-	
+
+
 	/**
 	 * Checks if allocated fragment is of the required type and then returns it or returns null
 	 */
@@ -196,38 +197,38 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 		return result;
 	}
-	
-	
+
+
 	/*
 	 * (non-Javadoc)
 	 * @see android.support.v7.app.ActionBarActivity#onBackPressed()
-	 * 
+	 *
 	 * Overrides the onBackPressed behavior for the attached fragments
 	 */
 	public void onBackPressed() {
 
 		Fragment f;
-		
+
 		// SketchFragment
 		f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
 		if (f != null) {
 			((SketchFragment)f).save();
-			
+
 			// Removes forced portrait orientation for this fragment
 			setRequestedOrientation(
 	                ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-			
-			mFragmentManager.popBackStack(); 
+
+			mFragmentManager.popBackStack();
 			return;
-		} 
-		
+		}
+
 		// DetailFragment
 		f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
 		if (f != null) {
 			((DetailFragment)f).goBack = true;
-			((DetailFragment)f).saveAndExit((DetailFragment)f);	
+			((DetailFragment)f).saveAndExit((DetailFragment)f);
 			return;
-		} 
+		}
 
 		// ListFragment
 		f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
@@ -241,37 +242,37 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 				super.onBackPressed();
 			}
 			return;
-		} 
+		}
 		super.onBackPressed();
 	}
 
-	
-	
+
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString("navigationTmp", navigationTmp);
 	}
-	
-	
+
+
 	@Override
 	protected void onPause() {
 		super.onPause();
 		Crouton.cancelAllCroutons();
 	}
-	
-	
+
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 	}
 
-	
+
 	public DrawerLayout getDrawerLayout() {
         return ((DrawerLayout) findViewById(R.id.drawer_layout));
 	}
-	
-	
+
+
 	public ActionBarDrawerToggle getDrawerToggle() {
 		if (mFragmentManager != null && mFragmentManager.findFragmentById(R.id.navigation_drawer) != null) {
 			return ((NavigationDrawerFragment)mFragmentManager.findFragmentById(R.id.navigation_drawer)).mDrawerToggle;
@@ -279,8 +280,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			return null;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Finishes multiselection mode started by ListFragment
 	 */
@@ -288,66 +289,67 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		ListFragment fragment = (ListFragment)mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG);
 		if (fragment != null) {
 			fragment.finishActionMode();
-		} 
+		}
 	}
-	
-	
+
+
 	private void handleIntents() {
 		Intent i = getIntent();
-		
+
 		if (i.getAction() == null) return;
-		
+
 		if (Constants.ACTION_RESTART_APP.equals(i.getAction())) {
 			OmniNotes.restartApp(getApplicationContext());
 		}
-		
+
 		// Action called from widget
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
 			|| Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())
 			|| Constants.ACTION_WIDGET.equals(i.getAction())
 			|| Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
-			
-			|| ( ( Intent.ACTION_SEND.equals(i.getAction()) 
-					|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction()) 
-					|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) ) 
-					&& i.getType() != null)		
-				
+
+			|| ( ( Intent.ACTION_SEND.equals(i.getAction())
+					|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
+					|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) )
+					&& i.getType() != null)
+
 			|| i.getAction().contains(Constants.ACTION_NOTIFICATION_CLICK)
-					
+
 					) {
 			Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
 			if (note == null) {
 				note = DbHelper.getInstance(this).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
 			}
-			
-			// Checks if the same note is already opened to avoid to open again
-			Fragment detailFragment = mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
-			if (note != null && detailFragment != null && detailFragment.isVisible()) {
-				Note openedNote = ((DetailFragment)detailFragment).getCurrentNote();
-				if (note.get_id() == openedNote.get_id()) {
-					return;
-				}
-			} 
-			
+
+            // Checks if the same note is already opened to avoid to open again
+            if (note != null && noteAlreadyOpened(note)) {
+                return;
+            }
+
 			// Empty note instantiation
 			if (note == null) {
 				note = new Note();
 			}
-			
+
 			switchToDetail(note);
 		}
-		
+
 		// Tag search
 		if (Intent.ACTION_VIEW.equals(i.getAction())) {
 			switchToList();
 		}
 	}
-	
-	
+
+    private boolean noteAlreadyOpened(Note note) {
+        DetailFragment detailFragment = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
+        if (detailFragment != null && detailFragment.getCurrentNote().get_id() == note.get_id()) {
+            return true;
+        }
+        return false;
+    }
 
 
-	
-	public void switchToList() {
+    public void switchToList() {
 		FragmentTransaction transaction = mFragmentManager.beginTransaction();
 		animateTransition(transaction, TRANSITION_HORIZONTAL);
 		ListFragment mListFragment = new ListFragment();
@@ -358,7 +360,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		mFragmentManager.getFragments();
 	}
 
-	
+
 	public void switchToDetail(Note note) {
 		FragmentTransaction transaction = mFragmentManager.beginTransaction();
 		animateTransition(transaction, TRANSITION_HORIZONTAL);
@@ -366,25 +368,30 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		Bundle b = new Bundle();
 		b.putParcelable(Constants.INTENT_NOTE, note);
 		mDetailFragment.setArguments(b);
-		transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_LIST_TAG).commitAllowingStateLoss();
+        if (mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
+            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_LIST_TAG).commitAllowingStateLoss();
+        } else {
+            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
+        }
+
 		if (getDrawerToggle() != null) {
 			getDrawerToggle().setDrawerIndicatorEnabled(false);
 		}
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Notes sharing
 	 */
 	public void shareNote(Note note) {
-		
+
 		String titleText = note.getTitle();
-		
-		String contentText = titleText 
+
+		String contentText = titleText
 								+ System.getProperty("line.separator")
 								+ note.getContent();
-		
+
 
 		Intent shareIntent = new Intent();
 		// Prepare sharing intent with only text
@@ -418,7 +425,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			} else {
 				shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
 			}
-			
+
 			shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
 			shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
 			shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
@@ -426,13 +433,13 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 		startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
 	}
-	
-	
 
-	
+
+
+
 	/**
 	 * Single note permanent deletion
-	 * 
+	 *
 	 * @param note
 	 *            Note to be deleted
 	 */
@@ -449,7 +456,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 //		}
 
 		// Informs about update
-		Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
+		Ln.d("Deleted permanently note with id '" + note.get_id() + "'");
 	}
 
 
@@ -491,7 +498,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 	}
 
-	
+
 
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear,

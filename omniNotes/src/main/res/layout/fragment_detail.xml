@@ -201,10 +201,4 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- <View -->
-    <!-- android:id="@+id/keyboard_placeholder" -->
-    <!-- android:layout_width="match_parent" -->
-    <!-- android:layout_height="0dp" > -->
-    <!-- </View> -->
-
 </LinearLayout>

@@ -15,9 +15,8 @@
  ******************************************************************************/
 package it.feio.android.omninotes.utils;
 
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Note;
+import android.content.Context;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -28,9 +27,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Note;
+import roboguice.util.Ln;
 
 public class ImportExportExcel {
 	
@@ -49,7 +49,7 @@ public class ImportExportExcel {
 
 	public Boolean exportDataToCSV(String path) {
 
-		Log.e("excel", "in exportDatabasecsv()");
+		Ln.e("excel", "in exportDatabasecsv()");
 		Boolean returnCode = false;
 
 		String csvHeader = "";
@@ -65,11 +65,11 @@ public class ImportExportExcel {
 			String fileName = Constants.EXPORT_FILE_NAME + ".csv";
 			File outFile = new File(path, fileName);
 			FileWriter fileWriter = new FileWriter(outFile, false);
-			Log.e("after FileWriter :file name", outFile.toString());
+			Ln.e("after FileWriter :file name", outFile.toString());
 			BufferedWriter out = new BufferedWriter(fileWriter);
 
 			List<Note> notesList = db.getAllNotes(false);
-			Log.i(Constants.TAG, "Exporting " + notesList.size() + " notes");
+			Ln.i("Exporting " + notesList.size() + " notes");
 
 			csvHeader += "\"" + "Id" + "\",";
 			csvHeader += "\"" + "Creation" + "\",";
@@ -89,7 +89,7 @@ public class ImportExportExcel {
 					csvValues += "\"" + note.isArchived() + "\";\n";
 
 					out.write(csvValues);
-					Log.v(Constants.TAG, "Note values are: " + csvValues);
+					Ln.v("Note values are: " + csvValues);
 				}
 
 			}
@@ -98,7 +98,7 @@ public class ImportExportExcel {
 			returnCode = true;
 		} catch (Exception e) {
 			returnCode = false;
-			Log.e(Constants.TAG, "Error exportin csv: " + e.getMessage());
+			Ln.e("Error exportin csv: " + e.getMessage());
 		}
 
 		db.close();
@@ -112,7 +112,7 @@ public class ImportExportExcel {
 		String fileName = Constants.EXPORT_FILE_NAME + ".csv";
 		File file = new File(path, fileName);
 		if (!file.exists()) {
-			Log.w(Constants.TAG, "File to import doesn't exists");
+			Ln.w("File to import doesn't exists");
 			if (!silentMode)
 				Toast.makeText(context, context.getString(R.string.file_not_exists), Toast.LENGTH_SHORT).show();
 			return false;

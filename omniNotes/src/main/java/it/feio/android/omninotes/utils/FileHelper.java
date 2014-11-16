@@ -1,9 +1,5 @@
 package it.feio.android.omninotes.utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
@@ -14,7 +10,13 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+import roboguice.util.Ln;
 
 public class FileHelper {
 	/**
@@ -124,7 +126,7 @@ public class FileHelper {
 				return cursor.getString(column_index);
 			}
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Error retrieving uri path", e);
+			Ln.e(e, "Error retrieving uri path");
 		} finally {
 			if (cursor != null)
 				cursor.close();
@@ -184,7 +186,7 @@ public class FileHelper {
 //			InputStream is = mContext.getContentResolver().openInputStream(uri);			
 //			f = getFileFromInputStream(mContext, is, getNameFromUri(mContext, uri));
 //		} catch (FileNotFoundException e) {
-//			Log.e(Constants.TAG, "Error creating InputStream", e);
+//			Ln.e("Error creating InputStream", e);
 //		}
 //		return f;
 //	}
@@ -227,7 +229,7 @@ public class FileHelper {
 //			f = StorageManager.createExternalStoragePrivateFile(mContext, uri, extension)
 //			f.deleteOnExit();
 //		} catch (IOException e1) {
-//			Log.e(Constants.TAG, "Error creating file from InputStream", e1);
+//			Ln.e("Error creating file from InputStream", e1);
 //			return file;
 //		}
 //		OutputStream outputStream = null;
@@ -249,7 +251,7 @@ public class FileHelper {
 //				try {
 //					inputStream.close();
 //				} catch (IOException e) {
-//					Log.e(Constants.TAG,
+//					Ln.e(Constants.TAG,
 //							"Error closing InputStream", e);
 //				}
 //			}
@@ -259,7 +261,7 @@ public class FileHelper {
 //					file = f;
 //					outputStream.close();
 //				} catch (IOException e) {
-//					Log.e(Constants.TAG,
+//					Ln.e(Constants.TAG,
 //							"Error closing OutputStream", e);
 //				}
 //

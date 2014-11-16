@@ -12,32 +12,6 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
-import it.feio.android.omninotes.async.NoteLoaderTask;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.models.UndoBarController;
-import it.feio.android.omninotes.models.UndoBarController.UndoListener;
-import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
-import it.feio.android.omninotes.models.adapters.NoteAdapter;
-import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
-import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
-import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
-import it.feio.android.omninotes.utils.AppTourHelper;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Display;
-import it.feio.android.omninotes.utils.Navigation;
-import it.feio.android.omninotes.utils.sync.drive.DriveSyncTask;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -61,7 +35,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -79,17 +52,48 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.neopixl.pixlui.links.RegexPatternsConstants;
-import com.neopixl.pixlui.links.UrlCompleter;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import it.feio.android.omninotes.async.NoteLoaderTask;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.UndoBarController;
+import it.feio.android.omninotes.models.UndoBarController.UndoListener;
+import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
+import it.feio.android.omninotes.models.adapters.NoteAdapter;
+import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
+import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
+import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
+import it.feio.android.omninotes.utils.AppTourHelper;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.pixlui.links.RegexPatternsConstants;
+import it.feio.android.pixlui.links.UrlCompleter;
+import roboguice.util.Ln;
+
+import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 public class ListFragment extends Fragment implements UndoListener, OnNotesLoadedListener {
 
@@ -342,7 +346,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			listView.clearChoices();
 
 			mActionMode = null;
-			Log.d(Constants.TAG, "Closed multiselection contextual menu");
+			Ln.d("Closed multiselection contextual menu");
 
 			// Updates app widgets
 			BaseActivity.notifyAppWidgets(getActivity());
@@ -703,9 +707,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
                 case R.id.menu_select_all:
                     selectAllNotes();
                     break;
-                case R.id.menu_synchronize:
-                    synchronizeSelectedNotes();
-                    break;
+//                case R.id.menu_synchronize:
+//                    synchronizeSelectedNotes();
+//                    break;
             }
         }
         return super.onOptionsItemSelected(item);
@@ -757,7 +761,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	void editNote2(Note note) {
 
 		if (note.get_id() == 0) {
-			Log.d(Constants.TAG, "Adding new note");
+			Ln.d("Adding new note");
 			// if navigation is a tag it will be set into note
 			try {
 				int tagId;
@@ -769,7 +773,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				note.setCategory(DbHelper.getInstance(getActivity()).getCategory(tagId));
 			} catch (NumberFormatException e) {}
 		} else {
-			Log.d(Constants.TAG, "Editing note with id: " + note.get_id());
+			Ln.d("Editing note with id: " + note.get_id());
 		}
 
 		// Current list scrolling position is saved to be restored later
@@ -912,7 +916,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Notes list adapter initialization and association to view
 	 */
 	void initNotesList(Intent intent) {
-		Log.d(Constants.TAG, "initNotesList intent: " + intent.getAction());
+		Ln.d("initNotesList intent: " + intent.getAction());
 
 		NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
 
@@ -1138,7 +1142,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// Update adapter content
 		mAdapter.remove(note);
 		// Informs about update
-		Log.d(Constants.TAG, "Trashed/restored note with id '" + note.get_id() + "'");
+		Ln.d("Trashed/restored note with id '" + note.get_id() + "'");
 	}
 
 
@@ -1276,7 +1280,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		}
 		// Informs the user about update
 		BaseActivity.notifyAppWidgets(getActivity());
-		Log.d(Constants.TAG, "Note with id '" + note.get_id() + "' " + (archive ? "archived" : "restored from archive"));
+		Ln.d("Note with id '" + note.get_id() + "' " + (archive ? "archived" : "restored from archive"));
 	}
 
 
@@ -1510,13 +1514,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	}
 
 
-	private void synchronizeSelectedNotes() {
-		new DriveSyncTask(getActivity()).execute(new ArrayList<Note>(selectedNotes));
-		// Clears data structures
-		mAdapter.clearSelectedItems();
-		listView.clearChoices();
-		finishActionMode();
-	}
+//	private void synchronizeSelectedNotes() {
+//		new DriveSyncTask(getActivity()).execute(new ArrayList<Note>(selectedNotes));
+//		// Clears data structures
+//		mAdapter.clearSelectedItems();
+//		listView.clearChoices();
+//		finishActionMode();
+//	}
 
 
 	@Override
@@ -1745,7 +1749,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 						// Saved here to allow persisting search
 						searchTags = tags.toString().substring(1, tags.toString().length() - 1).replace(" ", "");
 						Intent intent = getActivity().getIntent();
-						// intent.setAction(null);
+
+                        // Hides keyboard
+                        searchView.clearFocus();
+                        KeyboardUtils.hideKeyboard(searchView);
+
 						intent.removeExtra(SearchManager.QUERY);
 						initNotesList(intent);
 

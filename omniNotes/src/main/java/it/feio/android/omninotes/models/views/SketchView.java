@@ -1,9 +1,5 @@
 package it.feio.android.omninotes.models.views;
 
-import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
-
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,6 +12,10 @@ import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+
+import java.util.ArrayList;
+
+import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 
 public class SketchView extends View implements OnTouchListener {
 
