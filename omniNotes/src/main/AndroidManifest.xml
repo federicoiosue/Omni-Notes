@@ -171,10 +171,6 @@
             android:name="it.feio.android.omninotes.StatsActivity"
             android:theme="@style/Theme.AppCompat.Dialog" />
 
-        <!-- Stats -->
-        <activity
-            android:name="it.feio.android.omninotes.utils.sync.drive.DriveActivity"/>
-
         <!-- ACRA -->
         <activity
             android:name="org.acra.CrashReportDialog"

@@ -326,8 +326,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			}
 
             // Checks if the same note is already opened to avoid to open again
-            if (note != null) {
-                note = removeExistentDetailFragment(note);
+            if (note != null && noteAlreadyOpened(note)) {
+                return;
             }
 
 			// Empty note instantiation
@@ -344,18 +344,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 	}
 
-    private Note removeExistentDetailFragment(Note note) {
-        for (Fragment fragment : mFragmentManager.getFragments()) {
-            if (fragment.getTag().equals(FRAGMENT_DETAIL_TAG)) {
-                Note openedNote = ((DetailFragment)fragment).getCurrentNote();
-                if (note.get_id() == openedNote.get_id()) {
-                    note = openedNote;
-                    mFragmentManager.beginTransaction().remove(fragment).commit();
-                    break;
-                }
-            }
+    private boolean noteAlreadyOpened(Note note) {
+        DetailFragment detailFragment = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
+        if (detailFragment != null && detailFragment.getCurrentNote().get_id() == note.get_id()) {
+            return true;
         }
-        return note;
+        return false;
     }
 
 
@@ -378,7 +372,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		Bundle b = new Bundle();
 		b.putParcelable(Constants.INTENT_NOTE, note);
 		mDetailFragment.setArguments(b);
-		transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_LIST_TAG).commitAllowingStateLoss();
+        if (mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
+            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_LIST_TAG).commitAllowingStateLoss();
+        } else {
+            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
+        }
+
 		if (getDrawerToggle() != null) {
 			getDrawerToggle().setDrawerIndicatorEnabled(false);
 		}

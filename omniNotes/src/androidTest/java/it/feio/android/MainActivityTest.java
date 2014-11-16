@@ -40,10 +40,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 }
 
 
-class TestFragment1 extends Fragment {
+class TestFragment extends Fragment {
     private String tag;
 
-    public TestFragment1(String tag) {
+    public TestFragment(String tag) {
 		this.tag = tag;
     }
 
