@@ -22,6 +22,8 @@ import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -64,17 +66,25 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         // This method starts the bootstrap chain.
 		requestShowCaseViewVisualization();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initUI();
 
 		// Launching update task
 		UpdaterTask task = new UpdaterTask(this);
 		task.execute();
 	}
 
+    private void initUI() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+//        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+//        tintManager.setStatusBarTintEnabled(true);
+//        tintManager.setNavigationBarTintEnabled(true);
+//        tintManager.setNavigationBarTintResource(R.color.kitkat_gray_dark);
+//        tintManager.setStatusBarTintDrawable(getResources().getDrawable(R.drawable.abc_ab_share_pack_holo_light));
+    }
 
 
-	private void checkPassword() {
+    private void checkPassword() {
 		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& prefs.getBoolean("settings_password_access", false)) {
 			requestPassword(this, new PasswordValidator() {

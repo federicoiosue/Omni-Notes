@@ -17,9 +17,9 @@
 <resources>
 
     <!-- Material -->
-     <color name="indigo_500">#3F51B5</color>
-    <color name="indigo_700">#303F9F</color>
-    <color name="indigo_100">#C5CAE9</color>
+     <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#3949AB</color>
+    <color name="colorAccent">#C5CAE9</color>
 
 
     <color name="navigation_bg">#ffffffff</color>

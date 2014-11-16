@@ -23,6 +23,7 @@
         android:id="@+id/list_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/gray_bg"
         android:orientation="vertical">
 
         <LinearLayout
