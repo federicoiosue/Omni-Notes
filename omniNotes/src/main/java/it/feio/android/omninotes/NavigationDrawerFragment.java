@@ -119,7 +119,8 @@ public class NavigationDrawerFragment extends Fragment {
 
 		mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
 		mDrawerLayout.setFocusableInTouchMode(false);
-		
+        mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.indigo_700));
+
 		// Setting specific bottom margin for Kitkat with translucent nav bar
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			View leftDrawer = getView().findViewById(R.id.left_drawer);

@@ -16,6 +16,12 @@
 -->
 <resources>
 
+    <!-- Material -->
+     <color name="indigo_500">#3F51B5</color>
+    <color name="indigo_700">#303F9F</color>
+    <color name="indigo_100">#C5CAE9</color>
+
+
     <color name="navigation_bg">#ffffffff</color>
     <color name="gray_bg">#e2e2e2</color>
     <color name="list_bg">#eeffffff</color>

@@ -15,40 +15,27 @@
   limitations under the License.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    android:id="@+id/root"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="102dp"
-    android:background="@drawable/bg_card"
-    android:paddingBottom="2dp" >
+             xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+             android:id="@+id/root"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:minHeight="102dp"
+             android:background="@drawable/bg_card"
+             android:paddingBottom="2dp">
 
     <LinearLayout
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <View
             android:id="@+id/category_marker"
             android:layout_width="10dp"
-   			android:minHeight="100dp"
+            android:minHeight="100dp"
             android:layout_height="match_parent"
-            android:background="@null" />
+            android:background="@null"/>
 
-        
-<!--         <LinearLayout -->
-<!--             android:layout_width="0dp" -->
-<!--             android:layout_height="match_parent" -->
-<!--             android:layout_weight="1" -->
-<!--             android:minHeight="100dp" -->
-<!--             android:orientation="vertical" -->
-<!--             android:paddingBottom="7dp" -->
-<!--             android:paddingStart="6dp" -->
-<!--             android:paddingLeft="6dp" -->
-<!--             android:paddingEnd="16dp" -->
-<!--             android:paddingRight="16dp" -->
-<!--             android:paddingTop="7dp" > -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -58,7 +45,7 @@
             android:paddingBottom="7dp"
             android:paddingLeft="6dp"
             android:paddingRight="16dp"
-            android:paddingTop="7dp" >
+            android:paddingTop="7dp">
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/note_title"
@@ -67,7 +54,7 @@
                 android:layout_gravity="top|left"
                 android:singleLine="true"
                 android:textAppearance="@style/Text.Big"
-                pixlui:typeface="RobotoSlab-Bold.ttf" />
+                pixlui:typeface="RobotoSlab-Bold.ttf"/>
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/note_content"
@@ -78,13 +65,13 @@
                 android:maxLines="2"
                 android:textAppearance="@style/Text.Normal"
                 android:visibility="invisible"
-                pixlui:typeface="RobotoSlab-Regular.ttf" />
+                pixlui:typeface="RobotoSlab-Regular.ttf"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|left"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <com.neopixl.pixlui.components.textview.TextView
                     android:id="@+id/note_date"
@@ -95,7 +82,7 @@
                     android:alpha="0.5"
                     android:gravity="bottom|left"
                     android:textAppearance="@style/Text.Small"
-                    pixlui:typeface="Roboto-Regular.ttf" />
+                    pixlui:typeface="Roboto-Regular.ttf"/>
 
                 <ImageView
                     android:id="@+id/alarmIcon"
@@ -104,7 +91,7 @@
                     android:layout_gravity="bottom|right"
                     android:contentDescription="@string/note_reminder_symbol"
                     android:src="@drawable/ic_reminder_dark"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/locationIcon"
@@ -112,7 +99,7 @@
                     android:layout_height="15dp"
                     android:layout_gravity="bottom|right"
                     android:src="@drawable/ic_location_dark"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/archivedIcon"
@@ -120,15 +107,15 @@
                     android:layout_height="15dp"
                     android:layout_gravity="bottom|right"
                     android:src="@drawable/ic_archive_dark"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
 
-<!--                 <ImageView -->
-<!--                     android:id="@+id/trashedIcon" -->
-<!--                     android:layout_width="15dp" -->
-<!--                     android:layout_height="15dp" -->
-<!--                     android:layout_gravity="top|end" -->
-<!--                     android:src="@drawable/ic_action_discard" -->
-<!--                     android:visibility="gone" /> -->
+                <!--                 <ImageView -->
+                <!--                     android:id="@+id/trashedIcon" -->
+                <!--                     android:layout_width="15dp" -->
+                <!--                     android:layout_height="15dp" -->
+                <!--                     android:layout_gravity="top|end" -->
+                <!--                     android:src="@drawable/ic_action_discard" -->
+                <!--                     android:visibility="gone" /> -->
 
                 <ImageView
                     android:id="@+id/lockedIcon"
@@ -136,7 +123,7 @@
                     android:layout_height="15dp"
                     android:layout_gravity="bottom|right"
                     android:src="@drawable/ic_action_secure"
-                    android:visibility="gone" />
+                    android:visibility="gone"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -145,7 +132,7 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/note_thumbnail"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
 </FrameLayout>
