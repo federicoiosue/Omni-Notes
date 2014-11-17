@@ -22,8 +22,6 @@ import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

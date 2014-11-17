@@ -46,7 +46,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:6.1.71'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'org.roboguice:roboguice:3.0'
-    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    compile 'com.melnykov:floatingactionbutton:1.0.7'
 
     compile 'it.feio.android:simplegallery:1.1.0'
     compile 'it.feio.android:springpadimporter:1.0.0'

@@ -15,6 +15,7 @@
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+             xmlns:fab="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:fitsSystemWindows="true">
@@ -85,6 +86,7 @@
                 android:visibility="gone"
                 pixlui:typeface="Roboto-Regular.ttf"/>
         </LinearLayout>
+
     </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
 
     <LinearLayout
@@ -103,5 +105,16 @@
             android:id="@+id/undobar_button"
             style="@style/UndoBarButton"/>
     </LinearLayout>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_action_new"
+        fab:fab_colorNormal="@color/white"
+        fab:fab_colorPressed="@color/white_pressed"
+        fab:fab_colorRipple="@color/half_black" />
 
 </FrameLayout>

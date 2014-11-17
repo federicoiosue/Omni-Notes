@@ -1,11 +1,11 @@
 /*******************************************************************************
  * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
@@ -56,7 +56,9 @@ import android.widget.ListView;
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
+import com.google.analytics.tracking.android.Log;
 import com.google.analytics.tracking.android.MapBuilder;
+import com.melnykov.fab.FloatingActionButton;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
@@ -95,7 +97,7 @@ import roboguice.util.Ln;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
-public class ListFragment extends Fragment implements UndoListener, OnNotesLoadedListener {
+public class ListFragment extends Fragment implements UndoListener, OnNotesLoadedListener, OnViewTouchedListener {
 
 	static final int REQUEST_CODE_DETAIL = 1;
 	private static final int REQUEST_CODE_CATEGORY = 2;
@@ -132,6 +134,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private String searchTags;
 	private boolean goBackOnToggleSearchLabel = false;
 	private TextView listFooter;
+
+    // Floating actioon button
+    private FloatingActionButton fab;
 
 
     @Override
@@ -312,7 +317,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		}
 	}
 
-	private final class ModeCallback implements Callback {
+    private final class ModeCallback implements Callback {
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -440,7 +445,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				menu.findItem(R.id.menu_merge).setVisible(true);
 				menu.findItem(R.id.menu_archive).setVisible(showArchive);
 				menu.findItem(R.id.menu_unarchive).setVisible(showUnarchive);
-				
+
 			}
 			menu.findItem(R.id.menu_category).setVisible(true);
 			menu.findItem(R.id.menu_tags).setVisible(true);
@@ -501,17 +506,23 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			}
 		});
 
-		// listView.setOnTouchListener(screenTouches);
 		((InterceptorLinearLayout) getActivity().findViewById(R.id.list_root))
-				.setOnViewTouchedListener(screenTouches);
+				.setOnViewTouchedListener(this);
+
+        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.attachToListView(listView);
+        fab.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editNote(new Note());
+            }
+        });
 	}
 
-	OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
-		@Override
-		public void onViewTouchOccurred(MotionEvent ev) {
-			commitPending();
-		}
-	};
+    @Override
+    public void onViewTouchOccurred(MotionEvent ev) {
+        commitPending();
+    }
 
 
 	@Override
@@ -537,7 +548,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		boolean showAdd = Navigation.checkNavigation(new Integer[] { Navigation.NOTES, Navigation.CATEGORY });
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-		menu.findItem(R.id.menu_add).setVisible(!drawerOpen && showAdd);
+        if (!drawerOpen && showAdd) {
+            fab.show();
+        } else {
+            fab.hide();
+        }
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_add_category).setVisible(drawerOpen);
 		menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView);
@@ -567,7 +582,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		searchView.setOnQueryTextFocusChangeListener(new OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                menu.findItem(R.id.menu_add).setVisible(!hasFocus);
                 menu.findItem(R.id.menu_sort).setVisible(!hasFocus);
                 menu.findItem(R.id.menu_contracted_view).setVisible(!hasFocus);
                 menu.findItem(R.id.menu_expanded_view).setVisible(!hasFocus);
@@ -654,9 +668,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
                 case R.id.menu_tags:
                     filterByTags();
                     break;
-                case R.id.menu_add:
-                    editNote(new Note());
-                    break;
                 case R.id.menu_sort:
                     sortNotes();
                     break;
@@ -737,10 +748,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				break;
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	void editNote(final Note note) {
 		if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
 			BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
@@ -1066,7 +1077,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				}
 			}
 		});
-		adapter.setAbsListView(listView);
+//		adapter.setAbsListView(listView);
 		listView.setAdapter(adapter);
 
 		// Replace listview with Mr. Jingles if it is empty
@@ -1132,7 +1143,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 	/**
 	 * Single note logical deletion
-	 * 
+	 *
 	 * @param note
 	 *            Note to be deleted
 	 */
@@ -1539,7 +1550,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				mAdapter.replace(note, mAdapter.getPosition(note));
 			// Manages trash undo
 			} else {
-				mAdapter.insert(note, undoNotesList.keyAt(undoNotesList.indexOfValue(note)));			
+				mAdapter.insert(note, undoNotesList.keyAt(undoNotesList.indexOfValue(note)));
 			}
 		}
 
@@ -1603,8 +1614,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			list.add(new Integer[] { 0, R.string.tour_listactivity_intro_title,
 					R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE });
-			list.add(new Integer[] { R.id.menu_add, R.string.tour_listactivity_actions_title,
-					R.string.tour_listactivity_actions_detail, ShowcaseView.ITEM_ACTION_ITEM });
+			list.add(new Integer[] { R.id.fab, R.string.tour_listactivity_actions_title,
+					R.string.tour_listactivity_actions_detail, null });
 			list.add(new Integer[] { 0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail,
 					ShowcaseView.ITEM_ACTION_HOME });
 			((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
