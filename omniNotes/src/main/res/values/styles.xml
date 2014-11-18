@@ -92,12 +92,12 @@
     </style>
 
     <style name="Text.Normal" parent="android:TextAppearance.Medium">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/actionbar_title_text</item>
     </style>
 
     <style name="Text.Small" parent="android:TextAppearance.Small">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">11sp</item>
         <item name="android:textColor">@color/list_note_dates</item>
     </style>
 
