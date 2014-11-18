@@ -56,7 +56,6 @@ import android.widget.ListView;
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.Log;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.melnykov.fab.FloatingActionButton;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -514,6 +513,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                fab.hide();
                 editNote(new Note());
             }
         });

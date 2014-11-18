@@ -34,13 +34,13 @@
         android:icon="@drawable/ic_action_labels"
         android:orderInCategory="300"
         android:title="@string/add_tag"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_action_share"
         android:orderInCategory="400"
         android:title="@string/share"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_checklist_on"
         android:orderInCategory="500"
