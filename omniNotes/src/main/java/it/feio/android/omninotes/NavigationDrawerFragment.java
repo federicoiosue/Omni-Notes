@@ -311,8 +311,8 @@ public class NavigationDrawerFragment extends Fragment {
 				final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
 				if (AppTourHelper.isStepTurn(mActivity, instructionName)) {
 					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-					list.add(new Integer[] { R.id.menu_add_category, R.string.tour_listactivity_tag_title,
-							R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM });
+//					list.add(new Integer[] { R.id.menu_add_category, R.string.tour_listactivity_tag_title,
+//							R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM });
 					mActivity.showCaseView(list, new OnShowcaseAcknowledged() {
 						@Override
 						public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
