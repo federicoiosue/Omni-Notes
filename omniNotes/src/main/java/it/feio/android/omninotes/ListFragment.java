@@ -31,6 +31,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.ActionMode.Callback;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
@@ -50,6 +51,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -71,6 +73,7 @@ import java.util.regex.Matcher;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.async.NoteLoaderTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -188,14 +191,36 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		// Listview initialization
 		initListView();
 
+        initFab();
+
 		// Activity title initialization
 		initTitle();
 
 		ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
 	}
 
+    private void initFab() {
+        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.attachToListView(listView);
+        fab.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab.hide();
+                editNote(new Note());
+            }
+        });
 
-	/**
+        // In KitKat bottom padding is added by navbar height
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fab.getLayoutParams();
+            params.setMargins(0, 0, DensityUtil.dpToPx(16, getActivity()), navBarHeight + DensityUtil.dpToPx(16, getActivity()));
+            fab.setLayoutParams(params);
+        }
+    }
+
+
+    /**
 	 * Activity title initialization based on navigation
 	 */
 	private void initTitle() {
@@ -507,16 +532,6 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		((InterceptorLinearLayout) getActivity().findViewById(R.id.list_root))
 				.setOnViewTouchedListener(this);
-
-        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.attachToListView(listView);
-        fab.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fab.hide();
-                editNote(new Note());
-            }
-        });
 	}
 
     @Override
