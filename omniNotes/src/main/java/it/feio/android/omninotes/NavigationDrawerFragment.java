@@ -205,8 +205,7 @@ public class NavigationDrawerFragment extends Fragment {
 		});
 		
 		if (mDrawerCategoriesList.getAdapter() == null) {
-			mDrawerCategoriesList.addHeaderView(categoriesListHeader);	
-			mDrawerCategoriesList.addFooterView(settingsViewCat);	
+			mDrawerCategoriesList.addFooterView(settingsViewCat);
 		}
 		if (categories.size() == 0) {
 			categoriesListHeader.setVisibility(View.GONE);

@@ -36,7 +36,7 @@
         <item>@drawable/ic_note_dark</item>
         <item>@drawable/ic_archive_dark</item>
         <item>@drawable/ic_reminder_dark</item>
-        <item>@drawable/ic_action_discard</item>
+        <item>@drawable/ic_trash</item>
         <item>@drawable/ic_uncategorized</item>
     </integer-array>
 
