@@ -527,13 +527,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
 		inflater.inflate(R.menu.menu_list, menu);
 		super.onCreateOptionsMenu(menu, inflater);
-
 		// Initialization of SearchView
 		initSearchView(menu);
-
 		initShowCase();
 	}
 
@@ -550,8 +547,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
         if (!drawerOpen && showAdd) {
             fab.show();
+            fab.setVisibility(View.VISIBLE);
         } else {
             fab.hide();
+            fab.setVisibility(View.GONE);
         }
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
 //		menu.findItem(R.id.menu_add_category).setVisible(drawerOpen);
