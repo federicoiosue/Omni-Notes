@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "it.feio.android.omninotes"
-        minSdkVersion 9
-        targetSdkVersion 21
+        minSdkVersion project.MIN_SDK
+        targetSdkVersion project.TARGET_SDK
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
@@ -47,6 +47,9 @@ dependencies {
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'org.roboguice:roboguice:3.0'
     compile 'com.melnykov:floatingactionbutton:1.0.7'
+    compile 'com.github.gabrielemariotti.cards:cardslib-core:2.0.1'
+    compile 'com.github.gabrielemariotti.cards:cardslib-cards:2.0.1'
+    compile 'com.github.gabrielemariotti.cards:cardslib-recyclerview:2.0.1'
 
     compile 'it.feio.android:simplegallery:1.1.0'
     compile 'it.feio.android:springpadimporter:1.0.0'
