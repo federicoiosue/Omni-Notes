@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:paddingEnd="@dimen/horizontal_margin"
             android:paddingRight="@dimen/horizontal_margin"
+            android:textAppearance="@style/Text.Small"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 

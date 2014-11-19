@@ -214,7 +214,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fab.getLayoutParams();
-            params.setMargins(0, 0, DensityUtil.dpToPx(16, getActivity()), navBarHeight + DensityUtil.dpToPx(16, getActivity()));
+            params.setMargins(params.leftMargin, params.topMargin,params.rightMargin,
+                    navBarHeight + DensityUtil.pxToDp(params.bottomMargin, getActivity()));
             fab.setLayoutParams(params);
         }
     }
