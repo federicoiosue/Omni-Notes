@@ -98,7 +98,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="bottom|right"
-                    android:src="@drawable/ic_location_dark"
+                    android:src="@drawable/ic_location"
                     android:visibility="gone"/>
 
                 <ImageView
@@ -108,14 +108,6 @@
                     android:layout_gravity="bottom|right"
                     android:src="@drawable/ic_archive_dark"
                     android:visibility="gone"/>
-
-                <!--                 <ImageView -->
-                <!--                     android:id="@+id/trashedIcon" -->
-                <!--                     android:layout_width="15dp" -->
-                <!--                     android:layout_height="15dp" -->
-                <!--                     android:layout_gravity="top|end" -->
-                <!--                     android:src="@drawable/ic_action_discard" -->
-                <!--                     android:visibility="gone" /> -->
 
                 <ImageView
                     android:id="@+id/lockedIcon"

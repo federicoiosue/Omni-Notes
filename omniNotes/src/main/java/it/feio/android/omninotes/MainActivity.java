@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +21,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -390,7 +393,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			getDrawerToggle().setDrawerIndicatorEnabled(false);
 		}
 	}
-
 
 
 	/**
