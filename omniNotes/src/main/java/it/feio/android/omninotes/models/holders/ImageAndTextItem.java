@@ -1,4 +1,4 @@
-package it.feio.android.omninotes.models;
+package it.feio.android.omninotes.models.holders;
 
 public class ImageAndTextItem {
 	public ImageAndTextItem(int image, String text) {

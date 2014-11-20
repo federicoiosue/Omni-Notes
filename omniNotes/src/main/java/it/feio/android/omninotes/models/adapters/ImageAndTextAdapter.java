@@ -28,7 +28,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 import java.util.ArrayList;
 
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.ImageAndTextItem;
+import it.feio.android.omninotes.models.holders.ImageAndTextItem;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 

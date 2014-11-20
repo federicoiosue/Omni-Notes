@@ -29,14 +29,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.view.ActionMode;
-import android.support.v7.view.ActionMode.Callback;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.SparseArray;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,10 +45,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -61,8 +55,6 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.melnykov.fab.FloatingActionButton;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.nhaarman.listviewanimations.itemmanipulation.OnDismissCallback;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,13 +73,13 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.models.UndoBarController;
-import it.feio.android.omninotes.models.UndoBarController.UndoListener;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
+import it.feio.android.omninotes.models.adapters.NoteCardArrayMultiChoiceAdapter;
+import it.feio.android.omninotes.models.listeners.OnCABItemClickedListener;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
-import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
+import it.feio.android.omninotes.models.views.NoteCard;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
@@ -95,20 +87,20 @@ import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.pixlui.links.RegexPatternsConstants;
 import it.feio.android.pixlui.links.UrlCompleter;
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.view.CardListView;
+import it.gmariotti.cardslib.library.view.listener.UndoBarController;
 import roboguice.util.Ln;
 
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
-
-public class ListFragment extends Fragment implements UndoListener, OnNotesLoadedListener, OnViewTouchedListener {
+public class ListFragment extends Fragment implements UndoBarController.UndoListener, OnNotesLoadedListener, OnViewTouchedListener, OnCABItemClickedListener {
 
 	static final int REQUEST_CODE_DETAIL = 1;
 	private static final int REQUEST_CODE_CATEGORY = 2;
 	private static final int REQUEST_CODE_CATEGORY_NOTES = 3;
 
-	private ListView listView;
+	private CardListView listView;
     private NoteAdapter mAdapter;
-    private ActionMode mActionMode;
-	private List<Note> selectedNotes = new ArrayList<Note>();
+//	private List<Note> getSelectedNotes() = new ArrayList<Note>();
     private List<Note> modifiedNotes = new ArrayList<Note>();
 	private SearchView searchView;
     private MenuItem searchMenuItem;
@@ -139,6 +131,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
     // Floating actioon button
     private FloatingActionButton fab;
+    private NoteCardArrayMultiChoiceAdapter mCardArrayAdapter;
 
 
     @Override
@@ -189,14 +182,15 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		initEasterEgg();
 
 		// Listview initialization
-		initListView();
+//		initListView();
+        listView = (CardListView) getActivity().findViewById(R.id.carddemo_list_gplaycard);
 
         initFab();
 
 		// Activity title initialization
 		initTitle();
 
-		ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
+//		ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
 	}
 
     private void initFab() {
@@ -288,13 +282,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		Crouton.cancelAllCroutons();
 
 		// Clears data structures
-		// selectedNotes.clear();
+		// getSelectedNotes().clear();
 		if (mAdapter != null) {
 			mAdapter.clearSelectedItems();
 		}
 		listView.clearChoices();
-		if (mActionMode != null) {
-			mActionMode.finish();
+		if (mCardArrayAdapter.getActionMode() != null) {
+			mCardArrayAdapter.getActionMode().finish();
 		}
 	}
 
@@ -342,79 +336,95 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		}
 	}
 
-    private final class ModeCallback implements Callback {
+//    private final class ModeCallback implements Callback {
+//
+//		@Override
+//		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+//			// Inflate the menu for the CAB
+//			MenuInflater inflater = mode.getMenuInflater();
+//			inflater.inflate(R.menu.menu_list, menu);
+//			mCardArrayAdapter.getActionMode() = mode;
+//			return true;
+//		}
+//
+//
+//		@Override
+//		public void onDestroyActionMode(ActionMode mode) {
+//			// Here you can make any necessary updates to the activity when
+//			// the CAB is removed. By default, selected items are
+//			// deselected/unchecked.
+//			for (int i = 0; i < mAdapter.getSelectedItems().size(); i++) {
+//				int key = mAdapter.getSelectedItems().keyAt(i);
+//				View v = listView.getChildAt(key - listView.getFirstVisiblePosition());
+//				if (mAdapter.getCount() > key && mAdapter.getItem(key) != null && v != null) {
+//					mAdapter.restoreDrawable(mAdapter.getItem(key), v.findViewById(R.id.card_layout));
+//				}
+//			}
+//
+//            // Backups modified notes in another structure to perform post-elaborations
+//            modifiedNotes = new ArrayList<Note>(getSelectedNotes());
+//
+//			// Clears data structures
+//			getSelectedNotes().clear();
+//			mAdapter.clearSelectedItems();
+//			listView.clearChoices();
+//
+//			mCardArrayAdapter.getActionMode() = null;
+//			Ln.d("Closed multiselection contextual menu");
+//
+//			// Updates app widgets
+//			BaseActivity.notifyAppWidgets(getActivity());
+//		}
+//
+//
+//		@Override
+//		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+//			prepareActionModeMenu();
+//			return true;
+//		}
+//
+//
+//		@Override
+//		public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
+//            Integer[] protectedActions = {R.id.menu_select_all, R.id.menu_merge};
+//            if (!Arrays.asList(protectedActions).contains(item.getItemId())) {
+//                ((MainActivity)getActivity()).requestPassword(getActivity(), getSelectedNotes(), new PasswordValidator() {
+//                    @Override
+//                    public void onPasswordValidated(boolean passwordConfirmed) {
+//                        if (passwordConfirmed) {
+//                            performAction(item, mode);
+//                        }
+//                    }
+//                });
+//            } else {
+//                performAction(item, mode);
+//            }
+//			return true;
+//		}
+//	}
 
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			// Inflate the menu for the CAB
-			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.menu_list, menu);
-			mActionMode = mode;
-			return true;
-		}
 
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			// Here you can make any necessary updates to the activity when
-			// the CAB is removed. By default, selected items are
-			// deselected/unchecked.
-			for (int i = 0; i < mAdapter.getSelectedItems().size(); i++) {
-				int key = mAdapter.getSelectedItems().keyAt(i);
-				View v = listView.getChildAt(key - listView.getFirstVisiblePosition());
-				if (mAdapter.getCount() > key && mAdapter.getItem(key) != null && v != null) {
-					mAdapter.restoreDrawable(mAdapter.getItem(key), v.findViewById(R.id.card_layout));
-				}
-			}
-
-            // Backups modified notes in another structure to perform post-elaborations
-            modifiedNotes = new ArrayList<Note>(selectedNotes);
-
-			// Clears data structures
-			selectedNotes.clear();
-			mAdapter.clearSelectedItems();
-			listView.clearChoices();
-
-			mActionMode = null;
-			Ln.d("Closed multiselection contextual menu");
-
-			// Updates app widgets
-			BaseActivity.notifyAppWidgets(getActivity());
-		}
-
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			prepareActionModeMenu();
-			return true;
-		}
-
-
-		@Override
-		public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
-            Integer[] protectedActions = {R.id.menu_select_all, R.id.menu_merge};
-            if (!Arrays.asList(protectedActions).contains(item.getItemId())) {
-                ((MainActivity)getActivity()).requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
-                    @Override
-                    public void onPasswordValidated(boolean passwordConfirmed) {
-                        if (passwordConfirmed) {
-                            performAction(item, mode);
-                        }
+    public void onCABItemClicked(final MenuItem item) {
+        Integer[] protectedActions = {R.id.menu_select_all, R.id.menu_merge};
+        if (!Arrays.asList(protectedActions).contains(item.getItemId())) {
+            ((MainActivity) getActivity()).requestPassword(getActivity(), getSelectedNotes(), new PasswordValidator() {
+                @Override
+                public void onPasswordValidated(boolean passwordConfirmed) {
+                    if (passwordConfirmed) {
+                        performAction(item, mCardArrayAdapter.getActionMode());
                     }
-                });
-            } else {
-                performAction(item, mode);
-            }
-			return true;
-		}
-	}
-
+                }
+            });
+        } else {
+            performAction(item, mCardArrayAdapter.getActionMode());
+        }
+    }
 
 	public void finishActionMode() {
-		selectedNotes.clear();
+		getSelectedNotes().clear();
         modifiedNotes.clear();
-		if (mActionMode != null) {
-			mActionMode.finish();
+		if (mCardArrayAdapter.getActionMode() != null) {
+			mCardArrayAdapter.getActionMode().finish();
 		}
 	}
 
@@ -425,19 +435,19 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private void toggleListViewItem(View view, int position) {
 		Note note = mAdapter.getItem(position);
 		LinearLayout v = (LinearLayout) view.findViewById(R.id.card_layout);
-		if (!selectedNotes.contains(note)) {
-			selectedNotes.add(note);
+		if (!getSelectedNotes().contains(note)) {
+			getSelectedNotes().add(note);
 			mAdapter.addSelectedItem(position);
 			v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
 		} else {
-			selectedNotes.remove(note);
+			getSelectedNotes().remove(note);
 			mAdapter.removeSelectedItem(position);
 			mAdapter.restoreDrawable(note, v);
 		}
-		prepareActionModeMenu();
+//		prepareActionModeMenu();
 
 		// Close CAB if no items are selected
-		if (selectedNotes.size() == 0) {
+		if (getSelectedNotes().size() == 0) {
 			finishActionMode();
 		}
 
@@ -445,95 +455,58 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 
 	/**
-	 * Manages logic to show or not menu entries during action mode
-	 */
-	private void prepareActionModeMenu() {
-		Menu menu = mActionMode.getMenu();
-		int navigation = Navigation.getNavigation();
-		boolean showArchive = navigation == Navigation.NOTES || navigation == Navigation.REMINDERS
-				|| navigation == Navigation.CATEGORY;
-		boolean showUnarchive = navigation == Navigation.ARCHIVED || navigation == Navigation.CATEGORY;
-
-		if (navigation == Navigation.TRASH) {
-			menu.findItem(R.id.menu_untrash).setVisible(true);
-			menu.findItem(R.id.menu_delete).setVisible(true);
-		} else {
-			if (selectedNotes.size() == 1) {
-				menu.findItem(R.id.menu_share).setVisible(true);
-				menu.findItem(R.id.menu_merge).setVisible(false);
-				menu.findItem(R.id.menu_archive)
-						.setVisible(showArchive && !selectedNotes.get(0).isArchived());
-				menu.findItem(R.id.menu_unarchive)
-						.setVisible(showUnarchive && selectedNotes.get(0).isArchived());
-			} else {
-				menu.findItem(R.id.menu_share).setVisible(false);
-				menu.findItem(R.id.menu_merge).setVisible(true);
-				menu.findItem(R.id.menu_archive).setVisible(showArchive);
-				menu.findItem(R.id.menu_unarchive).setVisible(showUnarchive);
-
-			}
-			menu.findItem(R.id.menu_category).setVisible(true);
-			menu.findItem(R.id.menu_tags).setVisible(true);
-			menu.findItem(R.id.menu_trash).setVisible(true);
-//			menu.findItem(R.id.menu_synchronize).setVisible(true);
-		}
-		menu.findItem(R.id.menu_select_all).setVisible(true);
-	}
-
-
-	/**
 	 * Notes list initialization. Data, actions and callback are defined here.
 	 */
-	private void initListView() {
-		listView = (ListView) getActivity().findViewById(R.id.notes_list);
-
-		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-		listView.setItemsCanFocus(false);
-
-		// If device runs KitKat a footer is added to list to avoid
-		// navigation bar transparency covering items
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
-			listFooter = new TextView(getActivity().getApplicationContext());
-			listFooter.setHeight(navBarHeight + 5);
-			// To avoid useless events on footer
-			listFooter.setOnClickListener(null);
-			listView.addFooterView(listFooter);
-		}
-
-		// Note long click to start CAB mode
-		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
-				if (view.equals(listFooter)) return true;
-				if (mActionMode != null) { return false; }
-				// Start the CAB using the ActionMode.Callback defined above
-				((MainActivity) getActivity()).startSupportActionMode(new ModeCallback());
-				toggleListViewItem(view, position);
-				setCabTitle();
-				return true;
-			}
-		});
-
-		// Note single click listener managed by the activity itself
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
-				if (view.equals(listFooter)) return;
-				if (mActionMode == null) {
-					Note note = mAdapter.getItem(position);
-					editNote(note);
-					return;
-				}
-				// If in CAB mode
-				toggleListViewItem(view, position);
-				setCabTitle();
-			}
-		});
-
-		((InterceptorLinearLayout) getActivity().findViewById(R.id.list_root))
-				.setOnViewTouchedListener(this);
-	}
+//	private void initListView() {
+////		listView = (ListView) getActivity().findViewById(R.id.notes_list);
+//
+//		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//		listView.setItemsCanFocus(false);
+//
+//		// If device runs KitKat a footer is added to list to avoid
+//		// navigation bar transparency covering items
+//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//			int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
+//			listFooter = new TextView(getActivity().getApplicationContext());
+//			listFooter.setHeight(navBarHeight + 5);
+//			// To avoid useless events on footer
+//			listFooter.setOnClickListener(null);
+//			listView.addFooterView(listFooter);
+//		}
+//
+//		// Note long click to start CAB mode
+//		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+//			@Override
+//			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
+//				if (view.equals(listFooter)) return true;
+//				if (mCardArrayAdapter.getActionMode() != null) { return false; }
+//				// Start the CAB using the ActionMode.Callback defined above
+//				((MainActivity) getActivity()).startSupportActionMode(new ModeCallback());
+//				toggleListViewItem(view, position);
+//				setCabTitle();
+//				return true;
+//			}
+//		});
+//
+//		// Note single click listener managed by the activity itself
+//		listView.setOnItemClickListener(new OnItemClickListener() {
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
+//				if (view.equals(listFooter)) return;
+//				if (mCardArrayAdapter.getActionMode() == null) {
+//					Note note = mAdapter.getItem(position);
+//					editNote(note);
+//					return;
+//				}
+//				// If in CAB mode
+//				toggleListViewItem(view, position);
+//				setCabTitle();
+//			}
+//		});
+//
+//		((InterceptorLinearLayout) getActivity().findViewById(R.id.list_root))
+//				.setOnViewTouchedListener(this);
+//	}
 
     @Override
     public void onViewTouchOccurred(MotionEvent ev) {
@@ -652,7 +625,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	public boolean onOptionsItemSelected(final MenuItem item) {
         Integer[] protectedActions = {R.id.menu_empty_trash};
         if (Arrays.asList(protectedActions).contains(item.getItemId())) {
-            ((MainActivity)getActivity()).requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
+            ((MainActivity)getActivity()).requestPassword(getActivity(), getSelectedNotes(), new PasswordValidator() {
                 @Override
                 public void onPasswordValidated(boolean passwordConfirmed) {
                     if (passwordConfirmed) {
@@ -753,13 +726,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 
 	private void setCabTitle() {
-		if (mActionMode == null) return;
-		switch (selectedNotes.size()) {
+		if (mCardArrayAdapter.getActionMode() == null) return;
+		switch (getSelectedNotes().size()) {
 			case 0:
-				mActionMode.setTitle(null);
+				mCardArrayAdapter.getActionMode().setTitle(null);
 				break;
 			default:
-				mActionMode.setTitle(String.valueOf(selectedNotes.size()));
+				mCardArrayAdapter.getActionMode().setTitle(String.valueOf(getSelectedNotes().size()));
 				break;
 		}
 	}
@@ -925,7 +898,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         for (int i = 0; i < mAdapter.getCount(); i++) {
-                            selectedNotes.add(mAdapter.getItem(i));
+                            getSelectedNotes().add(mAdapter.getItem(i));
                         }
                         deleteNotesExecute();
                     }
@@ -1057,67 +1030,138 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	public void onNotesLoaded(ArrayList<Note> notes) {
 		int layout = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
 				: R.layout.note_layout;
-		mAdapter = new NoteAdapter(getActivity(), layout, notes);
 
-		// A specifical behavior is performed basing on navigation
-		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter, new OnDismissCallback() {
-			@Override
-			public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
+        initCards(notes, layout);
 
-				// Avoids conflicts with action mode
-				finishActionMode();
 
-				for (int position : reverseSortedPositions) {
-					Note note = mAdapter.getItem(position);
-					selectedNotes.add(note);
-
-					// Depending on settings and note status this action will...
-					// ...restore
-					if (Navigation.checkNavigation(Navigation.TRASH)) {
-						trashNotes(false);
-					}
-					// ...removes category
-					else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
-						categorizeNotesExecute(null);
-					} else {
-						// ...trash
-						if (prefs.getBoolean("settings_swipe_to_trash", false)
-								|| Navigation.checkNavigation(Navigation.ARCHIVED)) {
-							trashNotes(true);
-                        // ...archive
-						} else {
-							archiveNotes(true);
-						}
-					}
-				}
-			}
-		});
-//		adapter.setAbsListView(listView);
-		listView.setAdapter(adapter);
-
-		// Replace listview with Mr. Jingles if it is empty
-		if (notes.size() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
-
-		// Restores listview position when turning back to list
-		if (listView != null && notes.size() > 0) {
-			if (listView.getCount() > listViewPosition) {
-				listView.setSelectionFromTop(listViewPosition, listViewPositionOffset);
-			} else {
-				listView.setSelectionFromTop(0, 0);
-			}
-		}
-
-		// Fade in the list view
-		animate(listView).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+//		mAdapter = new NoteAdapter(getActivity(), layout, notes);
+//
+//		// A specifical behavior is performed basing on navigation
+//		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter, new OnDismissCallback() {
+//			@Override
+//			public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
+//
+//				// Avoids conflicts with action mode
+//				finishActionMode();
+//
+//				for (int position : reverseSortedPositions) {
+//					Note note = mAdapter.getItem(position);
+//					getSelectedNotes().add(note);
+//
+//					// Depending on settings and note status this action will...
+//					// ...restore
+//					if (Navigation.checkNavigation(Navigation.TRASH)) {
+//						trashNotes(false);
+//					}
+//					// ...removes category
+//					else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
+//						categorizeNotesExecute(null);
+//					} else {
+//						// ...trash
+//						if (prefs.getBoolean("settings_swipe_to_trash", false)
+//								|| Navigation.checkNavigation(Navigation.ARCHIVED)) {
+//							trashNotes(true);
+//                        // ...archive
+//						} else {
+//							archiveNotes(true);
+//						}
+//					}
+//				}
+//			}
+//		});
+////		adapter.setAbsListView(listView);
+//		listView.setAdapter(adapter);
+//
+//		// Replace listview with Mr. Jingles if it is empty
+//		if (notes.size() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+//
+//		// Restores listview position when turning back to list
+//		if (listView != null && notes.size() > 0) {
+//			if (listView.getCount() > listViewPosition) {
+//				listView.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+//			} else {
+//				listView.setSelectionFromTop(0, 0);
+//			}
+//		}
+//
+//		// Fade in the list view
+//		animate(listView).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
 	}
 
 
-	/**
+    private void initCards(final ArrayList<Note> notes, int layout) {
+
+        // If device runs KitKat a footer is added to list to avoid
+        // navigation bar transparency covering items
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
+            listFooter = new TextView(getActivity().getApplicationContext());
+            listFooter.setHeight(navBarHeight + 5);
+            // To avoid useless events on footer
+            listFooter.setOnClickListener(null);
+            listView.addFooterView(listFooter);
+        }
+
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for (int i = 0; i < notes.size(); i++) {
+            cards.add(initCard(notes, layout, i));
+        }
+
+        mCardArrayAdapter = new NoteCardArrayMultiChoiceAdapter(getActivity(), cards);
+        mCardArrayAdapter.setUndoBarUIElements(new UndoBarController.DefaultUndoBarUIElements(){
+            @Override
+            public SwipeDirectionEnabled isEnabledUndoBarSwipeAction() {
+                return SwipeDirectionEnabled.TOPBOTTOM;
+            }
+            @Override
+            public AnimationType getAnimationType() {
+                return AnimationType.TOPBOTTOM;
+            }
+        });
+
+        //Enable undo controller!
+        mCardArrayAdapter.setEnableUndo(true);
+
+        if (listView!=null){
+            listView.setAdapter(mCardArrayAdapter);
+            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+            mCardArrayAdapter.setOnActionItemClickedListener(this);
+        }
+    }
+
+
+    private NoteCard initCard(ArrayList<Note> notes, int layout, int i) {
+        Note note = notes.get(i);
+        NoteCard card = new NoteCard(OmniNotes.getAppContext(), note, layout);
+        card.setOnClickListener(new Card.OnCardClickListener() {
+            @Override
+            public void onClick(Card card, View view) {
+                if (mCardArrayAdapter.getActionMode() == null) {
+                    editNote(((NoteCard)card).getNote());
+                }
+            }
+        });
+        card.setOnLongClickListener(new Card.OnLongCardClickListener() {
+            @Override
+            public boolean onLongClick(Card card, View view) {
+                if (mCardArrayAdapter.getActionMode() != null) {
+                    return false;
+                }
+                mCardArrayAdapter.startActionMode(getActivity());
+                view.setSelected(true);
+                return true;
+            }
+        });
+        return card;
+    }
+
+
+    /**
 	 * Batch note trashing
 	 */
 	public void trashNotes(boolean trash) {
-		int selectedNotesSize = selectedNotes.size();
-		for (Note note : selectedNotes) {
+		int selectedNotesSize = getSelectedNotes().size();
+		for (Note note : getSelectedNotes()) {
 			// Restore it performed immediately, otherwise undo bar
 			if (!trash) {
 				trashNote(note, false);
@@ -1135,8 +1179,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		if (mAdapter.getCount() == 0)
 			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
-		if (mActionMode != null) {
-			mActionMode.finish();
+		if (mCardArrayAdapter.getActionMode() != null) {
+			mCardArrayAdapter.getActionMode().finish();
 		}
 
 		// Advice to user
@@ -1148,12 +1192,17 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Creation of undo bar
 		if (trash) {
-			ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.trashed), null);
+//			ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.trashed), null);
 			undoTrash = true;
 		} else {
-			selectedNotes.clear();
+			getSelectedNotes().clear();
 		}
 	}
+
+
+    private List<Note> getSelectedNotes() {
+        return mCardArrayAdapter.getSelectedNotes();
+    }
 
 
 	/**
@@ -1176,20 +1225,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Selects all notes in list
 	 */
 	private void selectAllNotes() {
-		for (int i = 0; i < listView.getChildCount(); i++) {
-			LinearLayout v = (LinearLayout) listView.getChildAt(i).findViewById(R.id.card_layout);
-			// Checks null to avoid the footer
-			if (v != null) {
-				v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
-			}
-		}
-		selectedNotes.clear();
-		for (int i = 0; i < mAdapter.getCount(); i++) {
-			selectedNotes.add(mAdapter.getItem(i));
-			mAdapter.addSelectedItem(i);
-		}
-		prepareActionModeMenu();
-		setCabTitle();
+		mCardArrayAdapter.selectAll();
 	}
 
 
@@ -1203,7 +1239,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-                        ((MainActivity)getActivity()).requestPassword(getActivity(), selectedNotes, new PasswordValidator() {
+                        ((MainActivity)getActivity()).requestPassword(getActivity(), getSelectedNotes(), new PasswordValidator() {
                             @Override
                             public void onPasswordValidated(boolean passwordConfirmed) {
                                 if (passwordConfirmed) {
@@ -1224,7 +1260,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 * Performs notes permanent deletion after confirmation by the user
 	 */
 	private void deleteNotesExecute() {
-		for (Note note : selectedNotes) {
+		for (Note note : getSelectedNotes()) {
 			mAdapter.remove(note);
 			((MainActivity) getActivity()).deleteNote(note);
 		}
@@ -1251,7 +1287,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
         // Used in undo bar commit
         sendToArchive = archive;
 
-        for (Note note : selectedNotes) {
+        for (Note note : getSelectedNotes()) {
             // If is restore it will be done immediately, otherwise the undo bar
             // will be shown
             if (!archive) {
@@ -1289,10 +1325,10 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
         // Creation of undo bar
         if (archive) {
-            ubc.showUndoBar(false, selectedNotes.size() + " " + getString(R.string.archived), null);
+//            ubc.showUndoBar(false, getSelectedNotes().size() + " " + getString(R.string.archived), null);
             undoArchive = true;
         } else {
-            selectedNotes.clear();
+            getSelectedNotes().clear();
         }
     }
 
@@ -1355,9 +1391,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
-						selectedNotes.clear();
-						if (mActionMode != null) {
-							mActionMode.finish();
+						getSelectedNotes().clear();
+						if (mCardArrayAdapter.getActionMode() != null) {
+							mCardArrayAdapter.getActionMode().finish();
 						}
 					}
 				});
@@ -1371,7 +1407,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 
 	private void categorizeNotesExecute(Category category) {
-		for (Note note : selectedNotes) {
+		for (Note note : getSelectedNotes()) {
 			// If is restore it will be done immediately, otherwise the undo bar
 			// will be shown
 			if (category != null) {
@@ -1409,8 +1445,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			((MainActivity) getActivity()).initNavigationDrawer();
 		}
 
-		if (mActionMode != null) {
-			mActionMode.finish();
+		if (mCardArrayAdapter.getActionMode() != null) {
+			mCardArrayAdapter.getActionMode().finish();
 		}
 
 		// Advice to user
@@ -1424,11 +1460,11 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 		// Creation of undo bar
 		if (category == null) {
-			ubc.showUndoBar(false, getString(R.string.notes_category_removed), null);
+//			ubc.showUndoBar(false, getString(R.string.notes_category_removed), null);
 			undoCategorize = true;
 			undoCategorizeCategory = category;
 		} else {
-			selectedNotes.clear();
+			getSelectedNotes().clear();
 		}
 	}
 
@@ -1474,9 +1510,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
         }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                selectedNotes.clear();
-                if (mActionMode != null) {
-                    mActionMode.finish();
+                getSelectedNotes().clear();
+                if (mCardArrayAdapter.getActionMode() != null) {
+                    mCardArrayAdapter.getActionMode().finish();
                 }
             }
         });
@@ -1487,7 +1523,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	private void tagNotesExecute(List<String> tags, boolean[] selectedTags) {
 
 		// Retrieves selected tags
-		for (Note note : selectedNotes) {
+		for (Note note : getSelectedNotes()) {
 
 			HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
 			Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getContent());
@@ -1532,8 +1568,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 			((MainActivity) getActivity()).initNavigationDrawer();
 		}
 
-		if (mActionMode != null) {
-			mActionMode.finish();
+		if (mCardArrayAdapter.getActionMode() != null) {
+			mCardArrayAdapter.getActionMode().finish();
 		}
 
 		Crouton.makeText(getActivity(), R.string.tags_added, ONStyle.INFO).show();
@@ -1541,7 +1577,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 
 
 //	private void synchronizeSelectedNotes() {
-//		new DriveSyncTask(getActivity()).execute(new ArrayList<Note>(selectedNotes));
+//		new DriveSyncTask(getActivity()).execute(new ArrayList<Note>(getSelectedNotes()));
 //		// Clears data structures
 //		mAdapter.clearSelectedItems();
 //		listView.clearChoices();
@@ -1582,8 +1618,8 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		undoCategorizeCategory = null;
 		Crouton.cancelAllCroutons();
 
-		if (mActionMode != null) {
-			mActionMode.finish();
+		if (mCardArrayAdapter.getActionMode() != null) {
+			mCardArrayAdapter.getActionMode().finish();
 		}
 		ubc.hideUndoBar(false);
 	}
@@ -1664,13 +1700,13 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 	 */
 	private void share() {
 		// Only one note should be selected to perform sharing but they'll be cycled anyhow
-		for (final Note note : selectedNotes) {
+		for (final Note note : getSelectedNotes()) {
             ((MainActivity) getActivity()).shareNote(note);
 		}
 
-		selectedNotes.clear();
-		if (mActionMode != null) {
-			mActionMode.finish();
+		getSelectedNotes().clear();
+		if (mCardArrayAdapter.getActionMode() != null) {
+			mCardArrayAdapter.getActionMode().finish();
 		}
 	}
 
@@ -1685,7 +1721,7 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		StringBuilder content = new StringBuilder();
 		ArrayList<Attachment> attachments = new ArrayList<Attachment>();
 
-		for (Note note : selectedNotes) {
+		for (Note note : getSelectedNotes()) {
 
 			if (mergedNote == null) {
 				mergedNote = new Note();
@@ -1724,9 +1760,9 @@ public class ListFragment extends Fragment implements UndoListener, OnNotesLoade
 		mergedNote.setLocked(locked);
 		mergedNote.setAttachmentsList(attachments);
 
-		selectedNotes.clear();
-		if (mActionMode != null) {
-			mActionMode.finish();
+		getSelectedNotes().clear();
+		if (mCardArrayAdapter.getActionMode() != null) {
+			mCardArrayAdapter.getActionMode().finish();
 		}
 
 		// Sets the intent action to be recognized from DetailFragment and switch fragment

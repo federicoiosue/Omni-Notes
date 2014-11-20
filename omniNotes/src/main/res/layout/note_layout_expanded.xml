@@ -20,8 +20,8 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:minHeight="102dp"
-             android:background="@drawable/bg_card"
              android:paddingBottom="2dp">
+    <!--android:background="@drawable/bg_card"-->
 
     <LinearLayout
         android:id="@+id/card_layout"

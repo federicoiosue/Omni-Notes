@@ -67,11 +67,12 @@
             android:fastScrollEnabled="true">
         </ListView>
 
-        <!--<it.gmariotti.cardslib.library.recyclerview.view.CardRecyclerView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--card:list_card_layout_resourceID="@layout/native_recyclerview_card_layout"-->
-        <!--android:id="@+id/carddemo_recyclerview"/>-->
+        <it.gmariotti.cardslib.library.view.CardListView
+            android:id="@+id/carddemo_list_gplaycard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            card:list_card_layout_resourceID="@layout/note_layout_expanded"/>
+        <!--card:list_card_layout_resourceID="@layout/native_list_card_thumbnail_layout"/>-->
 
         <LinearLayout
             android:layout_width="match_parent"

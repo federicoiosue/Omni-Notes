@@ -29,7 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
@@ -40,6 +41,7 @@ import it.feio.android.omninotes.async.TextWorkerTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
@@ -72,14 +74,14 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		
 		Note note = notes.get(position);
 		
-		NoteAdapterViewHolder holder;
+		NoteViewHolder holder;
 	    if (convertView == null) {
 	    	convertView = inflater.inflate(layout, parent, false);
 
 			// Overrides font sizes with the one selected from user
 			Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS), convertView);
 	    	
-	    	holder = new NoteAdapterViewHolder();
+	    	holder = new NoteViewHolder();
     		    	
 	    	holder.root = convertView.findViewById(R.id.root);
 	    	holder.cardLayout = convertView.findViewById(R.id.card_layout);
@@ -97,12 +99,12 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	    	if (!expandedView)
 	    		holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
 
-	    	holder.attachmentThumbnail = (SquareImageView) convertView.findViewById(R.id.attachmentThumbnail);	    	
-	    	
+	    	holder.attachmentThumbnail = (SquareImageView) convertView.findViewById(R.id.attachmentThumbnail);
+
 	    	convertView.setTag(holder);
 			
 	    } else {
-	        holder = (NoteAdapterViewHolder) convertView.getTag();
+	        holder = (NoteViewHolder) convertView.getTag();
 	    }
 	    
 		try {
@@ -235,7 +237,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	}
 	
 	
-	public void restoreDrawable(Note note, View v, NoteAdapterViewHolder holder) {
+	public void restoreDrawable(Note note, View v, NoteViewHolder holder) {
 		final int paddingBottom = v.getPaddingBottom(), paddingLeft = v.getPaddingLeft();
 	    final int paddingRight = v.getPaddingRight(), paddingTop = v.getPaddingTop();
 	    v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
@@ -253,7 +255,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 * @param note
 	 * @param rowView
 	 */
-	private void colorNote(Note note, View v, NoteAdapterViewHolder holder) {
+	private void colorNote(Note note, View v, NoteViewHolder holder) {
 
 		String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS)
 									.getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
@@ -284,7 +286,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	
 	
 	@SuppressLint("NewApi")
-	private void loadThumbnail(NoteAdapterViewHolder holder, Attachment mAttachment) {
+	private void loadThumbnail(NoteViewHolder holder, Attachment mAttachment) {
 //		if (isNewWork(mAttachment.getUri(), holder.attachmentThumbnail)) {
 			BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.attachmentThumbnail,
 					Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
@@ -338,22 +340,3 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 
 
 
-class NoteAdapterViewHolder {
-	
-	View root;
-	View cardLayout;
-	View categoryMarker;
-	
-	TextView title;
-	TextView content;
-	TextView date;
-
-	ImageView archiveIcon;
-//	ImageView trashIcon;
-	ImageView locationIcon;
-	ImageView alarmIcon;
-	ImageView lockedIcon;
-	ImageView attachmentIcon;
-	
-	SquareImageView attachmentThumbnail;
-}

@@ -60,7 +60,7 @@ import java.util.Locale;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.models.ImageAndTextItem;
+import it.feio.android.omninotes.models.holders.ImageAndTextItem;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
