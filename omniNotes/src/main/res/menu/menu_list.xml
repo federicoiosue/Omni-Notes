@@ -34,28 +34,28 @@
         app:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/menu_tags"
-        android:icon="@drawable/ic_action_labels"
+        android:icon="@drawable/ic_action_labels_light"
         android:orderInCategory="200"
         android:title="@string/tags"
         android:visible="false"
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_share"
-        android:icon="@drawable/ic_action_share"
+        android:icon="@drawable/ic_action_share_light"
         android:orderInCategory="300"
         android:title="@string/share"
         android:visible="false"
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_merge"
-        android:icon="@drawable/ic_action_add_to_queue"
+        android:icon="@drawable/ic_call_merge_white"
         android:orderInCategory="400"
         android:title="@string/merge"
         android:visible="false"
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_category"
-        android:icon="@drawable/ic_action_category"
+        android:icon="@drawable/ic_action_category_light"
         android:orderInCategory="600"
         android:title="@string/category"
         android:visible="false"
