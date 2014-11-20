@@ -23,6 +23,7 @@
         <item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <!-- ActionBar styles -->
