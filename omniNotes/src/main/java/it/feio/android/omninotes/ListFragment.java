@@ -190,7 +190,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 		// Activity title initialization
 		initTitle();
 
-		ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
+//		ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
 	}
 
     private void initFab() {

@@ -26,8 +26,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.google.analytics.tracking.android.MapBuilder;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+//import com.google.android.gms.common.ConnectionResult;
+//import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.json.JSONObject;
 
@@ -256,9 +256,9 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 * @return
 	 */
 	private boolean isGooglePlayAvailable() {
-        boolean googlePlayStoreInstalled;
-        int val= GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
-        googlePlayStoreInstalled = val == ConnectionResult.SUCCESS;
+        boolean googlePlayStoreInstalled = true;
+//        int val= GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
+//        googlePlayStoreInstalled = val == ConnectionResult.SUCCESS;
         return googlePlayStoreInstalled;
     }
 }

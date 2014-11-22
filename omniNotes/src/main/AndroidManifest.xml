@@ -16,11 +16,8 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="it.feio.android.omninotes" >
-
-    <uses-sdk
-        tools:node="replace" />
+" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -55,9 +52,9 @@
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".ListActivity" />
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+        <!--<meta-data-->
+            <!--android:name="com.google.android.gms.version"-->
+            <!--android:value="@integer/google_play_services_version" />-->
 
         <!-- List and Detail -->
         <activity
@@ -124,7 +121,7 @@
             android:theme="@style/Theme.AppCompat.Dialog" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
+                android:value=".MainActivity" />
         </activity>
 
         <!-- Settings -->
@@ -135,7 +132,7 @@
             android:theme="@style/Theme.Preferences" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
+                android:value=".MainActivity" />
         </activity>
 
         <!-- Password -->

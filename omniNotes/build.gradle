@@ -14,12 +14,11 @@ android {
     
     buildTypes {
         release {
-            runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            applicationVariants.all { variant ->
-                def file = variant.outputFile
-                variant.outputFile = new File(file.parent, file.name.replace(".apk", "-" + defaultConfig.versionName + ".apk"))
-            }
+//            applicationVariants.all { variant ->
+//                def file = variant.outputFile
+//                variant.outputFile = new File(file.parent, file.name.replace(".apk", "-" + defaultConfig.versionName + ".apk"))
+//            }
         }
     }
     lintOptions {
@@ -38,18 +37,19 @@ dependencies {
     compile 'com.larswerkman:HoloColorPicker:1.4'
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
-    compile 'com.nhaarman.listviewanimations:library:2.6.0'
+//    compile 'com.nhaarman.listviewanimations:library:2.6.0'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
     compile 'ch.acra:acra:4.5.0'
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
     compile 'com.android.support:appcompat-v7:21.0.0'
-    compile 'com.google.android.gms:play-services:6.1.71'
+//    compile 'com.google.android.gms:play-services:6.1.71'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'org.roboguice:roboguice:3.0'
     compile 'com.melnykov:floatingactionbutton:1.0.7'
     compile 'com.github.gabrielemariotti.cards:cardslib-core:2.0.1'
     compile 'com.github.gabrielemariotti.cards:cardslib-cards:2.0.1'
     compile 'com.github.gabrielemariotti.cards:cardslib-recyclerview:2.0.1'
+    compile 'com.github.bumptech.glide:glide:3.4.+'
 
     compile 'it.feio.android:simplegallery:1.1.0'
     compile 'it.feio.android:springpadimporter:1.0.0'

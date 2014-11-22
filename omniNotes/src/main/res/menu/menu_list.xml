@@ -102,13 +102,6 @@
         android:title="@string/sort"
         android:visible="false"
         app:showAsAction="ifRoom"/>
-    <!--<item-->
-        <!--android:id="@+id/menu_add_category"-->
-        <!--android:icon="@drawable/ic_action_new_category"-->
-        <!--android:orderInCategory="700"-->
-        <!--android:title="@string/add_category"-->
-        <!--android:visible="false"-->
-        <!--app:showAsAction="always"/>-->
     <item
         android:id="@+id/menu_expanded_view"
         android:orderInCategory="800"
