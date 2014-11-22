@@ -190,7 +190,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 		// Activity title initialization
 		initTitle();
 
-//		ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
+		ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
 	}
 
     private void initFab() {
@@ -283,9 +283,9 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 
 		// Clears data structures
 		// getSelectedNotes().clear();
-		if (mAdapter != null) {
-			mAdapter.clearSelectedItems();
-		}
+//		if (mCardArrayAdapter != null) {
+//			mAdapter.clearSelectedItems();
+//		}
 		listView.clearChoices();
 		if (mCardArrayAdapter.getActionMode() != null) {
 			mCardArrayAdapter.getActionMode().finish();
@@ -432,26 +432,26 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 	/**
 	 * Manage check/uncheck of notes in list during multiple selection phase
 	 */
-	private void toggleListViewItem(View view, int position) {
-		Note note = mAdapter.getItem(position);
-		LinearLayout v = (LinearLayout) view.findViewById(R.id.card_layout);
-		if (!getSelectedNotes().contains(note)) {
-			getSelectedNotes().add(note);
-			mAdapter.addSelectedItem(position);
-			v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
-		} else {
-			getSelectedNotes().remove(note);
-			mAdapter.removeSelectedItem(position);
-			mAdapter.restoreDrawable(note, v);
-		}
-//		prepareActionModeMenu();
-
-		// Close CAB if no items are selected
-		if (getSelectedNotes().size() == 0) {
-			finishActionMode();
-		}
-
-	}
+//	private void toggleListViewItem(View view, int position) {
+//		Note note = mAdapter.getItem(position);
+//		LinearLayout v = (LinearLayout) view.findViewById(R.id.card_layout);
+//		if (!getSelectedNotes().contains(note)) {
+//			getSelectedNotes().add(note);
+//			mAdapter.addSelectedItem(position);
+//			v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+//		} else {
+//			getSelectedNotes().remove(note);
+//			mAdapter.removeSelectedItem(position);
+//			mAdapter.restoreDrawable(note, v);
+//		}
+////		prepareActionModeMenu();
+//
+//		// Close CAB if no items are selected
+//		if (getSelectedNotes().size() == 0) {
+//			finishActionMode();
+//		}
+//
+//	}
 
 
 	/**
@@ -897,8 +897,8 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        for (int i = 0; i < mAdapter.getCount(); i++) {
-                            getSelectedNotes().add(mAdapter.getItem(i));
+                        for (int i = 0; i < mCardArrayAdapter.getCount(); i++) {
+                            getSelectedNotes().add(mCardArrayAdapter.getItemNote(i));
                         }
                         deleteNotesExecute();
                     }
@@ -1107,7 +1107,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
             cards.add(initCard(notes, layout, i));
         }
 
-        mCardArrayAdapter = new NoteCardArrayMultiChoiceAdapter(getActivity(), cards);
+        mCardArrayAdapter = new NoteCardArrayMultiChoiceAdapter(getActivity(), cards, notes);
         mCardArrayAdapter.setUndoBarUIElements(new UndoBarController.DefaultUndoBarUIElements(){
             @Override
             public SwipeDirectionEnabled isEnabledUndoBarSwipeAction() {
@@ -1118,7 +1118,6 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
                 return AnimationType.TOPBOTTOM;
             }
         });
-
         //Enable undo controller!
         mCardArrayAdapter.setEnableUndo(true);
 
@@ -1168,7 +1167,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 				((MainActivity) getActivity()).initNavigationDrawer();
 			} else {
 				// Saves notes to be eventually restored at right position
-				undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
+				undoNotesList.put(mCardArrayAdapter.getPosition(note) + undoNotesList.size(), note);
                 modifiedNotes.add(note);
 			}
 			// Removes note adapter
@@ -1192,7 +1191,12 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 
 		// Creation of undo bar
 		if (trash) {
-//			ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.trashed), null);
+			ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.trashed), null, new UndoBarController.UndoBarHideListener() {
+                @Override
+                public void onUndoBarHide(boolean b) {
+                    Ln.d("UndoBar hidden");
+                }
+            });
 			undoTrash = true;
 		} else {
 			getSelectedNotes().clear();
@@ -1215,7 +1219,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 	protected void trashNote(Note note, boolean trash) {
 		DbHelper.getInstance(getActivity()).trashNote(note, trash);
 		// Update adapter content
-		mAdapter.remove(note);
+		mCardArrayAdapter.remove(note);
 		// Informs about update
 		Ln.d("Trashed/restored note with id '" + note.get_id() + "'");
 	}

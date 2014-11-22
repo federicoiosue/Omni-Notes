@@ -28,9 +28,16 @@ public class NoteCardArrayMultiChoiceAdapter extends CardArrayMultiChoiceAdapter
     private ActionMode mActionMode;
     private OnCABItemClickedListener onCABItemClickedListener;
     private List<Card> cards;
+    private List<Note> notes;
 
-    public NoteCardArrayMultiChoiceAdapter(Context context, List<Card> cards) {
+    private NoteCardArrayMultiChoiceAdapter(Context context, List<Card> cards) {
         super(context, cards);
+        this.cards = cards;
+    }
+
+    public NoteCardArrayMultiChoiceAdapter(Context context, List<Card> cards, List<Note> notes) {
+        super(context, cards);
+        this.notes = notes;
         this.cards = cards;
     }
 
@@ -122,5 +129,24 @@ public class NoteCardArrayMultiChoiceAdapter extends CardArrayMultiChoiceAdapter
         for (int i = 0; i < cards.size(); i++) {
             getCardListView().setItemChecked(i, true);
         }
+    }
+
+    public int getPosition(Note note) {
+        for (Card card : cards) {
+            if (((NoteCard) card).getNote().get_id() == note.get_id()) {
+                return getPosition(card);
+            }
+        }
+        return -1;
+    }
+
+    public Note getItemNote(int position) {
+        return ((NoteCard)getItem(position)).getNote();
+    }
+
+    public void remove(Note note) {
+        int index = notes.indexOf(note);
+        notes.remove(index);
+        cards.remove(index);
     }
 }
