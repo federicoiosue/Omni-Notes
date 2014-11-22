@@ -1,44 +1,60 @@
 package it.feio.android.omninotes.models.adapters;
 
+import android.app.Activity;
 import android.content.Context;
-import android.util.SparseBooleanArray;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.view.ActionMode;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.ImageView;
+
+import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.async.TextWorkerTask;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.listeners.OnCABItemClickedListener;
 import it.feio.android.omninotes.models.views.NoteCard;
+import it.feio.android.omninotes.models.views.SquareImageView;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.Navigation;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayMultiChoiceAdapter;
 import it.gmariotti.cardslib.library.view.base.CardViewWrapper;
+import roboguice.util.Ln;
 
 public class NoteCardArrayMultiChoiceAdapter extends CardArrayMultiChoiceAdapter {
 
+    private final Activity activity;
     private ActionMode mActionMode;
     private OnCABItemClickedListener onCABItemClickedListener;
     private List<Card> cards;
     private List<Note> notes;
+    private LayoutInflater inflater;
 
-    private NoteCardArrayMultiChoiceAdapter(Context context, List<Card> cards) {
-        super(context, cards);
+    private NoteCardArrayMultiChoiceAdapter(Activity activity, List<Card> cards) {
+        super(activity, cards);
         this.cards = cards;
+        this.activity = activity;
     }
 
-    public NoteCardArrayMultiChoiceAdapter(Context context, List<Card> cards, List<Note> notes) {
-        super(context, cards);
+    public NoteCardArrayMultiChoiceAdapter(Activity activity, List<Card> cards, List<Note> notes) {
+        this(activity, cards);
         this.notes = notes;
-        this.cards = cards;
     }
 
     public void setOnActionItemClickedListener(OnCABItemClickedListener onCABItemClickedListener) {
@@ -141,7 +157,7 @@ public class NoteCardArrayMultiChoiceAdapter extends CardArrayMultiChoiceAdapter
     }
 
     public Note getItemNote(int position) {
-        return ((NoteCard)getItem(position)).getNote();
+        return ((NoteCard) getItem(position)).getNote();
     }
 
     public void remove(Note note) {
@@ -149,4 +165,5 @@ public class NoteCardArrayMultiChoiceAdapter extends CardArrayMultiChoiceAdapter
         notes.remove(index);
         cards.remove(index);
     }
+
 }

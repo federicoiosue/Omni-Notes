@@ -1131,7 +1131,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 
     private NoteCard initCard(ArrayList<Note> notes, int layout, int i) {
         Note note = notes.get(i);
-        NoteCard card = new NoteCard(OmniNotes.getAppContext(), note, layout);
+        NoteCard card = new NoteCard(getActivity(), note, layout);
         card.setOnClickListener(new Card.OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
