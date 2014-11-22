@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,12 +29,14 @@ import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore.Images.Thumbnails;
+import android.text.TextUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import roboguice.util.Ln;
@@ -44,7 +46,7 @@ public class BitmapHelper {
 
 	/**
 	 * Decodifica ottimizzata per la memoria dei bitmap
-	 * 
+	 *
 	 * @param uri
 	 *            URI bitmap
 	 * @param reqWidth
@@ -69,9 +71,9 @@ public class BitmapHelper {
 		Bitmap bmp = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri), null, options);
 		return bmp;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Decoding with inJustDecodeBounds=true to check sampling index without breaking memory
 	 * @param mContext
@@ -101,16 +103,16 @@ public class BitmapHelper {
 		}
 		return inSampleSize;
 	}
-	
-	
-	
+
+
+
 	public static Uri getUri(Context mContext, int resource_id) {
 		Uri uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + resource_id);
 		return uri;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Creates a thumbnail of requested size by doing a first sampled decoding of the bitmap to optimize memory
 	 * @param ctx
@@ -125,14 +127,14 @@ public class BitmapHelper {
 		Bitmap dstBmp = null;
 		try {
 			srcBmp = decodeSampledFromUri(mContext, uri, reqWidth, reqHeight);
-			
-			// If picture is smaller than required thumbnail 
+
+			// If picture is smaller than required thumbnail
 			if (srcBmp.getWidth() < reqWidth && srcBmp.getHeight() < reqHeight) {
 				dstBmp = ThumbnailUtils.extractThumbnail(srcBmp, reqWidth, reqHeight);
-				
+
 			// Otherwise the ratio between measures is calculated to fit requested thumbnail's one
 			} else {
-				
+
 				// Cropping
 				int x = 0, y = 0, width = srcBmp.getWidth(), height = srcBmp.getHeight();
 				float ratio = ((float)reqWidth / (float)reqHeight) * ((float)srcBmp.getHeight() / (float)srcBmp.getWidth());
@@ -151,10 +153,10 @@ public class BitmapHelper {
 		srcBmp = null;
 		return dstBmp;
 	}
-	
-	
-	
-	
+
+
+
+
 	/**
 	 * Scales a bitmap to fit required ratio
 	 * @param bmp Image to be scaled
@@ -187,9 +189,9 @@ public class BitmapHelper {
 
 		return scaledBitmap;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * To avoid problems with rotated videos retrieved from camera
 	 * @param bitmap
@@ -220,16 +222,16 @@ public class BitmapHelper {
 		}
 		return resultBitmap;
 	}
-	
 
-	
-	
+
+
+
 	/**
 	 * Draws text on a bitmap
-	 * 
+	 *
 	 * @param mContext Context
 	 * @param bitmap Bitmap to draw on
-	 * @param text Text string to be written 
+	 * @param text Text string to be written
 	 * @return
 	 */
 	public static Bitmap drawTextToBitmap(Context mContext, Bitmap bitmap,
@@ -268,14 +270,14 @@ public class BitmapHelper {
 		// Preparing text paint bounds
 		Rect bounds = new Rect();
 		paint.getTextBounds(text, 0, text.length(), bounds);
-		
+
 		// Calculating position
 		int x, y;
 		// If no offset are set default is center of bitmap
 		if (offsetX == null) {
 			x = (bitmap.getWidth() - bounds.width()) / 2;
 		} else {
-			// If is a positive offset is set position is calculated 
+			// If is a positive offset is set position is calculated
 			// starting from left limit of bitmap
 			if (offsetX >= 0) {
 				x = offsetX;
@@ -289,7 +291,7 @@ public class BitmapHelper {
 		if (offsetY == null) {
 			y = (bitmap.getHeight() - bounds.height()) / 2;
 		} else {
-			// If is a positive offset is set position is calculated 
+			// If is a positive offset is set position is calculated
 			// starting from top limit of bitmap
 			if (offsetY >= 0) {
 				y = offsetY;
@@ -305,21 +307,21 @@ public class BitmapHelper {
 
 		return bitmap;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	public static InputStream getBitmapInputStream(Bitmap bitmap) {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream(); 
-		bitmap.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, bos); 
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		bitmap.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
 		byte[] bitmapdata = bos.toByteArray();
 		ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
 		return bs;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Retrieves a the bitmap relative to attachment based on mime type
 	 * @param mContext
@@ -330,8 +332,8 @@ public class BitmapHelper {
 	 */
 	public static Bitmap getBitmapFromAttachment(Context mContext, Attachment mAttachment, int width, int height) {
 		Bitmap bmp = null;
-		String path = mAttachment.getUri().getPath();	
-				
+		String path = mAttachment.getUri().getPath();
+
 		// Video
 		if (Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
 			// Tries to retrieve full path from ContentResolver if is a new video
@@ -342,7 +344,7 @@ public class BitmapHelper {
 				path = FileHelper.getPath(mContext, mAttachment.getUri());
 			}
 			bmp = ThumbnailUtils.createVideoThumbnail(path,
-					Thumbnails.MINI_KIND);			
+					Thumbnails.MINI_KIND);
 			if (bmp == null) {
 				return null;
 			} else {
@@ -351,8 +353,8 @@ public class BitmapHelper {
 
 		// Image
 		} else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
-					|| Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())) {					
-			try {				
+					|| Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())) {
+			try {
 				bmp = BitmapHelper.getThumbnail(mContext, mAttachment.getUri(), width, height);
 			} catch (NullPointerException e) {
 				bmp = null;
@@ -363,21 +365,40 @@ public class BitmapHelper {
 			bmp = ThumbnailUtils.extractThumbnail(
 					decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R.drawable.play),
 							width, height), width, height);
-		
+
 		// File
 		} else if (Constants.MIME_TYPE_FILES.equals(mAttachment.getMime_type())) {
 				bmp = ThumbnailUtils.extractThumbnail(
 						decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R.drawable.files),
 								width, height), width, height);
 		}
-		
+
 		return bmp;
 	}
 
-	
+
+    public static Uri getThumbnailUri(Context mContext, Attachment mAttachment) {
+        Uri uri = mAttachment.getUri();
+        String mimeType = StorageManager.getMimeType(uri.toString());
+        if (!TextUtils.isEmpty(mimeType)) {
+            String type = mimeType.replaceFirst("/.*", "");
+            if (type.equals("image") || type.equals("video")) {
+                // Nothing to do, bitmap will be retrieved from this
+            } else if (type.equals("audio")) {
+                uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.drawable.play);
+            } else {
+                uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.drawable.files);
+            }
+        } else {
+            uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.drawable.files);
+        }
+        return uri;
+    }
+
+
 	/**
 	 * Draws a watermark on ImageView to highlight videos
-	 * 
+	 *
 	 * @param bmp
 	 * @param overlay
 	 * @return
@@ -398,11 +419,11 @@ public class BitmapHelper {
 
 		return thumbnail;
 	}
-	
-	
 
 
-	
+
+
+
 	/**
 	 * Checks if a bitmap is null and returns a placeholder in its place
 	 * @param mContext
@@ -420,26 +441,26 @@ public class BitmapHelper {
 //		}
 //		return bmp;
 //	}
-	
-	
-	
-	
+
+
+
+
 	private static int dpToPx(Context mContext, int dp) {
 		float density = mContext.getResources().getDisplayMetrics().density;
 		return Math.round((float) dp * density);
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	public static Bitmap decodeSampledBitmapFromResourceMemOpt(InputStream inputStream, int reqWidth, int reqHeight) {
 
 		byte[] byteArr = new byte[0];
 		byte[] buffer = new byte[1024];
 		int len;
 		int count = 0;
-		
+
 //		int[] pids = { android.os.Process.myPid() };
 //        MemoryInfo myMemInfo = mAM.getProcessMemoryInfo(pids)[0];
 
@@ -479,5 +500,5 @@ public class BitmapHelper {
 			return null;
 		}
 	}
-	
+
 }

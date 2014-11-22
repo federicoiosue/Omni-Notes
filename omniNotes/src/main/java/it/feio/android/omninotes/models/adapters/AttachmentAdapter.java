@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.views.SquareImageView;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.date.DateHelper;
@@ -121,13 +124,19 @@ public class AttachmentAdapter extends BaseAdapter {
 		}
 
 		// Starts the AsyncTask to draw bitmap into ImageView
-		loadThumbnail(holder, mAttachment);
+//		loadThumbnail(holder, mAttachment);
+        Uri thumbnailUri = BitmapHelper.getThumbnailUri(mActivity, mAttachment);
+        Glide.with(mActivity)
+                .load(thumbnailUri)
+                .centerCrop()
+                .crossFade()
+                .into(holder.image);
 
 		return convertView;
 	}
- 
-	
-	
+
+
+
 	@SuppressLint("NewApi")
 	private void loadThumbnail(AttachmentHolder holder, Attachment mAttachment) {
 		if (cancelPotentialWork(mAttachment.getUri(), holder.image)) {

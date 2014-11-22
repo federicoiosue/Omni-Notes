@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.neopixl.pixlui.components.textview.TextView;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import it.feio.android.omninotes.async.BitmapWorkerTask;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardHeader;
@@ -29,6 +31,7 @@ import roboguice.util.Ln;
 
 public class NoteCard extends Card {
 
+    private final Context context;
     protected TextView titleView;
     protected TextView contentView;
     protected SquareImageView thumbnail;
@@ -41,6 +44,7 @@ public class NoteCard extends Card {
 
     public NoteCard(Context context, Note note, int innerLayout) {
         super(context, innerLayout);
+        this.context = context;
         this.note = note;
         init();
     }
@@ -58,7 +62,6 @@ public class NoteCard extends Card {
 //        buildThumbnail();
         setSwipe();
     }
-
 
     private void setSwipe() {
         setSwipeable(true);
@@ -82,48 +85,6 @@ public class NoteCard extends Card {
         });
     }
 
-
-//    private void buildTitle() {
-//        CardHeader cardHeader = new CardHeader(mContext);
-//        cardHeader.setTitle(note.getTitle());
-//        addCardHeader(cardHeader);
-//    }
-//
-//
-//    private void buildContent() {
-//        CardHeader cardHeader = new CardHeader(mContext);
-//        cardHeader.setTitle(note.getTitle());
-//        addCardHeader(cardHeader);
-//    }
-//
-//
-//    private void buildThumbnail() {
-//        CardThumbnail cardThumbnail = new CardThumbnail(mContext);
-//        Uri urlResource = getThumbnailUri();
-//        if (urlResource != null) {
-//            cardThumbnail.setUrlResource(urlResource.toString());
-//        }
-//        addCardThumbnail(cardThumbnail);
-//    }
-//
-//    private Uri getThumbnailUri() {
-//        Uri resourceURI = null;
-//        List<Attachment> attachments = note.getAttachmentsList();
-//        if (attachments.size() > 0) {
-//            if (attachments.get(0).getMime_type().equals(Constants.MIME_TYPE_FILES)) {
-//                resourceURI = Uri.parse("android.resource://" + OmniNotes.getAppContext().getPackageName() + "/" + R
-//                        .drawable.files);
-//            } else if (attachments.get(0).getMime_type().equals(Constants.MIME_TYPE_AUDIO)) {
-//                resourceURI = Uri.parse("android.resource://" + OmniNotes.getAppContext().getPackageName() + "/" + R
-//                        .drawable.play);
-//            } else if (attachments.get(0).getMime_type().equals(Constants.MIME_TYPE_IMAGE) || attachments.get(0)
-//                    .getMime_type().equals(Constants.MIME_TYPE_SKETCH)) {
-//                resourceURI = attachments.get(0).getUri();
-//            }
-//        }
-//        return resourceURI;
-//    }
-
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
 
@@ -142,29 +103,19 @@ public class NoteCard extends Card {
         if (thumbnail != null) {
             List<Attachment> attachments = note.getAttachmentsList();
             if (attachments.size() > 0) {
-                loadThumbnail(thumbnail, attachments.get(0));
-            }
-        }
-
-    }
-
-
-    @SuppressLint("NewApi")
-    private void loadThumbnail(SquareImageView imageView, Attachment mAttachment) {
-//		if (isNewWork(mAttachment.getUri(), holder.attachmentThumbnail)) {
-        BitmapWorkerTask task = new BitmapWorkerTask(mContext, imageView,
-                Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
-        imageView.setAsyncTask(task);
-        try {
-            if (Build.VERSION.SDK_INT >= 11) {
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
+                Uri thumbnailUri = BitmapHelper.getThumbnailUri(context, attachments.get(0));
+                Glide.with(context)
+                        .load(thumbnailUri)
+                        .centerCrop()
+                        .placeholder(R.drawable.abc_spinner_mtrl_am_alpha)
+                        .crossFade()
+                        .into(thumbnail);
             } else {
-                task.execute(mAttachment);
+                thumbnail.setImageResource(0);
+                thumbnail.setVisibility(View.GONE);
             }
-        } catch (RejectedExecutionException e) {
-            Ln.w(e, "Oversized tasks pool to load thumbnails!");
         }
-        imageView.setVisibility(View.VISIBLE);
+
     }
 
 
