@@ -39,7 +39,6 @@ import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
@@ -57,6 +56,7 @@ import it.feio.android.omninotes.models.adapters.NoteCardArrayMultiChoiceAdapter
 import it.feio.android.omninotes.models.listeners.OnCABItemClickedListener;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
+import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.models.views.NoteCard;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
@@ -1105,6 +1105,20 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
             mCardArrayAdapter.setOnActionItemClickedListener(this);
         }
+
+		// Replace listview with Mr. Jingles if it is empty
+		if (notes.size() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+
+		// Restores listview position when turning back to list
+		if (listView != null && notes.size() > 0) {
+			if (listView.getCount() > listViewPosition) {
+				listView.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+			} else {
+				listView.setSelectionFromTop(0, 0);
+			}
+		}
+
+//        ((InterceptorLinearLayout) getActivity().findViewById(R.id.list_root)).setOnViewTouchedListener(this);
     }
 
 
