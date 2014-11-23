@@ -71,7 +71,9 @@
             android:id="@+id/carddemo_list_gplaycard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            card:list_card_layout_resourceID="@layout/note_layout_expanded"/>
+            card:list_card_layout_resourceID="@layout/note_layout_expanded"
+            android:scrollbarStyle="outsideOverlay"
+            android:fastScrollEnabled="true"/>
 
         <LinearLayout
             android:layout_width="match_parent"

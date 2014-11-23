@@ -9,11 +9,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,13 +18,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.UpdaterTask;
@@ -37,10 +29,12 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
-import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import roboguice.util.Ln;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, OnPushBulletReplyListener {
@@ -171,9 +165,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
 //			List view is set as transparent to perform a fade in animation and give a smoother sensation
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-				AlphaManager.setAlpha(findViewById(R.id.notes_list), 0);
-			}
+//			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//				AlphaManager.setAlpha(findViewById(R.id.notes_list), 0);
+//			}
 			((ListFragment)f).toggleSearchLabel(false);
 			((ListFragment)f).initNotesList(intent);
 		}
