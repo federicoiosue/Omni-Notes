@@ -72,7 +72,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             card:list_card_layout_resourceID="@layout/note_layout_expanded"/>
-        <!--card:list_card_layout_resourceID="@layout/native_list_card_thumbnail_layout"/>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,22 +94,7 @@
 
     </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
 
-    <LinearLayout
-        android:id="@+id/undobar"
-        style="@style/UndoBar"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/undobar_message"
-            style="@style/UndoBarMessage"/>
-
-        <View style="@style/UndoBarDivider"/>
-
-        <Button
-            android:id="@+id/undobar_button"
-            style="@style/UndoBarButton"/>
-    </LinearLayout>
+    <include layout="@layout/list_card_undo_material_message"/>
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"

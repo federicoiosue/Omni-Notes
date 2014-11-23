@@ -12,7 +12,7 @@ import it.feio.android.omninotes.models.Category;
 public class Navigation {
 
 	public static final int NOTES = 0;
-	public static final int ARCHIVED = 1;
+	public static final int ARCHIVE = 1;
 	public static final int REMINDERS = 2;
 	public static final int TRASH = 3;
     public static final int UNCATEGORIZED = 4;
@@ -31,8 +31,8 @@ public class Navigation {
         if (navigationListCodes[NOTES].equals(navigation)) {
 			return NOTES;
 		} 
-		else if (navigationListCodes[ARCHIVED].equals(navigation)) {
-			return ARCHIVED;
+		else if (navigationListCodes[ARCHIVE].equals(navigation)) {
+			return ARCHIVE;
 		} 
 		else if (navigationListCodes[REMINDERS].equals(navigation)) {
 			return REMINDERS;

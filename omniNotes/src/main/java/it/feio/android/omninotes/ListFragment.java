@@ -24,7 +24,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -34,57 +33,33 @@ import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.SparseArray;
-import android.view.ActionMode;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-
+import android.widget.Toast;
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.melnykov.fab.FloatingActionButton;
 import com.neopixl.pixlui.components.textview.TextView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.async.NoteLoaderTask;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
-import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.adapters.NoteCardArrayMultiChoiceAdapter;
 import it.feio.android.omninotes.models.listeners.OnCABItemClickedListener;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.NoteCard;
-import it.feio.android.omninotes.utils.AppTourHelper;
-import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
-import it.feio.android.omninotes.utils.KeyboardUtils;
-import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.pixlui.links.RegexPatternsConstants;
 import it.feio.android.pixlui.links.UrlCompleter;
 import it.gmariotti.cardslib.library.internal.Card;
@@ -92,15 +67,18 @@ import it.gmariotti.cardslib.library.view.CardListView;
 import it.gmariotti.cardslib.library.view.listener.UndoBarController;
 import roboguice.util.Ln;
 
-public class ListFragment extends Fragment implements UndoBarController.UndoListener, OnNotesLoadedListener, OnViewTouchedListener, OnCABItemClickedListener {
+import java.util.*;
+import java.util.regex.Matcher;
+
+public class ListFragment extends Fragment implements OnNotesLoadedListener, OnViewTouchedListener, OnCABItemClickedListener {
 
 	static final int REQUEST_CODE_DETAIL = 1;
 	private static final int REQUEST_CODE_CATEGORY = 2;
 	private static final int REQUEST_CODE_CATEGORY_NOTES = 3;
 
 	private CardListView listView;
-    private NoteAdapter mAdapter;
 //	private List<Note> getSelectedNotes() = new ArrayList<Note>();
+	private Note swipedNote;
     private List<Note> modifiedNotes = new ArrayList<Note>();
 	private SearchView searchView;
     private MenuItem searchMenuItem;
@@ -132,6 +110,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
     // Floating actioon button
     private FloatingActionButton fab;
     private NoteCardArrayMultiChoiceAdapter mCardArrayAdapter;
+    private int layoutSelected;
 
 
     @Override
@@ -284,7 +263,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 		// Clears data structures
 		// getSelectedNotes().clear();
 //		if (mCardArrayAdapter != null) {
-//			mAdapter.clearSelectedItems();
+//			mCardArrayAdapter.clearSelectedItems();
 //		}
 		listView.clearChoices();
 		if (mCardArrayAdapter.getActionMode() != null) {
@@ -353,11 +332,11 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 //			// Here you can make any necessary updates to the activity when
 //			// the CAB is removed. By default, selected items are
 //			// deselected/unchecked.
-//			for (int i = 0; i < mAdapter.getSelectedItems().size(); i++) {
-//				int key = mAdapter.getSelectedItems().keyAt(i);
+//			for (int i = 0; i < mCardArrayAdapter.getSelectedItems().size(); i++) {
+//				int key = mCardArrayAdapter.getSelectedItems().keyAt(i);
 //				View v = listView.getChildAt(key - listView.getFirstVisiblePosition());
-//				if (mAdapter.getCount() > key && mAdapter.getItem(key) != null && v != null) {
-//					mAdapter.restoreDrawable(mAdapter.getItem(key), v.findViewById(R.id.card_layout));
+//				if (mCardArrayAdapter.getCount() > key && mCardArrayAdapter.getItem(key) != null && v != null) {
+//					mCardArrayAdapter.restoreDrawable(mCardArrayAdapter.getItem(key), v.findViewById(R.id.card_layout));
 //				}
 //			}
 //
@@ -366,7 +345,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 //
 //			// Clears data structures
 //			getSelectedNotes().clear();
-//			mAdapter.clearSelectedItems();
+//			mCardArrayAdapter.clearSelectedItems();
 //			listView.clearChoices();
 //
 //			mCardArrayAdapter.getActionMode() = null;
@@ -433,16 +412,16 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 	 * Manage check/uncheck of notes in list during multiple selection phase
 	 */
 //	private void toggleListViewItem(View view, int position) {
-//		Note note = mAdapter.getItem(position);
+//		Note note = mCardArrayAdapter.getItem(position);
 //		LinearLayout v = (LinearLayout) view.findViewById(R.id.card_layout);
 //		if (!getSelectedNotes().contains(note)) {
 //			getSelectedNotes().add(note);
-//			mAdapter.addSelectedItem(position);
+//			mCardArrayAdapter.addSelectedItem(position);
 //			v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
 //		} else {
 //			getSelectedNotes().remove(note);
-//			mAdapter.removeSelectedItem(position);
-//			mAdapter.restoreDrawable(note, v);
+//			mCardArrayAdapter.removeSelectedItem(position);
+//			mCardArrayAdapter.restoreDrawable(note, v);
 //		}
 ////		prepareActionModeMenu();
 //
@@ -494,7 +473,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 //			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
 //				if (view.equals(listFooter)) return;
 //				if (mCardArrayAdapter.getActionMode() == null) {
-//					Note note = mAdapter.getItem(position);
+//					Note note = mCardArrayAdapter.getItem(position);
 //					editNote(note);
 //					return;
 //				}
@@ -688,11 +667,11 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
                     break;
                 case R.id.menu_archive:
                     archiveNotes(true);
-                    actionMode.finish();
+//                    actionMode.finish();
                     break;
                 case R.id.menu_unarchive:
                     archiveNotes(false);
-                    actionMode.finish();
+//                    actionMode.finish();
                     break;
                 case R.id.menu_trash:
                     trashNotes(true);
@@ -1028,16 +1007,16 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 
 	@Override
 	public void onNotesLoaded(ArrayList<Note> notes) {
-		int layout = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
+		layoutSelected = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
 				: R.layout.note_layout;
 
-        initCards(notes, layout);
+        initCards(notes);
 
 
-//		mAdapter = new NoteAdapter(getActivity(), layout, notes);
+//		mCardArrayAdapter = new NoteAdapter(getActivity(), layout, notes);
 //
 //		// A specifical behavior is performed basing on navigation
-//		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mAdapter, new OnDismissCallback() {
+//		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mCardArrayAdapter, new OnDismissCallback() {
 //			@Override
 //			public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
 //
@@ -1045,7 +1024,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 //				finishActionMode();
 //
 //				for (int position : reverseSortedPositions) {
-//					Note note = mAdapter.getItem(position);
+//					Note note = mCardArrayAdapter.getItem(position);
 //					getSelectedNotes().add(note);
 //
 //					// Depending on settings and note status this action will...
@@ -1059,7 +1038,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 //					} else {
 //						// ...trash
 //						if (prefs.getBoolean("settings_swipe_to_trash", false)
-//								|| Navigation.checkNavigation(Navigation.ARCHIVED)) {
+//								|| Navigation.checkNavigation(Navigation.ARCHIVE)) {
 //							trashNotes(true);
 //                        // ...archive
 //						} else {
@@ -1089,7 +1068,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 	}
 
 
-    private void initCards(final ArrayList<Note> notes, int layout) {
+    private void initCards(final ArrayList<Note> notes) {
 
         // If device runs KitKat a footer is added to list to avoid
         // navigation bar transparency covering items
@@ -1104,20 +1083,20 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i = 0; i < notes.size(); i++) {
-            cards.add(initCard(notes, layout, i));
+            cards.add(initCard(notes.get(i)));
         }
 
         mCardArrayAdapter = new NoteCardArrayMultiChoiceAdapter(getActivity(), cards, notes);
-        mCardArrayAdapter.setUndoBarUIElements(new UndoBarController.DefaultUndoBarUIElements(){
-            @Override
-            public SwipeDirectionEnabled isEnabledUndoBarSwipeAction() {
-                return SwipeDirectionEnabled.TOPBOTTOM;
-            }
-            @Override
-            public AnimationType getAnimationType() {
-                return AnimationType.TOPBOTTOM;
-            }
-        });
+//        mCardArrayAdapter.setUndoBarUIElements(new UndoBarController.DefaultUndoBarUIElements(){
+//            @Override
+//            public SwipeDirectionEnabled isEnabledUndoBarSwipeAction() {
+//                return SwipeDirectionEnabled.TOPBOTTOM;
+//            }
+//            @Override
+//            public AnimationType getAnimationType() {
+//                return AnimationType.TOPBOTTOM;
+//            }
+//        });
         //Enable undo controller!
         mCardArrayAdapter.setEnableUndo(true);
 
@@ -1129,9 +1108,8 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
     }
 
 
-    private NoteCard initCard(ArrayList<Note> notes, int layout, int i) {
-        Note note = notes.get(i);
-        NoteCard card = new NoteCard(getActivity(), note, layout);
+    private NoteCard initCard(Note note) {
+        NoteCard card = new NoteCard(getActivity(), note, layoutSelected);
         card.setOnClickListener(new Card.OnCardClickListener() {
             @Override
             public void onClick(Card card, View view) {
@@ -1151,7 +1129,95 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
                 return true;
             }
         });
+        card.setSwipeable(true);
+        card.setOnSwipeListener(new Card.OnSwipeListener() {
+            @Override
+            public void onSwipe(Card card) {
+                ListFragment.this.onSwipe(card);
+            }
+        });
+        card.setOnUndoSwipeListListener(new Card.OnUndoSwipeListListener() {
+            @Override
+            public void onUndoSwipe(Card card) {
+                ListFragment.this.onUndoSwipe(card);
+            }
+        });
+        card.setOnUndoHideSwipeListListener(new Card.OnUndoHideSwipeListListener() {
+            @Override
+            public void onUndoHideSwipe(Card card) {
+                ListFragment.this.onUndoHideSwipe(card);
+            }
+        });
         return card;
+    }
+
+
+    private void onUndoHideSwipe(Card card) {
+        Note note = ((NoteCard) card).getNote();
+        DbHelper.getInstance(getActivity()).updateNote(note, false);
+    }
+
+
+    private void onSwipe(Card card) {
+//        Avoids conflicts with action mode
+//				finishActionMode();
+
+        Note note = ((NoteCard) card).getNote();
+//        undoNotesList.put(mCardArrayAdapter.getPosition(note) + undoNotesList.size(), note);
+//        modifiedNotes.add(note);
+//        swipedNote = note;
+
+        // Depending on settings and note status this action will...
+        // ...restore
+        if (Navigation.checkNavigation(Navigation.TRASH)) {
+//            trashNotes(false);
+            ((NoteCard) card).getNote().setTrashed(false);
+        }
+        // ...removes category
+        else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
+//            categorizeNotesExecute(null);
+            undoCategoryMap.put(note, note.getCategory());
+            ((NoteCard) card).getNote().setCategory(null);
+        } else {
+            // ...trash
+            if (prefs.getBoolean("settings_swipe_to_trash", false)
+                    || Navigation.checkNavigation(Navigation.ARCHIVE)) {
+//                trashNotes(true);
+                ((NoteCard) card).getNote().setTrashed(true);
+                // ...archive
+            } else {
+//                archiveNotes2(true);
+                ((NoteCard) card).getNote().setArchived(true);
+            }
+        }
+    }
+
+
+    private void onUndoSwipe(Card card) {
+        Note note = ((NoteCard) card).getNote();
+        // Depending on settings and note status this action will...
+        // ...restore
+        if (Navigation.checkNavigation(Navigation.TRASH)) {
+            ((NoteCard) card).getNote().setTrashed(true);
+        }
+        // ...removes category
+        else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
+            for (Map.Entry<Note, Category> noteCategoryEntry : undoCategoryMap.entrySet()) {
+                if (noteCategoryEntry.getKey().get_id() == note.get_id()) {
+                    ((NoteCard) card).getNote().setCategory(noteCategoryEntry.getValue());
+                    undoCategoryMap.remove(noteCategoryEntry);
+                }
+            }
+        } else {
+            // ...trash
+            if (prefs.getBoolean("settings_swipe_to_trash", false)
+                    || Navigation.checkNavigation(Navigation.ARCHIVE)) {
+                ((NoteCard) card).getNote().setTrashed(false);
+                // ...archive
+            } else {
+                ((NoteCard) card).getNote().setArchived(false);
+            }
+        }
     }
 
 
@@ -1171,11 +1237,11 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
                 modifiedNotes.add(note);
 			}
 			// Removes note adapter
-			mAdapter.remove(note);
+			mCardArrayAdapter.remove(note);
 		}
 
 		// If list is empty again Mr Jingles will appear again
-		if (mAdapter.getCount() == 0)
+		if (mCardArrayAdapter.getCount() == 0)
 			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		if (mCardArrayAdapter.getActionMode() != null) {
@@ -1191,12 +1257,12 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 
 		// Creation of undo bar
 		if (trash) {
-			ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.trashed), null, new UndoBarController.UndoBarHideListener() {
-                @Override
-                public void onUndoBarHide(boolean b) {
-                    Ln.d("UndoBar hidden");
-                }
-            });
+//			ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.trashed), null, new UndoBarController.UndoBarHideListener() {
+//                @Override
+//                public void onUndoBarHide(boolean b) {
+//                    Ln.d("UndoBar hidden");
+//                }
+//            });
 			undoTrash = true;
 		} else {
 			getSelectedNotes().clear();
@@ -1265,18 +1331,18 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 	 */
 	private void deleteNotesExecute() {
 		for (Note note : getSelectedNotes()) {
-			mAdapter.remove(note);
+			mCardArrayAdapter.remove(note);
 			((MainActivity) getActivity()).deleteNote(note);
 		}
 
 		// Clears data structures
-		mAdapter.clearSelectedItems();
+//		mCardArrayAdapter.clearSelectedItems();
 		listView.clearChoices();
 
 		finishActionMode();
 
 		// If list is empty again Mr Jingles will appear again
-		if (mAdapter.getCount() == 0)
+		if (mCardArrayAdapter.getCount() == 0)
 			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Advice to user
@@ -1298,29 +1364,28 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
                 archiveNote(note, false);
             } else {
                 // Saves notes to be eventually restored at right position
-                undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
+                undoNotesList.put(mCardArrayAdapter.getPosition(note) + undoNotesList.size(), note);
                 modifiedNotes.add(note);
             }
 
             // Updates adapter content. If actual navigation is a category
             // the item will not be removed but replaced to fit the new state
             if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
-                mAdapter.remove(note);
+                mCardArrayAdapter.remove(note);
             } else {
                 note.setArchived(archive);
-                mAdapter.replace(note, mAdapter.getPosition(note));
+                mCardArrayAdapter.replace(initCard(note), mCardArrayAdapter.getPosition(note));
             }
         }
 
         // Clears data structures
-        mAdapter.clearSelectedItems();
-        listView.clearChoices();
+//        listView.clearChoices();
 
         // Refresh view
-        listView.invalidateViews();
+//        listView.invalidateViews();
 
         // If list is empty again Mr Jingles will appear again
-        if (mAdapter.getCount() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+        if (mCardArrayAdapter.getCount() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
         // Advice to user
         int msg = archive ? R.string.note_archived : R.string.note_unarchived;
@@ -1337,12 +1402,40 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
     }
 
 
+    public void archiveNotes2(boolean archive) {
+        // Used in undo bar commit
+        sendToArchive = archive;
+
+        // Updates adapter content. If actual navigation is a category
+        // the item will not be removed but replaced to fit the new state
+        if (Navigation.checkNavigation(Navigation.CATEGORY)) {
+            swipedNote.setArchived(archive);
+            mCardArrayAdapter.replace(initCard(swipedNote), mCardArrayAdapter.getPosition(swipedNote));
+        }
+
+        // If list is empty again Mr Jingles will appear again
+        if (mCardArrayAdapter.getCount() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+
+        // Advice to user
+        int msg = archive ? R.string.note_archived : R.string.note_unarchived;
+        Style style = archive ? ONStyle.WARN : ONStyle.INFO;
+        Crouton.makeText(getActivity(), msg, style).show();
+
+        // Creation of undo bar
+        if (archive) {
+            undoArchive = true;
+        } else {
+            getSelectedNotes().clear();
+        }
+    }
+
+
 	private void archiveNote(Note note, boolean archive) {
 		// Deleting note using DbHelper
 		DbHelper.getInstance(getActivity()).archiveNote(note, archive);
 		// Update adapter content
 		if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
-			mAdapter.remove(note);
+			mCardArrayAdapter.remove(note);
 		}
 		// Informs the user about update
 		BaseActivity.notifyAppWidgets(getActivity());
@@ -1420,28 +1513,28 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 				// Saves categories associated to eventually undo
 				undoCategoryMap.put(note, note.getCategory());
 				// Saves notes to be eventually restored at right position
-				undoNotesList.put(mAdapter.getPosition(note) + undoNotesList.size(), note);
+				undoNotesList.put(mCardArrayAdapter.getPosition(note) + undoNotesList.size(), note);
                 modifiedNotes.add(note);
 			}
 			// Update adapter content if actual navigation is the category
 			// associated with actually cycled note
 			if (Navigation.checkNavigation(Navigation.CATEGORY) && !Navigation.checkNavigationCategory(category)) {
-				mAdapter.remove(note);
+				mCardArrayAdapter.remove(note);
 			} else {
 				note.setCategory(category);
-				mAdapter.replace(note, mAdapter.getPosition(note));
+				mCardArrayAdapter.replace(initCard(note), mCardArrayAdapter.getPosition(note));
 			}
 		}
 
 		// Clears data structures
-		mAdapter.clearSelectedItems();
+//		mCardArrayAdapter.clearSelectedItems();
 		listView.clearChoices();
 
 		// Refreshes list
 		listView.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
-		if (mAdapter.getCount() == 0)
+		if (mCardArrayAdapter.getCount() == 0)
 			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Refreshes navigation drawer if is set to show categories count numbers
@@ -1557,14 +1650,14 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 		}
 
 		// Clears data structures
-		mAdapter.clearSelectedItems();
+//		mCardArrayAdapter.clearSelectedItems();
 		listView.clearChoices();
 
 		// Refreshes list
 		listView.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
-		if (mAdapter.getCount() == 0)
+		if (mCardArrayAdapter.getCount() == 0)
 			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Refreshes navigation drawer if is set to show categories count numbers
@@ -1583,14 +1676,14 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 //	private void synchronizeSelectedNotes() {
 //		new DriveSyncTask(getActivity()).execute(new ArrayList<Note>(getSelectedNotes()));
 //		// Clears data structures
-//		mAdapter.clearSelectedItems();
+//		mCardArrayAdapter.clearSelectedItems();
 //		listView.clearChoices();
 //		finishActionMode();
 //	}
 
 
-	@Override
-	public void onUndo(Parcelable token) {
+
+	public void onUndo() {
 
 		// Cycles removed items to re-insert into adapter
 		for (Note note : modifiedNotes) {
@@ -1602,10 +1695,10 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 				} else if (undoArchive) {
 					note.setArchived(false);
 				}
-				mAdapter.replace(note, mAdapter.getPosition(note));
+				mCardArrayAdapter.replace(initCard(note), mCardArrayAdapter.getPosition(note));
 			// Manages trash undo
 			} else {
-				mAdapter.insert(note, undoNotesList.keyAt(undoNotesList.indexOfValue(note)));
+				mCardArrayAdapter.insert(initCard(note), undoNotesList.keyAt(undoNotesList.indexOfValue(note)));
 			}
 		}
 
@@ -1625,7 +1718,7 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
 		if (mCardArrayAdapter.getActionMode() != null) {
 			mCardArrayAdapter.getActionMode().finish();
 		}
-		ubc.hideUndoBar(false);
+//		ubc.hideUndoBar(false);
 	}
 
 
@@ -1653,10 +1746,10 @@ public class ListFragment extends Fragment implements UndoBarController.UndoList
             modifiedNotes.clear();
 			undoNotesList.clear();
 			undoCategoryMap.clear();
-			mAdapter.clearSelectedItems();
+//			mCardArrayAdapter.clearSelectedItems();
 			listView.clearChoices();
 
-			ubc.hideUndoBar(false);
+//			ubc.hideUndoBar(false);
 		}
 	}
 

@@ -1,41 +1,18 @@
 package it.feio.android.omninotes.models.adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.view.ActionMode;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.neopixl.pixlui.components.textview.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.RejectedExecutionException;
-
+import android.view.*;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.TextWorkerTask;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.listeners.OnCABItemClickedListener;
 import it.feio.android.omninotes.models.views.NoteCard;
-import it.feio.android.omninotes.models.views.SquareImageView;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.Navigation;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayMultiChoiceAdapter;
 import it.gmariotti.cardslib.library.view.base.CardViewWrapper;
-import roboguice.util.Ln;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NoteCardArrayMultiChoiceAdapter extends CardArrayMultiChoiceAdapter {
 
@@ -103,7 +80,7 @@ public class NoteCardArrayMultiChoiceAdapter extends CardArrayMultiChoiceAdapter
         int navigation = Navigation.getNavigation();
         boolean showArchive = navigation == Navigation.NOTES || navigation == Navigation.REMINDERS
                 || navigation == Navigation.CATEGORY;
-        boolean showUnarchive = navigation == Navigation.ARCHIVED || navigation == Navigation.CATEGORY;
+        boolean showUnarchive = navigation == Navigation.ARCHIVE || navigation == Navigation.CATEGORY;
 
         if (navigation == Navigation.TRASH) {
             menu.findItem(R.id.menu_untrash).setVisible(true);
@@ -161,9 +138,27 @@ public class NoteCardArrayMultiChoiceAdapter extends CardArrayMultiChoiceAdapter
     }
 
     public void remove(Note note) {
-        int index = notes.indexOf(note);
-        notes.remove(index);
-        cards.remove(index);
+        Card cardToRemove = null;
+        for (Card card : cards) {
+            if (((NoteCard) card).getNote().get_id() == note.get_id()) {
+                cardToRemove = card;
+            }
+        }
+        if (cardToRemove != null) {
+            remove(cardToRemove);
+        }
     }
 
+
+    /**
+     * Replaces a card
+     */
+    public void replace(Card card, int position) {
+        if (cards.indexOf(card) != -1) {
+            cards.remove(position);
+        }  else {
+            position = cards.size();
+        }
+        cards.add(position, card);
+    }
 }

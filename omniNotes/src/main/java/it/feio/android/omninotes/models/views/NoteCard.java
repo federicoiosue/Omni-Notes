@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.neopixl.pixlui.components.textview.TextView;
 import it.feio.android.omninotes.R;
@@ -40,7 +39,7 @@ public class NoteCard extends Card {
         this.activity = activity;
         this.note = note;
         expandedView = layout == R.layout.note_layout_expanded;
-        init();
+        setId(String.valueOf(note.get_id()));
     }
 
 
@@ -51,34 +50,6 @@ public class NoteCard extends Card {
 
     public void setNote(Note note) {
         this.note = note;
-    }
-
-
-    public void init() {
-        setSwipe();
-    }
-
-
-    private void setSwipe() {
-        setSwipeable(true);
-        setOnSwipeListener(new OnSwipeListener() {
-            @Override
-            public void onSwipe(Card card) {
-                Toast.makeText(getContext(), "Removed card=" + note.getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        setOnUndoSwipeListListener(new OnUndoSwipeListListener() {
-            @Override
-            public void onUndoSwipe(Card card) {
-                Toast.makeText(getContext(), "Undo card=" + note.getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        setOnUndoHideSwipeListListener(new OnUndoHideSwipeListListener() {
-            @Override
-            public void onUndoHideSwipe(Card card) {
-                Toast.makeText(getContext(), "Hide undo card=" + note.getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 

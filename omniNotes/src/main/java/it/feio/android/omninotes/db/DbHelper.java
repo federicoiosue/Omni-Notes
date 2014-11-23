@@ -293,7 +293,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			switch (navigation) {
 				case Navigation.NOTES:
 					return getNotesActive();
-				case Navigation.ARCHIVED:
+				case Navigation.ARCHIVE:
 					return getNotesArchived();
 				case Navigation.REMINDERS:
 					return getNotesWithReminder(true);
