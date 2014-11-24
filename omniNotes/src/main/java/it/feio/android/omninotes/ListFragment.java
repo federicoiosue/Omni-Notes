@@ -24,6 +24,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -37,6 +38,7 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import com.espian.showcaseview.ShowcaseView;
@@ -63,13 +65,14 @@ import it.feio.android.pixlui.links.RegexPatternsConstants;
 import it.feio.android.pixlui.links.UrlCompleter;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.view.CardListView;
+import it.gmariotti.cardslib.library.view.listener.SwipeOnScrollListener;
 import it.gmariotti.cardslib.library.view.listener.UndoBarController;
 import roboguice.util.Ln;
 
 import java.util.*;
 import java.util.regex.Matcher;
 
-public class ListFragment extends Fragment implements OnNotesLoadedListener, OnViewTouchedListener, OnCABItemClickedListener {
+public class ListFragment extends Fragment implements OnNotesLoadedListener, OnViewTouchedListener, OnCABItemClickedListener, UndoBarController.UndoListener, UndoBarController.UndoBarHideListener {
 
 	static final int REQUEST_CODE_DETAIL = 1;
 	private static final int REQUEST_CODE_CATEGORY = 2;
@@ -85,7 +88,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	private AnimationDrawable jinglesAnimation;
 	private int listViewPosition;
 	private int listViewPositionOffset;
-	private UndoBarController ubc;
 	private boolean sendToArchive;
 	private SharedPreferences prefs;
 	private ListFragment mFragment;
@@ -110,6 +112,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private FloatingActionButton fab;
     private NoteCardArrayMultiChoiceAdapter mCardArrayAdapter;
     private int layoutSelected;
+    private UndoBarController ubc;
 
 
     @Override
@@ -168,7 +171,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		// Activity title initialization
 		initTitle();
 
-//		ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
+		ubc = new UndoBarController(getActivity().findViewById(R.id.list_card_undobar), this);
 	}
 
     private void initFab() {
@@ -182,6 +185,23 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
         });
 
+        list.setOnScrollListener(
+                new SwipeOnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(AbsListView view, int scrollState) {
+                        //It is very important to call the super method here to preserve built-in functions
+                        super.onScrollStateChanged(view, scrollState);
+                        if (scrollState == SCROLL_STATE_IDLE && mCardArrayAdapter.getActionMode() == null) {
+                            fab.show();
+                        }
+                    }
+                    @Override
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                                         int totalItemCount) {
+                        fab.hide();
+                    }
+                });
+
         // In KitKat bottom padding is added by navbar height
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
@@ -190,6 +210,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     navBarHeight + DensityUtil.pxToDp(params.bottomMargin, getActivity()));
             fab.setLayoutParams(params);
         }
+        fab.show();
     }
 
 
@@ -514,10 +535,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
         if (!drawerOpen && showAdd) {
             fab.show();
-            fab.setVisibility(View.VISIBLE);
+//            fab.setVisibility(View.VISIBLE);
         } else {
             fab.hide();
-            fab.setVisibility(View.GONE);
+//            fab.setVisibility(View.GONE);
         }
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
 //		menu.findItem(R.id.menu_add_category).setVisible(drawerOpen);
@@ -1086,16 +1107,30 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
 
         mCardArrayAdapter = new NoteCardArrayMultiChoiceAdapter(getActivity(), cards, notes);
-//        mCardArrayAdapter.setUndoBarUIElements(new UndoBarController.DefaultUndoBarUIElements(){
-//            @Override
-//            public SwipeDirectionEnabled isEnabledUndoBarSwipeAction() {
-//                return SwipeDirectionEnabled.TOPBOTTOM;
-//            }
-//            @Override
-//            public AnimationType getAnimationType() {
-//                return AnimationType.TOPBOTTOM;
-//            }
-//        });
+        mCardArrayAdapter.setUndoBarUIElements(new UndoBarController.DefaultUndoBarUIElements(){
+            @Override
+            public int getUndoBarId() {
+                return R.id.list_card_undobar;
+            }
+
+            @Override
+            public int getUndoBarMessageId() {
+                return R.id.list_card_undobar_message;
+            }
+
+            @Override
+            public int getUndoBarButtonId() {
+                return R.id.list_card_undobar_button;
+            }
+            @Override
+            public SwipeDirectionEnabled isEnabledUndoBarSwipeAction() {
+                return SwipeDirectionEnabled.TOPBOTTOM;
+            }
+            @Override
+            public AnimationType getAnimationType() {
+                return AnimationType.TOPBOTTOM;
+            }
+        });
         //Enable undo controller!
         mCardArrayAdapter.setEnableUndo(true);
 
@@ -1138,6 +1173,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     return false;
                 }
                 mCardArrayAdapter.startActionMode(getActivity());
+                fab.hide();
                 view.setSelected(true);
                 return true;
             }
@@ -1407,7 +1443,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         // Creation of undo bar
         if (archive) {
-//            ubc.showUndoBar(false, getSelectedNotes().size() + " " + getString(R.string.archived), null);
+            ubc.showUndoBar(false, getSelectedNotes().size() + " " + getString(R.string.archived), null, this);
             undoArchive = true;
         } else {
             getSelectedNotes().clear();
@@ -1696,7 +1732,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
 
-	public void onUndo() {
+    @Override
+    public void onUndo(Parcelable undoToken) {
 
 		// Cycles removed items to re-insert into adapter
 		for (Note note : modifiedNotes) {
@@ -1731,7 +1768,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		if (mCardArrayAdapter.getActionMode() != null) {
 			mCardArrayAdapter.getActionMode().finish();
 		}
-//		ubc.hideUndoBar(false);
+		ubc.hideUndoBar(false);
 	}
 
 
@@ -1944,4 +1981,16 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     public MenuItem getSearchMenuItem() {
         return searchMenuItem;
     }
+
+
+    @Override
+    public void onUndoBarHide(boolean undoOccurred) {
+        if (undoOccurred) {
+            onUndo(null);
+        } else {
+            commitPending();
+        }
+    }
+
+
 }
