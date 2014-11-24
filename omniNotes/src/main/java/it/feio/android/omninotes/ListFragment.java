@@ -56,7 +56,6 @@ import it.feio.android.omninotes.models.adapters.NoteCardArrayMultiChoiceAdapter
 import it.feio.android.omninotes.models.listeners.OnCABItemClickedListener;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
-import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.models.views.NoteCard;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
@@ -76,7 +75,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	private static final int REQUEST_CODE_CATEGORY = 2;
 	private static final int REQUEST_CODE_CATEGORY_NOTES = 3;
 
-	private CardListView listView;
+	private CardListView list;
 //	private List<Note> getSelectedNotes() = new ArrayList<Note>();
 	private Note swipedNote;
     private List<Note> modifiedNotes = new ArrayList<Note>();
@@ -162,7 +161,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 		// Listview initialization
 //		initListView();
-        listView = (CardListView) getActivity().findViewById(R.id.carddemo_list_gplaycard);
+        list = (CardListView) getActivity().findViewById(R.id.card_list);
 
         initFab();
 
@@ -174,7 +173,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     private void initFab() {
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.attachToListView(listView);
+        fab.attachToListView(list);
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,7 +264,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //		if (mCardArrayAdapter != null) {
 //			mCardArrayAdapter.clearSelectedItems();
 //		}
-		listView.clearChoices();
+		list.clearChoices();
 		if (mCardArrayAdapter.getActionMode() != null) {
 			mCardArrayAdapter.getActionMode().finish();
 		}
@@ -284,9 +283,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
 	private void refreshListScrollPosition() {
-		if (listView != null) {
-			listViewPosition = listView.getFirstVisiblePosition();
-			View v = listView.getChildAt(0);
+		if (list != null) {
+			listViewPosition = list.getFirstVisiblePosition();
+			View v = list.getChildAt(0);
 			listViewPositionOffset = (v == null) ? 0 : v.getTop();
 		}
 	}
@@ -334,7 +333,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //			// deselected/unchecked.
 //			for (int i = 0; i < mCardArrayAdapter.getSelectedItems().size(); i++) {
 //				int key = mCardArrayAdapter.getSelectedItems().keyAt(i);
-//				View v = listView.getChildAt(key - listView.getFirstVisiblePosition());
+//				View v = list.getChildAt(key - list.getFirstVisiblePosition());
 //				if (mCardArrayAdapter.getCount() > key && mCardArrayAdapter.getItem(key) != null && v != null) {
 //					mCardArrayAdapter.restoreDrawable(mCardArrayAdapter.getItem(key), v.findViewById(R.id.card_layout));
 //				}
@@ -346,7 +345,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //			// Clears data structures
 //			getSelectedNotes().clear();
 //			mCardArrayAdapter.clearSelectedItems();
-//			listView.clearChoices();
+//			list.clearChoices();
 //
 //			mCardArrayAdapter.getActionMode() = null;
 //			Ln.d("Closed multiselection contextual menu");
@@ -437,10 +436,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	 * Notes list initialization. Data, actions and callback are defined here.
 	 */
 //	private void initListView() {
-////		listView = (ListView) getActivity().findViewById(R.id.notes_list);
+////		list = (ListView) getActivity().findViewById(R.id.notes_list);
 //
-//		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//		listView.setItemsCanFocus(false);
+//		list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//		list.setItemsCanFocus(false);
 //
 //		// If device runs KitKat a footer is added to list to avoid
 //		// navigation bar transparency covering items
@@ -450,11 +449,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //			listFooter.setHeight(navBarHeight + 5);
 //			// To avoid useless events on footer
 //			listFooter.setOnClickListener(null);
-//			listView.addFooterView(listFooter);
+//			list.addFooterView(listFooter);
 //		}
 //
 //		// Note long click to start CAB mode
-//		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+//		list.setOnItemLongClickListener(new OnItemLongClickListener() {
 //			@Override
 //			public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
 //				if (view.equals(listFooter)) return true;
@@ -468,7 +467,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //		});
 //
 //		// Note single click listener managed by the activity itself
-//		listView.setOnItemClickListener(new OnItemClickListener() {
+//		list.setOnItemClickListener(new OnItemClickListener() {
 //			@Override
 //			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
 //				if (view.equals(listFooter)) return;
@@ -857,7 +856,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 						// Resets list scrolling position
 						listViewPositionOffset = 0;
 						listViewPosition = 0;
-						listView.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+						list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
 						// Updates app widgets
 						BaseActivity.notifyAppWidgets(getActivity());
 						dialog.dismiss();
@@ -1018,7 +1017,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //		// A specifical behavior is performed basing on navigation
 //		SwipeDismissAdapter adapter = new SwipeDismissAdapter(mCardArrayAdapter, new OnDismissCallback() {
 //			@Override
-//			public void onDismiss(AbsListView listView, int[] reverseSortedPositions) {
+//			public void onDismiss(AbsListView list, int[] reverseSortedPositions) {
 //
 //				// Avoids conflicts with action mode
 //				finishActionMode();
@@ -1048,23 +1047,23 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //				}
 //			}
 //		});
-////		adapter.setAbsListView(listView);
-//		listView.setAdapter(adapter);
+////		adapter.setAbsListView(list);
+//		list.setAdapter(adapter);
 //
 //		// Replace listview with Mr. Jingles if it is empty
-//		if (notes.size() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+//		if (notes.size() == 0) list.setEmptyView(getActivity().findViewById(R.id.empty_list));
 //
 //		// Restores listview position when turning back to list
-//		if (listView != null && notes.size() > 0) {
-//			if (listView.getCount() > listViewPosition) {
-//				listView.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+//		if (list != null && notes.size() > 0) {
+//			if (list.getCount() > listViewPosition) {
+//				list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
 //			} else {
-//				listView.setSelectionFromTop(0, 0);
+//				list.setSelectionFromTop(0, 0);
 //			}
 //		}
 //
 //		// Fade in the list view
-//		animate(listView).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+//		animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
 	}
 
 
@@ -1078,7 +1077,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             listFooter.setHeight(navBarHeight + 5);
             // To avoid useless events on footer
             listFooter.setOnClickListener(null);
-            listView.addFooterView(listFooter);
+            list.addFooterView(listFooter);
         }
 
         ArrayList<Card> cards = new ArrayList<Card>();
@@ -1100,21 +1099,21 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         //Enable undo controller!
         mCardArrayAdapter.setEnableUndo(true);
 
-        if (listView!=null){
-            listView.setAdapter(mCardArrayAdapter);
-            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        if (list !=null){
+            list.setAdapter(mCardArrayAdapter);
+            list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
             mCardArrayAdapter.setOnActionItemClickedListener(this);
         }
 
 		// Replace listview with Mr. Jingles if it is empty
-		if (notes.size() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+		if (notes.size() == 0) list.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Restores listview position when turning back to list
-		if (listView != null && notes.size() > 0) {
-			if (listView.getCount() > listViewPosition) {
-				listView.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+		if (list != null && notes.size() > 0) {
+			if (list.getCount() > listViewPosition) {
+				list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
 			} else {
-				listView.setSelectionFromTop(0, 0);
+				list.setSelectionFromTop(0, 0);
 			}
 		}
 
@@ -1256,7 +1255,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 		// If list is empty again Mr Jingles will appear again
 		if (mCardArrayAdapter.getCount() == 0)
-			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+			list.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		if (mCardArrayAdapter.getActionMode() != null) {
 			mCardArrayAdapter.getActionMode().finish();
@@ -1351,13 +1350,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 		// Clears data structures
 //		mCardArrayAdapter.clearSelectedItems();
-		listView.clearChoices();
+		list.clearChoices();
 
 		finishActionMode();
 
 		// If list is empty again Mr Jingles will appear again
 		if (mCardArrayAdapter.getCount() == 0)
-			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+			list.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Advice to user
 		Crouton.makeText(getActivity(), R.string.note_deleted, ONStyle.ALERT).show();
@@ -1393,13 +1392,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
 
         // Clears data structures
-//        listView.clearChoices();
+//        list.clearChoices();
 
         // Refresh view
-//        listView.invalidateViews();
+//        list.invalidateViews();
 
         // If list is empty again Mr Jingles will appear again
-        if (mCardArrayAdapter.getCount() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+        if (mCardArrayAdapter.getCount() == 0) list.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
         // Advice to user
         int msg = archive ? R.string.note_archived : R.string.note_unarchived;
@@ -1428,7 +1427,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
 
         // If list is empty again Mr Jingles will appear again
-        if (mCardArrayAdapter.getCount() == 0) listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+        if (mCardArrayAdapter.getCount() == 0) list.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
         // Advice to user
         int msg = archive ? R.string.note_archived : R.string.note_unarchived;
@@ -1542,14 +1541,14 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 		// Clears data structures
 //		mCardArrayAdapter.clearSelectedItems();
-		listView.clearChoices();
+		list.clearChoices();
 
 		// Refreshes list
-		listView.invalidateViews();
+		list.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
 		if (mCardArrayAdapter.getCount() == 0)
-			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+			list.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Refreshes navigation drawer if is set to show categories count numbers
 		if (prefs.getBoolean("settings_show_category_count", false)) {
@@ -1665,14 +1664,14 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 		// Clears data structures
 //		mCardArrayAdapter.clearSelectedItems();
-		listView.clearChoices();
+		list.clearChoices();
 
 		// Refreshes list
-		listView.invalidateViews();
+		list.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
 		if (mCardArrayAdapter.getCount() == 0)
-			listView.setEmptyView(getActivity().findViewById(R.id.empty_list));
+			list.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
 		// Refreshes navigation drawer if is set to show categories count numbers
 		if (prefs.getBoolean("settings_show_category_count", false)) {
@@ -1691,7 +1690,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //		new DriveSyncTask(getActivity()).execute(new ArrayList<Note>(getSelectedNotes()));
 //		// Clears data structures
 //		mCardArrayAdapter.clearSelectedItems();
-//		listView.clearChoices();
+//		list.clearChoices();
 //		finishActionMode();
 //	}
 
@@ -1716,7 +1715,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			}
 		}
 
-		listView.invalidateViews();
+		list.invalidateViews();
 
 		undoNotesList.clear();
         modifiedNotes.clear();
@@ -1761,7 +1760,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			undoNotesList.clear();
 			undoCategoryMap.clear();
 //			mCardArrayAdapter.clearSelectedItems();
-			listView.clearChoices();
+			list.clearChoices();
 
 //			ubc.hideUndoBar(false);
 		}
