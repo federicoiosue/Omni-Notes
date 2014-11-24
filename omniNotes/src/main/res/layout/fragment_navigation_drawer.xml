@@ -1,13 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/left_drawer"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="left|start"
     android:background="@color/navigation_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <ListView
         android:id="@+id/drawer_nav_list"

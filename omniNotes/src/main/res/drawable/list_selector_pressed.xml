@@ -8,10 +8,10 @@
     </solid>
  
     <!-- view border color and width -->
-    <stroke
-        android:width="2dp"
-        android:color="@color/kitkat_gray_dark" >
-    </stroke>
+    <!--<stroke-->
+        <!--android:width="2dp"-->
+        <!--android:color="@color/kitkat_gray_light" >-->
+    <!--</stroke>-->
 >
  
 </shape>
