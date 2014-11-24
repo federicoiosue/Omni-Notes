@@ -535,7 +535,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
         if (!drawerOpen && showAdd) {
             fab.show();
-//            fab.setVisibility(View.VISIBLE);
+//            fab.setVisibility(View.VISIBLE);a
         } else {
             fab.hide();
 //            fab.setVisibility(View.GONE);

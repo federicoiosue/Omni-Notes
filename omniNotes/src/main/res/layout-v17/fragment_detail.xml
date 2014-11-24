@@ -161,7 +161,7 @@
                             android:layout_marginEnd="5dp"
                             android:layout_marginRight="5dp"
                             android:contentDescription="@string/reminder"
-                            android:src="@drawable/ic_reminder_dark" />
+                            android:src="@drawable/ic_archive_grey600_48dp" />
 
                         <com.neopixl.pixlui.components.textview.TextView
                             android:id="@+id/datetime"

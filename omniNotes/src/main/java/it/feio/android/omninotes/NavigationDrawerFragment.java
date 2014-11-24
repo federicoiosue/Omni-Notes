@@ -20,28 +20,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
-
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.*;
+import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
+import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
+import it.feio.android.omninotes.utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.NavigationItem;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
-import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
-import it.feio.android.omninotes.utils.AppTourHelper;
-import it.feio.android.omninotes.utils.BitmapHelper;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Display;
-import it.feio.android.omninotes.utils.Fonts;
-import it.feio.android.omninotes.utils.Navigation;
 
 //import android.util.Log;
 
@@ -58,6 +47,7 @@ public class NavigationDrawerFragment extends Fragment {
 	DrawerLayout mDrawerLayout;
 	String[] mNavigationArray;
 	TypedArray mNavigationIconsArray;
+    TypedArray mNavigationIconsSelectedArray;
 	private ListView mDrawerList;
 	private ListView mDrawerCategoriesList;
 	private View categoriesListHeader;
@@ -69,7 +59,8 @@ public class NavigationDrawerFragment extends Fragment {
 	private int listViewPosition;
 	private int listViewPositionOffset;
 
-	@Override
+
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
@@ -131,13 +122,15 @@ public class NavigationDrawerFragment extends Fragment {
 		// Sets the adapter for the MAIN navigation list view
 		mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
 		mNavigationArray = getResources().getStringArray(R.array.navigation_list);
-		mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
+        mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
+        mNavigationIconsSelectedArray = getResources().obtainTypedArray(R.array.navigation_list_icons_selected);
         boolean showUncategorized = mActivity.getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS).getBoolean(Constants.PREF_SHOW_UNCATEGORIZED, false);
         List<NavigationItem> items = new ArrayList<NavigationItem>();
         for (int i = 0; i < mNavigationArray.length; i++) {
             // Checks if "uncategorized" must be shown
             if (showUncategorized || i != Navigation.UNCATEGORIZED) {
-                NavigationItem item = new NavigationItem(mNavigationArray[i], mNavigationIconsArray.getResourceId(i, 0));
+                NavigationItem item = new NavigationItem(mNavigationArray[i], mNavigationIconsArray.getResourceId(i,
+                        0), mNavigationIconsSelectedArray.getResourceId(i, 0));
                 items.add(item);
             }
         }

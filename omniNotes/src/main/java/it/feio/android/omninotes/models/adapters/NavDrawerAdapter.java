@@ -24,19 +24,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-
 import com.neopixl.pixlui.components.textview.TextView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class NavDrawerAdapter extends BaseAdapter {
 
@@ -88,12 +86,12 @@ public class NavDrawerAdapter extends BaseAdapter {
 		if (isSelected(parent, position)) {
 			holder.txtTitle.setTypeface(null,Typeface.BOLD);
             holder.txtTitle.setTextColor(Color.BLACK);
+            holder.imgIcon.setImageResource(items.get(position).getIconSelected());
 		} else {
 			holder.txtTitle.setTypeface(null,Typeface.NORMAL);
             holder.txtTitle.setTextColor(mActivity.getResources().getColor(R.color.drawer_text));
+            holder.imgIcon.setImageResource(items.get(position).getIcon());
 		}
-
-        holder.imgIcon.setImageResource(items.get(position).getIcon());
 
 		return convertView;
 	}

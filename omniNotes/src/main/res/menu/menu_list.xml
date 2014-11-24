@@ -62,7 +62,7 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_archive"
-        android:icon="@drawable/ic_archive_dark"
+        android:icon="@drawable/ic_archive_grey600_48dp"
         android:orderInCategory="1000"
         android:title="@string/archive"
         android:visible="false"

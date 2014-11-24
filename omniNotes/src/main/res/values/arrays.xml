@@ -33,11 +33,19 @@
     </string-array>
 
     <integer-array name="navigation_list_icons">
-        <item>@drawable/ic_note_dark</item>
-        <item>@drawable/ic_archive_dark</item>
-        <item>@drawable/ic_reminder_dark</item>
-        <item>@drawable/ic_trash</item>
-        <item>@drawable/ic_uncategorized</item>
+        <item>@drawable/ic_description_grey600_48dp</item>
+        <item>@drawable/ic_archive_grey600_48dp</item>
+        <item>@drawable/ic_alarm_grey600_48dp</item>
+        <item>@drawable/ic_delete_grey600_48dp</item>
+        <item>@drawable/ic_folder_open_grey600_48dp</item>
+    </integer-array>
+
+    <integer-array name="navigation_list_icons_selected">
+        <item>@drawable/ic_description_black_48dp</item>
+        <item>@drawable/ic_archive_black_48dp</item>
+        <item>@drawable/ic_alarm_black_48dp</item>
+        <item>@drawable/ic_delete_black_48dp</item>
+        <item>@drawable/ic_folder_open_black_48dp</item>
     </integer-array>
 
     <string-array name="sortable_columns">
