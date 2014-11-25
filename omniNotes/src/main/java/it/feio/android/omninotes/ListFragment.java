@@ -38,14 +38,14 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.melnykov.fab.FloatingActionButton;
 import com.neopixl.pixlui.components.textview.TextView;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -65,7 +65,6 @@ import it.feio.android.pixlui.links.RegexPatternsConstants;
 import it.feio.android.pixlui.links.UrlCompleter;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.view.CardListView;
-import it.gmariotti.cardslib.library.view.listener.SwipeOnScrollListener;
 import it.gmariotti.cardslib.library.view.listener.UndoBarController;
 import roboguice.util.Ln;
 
@@ -108,11 +107,14 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	private boolean goBackOnToggleSearchLabel = false;
 	private TextView listFooter;
 
-    // Floating actioon button
-    private FloatingActionButton fab;
     private NoteCardArrayMultiChoiceAdapter mCardArrayAdapter;
     private int layoutSelected;
     private UndoBarController ubc;
+
+    //    Fab
+    private FloatingActionsMenu fab;
+    private FloatingActionButton fabAddNote;
+    private FloatingActionButton fabAddChecklist;
 
 
     @Override
@@ -175,32 +177,24 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	}
 
     private void initFab() {
-        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.attachToListView(list);
-        fab.setOnClickListener(new OnClickListener() {
+        fab = (FloatingActionsMenu) getActivity().findViewById(R.id.fab);
+
+        fabAddNote = (FloatingActionButton) fab.findViewById(R.id.fab_new_note);
+        fabAddNote.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                fab.hide();
                 editNote(new Note());
             }
         });
-
-        list.setOnScrollListener(
-                new SwipeOnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(AbsListView view, int scrollState) {
-                        //It is very important to call the super method here to preserve built-in functions
-                        super.onScrollStateChanged(view, scrollState);
-                        if (scrollState == SCROLL_STATE_IDLE && mCardArrayAdapter.getActionMode() == null) {
-                            fab.show();
-                        }
-                    }
-                    @Override
-                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                                         int totalItemCount) {
-                        fab.hide();
-                    }
-                });
+        fabAddChecklist = (FloatingActionButton) fab.findViewById(R.id.fab_new_checklist);
+        fabAddChecklist.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Note note = new Note();
+                note.setChecklist(true);
+                editNote(note);
+            }
+        });
 
         // In KitKat bottom padding is added by navbar height
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -210,7 +204,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     navBarHeight + DensityUtil.pxToDp(params.bottomMargin, getActivity()));
             fab.setLayoutParams(params);
         }
-        fab.show();
     }
 
 
@@ -534,14 +527,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
         if (!drawerOpen && showAdd) {
-            fab.show();
-//            fab.setVisibility(View.VISIBLE);a
+            fab.setVisibility(View.VISIBLE);
         } else {
-            fab.hide();
-//            fab.setVisibility(View.GONE);
+            fab.setVisibility(View.GONE);
         }
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
-//		menu.findItem(R.id.menu_add_category).setVisible(drawerOpen);
 		menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView);
 		menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView);
 		menu.findItem(R.id.menu_empty_trash).setVisible(!drawerOpen && Navigation.checkNavigation(Navigation.TRASH));
@@ -1173,7 +1163,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     return false;
                 }
                 mCardArrayAdapter.startActionMode(getActivity());
-                fab.hide();
+                fab.setVisibility(View.GONE);
                 view.setSelected(true);
                 return true;
             }
@@ -1812,8 +1802,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 			list.add(new Integer[] { 0, R.string.tour_listactivity_intro_title,
 					R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE });
-			list.add(new Integer[] { R.id.fab, R.string.tour_listactivity_actions_title,
-					R.string.tour_listactivity_actions_detail, null });
+//			list.add(new Integer[] { R.id.fab, R.string.tour_listactivity_actions_title,
+//					R.string.tour_listactivity_actions_detail, null });
 			list.add(new Integer[] { 0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail,
 					ShowcaseView.ITEM_ACTION_HOME });
 			((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
