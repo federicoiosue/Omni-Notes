@@ -38,6 +38,7 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import com.espian.showcaseview.ShowcaseView;
@@ -65,6 +66,7 @@ import it.feio.android.pixlui.links.RegexPatternsConstants;
 import it.feio.android.pixlui.links.UrlCompleter;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.view.CardListView;
+import it.gmariotti.cardslib.library.view.listener.SwipeOnScrollListener;
 import it.gmariotti.cardslib.library.view.listener.UndoBarController;
 import roboguice.util.Ln;
 
@@ -178,6 +180,16 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     private void initFab() {
         fab = (FloatingActionsMenu) getActivity().findViewById(R.id.fab);
+        list.setOnScrollListener(
+                new SwipeOnScrollListener() {
+                    @Override
+                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                                         int totalItemCount) {
+                        if (fab != null) {
+                            fab.collapse();
+                        }
+                    }
+                });
 
         fabAddNote = (FloatingActionButton) fab.findViewById(R.id.fab_new_note);
         fabAddNote.setOnClickListener(new OnClickListener() {
@@ -730,6 +742,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
 	void editNote(final Note note) {
+        fab.collapse();
 		if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
 			BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
 				@Override
