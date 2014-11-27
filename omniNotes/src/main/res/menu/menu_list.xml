@@ -55,7 +55,7 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_category"
-        android:icon="@drawable/ic_action_category_light"
+        android:icon="@drawable/ic_folder_special_black_24dp"
         android:orderInCategory="600"
         android:title="@string/category"
         android:visible="false"
