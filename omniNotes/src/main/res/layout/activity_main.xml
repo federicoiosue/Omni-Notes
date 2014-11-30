@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:minHeight="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:theme="@style/AppTheme"
+                app:theme="@style/OmniNotesBaseTheme.OmniNotesTheme"
                 app:popupTheme="@style/Theme.AppCompat.Light"/>
 
             <FrameLayout

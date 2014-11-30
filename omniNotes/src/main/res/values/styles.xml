@@ -17,19 +17,31 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- the theme applied to the application or activity -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="actionBarStyle">@style/AppTheme.ActionBarStyle</item>
+    <style name="OmniNotesBaseTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
         <item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:actionModeBackground">@color/colorPrimaryDark</item>
+        <item name="actionModeBackground">?attr/colorPrimaryDark</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
-    <!-- ActionBar styles -->
-    <style name="AppTheme.ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar">
-        <!--<item name="background">@color/gray_bg</item>-->
+    <style name="OmniNotesBaseTheme.OmniNotesTheme"></style>
+
+    <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="metaButtonBarStyle">@style/ButtonBar</item>
+        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="background">@color/black_overlay</item>
+        <!--         <item name="titleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
+        <!--         <item name="subtitleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
     </style>
 
     <!-- ShowcaseView styles -->
@@ -58,7 +70,9 @@
     </style>
 
     <style name="lightListView">
-        <item name="android:background">#ffffff<item></item></item>
+        <item name="android:background">#ffffff
+            <item></item>
+        </item>
     </style>
 
     <style name="Theme.AppCompat.Dialog" parent="AppTheme">
@@ -160,19 +174,6 @@
         <item name="android:textAppearance">@style/Text.Small</item>
         <item name="android:textColor">#fff</item>
         <item name="android:text">@string/undo</item>
-    </style>
-
-    <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
-        <item name="windowActionBarOverlay">true</item>
-        <item name="metaButtonBarStyle">@style/ButtonBar</item>
-        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
-    </style>
-
-    <style name="FullscreenActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@color/black_overlay</item>
-<!--         <item name="titleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
-<!--         <item name="subtitleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
     </style>
 
     <style name="ButtonBar">

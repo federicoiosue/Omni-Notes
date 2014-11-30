@@ -54,6 +54,6 @@
     <color name="warning">#eeFFBB33</color>
     <color name="alert">#eeFF4444</color>
     <color name="info">#ee33B5E5</color>
-    <color name="black_overlay">#66000000</color>
+    <color name="black_overlay">#33000000</color>
 
 </resources>

@@ -15,33 +15,10 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="OmniNotesBaseTheme.OmniNotesTheme" >
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
-        <item name="android:windowBackground">@color/colorPrimaryDark</item>
-        <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
-        <item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowActionModeOverlay">true</item>
-        <!--<item name="android:textColorPrimary">@color/abc_primary_text_material_dark</item>-->
-        <!--<item name="actionMenuTextColor">@color/abc_primary_text_material_dark</item>-->
-        <!--<item name="android:textColorSecondary">@color/abc_secondary_text_material_dark</item>-->
-        <!--<item name="android:actionModeStyle">@style/ActionModeStyle</item>-->
-        <!--<item name="android:actionModeBackground">@drawable/abc_cab_background_top_material</item>-->
-        <!--<item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_example</item>-->
-        <!--<item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Example</item>-->
     </style>
-
-    <!--<style name="ActionModeStyle" parent="Widget.AppCompat.ActionMode">-->
-        <!--<item name="android:background">@color/colorAccent</item>-->
-        <!--&lt;!&ndash;<item name="android:backgroundSplit">?android:attr/actionModeSplitBackground</item>&ndash;&gt;-->
-        <!--<item name="android:height">50dp</item>-->
-        <!--&lt;!&ndash;<item name="android:titleTextStyle">@android:style/TextAppearance.Widget.ActionMode.Title</item>&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="android:subtitleTextStyle">@android:style/TextAppearance.Widget.ActionMode.Subtitle</item>&ndash;&gt;-->
-    <!--</style>-->
 
     <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowTranslucentStatus">true</item>
@@ -51,12 +28,6 @@
         <item name="android:windowBackground">@null</item>
         <item name="metaButtonBarStyle">@style/ButtonBar</item>
         <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
-    </style>
-
-    <style name="FullscreenActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/black_overlay</item>
-        <!--         <item name="titleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
-        <!--         <item name="subtitleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
     </style>
 
 

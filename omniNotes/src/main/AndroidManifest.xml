@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +15,9 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="it.feio.android.omninotes" >
-" />
+    xmlns:tools="http://schemas.android.com/tools"
+    package="it.feio.android.omninotes">
+
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -48,20 +48,21 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/OmniNotesBaseTheme.OmniNotesTheme"
+        tools:replace="android:theme">
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".ListActivity" />
         <!--<meta-data-->
-            <!--android:name="com.google.android.gms.version"-->
-            <!--android:value="@integer/google_play_services_version" />-->
+        <!--android:name="com.google.android.gms.version"-->
+        <!--android:value="@integer/google_play_services_version" />-->
 
         <!-- List and Detail -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -99,8 +100,10 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="hashtag" />
             </intent-filter>
 
@@ -110,15 +113,14 @@
         <activity
             android:name="it.feio.android.omninotes.GalleryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-	        android:supportsRtl="true"
-	        android:theme="@style/FullscreenTheme" >
-        </activity>
+            android:supportsRtl="true"
+            android:theme="@style/FullscreenTheme"></activity>
 
         <activity
             android:name="it.feio.android.omninotes.CategoryActivity"
             android:label="@string/title_activity_category"
             android:parentActivityName="it.feio.android.omninotes.MainActivity"
-            android:theme="@style/Theme.AppCompat.Dialog" >
+            android:theme="@style/Theme.AppCompat.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -129,7 +131,7 @@
             android:name="it.feio.android.omninotes.SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName="it.feio.android.omninotes.MainActivity"
-            android:theme="@style/Theme.Preferences" >
+            android:theme="@style/Theme.Preferences">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -139,21 +141,18 @@
         <activity
             android:name="it.feio.android.omninotes.PasswordActivity"
             android:label="@string/title_activity_password"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
 
         <!-- Changelog -->
         <activity
             android:name="it.feio.android.omninotes.ChangelogActivity"
-            android:label="@string/settings_changelog" >
-        </activity>
+            android:label="@string/settings_changelog"></activity>
 
         <!-- Info -->
         <activity
             android:name="it.feio.android.omninotes.AboutActivity"
             android:label="@string/title_activity_about"
-            android:launchMode="singleTop" >
-        </activity>
+            android:launchMode="singleTop"></activity>
 
         <!-- Snooze reminder -->
         <activity
@@ -185,24 +184,22 @@
             android:enabled="true"
             android:exported="false"
             android:label="BootCompleteReceiver"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
         <!-- Restore on reboot alarm service -->
-        <service android:name="it.feio.android.omninotes.async.AlarmRestoreOnRebootService" >
-        </service>
+        <service android:name="it.feio.android.omninotes.async.AlarmRestoreOnRebootService"></service>
 
         <!-- Data export and import service -->
-        <service android:name="it.feio.android.omninotes.async.DataBackupIntentService" >
-        </service>
+        <service android:name="it.feio.android.omninotes.async.DataBackupIntentService"></service>
 
         <!-- Widget configuration Activity -->
         <activity
             android:name="it.feio.android.omninotes.widget.WidgetConfigurationActivity"
-            android:theme="@style/Theme.AppCompat.Dialog" >
+            android:theme="@style/Theme.AppCompat.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -213,7 +210,7 @@
             android:name="it.feio.android.omninotes.widget.SimpleWidgetProvider"
             android:description="@string/widget_simple_description"
             android:icon="@drawable/logo"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -228,7 +225,7 @@
             android:description="@string/widget_list_description"
             android:enabled="@bool/list_widget_receiver_enabled"
             android:icon="@drawable/logo"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -247,7 +244,7 @@
             android:name="it.feio.android.omninotes.async.ONDashClockExtension"
             android:icon="@drawable/ic_stat_notification_icon"
             android:label="@string/app_name"
-            android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
+            android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
             <intent-filter>
                 <action android:name="com.google.android.apps.dashclock.Extension" />
             </intent-filter>
