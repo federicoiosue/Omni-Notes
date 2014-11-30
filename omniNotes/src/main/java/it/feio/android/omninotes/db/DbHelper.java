@@ -409,14 +409,14 @@ public class DbHelper extends SQLiteOpenHelper {
 		sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
 				KEY_TITLE);
 		if (order) {			
-			sort_order = KEY_TITLE.equals(sort_column) || KEY_ALARM.equals(sort_column) ? " ASC " : " DESC ";
+			sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
 		}
 
 		// In case of title sorting criteria it must be handled empty title by concatenating content
 		sort_column = KEY_TITLE.equals(sort_column) ? KEY_TITLE + "||" + KEY_CONTENT : sort_column;
 		
 		// In case of reminder sorting criteria the empty reminder notes must be moved on bottom of results
-		sort_column = KEY_ALARM.equals(sort_column) ? "IFNULL(" + KEY_ALARM + ", " + Constants.TIMESTAMP_NEVER + ")" : sort_column;
+		sort_column = KEY_ALARM.equals(sort_column) ? "IFNULL(" + KEY_ALARM + ", " + Constants.TIMESTAMP_UNIX_EPOCH + ")" : sort_column;
 		
 		// Generic query to be specialized with conditions passed as parameter
 		String query = "SELECT " 

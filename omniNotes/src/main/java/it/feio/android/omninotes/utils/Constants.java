@@ -131,5 +131,5 @@ public interface Constants {
 
 	final String SECURITY_ALGORITHM = "MD5";
 
-	final String TIMESTAMP_NEVER = "13910051406040"; // I really don't believe we'll reach 10/17/2410 1:10:06 AM
+	final String TIMESTAMP_UNIX_EPOCH = "0";
 }
