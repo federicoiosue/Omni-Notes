@@ -24,6 +24,7 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="windowActionBar">false</item>
         <item name="windowActionModeOverlay">true</item>
+        <item name="android:actionModeBackground">@color/colorPrimaryDark</item>
     </style>
 
     <!-- ActionBar styles -->

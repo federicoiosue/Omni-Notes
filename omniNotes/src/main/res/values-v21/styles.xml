@@ -15,24 +15,24 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
-        <item name="android:windowBackground">@color/gray_bg</item>
-        <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
-    	<item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
-    </style>
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>-->
+        <!--<item name="android:windowBackground">@color/gray_bg</item>-->
+        <!--<item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>-->
+    	<!--<item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>-->
+    <!--</style>-->
 
-    <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
-        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="metaButtonBarStyle">@style/ButtonBar</item>
-        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
-    </style>
+    <!--<style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>-->
+        <!--<item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="android:windowBackground">@null</item>-->
+        <!--<item name="metaButtonBarStyle">@style/ButtonBar</item>-->
+        <!--<item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>-->
+    <!--</style>-->
 
     <style name="FullscreenActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@color/black_overlay</item>

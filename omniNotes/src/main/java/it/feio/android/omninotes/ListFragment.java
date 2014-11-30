@@ -31,6 +31,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.SparseArray;
@@ -39,6 +40,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import com.espian.showcaseview.ShowcaseView;
@@ -660,9 +662,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 case R.id.menu_sort:
                     sortNotes();
                     break;
-//                case R.id.menu_add_category:
-//                    editCategory(null);
-//                    break;
                 case R.id.menu_expanded_view:
                     switchNotesView();
                     break;
@@ -1155,6 +1154,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			}
 		}
 
+        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        list.setMultiChoiceModeListener(mCardArrayAdapter);
+
 //        ((InterceptorLinearLayout) getActivity().findViewById(R.id.list_root)).setOnViewTouchedListener(this);
     }
 
@@ -1166,6 +1168,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             public void onClick(Card card, View view) {
                 if (mCardArrayAdapter.getActionMode() == null) {
                     editNote(((NoteCard)card).getNote());
+                } else {
+                    mCardArrayAdapter.toggleSelection(((NoteCard)card).getNote());
                 }
             }
         });
@@ -1173,9 +1177,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             @Override
             public boolean onLongClick(Card card, View view) {
                 if (mCardArrayAdapter.getActionMode() != null) {
+                    mCardArrayAdapter.toggleSelection(((NoteCard)card).getNote());
                     return false;
                 }
-                mCardArrayAdapter.startActionMode(getActivity());
+                getActivity().findViewById(R.id.toolbar).startActionMode(mCardArrayAdapter);
+                mCardArrayAdapter.toggleSelection(((NoteCard)card).getNote());
+
                 fab.setVisibility(View.GONE);
                 view.setSelected(true);
                 return true;
