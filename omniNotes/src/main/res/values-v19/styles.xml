@@ -15,19 +15,15 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="OmniNotesBaseTheme.OmniNotesTheme" >
+    <style name="OmniNotesTheme.ApiSpec" >
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
     </style>
 
-    <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+
+    <style name="OmniNotesFullscreenTheme.ApiSpec">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
-        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@null</item>
-        <item name="metaButtonBarStyle">@style/ButtonBar</item>
-        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
     </style>
 
 

@@ -5,17 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-
+import android.view.*;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-
-import java.util.ArrayList;
-
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
@@ -26,6 +18,8 @@ import it.feio.android.omninotes.utils.systemui.SystemUiHider;
 import it.feio.android.simplegallery.models.GalleryPagerAdapter;
 import it.feio.android.simplegallery.views.GalleryViewPager;
 import roboguice.util.Ln;
+
+import java.util.ArrayList;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e. status bar and navigation/system bar) with user interaction.
@@ -198,8 +192,8 @@ public class GalleryActivity extends ActionBarActivity {
 			viewMedia();
 		}
 	}
-	
-	
+
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

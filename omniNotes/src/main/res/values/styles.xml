@@ -17,7 +17,7 @@
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="OmniNotesBaseTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="OmniNotesTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/colorPrimaryDark</item>
         <item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
@@ -29,19 +29,15 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
-    <style name="OmniNotesBaseTheme.OmniNotesTheme"></style>
+    <style name="OmniNotesTheme.ApiSpec"></style>
 
-    <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="OmniNotesFullscreenTheme" parent="@style/Theme.AppCompat">
         <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="metaButtonBarStyle">@style/ButtonBar</item>
-        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
+        <item name="background">@color/black_overlay</item>
     </style>
 
-    <style name="FullscreenActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@color/black_overlay</item>
-        <!--         <item name="titleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
-        <!--         <item name="subtitleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
+    <style name="OmniNotesFullscreenTheme.ApiSpec">
     </style>
 
     <!-- ShowcaseView styles -->
