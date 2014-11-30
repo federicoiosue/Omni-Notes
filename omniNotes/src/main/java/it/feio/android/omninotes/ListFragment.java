@@ -427,10 +427,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     }
 
 	public void finishActionMode() {
-		getSelectedNotes().clear();
         modifiedNotes.clear();
 		if (mCardArrayAdapter.getActionMode() != null) {
-			mCardArrayAdapter.getActionMode().finish();
+			mCardArrayAdapter.finishActionMode();
 		}
 	}
 
@@ -723,21 +722,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		// Called to switch menu voices
 		getActivity().supportInvalidateOptionsMenu();
 	}
-
-
-	private void setCabTitle() {
-		if (mCardArrayAdapter.getActionMode() == null) return;
-		switch (getSelectedNotes().size()) {
-			case 0:
-				mCardArrayAdapter.getActionMode().setTitle(null);
-				break;
-			default:
-				mCardArrayAdapter.getActionMode().setTitle(String.valueOf(getSelectedNotes().size()));
-				break;
-		}
-	}
-
-
 
 
 	void editNote(final Note note) {
@@ -1218,8 +1202,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     private void onSwipe(Card card) {
-//        Avoids conflicts with action mode
-//				finishActionMode();
+        // Avoids conflicts with action mode
+        finishActionMode();
 
         Note note = ((NoteCard) card).getNote();
 //        undoNotesList.put(mCardArrayAdapter.getPosition(note) + undoNotesList.size(), note);

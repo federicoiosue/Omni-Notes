@@ -18,19 +18,16 @@ import java.util.List;
 
 public class NoteCardArrayMultiChoiceAdapter extends CardArrayAdapter implements AbsListView.MultiChoiceModeListener {
 
-    private final Activity activity;
     private OnCABItemClickedListener onCABItemClickedListener;
     private List<Card> cards;
     private List<Note> notes = new ArrayList<Note>();
     private SparseBooleanArray mSelectedItemsIds = new SparseBooleanArray();
-    private LayoutInflater inflater;
     private ActionMode mActionMode;
 
 
     private NoteCardArrayMultiChoiceAdapter(Activity activity, List<Card> cards) {
         super(activity, cards);
         this.cards = cards;
-        this.activity = activity;
     }
 
 
@@ -109,7 +106,7 @@ public class NoteCardArrayMultiChoiceAdapter extends CardArrayAdapter implements
             menu.findItem(R.id.menu_untrash).setVisible(true);
             menu.findItem(R.id.menu_delete).setVisible(true);
         } else {
-            if (getSelectedNotes().size() == 1) {
+            if (getSelectedCount() == 1) {
                 menu.findItem(R.id.menu_share).setVisible(true);
                 menu.findItem(R.id.menu_merge).setVisible(false);
                 menu.findItem(R.id.menu_archive)
@@ -130,6 +127,14 @@ public class NoteCardArrayMultiChoiceAdapter extends CardArrayAdapter implements
             menu.findItem(R.id.menu_trash).setVisible(true);
         }
         menu.findItem(R.id.menu_select_all).setVisible(true);
+
+        setTitle();
+    }
+
+
+    private void setTitle() {
+        int title = getSelectedCount();
+        mActionMode.setTitle(String.valueOf(title));
     }
 
 
@@ -143,12 +148,22 @@ public class NoteCardArrayMultiChoiceAdapter extends CardArrayAdapter implements
 
 
     public void selectNote(Note note, boolean selected) {
-        if (selected)
-            mSelectedItemsIds.put(notes.indexOf(note), selected);
-        else
+        if (selected) {
+            mSelectedItemsIds.put(notes.indexOf(note), true);
+        } else {
             mSelectedItemsIds.delete(notes.indexOf(note));
-        mActionMode.setTitle(String.valueOf(getSelectedNotes().size()));
+        }
+        if (getSelectedCount() == 0) {
+            finishActionMode();
+        } else {
+            prepareActionModeMenu();
+        }
         notifyDataSetChanged();
+    }
+
+
+    private int getSelectedCount() {
+        return getSelectedNotes().size();
     }
 
 
@@ -158,13 +173,10 @@ public class NoteCardArrayMultiChoiceAdapter extends CardArrayAdapter implements
 
 
     public void selectAll() {
-//        for (int i = 0; i < cards.size(); i++) {
-//            getCardListView().setItemChecked(i, true);
-//        }
         for (int i = 0; i < notes.size(); i++) {
             mSelectedItemsIds.put(i, true);
         }
-        mActionMode.setTitle(String.valueOf(getSelectedNotes().size()));
+        mActionMode.setTitle(String.valueOf(getSelectedCount()));
         notifyDataSetChanged();
     }
 
@@ -207,5 +219,12 @@ public class NoteCardArrayMultiChoiceAdapter extends CardArrayAdapter implements
             position = cards.size();
         }
         cards.add(position, card);
+    }
+
+
+    public void finishActionMode() {
+        if (getActionMode() != null) {
+            getActionMode().finish();
+        }
     }
 }
