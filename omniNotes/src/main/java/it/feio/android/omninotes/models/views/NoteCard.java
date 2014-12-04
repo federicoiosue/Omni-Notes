@@ -174,10 +174,9 @@ public class NoteCard extends Card {
             String alarmShort = note.getAlarmShort(mContext);
 
             if (alarmShort.length() == 0) {
-                dateText = mContext.getString(R.string.no_reminder_set);
+                dateText = "";
             } else {
-                dateText = mContext.getString(R.string.alarm_set_on) + " "
-                        + note.getAlarmShort(mContext);
+                dateText = mContext.getString(R.string.alarm_set_on) + " " + note.getAlarmShort(mContext);
             }
         }
         // Others

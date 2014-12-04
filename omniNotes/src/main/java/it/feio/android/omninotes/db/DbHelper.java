@@ -619,7 +619,7 @@ public class DbHelper extends SQLiteOpenHelper {
 								+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis())
 								+  " AND " + KEY_ARCHIVED + " IS NOT 1"
 								+  " AND " + KEY_TRASHED + " IS NOT 1";
-		return getNotes(whereCondition, false);
+		return getNotes(whereCondition, true);
 	}
 	
 	
