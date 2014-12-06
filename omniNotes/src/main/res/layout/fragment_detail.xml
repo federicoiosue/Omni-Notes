@@ -67,7 +67,6 @@
                     android:paddingRight="16dp"
                     android:paddingTop="12dp"
                     android:textAppearance="@style/Text.Big"
-                    android:textColor="@color/actionbar_title_text"
                     pixlui:typeface="RobotoSlab-Bold.ttf" />
             </LinearLayout>
         </LinearLayout>
