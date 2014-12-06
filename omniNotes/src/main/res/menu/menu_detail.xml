@@ -82,7 +82,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_unarchive"
-        android:icon="@drawable/ic_unarchive_dark"
+        android:icon="@drawable/ic_unarchive_grey600_48dp"
         android:orderInCategory="800"
         android:title="@string/unarchive"
         android:visible="false"
@@ -96,7 +96,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_untrash"
-        android:icon="@drawable/ic_action_untrash"
+        android:icon="@drawable/ic_undelete_white_24dp"
         android:orderInCategory="900"
         android:title="@string/untrash"
         android:visible="false"

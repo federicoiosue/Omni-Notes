@@ -69,7 +69,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_unarchive"
-        android:icon="@drawable/ic_unarchive_dark"
+        android:icon="@drawable/ic_unarchive_grey600_48dp"
         android:orderInCategory="1000"
         android:title="@string/unarchive"
         android:visible="false"
@@ -83,14 +83,14 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_untrash"
-        android:icon="@drawable/ic_action_untrash"
+        android:icon="@drawable/ic_undelete_white_24dp"
         android:orderInCategory="1100"
         android:title="@string/untrash"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_delete"
-        android:icon="@drawable/ic_action_cancel"
+        android:icon="@drawable/ic_cancel_white_24dp"
         android:orderInCategory="1200"
         android:title="@string/delete"
         android:visible="false"
