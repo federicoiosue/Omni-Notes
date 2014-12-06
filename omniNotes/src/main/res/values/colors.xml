@@ -19,8 +19,8 @@
     <!-- Material -->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#F44336</color>
-    <color name="colorAccentPressed">#D32F2F</color>
+    <color name="colorAccent">#FF1744</color>
+    <color name="colorAccentPressed">#D50000</color>
 
     <!--Floating action button-->
     <color name="half_black">#808080</color>
