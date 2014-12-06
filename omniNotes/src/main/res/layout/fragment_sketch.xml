@@ -29,7 +29,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/stroke"
-                android:src="@drawable/ic_action_edit" />
+                android:src="@drawable/ic_brush_grey600_24dp" />
 
             <ImageView
                 android:id="@+id/sketch_eraser"
@@ -52,7 +52,7 @@
                 android:alpha="0.4"
                 android:background="@null"
                 android:contentDescription="@string/undo"
-                android:src="@drawable/ic_action_undo" />
+                android:src="@drawable/ic_undo_grey600_24dp" />
 
             <ImageView
                 android:id="@+id/sketch_redo"
@@ -63,7 +63,7 @@
                 android:layout_weight="1"
                 android:alpha="0.4"
                 android:contentDescription="@string/redo"
-                android:src="@drawable/ic_action_ic_redo" />
+                android:src="@drawable/ic_redo_grey600_24dp" />
 
             <ImageView
                 android:id="@+id/sketch_erase"
@@ -74,7 +74,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/colors"
-                android:src="@drawable/ic_action_discard" />
+                android:src="@drawable/ic_delete_grey600_48dp" />
         </LinearLayout>
 
         <it.feio.android.omninotes.models.views.SketchView

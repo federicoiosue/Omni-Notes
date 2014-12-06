@@ -89,7 +89,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_trash"
-        android:icon="@drawable/ic_action_discard"
+        android:icon="@drawable/ic_delete_grey600_48dp"
         android:orderInCategory="900"
         android:title="@string/trash"
         android:visible="false"
@@ -103,7 +103,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_discard_changes"
-        android:icon="@drawable/ic_action_undo"
+        android:icon="@drawable/ic_undo_grey600_24dp"
         android:orderInCategory="1000"
         android:title="@string/discard_changes"
         app:showAsAction="ifRoom"/>
