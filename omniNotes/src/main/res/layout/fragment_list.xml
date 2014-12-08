@@ -41,13 +41,14 @@
                 android:id="@+id/search_query"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textAppearance="@style/Text.Small"/>
 
             <ImageView
                 android:id="@+id/search_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_action_cancel" />
+                android:src="@drawable/ic_cancel_grey600_18dp" />
         </LinearLayout>
 
         <!--<it.gmariotti.cardslib.library.view.CardListView-->
