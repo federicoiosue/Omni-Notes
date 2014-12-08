@@ -50,13 +50,29 @@
                 android:src="@drawable/ic_action_cancel" />
         </LinearLayout>
 
-        <it.gmariotti.cardslib.library.view.CardListView
-            android:id="@+id/card_list"
+        <!--<it.gmariotti.cardslib.library.view.CardListView-->
+            <!--android:id="@+id/list"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--card:list_card_layout_resourceID="@layout/note_layout_expanded"-->
+            <!--android:scrollbarStyle="outsideOverlay"-->
+            <!--android:fastScrollEnabled="true" />-->
+
+        <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            card:list_card_layout_resourceID="@layout/note_layout_expanded"
+            android:divider="@null"
+            android:dividerHeight="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:scrollbarSize="4dp"
+            android:drawSelectorOnTop="true"
+            android:listSelector="@drawable/icon_selector"
             android:scrollbarStyle="outsideOverlay"
-            android:fastScrollEnabled="true" />
+            android:scrollbarThumbVertical="@drawable/scroll_bar"
+            android:fastScrollEnabled="true" >
+        </com.nhaarman.listviewanimations.itemmanipulation.DynamicListView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,7 +95,24 @@
 
     </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
 
-    <include layout="@layout/list_card_undo_material_message" />
+    <!--<include layout="@layout/undolist_card_undo_material_message" />-->
+    <!--<include android:id="@+id/undobar" layout="@layout/undobar" />-->
+    <LinearLayout
+        android:id="@+id/undobar"
+        style="@style/UndoBar"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/undobar_message"
+            style="@style/UndoBarMessage" />
+
+        <View style="@style/UndoBarDivider" />
+
+        <Button
+            android:id="@+id/undobar_button"
+            style="@style/UndoBarButton" />
+    </LinearLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/fab"
