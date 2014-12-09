@@ -39,11 +39,9 @@ import android.util.SparseArray;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.*;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
@@ -62,6 +60,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
+import it.feio.android.omninotes.models.listeners.AbsListViewScrollDetector;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
@@ -123,6 +122,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private FloatingActionsMenu fab;
     private FloatingActionButton fabAddNote;
     private FloatingActionButton fabAddChecklist;
+    private boolean fabHidden;
 
 
     @Override
@@ -186,16 +186,21 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     private void initFab() {
         fab = (FloatingActionsMenu) getActivity().findViewById(R.id.fab);
-//        list.setOnScrollListener(
-//                new SwipeOnScrollListener() {
-//                    @Override
-//                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-//                                         int totalItemCount) {
-//                        if (fab != null) {
-//                            fab.collapse();
-//                        }
-//                    }
-//                });
+        list.setOnScrollListener(
+                new AbsListViewScrollDetector() {
+                    public void onScrollUp() {
+                        if (fab != null) {
+                            fab.collapse();
+                            showFab();
+                        }
+                    }
+                    public void onScrollDown() {
+                        if (fab != null) {
+                            fab.collapse();
+                            hideFab();
+                        }
+                    }
+                });
 
         fabAddNote = (FloatingActionButton) fab.findViewById(R.id.fab_new_note);
         fabAddNote.setOnClickListener(new OnClickListener() {
@@ -354,7 +359,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			MenuInflater inflater = mode.getMenuInflater();
 			inflater.inflate(R.menu.menu_list, menu);
 			actionMode = mode;
-			return true;
+            hideFab();
+            return true;
 		}
 
 
@@ -379,7 +385,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			listAdapter.clearSelectedItems();
 			list.clearChoices();
 
-			actionMode = null;
+            showFab();
+
+            actionMode = null;
 			Ln.d("Closed multiselection contextual menu");
 
 			// Updates app widgets
@@ -412,6 +420,38 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			return true;
 		}
 	}
+
+
+    private void showFab() {
+        if (fab != null) {
+            int translationY = fabHidden ? 0 : fab.getHeight() + getMarginBottom(fab);
+            animate(fab).setInterpolator(new AccelerateDecelerateInterpolator())
+                    .setDuration(300)
+                    .translationY(translationY);
+            fabHidden = false;
+        }
+    }
+
+
+    private void hideFab() {
+        if (fab != null) {
+            fab.collapse();
+            int translationY = fabHidden ? 0 : fab.getHeight() + getMarginBottom(fab);
+            animate(fab).setInterpolator(new AccelerateDecelerateInterpolator())
+                    .setDuration(300)
+                    .translationY(translationY);
+            fabHidden = true;
+        }
+    }
+
+    private int getMarginBottom(View view) {
+        int marginBottom = 0;
+        final ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+            marginBottom = ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
+        }
+        return marginBottom;
+    }
 
 
 //    public void onCABItemClicked(final MenuItem item) {
@@ -543,9 +583,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
         if (!drawerOpen && showAdd) {
-            fab.setVisibility(View.VISIBLE);
+            showFab();
         } else {
-            fab.setVisibility(View.GONE);
+            hideFab();
         }
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView);
