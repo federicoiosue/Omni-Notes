@@ -53,37 +53,20 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.view.DragEvent;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
-import android.widget.ScrollView;
-import android.widget.Toast;
-
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
@@ -91,14 +74,6 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.pushbullet.android.extension.MessagingExtension;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.checklistview.ChecklistManager;
@@ -108,11 +83,7 @@ import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
@@ -121,21 +92,19 @@ import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
-import it.feio.android.omninotes.utils.AlphaManager;
-import it.feio.android.omninotes.utils.AppTourHelper;
-import it.feio.android.omninotes.utils.ConnectionManager;
-import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
-import it.feio.android.omninotes.utils.FileHelper;
-import it.feio.android.omninotes.utils.Fonts;
-import it.feio.android.omninotes.utils.GeocodeHelper;
-import it.feio.android.omninotes.utils.IntentChecker;
-import it.feio.android.omninotes.utils.KeyboardUtils;
-import it.feio.android.omninotes.utils.StorageManager;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
 import roboguice.util.Ln;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
@@ -1286,42 +1255,38 @@ public class DetailFragment extends Fragment implements
      * Categorize note choosing from a list of previously created categories
      */
     private void categorizeNote() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-
-        // Retrieves all available tags
+        // Retrieves all available categories
         final ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 
-        alertDialogBuilder.setTitle(R.string.categorize_as)
-                .setAdapter(new NavDrawerCategoryAdapter(getActivity(), categories), new DialogInterface.OnClickListener() {
+        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                .title(R.string.categorize_as)
+                .adapter(new NavDrawerCategoryAdapter(getActivity(), categories))
+                .positiveText(R.string.add_category)
+                .negativeText(R.string.remove_category)
+                .callback(new MaterialDialog.Callback() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        noteTmp.setCategory(categories.get(which));
-                        setTagMarkerColor(categories.get(which));
+                    public void onPositive(MaterialDialog dialog) {
+                        Intent intent = new Intent(getActivity(), CategoryActivity.class);
+                        intent.putExtra("noHome", true);
+                        startActivityForResult(intent, TAG);
                     }
-                }).setPositiveButton(R.string.add_category, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        noteTmp.setCategory(null);
+                        setTagMarkerColor(null);
+                    }
+                })
+                .build();
+
+        dialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int id) {
-                Intent intent = new Intent(getActivity(), CategoryActivity.class);
-                intent.putExtra("noHome", true);
-                startActivityForResult(intent, TAG);
-            }
-        }).setNeutralButton(R.string.remove_category, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                noteTmp.setCategory(null);
-                setTagMarkerColor(null);
-            }
-        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                noteTmp.setCategory(categories.get(position));
+                setTagMarkerColor(categories.get(position));
             }
         });
 
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
+        dialog.show();
     }
 
 

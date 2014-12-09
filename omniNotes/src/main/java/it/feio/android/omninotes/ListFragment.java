@@ -44,6 +44,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -374,7 +375,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             modifiedNotes = new ArrayList<Note>(getSelectedNotes());
 
 			// Clears data structures
-			getSelectedNotes().clear();
+			selectedNotes.clear();
 			listAdapter.clearSelectedItems();
 			list.clearChoices();
 
@@ -902,25 +903,43 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		int selected = Arrays.asList(arrayDb).indexOf(prefs.getString(Constants.PREF_SORTING_COLUMN, arrayDb[0]));
 
 		// Dialog and events creation
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle(R.string.select_sorting_column).setSingleChoiceItems(arrayDialog, selected,
-				new DialogInterface.OnClickListener() {
-
-					// On choosing the new criteria will be saved into
-					// preferences and listview redesigned
-					public void onClick(DialogInterface dialog, int which) {
-						prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which]).commit();
-						initNotesList(getActivity().getIntent());
-						// Resets list scrolling position
-						listViewPositionOffset = 0;
-						listViewPosition = 0;
-						list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
-						// Updates app widgets
-						BaseActivity.notifyAppWidgets(getActivity());
-						dialog.dismiss();
-					}
-				});
-		builder.create().show();
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
+		builder.title(R.string.select_sorting_column)
+//              .setSingleChoiceItems(arrayDialog, selected,
+//				new DialogInterface.OnClickListener() {
+//
+//					// On choosing the new criteria will be saved into
+//					// preferences and listview redesigned
+//					public void onClick(DialogInterface dialog, int which) {
+//						prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which]).commit();
+//						initNotesList(getActivity().getIntent());
+//						// Resets list scrolling position
+//						listViewPositionOffset = 0;
+//						listViewPosition = 0;
+//						list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+//						// Updates app widgets
+//						BaseActivity.notifyAppWidgets(getActivity());
+//						dialog.dismiss();
+//					}
+//				});
+                .items(arrayDialog)
+                .itemsCallbackSingleChoice(selected, new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        // On choosing the new criteria will be saved into
+                        // preferences and listview redesigned
+                        prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which]).commit();
+                        initNotesList(getActivity().getIntent());
+                        // Resets list scrolling position
+                        listViewPositionOffset = 0;
+                        listViewPosition = 0;
+                        list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+                        // Updates app widgets
+                        BaseActivity.notifyAppWidgets(getActivity());
+                        dialog.dismiss();
+                    }
+                })
+                .show();
 	}
 
 
@@ -1323,7 +1342,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	 * Batch note trashing
 	 */
 	public void trashNotes(boolean trash) {
-		int selectedNotesSize = getSelectedNotes().size();
+        int selectedNotesSize = getSelectedNotes().size();
 		for (Note note : getSelectedNotes()) {
 			// Restore it performed immediately, otherwise undo bar
 			if (!trash) {
@@ -1342,9 +1361,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		if (listAdapter.getCount() == 0)
 			list.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
-		if (getActionMode() != null) {
-			getActionMode().finish();
-		}
+		finishActionMode();
 
 		// Advice to user
 		if (trash) {
@@ -1355,12 +1372,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 		// Creation of undo bar
 		if (trash) {
-//			ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.trashed), null, new UndoBarController.UndoBarHideListener() {
-//                @Override
-//                public void onUndoBarHide(boolean b) {
-//                    Ln.d("UndoBar hidden");
-//                }
-//            });
+            ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.trashed), null);
 			undoTrash = true;
 		} else {
 			getSelectedNotes().clear();
@@ -1470,6 +1482,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      * Batch note archiviation
      */
     public void archiveNotes(boolean archive) {
+        int selectedNotesSize = getSelectedNotes().size();
         // Used in undo bar commit
         sendToArchive = archive;
 
@@ -1494,13 +1507,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
         }
 
-        // Clears data structures
-//        list.clearChoices();
-//        listAdapter.clearSelectedItems();
         finishActionMode();
-
-        // Refresh view
-//        list.invalidateViews();
 
         // If list is empty again Mr Jingles will appear again
         if (listAdapter.getCount() == 0) list.setEmptyView(getActivity().findViewById(R.id.empty_list));
@@ -1512,9 +1519,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         // Creation of undo bar
         if (archive) {
-//            ubc.showUndoBar(false, getSelectedNotes().size() + " " + getString(R.string.archived), getSelectedNotes()
-//                    .get(0), this);
-            ubc.showUndoBar(false, getSelectedNotes().size() + " " + getString(R.string.archived), null);
+            ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.archived), null);
             undoArchive = true;
         } else {
             getSelectedNotes().clear();
@@ -1577,49 +1582,63 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	 * Associates to or removes categories
 	 */
 	private void categorizeNotes() {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-
 		// Retrieves all available categories
 		final ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 
-		alertDialogBuilder
-				.setTitle(R.string.categorize_as)
-				.setAdapter(new NavDrawerCategoryAdapter(getActivity(), categories),
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								// Moved to other method, ((MainActivity)getActivity()) way the same code
-								// block can be called
-								// also by onActivityResult when a new tag is created
-                                categorizeNotesExecute(categories.get(which));
-							}
-						}).setPositiveButton(R.string.add_category, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						Intent intent = new Intent(getActivity(), CategoryActivity.class);
-						intent.putExtra("noHome", true);
-						startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
-					}
-				}).setNeutralButton(R.string.remove_category, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
+        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+				.title(R.string.categorize_as)
+				.adapter(new NavDrawerCategoryAdapter(getActivity(), categories))
+                .positiveText(R.string.add_category)
+//                .neutralText(R.string.cancel)
+                .negativeText(R.string.remove_category)
+                .callback(new MaterialDialog.Callback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        Intent intent = new Intent(getActivity(), CategoryActivity.class);
+                        intent.putExtra("noHome", true);
+                        startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
+                    }
+//                    @Override
+//                    public void onNegative(MaterialDialog materialDialog) {
+//                        selectedNotes.clear();
+//                        finishActionMode();
+//                    }
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
                         categorizeNotesExecute(null);
-					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						getSelectedNotes().clear();
-						if (getActionMode() != null) {
-							getActionMode().finish();
-						}
-					}
-				});
+                    }
+                }).build();
 
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
+        dialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                dialog.dismiss();
+                categorizeNotesExecute(categories.get(position));
+            }
+        });
 
-		// show it
-		alertDialog.show();
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                selectedNotes.clear();
+                finishActionMode();
+            }
+        });
+
+
+//        }).setNeutralButton(R.string.remove_category, new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int id) {
+//                        categorizeNotesExecute(null);
+//					}
+//				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int id) {
+//
+//					}
+//				});
+
+        dialog.show();
 	}
 
 
@@ -1648,10 +1667,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 		// Clears data structures
 //		listAdapter.clearSelectedItems();
-		list.clearChoices();
+//		list.clearChoices();
+        finishActionMode();
 
 		// Refreshes list
-		list.invalidateViews();
+//		list.invalidateViews();
 
 		// If list is empty again Mr Jingles will appear again
 		if (listAdapter.getCount() == 0)
@@ -1706,34 +1726,49 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             return;
         }
 
+        Integer[] preselectedTags;
+        if(selectedNotes.size() == 1) {
+            List<Integer> t = new ArrayList<Integer>();
+            List<String> noteTags = DbHelper.getInstance(getActivity()).getTags(selectedNotes.get(0));
+            for (String noteTag : noteTags) {
+                t.add(tags.indexOf(noteTag));
+            }
+            preselectedTags = t.toArray(new Integer[t.size()]);
+        } else {
+            preselectedTags = new Integer[]{};
+        }
+
         // Selected tags
         final boolean[] selectedTags = new boolean[tags.size()];
         Arrays.fill(selectedTags, Boolean.FALSE);
+        Integer[] multichoidSelected;
 
-        // Dialog and events creation
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        final String[] tagsArray = tags.toArray(new String[tags.size()]);
-        builder.setTitle(R.string.select_tags)
-                .setMultiChoiceItems(tagsArray, selectedTags, new DialogInterface.OnMultiChoiceClickListener() {
+        String[] tagsArray = tags.toArray(new String[tags.size()]);
+
+        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                .title(R.string.select_tags)
+                .items(tagsArray)
+                .positiveText(R.string.confirm)
+                .itemsCallbackMultiChoice(preselectedTags, new MaterialDialog.ListCallbackMulti() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        selectedTags[which] = isChecked;
+                    public void onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                        dialog.dismiss();
+                        for (Integer integer : which) {
+                            selectedTags[integer] = true;
+                        }
+                        tagNotesExecute(tags, selectedTags);
                     }
-                }).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                }).build();
+
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                tagNotesExecute(tags, selectedTags);
-            }
-        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                getSelectedNotes().clear();
-                if (getActionMode() != null) {
-                    getActionMode().finish();
-                }
+            public void onCancel(DialogInterface dialog) {
+                selectedNotes.clear();
+                finishActionMode();
             }
         });
-        builder.create().show();
+
+        dialog.show();
     }
 
 
@@ -1743,7 +1778,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		for (Note note : getSelectedNotes()) {
 
 			HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
-			Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getContent());
+			Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getTitle() + " " + note.getContent());
 			while (matcher.find()) {
 				tagsMap.put(matcher.group().trim(), true);
 			}
@@ -1805,7 +1840,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     @Override
     public void onUndo(Parcelable undoToken) {
-
 		// Cycles removed items to re-insert into adapter
 		for (Note note : modifiedNotes) {
 			//   Manages uncategorize or archive  undo
@@ -1819,14 +1853,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 				listAdapter.replace(note, listAdapter.getPosition(note));
 			// Manages trash undo
 			} else {
-//                listAdapter.insert(note, undoNotesList.keyAt(undoNotesList.indexOfValue(note)));
-//                listAdapter.add(undoNotesList.keyAt(undoNotesList.indexOfValue(note)), note);
                 list.insert(undoNotesList.keyAt(undoNotesList.indexOfValue(note)), note);
 			}
 		}
 
-//		list.invalidateViews();
-
+        selectedNotes.clear();
 		undoNotesList.clear();
         modifiedNotes.clear();
 
