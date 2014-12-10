@@ -27,6 +27,7 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">?attr/colorPrimaryDark</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:button">@android:drawable/checkbox_off_background</item>
     </style>
 
     <style name="OmniNotesTheme.ApiSpec"></style>
