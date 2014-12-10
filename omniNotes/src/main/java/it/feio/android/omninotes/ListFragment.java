@@ -426,7 +426,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         if (fab != null) {
             int translationY = fabHidden ? 0 : fab.getHeight() + getMarginBottom(fab);
             animate(fab).setInterpolator(new AccelerateDecelerateInterpolator())
-                    .setDuration(300)
+                    .setDuration(Constants.FAB_ANIMATION_TIME)
                     .translationY(translationY);
             fabHidden = false;
         }
@@ -438,7 +438,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             fab.collapse();
             int translationY = fabHidden ? 0 : fab.getHeight() + getMarginBottom(fab);
             animate(fab).setInterpolator(new AccelerateDecelerateInterpolator())
-                    .setDuration(300)
+                    .setDuration(Constants.FAB_ANIMATION_TIME)
                     .translationY(translationY);
             fabHidden = true;
         }

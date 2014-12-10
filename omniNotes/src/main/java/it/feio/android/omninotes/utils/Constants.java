@@ -41,6 +41,9 @@ public interface Constants {
 	final int SWIPE_MARGIN = 30;
 	final int SWIPE_OFFSET = 100;
 
+    // Floating action button
+    final int FAB_ANIMATION_TIME = 200;
+
 	// Notes content masking
 	final String MASK_CHAR = "*";
 
