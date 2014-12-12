@@ -223,7 +223,6 @@
         <receiver
             android:name="it.feio.android.omninotes.widget.ListWidgetProvider"
             android:description="@string/widget_list_description"
-            android:enabled="@bool/list_widget_receiver_enabled"
             android:icon="@drawable/logo"
             android:label="@string/app_name">
             <intent-filter>
