@@ -181,12 +181,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 	}
 
-	public void editNote(Note note) {
-		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
-		if (f != null) {
-			((ListFragment)f).editNote(note);
-		}
-	}
+//	public void editNote(Note note) {
+//		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+//		if (f != null) {
+//			((ListFragment)f).editNote(note, view);
+//		}
+//	}
 
 	public void initNavigationDrawer() {
 		Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);

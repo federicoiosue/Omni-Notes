@@ -20,14 +20,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
-import com.espian.showcaseview.ShowcaseView;
-import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.*;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.NavigationItem;
+import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.Navigation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -300,27 +303,27 @@ public class NavigationDrawerFragment extends Fragment {
 															// onPrepareOptionsMenu()
 
 				// Show instructions on first launch
-				final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
-				if (AppTourHelper.isStepTurn(mActivity, instructionName)) {
-					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-//					list.add(new Integer[] { R.id.menu_add_category, R.string.tour_listactivity_tag_title,
-//							R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM });
-					mActivity.showCaseView(list, new OnShowcaseAcknowledged() {
-						@Override
-						public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-							AppTourHelper.completeStep(mActivity, instructionName);
-							mDrawerLayout.closeDrawer(GravityCompat.START);
-
-							// Attaches a dummy image as example
-							Note note = new Note();
-							Attachment attachment = new Attachment(BitmapHelper.getUri(mActivity,
-									R.drawable.ic_launcher), Constants.MIME_TYPE_IMAGE);
-							note.getAttachmentsList().add(attachment);
-							note.setTitle("http://www.opensource.org");
-							mActivity.editNote(note);
-						}
-					});
-				}
+//				final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
+//				if (AppTourHelper.isStepTurn(mActivity, instructionName)) {
+//					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+////					list.add(new Integer[] { R.id.menu_add_category, R.string.tour_listactivity_tag_title,
+////							R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM });
+//					mActivity.showCaseView(list, new OnShowcaseAcknowledged() {
+//						@Override
+//						public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+//							AppTourHelper.completeStep(mActivity, instructionName);
+//							mDrawerLayout.closeDrawer(GravityCompat.START);
+//
+//							// Attaches a dummy image as example
+//							Note note = new Note();
+//							Attachment attachment = new Attachment(BitmapHelper.getUri(mActivity,
+//									R.drawable.ic_launcher), Constants.MIME_TYPE_IMAGE);
+//							note.getAttachmentsList().add(attachment);
+//							note.setTitle("http://www.opensource.org");
+//							mActivity.editNote(note);
+//						}
+//					});
+//				}
 			}
 		};		
 		

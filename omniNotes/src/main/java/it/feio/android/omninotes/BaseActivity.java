@@ -20,11 +20,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -35,28 +31,16 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewConfiguration;
+import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
-
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews;
 import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
 import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
@@ -66,6 +50,10 @@ import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
 import roboguice.util.Ln;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressLint("Registered")
 public class BaseActivity extends ActionBarActivity implements LocationListener {
@@ -376,18 +364,8 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
 	@SuppressLint("InlinedApi")
 	protected void animateTransition(FragmentTransaction transaction, int direction) {
-		boolean rtl = false;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			rtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
-		}
 		if (direction == TRANSITION_HORIZONTAL) {
-			if (rtl) {
-				transaction.setCustomAnimations(R.animator.slide_left, R.animator.slide_right,
-						R.animator.slide_back_right, R.animator.slide_back_left);
-			} else {
-				transaction.setCustomAnimations(R.animator.slide_back_right, R.animator.slide_back_left,
-						R.animator.slide_left, R.animator.slide_right);
-			}
+            transaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out);
 		}
 		if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			transaction.setCustomAnimations(

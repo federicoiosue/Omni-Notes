@@ -12,6 +12,10 @@
  ******************************************************************************/
 package it.feio.android.omninotes;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +24,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +47,7 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -206,7 +214,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         fabAddNote.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                editNote(new Note());
+                editNote(new Note(), v);
             }
         });
         fabAddChecklist = (FloatingActionButton) fab.findViewById(R.id.fab_new_checklist);
@@ -215,7 +223,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             public void onClick(View v) {
                 Note note = new Note();
                 note.setChecklist(true);
-                editNote(note);
+                editNote(note, v);
             }
         });
 
@@ -542,8 +550,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
 				if (view.equals(listFooter)) return;
 				if (getActionMode() == null) {
-					Note note = listAdapter.getItem(position);
-					editNote(note);
+					editNote(listAdapter.getItem(position), view);
 					return;
 				}
 				// If in CAB mode
@@ -555,6 +562,88 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		((InterceptorLinearLayout) getActivity().findViewById(R.id.list_root))
 				.setOnViewTouchedListener(this);
 	}
+
+
+    private void zoomListItem(final View view, final Note note) {
+        final long animationDuration = 300;
+
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap bm = view.getDrawingCache();
+
+        final ImageView expandedImageView = (ImageView) getActivity().findViewById(
+                R.id.expanded_image);
+        expandedImageView.setBackgroundColor(getResources().getColor(R.color.white));
+
+        // Calculate the starting and ending bounds for the zoomed-in image.
+        // This step involves lots of math. Yay, math.
+        final Rect startBounds = new Rect();
+        final Rect finalBounds = new Rect();
+        final Point globalOffset = new Point();
+
+        // The start bounds are the global visible rectangle of the thumbnail,
+        // and the final bounds are the global visible rectangle of the container
+        // view. Also set the container view's offset as the origin for the
+        // bounds, since that's the origin for the positioning animation
+        // properties (X, Y).
+        view.getGlobalVisibleRect(startBounds);
+        getActivity().findViewById(R.id.list_root)
+                .getGlobalVisibleRect(finalBounds, globalOffset);
+        startBounds.offset(-globalOffset.x, -globalOffset.y);
+        finalBounds.offset(-globalOffset.x, -globalOffset.y);
+
+        // Adjust the start bounds to be the same aspect ratio as the final
+        // bounds using the "center crop" technique. This prevents undesirable
+        // stretching during the animation. Also calculate the start scaling
+        // factor (the end scaling factor is always 1.0).
+        float startScale;
+        if ((float) finalBounds.width() / finalBounds.height()
+                > (float) startBounds.width() / startBounds.height()) {
+            // Extend start bounds horizontally
+            startScale = (float) startBounds.height() / finalBounds.height();
+            float startWidth = startScale * finalBounds.width();
+            float deltaWidth = (startWidth - startBounds.width()) / 2;
+            startBounds.left -= deltaWidth;
+            startBounds.right += deltaWidth;
+        } else {
+            // Extend start bounds vertically
+            startScale = (float) startBounds.width() / finalBounds.width();
+            float startHeight = startScale * finalBounds.height();
+            float deltaHeight = (startHeight - startBounds.height()) / 2;
+            startBounds.top -= deltaHeight;
+            startBounds.bottom += deltaHeight;
+        }
+
+        // Hide the thumbnail and show the zoomed-in view. When the animation
+        // begins, it will position the zoomed-in view in the place of the
+        // thumbnail.
+        view.setAlpha(0f);
+        expandedImageView.setVisibility(View.VISIBLE);
+
+        // Set the pivot point for SCALE_X and SCALE_Y transformations
+        // to the top-left corner of the zoomed-in view (the default
+        // is the center of the view).
+//        expandedImageView.setPivotX(0f);
+//        expandedImageView.setPivotY(0f);
+
+        // Construct and run the parallel animation of the four translation and
+        // scale properties (X, Y, SCALE_X, and SCALE_Y).
+        AnimatorSet set = new AnimatorSet();
+        set.play(ObjectAnimator.ofFloat(expandedImageView, View.X, startBounds.left, finalBounds.left))
+            .with(ObjectAnimator.ofFloat(expandedImageView, View.Y, startBounds.top, finalBounds.top))
+            .with(ObjectAnimator.ofFloat(expandedImageView, View.SCALE_X, startScale, 1f))
+            .with(ObjectAnimator.ofFloat(expandedImageView, View.SCALE_Y, startScale, 1f));
+        set.setDuration(animationDuration);
+        set.setInterpolator(new DecelerateInterpolator());
+        set.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                editNote2(note);
+            }
+        });
+        set.start();
+    }
+
 
     @Override
     public void onViewTouchOccurred(MotionEvent ev) {
@@ -816,7 +905,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	}
 
 
-	void editNote(final Note note) {
+	void editNote(final Note note, View view) {
         fab.collapse();
 		if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
 			BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
