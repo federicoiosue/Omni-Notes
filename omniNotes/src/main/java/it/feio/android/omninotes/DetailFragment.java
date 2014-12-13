@@ -67,8 +67,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.PopupWindow.OnDismissListener;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.espian.showcaseview.ShowcaseView;
-import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
+//import com.espian.showcaseview.ShowcaseView;
+//import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -940,25 +940,25 @@ public class DetailFragment extends Fragment implements
         super.onCreateOptionsMenu(menu, inflater);
 
         // Show instructions on first launch
-        final String instructionName = Constants.PREF_TOUR_PREFIX + "detail";
-        if (AppTourHelper.isStepTurn(getActivity(), instructionName)
-                && !onCreateOptionsMenuAlreadyCalled) {
-            onCreateOptionsMenuAlreadyCalled = true;
-            ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-            list.add(new Integer[]{R.id.menu_attachment, R.string.tour_detailactivity_attachment_title, R.string.tour_detailactivity_attachment_detail, ShowcaseView.ITEM_ACTION_ITEM});
-            list.add(new Integer[]{R.id.menu_category, R.string.tour_detailactivity_action_title, R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
-            list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title, R.string.tour_detailactivity_reminder_detail, null});
-            list.add(new Integer[]{R.id.detail_title, R.string.tour_detailactivity_links_title, R.string.tour_detailactivity_links_detail, null});
-            list.add(new Integer[]{null, R.string.tour_detailactivity_swipe_title, R.string.tour_detailactivity_swipe_detail, null, -10, Display.getUsableSize(getActivity()).y / 3, 80, Display.getUsableSize(getActivity()).y / 3});
-            list.add(new Integer[]{0, R.string.tour_detailactivity_save_title, R.string.tour_detailactivity_save_detail, ShowcaseView.ITEM_ACTION_HOME});
-            ((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
-                @Override
-                public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-                    prefs.edit().putBoolean(instructionName, true).commit();
-                    discard();
-                }
-            });
-        }
+//        final String instructionName = Constants.PREF_TOUR_PREFIX + "detail";
+//        if (AppTourHelper.isStepTurn(getActivity(), instructionName)
+//                && !onCreateOptionsMenuAlreadyCalled) {
+//            onCreateOptionsMenuAlreadyCalled = true;
+//            ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+//            list.add(new Integer[]{R.id.menu_attachment, R.string.tour_detailactivity_attachment_title, R.string.tour_detailactivity_attachment_detail, ShowcaseView.ITEM_ACTION_ITEM});
+//            list.add(new Integer[]{R.id.menu_category, R.string.tour_detailactivity_action_title, R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
+//            list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title, R.string.tour_detailactivity_reminder_detail, null});
+//            list.add(new Integer[]{R.id.detail_title, R.string.tour_detailactivity_links_title, R.string.tour_detailactivity_links_detail, null});
+//            list.add(new Integer[]{null, R.string.tour_detailactivity_swipe_title, R.string.tour_detailactivity_swipe_detail, null, -10, Display.getUsableSize(getActivity()).y / 3, 80, Display.getUsableSize(getActivity()).y / 3});
+//            list.add(new Integer[]{0, R.string.tour_detailactivity_save_title, R.string.tour_detailactivity_save_detail, ShowcaseView.ITEM_ACTION_HOME});
+//            ((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
+//                @Override
+//                public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+//                    prefs.edit().putBoolean(instructionName, true).commit();
+//                    discard();
+//                }
+//            });
+//        }
     }
 
 

@@ -35,13 +35,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
-import com.espian.showcaseview.ShowcaseView;
-import com.espian.showcaseview.ShowcaseViews;
-import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
-import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
-import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
@@ -52,8 +46,12 @@ import it.feio.android.omninotes.widget.ListWidgetProvider;
 import roboguice.util.Ln;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
+
+//import com.espian.showcaseview.ShowcaseView;
+//import com.espian.showcaseview.ShowcaseViews;
+//import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
+//import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 
 @SuppressLint("Registered")
 public class BaseActivity extends ActionBarActivity implements LocationListener {
@@ -284,49 +282,49 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 	 *            that have to be used for ItemViewProperties building: id,
 	 *            titleResId, messageResId, itemType, scale, configOptions
 	 */
-	protected void showCaseView(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
-
-		final float scale = 0.6F;
-		ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
-		ShowcaseViews mViews;
-		if (mOnShowcaseAcknowledged != null) {
-			mViews = new ShowcaseViews(this, mOnShowcaseAcknowledged);
-		} else {
-			mViews = new ShowcaseViews(this);
-		}
-
-		LayoutParams lp = new LayoutParams(300, 300);
-		lp.bottomMargin = DensityUtil.dpToPx(100, this);
-		lp.setMargins(12, 12, 12, getResources().getDimensionPixelSize(R.dimen.showcase_margin_bottom));
-		co.buttonLayoutParams = lp;
-
-		co.fadeInDuration = 700;
-
-		ItemViewProperties ivp;
-		for (Integer[] view : viewsArrays) {
-
-			// No showcase
-			if (view[0] == null) {
-				ivp = new ItemViewProperties(view[1], view[2], co);
-
-			// No actionbar or reflection types
-			} else if (view[3] == null) {
-				ivp = new ItemViewProperties(view[0], view[1], view[2], scale, co);
-			} else {
-				ivp = new ItemViewProperties(view[0], view[1], view[2], view[3], scale, co);
-			}
-			mViews.addView(ivp);
-
-			// Animated hand gesture
-			if (view.length > 4) {
-				int index = viewsArrays.indexOf(view);
-				mViews.addAnimatedGestureToView(index, view[4], view[5], view[6], view[7], true);
-			}
-		}
-
-		mViews.show();
-
-	}
+//	protected void showCaseView(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
+//
+//		final float scale = 0.6F;
+//		ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
+//		ShowcaseViews mViews;
+//		if (mOnShowcaseAcknowledged != null) {
+//			mViews = new ShowcaseViews(this, mOnShowcaseAcknowledged);
+//		} else {
+//			mViews = new ShowcaseViews(this);
+//		}
+//
+//		LayoutParams lp = new LayoutParams(300, 300);
+//		lp.bottomMargin = DensityUtil.dpToPx(100, this);
+//		lp.setMargins(12, 12, 12, getResources().getDimensionPixelSize(R.dimen.showcase_margin_bottom));
+//		co.buttonLayoutParams = lp;
+//
+//		co.fadeInDuration = 700;
+//
+//		ItemViewProperties ivp;
+//		for (Integer[] view : viewsArrays) {
+//
+//			// No showcase
+//			if (view[0] == null) {
+//				ivp = new ItemViewProperties(view[1], view[2], co);
+//
+//			// No actionbar or reflection types
+//			} else if (view[3] == null) {
+//				ivp = new ItemViewProperties(view[0], view[1], view[2], scale, co);
+//			} else {
+//				ivp = new ItemViewProperties(view[0], view[1], view[2], view[3], scale, co);
+//			}
+//			mViews.addView(ivp);
+//
+//			// Animated hand gesture
+//			if (view.length > 4) {
+//				int index = viewsArrays.indexOf(view);
+//				mViews.addAnimatedGestureToView(index, view[4], view[5], view[6], view[7], true);
+//			}
+//		}
+//
+//		mViews.show();
+//
+//	}
 
 
 

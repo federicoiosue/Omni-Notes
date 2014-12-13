@@ -54,8 +54,8 @@ dependencies {
     compile 'it.feio.android:omninotes_commons:1.0.2-SNAPSHOT'
     compile 'it.feio.android:checklistview:2.0'
     compile 'it.feio.android:pixlUI:2.1'
-    compile('it.feio.android:showcaseview:3.2.0') {
-        exclude group: 'org.mockito'
-        exclude group: 'org.robolectric'
-    }
+//    compile('it.feio.android:showcaseview:3.2.0') {
+//        exclude group: 'org.mockito'
+//        exclude group: 'org.robolectric'
+//    }
 }

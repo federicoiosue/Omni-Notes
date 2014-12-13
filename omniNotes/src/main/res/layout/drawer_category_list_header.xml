@@ -41,7 +41,7 @@
         android:textAllCaps="true"
         android:text="@string/categories"
         android:textAppearance="@style/Text.Small"
-        android:textColor="@color/actionbar_title_text" />
+        android:textColor="@color/text_color" />
     
     <View 
         android:layout_width="match_parent"

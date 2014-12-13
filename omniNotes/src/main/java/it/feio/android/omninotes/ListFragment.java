@@ -51,8 +51,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.espian.showcaseview.ShowcaseView;
-import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
+//import com.espian.showcaseview.ShowcaseView;
+//import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.analytics.tracking.android.Fields;
@@ -2037,42 +2037,42 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	}
 
 
-	private void initShowCase() {
-		// Show instructions on first launch
-		final String instructionName = Constants.PREF_TOUR_PREFIX + "list";
-		if (AppTourHelper.isStepTurn(getActivity(), instructionName)) {
-            ((MainActivity) getActivity()).getDrawerLayout().closeDrawer(GravityCompat.START);
-			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-			list.add(new Integer[] { 0, R.string.tour_listactivity_intro_title,
-					R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE });
-//			list.add(new Integer[] { R.id.fab, R.string.tour_listactivity_actions_title,
-//					R.string.tour_listactivity_actions_detail, null });
-			list.add(new Integer[] { 0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail,
-					ShowcaseView.ITEM_ACTION_HOME });
-			((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
-				@Override
-				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-					AppTourHelper.completeStep(getActivity(), instructionName);
-					((MainActivity) getActivity()).getDrawerLayout().openDrawer(GravityCompat.START);
-				}
-			});
-		}
-
-		// Show instructions on first launch
-		final String instructionName2 = Constants.PREF_TOUR_PREFIX + "list2";
-		if (AppTourHelper.isStepTurn(getActivity(), instructionName2)) {
-			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-			list.add(new Integer[] { null, R.string.tour_listactivity_final_title,
-					R.string.tour_listactivity_final_detail, null });
-			((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
-				@Override
-				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-					AppTourHelper.completeStep(getActivity(), instructionName2);
-                    AppTourHelper.complete(getActivity());
-				}
-			});
-		}
-	}
+//	private void initShowCase() {
+//		// Show instructions on first launch
+//		final String instructionName = Constants.PREF_TOUR_PREFIX + "list";
+//		if (AppTourHelper.isStepTurn(getActivity(), instructionName)) {
+//            ((MainActivity) getActivity()).getDrawerLayout().closeDrawer(GravityCompat.START);
+//			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+//			list.add(new Integer[] { 0, R.string.tour_listactivity_intro_title,
+//					R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE });
+////			list.add(new Integer[] { R.id.fab, R.string.tour_listactivity_actions_title,
+////					R.string.tour_listactivity_actions_detail, null });
+//			list.add(new Integer[] { 0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail,
+//					ShowcaseView.ITEM_ACTION_HOME });
+//			((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
+//				@Override
+//				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+//					AppTourHelper.completeStep(getActivity(), instructionName);
+//					((MainActivity) getActivity()).getDrawerLayout().openDrawer(GravityCompat.START);
+//				}
+//			});
+//		}
+//
+//		// Show instructions on first launch
+//		final String instructionName2 = Constants.PREF_TOUR_PREFIX + "list2";
+//		if (AppTourHelper.isStepTurn(getActivity(), instructionName2)) {
+//			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
+//			list.add(new Integer[] { null, R.string.tour_listactivity_final_title,
+//					R.string.tour_listactivity_final_detail, null });
+//			((MainActivity) getActivity()).showCaseView(list, new OnShowcaseAcknowledged() {
+//				@Override
+//				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+//					AppTourHelper.completeStep(getActivity(), instructionName2);
+//                    AppTourHelper.complete(getActivity());
+//				}
+//			});
+//		}
+//	}
 
 
 	/**

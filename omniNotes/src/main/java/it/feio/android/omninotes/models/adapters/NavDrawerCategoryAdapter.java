@@ -104,7 +104,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
 			holder.txtTitle.setTypeface(null,Typeface.BOLD);
 		} else {
 //			holder.txtTitle.setTextColor(mActivity.getResources().getColor(
-//					R.color.actionbar_title_text));
+//					R.color.text_color));
 			holder.txtTitle.setTypeface(null,Typeface.NORMAL);
 		}
 
