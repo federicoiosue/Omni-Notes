@@ -95,8 +95,9 @@
         <item name="android:windowBackground">@color/about_bg</item>
     </style>
 
-    <style name="Button.Dialog" parent="Widget.AppCompat.ActionButton">
-        <item name="android:textColor">@color/actionbar_title_text</item>
+    <style name="Button.Dialog" parent="MD_ActionButton">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="Text.Big" parent="android:TextAppearance.Large">

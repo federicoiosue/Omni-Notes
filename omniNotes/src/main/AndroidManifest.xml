@@ -199,7 +199,7 @@
         <!-- Widget configuration Activity -->
         <activity
             android:name="it.feio.android.omninotes.widget.WidgetConfigurationActivity"
-            android:theme="@style/Theme.AppCompat.Dialog">
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
