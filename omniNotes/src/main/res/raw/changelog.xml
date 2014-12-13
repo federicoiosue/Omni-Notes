@@ -16,6 +16,10 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.0.0" changeDate="Dec 11, 2014">
+        <changelogtext>[b]New![/b] Material design UI</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="4.7.2" changeDate="Nov 11, 2014">
         <changelogtext>[b]New![/b] Multiple file are now attachable to notes at once</changelogtext>
         <changelogtext>[b]New![/b] Czeck language support</changelogtext>

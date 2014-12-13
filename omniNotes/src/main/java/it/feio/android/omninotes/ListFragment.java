@@ -1788,7 +1788,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.select_tags)
                 .items(tagsArray)
-                .positiveText(R.string.confirm)
+                .positiveText(R.string.ok)
                 .itemsCallbackMultiChoice(preselectedTags, new MaterialDialog.ListCallbackMulti() {
                     @Override
                     public void onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {

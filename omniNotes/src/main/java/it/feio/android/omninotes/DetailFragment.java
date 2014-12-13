@@ -1939,10 +1939,12 @@ public class DetailFragment extends Fragment implements
             public void onClick(DialogInterface dialog, int id) {
                 // Creates a new text clip to put on the clipboard
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-                    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
+                    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity()
+                            .getSystemService(Activity.CLIPBOARD_SERVICE);
                     clipboard.setText("text to clip");
                 } else {
-                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity().getSystemService(Activity.CLIPBOARD_SERVICE);
+                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity()
+                            .getSystemService(Activity.CLIPBOARD_SERVICE);
                     android.content.ClipData clip = android.content.ClipData.newPlainText("text label", clickedString);
                     clipboard.setPrimaryClip(clip);
                 }
@@ -2131,39 +2133,32 @@ public class DetailFragment extends Fragment implements
         final boolean[] selectedTags = new boolean[tags.size()];
         Arrays.fill(selectedTags, Boolean.FALSE);
 
+        List<Integer> t = new ArrayList<Integer>();
+        List<String> noteTags = DbHelper.getInstance(getActivity()).getTags(noteTmp);
+        for (String noteTag : noteTags) {
+            t.add(tags.indexOf(noteTag));
+        }
+        Integer[] preselectedTags = t.toArray(new Integer[t.size()]);
+
         // String of choosen tags in order of selection
         final StringBuilder sbTags = new StringBuilder();
 
         // Dialog and events creation
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final String[] tagsArray = tags.toArray(new String[tags.size()]);
-        builder
-                .setTitle(R.string.select_tags)
-                .setMultiChoiceItems(tagsArray, selectedTags, new DialogInterface.OnMultiChoiceClickListener() {
+        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                .title(R.string.select_tags)
+                .positiveText(R.string.ok)
+                .items(tagsArray)
+                .itemsCallbackMultiChoice(preselectedTags, new MaterialDialog.ListCallbackMulti() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        if (isChecked) {
-                            // To divide tags a head space is inserted
+                    public void onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                        dialog.dismiss();
+                        for (Integer tagIndex : which) {
                             if (sbTags.length() > 0) {
                                 sbTags.append(" ");
                             }
-                            sbTags.append(tags.get(which));
-                        } else {
-                            int start = sbTags.indexOf(tags.get(which));
-                            int end = tags.get(which).length();
-                            // To remove head or tail space
-                            if (start > 0) {
-                                start--;
-                            } else {
-                                end++;
-                            }
-                            sbTags.replace(start, end, "");
+                            sbTags.append(tags.get(tagIndex));
                         }
-                    }
-                })
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
                         StringBuilder sb;
                         if (!noteTmp.isChecklist()) {
                             sb = new StringBuilder(getNoteContent());
@@ -2183,19 +2178,15 @@ public class DetailFragment extends Fragment implements
                                 sb = new StringBuilder(mCheckListViewItem.getText());
                                 sb.insert(contentCursorPosition, " " + sbTags.toString() + " ");
                                 mCheckListViewItem.setText(sb.toString());
-                                mCheckListViewItem.getEditText().setSelection(contentCursorPosition + sbTags.length() + 1);
+                                mCheckListViewItem.getEditText().setSelection(contentCursorPosition + sbTags.length()
+                                        + 1);
                             } else {
                                 title.append(" " + sbTags.toString());
                             }
                         }
                     }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-        builder.create().show();
+                }).build();
+        dialog.show();
     }
 
     private int getCursorIndex() {
