@@ -51,8 +51,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.afollestad.materialdialogs.MaterialDialog;
-//import com.espian.showcaseview.ShowcaseView;
-//import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
+import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.analytics.tracking.android.Fields;
@@ -72,8 +71,10 @@ import it.feio.android.omninotes.models.listeners.AbsListViewScrollDetector;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.pixlui.links.RegexPatternsConstants;
 import it.feio.android.pixlui.links.UrlCompleter;
 import roboguice.util.Ln;
@@ -82,6 +83,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 
 import static android.support.v4.view.ViewCompat.animate;
+
+//import com.espian.showcaseview.ShowcaseView;
+//import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 
 
 public class ListFragment extends Fragment implements OnNotesLoadedListener, OnViewTouchedListener, UndoBarController.UndoListener {
@@ -192,8 +196,30 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
 	}
 
+    boolean fabExpanded = false;
     private void initFab() {
         fab = (FloatingActionsMenu) getActivity().findViewById(R.id.fab);
+        AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(com.getbase.floatingactionbutton.R.id
+                .fab_expand_menu_button);
+        fabAddButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fabExpanded) {
+                    fab.toggle();
+                    fabExpanded = false;
+                } else {
+                    editNote(new Note(), v);
+                }
+            }
+        });
+        fabAddButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                fabExpanded = !fabExpanded;
+                fab.toggle();
+                return true;
+            }
+        });
         list.setOnScrollListener(
                 new AbsListViewScrollDetector() {
                     public void onScrollUp() {
