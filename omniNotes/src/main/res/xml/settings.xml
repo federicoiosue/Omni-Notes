@@ -207,13 +207,13 @@
     
     
     <PreferenceCategory android:title="@string/settings_category_about" >
-              <PreferenceScreen
-             android:key="settings_backup"
-             android:persistent="false"
-             android:title="@string/help" >
-             <Preference
-                 android:key="settings_tour_show_again"
-                 android:title="@string/settings_tour_show_again" />
+              <!--<PreferenceScreen-->
+             <!--android:key="settings_backup"-->
+             <!--android:persistent="false"-->
+             <!--android:title="@string/help" >-->
+             <!--<Preference-->
+                 <!--android:key="settings_tour_show_again"-->
+                 <!--android:title="@string/settings_tour_show_again" />-->
              <Preference
                  android:key="settings_online_manual"
                  android:title="@string/online_manual" >
@@ -221,7 +221,7 @@
                      android:action="android.intent.action.VIEW"
                      android:data="@string/help_online_url" />
              </Preference>
-         </PreferenceScreen>
+         <!--</PreferenceScreen>-->
    
 	    <Preference
 	        android:key="settings_donation"

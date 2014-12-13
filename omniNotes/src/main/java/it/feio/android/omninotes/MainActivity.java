@@ -59,7 +59,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         instance = this;
 
         // This method starts the bootstrap chain.
-		requestShowCaseViewVisualization();
+//		requestShowCaseViewVisualization();
+        checkPassword();
 
         initUI();
 

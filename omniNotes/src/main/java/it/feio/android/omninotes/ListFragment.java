@@ -568,7 +568,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		super.onCreateOptionsMenu(menu, inflater);
 		// Initialization of SearchView
 		initSearchView(menu);
-		initShowCase();
+//		initShowCase();
 	}
 
 

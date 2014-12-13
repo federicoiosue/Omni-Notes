@@ -28,13 +28,9 @@ import android.content.res.Configuration;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
+import android.preference.*;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -46,30 +42,23 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.models.holders.ImageAndTextItem;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
-import it.feio.android.omninotes.utils.AppTourHelper;
+import it.feio.android.omninotes.models.holders.ImageAndTextItem;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.StorageManager;
 import roboguice.util.Ln;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class SettingsActivity extends PreferenceActivity {
 
@@ -621,36 +610,36 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		
 		
-		// Instructions
-		Preference instructions = findPreference("settings_tour_show_again");
-		instructions.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-			@Override
-			public boolean onPreferenceClick(Preference arg0) {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
-				// set dialog message
-				alertDialogBuilder
-						.setMessage(getString(R.string.settings_tour_show_again_summary) + "?")
-						.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								AppTourHelper.reset(mActivity);
-								prefs.edit()
-										.putString(Constants.PREF_NAVIGATION,
-												getResources().getStringArray(R.array.navigation_list_codes)[0])
-										.commit();
-								OmniNotes.restartApp(getApplicationContext());
-							}
-						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
-				// create alert dialog
-				AlertDialog alertDialog = alertDialogBuilder.create();
-				// show it
-				alertDialog.show();
-				return false;						
-			}
-		});
+//		// Instructions
+//		Preference instructions = findPreference("settings_tour_show_again");
+//		instructions.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+//			@Override
+//			public boolean onPreferenceClick(Preference arg0) {
+//				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+//				// set dialog message
+//				alertDialogBuilder
+//						.setMessage(getString(R.string.settings_tour_show_again_summary) + "?")
+//						.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog, int id) {
+//								AppTourHelper.reset(mActivity);
+//								prefs.edit()
+//										.putString(Constants.PREF_NAVIGATION,
+//												getResources().getStringArray(R.array.navigation_list_codes)[0])
+//										.commit();
+//								OmniNotes.restartApp(getApplicationContext());
+//							}
+//						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog, int id) {
+//								dialog.cancel();
+//							}
+//						});
+//				// create alert dialog
+//				AlertDialog alertDialog = alertDialogBuilder.create();
+//				// show it
+//				alertDialog.show();
+//				return false;
+//			}
+//		});
 		
 		
 		
