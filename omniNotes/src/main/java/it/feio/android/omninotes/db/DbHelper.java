@@ -36,10 +36,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.Stats;
-import it.feio.android.omninotes.utils.AssetUtils;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Navigation;
-import it.feio.android.omninotes.utils.Security;
+import it.feio.android.omninotes.utils.*;
 import it.feio.android.pixlui.links.RegexPatternsConstants;
 import roboguice.util.Ln;
 
@@ -702,22 +699,12 @@ public class DbHelper extends SQLiteOpenHelper {
 		List<Note> notesRetrieved = getNotes(whereCondition, true);
 		
 		for (Note noteRetrieved : notesRetrieved) {
-			tagsMap.putAll(retrieveTags(noteRetrieved));
+			tagsMap.putAll(TextHelper.retrieveTags(noteRetrieved));
 		}
 		List<String> tags = new ArrayList<String>();
 		tags.addAll(tagsMap.keySet());
 		Collections.sort(tags, String.CASE_INSENSITIVE_ORDER);
 		return tags;
-	}
-	
-	
-	public HashMap<String, Boolean> retrieveTags(Note note) {
-		HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
-		Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getTitle() + " " + note.getContent());
-		while (matcher.find()) {
-			tagsMap.put(matcher.group().trim(), true);
-		}
-		return tagsMap;
 	}
 
 	
@@ -1118,7 +1105,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			if (note.isLocked()) {
 				notesMasked++;
 			}
-			tags += retrieveTags(note).size();
+			tags += TextHelper.retrieveTags(note).size();
 			if (note.getLongitude() != null && note.getLongitude() != 0) {
 				locations++;
 			}

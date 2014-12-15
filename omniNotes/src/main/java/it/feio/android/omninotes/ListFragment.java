@@ -42,6 +42,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.util.SparseArray;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -71,16 +72,12 @@ import it.feio.android.omninotes.models.listeners.AbsListViewScrollDetector;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
-import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
-import it.feio.android.omninotes.utils.KeyboardUtils;
-import it.feio.android.omninotes.utils.Navigation;
-import it.feio.android.pixlui.links.RegexPatternsConstants;
 import it.feio.android.pixlui.links.UrlCompleter;
 import roboguice.util.Ln;
 
 import java.util.*;
-import java.util.regex.Matcher;
 
 import static android.support.v4.view.ViewCompat.animate;
 
@@ -1881,37 +1878,27 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             return;
         }
 
-        Integer[] preselectedTags;
+        final Integer[] preSelectedTags;
         if(selectedNotes.size() == 1) {
             List<Integer> t = new ArrayList<Integer>();
             List<String> noteTags = DbHelper.getInstance(getActivity()).getTags(selectedNotes.get(0));
             for (String noteTag : noteTags) {
                 t.add(tags.indexOf(noteTag));
             }
-            preselectedTags = t.toArray(new Integer[t.size()]);
+            preSelectedTags = t.toArray(new Integer[t.size()]);
         } else {
-            preselectedTags = new Integer[]{};
+            preSelectedTags = new Integer[]{};
         }
-
-        // Selected tags
-        final boolean[] selectedTags = new boolean[tags.size()];
-        Arrays.fill(selectedTags, Boolean.FALSE);
-        Integer[] multichoidSelected;
-
-        String[] tagsArray = tags.toArray(new String[tags.size()]);
 
         final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.select_tags)
-                .items(tagsArray)
+                .items(tags.toArray(new String[tags.size()]))
                 .positiveText(R.string.ok)
-                .itemsCallbackMultiChoice(preselectedTags, new MaterialDialog.ListCallbackMulti() {
+                .itemsCallbackMultiChoice(preSelectedTags, new MaterialDialog.ListCallbackMulti() {
                     @Override
                     public void onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
                         dialog.dismiss();
-                        for (Integer integer : which) {
-                            selectedTags[integer] = true;
-                        }
-                        tagNotesExecute(tags, selectedTags);
+                        tagNotesExecute(tags, which, preSelectedTags);
                     }
                 }).build();
 
@@ -1927,40 +1914,14 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     }
 
 
-	private void tagNotesExecute(List<String> tags, boolean[] selectedTags) {
+	private void tagNotesExecute(List<String> tags, Integer[] selectedTags, Integer[] preSelectedTags) {
 
 		// Retrieves selected tags
 		for (Note note : getSelectedNotes()) {
-
-			HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
-			Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getTitle() + " " + note.getContent());
-			while (matcher.find()) {
-				tagsMap.put(matcher.group().trim(), true);
-			}
-
-			// String of choosen tags in order of selection
-			StringBuilder sbTags = new StringBuilder();
-			for (int i = 0; i < selectedTags.length; i++) {
-				if (!selectedTags[i] || tagsMap.containsKey(tags.get(i))) continue;
-				// To divide tags a head space is inserted
-				if (sbTags.length() > 0) {
-					sbTags.append(" ");
-				}
-				sbTags.append(tags.get(i));
-			}
-
-			sbTags.insert(0, System.getProperty("line.separator")).insert(0, System.getProperty("line.separator"));
-
-			if (note.isChecklist()) {
-				note.setTitle(note.getTitle() + sbTags);
-			} else {
-				note.setContent(note.getContent() + sbTags);
-			}
-			DbHelper.getInstance(getActivity()).updateNote(note, false);
+            tagNote(tags, selectedTags, note);
 		}
 
 		// Clears data structures
-//		listAdapter.clearSelectedItems();
 		list.clearChoices();
 
 		// Refreshes list
@@ -1981,6 +1942,30 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 		Crouton.makeText(getActivity(), R.string.tags_added, ONStyle.INFO).show();
 	}
+
+
+    private void tagNote(List<String> tags, Integer[] selectedTags, Note note) {
+
+        Pair<String, List<String>> taggingResult = TextHelper.addTagToNote(tags, selectedTags, note);
+
+        if (note.isChecklist()) {
+            note.setTitle(note.getTitle() + taggingResult.first);
+        } else {
+            StringBuilder sb = new StringBuilder(note.getContent());
+            sb.append(System.getProperty("line.separator"))
+                    .append(System.getProperty("line.separator"))
+                    .append(taggingResult.first);
+            note.setContent(sb.toString());
+        }
+
+        // Removes unchecked tags
+        for (String tagToRemove : taggingResult.second) {
+            note.setTitle(note.getTitle().replaceAll(tagToRemove, ""));
+            note.setContent(note.getContent().replaceAll(tagToRemove, ""));
+        }
+
+        DbHelper.getInstance(getActivity()).updateNote(note, false);
+    }
 
 
 //	private void synchronizeSelectedNotes() {

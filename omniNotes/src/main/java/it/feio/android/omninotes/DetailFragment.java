@@ -53,6 +53,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Pair;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
@@ -101,10 +102,7 @@ import roboguice.util.Ln;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
@@ -2133,10 +2131,13 @@ public class DetailFragment extends Fragment implements
         final boolean[] selectedTags = new boolean[tags.size()];
         Arrays.fill(selectedTags, Boolean.FALSE);
 
+
         List<Integer> t = new ArrayList<Integer>();
-        List<String> noteTags = DbHelper.getInstance(getActivity()).getTags(noteTmp);
-        for (String noteTag : noteTags) {
-            t.add(tags.indexOf(noteTag));
+        Note currentNote = new Note();
+        currentNote.setTitle(getNoteTitle());
+        currentNote.setContent(getNoteContent());
+        for (String s : TextHelper.retrieveTags(currentNote).keySet()) {
+            t.add(tags.indexOf(s));
         }
         Integer[] preselectedTags = t.toArray(new Integer[t.size()]);
 
@@ -2153,41 +2154,66 @@ public class DetailFragment extends Fragment implements
                     @Override
                     public void onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
                         dialog.dismiss();
-                        for (Integer tagIndex : which) {
-                            if (sbTags.length() > 0) {
-                                sbTags.append(" ");
-                            }
-                            sbTags.append(tags.get(tagIndex));
-                        }
-                        StringBuilder sb;
-                        if (!noteTmp.isChecklist()) {
-                            sb = new StringBuilder(getNoteContent());
-                            if (content.hasFocus()) {
-                                sb.insert(contentCursorPosition, " " + sbTags.toString() + " ");
-                                content.setText(sb.toString());
-                                content.setSelection(contentCursorPosition + sbTags.length() + 1);
-                            } else {
-                                sb.append(System.getProperty("line.separator"))
-                                        .append(System.getProperty("line.separator"))
-                                        .append(sbTags.toString());
-                                content.setText(sb.toString());
-                            }
-                        } else {
-                            CheckListViewItem mCheckListViewItem = mChecklistManager.getFocusedItemView();
-                            if (mCheckListViewItem != null) {
-                                sb = new StringBuilder(mCheckListViewItem.getText());
-                                sb.insert(contentCursorPosition, " " + sbTags.toString() + " ");
-                                mCheckListViewItem.setText(sb.toString());
-                                mCheckListViewItem.getEditText().setSelection(contentCursorPosition + sbTags.length()
-                                        + 1);
-                            } else {
-                                title.append(" " + sbTags.toString());
-                            }
-                        }
+                        tagNote(tags, which);
                     }
                 }).build();
         dialog.show();
     }
+
+
+    private void tagNote(List<String> tags, Integer[] selectedTags) {
+        Note currentNote = new Note();
+        currentNote.setTitle(getNoteTitle());
+        currentNote.setContent(getNoteContent());
+
+        Pair<String, List<String>> taggingResult = TextHelper.addTagToNote(tags, selectedTags, currentNote);
+
+        StringBuilder sb;
+        if (!noteTmp.isChecklist()) {
+            sb = new StringBuilder(getNoteContent());
+            if (content.hasFocus()) {
+                sb.insert(contentCursorPosition, " " + taggingResult.first + " ");
+                content.setText(sb.toString());
+                content.setSelection(contentCursorPosition + taggingResult.first.length() + 1);
+            } else {
+                if (getNoteContent().trim().length() > 0) {
+                    sb.append(System.getProperty("line.separator"))
+                            .append(System.getProperty("line.separator"));
+                }
+                sb.append(taggingResult.first);
+                content.setText(sb.toString());
+            }
+        } else {
+            CheckListViewItem mCheckListViewItem = mChecklistManager.getFocusedItemView();
+            if (mCheckListViewItem != null) {
+                sb = new StringBuilder(mCheckListViewItem.getText());
+                sb.insert(contentCursorPosition, " " + taggingResult.first + " ");
+                mCheckListViewItem.setText(sb.toString());
+                mCheckListViewItem.getEditText().setSelection(contentCursorPosition + taggingResult.first.length()
+                        + 1);
+            } else {
+                title.append(" " + taggingResult.first);
+            }
+        }
+
+        // Removes unchecked tags
+        if (taggingResult.second.size() > 0) {
+            if (noteTmp.isChecklist()) {
+                toggleChecklist2(true, true);
+                for (String tagToRemove : taggingResult.second) {
+                    title.setText(getNoteTitle().replaceAll(tagToRemove, ""));
+                    content.setText(getNoteContent().replaceAll(tagToRemove, ""));
+                }
+                toggleChecklist2();
+            } else {
+                for (String tagToRemove : taggingResult.second) {
+                    title.setText(getNoteTitle().replaceAll(tagToRemove, ""));
+                    content.setText(getNoteContent().replaceAll(tagToRemove, ""));
+                }
+            }
+        }
+    }
+
 
     private int getCursorIndex() {
         if (!noteTmp.isChecklist()) {
