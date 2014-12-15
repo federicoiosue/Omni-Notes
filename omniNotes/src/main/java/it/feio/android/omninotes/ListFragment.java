@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
@@ -588,15 +589,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     private void zoomListItem(final View view, final Note note) {
-        final long animationDuration = 300;
+        final long animationDuration = 100;
 
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
-        Bitmap bm = view.getDrawingCache();
-
-        final ImageView expandedImageView = (ImageView) getActivity().findViewById(
-                R.id.expanded_image);
-        expandedImageView.setBackgroundColor(getResources().getColor(R.color.white));
+        Bitmap bmp = view.getDrawingCache();
+        final ImageView expandedImageView = (ImageView) getActivity().findViewById(R.id.expanded_image);
+        expandedImageView.setBackgroundColor(BitmapHelper.getDominantColor(bmp));
 
         // Calculate the starting and ending bounds for the zoomed-in image.
         // This step involves lots of math. Yay, math.
@@ -642,12 +641,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // thumbnail.
         view.setAlpha(0f);
         expandedImageView.setVisibility(View.VISIBLE);
-
-        // Set the pivot point for SCALE_X and SCALE_Y transformations
-        // to the top-left corner of the zoomed-in view (the default
-        // is the center of the view).
-//        expandedImageView.setPivotX(0f);
-//        expandedImageView.setPivotY(0f);
 
         // Construct and run the parallel animation of the four translation and
         // scale properties (X, Y, SCALE_X, and SCALE_Y).
@@ -928,7 +921,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	}
 
 
-	void editNote(final Note note, View view) {
+	void editNote(final Note note, final View view) {
         fab.collapse();
 		if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
 			BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
@@ -936,18 +929,17 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 				public void onPasswordValidated(boolean passwordConfirmed) {
 					if (passwordConfirmed) {
 						note.setPasswordChecked(true);
-						editNote2(note);
-					}
+                        zoomListItem(view, note);
+                    }
 				}
 			});
 		} else {
-			editNote2(note);
+            zoomListItem(view, note);
 		}
 	}
 
 
 	void editNote2(Note note) {
-
 		if (note.get_id() == 0) {
 			Ln.d("Adding new note");
 			// if navigation is a tag it will be set into note

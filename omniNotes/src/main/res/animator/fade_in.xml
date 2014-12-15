@@ -19,7 +19,7 @@
    <alpha
         android:duration="150"
         android:fromAlpha="0.0"
-        android:interpolator="@android:anim/bounce_interpolator"
+        android:interpolator="@android:anim/accelerate_interpolator"
         android:toAlpha="1.0" />
 
 </set>
