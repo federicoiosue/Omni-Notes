@@ -2176,50 +2176,35 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			return;
 		}
 
-		// Selected tags
-		final boolean[] selectedTags = new boolean[tags.size()];
-		Arrays.fill(selectedTags, Boolean.FALSE);
+        // Dialog and events creation
+        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                .title(R.string.select_tags)
+                .items(tags.toArray(new String[tags.size()]))
+                .positiveText(R.string.ok)
+                .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMulti() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                        // Retrieves selected tags
+                        List<String> selectedTags = new ArrayList<String>();
+                        for (int i = 0; i < which.length; i++) {
+                            selectedTags.add(tags.get(which[i]));
+                        }
 
-		// Dialog and events creation
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		final String[] tagsArray = tags.toArray(new String[tags.size()]);
-		builder.setTitle(R.string.select_tags)
-				.setMultiChoiceItems(tagsArray, selectedTags, new DialogInterface.OnMultiChoiceClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-						selectedTags[which] = isChecked;
-					}
-				}).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// Retrieves selected tags
-						for (int i = 0; i < selectedTags.length; i++) {
-							if (!selectedTags[i]) {
-								tags.remove(tagsArray[i]);
-							}
-						}
-
-						// Saved here to allow persisting search
-						searchTags = tags.toString().substring(1, tags.toString().length() - 1).replace(" ", "");
-						Intent intent = getActivity().getIntent();
+                        // Saved here to allow persisting search
+                        searchTags = selectedTags.toString().substring(1, selectedTags.toString().length() - 1)
+                                .replace(" ", "");
+                        Intent intent = getActivity().getIntent();
 
                         // Hides keyboard
                         searchView.clearFocus();
                         KeyboardUtils.hideKeyboard(searchView);
 
-						intent.removeExtra(SearchManager.QUERY);
-						initNotesList(intent);
-
-						// Fires an intent to search related notes
-						// NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
-						// mNoteLoaderTask.execute("getNotesByTag", searchQuery);
-					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {}
-				});
-		builder.create().show();
-	}
+                        intent.removeExtra(SearchManager.QUERY);
+                        initNotesList(intent);
+                    }
+                }).build();
+        dialog.show();
+    }
 
 
     public MenuItem getSearchMenuItem() {
