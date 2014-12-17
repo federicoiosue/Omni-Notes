@@ -72,7 +72,7 @@
         </item>
     </style>
 
-    <style name="Theme.AppCompat.Dialog" parent="AppTheme">
+    <style name="OmniNotesTheme.ApiSpec.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@drawable/bg_card</item>
         <item name="android:windowContentOverlay">@null</item>

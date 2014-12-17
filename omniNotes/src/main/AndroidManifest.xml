@@ -140,8 +140,8 @@
         <!-- Password -->
         <activity
             android:name="it.feio.android.omninotes.PasswordActivity"
-            android:label="@string/title_activity_password"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/OmniNotesTheme.ApiSpec.Dialog" />
 
         <!-- Changelog -->
         <activity

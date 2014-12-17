@@ -18,9 +18,11 @@ package it.feio.android.omninotes;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.appwidget.AppWidgetManager;
-import android.content.*;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -33,9 +35,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.*;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.afollestad.materialdialogs.MaterialDialog;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
@@ -170,66 +172,45 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 	 */
 	public static void requestPassword(final Activity mActivity, final PasswordValidator mPasswordValidator) {
 
-		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
-
 		// Inflate layout
 		LayoutInflater inflater = mActivity.getLayoutInflater();
 		final View v = inflater.inflate(R.layout.password_request_dialog_layout, null);
-		alertDialogBuilder.setView(v);
-
-		// Set dialog message and button
-		alertDialogBuilder
-			.setCancelable(false)
-			.setMessage(mActivity.getString(R.string.insert_security_password))
-			.setPositiveButton(R.string.confirm, null)
-			.setNegativeButton(R.string.cancel, null);
-
-		AlertDialog dialog = alertDialogBuilder.create();
     	final EditText passwordEditText = (EditText)v.findViewById(R.id.password_request);
 
-		// Set a listener for dialog button press
-		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
+                .content(R.string.insert_security_password)
+                .customView(v)
+                .positiveText(R.string.ok)
+                .callback(new MaterialDialog.Callback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        // When positive button is pressed password correctness is checked
+                        String oldPassword = mActivity.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS)
+                                .getString(Constants.PREF_PASSWORD, "");
+                        String password = passwordEditText.getText().toString();
+                        // The check is done on password's hash stored in preferences
+                        boolean result = Security.md5(password).equals(oldPassword);
 
-		    @Override
-		    public void onShow(final DialogInterface dialog) {
+                        // In case password is ok dialog is dismissed and result sent to callback
+                        if (result) {
+                            KeyboardUtils.hideKeyboard(passwordEditText);
+                            dialog.dismiss();
+                            mPasswordValidator.onPasswordValidated(true);
+                            // If password is wrong the auth flow is not interrupted and simply a message is shown
+                        } else {
+                            passwordEditText.setError(mActivity.getString(R.string.wrong_password));
+                        }
+                    }
 
-		        Button pos = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-		        pos.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        KeyboardUtils.hideKeyboard(passwordEditText);
+                        dialog.dismiss();
+                        mPasswordValidator.onPasswordValidated(false);
+                    }
+                }).build();
 
-		            @Override
-		            public void onClick(View view) {
-		            	// When positive button is pressed password correctness is checked
-		            	String oldPassword = mActivity.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS)
-		            			.getString(Constants.PREF_PASSWORD, "");
-						String password = passwordEditText.getText().toString();
-						// The check is done on password's hash stored in preferences
-						boolean result = Security.md5(password).equals(oldPassword);
-
-						// In case password is ok dialog is dismissed and result sent to callback
-		                if (result) {
-			            	KeyboardUtils.hideKeyboard(passwordEditText);
-		                	dialog.dismiss();
-							mPasswordValidator.onPasswordValidated(true);
-						// If password is wrong the auth flow is not interrupted and simply a message is shown
-		                } else {
-		                	passwordEditText.setError(mActivity.getString(R.string.wrong_password));
-		                }
-		            }
-		        });
-		        Button neg = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
-		        neg.setOnClickListener(new View.OnClickListener() {
-
-		            @Override
-		            public void onClick(View view) {
-		            	KeyboardUtils.hideKeyboard(passwordEditText);
-	                	dialog.dismiss();
-						mPasswordValidator.onPasswordValidated(false);
-		            }
-		        });
-		    }
-		});
-
-		dialog.show();
+        dialog.show();
 
 		// Force focus and shows soft keyboard
 		KeyboardUtils.showKeyboard(passwordEditText);

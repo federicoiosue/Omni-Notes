@@ -1,8 +1,6 @@
 package it.feio.android.omninotes;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -16,19 +14,18 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
-
-import java.io.File;
-import java.io.FileOutputStream;
-
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
 import roboguice.util.Ln;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class CategoryActivity extends Activity {
 
@@ -43,7 +40,6 @@ public class CategoryActivity extends Activity {
 	Button saveBtn;
 	Button discardBtn;
 	private CategoryActivity mActivity;
-	private AlertDialog dialog;
 	private boolean colorChanged = false;
 
 	@Override
@@ -189,13 +185,43 @@ public class CategoryActivity extends Activity {
 			msg = getString(R.string.delete_unused_category_confirmation);
 	
 		// Showing dialog
-		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-		alertDialogBuilder.setMessage(msg)
-				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//		alertDialogBuilder.setMessage(msg)
+//				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int id) {
+//						// Changes navigation if actually are shown notes associated with this category
+//						SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+//						String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
+//						String navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
+//						if (String.valueOf(category.getId()).equals(navigation))
+//							prefs.edit().putString(Constants.PREF_NAVIGATION, navNotes).commit();
+//						// Removes category and edit notes associated with it
+//						DbHelper db = DbHelper.getInstance(mActivity);
+//						db.deleteCategory(category);
+//
+//						// Sets result to show proper message
+//						setResult(RESULT_CANCELED);
+//						finish();
+//					}
+//				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int id) {
+//						dialog.dismiss();
+//					}
+//				});
+//		dialog = alertDialogBuilder.create();
+//		dialog.show();
 
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						// Changes navigation if actually are shown notes associated with this category
+        new MaterialDialog.Builder(this)
+                .content(msg)
+                .positiveText(R.string.ok)
+                .callback(new MaterialDialog.SimpleCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        // Changes navigation if actually are shown notes associated with this category
 						SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 						String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
 						String navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
@@ -204,20 +230,12 @@ public class CategoryActivity extends Activity {
 						// Removes category and edit notes associated with it
 						DbHelper db = DbHelper.getInstance(mActivity);
 						db.deleteCategory(category);
-						
+
 						// Sets result to show proper message
 						setResult(RESULT_CANCELED);
 						finish();
-					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.dismiss();
-					}
-				});
-		dialog = alertDialogBuilder.create();
-		dialog.show();
+                    }
+                }).build().show();
 	}
 
 	private void discard() {		

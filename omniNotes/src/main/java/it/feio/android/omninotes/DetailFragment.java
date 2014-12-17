@@ -18,11 +18,8 @@ package it.feio.android.omninotes;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -67,9 +64,8 @@ import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.PopupWindow.OnDismissListener;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-//import com.espian.showcaseview.ShowcaseView;
-//import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -102,9 +98,16 @@ import roboguice.util.Ln;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
+
+//import android.app.AlertDialog;
+//import com.espian.showcaseview.ShowcaseView;
+//import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 
 
 public class DetailFragment extends Fragment implements
@@ -546,25 +549,18 @@ public class DetailFragment extends Fragment implements
         locationTextView.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(((MainActivity) getActivity()));
-                alertDialogBuilder.setMessage(R.string.remove_location)
-                        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
+                MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                        .content(R.string.remove_location)
+                        .positiveText(R.string.ok)
+                        .callback(new MaterialDialog.SimpleCallback() {
                             @Override
-                            public void onClick(DialogInterface dialog, int id) {
+                            public void onPositive(MaterialDialog materialDialog) {
                                 noteTmp.setLatitude("0");
                                 noteTmp.setLongitude("0");
                                 fade(locationTextView, false);
                             }
-                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                        }).build();
+                dialog.show();
                 return true;
             }
         });
@@ -640,37 +636,63 @@ public class DetailFragment extends Fragment implements
                 // To avoid deleting audio attachment during playback
                 if (mPlayer != null) return false;
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                alertDialogBuilder.setMessage(R.string.delete_selected_image)
-                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                noteTmp.getAttachmentsList().remove(position);
-                                mAttachmentAdapter.notifyDataSetChanged();
-                                mGridView.autoresize();
-                            }
-                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(getActivity())
+                        .content(R.string.delete_selected_image)
+                        .positiveText(R.string.delete);
+//                alertDialogBuilder.setMessage(R.string.delete_selected_image)
+//                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                noteTmp.getAttachmentsList().remove(position);
+//                                mAttachmentAdapter.notifyDataSetChanged();
+//                                mGridView.autoresize();
+//                            }
+//                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
 
                 // If is an image user could want to sketch it!
                 if (Constants.MIME_TYPE_SKETCH.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
-                    alertDialogBuilder
-                            .setMessage(R.string.choose_action)
-                            .setNeutralButton(R.string.edit, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int id) {
-                                    sketchEdited = mAttachmentAdapter.getItem(position);
-                                    takeSketch(sketchEdited);
-                                }
-                            });
+//                    alertDialogBuilder
+//                            .setMessage(R.string.choose_action)
+//                            .setNeutralButton(R.string.edit, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    sketchEdited = mAttachmentAdapter.getItem(position);
+//                                    takeSketch(sketchEdited);
+//                                }
+//                            });
+
+                    dialogBuilder.callback(new MaterialDialog.Callback() {
+                        @Override
+                        public void onPositive(MaterialDialog materialDialog) {
+                            noteTmp.getAttachmentsList().remove(position);
+                            mAttachmentAdapter.notifyDataSetChanged();
+                            mGridView.autoresize();
+                        }
+                        @Override
+                        public void onNegative(MaterialDialog materialDialog) {
+                            sketchEdited = mAttachmentAdapter.getItem(position);
+                            takeSketch(sketchEdited);
+                        }
+                    });
+                } else {
+                    dialogBuilder.callback(new MaterialDialog.SimpleCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog materialDialog) {
+                            noteTmp.getAttachmentsList().remove(position);
+                            mAttachmentAdapter.notifyDataSetChanged();
+                            mGridView.autoresize();
+                        }
+                    });
                 }
 
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+//                AlertDialog alertDialog = alertDialogBuilder.create();
+//                alertDialog.show();
+                dialogBuilder.build().show();
                 return true;
             }
         });
@@ -692,26 +714,39 @@ public class DetailFragment extends Fragment implements
         reminder_layout.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                alertDialogBuilder.setMessage(R.string.remove_reminder)
-                        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
+//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//                alertDialogBuilder.setMessage(R.string.remove_reminder)
+//                        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                reminderDate = "";
+//                                reminderTime = "";
+//                                noteTmp.setAlarm(null);
+//                                datetime.setText("");
+//                            }
+//                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//                AlertDialog alertDialog = alertDialogBuilder.create();
+//                alertDialog.show();
+                MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                        .content(R.string.remove_location)
+                        .positiveText(R.string.ok)
+                        .callback(new MaterialDialog.SimpleCallback() {
                             @Override
-                            public void onClick(DialogInterface dialog, int id) {
+                            public void onPositive(MaterialDialog materialDialog) {
                                 reminderDate = "";
                                 reminderTime = "";
                                 noteTmp.setAlarm(null);
                                 datetime.setText("");
                             }
-                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                        }).build();
+                dialog.show();
                 return true;
             }
         });
@@ -841,37 +876,60 @@ public class DetailFragment extends Fragment implements
             onAddressResolved("");
             return;
         }
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_location, null);
         final AutoCompleteTextView autoCompView = (AutoCompleteTextView) v.findViewById(R.id.auto_complete_location);
         autoCompView.setHint(getString(R.string.search_location));
         autoCompView.setAdapter(new PlacesAutoCompleteAdapter(getActivity(), R.layout.simple_text_layout));
-        alertDialogBuilder.setView(autoCompView);
-        alertDialogBuilder
-                .setPositiveButton(R.string.use_current_location, new DialogInterface.OnClickListener() {
+//        alertDialogBuilder.setView(autoCompView);
+//        alertDialogBuilder
+//                .setPositiveButton(R.string.use_current_location, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        if (TextUtils.isEmpty(autoCompView.getText().toString())) {
+//                            double lat = ((MainActivity) getActivity()).currentLatitude;
+//                            double lon = ((MainActivity) getActivity()).currentLongitude;
+//                            noteTmp.setLatitude(lat);
+//                            noteTmp.setLongitude(lon);
+//                            GeocodeHelper.getAddressFromCoordinates(getActivity(), noteTmp.getLatitude(), noteTmp.getLongitude(), mFragment);
+//                        } else {
+//                            GeocodeHelper.getCoordinatesFromAddress(getActivity(), autoCompView.getText().toString(), mFragment);
+//                        }
+//                    }
+//                });
+//        final AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
+        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                .customView(autoCompView)
+                .positiveText(R.string.use_current_location)
+                .callback(new MaterialDialog.SimpleCallback() {
                     @Override
-                    public void onClick(DialogInterface dialog, int id) {
+                    public void onPositive(MaterialDialog materialDialog) {
                         if (TextUtils.isEmpty(autoCompView.getText().toString())) {
                             double lat = ((MainActivity) getActivity()).currentLatitude;
                             double lon = ((MainActivity) getActivity()).currentLongitude;
                             noteTmp.setLatitude(lat);
                             noteTmp.setLongitude(lon);
-                            GeocodeHelper.getAddressFromCoordinates(getActivity(), noteTmp.getLatitude(), noteTmp.getLongitude(), mFragment);
+                            GeocodeHelper.getAddressFromCoordinates(getActivity(), noteTmp.getLatitude(),
+                                    noteTmp.getLongitude(), mFragment);
                         } else {
-                            GeocodeHelper.getCoordinatesFromAddress(getActivity(), autoCompView.getText().toString(), mFragment);
+                            GeocodeHelper.getCoordinatesFromAddress(getActivity(), autoCompView.getText().toString(),
+                                    mFragment);
                         }
                     }
-                });
-        final AlertDialog alertDialog = alertDialogBuilder.create();
+                })
+                .build();
         autoCompView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Button button = alertDialog.getButton(ProgressDialog.BUTTON_POSITIVE);
+                android.widget.TextView button = (android.widget.TextView) dialog.getActionButton(DialogAction
+                        .POSITIVE);
                 if (s.length() != 0) {
                     button.setText(getString(R.string.confirm));
                 } else {
@@ -880,11 +938,12 @@ public class DetailFragment extends Fragment implements
                 button.invalidate();
             }
 
+
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
-        alertDialog.show();
+        dialog.show();
     }
 
 
@@ -1097,7 +1156,7 @@ public class DetailFragment extends Fragment implements
             return;
         }
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
         // Inflate the popup_layout.xml
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -1109,28 +1168,42 @@ public class DetailFragment extends Fragment implements
         keepChecked.setChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
         keepCheckmarks.setChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true));
 
-        alertDialogBuilder.setView(layout)
-                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
+//        alertDialogBuilder.setView(layout)
+//                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        prefs.edit()
+//                                .putBoolean(Constants.PREF_KEEP_CHECKED, keepChecked.isChecked())
+//                                .putBoolean(Constants.PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
+//                                .commit();
+//
+//                        toggleChecklist2();
+//                        dialog.dismiss();
+//                    }
+//                })
+//                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//        alertDialogBuilder.create().show();
+        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                .positiveText(R.string.ok)
+                .callback(new MaterialDialog.SimpleCallback() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onPositive(MaterialDialog materialDialog) {
                         prefs.edit()
                                 .putBoolean(Constants.PREF_KEEP_CHECKED, keepChecked.isChecked())
                                 .putBoolean(Constants.PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
                                 .commit();
 
                         toggleChecklist2();
-                        dialog.dismiss();
                     }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialogBuilder.create().show();
+                }).build();
+        dialog.show();
     }
 
 
@@ -1546,23 +1619,36 @@ public class DetailFragment extends Fragment implements
 
     private void deleteNote() {
         // Confirm dialog creation
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
-                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//        alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
+//                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        ((MainActivity) getActivity()).deleteNote(noteTmp);
+//                        Ln.d("Deleted note with id '" + noteTmp.get_id() + "'");
+//                        Crouton.makeText(getActivity(), getString(R.string.note_deleted), ONStyle.ALERT).show();
+//                        MainActivity.notifyAppWidgets(getActivity());
+//                        goHome();
+//                    }
+//                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//            }
+//        });
+//        alertDialogBuilder.create().show();
+        new MaterialDialog.Builder(getActivity())
+                .content(R.string.remove_location)
+                .positiveText(R.string.ok)
+                .callback(new MaterialDialog.SimpleCallback() {
                     @Override
-                    public void onClick(DialogInterface dialog, int id) {
+                    public void onPositive(MaterialDialog materialDialog) {
                         ((MainActivity) getActivity()).deleteNote(noteTmp);
                         Ln.d("Deleted note with id '" + noteTmp.get_id() + "'");
                         Crouton.makeText(getActivity(), getString(R.string.note_deleted), ONStyle.ALERT).show();
                         MainActivity.notifyAppWidgets(getActivity());
                         goHome();
                     }
-                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-        alertDialogBuilder.create().show();
+                }).build().show();
     }
 
     public void saveAndExit(OnNoteSaved mOnNoteSaved) {
@@ -1901,11 +1987,13 @@ public class DetailFragment extends Fragment implements
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onTextLinkClick(View view, final String clickedString, final String url) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setMessage(clickedString)
-                .setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
+        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+            .content(clickedString)
+                .positiveText(R.string.open)
+                .negativeText(R.string.copy)
+                .callback(new MaterialDialog.Callback() {
                     @Override
-                    public void onClick(DialogInterface dialog, int id) {
+                    public void onPositive(MaterialDialog dialog) {
                         boolean error = false;
                         Intent intent = null;
                         try {
@@ -1931,26 +2019,73 @@ public class DetailFragment extends Fragment implements
                             startActivity(intent);
                         }
                     }
-                }).setNegativeButton(R.string.copy, new DialogInterface.OnClickListener() {
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                // Creates a new text clip to put on the clipboard
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-                    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity()
-                            .getSystemService(Activity.CLIPBOARD_SERVICE);
-                    clipboard.setText("text to clip");
-                } else {
-                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity()
-                            .getSystemService(Activity.CLIPBOARD_SERVICE);
-                    android.content.ClipData clip = android.content.ClipData.newPlainText("text label", clickedString);
-                    clipboard.setPrimaryClip(clip);
-                }
-                dialog.cancel();
-            }
-        });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        // Creates a new text clip to put on the clipboard
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+                            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity()
+                                    .getSystemService(Activity.CLIPBOARD_SERVICE);
+                            clipboard.setText("text to clip");
+                        } else {
+                            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity()
+                                    .getSystemService(Activity.CLIPBOARD_SERVICE);
+                            android.content.ClipData clip = android.content.ClipData.newPlainText("text label", clickedString);
+                            clipboard.setPrimaryClip(clip);
+                        }
+                    }
+                }).build();
+
+        dialog.show();
+//        dialog.set
+//                .setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        boolean error = false;
+//                        Intent intent = null;
+//                        try {
+//                            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                            intent.addCategory(Intent.CATEGORY_BROWSABLE);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        } catch (NullPointerException e) {
+//                            error = true;
+//                        }
+//
+//                        if (intent == null
+//                                || error
+//                                || !IntentChecker
+//                                .isAvailable(
+//                                        getActivity(),
+//                                        intent,
+//                                        new String[]{PackageManager.FEATURE_CAMERA})) {
+//                            Crouton.makeText(
+//                                    getActivity(),
+//                                    R.string.no_application_can_perform_this_action,
+//                                    ONStyle.ALERT).show();
+//                        } else {
+//                            startActivity(intent);
+//                        }
+//                    }
+//                }).setNegativeButton(R.string.copy, new DialogInterface.OnClickListener() {
+//            @SuppressWarnings("deprecation")
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//                // Creates a new text clip to put on the clipboard
+//                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+//                    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity()
+//                            .getSystemService(Activity.CLIPBOARD_SERVICE);
+//                    clipboard.setText("text to clip");
+//                } else {
+//                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity()
+//                            .getSystemService(Activity.CLIPBOARD_SERVICE);
+//                    android.content.ClipData clip = android.content.ClipData.newPlainText("text label", clickedString);
+//                    clipboard.setPrimaryClip(clip);
+//                }
+//                dialog.cancel();
+//            }
+//        });
+//        AlertDialog alertDialog = alertDialogBuilder.create();
+//        alertDialog.show();
     }
 
     @SuppressLint("NewApi")

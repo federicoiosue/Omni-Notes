@@ -1,14 +1,12 @@
 package it.feio.android.omninotes;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import com.afollestad.materialdialogs.MaterialDialog;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.ONStyle;
@@ -34,7 +32,7 @@ public class PasswordActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_password);		
 		mActivity = this;
-		setActionBarTitle(getString(R.string.title_activity_password));		
+		setActionBarTitle(getString(R.string.title_activity_password));
 		initViews();
 	}
 
@@ -80,69 +78,97 @@ public class PasswordActivity extends BaseActivity {
 				if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
 					Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN).show();
 					return;
-				}				
-				
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+				}
 				
 				// Inflate layout
 				View layout = getLayoutInflater().inflate(R.layout.password_reset_dialog_layout, null);
-				alertDialogBuilder.setView(layout);
 				TextView questionTextView = (TextView) layout.findViewById(R.id.reset_password_question);
 				questionTextView.setText(prefs.getString(Constants.PREF_PASSWORD_QUESTION, ""));
 				final EditText answerEditText = (EditText) layout.findViewById(R.id.reset_password_answer);
-				
-				// Set dialog message and button
-				alertDialogBuilder
-					.setCancelable(false)
-					.setPositiveButton(R.string.confirm, null)
-					.setNegativeButton(R.string.cancel, null);
-				
-				AlertDialog dialog = alertDialogBuilder.create();
+
+//                alertDialogBuilder.setView(layout);
+//
+//                // Set dialog message and button
+//				alertDialogBuilder
+//					.setCancelable(false)
+//					.setPositiveButton(R.string.confirm, null)
+//					.setNegativeButton(R.string.cancel, null);
+//
+//				AlertDialog dialog = alertDialogBuilder.create();
 				
 				// Set a listener for dialog button press
-				dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//				dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//
+//				    @Override
+//				    public void onShow(final DialogInterface dialog) {
+//
+//				        Button pos = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+//				        pos.setOnClickListener(new View.OnClickListener() {
+//
+//				            @Override
+//				            public void onClick(View view) {
+//				            	// When positive button is pressed answer correctness is checked
+//				            	String oldAnswer = prefs.getString(Constants.PREF_PASSWORD_ANSWER, "");
+//								String answer = answerEditText.getText().toString();
+//								// The check is done on password's hash stored in preferences
+//								boolean result = Security.md5(answer).equals(oldAnswer);
+//
+//				                if (result) {
+//				                	dialog.dismiss();
+//				                	prefs.edit()
+//									.remove(Constants.PREF_PASSWORD)
+//									.remove(Constants.PREF_PASSWORD_QUESTION)
+//									.remove(Constants.PREF_PASSWORD_ANSWER)
+//									.remove("settings_password_access")
+//									.commit();
+//									DbHelper.getInstance(getApplicationContext()).unlockAllNotes();
+//									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
+//				                } else {
+//				                	answerEditText.setError(getString(R.string.wrong_answer));
+//				                }
+//				            }
+//				        });
+//				        Button neg = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+//				        neg.setOnClickListener(new View.OnClickListener() {
+//
+//				            @Override
+//				            public void onClick(View view) {
+//			                	dialog.dismiss();
+//				            }
+//				        });
+//				    }
+//				});
+//
+//				dialog.show();
 
-				    @Override
-				    public void onShow(final DialogInterface dialog) {
+                new MaterialDialog.Builder(mActivity)
+                        .content(R.string.delete_note_confirmation)
+                        .customView(layout)
+                        .autoDismiss(false)
+                        .positiveText(R.string.ok)
+                        .callback(new MaterialDialog.SimpleCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog materialDialog) {
+                                // When positive button is pressed answer correctness is checked
+                                String oldAnswer = prefs.getString(Constants.PREF_PASSWORD_ANSWER, "");
+                                String answer = answerEditText.getText().toString();
+                                // The check is done on password's hash stored in preferences
+                                boolean result = Security.md5(answer).equals(oldAnswer);
 
-				        Button pos = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-				        pos.setOnClickListener(new View.OnClickListener() {
-
-				            @Override
-				            public void onClick(View view) {
-				            	// When positive button is pressed answer correctness is checked
-				            	String oldAnswer = prefs.getString(Constants.PREF_PASSWORD_ANSWER, "");
-								String answer = answerEditText.getText().toString();
-								// The check is done on password's hash stored in preferences
-								boolean result = Security.md5(answer).equals(oldAnswer);
-
-				                if (result) {
-				                	dialog.dismiss();
-				                	prefs.edit()
-									.remove(Constants.PREF_PASSWORD)
-									.remove(Constants.PREF_PASSWORD_QUESTION)
-									.remove(Constants.PREF_PASSWORD_ANSWER)
-									.remove("settings_password_access")
-									.commit();
-									DbHelper.getInstance(getApplicationContext()).unlockAllNotes();
-									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
-				                } else {
-				                	answerEditText.setError(getString(R.string.wrong_answer));
-				                }
-				            }
-				        });
-				        Button neg = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
-				        neg.setOnClickListener(new View.OnClickListener() {
-
-				            @Override
-				            public void onClick(View view) {
-			                	dialog.dismiss();
-				            }
-				        });
-				    }
-				});
-				
-				dialog.show();
+                                if (result) {
+                                    prefs.edit()
+                                            .remove(Constants.PREF_PASSWORD)
+                                            .remove(Constants.PREF_PASSWORD_QUESTION)
+                                            .remove(Constants.PREF_PASSWORD_ANSWER)
+                                            .remove("settings_password_access")
+                                            .commit();
+                                    DbHelper.getInstance(getApplicationContext()).unlockAllNotes();
+                                    Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
+                                } else {
+                                    answerEditText.setError(getString(R.string.wrong_answer));
+                                }
+                            }
+                        }).build().show();
 			}
 		});
 	}
@@ -157,35 +183,50 @@ public class PasswordActivity extends BaseActivity {
 				return;
 			}		
 			
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
-			alertDialogBuilder
-					.setMessage(R.string.agree_unlocking_all_notes)
-					.setPositiveButton(R.string.confirm,
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int id) {
-									prefs.edit()
-											.remove(Constants.PREF_PASSWORD)
-											.remove(Constants.PREF_PASSWORD_QUESTION)
-											.remove(Constants.PREF_PASSWORD_ANSWER)
-											.commit();
-									DbHelper.getInstance(getApplicationContext()).unlockAllNotes();
-									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
-//									onBackPressed(); 
-								}
-							})
-					.setNegativeButton(R.string.cancel,
-							new DialogInterface.OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog,
-										int id) {
-									dialog.cancel();
-								}
-							});
-			AlertDialog alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
+//			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+//			alertDialogBuilder
+//					.setMessage(R.string.agree_unlocking_all_notes)
+//					.setPositiveButton(R.string.confirm,
+//							new DialogInterface.OnClickListener() {
+//								@Override
+//								public void onClick(DialogInterface dialog,
+//										int id) {
+//									prefs.edit()
+//											.remove(Constants.PREF_PASSWORD)
+//											.remove(Constants.PREF_PASSWORD_QUESTION)
+//											.remove(Constants.PREF_PASSWORD_ANSWER)
+//											.commit();
+//									DbHelper.getInstance(getApplicationContext()).unlockAllNotes();
+//									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
+////									onBackPressed();
+//								}
+//							})
+//					.setNegativeButton(R.string.cancel,
+//							new DialogInterface.OnClickListener() {
+//
+//								@Override
+//								public void onClick(DialogInterface dialog,
+//										int id) {
+//									dialog.cancel();
+//								}
+//							});
+//			AlertDialog alertDialog = alertDialogBuilder.create();
+//			alertDialog.show();
+            new MaterialDialog.Builder(mActivity)
+                    .content(R.string.agree_unlocking_all_notes)
+                    .positiveText(R.string.ok)
+                    .callback(new MaterialDialog.SimpleCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog materialDialog) {
+                            prefs.edit()
+                                    .remove(Constants.PREF_PASSWORD)
+                                    .remove(Constants.PREF_PASSWORD_QUESTION)
+                                    .remove(Constants.PREF_PASSWORD_ANSWER)
+                                    .commit();
+                            DbHelper.getInstance(getApplicationContext()).unlockAllNotes();
+                            Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
+                        }
+                    }).build().show();
 		} else {			
 			prefs.edit()
 				.putString(Constants.PREF_PASSWORD, Security.md5(passwordText))

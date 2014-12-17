@@ -18,7 +18,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -591,11 +590,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private void zoomListItem(final View view, final Note note) {
         final long animationDuration = 100;
 
-        view.setDrawingCacheEnabled(true);
-        view.buildDrawingCache();
-        Bitmap bmp = view.getDrawingCache();
-        final ImageView expandedImageView = (ImageView) getActivity().findViewById(R.id.expanded_image);
-        expandedImageView.setBackgroundColor(BitmapHelper.getDominantColor(bmp));
+        final ImageView expandedImageView = getZoomListItemView(view, note);
 
         // Calculate the starting and ending bounds for the zoomed-in image.
         // This step involves lots of math. Yay, math.
@@ -658,6 +653,27 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
         });
         set.start();
+    }
+
+
+    private ImageView getZoomListItemView(View view, Note note) {
+        final ImageView expandedImageView = (ImageView) getActivity().findViewById(R.id.expanded_image);
+        View targetView = null;
+        if (note.getAttachmentsList().size() > 0) {
+            targetView = view.findViewById(R.id.attachmentThumbnail);
+        }
+        if (targetView == null && note.getCategory() != null) {
+            targetView = view.findViewById(R.id.category_marker);
+        }
+        if (targetView == null) {
+            targetView = new ImageView(getActivity());
+            targetView.setBackgroundColor(Color.WHITE);
+        }
+        targetView.setDrawingCacheEnabled(true);
+        targetView.buildDrawingCache();
+        Bitmap bmp = targetView.getDrawingCache();
+        expandedImageView.setBackgroundColor(BitmapHelper.getDominantColor(bmp));
+        return expandedImageView;
     }
 
 
@@ -1091,22 +1107,35 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	 * Empties trash deleting all the notes
 	 */
 	private void emptyTrash() {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-		alertDialogBuilder.setMessage(R.string.empty_trash_confirmation)
-				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//		alertDialogBuilder.setMessage(R.string.empty_trash_confirmation)
+//				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        for (int i = 0; i < listAdapter.getCount(); i++) {
+//                            getSelectedNotes().add(getSelectedNotes().get(i));
+//                        }
+//                        deleteNotesExecute();
+//                    }
+//                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//            }
+//        });
+//		alertDialogBuilder.create().show();
+        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+                .content(R.string.empty_trash_confirmation)
+                .positiveText(R.string.ok)
+                .callback(new MaterialDialog.SimpleCallback() {
                     @Override
-                    public void onClick(DialogInterface dialog, int id) {
+                    public void onPositive(MaterialDialog materialDialog) {
                         for (int i = 0; i < listAdapter.getCount(); i++) {
                             getSelectedNotes().add(getSelectedNotes().get(i));
                         }
                         deleteNotesExecute();
                     }
-                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-		alertDialogBuilder.create().show();
+                }).build();
+        dialog.show();
 	}
 
 
@@ -1576,26 +1605,44 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	 */
 	private void deleteNotes() {
 		// Confirm dialog creation
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
-				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-                        ((MainActivity)getActivity()).requestPassword(getActivity(), getSelectedNotes(), new PasswordValidator() {
-                            @Override
-                            public void onPasswordValidated(boolean passwordConfirmed) {
-                                if (passwordConfirmed) {
-                                    deleteNotesExecute();
-                                }
-                            }
-                        });
-					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {}
-				});
-		alertDialogBuilder.create().show();
-	}
+//		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//		alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
+//				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int id) {
+//                        ((MainActivity)getActivity()).requestPassword(getActivity(), getSelectedNotes(), new PasswordValidator() {
+//                            @Override
+//                            public void onPasswordValidated(boolean passwordConfirmed) {
+//                                if (passwordConfirmed) {
+//                                    deleteNotesExecute();
+//                                }
+//                            }
+//                        });
+//					}
+//				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int id) {}
+//				});
+//		alertDialogBuilder.create().show();
+
+        new MaterialDialog.Builder(getActivity())
+                .content(R.string.delete_note_confirmation)
+                .positiveText(R.string.ok)
+                .callback(new MaterialDialog.SimpleCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
+                        ((MainActivity) getActivity()).requestPassword(getActivity(), getSelectedNotes(),
+                                new PasswordValidator() {
+                                    @Override
+                                    public void onPasswordValidated(boolean passwordConfirmed) {
+                                        if (passwordConfirmed) {
+                                            deleteNotesExecute();
+                                        }
+                                    }
+                                });
+                    }
+                }).build().show();
+    }
 
 
 	/**
