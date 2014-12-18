@@ -57,4 +57,8 @@
     <color name="info">#ee33B5E5</color>
     <color name="black_overlay">#33000000</color>
 
+    <!--Undo bar-->
+    <color name="card_undobar_material_text_color">#4CAF50</color>
+    <color name="card_undobar_material_background_color">#323232</color>
+
 </resources>

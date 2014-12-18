@@ -96,24 +96,7 @@
 
     </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
 
-    <!--<include layout="@layout/undolist_card_undo_material_message" />-->
-    <!--<include android:id="@+id/undobar" layout="@layout/undobar" />-->
-    <LinearLayout
-        android:id="@+id/undobar"
-        style="@style/UndoBar"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/undobar_message"
-            style="@style/UndoBarMessage" />
-
-        <View style="@style/UndoBarDivider" />
-
-        <Button
-            android:id="@+id/undobar_button"
-            style="@style/UndoBarButton" />
-    </LinearLayout>
+    <include android:id="@+id/undobar" layout="@layout/undobar" />
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/fab"

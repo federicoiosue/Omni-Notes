@@ -1703,8 +1703,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // Advice to user
         int msg = archive ? R.string.note_archived : R.string.note_unarchived;
         Style style = archive ? ONStyle.WARN : ONStyle.INFO;
-        Crouton.makeText(getActivity(), msg, style).show();
-        getMainActivity().showMessage(R.string.no_application_can_perform_this_action, ONStyle.ALERT);
+        getMainActivity().showMessage(msg, style);
 
         // Creation of undo bar
         if (archive) {
@@ -2074,13 +2073,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			undoCategorizeCategory = null;
 
 			// Clears data structures
+            selectedNotes.clear();
             modifiedNotes.clear();
-			undoNotesList.clear();
-			undoCategoryMap.clear();
-//			listAdapter.clearSelectedItems();
-			list.clearChoices();
+            undoNotesList.clear();
+            undoCategoryMap.clear();
+            list.clearChoices();
 
-//			ubc.hideUndoBar(false);
+			ubc.hideUndoBar(false);
 		}
 	}
 

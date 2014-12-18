@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?xml version="1.0" encoding="UTF-8"?><!--
   Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,43 +13,19 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#33333333"
-    android:gravity="center"
+    android:id="@+id/undobar"
+    style="@style/UndoBar"
     android:orientation="horizontal"
-    android:paddingRight="8dp" >
+    android:visibility="gone">
 
     <TextView
         android:id="@+id/undobar_message"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:padding="10dp"
-        android:text="@string/note_deleted"
-        android:textColor="#ffffff"
-        android:textSize="16sp" />
-
-    <View
-        android:layout_width="1px"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:background="#ffffff"
-        tools:ignore="PxUsage" />
+        style="@style/UndoBarMessage" />
 
     <Button
         android:id="@+id/undobar_button"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@null"
-        android:drawableLeft="@drawable/ic_undobar_undo"
-        android:padding="10dp"
-        android:paddingRight="8dp"
-        android:text="@string/tap_to_undo"
-        android:textColor="#ffffff"
-        android:textSize="16sp" />
-
+        style="@style/UndoBarButton" />
+    
 </LinearLayout>
