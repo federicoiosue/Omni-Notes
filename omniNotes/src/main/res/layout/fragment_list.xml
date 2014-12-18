@@ -108,7 +108,8 @@
         fab:fab_addButtonPlusIconColor="@color/white"
         android:layout_marginBottom="8dp"
         android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_marginEnd="16dp"
+        android:visibility="invisible">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_new_note"

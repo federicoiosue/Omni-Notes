@@ -35,6 +35,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.SearchView;
@@ -131,6 +132,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private FloatingActionButton fabAddNote;
     private FloatingActionButton fabAddChecklist;
     private boolean fabHidden;
+    private boolean fabAllowed;
 
 
     @Override
@@ -221,13 +223,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     public void onScrollUp() {
                         if (fab != null) {
                             fab.collapse();
-                            showFab();
+                            hideFab();
                         }
                     }
                     public void onScrollDown() {
                         if (fab != null) {
                             fab.collapse();
-                            hideFab();
+                            showFab();
                         }
                     }
                 });
@@ -389,7 +391,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			MenuInflater inflater = mode.getMenuInflater();
 			inflater.inflate(R.menu.menu_list, menu);
 			actionMode = mode;
+
+            fabAllowed = false;
             hideFab();
+
             return true;
 		}
 
@@ -415,6 +420,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			listAdapter.clearSelectedItems();
 			list.clearChoices();
 
+            fabAllowed = true;
             showFab();
 
             actionMode = null;
@@ -453,26 +459,41 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     private void showFab() {
-        if (fab != null) {
-            int translationY = fabHidden ? 0 : fab.getHeight() + getMarginBottom(fab);
-            animate(fab).setInterpolator(new AccelerateDecelerateInterpolator())
-                    .setDuration(Constants.FAB_ANIMATION_TIME)
-                    .translationY(translationY);
+        if (fab != null && fabAllowed && fabHidden) {
+            animateFab(0, View.VISIBLE, View.VISIBLE);
             fabHidden = false;
         }
     }
 
 
     private void hideFab() {
-        if (fab != null) {
+        if (fab != null && !fabHidden) {
             fab.collapse();
-            int translationY = fabHidden ? 0 : fab.getHeight() + getMarginBottom(fab);
-            animate(fab).setInterpolator(new AccelerateDecelerateInterpolator())
-                    .setDuration(Constants.FAB_ANIMATION_TIME)
-                    .translationY(translationY);
+            animateFab(fab.getHeight() + getMarginBottom(fab), View.VISIBLE, View.INVISIBLE);
             fabHidden = true;
         }
     }
+
+
+    private void animateFab(int translationY, final int visibilityBefore, final int visibilityAfter) {
+        animate(fab).setInterpolator(new AccelerateDecelerateInterpolator())
+                .setDuration(Constants.FAB_ANIMATION_TIME)
+                .translationY(translationY)
+                .setListener(new ViewPropertyAnimatorListener() {
+                    @Override
+                    public void onAnimationStart(View view) {
+                        fab.setVisibility(visibilityBefore);
+                    }
+                    @Override
+                    public void onAnimationEnd(View view) {
+                        fab.setVisibility(visibilityAfter);
+                    }
+                    @Override
+                    public void onAnimationCancel(View view) {
+                    }
+                });
+    }
+
 
     private int getMarginBottom(View view) {
         int marginBottom = 0;
@@ -703,8 +724,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
         if (!drawerOpen && showAdd) {
+            fabAllowed = true;
             showFab();
         } else {
+            fabAllowed = false;
             hideFab();
         }
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
@@ -1543,6 +1566,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		// Creation of undo bar
 		if (trash) {
             ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.trashed), null);
+            hideFab();
 			undoTrash = true;
 		} else {
 			getSelectedNotes().clear();
@@ -1708,6 +1732,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // Creation of undo bar
         if (archive) {
             ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.archived), null);
+            hideFab();
             undoArchive = true;
         } else {
             getSelectedNotes().clear();
@@ -1886,7 +1911,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // Creation of undo bar
 		if (category == null) {
 			ubc.showUndoBar(false, getString(R.string.notes_category_removed), null);
-			undoCategorize = true;
+            hideFab();
+            undoCategorize = true;
 			undoCategorizeCategory = category;
 		} else {
 			getSelectedNotes().clear();
