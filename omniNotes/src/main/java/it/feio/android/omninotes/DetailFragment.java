@@ -71,7 +71,6 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.pushbullet.android.extension.MessagingExtension;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
@@ -177,7 +176,7 @@ public class DetailFragment extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragment = this;
-        prefs = ((MainActivity) getActivity()).prefs;
+        prefs = getMainActivity().prefs;
     }
 
 
@@ -210,18 +209,18 @@ public class DetailFragment extends Fragment implements
         super.onActivityCreated(savedInstanceState);
 
         // Show the Up button in the action bar.
-        if (((MainActivity) getActivity()).getSupportActionBar() != null) {
-            ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-            ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getMainActivity().getSupportActionBar() != null) {
+            getMainActivity().getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getMainActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         // Disables navigation drawer indicator (it must be only shown in ListFragment)
-        if (((MainActivity) getActivity()).getDrawerToggle() != null) {
-            ((MainActivity) getActivity()).getDrawerToggle().setDrawerIndicatorEnabled(false);
+        if (getMainActivity().getDrawerToggle() != null) {
+            getMainActivity().getDrawerToggle().setDrawerIndicatorEnabled(false);
         }
 
         // Force the navigation drawer to stay closed
-        ((MainActivity) getActivity()).getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        getMainActivity().getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         // Restored temp note after orientation change
         if (savedInstanceState != null) {
@@ -233,10 +232,10 @@ public class DetailFragment extends Fragment implements
         }
 
         // Added the sketched image if present returning from SketchFragment
-        if (((MainActivity) getActivity()).sketchUri != null) {
-            Attachment mAttachment = new Attachment(((MainActivity) getActivity()).sketchUri, Constants.MIME_TYPE_SKETCH);
+        if (getMainActivity().sketchUri != null) {
+            Attachment mAttachment = new Attachment(getMainActivity().sketchUri, Constants.MIME_TYPE_SKETCH);
             noteTmp.getAttachmentsList().add(mAttachment);
-            ((MainActivity) getActivity()).sketchUri = null;
+            getMainActivity().sketchUri = null;
             // Removes previous version of edited image
             if (sketchEdited != null) {
                 noteTmp.getAttachmentsList().remove(sketchEdited);
@@ -394,7 +393,7 @@ public class DetailFragment extends Fragment implements
             noteOriginal = DbHelper.getInstance(getActivity()).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
             // Checks if the note pointed from the shortcut has been deleted
             if (noteOriginal == null) {
-                ((MainActivity) getActivity()).showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
+                getMainActivity().showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
                 getActivity().finish();
             }
             note = new Note(noteOriginal);
@@ -528,8 +527,8 @@ public class DetailFragment extends Fragment implements
         } else {
             // Automatic location insertion
             if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
-                noteTmp.setLatitude(((MainActivity) getActivity()).currentLatitude);
-                noteTmp.setLongitude(((MainActivity) getActivity()).currentLongitude);
+                noteTmp.setLatitude(getMainActivity().currentLatitude);
+                noteTmp.setLongitude(getMainActivity().currentLongitude);
             }
         }
 
@@ -590,7 +589,7 @@ public class DetailFragment extends Fragment implements
                     if (IntentChecker.isAvailable(getActivity().getApplicationContext(), attachmentIntent, null)) {
                         startActivity(attachmentIntent);
                     } else {
-                        Crouton.makeText(getActivity(), R.string.feature_not_available_on_this_device, ONStyle.WARN).show();
+                        getMainActivity().showMessage(R.string.feature_not_available_on_this_device, ONStyle.WARN);
                     }
 
                     // Media files will be opened in internal gallery
@@ -871,8 +870,8 @@ public class DetailFragment extends Fragment implements
     @SuppressLint("NewApi")
     private void setAddress() {
         if (!ConnectionManager.internetAvailable(getActivity())) {
-            noteTmp.setLatitude(((MainActivity) getActivity()).currentLatitude);
-            noteTmp.setLongitude(((MainActivity) getActivity()).currentLongitude);
+            noteTmp.setLatitude(getMainActivity().currentLatitude);
+            noteTmp.setLongitude(getMainActivity().currentLongitude);
             onAddressResolved("");
             return;
         }
@@ -907,8 +906,8 @@ public class DetailFragment extends Fragment implements
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         if (TextUtils.isEmpty(autoCompView.getText().toString())) {
-                            double lat = ((MainActivity) getActivity()).currentLatitude;
-                            double lon = ((MainActivity) getActivity()).currentLongitude;
+                            double lat = getMainActivity().currentLatitude;
+                            double lon = getMainActivity().currentLongitude;
                             noteTmp.setLatitude(lat);
                             noteTmp.setLongitude(lon);
                             GeocodeHelper.getAddressFromCoordinates(getActivity(), noteTmp.getLatitude(),
@@ -947,11 +946,16 @@ public class DetailFragment extends Fragment implements
     }
 
 
+    private MainActivity getMainActivity() {
+        return (MainActivity) getActivity();
+    }
+
+
     @Override
     public void onAddressResolved(String address) {
         if (TextUtils.isEmpty(address)) {
             if (!isNoteLocationValid()) {
-                Crouton.makeText(getActivity(), getString(R.string.location_not_found), ONStyle.ALERT).show();
+                getMainActivity().showMessage(R.string.location_not_found, ONStyle.ALERT);
                 return;
             }
             address = noteTmp.getLatitude() + ", " + noteTmp.getLongitude();
@@ -986,7 +990,7 @@ public class DetailFragment extends Fragment implements
                 }
             });
         } else {
-            Crouton.makeText(getActivity(), getString(R.string.location_not_found), ONStyle.ALERT).show();
+            getMainActivity().showMessage(R.string.location_not_found, ONStyle.ALERT);
         }
     }
 
@@ -1056,13 +1060,13 @@ public class DetailFragment extends Fragment implements
         // performs a normal onBackPressed instead of returning back to ListActivity
         if (!afterSavedReturnsToList) {
             if (!TextUtils.isEmpty(exitMessage)) {
-                ((MainActivity) getActivity()).showToast(exitMessage, Toast.LENGTH_SHORT);
+                getMainActivity().showToast(exitMessage, Toast.LENGTH_SHORT);
             }
             getActivity().finish();
             return true;
         } else {
             if (!TextUtils.isEmpty(exitMessage) && exitCroutonStyle != null) {
-                Crouton.makeText(getActivity(), exitMessage, exitCroutonStyle).show();
+                getMainActivity().showMessage(exitMessage, exitCroutonStyle);
             }
         }
 
@@ -1070,10 +1074,10 @@ public class DetailFragment extends Fragment implements
         if (getActivity() != null && getActivity().getSupportFragmentManager() != null) {
             getActivity().getSupportFragmentManager().popBackStack();
             if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
+                getMainActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
             }
-            if (((MainActivity) getActivity()).getDrawerToggle() != null) {
-                ((MainActivity) getActivity()).getDrawerToggle().setDrawerIndicatorEnabled(true);
+            if (getMainActivity().getDrawerToggle() != null) {
+                getMainActivity().getDrawerToggle().setDrawerIndicatorEnabled(true);
             }
         }
 
@@ -1418,7 +1422,8 @@ public class DetailFragment extends Fragment implements
         try {
             attachmentDialog.showAsDropDown(anchor);
         } catch (Exception e) {
-            Crouton.makeText(getActivity(), R.string.error, ONStyle.ALERT).show();
+            getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
+
         }
     }
 
@@ -1426,13 +1431,14 @@ public class DetailFragment extends Fragment implements
         // Checks for camera app available
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (!IntentChecker.isAvailable(getActivity(), intent, new String[]{PackageManager.FEATURE_CAMERA})) {
-            Crouton.makeText(getActivity(), R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
+            getMainActivity().showMessage(R.string.feature_not_available_on_this_device, ONStyle.ALERT);
+
             return;
         }
         // Checks for created file validity
         File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_IMAGE_EXT);
         if (f == null) {
-            Crouton.makeText(getActivity(), R.string.error, ONStyle.ALERT).show();
+            getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
             return;
         }
         // Launches intent
@@ -1444,14 +1450,16 @@ public class DetailFragment extends Fragment implements
     private void takeVideo() {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         if (!IntentChecker.isAvailable(getActivity(), takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
-            Crouton.makeText(getActivity(), R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
+            getMainActivity().showMessage(R.string.feature_not_available_on_this_device, ONStyle.ALERT);
+
             return;
         }
         // File is stored in custom ON folder to speedup the attachment
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
             File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_VIDEO_EXT);
             if (f == null) {
-                Crouton.makeText(getActivity(), R.string.error, ONStyle.ALERT).show();
+                getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
+
                 return;
             }
             attachmentUri = Uri.fromFile(f);
@@ -1467,7 +1475,7 @@ public class DetailFragment extends Fragment implements
 
         File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_SKETCH_EXT);
         if (f == null) {
-            Crouton.makeText(getActivity(), R.string.error, ONStyle.ALERT).show();
+            getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
             return;
         }
         attachmentUri = Uri.fromFile(f);
@@ -1478,7 +1486,7 @@ public class DetailFragment extends Fragment implements
 
         // Fragments replacing
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        ((MainActivity) getActivity()).animateTransition(transaction, ((MainActivity) getActivity()).TRANSITION_HORIZONTAL);
+        getMainActivity().animateTransition(transaction, getMainActivity().TRANSITION_HORIZONTAL);
         SketchFragment mSketchFragment = new SketchFragment();
         Bundle b = new Bundle();
         b.putParcelable(MediaStore.EXTRA_OUTPUT, attachmentUri);
@@ -1486,7 +1494,7 @@ public class DetailFragment extends Fragment implements
             b.putParcelable("base", attachment.getUri());
         }
         mSketchFragment.setArguments(b);
-        transaction.replace(R.id.fragment_container, mSketchFragment, ((MainActivity) getActivity()).FRAGMENT_SKETCH_TAG).addToBackStack(((MainActivity) getActivity()).FRAGMENT_DETAIL_TAG).commit();
+        transaction.replace(R.id.fragment_container, mSketchFragment, getMainActivity().FRAGMENT_SKETCH_TAG).addToBackStack(getMainActivity().FRAGMENT_DETAIL_TAG).commit();
     }
 
     @SuppressLint("NewApi")
@@ -1538,15 +1546,13 @@ public class DetailFragment extends Fragment implements
                     mGridView.autoresize();
                     break;
                 case TAG:
-                    Crouton.makeText(getActivity(), R.string.category_saved,
-                            ONStyle.CONFIRM).show();
+                    getMainActivity().showMessage(R.string.category_saved, ONStyle.CONFIRM);
                     Category tag = intent.getParcelableExtra("tag");
                     noteTmp.setCategory(tag);
                     setTagMarkerColor(tag);
                     break;
                 case DETAIL:
-                    Crouton.makeText(getActivity(), R.string.note_updated,
-                            ONStyle.CONFIRM).show();
+                    getMainActivity().showMessage(R.string.note_updated, ONStyle.CONFIRM);
                     break;
             }
         }
@@ -1571,7 +1577,7 @@ public class DetailFragment extends Fragment implements
         if (!noteTmp.equals(noteOriginal)) {
             // Restore original status of the note
             if (noteOriginal.get_id() == 0) {
-                ((MainActivity) getActivity()).deleteNote(noteTmp);
+                getMainActivity().deleteNote(noteTmp);
                 goHome();
             } else {
                 SaveNoteTask saveNoteTask = new SaveNoteTask(this, this, false);
@@ -1642,9 +1648,9 @@ public class DetailFragment extends Fragment implements
                 .callback(new MaterialDialog.SimpleCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
-                        ((MainActivity) getActivity()).deleteNote(noteTmp);
+                        getMainActivity().deleteNote(noteTmp);
                         Ln.d("Deleted note with id '" + noteTmp.get_id() + "'");
-                        Crouton.makeText(getActivity(), getString(R.string.note_deleted), ONStyle.ALERT).show();
+                        getMainActivity().showMessage(R.string.note_deleted, ONStyle.ALERT);
                         MainActivity.notifyAppWidgets(getActivity());
                         goHome();
                     }
@@ -1762,7 +1768,7 @@ public class DetailFragment extends Fragment implements
         Note sharedNote = new Note(noteTmp);
         sharedNote.setTitle(getNoteTitle());
         sharedNote.setContent(getNoteContent());
-        ((MainActivity) getActivity()).shareNote(sharedNote);
+        getMainActivity().shareNote(sharedNote);
     }
 
     /**
@@ -1799,15 +1805,18 @@ public class DetailFragment extends Fragment implements
     private void maskUnmask() {
         // Empty password has been set
         if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
-            Crouton.makeText(getActivity(), R.string.password_not_set, ONStyle.WARN).show();
+            getMainActivity().showMessage(R.string.password_not_set, ONStyle.WARN);
+
             return;
         }
         // Otherwise masking is performed
         if (noteTmp.isLocked()) {
-            Crouton.makeText(getActivity(), R.string.save_note_to_unlock_it, ONStyle.INFO).show();
+            getMainActivity().showMessage(R.string.save_note_to_lock_it, ONStyle.INFO);
+
             getActivity().supportInvalidateOptionsMenu();
         } else {
-            Crouton.makeText(getActivity(), R.string.save_note_to_lock_it, ONStyle.INFO).show();
+            getMainActivity().showMessage(R.string.save_note_to_lock_it, ONStyle.INFO);
+
             getActivity().supportInvalidateOptionsMenu();
         }
         noteTmp.setLocked(!noteTmp.isLocked());
@@ -1900,7 +1909,8 @@ public class DetailFragment extends Fragment implements
     private void startRecording() {
         File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_AUDIO_EXT);
         if (f == null) {
-            Crouton.makeText(getActivity(), R.string.error, ONStyle.ALERT).show();
+            getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
+
             return;
         }
         recordName = f.getAbsolutePath();
@@ -1976,7 +1986,8 @@ public class DetailFragment extends Fragment implements
         addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 
         getActivity().sendBroadcast(addIntent);
-        Crouton.makeText(getActivity(), R.string.shortcut_added, ONStyle.INFO).show();
+        getMainActivity().showMessage(R.string.shortcut_added, ONStyle.INFO);
+
     }
 
     /* (non-Javadoc)
@@ -2011,10 +2022,8 @@ public class DetailFragment extends Fragment implements
                                         getActivity(),
                                         intent,
                                         new String[]{PackageManager.FEATURE_CAMERA})) {
-                            Crouton.makeText(
-                                    getActivity(),
-                                    R.string.no_application_can_perform_this_action,
-                                    ONStyle.ALERT).show();
+                            getMainActivity().showMessage(R.string.no_application_can_perform_this_action, ONStyle.ALERT);
+
                         } else {
                             startActivity(intent);
                         }
@@ -2122,12 +2131,12 @@ public class DetailFragment extends Fragment implements
                     if (Math.abs(x - startSwipeX) > Constants.SWIPE_OFFSET) {
                         swiping = false;
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        ((MainActivity) getActivity()).animateTransition(transaction, ((MainActivity) getActivity()).TRANSITION_VERTICAL);
+                        getMainActivity().animateTransition(transaction, getMainActivity().TRANSITION_VERTICAL);
                         DetailFragment mDetailFragment = new DetailFragment();
                         Bundle b = new Bundle();
                         b.putParcelable(Constants.INTENT_NOTE, new Note());
                         mDetailFragment.setArguments(b);
-                        transaction.replace(R.id.fragment_container, mDetailFragment, ((MainActivity) getActivity()).FRAGMENT_DETAIL_TAG).addToBackStack(((MainActivity) getActivity()).FRAGMENT_DETAIL_TAG).commit();
+                        transaction.replace(R.id.fragment_container, mDetailFragment, getMainActivity().FRAGMENT_DETAIL_TAG).addToBackStack(getMainActivity().FRAGMENT_DETAIL_TAG).commit();
                     }
                 }
                 break;
@@ -2191,7 +2200,7 @@ public class DetailFragment extends Fragment implements
 
     @Override
     public void onAttachingFileErrorOccurred(Attachment mAttachment) {
-        Crouton.makeText(getActivity(), R.string.error_saving_attachments, ONStyle.ALERT).show();
+        getMainActivity().showMessage(R.string.error_saving_attachments, ONStyle.ALERT);
         if (noteTmp.getAttachmentsList().contains(mAttachment)) {
             noteTmp.getAttachmentsList().remove(mAttachment);
             mAttachmentAdapter.notifyDataSetChanged();
@@ -2258,7 +2267,8 @@ public class DetailFragment extends Fragment implements
 
         // If there is no tag a message will be shown
         if (tags.size() == 0) {
-            Crouton.makeText(getActivity(), R.string.no_tags_created, ONStyle.WARN).show();
+            getMainActivity().showMessage(R.string.no_tags_created, ONStyle.WARN);
+
             return;
         }
 

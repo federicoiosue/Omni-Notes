@@ -18,16 +18,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
 import it.feio.android.omninotes.utils.Constants;
 import roboguice.util.Ln;
@@ -49,8 +48,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public boolean loadNotesSync = Constants.LOAD_NOTES_SYNC;
 
 	public Uri sketchUri;
+    private ViewGroup croutonViewContainer;
 
-	@Override
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -494,6 +495,20 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 //            checkPassword();
 //        }
 //    }
+
+
+
+    void showMessage(int messageId, Style style){
+        showMessage(getString(messageId), style);
+    }
+
+    void showMessage(String message, Style style){
+        if (croutonViewContainer == null) {
+            // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
+            croutonViewContainer = (ViewGroup) findViewById(R.id.crouton_handle);
+        }
+        Crouton.makeText(this, message, style, croutonViewContainer).show();
+    }
 
 
 

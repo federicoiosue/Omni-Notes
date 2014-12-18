@@ -12,36 +12,29 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 import it.feio.android.omninotes.models.views.SketchView;
 import roboguice.util.Ln;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 public class SketchFragment extends Fragment implements OnDrawChangedListener{
 
@@ -63,9 +56,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		mActivity = (MainActivity) getActivity();	
-		
 		setHasOptionsMenu(true);
 		setRetainInstance(false);
 	}
@@ -96,15 +86,13 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	@Override
 	public void onAttach(android.app.Activity activity) {
 		super.onAttach(activity);
-		
-		mActivity = (MainActivity) getActivity();	
 	}
 	
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+
 		mSketchView = (SketchView) mActivity.findViewById(R.id.drawing);
 		mSketchView.setOnDrawChangedListener(this);
 		
@@ -283,7 +271,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 //					}					
 					mActivity.sketchUri = uri;
 				} else {
-					Crouton.makeText(mActivity, R.string.error, ONStyle.ALERT).show();
+                    getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
 				}
 	
 			} catch (Exception e) {
@@ -386,6 +374,11 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 		else
 			AlphaManager.setAlpha(redo, 0.4f);
 	}
+
+
+    private MainActivity getMainActivity() {
+        return (MainActivity) getActivity();
+    }
 		
 		
 }

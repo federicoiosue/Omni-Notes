@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
@@ -252,7 +251,7 @@ public class NavigationDrawerFragment extends Fragment {
 						mActivity.editTag((Category) item);
 					}
 				} else {
-					Crouton.makeText(mActivity, R.string.category_deleted, ONStyle.ALERT).show();
+                    getMainActivity().showMessage(R.string.category_deleted, ONStyle.ALERT);
 				}
 				return true;
 			}
@@ -357,6 +356,11 @@ public class NavigationDrawerFragment extends Fragment {
 			}
 		}, 500);
 		
-	}	
-	
+	}
+
+
+
+    private MainActivity getMainActivity() {
+        return (MainActivity) getActivity();
+    }
 }

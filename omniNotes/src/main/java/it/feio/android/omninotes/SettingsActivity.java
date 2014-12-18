@@ -36,17 +36,12 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
 import it.feio.android.omninotes.models.holders.ImageAndTextItem;
@@ -298,7 +293,7 @@ public class SettingsActivity extends PreferenceActivity {
 				intent.addCategory(Intent.CATEGORY_OPENABLE);
 				intent.setType("application/zip");
 				if (!IntentChecker.isAvailable(mActivity, intent, null)) {
-					Crouton.makeText(mActivity, R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
+                    Toast.makeText(mActivity, R.string.feature_not_available_on_this_device, Toast.LENGTH_SHORT).show();
 					return false;
 				}	
 				startActivityForResult(intent, SPRINGPAD_IMPORT );
@@ -731,9 +726,9 @@ public class SettingsActivity extends PreferenceActivity {
 						service.putExtra(DataBackupIntentService.EXTRA_SPRINGPAD_BACKUP, path);
 						mActivity.startService(service);
 					} else {
-						Crouton.makeText(this, R.string.error, ONStyle.ALERT)
-								.show();
-					}
+                        Toast.makeText(mActivity, R.string.error, Toast.LENGTH_SHORT).show();
+
+                    }
 					break;
 					
 				case RINGTONE_REQUEST_CODE:

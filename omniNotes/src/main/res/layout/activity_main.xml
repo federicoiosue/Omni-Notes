@@ -32,6 +32,9 @@
                 android:layout_height="5dp"
                 android:background="@drawable/toolbar_dropshadow"
                 android:layout_below="@id/toolbar"/>
+
+            <include android:id="@+id/crouton_handle" layout="@layout/crouton_handle" />
+
         </RelativeLayout>
 
         <fragment
