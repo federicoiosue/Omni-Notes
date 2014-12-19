@@ -730,7 +730,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             fabAllowed = false;
             hideFab();
         }
-		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen);
+		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !Navigation.checkNavigation(Navigation.REMINDERS));
 		menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView);
 		menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView);
 		menu.findItem(R.id.menu_empty_trash).setVisible(!drawerOpen && Navigation.checkNavigation(Navigation.TRASH));

@@ -42,10 +42,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.views.SquareImageView;
-import it.feio.android.omninotes.utils.BitmapHelper;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Fonts;
-import it.feio.android.omninotes.utils.TextHelper;
+import it.feio.android.omninotes.utils.*;
 import roboguice.util.Ln;
 
 import java.util.ArrayList;
@@ -215,8 +212,15 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 	 */
 	public static String getDateText(Context mContext, Note note) {
 		String dateText;
+        String sort_column;
 		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS);
-		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
+
+        // Reminder screen forces sorting
+        if (Navigation.checkNavigation(Navigation.REMINDERS)) {
+            sort_column = DbHelper.KEY_ALARM;
+        } else {
+            sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
+        }
 		
 		// Creation
 		if (sort_column.equals(DbHelper.KEY_CREATION)) {
@@ -241,10 +245,6 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 		return dateText;
 	}
 
-	
-
-
-	
 
 	public SparseBooleanArray getSelectedItems() {
 		return selectedItems;

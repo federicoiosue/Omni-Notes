@@ -401,11 +401,15 @@ public class DbHelper extends SQLiteOpenHelper {
 	public List<Note> getNotes(String whereCondition, boolean order) {
 		List<Note> noteList = new ArrayList<Note>();
 
-		// Getting sorting criteria from preferences
 		String sort_column = "", sort_order = "";
-		sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
-				KEY_TITLE);
-		if (order) {			
+
+        // Getting sorting criteria from preferences. Reminder screen forces sorting.
+        if (Navigation.checkNavigation(Navigation.REMINDERS)) {
+            sort_column = KEY_ALARM;
+        } else {
+            sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, KEY_TITLE);
+        }
+		if (order) {
 			sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
 		}
 
@@ -414,7 +418,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		
 		// In case of reminder sorting criteria the empty reminder notes must be moved on bottom of results
 		sort_column = KEY_ALARM.equals(sort_column) ? "IFNULL(" + KEY_ALARM + ", " + Constants.TIMESTAMP_UNIX_EPOCH + ")" : sort_column;
-		
+
 		// Generic query to be specialized with conditions passed as parameter
 		String query = "SELECT " 
 						+ KEY_ID + "," 
