@@ -503,7 +503,7 @@ public class BitmapHelper {
 
 
     public static int getDominantColor(Bitmap source) {
-        return getDominantColor(source, true);
+        return getDominantColor(source, false);
     }
 
 
@@ -530,12 +530,12 @@ public class BitmapHelper {
         int width = source.getWidth();
         int[] pixels = new int[width * height];
         source.getPixels(pixels, 0, width, 0, 0, width, height);
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
+        for (int row = 0; row < height; row += 2) {
+            for (int col = 0; col < width; col += 2) {
                 int c = pixels[col + row * width];
                 // Ignore pixels with a certain transparency.
-                if (Color.alpha(c) < 128)
-                    continue;
+//                if (Color.alpha(c) < 128)
+//                    continue;
 
                 Color.colorToHSV(c, hsv);
 
