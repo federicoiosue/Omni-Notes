@@ -176,6 +176,11 @@
         <item name="android:background">@android:drawable/bottom_bar</item>
     </style>
 
+    <style name="crouton_text">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!--<style name="ButtonBarButton" />-->
 
 </resources>

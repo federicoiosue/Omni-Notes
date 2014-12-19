@@ -47,6 +47,7 @@ public class ONStyle {
         CONFIRM = new Style.Builder()
                 .setBackgroundColor(ConfirmGreen)
                 .setHeight(LayoutParams.MATCH_PARENT)
+                .setTextAppearance(R.style.crouton_text)
                 .setConfiguration(CONFIGURATION)
                 .build();
         INFO = new Style.Builder()
