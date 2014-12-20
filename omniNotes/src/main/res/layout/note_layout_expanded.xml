@@ -28,13 +28,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:minHeight="102dp"
-        android:paddingBottom="2dp">
+        android:minHeight="100dp">
 
 
         <View
             android:id="@+id/category_marker"
-            android:layout_width="10dp"
+            android:layout_width="7dp"
             android:minHeight="100dp"
             android:layout_height="match_parent"
             android:background="@null" />
