@@ -540,8 +540,7 @@ public class BitmapHelper {
                 Color.colorToHSV(c, hsv);
 
                 // If a threshold is applied, ignore arbitrarily chosen values for "white" and "black".
-//                if (applyThreshold && (hsv[1] <= 0.35f || hsv[2] <= 0.35f))
-                if (applyThreshold && (hsv[2] <= 0.35f))
+                if (applyThreshold && (hsv[1] <= 0.05f || hsv[2] <= 0.35f))
                     continue;
 
                 // We compute the dominant color by putting colors in bins based on their hue.
