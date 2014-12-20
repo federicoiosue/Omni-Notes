@@ -1358,6 +1358,7 @@ public class DetailFragment extends Fragment implements
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 noteTmp.setCategory(categories.get(position));
                 setTagMarkerColor(categories.get(position));
+                dialog.dismiss();
             }
         });
 

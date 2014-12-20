@@ -15,8 +15,6 @@
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:card="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -42,7 +40,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAppearance="@style/Text.Small"/>
+                android:textAppearance="@style/Text.Small" />
 
             <ImageView
                 android:id="@+id/search_cancel"
@@ -50,14 +48,6 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_cancel_grey600_18dp" />
         </LinearLayout>
-
-        <!--<it.gmariotti.cardslib.library.view.CardListView-->
-            <!--android:id="@+id/list"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--card:list_card_layout_resourceID="@layout/note_layout_expanded"-->
-            <!--android:scrollbarStyle="outsideOverlay"-->
-            <!--android:fastScrollEnabled="true" />-->
 
         <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
             android:id="@+id/list"
@@ -72,8 +62,7 @@
             android:listSelector="@drawable/icon_selector"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbarThumbVertical="@drawable/scroll_bar"
-            android:fastScrollEnabled="true" >
-        </com.nhaarman.listviewanimations.itemmanipulation.DynamicListView>
+            android:fastScrollEnabled="true"></com.nhaarman.listviewanimations.itemmanipulation.DynamicListView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,45 +85,18 @@
 
     </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
 
-    <include android:id="@+id/undobar" layout="@layout/undobar" />
+    <include
+        android:id="@+id/undobar"
+        layout="@layout/undobar" />
 
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
+    <include
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        fab:fab_addButtonColorNormal="@color/colorAccent"
-        fab:fab_addButtonColorPressed="@color/colorAccentPressed"
-        fab:fab_addButtonPlusIconColor="@color/white"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:visibility="invisible">
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_new_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_icon="@drawable/ic_format_align_justify_white_48dp"
-            fab:fab_colorNormal="@color/colorAccent"
-            fab:fab_colorPressed="@color/colorAccentPressed"
-            fab:fab_size="mini" />
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_new_checklist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_icon="@drawable/ic_format_list_bulleted_white_48dp"
-            fab:fab_colorNormal="@color/colorAccent"
-            fab:fab_colorPressed="@color/colorAccentPressed"
-            fab:fab_size="mini" />
-
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+        layout="@layout/fab" />
 
     <ImageView
         android:id="@+id/expanded_image"
         android:layout_width="match_parent"
         android:scaleType="centerCrop"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </FrameLayout>

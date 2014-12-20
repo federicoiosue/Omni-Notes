@@ -131,8 +131,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private FloatingActionsMenu fab;
     private FloatingActionButton fabAddNote;
     private FloatingActionButton fabAddChecklist;
-    private boolean fabHidden;
     private boolean fabAllowed;
+    private boolean fabHidden = true;
 
 
     @Override
@@ -197,8 +197,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     boolean fabExpanded = false;
     private void initFab() {
         fab = (FloatingActionsMenu) getActivity().findViewById(R.id.fab);
-        AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(com.getbase.floatingactionbutton.R.id
-                .fab_expand_menu_button);
+        AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(com.getbase
+                .floatingactionbutton.R.id.fab_expand_menu_button);
         fabAddButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,15 +234,27 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     }
                 });
 
-        fabAddNote = (FloatingActionButton) fab.findViewById(R.id.fab_new_note);
-        fabAddNote.setOnClickListener(new OnClickListener() {
+        fab.findViewById(R.id.fab_note).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 editNote(new Note(), v);
             }
         });
-        fabAddChecklist = (FloatingActionButton) fab.findViewById(R.id.fab_new_checklist);
-        fabAddChecklist.setOnClickListener(new OnClickListener() {
+        fab.findViewById(R.id.fab_checklist).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Note note = new Note();
+                note.setChecklist(true);
+                editNote(note, v);
+            }
+        });
+        fab.findViewById(R.id.fab_camera).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editNote(new Note(), v);
+            }
+        });
+        fab.findViewById(R.id.fab_recording).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Note note = new Note();
@@ -421,7 +433,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			list.clearChoices();
 
             fabAllowed = true;
-            showFab();
+            if (undoNotesList.size() == 0) {
+                showFab();
+            }
 
             actionMode = null;
 			Ln.d("Closed multiselection contextual menu");
@@ -459,7 +473,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     private void showFab() {
-        if (fab != null && fabAllowed && fabHidden) {
+        if (fab != null && fabAllowed && isFabHidden()) {
             animateFab(0, View.VISIBLE, View.VISIBLE);
             fabHidden = false;
         }
@@ -467,11 +481,16 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     private void hideFab() {
-        if (fab != null && !fabHidden) {
+        if (fab != null && !isFabHidden()) {
             fab.collapse();
             animateFab(fab.getHeight() + getMarginBottom(fab), View.VISIBLE, View.INVISIBLE);
             fabHidden = true;
         }
+    }
+
+
+    private boolean isFabHidden() {
+        return fabHidden;
     }
 
 
@@ -567,7 +586,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
 			listFooter = new TextView(getActivity().getApplicationContext());
-			listFooter.setHeight(navBarHeight + 5);
+			listFooter.setHeight(navBarHeight);
 			// To avoid useless events on footer
 			listFooter.setOnClickListener(null);
 			list.addFooterView(listFooter);
@@ -608,7 +627,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     private void zoomListItem(final View view, final Note note) {
-        final long animationDuration = 100;
+        final long animationDuration = getResources().getInteger(R.integer.zooming_view_anim_time);
 
         final ImageView expandedImageView = getZoomListItemView(view, note);
 
@@ -719,7 +738,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		boolean drawerOpen = (getMainActivity().getDrawerLayout() != null && getMainActivity()
                 .getDrawerLayout().isDrawerOpen(GravityCompat.START));
 		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
-		// "Add" item must be shown only from main navigation;
+		// "Add" item must be shown only from main navigation or category;
 		boolean showAdd = Navigation.checkNavigation(new Integer[] { Navigation.NOTES, Navigation.CATEGORY });
 
 		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
@@ -960,7 +979,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
 	void editNote(final Note note, final View view) {
-        fab.collapse();
+        hideFab();
 		if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
 			BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
 				@Override
@@ -1293,34 +1312,34 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             @Override
             public void onDismiss(@NonNull ViewGroup viewGroup, @NonNull int[] reverseSortedPositions) {
 
-				// Avoids conflicts with action mode
-				finishActionMode();
+                // Avoids conflicts with action mode
+                finishActionMode();
 
-				for (int position : reverseSortedPositions) {
-					Note note = listAdapter.getItem(position);
-					getSelectedNotes().add(note);
+                for (int position : reverseSortedPositions) {
+                    Note note = listAdapter.getItem(position);
+                    getSelectedNotes().add(note);
 
-					// Depending on settings and note status this action will...
-					// ...restore
-					if (Navigation.checkNavigation(Navigation.TRASH)) {
-						trashNotes(false);
-					}
-					// ...removes category
-					else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
-						categorizeNotesExecute(null);
-					} else {
-						// ...trash
-						if (prefs.getBoolean("settings_swipe_to_trash", false)
-								|| Navigation.checkNavigation(Navigation.ARCHIVE)) {
-							trashNotes(true);
-                        // ...archive
-						} else {
-							archiveNotes(true);
-						}
-					}
-				}
-			}
-		});
+                    // Depending on settings and note status this action will...
+                    // ...restore
+                    if (Navigation.checkNavigation(Navigation.TRASH)) {
+                        trashNotes(false);
+                    }
+                    // ...removes category
+                    else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
+                        categorizeNotesExecute(null);
+                    } else {
+                        // ...trash
+                        if (prefs.getBoolean("settings_swipe_to_trash", false)
+                                || Navigation.checkNavigation(Navigation.ARCHIVE)) {
+                            trashNotes(true);
+                            // ...archive
+                        } else {
+                            archiveNotes(true);
+                        }
+                    }
+                }
+            }
+        });
 //		adapter.setAbsListView(list);
 		list.setAdapter(listAdapter);
 
@@ -2053,6 +2072,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 					note.setArchived(false);
 				}
 				listAdapter.replace(note, listAdapter.getPosition(note));
+                listAdapter.notifyDataSetChanged();
 			// Manages trash undo
 			} else {
                 list.insert(undoNotesList.keyAt(undoNotesList.indexOfValue(note)), note);

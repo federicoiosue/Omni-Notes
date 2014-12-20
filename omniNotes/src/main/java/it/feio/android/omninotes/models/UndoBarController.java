@@ -44,6 +44,8 @@ public class UndoBarController {
     private Parcelable mUndoToken;
     private CharSequence mUndoMessage;
 	private Button mButtonView;
+    private boolean isVisible;
+
 
     public interface UndoListener {
         void onUndo(Parcelable token);
@@ -92,6 +94,7 @@ public class UndoBarController {
                                     .getInteger(android.R.integer.config_shortAnimTime))
                     .setListener(null);
         }
+        isVisible = true;
     }
 
     public void hideUndoBar(boolean immediate) {
@@ -117,6 +120,7 @@ public class UndoBarController {
                         }
                     });
         }
+        isVisible = false;
     }
 
     public void onSaveInstanceState(Bundle outState) {
@@ -133,6 +137,10 @@ public class UndoBarController {
                 showUndoBar(true, mUndoMessage, mUndoToken);
             }
         }
+    }
+
+    public boolean isVisible() {
+        return isVisible;
     }
 
 //    private Runnable mHideRunnable = new Runnable() {
