@@ -24,12 +24,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import com.google.analytics.tracking.android.MapBuilder;
-//import com.google.android.gms.common.ConnectionResult;
-//import com.google.android.gms.common.GooglePlayServicesUtil;
-
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.utils.Constants;
 import org.json.JSONObject;
+import roboguice.util.Ln;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,10 +42,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.utils.Constants;
-import roboguice.util.Ln;
+//import com.google.android.gms.common.ConnectionResult;
+//import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
@@ -257,8 +257,8 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 */
 	private boolean isGooglePlayAvailable() {
         boolean googlePlayStoreInstalled = true;
-//        int val= GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
-//        googlePlayStoreInstalled = val == ConnectionResult.SUCCESS;
+        int val= GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
+        googlePlayStoreInstalled = val == ConnectionResult.SUCCESS;
         return googlePlayStoreInstalled;
     }
 }
