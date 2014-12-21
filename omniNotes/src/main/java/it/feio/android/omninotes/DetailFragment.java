@@ -337,14 +337,15 @@ public class DetailFragment extends Fragment implements
 
         initViews();
 
-        if (showKeyboard && !AppTourHelper.isPlaying(getActivity())) {
+//        if (showKeyboard && !AppTourHelper.isPlaying(getActivity())) {
+        if (showKeyboard) {
 //	    	// Delayed keyboard appearance
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     KeyboardUtils.showKeyboard(content);
                 }
-            }, 700);
+            }, 600);
         }
     }
 
@@ -512,6 +513,7 @@ public class DetailFragment extends Fragment implements
 
         // Sets links clickable in title and content Views
         title = initTitle();
+        requestFocus(title);
 
         content = initContent();
 
@@ -814,11 +816,6 @@ public class DetailFragment extends Fragment implements
         content.setText(noteTmp.getContent());
         content.gatherLinksForText();
         content.setOnTextLinkClickListener(this);
-        if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
-            // Force focus and shows soft keyboard
-            content.requestFocus();
-            showKeyboard = true;
-        }
         // Avoids focused line goes under the keyboard
         content.addTextChangedListener(this);
 
@@ -831,6 +828,16 @@ public class DetailFragment extends Fragment implements
         }
 
         return content;
+    }
+
+
+    private void requestFocus(EditText view) {
+        if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
+            // Force focus and shows soft keyboard
+            view.setFocusableInTouchMode(true);
+            view.requestFocus();
+            showKeyboard = true;
+        }
     }
 
 
