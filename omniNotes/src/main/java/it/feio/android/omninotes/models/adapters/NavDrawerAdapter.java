@@ -83,7 +83,7 @@ public class NavDrawerAdapter extends BaseAdapter {
 		// Set the results into TextViews	
 	    holder.txtTitle.setText(items.get(position).getText());
 		
-		if (isSelected(parent, position)) {
+		if (isSelected(position)) {
 			holder.txtTitle.setTypeface(null,Typeface.BOLD);
             holder.txtTitle.setTextColor(Color.BLACK);
             holder.imgIcon.setImageResource(items.get(position).getIconSelected());
@@ -97,21 +97,18 @@ public class NavDrawerAdapter extends BaseAdapter {
 	}
 
 	
-	private boolean isSelected(ViewGroup parent, int position) {
+	private boolean isSelected(int position) {
 		
 		// Getting actual navigation selection
-		String[] navigationListCodes =mActivity.getResources().getStringArray(
-				R.array.navigation_list_codes);
+		String[] navigationListCodes =mActivity.getResources().getStringArray(R.array.navigation_list_codes);
 		
 		// Managing temporary navigation indicator when coming from a widget
-		String navigationTmp = ListFragment.class.isAssignableFrom(mActivity
-				.getClass()) ? ((BaseActivity) mActivity).getNavigationTmp()
-				: null;
+		String navigationTmp = ListFragment.class.isAssignableFrom(mActivity.getClass()) ? ((BaseActivity) mActivity)
+                .getNavigationTmp() : null;
 				
 		String navigation = navigationTmp != null ? navigationTmp
 				: mActivity.getSharedPreferences(Constants.PREFS_NAME, Activity.MODE_MULTI_PROCESS)
-						.getString(Constants.PREF_NAVIGATION,
-								navigationListCodes[0]);
+						.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 
 		// Finding selected item from standard navigation items or tags
 		int index = Arrays.asList(navigationListCodes).indexOf(navigation);
@@ -120,8 +117,6 @@ public class NavDrawerAdapter extends BaseAdapter {
 			return false;
 		
 		String navigationLocalized = mActivity.getResources().getStringArray(R.array.navigation_list)[index];
-		
-		// Checks the selected one
 		return navigationLocalized.equals(items.get(position).getText());
 	}
 
