@@ -53,9 +53,9 @@
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".ListActivity" />
-        <!--<meta-data-->
-        <!--android:name="com.google.android.gms.version"-->
-        <!--android:value="@integer/google_play_services_version" />-->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <!-- List and Detail -->
         <activity
@@ -114,7 +114,7 @@
             android:name="it.feio.android.omninotes.GalleryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:supportsRtl="true"
-            android:theme="@style/OmniNotesFullscreenTheme.ApiSpec"/>
+            android:theme="@style/OmniNotesFullscreenTheme.ApiSpec" />
 
         <activity
             android:name="it.feio.android.omninotes.CategoryActivity"

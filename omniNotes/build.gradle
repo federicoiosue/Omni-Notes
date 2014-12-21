@@ -51,6 +51,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.4.0'
     compile 'com.afollestad:material-dialogs:0.4.3'
     compile "com.google.android.gms:play-services-identity:${GPS_VERSION}"
+//    compile "com.google.android.gms:play-services-base:${GPS_VERSION}"
 
     compile 'it.feio.android:simplegallery:1.1.0'
     compile 'it.feio.android:springpadimporter:1.0.0'
