@@ -1070,7 +1070,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                         getMainActivity().showMessage(R.string.category_saved, ONStyle.CONFIRM);
                         getMainActivity().initNavigationDrawer();
 						break;
-					case Activity.RESULT_CANCELED:
+					case Activity.RESULT_FIRST_USER:
                         getMainActivity().showMessage(R.string.category_deleted, ONStyle.ALERT);
                         break;
 					default:

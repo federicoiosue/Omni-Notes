@@ -21,6 +21,7 @@
         <changelogtext>[b]New![/b] Floating action button with long-press-shortcut to checklist and
             camera</changelogtext>
         <changelogtext>[b]New![/b] Exceptionally improved image loading! Forget the lag!</changelogtext>
+        <changelogtext>[b]New![/b] Support for animated gif in notes list and detail</changelogtext>
         <changelogtext>[b]New![/b] More efficient tagging system: single note operations will show you
             the already set tags and will remove the one of them you'll uncheck!</changelogtext>
         <changelogtext>[u]Fix[/u] Sorting by reminder criteria is now correctly working with last

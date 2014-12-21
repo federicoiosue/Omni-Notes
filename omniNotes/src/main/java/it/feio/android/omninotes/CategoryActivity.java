@@ -232,7 +232,7 @@ public class CategoryActivity extends Activity {
 						db.deleteCategory(category);
 
 						// Sets result to show proper message
-						setResult(RESULT_CANCELED);
+						setResult(RESULT_FIRST_USER);
 						finish();
                     }
                 }).build().show();
