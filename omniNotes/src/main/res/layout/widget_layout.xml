@@ -17,7 +17,7 @@
             android:background="@drawable/icon_selector"
             android:gravity="center"
             android:padding="10dp"
-            android:src="@drawable/ic_widget_icon" />
+            android:src="@drawable/ic_file_document_grey600_48dp" />
 
         <ImageView
             android:id="@+id/add"
@@ -27,7 +27,7 @@
             android:background="@drawable/icon_selector"
             android:gravity="center"
             android:padding="10dp"
-            android:src="@drawable/ic_action_new" />
+            android:src="@drawable/ic_add_circle_grey600_24dp" />
 
         <ImageView
             android:id="@+id/camera"
