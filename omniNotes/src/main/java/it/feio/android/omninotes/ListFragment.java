@@ -234,12 +234,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     }
                 });
 
-        fab.findViewById(R.id.fab_note).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editNote(new Note(), v);
-            }
-        });
         fab.findViewById(R.id.fab_checklist).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,15 +245,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         fab.findViewById(R.id.fab_camera).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = getActivity().getIntent();
+                i.setAction(Constants.ACTION_TAKE_PHOTO);
+                getActivity().setIntent(i);
                 editNote(new Note(), v);
-            }
-        });
-        fab.findViewById(R.id.fab_recording).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Note note = new Note();
-                note.setChecklist(true);
-                editNote(note, v);
             }
         });
 
@@ -432,7 +421,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			listAdapter.clearSelectedItems();
 			list.clearChoices();
 
-            fabAllowed = true;
+            setFabAllowed(true);
             if (undoNotesList.size() == 0) {
                 showFab();
             }
@@ -470,6 +459,18 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			return true;
 		}
 	}
+
+
+    private void setFabAllowed(boolean allowed) {
+        if (allowed) {
+            boolean showFab = Navigation.checkNavigation(new Integer[]{Navigation.NOTES, Navigation.CATEGORY});
+            if (showFab) {
+                fabAllowed = true;
+            }
+        } else {
+            fabAllowed = false;
+        }
+    }
 
 
     private void showFab() {
@@ -739,16 +740,15 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 .getDrawerLayout().isDrawerOpen(GravityCompat.START));
 		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
 		// "Add" item must be shown only from main navigation or category;
-		boolean showAdd = Navigation.checkNavigation(new Integer[] { Navigation.NOTES, Navigation.CATEGORY });
 
-		menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-        if (!drawerOpen && showAdd) {
-            fabAllowed = true;
+        if (!drawerOpen) {
+            setFabAllowed(true);
             showFab();
         } else {
-            fabAllowed = false;
+            setFabAllowed(false);
             hideFab();
         }
+        menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
 		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !Navigation.checkNavigation(Navigation.REMINDERS));
 		menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView);
 		menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView);
@@ -1578,7 +1578,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		// Advice to user
 		if (trash) {
             getMainActivity().showMessage(R.string.note_trashed, ONStyle.WARN);
-		} else {
+        } else {
             getMainActivity().showMessage(R.string.note_untrashed, ONStyle.INFO);
 		}
 

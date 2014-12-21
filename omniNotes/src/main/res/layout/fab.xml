@@ -15,12 +15,12 @@
     android:visibility="invisible">
 
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_note"
+        android:id="@+id/fab_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:fab_icon="@drawable/ic_format_align_justify_white_48dp"
-        fab:fab_colorNormal="@color/colorAccent"
-        fab:fab_colorPressed="@color/colorAccentPressed"
+        fab:fab_icon="@drawable/ic_camera_alt_white_48dp"
+        fab:fab_colorNormal="@color/action_color"
+        fab:fab_colorPressed="@color/action_color_pressed"
         fab:fab_size="mini" />
 
     <com.getbase.floatingactionbutton.FloatingActionButton
@@ -28,24 +28,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_icon="@drawable/ic_format_list_bulleted_white_48dp"
-        fab:fab_colorNormal="@color/colorAccent"
-        fab:fab_colorPressed="@color/colorAccentPressed"
-        fab:fab_size="mini" />
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        fab:fab_icon="@drawable/ic_camera_dark"
-        fab:fab_colorNormal="@color/colorPrimary"
-        fab:fab_colorPressed="@color/colorPrimaryDark"
-        fab:fab_size="mini" />
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_recording"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        fab:fab_icon="@drawable/ic_action_mic"
         fab:fab_colorNormal="@color/colorPrimary"
         fab:fab_colorPressed="@color/colorPrimaryDark"
         fab:fab_size="mini" />

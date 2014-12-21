@@ -403,7 +403,7 @@ public class DetailFragment extends Fragment implements
 
         // Check if is launched from a widget
         if (Constants.ACTION_WIDGET.equals(i.getAction())
-                || Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())) {
+                || Constants.ACTION_TAKE_PHOTO.equals(i.getAction())) {
 
             afterSavedReturnsToList = false;
 
@@ -427,7 +427,7 @@ public class DetailFragment extends Fragment implements
             }
 
             // Sub-action is to take a photo
-            if (Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())) {
+            if (Constants.ACTION_TAKE_PHOTO.equals(i.getAction())) {
                 takePhoto();
             }
 
