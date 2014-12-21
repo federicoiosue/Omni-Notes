@@ -16,21 +16,21 @@
 -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:chg="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true"
-    android:fitsSystemWindows="false"
-    android:paddingTop="@dimen/padding_top_kitkat" >
+    android:fitsSystemWindows="true"
+    android:paddingTop="@dimen/padding_top_kitkat">
 
     <view
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:chg="http://schemas.android.com/apk/res-auto"
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        class="it.gmariotti.changelibs.library.view.ChangeLogListView" />
+        class="it.gmariotti.changelibs.library.view.ChangeLogListView"
+        chg:rowHeaderLayoutId="@layout/changelogrowheader_material_layout"
+        chg:rowLayoutId="@layout/changelogrow_material_layout"/>
 
 </FrameLayout>
+

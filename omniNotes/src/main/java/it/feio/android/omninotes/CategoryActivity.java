@@ -66,10 +66,10 @@ public class CategoryActivity extends Activity {
 	
 	
 	
-	@Override
-	public void onBackPressed() {
-		discard();
-	}
+//	@Override
+//	public void onBackPressed() {
+//		discard();
+//	}
 	
 
 	private void initViews() {
@@ -108,7 +108,7 @@ public class CategoryActivity extends Activity {
 
 		deleteBtn = (Button) findViewById(R.id.delete);
 		saveBtn = (Button) findViewById(R.id.save);
-		discardBtn = (Button) findViewById(R.id.discard);
+//		discardBtn = (Button) findViewById(R.id.discard);
 		
 		// Buttons events
 		deleteBtn.setOnClickListener(new OnClickListener() {			
@@ -128,12 +128,12 @@ public class CategoryActivity extends Activity {
                 }
 			}
 		});
-		discardBtn.setOnClickListener(new OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				discard();
-			}
-		});
+//		discardBtn.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				discard();
+//			}
+//		});
 	}
 
 	private void populateViews() {
@@ -238,11 +238,11 @@ public class CategoryActivity extends Activity {
                 }).build().show();
 	}
 
-	private void discard() {		
-		// Sets result to show proper message
-		setResult(RESULT_FIRST_USER);
-		finish();
-	}
+//	private void discard() {
+//		// Sets result to show proper message
+//		setResult(RESULT_FIRST_USER);
+//		finish();
+//	}
 	
 
 	public boolean goHome() {

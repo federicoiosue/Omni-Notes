@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,11 +14,10 @@
   limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="240dp"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg_card" >
+    android:background="@drawable/bg_card">
 
     <EditText
         android:id="@+id/category_title"
@@ -29,7 +27,10 @@
         android:gravity="center_horizontal"
         android:hint="@string/category_title"
         android:background="@null"
-        android:inputType="textCapSentences" />
+        android:inputType="textCapSentences"
+        android:textAppearance="@style/Text.Big"
+        android:textColorHint="@color/text_color"
+        android:textColor="@color/text_color_lighter" />
 
     <EditText
         android:id="@+id/category_description"
@@ -65,36 +66,35 @@
         android:layout_weight="0.06"
         android:visibility="gone" />
 
-    <Button
-        android:id="@+id/delete"
-        style="@style/Button.Dialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/delete_this_category"
-        android:visibility="gone" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/delete"
+            style="@style/Button.Dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/save"
             style="@style/Button.Dialog"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/save" />
+            android:text="@string/ok" />
 
-        <Button
-            android:id="@+id/discard"
-            style="@style/Button.Dialog"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/discard" />
+        <!--<Button-->
+            <!--android:id="@+id/discard"-->
+            <!--style="@style/Button.Dialog"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="@string/discard" />-->
     </LinearLayout>
 
 </LinearLayout>

@@ -67,7 +67,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="12dp"
                     android:textAppearance="@style/Text.Big"
-                    android:textColorHint="@color/text_color"
+                    android:textColorHint="@color/text_color_lighter"
                     android:textColor="@color/text_color"
                     pixlui:typeface="RobotoSlab-Bold.ttf" />
             </LinearLayout>
@@ -138,7 +138,7 @@
                             android:inputType="textCapSentences|textMultiLine"
                             android:linksClickable="false"
                             android:textAppearance="@style/Text.Big"
-                            android:textColorHint="@color/text_color"
+                            android:textColorHint="@color/text_color_lighter"
                             android:textColor="@color/text_color"
                             pixlui:typeface="RobotoSlab-Regular.ttf" />
                     </LinearLayout>
