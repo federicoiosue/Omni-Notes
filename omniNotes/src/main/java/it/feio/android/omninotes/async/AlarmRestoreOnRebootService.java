@@ -6,15 +6,14 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-
-import java.util.List;
-
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import roboguice.util.Ln;
+
+import java.util.List;
 
 public class AlarmRestoreOnRebootService extends Service {
 
@@ -41,7 +40,7 @@ public class AlarmRestoreOnRebootService extends Service {
 		// Retrieves all notes with reminder set
 		try {
 			DbHelper db = DbHelper.getInstance(mContext);
-			List<Note> notes = db.getNotesWithReminder(false);
+			List<Note> notes = db.getNotesWithReminder(true);
 			Ln.d("Found " + notes.size() + " reminders");
 			for (Note note : notes) {
 				setAlarm(mContext, note);

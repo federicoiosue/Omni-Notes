@@ -35,7 +35,6 @@ import com.bumptech.glide.Glide;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.util.Insertable;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.BitmapWorkerTask;
 import it.feio.android.omninotes.async.TextWorkerTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -217,7 +216,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
         // Reminder screen forces sorting
         if (Navigation.checkNavigation(Navigation.REMINDERS)) {
-            sort_column = DbHelper.KEY_ALARM;
+            sort_column = DbHelper.KEY_REMINDER;
         } else {
             sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
         }
@@ -227,7 +226,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 			dateText = mContext.getString(R.string.creation) + " " + note.getCreationShort(mContext);
 		}
 		// Reminder
-		else if (sort_column.equals(DbHelper.KEY_ALARM)) {
+		else if (sort_column.equals(DbHelper.KEY_REMINDER)) {
 			String alarmShort = note.getAlarmShort(mContext);
 			
 			if (alarmShort.length() == 0) {

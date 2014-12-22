@@ -738,8 +738,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		// Defines the conditions to set actionbar items visible or not
 		boolean drawerOpen = (getMainActivity().getDrawerLayout() != null && getMainActivity()
                 .getDrawerLayout().isDrawerOpen(GravityCompat.START));
-		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
-		// "Add" item must be shown only from main navigation or category;
+        boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
+        boolean filterPastReminders = prefs.getBoolean(Constants.PREF_FILTER_PAST_REMINDERS, true);
+        boolean navigationReminders = Navigation.checkNavigation(Navigation.REMINDERS);
 
         if (!drawerOpen) {
             setFabAllowed(true);
@@ -749,7 +750,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             hideFab();
         }
         menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !Navigation.checkNavigation(Navigation.REMINDERS));
+        menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders);
+        menu.findItem(R.id.menu_filter_remove).setVisible(!drawerOpen && filterPastReminders && navigationReminders);
+		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !navigationReminders);
 		menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView);
 		menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView);
 		menu.findItem(R.id.menu_empty_trash).setVisible(!drawerOpen && Navigation.checkNavigation(Navigation.TRASH));
@@ -827,6 +830,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 menu.findItem(R.id.menu_sort).setVisible(!hasFocus);
+                menu.findItem(R.id.menu_filter).setVisible(!hasFocus);
+                menu.findItem(R.id.menu_filter_remove).setVisible(!hasFocus);
                 menu.findItem(R.id.menu_contracted_view).setVisible(!hasFocus);
                 menu.findItem(R.id.menu_expanded_view).setVisible(!hasFocus);
                 menu.findItem(R.id.menu_tags).setVisible(hasFocus);
@@ -909,6 +914,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                         getMainActivity().getDrawerLayout().openDrawer(GravityCompat.START);
                     }
                     break;
+                case R.id.menu_filter:
+                    filterReminders(true);
+                    break;
+                case R.id.menu_filter_remove:
+                    filterReminders(false);
+                    break;
                 case R.id.menu_tags:
                     filterByTags();
                     break;
@@ -968,7 +979,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     }
 
 
-	private void switchNotesView() {
+    private void switchNotesView() {
 		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
 		prefs.edit().putBoolean(Constants.PREF_EXPANDED_VIEW, !expandedView).commit();
 		// Change list view
@@ -2242,6 +2253,18 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		getActivity().getIntent().setAction(Constants.ACTION_MERGE);
 		getMainActivity().switchToDetail(mergedNote);
 	}
+
+
+    /**
+     * Excludes past reminders
+     */
+    private void filterReminders(boolean filter) {
+        prefs.edit().putBoolean(Constants.PREF_FILTER_PAST_REMINDERS, filter).commit();
+        // Change list view
+        initNotesList(getActivity().getIntent());
+        // Called to switch menu voices
+        getActivity().supportInvalidateOptionsMenu();
+    }
 
 
 	/**

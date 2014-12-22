@@ -346,7 +346,9 @@ public class NavigationDrawerFragment extends Fragment {
         boolean skippable = false;
         switch (i) {
             case Navigation.REMINDERS:
-                if (DbHelper.getInstance(getActivity()).getNotesWithReminder(true).size() == 0)
+                if (DbHelper.getInstance(getActivity()).getNotesWithReminder(mActivity.getSharedPreferences(Constants
+                        .PREFS_NAME, getActivity().MODE_MULTI_PROCESS).getBoolean(Constants
+                        .PREF_FILTER_PAST_REMINDERS, false)).size() == 0)
                     skippable = true;
                 break;
             case Navigation.UNCATEGORIZED:

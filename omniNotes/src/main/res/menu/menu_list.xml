@@ -33,6 +33,20 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="collapseActionView|always"/>
     <item
+        android:id="@+id/menu_filter"
+        android:icon="@drawable/ic_filter_white_24dp"
+        android:orderInCategory="150"
+        android:title="@string/filter"
+        android:visible="false"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_filter_remove"
+        android:icon="@drawable/ic_filter_remove_white_24dp"
+        android:orderInCategory="150"
+        android:title="@string/remove_filter"
+        android:visible="false"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/menu_tags"
         android:icon="@drawable/ic_loyalty_white_24dp"
         android:orderInCategory="200"

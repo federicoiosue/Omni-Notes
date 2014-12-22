@@ -170,7 +170,7 @@
 //            dateText = mContext.getString(R.string.creation) + " " + note.getCreationShort(mContext);
 //        }
 //        // Reminder
-//        else if (sort_column.equals(DbHelper.KEY_ALARM)) {
+//        else if (sort_column.equals(DbHelper.KEY_REMINDER)) {
 //            String alarmShort = note.getAlarmShort(mContext);
 //
 //            if (alarmShort.length() == 0) {

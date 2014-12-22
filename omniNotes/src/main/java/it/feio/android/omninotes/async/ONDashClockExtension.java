@@ -45,8 +45,8 @@ public class ONDashClockExtension extends DashClockExtension {
 
 		DbHelper db = DbHelper.getInstance(this);
 		int notes = db.getAllNotes(false).size();
-		int remindersTotal = db.getNotesWithReminder(true).size();
-		int remindersNotExpired = db.getNotesWithReminder(false).size();
+		int remindersTotal = db.getNotesWithReminder(false).size();
+		int remindersNotExpired = db.getNotesWithReminder(true).size();
 		int today = db.getTodayReminders().size();
 
 		// Publish the extension data update.

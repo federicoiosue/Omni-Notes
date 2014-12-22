@@ -191,6 +191,8 @@
     <string name="select_all">Select all</string>
     <string name="search_location">Search location</string>
     <string name="use_current_location">Use current location</string>
+    <string name="filter">Filter</string>
+    <string name="remove_filter">Remove filter</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>

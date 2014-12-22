@@ -30,14 +30,12 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.Stats;
 import it.feio.android.omninotes.utils.*;
-import it.feio.android.pixlui.links.RegexPatternsConstants;
 import roboguice.util.Ln;
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -59,7 +57,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String KEY_CONTENT = "content";
 	public static final String KEY_ARCHIVED = "archived";
 	public static final String KEY_TRASHED = "trashed";
-	public static final String KEY_ALARM = "alarm";
+	public static final String KEY_REMINDER = "alarm";
 	public static final String KEY_LATITUDE = "latitude";
 	public static final String KEY_LONGITUDE = "longitude";
 	public static final String KEY_ADDRESS = "address";
@@ -187,7 +185,7 @@ public class DbHelper extends SQLiteOpenHelper {
 						.getInstance().getTimeInMillis()));
 		values.put(KEY_ARCHIVED, note.isArchived());
 		values.put(KEY_TRASHED, note.isTrashed());
-		values.put(KEY_ALARM, note.getAlarm());
+		values.put(KEY_REMINDER, note.getAlarm());
 		values.put(KEY_LATITUDE, note.getLatitude());
 		values.put(KEY_LONGITUDE, note.getLongitude());
 		values.put(KEY_ADDRESS, note.getAddress());
@@ -293,7 +291,7 @@ public class DbHelper extends SQLiteOpenHelper {
 				case Navigation.ARCHIVE:
 					return getNotesArchived();
 				case Navigation.REMINDERS:
-					return getNotesWithReminder(true);
+					return getNotesWithReminder(prefs.getBoolean(Constants.PREF_FILTER_PAST_REMINDERS, false));
                 case Navigation.TRASH:
                     return getNotesTrashed();
                 case Navigation.UNCATEGORIZED:
@@ -405,19 +403,19 @@ public class DbHelper extends SQLiteOpenHelper {
 
         // Getting sorting criteria from preferences. Reminder screen forces sorting.
         if (Navigation.checkNavigation(Navigation.REMINDERS)) {
-            sort_column = KEY_ALARM;
+            sort_column = KEY_REMINDER;
         } else {
             sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, KEY_TITLE);
         }
 		if (order) {
-			sort_order = KEY_TITLE.equals(sort_column) ? " ASC " : " DESC ";
+			sort_order = KEY_TITLE.equals(sort_column) || KEY_REMINDER.equals(sort_column) ? " ASC " : " DESC ";
 		}
 
 		// In case of title sorting criteria it must be handled empty title by concatenating content
 		sort_column = KEY_TITLE.equals(sort_column) ? KEY_TITLE + "||" + KEY_CONTENT : sort_column;
 		
 		// In case of reminder sorting criteria the empty reminder notes must be moved on bottom of results
-		sort_column = KEY_ALARM.equals(sort_column) ? "IFNULL(" + KEY_ALARM + ", " + Constants.TIMESTAMP_UNIX_EPOCH + ")" : sort_column;
+		sort_column = KEY_REMINDER.equals(sort_column) ? "IFNULL(" + KEY_REMINDER + ", " + Constants.TIMESTAMP_UNIX_EPOCH + ")" : sort_column;
 
 		// Generic query to be specialized with conditions passed as parameter
 		String query = "SELECT " 
@@ -428,7 +426,7 @@ public class DbHelper extends SQLiteOpenHelper {
 						+ KEY_CONTENT + "," 
 						+ KEY_ARCHIVED + "," 
 						+ KEY_TRASHED + "," 
-						+ KEY_ALARM + "," 
+						+ KEY_REMINDER + ","
 						+ KEY_LATITUDE + "," 
 						+ KEY_LONGITUDE + "," 
 						+ KEY_ADDRESS + "," 
@@ -612,14 +610,14 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	/**
 	 * Search for notes with reminder
-	 * @param passed Search also for fired yet reminders
+	 * @param filterPastReminders Excludes past reminders
 	 * @return Notes list
 	 */
-	public List<Note> getNotesWithReminder(boolean passed) {
-		String whereCondition = " WHERE " + KEY_ALARM 
-								+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis())
-								+  " AND " + KEY_ARCHIVED + " IS NOT 1"
-								+  " AND " + KEY_TRASHED + " IS NOT 1";
+	public List<Note> getNotesWithReminder(boolean filterPastReminders) {
+		String whereCondition = " WHERE " + KEY_REMINDER
+                + (filterPastReminders ? " >= " + Calendar.getInstance().getTimeInMillis() : " IS NOT NULL")
+                +  " AND " + KEY_ARCHIVED + " IS NOT 1"
+                +  " AND " + KEY_TRASHED + " IS NOT 1";
 		return getNotes(whereCondition, true);
 	}
 	
@@ -630,7 +628,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return Notes list
 	 */
 	public List<Note> getTodayReminders() {
-		String whereCondition = " WHERE DATE(" + KEY_ALARM + "/1000, 'unixepoch') = DATE('now')";
+		String whereCondition = " WHERE DATE(" + KEY_REMINDER + "/1000, 'unixepoch') = DATE('now')";
 		return getNotes(whereCondition, false);
 	}
 
