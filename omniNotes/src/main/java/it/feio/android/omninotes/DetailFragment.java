@@ -638,7 +638,6 @@ public class DetailFragment extends Fragment implements
                 if (mPlayer != null) return false;
 
                 MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(getActivity())
-                        .content(R.string.delete_selected_image)
                         .positiveText(R.string.delete);
 //                alertDialogBuilder.setMessage(R.string.delete_selected_image)
 //                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
@@ -667,7 +666,10 @@ public class DetailFragment extends Fragment implements
 //                                }
 //                            });
 
-                    dialogBuilder.callback(new MaterialDialog.Callback() {
+                    dialogBuilder
+                            .content(R.string.delete_selected_image)
+                            .negativeText(R.string.edit)
+                            .callback(new MaterialDialog.Callback() {
                         @Override
                         public void onPositive(MaterialDialog materialDialog) {
                             noteTmp.getAttachmentsList().remove(position);
@@ -681,7 +683,9 @@ public class DetailFragment extends Fragment implements
                         }
                     });
                 } else {
-                    dialogBuilder.callback(new MaterialDialog.SimpleCallback() {
+                    dialogBuilder
+                            .content(R.string.delete_selected_image)
+                            .callback(new MaterialDialog.SimpleCallback() {
                         @Override
                         public void onPositive(MaterialDialog materialDialog) {
                             noteTmp.getAttachmentsList().remove(position);
