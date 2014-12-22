@@ -16,6 +16,12 @@
 -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.0.0 Beta 2" changeDate="Dec 23, 2014">
+        <changelogtext>[b]New![/b] Filterable reminders: you can selectivelly include or not past
+            reminders without needing to archive notes</changelogtext>
+        <changelogtext>[u]Fix[/u] Missing space at bottom of the toolbar</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 1" changeDate="Dec 21, 2014">
         <changelogtext>[b]New![/b] Material design UI and new icon</changelogtext>
         <changelogtext>[b]New![/b] Floating action button with long-press-shortcut to checklist and
