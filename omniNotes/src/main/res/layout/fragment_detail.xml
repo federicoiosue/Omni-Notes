@@ -32,7 +32,8 @@
         android:background="@color/gray_bg"
         android:orientation="vertical"
         android:paddingLeft="@dimen/padding_half"
-        android:paddingRight="@dimen/padding_half" >
+        android:paddingRight="@dimen/padding_half"
+        android:paddingTop="@dimen/padding_half">
 
         <LinearLayout
             android:id="@+id/detail_tile_card"
