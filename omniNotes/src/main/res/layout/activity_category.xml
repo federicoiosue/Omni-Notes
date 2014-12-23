@@ -30,7 +30,8 @@
         android:inputType="textCapSentences"
         android:textAppearance="@style/Text.Big"
         android:textColorHint="@color/text_color"
-        android:textColor="@color/text_color_lighter" />
+        android:textColor="@color/text_color_lighter"
+        android:textCursorDrawable="@null" />
 
     <EditText
         android:id="@+id/category_description"
