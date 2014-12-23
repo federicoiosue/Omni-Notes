@@ -1860,13 +1860,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
         });
 
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                selectedNotes.clear();
-                finishActionMode();
-            }
-        });
+//        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//            @Override
+//            public void onCancel(DialogInterface dialog) {
+//                selectedNotes.clear();
+//                finishActionMode();
+//            }
+//        });
 
 
 //        }).setNeutralButton(R.string.remove_category, new DialogInterface.OnClickListener() {
@@ -1994,13 +1994,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     }
                 }).build();
 
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                selectedNotes.clear();
-                finishActionMode();
-            }
-        });
+//        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//            @Override
+//            public void onCancel(DialogInterface dialog) {
+//                selectedNotes.clear();
+//                finishActionMode();
+//            }
+//        });
 
         dialog.show();
     }
