@@ -115,7 +115,9 @@
         android:orderInCategory="600"
         android:title="@string/sort"
         android:visible="false"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom">
+        <menu/>
+    </item>
     <item
         android:id="@+id/menu_expanded_view"
         android:orderInCategory="800"

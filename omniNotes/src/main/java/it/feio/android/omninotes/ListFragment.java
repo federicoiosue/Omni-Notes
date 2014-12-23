@@ -20,7 +20,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -97,6 +96,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private List<Note> modifiedNotes = new ArrayList<Note>();
 	private SearchView searchView;
     private MenuItem searchMenuItem;
+    private Menu menu;
 	private TextView empyListItem;
 	private AnimationDrawable jinglesAnimation;
 	private int listViewPosition;
@@ -727,13 +727,30 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.menu_list, menu);
 		super.onCreateOptionsMenu(menu, inflater);
+        this.menu = menu;
 		// Initialization of SearchView
 		initSearchView(menu);
 //		initShowCase();
 	}
 
 
-	@Override
+    private void initSortingSubmenu() {
+        final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
+        final String[] arrayDialog = getResources().getStringArray(R.array.sortable_columns_human_readable);
+        int selected = Arrays.asList(arrayDb).indexOf(prefs.getString(Constants.PREF_SORTING_COLUMN, arrayDb[0]));
+
+        SubMenu sortMenu = this.menu.findItem(R.id.menu_sort).getSubMenu();
+        for (int i = 0; i < arrayDialog.length; i++) {
+            if (sortMenu.findItem(i) == null) {
+                sortMenu.add(Constants.MENU_SORT_GROUP_ID, i, i, arrayDialog[i]);
+            }
+            if (i == selected) sortMenu.getItem(i).setChecked(true);
+        }
+        sortMenu.setGroupCheckable(Constants.MENU_SORT_GROUP_ID, true, true);
+    }
+
+
+    @Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		// Defines the conditions to set actionbar items visible or not
 		boolean drawerOpen = (getMainActivity().getDrawerLayout() != null && getMainActivity()
@@ -821,8 +838,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		// Associate searchable configuration with the SearchView
 		SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 		searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
-		searchView
-				.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 		searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
 		// Expands the widget hiding other actionbar icons
@@ -924,7 +940,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     filterByTags();
                     break;
                 case R.id.menu_sort:
-                    sortNotes();
+                    initSortingSubmenu();
                     break;
                 case R.id.menu_expanded_view:
                     switchNotesView();
@@ -975,6 +991,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //                    break;
             }
         }
+
+        checkSortActionPerformed(item);
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -1104,52 +1123,18 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 	}
 
 
-	private void sortNotes() {
-		// Two array are used, one with db columns and a corrispective with
-		// column names human readables
-		final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
-		final String[] arrayDialog = getResources().getStringArray(R.array.sortable_columns_human_readable);
-
-		int selected = Arrays.asList(arrayDb).indexOf(prefs.getString(Constants.PREF_SORTING_COLUMN, arrayDb[0]));
-
-		// Dialog and events creation
-        MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
-		builder.title(R.string.select_sorting_column)
-//              .setSingleChoiceItems(arrayDialog, selected,
-//				new DialogInterface.OnClickListener() {
-//
-//					// On choosing the new criteria will be saved into
-//					// preferences and listview redesigned
-//					public void onClick(DialogInterface dialog, int which) {
-//						prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which]).commit();
-//						initNotesList(getActivity().getIntent());
-//						// Resets list scrolling position
-//						listViewPositionOffset = 0;
-//						listViewPosition = 0;
-//						list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
-//						// Updates app widgets
-//						BaseActivity.notifyAppWidgets(getActivity());
-//						dialog.dismiss();
-//					}
-//				});
-                .items(arrayDialog)
-                .itemsCallbackSingleChoice(selected, new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                        // On choosing the new criteria will be saved into
-                        // preferences and listview redesigned
-                        prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[which]).commit();
-                        initNotesList(getActivity().getIntent());
-                        // Resets list scrolling position
-                        listViewPositionOffset = 0;
-                        listViewPosition = 0;
-                        list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
-                        // Updates app widgets
-                        BaseActivity.notifyAppWidgets(getActivity());
-                        dialog.dismiss();
-                    }
-                })
-                .show();
+	private void checkSortActionPerformed(MenuItem item) {
+        if (item.getGroupId() == Constants.MENU_SORT_GROUP_ID) {
+            final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
+            prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[item.getOrder()]).commit();
+            initNotesList(getActivity().getIntent());
+            // Resets list scrolling position
+            listViewPositionOffset = 0;
+            listViewPosition = 0;
+            list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+            // Updates app widgets
+            BaseActivity.notifyAppWidgets(getActivity());
+        }
 	}
 
 

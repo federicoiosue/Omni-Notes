@@ -19,6 +19,7 @@
     <changelogversion versionName="5.0.0 Beta 2" changeDate="Dec 23, 2014">
         <changelogtext>[b]New![/b] Filterable reminders: you can selectivelly include or not past
             reminders without needing to archive notes</changelogtext>
+        <changelogtext>Sorting dialog is now an overflow menu</changelogtext>
         <changelogtext>[u]Fix[/u] Missing space at bottom of the toolbar</changelogtext>
         <changelogtext>[u]Fix[/u] Action mode is no more deactivated pressing back when trying to
             categorize or tag multiple notes</changelogtext>
