@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
   
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +20,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:focusableInTouchMode="true"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/detail_wrapper"
@@ -41,13 +40,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
             android:background="@drawable/bg_card"
-            android:paddingBottom="2dp" >
+            android:paddingBottom="2dp">
 
             <LinearLayout
                 android:id="@+id/title_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <View
                     android:id="@+id/tag_marker"
@@ -73,7 +72,7 @@
                     android:textColorHint="@color/text_color_lighter"
                     android:textColor="@color/text_color"
                     pixlui:typeface="RobotoSlab-Bold.ttf"
-                    android:textCursorDrawable="@null"/>
+                    android:textCursorDrawable="@null" />
             </LinearLayout>
         </LinearLayout>
 
@@ -83,104 +82,107 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/bg_card"
-            android:paddingBottom="2dp" >
+            android:paddingBottom="2dp">
 
             <ScrollView
                 android:id="@+id/content_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/padding_half"
-                android:paddingRight="@dimen/padding_half"
                 android:scrollbarSize="4dp"
                 android:scrollbarStyle="outsideOverlay"
-                android:scrollbarThumbVertical="@drawable/scroll_bar" >
+                android:scrollbarThumbVertical="@drawable/scroll_bar">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <it.feio.android.omninotes.models.views.ExpandableHeightGridView
                         android:id="@+id/gridview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_half"
                         android:drawSelectorOnTop="true"
                         android:listSelector="@drawable/icon_selector"
                         android:numColumns="2"
                         android:stretchMode="columnWidth" />
 
-                    <com.neopixl.pixlui.components.textview.TextView
-                        android:id="@+id/location"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:background="@drawable/icon_selector"
-                        android:freezesText="true"
-                        android:gravity="center_vertical"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:paddingStart="@dimen/padding_half"
-                        android:paddingEnd="@dimen/padding_half"
-                        android:textColor="@color/location_text"
-                        android:textAppearance="@style/Text.Small"
-                        android:visibility="gone"
-                        pixlui:typeface="Roboto-Regular.ttf" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/padding_half" >
-
-                        <com.neopixl.pixlui.components.edittext.EditText
-                            android:id="@+id/detail_content"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="15dp"
-                            android:background="@null"
-                            android:hint="@string/content"
-                            android:inputType="textCapSentences|textMultiLine"
-                            android:linksClickable="false"
-                            android:textAppearance="@style/Text.Big"
-                            android:textColorHint="@color/text_color_lighter"
-                            android:textColor="@color/text_color"
-                            pixlui:typeface="RobotoSlab-Regular.ttf"
-                            android:textCursorDrawable="@null" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/reminder_layout"
-                       	android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:layout_marginBottom="5dp"
-                        android:background="@drawable/icon_selector"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
+                        android:orientation="vertical"
                         android:paddingStart="@dimen/padding_half"
-                        android:paddingLeft="@dimen/padding_half"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:id="@+id/reminder"
-                        	android:layout_height="20dp"
-                            android:layout_width="20dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginRight="5dp"
-                            android:contentDescription="@string/reminder"
-                            android:src="@drawable/ic_alarm_grey600_48dp" />
+                        android:paddingEnd="@dimen/padding_half">
 
                         <com.neopixl.pixlui.components.textview.TextView
-                            android:id="@+id/datetime"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/location"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:background="@drawable/icon_selector"
                             android:freezesText="true"
                             android:gravity="center_vertical"
-                            android:hint="@string/add_reminder"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:textColor="@color/location_text"
                             android:textAppearance="@style/Text.Small"
-                            android:textColorHint="@color/text_color"
-                            android:textColor="@color/text_color"
+                            android:visibility="gone"
                             pixlui:typeface="Roboto-Regular.ttf" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/padding_half">
+
+                            <com.neopixl.pixlui.components.edittext.EditText
+                                android:id="@+id/detail_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="15dp"
+                                android:background="@null"
+                                android:hint="@string/content"
+                                android:inputType="textCapSentences|textMultiLine"
+                                android:linksClickable="false"
+                                android:textAppearance="@style/Text.Big"
+                                android:textColorHint="@color/text_color_lighter"
+                                android:textColor="@color/text_color"
+                                pixlui:typeface="RobotoSlab-Regular.ttf"
+                                android:textCursorDrawable="@null" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/reminder_layout"
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_marginBottom="5dp"
+                            android:background="@drawable/icon_selector"
+                            android:orientation="horizontal"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:paddingStart="@dimen/padding_half"
+                            android:paddingLeft="@dimen/padding_half"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:id="@+id/reminder"
+                                android:layout_height="20dp"
+                                android:layout_width="20dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginRight="5dp"
+                                android:contentDescription="@string/reminder"
+                                android:src="@drawable/ic_alarm_grey600_48dp" />
+
+                            <com.neopixl.pixlui.components.textview.TextView
+                                android:id="@+id/datetime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:freezesText="true"
+                                android:gravity="center_vertical"
+                                android:hint="@string/add_reminder"
+                                android:textAppearance="@style/Text.Small"
+                                android:textColorHint="@color/text_color"
+                                android:textColor="@color/text_color"
+                                pixlui:typeface="Roboto-Regular.ttf" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>
@@ -192,7 +194,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingBottom="3dp"
-            android:paddingTop="3dp" >
+            android:paddingTop="3dp">
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/creation"
