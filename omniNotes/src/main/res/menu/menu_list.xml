@@ -111,7 +111,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_sort"
-        android:icon="@drawable/ic_action_sort_by_size"
+        android:icon="@drawable/ic_sort_white_24dp"
         android:orderInCategory="600"
         android:title="@string/sort"
         android:visible="false"
