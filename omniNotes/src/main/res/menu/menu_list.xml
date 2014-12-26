@@ -62,28 +62,28 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_merge"
-        android:icon="@drawable/ic_call_merge_white"
+        android:icon="@drawable/ic_call_merge_white_24dp"
         android:orderInCategory="400"
         android:title="@string/merge"
         android:visible="false"
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_category"
-        android:icon="@drawable/ic_folder_special_black_24dp"
+        android:icon="@drawable/ic_folder_special_white_24dp"
         android:orderInCategory="600"
         android:title="@string/category"
         android:visible="false"
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_archive"
-        android:icon="@drawable/ic_archive_grey600_48dp"
+        android:icon="@drawable/ic_archive_white_24dp"
         android:orderInCategory="1000"
         android:title="@string/archive"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_unarchive"
-        android:icon="@drawable/ic_unarchive_grey600_48dp"
+        android:icon="@drawable/ic_unarchive_white_24dp"
         android:orderInCategory="1000"
         android:title="@string/unarchive"
         android:visible="false"

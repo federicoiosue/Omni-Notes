@@ -19,7 +19,7 @@
 
     <item
         android:id="@+id/menu_attachment"
-        android:icon="@drawable/ic_action_attachment"
+        android:icon="@drawable/ic_attachment_white_24dp"
         android:orderInCategory="100"
         android:title="@string/attachment"
         app:showAsAction="always"/>
@@ -31,7 +31,7 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_tag"
-        android:icon="@drawable/ic_action_labels_light"
+        android:icon="@drawable/ic_loyalty_white_24dp"
         android:orderInCategory="300"
         android:title="@string/add_tag"
         app:showAsAction="always"/>
@@ -43,12 +43,14 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_checklist_on"
+        android:icon="@drawable/ic_format_list_bulleted_white_48dp"
         android:orderInCategory="500"
         android:title="@string/checklist_on"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_checklist_off"
+        android:icon="@drawable/ic_action_view_as_list"
         android:orderInCategory="500"
         android:title="@string/checklist_off"
         android:visible="false"

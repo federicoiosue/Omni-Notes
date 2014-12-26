@@ -84,7 +84,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
-                    android:src="@drawable/ic_location"
+                    android:src="@drawable/ic_pin_drop_grey600_18dp"
                     android:visibility="gone"/>
 
                 <ImageView
@@ -92,7 +92,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
-                    android:src="@drawable/ic_archive_grey600_48dp"
+                    android:src="@drawable/ic_archive_grey600_18dp"
                     android:visibility="gone"/>
 
                 <ImageView
@@ -100,7 +100,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
-                    android:src="@drawable/ic_action_attachment"
+                    android:src="@drawable/ic_attachment_grey600_18dp"
                     android:visibility="gone"/>
 
                 <ImageView

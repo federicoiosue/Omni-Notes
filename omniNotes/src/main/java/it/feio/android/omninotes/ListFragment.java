@@ -389,7 +389,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			// Inflate the menu for the CAB
-			MenuInflater inflater = mode.getMenuInflater();
+			MenuInflater inflater = mode.getInflater();
 			inflater.inflate(R.menu.menu_list, menu);
 			actionMode = mode;
 
