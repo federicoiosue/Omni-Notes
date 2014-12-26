@@ -1165,7 +1165,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         for (int i = 0; i < listAdapter.getCount(); i++) {
-                            getSelectedNotes().add(getSelectedNotes().get(i));
+                            getSelectedNotes().add(listAdapter.getItem(i));
                         }
                         deleteNotesExecute();
                     }
