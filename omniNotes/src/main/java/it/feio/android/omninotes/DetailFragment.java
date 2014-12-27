@@ -1205,7 +1205,8 @@ public class DetailFragment extends Fragment implements
 //                    }
 //                });
 //        alertDialogBuilder.create().show();
-        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+        new MaterialDialog.Builder(getActivity())
+                .customView(layout)
                 .positiveText(R.string.ok)
                 .callback(new MaterialDialog.SimpleCallback() {
                     @Override
@@ -1217,8 +1218,7 @@ public class DetailFragment extends Fragment implements
 
                         toggleChecklist2();
                     }
-                }).build();
-        dialog.show();
+                }).build().show();
     }
 
 
