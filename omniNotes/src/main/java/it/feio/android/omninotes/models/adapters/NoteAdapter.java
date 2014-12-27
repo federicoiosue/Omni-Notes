@@ -186,18 +186,29 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
 
     private void initText(Note note, NoteViewHolder holder) {
-        try {
+//        try {
 //            if (note.isChecklist()) {
-                TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+//                TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
+//                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
 //			} else {
-//				Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
-//				holder.title.setText(titleAndContent[0]);
-//				holder.content.setText(titleAndContent[1]);
+            Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
+            holder.title.setText(titleAndContent[0]);
+            holder.content.setText(titleAndContent[1]);
+            holder.title.setText(titleAndContent[0]);
+            if (titleAndContent[1].length() > 0) {
+                holder.content.setText(titleAndContent[1]);
+                holder.content.setVisibility(View.VISIBLE);
+            } else {
+                if (expandedView) {
+                    holder.content.setVisibility(View.INVISIBLE);
+                } else {
+                    holder.content.setVisibility(View.GONE);
+                }
+            }
 //			}
-        } catch (RejectedExecutionException e) {
-            Ln.w(e, "Oversized tasks pool to load texts!");
-        }
+//        } catch (RejectedExecutionException e) {
+//            Ln.w(e, "Oversized tasks pool to load texts!");
+//        }
     }
 
 
