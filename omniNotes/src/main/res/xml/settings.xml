@@ -93,12 +93,6 @@
                 android:key="settings_simple_calendar"
                 android:summary="@string/settings_simple_calendar_summary"
                 android:title="@string/settings_simple_calendar" />
-
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="settings_show_uncategorized"
-                android:title="@string/settings_show_uncategorized"
-                android:summary="@string/settings_show_uncategorized_summary" />
           
             <CheckBoxPreference
                 android:defaultValue="false"
@@ -155,6 +149,12 @@
                  android:key="settings_dynamic_menu"
                  android:title="@string/settings_dynamic_menu"
                  android:summary="@string/settings_dynamic_menu_summary" />
+
+             <CheckBoxPreference
+                 android:defaultValue="false"
+                 android:key="settings_show_uncategorized"
+                 android:title="@string/settings_show_uncategorized"
+                 android:summary="@string/settings_show_uncategorized_summary" />
 
              <EditTextPreference
                 android:inputType="number"
