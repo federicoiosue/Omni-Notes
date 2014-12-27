@@ -350,8 +350,7 @@ public class NavigationDrawerFragment extends Fragment {
         boolean dynamicMenu = prefs.getBoolean(Constants.PREF_DYNAMIC_MENU, true);
         switch (i) {
             case Navigation.REMINDERS:
-                if (DbHelper.getInstance(getActivity()).getNotesWithReminder(prefs.getBoolean(Constants
-                        .PREF_FILTER_PAST_REMINDERS, false)).size() == 0 && dynamicMenu)
+                if (DbHelper.getInstance(getActivity()).getNotesWithReminder(false).size() == 0 && dynamicMenu)
                     skippable = true;
                 break;
             case Navigation.UNCATEGORIZED:

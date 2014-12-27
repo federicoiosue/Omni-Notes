@@ -17,14 +17,12 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="5.0.0 Beta 2" changeDate="Dec 27, 2014">
-        <changelogtext>[b]New![/b] Filterable reminders: you can selectivelly include or not past
-            reminders without needing to archive notes</changelogtext>
-        <changelogtext>[b]New![/b] Dynamic menu: only used items are shown if option is enabled in settings
-        </changelogtext>
+        <changelogtext>[b]New![/b] Filterable reminders: you can selectivelly include or not past reminders with a
+            single touch</changelogtext>
+        <changelogtext>[b]New![/b] Dynamic menu: only used items are shown withing navigation list (option in settings)</changelogtext>
         <changelogtext>Sorting dialog is now an overflow menu</changelogtext>
         <changelogtext>[u]Fix[/u] Missing space at bottom of the toolbar</changelogtext>
-        <changelogtext>[u]Fix[/u] Action mode is no more deactivated pressing back when trying to
-            categorize or tag multiple notes</changelogtext>
+        <changelogtext>[u]Fix[/u] Action mode is no more deactivated pressing back when trying tocategorize or tag multiple notes</changelogtext>
         <changelogtext>[u]Fix[/u] Toolbar actions icon sizes and overflow color</changelogtext>
         <changelogtext>[u]Fix[/u] Sketch mode works again</changelogtext>
         <changelogtext>[u]Fix[/u] Empty the trash now works again</changelogtext>

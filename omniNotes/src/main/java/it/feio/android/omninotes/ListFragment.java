@@ -1729,13 +1729,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 modifiedNotes.add(note);
             }
 
-            // Updates adapter content. If actual navigation is a category
-            // the item will not be removed but replaced to fit the new state
-            if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
-                listAdapter.remove(note);
-            } else {
+            // Updates adapter content. If actual navigation is a category or Reminders the item
+            // will not be removed but replaced to fit the new state
+            if (Navigation.checkNavigation(Navigation.CATEGORY)) {
                 note.setArchived(archive);
                 listAdapter.replace(note, listAdapter.getPosition(note));
+            } else {
+                listAdapter.remove(note);
             }
         }
 
