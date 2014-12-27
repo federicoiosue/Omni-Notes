@@ -1739,6 +1739,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
         }
 
+        listAdapter.notifyDataSetChanged();
         finishActionMode();
 
         // If list is empty again Mr Jingles will appear again
