@@ -19,10 +19,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -178,10 +175,11 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     	final EditText passwordEditText = (EditText)v.findViewById(R.id.password_request);
 
         MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
-                .content(R.string.insert_security_password)
+                .autoDismiss(false)
+                .title(R.string.insert_security_password)
                 .customView(v)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.Callback() {
+                .callback(new MaterialDialog.SimpleCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         // When positive button is pressed password correctness is checked
@@ -201,14 +199,16 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
                             passwordEditText.setError(mActivity.getString(R.string.wrong_password));
                         }
                     }
-
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
-                        KeyboardUtils.hideKeyboard(passwordEditText);
-                        dialog.dismiss();
-                        mPasswordValidator.onPasswordValidated(false);
-                    }
                 }).build();
+
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                KeyboardUtils.hideKeyboard(passwordEditText);
+                dialog.dismiss();
+                mPasswordValidator.onPasswordValidated(false);
+            }
+        });
 
         dialog.show();
 
