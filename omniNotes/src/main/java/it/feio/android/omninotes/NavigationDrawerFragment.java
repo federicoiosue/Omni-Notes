@@ -2,6 +2,7 @@ package it.feio.android.omninotes;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
@@ -344,25 +345,26 @@ public class NavigationDrawerFragment extends Fragment {
 
     private boolean checkSkippableItem(int i) {
         boolean skippable = false;
+        SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME,
+                getActivity().MODE_MULTI_PROCESS);
+        boolean dynamicMenu = prefs.getBoolean(Constants.PREF_DYNAMIC_MENU, true);
         switch (i) {
             case Navigation.REMINDERS:
-                if (DbHelper.getInstance(getActivity()).getNotesWithReminder(mActivity.getSharedPreferences(Constants
-                        .PREFS_NAME, getActivity().MODE_MULTI_PROCESS).getBoolean(Constants
-                        .PREF_FILTER_PAST_REMINDERS, false)).size() == 0)
+                if (DbHelper.getInstance(getActivity()).getNotesWithReminder(prefs.getBoolean(Constants
+                        .PREF_FILTER_PAST_REMINDERS, false)).size() == 0 && dynamicMenu)
                     skippable = true;
                 break;
             case Navigation.UNCATEGORIZED:
-                boolean showUncategorized = mActivity.getSharedPreferences(Constants.PREFS_NAME,
-                        getActivity().MODE_MULTI_PROCESS).getBoolean(Constants.PREF_SHOW_UNCATEGORIZED, false);
-                if (!showUncategorized || DbHelper.getInstance(getActivity()).getNotesUncategorized().size() == 0)
+                boolean showUncategorized = prefs.getBoolean(Constants.PREF_SHOW_UNCATEGORIZED, false);
+                if ((!showUncategorized || DbHelper.getInstance(getActivity()).getNotesUncategorized().size() == 0) && dynamicMenu)
                     skippable = true;
                 break;
             case Navigation.ARCHIVE:
-                if (DbHelper.getInstance(getActivity()).getNotesArchived().size() == 0)
+                if (DbHelper.getInstance(getActivity()).getNotesArchived().size() == 0 && dynamicMenu)
                     skippable = true;
                 break;
             case Navigation.TRASH:
-                if (DbHelper.getInstance(getActivity()).getNotesTrashed().size() == 0)
+                if (DbHelper.getInstance(getActivity()).getNotesTrashed().size() == 0 && dynamicMenu)
                     skippable = true;
                 break;
         }

@@ -116,6 +116,7 @@ public interface Constants {
     final String PREF_SHOW_UNCATEGORIZED = "settings_show_uncategorized";
     final String PREF_AUTO_LOCATION = "settings_auto_location";
     final String PREF_FILTER_PAST_REMINDERS = "settings_filter_past_reminders";
+    final String PREF_DYNAMIC_MENU = "settings_dynamic_menu";
 
 	final String EXPORT_FILE_NAME = TAG;
 

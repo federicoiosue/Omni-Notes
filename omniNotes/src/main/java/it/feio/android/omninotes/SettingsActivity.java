@@ -367,9 +367,9 @@ public class SettingsActivity extends PreferenceActivity {
                 return false;
             }
         });
-		
-		
-		
+
+
+
 		// Maximum video attachment size
 		final EditTextPreference maxVideoSize = (EditTextPreference) findPreference("settings_max_video_size");
 		String maxVideoSizeValue = prefs.getString("settings_max_video_size", getString(R.string.not_set));

@@ -294,6 +294,8 @@
     <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
     <string name="settings_auto_location">Automatic location</string>
     <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
+    <string name="settings_dynamic_menu">Dynamic menu</string>
+    <string name="settings_dynamic_menu_summary">Automatically hide unused menu items</string>
 
 
     <!-- Instructions -->

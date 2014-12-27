@@ -150,6 +150,12 @@
                  android:title="@string/settings_auto_location"
                  android:summary="@string/settings_auto_location_summary" />
 
+             <CheckBoxPreference
+                 android:defaultValue="true"
+                 android:key="settings_dynamic_menu"
+                 android:title="@string/settings_dynamic_menu"
+                 android:summary="@string/settings_dynamic_menu_summary" />
+
              <EditTextPreference
                 android:inputType="number"
                 android:key="settings_max_video_size"
