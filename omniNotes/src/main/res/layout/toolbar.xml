@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:minHeight="?attr/actionBarSize"
+    android:elevation="4dp"
     android:background="?attr/colorPrimary"
     app:theme="@style/OmniNotesTheme.ApiSpec"
     app:popupTheme="@style/Theme.AppCompat.Light" />
