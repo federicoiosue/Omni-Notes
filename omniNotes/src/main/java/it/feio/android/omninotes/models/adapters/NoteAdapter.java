@@ -22,7 +22,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.Spanned;
 import android.util.SparseBooleanArray;
@@ -186,29 +185,29 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
 
     private void initText(Note note, NoteViewHolder holder) {
-//        try {
-//            if (note.isChecklist()) {
-//                TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
-//                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
-//			} else {
-            Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
-            holder.title.setText(titleAndContent[0]);
-            holder.content.setText(titleAndContent[1]);
-            holder.title.setText(titleAndContent[0]);
-            if (titleAndContent[1].length() > 0) {
-                holder.content.setText(titleAndContent[1]);
-                holder.content.setVisibility(View.VISIBLE);
+        try {
+            if (note.isChecklist()) {
+                TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
             } else {
-                if (expandedView) {
-                    holder.content.setVisibility(View.INVISIBLE);
+                Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
+                holder.title.setText(titleAndContent[0]);
+                holder.content.setText(titleAndContent[1]);
+                holder.title.setText(titleAndContent[0]);
+                if (titleAndContent[1].length() > 0) {
+                    holder.content.setText(titleAndContent[1]);
+                    holder.content.setVisibility(View.VISIBLE);
                 } else {
-                    holder.content.setVisibility(View.GONE);
+                    if (expandedView) {
+                        holder.content.setVisibility(View.INVISIBLE);
+                    } else {
+                        holder.content.setVisibility(View.GONE);
+                    }
                 }
             }
-//			}
-//        } catch (RejectedExecutionException e) {
-//            Ln.w(e, "Oversized tasks pool to load texts!");
-//        }
+        } catch (RejectedExecutionException e) {
+            Ln.w(e, "Oversized tasks pool to load texts!");
+        }
     }
 
 
