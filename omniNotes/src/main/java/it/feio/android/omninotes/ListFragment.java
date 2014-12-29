@@ -1317,7 +1317,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 finishActionMode();
 
                 for (int position : reverseSortedPositions) {
-                    Note note = listAdapter.getItem(position);
+                    Note note;
+                    try {
+                        note = listAdapter.getItem(position);
+                    } catch (IndexOutOfBoundsException e) {
+                        Ln.d("Please stop swiping in the zone beneath the last card");
+                        continue;
+                    }
                     getSelectedNotes().add(note);
 
                     // Depending on settings and note status this action will...
