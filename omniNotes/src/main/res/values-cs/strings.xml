@@ -39,6 +39,7 @@
   <string name="last_update">Aktualizováno:</string>
   <string name="delete_note_confirmation">Opravdu chcete poznámku smazat?</string>
   <string name="confirm">Potvrdit</string>
+  <string name="ok">Ok</string>
   <string name="cancel">Zrušit</string>
   <string name="note_updated">Poznámka aktualizována</string>
   <string name="empty_note_not_saved">Nelze uložit prázdnou poznámku</string>
@@ -127,7 +128,7 @@
   <string name="title_activity_sketch">Skica</string>
   <string name="redo">Vykonat znovu</string>
   <string name="colors">Barvy</string>
-  <string name="stroke">Tah</string>
+  <string name="stroke">Štětec</string>
   <string name="erase_sketch">Smazat skicu?</string>
   <string name="no_reminder_set">Není nastaveno zádné připomenutí</string>
   <string name="saturation">Sytost</string>
@@ -174,6 +175,8 @@
   <string name="select_all">Vybrat vše</string>
   <string name="search_location">Vyhledat polohu</string>
   <string name="use_current_location">Použít aktuální polohu</string>
+  <string name="filter">Filter</string>
+  <string name="remove_filter">Remove filter</string>
   <string name="dashclock_description">Zobrazí statistiky a připomenutí kterým brzy vyprší platnost z Omni Notes</string>
   <string name="settings">Nastavení</string>
   <string name="settings_about">Informace</string>
@@ -244,7 +247,7 @@
   <string name="settings_notification_snooze_delay">Druhé zpoždění připomenutí</string>
   <string name="minutes">minuty</string>
   <string name="settings_simple_calendar">Jednoduchý kalendář a čas</string>
-  <string name="settings_simple_calendar_summary">Použití (jednodušší) Android rozhraní pro výběr data a času, namísto rozhraní Google</string>
+  <string name="settings_simple_calendar_summary">Používat jednodušší rozhraní pro výběr data a času, namísto rozhraní Google</string>
   <string name="settings_tour_show_again">Prohlídka aplikace</string>
   <string name="settings_tour_show_again_summary">Ukaž mi znovu prohlídku aplikace</string>
   <string name="backup_include_settings">Zahrnout i nastavení a heslo</string>
@@ -261,7 +264,7 @@
   <string name="colors_widget">Barevné schéma widgetu</string>
   <string name="settings_instant_search">Okamžité hledání</string>
   <string name="settings_navdrawer_on_exit">Navigační menu při ukončení</string>
-  <string name="settings_navdrawer_on_exit_summary">Stisknutím tlačítka \"zpět\" v seznamu poznámek otevře navigační menu místo ukončení</string>
+  <string name="settings_navdrawer_on_exit_summary">Stisknutím tlačítka \"zpět\" v seznamu poznámek otevře navigační menu místo ukončení aplikace</string>
   <string name="settings_text_size">Velikost písma</string>
   <string name="settings_category_behaviors">Chování</string>
   <string name="settings_swipe_to_trash">Tažením do strany přesunout do koše</string>
@@ -273,6 +276,8 @@
   <string name="settings_show_category_count_summary">Zobrazuje počet poznámek v příslušné kategorii</string>
   <string name="settings_auto_location">Automatická poloha</string>
   <string name="settings_auto_location_summary">Automaticky přidá informaci o poloze do nové poznámky</string>
+  <string name="settings_dynamic_menu">Dynamic menu</string>
+  <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden </string>
   <string name="tour_request_start">Spustili jste Omni Notes poprvé. Chcete spustit prohlídku aplikace?</string>
   <string name="tour_listactivity_intro_title">Vítejte v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">stiskněte tlačítko \"Pokračovat\" pokračování v prohlídce</string>

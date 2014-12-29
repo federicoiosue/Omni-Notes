@@ -21,7 +21,7 @@
     <item>Arsip</item>
     <item>Pengingat</item>
     <item>Sampah</item>
-    <item>Uncategorized</item>
+    <item>Tidak terkategori</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Judul</item>

@@ -282,7 +282,7 @@
     <string name="settings_auto_location">Automatic location</string>
     <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
     <string name="settings_dynamic_menu">Dynamic menu</string>
-    <string name="settings_dynamic_menu_summary">Automatically hide unused menu items</string>
+    <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
 
 
     <!-- Instructions -->

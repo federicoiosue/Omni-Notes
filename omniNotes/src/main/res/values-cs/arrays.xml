@@ -36,13 +36,13 @@
   </string-array>
   <string-array name="colors_app">
     <item>Vypnuté</item>
-    <item>Pouze s pruhem</item>
-    <item>Pouze seznam poznámek</item>
-    <item>Hotové</item>
+    <item>Pouze barevný pruh</item>
+    <item>Pouze v seznamu poznámek</item>
+    <item>Úplné</item>
   </string-array>
   <string-array name="colors_widget">
     <item>Vypnuté</item>
-    <item>Pouze s pruhem</item>
+    <item>Pouze barevný pruh</item>
     <item>Seznam poznámek</item>
   </string-array>
   <string-array name="text_size">

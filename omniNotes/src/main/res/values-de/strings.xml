@@ -39,6 +39,7 @@
   <string name="last_update">Aktualisiert:</string>
   <string name="delete_note_confirmation">Notiz wirklich löschen?</string>
   <string name="confirm">OK</string>
+  <string name="ok">Ok</string>
   <string name="cancel">Abbrechen</string>
   <string name="note_updated">Notiz gespeichert</string>
   <string name="empty_note_not_saved">Leere Notiz wurde nicht gespeichert</string>
@@ -174,6 +175,8 @@
   <string name="select_all">Alles auswählen</string>
   <string name="search_location">Suchort</string>
   <string name="use_current_location">Aktuellen Standort verwenden</string>
+  <string name="filter">Filter</string>
+  <string name="remove_filter">Remove filter</string>
   <string name="dashclock_description">Zeige Statistiken und sich nähernde Errinerungen</string>
   <string name="settings">Einstellungen</string>
   <string name="settings_about">Info</string>
@@ -208,7 +211,7 @@
   <string name="settings_backup">Sicherung</string>
   <string name="settings_password">Passwort</string>
   <string name="settings_password_access">Passwort bei Aufruf abfragen</string>
-  <string name="settings_password_instructions">Das Sicherheitspasswort wird verwendet, um sicherzustellen, dass geschützten Notizen ohne vorherige Genehmigung nicht angezeigt oder verändert werden können.\n\nJedesmal, wenn Sie versuchen das bestehende Passwort zu ändern, wird das Alte zur Sicherheit abgefragt.\n\nLassen Sie das Eingabefeld frei um das Passwort zu löschen.</string>
+  <string name="settings_password_instructions">Das Passwort wird verwendet, um sicherzustellen, dass geschützten Notizen ohne vorherige Genehmigung nicht angezeigt oder verändert werden können.\n\nJedesmal, wenn Sie versuchen das bestehende Passwort zu ändern, wird das Alte zu Ihrer Sicherheit abgefragt.\n\nLassen Sie das Eingabefeld frei um das bestehende Passwort zu löschen.</string>
   <string name="settings_password_not_matching">Passwort fehlt oder stimmt nicht überein</string>
   <string name="insert_new_password">Neues Passwort eingeben</string>
   <string name="confirm_new_password">Passwort bestätigen</string>
@@ -219,7 +222,7 @@
   <string name="settings_enable_tag_marker">Kategoriemarkierungen</string>
   <string name="settings_backup_summary">Importieren oder Exportieren der Anwendungsdaten</string>
   <string name="settings_max_video_size_summary">Max. zulässige Größe in MB</string>
-  <string name="settings_password_summary">Sicherheitspasswort der Anwendung festlegen</string>
+  <string name="settings_password_summary">Passwort für die Anwendung festlegen</string>
   <string name="settings_enable_animations_summary">Ein- oder Ausschalten von Animationen in der Notizübersicht</string>
   <string name="settings_enable_tag_marker_summary">Ein-/Ausblenden von farbigen Markierungen für Kategorien</string>
   <string name="settings_enable_editor_links_summary">Aktivieren oder deaktivieren der automatischen Erkennung von Links und E-Mail-Adressen im Editor</string>
@@ -249,13 +252,13 @@
   <string name="settings_tour_show_again_summary">Anwendungstour erneut zeigen</string>
   <string name="backup_include_settings">Einstellungen mit einbeziehen (mit Passwort)</string>
   <string name="settings_included">Einstellungen wurden mit einbezogen</string>
-  <string name="settings_password_question_instructions">Geben Sie eine Frage mit Antwort ein, um das Passwort zurückzusetzen, falls Sie es vergessen haben</string>
+  <string name="settings_password_question_instructions">Falls Sie Ihr Passwort einmal vergessen haben sollten und es zurücksetzen wollen, geben Sie bitte eine Sicherheitsfrage mit Antwort ein.</string>
   <string name="settings_password_question">Frage</string>
   <string name="settings_password_answer">Antwort</string>
   <string name="settings_password_answer_check">Antwort bestätigen</string>
   <string name="password_forgot">Passwort vergessen?</string>
   <string name="settings_answer_not_matching">Antwort fehlt oder stimmt nicht überein</string>
-  <string name="password_not_set">Passwort wurde nicht festgelegt</string>
+  <string name="password_not_set">Passwort wurde noch nicht festgelegt</string>
   <string name="wrong_answer">Falsche Antwort</string>
   <string name="colors_app">Anwendungsfarben</string>
   <string name="colors_widget">Widgetfarben</string>
@@ -267,12 +270,14 @@
   <string name="settings_swipe_to_trash">Wischen, um in den Papierkorb zu verschieben</string>
   <string name="settings_swipe_to_trash_summary_1">Wischen von Notizen zum archivieren</string>
   <string name="settings_swipe_to_trash_summary_2">Wischen von Notizen um sie in den Papierkorb zu verschieben</string>
-  <string name="settings_show_uncategorized">Gruppe nicht kategorisiert</string>
-  <string name="settings_show_uncategorized_summary">Fügt dem Navigationsmenü einen neuen Eintrag für nicht kategorisierte Notizen hinzu</string>
+  <string name="settings_show_uncategorized">Gruppe für nicht zugeordnete Notizen</string>
+  <string name="settings_show_uncategorized_summary">Fügt dem Navigationsmenü einen neuen Eintrag für nicht zugeordnete Notizen hinzu</string>
   <string name="settings_show_category_count">Notizzähler</string>
   <string name="settings_show_category_count_summary">Zeigt die Anzahl der zugeordneten Notizen neben der Kategorie</string>
   <string name="settings_auto_location">Standort hinzufügen</string>
   <string name="settings_auto_location_summary">Fügt einer neuen Notiz den aktuellen Standort hinzu</string>
+  <string name="settings_dynamic_menu">Dynamic menu</string>
+  <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden </string>
   <string name="tour_request_start">Sie haben Omni Notes das erste Mal gestartet. Möchten Sie eine Anwendungstour machen?</string>
   <string name="tour_listactivity_intro_title">Willkommen bei Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Drücken Sie \"Weiter\",\num die Tour fortzusetzen.</string>
