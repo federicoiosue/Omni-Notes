@@ -15,7 +15,7 @@
 -->
 <resources>
 
-    <dimen name="padding_top_kitkat">22dp</dimen>
+    <dimen name="padding_top_kitkat">25dp</dimen>
     <dimen name="padding_bottom_kitkat">40dp</dimen>
     <dimen name="showcase_margin_bottom">35dp</dimen>
     <dimen name="undobar_margin_bottom">35dp</dimen>
