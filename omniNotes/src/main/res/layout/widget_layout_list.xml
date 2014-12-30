@@ -8,12 +8,11 @@
         android:id="@+id/toolbar"
         layout="@layout/widget_layout_toolbar" />
 
-
     <ListView
         android:id="@+id/widget_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
-        android:dividerHeight="3dp" />
+        android:dividerHeight="0dp" />
 
 </LinearLayout>
