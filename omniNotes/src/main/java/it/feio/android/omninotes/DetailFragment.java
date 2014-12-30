@@ -528,7 +528,7 @@ public class DetailFragment extends Fragment implements
             }
         } else {
             // Automatic location insertion
-            if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
+            if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == 0) {
                 noteTmp.setLatitude(getMainActivity().currentLatitude);
                 noteTmp.setLongitude(getMainActivity().currentLongitude);
             }
