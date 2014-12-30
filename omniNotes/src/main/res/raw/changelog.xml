@@ -17,6 +17,7 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="5.0.0 Beta 3" changeDate="Dec 30, 2014">
+        <changelogtext>[b]New![/b] Widgets moved to Material Design</changelogtext>
         <changelogtext>Updated translations</changelogtext>
         <changelogtext>[u]Fix[/u] Text flickering in notes list when notes were swiped out or restored</changelogtext>
         <changelogtext>[u]Fix[/u] Fixed password request and checklist switch-off dialogs</changelogtext>
