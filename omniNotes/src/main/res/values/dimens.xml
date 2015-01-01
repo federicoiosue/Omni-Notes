@@ -27,7 +27,8 @@
     
     <dimen name="actionobar_icon_size">32dp</dimen>
     <dimen name="actionobar_icon_padding">8dp</dimen>
-    
+    <dimen name="toolbar_elevation">4dp</dimen>
+
     <dimen name="icon_text_margin">12dp</dimen>    
 
     <dimen name="navigation_drawer_width">300dp</dimen>
