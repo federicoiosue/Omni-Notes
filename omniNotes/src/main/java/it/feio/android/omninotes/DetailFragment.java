@@ -462,7 +462,7 @@ public class DetailFragment extends Fragment implements
             }
 
             // Single attachment data
-            Uri uri = (Uri) i.getParcelableExtra(Intent.EXTRA_STREAM);
+            Uri uri = i.getParcelableExtra(Intent.EXTRA_STREAM);
             // Due to the fact that Google Now passes intent as text but with
             // audio recording attached the case must be handled in specific way
             if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {

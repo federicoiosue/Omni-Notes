@@ -17,6 +17,12 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.0.0 Beta 4" changeDate="Dec 30, 2014">
+        <changelogtext>[b]New![/b] Changed license, the application is now released under GPL v3</changelogtext>
+        <changelogtext>[b]New![/b] Quick save intent available for third party apps to perform a quick text-only note
+            saving (eg. Tasker+Pushbullet) </changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 3" changeDate="Dec 30, 2014">
         <changelogtext>[b]New![/b] Widgets moved to Material Design</changelogtext>
         <changelogtext>Updated translations</changelogtext>

@@ -36,6 +36,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.omninotes.async.DeleteNoteTask;
@@ -325,43 +326,58 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			OmniNotes.restartApp(getApplicationContext());
 		}
 
-		// Action called from widget
-		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
-			|| Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())
-			|| Constants.ACTION_WIDGET.equals(i.getAction())
-			|| Constants.ACTION_TAKE_PHOTO.equals(i.getAction())
-
-			|| ( ( Intent.ACTION_SEND.equals(i.getAction())
-					|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
-					|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) )
-					&& i.getType() != null)
-
-			|| i.getAction().contains(Constants.ACTION_NOTIFICATION_CLICK)
-
-					) {
-			Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
-			if (note == null) {
-				note = DbHelper.getInstance(this).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
-			}
-
+        if (receivedIntent(i)) {
+            Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
+            if (note == null) {
+                note = DbHelper.getInstance(this).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+            }
             // Checks if the same note is already opened to avoid to open again
             if (note != null && noteAlreadyOpened(note)) {
                 return;
             }
+            // Empty note instantiation
+            if (note == null) {
+                note = new Note();
+            }
+            switchToDetail(note);
+        }
 
-			// Empty note instantiation
-			if (note == null) {
-				note = new Note();
-			}
-
-			switchToDetail(note);
-		}
+        if (Constants.ACTION_SEND_AND_EXIT.equals(i.getAction())) {
+            saveAndExit(i);
+        }
 
 		// Tag search
 		if (Intent.ACTION_VIEW.equals(i.getAction())) {
 			switchToList();
 		}
 	}
+
+
+    /**
+     * Used to perform a quick text-only note saving (eg. Tasker+Pushbullet)
+     */
+    private void saveAndExit(Intent i) {
+        Note note = new Note();
+        note.setTitle(i.getStringExtra(Intent.EXTRA_SUBJECT));
+        note.setContent(i.getStringExtra(Intent.EXTRA_TEXT));
+        DbHelper.getInstance(this).updateNote(note, true);
+        showToast(getString(R.string.note_updated), Toast.LENGTH_SHORT);
+        finish();
+    }
+
+
+    private boolean receivedIntent(Intent i) {
+        return Constants.ACTION_SHORTCUT.equals(i.getAction())
+            || Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())
+            || Constants.ACTION_WIDGET.equals(i.getAction())
+            || Constants.ACTION_TAKE_PHOTO.equals(i.getAction())
+            || ( ( Intent.ACTION_SEND.equals(i.getAction())
+                    || Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
+                    || Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) )
+                    && i.getType() != null)
+            || i.getAction().contains(Constants.ACTION_NOTIFICATION_CLICK);
+    }
+
 
     private boolean noteAlreadyOpened(Note note) {
         DetailFragment detailFragment = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
