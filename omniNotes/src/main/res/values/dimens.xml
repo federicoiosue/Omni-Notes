@@ -24,14 +24,15 @@
     <dimen name="vertical_margin">16dp</dimen>
     
     <dimen name="padding_half">8dp</dimen>
-    
-    <dimen name="actionobar_icon_size">32dp</dimen>
+
     <dimen name="actionobar_icon_padding">8dp</dimen>
     <dimen name="toolbar_elevation">4dp</dimen>
 
     <dimen name="icon_text_margin">12dp</dimen>    
 
     <dimen name="navigation_drawer_width">300dp</dimen>
+    <dimen name="navigation_drawer_line_height">48dp</dimen>
+    <dimen name="navigation_drawer_icon_size">28dp</dimen>
     
     <dimen name="tag_circle_padding">25dp</dimen>
     

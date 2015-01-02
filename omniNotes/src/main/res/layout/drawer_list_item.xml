@@ -30,14 +30,14 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="@dimen/actionobar_icon_size"
-            android:layout_height="@dimen/actionobar_icon_size"/>
+            android:layout_width="@dimen/navigation_drawer_icon_size"
+            android:layout_height="@dimen/navigation_drawer_icon_size"/>
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/navigation_drawer_line_height"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/icon_text_margin"
             android:paddingRight="@dimen/horizontal_margin"

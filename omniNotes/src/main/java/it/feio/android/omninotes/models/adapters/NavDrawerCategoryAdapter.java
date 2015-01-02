@@ -29,17 +29,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-
 import com.neopixl.pixlui.components.textview.TextView;
-
-import java.util.ArrayList;
-
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.ListFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
+
+import java.util.ArrayList;
 
 public class NavDrawerCategoryAdapter extends BaseAdapter {
 
