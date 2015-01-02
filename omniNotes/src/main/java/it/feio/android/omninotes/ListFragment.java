@@ -888,8 +888,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
         boolean filterPastReminders = prefs.getBoolean(Constants.PREF_FILTER_PAST_REMINDERS, true);
         boolean navigationReminders = Navigation.checkNavigation(Navigation.REMINDERS);
+        boolean navigationArchive = Navigation.checkNavigation(Navigation.ARCHIVE);
+        boolean navigationTrash = Navigation.checkNavigation(Navigation.TRASH);
 
-        if (!drawerOpen) {
+        if (!navigationReminders && !navigationArchive && !navigationTrash) {
             setFabAllowed(true);
             showFab();
         } else {
@@ -902,7 +904,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !navigationReminders && !searchViewHasFocus);
         menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView && !searchViewHasFocus);
         menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView && !searchViewHasFocus);
-        menu.findItem(R.id.menu_empty_trash).setVisible(!drawerOpen && Navigation.checkNavigation(Navigation.TRASH));
+        menu.findItem(R.id.menu_empty_trash).setVisible(!drawerOpen && navigationTrash);
         menu.findItem(R.id.menu_tags).setVisible(searchViewHasFocus);
     }
 
