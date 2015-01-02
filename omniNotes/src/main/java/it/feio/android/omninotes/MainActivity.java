@@ -91,6 +91,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     private void initUI() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
 
@@ -204,7 +206,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 	public void initNavigationDrawer() {
 		Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
-		if (f != null) ((NavigationDrawerFragment) f).initNavigationDrawer();
+		if (f != null) ((NavigationDrawerFragment) f).init();
 	}
 
 

@@ -127,7 +127,7 @@ public class NavigationDrawerFragment extends Fragment {
     /**
      * Initialization of compatibility navigation drawer
      */
-    public void initNavigationDrawer() {
+    public void init() {
 
         mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
         mDrawerLayout.setFocusableInTouchMode(false);
@@ -142,10 +142,6 @@ public class NavigationDrawerFragment extends Fragment {
 
         buildMainMenu();
         buildCategoriesMenu();
-
-        // Enable ActionBar app icon to behave as action to toggle nav drawer
-        mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mActivity.getSupportActionBar().setHomeButtonEnabled(true);
 
         // ActionBarDrawerToggle± ties together the the proper interactions
         // between the sliding drawer and the action bar app icon

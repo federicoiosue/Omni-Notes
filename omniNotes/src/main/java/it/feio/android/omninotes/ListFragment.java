@@ -1570,13 +1570,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         int selectedNotesSize = getSelectedNotes().size();
         for (Note note : getSelectedNotes()) {
             // Restore it performed immediately, otherwise undo bar
-            if (!trash) {
-                trashNote(note, false);
-                getMainActivity().initNavigationDrawer();
-            } else {
+            if (trash) {
                 // Saves notes to be eventually restored at right position
                 undoNotesList.put(listAdapter.getPosition(note) + undoNotesList.size(), note);
                 modifiedNotes.add(note);
+            } else {
+                trashNote(note, false);
             }
             // Removes note adapter
             listAdapter.remove(note);
@@ -1603,6 +1602,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         } else {
             getSelectedNotes().clear();
         }
+        getMainActivity().initNavigationDrawer();
     }
 
     private android.support.v7.view.ActionMode getActionMode() {
@@ -2123,9 +2123,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 else if (undoCategorize) categorizeNote(note, undoCategorizeCategory);
             }
             // Refreshes navigation drawer if is set to show categories count numbers
-            if (prefs.getBoolean("settings_show_category_count", false)) {
+//            if (prefs.getBoolean("settings_show_category_count", false)) {
                 getMainActivity().initNavigationDrawer();
-            }
+//            }
 
             undoTrash = false;
             undoArchive = false;
