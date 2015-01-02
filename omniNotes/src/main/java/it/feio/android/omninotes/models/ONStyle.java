@@ -37,10 +37,10 @@ public class ONStyle {
     public static final Style CONFIRM;
     public static final Style INFO;
 
-    public static final int AlertRed = R.color.alert;
-    public static final int WarnOrange = R.color.warning;
-    public static final int ConfirmGreen = R.color.confirm;
-    public static final int InfoYellow = R.color.info;
+    public static final int ALERT_COLOR = R.color.alert;
+    public static final int WARN_COLOR = R.color.warning;
+    public static final int CONFIRM_COLOR = R.color.confirm;
+    public static final int INFO_COLOR = R.color.info;
 
 
     static {
@@ -50,25 +50,25 @@ public class ONStyle {
                 .setOutAnimation(R.animator.fade_out)
                 .build();
         ALERT = new Style.Builder()
-                .setBackgroundColor(AlertRed)
+                .setBackgroundColor(ALERT_COLOR)
                 .setHeight(LayoutParams.MATCH_PARENT)
                 .setGravity(Gravity.CENTER)
                 .setConfiguration(CONFIGURATION)
                 .build();
         WARN = new Style.Builder()
-                .setBackgroundColor(WarnOrange)
+                .setBackgroundColor(WARN_COLOR)
                 .setHeight(LayoutParams.MATCH_PARENT)
                 .setGravity(Gravity.CENTER)
                 .setConfiguration(CONFIGURATION)
                 .build();
         CONFIRM = new Style.Builder()
-                .setBackgroundColor(ConfirmGreen)
+                .setBackgroundColor(CONFIRM_COLOR)
                 .setHeight(LayoutParams.MATCH_PARENT)
                 .setTextAppearance(R.style.crouton_text)
                 .setConfiguration(CONFIGURATION)
                 .build();
         INFO = new Style.Builder()
-                .setBackgroundColor(InfoYellow)
+                .setBackgroundColor(INFO_COLOR)
                 .setHeight(LayoutParams.MATCH_PARENT)
                 .setGravity(Gravity.CENTER)
                 .setConfiguration(CONFIGURATION)

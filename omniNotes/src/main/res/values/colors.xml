@@ -54,7 +54,7 @@
     <color name="text_color_lighter">#868686</color>
 
     <!-- toasts -->
-    <color name="confirm">#3F51B5</color>
+    <color name="confirm">#303F9F</color>
     <color name="warning">#ff9800</color>
     <color name="alert">#e51c23</color>
     <color name="info">#ee33B5E5</color>
