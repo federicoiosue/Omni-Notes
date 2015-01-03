@@ -1719,6 +1719,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         // Advice to user
         getMainActivity().showMessage(R.string.note_deleted, ONStyle.ALERT);
+        
+        getMainActivity().initNavigationDrawer();
     }
 
 
