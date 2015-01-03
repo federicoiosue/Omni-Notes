@@ -38,10 +38,9 @@
 
     <style name="OmniNotesTheme.ApiSpec"></style>
 
-    <style name="PreferencesTheme" parent="OmniNotesTheme">
-        <item name="android:textColorPrimary">@color/abc_primary_text_material_light</item>
-        <item name="android:textColorSecondary">@color/abc_primary_text_material_light</item>
-        <item name="android:textColorTertiary">@color/abc_primary_text_material_light</item>
+    <style name="PreferencesTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
     <style name="OmniNotesFullscreenTheme" parent="@style/Theme.AppCompat">

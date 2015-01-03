@@ -18,7 +18,7 @@
     android:fitsSystemWindows="true">
 
     <PreferenceScreen
-        android:key="preferences_backup"
+        android:key="settings_backup"
         android:persistent="false"
         android:summary="@string/settings_backup_summary"
         android:title="@string/settings_backup" />
