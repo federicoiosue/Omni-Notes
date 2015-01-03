@@ -1954,11 +1954,11 @@ public class DetailFragment extends Fragment implements
 
     private void fade(final View v, boolean fadeIn) {
 
-        int anim = R.animator.fade_out;
+        int anim = R.animator.fade_out_support;
         int visibilityTemp = View.GONE;
 
         if (fadeIn) {
-            anim = R.animator.fade_in;
+            anim = R.animator.fade_in_support;
             visibilityTemp = View.VISIBLE;
         }
 

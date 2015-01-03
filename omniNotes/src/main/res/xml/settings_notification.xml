@@ -15,9 +15,22 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@android:interpolator/accelerate_quad"
-    android:valueFrom="1"
-    android:valueTo="0"
-    android:propertyName="alpha"
-    android:duration="@android:integer/config_mediumAnimTime" />
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true">
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="settings_enable_vibration"
+        android:title="@string/settings_enable_vibration" />
+
+    <RingtonePreference
+        android:key="settings_notification_ringtone"
+        android:ringtoneType="all"
+        android:title="@string/settings_notification_ringtone" />
+
+    <EditTextPreference
+        android:key="settings_notification_snooze_delay"
+        android:title="@string/settings_notification_snooze_delay"
+        android:inputType="number" />
+
+</PreferenceScreen>

@@ -46,8 +46,8 @@ public class ONStyle {
     static {
         CONFIGURATION = new Configuration.Builder()
                 .setDuration(DURATION_MEDIUM)
-                .setInAnimation(R.animator.fade_in)
-                .setOutAnimation(R.animator.fade_out)
+                .setInAnimation(R.animator.fade_in_support)
+                .setOutAnimation(R.animator.fade_out_support)
                 .build();
         ALERT = new Style.Builder()
                 .setBackgroundColor(ALERT_COLOR)

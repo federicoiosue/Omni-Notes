@@ -15,9 +15,20 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@android:interpolator/accelerate_quad"
-    android:valueFrom="1"
-    android:valueTo="0"
-    android:propertyName="alpha"
-    android:duration="@android:integer/config_mediumAnimTime" />
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true">
+
+    <Preference
+        android:key="settings_export_data"
+        android:title="@string/settings_export" />
+
+    <Preference
+        android:key="settings_import_data"
+        android:title="@string/settings_import" />
+
+    <Preference
+        android:key="settings_import_from_springpad"
+        android:title="@string/settings_import_from_springpad"
+        android:summary="@string/settings_import_from_springpad_summary" />
+
+</PreferenceScreen>

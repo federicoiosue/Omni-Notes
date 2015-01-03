@@ -51,15 +51,20 @@ public class SettingsActivity extends ActionBarActivity {
         b.putString(SettingsFragment.XML_NAME, key);
         sf.setArguments(b);
         backStack.add(getFragmentManager().findFragmentById(R.id.content_frame));
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, sf).commit();
+        replaceFragment(sf);
+    }
+
+
+    private void replaceFragment(Fragment sf) {
+        getFragmentManager().beginTransaction().setCustomAnimations(R.animator.fade_in, R.animator.fade_out,
+                R.animator.fade_in, R.animator.fade_out).replace(R.id.content_frame, sf).commit();
     }
 
 
     @Override
     public void onBackPressed() {
         if (backStack.size() > 0) {
-            getFragmentManager().beginTransaction().replace(R.id.content_frame, backStack.remove(backStack.size() - 1))
-                    .commit();
+            replaceFragment(backStack.remove(backStack.size() - 1));
         } else {
             super.onBackPressed();
         }

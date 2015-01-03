@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true">
+
+    <ListPreference
+        android:entries="@array/languages"
+        android:entryValues="@array/languages_codes"
+        android:key="settings_language"
+        android:title="@string/settings_choose_language" />
+    <ListPreference
+        android:entries="@array/text_size"
+        android:entryValues="@array/text_size_values"
+        android:key="settings_text_size"
+        android:title="@string/settings_text_size"
+        android:defaultValue="default" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="settings_simple_calendar"
+        android:summary="@string/settings_simple_calendar_summary"
+        android:title="@string/settings_simple_calendar" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="settings_show_category_count"
+        android:summary="@string/settings_show_category_count_summary"
+        android:title="@string/settings_show_category_count" />
+
+    <ListPreference
+        android:entries="@array/colors_app"
+        android:entryValues="@array/colors_app_values"
+        android:key="settings_colors_app"
+        android:title="@string/colors_app"
+        android:defaultValue="strip" />
+
+    <ListPreference
+        android:entries="@array/colors_widget"
+        android:entryValues="@array/colors_widget_values"
+        android:key="settings_colors_widget"
+        android:title="@string/colors_widget"
+        android:defaultValue="strip" />
+    
+</PreferenceScreen>

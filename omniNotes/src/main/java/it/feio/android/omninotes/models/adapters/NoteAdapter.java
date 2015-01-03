@@ -131,7 +131,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
         initThumbnail(note, holder);
 
 
-//		Animation animation = AnimationUtils.loadAnimation(mActivity, R.animator.fade_in);
+//		Animation animation = AnimationUtils.loadAnimation(mActivity, R.animator.fade_in_support);
 //		animation.setDuration(60);
 //		convertView.startAnimation(animation);
 		

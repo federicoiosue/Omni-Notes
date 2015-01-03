@@ -345,7 +345,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 	@SuppressLint("InlinedApi")
 	protected void animateTransition(FragmentTransaction transaction, int direction) {
 		if (direction == TRANSITION_HORIZONTAL) {
-            transaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out);
+            transaction.setCustomAnimations(R.animator.fade_in_support, R.animator.fade_out_support, R.animator.fade_in_support, R.animator.fade_out_support);
 		}
 		if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			transaction.setCustomAnimations(
