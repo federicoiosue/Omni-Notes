@@ -132,7 +132,7 @@
             android:name="it.feio.android.omninotes.SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName="it.feio.android.omninotes.MainActivity"
-            android:theme="@style/Theme.Preferences">
+            android:theme="@style/PreferencesTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

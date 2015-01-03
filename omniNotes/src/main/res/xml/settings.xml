@@ -21,7 +21,7 @@
     <PreferenceCategory android:title="@string/settings_category_preferences" >
         
         <PreferenceScreen
-            android:key="category_data"
+            android:key="preferences_data"
             android:title="@string/settings_category_data" >
             
             <PreferenceScreen

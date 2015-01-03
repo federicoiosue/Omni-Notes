@@ -30,13 +30,19 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:button">@android:drawable/checkbox_off_background</item>
         <item name="actionMenuTextColor">@color/abc_primary_text_material_dark</item>
+        <item name="android:textColorPrimary">@color/abc_primary_text_material_dark</item>
         <item name="android:textColorSecondary">@color/abc_primary_text_material_dark</item>
         <item name="searchViewStyle">@style/SearchViewStyle</item>
-        <item name="android:listChoiceIndicatorSingle">@drawable/abc_btn_radio_material</item>
-        <item name="android:listChoiceIndicatorMultiple">@drawable/abc_btn_check_material</item>
+        <item name="android:textColorTertiary">@color/abc_primary_text_material_dark</item>
     </style>
 
     <style name="OmniNotesTheme.ApiSpec"></style>
+
+    <style name="PreferencesTheme" parent="OmniNotesTheme">
+        <item name="android:textColorPrimary">@color/abc_primary_text_material_light</item>
+        <item name="android:textColorSecondary">@color/abc_primary_text_material_light</item>
+        <item name="android:textColorTertiary">@color/abc_primary_text_material_light</item>
+    </style>
 
     <style name="OmniNotesFullscreenTheme" parent="@style/Theme.AppCompat">
         <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
@@ -58,24 +64,13 @@
     <!--<style name="TourTitle" parent="TextAppearance.ShowcaseView.Title.Light">-->
     <!--<item name="android:textSize">24sp</item>-->
     <!--<item name="android:textStyle">bold</item>-->
-    <!--&lt;!&ndash; <item name="android:textColor">#0099CC</item> &ndash;&gt;-->
+    <!-- <item name="android:textColor">#0099CC</item> -->
     <!--</style>-->
 
     <!--<style name="TourDetail" parent="TextAppearance.ShowcaseView.Detail.Light">-->
     <!--<item name="android:textSize">18sp</item>-->
     <!--<item name="android:textColor">#ffffff</item>-->
     <!--</style>-->
-
-    <!-- Preferences -->
-    <style name="Theme.Preferences" parent="@style/Theme.AppCompat.Light">
-        <item name="android:listViewStyle">@style/lightListView</item>
-    </style>
-
-    <style name="lightListView">
-        <item name="android:background">#ffffff
-            <item></item>
-        </item>
-    </style>
 
     <style name="OmniNotesTheme.ApiSpec.Dialog">
         <item name="android:windowIsTranslucent">true</item>

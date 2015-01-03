@@ -27,8 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/navigation_drawer_header_height"
         android:src="@drawable/material_wall"
-        android:scaleType="centerCrop"
-        android:paddingBottom="10dp"/>
+        android:scaleType="centerCrop"/>
 
     <ListView
         android:id="@+id/drawer_nav_list"

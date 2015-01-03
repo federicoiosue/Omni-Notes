@@ -891,7 +891,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         boolean navigationArchive = Navigation.checkNavigation(Navigation.ARCHIVE);
         boolean navigationTrash = Navigation.checkNavigation(Navigation.TRASH);
 
-        if (!navigationReminders && !navigationArchive && !navigationTrash) {
+            if (!navigationReminders && !navigationArchive && !navigationTrash) {
             setFabAllowed(true);
             if (!drawerOpen) {
                 showFab();
