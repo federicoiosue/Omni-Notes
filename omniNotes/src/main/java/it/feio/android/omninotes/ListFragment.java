@@ -893,7 +893,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         if (!navigationReminders && !navigationArchive && !navigationTrash) {
             setFabAllowed(true);
-            showFab();
+            if (!drawerOpen) {
+                showFab();
+            }
         } else {
             setFabAllowed(false);
             hideFab();
