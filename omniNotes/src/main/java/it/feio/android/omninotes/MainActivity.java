@@ -412,7 +412,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
             transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_LIST_TAG).commitAllowingStateLoss();
         } else {
-            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
+            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
         }
 
 		if (getDrawerToggle() != null) {
