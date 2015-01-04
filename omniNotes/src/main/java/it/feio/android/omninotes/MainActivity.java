@@ -302,19 +302,21 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     void animateBurger(int targetShape) {
-        if (targetShape != BURGER && targetShape != ARROW)
-            return;
-        ValueAnimator anim = ValueAnimator.ofFloat((targetShape+1)%2, targetShape);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float slideOffset = (Float) valueAnimator.getAnimatedValue();
-                getDrawerToggle().onDrawerSlide(getDrawerLayout(), slideOffset);
-            }
-        });
-        anim.setInterpolator(new DecelerateInterpolator());
-        anim.setDuration(500);
-        anim.start();
+        if (getDrawerToggle() != null) {
+            if (targetShape != BURGER && targetShape != ARROW)
+                return;
+            ValueAnimator anim = ValueAnimator.ofFloat((targetShape + 1) % 2, targetShape);
+            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    float slideOffset = (Float) valueAnimator.getAnimatedValue();
+                    getDrawerToggle().onDrawerSlide(getDrawerLayout(), slideOffset);
+                }
+            });
+            anim.setInterpolator(new DecelerateInterpolator());
+            anim.setDuration(500);
+            anim.start();
+        }
     }
 
 
