@@ -53,17 +53,20 @@ public class ONStyle {
                 .setBackgroundColor(ALERT_COLOR)
                 .setHeight(LayoutParams.MATCH_PARENT)
                 .setGravity(Gravity.CENTER)
+                .setTextAppearance(R.style.crouton_text)
                 .setConfiguration(CONFIGURATION)
                 .build();
         WARN = new Style.Builder()
                 .setBackgroundColor(WARN_COLOR)
                 .setHeight(LayoutParams.MATCH_PARENT)
                 .setGravity(Gravity.CENTER)
+                .setTextAppearance(R.style.crouton_text)
                 .setConfiguration(CONFIGURATION)
                 .build();
         CONFIRM = new Style.Builder()
                 .setBackgroundColor(CONFIRM_COLOR)
                 .setHeight(LayoutParams.MATCH_PARENT)
+                .setGravity(Gravity.CENTER)
                 .setTextAppearance(R.style.crouton_text)
                 .setConfiguration(CONFIGURATION)
                 .build();
@@ -71,6 +74,7 @@ public class ONStyle {
                 .setBackgroundColor(INFO_COLOR)
                 .setHeight(LayoutParams.MATCH_PARENT)
                 .setGravity(Gravity.CENTER)
+                .setTextAppearance(R.style.crouton_text)
                 .setConfiguration(CONFIGURATION)
                 .build();
     }
