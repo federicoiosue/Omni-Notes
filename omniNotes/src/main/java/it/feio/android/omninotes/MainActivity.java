@@ -25,7 +25,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -68,6 +68,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 	public Uri sketchUri;
     private ViewGroup croutonViewContainer;
+    private Toolbar toolbar;
 
 
     @Override
@@ -89,7 +90,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	}
 
     private void initUI() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -317,6 +318,11 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			fragment.finishActionMode();
 		}
 	}
+    
+    
+    Toolbar getToolbar() {
+        return this.toolbar;
+    }
 
 
 	private void handleIntents() {
