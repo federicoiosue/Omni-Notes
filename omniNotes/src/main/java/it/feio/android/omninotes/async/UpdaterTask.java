@@ -169,7 +169,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
                      mActivity.getPackageName(), 0).versionName;
             String currentVersion = mActivity.getSharedPreferences(Constants.PREFS_NAME,
                     Context.MODE_MULTI_PROCESS).getString(Constants.PREF_CURRENT_APP_VERSION, "");
-//            if (!newVersion.equals(currentVersion)) {
+            if (!newVersion.equals(currentVersion)) {
                 new MaterialDialog.Builder(mActivity)
                         .customView(R.layout.activity_changelog, false)
                         .positiveText(R.string.ok)
@@ -177,7 +177,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
                 mActivity.getSharedPreferences(Constants.PREFS_NAME,
                         Context.MODE_MULTI_PROCESS).edit().putString(Constants.PREF_CURRENT_APP_VERSION, 
                         newVersion).commit();
-//            }
+            }
         } catch (NameNotFoundException e) {
             Ln.e("Error retrieving app version", e);
         }

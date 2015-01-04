@@ -36,7 +36,6 @@
         <item name="android:textColorTertiary">@color/abc_primary_text_material_dark</item>
         <item name="android:listChoiceIndicatorSingle">@drawable/checkbox_circle</item>
         <item name="android:listChoiceIndicatorMultiple">@drawable/checkbox</item>
-
     </style>
 
     <style name="OmniNotesTheme.ApiSpec"></style>

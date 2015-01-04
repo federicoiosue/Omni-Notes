@@ -22,7 +22,8 @@
         <changelogtext>[b]New![/b] Quick save intent available for third party apps to perform a quick text-only note
             saving (eg. Tasker+Pushbullet) </changelogtext>
         <changelogtext>[b]New![/b] Preferences and navigation panel switched to Material Design</changelogtext>
-        <changelogtext>[u]Fix[/u] All the issues you reported on GitHub</changelogtext>
+        <changelogtext>[b]New![/b] A dialog showing the application changes will be shown after update</changelogtext>
+        <changelogtext>[u]Fix[/u] All the issues you reported on GitHub and more</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.0.0 Beta 3" changeDate="Dec 30, 2014">
