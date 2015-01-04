@@ -209,17 +209,14 @@ public class DetailFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Show the Up button in the action bar.
-        if (getMainActivity().getSupportActionBar() != null) {
-            getMainActivity().getSupportActionBar().setDisplayShowTitleEnabled(false);
-            getMainActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        // Disables navigation drawer indicator (it must be only shown in ListFragment)
-        if (getMainActivity().getDrawerToggle() != null) {
-            getMainActivity().getDrawerToggle().setDrawerIndicatorEnabled(false);
-        }
-
+        getMainActivity().getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getMainActivity().getToolbar().setNavigationOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMainActivity().onBackPressed();
+            }
+        });
+                
         // Force the navigation drawer to stay closed
         getMainActivity().getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
@@ -551,17 +548,18 @@ public class DetailFragment extends Fragment implements
         locationTextView.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                        .content(R.string.remove_location)
-                        .positiveText(R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
-                            @Override
-                            public void onPositive(MaterialDialog materialDialog) {
-                                noteTmp.setLatitude("0");
-                                noteTmp.setLongitude("0");
-                                fade(locationTextView, false);
-                            }
-                        }).build();
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
+                builder.content(R.string.remove_location);
+                builder.positiveText(R.string.ok);
+                builder.callback(new MaterialDialog.SimpleCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
+                        noteTmp.setLatitude("");
+                        noteTmp.setLongitude("");
+                        fade(locationTextView, false);
+                    }
+                });
+                MaterialDialog dialog = builder.build();
                 dialog.show();
                 return true;
             }
@@ -1091,6 +1089,10 @@ public class DetailFragment extends Fragment implements
             if (getMainActivity().getDrawerToggle() != null) {
                 getMainActivity().getDrawerToggle().setDrawerIndicatorEnabled(true);
             }
+        }
+
+        if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            getMainActivity().animateBurger(getMainActivity().BURGER);
         }
 
         return true;
@@ -1677,11 +1679,10 @@ public class DetailFragment extends Fragment implements
         saveNote(mOnNoteSaved);
     }
 
+    
     /**
      * Save new notes, modify them or archive
      */
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     void saveNote(OnNoteSaved mOnNoteSaved) {
 
         // Changed fields
@@ -1698,38 +1699,48 @@ public class DetailFragment extends Fragment implements
             goHome();
             return;
         }
-
-        // Checks if nothing is changed to avoid committing if possible (check)
-        if (!noteTmp.isChanged(note)) {
-            exitMessage = "";
-            onNoteSaved(noteTmp);
-            return;
-        }
-
-        // Checks if only tag, archive or trash status have been
-        // changed and then force to not update last modification date
-        boolean updateLastModification = true;
-        note.setCategory(noteTmp.getCategory());
-        note.setArchived(noteTmp.isArchived());
-        note.setTrashed(noteTmp.isTrashed());
-        note.setLocked(noteTmp.isLocked());
-        if (!noteTmp.isChanged(note)) {
-            updateLastModification = false;
-        }
+        
+        if (saveNotNeeded()) return;
 
         noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
         // Saving changes to the note
-        SaveNoteTask saveNoteTask = new SaveNoteTask(this, mOnNoteSaved, updateLastModification);
-        // Forcing parallel execution disabled by default
-        if (Build.VERSION.SDK_INT >= 11) {
-            saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteTmp);
-        } else {
-            saveNoteTask.execute(noteTmp);
-        }
+        SaveNoteTask saveNoteTask = new SaveNoteTask(this, mOnNoteSaved, lastModificationUpdatedNeeded());
+        saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteTmp);
 
         MainActivity.notifyAppWidgets(getActivity());
     }
+
+
+    /**
+     * Checks if nothing is changed to avoid committing if possible (check)
+     */
+    private boolean saveNotNeeded() {
+        if (noteTmp.get_id() == 0 && prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
+            noteTmp.setLatitude("");
+            noteTmp.setLongitude("");
+        }
+        if (!noteTmp.isChanged(note)) {
+            exitMessage = "";
+            onNoteSaved(noteTmp);
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Checks if only tag, archive or trash status have been changed 
+     * and then force to not update last modification date*
+     */
+    private boolean lastModificationUpdatedNeeded() {
+        note.setCategory(noteTmp.getCategory());
+        note.setArchived(noteTmp.isArchived());
+        note.setTrashed(noteTmp.isTrashed());
+        note.setLocked(noteTmp.isLocked());
+        return noteTmp.isChanged(note);
+    }
+
 
     @Override
     public void onNoteSaved(Note noteSaved) {
