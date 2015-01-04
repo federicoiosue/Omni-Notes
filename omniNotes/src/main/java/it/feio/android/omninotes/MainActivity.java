@@ -89,9 +89,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
         initUI();
 
-		// Launching update task
-		UpdaterTask task = new UpdaterTask(this);
-		task.execute();
+		new UpdaterTask(this).execute();
 	}
 
     private void initUI() {

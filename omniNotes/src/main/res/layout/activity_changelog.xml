@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -16,21 +15,10 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<view xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:chg="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/padding_top_kitkat">
-
-    <view
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/gray_bg"
-        class="it.gmariotti.changelibs.library.view.ChangeLogListView"
-        chg:rowHeaderLayoutId="@layout/changelogrowheader_material_layout"
-        chg:rowLayoutId="@layout/changelogrow_material_layout"/>
-
-</FrameLayout>
-
+    class="it.gmariotti.changelibs.library.view.ChangeLogListView"
+    chg:rowHeaderLayoutId="@layout/changelogrowheader_material_layout"
+    chg:rowLayoutId="@layout/changelogrow_material_layout" />

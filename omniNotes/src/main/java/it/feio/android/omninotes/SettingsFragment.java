@@ -38,6 +38,7 @@ import android.view.View;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import it.feio.android.omninotes.async.DataBackupIntentService;
@@ -604,8 +605,10 @@ public class SettingsFragment extends PreferenceFragment {
 
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    Intent changelogIntent = new Intent(getActivity(), ChangelogActivity.class);
-                    startActivity(changelogIntent);
+                    new MaterialDialog.Builder(getActivity())
+                            .customView(R.layout.activity_changelog)
+                            .positiveText(R.string.ok)
+                            .build().show();
                     return false;
                 }
             });

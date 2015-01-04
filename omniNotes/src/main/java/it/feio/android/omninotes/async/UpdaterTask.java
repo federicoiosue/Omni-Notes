@@ -18,6 +18,7 @@ package it.feio.android.omninotes.async;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,6 +26,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -80,7 +82,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 			// Getting from preferences last update check
 			@SuppressWarnings("static-access")
-			SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS);
+			SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
 
 			long now = System.currentTimeMillis();
 			if (promptUpdate
@@ -153,14 +155,36 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	
 	@Override
 	protected void onPostExecute(Void result) {	
-		
 		if (isAlive(mActivityReference) && promptUpdate) {
 			promptUpdate();
-		}
+		} else {
+            showChangelog();
+        }
 	}
-	
-	
-	/**
+
+
+    private void showChangelog() {
+        try {
+            String newVersion = mActivity.getPackageManager().getPackageInfo(
+                     mActivity.getPackageName(), 0).versionName;
+            String currentVersion = mActivity.getSharedPreferences(Constants.PREFS_NAME,
+                    Context.MODE_MULTI_PROCESS).getString(Constants.PREF_CURRENT_APP_VERSION, "");
+//            if (!newVersion.equals(currentVersion)) {
+                new MaterialDialog.Builder(mActivity)
+                        .customView(R.layout.activity_changelog, false)
+                        .positiveText(R.string.ok)
+                        .build().show();
+                mActivity.getSharedPreferences(Constants.PREFS_NAME,
+                        Context.MODE_MULTI_PROCESS).edit().putString(Constants.PREF_CURRENT_APP_VERSION, 
+                        newVersion).commit();
+//            }
+        } catch (NameNotFoundException e) {
+            Ln.e("Error retrieving app version", e);
+        }
+    }
+
+
+    /**
 	 * Cheks if activity is still alive and not finishing
 	 * @param weakActivityReference
 	 * @return True or false
