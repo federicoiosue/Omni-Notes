@@ -591,7 +591,7 @@ public class SettingsFragment extends PreferenceFragment {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     snoozeDelay.setSummary(String.valueOf(newValue) + " " + getString(R.string.minutes));
-                    prefs.edit().putString("settings_notification_snooze_delay", newValue.toString()).commit();
+                    prefs.edit().putString("settings_notification_snooze_delay", newValue.toString()).apply();
                     return false;
                 }
             });
@@ -606,7 +606,7 @@ public class SettingsFragment extends PreferenceFragment {
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
                     new MaterialDialog.Builder(getActivity())
-                            .customView(R.layout.activity_changelog)
+                            .customView(R.layout.activity_changelog, false)
                             .positiveText(R.string.ok)
                             .build().show();
                     return false;

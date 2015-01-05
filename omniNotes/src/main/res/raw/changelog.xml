@@ -18,11 +18,13 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="5.0.0 Beta 4" changeDate="Jan 5, 2015">
-        <changelogtext>[b]New![/b] Changed license, the application is now released under GPL v3</changelogtext>
+        <changelogtext>[b]New![/b] Dashclock extension revisited with improved performances and more 
+            useful informations</changelogtext>
         <changelogtext>[b]New![/b] Quick save intent available for third party apps to perform a quick text-only note
             saving (eg. Tasker+Pushbullet) </changelogtext>
         <changelogtext>[b]New![/b] Preferences and navigation panel switched to Material Design</changelogtext>
         <changelogtext>[b]New![/b] A dialog showing the application changes will be shown after update</changelogtext>
+        <changelogtext>[b]New![/b] Changed license, the application is now released under GPL v3</changelogtext>
         <changelogtext>[u]Fix[/u] All the issues you reported on GitHub and more</changelogtext>
     </changelogversion>
 

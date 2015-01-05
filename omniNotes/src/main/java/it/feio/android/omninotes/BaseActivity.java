@@ -314,7 +314,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 	/**
 	 * Retrieves resource by name
 	 * @param aString
-	 * @return
+	 * @returnnotifyAppWidgets
 	 */
 	private String getStringResourceByName(String aString) {
 		String packageName = getApplicationContext().getPackageName();
@@ -329,13 +329,10 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static void notifyAppWidgets(Context mActivity) {
 		// Home widgets
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
-			int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity,
-					ListWidgetProvider.class));
-			Ln.d("Notifies AppWidget data changed for widgets " + ids);
-			mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
-		}
+        AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
+        int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity, ListWidgetProvider.class));
+        Ln.d("Notifies AppWidget data changed for widgets " + ids);
+        mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 
 		// Dashclock
 	    LocalBroadcastManager.getInstance(mActivity).sendBroadcast(new Intent(Constants.INTENT_UPDATE_DASHCLOCK));

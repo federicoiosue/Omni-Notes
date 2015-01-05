@@ -739,7 +739,7 @@ public class DetailFragment extends Fragment implements
 //                AlertDialog alertDialog = alertDialogBuilder.create();
 //                alertDialog.show();
                 MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                        .content(R.string.remove_location)
+                        .content(R.string.remove_reminder)
                         .positiveText(R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
@@ -1658,7 +1658,7 @@ public class DetailFragment extends Fragment implements
 //        });
 //        alertDialogBuilder.create().show();
         new MaterialDialog.Builder(getActivity())
-                .content(R.string.remove_location)
+                .content(R.string.delete_note_confirmation)
                 .positiveText(R.string.ok)
                 .callback(new MaterialDialog.SimpleCallback() {
                     @Override
@@ -1707,8 +1707,6 @@ public class DetailFragment extends Fragment implements
         // Saving changes to the note
         SaveNoteTask saveNoteTask = new SaveNoteTask(this, mOnNoteSaved, lastModificationUpdatedNeeded());
         saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteTmp);
-
-        MainActivity.notifyAppWidgets(getActivity());
     }
 
 
@@ -1744,6 +1742,7 @@ public class DetailFragment extends Fragment implements
 
     @Override
     public void onNoteSaved(Note noteSaved) {
+        MainActivity.notifyAppWidgets(getActivity());
         note = new Note(noteSaved);
         if (goBack) {
             goHome();

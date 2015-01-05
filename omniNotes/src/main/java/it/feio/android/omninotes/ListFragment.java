@@ -1812,8 +1812,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
             listAdapter.remove(note);
         }
-        // Informs the user about update
-        BaseActivity.notifyAppWidgets(getActivity());
         Ln.d("Note with id '" + note.get_id() + "' " + (archive ? "archived" : "restored from archive"));
     }
 
@@ -2143,7 +2141,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             undoCategoryMap.clear();
             list.clearChoices();
 
-            ubc.hideUndoBar(false);
+            ubc.hideUndoBar(false);        
+            
+            BaseActivity.notifyAppWidgets(getActivity());
         }
     }
 

@@ -494,34 +494,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 		return noteList;
 	}
-	
-	
 
-
-	/**
-	 * Getting notes count
-	 * @return
-	 */
-	public int getNotesCount() {
-		int count = 0;
-		String countQuery = "SELECT * FROM " + TABLE_NOTES;
-
-		SQLiteDatabase db = null;
-		Cursor cursor = null;
-		try {
-			db = this.getReadableDatabase();
-			cursor = db.rawQuery(countQuery, null);
-			count = cursor.getCount();
-		} finally {
-			if (cursor != null)
-				cursor.close();
-//			if (db != null)
-//				db.close();
-		}
-		return count;
-	}
-
-	
 	
 	/**
 	 * Archives/restore single note
