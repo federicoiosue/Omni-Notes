@@ -18,6 +18,7 @@
 package it.feio.android.omninotes;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,20 +36,22 @@ public class PasswordActivity extends BaseActivity {
 
 	private EditText passwordCheck;
 	private EditText password;
-	private Button confirm;
-	private EditText question;
+    private EditText question;
 	private EditText answer;
 	private EditText answerCheck;
-	private Button reset;
-	private PasswordActivity mActivity;
+    private PasswordActivity mActivity;
 
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_password);		
-		mActivity = this;
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int screenWidth = (int) (metrics.widthPixels * 0.80);
+        int screenHeight = (int) (metrics.heightPixels * 0.80);
+		setContentView(R.layout.activity_password);
+        getWindow().setLayout(screenWidth, screenHeight);
+        mActivity = this;
 		setActionBarTitle(getString(R.string.title_activity_password));
 		initViews();
 	}
@@ -61,47 +64,47 @@ public class PasswordActivity extends BaseActivity {
 		question = (EditText)findViewById(R.id.question);
 		answer = (EditText)findViewById(R.id.answer);
 		answerCheck = (EditText)findViewById(R.id.answer_check);
-		
-		confirm = (Button)findViewById(R.id.password_confirm);
-		confirm.setOnClickListener(new OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				if (checkData()){
-					final String passwordText = password.getText().toString();
-					final String questionText = question.getText().toString();
-					final String answerText = answer.getText().toString();
-					if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
-						requestPassword(mActivity, new PasswordValidator() {							
-							@Override
-							public void onPasswordValidated(boolean passwordConfirmed) {
-								if (passwordConfirmed) {
-									updatePassword(passwordText, questionText, answerText);
-								}
-								
-							}
-						});
-					} else {
-						updatePassword(passwordText, questionText, answerText);
-					}
-				}
-			}
-		});
-		
-		reset = (Button)findViewById(R.id.password_reset);
-		reset.setOnClickListener(new OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				
-				if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
-					Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN).show();
-					return;
-				}
-				
-				// Inflate layout
-				View layout = getLayoutInflater().inflate(R.layout.password_reset_dialog_layout, null);
-				TextView questionTextView = (TextView) layout.findViewById(R.id.reset_password_question);
-				questionTextView.setText(prefs.getString(Constants.PREF_PASSWORD_QUESTION, ""));
-				final EditText answerEditText = (EditText) layout.findViewById(R.id.reset_password_answer);
+
+        Button confirm = (Button) findViewById(R.id.password_confirm);
+		confirm.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkData()) {
+                    final String passwordText = password.getText().toString();
+                    final String questionText = question.getText().toString();
+                    final String answerText = answer.getText().toString();
+                    if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
+                        requestPassword(mActivity, new PasswordValidator() {
+                            @Override
+                            public void onPasswordValidated(boolean passwordConfirmed) {
+                                if (passwordConfirmed) {
+                                    updatePassword(passwordText, questionText, answerText);
+                                }
+
+                            }
+                        });
+                    } else {
+                        updatePassword(passwordText, questionText, answerText);
+                    }
+                }
+            }
+        });
+
+        Button reset = (Button) findViewById(R.id.password_reset);
+		reset.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
+                    Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN).show();
+                    return;
+                }
+
+                // Inflate layout
+                View layout = getLayoutInflater().inflate(R.layout.password_reset_dialog_layout, null);
+                TextView questionTextView = (TextView) layout.findViewById(R.id.reset_password_question);
+                questionTextView.setText(prefs.getString(Constants.PREF_PASSWORD_QUESTION, ""));
+                final EditText answerEditText = (EditText) layout.findViewById(R.id.reset_password_answer);
 
 //                alertDialogBuilder.setView(layout);
 //
@@ -112,8 +115,8 @@ public class PasswordActivity extends BaseActivity {
 //					.setNegativeButton(R.string.cancel, null);
 //
 //				AlertDialog dialog = alertDialogBuilder.create();
-				
-				// Set a listener for dialog button press
+
+                // Set a listener for dialog button press
 //				dialog.setOnShowListener(new DialogInterface.OnShowListener() {
 //
 //				    @Override
@@ -139,7 +142,8 @@ public class PasswordActivity extends BaseActivity {
 //									.remove("settings_password_access")
 //									.commit();
 //									DbHelper.getInstance(getApplicationContext()).unlockAllNotes();
-//									Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
+//									Crouton.makeText(mActivity, R.string.password_successfully_removed, 
+// ONStyle.ALERT).show();
 //				                } else {
 //				                	answerEditText.setError(getString(R.string.wrong_answer));
 //				                }
@@ -160,7 +164,7 @@ public class PasswordActivity extends BaseActivity {
 
                 new MaterialDialog.Builder(mActivity)
                         .content(R.string.delete_note_confirmation)
-                        .customView(layout)
+                        .customView(layout, false)
                         .autoDismiss(false)
                         .positiveText(R.string.ok)
                         .callback(new MaterialDialog.SimpleCallback() {
@@ -178,16 +182,17 @@ public class PasswordActivity extends BaseActivity {
                                             .remove(Constants.PREF_PASSWORD_QUESTION)
                                             .remove(Constants.PREF_PASSWORD_ANSWER)
                                             .remove("settings_password_access")
-                                            .commit();
+                                            .apply();
                                     DbHelper.getInstance(getApplicationContext()).unlockAllNotes();
-                                    Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
+                                    Crouton.makeText(mActivity, R.string.password_successfully_removed, 
+                                            ONStyle.ALERT).show();
                                 } else {
                                     answerEditText.setError(getString(R.string.wrong_answer));
                                 }
                             }
                         }).build().show();
-			}
-		});
+            }
+        });
 	}
 
 
@@ -239,7 +244,7 @@ public class PasswordActivity extends BaseActivity {
                                     .remove(Constants.PREF_PASSWORD)
                                     .remove(Constants.PREF_PASSWORD_QUESTION)
                                     .remove(Constants.PREF_PASSWORD_ANSWER)
-                                    .commit();
+                                    .apply();
                             DbHelper.getInstance(getApplicationContext()).unlockAllNotes();
                             Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle.ALERT).show();
                         }
@@ -249,8 +254,7 @@ public class PasswordActivity extends BaseActivity {
 				.putString(Constants.PREF_PASSWORD, Security.md5(passwordText))
 				.putString(Constants.PREF_PASSWORD_QUESTION, questionText)
 				.putString(Constants.PREF_PASSWORD_ANSWER, Security.md5(answerText))
-				.commit();
-//			onBackPressed();
+				.apply();
 			Crouton.makeText(mActivity, R.string.password_successfully_changed, ONStyle.CONFIRM).show();
 		}
 	}

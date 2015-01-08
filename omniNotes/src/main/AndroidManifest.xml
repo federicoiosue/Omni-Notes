@@ -144,16 +144,11 @@
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/OmniNotesTheme.ApiSpec.Dialog" />
 
-        <!-- Changelog -->
-        <activity
-            android:name="it.feio.android.omninotes.ChangelogActivity"
-            android:label="@string/settings_changelog"></activity>
-
         <!-- Info -->
         <activity
             android:name="it.feio.android.omninotes.AboutActivity"
             android:label="@string/title_activity_about"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
 
         <!-- Snooze reminder -->
         <activity
