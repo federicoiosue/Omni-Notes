@@ -44,6 +44,7 @@ import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
+import it.feio.android.omninotes.models.views.NonScrollableListView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.Fonts;
@@ -67,8 +68,8 @@ public class NavigationDrawerFragment extends Fragment {
     String[] mNavigationArray;
     TypedArray mNavigationIconsArray;
     TypedArray mNavigationIconsSelectedArray;
-    private ListView mDrawerList;
-    private ListView mDrawerCategoriesList;
+    private NonScrollableListView mDrawerList;
+    private NonScrollableListView mDrawerCategoriesList;
     private View categoriesListHeader;
     private View settingsView, settingsViewCat;
     private MainActivity mActivity;
@@ -208,7 +209,7 @@ public class NavigationDrawerFragment extends Fragment {
         // Retrieves data to fill tags list
         ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
 
-        mDrawerCategoriesList = (ListView) getView().findViewById(R.id.drawer_tag_list);
+        mDrawerCategoriesList = (NonScrollableListView) getView().findViewById(R.id.drawer_tag_list);
 
         // Inflater used for header and footer
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
@@ -313,12 +314,14 @@ public class NavigationDrawerFragment extends Fragment {
                 mDrawerCategoriesList.setSelectionFromTop(0, 0);
             }
         }
+
+        mDrawerCategoriesList.justifyListViewHeightBasedOnChildren();
     }
 
 
     private void buildMainMenu() {
         // Sets the adapter for the MAIN navigation list view
-        mDrawerList = (ListView) getView().findViewById(R.id.drawer_nav_list);
+        mDrawerList = (NonScrollableListView) getView().findViewById(R.id.drawer_nav_list);
         mNavigationArray = getResources().getStringArray(R.array.navigation_list);
         mNavigationIconsArray = getResources().obtainTypedArray(R.array.navigation_list_icons);
         mNavigationIconsSelectedArray = getResources().obtainTypedArray(R.array.navigation_list_icons_selected);
@@ -352,6 +355,8 @@ public class NavigationDrawerFragment extends Fragment {
                 mActivity.initNotesList(mActivity.getIntent());
             }
         });
+
+        mDrawerList.justifyListViewHeightBasedOnChildren();
     }
 
 
