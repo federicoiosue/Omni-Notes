@@ -213,7 +213,7 @@ public class DetailFragment extends Fragment implements
         getMainActivity().getToolbar().setNavigationOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                getMainActivity().onBackPressed();
+                navigateUp();
             }
         });
                 
@@ -1103,8 +1103,7 @@ public class DetailFragment extends Fragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                afterSavedReturnsToList = true;
-                saveAndExit(this);
+                navigateUp();
                 break;
             case R.id.menu_attachment:
                 showPopup(getActivity().findViewById(R.id.menu_attachment));
@@ -1154,6 +1153,13 @@ public class DetailFragment extends Fragment implements
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    private void navigateUp() {
+        afterSavedReturnsToList = true;
+        saveAndExit(this);
+    }
+
 
     /**
      *

@@ -17,8 +17,12 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.0.0 Beta 5" changeDate="Jan 10, 2015">
+        <changelogtext>Bugfixed and minor improvements</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 4" changeDate="Jan 5, 2015">
-        <changelogtext>[b]New![/b] Dashclock extension revisited with improved performances and more 
+        <changelogtext>[b]New![/b] Dashclock extension revisited with improved performances and more
             useful informations</changelogtext>
         <changelogtext>[b]New![/b] Quick save intent available for third party apps to perform a quick text-only note
             saving (eg. Tasker+Pushbullet) </changelogtext>
@@ -96,8 +100,8 @@
         <changelogtext>Updated a lot of translation strings: Chinese, French, Slovak, Slovenian, Russian</changelogtext>
         <changelogtext>[u]Fix[/u] Notification selection from settings</changelogtext>
     </changelogversion>
-    
-    <changelogversion versionName="4.6.4" changeDate="Jul 19, 2014">   
+
+    <changelogversion versionName="4.6.4" changeDate="Jul 19, 2014">
   		<changelogtext>[b]New![/b] The scrolling of the categories list is preserved through navigation changes</changelogtext>
   		<changelogtext>[b]New![/b] Added partial Indonesian support</changelogtext>
   		<changelogtext>Updated French translation</changelogtext>
@@ -105,15 +109,15 @@
   		<changelogtext>[u]Fix[/u] Missing password request when opening a note from widgets or shortcuts</changelogtext>
   		<changelogtext>[u]Fix[/u] Notes masked even with empty password set</changelogtext>
 	</changelogversion>
-    
-    <changelogversion versionName="4.6.3" changeDate="Jul 13, 2014">   
+
+    <changelogversion versionName="4.6.3" changeDate="Jul 13, 2014">
   		<changelogtext>[b]New![/b] Greek language support</changelogtext>
   		<changelogtext>Updated Spanish and Ukrainian languages</changelogtext>
   		<changelogtext>[u]Fix[/u] Last checklist item added not saved</changelogtext>
   		<changelogtext>[u]Fix[/u] Note content wrongly colored when "complete" colorization option is selected</changelogtext>
 	</changelogversion>
-    
-    <changelogversion versionName="4.6.2" changeDate="Jul 10, 2014">   
+
+    <changelogversion versionName="4.6.2" changeDate="Jul 10, 2014">
   		<changelogtext>[b]New![/b] Select all the notes in list at once</changelogtext>
   		<changelogtext>[b]New![/b] Springpad imported notes without native notebook are associated with a default "Springpad" category</changelogtext>
   		<changelogtext>More characters shown in notes title and content in list</changelogtext>
@@ -122,208 +126,208 @@
   		<changelogtext>[u]Fix[/u] Can't exit masked notes (regression bug)</changelogtext>
   		<changelogtext>[u]Fix[/u] Some minor other issues affecting some devices</changelogtext>
 	</changelogversion>
-    
-    <changelogversion versionName="4.6.1" changeDate="Jul 8, 2014">   
+
+    <changelogversion versionName="4.6.1" changeDate="Jul 8, 2014">
   		<changelogtext>Tags are now sorted with case insensitive criteria</changelogtext>
   		<changelogtext>[u]Fix[/u] Can't exit masked notes</changelogtext>
   		<changelogtext>[u]Fix[/u] Visualization of share/merge options when selecting notes from list</changelogtext>
 	</changelogversion>
 
-    <changelogversion versionName="4.6.0" changeDate="Jul 7, 2014">    
-		<changelogtext>[b]New![/b] Import notes from Springpad</changelogtext>     
+    <changelogversion versionName="4.6.0" changeDate="Jul 7, 2014">
+		<changelogtext>[b]New![/b] Import notes from Springpad</changelogtext>
 		<changelogtext>[b]New![/b] Real tags! Old tags are now Categories and tags are now managed directly by inserting "#..." into notes content. You can filter by tag using the tag icon when in search mode</changelogtext>
-		<changelogtext>[b]New![/b] Draggable checklist items to sort them as you like!</changelogtext>  
-		<changelogtext>[b]New![/b] Images and videos will be displayed directly inside ON, in this way you'll be able to cycle all the media of the selected note</changelogtext>  
-		<changelogtext>[b]New![/b] A trash is now available to perform one step more before permanently destroy your notes!</changelogtext>  
-		<changelogtext>[b]New![/b] A lot search feature changes: persistent search results (search query can't be unfortunately restored if I want to keep retrocompatibility); Trashed notes will be fine only performing search from inside trash itself; Bugfixes</changelogtext>   
-		<changelogtext>[b]New![/b] Automatic and faster note saving</changelogtext>   
+		<changelogtext>[b]New![/b] Draggable checklist items to sort them as you like!</changelogtext>
+		<changelogtext>[b]New![/b] Images and videos will be displayed directly inside ON, in this way you'll be able to cycle all the media of the selected note</changelogtext>
+		<changelogtext>[b]New![/b] A trash is now available to perform one step more before permanently destroy your notes!</changelogtext>
+		<changelogtext>[b]New![/b] A lot search feature changes: persistent search results (search query can't be unfortunately restored if I want to keep retrocompatibility); Trashed notes will be fine only performing search from inside trash itself; Bugfixes</changelogtext>
+		<changelogtext>[b]New![/b] Automatic and faster note saving</changelogtext>
 		<changelogtext>[b]New![/b] Swipe on notes behavior can now be changed from settings: by default now a note will be first archived, then trashed. Swiping into trash will instead restore notes to their previous state. Swiping into categories will remove the category.</changelogtext>
-		<changelogtext>[b]New![/b] Option to use password to grant application access instead that single notes</changelogtext>    
-		<changelogtext>[b]New![/b] Application stats</changelogtext>   
-		<changelogtext>[b]New![/b] Automatic updates available also for users without Google Play access</changelogtext>  
-		<changelogtext>[b]New![/b] Asturian, Catalan, Chinese (Traditional) languages supported</changelogtext>  
+		<changelogtext>[b]New![/b] Option to use password to grant application access instead that single notes</changelogtext>
+		<changelogtext>[b]New![/b] Application stats</changelogtext>
+		<changelogtext>[b]New![/b] Automatic updates available also for users without Google Play access</changelogtext>
+		<changelogtext>[b]New![/b] Asturian, Catalan, Chinese (Traditional) languages supported</changelogtext>
   		<changelogtext>[b]New![/b] Help Online</changelogtext>
-		<changelogtext>[u]Fix[/u] Zillions of bugs</changelogtext>  
+		<changelogtext>[u]Fix[/u] Zillions of bugs</changelogtext>
     </changelogversion>
-    
-    <changelogversion versionName="4.6.0 Beta 16" changeDate="Jul 6, 2014">   
+
+    <changelogversion versionName="4.6.0 Beta 16" changeDate="Jul 6, 2014">
   		<changelogtext>[b]New![/b] [i]Archive[/i] and  [i]Restore from archive[/i] actions can now be performed also from inside categories.</changelogtext>
   		<changelogtext>Further improved memory management</changelogtext>
 	</changelogversion>
-    
-    <changelogversion versionName="4.6.0 Beta 15" changeDate="Jul 6, 2014">   
+
+    <changelogversion versionName="4.6.0 Beta 15" changeDate="Jul 6, 2014">
   		<changelogtext>Updated translations</changelogtext>
-  		<changelogtext>Optimized stats retrieval, now is almost instantly, unless your really have thousands of notes</changelogtext>   
-  		<changelogtext>[u]Fix[/u] Managed some reported issues with Springpad corrupted archives</changelogtext>      
-  		<changelogtext>[u]Fix[/u] Crashes due to lack of memory on some devices</changelogtext>   
+  		<changelogtext>Optimized stats retrieval, now is almost instantly, unless your really have thousands of notes</changelogtext>
+  		<changelogtext>[u]Fix[/u] Managed some reported issues with Springpad corrupted archives</changelogtext>
+  		<changelogtext>[u]Fix[/u] Crashes due to lack of memory on some devices</changelogtext>
 	</changelogversion>
-	
-    <changelogversion versionName="4.6.0 Beta 14" changeDate="Jul 2, 2014">   
-  		<changelogtext>[b]New![/b] Fast scroll enabled in notes list by dragging the scrolling handle</changelogtext>   
-  		<changelogtext>Changed the behavior or search by tag: now will be retrieved the notes that matches all the selected tags</changelogtext>    
-  		<changelogtext>[u]Fix[/u] Notes list title and content extraction</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Blank navigation side panel when rotating screen</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Huge fonts on some devices</changelogtext>    
-  		<changelogtext>[u]Fix[/u] Notes title deleted when writing content in landscape mode</changelogtext>    
-  		<changelogtext>[u]Fix[/u] Settings item in side panel changing indefinitelly sizes when non standard font size is selected</changelogtext>  
+
+    <changelogversion versionName="4.6.0 Beta 14" changeDate="Jul 2, 2014">
+  		<changelogtext>[b]New![/b] Fast scroll enabled in notes list by dragging the scrolling handle</changelogtext>
+  		<changelogtext>Changed the behavior or search by tag: now will be retrieved the notes that matches all the selected tags</changelogtext>
+  		<changelogtext>[u]Fix[/u] Notes list title and content extraction</changelogtext>
+  		<changelogtext>[u]Fix[/u] Blank navigation side panel when rotating screen</changelogtext>
+  		<changelogtext>[u]Fix[/u] Huge fonts on some devices</changelogtext>
+  		<changelogtext>[u]Fix[/u] Notes title deleted when writing content in landscape mode</changelogtext>
+  		<changelogtext>[u]Fix[/u] Settings item in side panel changing indefinitelly sizes when non standard font size is selected</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.6.0 Beta 13" changeDate="Jun 30, 2014">    
-  		<changelogtext>Checklist items drag and drop improved with smoother and slowered scrolling and vibration added on touch</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Bottom of notes list is translucent again in KitKat</changelogtext>  
-  		<changelogtext>[u]Fix[/u] App crashes when (really) fast-scrolling notes' list after ON upgrade</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Crashes for unsupported RTL in Samsung devices with Android minor of version 4.2.x</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Errors reported from users trying to import notes from HUGE Springpad archives</changelogtext>  
+    <changelogversion versionName="4.6.0 Beta 13" changeDate="Jun 30, 2014">
+  		<changelogtext>Checklist items drag and drop improved with smoother and slowered scrolling and vibration added on touch</changelogtext>
+  		<changelogtext>[u]Fix[/u] Bottom of notes list is translucent again in KitKat</changelogtext>
+  		<changelogtext>[u]Fix[/u] App crashes when (really) fast-scrolling notes' list after ON upgrade</changelogtext>
+  		<changelogtext>[u]Fix[/u] Crashes for unsupported RTL in Samsung devices with Android minor of version 4.2.x</changelogtext>
+  		<changelogtext>[u]Fix[/u] Errors reported from users trying to import notes from HUGE Springpad archives</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.6.0 Beta 12" changeDate="Jun 27, 2014">    
-  		<changelogtext>[b]New![/b] More detailed notifications when importing, restoring or making notes backups</changelogtext>  
-  		<changelogtext>[b]New![/b] Memory optimizations aimed to improve notes list scrolling and resources consumption</changelogtext>   
-  		<changelogtext>[b]New![/b] Vibration on checklist items drag</changelogtext>         
-  		<changelogtext>[u]Fix[/u] Springpad failed Business notes import</changelogtext>       
-  		<changelogtext>[u]Fix[/u] Crash on Android 2.3.x on note detail quit</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Check on available application to open Springpad zip file to avoid crashes</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Many other bugs</changelogtext>  
+    <changelogversion versionName="4.6.0 Beta 12" changeDate="Jun 27, 2014">
+  		<changelogtext>[b]New![/b] More detailed notifications when importing, restoring or making notes backups</changelogtext>
+  		<changelogtext>[b]New![/b] Memory optimizations aimed to improve notes list scrolling and resources consumption</changelogtext>
+  		<changelogtext>[b]New![/b] Vibration on checklist items drag</changelogtext>
+  		<changelogtext>[u]Fix[/u] Springpad failed Business notes import</changelogtext>
+  		<changelogtext>[u]Fix[/u] Crash on Android 2.3.x on note detail quit</changelogtext>
+  		<changelogtext>[u]Fix[/u] Check on available application to open Springpad zip file to avoid crashes</changelogtext>
+  		<changelogtext>[u]Fix[/u] Many other bugs</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.6.0 Beta 11" changeDate="Jun 22, 2014">    
-  		<changelogtext>[b]New![/b] Asturian and Catalan languages supported</changelogtext>   
-  		<changelogtext>[b]New![/b] Higher resolution icons for notifications and notes shortcuts on home launcher</changelogtext>  
-  		<changelogtext>[b]New![/b] During data backup/restore/input an incon informing about the task state is shown</changelogtext>     
-  		<changelogtext>[b]New![/b] Bottom margins are now calculated to adapt to device's navigation bar size. Even for the hacked ones...</changelogtext>     
-  		<changelogtext>[u]Fix[/u] Some notes imported from Springpad caused app crash during list scrolling</changelogtext>  
+    <changelogversion versionName="4.6.0 Beta 11" changeDate="Jun 22, 2014">
+  		<changelogtext>[b]New![/b] Asturian and Catalan languages supported</changelogtext>
+  		<changelogtext>[b]New![/b] Higher resolution icons for notifications and notes shortcuts on home launcher</changelogtext>
+  		<changelogtext>[b]New![/b] During data backup/restore/input an incon informing about the task state is shown</changelogtext>
+  		<changelogtext>[b]New![/b] Bottom margins are now calculated to adapt to device's navigation bar size. Even for the hacked ones...</changelogtext>
+  		<changelogtext>[u]Fix[/u] Some notes imported from Springpad caused app crash during list scrolling</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.6.0 Beta 10" changeDate="Jun 20, 2014">    
-  		<changelogtext>[b]New![/b] Even more Springpad content types are supported: now even links, phone numbers and reminders are imported and specific meta-informations of books, TV shows, movies or music albums are merged into note content</changelogtext>   
-  		<changelogtext>Text rapresentation in notes list has changed a little to improve performances (ex. no more useless asteriscs for masked notes or shorter title when it's extracted from content)</changelogtext>     
-  		<changelogtext>[u]Fix[/u] Changelog crashing</changelogtext>  
+    <changelogversion versionName="4.6.0 Beta 10" changeDate="Jun 20, 2014">
+  		<changelogtext>[b]New![/b] Even more Springpad content types are supported: now even links, phone numbers and reminders are imported and specific meta-informations of books, TV shows, movies or music albums are merged into note content</changelogtext>
+  		<changelogtext>Text rapresentation in notes list has changed a little to improve performances (ex. no more useless asteriscs for masked notes or shorter title when it's extracted from content)</changelogtext>
+  		<changelogtext>[u]Fix[/u] Changelog crashing</changelogtext>
   		<changelogtext>[u]Fix[/u] Minor bug-fixes</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.6.0 Beta 9" changeDate="Jun 18, 2014">    
-  		<changelogtext>[b]New![/b] Import notes from Springpad</changelogtext>     
+    <changelogversion versionName="4.6.0 Beta 9" changeDate="Jun 18, 2014">
+  		<changelogtext>[b]New![/b] Import notes from Springpad</changelogtext>
   		<changelogtext>[u]Fix[/u] Checklist's item's drag and drop improvements (still under development)</changelogtext>
   		<changelogtext>[u]Fix[/u] Error on opening locations on many devices</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.6.0 Beta 8" changeDate="Jun 3, 2014">    
-  		<changelogtext>[b]New![/b] Draggable checklist items!</changelogtext>  
-  		<changelogtext>[b]New![/b] Revisited side panel with settings and shadow</changelogtext>  
+    <changelogversion versionName="4.6.0 Beta 8" changeDate="Jun 3, 2014">
+  		<changelogtext>[b]New![/b] Draggable checklist items!</changelogtext>
+  		<changelogtext>[b]New![/b] Revisited side panel with settings and shadow</changelogtext>
   		<changelogtext>[b]New![/b] Search improved by allowing non-stop text and tags insertion without resetting the results</changelogtext>
-  		<changelogtext>[b]New![/b] Non-ascii alphabet support for tags</changelogtext>  
-  		<changelogtext>[b]New![/b] Added new Chines (Taiwan) language and updated the others</changelogtext>  
+  		<changelogtext>[b]New![/b] Non-ascii alphabet support for tags</changelogtext>
+  		<changelogtext>[b]New![/b] Added new Chines (Taiwan) language and updated the others</changelogtext>
   		<changelogtext>[u]Fix[/u] Categorization actions broken when inside note editor or when undoing multipe notes categories removal</changelogtext>
-  		<changelogtext>[u]Fix[/u] Wrong locations count in statistics</changelogtext>  
-  		<changelogtext>[u]Fix[/u] A lot of other things</changelogtext>  
+  		<changelogtext>[u]Fix[/u] Wrong locations count in statistics</changelogtext>
+  		<changelogtext>[u]Fix[/u] A lot of other things</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.6.0 Beta 7" changeDate="May 27, 2014">    
-  		<changelogtext>[b]New![/b] Masked notes are no more searchable by content, just by title</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Masked notes causing crashes</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Note not loading after data restore</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Widgets showing trashed notes</changelogtext>  
+    <changelogversion versionName="4.6.0 Beta 7" changeDate="May 27, 2014">
+  		<changelogtext>[b]New![/b] Masked notes are no more searchable by content, just by title</changelogtext>
+  		<changelogtext>[u]Fix[/u] Masked notes causing crashes</changelogtext>
+  		<changelogtext>[u]Fix[/u] Note not loading after data restore</changelogtext>
+  		<changelogtext>[u]Fix[/u] Widgets showing trashed notes</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.6.0 Beta 6" changeDate="May 25, 2014">    
-  		<changelogtext>[b]New![/b] Bulk notes tagging</changelogtext>  
-  		<changelogtext>[b]New![/b] Empty trash action</changelogtext>   
-  		<changelogtext>[b]New![/b] More statistics about notes</changelogtext>   
-  		<changelogtext>[b]New![/b] Moved settings on side panel to match lastest design patterns</changelogtext>  
-  		<changelogtext>Some optimizations have been made to improve notes'list responsivity</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Keyboard covering text in notes detail when using KitKat</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Panorama picture support</changelogtext>  
+    <changelogversion versionName="4.6.0 Beta 6" changeDate="May 25, 2014">
+  		<changelogtext>[b]New![/b] Bulk notes tagging</changelogtext>
+  		<changelogtext>[b]New![/b] Empty trash action</changelogtext>
+  		<changelogtext>[b]New![/b] More statistics about notes</changelogtext>
+  		<changelogtext>[b]New![/b] Moved settings on side panel to match lastest design patterns</changelogtext>
+  		<changelogtext>Some optimizations have been made to improve notes'list responsivity</changelogtext>
+  		<changelogtext>[u]Fix[/u] Keyboard covering text in notes detail when using KitKat</changelogtext>
+  		<changelogtext>[u]Fix[/u] Panorama picture support</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.6.0 Beta 5" changeDate="May 17 2014">   
-  		<changelogtext>[b]New![/b] Application stats</changelogtext>   
-  		<changelogtext>[b]New![/b] More efficient location recording. Uses less battery and the address is retrieved even if device is offline</changelogtext>    
-  		<changelogtext>[u]Fix[/u] Smileys overlapping</changelogtext>       
-  		<changelogtext>[u]Fix[/u] Photo note from widget with category</changelogtext>   
-  		<changelogtext>[u]Fix[/u] Search results loss and crashes (on some devices) when rotating screen</changelogtext>    
+    <changelogversion versionName="4.6.0 Beta 5" changeDate="May 17 2014">
+  		<changelogtext>[b]New![/b] Application stats</changelogtext>
+  		<changelogtext>[b]New![/b] More efficient location recording. Uses less battery and the address is retrieved even if device is offline</changelogtext>
+  		<changelogtext>[u]Fix[/u] Smileys overlapping</changelogtext>
+  		<changelogtext>[u]Fix[/u] Photo note from widget with category</changelogtext>
+  		<changelogtext>[u]Fix[/u] Search results loss and crashes (on some devices) when rotating screen</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 4" changeDate="May 14 2014">
         <changelogtext>[b]New![/b] Swipe on notes behavior can now be changed from settings: by default now a note will be first archived, then trashed. Swiping into trash will instead restore notes to their previous state. Swiping into categories will remove the category.</changelogtext>
         <changelogtext>[b]New![/b] Show or hide the number of associated notes to the categories</changelogtext>
-  		<changelogtext>[b]New![/b] More precise hashtag parsing to avoid false positives. Search by tag will now works differently when in trash.</changelogtext>    
-  		<changelogtext>Improved speed in archive/trash undo actions by avoiding data refresh</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Missing trashing or archiving if changing navigation immediatelly after having swiped a note</changelogtext>  
-  		<changelogtext>[u]Fix[/u] Trashed notes are now correctly retrieved only by performing searches directly from trash</changelogtext>    
-  		<changelogtext>[u]Fix[/u] Notes saved also if you choose to discard changes</changelogtext>     
-  		<changelogtext>[u]Fix[/u] Note text content deletion when canceling password insertion on note detail entering</changelogtext>    
-  		<changelogtext>[u]Fix[/u] Languages with country code not working (ex. pt_PT, pt_BR)</changelogtext>    
+  		<changelogtext>[b]New![/b] More precise hashtag parsing to avoid false positives. Search by tag will now works differently when in trash.</changelogtext>
+  		<changelogtext>Improved speed in archive/trash undo actions by avoiding data refresh</changelogtext>
+  		<changelogtext>[u]Fix[/u] Missing trashing or archiving if changing navigation immediatelly after having swiped a note</changelogtext>
+  		<changelogtext>[u]Fix[/u] Trashed notes are now correctly retrieved only by performing searches directly from trash</changelogtext>
+  		<changelogtext>[u]Fix[/u] Notes saved also if you choose to discard changes</changelogtext>
+  		<changelogtext>[u]Fix[/u] Note text content deletion when canceling password insertion on note detail entering</changelogtext>
+  		<changelogtext>[u]Fix[/u] Languages with country code not working (ex. pt_PT, pt_BR)</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 3" changeDate="May 13 2014">
         <changelogtext>[b]New![/b] Help Online</changelogtext>
         <changelogtext>[b]New![/b] Real tags!! Old tags are now Categories and tags are now managed directly by inserting "#..." into notes content. You can filter by tag using the tag icon when in search mode</changelogtext>
-        <changelogtext>[b]New![/b] Trash is now available to perform one step more before permanently destroy your notes!</changelogtext>  
-        <changelogtext>[b]New![/b] A lot search feature changes: persistent search results (search query can't be unfortunately restored if I want to keep retrocompatibility); Trashed notes will be fine only performing search from inside trash itself; Bugfixes</changelogtext>   
-        <changelogtext>[b]New![/b] Automatic and faster note saving</changelogtext>   
-        <changelogtext>The order of note editor menu actions is changed a little to improve its efficiency</changelogtext>   
-        <changelogtext>Moving notes to archive or trash and restoring them will no more affect last modification date</changelogtext>   
-        <changelogtext>Removed the "Gallery"" option from note attachment menu, you can add a generic file and its type will be automatically recognized</changelogtext>   
-  		<changelogtext>[u]Fix[/u] Crashes when note is auto-saved and attachments replication issues introduced in last beta release</changelogtext>    
+        <changelogtext>[b]New![/b] Trash is now available to perform one step more before permanently destroy your notes!</changelogtext>
+        <changelogtext>[b]New![/b] A lot search feature changes: persistent search results (search query can't be unfortunately restored if I want to keep retrocompatibility); Trashed notes will be fine only performing search from inside trash itself; Bugfixes</changelogtext>
+        <changelogtext>[b]New![/b] Automatic and faster note saving</changelogtext>
+        <changelogtext>The order of note editor menu actions is changed a little to improve its efficiency</changelogtext>
+        <changelogtext>Moving notes to archive or trash and restoring them will no more affect last modification date</changelogtext>
+        <changelogtext>Removed the "Gallery"" option from note attachment menu, you can add a generic file and its type will be automatically recognized</changelogtext>
+  		<changelogtext>[u]Fix[/u] Crashes when note is auto-saved and attachments replication issues introduced in last beta release</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 2" changeDate="May 8 2014">
-        <changelogtext>[b]New![/b] The application is now compatible (from Play Store) even with devices without gps</changelogtext>  
-        <changelogtext>[b]New![/b] Double click to zoom in gallery and more responsive zooming</changelogtext>  
-<!--         <changelogtext>[b]New![/b] Click on backup completed notification will open the backup directory (simply swipe to dismiss it)</changelogtext>   --> 
-        <changelogtext>[u]Fix[/u] Missing notes deletion when changing orientation or exiting app after swiped out a note</changelogtext>    
-        <changelogtext>[u]Fix[/u] When trying to share masked notes from list password will be requested, as well as trying to merge</changelogtext>    
-        <changelogtext>[u]Fix[/u] Now clicking on reminder notification works again correctly</changelogtext>     
-        <changelogtext>[u]Fix[/u] Imaged wrongly cropped in gallery</changelogtext>       
-        <changelogtext>[u]Fix[/u] Attachment replication in file system on note editing</changelogtext>    
-        <changelogtext>[u]Fix[/u] Keyboard appearing randomly during app tour and not closing when leaving edited checklist notes</changelogtext>  
+        <changelogtext>[b]New![/b] The application is now compatible (from Play Store) even with devices without gps</changelogtext>
+        <changelogtext>[b]New![/b] Double click to zoom in gallery and more responsive zooming</changelogtext>
+<!--         <changelogtext>[b]New![/b] Click on backup completed notification will open the backup directory (simply swipe to dismiss it)</changelogtext>   -->
+        <changelogtext>[u]Fix[/u] Missing notes deletion when changing orientation or exiting app after swiped out a note</changelogtext>
+        <changelogtext>[u]Fix[/u] When trying to share masked notes from list password will be requested, as well as trying to merge</changelogtext>
+        <changelogtext>[u]Fix[/u] Now clicking on reminder notification works again correctly</changelogtext>
+        <changelogtext>[u]Fix[/u] Imaged wrongly cropped in gallery</changelogtext>
+        <changelogtext>[u]Fix[/u] Attachment replication in file system on note editing</changelogtext>
+        <changelogtext>[u]Fix[/u] Keyboard appearing randomly during app tour and not closing when leaving edited checklist notes</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.6.0 Beta 1" changeDate="Apr 25 2014">
-        <changelogtext>[b]New![/b] Images and videos will be displayed directly inside ON, in this way you'll be able to cycle all the media of the selected note</changelogtext>  
-        <changelogtext>[b]New![/b] Option to use password to grant application access instead that single notes</changelogtext>    
-        <changelogtext>[b]New![/b] Automatic updates available also for users without Google Play access</changelogtext>  
+        <changelogtext>[b]New![/b] Images and videos will be displayed directly inside ON, in this way you'll be able to cycle all the media of the selected note</changelogtext>
+        <changelogtext>[b]New![/b] Option to use password to grant application access instead that single notes</changelogtext>
+        <changelogtext>[b]New![/b] Automatic updates available also for users without Google Play access</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.5.1" changeDate="Apr 22 2014">
         <changelogtext>[u]Fix[/u] Crash receiving shared files from Google Keep and Gmail</changelogtext>
         <changelogtext>[u]Fix[/u] Note received from other app that was reopened and duplicated</changelogtext>
-        <changelogtext>[u]Fix[/u] Crash on canceling masked note opening on some devices</changelogtext>   
+        <changelogtext>[u]Fix[/u] Crash on canceling masked note opening on some devices</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.5.0" changeDate="Apr 22 2014">
-        <changelogtext>[b]New![/b] Stable release: check all the new feature from 4.5.0 Betas to see what's new here</changelogtext> 
-        <changelogtext>Last bugfixing before stable release and translations updated</changelogtext> 
+        <changelogtext>[b]New![/b] Stable release: check all the new feature from 4.5.0 Betas to see what's new here</changelogtext>
+        <changelogtext>Last bugfixing before stable release and translations updated</changelogtext>
         <changelogtext>Changed the behavior of sketch picture editing> now the original image will be replaced by the edited one while previously it was preserved</changelogtext>
-        <changelogtext>[u]Fix[/u] Issue appearing with some keyboards using Android KitKat that caused focused line to disappear under the keyboard itself</changelogtext>   
+        <changelogtext>[u]Fix[/u] Issue appearing with some keyboards using Android KitKat that caused focused line to disappear under the keyboard itself</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.5.0 Beta 7" changeDate="Apr 15 2014">
-        <changelogtext>[u]Fix[/u] If merging notes even just one of them is masked the password will be required to continue</changelogtext> 
-        <changelogtext>[u]Fix[/u] Crash opening notes on Android 4.1.x devices</changelogtext>  
+        <changelogtext>[u]Fix[/u] If merging notes even just one of them is masked the password will be required to continue</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash opening notes on Android 4.1.x devices</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.5.0 Beta 6" changeDate="Apr 12, 2014">
-        <changelogtext>Updated translations</changelogtext> 
-        <changelogtext>[u]Fix[/u] Masked notes could not be opened without password but their content but their contents and attachments were still partially displayed</changelogtext> 
-        <changelogtext>[u]Fix[/u] Share option appearing with multiple notes selected when opening overflow menu in notes list</changelogtext>  
+        <changelogtext>Updated translations</changelogtext>
+        <changelogtext>[u]Fix[/u] Masked notes could not be opened without password but their content but their contents and attachments were still partially displayed</changelogtext>
+        <changelogtext>[u]Fix[/u] Share option appearing with multiple notes selected when opening overflow menu in notes list</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.5.0 Beta 5" changeDate="Apr 12, 2014">
-        <changelogtext>[b]New![/b] Merging: you can choose more notes to merge together in the order of selection</changelogtext> 
-        <changelogtext>[b]New![/b] Single note sharing directly from list</changelogtext> 
-        <changelogtext>[b]New![/b] Change your notes reminder directly from notification actions</changelogtext> 
-        <changelogtext>[u]Fix[/u] Checklists creation crashes on some devices</changelogtext>  
-        <changelogtext>[u]Fix[/u] Reminder notification broken click on snooze action behavior</changelogtext>  
-        <changelogtext>[u]Fix[/u] Checklist's custom font size now works well</changelogtext>  
+        <changelogtext>[b]New![/b] Merging: you can choose more notes to merge together in the order of selection</changelogtext>
+        <changelogtext>[b]New![/b] Single note sharing directly from list</changelogtext>
+        <changelogtext>[b]New![/b] Change your notes reminder directly from notification actions</changelogtext>
+        <changelogtext>[u]Fix[/u] Checklists creation crashes on some devices</changelogtext>
+        <changelogtext>[u]Fix[/u] Reminder notification broken click on snooze action behavior</changelogtext>
+        <changelogtext>[u]Fix[/u] Checklist's custom font size now works well</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.5.0 Beta 4" changeDate="Apr 9, 2014">
-        <changelogtext>[b]New![/b] Faster files attachment process and automatic file types recognition</changelogtext> 
-        <changelogtext>[b]New![/b] More custom text sizes</changelogtext> 
-        <changelogtext>[u]Fix[/u] Notes list scrolling heavy lag</changelogtext>  
-        <changelogtext>[u]Fix[/u] Issue opening the app or directly the notes using widgets, Dashclock and reminder notifications</changelogtext>  
-        <changelogtext>[u]Fix[/u] A lot of other crashes and problems you've reported have been resolved</changelogtext>  
+        <changelogtext>[b]New![/b] Faster files attachment process and automatic file types recognition</changelogtext>
+        <changelogtext>[b]New![/b] More custom text sizes</changelogtext>
+        <changelogtext>[u]Fix[/u] Notes list scrolling heavy lag</changelogtext>
+        <changelogtext>[u]Fix[/u] Issue opening the app or directly the notes using widgets, Dashclock and reminder notifications</changelogtext>
+        <changelogtext>[u]Fix[/u] A lot of other crashes and problems you've reported have been resolved</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.5.0 Beta 3" changeDate="Apr 3, 2014">
@@ -335,53 +339,53 @@
     </changelogversion>
 
     <changelogversion versionName="4.5.0 Beta 1" changeDate="Apr 1, 2014">
-        <changelogtext>[b]New![/b] Application largely rewritten (brand new UI management) to improve animations, smoothness and usability</changelogtext> 
-        <changelogtext>[b]New![/b] Files attachment support: you can now include anything!</changelogtext> 
+        <changelogtext>[b]New![/b] Application largely rewritten (brand new UI management) to improve animations, smoothness and usability</changelogtext>
+        <changelogtext>[b]New![/b] Files attachment support: you can now include anything!</changelogtext>
         <changelogtext>[b]New![/b] Added custom font sizes changeable from the Settings->Interface menu</changelogtext>
         <changelogtext>[b]New![/b] Added an option to open navigation drawer instead of leaving app on first "back" press when in notes list</changelogtext>
-        <changelogtext>When check-lists have no checked items the switch to normal text is done without prompting any option to speed up the user's working flow</changelogtext>    
+        <changelogtext>When check-lists have no checked items the switch to normal text is done without prompting any option to speed up the user's working flow</changelogtext>
         <changelogtext>Audio recordings from now on will be shown with their duration from inside note editor</changelogtext>
-        <changelogtext>Moved all options regarding the app behaviors to a specific new submenu in settings</changelogtext>     
-        <changelogtext>[u]Fix[/u] Wrong fonts coloration when switching between normal text and check-list</changelogtext>  
-        <changelogtext>[u]Fix[/u] A lot of more bugs have been resolved</changelogtext>    
+        <changelogtext>Moved all options regarding the app behaviors to a specific new submenu in settings</changelogtext>
+        <changelogtext>[u]Fix[/u] Wrong fonts coloration when switching between normal text and check-list</changelogtext>
+        <changelogtext>[u]Fix[/u] A lot of more bugs have been resolved</changelogtext>
     </changelogversion>
-    
+
     <changelogversion versionName="4.4.2" changeDate="Mar 28, 2014">
-        <changelogtext>[u]Fix[/u] Various bugs have been resolved</changelogtext> 
+        <changelogtext>[u]Fix[/u] Various bugs have been resolved</changelogtext>
     </changelogversion>
-    
+
     <changelogversion versionName="4.4.1" changeDate="Mar 22, 2014">
-        <changelogtext>[u]Fix[/u] Error on opening checklist (this will make this kind of notes loading a little bit slower)</changelogtext> 
-        <changelogtext>[u]Fix[/u] Error on displaying dialog for starting app tour during splash screen</changelogtext>  
+        <changelogtext>[u]Fix[/u] Error on opening checklist (this will make this kind of notes loading a little bit slower)</changelogtext>
+        <changelogtext>[u]Fix[/u] Error on displaying dialog for starting app tour during splash screen</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.4.0" changeDate="Mar 21, 2014">
-        <changelogtext>Many bugs fixed and promoted to stable</changelogtext>  
+        <changelogtext>Many bugs fixed and promoted to stable</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.4.0 Beta 10" changeDate="Mar 20, 2014">
-        <changelogtext>[b]New![/b] Delete and archive actions performed in notes list can now be undone</changelogtext> 
-        <changelogtext>[b]New![/b] Swipe to delete notes in list</changelogtext> 
-        <changelogtext>[b]New![/b] Navigation drawer and actionbar cosmetic changes to match each other and optimize space usage</changelogtext> 
+        <changelogtext>[b]New![/b] Delete and archive actions performed in notes list can now be undone</changelogtext>
+        <changelogtext>[b]New![/b] Swipe to delete notes in list</changelogtext>
+        <changelogtext>[b]New![/b] Navigation drawer and actionbar cosmetic changes to match each other and optimize space usage</changelogtext>
 <!--         <changelogtext>[b]New![/b] When back button is pressed once in notes list the navigation panel is opened, on second press the app will be closed</changelogtext>   -->
         <changelogtext>When creating new note the content field will directly gain focus and keyboard will be shown</changelogtext>
-        <changelogtext>Faster checklist loading obtained opening note and creating checklist in parallel</changelogtext>  
-        <changelogtext>Instant search when typing hangs are fixed and disabled by default. The feature is activable from settings</changelogtext>   
-        <changelogtext>[u]Fix[/u] Sketch mode undo-redo now correctly works when editing previously created sketches</changelogtext>   
-        <changelogtext>[u]Fix[/u] Crash on saving note with big images or videos</changelogtext>  
+        <changelogtext>Faster checklist loading obtained opening note and creating checklist in parallel</changelogtext>
+        <changelogtext>Instant search when typing hangs are fixed and disabled by default. The feature is activable from settings</changelogtext>
+        <changelogtext>[u]Fix[/u] Sketch mode undo-redo now correctly works when editing previously created sketches</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash on saving note with big images or videos</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.4.0 Beta 9" changeDate="Mar 13, 2014">  
-        <changelogtext>[b]New![/b] New KitKat storage app used to include images and videos</changelogtext>  
-        <changelogtext>[b]New![/b] Improved Sketch mode with new eraser tool and fixed color saturation</changelogtext>  
-        <changelogtext>Improved speed in retrieving content text when checklist is active</changelogtext>  
-        <changelogtext>Translations updated</changelogtext>  
-        <changelogtext>[u]Fix[/u] Settings restore from backup</changelogtext>   
-        <changelogtext>[u]Fix[/u] Dashclock extension is now updated in real time</changelogtext>   
-        <changelogtext>[u]Fix[/u] A [u]lot[/u] of minor issues have been resolved and many refinements done</changelogtext>   
+    <changelogversion versionName="4.4.0 Beta 9" changeDate="Mar 13, 2014">
+        <changelogtext>[b]New![/b] New KitKat storage app used to include images and videos</changelogtext>
+        <changelogtext>[b]New![/b] Improved Sketch mode with new eraser tool and fixed color saturation</changelogtext>
+        <changelogtext>Improved speed in retrieving content text when checklist is active</changelogtext>
+        <changelogtext>Translations updated</changelogtext>
+        <changelogtext>[u]Fix[/u] Settings restore from backup</changelogtext>
+        <changelogtext>[u]Fix[/u] Dashclock extension is now updated in real time</changelogtext>
+        <changelogtext>[u]Fix[/u] A [u]lot[/u] of minor issues have been resolved and many refinements done</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.4.0 Beta 8" changeDate="Mar 10, 2014"> 
+    <changelogversion versionName="4.4.0 Beta 8" changeDate="Mar 10, 2014">
         <changelogtext>[b]New![/b] Find notes as you type in search field</changelogtext>
         <changelogtext>[b]New![/b] Swipe from left or right side of note detail screen to start creating a new note</changelogtext>
         <changelogtext>[b]New![/b] Added Bitcoin donation option</changelogtext>
@@ -390,13 +394,13 @@
         <changelogtext>Improved check-mark symbols visualization in notes list</changelogtext>
         <changelogtext>Application tour can now be skipped on first launch</changelogtext>
         <changelogtext>Clicking on ON icon in widgets will list widget's related notes only</changelogtext>
-        <changelogtext>[u]Fix[/u] Gingerbread video and radio recording</changelogtext>     
+        <changelogtext>[u]Fix[/u] Gingerbread video and radio recording</changelogtext>
         <changelogtext>[u]Fix[/u] Many bugs on password reset procedure</changelogtext>
         <changelogtext>[u]Fix[/u] Widget positioning on Android versions minor than Jelly Bean</changelogtext>
-        <changelogtext>[u]Fix[/u] Restored broken attachment icon in contracted visualization</changelogtext>        
+        <changelogtext>[u]Fix[/u] Restored broken attachment icon in contracted visualization</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.4.0 Beta 7" changeDate="Mar 02, 2014"> 
+    <changelogversion versionName="4.4.0 Beta 7" changeDate="Mar 02, 2014">
         <changelogtext>[b]New![/b] More space for content note list when using expanded view</changelogtext>
         <changelogtext>[b]New![/b] Widget showing a single tag notes now will directly create a note with that tag by default</changelogtext>
         <changelogtext>Application will no more return to notes list if opened from a note shortcut or if handled a third party app data sharing</changelogtext>
@@ -404,11 +408,11 @@
         <changelogtext>[u]Fix[/u] Google Now voice launch</changelogtext>
         <changelogtext>[u]Fix[/u] Widget persistence on reboot and on new widget addition</changelogtext>
         <changelogtext>[u]Fix[/u] Broken links opening</changelogtext>
-        <changelogtext>[u]Fix[/u] DashClock extension configuration icon and strings</changelogtext>   
-        <changelogtext>[u]Fix[/u] File deletion on attachment removal</changelogtext>   
+        <changelogtext>[u]Fix[/u] DashClock extension configuration icon and strings</changelogtext>
+        <changelogtext>[u]Fix[/u] File deletion on attachment removal</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.4.0 Beta 6" changeDate="Feb 28, 2014"> 
+    <changelogversion versionName="4.4.0 Beta 6" changeDate="Feb 28, 2014">
         <changelogtext>[b]New![/b] Google Now integration</changelogtext>
         <changelogtext>[b]New![/b] New links recognition allows you to double-click on them to choose if copy or open web url o email adresses</changelogtext>
         <changelogtext>[b]New![/b] Added saturation to tag color choosing</changelogtext>
@@ -416,36 +420,36 @@
         <changelogtext>Many modifications have been made to settings to make them simplier</changelogtext>
         <changelogtext>Contracted view in notes list occupies now less vertical space</changelogtext>
         <changelogtext>[u]Fix[/u] Widget wrong behaviors fixed</changelogtext>
-        <changelogtext>[u]Fix[/u] Crash on audio recording playback</changelogtext>   
+        <changelogtext>[u]Fix[/u] Crash on audio recording playback</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.4.0 Beta 5" changeDate="Feb 25, 2014"> 
+    <changelogversion versionName="4.4.0 Beta 5" changeDate="Feb 25, 2014">
         <changelogtext>[b]New![/b] Home widget with scrollable notes list on Android >= Honeycomb</changelogtext>
         <changelogtext>[b]New![/b] DashClock extension support</changelogtext>
         <changelogtext>[b]New![/b] Better appearance when only one attachment is present inside note detail</changelogtext>
         <changelogtext>[b]New![/b] Hebrew translation (thanks to SiiiE)</changelogtext>
         <changelogtext>Modified transition animations to fit right-to-left languages</changelogtext>
-        <changelogtext>[u]Fix[/u] Attachment smaller than thumbnail size don't cause app crashing anymore</changelogtext>   
-        <changelogtext>[u]Fix[/u] App tour should be now sown correctly on lower dpi devices</changelogtext>   
+        <changelogtext>[u]Fix[/u] Attachment smaller than thumbnail size don't cause app crashing anymore</changelogtext>
+        <changelogtext>[u]Fix[/u] App tour should be now sown correctly on lower dpi devices</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.4.0 Beta 4" changeDate="Feb 21, 2014">  
-        <changelogtext>[u]Fix[/u] Attachment image cropping</changelogtext>   
+    <changelogversion versionName="4.4.0 Beta 4" changeDate="Feb 21, 2014">
+        <changelogtext>[u]Fix[/u] Attachment image cropping</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.3.9" changeDate="Feb 21, 2014">
         <changelogtext>[u]Fix[/u] Archive/unarchive issue</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="4.4.0 Beta 3" changeDate="Feb 20, 2014">  
+    <changelogversion versionName="4.4.0 Beta 3" changeDate="Feb 20, 2014">
         <changelogtext>[b]New![/b] More efficient backup algotihm by including an option to backup settings and automatic selective cleanup of useless attachment</changelogtext>
         <changelogtext>[b]New![/b] Security "question and answer" system to reset forgotten password</changelogtext>
         <changelogtext>Improved thumbnails quality</changelogtext>
         <changelogtext>Parallelized many operation to improve performances on multicore devices with installed Android >= Honeycomb</changelogtext>
-        <changelogtext>[u]Fix[/u] Locked notes thumbs are no more shown in notes list</changelogtext>  
-        <changelogtext>[u]Fix[/u] Empty note creation misbehavior when created from inside a tag</changelogtext>   
-        <changelogtext>[u]Fix[/u] Crash when pressing delete key on empty first checklist item</changelogtext>   
-        <changelogtext>[u]Fix[/u] Location icon indicator was showed wrongly sometimes</changelogtext>   
+        <changelogtext>[u]Fix[/u] Locked notes thumbs are no more shown in notes list</changelogtext>
+        <changelogtext>[u]Fix[/u] Empty note creation misbehavior when created from inside a tag</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash when pressing delete key on empty first checklist item</changelogtext>
+        <changelogtext>[u]Fix[/u] Location icon indicator was showed wrongly sometimes</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="4.3.8" changeDate="Feb 20, 2014">
@@ -456,7 +460,7 @@
     <changelogversion versionName="4.4.0 Beta 2" changeDate="Feb 18, 2014">
         <changelogtext>Removed 12/24 hours choosing option: the format is now application language dependent</changelogtext>
         <changelogtext>Moved App Tour option to About section in settings </changelogtext>
-        <changelogtext>[u]Fix[/u] Crash on opening shortcut to deleted note</changelogtext>   
+        <changelogtext>[u]Fix[/u] Crash on opening shortcut to deleted note</changelogtext>
         <changelogtext>[u]Fix[/u] Crash on audio recording playback</changelogtext>
     </changelogversion>
 
@@ -473,9 +477,9 @@
         <changelogtext>[b]New![/b] Experimental images editing: long-press on image attachments will prompt to cancel but now a new option "sketch" is available to draw it. For now no transformation or scaling is done so it's usefull only with previously created sketches</changelogtext>
         <changelogtext>[b]New![/b] Dates are now correctly formatted according to user language</changelogtext>
         <changelogtext>When entering end exiting a note detail the list position will stay as you left and will not be reset to the first item all the times</changelogtext>
-        <changelogtext>On password requests the focus will be acquired from the password field and the keyboard will appear automatically</changelogtext>   
+        <changelogtext>On password requests the focus will be acquired from the password field and the keyboard will appear automatically</changelogtext>
     </changelogversion>
-    
+
     <changelogversion versionName="4.3.6" changeDate="Feb 17, 2014">
         <changelogtext>[u]Fix[/u] Missing note archive/unarchive action from inside detail</changelogtext>
     </changelogversion>
@@ -522,30 +526,30 @@
 
     <changelogversion versionName="4.3.0" changeDate="Feb 8, 2014">
         <changelogtext>[b]New![/b] Implemented new tags creation directly from note tagging dialog</changelogtext>
-        <changelogtext>[b]New![/b] Expanded notifications on Android versions major than Jelly Bean to allow dismissing reminder or delay it</changelogtext> 
+        <changelogtext>[b]New![/b] Expanded notifications on Android versions major than Jelly Bean to allow dismissing reminder or delay it</changelogtext>
         <changelogtext>[b]New![/b] Users can now choose to use default Android calendar and time pickers dialog instead of Googleìs ones</changelogtext>
-        <changelogtext>[b]New![/b] You can now force the application language from settings</changelogtext>    
-        <changelogtext>[b]New![/b] If your location address can't be retrieved due to missing network you'll be informed (location coordinates will be saved in any case)</changelogtext>        
-        <changelogtext>[b]New![/b] Ukrainian language support (thanks Andriy Poznakhovskyy)</changelogtext>                
-    	<changelogtext>Moved attachments thumbnails and location above note content text to emphasize them</changelogtext>       
-        <changelogtext>If note title is empty the first line on content will be used instead to keep uniform aspect and optimize space usage</changelogtext>       
+        <changelogtext>[b]New![/b] You can now force the application language from settings</changelogtext>
+        <changelogtext>[b]New![/b] If your location address can't be retrieved due to missing network you'll be informed (location coordinates will be saved in any case)</changelogtext>
+        <changelogtext>[b]New![/b] Ukrainian language support (thanks Andriy Poznakhovskyy)</changelogtext>
+    	<changelogtext>Moved attachments thumbnails and location above note content text to emphasize them</changelogtext>
+        <changelogtext>If note title is empty the first line on content will be used instead to keep uniform aspect and optimize space usage</changelogtext>
         <changelogtext>[u]Fix[/u] Tagging from inside note detail now functions again</changelogtext>
     	<changelogtext>[u]Fix[/u] When prompted for update the application will check if Play Store is installed and will not crash anymore</changelogtext>
  	</changelogversion>
 
-    <changelogversion versionName="4.2.1" changeDate="Feb 6, 2014">       
+    <changelogversion versionName="4.2.1" changeDate="Feb 6, 2014">
     	<changelogtext>[b]New![/b] Tags dialogs now shows colors and selection happens with just one click</changelogtext>
     	<changelogtext>[b]New![/b] When an app crash happens you'll be informed (for transparency) and you can insert a comment</changelogtext>
     	<changelogtext>[u]Fix[/u] Resolved multiselection wrong coloration</changelogtext>
     	<changelogtext>[u]Fix[/u] Resolved many check-list issues</changelogtext>
  	</changelogversion>
 
-    <changelogversion versionName="4.2.0" changeDate="Feb 5, 2014">       
+    <changelogversion versionName="4.2.0" changeDate="Feb 5, 2014">
     	<changelogtext>[b]New![/b] [u]A fresh stable version is out!![/u] </changelogtext>
     	<changelogtext>[b]New![/b] Chinese language support (thanks ContactFront from XDA)</changelogtext>
  	</changelogversion>
 
-    <changelogversion versionName="4.2.0 Beta 8" changeDate="Feb 3, 2014">   
+    <changelogversion versionName="4.2.0 Beta 8" changeDate="Feb 3, 2014">
       <changelogtext>[b]New![/b] Tags colors have been moved to pastel family for a better looking and can be set to cover not only the small tag markers in notes but also the full note item!</changelogtext>
       <changelogtext>[b]New![/b] More elegant password setting screen. Now, if trying to lock a note without having inserted a security password before, you'll be prompted for it just once.</changelogtext>
       <changelogtext>[b]New![/b] Notification ringtone customizable from settings</changelogtext>
@@ -555,11 +559,11 @@
       <changelogtext>[b]New![/b] Swedish language support (thanks Mattias Lundqvist)</changelogtext>
       <changelogtext>Tags are now ordered by name, when name is left blank the tag will stay on tail</changelogtext>
       <changelogtext>Updated Turkish translation</changelogtext>
-      <changelogtext>[u]Fix[/u] Crash when trying to delete a backup on some devices</changelogtext>   
-      <changelogtext>[u]Fix[/u] Crash when switching to other app while drawing a sketch</changelogtext>      
+      <changelogtext>[u]Fix[/u] Crash when trying to delete a backup on some devices</changelogtext>
+      <changelogtext>[u]Fix[/u] Crash when switching to other app while drawing a sketch</changelogtext>
  	</changelogversion>
 
-    <changelogversion versionName="4.2.0 Beta 7" changeDate="Feb 2, 2014">   
+    <changelogversion versionName="4.2.0 Beta 7" changeDate="Feb 2, 2014">
       <changelogtext>[b]New![/b] Actionbar and navigation bar transparency in KitKat</changelogtext>
       <changelogtext>[b]New![/b] Reminder date and time picker support for smaller devices</changelogtext>
       <changelogtext>[b]New![/b] Spanish language support (thanks Sergio Iglesias)</changelogtext>
@@ -569,7 +573,7 @@
       <changelogtext>Updated Russian language</changelogtext>
  	</changelogversion>
 
-    <changelogversion versionName="4.2.0 Beta 6" changeDate="Feb 1, 2014">   
+    <changelogversion versionName="4.2.0 Beta 6" changeDate="Feb 1, 2014">
       <changelogtext>[b]New![/b] Beautiful info messages replaced to standard Android toasts popup</changelogtext>
       <changelogtext>[b]New![/b] When a problem occurs the application will not disturb you anymore and will automatically send the issue report if connection is available</changelogtext>
 <!--       <changelogtext>[b]New![/b] Default language is choosen depending on system locale but now is possible to change it from settings</changelogtext> -->
@@ -579,37 +583,37 @@
       <changelogtext>[u]Fix[/u] A couple of crashes when tagging notes are nore resolved</changelogtext>
  	</changelogversion>
 
-    <changelogversion versionName="4.2.0 Beta 5" changeDate="Jan 30, 2014">   
+    <changelogversion versionName="4.2.0 Beta 5" changeDate="Jan 30, 2014">
       <changelogtext>[b]New![/b] More contextualization: now [i]Lock or unlock[/i] and [i]Toggle checklist[/i] items in editor menu changes depending on the note status</changelogtext>
       <changelogtext>Many layout modifications</changelogtext>
       <changelogtext>[u]Fix[/u] Lot of fixes thanks to beta testers feedback</changelogtext>
  	</changelogversion>
 
-    <changelogversion versionName="4.2.0 Beta 4" changeDate="Jan 29, 2014">   
+    <changelogversion versionName="4.2.0 Beta 4" changeDate="Jan 29, 2014">
       <changelogtext>[u]Fix[/u] Sorting by reminder date criteria</changelogtext>
  	</changelogversion>
 
-    <changelogversion versionName="4.2.0 Beta 3" changeDate="Jan 29, 2014">       
-      <changelogtext>[b]New![/b] Notes can now be sorted by ascending reminder date</changelogtext>     
-      <changelogtext>[b]New![/b] If a note is locked its content is not masked in notes' list</changelogtext>        
+    <changelogversion versionName="4.2.0 Beta 3" changeDate="Jan 29, 2014">
+      <changelogtext>[b]New![/b] Notes can now be sorted by ascending reminder date</changelogtext>
+      <changelogtext>[b]New![/b] If a note is locked its content is not masked in notes' list</changelogtext>
       <changelogtext>When a note is going to be tagged and no tags already exist the tag creation window is shown</changelogtext>
       <changelogtext>[u]Fix[/u] Finally resolved bug affecting Samsung keyboard and Flesky that caused app crashing when trying to write title or content on empty field and when double-tapping to select text</changelogtext>
       <changelogtext>[u]Fix[/u] App crashing from when a new note with new-line only is inserted untile when app data are erased</changelogtext>
       <changelogtext>[u]Fix[/u] Tag color is no more reset to default color when saving it without changes</changelogtext>
  	</changelogversion>
 
-    <changelogversion versionName="4.2.0 Beta 2" changeDate="Jan 28, 2014">       
-      <changelogtext>[b]New![/b] Add hand-sketches to your notes!</changelogtext>        
+    <changelogversion versionName="4.2.0 Beta 2" changeDate="Jan 28, 2014">
+      <changelogtext>[b]New![/b] Add hand-sketches to your notes!</changelogtext>
       <changelogtext>[b]New![/b] Automatic updates check will tell you when a new version is out (not applied to Beta releases)</changelogtext>
-      <changelogtext>[b]New![/b] Revisited settings screen to better keeping usable the growing number of options</changelogtext>      
+      <changelogtext>[b]New![/b] Revisited settings screen to better keeping usable the growing number of options</changelogtext>
       <changelogtext>[u]Fix[/u] Corrected checklist behavior on saving when "keep checked items" and "keep checkmarks" options are not selected and refined deletion icon size and action timings</changelogtext>
       <changelogtext>[u]Fix[/u] Attachments' popup sizes fit now the content</changelogtext>
  	</changelogversion>
 
-    <changelogversion versionName="4.2.0 Beta 1" changeDate="Jan 24, 2014">        
+    <changelogversion versionName="4.2.0 Beta 1" changeDate="Jan 24, 2014">
       <changelogtext>[b]New![/b] You can now easily convert from simple text note to [b]checklist[/b] and vice versa</changelogtext>
-      <changelogtext>[b]New![/b] 12-hours mode available</changelogtext>           
-      <changelogtext>[b]New![/b] Added ACRA for managing crash reports and send me errors information</changelogtext>       
+      <changelogtext>[b]New![/b] 12-hours mode available</changelogtext>
+      <changelogtext>[b]New![/b] Added ACRA for managing crash reports and send me errors information</changelogtext>
       <changelogtext>Tag markers layout modified: slightly thicker and now both in notes list or in detail will appear like a vertical-left-border for the container card element</changelogtext>
       <changelogtext>German translation updated (thanks to Lycox)</changelogtext>
       <changelogtext>[u]Fix[/u] attachments added when discarding note changes will be correctly removed</changelogtext>
@@ -701,8 +705,8 @@
       <changelogtext>[b]New! [/b]Backup process completely rewritten. Now it's managed by a service and also attachments will be saved</changelogtext>
       <changelogtext>[b]New! [/b]Added a setting to limit maximum video size</changelogtext>
       <changelogtext>Performances boosted up saving attachments thanks to memory accesses optimizations</changelogtext>
-      <changelogtext>Much faster note deletion thanks to asynchronous processing (batch deletion too)</changelogtext>      
-      <changelogtext>Migrated compatibility library to Google's official AppCompat</changelogtext>      
+      <changelogtext>Much faster note deletion thanks to asynchronous processing (batch deletion too)</changelogtext>
+      <changelogtext>Migrated compatibility library to Google's official AppCompat</changelogtext>
       <changelogtext>[u]Fix[/u] Sharing notes to or receiving shared data from other apps now fills correctly the title field</changelogtext>
       <changelogtext>[u]Fix[/u] note deleting failure when trying to delete from inside note detail</changelogtext>
       <changelogtext>[u]Fix[/u] missing attachments deletion</changelogtext>
@@ -718,16 +722,16 @@
       <changelogtext>[u]Fix[/u] crash on application opening happening on many devices</changelogtext>
       <changelogtext>[u]Fix[/u] image opening with wrong applications (ex. torrent, file manager)</changelogtext>
 	</changelogversion>
-	
+
     <changelogversion versionName="3.9.3beta" changeDate="Dec 12, 2013">
       <changelogtext>[b]New! [/b]Widget!!</changelogtext>
       <changelogtext>[b]New! [/b]Consistency improved by making a copy of attachments, now if original is deleted Omni Notes has its own ones</changelogtext>
       <changelogtext>Updated search icon to match the standard one from holo light theme</changelogtext>
-      <changelogtext>[u]Fix[/u] impossibility to open image attachments in gallery</changelogtext>     
-      <changelogtext>[u]Fix[/u] slowing down waiting location retrieval, now process is parallelized</changelogtext> 
+      <changelogtext>[u]Fix[/u] impossibility to open image attachments in gallery</changelogtext>
+      <changelogtext>[u]Fix[/u] slowing down waiting location retrieval, now process is parallelized</changelogtext>
       <changelogtext>[u]Fix[/u] missing refresh of note list after inserting note with heavy images</changelogtext>
 	</changelogversion>
-	
+
     <changelogversion versionName="3.9.2beta" changeDate="Dec 10, 2013">
         <changelogtext>[b]New! [/b]Now is possible to share contents from other apps to Omni Notes!</changelogtext>
         <changelogtext>[b]New! [/b]Image attachments are shared too</changelogtext>
@@ -736,7 +740,7 @@
 		<changelogtext>[b]New! [/b]Asynchronous note saving and loading makes everithing faster</changelogtext>
 		<changelogtext>Improved sharing function that includes also image attachments</changelogtext>
 		<changelogtext>Changed the behavior of deleting action in notes detail: now you have to long-press on item (image, location, reminder) and give confirmation</changelogtext>
-		<changelogtext>Notes are now saved also if there is no text but just attachments, position or reminder set</changelogtext>		
+		<changelogtext>Notes are now saved also if there is no text but just attachments, position or reminder set</changelogtext>
  		<changelogtext>Added selection color on objects click</changelogtext>
  		<changelogtext>Now sorting by date  is done in descendant order</changelogtext>
 		<changelogtext>[u]Fix[/u] multiple reminder notification misbehavior related to wrong note detail opening</changelogtext>
@@ -767,11 +771,11 @@
 		<changelogtext>[u]Fix[/u] layout for small phones</changelogtext>
 		<changelogtext>INFO section in settings</changelogtext>
     </changelogversion>
-    
+
     <changelogversion versionName="3.2.3" changeDate="Nov 18, 2013">
 		<changelogtext>Bugfixes</changelogtext>
     </changelogversion>
-    
+
     <changelogversion versionName="3.2.1 - 3.2.2" changeDate="Nov 17, 2013">
 		<changelogtext>Bugfixed and graphic adjustments</changelogtext>
     </changelogversion>
