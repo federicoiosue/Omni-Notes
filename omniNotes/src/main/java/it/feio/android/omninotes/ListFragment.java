@@ -109,6 +109,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private SharedPreferences prefs;
     private ListFragment mFragment;
     private android.support.v7.view.ActionMode actionMode;
+    private boolean keepActionMode = false;
 
     // Undo archive/trash
     private boolean undoTrash = false;
@@ -169,6 +170,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 searchQuery = savedInstanceState.getString("searchQuery");
                 searchTags = savedInstanceState.getString("searchTags");
             }
+            keepActionMode = false;
         }
         return inflater.inflate(R.layout.fragment_list, container, false);
     }
@@ -328,8 +330,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     @Override
     public void onPause() {
         super.onPause();
-
-        commitPending();
         stopJingles();
         Crouton.cancelAllCroutons();
 
@@ -338,9 +338,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //		if (listAdapter != null) {
 //			listAdapter.clearSelectedItems();
 //		}
-        list.clearChoices();
-        if (getActionMode() != null) {
-            getActionMode().finish();
+        if (!keepActionMode) {
+            commitPending();
+            list.clearChoices();
+            if (getActionMode() != null) {
+                getActionMode().finish();
+            }
         }
     }
 
@@ -1842,6 +1845,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 .callback(new MaterialDialog.Callback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
+                        keepActionMode = true;
                         Intent intent = new Intent(getActivity(), CategoryActivity.class);
                         intent.putExtra("noHome", true);
                         startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
