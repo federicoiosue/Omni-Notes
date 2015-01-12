@@ -21,12 +21,9 @@ import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.SpannedString;
-import android.util.Pair;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.pixlui.links.RegexPatternsConstants;
 
-import java.util.*;
-import java.util.regex.Matcher;
+import java.util.Locale;
 
 
 public class TextHelper {
@@ -109,44 +106,5 @@ public class TextHelper {
 				string.substring(1, string.length()).toLowerCase(Locale.getDefault()));
 		return res.toString();
 	}
-
-
-    public static HashMap<String, Boolean> retrieveTags(Note note) {
-        HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
-        Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getTitle() + " " + note.getContent());
-        while (matcher.find()) {
-            tagsMap.put(matcher.group().trim(), false);
-        }
-        return tagsMap;
-    }
-
-
-    public static Pair<String, List<String>> addTagToNote(List<String> tags, Integer[] selectedTags, Note note) {
-        StringBuilder sbTags = new StringBuilder();
-        List<String> tagsToRemove = new ArrayList<String>();
-        HashMap<String, Boolean> tagsMap = retrieveTags(note);
-
-        for (int i = 0; i < selectedTags.length; i++) {
-            if (tagsMap.containsKey(tags.get(selectedTags[i]))) {
-                tagsMap.remove(tags.get(selectedTags[i]));
-            } else {
-                tagsMap.put(tags.get(selectedTags[i]), true);
-            }
-        }
-
-        for (Map.Entry<String, Boolean> tagMapEntry : tagsMap.entrySet()) {
-            if (tagMapEntry.getValue()) {
-                if (sbTags.length() > 0) {
-                    sbTags.append(" ");
-                }
-                sbTags.append(tagMapEntry.getKey());
-            } else {
-                tagsToRemove.add(tagMapEntry.getKey());
-            }
-        }
-        return new Pair(sbTags.toString(), tagsToRemove);
-    }
-
-
 
 }

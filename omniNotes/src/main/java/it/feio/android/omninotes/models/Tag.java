@@ -22,10 +22,8 @@ import android.os.Parcelable;
 public class Tag extends it.feio.android.omninotes.commons.models.Tag implements Parcelable {
 
 	private Tag(Parcel in) {
-		setId(in.readInt());
-		setName(in.readString());
-		setDescription(in.readString());
-		setColor(in.readString());
+		setText(in.readString());
+		setCount(in.readInt());
 	}
 
 
@@ -34,8 +32,8 @@ public class Tag extends it.feio.android.omninotes.commons.models.Tag implements
 	}
 
 
-	public Tag(Integer id, String title, String description, String color) {
-		super(id, title, description, color);
+	public Tag(String text, Integer count) {
+		super(text, count);
 	}
 
 
@@ -47,16 +45,14 @@ public class Tag extends it.feio.android.omninotes.commons.models.Tag implements
 
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
-		parcel.writeInt(getId());
-		parcel.writeString(getName());
-		parcel.writeString(getDescription());
-		parcel.writeString(getColor());
+        parcel.writeString(getText());
+		parcel.writeInt(getCount());
 	}
 
 
 	@Override
 	public String toString() {
-		return getName();
+		return getText();
 	}
 
 	/*

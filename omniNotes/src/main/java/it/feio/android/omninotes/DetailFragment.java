@@ -2292,58 +2292,51 @@ public class DetailFragment extends Fragment implements
         contentCursorPosition = getCursorIndex();
 
         // Retrieves all available categories
-        final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
+        final List<Tag> tags = TagsHelper.getAllTags(getActivity());
 
         // If there is no tag a message will be shown
         if (tags.size() == 0) {
             getMainActivity().showMessage(R.string.no_tags_created, ONStyle.WARN);
-
             return;
         }
 
-        // Selected tags filled with false
-        final boolean[] selectedTags = new boolean[tags.size()];
-        Arrays.fill(selectedTags, Boolean.FALSE);
-
-
-        List<Integer> t = new ArrayList<Integer>();
-        Note currentNote = new Note();
+        final Note currentNote = new Note();
         currentNote.setTitle(getNoteTitle());
         currentNote.setContent(getNoteContent());
-        for (String s : TextHelper.retrieveTags(currentNote).keySet()) {
-            t.add(tags.indexOf(s));
-        }
-        Integer[] preselectedTags = t.toArray(new Integer[t.size()]);
-
-        // String of choosen tags in order of selection
-        final StringBuilder sbTags = new StringBuilder();
+        Integer[] preselectedTags = TagsHelper.getPreselectedTagsArray(currentNote, tags);
 
         // Dialog and events creation
-        final String[] tagsArray = tags.toArray(new String[tags.size()]);
         MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.select_tags)
                 .positiveText(R.string.ok)
-                .items(tagsArray)
+                .items(TagsHelper.getTagsArray(tags))
                 .itemsCallbackMultiChoice(preselectedTags, new MaterialDialog.ListCallbackMulti() {
                     @Override
                     public void onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
                         dialog.dismiss();
-                        tagNote(tags, which);
+                        tagNote(tags, which, currentNote);
                     }
                 }).build();
         dialog.show();
     }
 
 
-    private void tagNote(List<String> tags, Integer[] selectedTags) {
-        Note currentNote = new Note();
-        currentNote.setTitle(getNoteTitle());
-        currentNote.setContent(getNoteContent());
-
-        Pair<String, List<String>> taggingResult = TextHelper.addTagToNote(tags, selectedTags, currentNote);
+    private void tagNote(List<Tag> tags, Integer[] selectedTags, Note note) {
+        Pair<String, List<Tag>> taggingResult = TagsHelper.addTagToNote(tags, selectedTags, note);
 
         StringBuilder sb;
-        if (!noteTmp.isChecklist()) {
+        if (noteTmp.isChecklist()) {
+            CheckListViewItem mCheckListViewItem = mChecklistManager.getFocusedItemView();
+            if (mCheckListViewItem != null) {
+                sb = new StringBuilder(mCheckListViewItem.getText());
+                sb.insert(contentCursorPosition, " " + taggingResult.first + " ");
+                mCheckListViewItem.setText(sb.toString());
+                mCheckListViewItem.getEditText().setSelection(contentCursorPosition + taggingResult.first.length()
+                        + 1);
+            } else {
+                title.append(" " + taggingResult.first);
+            }
+        } else {
             sb = new StringBuilder(getNoteContent());
             if (content.hasFocus()) {
                 sb.insert(contentCursorPosition, " " + taggingResult.first + " ");
@@ -2357,34 +2350,16 @@ public class DetailFragment extends Fragment implements
                 sb.append(taggingResult.first);
                 content.setText(sb.toString());
             }
-        } else {
-            CheckListViewItem mCheckListViewItem = mChecklistManager.getFocusedItemView();
-            if (mCheckListViewItem != null) {
-                sb = new StringBuilder(mCheckListViewItem.getText());
-                sb.insert(contentCursorPosition, " " + taggingResult.first + " ");
-                mCheckListViewItem.setText(sb.toString());
-                mCheckListViewItem.getEditText().setSelection(contentCursorPosition + taggingResult.first.length()
-                        + 1);
-            } else {
-                title.append(" " + taggingResult.first);
-            }
         }
 
         // Removes unchecked tags
         if (taggingResult.second.size() > 0) {
-            if (noteTmp.isChecklist()) {
-                toggleChecklist2(true, true);
-                for (String tagToRemove : taggingResult.second) {
-                    title.setText(getNoteTitle().replaceAll(tagToRemove, ""));
-                    content.setText(getNoteContent().replaceAll(tagToRemove, ""));
-                }
-                toggleChecklist2();
-            } else {
-                for (String tagToRemove : taggingResult.second) {
-                    title.setText(getNoteTitle().replaceAll(tagToRemove, ""));
-                    content.setText(getNoteContent().replaceAll(tagToRemove, ""));
-                }
-            }
+            if (noteTmp.isChecklist()) toggleChecklist2(true, true);
+            Pair<String, String> titleAndContent = TagsHelper.removeTag(getNoteTitle(), getNoteContent(),
+                    taggingResult.second);
+            title.setText(titleAndContent.first);
+            content.setText(titleAndContent.second);
+            if (noteTmp.isChecklist()) toggleChecklist2();
         }
     }
 

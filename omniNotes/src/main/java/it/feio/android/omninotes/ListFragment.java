@@ -1971,7 +1971,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private void tagNotes() {
 
         // Retrieves all available tags
-        final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
+        final List<Tag> tags = DbHelper.getInstance(getActivity()).getTags();
 
         // If there is no tag a message will be shown
         if (tags.size() == 0) {
@@ -1979,21 +1979,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             return;
         }
 
-        final Integer[] preSelectedTags;
-        if(selectedNotes.size() == 1) {
-            List<Integer> t = new ArrayList<Integer>();
-            List<String> noteTags = DbHelper.getInstance(getActivity()).getTags(selectedNotes.get(0));
-            for (String noteTag : noteTags) {
-                t.add(tags.indexOf(noteTag));
-            }
-            preSelectedTags = t.toArray(new Integer[t.size()]);
-        } else {
-            preSelectedTags = new Integer[]{};
-        }
+        final Integer[] preSelectedTags = TagsHelper.getPreselectedTagsArray(selectedNotes, tags);
 
-        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+        new MaterialDialog.Builder(getActivity())
                 .title(R.string.select_tags)
-                .items(tags.toArray(new String[tags.size()]))
+                .items(TagsHelper.getTagsArray(tags))
                 .positiveText(R.string.ok)
                 .itemsCallbackMultiChoice(preSelectedTags, new MaterialDialog.ListCallbackMulti() {
                     @Override
@@ -2001,21 +1991,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                         dialog.dismiss();
                         tagNotesExecute(tags, which, preSelectedTags);
                     }
-                }).build();
-
-//        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-//            @Override
-//            public void onCancel(DialogInterface dialog) {
-//                selectedNotes.clear();
-//                finishActionMode();
-//            }
-//        });
-
-        dialog.show();
+                }).build().show();
     }
 
 
-    private void tagNotesExecute(List<String> tags, Integer[] selectedTags, Integer[] preSelectedTags) {
+    private void tagNotesExecute(List<Tag> tags, Integer[] selectedTags, Integer[] preSelectedTags) {
 
         // Retrieves selected tags
         for (Note note : getSelectedNotes()) {
@@ -2045,12 +2025,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     }
 
 
-    private void tagNote(List<String> tags, Integer[] selectedTags, Note note) {
+    private void tagNote(List<Tag> tags, Integer[] selectedTags, Note note) {
 
-        Pair<String, List<String>> taggingResult = TextHelper.addTagToNote(tags, selectedTags, note);
+        Pair<String, List<Tag>> taggingResult = TagsHelper.addTagToNote(tags, selectedTags, note);
 
         if (note.isChecklist()) {
-            note.setTitle(note.getTitle() + taggingResult.first);
+            note.setTitle(note.getContent() + System.getProperty("line.separator") + taggingResult.first);
         } else {
             StringBuilder sb = new StringBuilder(note.getContent());
             sb.append(System.getProperty("line.separator"))
@@ -2060,10 +2040,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
 
         // Removes unchecked tags
-        for (String tagToRemove : taggingResult.second) {
-            note.setTitle(note.getTitle().replaceAll(tagToRemove, ""));
-            note.setContent(note.getContent().replaceAll(tagToRemove, ""));
-        }
+        Pair<String, String> titleAndContent = TagsHelper.removeTag(note.getTitle(), note.getContent(), taggingResult.second);
+        note.setTitle(titleAndContent.first);
+        note.setContent(titleAndContent.second);
 
         DbHelper.getInstance(getActivity()).updateNote(note, false);
     }
@@ -2284,7 +2263,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private void filterByTags() {
 
         // Retrieves all available categories
-        final List<String> tags = DbHelper.getInstance(getActivity()).getTags();
+        final List<Tag> tags = TagsHelper.getAllTags(getActivity());
 
         // If there is no category a message will be shown
         if (tags.size() == 0) {
@@ -2293,9 +2272,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
 
         // Dialog and events creation
-        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+        new MaterialDialog.Builder(getActivity())
                 .title(R.string.select_tags)
-                .items(tags.toArray(new String[tags.size()]))
+                .items(TagsHelper.getTagsArray(tags))
                 .positiveText(R.string.ok)
                 .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMulti() {
                     @Override
@@ -2303,7 +2282,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                         // Retrieves selected tags
                         List<String> selectedTags = new ArrayList<String>();
                         for (int i = 0; i < which.length; i++) {
-                            selectedTags.add(tags.get(which[i]));
+                            selectedTags.add(tags.get(which[i]).getText());
                         }
 
                         // Saved here to allow persisting search
@@ -2318,8 +2297,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                         intent.removeExtra(SearchManager.QUERY);
                         initNotesList(intent);
                     }
-                }).build();
-        dialog.show();
+                }).build().show();
     }
 
 

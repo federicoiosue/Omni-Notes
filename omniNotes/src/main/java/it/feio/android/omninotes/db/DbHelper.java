@@ -24,20 +24,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.Stats;
+import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.utils.*;
 import roboguice.util.Ln;
+
+import java.io.IOException;
+import java.util.*;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -394,7 +386,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	/**
 	 * Common method for notes retrieval. It accepts a query to perform and returns matching records.
-	 * @param query
 	 * @return Notes list
 	 */
 	public List<Note> getNotes(String whereCondition, boolean order) {
@@ -657,17 +648,20 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	/**
-	 * Retrieves all notes related to category it passed as parameter
-	 * @param categoryId Category integer identifier
-	 * @return List of notes with requested category
+	 * Retrieves all tags
 	 */
-	public List<String> getTags() {	
+	public List<Tag> getTags() {
 		return getTags(null);
 	}
-	
-	public List<String> getTags(Note note) {	
-		HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
-		
+
+
+    /**
+     * Retrieves all tags of a specified note
+     */
+	public List<Tag> getTags(Note note) {
+		List<Tag> tags = new ArrayList<Tag>();
+        HashMap<String, Integer> tagsMap = new HashMap<String, Integer>();
+        
 		String whereCondition = " WHERE "
 								+ (note != null ? KEY_ID + " = " + note.get_id() + " AND " : "")
 								+ "(" + KEY_CONTENT + " LIKE '%#%' OR " + KEY_TITLE + " LIKE '%#%' " + ")"
@@ -675,20 +669,31 @@ public class DbHelper extends SQLiteOpenHelper {
 		List<Note> notesRetrieved = getNotes(whereCondition, true);
 		
 		for (Note noteRetrieved : notesRetrieved) {
-			tagsMap.putAll(TextHelper.retrieveTags(noteRetrieved));
+            HashMap<String, Integer> tagsRetrieved = TagsHelper.retrieveTags(noteRetrieved);
+            for (String s : tagsRetrieved.keySet()) {
+                int count = tagsMap.get(s) == null ? 0 : tagsMap.get(s);
+                tagsMap.put(s, ++count);
+            }
 		}
-		List<String> tags = new ArrayList<String>();
-		tags.addAll(tagsMap.keySet());
-		Collections.sort(tags, String.CASE_INSENSITIVE_ORDER);
-		return tags;
+
+        for (String s : tagsMap.keySet()) {
+            Tag tag = new Tag(s, tagsMap.get(s));
+            tags.add(tag);
+        }
+        
+        Collections.sort(tags, new Comparator<Tag>() {
+            @Override
+            public int compare(Tag tag1, Tag tag2) {
+                return tag1.getText().compareToIgnoreCase(tag1.getText());
+            }
+        });
+        return tags;
 	}
 
 	
 	
 	/**
 	 * Retrieves all notes related to category it passed as parameter
-	 * @param categoryId Category integer identifier
-	 * @return List of notes with requested category
 	 */
 	public List<Note> getNotesByTag(String tag) {	
 		if (tag.indexOf(",") != -1) {
@@ -699,9 +704,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * Retrieves all notes related to category it passed as parameter
-	 * @param categoryId Category integer identifier
-	 * @return List of notes with requested category
+	 * Retrieves all notes with specified tags
 	 */
 	public List<Note> getNotesByTag(String[] tags) {	
 		// Select All Query
@@ -725,8 +728,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	/**
 	 * Retrieves all attachments
-	 * @param note
-	 * @return List of attachments
 	 */
 	public ArrayList<Attachment> getAllAttachments() {		
 		return getAttachments("");
@@ -741,7 +742,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	/**
 	 * Retrieves attachments using a condition passed as parameter
-	 * @param note
 	 * @return List of attachments
 	 */
 	public ArrayList<Attachment> getAttachments(String whereCondition) {
@@ -1081,7 +1081,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			if (note.isLocked()) {
 				notesMasked++;
 			}
-			tags += TextHelper.retrieveTags(note).size();
+			tags += TagsHelper.retrieveTags(note).size();
 			if (note.getLongitude() != null && note.getLongitude() != 0) {
 				locations++;
 			}
