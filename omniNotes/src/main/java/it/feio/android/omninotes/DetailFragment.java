@@ -334,17 +334,6 @@ public class DetailFragment extends Fragment implements
         }
 
         initViews();
-
-//        if (showKeyboard && !AppTourHelper.isPlaying(getActivity())) {
-        if (showKeyboard) {
-//	    	// Delayed keyboard appearance
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    KeyboardUtils.showKeyboard(content);
-                }
-            }, 600);
-        }
     }
 
 
@@ -834,12 +823,19 @@ public class DetailFragment extends Fragment implements
     }
 
 
-    private void requestFocus(EditText view) {
+    /**
+     * Force focus and shows soft keyboard
+     */
+    private void requestFocus(final EditText view) {
         if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
-            // Force focus and shows soft keyboard
-            view.setFocusableInTouchMode(true);
-            view.requestFocus();
-            showKeyboard = true;
+            //
+            view.showKeyboard();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    KeyboardUtils.showKeyboard(view);
+                }
+            }, 500);
         }
     }
 
