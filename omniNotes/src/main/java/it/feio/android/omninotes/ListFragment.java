@@ -2124,7 +2124,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             undoCategoryMap.clear();
             list.clearChoices();
 
-            ubc.hideUndoBar(false);        
+            ubc.hideUndoBar(false);
+            showFab();
             
             BaseActivity.notifyAppWidgets(getActivity());
         }
