@@ -17,7 +17,11 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.0.0 Beta 5" changeDate="Jan 10, 2015">
+    <changelogversion versionName="5.0.0 Beta 5" changeDate="Jan 12, 2015">
+        <changelogtext>[b]New![/b] Navigation panel is fully scrollable to further optimize spaces</changelogtext>
+        <changelogtext>[b]New![/b] The current number of occurrences of each tag is shown in the 
+            add-tag dialog (the underlying code has changed so performances could be changed)</changelogtext>
+        <changelogtext>[b]New![/b] Revisited layout for tablets</changelogtext>
         <changelogtext>Bugfixed and minor improvements</changelogtext>
     </changelogversion>
 
