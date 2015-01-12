@@ -21,7 +21,9 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:focusableInTouchMode="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginLeft="@dimen/activity_additional_margin"
+    android:layout_marginRight="@dimen/activity_additional_margin">>
 
     <LinearLayout
         android:id="@+id/detail_wrapper"

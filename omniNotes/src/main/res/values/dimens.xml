@@ -16,6 +16,7 @@
   -->
 <resources>
 
+    <dimen name="activity_additional_margin">0dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -44,8 +45,13 @@
     <dimen name="widget_height">56dp</dimen>
     
     <dimen name="undobar_margin_bottom">20dp</dimen>
+    
+    <!-- Notes layout in list -->
+    <dimen name="note_item_min_height">102dp</dimen>
+    <dimen name="note_item_min_height_inner">100dp</dimen>
 
-    <!--Attachment dialog-->
+
+    <!-- Attachment dialog -->
     <dimen name="attachment_dialog_text_size">16sp</dimen>
     <dimen name="attachment_dialog_drawable_padding">10dp</dimen>
     <dimen name="attachment_dialog_items_padding">10dp</dimen>

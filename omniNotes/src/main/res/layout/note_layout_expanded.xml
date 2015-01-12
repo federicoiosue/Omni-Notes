@@ -20,7 +20,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="102dp"
+    android:minHeight="@dimen/note_item_min_height"
     android:paddingBottom="2dp"
     android:background="@drawable/bg_card">
 
@@ -29,13 +29,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:minHeight="100dp">
+        android:minHeight="@dimen/note_item_min_height_inner">
 
 
         <View
             android:id="@+id/category_marker"
             android:layout_width="7dp"
-            android:minHeight="100dp"
+            android:minHeight="@dimen/note_item_min_height_inner"
             android:layout_height="match_parent"
             android:background="@null" />
 
@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:minHeight="100dp"
+            android:minHeight="@dimen/note_item_min_height_inner"
             android:orientation="vertical"
             android:paddingBottom="7dp"
             android:paddingStart="6dp"
@@ -126,7 +126,7 @@
 
         <it.feio.android.omninotes.models.views.SquareImageView
             android:id="@+id/attachmentThumbnail"
-            android:layout_width="100dp"
+            android:layout_width="@dimen/note_item_min_height_inner"
             android:layout_height="match_parent"
             android:contentDescription="@string/note_thumbnail"
             android:layout_gravity="center_vertical" />

@@ -17,7 +17,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_additional_margin"
+    android:layout_marginRight="@dimen/activity_additional_margin">
 
     <it.feio.android.omninotes.models.views.InterceptorLinearLayout
         android:id="@+id/list_root"
