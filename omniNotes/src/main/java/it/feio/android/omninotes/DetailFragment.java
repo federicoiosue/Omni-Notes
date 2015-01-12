@@ -99,7 +99,6 @@ import roboguice.util.Ln;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -828,7 +827,6 @@ public class DetailFragment extends Fragment implements
      */
     private void requestFocus(final EditText view) {
         if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
-            //
             view.showKeyboard();
             new Handler().postDelayed(new Runnable() {
                 @Override

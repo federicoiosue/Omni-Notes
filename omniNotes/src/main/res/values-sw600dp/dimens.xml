@@ -21,7 +21,7 @@
          screen margins) for sw600dp devices (e.g. 7" tablets) here.
     -->
 
-    <dimen name="activity_additional_margin">32dp</dimen>
+    <dimen name="activity_additional_margin">24dp</dimen>
     
     <!-- Notes layout in list -->
     <dimen name="note_item_min_height">152dp</dimen>

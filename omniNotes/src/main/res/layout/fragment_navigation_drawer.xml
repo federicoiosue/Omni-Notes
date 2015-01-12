@@ -17,14 +17,14 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/navigation_bg">
 
     <LinearLayout
         android:id="@+id/left_drawer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left|start"
-        android:background="@color/navigation_bg"
         android:orientation="vertical">
 
         <ImageView
