@@ -134,7 +134,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/padding_half">
+                            android:paddingTop="@dimen/padding_half"
+                            android:paddingLeft="6dp">
 
                             <com.neopixl.pixlui.components.edittext.EditText
                                 android:id="@+id/detail_content"
