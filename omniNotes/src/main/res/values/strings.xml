@@ -122,10 +122,10 @@
     <string name="notes_category_removed">Category removed from notes</string>
     <string name="notes_categorized_as">Notes categorized as</string>
     <string name="insert_security_password">Insert password</string>
-    <string name="lock">Mask</string>
-    <string name="save_note_to_lock_it">Save note to mask it</string>
-    <string name="save_note_to_unlock_it">Save note to unmask it</string>
-    <string name="unlock">Unmask</string>
+    <string name="lock">Lock</string>
+    <string name="save_note_to_lock_it">Save note to lock it</string>
+    <string name="save_note_to_unlock_it">Save note to unlock it</string>
+    <string name="unlock">Unlock</string>
     <string name="title_activity_password">Edit security password</string>
     <string name="title_activity_about">Info</string>
     <string name="deleted">deleted</string>
@@ -237,7 +237,7 @@
     <string name="password_successfully_changed">Password successfully changed</string>
     <string name="password_successfully_removed">Password successfully removed</string>
     <string name="wrong_password">Wrong password</string>
-    <string name="agree_unlocking_all_notes">Remove password\nand unmask all masked notes?</string>
+    <string name="agree_unlocking_all_notes">Remove password\nand unlock all locked notes?</string>
     <string name="settings_enable_tag_marker">Category markers</string>
     <string name="settings_backup_summary">Import or export app data</string>
     <string name="settings_max_video_size_summary">Maximum allowed size in MB</string>
