@@ -15,10 +15,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="240dp"
+    android:layout_width="300dp"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/bg_card">
+    android:padding="15dp"
+    android:background="@drawable/bg_card"
+    android:gravity="center_horizontal">
 
     <EditText
         android:id="@+id/category_title"
@@ -27,11 +29,10 @@
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:hint="@string/category_title"
-        android:background="@null"
         android:inputType="textCapSentences"
         android:textAppearance="@style/Text.Big"
-        android:textColorHint="@color/text_color"
-        android:textColor="@color/text_color_lighter"
+        android:textColorHint="@color/text_color_lighter"
+        android:textColor="@color/text_color"
         android:textCursorDrawable="@null" />
 
     <EditText
@@ -43,35 +44,42 @@
         android:hint="@string/category_description"
         android:visibility="gone" />
 
-    <com.larswerkman.holocolorpicker.ColorPicker
-        android:id="@+id/colorpicker_category"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:layout_weight="0.14" />
+    <LinearLayout
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <com.larswerkman.holocolorpicker.SaturationBar
-        android:id="@+id/saturationbar_category"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:visibility="visible" />
+        <com.larswerkman.holocolorpicker.ColorPicker
+            android:id="@+id/colorpicker_category"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.14" />
 
-    <com.larswerkman.holocolorpicker.ValueBar
-        android:id="@+id/valuebar_category"
-        android:layout_width="180dp"
-        android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:layout_weight="0.06"
-        android:visibility="gone" />
+        <com.larswerkman.holocolorpicker.SaturationBar
+            android:id="@+id/saturationbar_category"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:visibility="visible" />
+
+        <com.larswerkman.holocolorpicker.ValueBar
+            android:id="@+id/valuebar_category"
+            android:layout_width="180dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.06"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal"
         android:gravity="center">
 
@@ -80,23 +88,23 @@
             style="@style/Button.Dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete"
+            android:text="@string/delete_this_category"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/save"
-            style="@style/Button.Dialog"
+            style="@style/Button.Dialog.Accent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ok" />
 
         <!--<Button-->
-            <!--android:id="@+id/discard"-->
-            <!--style="@style/Button.Dialog"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="@string/discard" />-->
+        <!--android:id="@+id/discard"-->
+        <!--style="@style/Button.Dialog"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="@string/discard" />-->
     </LinearLayout>
 
 </LinearLayout>
