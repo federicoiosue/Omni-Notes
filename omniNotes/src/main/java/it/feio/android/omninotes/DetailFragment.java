@@ -1118,10 +1118,10 @@ public class DetailFragment extends Fragment implements
                 toggleChecklist();
                 break;
             case R.id.menu_lock:
-                maskNote();
+                lockNote();
                 break;
             case R.id.menu_unlock:
-                maskNote();
+                lockNote();
                 break;
             case R.id.menu_add_shortcut:
                 addShortcut();
@@ -1552,7 +1552,7 @@ public class DetailFragment extends Fragment implements
                     break;
                 case SET_PASSWORD:
                     noteTmp.setPasswordChecked(true);
-                    maskUnmask();
+                    lockUnlock();
                     break;
                 case SKETCH:
                     attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_SKETCH);
@@ -1797,7 +1797,7 @@ public class DetailFragment extends Fragment implements
     /**
      * Notes locking with security password to avoid viewing, editing or deleting from unauthorized
      */
-    private void maskNote() {
+    private void lockNote() {
         Ln.d("Locking or unlocking note " + note.get_id());
 
         // If security password is not set yes will be set right now
@@ -1808,9 +1808,8 @@ public class DetailFragment extends Fragment implements
         }
 
         // If password has already been inserted will not be asked again
-        if (noteTmp.isPasswordChecked()
-                || prefs.getBoolean("settings_password_access", false)) {
-            maskUnmask();
+        if (noteTmp.isPasswordChecked() || prefs.getBoolean("settings_password_access", false)) {
+            lockUnlock();
             return;
         }
 
@@ -1819,27 +1818,25 @@ public class DetailFragment extends Fragment implements
             @Override
             public void onPasswordValidated(boolean passwordConfirmed) {
                 if (passwordConfirmed) {
-                    maskUnmask();
+                    lockUnlock();
                 }
             }
         });
     }
 
-    private void maskUnmask() {
+    private void lockUnlock() {
         // Empty password has been set
         if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
             getMainActivity().showMessage(R.string.password_not_set, ONStyle.WARN);
 
             return;
         }
-        // Otherwise masking is performed
+        // Otherwise locking is performed
         if (noteTmp.isLocked()) {
             getMainActivity().showMessage(R.string.save_note_to_lock_it, ONStyle.INFO);
-
             getActivity().supportInvalidateOptionsMenu();
         } else {
             getMainActivity().showMessage(R.string.save_note_to_lock_it, ONStyle.INFO);
-
             getActivity().supportInvalidateOptionsMenu();
         }
         noteTmp.setLocked(!noteTmp.isLocked());

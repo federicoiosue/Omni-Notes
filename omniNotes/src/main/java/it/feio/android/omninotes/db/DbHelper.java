@@ -585,6 +585,16 @@ public class DbHelper extends SQLiteOpenHelper {
                 +  " AND " + KEY_TRASHED + " IS NOT 1";
 		return getNotes(whereCondition, true);
 	}
+
+
+    /**
+     * Retrieves locked or unlocked notes
+     */
+    public List<Note> getNotesWithLock(boolean locked) {
+        String whereCondition = " WHERE " + KEY_LOCKED + (locked ? " = 1 " : " IS NOT 1 ");
+        return getNotes(whereCondition, true);
+    }
+    
 	
 	
 	
@@ -970,24 +980,6 @@ public class DbHelper extends SQLiteOpenHelper {
 		}
 		return count;		
 	}
-	
-
-	
-	/**
-	 * Unlocks all notes after security password removal
-	 * @return
-	 */
-	public int unlockAllNotes() {			
-		SQLiteDatabase db = this.getWritableDatabase();
-		
-		ContentValues values = new ContentValues();
-		values.put(KEY_LOCKED, "0");
-		
-		// Updating row
-		return db.update(TABLE_NOTES, values, null, new String[] {});		
-	}
-	
-	
 	
 	
 	/**
