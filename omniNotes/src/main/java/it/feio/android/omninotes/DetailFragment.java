@@ -898,7 +898,7 @@ public class DetailFragment extends Fragment implements
 //        final AlertDialog alertDialog = alertDialogBuilder.create();
 //        alertDialog.show();
         final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
-                .customView(autoCompView)
+                .customView(autoCompView, false)
                 .positiveText(R.string.use_current_location)
                 .callback(new MaterialDialog.SimpleCallback() {
                     @Override
@@ -925,14 +925,11 @@ public class DetailFragment extends Fragment implements
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                android.widget.TextView button = (android.widget.TextView) dialog.getActionButton(DialogAction
-                        .POSITIVE);
                 if (s.length() != 0) {
-                    button.setText(getString(R.string.confirm));
+                    dialog.setActionButton(DialogAction.POSITIVE, getString(R.string.confirm));
                 } else {
-                    button.setText(R.string.use_current_location);
+                    dialog.setActionButton(DialogAction.POSITIVE, getString(R.string.use_current_location));
                 }
-                button.invalidate();
             }
 
 

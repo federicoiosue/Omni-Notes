@@ -22,5 +22,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textAlignment="center"
-    android:background="@null"
-    android:padding="6dp" />
+    android:textColor="@color/text_color"
+    android:textColorHint="@color/text_color_lighter"
+    android:padding="@dimen/horizontal_margin" />
