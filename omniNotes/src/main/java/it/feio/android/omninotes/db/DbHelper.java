@@ -694,7 +694,7 @@ public class DbHelper extends SQLiteOpenHelper {
         Collections.sort(tags, new Comparator<Tag>() {
             @Override
             public int compare(Tag tag1, Tag tag2) {
-                return tag1.getText().compareToIgnoreCase(tag1.getText());
+                return tag1.getText().compareToIgnoreCase(tag2.getText());
             }
         });
         return tags;
