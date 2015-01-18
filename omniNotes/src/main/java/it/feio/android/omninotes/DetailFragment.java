@@ -827,13 +827,7 @@ public class DetailFragment extends Fragment implements
      */
     private void requestFocus(final EditText view) {
         if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
-            view.showKeyboard();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    KeyboardUtils.showKeyboard(view);
-                }
-            }, 500);
+            KeyboardUtils.showKeyboard(view);
         }
     }
 
