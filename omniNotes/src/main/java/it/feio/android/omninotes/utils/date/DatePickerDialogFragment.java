@@ -114,7 +114,7 @@ public class DatePickerDialogFragment extends DialogFragment {
         //
         // Of course, suggestions welcome.
         
-        final DatePickerDialog picker = new DatePickerDialog(getActivity(), 
+        final DatePickerDialog picker = new DatePickerDialog(getActivity(), DatePickerDialog.THEME_HOLO_LIGHT,
                 getConstructorListener(), y, m, d);
         picker.setTitle("");
 
