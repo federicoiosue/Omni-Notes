@@ -30,7 +30,9 @@ import android.os.Bundle;
 import android.preference.*;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -72,6 +74,7 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         int xmlId = getXmlId() > 0 ? getXmlId() : R.xml.settings;
         addPreferencesFromResource(xmlId);
+        setTitle();
         prefs = getActivity().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
     }
 
@@ -82,6 +85,20 @@ public class SettingsFragment extends PreferenceFragment {
         int settingsXmlId = getActivity().getResources().getIdentifier(xmlName, "xml",
                 getActivity().getPackageName());
         return settingsXmlId;
+    }
+
+
+    private void setTitle() {
+        String title = getString(R.string.settings_category_preferences);
+        if (getArguments() != null && getArguments().containsKey(XML_NAME)) {
+            String xmlName = getArguments().getString(XML_NAME);
+            if (!TextUtils.isEmpty(xmlName)) {
+                int stringResourceId = getActivity().getResources().getIdentifier(xmlName.replace("settings_", "settings_screen_"), "string",
+                        getActivity().getPackageName());
+                title = stringResourceId != 0 ? getString(stringResourceId) : title;
+            }
+        }
+        ((Toolbar) getActivity().findViewById(R.id.toolbar)).setTitle(title);
     }
 
 
@@ -103,13 +120,6 @@ public class SettingsFragment extends PreferenceFragment {
             ((SettingsActivity) getActivity()).switchToScreen(preference.getKey());
         }
         return false;
-    }
-
-
-    void initUI() {
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R
-                .id.toolbar);
-        ((SettingsActivity) getActivity()).setSupportActionBar(toolbar);
     }
 
 

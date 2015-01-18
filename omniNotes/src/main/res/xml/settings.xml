@@ -21,19 +21,19 @@
 
         <PreferenceScreen
             android:key="settings_data"
-            android:title="@string/settings_category_data" />
+            android:title="@string/settings_screen_data" />
 
         <PreferenceScreen
             android:key="settings_interface"
-            android:title="@string/settings_category_interface" />
+            android:title="@string/settings_screen_interface" />
 
         <PreferenceScreen
-            android:key="settings_behavior"
-            android:title="@string/settings_category_behaviors" />
+            android:key="settings_behaviors"
+            android:title="@string/settings_screen_behaviors" />
 
         <PreferenceScreen
-            android:key="settings_notification"
-            android:title="@string/settings_category_notifications" />
+            android:key="settings_notifications"
+            android:title="@string/settings_screen_notifications" />
 
     </PreferenceCategory>
 
