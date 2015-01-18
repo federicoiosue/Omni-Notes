@@ -23,19 +23,18 @@ import android.net.ConnectivityManager;
 public class ConnectionManager {
 
 	/**
-	 * Controlla se � disponibile una connessione internet e se rispetta i requisiti delle impostazioni dell'applicazione	 * 
-	 * @param ctx
-	 * @return
+	 * Checks for available internet connection
 	 */
 	public static boolean internetAvailable(Context ctx) {
 		boolean result = false;
 		ConnectivityManager conMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (conMgr.getActiveNetworkInfo() != null) {
 			boolean connected = conMgr.getActiveNetworkInfo().isConnected();
-			boolean wifi = conMgr.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
-			boolean allowMobileData = ctx.getSharedPreferences(Constants.PREFS_NAME, ctx.MODE_MULTI_PROCESS).getBoolean(
-					"settings_allow_mobile_data", false);
-			result = connected && (wifi || allowMobileData);
+//			boolean wifi = conMgr.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
+//			boolean allowMobileData = ctx.getSharedPreferences(Constants.PREFS_NAME, ctx.MODE_MULTI_PROCESS).getBoolean(
+//					"settings_allow_mobile_data", false);
+//			result = connected && (wifi || allowMobileData);
+            result = connected;
 		}
 		return result;
 	}
