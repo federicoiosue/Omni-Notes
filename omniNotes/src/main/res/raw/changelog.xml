@@ -17,6 +17,10 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.0.0 Beta 6" changeDate="Jan 19, 2015">
+        <changelogtext>[u]Fix[/u] Lot of!</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 5" changeDate="Jan 12, 2015">
         <changelogtext>[b]New![/b] The current number of occurrences of each tag is shown in the
             add-tag dialog (the underlying code has changed so performances could be changed)</changelogtext>
