@@ -1528,18 +1528,7 @@ public class DetailFragment extends Fragment implements
                     mGridView.autoresize();
                     break;
                 case FILES:
-                    List<Uri> uris = new ArrayList<Uri>();
-                    if (intent.getClipData() != null) {
-                        for (int i = 0; i < intent.getClipData().getItemCount(); i++) {
-                            uris.add(intent.getClipData().getItemAt(i).getUri());
-                        }
-                    } else {
-                        uris.add(intent.getData());
-                    }
-                    for (Uri uri : uris) {
-                        String name = FileHelper.getNameFromUri(getActivity(), uri);
-                        new AttachmentTask(this, uri, name, this).execute();
-                    }
+                    onActivityResultManageReceivedFiles(intent);
                     break;
                 case SET_PASSWORD:
                     noteTmp.setPasswordChecked(true);
@@ -1563,6 +1552,24 @@ public class DetailFragment extends Fragment implements
             }
         }
     }
+
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void onActivityResultManageReceivedFiles(Intent intent) {
+        List<Uri> uris = new ArrayList<Uri>();
+        if (Build.VERSION.SDK_INT < 16 || intent.getClipData() != null) {
+            for (int i = 0; i < intent.getClipData().getItemCount(); i++) {
+                uris.add(intent.getClipData().getItemAt(i).getUri());
+            }
+        } else {
+            uris.add(intent.getData());
+        }
+        for (Uri uri : uris) {
+            String name = FileHelper.getNameFromUri(getActivity(), uri);
+            new AttachmentTask(this, uri, name, this).execute();
+        }
+    }
+
 
     /**
      * Discards changes done to the note and eventually delete new attachments
@@ -1733,7 +1740,7 @@ public class DetailFragment extends Fragment implements
 
     @Override
     public void onNoteSaved(Note noteSaved) {
-        MainActivity.notifyAppWidgets(getActivity());
+        MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
         note = new Note(noteSaved);
         if (goBack) {
             goHome();
