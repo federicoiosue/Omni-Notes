@@ -385,10 +385,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // erased from Settings
         prefs = getActivity().getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS);
 
-        // Menu is invalidated to start again instructions tour if requested
-        if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "list", false)) {
-            getActivity().supportInvalidateOptionsMenu();
-        }
+//        // Menu is invalidated to start again instructions tour if requested
+//        if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "list", false)) {
+//            getActivity().supportInvalidateOptionsMenu();
+//        }
     }
 
     private final class ModeCallback implements android.support.v7.view.ActionMode.Callback {
@@ -2033,9 +2033,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             note.setTitle(note.getContent() + System.getProperty("line.separator") + taggingResult.first);
         } else {
             StringBuilder sb = new StringBuilder(note.getContent());
-            sb.append(System.getProperty("line.separator"))
-                    .append(System.getProperty("line.separator"))
-                    .append(taggingResult.first);
+            if (sb.length() > 0) {
+                sb.append(System.getProperty("line.separator"))
+                        .append(System.getProperty("line.separator"));
+            }
+            sb.append(taggingResult.first);
             note.setContent(sb.toString());
         }
 

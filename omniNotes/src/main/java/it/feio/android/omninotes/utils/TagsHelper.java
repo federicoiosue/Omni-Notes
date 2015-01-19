@@ -86,10 +86,10 @@ public class TagsHelper {
 
 
     public static Pair<String, String> removeTag(String noteTitle, String noteContent, List<Tag> tagsToRemove) {
-        String title = "", content = "";
+        String title = noteTitle, content = noteContent;
         for (Tag tagToRemove : tagsToRemove) {
-            title = noteTitle.replaceAll(tagToRemove.getText(), "");
-            content = noteContent.replaceAll(tagToRemove.getText(), "");
+            title = title.replaceAll(tagToRemove.getText(), "");
+            content = content.replaceAll(tagToRemove.getText(), "");
         }
         return new Pair<String, String>(title, content);
     }
