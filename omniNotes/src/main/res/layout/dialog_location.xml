@@ -24,4 +24,4 @@
     android:textAlignment="center"
     android:textColor="@color/text_color"
     android:textColorHint="@color/text_color_lighter"
-    android:padding="@dimen/horizontal_margin" />
+    android:padding="@dimen/horizontal_margin"/>

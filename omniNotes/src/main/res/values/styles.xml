@@ -18,7 +18,7 @@
   -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="OmniNotesTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="OmniNotesTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/colorPrimaryDark</item>
         <!--<item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>-->
@@ -27,15 +27,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/colorPrimaryDark</item>
-        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:button">@android:drawable/checkbox_off_background</item>
-        <item name="actionMenuTextColor">@color/abc_primary_text_material_dark</item>
-        <item name="android:textColorPrimary">@color/abc_primary_text_material_dark</item>
-        <item name="android:textColorSecondary">@color/abc_primary_text_material_dark</item>
         <item name="searchViewStyle">@style/SearchViewStyle</item>
-        <item name="android:textColorTertiary">@color/abc_primary_text_material_dark</item>
-        <item name="android:listChoiceIndicatorSingle">@drawable/checkbox_circle</item>
-        <item name="android:listChoiceIndicatorMultiple">@drawable/checkbox</item>
     </style>
 
     <style name="OmniNotesTheme.ApiSpec"></style>
