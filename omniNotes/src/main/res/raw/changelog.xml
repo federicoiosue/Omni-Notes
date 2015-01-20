@@ -17,7 +17,8 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.0.0 Beta 6" changeDate="Jan 19, 2015">
+    <changelogversion versionName="5.0.0 Beta 6" changeDate="Jan 21, 2015">
+        <changelogtext>Improved Material Design interface</changelogtext>
         <changelogtext>[u]Fix[/u] Lot of!</changelogtext>
     </changelogversion>
 
