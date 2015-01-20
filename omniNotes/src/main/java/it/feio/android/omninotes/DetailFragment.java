@@ -505,6 +505,11 @@ public class DetailFragment extends Fragment implements
 
         // Initialization of location TextView
         locationTextView = (TextView) getView().findViewById(R.id.location);
+        // Automatic location insertion
+        if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == 0) {
+            noteTmp.setLatitude(getMainActivity().currentLatitude);
+            noteTmp.setLongitude(getMainActivity().currentLongitude);
+        }
         if (isNoteLocationValid()) {
             if (!TextUtils.isEmpty(noteTmp.getAddress())) {
                 locationTextView.setVisibility(View.VISIBLE);
@@ -513,11 +518,6 @@ public class DetailFragment extends Fragment implements
                 GeocodeHelper.getAddressFromCoordinates(getActivity(), noteTmp.getLatitude(), noteTmp.getLongitude(), mFragment);
             }
         } else {
-            // Automatic location insertion
-            if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == 0) {
-                noteTmp.setLatitude(getMainActivity().currentLatitude);
-                noteTmp.setLongitude(getMainActivity().currentLongitude);
-            }
         }
 
         locationTextView.setOnClickListener(new OnClickListener() {
