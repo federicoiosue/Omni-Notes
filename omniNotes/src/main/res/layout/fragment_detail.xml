@@ -137,6 +137,7 @@
                             android:linksClickable="false"
                             android:textAppearance="@style/Text.Big"
                             android:textColor="@color/actionbar_title_text"
+                            android:imeOptions="actionDone"
                             pixlui:typeface="RobotoSlab-Regular.ttf" />
                     </LinearLayout>
 
