@@ -39,42 +39,42 @@
         android:orderInCategory="150"
         android:title="@string/filter"
         android:visible="false"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_filter_remove"
         android:icon="@drawable/ic_filter_remove_white_24dp"
         android:orderInCategory="150"
         android:title="@string/remove_filter"
         android:visible="false"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_category"
+        android:icon="@drawable/ic_folder_special_white_24dp"
+        android:orderInCategory="175"
+        android:title="@string/category"
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_tags"
         android:icon="@drawable/ic_loyalty_white_24dp"
         android:orderInCategory="200"
         android:title="@string/tags"
         android:visible="false"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_share_white_24dp"
         android:orderInCategory="300"
         android:title="@string/share"
         android:visible="false"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_merge"
         android:icon="@drawable/ic_call_merge_white_24dp"
         android:orderInCategory="400"
         android:title="@string/merge"
         android:visible="false"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/menu_category"
-        android:icon="@drawable/ic_folder_special_white_24dp"
-        android:orderInCategory="600"
-        android:title="@string/category"
-        android:visible="false"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_archive"
         android:icon="@drawable/ic_archive_white_24dp"

@@ -337,7 +337,13 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
     @Override
     public void add(int i, @NonNull Object o) {
         insert((Note)o, i);
-
+    }
+    
+    
+    public void remove(List<Note> notes) {
+        for (Note note : notes) {
+            remove(note);
+        }
     }
 }
 

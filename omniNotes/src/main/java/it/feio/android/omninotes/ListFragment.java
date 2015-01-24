@@ -67,6 +67,9 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.async.NoteLoaderTask;
+import it.feio.android.omninotes.async.NoteProcessorArchive;
+import it.feio.android.omninotes.async.NoteProcessorCategorize;
+import it.feio.android.omninotes.async.NoteProcessorTrash;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
@@ -1573,17 +1576,17 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      */
     public void trashNotes(boolean trash) {
         int selectedNotesSize = getSelectedNotes().size();
-        for (Note note : getSelectedNotes()) {
-            // Restore it performed immediately, otherwise undo bar
-            if (trash) {
+
+        // Restore is performed immediately, otherwise undo bar is shown
+        if (trash) {
+            for (Note note : getSelectedNotes()) {
                 // Saves notes to be eventually restored at right position
                 undoNotesList.put(listAdapter.getPosition(note) + undoNotesList.size(), note);
                 modifiedNotes.add(note);
-            } else {
-                trashNote(note, false);
+                listAdapter.remove(note);
             }
-            // Removes note adapter
-            listAdapter.remove(note);
+        } else {
+            trashNote(getSelectedNotes(), false);
         }
 
         // If list is empty again Mr Jingles will appear again
@@ -1623,17 +1626,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     /**
      * Single note logical deletion
-     *
-     * @param note
-     *            Note to be deleted
      */
     @SuppressLint("NewApi")
-    protected void trashNote(Note note, boolean trash) {
-        DbHelper.getInstance(getActivity()).trashNote(note, trash);
-        // Update adapter content
-        listAdapter.remove(note);
-        // Informs about update
-        Ln.d("Trashed/restored note with id '" + note.get_id() + "'");
+    protected void trashNote(List<Note> notes, boolean trash) {
+        new NoteProcessorTrash(notes, trash).process();
+        listAdapter.remove(notes);
     }
 
 
@@ -1737,12 +1734,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // Used in undo bar commit
         sendToArchive = archive;
 
+        if (!archive) {
+            archiveNote(getSelectedNotes(), false);
+        }
         for (Note note : getSelectedNotes()) {
             // If is restore it will be done immediately, otherwise the undo bar
             // will be shown
-            if (!archive) {
-                archiveNote(note, false);
-            } else {
+            if (archive) {
                 // Saves notes to be eventually restored at right position
                 undoNotesList.put(listAdapter.getPosition(note) + undoNotesList.size(), note);
                 modifiedNotes.add(note);
@@ -1808,14 +1806,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     }
 
 
-    private void archiveNote(Note note, boolean archive) {
-        // Deleting note using DbHelper
-        DbHelper.getInstance(getActivity()).archiveNote(note, archive);
-        // Update adapter content
+    private void archiveNote(List<Note> notes, boolean archive) {
+        new NoteProcessorArchive(notes, archive).process();
         if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
-            listAdapter.remove(note);
+            listAdapter.remove(notes);
         }
-        Ln.d("Note with id '" + note.get_id() + "' " + (archive ? "archived" : "restored from archive"));
+        Ln.d("Notes" + (archive ? "archived" : "restored from archive"));
     }
 
 
@@ -1895,12 +1891,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     private void categorizeNotesExecute(Category category) {
+        if (category != null)
+            categorizeNote(getSelectedNotes(), category);
         for (Note note : getSelectedNotes()) {
             // If is restore it will be done immediately, otherwise the undo bar
             // will be shown
-            if (category != null) {
-                categorizeNote(note, category);
-            } else {
+            if (category == null) {
                 // Saves categories associated to eventually undo
                 undoCategoryMap.put(note, note.getCategory());
                 // Saves notes to be eventually restored at right position
@@ -1959,9 +1955,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     }
 
 
-    private void categorizeNote(Note note, Category category) {
-        note.setCategory(category);
-        DbHelper.getInstance(getActivity()).updateNote(note, false);
+    private void categorizeNote(List<Note> notes, Category category) {
+        new NoteProcessorCategorize(notes, category).process();
     }
 
 
@@ -2102,13 +2097,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     void commitPending() {
         if (undoTrash || undoArchive || undoCategorize) {
 
-            for (Note note : modifiedNotes) {
-                if (undoTrash)
-                    trashNote(note, true);
-                else if (undoArchive)
-                    archiveNote(note, sendToArchive);
-                else if (undoCategorize) categorizeNote(note, undoCategorizeCategory);
-            }
+            if (undoTrash)
+                trashNote(modifiedNotes, true);
+            else if (undoArchive)
+                archiveNote(modifiedNotes, sendToArchive);
+            else if (undoCategorize)
+                categorizeNote(modifiedNotes, undoCategorizeCategory);
             // Refreshes navigation drawer if is set to show categories count numbers
 //            if (prefs.getBoolean("settings_show_category_count", false)) {
                 getMainActivity().initNavigationDrawer();
