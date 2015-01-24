@@ -1970,6 +1970,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         // If there is no tag a message will be shown
         if (tags.size() == 0) {
+            finishActionMode();
             getMainActivity().showMessage(R.string.no_tags_created, ONStyle.WARN);
             return;
         }
