@@ -29,6 +29,8 @@
         <item name="actionModeBackground">@color/colorPrimaryDark</item>
         <item name="android:button">@android:drawable/checkbox_off_background</item>
         <item name="searchViewStyle">@style/SearchViewStyle</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+
     </style>
 
     <style name="OmniNotesTheme.ApiSpec"></style>
