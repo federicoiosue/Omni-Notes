@@ -22,7 +22,9 @@ import com.pushbullet.android.extension.MessagingExtension;
 import it.feio.android.omninotes.MainActivity;
 import roboguice.util.Ln;
 
+
 public class PushBulletExtension extends MessagingExtension {
+
     private static final String TAG = "PushBulletExtension";
 
 
@@ -34,6 +36,7 @@ public class PushBulletExtension extends MessagingExtension {
             runningMainActivity.onPushBulletReply(message);
         }
     }
+
 
     @Override
     protected void onConversationDismissed(final String conversationIden) {

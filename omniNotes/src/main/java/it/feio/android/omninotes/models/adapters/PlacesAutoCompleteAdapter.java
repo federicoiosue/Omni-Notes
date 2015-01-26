@@ -26,25 +26,30 @@ import java.util.ArrayList;
 
 import it.feio.android.omninotes.utils.GeocodeHelper;
 
+
 public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
 
     private static final int MIN_CHARS = 7;
 
     private ArrayList<String> resultList;
 
+
     public PlacesAutoCompleteAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
+
 
     @Override
     public int getCount() {
         return resultList.size();
     }
 
+
     @Override
     public String getItem(int index) {
         return resultList.get(index);
     }
+
 
     @Override
     public Filter getFilter() {
@@ -62,6 +67,7 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements F
                 }
                 return filterResults;
             }
+
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {

@@ -25,8 +25,9 @@ import java.util.List;
 
 
 public class NoteProcessorTrash extends NoteProcessor {
-    
+
     boolean trash;
+
 
     public NoteProcessorTrash(List<Note> notes, boolean trash) {
         super(notes);

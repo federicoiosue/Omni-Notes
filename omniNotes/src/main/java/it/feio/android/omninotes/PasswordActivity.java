@@ -38,35 +38,35 @@ import java.util.List;
 public class PasswordActivity extends BaseActivity {
 
     private ViewGroup crouton_handle;
-	private EditText passwordCheck;
-	private EditText password;
+    private EditText passwordCheck;
+    private EditText password;
     private EditText question;
-	private EditText answer;
-	private EditText answerCheck;
+    private EditText answer;
+    private EditText answerCheck;
     private PasswordActivity mActivity;
 
 
     @Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         int screenWidth = (int) (metrics.widthPixels * 0.80);
         int screenHeight = (int) (metrics.heightPixels * 0.80);
-		setContentView(R.layout.activity_password);
+        setContentView(R.layout.activity_password);
         getWindow().setLayout(screenWidth, screenHeight);
         mActivity = this;
-		setActionBarTitle(getString(R.string.title_activity_password));
-		initViews();
-	}
+        setActionBarTitle(getString(R.string.title_activity_password));
+        initViews();
+    }
 
 
-	private void initViews() {
+    private void initViews() {
         crouton_handle = (ViewGroup) findViewById(R.id.crouton_handle);
-		password = (EditText)findViewById(R.id.password);
-		passwordCheck = (EditText)findViewById(R.id.password_check);
-		question = (EditText)findViewById(R.id.question);
-		answer = (EditText)findViewById(R.id.answer);
-		answerCheck = (EditText)findViewById(R.id.answer_check);
+        password = (EditText) findViewById(R.id.password);
+        passwordCheck = (EditText) findViewById(R.id.password_check);
+        question = (EditText) findViewById(R.id.question);
+        answer = (EditText) findViewById(R.id.answer);
+        answerCheck = (EditText) findViewById(R.id.answer_check);
 
         findViewById(R.id.password_remove).setOnClickListener(new OnClickListener() {
             @Override
@@ -144,7 +144,7 @@ public class PasswordActivity extends BaseActivity {
                         }).build().show();
             }
         });
-	}
+    }
 
 
     /**
@@ -207,50 +207,52 @@ public class PasswordActivity extends BaseActivity {
 
 
     /**
-	 * Checks correctness of form data
-	 * @return
-	 */
-	private boolean checkData(){
-		boolean res = true;
-		
-		if (password.getText().length() == passwordCheck.getText().length() 
-				&& passwordCheck.getText().length() == 0) {
-			return true;
-		}
-		
-		boolean passwordOk = password.getText().toString().length() > 0;
-		boolean passwordCheckOk = passwordCheck.getText().toString().length() > 0 && password.getText().toString().equals(passwordCheck.getText().toString());
-		boolean questionOk = question.getText().toString().length() > 0;
-		boolean answerOk = answer.getText().toString().length() > 0;
-		boolean answerCheckOk = answerCheck.getText().toString().length() > 0 && answer.getText().toString().equals(answerCheck.getText().toString());
-		
-		if (!passwordOk || !passwordCheckOk || !questionOk || !answerOk || !answerCheckOk){
-			res = false;
-			if (!passwordOk) {
-				password.setError(getString(R.string.settings_password_not_matching));
-			}
-			if (!passwordCheckOk) {
-				passwordCheck.setError(getString(R.string.settings_password_not_matching));
-			}
-			if (!questionOk) {
-				question.setError(getString(R.string.settings_password_question));
-			}
-			if (!answerOk) {
-				answer.setError(getString(R.string.settings_answer_not_matching));
-			}
-			if (!answerCheckOk) {
-				answerCheck.setError(getString(R.string.settings_answer_not_matching));
-			}
-		}	
-		return res;
-	}
-	
-	
-	
-	@Override
-	public void onBackPressed() {	
-		setResult(RESULT_OK);
-		finish();
-	}
+     * Checks correctness of form data
+     *
+     * @return
+     */
+    private boolean checkData() {
+        boolean res = true;
+
+        if (password.getText().length() == passwordCheck.getText().length()
+                && passwordCheck.getText().length() == 0) {
+            return true;
+        }
+
+        boolean passwordOk = password.getText().toString().length() > 0;
+        boolean passwordCheckOk = passwordCheck.getText().toString().length() > 0 && password.getText().toString()
+                .equals(passwordCheck.getText().toString());
+        boolean questionOk = question.getText().toString().length() > 0;
+        boolean answerOk = answer.getText().toString().length() > 0;
+        boolean answerCheckOk = answerCheck.getText().toString().length() > 0 && answer.getText().toString().equals
+                (answerCheck.getText().toString());
+
+        if (!passwordOk || !passwordCheckOk || !questionOk || !answerOk || !answerCheckOk) {
+            res = false;
+            if (!passwordOk) {
+                password.setError(getString(R.string.settings_password_not_matching));
+            }
+            if (!passwordCheckOk) {
+                passwordCheck.setError(getString(R.string.settings_password_not_matching));
+            }
+            if (!questionOk) {
+                question.setError(getString(R.string.settings_password_question));
+            }
+            if (!answerOk) {
+                answer.setError(getString(R.string.settings_answer_not_matching));
+            }
+            if (!answerCheckOk) {
+                answerCheck.setError(getString(R.string.settings_answer_not_matching));
+            }
+        }
+        return res;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        finish();
+    }
 
 }

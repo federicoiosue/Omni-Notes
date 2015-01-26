@@ -48,125 +48,129 @@ import java.net.URLConnection;
 //import com.google.android.gms.common.ConnectionResult;
 //import com.google.android.gms.common.GooglePlayServicesUtil;
 
+
 public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
-	private final String BETA = " Beta ";
-	private final WeakReference<Activity> mActivityReference;
-	private final Activity mActivity;
-	String url;
-	private String packageName;
-	private boolean promptUpdate = false;
+    private final String BETA = " Beta ";
+    private final WeakReference<Activity> mActivityReference;
+    private final Activity mActivity;
+    String url;
+    private String packageName;
+    private boolean promptUpdate = false;
 
-	public UpdaterTask(Activity mActivity) {
-		this.mActivityReference = new WeakReference<Activity>(mActivity);
-		this.mActivity = mActivity;
-	}
 
-	@Override
-	protected void onPreExecute() {
-		String packageName = mActivity.getApplicationContext().getPackageName();
-		url = Constants.PS_METADATA_FETCHER_URL + Constants.PLAY_STORE_URL
-				+ packageName;
-		super.onPreExecute();
-	}
+    public UpdaterTask(Activity mActivity) {
+        this.mActivityReference = new WeakReference<Activity>(mActivity);
+        this.mActivity = mActivity;
+    }
 
-	@Override
-	protected Void doInBackground(String... params) {
 
-		String appData = getAppData();
-		try {
-			// Creation of json object
-			JSONObject json = new JSONObject(appData);
+    @Override
+    protected void onPreExecute() {
+        String packageName = mActivity.getApplicationContext().getPackageName();
+        url = Constants.PS_METADATA_FETCHER_URL + Constants.PLAY_STORE_URL
+                + packageName;
+        super.onPreExecute();
+    }
 
-			promptUpdate = isVersionUpdated(json.getString("softwareVersion"));
 
-			// Getting from preferences last update check
-			@SuppressWarnings("static-access")
-			SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+    @Override
+    protected Void doInBackground(String... params) {
 
-			long now = System.currentTimeMillis();
-			if (promptUpdate
-					&& now > prefs.getLong(Constants.PREF_LAST_UPDATE_CHECK, 0)
-							+ Constants.UPDATE_MIN_FREQUENCY) {
-				promptUpdate = true;
-				prefs.edit().putLong(Constants.PREF_LAST_UPDATE_CHECK, now)
-						.commit();
-			} else {
-				promptUpdate = false;
-			}
+        String appData = getAppData();
+        try {
+            // Creation of json object
+            JSONObject json = new JSONObject(appData);
 
-		} catch (Exception e) {
-			Ln.w(e, "Error fetching app metadata");
-		}
+            promptUpdate = isVersionUpdated(json.getString("softwareVersion"));
 
-		return null;
-	}
+            // Getting from preferences last update check
+            @SuppressWarnings("static-access")
+            SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
 
-	private void promptUpdate() {
-		
-		// Confirm dialog creation
-		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				mActivityReference.get());
-		alertDialogBuilder
-				.setCancelable(false)
-				.setMessage(R.string.new_update_available)
-				.setPositiveButton(R.string.update,
-						new DialogInterface.OnClickListener() {
+            long now = System.currentTimeMillis();
+            if (promptUpdate
+                    && now > prefs.getLong(Constants.PREF_LAST_UPDATE_CHECK, 0)
+                    + Constants.UPDATE_MIN_FREQUENCY) {
+                promptUpdate = true;
+                prefs.edit().putLong(Constants.PREF_LAST_UPDATE_CHECK, now)
+                        .commit();
+            } else {
+                promptUpdate = false;
+            }
 
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								if(isGooglePlayAvailable()) {
-									mActivityReference.get().startActivity(new Intent(
-											Intent.ACTION_VIEW, Uri
-													.parse("market://details?id="
-															+ packageName)));
-								} else {
+        } catch (Exception e) {
+            Ln.w(e, "Error fetching app metadata");
+        }
 
-									  // MapBuilder.createEvent().build() returns a Map of event fields and values
-									  // that are set and sent with the hit.
-									OmniNotes.getGaTracker().send(MapBuilder
-									      .createEvent("ui_action",     // Event category (required)
-									                   "button_press",  // Event action (required)
-									                   "Google Drive Update",   // Event label
-									                   null)            // Event value
-									      .build());
+        return null;
+    }
 
-									mActivityReference.get().startActivity(new Intent(
-											Intent.ACTION_VIEW, Uri
-													.parse(Constants.DRIVE_FOLDER_LAST_BUILD)));
-								}
-								
-								dialog.dismiss();
-							}
-						})
-				.setNegativeButton(R.string.not_now,
-						new DialogInterface.OnClickListener() {
 
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.dismiss();
-							}
-						});
-		AlertDialog alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
-	}
+    private void promptUpdate() {
 
-	
-	
-	@Override
-	protected void onPostExecute(Void result) {	
-		if (isAlive(mActivityReference) && promptUpdate) {
-			promptUpdate();
-		} else {
+        // Confirm dialog creation
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                mActivityReference.get());
+        alertDialogBuilder
+                .setCancelable(false)
+                .setMessage(R.string.new_update_available)
+                .setPositiveButton(R.string.update,
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                if (isGooglePlayAvailable()) {
+                                    mActivityReference.get().startActivity(new Intent(
+                                            Intent.ACTION_VIEW, Uri
+                                            .parse("market://details?id="
+                                                    + packageName)));
+                                } else {
+
+                                    // MapBuilder.createEvent().build() returns a Map of event fields and values
+                                    // that are set and sent with the hit.
+                                    OmniNotes.getGaTracker().send(MapBuilder
+                                            .createEvent("ui_action",     // Event category (required)
+                                                    "button_press",  // Event action (required)
+                                                    "Google Drive Update",   // Event label
+                                                    null)            // Event value
+                                            .build());
+
+                                    mActivityReference.get().startActivity(new Intent(
+                                            Intent.ACTION_VIEW, Uri
+                                            .parse(Constants.DRIVE_FOLDER_LAST_BUILD)));
+                                }
+
+                                dialog.dismiss();
+                            }
+                        })
+                .setNegativeButton(R.string.not_now,
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+
+    @Override
+    protected void onPostExecute(Void result) {
+        if (isAlive(mActivityReference) && promptUpdate) {
+            promptUpdate();
+        } else {
             showChangelog();
         }
-	}
+    }
 
 
     private void showChangelog() {
         try {
             String newVersion = mActivity.getPackageManager().getPackageInfo(
-                     mActivity.getPackageName(), 0).versionName;
+                    mActivity.getPackageName(), 0).versionName;
             String currentVersion = mActivity.getSharedPreferences(Constants.PREFS_NAME,
                     Context.MODE_MULTI_PROCESS).getString(Constants.PREF_CURRENT_APP_VERSION, "");
             if (!newVersion.equals(currentVersion)) {
@@ -175,7 +179,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
                         .positiveText(R.string.ok)
                         .build().show();
                 mActivity.getSharedPreferences(Constants.PREFS_NAME,
-                        Context.MODE_MULTI_PROCESS).edit().putString(Constants.PREF_CURRENT_APP_VERSION, 
+                        Context.MODE_MULTI_PROCESS).edit().putString(Constants.PREF_CURRENT_APP_VERSION,
                         newVersion).commit();
             }
         } catch (NameNotFoundException e) {
@@ -185,104 +189,106 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 
     /**
-	 * Cheks if activity is still alive and not finishing
-	 * @param weakActivityReference
-	 * @return True or false
-	 */
-	private boolean isAlive(WeakReference<Activity> weakActivityReference) {
-		if (weakActivityReference.get() == null || weakActivityReference.get().isFinishing()) {
-			return false;
-		}
-		return true;
-	}
+     * Cheks if activity is still alive and not finishing
+     *
+     * @param weakActivityReference
+     * @return True or false
+     */
+    private boolean isAlive(WeakReference<Activity> weakActivityReference) {
+        if (weakActivityReference.get() == null || weakActivityReference.get().isFinishing()) {
+            return false;
+        }
+        return true;
+    }
 
-	
-	/**
-	 * Fecth application data from internet
-	 * @return
-	 */
-	public String getAppData() {
-		StringBuilder sb = new StringBuilder();
-		
-		packageName = mActivity.getPackageName();
 
-		try {
-			// get URL content
-			URL url = new URL(Constants.PS_METADATA_FETCHER_URL
-					+ Constants.PLAY_STORE_URL + packageName);
-			URLConnection conn = url.openConnection();
+    /**
+     * Fecth application data from internet
+     *
+     * @return
+     */
+    public String getAppData() {
+        StringBuilder sb = new StringBuilder();
 
-			// open the stream and put it into BufferedReader
-			InputStream is = conn.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        packageName = mActivity.getPackageName();
 
-			String inputLine;
+        try {
+            // get URL content
+            URL url = new URL(Constants.PS_METADATA_FETCHER_URL
+                    + Constants.PLAY_STORE_URL + packageName);
+            URLConnection conn = url.openConnection();
 
-			while ((inputLine = br.readLine()) != null) {
-				sb.append(inputLine);
-			}
-			is.close();
+            // open the stream and put it into BufferedReader
+            InputStream is = conn.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-		} catch (MalformedURLException e) {
-			Ln.e(e, "Error fetching app metadata");
-		} catch (IOException e) {
-			Ln.w(e, "Error fetching app metadata");
-		}
-	
-		return sb.toString();
-	}
+            String inputLine;
 
-	
-	/**
-	 * Checks parsing "android:versionName" if app has been updated
-	 * 
-	 * @throws NameNotFoundException
-	 */
-	private boolean isVersionUpdated(String playStoreVersion)
-			throws NameNotFoundException {
-		
-		boolean result = false;
+            while ((inputLine = br.readLine()) != null) {
+                sb.append(inputLine);
+            }
+            is.close();
 
-		// Retrieval of installed app version
-		PackageInfo pInfo = mActivity.getPackageManager().getPackageInfo(
-				mActivity.getPackageName(), 0);
-		String installedVersion = pInfo.versionName;
+        } catch (MalformedURLException e) {
+            Ln.e(e, "Error fetching app metadata");
+        } catch (IOException e) {
+            Ln.w(e, "Error fetching app metadata");
+        }
 
-		// Parsing version string to obtain major.minor.point (excluding eventually beta)
-		String[] playStoreVersionArray = playStoreVersion.split(BETA)[0].split("\\.");
-		String[] installedVersionArray = installedVersion.split(BETA)[0].split("\\.");	
-		
-		// Versions strings are converted into integer
-		String playStoreVersionString = playStoreVersionArray[0];
-		String installedVersionString = installedVersionArray[0];
-		for (int i=1; i < playStoreVersionArray.length; i++) {
-			playStoreVersionString += String.format("%02d", Integer.parseInt(playStoreVersionArray[i]));
-			installedVersionString += String.format("%02d", Integer.parseInt(installedVersionArray[i]));
-		}
-		
-		// And then compared
-		if (  Integer.parseInt(playStoreVersionString) > Integer.parseInt(installedVersionString) ) {
-			result = true;
-		}
-		
-		// And then compared again to check if we're out of Beta
-		else if (  Integer.parseInt(playStoreVersionString) == Integer.parseInt(installedVersionString) 
-					&& playStoreVersion.split("b").length == 1 && installedVersion.split("b").length == 2) {
-			result = true;
-		}
-		
-		return result;
-	}
-	
-	
-	
-	/**
-	 * Checks Google Play availability
-	 * @return
-	 */
-	private boolean isGooglePlayAvailable() {
+        return sb.toString();
+    }
+
+
+    /**
+     * Checks parsing "android:versionName" if app has been updated
+     *
+     * @throws NameNotFoundException
+     */
+    private boolean isVersionUpdated(String playStoreVersion)
+            throws NameNotFoundException {
+
+        boolean result = false;
+
+        // Retrieval of installed app version
+        PackageInfo pInfo = mActivity.getPackageManager().getPackageInfo(
+                mActivity.getPackageName(), 0);
+        String installedVersion = pInfo.versionName;
+
+        // Parsing version string to obtain major.minor.point (excluding eventually beta)
+        String[] playStoreVersionArray = playStoreVersion.split(BETA)[0].split("\\.");
+        String[] installedVersionArray = installedVersion.split(BETA)[0].split("\\.");
+
+        // Versions strings are converted into integer
+        String playStoreVersionString = playStoreVersionArray[0];
+        String installedVersionString = installedVersionArray[0];
+        for (int i = 1; i < playStoreVersionArray.length; i++) {
+            playStoreVersionString += String.format("%02d", Integer.parseInt(playStoreVersionArray[i]));
+            installedVersionString += String.format("%02d", Integer.parseInt(installedVersionArray[i]));
+        }
+
+        // And then compared
+        if (Integer.parseInt(playStoreVersionString) > Integer.parseInt(installedVersionString)) {
+            result = true;
+        }
+
+        // And then compared again to check if we're out of Beta
+        else if (Integer.parseInt(playStoreVersionString) == Integer.parseInt(installedVersionString)
+                && playStoreVersion.split("b").length == 1 && installedVersion.split("b").length == 2) {
+            result = true;
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Checks Google Play availability
+     *
+     * @return
+     */
+    private boolean isGooglePlayAvailable() {
         boolean googlePlayStoreInstalled = true;
-        int val= GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
+        int val = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
         googlePlayStoreInstalled = val == ConnectionResult.SUCCESS;
         return googlePlayStoreInstalled;
     }

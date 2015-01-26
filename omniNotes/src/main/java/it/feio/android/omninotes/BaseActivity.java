@@ -53,79 +53,82 @@ import java.util.List;
 //import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
 //import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 
+
 @SuppressLint("Registered")
 public class BaseActivity extends ActionBarActivity implements LocationListener {
 
-	private final boolean TEST = false;
+    private final boolean TEST = false;
 
-	protected final int TRANSITION_VERTICAL = 0;
-	protected final int TRANSITION_HORIZONTAL = 1;
+    protected final int TRANSITION_VERTICAL = 0;
+    protected final int TRANSITION_HORIZONTAL = 1;
 
-	protected SharedPreferences prefs;
+    protected SharedPreferences prefs;
 
-	// Location variables
-	protected LocationManager locationManager;
-	protected Location currentLocation;
-	protected double currentLatitude;
-	protected double currentLongitude;
+    // Location variables
+    protected LocationManager locationManager;
+    protected Location currentLocation;
+    protected double currentLatitude;
+    protected double currentLongitude;
 
-	protected String navigation;
-	protected String navigationTmp; // used for widget navigation
+    protected String navigation;
+    protected String navigationTmp; // used for widget navigation
 
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu items for use in the action bar
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu_list, menu);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_list, menu);
 
-		return super.onCreateOptionsMenu(menu);
-	}
+        return super.onCreateOptionsMenu(menu);
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		/*
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        /*
 		 * Executing the application in test will activate ScrictMode to debug
 		 * heavy i/o operations on main thread and data sending to GA will be
 		 * disabled
 		 */
-		if (TEST) {
-			StrictMode.enableDefaults();
+        if (TEST) {
+            StrictMode.enableDefaults();
 //			GoogleAnalytics.getInstance(this).setDryRun(true);
-		}
-		// Preloads shared preferences for all derived classes
-		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-		// Starts location manager
-		locationManager = GeocodeHelper.getLocationManager(this, this);
-		// Force menu overflow icon
-		try {
-	        ViewConfiguration config = ViewConfiguration.get(this);
-	        Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-	        if(menuKeyField != null) {
-	            menuKeyField.setAccessible(true);
-	            menuKeyField.setBoolean(config, false);
-	        }
-	    } catch (Exception ex) {}
-		super.onCreate(savedInstanceState);
-	}
+        }
+        // Preloads shared preferences for all derived classes
+        prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+        // Starts location manager
+        locationManager = GeocodeHelper.getLocationManager(this, this);
+        // Force menu overflow icon
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception ex) {
+        }
+        super.onCreate(savedInstanceState);
+    }
 
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		// Navigation selected
-		String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
-		navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
-		Ln.d(prefs.getAll().toString());
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Navigation selected
+        String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
+        navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
+        Ln.d(prefs.getAll().toString());
+    }
 
 
-	@Override
-	public void onStop() {
-		super.onStop();
-		if (locationManager != null)
-			locationManager.removeUpdates(this);
-	}
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (locationManager != null)
+            locationManager.removeUpdates(this);
+    }
 
 
     @Override
@@ -135,15 +138,18 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
         currentLongitude = currentLocation.getLongitude();
     }
 
+
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
 
     }
 
+
     @Override
     public void onProviderEnabled(String provider) {
 
     }
+
 
     @Override
     public void onProviderDisabled(String provider) {
@@ -152,28 +158,27 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
 
     protected boolean navigationArchived() {
-		return "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
-	}
+        return "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
+    }
 
 
-	protected void showToast(CharSequence text, int duration) {
-		if (prefs.getBoolean("settings_enable_info", true)) {
-			Toast.makeText(getApplicationContext(), text, duration).show();
-		}
-	}
+    protected void showToast(CharSequence text, int duration) {
+        if (prefs.getBoolean("settings_enable_info", true)) {
+            Toast.makeText(getApplicationContext(), text, duration).show();
+        }
+    }
 
 
+    /**
+     * Method to validate security password to protect notes.
+     * It uses an interface callback.
+     */
+    public static void requestPassword(final Activity mActivity, final PasswordValidator mPasswordValidator) {
 
-	/**
-	 * Method to validate security password to protect notes.
-	 * It uses an interface callback.
-	 */
-	public static void requestPassword(final Activity mActivity, final PasswordValidator mPasswordValidator) {
-
-		// Inflate layout
-		LayoutInflater inflater = mActivity.getLayoutInflater();
-		final View v = inflater.inflate(R.layout.password_request_dialog_layout, null);
-    	final EditText passwordEditText = (EditText)v.findViewById(R.id.password_request);
+        // Inflate layout
+        LayoutInflater inflater = mActivity.getLayoutInflater();
+        final View v = inflater.inflate(R.layout.password_request_dialog_layout, null);
+        final EditText passwordEditText = (EditText) v.findViewById(R.id.password_request);
 
         MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
                 .autoDismiss(false)
@@ -213,9 +218,9 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
         dialog.show();
 
-		// Force focus and shows soft keyboard
-		KeyboardUtils.showKeyboard(passwordEditText);
-	}
+        // Force focus and shows soft keyboard
+        KeyboardUtils.showKeyboard(passwordEditText);
+    }
 
 
     /**
@@ -223,7 +228,8 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
      * When "Request password on access" in switched on this check not required all the times.
      * It uses an interface callback.
      */
-    public void requestPassword(final Activity mActivity, List<Note> notes, final PasswordValidator mPasswordValidator) {
+    public void requestPassword(final Activity mActivity, List<Note> notes, 
+                                final PasswordValidator mPasswordValidator) {
         if (prefs.getBoolean("settings_password_access", false)) {
             mPasswordValidator.onPasswordValidated(true);
             return;
@@ -249,21 +255,20 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     }
 
 
-    protected void updateNavigation(String nav){
-		prefs.edit().putString(Constants.PREF_NAVIGATION, nav).commit();
-		navigation = nav;
-		navigationTmp = null;
-	}
+    protected void updateNavigation(String nav) {
+        prefs.edit().putString(Constants.PREF_NAVIGATION, nav).commit();
+        navigation = nav;
+        navigationTmp = null;
+    }
 
 
-
-	/**
-	 * Builds ShowcaseView and show it
-	 * @param viewsArrays
-	 *            List of Integer arrays containing the following informations
-	 *            that have to be used for ItemViewProperties building: id,
-	 *            titleResId, messageResId, itemType, scale, configOptions
-	 */
+    /**
+     * Builds ShowcaseView and show it
+     * @param viewsArrays
+     *            List of Integer arrays containing the following informations
+     *            that have to be used for ItemViewProperties building: id,
+     *            titleResId, messageResId, itemType, scale, configOptions
+     */
 //	protected void showCaseView(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
 //
 //		final float scale = 0.6F;
@@ -309,70 +314,66 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 //	}
 
 
+    /**
+     * Retrieves resource by name
+     *
+     * @param aString
+     * @returnnotifyAppWidgets
+     */
+    private String getStringResourceByName(String aString) {
+        String packageName = getApplicationContext().getPackageName();
+        int resId = getResources().getIdentifier(aString, "string", packageName);
+        return getString(resId);
+    }
 
 
-	/**
-	 * Retrieves resource by name
-	 * @param aString
-	 * @returnnotifyAppWidgets
-	 */
-	private String getStringResourceByName(String aString) {
-		String packageName = getApplicationContext().getPackageName();
-		int resId = getResources().getIdentifier(aString, "string", packageName);
-		return getString(resId);
-	}
-
-
-	/**
-	 * Notifies App Widgets about data changes so they can update theirselves
-	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public static void notifyAppWidgets(Context mActivity) {
-		// Home widgets
+    /**
+     * Notifies App Widgets about data changes so they can update theirselves
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static void notifyAppWidgets(Context mActivity) {
+        // Home widgets
         AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
         int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity, ListWidgetProvider.class));
         Ln.d("Notifies AppWidget data changed for widgets " + ids);
         mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 
-		// Dashclock
-	    LocalBroadcastManager.getInstance(mActivity).sendBroadcast(new Intent(Constants.INTENT_UPDATE_DASHCLOCK));
-	}
+        // Dashclock
+        LocalBroadcastManager.getInstance(mActivity).sendBroadcast(new Intent(Constants.INTENT_UPDATE_DASHCLOCK));
+    }
 
 
-	@SuppressLint("InlinedApi")
-	protected void animateTransition(FragmentTransaction transaction, int direction) {
-		if (direction == TRANSITION_HORIZONTAL) {
-            transaction.setCustomAnimations(R.animator.fade_in_support, R.animator.fade_out_support, R.animator.fade_in_support, R.animator.fade_out_support);
-		}
-		if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			transaction.setCustomAnimations(
-	                R.animator.anim_in, R.animator.anim_out, R.animator.anim_in_pop, R.animator.anim_out_pop);
-		}
-	}
+    @SuppressLint("InlinedApi")
+    protected void animateTransition(FragmentTransaction transaction, int direction) {
+        if (direction == TRANSITION_HORIZONTAL) {
+            transaction.setCustomAnimations(R.animator.fade_in_support, R.animator.fade_out_support, 
+                    R.animator.fade_in_support, R.animator.fade_out_support);
+        }
+        if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            transaction.setCustomAnimations(
+                    R.animator.anim_in, R.animator.anim_out, R.animator.anim_in_pop, R.animator.anim_out_pop);
+        }
+    }
 
 
-	protected void setActionBarTitle(String title) {
-		// Creating a spannable to support custom fonts on ActionBar
-		int actionBarTitle = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
-		android.widget.TextView actionBarTitleView = (android.widget.TextView) getWindow().findViewById(actionBarTitle);
-		Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
-		if (actionBarTitleView != null) {
-			actionBarTitleView.setTypeface(font);
-		}
+    protected void setActionBarTitle(String title) {
+        // Creating a spannable to support custom fonts on ActionBar
+        int actionBarTitle = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+        android.widget.TextView actionBarTitleView = (android.widget.TextView) getWindow().findViewById(actionBarTitle);
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
+        if (actionBarTitleView != null) {
+            actionBarTitleView.setTypeface(font);
+        }
 
-		if (getSupportActionBar() != null) {
-			getSupportActionBar().setTitle(title);
-		}
-	}
-
-
-
-	public String getNavigationTmp() {
-		return navigationTmp;
-	}
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
+    }
 
 
-
+    public String getNavigationTmp() {
+        return navigationTmp;
+    }
 
 
 }

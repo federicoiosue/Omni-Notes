@@ -75,7 +75,7 @@ public class ONDashClockExtension extends DashClockExtension {
         if (reminders > 0) {
             expandedTitle.append(" ").append(reminders).append(" ").append(getString(R.string.reminders));
         }
-        
+
         StringBuilder expandedBody = new StringBuilder();
         if (reminders > 0) {
             expandedBody.append(todayReminders.size()).append(" ").append(getString(R.string.today)).append(":");

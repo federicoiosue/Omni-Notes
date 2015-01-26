@@ -24,6 +24,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 
 import it.feio.android.omninotes.models.views.SquareImageView;
 
+
 public class NoteViewHolder {
 
     public View root;

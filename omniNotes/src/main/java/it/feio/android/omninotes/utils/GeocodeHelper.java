@@ -24,10 +24,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
-
+import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import roboguice.util.Ln;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -41,8 +42,6 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
-import roboguice.util.Ln;
 
 public class GeocodeHelper {
 
@@ -88,13 +87,18 @@ public class GeocodeHelper {
         return addressString;
     }
 
-    public static void getAddressFromCoordinates(Context mContext, double latitude, double longitude, final OnGeoUtilResultListener listener) {
+
+    public static void getAddressFromCoordinates(Context mContext, double latitude, double longitude, 
+                                                 final OnGeoUtilResultListener listener) {
         class AddressResolverTask extends AsyncTask<Double, Void, String> {
+
             private Context mContext;
+
 
             public AddressResolverTask(Context context) {
                 this.mContext = context;
             }
+
 
             @Override
             protected String doInBackground(Double... params) {
@@ -106,6 +110,7 @@ public class GeocodeHelper {
                 }
                 return addressString;
             }
+
 
             @Override
             protected void onPostExecute(String result) {
@@ -122,6 +127,7 @@ public class GeocodeHelper {
         }
     }
 
+
     public static double[] getCoordinatesFromAddress(Context mContext, String address)
             throws IOException {
         double[] result = new double[2];
@@ -136,13 +142,18 @@ public class GeocodeHelper {
         return result;
     }
 
-    public static void getCoordinatesFromAddress(Context mContext, String address, final OnGeoUtilResultListener listener) {
+
+    public static void getCoordinatesFromAddress(Context mContext, String address, 
+                                                 final OnGeoUtilResultListener listener) {
         class CoordinatesResolverTask extends AsyncTask<String, Void, double[]> {
+
             private Context mContext;
+
 
             public CoordinatesResolverTask(Context context) {
                 this.mContext = context;
             }
+
 
             @Override
             protected double[] doInBackground(String... params) {
@@ -154,6 +165,7 @@ public class GeocodeHelper {
                 }
                 return coords;
             }
+
 
             @Override
             protected void onPostExecute(double[] coords) {
@@ -169,6 +181,7 @@ public class GeocodeHelper {
             task.execute(address);
         }
     }
+
 
     public static ArrayList<String> autocomplete(String input) {
         ArrayList<String> resultList = null;
@@ -221,7 +234,8 @@ public class GeocodeHelper {
 
 
     public static boolean areCoordinates(String string) {
-        Pattern p = Pattern.compile("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$");
+        Pattern p = Pattern.compile("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|" +
+                "([1-9]?\\d))(\\.\\d+)?)$");
         Matcher m = p.matcher(string);
         return m.matches();
     }

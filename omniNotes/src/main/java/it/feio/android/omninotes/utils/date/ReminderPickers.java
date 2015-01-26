@@ -23,57 +23,55 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.DatePicker;
-
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
-
-import java.util.Calendar;
-
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.utils.Constants;
 
+import java.util.Calendar;
+
+
 public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 
-	public static final int TYPE_GOOGLE = 0;
-	public static final int TYPE_AOSP = 1;
+    public static final int TYPE_GOOGLE = 0;
+    public static final int TYPE_AOSP = 1;
 
-	private FragmentActivity mActivity;
-	private OnReminderPickedListener mOnReminderPickedListener;
-	private int pickerType;
+    private FragmentActivity mActivity;
+    private OnReminderPickedListener mOnReminderPickedListener;
+    private int pickerType;
 
-	private int reminderYear;
-	private int reminderMonth;
-	private int reminderDay;
+    private int reminderYear;
+    private int reminderMonth;
+    private int reminderDay;
 
-	private boolean timePickerCalledAlready = false;
-	private long presetDateTime;
-
-
-	public ReminderPickers(FragmentActivity mActivity,
-			OnReminderPickedListener mOnReminderPickedListener, int pickerType) {
-		this.mActivity = mActivity;
-		this.mOnReminderPickedListener = mOnReminderPickedListener;
-		this.pickerType = pickerType;
-	}
+    private boolean timePickerCalledAlready = false;
+    private long presetDateTime;
 
 
+    public ReminderPickers(FragmentActivity mActivity,
+                           OnReminderPickedListener mOnReminderPickedListener, int pickerType) {
+        this.mActivity = mActivity;
+        this.mOnReminderPickedListener = mOnReminderPickedListener;
+        this.pickerType = pickerType;
+    }
 
-	public void pick(){
-		pick(null);
-	}
+
+    public void pick() {
+        pick(null);
+    }
 
 
-	public void pick(Long presetDateTime){
-		this.presetDateTime = DateHelper.getCalendar(presetDateTime).getTimeInMillis();
-		if (pickerType == TYPE_AOSP) {
-			timePickerCalledAlready = false;
-			// Timepicker will be automatically called after date is inserted by user
-			showDatePickerDialog(this.presetDateTime);
-		} else {
-			showDateTimeSelectors(this.presetDateTime);
-		}
-	}
+    public void pick(Long presetDateTime) {
+        this.presetDateTime = DateHelper.getCalendar(presetDateTime).getTimeInMillis();
+        if (pickerType == TYPE_AOSP) {
+            timePickerCalledAlready = false;
+            // Timepicker will be automatically called after date is inserted by user
+            showDatePickerDialog(this.presetDateTime);
+        } else {
+            showDateTimeSelectors(this.presetDateTime);
+        }
+    }
 
 
 //    /**
@@ -87,7 +85,8 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 //                new CalendarDatePickerDialog.OnDateSetListener() {
 //
 //                    @Override
-//                    public void onDateSet(CalendarDatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
+//                    public void onDateSet(CalendarDatePickerDialog dialog, int year, int monthOfYear, 
+// int dayOfMonth) {
 //                        reminderYear = year;
 //                        reminderMonth = monthOfYear;
 //                        reminderDay = dayOfMonth;
@@ -104,7 +103,8 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 //                                            mOnReminderPickedListener.onReminderPicked(c.getTimeInMillis());
 //                                        }
 //                                    }
-//                                }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), DateHelper.is24HourMode(mActivity));
+//                                }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), 
+// DateHelper.is24HourMode(mActivity));
 //                        mRadialTimePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 //                    }
 //
@@ -132,7 +132,8 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
                                 new TimePickerDialog.OnTimeSetListener() {
 
                                     @Override
-                                    public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, int minute) {
+                                    public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay, 
+                                                          int minute) {
                                         // Setting alarm time in milliseconds
                                         Calendar c = Calendar.getInstance();
                                         c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minute);
@@ -140,7 +141,8 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
                                             mOnReminderPickedListener.onReminderPicked(c.getTimeInMillis());
                                         }
                                     }
-                                }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), DateHelper.is24HourMode(mActivity));
+                                }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), 
+                                DateHelper.is24HourMode(mActivity));
                         mRadialTimePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
                     }
 
@@ -149,27 +151,26 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
     }
 
 
-	/**
-	 * Shows fallback date and time pickers for smaller screens
-	 *
-	 */
+    /**
+     * Shows fallback date and time pickers for smaller screens
+     */
 
-	public void showDatePickerDialog(long presetDateTime) {
+    public void showDatePickerDialog(long presetDateTime) {
         Bundle b = new Bundle();
-		b.putLong(DatePickerDialogFragment.DEFAULT_DATE, presetDateTime);
+        b.putLong(DatePickerDialogFragment.DEFAULT_DATE, presetDateTime);
         DialogFragment picker = new DatePickerDialogFragment();
         picker.setArguments(b);
         picker.show(mActivity.getSupportFragmentManager(), Constants.TAG);
-	}
+    }
 
 
-	private void showTimePickerDialog(long presetDateTime) {
-		TimePickerFragment newFragment = new TimePickerFragment();
-		Bundle bundle = new Bundle();
-		bundle.putLong(TimePickerFragment.DEFAULT_TIME, presetDateTime);
-		newFragment.setArguments(bundle);
-		newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
-	}
+    private void showTimePickerDialog(long presetDateTime) {
+        TimePickerFragment newFragment = new TimePickerFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong(TimePickerFragment.DEFAULT_TIME, presetDateTime);
+        newFragment.setArguments(bundle);
+        newFragment.show(mActivity.getSupportFragmentManager(), Constants.TAG);
+    }
 
 
     @Override
@@ -183,15 +184,14 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
     }
 
 
-
-	@Override
-	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-		reminderYear = year;
-		reminderMonth = monthOfYear;
-		reminderDay = dayOfMonth;
-		if (!timePickerCalledAlready) {	// Used to avoid native bug that calls onPositiveButtonPressed in the onClose()
-			timePickerCalledAlready = true;
-			showTimePickerDialog(presetDateTime);
-		}
-	}
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        reminderYear = year;
+        reminderMonth = monthOfYear;
+        reminderDay = dayOfMonth;
+        if (!timePickerCalledAlready) {    // Used to avoid native bug that calls onPositiveButtonPressed in the onClose()
+            timePickerCalledAlready = true;
+            showTimePickerDialog(presetDateTime);
+        }
+    }
 }

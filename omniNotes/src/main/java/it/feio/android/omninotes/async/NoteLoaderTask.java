@@ -19,15 +19,14 @@ package it.feio.android.omninotes.async;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import roboguice.util.Ln;
+
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 
@@ -35,12 +34,13 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 	private final Activity mActivity;
 	private OnNotesLoadedListener mOnNotesLoadedListener;
 
-	public NoteLoaderTask(Fragment mFragment,
-			OnNotesLoadedListener mOnNotesLoadedListener) {
-		mFragmentReference = new WeakReference<Fragment>(mFragment);
-		mActivity = mFragment.getActivity();
-		this.mOnNotesLoadedListener = mOnNotesLoadedListener;
-	}
+
+    public NoteLoaderTask(Fragment mFragment,
+                          OnNotesLoadedListener mOnNotesLoadedListener) {
+        mFragmentReference = new WeakReference<Fragment>(mFragment);
+        mActivity = mFragment.getActivity();
+        this.mOnNotesLoadedListener = mOnNotesLoadedListener;
+    }
 
 	@SuppressWarnings("unchecked")
 	@Override

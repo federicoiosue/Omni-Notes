@@ -18,22 +18,16 @@
 package it.feio.android.omninotes.utils;
 
 import android.util.Base64;
+import roboguice.util.Ln;
 
+import javax.crypto.*;
+import javax.crypto.spec.DESKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
-
-import roboguice.util.Ln;
 
 public class Security {
 
@@ -124,7 +118,7 @@ public class Security {
         } catch (IllegalBlockSizeException e) {
             Ln.e(e, "Error decrypting");
             return value;
-        // try-catch ensure compatibility with old masked (without encryption) values
+            // try-catch ensure compatibility with old masked (without encryption) values
         } catch (IllegalArgumentException e) {
             Ln.e(e, "Error decrypting");
             return value;

@@ -88,7 +88,8 @@ import java.util.*;
 import static android.support.v4.view.ViewCompat.animate;
 
 
-public class ListFragment extends Fragment implements OnNotesLoadedListener, OnViewTouchedListener, UndoBarController.UndoListener {
+public class ListFragment extends Fragment implements OnNotesLoadedListener, OnViewTouchedListener, 
+        UndoBarController.UndoListener {
 
     static final int REQUEST_CODE_DETAIL = 1;
     private static final int REQUEST_CODE_CATEGORY = 2;
@@ -190,7 +191,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
     }
 
+
     boolean fabExpanded = false;
+
+
     private void initFab() {
         fab = (FloatingActionsMenu) getActivity().findViewById(R.id.fab);
         AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(com.getbase
@@ -222,6 +226,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                             hideFab();
                         }
                     }
+
+
                     public void onScrollDown() {
                         if (fab != null) {
                             fab.collapse();
@@ -252,7 +258,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fab.getLayoutParams();
-            params.setMargins(params.leftMargin, params.topMargin,params.rightMargin,
+            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin,
                     navBarHeight + DensityUtil.pxToDp(params.bottomMargin, getActivity()));
             fab.setLayoutParams(params);
         }
@@ -374,6 +380,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //        }
     }
 
+
     private final class ModeCallback implements android.support.v7.view.ActionMode.Callback {
 
         @Override
@@ -435,7 +442,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
             Integer[] protectedActions = {R.id.menu_select_all, R.id.menu_merge};
             if (!Arrays.asList(protectedActions).contains(item.getItemId())) {
-                ((MainActivity)getActivity()).requestPassword(getActivity(), getSelectedNotes(), new PasswordValidator() {
+                ((MainActivity) getActivity()).requestPassword(getActivity(), getSelectedNotes(), 
+                        new PasswordValidator() {
                     @Override
                     public void onPasswordValidated(boolean passwordConfirmed) {
                         if (passwordConfirmed) {
@@ -494,10 +502,14 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     public void onAnimationStart(View view) {
                         fab.setVisibility(visibilityBefore);
                     }
+
+
                     @Override
                     public void onAnimationEnd(View view) {
                         fab.setVisibility(visibilityAfter);
                     }
+
+
                     @Override
                     public void onAnimationCancel(View view) {
                     }
@@ -514,7 +526,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         return marginBottom;
     }
 
-    
+
     public void finishActionMode() {
         if (getActionMode() != null) {
             getActionMode().finish();
@@ -572,9 +584,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
                 if (view.equals(listFooter)) return true;
-                if (getActionMode() != null) { return false; }
+                if (getActionMode() != null) {
+                    return false;
+                }
                 // Start the CAB using the ActionMode.Callback defined above
-                ((MainActivity)getActivity()).startSupportActionMode(new ModeCallback());
+                ((MainActivity) getActivity()).startSupportActionMode(new ModeCallback());
                 toggleListViewItem(view, position);
                 setCabTitle();
                 return true;
@@ -729,6 +743,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         setActionItemsVisibility(menu, false);
     }
 
+
     private void prepareActionModeMenu() {
         Menu menu = getActionMode().getMenu();
         int navigation = Navigation.getNavigation();
@@ -828,6 +843,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                         return prefs.getBoolean("settings_instant_search", false);
                     }
 
+
                     @Override
                     public boolean onQueryTextChange(String pattern) {
                         View searchLayout = getActivity().findViewById(R.id.search_layout);
@@ -858,7 +874,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         boolean navigationArchive = Navigation.checkNavigation(Navigation.ARCHIVE);
         boolean navigationTrash = Navigation.checkNavigation(Navigation.TRASH);
 
-            if (!navigationReminders && !navigationArchive && !navigationTrash) {
+        if (!navigationReminders && !navigationArchive && !navigationTrash) {
             setFabAllowed(true);
             if (!drawerOpen) {
                 showFab();
@@ -868,8 +884,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             hideFab();
         }
         menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-        menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders && !searchViewHasFocus);
-        menu.findItem(R.id.menu_filter_remove).setVisible(!drawerOpen && filterPastReminders && navigationReminders && !searchViewHasFocus);
+        menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders && 
+                !searchViewHasFocus);
+        menu.findItem(R.id.menu_filter_remove).setVisible(!drawerOpen && filterPastReminders && navigationReminders 
+                && !searchViewHasFocus);
         menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !navigationReminders && !searchViewHasFocus);
         menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView && !searchViewHasFocus);
         menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView && !searchViewHasFocus);
@@ -882,7 +900,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     public boolean onOptionsItemSelected(final MenuItem item) {
         Integer[] protectedActions = {R.id.menu_empty_trash};
         if (Arrays.asList(protectedActions).contains(item.getItemId())) {
-            ((MainActivity)getActivity()).requestPassword(getActivity(), getSelectedNotes(), new PasswordValidator() {
+            ((MainActivity) getActivity()).requestPassword(getActivity(), getSelectedNotes(), new PasswordValidator() {
                 @Override
                 public void onPasswordValidated(boolean passwordConfirmed) {
                     if (passwordConfirmed) {
@@ -1016,7 +1034,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     tagId = Integer.parseInt(getMainActivity().navigation);
                 }
                 note.setCategory(DbHelper.getInstance(getActivity()).getCategory(tagId));
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException e) {
+            }
         } else {
             Ln.d("Editing note with id: " + note.get_id());
         }
@@ -1190,9 +1209,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     toggleSearchLabel(false);
                 }
             });
-        }
-
-        else {
+        } else {
             if (isActive) {
                 getActivity().findViewById(R.id.search_layout).setVisibility(View.GONE);
                 searchTags = null;
@@ -1318,6 +1335,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
         getMainActivity().initNavigationDrawer();
     }
+
 
     private android.support.v7.view.ActionMode getActionMode() {
         return actionMode;
@@ -1493,6 +1511,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                         intent.putExtra("noHome", true);
                         startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
                     }
+
+
                     @Override
                     public void onNegative(MaterialDialog dialog) {
                         categorizeNotesExecute(null);
@@ -1653,7 +1673,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
 
         // Removes unchecked tags
-        Pair<String, String> titleAndContent = TagsHelper.removeTag(note.getTitle(), note.getContent(), taggingResult.second);
+        Pair<String, String> titleAndContent = TagsHelper.removeTag(note.getTitle(), note.getContent(), 
+                taggingResult.second);
         note.setTitle(titleAndContent.first);
         note.setContent(titleAndContent.second);
 
@@ -1670,14 +1691,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //	}
 
 
-
     @Override
     public void onUndo(Parcelable undoToken) {
         // Cycles removed items to re-insert into adapter
         for (Note note : modifiedNotes) {
             //   Manages uncategorize or archive  undo
-            if ( (undoCategorize && !Navigation.checkNavigationCategory(undoCategoryMap.get(note)))
-                    || undoArchive && Navigation.checkNavigation(Navigation.CATEGORY)){
+            if ((undoCategorize && !Navigation.checkNavigationCategory(undoCategoryMap.get(note)))
+                    || undoArchive && Navigation.checkNavigation(Navigation.CATEGORY)) {
                 if (undoCategorize) {
                     note.setCategory(undoCategoryMap.get(note));
                 } else if (undoArchive) {
@@ -1720,7 +1740,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             else if (undoCategorize)
                 categorizeNote(modifiedNotes, undoCategorizeCategory);
             // Refreshes navigation drawer if is set to show categories count numbers
-                getMainActivity().initNavigationDrawer();
+            getMainActivity().initNavigationDrawer();
 
             undoTrash = false;
             undoArchive = false;
@@ -1736,7 +1756,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
             ubc.hideUndoBar(false);
             showFab();
-            
+
             BaseActivity.notifyAppWidgets(getActivity());
         }
     }

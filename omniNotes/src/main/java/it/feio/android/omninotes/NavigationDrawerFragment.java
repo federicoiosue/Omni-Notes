@@ -360,7 +360,6 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
 
-
     private boolean checkSkippableItem(int i) {
         boolean skippable = false;
         SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME,
@@ -373,7 +372,8 @@ public class NavigationDrawerFragment extends Fragment {
                 break;
             case Navigation.UNCATEGORIZED:
                 boolean showUncategorized = prefs.getBoolean(Constants.PREF_SHOW_UNCATEGORIZED, false);
-                if ((!showUncategorized || DbHelper.getInstance(getActivity()).getNotesUncategorized().size() == 0) && dynamicMenu)
+                if ((!showUncategorized || DbHelper.getInstance(getActivity()).getNotesUncategorized().size() == 0) 
+                        && dynamicMenu)
                     skippable = true;
                 break;
             case Navigation.ARCHIVE:

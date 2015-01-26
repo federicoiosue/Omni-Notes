@@ -93,7 +93,8 @@ public class SettingsFragment extends PreferenceFragment {
         if (getArguments() != null && getArguments().containsKey(XML_NAME)) {
             String xmlName = getArguments().getString(XML_NAME);
             if (!TextUtils.isEmpty(xmlName)) {
-                int stringResourceId = getActivity().getResources().getIdentifier(xmlName.replace("settings_", "settings_screen_"), "string",
+                int stringResourceId = getActivity().getResources().getIdentifier(xmlName.replace("settings_", 
+                                "settings_screen_"), "string",
                         getActivity().getPackageName());
                 title = stringResourceId != 0 ? getString(stringResourceId) : title;
             }
@@ -183,7 +184,7 @@ public class SettingsFragment extends PreferenceFragment {
                                     // An IntentService will be launched to accomplish the export task
                                     Intent service = new Intent(getActivity(), DataBackupIntentService.class);
                                     service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
-                                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, 
+                                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
                                             fileNameEditText.getText().toString());
                                     getActivity().startService(service);
                                 }
@@ -259,10 +260,10 @@ public class SettingsFragment extends PreferenceFragment {
                                                     dialogInner.dismiss();
                                                     dialog.dismiss();
                                                     // An IntentService will be launched to accomplish the import task
-                                                    Intent service = new Intent(getActivity(), 
+                                                    Intent service = new Intent(getActivity(),
                                                             DataBackupIntentService.class);
                                                     service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
-                                                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, 
+                                                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
                                                             backups[position]);
                                                     getActivity().startService(service);
                                                 }
@@ -283,7 +284,7 @@ public class SettingsFragment extends PreferenceFragment {
                             lv.setOnItemLongClickListener(new OnItemLongClickListener() {
 
                                 @Override
-                                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, 
+                                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position,
                                                                long id) {
                                     final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                                             getActivity());
@@ -304,10 +305,10 @@ public class SettingsFragment extends PreferenceFragment {
                                                     dialogInner.dismiss();
                                                     dialog.dismiss();
                                                     // An IntentService will be launched to accomplish the import task
-                                                    Intent service = new Intent(getActivity(), 
+                                                    Intent service = new Intent(getActivity(),
                                                             DataBackupIntentService.class);
                                                     service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
-                                                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, 
+                                                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
                                                             backups[position]);
                                                     getActivity().startService(service);
                                                 }
@@ -346,7 +347,7 @@ public class SettingsFragment extends PreferenceFragment {
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("application/zip");
                     if (!IntentChecker.isAvailable(getActivity(), intent, null)) {
-                        Toast.makeText(getActivity(), R.string.feature_not_available_on_this_device, 
+                        Toast.makeText(getActivity(), R.string.feature_not_available_on_this_device,
                                 Toast.LENGTH_SHORT).show();
                         return false;
                     }
@@ -366,7 +367,8 @@ public class SettingsFragment extends PreferenceFragment {
 //				intent.addCategory(Intent.CATEGORY_OPENABLE);
 //				intent.setType("application/zip");
 //				if (!IntentChecker.isAvailable(getActivity(), intent, null)) {
-//					Crouton.makeText(getActivity(), R.string.feature_not_available_on_this_device, ONStyle.ALERT).show();
+//					Crouton.makeText(getActivity(), R.string.feature_not_available_on_this_device, 
+// ONStyle.ALERT).show();
 //					return false;
 //				}
 //				startActivityForResult(intent, SPRINGPAD_IMPORT);
