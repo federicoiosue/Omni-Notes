@@ -1576,6 +1576,7 @@ public class DetailFragment extends Fragment implements
 
         noteTmp.setTrashed(trash);
         goBack = true;
+        removeshortCut();
         exitMessage = trash ? getString(R.string.note_trashed) : getString(R.string.note_untrashed);
         exitCroutonStyle = trash ? ONStyle.WARN : ONStyle.INFO;
         saveNote(this);
@@ -1590,6 +1591,7 @@ public class DetailFragment extends Fragment implements
                     public void onClick(DialogInterface dialog, int id) {
                         ((MainActivity) getActivity()).deleteNote(noteTmp);
                         Ln.d("Deleted note with id '" + noteTmp.get_id() + "'");
+                        removeshortCut();
                         Crouton.makeText(getActivity(), getString(R.string.note_deleted), ONStyle.ALERT).show();
                         MainActivity.notifyAppWidgets(getActivity());
                         goHome();
@@ -2104,6 +2106,24 @@ public class DetailFragment extends Fragment implements
         noteTmp.getAttachmentsList().add(mAttachment);
         mAttachmentAdapter.notifyDataSetChanged();
         mGridView.autoresize();
+    }
+    
+    public void removeshortCut(){
+        Intent shortcutIntent = new Intent(getActivity(), MainActivity.class);
+        shortcutIntent.putExtra(Constants.INTENT_KEY, noteTmp.get_id());
+        shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
+
+        Intent addIntent = new Intent();
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent );
+        String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : note.getCreationShort(getActivity());
+
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
+
+        addIntent.setAction("com.android.launcher.action.UNINSTALL_SHORTCUT");
+        getActivity().sendBroadcast(addIntent);
+
+        Ln.d("removed the shortcut.");
+
     }
 
     @Override
