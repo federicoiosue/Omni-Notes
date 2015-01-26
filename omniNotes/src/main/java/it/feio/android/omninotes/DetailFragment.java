@@ -41,7 +41,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -103,10 +102,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
-
-//import android.app.AlertDialog;
-//import com.espian.showcaseview.ShowcaseView;
-//import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 
 
 public class DetailFragment extends Fragment implements
@@ -451,12 +446,6 @@ public class DetailFragment extends Fragment implements
             // Due to the fact that Google Now passes intent as text but with
             // audio recording attached the case must be handled in specific way
             if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {
-//		    	String mimeType = StorageManager.getMimeTypeInternal(((MainActivity)getActivity()), i.getType());
-//		    	Attachment mAttachment = new Attachment(uri, mimeType);
-//		    	if (Constants.MIME_TYPE_FILES.equals(mimeType)) {
-//			    	mAttachment.setName(uri.getLastPathSegment());
-//		    	}
-//		    	noteTmp.addAttachment(mAttachment);
                 String name = FileHelper.getNameFromUri(getActivity(), uri);
                 AttachmentTask task = new AttachmentTask(this, uri, name, this);
                 task.execute();
@@ -626,33 +615,9 @@ public class DetailFragment extends Fragment implements
 
                 MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(getActivity())
                         .positiveText(R.string.delete);
-//                alertDialogBuilder.setMessage(R.string.delete_selected_image)
-//                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                noteTmp.getAttachmentsList().remove(position);
-//                                mAttachmentAdapter.notifyDataSetChanged();
-//                                mGridView.autoresize();
-//                            }
-//                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.cancel();
-//                    }
-//                });
 
                 // If is an image user could want to sketch it!
                 if (Constants.MIME_TYPE_SKETCH.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
-//                    alertDialogBuilder
-//                            .setMessage(R.string.choose_action)
-//                            .setNeutralButton(R.string.edit, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    sketchEdited = mAttachmentAdapter.getItem(position);
-//                                    takeSketch(sketchEdited);
-//                                }
-//                            });
-
                     dialogBuilder
                             .content(R.string.delete_selected_image)
                             .negativeText(R.string.edit)
@@ -681,9 +646,6 @@ public class DetailFragment extends Fragment implements
                         }
                     });
                 }
-
-//                AlertDialog alertDialog = alertDialogBuilder.create();
-//                alertDialog.show();
                 dialogBuilder.build().show();
                 return true;
             }
@@ -706,26 +668,6 @@ public class DetailFragment extends Fragment implements
         reminder_layout.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-//                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-//                alertDialogBuilder.setMessage(R.string.remove_reminder)
-//                        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-//
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                reminderDate = "";
-//                                reminderTime = "";
-//                                noteTmp.setAlarm(null);
-//                                datetime.setText("");
-//                            }
-//                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.cancel();
-//                    }
-//                });
-//                AlertDialog alertDialog = alertDialogBuilder.create();
-//                alertDialog.show();
                 MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                         .content(R.string.remove_reminder)
                         .positiveText(R.string.ok)
@@ -873,30 +815,11 @@ public class DetailFragment extends Fragment implements
             onAddressResolved("");
             return;
         }
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_location, null);
         final AutoCompleteTextView autoCompView = (AutoCompleteTextView) v.findViewById(R.id.auto_complete_location);
         autoCompView.setHint(getString(R.string.search_location));
         autoCompView.setAdapter(new PlacesAutoCompleteAdapter(getActivity(), R.layout.simple_text_layout));
-//        alertDialogBuilder.setView(autoCompView);
-//        alertDialogBuilder
-//                .setPositiveButton(R.string.use_current_location, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        if (TextUtils.isEmpty(autoCompView.getText().toString())) {
-//                            double lat = ((MainActivity) getActivity()).currentLatitude;
-//                            double lon = ((MainActivity) getActivity()).currentLongitude;
-//                            noteTmp.setLatitude(lat);
-//                            noteTmp.setLongitude(lon);
-//                            GeocodeHelper.getAddressFromCoordinates(getActivity(), noteTmp.getLatitude(), noteTmp.getLongitude(), mFragment);
-//                        } else {
-//                            GeocodeHelper.getCoordinatesFromAddress(getActivity(), autoCompView.getText().toString(), mFragment);
-//                        }
-//                    }
-//                });
-//        final AlertDialog alertDialog = alertDialogBuilder.create();
-//        alertDialog.show();
         final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .customView(autoCompView, false)
                 .positiveText(R.string.use_current_location)
@@ -1165,8 +1088,6 @@ public class DetailFragment extends Fragment implements
             return;
         }
 
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-
         // Inflate the popup_layout.xml
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         final View layout = inflater.inflate(R.layout.dialog_remove_checklist_layout, (ViewGroup) getView().findViewById(R.id.layout_root));
@@ -1177,30 +1098,8 @@ public class DetailFragment extends Fragment implements
         keepChecked.setChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
         keepCheckmarks.setChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true));
 
-//        alertDialogBuilder.setView(layout)
-//                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        prefs.edit()
-//                                .putBoolean(Constants.PREF_KEEP_CHECKED, keepChecked.isChecked())
-//                                .putBoolean(Constants.PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
-//                                .commit();
-//
-//                        toggleChecklist2();
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//        alertDialogBuilder.create().show();
         new MaterialDialog.Builder(getActivity())
-                .customView(layout)
+                .customView(layout, false)
                 .positiveText(R.string.ok)
                 .callback(new MaterialDialog.SimpleCallback() {
                     @Override
@@ -1209,7 +1108,6 @@ public class DetailFragment extends Fragment implements
                                 .putBoolean(Constants.PREF_KEEP_CHECKED, keepChecked.isChecked())
                                 .putBoolean(Constants.PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
                                 .commit();
-
                         toggleChecklist2();
                     }
                 }).build().show();
@@ -1228,71 +1126,6 @@ public class DetailFragment extends Fragment implements
 
     @SuppressLint("NewApi")
     private void toggleChecklist2(final boolean keepChecked, final boolean showChecks) {
-
-        // AsyncTask processing doesn't work on some OS versions because in native classes
-        // (maybe TextView) another thread is launched and this brings to the folowing error:
-        // java.lang.RuntimeException: Can't create handler inside thread that has not called Looper.prepare()
-
-//		class ChecklistTask extends AsyncTask<Void, Void, View> {
-//			private View targetView;
-//
-//			public ChecklistTask(View targetView) {
-//				this.targetView = targetView;
-//			}
-//
-//			@Override
-//			protected View doInBackground(Void... params) {
-//
-//				// Get instance and set options to convert EditText to CheckListView
-//				mChecklistManager = ChecklistManager.getInstance(getActivity());
-//				mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
-//						String.valueOf(it.feio.android.checklistview.interfaces.Constants.CHECKED_HOLD))));
-//				mChecklistManager.setShowChecks(true);
-//				mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
-//				// Set the textChangedListener on the replaced view
-//				mChecklistManager.setCheckListChangedListener(mFragment);
-//				mChecklistManager.addTextChangedListener(mFragment);
-//
-//				// Links parsing options
-//				mChecklistManager.setOnTextLinkClickListener(mFragment);
-//
-//				// Options for converting back to simple text
-//				mChecklistManager.setKeepChecked(keepChecked);
-//				mChecklistManager.setShowChecks(showChecks);
-//
-//				// Switches the views
-//				View newView = null;
-//				try {
-//					newView = mChecklistManager.convert(this.targetView);
-//				} catch (ViewNotSupportedException e) {
-//					Ln.e("Error switching checklist view", e);
-//				}
-//
-//				return newView;
-//			}
-//
-//			@Override
-//			protected void onPostExecute(View newView) {
-//				super.onPostExecute(newView);
-//				// Switches the views
-//				if (newView != null) {
-//					mChecklistManager.replaceViews(this.targetView, newView);
-//					toggleChecklistView = newView;
-////					fade(toggleChecklistView, true);
-//					animate(this.targetView).alpha(1).scaleXBy(0).scaleX(1).scaleYBy(0).scaleY(1);
-//					noteTmp.setChecklist(!noteTmp.isChecklist());
-//				}
-//			}
-//		}
-//
-//		ChecklistTask task = new ChecklistTask(toggleChecklistView);
-//		if (Build.VERSION.SDK_INT >= 11) {
-//			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-//		} else {
-//			task.execute();
-//		}
-
-
         // Get instance and set options to convert EditText to CheckListView
         mChecklistManager = ChecklistManager.getInstance(getActivity());
         mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
@@ -1324,7 +1157,6 @@ public class DetailFragment extends Fragment implements
         if (newView != null) {
             mChecklistManager.replaceViews(toggleChecklistView, newView);
             toggleChecklistView = newView;
-//			fade(toggleChecklistView, true);
             animate(toggleChecklistView).alpha(1).scaleXBy(0).scaleX(1).scaleYBy(0).scaleY(1);
             noteTmp.setChecklist(!noteTmp.isChecklist());
         }
@@ -1638,24 +1470,6 @@ public class DetailFragment extends Fragment implements
     }
 
     private void deleteNote() {
-        // Confirm dialog creation
-//        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-//        alertDialogBuilder.setMessage(R.string.delete_note_confirmation)
-//                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        ((MainActivity) getActivity()).deleteNote(noteTmp);
-//                        Ln.d("Deleted note with id '" + noteTmp.get_id() + "'");
-//                        Crouton.makeText(getActivity(), getString(R.string.note_deleted), ONStyle.ALERT).show();
-//                        MainActivity.notifyAppWidgets(getActivity());
-//                        goHome();
-//                    }
-//                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int id) {
-//            }
-//        });
-//        alertDialogBuilder.create().show();
         new MaterialDialog.Builder(getActivity())
                 .content(R.string.delete_note_confirmation)
                 .positiveText(R.string.ok)
@@ -2017,7 +1831,7 @@ public class DetailFragment extends Fragment implements
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onTextLinkClick(View view, final String clickedString, final String url) {
-        MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+        new MaterialDialog.Builder(getActivity())
             .content(clickedString)
                 .positiveText(R.string.open)
                 .negativeText(R.string.copy)
@@ -2062,58 +1876,7 @@ public class DetailFragment extends Fragment implements
                             clipboard.setPrimaryClip(clip);
                         }
                     }
-                }).build();
-
-        dialog.show();
-//        dialog.set
-//                .setPositiveButton(R.string.open, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        boolean error = false;
-//                        Intent intent = null;
-//                        try {
-//                            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                            intent.addCategory(Intent.CATEGORY_BROWSABLE);
-//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        } catch (NullPointerException e) {
-//                            error = true;
-//                        }
-//
-//                        if (intent == null
-//                                || error
-//                                || !IntentChecker
-//                                .isAvailable(
-//                                        getActivity(),
-//                                        intent,
-//                                        new String[]{PackageManager.FEATURE_CAMERA})) {
-//                            Crouton.makeText(
-//                                    getActivity(),
-//                                    R.string.no_application_can_perform_this_action,
-//                                    ONStyle.ALERT).show();
-//                        } else {
-//                            startActivity(intent);
-//                        }
-//                    }
-//                }).setNegativeButton(R.string.copy, new DialogInterface.OnClickListener() {
-//            @SuppressWarnings("deprecation")
-//            @Override
-//            public void onClick(DialogInterface dialog, int id) {
-//                // Creates a new text clip to put on the clipboard
-//                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-//                    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getActivity()
-//                            .getSystemService(Activity.CLIPBOARD_SERVICE);
-//                    clipboard.setText("text to clip");
-//                } else {
-//                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getActivity()
-//                            .getSystemService(Activity.CLIPBOARD_SERVICE);
-//                    android.content.ClipData clip = android.content.ClipData.newPlainText("text label", clickedString);
-//                    clipboard.setPrimaryClip(clip);
-//                }
-//                dialog.cancel();
-//            }
-//        });
-//        AlertDialog alertDialog = alertDialogBuilder.create();
-//        alertDialog.show();
+                }).build().show();
     }
 
     @SuppressLint("NewApi")
@@ -2166,16 +1929,11 @@ public class DetailFragment extends Fragment implements
 
     @Override
     public void onGlobalLayout() {
-
         int screenHeight = Display.getUsableSize(getActivity()).y;
         int heightDiff = screenHeight - Display.getVisibleSize(root).y;
-        // boolean keyboardVisible = heightDiff > screenHeight / 3;
         boolean keyboardVisible = heightDiff > 150;
-        // boolean keyboardVisible = KeyboardUtils.isKeyboardShowed(title) || KeyboardUtils.isKeyboardShowed(content);
-
         if (keyboardVisible && keyboardPlaceholder == null) {
             shrinkLayouts(heightDiff);
-
         } else if (!keyboardVisible && keyboardPlaceholder != null) {
             restoreLayouts();
         }
@@ -2186,7 +1944,6 @@ public class DetailFragment extends Fragment implements
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
                 && !title.hasFocus()) {
             wrapper.removeView(titleCardView);
-//			heightDiff -= Display.getActionbarHeight(getActivity()) + Display.getStatusBarHeight(getActivity());
             heightDiff -= Display.getStatusBarHeight(getActivity());
             if (orientationChanged) {
                 orientationChanged = false;
