@@ -23,8 +23,8 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -185,10 +185,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	public void initNotesList(Intent intent) {
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
-//			List view is set as transparent to perform a fade in animation and give a smoother sensation
-//			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//				AlphaManager.setAlpha(findViewById(R.id.notes_list), 0);
-//			}
 			((ListFragment)f).toggleSearchLabel(false);
 			((ListFragment)f).initNotesList(intent);
 		}
@@ -200,13 +196,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			((ListFragment)f).commitPending();
 		}
 	}
-
-//	public void editNote(Note note) {
-//		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
-//		if (f != null) {
-//			((ListFragment)f).editNote(note, view);
-//		}
-//	}
 
 	public void initNavigationDrawer() {
 		Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
@@ -289,13 +278,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	protected void onPause() {
 		super.onPause();
 		Crouton.cancelAllCroutons();
-	}
-
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-//        getDrawerToggle().onConfigurationChanged(newConfig);
 	}
 
 
@@ -443,11 +425,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         } else {
             transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
         }
-
-//		if (getDrawerToggle() != null) {
-//			getDrawerToggle().setDrawerIndicatorEnabled(false);
-//		}
-
         animateBurger(ARROW);
 	}
 
@@ -516,16 +493,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	 */
 	@SuppressLint("NewApi")
 	public void deleteNote(Note note) {
-
 		// Saving changes to the note
 		DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getApplicationContext());
-		// Removed parallel computation to avoid concurrency on pool errors
-//		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//			deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
-//		} else {
-			deleteNoteTask.execute(note);
-//		}
-
+        deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
 		// Informs about update
 		Ln.d("Deleted permanently note with id '" + note.get_id() + "'");
 	}
