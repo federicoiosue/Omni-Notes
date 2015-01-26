@@ -1,30 +1,26 @@
-/*******************************************************************************
- * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.feio.android.omninotes;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -35,29 +31,11 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.widget.Button;
+import android.view.*;
 import android.widget.EditText;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
-
-import com.espian.showcaseview.ShowcaseView;
-import com.espian.showcaseview.ShowcaseViews;
-import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
-import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import it.feio.android.checklistview.utils.DensityUtil;
+import com.afollestad.materialdialogs.MaterialDialog;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
@@ -66,6 +44,14 @@ import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
 import roboguice.util.Ln;
+
+import java.lang.reflect.Field;
+import java.util.List;
+
+//import com.espian.showcaseview.ShowcaseView;
+//import com.espian.showcaseview.ShowcaseViews;
+//import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
+//import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
 
 @SuppressLint("Registered")
 public class BaseActivity extends ActionBarActivity implements LocationListener {
@@ -184,66 +170,48 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 	 */
 	public static void requestPassword(final Activity mActivity, final PasswordValidator mPasswordValidator) {
 
-		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
-
 		// Inflate layout
 		LayoutInflater inflater = mActivity.getLayoutInflater();
 		final View v = inflater.inflate(R.layout.password_request_dialog_layout, null);
-		alertDialogBuilder.setView(v);
-
-		// Set dialog message and button
-		alertDialogBuilder
-			.setCancelable(false)
-			.setMessage(mActivity.getString(R.string.insert_security_password))
-			.setPositiveButton(R.string.confirm, null)
-			.setNegativeButton(R.string.cancel, null);
-
-		AlertDialog dialog = alertDialogBuilder.create();
     	final EditText passwordEditText = (EditText)v.findViewById(R.id.password_request);
 
-		// Set a listener for dialog button press
-		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
+                .autoDismiss(false)
+                .title(R.string.insert_security_password)
+                .customView(v)
+                .positiveText(R.string.ok)
+                .callback(new MaterialDialog.SimpleCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        // When positive button is pressed password correctness is checked
+                        String oldPassword = mActivity.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS)
+                                .getString(Constants.PREF_PASSWORD, "");
+                        String password = passwordEditText.getText().toString();
+                        // The check is done on password's hash stored in preferences
+                        boolean result = Security.md5(password).equals(oldPassword);
 
-		    @Override
-		    public void onShow(final DialogInterface dialog) {
+                        // In case password is ok dialog is dismissed and result sent to callback
+                        if (result) {
+                            KeyboardUtils.hideKeyboard(passwordEditText);
+                            dialog.dismiss();
+                            mPasswordValidator.onPasswordValidated(true);
+                            // If password is wrong the auth flow is not interrupted and simply a message is shown
+                        } else {
+                            passwordEditText.setError(mActivity.getString(R.string.wrong_password));
+                        }
+                    }
+                }).build();
 
-		        Button pos = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-		        pos.setOnClickListener(new View.OnClickListener() {
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                KeyboardUtils.hideKeyboard(passwordEditText);
+                dialog.dismiss();
+                mPasswordValidator.onPasswordValidated(false);
+            }
+        });
 
-		            @Override
-		            public void onClick(View view) {
-		            	// When positive button is pressed password correctness is checked
-		            	String oldPassword = mActivity.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS)
-		            			.getString(Constants.PREF_PASSWORD, "");
-						String password = passwordEditText.getText().toString();
-						// The check is done on password's hash stored in preferences
-						boolean result = Security.md5(password).equals(oldPassword);
-
-						// In case password is ok dialog is dismissed and result sent to callback
-		                if (result) {
-			            	KeyboardUtils.hideKeyboard(passwordEditText);
-		                	dialog.dismiss();
-							mPasswordValidator.onPasswordValidated(true);
-						// If password is wrong the auth flow is not interrupted and simply a message is shown
-		                } else {
-		                	passwordEditText.setError(mActivity.getString(R.string.wrong_password));
-		                }
-		            }
-		        });
-		        Button neg = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
-		        neg.setOnClickListener(new View.OnClickListener() {
-
-		            @Override
-		            public void onClick(View view) {
-		            	KeyboardUtils.hideKeyboard(passwordEditText);
-	                	dialog.dismiss();
-						mPasswordValidator.onPasswordValidated(false);
-		            }
-		        });
-		    }
-		});
-
-		dialog.show();
+        dialog.show();
 
 		// Force focus and shows soft keyboard
 		KeyboardUtils.showKeyboard(passwordEditText);
@@ -296,49 +264,49 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 	 *            that have to be used for ItemViewProperties building: id,
 	 *            titleResId, messageResId, itemType, scale, configOptions
 	 */
-	protected void showCaseView(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
-
-		final float scale = 0.6F;
-		ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
-		ShowcaseViews mViews;
-		if (mOnShowcaseAcknowledged != null) {
-			mViews = new ShowcaseViews(this, mOnShowcaseAcknowledged);
-		} else {
-			mViews = new ShowcaseViews(this);
-		}
-
-		LayoutParams lp = new LayoutParams(300, 300);
-		lp.bottomMargin = DensityUtil.dpToPx(100, this);
-		lp.setMargins(12, 12, 12, getResources().getDimensionPixelSize(R.dimen.showcase_margin_bottom));
-		co.buttonLayoutParams = lp;
-
-		co.fadeInDuration = 700;
-
-		ItemViewProperties ivp;
-		for (Integer[] view : viewsArrays) {
-
-			// No showcase
-			if (view[0] == null) {
-				ivp = new ItemViewProperties(view[1], view[2], co);
-
-			// No actionbar or reflection types
-			} else if (view[3] == null) {
-				ivp = new ItemViewProperties(view[0], view[1], view[2], scale, co);
-			} else {
-				ivp = new ItemViewProperties(view[0], view[1], view[2], view[3], scale, co);
-			}
-			mViews.addView(ivp);
-
-			// Animated hand gesture
-			if (view.length > 4) {
-				int index = viewsArrays.indexOf(view);
-				mViews.addAnimatedGestureToView(index, view[4], view[5], view[6], view[7], true);
-			}
-		}
-
-		mViews.show();
-
-	}
+//	protected void showCaseView(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
+//
+//		final float scale = 0.6F;
+//		ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
+//		ShowcaseViews mViews;
+//		if (mOnShowcaseAcknowledged != null) {
+//			mViews = new ShowcaseViews(this, mOnShowcaseAcknowledged);
+//		} else {
+//			mViews = new ShowcaseViews(this);
+//		}
+//
+//		LayoutParams lp = new LayoutParams(300, 300);
+//		lp.bottomMargin = DensityUtil.dpToPx(100, this);
+//		lp.setMargins(12, 12, 12, getResources().getDimensionPixelSize(R.dimen.showcase_margin_bottom));
+//		co.buttonLayoutParams = lp;
+//
+//		co.fadeInDuration = 700;
+//
+//		ItemViewProperties ivp;
+//		for (Integer[] view : viewsArrays) {
+//
+//			// No showcase
+//			if (view[0] == null) {
+//				ivp = new ItemViewProperties(view[1], view[2], co);
+//
+//			// No actionbar or reflection types
+//			} else if (view[3] == null) {
+//				ivp = new ItemViewProperties(view[0], view[1], view[2], scale, co);
+//			} else {
+//				ivp = new ItemViewProperties(view[0], view[1], view[2], view[3], scale, co);
+//			}
+//			mViews.addView(ivp);
+//
+//			// Animated hand gesture
+//			if (view.length > 4) {
+//				int index = viewsArrays.indexOf(view);
+//				mViews.addAnimatedGestureToView(index, view[4], view[5], view[6], view[7], true);
+//			}
+//		}
+//
+//		mViews.show();
+//
+//	}
 
 
 
@@ -346,7 +314,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 	/**
 	 * Retrieves resource by name
 	 * @param aString
-	 * @return
+	 * @returnnotifyAppWidgets
 	 */
 	private String getStringResourceByName(String aString) {
 		String packageName = getApplicationContext().getPackageName();
@@ -361,13 +329,10 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static void notifyAppWidgets(Context mActivity) {
 		// Home widgets
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
-			int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity,
-					ListWidgetProvider.class));
-			Ln.d("Notifies AppWidget data changed for widgets " + ids);
-			mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
-		}
+        AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
+        int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity, ListWidgetProvider.class));
+        Ln.d("Notifies AppWidget data changed for widgets " + ids);
+        mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 
 		// Dashclock
 	    LocalBroadcastManager.getInstance(mActivity).sendBroadcast(new Intent(Constants.INTENT_UPDATE_DASHCLOCK));
@@ -376,18 +341,8 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
 	@SuppressLint("InlinedApi")
 	protected void animateTransition(FragmentTransaction transaction, int direction) {
-		boolean rtl = false;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			rtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
-		}
 		if (direction == TRANSITION_HORIZONTAL) {
-			if (rtl) {
-				transaction.setCustomAnimations(R.animator.slide_left, R.animator.slide_right,
-						R.animator.slide_back_right, R.animator.slide_back_left);
-			} else {
-				transaction.setCustomAnimations(R.animator.slide_back_right, R.animator.slide_back_left,
-						R.animator.slide_left, R.animator.slide_right);
-			}
+            transaction.setCustomAnimations(R.animator.fade_in_support, R.animator.fade_out_support, R.animator.fade_in_support, R.animator.fade_out_support);
 		}
 		if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			transaction.setCustomAnimations(

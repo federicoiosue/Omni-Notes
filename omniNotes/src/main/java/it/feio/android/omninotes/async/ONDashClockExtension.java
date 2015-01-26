@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package it.feio.android.omninotes.async;
 
 import android.annotation.SuppressLint;
@@ -6,73 +23,87 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
-
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
-
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.TextHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ONDashClockExtension extends DashClockExtension {
-	
-	
-	private DashClockUpdateReceiver mDashClockReceiver;
 
 
+    private DashClockUpdateReceiver mDashClockReceiver;
 
-	@Override
-	protected void onInitialize(boolean isReconnect) {
-		super.onInitialize(isReconnect);
 
-		LocalBroadcastManager broadcastMgr = LocalBroadcastManager.getInstance(this);
-		if (mDashClockReceiver != null) {
-			try {
-				broadcastMgr.unregisterReceiver(mDashClockReceiver);
-			} catch (Exception ignore) {
-			}
-		}
-		mDashClockReceiver = new DashClockUpdateReceiver();
-		broadcastMgr.registerReceiver(mDashClockReceiver, new IntentFilter(Constants.INTENT_UPDATE_DASHCLOCK));
-	}
-	
-	
+    @Override
+    protected void onInitialize(boolean isReconnect) {
+        super.onInitialize(isReconnect);
 
-	@SuppressLint("DefaultLocale")
-	@Override
-	protected void onUpdateData(int reason) {
+        LocalBroadcastManager broadcastMgr = LocalBroadcastManager.getInstance(this);
+        if (mDashClockReceiver != null) {
+            try {
+                broadcastMgr.unregisterReceiver(mDashClockReceiver);
+            } catch (Exception ignore) {
+            }
+        }
+        mDashClockReceiver = new DashClockUpdateReceiver();
+        broadcastMgr.registerReceiver(mDashClockReceiver, new IntentFilter(Constants.INTENT_UPDATE_DASHCLOCK));
+    }
 
-		DbHelper db = DbHelper.getInstance(this);
-		int notes = db.getAllNotes(false).size();
-		int remindersTotal = db.getNotesWithReminder(true).size();
-		int remindersNotExpired = db.getNotesWithReminder(false).size();
-		int today = db.getTodayReminders().size();
 
-		// Publish the extension data update.
-		publishUpdate(new ExtensionData()
-				.visible(true)
-				.icon(R.drawable.ic_stat_notification_icon)
-				.status(String.valueOf(notes))
-				.expandedTitle(
-						notes + " " + getString(R.string.notes).toLowerCase())
-				.expandedBody(
-						remindersNotExpired + " "
-								+ getString(R.string.reminders) + ", "
-								+ (remindersTotal - remindersNotExpired) + " "
-								+ getString(R.string.expired)
-								+ System.getProperty("line.separator") + today
-								+ " " + getString(R.string.today))
-				.clickIntent(new Intent(this, MainActivity.class)));
-	}
+    @SuppressLint("DefaultLocale")
+    @Override
+    protected void onUpdateData(int reason) {
 
-	
-	
-	public class DashClockUpdateReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			onUpdateData(UPDATE_REASON_MANUAL);
-		}
+        DbHelper db = DbHelper.getInstance(this);
+        int notes = db.getNotesActive().size();
+        int reminders = db.getNotesWithReminder(true).size();
+        List<Note> todayReminders = new ArrayList<Note>();
+        if (reminders > 0) {
+            todayReminders = db.getTodayReminders();
+        }
 
-	}
+        StringBuilder expandedTitle = new StringBuilder();
+        expandedTitle.append(notes).append(" ").append(getString(R.string.notes).toLowerCase());
+        if (reminders > 0) {
+            expandedTitle.append(" ").append(reminders).append(" ").append(getString(R.string.reminders));
+        }
+        
+        StringBuilder expandedBody = new StringBuilder();
+        if (reminders > 0) {
+            expandedBody.append(todayReminders.size()).append(" ").append(getString(R.string.today)).append(":");
+            for (Note todayReminder : todayReminders) {
+                expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(TextHelper
+                        .parseTitleAndContent
+                                (this,
+                                        todayReminder)[0]);
+            }
+        }
+
+        // Publish the extension data update.
+        publishUpdate(new ExtensionData()
+                .visible(true)
+                .icon(R.drawable.ic_stat_notification_icon)
+                .status(String.valueOf(notes))
+                .expandedTitle(expandedTitle.toString())
+                .expandedBody(expandedBody.toString())
+                .clickIntent(new Intent(this, MainActivity.class)));
+    }
+
+
+    public class DashClockUpdateReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            onUpdateData(UPDATE_REASON_MANUAL);
+        }
+
+    }
 }

@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
-  
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  
-    http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
 <resources>
 
     <string-array name="navigation_list">
@@ -33,11 +33,19 @@
     </string-array>
 
     <integer-array name="navigation_list_icons">
-        <item>@drawable/ic_note_dark</item>
-        <item>@drawable/ic_archive_dark</item>
-        <item>@drawable/ic_reminder_dark</item>
-        <item>@drawable/ic_action_discard</item>
-        <item>@drawable/ic_uncategorized</item>
+        <item>@drawable/ic_file_document_grey600_48dp</item>
+        <item>@drawable/ic_archive_grey600_48dp</item>
+        <item>@drawable/ic_alarm_grey600_48dp</item>
+        <item>@drawable/ic_delete_grey600_48dp</item>
+        <item>@drawable/ic_folder_open_grey600_48dp</item>
+    </integer-array>
+
+    <integer-array name="navigation_list_icons_selected">
+        <item>@drawable/ic_file_document_black_48dp</item>
+        <item>@drawable/ic_archive_black_48dp</item>
+        <item>@drawable/ic_alarm_black_48dp</item>
+        <item>@drawable/ic_delete_black_48dp</item>
+        <item>@drawable/ic_folder_open_black_48dp</item>
     </integer-array>
 
     <string-array name="sortable_columns">
@@ -56,126 +64,125 @@
 
     <string-array name="checked_items_behavior">
         <item>Keep position</item>
-	    <item>Move to the end of the list</item>
-	    <item>Move to the end of unchecked items</item>
+        <item>Move to the end of the list</item>
+        <item>Move to the end of unchecked items</item>
     </string-array>
-        
+
     <string-array name="checked_items_behavior_values">
-        <item >0</item>
-        <item >1</item>
-        <item >2</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 
     <string-array name="colors_app">
-        <item >Disabled</item>
-        <item >Strip only</item>
-        <item >Notes list only</item>
-        <item >Complete</item>
+        <item>Disabled</item>
+        <item>Strip only</item>
+        <item>Notes list only</item>
+        <item>Complete</item>
     </string-array>
-        
+
     <string-array name="colors_app_values">
-        <item >disabled</item>
-        <item >strip</item>
-        <item >list</item>
-        <item >complete</item>
+        <item>disabled</item>
+        <item>strip</item>
+        <item>list</item>
+        <item>complete</item>
     </string-array>
 
     <string-array name="colors_widget">
-        <item >Disabled</item>
-        <item >Strip only</item>
-        <item >Notes list</item>
+        <item>Disabled</item>
+        <item>Strip only</item>
+        <item>Notes list</item>
     </string-array>
-        
+
     <string-array name="colors_widget_values">
-        <item >disabled</item>
-        <item >strip</item>
-        <item >list</item>
+        <item>disabled</item>
+        <item>strip</item>
+        <item>list</item>
     </string-array>
 
     <string-array name="text_size">
-        <item >Smallest</item>
-        <item >Small</item>
-        <item >Default</item>
-        <item >Large</item>
-        <item >Largest</item>
+        <item>Smallest</item>
+        <item>Small</item>
+        <item>Default</item>
+        <item>Large</item>
+        <item>Largest</item>
     </string-array>
-        
+
     <string-array name="text_size_values">
-        <item >smallest</item>
-        <item >small</item>
-        <item >default</item>
-        <item >large</item>
-        <item >largest</item>
+        <item>smallest</item>
+        <item>small</item>
+        <item>default</item>
+        <item>large</item>
+        <item>largest</item>
     </string-array>
-        
+
     <integer-array name="text_size_offset">
-        <item >-3</item>
-        <item >-2</item>
-        <item >0</item>
-        <item >3</item>
-        <item >5</item>
+        <item>-3</item>
+        <item>-2</item>
+        <item>0</item>
+        <item>3</item>
+        <item>5</item>
     </integer-array>
-        
+
     <string-array name="languages">
-        <item >العربية (Arabic)</item>
-        <item >Asturianu (Asturian)</item>
-        <item >Català (Catalan)</item>
-        <item >中文 (Chinese)</item>
-        <item >Čeština (Czech)</item>
-        <item >Nederlands (Dutch)</item>
-        <item >English (English)</item>
-        <item >Français (French)</item>
-        <item >ភាសាខ្មែរ (Khmer)</item>
-        <item >Deutsch (German)</item>
-        <item >Galego (Galician)</item>
-        <item >ελληνικά (Greek)</item>
-        <item >עברית (Hebrew)</item>
-        <item >हिंदी (Hindi)</item>
-        <item >Bahasa Indonesia (Indonesian)</item>
-        <item >Italiano (Italian)</item>
-        <item >ສ​ປ​ປ​ລາວ  (Lao)</item>
-        <item >Português (Portuguese Brazil)</item>
-        <item >Português (Portuguese Portugal)</item>
-        <item >Русский (Russian)</item>
-        <item >Slovenčina  (Slovak)</item>
-        <item >Slovenščina (Slovenian)</item>
-        <item >Español (Spanish)</item>
-        <item >Kinesiska (Swedish)</item>
-        <item >臺灣話 (Taiwanese)</item>
-        <item >Türkçe (Turkish)</item>
-        <item >Українська (Ukrainian)</item>
+        <item>العربية (Arabic)</item>
+        <item>Asturianu (Asturian)</item>
+        <item>Català (Catalan)</item>
+        <item>中文 (Chinese)</item>
+        <item>Čeština (Czech)</item>
+        <item>Nederlands (Dutch)</item>
+        <item>English (English)</item>
+        <item>Français (French)</item>
+        <item>ភាសាខ្មែរ (Khmer)</item>
+        <item>Deutsch (German)</item>
+        <item>Galego (Galician)</item>
+        <item>ελληνικά (Greek)</item>
+        <item>עברית (Hebrew)</item>
+        <item>हिंदी (Hindi)</item>
+        <item>Bahasa Indonesia (Indonesian)</item>
+        <item>Italiano (Italian)</item>
+        <item>ສ​ປ​ປ​ລາວ  (Lao)</item>
+        <item>Português (Portuguese Brazil)</item>
+        <item>Português (Portuguese Portugal)</item>
+        <item>Русский (Russian)</item>
+        <item>Slovenčina  (Slovak)</item>
+        <item>Slovenščina (Slovenian)</item>
+        <item>Español (Spanish)</item>
+        <item>Kinesiska (Swedish)</item>
+        <item>臺灣話 (Taiwanese)</item>
+        <item>Türkçe (Turkish)</item>
+        <item>Українська (Ukrainian)</item>
     </string-array>
-        
+
     <string-array name="languages_codes">
-        <item >ar</item>
-        <item >es_XA</item>
-        <item >ca_ES</item>
-        <item >zh_CN</item>
-        <item >cs</item>
-        <item >nl</item>
-        <item >en</item>
-        <item >fr</item>
-        <item >km</item>
-        <item >de</item>
-        <item >gl</item>
-        <item >el</item>
-        <item >iw</item>
-        <item >hi</item>
-        <item >id</item>
-        <item >it</item>
-        <item >lo</item>
-        <item >pt_BR</item>
-        <item >pt_PT</item>
-        <item >ru</item>
-        <item >sk</item>
-        <item >sl</item>
-        <item >es</item>
-        <item >sv</item>
-        <item >zh_TW</item>
-        <item >tr</item>
-        <item >uk</item>
+        <item>ar</item>
+        <item>es_XA</item>
+        <item>ca_ES</item>
+        <item>zh_CN</item>
+        <item>cs</item>
+        <item>nl</item>
+        <item>en</item>
+        <item>fr</item>
+        <item>km</item>
+        <item>de</item>
+        <item>gl</item>
+        <item>el</item>
+        <item>iw</item>
+        <item>hi</item>
+        <item>in</item>
+        <item>it</item>
+        <item>lo</item>
+        <item>pt_BR</item>
+        <item>pt_PT</item>
+        <item>ru</item>
+        <item>sk</item>
+        <item>sl</item>
+        <item>es</item>
+        <item>sv</item>
+        <item>zh_TW</item>
+        <item>tr</item>
+        <item>uk</item>
     </string-array>
-    
-    
+
 
 </resources>

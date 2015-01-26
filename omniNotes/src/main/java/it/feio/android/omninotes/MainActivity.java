@@ -1,30 +1,46 @@
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package it.feio.android.omninotes;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import android.widget.Toast;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.omninotes.async.DeleteNoteTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
@@ -33,15 +49,19 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
-import it.feio.android.omninotes.utils.AlphaManager;
-import it.feio.android.omninotes.utils.AppTourHelper;
 import it.feio.android.omninotes.utils.Constants;
 import roboguice.util.Ln;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, OnPushBulletReplyListener {
 
-	public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
+    static final int BURGER = 0;
+    static final int ARROW = 1;
+    
+    public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
 	public final String FRAGMENT_LIST_TAG = "fragment_list";
 	public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
 	public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
@@ -52,8 +72,11 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public boolean loadNotesSync = Constants.LOAD_NOTES_SYNC;
 
 	public Uri sketchUri;
+    private ViewGroup croutonViewContainer;
+    private Toolbar toolbar;
 
-	@Override
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -61,16 +84,23 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         instance = this;
 
         // This method starts the bootstrap chain.
-		requestShowCaseViewVisualization();
+//		requestShowCaseViewVisualization();
+        checkPassword();
 
-		// Launching update task
-		UpdaterTask task = new UpdaterTask(this);
-		task.execute();
+        initUI();
+
+		new UpdaterTask(this).execute();
 	}
 
+    private void initUI() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+    }
 
 
-	private void checkPassword() {
+    private void checkPassword() {
 		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& prefs.getBoolean("settings_password_access", false)) {
 			requestPassword(this, new PasswordValidator() {
@@ -156,9 +186,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
 		if (f != null) {
 //			List view is set as transparent to perform a fade in animation and give a smoother sensation
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-				AlphaManager.setAlpha(findViewById(R.id.notes_list), 0);
-			}
+//			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//				AlphaManager.setAlpha(findViewById(R.id.notes_list), 0);
+//			}
 			((ListFragment)f).toggleSearchLabel(false);
 			((ListFragment)f).initNotesList(intent);
 		}
@@ -171,16 +201,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 	}
 
-	public void editNote(Note note) {
-		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
-		if (f != null) {
-			((ListFragment)f).editNote(note);
-		}
-	}
+//	public void editNote(Note note) {
+//		Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+//		if (f != null) {
+//			((ListFragment)f).editNote(note, view);
+//		}
+//	}
 
 	public void initNavigationDrawer() {
 		Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
-		if (f != null) ((NavigationDrawerFragment) f).initNavigationDrawer();
+		if (f != null) ((NavigationDrawerFragment) f).init();
 	}
 
 
@@ -265,7 +295,27 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+//        getDrawerToggle().onConfigurationChanged(newConfig);
 	}
+
+
+    void animateBurger(int targetShape) {
+        if (getDrawerToggle() != null) {
+            if (targetShape != BURGER && targetShape != ARROW)
+                return;
+            ValueAnimator anim = ValueAnimator.ofFloat((targetShape + 1) % 2, targetShape);
+            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    float slideOffset = (Float) valueAnimator.getAnimatedValue();
+                    getDrawerToggle().onDrawerSlide(getDrawerLayout(), slideOffset);
+                }
+            });
+            anim.setInterpolator(new DecelerateInterpolator());
+            anim.setDuration(500);
+            anim.start();
+        }
+    }
 
 
 	public DrawerLayout getDrawerLayout() {
@@ -291,6 +341,11 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			fragment.finishActionMode();
 		}
 	}
+    
+    
+    Toolbar getToolbar() {
+        return this.toolbar;
+    }
 
 
 	private void handleIntents() {
@@ -302,43 +357,58 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			OmniNotes.restartApp(getApplicationContext());
 		}
 
-		// Action called from widget
-		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
-			|| Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())
-			|| Constants.ACTION_WIDGET.equals(i.getAction())
-			|| Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
-
-			|| ( ( Intent.ACTION_SEND.equals(i.getAction())
-					|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
-					|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) )
-					&& i.getType() != null)
-
-			|| i.getAction().contains(Constants.ACTION_NOTIFICATION_CLICK)
-
-					) {
-			Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
-			if (note == null) {
-				note = DbHelper.getInstance(this).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
-			}
-
+        if (receivedIntent(i)) {
+            Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
+            if (note == null) {
+                note = DbHelper.getInstance(this).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+            }
             // Checks if the same note is already opened to avoid to open again
             if (note != null && noteAlreadyOpened(note)) {
                 return;
             }
+            // Empty note instantiation
+            if (note == null) {
+                note = new Note();
+            }
+            switchToDetail(note);
+        }
 
-			// Empty note instantiation
-			if (note == null) {
-				note = new Note();
-			}
-
-			switchToDetail(note);
-		}
+        if (Constants.ACTION_SEND_AND_EXIT.equals(i.getAction())) {
+            saveAndExit(i);
+        }
 
 		// Tag search
 		if (Intent.ACTION_VIEW.equals(i.getAction())) {
 			switchToList();
 		}
 	}
+
+
+    /**
+     * Used to perform a quick text-only note saving (eg. Tasker+Pushbullet)
+     */
+    private void saveAndExit(Intent i) {
+        Note note = new Note();
+        note.setTitle(i.getStringExtra(Intent.EXTRA_SUBJECT));
+        note.setContent(i.getStringExtra(Intent.EXTRA_TEXT));
+        DbHelper.getInstance(this).updateNote(note, true);
+        showToast(getString(R.string.note_updated), Toast.LENGTH_SHORT);
+        finish();
+    }
+
+
+    private boolean receivedIntent(Intent i) {
+        return Constants.ACTION_SHORTCUT.equals(i.getAction())
+            || Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())
+            || Constants.ACTION_WIDGET.equals(i.getAction())
+            || Constants.ACTION_TAKE_PHOTO.equals(i.getAction())
+            || ( ( Intent.ACTION_SEND.equals(i.getAction())
+                    || Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
+                    || Constants.INTENT_GOOGLE_NOW.equals(i.getAction()) )
+                    && i.getType() != null)
+            || i.getAction().contains(Constants.ACTION_NOTIFICATION_CLICK);
+    }
+
 
     private boolean noteAlreadyOpened(Note note) {
         DetailFragment detailFragment = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
@@ -371,14 +441,15 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
             transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_LIST_TAG).commitAllowingStateLoss();
         } else {
-            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
+            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
         }
 
-		if (getDrawerToggle() != null) {
-			getDrawerToggle().setDrawerIndicatorEnabled(false);
-		}
-	}
+//		if (getDrawerToggle() != null) {
+//			getDrawerToggle().setDrawerIndicatorEnabled(false);
+//		}
 
+        animateBurger(ARROW);
+	}
 
 
 	/**
@@ -460,32 +531,46 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	}
 
 
-    /**
-     * Showcase view displaying request for first launch
-     */
-    private void requestShowCaseViewVisualization() {
+//    /**
+//     * Showcase view displaying request for first launch
+//     */
+//    private void requestShowCaseViewVisualization() {
+//
+//        if (AppTourHelper.mustRun(getApplicationContext())) {
+//            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//            alertDialogBuilder
+//                    .setTitle(R.string.app_name)
+//                    .setMessage(R.string.tour_request_start)
+//                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int id) {
+//                            checkPassword();
+//                        }
+//                    }).setNegativeButton(R.string.not_now, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int id) {
+//                    AppTourHelper.complete(getApplicationContext());
+//                    checkPassword();
+//                }
+//            });
+//            alertDialogBuilder.create().show();
+//        } else {
+//            checkPassword();
+//        }
+//    }
 
-        if (AppTourHelper.mustRun(getApplicationContext())) {
-            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder
-                    .setTitle(R.string.app_name)
-                    .setMessage(R.string.tour_request_start)
-                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            checkPassword();
-                        }
-                    }).setNegativeButton(R.string.not_now, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-                    AppTourHelper.complete(getApplicationContext());
-                    checkPassword();
-                }
-            });
-            alertDialogBuilder.create().show();
-        } else {
-            checkPassword();
+
+
+    void showMessage(int messageId, Style style){
+        showMessage(getString(messageId), style);
+    }
+
+    void showMessage(String message, Style style){
+        if (croutonViewContainer == null) {
+            // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
+            croutonViewContainer = (ViewGroup) findViewById(R.id.crouton_handle);
         }
+        Crouton.makeText(this, message, style, croutonViewContainer).show();
     }
 
 

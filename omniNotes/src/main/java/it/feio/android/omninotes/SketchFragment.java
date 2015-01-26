@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package it.feio.android.omninotes;
 
 import android.app.AlertDialog;
@@ -12,40 +29,32 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 import it.feio.android.omninotes.models.views.SketchView;
 import roboguice.util.Ln;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
 public class SketchFragment extends Fragment implements OnDrawChangedListener{
 
-	private MainActivity mActivity;
 	private ImageView stroke;
 	private ImageView eraser;
 	private SketchView mSketchView;
@@ -63,9 +72,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		mActivity = (MainActivity) getActivity();	
-		
 		setHasOptionsMenu(true);
 		setRetainInstance(false);
 	}
@@ -96,37 +102,35 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	@Override
 	public void onAttach(android.app.Activity activity) {
 		super.onAttach(activity);
-		
-		mActivity = (MainActivity) getActivity();	
 	}
 	
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		mSketchView = (SketchView) mActivity.findViewById(R.id.drawing);
+
+		mSketchView = (SketchView) getActivity().findViewById(R.id.drawing);
 		mSketchView.setOnDrawChangedListener(this);
 		
 		Uri baseUri = getArguments().getParcelable("base");
 		if (baseUri != null) {
 			Bitmap bmp = null;
 			try {
-				bmp = BitmapFactory.decodeStream(mActivity.getContentResolver().openInputStream(baseUri));
-				mSketchView.setBackgroundBitmap(mActivity, bmp);
+				bmp = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
+				mSketchView.setBackgroundBitmap(getActivity(), bmp);
 			} catch (FileNotFoundException e) {
 				Ln.e(e, "Error replacing sketch bitmap background");
 			}
 		}
 
 		// Show the Up button in the action bar.
-		if (mActivity.getSupportActionBar() != null) {
-			mActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);			
-			mActivity.getSupportActionBar().setTitle(R.string.title_activity_sketch);
-			mActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		if (getMainActivity().getSupportActionBar() != null) {
+            getMainActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getMainActivity().getSupportActionBar().setTitle(R.string.title_activity_sketch);
+            getMainActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
-		stroke = (ImageView) mActivity.findViewById(R.id.sketch_stroke);
+		stroke = (ImageView) getActivity().findViewById(R.id.sketch_stroke);
 		stroke.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -140,7 +144,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 			}
 		});
 
-		eraser = (ImageView) mActivity.findViewById(R.id.sketch_eraser);	
+		eraser = (ImageView) getActivity().findViewById(R.id.sketch_eraser);	
 		AlphaManager.setAlpha(eraser, 0.4f);			
 		eraser.setOnClickListener(new OnClickListener() {			
 			@Override
@@ -155,7 +159,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 			}
 		});
 		
-		undo = (ImageView) mActivity.findViewById(R.id.sketch_undo);
+		undo = (ImageView) getActivity().findViewById(R.id.sketch_undo);
 		undo.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -163,7 +167,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 			}
 		});
 		
-		redo = (ImageView) mActivity.findViewById(R.id.sketch_redo);
+		redo = (ImageView) getActivity().findViewById(R.id.sketch_redo);
 		redo.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -172,7 +176,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 			}
 		});
 
-		erase = (ImageView) mActivity.findViewById(R.id.sketch_erase);
+		erase = (ImageView) getActivity().findViewById(R.id.sketch_erase);
 		erase.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
@@ -180,7 +184,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 			}
 
 			private void askForErase() {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 				alertDialogBuilder.setMessage(R.string.erase_sketch)
 						.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 							@Override
@@ -200,12 +204,12 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 
 
 		// Inflate the popup_layout.xml
-		LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(ActionBarActivity.LAYOUT_INFLATER_SERVICE);
-//		popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, (ViewGroup) mActivity.findViewById(R.id.layout_root));
+		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(ActionBarActivity.LAYOUT_INFLATER_SERVICE);
+//		popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, (ViewGroup) getActivity().findViewById(R.id.layout_root));
 		popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, null);
 		// And the one for eraser
-		LayoutInflater inflaterEraser = (LayoutInflater) mActivity.getSystemService(ActionBarActivity.LAYOUT_INFLATER_SERVICE);
-//		popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, (ViewGroup) mActivity.findViewById(R.id.layout_root));
+		LayoutInflater inflaterEraser = (LayoutInflater) getActivity().getSystemService(ActionBarActivity.LAYOUT_INFLATER_SERVICE);
+//		popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, (ViewGroup) getActivity().findViewById(R.id.layout_root));
 		popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, null);
 
 		// Actual stroke shape size is retrieved
@@ -259,7 +263,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			mActivity.onBackPressed();
+			getActivity().onBackPressed();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -281,16 +285,16 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 //					if (mOnSketchSavedListener != null) {
 //						mOnSketchSavedListener.onSketchSaved(uri);
 //					}					
-					mActivity.sketchUri = uri;
+                    getMainActivity().sketchUri = uri;
 				} else {
-					Crouton.makeText(mActivity, R.string.error, ONStyle.ALERT).show();
+                    getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
 				}
 	
 			} catch (Exception e) {
 				Ln.e(e, "Error writing sketch image data");
 			}
 		}
-//		mActivity.getSupportFragmentManager().popBackStack(); 
+//		getActivity().getSupportFragmentManager().popBackStack(); 
 	}
 	
 	
@@ -303,10 +307,10 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 		oldColor = mColorPicker.getColor();
 		
 		DisplayMetrics metrics = new DisplayMetrics();
-		mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
 		// Creating the PopupWindow
-		PopupWindow popup = new PopupWindow(mActivity);
+		PopupWindow popup = new PopupWindow(getActivity());
 		popup.setContentView(isErasing ? popupEraserLayout : popupLayout);
 		popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
 		popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -324,7 +328,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 
 		// Displaying the popup at the specified location, + offsets (transformed 
 		// dp to pixel to support multiple screen sizes)
-//		popup.showAsDropDown(anchor, 0, DensityUtil.convertDpToPixel(isErasing ? -120 : -390, mActivity));
+//		popup.showAsDropDown(anchor, 0, DensityUtil.convertDpToPixel(isErasing ? -120 : -390, getActivity()));
 		popup.showAsDropDown(anchor);
 		
 		// Stroke size seekbar initialization and event managing
@@ -386,6 +390,11 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener{
 		else
 			AlphaManager.setAlpha(redo, 0.4f);
 	}
+
+
+    private MainActivity getMainActivity() {
+        return (MainActivity) getActivity();
+    }
 		
 		
 }

@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
-  
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  
-    http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
+  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
 <resources>
 
     <string name="app_name">Omni Notes</string>
@@ -55,6 +56,7 @@
     <string name="last_update">Updated:</string>
     <string name="delete_note_confirmation">Confirm note deletion?</string>
     <string name="confirm">Confirm</string>
+    <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="note_updated">Note updated</string>
     <string name="empty_note_not_saved">Can\'t save an empty note</string>
@@ -120,10 +122,10 @@
     <string name="notes_category_removed">Category removed from notes</string>
     <string name="notes_categorized_as">Notes categorized as</string>
     <string name="insert_security_password">Insert password</string>
-    <string name="lock">Mask</string>
-    <string name="save_note_to_lock_it">Save note to mask it</string>
-    <string name="save_note_to_unlock_it">Save note to unmask it</string>
-    <string name="unlock">Unmask</string>
+    <string name="lock">Lock</string>
+    <string name="save_note_to_lock_it">Save note to lock it</string>
+    <string name="save_note_to_unlock_it">Save note to unlock it</string>
+    <string name="unlock">Unlock</string>
     <string name="title_activity_password">Edit security password</string>
     <string name="title_activity_about">Info</string>
     <string name="deleted">deleted</string>
@@ -190,6 +192,8 @@
     <string name="select_all">Select all</string>
     <string name="search_location">Search location</string>
     <string name="use_current_location">Use current location</string>
+    <string name="filter">Filter</string>
+    <string name="remove_filter">Remove filter</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
@@ -215,25 +219,27 @@
     <string name="export_warning">Exported file will overwrite existing one. Proceed?</string>
     <string name="settings_category_gestures">Gestures</string>
     <string name="settings_enable_swype">Enable swype</string>
-    <string name="settings_category_interface">Interface</string>
+    <string name="settings_screen_interface">Interface</string>
     <string name="settings_enable_animations">Animations</string>
-    <string name="settings_category_notifications">Notifications</string>
+    <string name="settings_screen_backup">Backup</string>
+    <string name="settings_screen_notifications">Notifications</string>
     <string name="settings_enable_vibration">Vibration</string>
     <string name="settings_changelog">Changelog</string>
     <string name="settings_enable_editor_links">Links recognition</string>
     <string name="settings_max_video_size">Video attachments</string>
-    <string name="settings_category_data">Data</string>
+    <string name="settings_screen_data">Data</string>
     <string name="settings_backup">Backup</string>
     <string name="settings_password">Password</string>
     <string name="settings_password_access">Request password on access</string>
-    <string name="settings_password_instructions">Password ensures that notes won\'t be viewed or modified by other persons.\n\nWhen setting a new password, the previous one will be requested.\n\nSet an empty password to remove it</string>
+    <string name="settings_password_instructions">Password ensures that notes won\'t be viewed or modified by other persons.\n\nWhen setting a new password, the previous one will be requested.</string>
     <string name="settings_password_not_matching">Wrong or missing password</string>
     <string name="insert_new_password">Insert a new password</string>
     <string name="confirm_new_password">Confirm the new password</string>
     <string name="password_successfully_changed">Password successfully changed</string>
     <string name="password_successfully_removed">Password successfully removed</string>
     <string name="wrong_password">Wrong password</string>
-    <string name="agree_unlocking_all_notes">Remove password\nand unmask all masked notes?</string>
+    <string name="empty_password">The password is empty</string>
+    <string name="agree_unlocking_all_notes">Remove password\nand unlock all locked notes?</string>
     <string name="settings_enable_tag_marker">Category markers</string>
     <string name="settings_backup_summary">Import or export app data</string>
     <string name="settings_max_video_size_summary">Maximum allowed size in MB</string>
@@ -271,7 +277,8 @@
     <string name="settings_password_question">Question</string>
     <string name="settings_password_answer">Answer</string>
     <string name="settings_password_answer_check">Confirm answer</string>
-    <string name="password_forgot">Forgot password?</string>
+    <string name="password_forgot">Password forgotten</string>
+    <string name="password_remove">Remove password</string>
     <string name="settings_answer_not_matching">Answer wrong or missing</string>
     <string name="password_not_set">Password not set</string>
     <string name="wrong_answer">Wrong answer</string>
@@ -281,7 +288,7 @@
     <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
     <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
     <string name="settings_text_size">Text size</string>
-    <string name="settings_category_behaviors">Behaviors</string>
+    <string name="settings_screen_behaviors">Behaviors</string>
     <string name="settings_swipe_to_trash">Swipe to trash</string>
     <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
     <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
@@ -291,6 +298,8 @@
     <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
     <string name="settings_auto_location">Automatic location</string>
     <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
+    <string name="settings_dynamic_menu">Dynamic menu</string>
+    <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
 
 
     <!-- Instructions -->

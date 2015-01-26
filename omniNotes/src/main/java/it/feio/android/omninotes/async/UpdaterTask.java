@@ -1,22 +1,24 @@
-/*******************************************************************************
- * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.feio.android.omninotes.async;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,12 +26,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
-
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.utils.Constants;
 import org.json.JSONObject;
+import roboguice.util.Ln;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,10 +45,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.utils.Constants;
-import roboguice.util.Ln;
+//import com.google.android.gms.common.ConnectionResult;
+//import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
@@ -79,7 +82,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 			// Getting from preferences last update check
 			@SuppressWarnings("static-access")
-			SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS);
+			SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
 
 			long now = System.currentTimeMillis();
 			if (promptUpdate
@@ -152,14 +155,36 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	
 	@Override
 	protected void onPostExecute(Void result) {	
-		
 		if (isAlive(mActivityReference) && promptUpdate) {
 			promptUpdate();
-		}
+		} else {
+            showChangelog();
+        }
 	}
-	
-	
-	/**
+
+
+    private void showChangelog() {
+        try {
+            String newVersion = mActivity.getPackageManager().getPackageInfo(
+                     mActivity.getPackageName(), 0).versionName;
+            String currentVersion = mActivity.getSharedPreferences(Constants.PREFS_NAME,
+                    Context.MODE_MULTI_PROCESS).getString(Constants.PREF_CURRENT_APP_VERSION, "");
+            if (!newVersion.equals(currentVersion)) {
+                new MaterialDialog.Builder(mActivity)
+                        .customView(R.layout.activity_changelog, false)
+                        .positiveText(R.string.ok)
+                        .build().show();
+                mActivity.getSharedPreferences(Constants.PREFS_NAME,
+                        Context.MODE_MULTI_PROCESS).edit().putString(Constants.PREF_CURRENT_APP_VERSION, 
+                        newVersion).commit();
+            }
+        } catch (NameNotFoundException e) {
+            Ln.e("Error retrieving app version", e);
+        }
+    }
+
+
+    /**
 	 * Cheks if activity is still alive and not finishing
 	 * @param weakActivityReference
 	 * @return True or false
@@ -256,7 +281,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 * @return
 	 */
 	private boolean isGooglePlayAvailable() {
-        boolean googlePlayStoreInstalled;
+        boolean googlePlayStoreInstalled = true;
         int val= GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
         googlePlayStoreInstalled = val == ConnectionResult.SUCCESS;
         return googlePlayStoreInstalled;

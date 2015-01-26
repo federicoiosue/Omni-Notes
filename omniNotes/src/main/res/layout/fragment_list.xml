@@ -1,75 +1,78 @@
 <!--
-  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
-  
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  
-    http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
+  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_additional_margin"
+    android:layout_marginRight="@dimen/activity_additional_margin">
 
     <it.feio.android.omninotes.models.views.InterceptorLinearLayout
         android:id="@+id/list_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
-        
+        android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/search_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone" 
+            android:visibility="gone"
             android:paddingLeft="16dp"
             android:paddingTop="6dp"
             android:paddingRight="16dp"
             android:paddingBottom="6dp">
 
-<!--             <com.neopixl.pixlui.components.textview.TextView -->
-                <TextView
+            <TextView
                 android:id="@+id/search_query"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textAppearance="@style/Text.Small" />
 
             <ImageView
                 android:id="@+id/search_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_action_cancel" />
+                android:src="@drawable/ic_cancel_grey600_18dp" />
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/notes_list"
+        <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
             android:dividerHeight="8dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
+            android:paddingTop="@dimen/padding_half"
+            android:clipToPadding="false"
             android:scrollbarSize="4dp"
             android:drawSelectorOnTop="true"
             android:listSelector="@drawable/icon_selector"
             android:scrollbarStyle="outsideOverlay"
-            android:scrollbarThumbVertical="@drawable/scroll_bar" 
-            android:fastScrollEnabled="true" >
-        </ListView>
+            android:scrollbarThumbVertical="@drawable/scroll_bar"
+            android:fastScrollEnabled="true"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center" >
+            android:gravity="center">
 
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/empty_list"
@@ -84,23 +87,21 @@
                 android:visibility="gone"
                 pixlui:typeface="Roboto-Regular.ttf" />
         </LinearLayout>
+
     </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
 
-    <LinearLayout
+    <include
         android:id="@+id/undobar"
-        style="@style/UndoBar"
-        android:orientation="horizontal"
-        android:visibility="gone" >
+        layout="@layout/undobar" />
 
-        <TextView
-            android:id="@+id/undobar_message"
-            style="@style/UndoBarMessage" />
+    <include
+        android:id="@+id/fab"
+        layout="@layout/fab" />
 
-        <View style="@style/UndoBarDivider" />
-
-        <Button
-            android:id="@+id/undobar_button"
-            style="@style/UndoBarButton" />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/expanded_image"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

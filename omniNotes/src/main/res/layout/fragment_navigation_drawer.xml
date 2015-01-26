@@ -1,40 +1,66 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/left_drawer"
+<!--
+  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="left|start"
-    android:background="@color/navigation_bg"
-    android:orientation="vertical" >
+    android:background="@color/navigation_bg">
 
-    <ListView
-        android:id="@+id/drawer_nav_list"
-        android:layout_width="@dimen/navigation_drawer_width"
+    <LinearLayout
+        android:id="@+id/left_drawer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:listSelector="@drawable/icon_selector" />
+        android:layout_gravity="left|start"
+        android:orientation="vertical">
 
-    <ViewStub
-        android:id="@+id/settings_placeholder"
-        android:inflatedId="@+id/settings_view"
-        android:layout_width="@dimen/navigation_drawer_width"
-        android:layout_height="wrap_content"
-        android:layout="@layout/drawer_category_list_footer" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/navigation_drawer_header_height"
+            android:src="@drawable/material_wall"
+            android:scaleType="centerCrop" />
 
-    <ListView
-        android:id="@+id/drawer_tag_list"
-        android:layout_width="@dimen/navigation_drawer_width"
-        android:layout_height="wrap_content"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:listSelector="@drawable/icon_selector"
-        android:overScrollMode="never"
-        android:scrollbarSize="4dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbarThumbVertical="@drawable/scroll_bar" />
+        <it.feio.android.omninotes.models.views.NonScrollableListView
+            android:id="@+id/drawer_nav_list"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_height="wrap_content"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:listSelector="@drawable/icon_selector" />
 
-</LinearLayout>
+        <ViewStub
+            android:id="@+id/settings_placeholder"
+            android:inflatedId="@+id/settings_view"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_height="wrap_content"
+            android:layout="@layout/drawer_category_list_footer" />
+
+        <it.feio.android.omninotes.models.views.NonScrollableListView
+            android:id="@+id/drawer_tag_list"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_height="wrap_content"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:listSelector="@drawable/icon_selector"
+            android:overScrollMode="never"
+            android:scrollbarSize="4dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbarThumbVertical="@drawable/scroll_bar" />
+
+    </LinearLayout>
+</ScrollView>

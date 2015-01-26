@@ -1,18 +1,19 @@
-/*******************************************************************************
- * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.feio.android.omninotes.models.adapters;
 
 import android.annotation.SuppressLint;
@@ -27,6 +28,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.views.SquareImageView;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.date.DateHelper;
@@ -121,13 +125,19 @@ public class AttachmentAdapter extends BaseAdapter {
 		}
 
 		// Starts the AsyncTask to draw bitmap into ImageView
-		loadThumbnail(holder, mAttachment);
+//		loadThumbnail(holder, mAttachment);
+        Uri thumbnailUri = BitmapHelper.getThumbnailUri(mActivity, mAttachment);
+        Glide.with(mActivity)
+                .load(thumbnailUri)
+                .centerCrop()
+                .crossFade()
+                .into(holder.image);
 
 		return convertView;
 	}
- 
-	
-	
+
+
+
 	@SuppressLint("NewApi")
 	private void loadThumbnail(AttachmentHolder holder, Attachment mAttachment) {
 		if (cancelPotentialWork(mAttachment.getUri(), holder.image)) {

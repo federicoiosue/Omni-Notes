@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
-  
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  
-    http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
+  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:id="@+id/attachment_dialog_root"
@@ -32,7 +33,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:gravity="start|left">
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/camera"
@@ -40,12 +42,12 @@
             android:layout_height="wrap_content"
             android:background="@drawable/icon_selector"
             android:drawableLeft="@drawable/ic_camera_dark"
-            android:drawablePadding="4dp"
-            android:gravity="center_vertical"
-            android:padding="8dp"
+            android:drawablePadding="@dimen/attachment_dialog_drawable_padding"
+            android:padding="6dp"
             android:text="@string/camera"
-            android:textSize="17sp"
-            pixlui:typeface="Roboto-Regular.ttf" />
+            android:textSize="@dimen/attachment_dialog_text_size"
+            pixlui:typeface="Roboto-Regular.ttf"
+            android:textColor="@color/text_gray" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/video"
@@ -53,25 +55,25 @@
             android:layout_height="wrap_content"
             android:background="@drawable/icon_selector"
             android:drawableLeft="@drawable/ic_action_video"
-            android:drawablePadding="4dp"
-            android:gravity="center_vertical"
-            android:padding="8dp"
+            android:drawablePadding="@dimen/attachment_dialog_drawable_padding"
+            android:padding="@dimen/attachment_dialog_items_padding"
             android:text="@string/video"
-            android:textSize="17sp"
-            pixlui:typeface="Roboto-Regular.ttf" />
+            android:textSize="@dimen/attachment_dialog_text_size"
+            pixlui:typeface="Roboto-Regular.ttf"
+            android:textColor="@color/text_gray" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/files"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/icon_selector"
-            android:drawableLeft="@drawable/ic_note_dark"
-            android:drawablePadding="4dp"
-            android:gravity="center_vertical"
-            android:padding="8dp"
+            android:drawableLeft="@drawable/ic_file"
+            android:drawablePadding="@dimen/attachment_dialog_drawable_padding"
+            android:padding="@dimen/attachment_dialog_items_padding"
             android:text="@string/files"
-            android:textSize="17sp"
-            pixlui:typeface="Roboto-Regular.ttf" />
+            android:textSize="@dimen/attachment_dialog_text_size"
+            pixlui:typeface="Roboto-Regular.ttf"
+            android:textColor="@color/text_gray" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/recording"
@@ -79,52 +81,52 @@
             android:layout_height="wrap_content"
             android:background="@drawable/icon_selector"
             android:drawableLeft="@drawable/ic_action_mic"
-            android:drawablePadding="4dp"
-            android:gravity="center_vertical"
-            android:padding="8dp"
+            android:drawablePadding="@dimen/attachment_dialog_drawable_padding"
+            android:padding="@dimen/attachment_dialog_items_padding"
             android:text="@string/record"
-            android:textSize="17sp"
-            pixlui:typeface="Roboto-Regular.ttf" />
+            android:textSize="@dimen/attachment_dialog_text_size"
+            pixlui:typeface="Roboto-Regular.ttf"
+            android:textColor="@color/text_gray" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/sketch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/icon_selector"
-            android:drawableLeft="@drawable/ic_action_edit"
-            android:drawablePadding="4dp"
-            android:gravity="center_vertical"
-            android:padding="8dp"
+            android:drawableLeft="@drawable/ic_action_draw"
+            android:drawablePadding="@dimen/attachment_dialog_drawable_padding"
+            android:padding="@dimen/attachment_dialog_items_padding"
             android:text="@string/sketch"
-            android:textSize="17sp"
-            pixlui:typeface="Roboto-Regular.ttf" />
+            android:textSize="@dimen/attachment_dialog_text_size"
+            pixlui:typeface="Roboto-Regular.ttf"
+            android:textColor="@color/text_gray" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/icon_selector"
-            android:drawableLeft="@drawable/ic_location_dark"
-            android:drawablePadding="4dp"
-            android:gravity="center_vertical"
-            android:padding="8dp"
+            android:drawableLeft="@drawable/ic_pin_drop_grey600_24dp"
+            android:drawablePadding="@dimen/attachment_dialog_drawable_padding"
+            android:padding="@dimen/attachment_dialog_items_padding"
             android:text="@string/location"
-            android:textSize="17sp"
-            pixlui:typeface="Roboto-Regular.ttf" />
+            android:textSize="@dimen/attachment_dialog_text_size"
+            pixlui:typeface="Roboto-Regular.ttf"
+            android:textColor="@color/text_gray" />
 
         <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/pushbullet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/icon_selector"
-            android:drawableLeft="@drawable/ic_action_desktop"
-            android:drawablePadding="4dp"
-            android:gravity="center_vertical"
-            android:padding="8dp"
+            android:drawableLeft="@drawable/ic_laptop"
+            android:drawablePadding="@dimen/attachment_dialog_drawable_padding"
+            android:padding="@dimen/attachment_dialog_items_padding"
             android:text="@string/pushbullet"
             android:visibility="gone"
-            android:textSize="17sp"
-            pixlui:typeface="Roboto-Regular.ttf" />
+            android:textSize="@dimen/attachment_dialog_text_size"
+            pixlui:typeface="Roboto-Regular.ttf"
+            android:textColor="@color/text_gray" />
     </LinearLayout>
 
 </ScrollView>

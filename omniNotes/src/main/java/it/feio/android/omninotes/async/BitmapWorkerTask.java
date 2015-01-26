@@ -1,6 +1,23 @@
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package it.feio.android.omninotes.async;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,7 +39,7 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
     private final int FADE_IN_TIME = 200;
     private final int QUALITY_FACTOR = 90;
 
-	private final Activity mActivity;
+	private final Context context;
 	private final WeakReference<SquareImageView> imageViewReference;
 	private int width;
 	private int height;
@@ -31,8 +48,8 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 	private Attachment mAttachment;
 
 
-	public BitmapWorkerTask(Activity activity, SquareImageView imageView, int width, int height) {
-		this.mActivity = activity;
+	public BitmapWorkerTask(Context activity, SquareImageView imageView, int width, int height) {
+		this.context = activity;
 		imageViewReference = new WeakReference<SquareImageView>(imageView);
 		this.width = width / 100 * QUALITY_FACTOR;
 		this.height = height / 100 * QUALITY_FACTOR;
@@ -54,7 +71,7 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 		// Creates thumbnail
 		if (bmp == null) {
 			wasCached = false;
-			bmp = BitmapHelper.getBitmapFromAttachment(mActivity.getApplication(), mAttachment, width, height);
+			bmp = BitmapHelper.getBitmapFromAttachment(context, mAttachment, width, height);
 			if (bmp != null) {
 				OmniNotes.getBitmapCache().addBitmap(cacheKey, bmp);
 			}
@@ -101,7 +118,7 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 					// Transition with transparent drawabale and the final bitmap
 					final TransitionDrawable td = new TransitionDrawable(
 							new Drawable[] { new ColorDrawable(Color.TRANSPARENT),
-									new BitmapDrawable(mActivity.getResources(), bitmap) });
+									new BitmapDrawable(context.getResources(), bitmap) });
 					if (td != null) {
 						imageView.setImageDrawable(td);
 						td.startTransition(FADE_IN_TIME);

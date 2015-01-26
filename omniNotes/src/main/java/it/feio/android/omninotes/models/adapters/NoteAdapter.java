@@ -1,18 +1,19 @@
-/*******************************************************************************
-tas * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.feio.android.omninotes.models.adapters;
 
 import android.annotation.SuppressLint;
@@ -22,34 +23,43 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
+import android.support.annotation.NonNull;
+import android.text.Spanned;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.List;
-import java.util.concurrent.RejectedExecutionException;
-
+import com.bumptech.glide.Glide;
+import com.neopixl.pixlui.components.textview.TextView;
+import com.nhaarman.listviewanimations.util.Insertable;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.BitmapWorkerTask;
 import it.feio.android.omninotes.async.TextWorkerTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.views.SquareImageView;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.*;
 import roboguice.util.Ln;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 
-public class NoteAdapter extends ArrayAdapter<Note> {
+
+public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
 	private final Activity mActivity;
-	private final List<Note> notes;
+
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+
+    private List<Note> notes = new ArrayList<Note>();
 	private SparseBooleanArray selectedItems = new SparseBooleanArray();
 	private boolean expandedView;
 	private int layout;
@@ -71,16 +81,16 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		Note note = notes.get(position);
-		
-		NoteAdapterViewHolder holder;
+
+		NoteViewHolder holder;
 	    if (convertView == null) {
 	    	convertView = inflater.inflate(layout, parent, false);
 
 			// Overrides font sizes with the one selected from user
 			Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS), convertView);
-	    	
-	    	holder = new NoteAdapterViewHolder();
-    		    	
+
+	    	holder = new NoteViewHolder();
+
 	    	holder.root = convertView.findViewById(R.id.root);
 	    	holder.cardLayout = convertView.findViewById(R.id.card_layout);
 	    	holder.categoryMarker = convertView.findViewById(R.id.category_marker);
@@ -90,57 +100,25 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	    	holder.date = (TextView) convertView.findViewById(R.id.note_date);
 
 	    	holder.archiveIcon = (ImageView) convertView.findViewById(R.id.archivedIcon);
-//	    	holder.trashIcon = (ImageView) convertView.findViewById(R.id.trashedIcon);
 	    	holder.locationIcon = (ImageView) convertView.findViewById(R.id.locationIcon);
 	    	holder.alarmIcon = (ImageView) convertView.findViewById(R.id.alarmIcon);
 	    	holder.lockedIcon = (ImageView) convertView.findViewById(R.id.lockedIcon);
 	    	if (!expandedView)
 	    		holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
 
-	    	holder.attachmentThumbnail = (SquareImageView) convertView.findViewById(R.id.attachmentThumbnail);	    	
-	    	
+	    	holder.attachmentThumbnail = (SquareImageView) convertView.findViewById(R.id.attachmentThumbnail);
+
 	    	convertView.setTag(holder);
-			
+
 	    } else {
-	        holder = (NoteAdapterViewHolder) convertView.getTag();
+	        holder = (NoteViewHolder) convertView.getTag();
 	    }
-	    
-		try {
-//			if (note.isChecklist()) {
-				TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
-				if (Build.VERSION.SDK_INT >= 11) {
-					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
-				} else {
-					task.execute(note);
-				}
-//			} else {
-//				Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
-//				holder.title.setText(titleAndContent[0]);
-//				holder.content.setText(titleAndContent[1]);
-//			}
-		} catch (RejectedExecutionException e) {
-			Ln.w(e, "Oversized tasks pool to load texts!");
-		}
 
+        initText(note, holder);
 
-		// Evaluates the archived state...
-		holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
-		// .. the trashed state
-//		holder.trashIcon.setVisibility(note.isTrashed() ? View.VISIBLE : View.GONE);
-		// ...the location
-		holder.locationIcon.setVisibility(note.getLongitude() != null && note.getLongitude() != 0 ? View.VISIBLE : View.GONE);
-		// ...the presence of an alarm
-		holder.alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
-		// ...the locked with password state	
-		holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
-		// ...the attachment icon for contracted view
-		if (!expandedView) {
-			holder.attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
-		}
-				
-		
-		String dateText = getDateText(mActivity, note);
-		holder.date.setText(dateText);
+        initIcons(note, holder);
+
+        initDates(note, holder);
 		
 		
 		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui
@@ -150,47 +128,112 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		} else {
 			restoreDrawable(note, holder.cardLayout, holder);
 		}
-		
+        initThumbnail(note, holder);
 
-		// Attachment thumbnail
-		if (expandedView) {
-			// If note is locked or without attachments nothing is shown
-			if ((note.isLocked() && !mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS).getBoolean("settings_password_access", false))
-					|| note.getAttachmentsList().size() == 0) {
-				holder.attachmentThumbnail.setImageResource(0);
-				holder.attachmentThumbnail.setVisibility(View.GONE);
-			}
-			// Otherwise...
-			else {
-				Attachment mAttachment = note.getAttachmentsList().get(0);
-				loadThumbnail(holder, mAttachment);
-			}
-		}
 
-//		Animation animation = AnimationUtils.loadAnimation(mActivity, R.animator.fade_in);
+//		Animation animation = AnimationUtils.loadAnimation(mActivity, R.animator.fade_in_support);
 //		animation.setDuration(60);
 //		convertView.startAnimation(animation);
 		
 		return convertView;
 	}
 
-	
-	
-	/**
+
+    private void initThumbnail(Note note, NoteViewHolder holder) {
+        // Attachment thumbnail
+        if (expandedView) {
+            // If note is locked or without attachments nothing is shown
+            if ((note.isLocked() && !mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS).getBoolean("settings_password_access", false))
+                    || note.getAttachmentsList().size() == 0) {
+                holder.attachmentThumbnail.setVisibility(View.GONE);
+            }
+            // Otherwise...
+            else {
+                holder.attachmentThumbnail.setVisibility(View.VISIBLE);
+                Attachment mAttachment = note.getAttachmentsList().get(0);
+                Uri thumbnailUri = BitmapHelper.getThumbnailUri(mActivity, mAttachment);
+                Glide.with(mActivity)
+                        .load(thumbnailUri)
+                        .centerCrop()
+                        .crossFade()
+                        .into(holder.attachmentThumbnail);
+            }
+        }
+    }
+
+
+    private void initDates(Note note, NoteViewHolder holder) {
+        String dateText = getDateText(mActivity, note);
+        holder.date.setText(dateText);
+    }
+
+
+    private void initIcons(Note note, NoteViewHolder holder) {
+        // Evaluates the archived state...
+        holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
+        // ...the location
+        holder.locationIcon.setVisibility(note.getLongitude() != null && note.getLongitude() != 0 ? View.VISIBLE : View.GONE);
+
+        // ...the presence of an alarm
+        holder.alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
+        // ...the locked with password state
+        holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
+        // ...the attachment icon for contracted view
+        if (!expandedView) {
+            holder.attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
+        }
+    }
+
+
+    private void initText(Note note, NoteViewHolder holder) {
+        try {
+            if (note.isChecklist()) {
+                TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+            } else {
+                Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
+                holder.title.setText(titleAndContent[0]);
+                holder.content.setText(titleAndContent[1]);
+                holder.title.setText(titleAndContent[0]);
+                if (titleAndContent[1].length() > 0) {
+                    holder.content.setText(titleAndContent[1]);
+                    holder.content.setVisibility(View.VISIBLE);
+                } else {
+                    if (expandedView) {
+                        holder.content.setVisibility(View.INVISIBLE);
+                    } else {
+                        holder.content.setVisibility(View.GONE);
+                    }
+                }
+            }
+        } catch (RejectedExecutionException e) {
+            Ln.w(e, "Oversized tasks pool to load texts!");
+        }
+    }
+
+
+    /**
 	 * Choosing which date must be shown depending on sorting criteria
 	 * @return String ith formatted date
 	 */
 	public static String getDateText(Context mContext, Note note) {
 		String dateText;
+        String sort_column;
 		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS);
-		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
+
+        // Reminder screen forces sorting
+        if (Navigation.checkNavigation(Navigation.REMINDERS)) {
+            sort_column = DbHelper.KEY_REMINDER;
+        } else {
+            sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
+        }
 		
 		// Creation
 		if (sort_column.equals(DbHelper.KEY_CREATION)) {
 			dateText = mContext.getString(R.string.creation) + " " + note.getCreationShort(mContext);
 		}
 		// Reminder
-		else if (sort_column.equals(DbHelper.KEY_ALARM)) {
+		else if (sort_column.equals(DbHelper.KEY_REMINDER)) {
 			String alarmShort = note.getAlarmShort(mContext);
 			
 			if (alarmShort.length() == 0) {
@@ -208,10 +251,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 		return dateText;
 	}
 
-	
-	
-	
-	
 
 	public SparseBooleanArray getSelectedItems() {
 		return selectedItems;
@@ -235,7 +274,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	}
 	
 	
-	public void restoreDrawable(Note note, View v, NoteAdapterViewHolder holder) {
+	public void restoreDrawable(Note note, View v, NoteViewHolder holder) {
 		final int paddingBottom = v.getPaddingBottom(), paddingLeft = v.getPaddingLeft();
 	    final int paddingRight = v.getPaddingRight(), paddingTop = v.getPaddingTop();
 	    v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
@@ -253,7 +292,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 	 * @param note
 	 * @param rowView
 	 */
-	private void colorNote(Note note, View v, NoteAdapterViewHolder holder) {
+	private void colorNote(Note note, View v, NoteViewHolder holder) {
 
 		String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS)
 									.getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
@@ -280,47 +319,6 @@ public class NoteAdapter extends ArrayAdapter<Note> {
 			}
 		}
 	}
-	 
-	
-	
-	@SuppressLint("NewApi")
-	private void loadThumbnail(NoteAdapterViewHolder holder, Attachment mAttachment) {
-//		if (isNewWork(mAttachment.getUri(), holder.attachmentThumbnail)) {
-			BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.attachmentThumbnail,
-					Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
-			holder.attachmentThumbnail.setAsyncTask(task);
-			try {
-				if (Build.VERSION.SDK_INT >= 11) {
-					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
-				} else {
-					task.execute(mAttachment);
-				}
-			} catch (RejectedExecutionException e) {
-				Ln.w(e, "Oversized tasks pool to load thumbnails!");
-			}
-			holder.attachmentThumbnail.setVisibility(View.VISIBLE);
-//		}
-	}
-
-	
-	public static boolean isNewWork(Uri uri, SquareImageView imageView) {
-		final BitmapWorkerTask bitmapWorkerTask = (BitmapWorkerTask)imageView.getAsyncTask();
-
-		if (bitmapWorkerTask != null && bitmapWorkerTask.getAttachment() != null) {
-			final Uri bitmapData = bitmapWorkerTask.getAttachment().getUri();
-			// If bitmapData is not yet set or it differs from the new data
-			if (bitmapData == null || bitmapData != uri) {
-				// Cancel previous task
-				bitmapWorkerTask.cancel(true);
-			} else {
-				// The same work is already in progress
-				return false;
-			}
-		}
-		// No task associated with the ImageView, or an existing task was
-		// cancelled
-		return true;
-	}
 	
 	
 	/**
@@ -334,26 +332,20 @@ public class NoteAdapter extends ArrayAdapter<Note> {
         }
 		notes.add(index, note);
 	}
+
+
+    @Override
+    public void add(int i, @NonNull Object o) {
+        insert((Note)o, i);
+    }
+    
+    
+    public void remove(List<Note> notes) {
+        for (Note note : notes) {
+            remove(note);
+        }
+    }
 }
 
 
 
-class NoteAdapterViewHolder {
-	
-	View root;
-	View cardLayout;
-	View categoryMarker;
-	
-	TextView title;
-	TextView content;
-	TextView date;
-
-	ImageView archiveIcon;
-//	ImageView trashIcon;
-	ImageView locationIcon;
-	ImageView alarmIcon;
-	ImageView lockedIcon;
-	ImageView attachmentIcon;
-	
-	SquareImageView attachmentThumbnail;
-}

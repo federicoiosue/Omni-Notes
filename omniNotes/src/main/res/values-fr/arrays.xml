@@ -18,26 +18,26 @@
 <resources>
   <string-array name="navigation_list">
     <item>Notes</item>
-    <item>Archiver</item>
+    <item>Archive</item>
     <item>Rappels</item>
     <item>Corbeille</item>
-    <item>Non classé</item>
+    <item>Sans catégorie</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Titre </item>
     <item>Date de création</item>
-    <item>Dernière date de modification</item>
+    <item>Date de modification</item>
     <item>Date de rappel</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Maintenez la position</item>
-    <item>Déplacer à la fin de tous les articles</item>
-    <item>Déplacer après avoir décoché mais au-dessus des non-cochés</item>
+    <item>Maintenir la position</item>
+    <item>Déplacer à la fin de la liste</item>
+    <item>Déplacer à la fin des éléments non cochés</item>
   </string-array>
   <string-array name="colors_app">
     <item>Désactivé</item>
-    <item>Bande uniquement</item>
-    <item>Liste des notes uniquement</item>
+    <item>Marge uniquement</item>
+    <item>Liste de notes uniquement</item>
     <item>Complet</item>
   </string-array>
   <string-array name="colors_widget">

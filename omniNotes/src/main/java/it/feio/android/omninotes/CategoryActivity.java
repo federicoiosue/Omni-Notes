@@ -1,8 +1,23 @@
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package it.feio.android.omninotes;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -16,19 +31,18 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
-
-import java.io.File;
-import java.io.FileOutputStream;
-
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
 import roboguice.util.Ln;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class CategoryActivity extends Activity {
 
@@ -43,7 +57,6 @@ public class CategoryActivity extends Activity {
 	Button saveBtn;
 	Button discardBtn;
 	private CategoryActivity mActivity;
-	private AlertDialog dialog;
 	private boolean colorChanged = false;
 
 	@Override
@@ -70,10 +83,10 @@ public class CategoryActivity extends Activity {
 	
 	
 	
-	@Override
-	public void onBackPressed() {
-		discard();
-	}
+//	@Override
+//	public void onBackPressed() {
+//		discard();
+//	}
 	
 
 	private void initViews() {
@@ -112,7 +125,7 @@ public class CategoryActivity extends Activity {
 
 		deleteBtn = (Button) findViewById(R.id.delete);
 		saveBtn = (Button) findViewById(R.id.save);
-		discardBtn = (Button) findViewById(R.id.discard);
+//		discardBtn = (Button) findViewById(R.id.discard);
 		
 		// Buttons events
 		deleteBtn.setOnClickListener(new OnClickListener() {			
@@ -132,12 +145,12 @@ public class CategoryActivity extends Activity {
                 }
 			}
 		});
-		discardBtn.setOnClickListener(new OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				discard();
-			}
-		});
+//		discardBtn.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				discard();
+//			}
+//		});
 	}
 
 	private void populateViews() {
@@ -189,13 +202,43 @@ public class CategoryActivity extends Activity {
 			msg = getString(R.string.delete_unused_category_confirmation);
 	
 		// Showing dialog
-		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-		alertDialogBuilder.setMessage(msg)
-				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//		final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+//		alertDialogBuilder.setMessage(msg)
+//				.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int id) {
+//						// Changes navigation if actually are shown notes associated with this category
+//						SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+//						String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
+//						String navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
+//						if (String.valueOf(category.getId()).equals(navigation))
+//							prefs.edit().putString(Constants.PREF_NAVIGATION, navNotes).commit();
+//						// Removes category and edit notes associated with it
+//						DbHelper db = DbHelper.getInstance(mActivity);
+//						db.deleteCategory(category);
+//
+//						// Sets result to show proper message
+//						setResult(RESULT_CANCELED);
+//						finish();
+//					}
+//				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int id) {
+//						dialog.dismiss();
+//					}
+//				});
+//		dialog = alertDialogBuilder.create();
+//		dialog.show();
 
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						// Changes navigation if actually are shown notes associated with this category
+        new MaterialDialog.Builder(this)
+                .content(msg)
+                .positiveText(R.string.ok)
+                .callback(new MaterialDialog.SimpleCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        // Changes navigation if actually are shown notes associated with this category
 						SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 						String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
 						String navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
@@ -204,27 +247,19 @@ public class CategoryActivity extends Activity {
 						// Removes category and edit notes associated with it
 						DbHelper db = DbHelper.getInstance(mActivity);
 						db.deleteCategory(category);
-						
+
 						// Sets result to show proper message
-						setResult(RESULT_CANCELED);
+						setResult(RESULT_FIRST_USER);
 						finish();
-					}
-				}).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.dismiss();
-					}
-				});
-		dialog = alertDialogBuilder.create();
-		dialog.show();
+                    }
+                }).build().show();
 	}
 
-	private void discard() {		
-		// Sets result to show proper message
-		setResult(RESULT_FIRST_USER);
-		finish();
-	}
+//	private void discard() {
+//		// Sets result to show proper message
+//		setResult(RESULT_FIRST_USER);
+//		finish();
+//	}
 	
 
 	public boolean goHome() {

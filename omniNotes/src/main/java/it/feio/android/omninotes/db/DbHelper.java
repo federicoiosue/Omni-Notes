@@ -1,18 +1,19 @@
-/*******************************************************************************
- * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.feio.android.omninotes.db;
 
 import android.content.ContentValues;
@@ -23,25 +24,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import it.feio.android.omninotes.models.*;
+import it.feio.android.omninotes.utils.*;
+import roboguice.util.Ln;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Matcher;
-
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.Stats;
-import it.feio.android.omninotes.utils.AssetUtils;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Navigation;
-import it.feio.android.omninotes.utils.Security;
-import it.feio.android.pixlui.links.RegexPatternsConstants;
-import roboguice.util.Ln;
+import java.util.*;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -62,7 +50,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static final String KEY_CONTENT = "content";
 	public static final String KEY_ARCHIVED = "archived";
 	public static final String KEY_TRASHED = "trashed";
-	public static final String KEY_ALARM = "alarm";
+	public static final String KEY_REMINDER = "alarm";
 	public static final String KEY_LATITUDE = "latitude";
 	public static final String KEY_LONGITUDE = "longitude";
 	public static final String KEY_ADDRESS = "address";
@@ -190,7 +178,7 @@ public class DbHelper extends SQLiteOpenHelper {
 						.getInstance().getTimeInMillis()));
 		values.put(KEY_ARCHIVED, note.isArchived());
 		values.put(KEY_TRASHED, note.isTrashed());
-		values.put(KEY_ALARM, note.getAlarm());
+		values.put(KEY_REMINDER, note.getAlarm());
 		values.put(KEY_LATITUDE, note.getLatitude());
 		values.put(KEY_LONGITUDE, note.getLongitude());
 		values.put(KEY_ADDRESS, note.getAddress());
@@ -293,10 +281,10 @@ public class DbHelper extends SQLiteOpenHelper {
 			switch (navigation) {
 				case Navigation.NOTES:
 					return getNotesActive();
-				case Navigation.ARCHIVED:
+				case Navigation.ARCHIVE:
 					return getNotesArchived();
 				case Navigation.REMINDERS:
-					return getNotesWithReminder(true);
+					return getNotesWithReminder(prefs.getBoolean(Constants.PREF_FILTER_PAST_REMINDERS, false));
                 case Navigation.TRASH:
                     return getNotesTrashed();
                 case Navigation.UNCATEGORIZED:
@@ -398,26 +386,29 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	/**
 	 * Common method for notes retrieval. It accepts a query to perform and returns matching records.
-	 * @param query
 	 * @return Notes list
 	 */
 	public List<Note> getNotes(String whereCondition, boolean order) {
 		List<Note> noteList = new ArrayList<Note>();
 
-		// Getting sorting criteria from preferences
 		String sort_column = "", sort_order = "";
-		sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN,
-				KEY_TITLE);
-		if (order) {			
-			sort_order = KEY_TITLE.equals(sort_column) || KEY_ALARM.equals(sort_column) ? " ASC " : " DESC ";
+
+        // Getting sorting criteria from preferences. Reminder screen forces sorting.
+        if (Navigation.checkNavigation(Navigation.REMINDERS)) {
+            sort_column = KEY_REMINDER;
+        } else {
+            sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, KEY_TITLE);
+        }
+		if (order) {
+			sort_order = KEY_TITLE.equals(sort_column) || KEY_REMINDER.equals(sort_column) ? " ASC " : " DESC ";
 		}
 
 		// In case of title sorting criteria it must be handled empty title by concatenating content
 		sort_column = KEY_TITLE.equals(sort_column) ? KEY_TITLE + "||" + KEY_CONTENT : sort_column;
 		
 		// In case of reminder sorting criteria the empty reminder notes must be moved on bottom of results
-		sort_column = KEY_ALARM.equals(sort_column) ? "IFNULL(" + KEY_ALARM + ", " + Constants.TIMESTAMP_NEVER + ")" : sort_column;
-		
+		sort_column = KEY_REMINDER.equals(sort_column) ? "IFNULL(" + KEY_REMINDER + ", " + Constants.TIMESTAMP_UNIX_EPOCH + ")" : sort_column;
+
 		// Generic query to be specialized with conditions passed as parameter
 		String query = "SELECT " 
 						+ KEY_ID + "," 
@@ -427,7 +418,7 @@ public class DbHelper extends SQLiteOpenHelper {
 						+ KEY_CONTENT + "," 
 						+ KEY_ARCHIVED + "," 
 						+ KEY_TRASHED + "," 
-						+ KEY_ALARM + "," 
+						+ KEY_REMINDER + ","
 						+ KEY_LATITUDE + "," 
 						+ KEY_LONGITUDE + "," 
 						+ KEY_ADDRESS + "," 
@@ -494,34 +485,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 		return noteList;
 	}
-	
-	
 
-
-	/**
-	 * Getting notes count
-	 * @return
-	 */
-	public int getNotesCount() {
-		int count = 0;
-		String countQuery = "SELECT * FROM " + TABLE_NOTES;
-
-		SQLiteDatabase db = null;
-		Cursor cursor = null;
-		try {
-			db = this.getReadableDatabase();
-			cursor = db.rawQuery(countQuery, null);
-			count = cursor.getCount();
-		} finally {
-			if (cursor != null)
-				cursor.close();
-//			if (db != null)
-//				db.close();
-		}
-		return count;
-	}
-
-	
 	
 	/**
 	 * Archives/restore single note
@@ -611,16 +575,26 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	/**
 	 * Search for notes with reminder
-	 * @param passed Search also for fired yet reminders
+	 * @param filterPastReminders Excludes past reminders
 	 * @return Notes list
 	 */
-	public List<Note> getNotesWithReminder(boolean passed) {
-		String whereCondition = " WHERE " + KEY_ALARM 
-								+ (passed ? " IS NOT NULL" : " >= " + Calendar.getInstance().getTimeInMillis())
-								+  " AND " + KEY_ARCHIVED + " IS NOT 1"
-								+  " AND " + KEY_TRASHED + " IS NOT 1";
-		return getNotes(whereCondition, false);
+	public List<Note> getNotesWithReminder(boolean filterPastReminders) {
+		String whereCondition = " WHERE " + KEY_REMINDER
+                + (filterPastReminders ? " >= " + Calendar.getInstance().getTimeInMillis() : " IS NOT NULL")
+                +  " AND " + KEY_ARCHIVED + " IS NOT 1"
+                +  " AND " + KEY_TRASHED + " IS NOT 1";
+		return getNotes(whereCondition, true);
 	}
+
+
+    /**
+     * Retrieves locked or unlocked notes
+     */
+    public List<Note> getNotesWithLock(boolean locked) {
+        String whereCondition = " WHERE " + KEY_LOCKED + (locked ? " = 1 " : " IS NOT 1 ");
+        return getNotes(whereCondition, true);
+    }
+    
 	
 	
 	
@@ -629,7 +603,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 * @return Notes list
 	 */
 	public List<Note> getTodayReminders() {
-		String whereCondition = " WHERE DATE(" + KEY_ALARM + "/1000, 'unixepoch') = DATE('now')";
+		String whereCondition = " WHERE DATE(" + KEY_REMINDER + "/1000, 'unixepoch') = DATE('now')";
 		return getNotes(whereCondition, false);
 	}
 
@@ -684,48 +658,52 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	/**
-	 * Retrieves all notes related to category it passed as parameter
-	 * @param categoryId Category integer identifier
-	 * @return List of notes with requested category
+	 * Retrieves all tags
 	 */
-	public List<String> getTags() {	
+	public List<Tag> getTags() {
 		return getTags(null);
 	}
-	
-	public List<String> getTags(Note note) {	
-		HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
-		
+
+
+    /**
+     * Retrieves all tags of a specified note
+     */
+	public List<Tag> getTags(Note note) {
+		List<Tag> tags = new ArrayList<Tag>();
+        HashMap<String, Integer> tagsMap = new HashMap<String, Integer>();
+        
 		String whereCondition = " WHERE "
-								+ (note != null ? KEY_ID + " = " + note.get_id() : "")
-								+ KEY_CONTENT + " LIKE '%#%' "
-								+ " AND " + KEY_TRASHED + " IS " + (Navigation.checkNavigation(Navigation.TRASH) ? "" : " NOT ") + " 1";
+								+ (note != null ? KEY_ID + " = " + note.get_id() + " AND " : "")
+								+ "(" + KEY_CONTENT + " LIKE '%#%' OR " + KEY_TITLE + " LIKE '%#%' " + ")"
+                                + " AND " + KEY_TRASHED + " IS " + (Navigation.checkNavigation(Navigation.TRASH) ? "" : " NOT ") + " 1";
 		List<Note> notesRetrieved = getNotes(whereCondition, true);
 		
 		for (Note noteRetrieved : notesRetrieved) {
-			tagsMap.putAll(retrieveTags(noteRetrieved));
+            HashMap<String, Integer> tagsRetrieved = TagsHelper.retrieveTags(noteRetrieved);
+            for (String s : tagsRetrieved.keySet()) {
+                int count = tagsMap.get(s) == null ? 0 : tagsMap.get(s);
+                tagsMap.put(s, ++count);
+            }
 		}
-		List<String> tags = new ArrayList<String>();
-		tags.addAll(tagsMap.keySet());
-		Collections.sort(tags, String.CASE_INSENSITIVE_ORDER);
-		return tags;
-	}
-	
-	
-	public HashMap<String, Boolean> retrieveTags(Note note) {
-		HashMap<String, Boolean> tagsMap = new HashMap<String, Boolean>();
-		Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getTitle() + " " + note.getContent());
-		while (matcher.find()) {
-			tagsMap.put(matcher.group().trim(), true);
-		}
-		return tagsMap;
+
+        for (String s : tagsMap.keySet()) {
+            Tag tag = new Tag(s, tagsMap.get(s));
+            tags.add(tag);
+        }
+        
+        Collections.sort(tags, new Comparator<Tag>() {
+            @Override
+            public int compare(Tag tag1, Tag tag2) {
+                return tag1.getText().compareToIgnoreCase(tag2.getText());
+            }
+        });
+        return tags;
 	}
 
 	
 	
 	/**
 	 * Retrieves all notes related to category it passed as parameter
-	 * @param categoryId Category integer identifier
-	 * @return List of notes with requested category
 	 */
 	public List<Note> getNotesByTag(String tag) {	
 		if (tag.indexOf(",") != -1) {
@@ -736,9 +714,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	}
 	
 	/**
-	 * Retrieves all notes related to category it passed as parameter
-	 * @param categoryId Category integer identifier
-	 * @return List of notes with requested category
+	 * Retrieves all notes with specified tags
 	 */
 	public List<Note> getNotesByTag(String[] tags) {	
 		// Select All Query
@@ -762,8 +738,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	/**
 	 * Retrieves all attachments
-	 * @param note
-	 * @return List of attachments
 	 */
 	public ArrayList<Attachment> getAllAttachments() {		
 		return getAttachments("");
@@ -778,7 +752,6 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	/**
 	 * Retrieves attachments using a condition passed as parameter
-	 * @param note
 	 * @return List of attachments
 	 */
 	public ArrayList<Attachment> getAttachments(String whereCondition) {
@@ -1008,24 +981,6 @@ public class DbHelper extends SQLiteOpenHelper {
 		return count;		
 	}
 	
-
-	
-	/**
-	 * Unlocks all notes after security password removal
-	 * @return
-	 */
-	public int unlockAllNotes() {			
-		SQLiteDatabase db = this.getWritableDatabase();
-		
-		ContentValues values = new ContentValues();
-		values.put(KEY_LOCKED, "0");
-		
-		// Updating row
-		return db.update(TABLE_NOTES, values, null, new String[] {});		
-	}
-	
-	
-	
 	
 	/**
 	 * Retrieves statistics data based on app usage
@@ -1118,7 +1073,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			if (note.isLocked()) {
 				notesMasked++;
 			}
-			tags += retrieveTags(note).size();
+			tags += TagsHelper.retrieveTags(note).size();
 			if (note.getLongitude() != null && note.getLongitude() != 0) {
 				locations++;
 			}

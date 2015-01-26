@@ -1,18 +1,19 @@
-/*******************************************************************************
- * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package it.feio.android.omninotes.utils;
 
 public interface Constants {
@@ -40,6 +41,9 @@ public interface Constants {
 	// Notes swipe
 	final int SWIPE_MARGIN = 30;
 	final int SWIPE_OFFSET = 100;
+
+    // Floating action button
+    final int FAB_ANIMATION_TIME = 200;
 
 	// Notes content masking
 	final String MASK_CHAR = "*";
@@ -86,10 +90,12 @@ public interface Constants {
 	final String ACTION_POSTPONE = "action_postpone";
 	final String ACTION_SHORTCUT = "action_shortcut";
 	final String ACTION_WIDGET = "action_widget";
-	final String ACTION_WIDGET_TAKE_PHOTO = "action_widget_take_photo";
+	final String ACTION_TAKE_PHOTO = "action_widget_take_photo";
 	final String ACTION_WIDGET_SHOW_LIST = "action_widget_show_list";
 	final String ACTION_NOTIFICATION_CLICK = "action_notification_click";
-	final String ACTION_MERGE = "action_merge";
+    final String ACTION_MERGE = "action_merge";
+    /** Used to quickly add a note, save, and perform backPress (eg. Tasker+Pushbullet) **/
+    final String ACTION_SEND_AND_EXIT = "action_send_and_exit";
 
 	final String MESSAGE = "message";
 
@@ -112,6 +118,9 @@ public interface Constants {
     final String PREF_WIDGET_PREFIX = "widget_";
     final String PREF_SHOW_UNCATEGORIZED = "settings_show_uncategorized";
     final String PREF_AUTO_LOCATION = "settings_auto_location";
+    final String PREF_FILTER_PAST_REMINDERS = "settings_filter_past_reminders";
+    final String PREF_DYNAMIC_MENU = "settings_dynamic_menu";
+    final String PREF_CURRENT_APP_VERSION = "settings_current_app_version";
 
 	final String EXPORT_FILE_NAME = TAG;
 
@@ -131,5 +140,7 @@ public interface Constants {
 
 	final String SECURITY_ALGORITHM = "MD5";
 
-	final String TIMESTAMP_NEVER = "13910051406040"; // I really don't believe we'll reach 10/17/2410 1:10:06 AM
+    final String TIMESTAMP_UNIX_EPOCH = "0";
+
+    final int MENU_SORT_GROUP_ID = 11998811;
 }

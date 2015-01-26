@@ -1,56 +1,85 @@
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         applicationId "it.feio.android.omninotes"
-        minSdkVersion 9
-        targetSdkVersion 19
+        minSdkVersion project.MIN_SDK
+        targetSdkVersion project.TARGET_SDK
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
-    
+
     buildTypes {
         release {
-            runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             applicationVariants.all { variant ->
-                def file = variant.outputFile
-                variant.outputFile = new File(file.parent, file.name.replace(".apk", "-" + defaultConfig.versionName + ".apk"))
+                variant.outputs.each { output ->
+                    output.outputFile = new File(
+                            output.outputFile.parent,
+                            output.outputFile.name.replace(".apk", "-${variant.versionName}.apk"))
+                }
             }
         }
     }
     lintOptions {
         disable 'MissingTranslation'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
+    }
 }
+
+final GPS_VERSION = '6.5.87'
 
 dependencies {
     androidTestCompile 'junit:junit:4.+'
-    compile('com.doomonafireball.betterpickers:library:1.5.2') {
-        exclude group: 'com.android.support', module: 'support-v4'
-    }
+    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile 'com.larswerkman:HoloColorPicker:1.4'
     compile 'com.jakewharton:disklrucache:2.0.2'
-    compile 'de.keyboardsurfer.android.widget:crouton:1.8.5'
-    compile 'com.nhaarman.listviewanimations:library:2.6.0'
+    compile 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
     compile 'ch.acra:acra:4.5.0'
-    compile 'com.github.gabrielemariotti.changeloglib:library:1.5.1'
-    compile 'com.android.support:appcompat-v7:19.1.0'
-    compile 'com.google.android.gms:play-services:5.0.89'
-    compile files('libs/libGoogleAnalyticsServices.jar')
+    compile 'com.github.gabrielemariotti.changeloglib:library:1.5.2'
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.pushbullet:android-extensions:1.0.4@aar'
+    compile 'org.roboguice:roboguice:3.0'
+    compile 'com.getbase:floatingactionbutton:1.1.0'
+    compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
+    compile 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
+    compile 'com.github.bumptech.glide:glide:3.4.0'
+    compile 'com.afollestad:material-dialogs:0.5.6'
+    compile "com.google.android.gms:play-services-identity:${GPS_VERSION}"
+//    compile "com.google.android.gms:play-services-base:${GPS_VERSION}"
+
+    compile 'it.feio.android:simplegallery:1.1.0'
+    compile 'it.feio.android:springpadimporter:1.0.0'
+    compile 'it.feio.android:omninotes_commons:1.0.3-SNAPSHOT'
     compile 'it.feio.android:checklistview:2.0'
     compile 'it.feio.android:pixlUI:2.1'
-    compile('it.feio.android:showcaseview:3.2.0') {
-        exclude group: 'org.mockito'
-        exclude group: 'org.robolectric'
-    }
-    compile 'com.pushbullet:android-extensions:+@aar'
-    compile 'org.roboguice:roboguice:3.0'
-    compile 'it.feio.android:simplegallery:1.0.1'
-    compile 'it.feio.android:springpadimporter:1.0.0'
-    compile 'it.feio.android:omninotes_commons:1.0.2-SNAPSHOT'
+//    compile('it.feio.android:showcaseview:3.2.0') {
+//        exclude group: 'org.mockito'
+//        exclude group: 'org.robolectric'
+//    }
 }

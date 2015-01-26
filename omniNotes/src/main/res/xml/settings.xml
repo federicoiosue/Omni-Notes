@@ -1,244 +1,78 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
-  
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  
-    http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fitsSystemWindows="true" >
+    android:fitsSystemWindows="true">
 
-    <PreferenceCategory android:title="@string/settings_category_preferences" >
-        
+    <PreferenceCategory android:title="@string/settings_category_preferences">
+
         <PreferenceScreen
-            android:key="category_data"
-            android:title="@string/settings_category_data" >
-            
-            <PreferenceScreen
-                android:key="settings_backup"
-                android:persistent="false"
-                android:summary="@string/settings_backup_summary"
-                android:title="@string/settings_backup" >
-                
-                <Preference
-                    android:key="settings_export_data"
-                    android:title="@string/settings_export" >
-                </Preference>
-                
-                <Preference
-                    android:key="settings_import_data"
-                    android:title="@string/settings_import" >
-                </Preference>
-                
-                <Preference
-                    android:key="settings_import_from_springpad"
-                    android:title="@string/settings_import_from_springpad" 
-                	android:summary="@string/settings_import_from_springpad_summary">
-                </Preference>
-                
-<!--                 <Preference -->
-<!--                     android:key="settings_sync_drive" -->
-<!--                     android:title="@string/settings_sync_drive"  -->
-<!--                 	android:summary="@string/settings_sync_drive_summary"> -->
-<!--                 </Preference> -->
-                
-            </PreferenceScreen>
+            android:key="settings_data"
+            android:title="@string/settings_screen_data" />
 
-            <Preference
-                android:key="settings_password"
-                android:summary="@string/settings_password_summary"
-                android:title="@string/settings_password" >
-            </Preference>            
-           
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="settings_password_access"
-                android:title="@string/settings_password_access" />   
-            
-            <Preference
-                android:key="reset_all_data"
-                android:title="@string/settings_reset_all_data" >
-            </Preference>
-            
-        </PreferenceScreen>
-        
-        
         <PreferenceScreen
-            android:key="category_interface"
-            android:title="@string/settings_category_interface" >
-	        
-	        <ListPreference
-                android:entries="@array/languages"
-                android:entryValues="@array/languages_codes"
-                android:key="settings_language"
-                android:title="@string/settings_choose_language" />	     
-            <ListPreference
-                android:entries="@array/text_size"
-                android:entryValues="@array/text_size_values"
-                android:key="settings_text_size"
-                android:title="@string/settings_text_size" 
-                android:defaultValue="default"/>	 
-          
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="settings_simple_calendar"
-                android:summary="@string/settings_simple_calendar_summary"
-                android:title="@string/settings_simple_calendar" />
+            android:key="settings_interface"
+            android:title="@string/settings_screen_interface" />
 
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="settings_show_uncategorized"
-                android:title="@string/settings_show_uncategorized"
-                android:summary="@string/settings_show_uncategorized_summary" />
-          
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="settings_show_category_count"
-                android:summary="@string/settings_show_category_count_summary"
-                android:title="@string/settings_show_category_count" />   
-            
-            <ListPreference
-                android:entries="@array/colors_app"
-                android:entryValues="@array/colors_app_values"
-                android:key="settings_colors_app"
-                android:title="@string/colors_app" 
-                android:defaultValue="strip"/>	 
-                
-            <ListPreference
-                android:entries="@array/colors_widget"
-                android:entryValues="@array/colors_widget_values"
-                android:key="settings_colors_widget"
-                android:title="@string/colors_widget" 
-                android:defaultValue="strip"/>	 
-            
-        </PreferenceScreen>
-        
-        
-        
-         <PreferenceScreen
-            android:key="category_behaviors"
-            android:title="@string/settings_category_behaviors" > 
-            
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="settings_navdrawer_on_exit"
-                android:summary="@string/settings_navdrawer_on_exit_summary"
-                android:title="@string/settings_navdrawer_on_exit" />
-           
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="settings_instant_search"
-                android:title="@string/settings_instant_search" />
-
-             <CheckBoxPreference
-                 android:defaultValue="false"
-                 android:key="settings_swipe_to_trash"
-                 android:title="@string/settings_swipe_to_trash" />
-
-             <CheckBoxPreference
-                 android:defaultValue="false"
-                 android:key="settings_auto_location"
-                 android:title="@string/settings_auto_location"
-                 android:summary="@string/settings_auto_location_summary" />
-
-             <EditTextPreference
-                android:inputType="number"
-                android:key="settings_max_video_size"
-                android:summary="@string/settings_max_video_size_summary"
-                android:title="@string/settings_max_video_size" />
-            
-            <ListPreference
-                android:defaultValue="0"
-                android:entries="@array/checked_items_behavior"
-                android:entryValues="@array/checked_items_behavior_values"
-                android:key="settings_checked_items_behavior"
-                android:title="@string/settings_checked_items_behavior"
-                android:dialogTitle="@string/settings_checked_items_behavior_summary" >
-            </ListPreference>
-           
-            
-        </PreferenceScreen>
-        
-        
-        
         <PreferenceScreen
-            android:key="category_notifications"
-            android:title="@string/settings_category_notifications" >
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="settings_enable_vibration"
-                android:title="@string/settings_enable_vibration" >
-            </CheckBoxPreference>
+            android:key="settings_behaviors"
+            android:title="@string/settings_screen_behaviors" />
 
-            <RingtonePreference
-                android:key="settings_notification_ringtone"
-                android:ringtoneType="all"
-                android:title="@string/settings_notification_ringtone" />
-            
-		    <EditTextPreference
-		        android:key="settings_notification_snooze_delay"
-		        android:title="@string/settings_notification_snooze_delay" 
-	            android:inputType="number" />
-		    
-        </PreferenceScreen>
-        
+        <PreferenceScreen
+            android:key="settings_notifications"
+            android:title="@string/settings_screen_notifications" />
+
     </PreferenceCategory>
-    
-    
-    <PreferenceCategory android:title="@string/settings_category_beta" >
+
+
+    <PreferenceCategory android:title="@string/settings_category_beta">
         <Preference
             android:key="settings_beta"
             android:summary="@string/settings_beta_summary"
-            android:title="@string/settings_beta" >
+            android:title="@string/settings_beta">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/beta_link" />
         </Preference>
     </PreferenceCategory>
-    
-    
-    <PreferenceCategory android:title="@string/settings_category_about" >
-              <PreferenceScreen
-             android:key="settings_backup"
-             android:persistent="false"
-             android:title="@string/help" >
-             <Preference
-                 android:key="settings_tour_show_again"
-                 android:title="@string/settings_tour_show_again" />
-             <Preference
-                 android:key="settings_online_manual"
-                 android:title="@string/online_manual" >
-                 <intent
-                     android:action="android.intent.action.VIEW"
-                     android:data="@string/help_online_url" />
-             </Preference>
-         </PreferenceScreen>
-   
-	    <Preference
-	        android:key="settings_donation"
-	        android:title="@string/donate"
-        	android:summary="@string/donate_summary" >
-	    </Preference>
-	    
+
+
+    <PreferenceCategory android:title="@string/settings_category_about">
+
+        <Preference
+            android:key="settings_online_manual"
+            android:title="@string/online_manual">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/help_online_url" />
+        </Preference>
+
+        <Preference
+            android:key="settings_donation"
+            android:title="@string/donate"
+            android:summary="@string/donate_summary" />
+
         <Preference
             android:key="settings_changelog"
-            android:title="@string/settings_changelog" >
-        </Preference>
-        
+            android:title="@string/settings_changelog" />
+
         <Preference
             android:key="settings_about"
-            android:title="@string/settings_about" >
-        </Preference>
-        
+            android:title="@string/settings_about" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
