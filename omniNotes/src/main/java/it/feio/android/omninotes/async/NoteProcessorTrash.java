@@ -20,6 +20,8 @@ package it.feio.android.omninotes.async;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.ShortcutHelper;
 
 import java.util.List;
 
@@ -37,6 +39,12 @@ public class NoteProcessorTrash extends NoteProcessor {
 
     @Override
     protected void processNote(Note note) {
+        if (trash) {
+            ShortcutHelper.removeshortCut(OmniNotes.getAppContext(), note);
+            ReminderHelper.removeReminder(OmniNotes.getAppContext(), note);
+        } else {
+            ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+        }
         DbHelper.getInstance(OmniNotes.getAppContext()).trashNote(note, trash);
     }
 }

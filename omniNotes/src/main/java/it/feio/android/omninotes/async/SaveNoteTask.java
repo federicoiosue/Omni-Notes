@@ -18,19 +18,16 @@
 package it.feio.android.omninotes.async;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import it.feio.android.omninotes.DetailFragment;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
-import it.feio.android.omninotes.receiver.AlarmReceiver;
-import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageManager;
 import roboguice.util.Ln;
 
@@ -111,23 +108,11 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
         // Set reminder if is not passed yet
         long now = Calendar.getInstance().getTimeInMillis();
         if (note.getAlarm() != null && Long.parseLong(note.getAlarm()) >= now) {
-            setAlarm(note);
+            ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
         }
 
         if (this.mOnNoteSaved != null) {
             mOnNoteSaved.onNoteSaved(note);
         }
     }
-
-
-    private void setAlarm(Note note) {
-        Intent intent = new Intent(mActivity, AlarmReceiver.class);
-        intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
-        PendingIntent sender = PendingIntent.getBroadcast(mActivity, note.getCreation().intValue(), intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager am = (AlarmManager) mActivity.getSystemService(Activity.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, Long.parseLong(note.getAlarm()), sender);
-    }
-
-
 }

@@ -1498,7 +1498,12 @@ public class DetailFragment extends Fragment implements
         goBack = true;
         exitMessage = trash ? getString(R.string.note_trashed) : getString(R.string.note_untrashed);
         exitCroutonStyle = trash ? ONStyle.WARN : ONStyle.INFO;
-        removeshortCut();
+        if (trash) {
+            ShortcutHelper.removeshortCut(OmniNotes.getAppContext(), noteTmp);
+            ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
+        } else {
+            ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+        }
         saveNote(this);
     }
 
@@ -1736,7 +1741,7 @@ public class DetailFragment extends Fragment implements
                 recordingBitmap = ((BitmapDrawable) ((ImageView) v.findViewById(R.id.gridview_item_picture))
                         .getDrawable()).getBitmap();
                 ((ImageView) v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils
-                        .extractThumbnail(BitmapFactory.decodeResource(getActivity().getResources(), 
+                        .extractThumbnail(BitmapFactory.decodeResource(getActivity().getResources(),
                                 R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
                 // Otherwise just stops playing
             } else {
@@ -1865,21 +1870,8 @@ public class DetailFragment extends Fragment implements
      * Adding shortcut on Home screen
      */
     private void addShortcut() {
-        Intent shortcutIntent = new Intent(getActivity(), MainActivity.class);
-        shortcutIntent.putExtra(Constants.INTENT_KEY, noteTmp.get_id());
-        shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
-
-        Intent addIntent = new Intent();
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : note.getCreationShort(getActivity());
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                Intent.ShortcutIconResource.fromContext(getActivity(), R.drawable.ic_shortcut));
-        addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-
-        getActivity().sendBroadcast(addIntent);
+        ShortcutHelper.addShortcut(OmniNotes.getAppContext(), noteTmp);
         getMainActivity().showMessage(R.string.shortcut_added, ONStyle.INFO);
-
     }
 
 
@@ -2189,27 +2181,6 @@ public class DetailFragment extends Fragment implements
             content.setText(titleAndContent.second);
             if (noteTmp.isChecklist()) toggleChecklist2();
         }
-    }
-
-
-    /**
-     * Removes a shortcut on note deletion
-     */
-    public void removeshortCut() {
-        Intent shortcutIntent = new Intent(getActivity(), MainActivity.class);
-        shortcutIntent.putExtra(Constants.INTENT_KEY, noteTmp.get_id());
-        shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
-
-        Intent addIntent = new Intent();
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : note.getCreationShort(getActivity());
-
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
-
-        addIntent.setAction("com.android.launcher.action.UNINSTALL_SHORTCUT");
-        getActivity().sendBroadcast(addIntent);
-
-        Ln.d("removed the shortcut.");
     }
 
 
