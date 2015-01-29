@@ -67,7 +67,10 @@
             android:listSelector="@drawable/icon_selector"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbarThumbVertical="@drawable/scroll_bar"
-            android:fastScrollEnabled="true"/>
+            android:fastScrollEnabled="true"
+            android:smoothScrollbar="true"
+            android:scrollingCache="false"
+            android:animationCache="false"/>
 
         <LinearLayout
             android:layout_width="match_parent"
