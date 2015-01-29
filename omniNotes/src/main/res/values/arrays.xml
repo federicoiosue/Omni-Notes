@@ -155,33 +155,33 @@
     </string-array>
 
     <string-array name="languages_codes">
-        <item>ar</item>
+        <item>ar_SA</item>
         <item>es_XA</item>
         <item>ca_ES</item>
         <item>zh_CN</item>
-        <item>cs</item>
-        <item>nl</item>
-        <item>en</item>
-        <item>fr</item>
-        <item>km</item>
-        <item>de</item>
-        <item>gl</item>
-        <item>el</item>
-        <item>iw</item>
-        <item>hi</item>
-        <item>in</item>
-        <item>it</item>
-        <item>lo</item>
+        <item>cs_CZ</item>
+        <item>nl_NL</item>
+        <item>en_US</item>
+        <item>fr_FR</item>
+        <item>km_KH</item>
+        <item>de_DE</item>
+        <item>gl_ES</item>
+        <item>el_GR</item>
+        <item>iw_IL</item>
+        <item>hi_IN</item>
+        <item>in_ID</item>
+        <item>it_IT</item>
+        <item>lo_LA</item>
         <item>pt_BR</item>
         <item>pt_PT</item>
-        <item>ru</item>
-        <item>sk</item>
-        <item>sl</item>
-        <item>es</item>
-        <item>sv</item>
+        <item>ru_RU</item>
+        <item>sk_SK</item>
+        <item>sl_SL</item>
+        <item>es_ES</item>
+        <item>sv_SE</item>
         <item>zh_TW</item>
-        <item>tr</item>
-        <item>uk</item>
+        <item>tr_TR</item>
+        <item>uk_UA</item>
     </string-array>
 
 
