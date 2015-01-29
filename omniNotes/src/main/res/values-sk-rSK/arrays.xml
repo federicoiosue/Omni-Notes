@@ -17,39 +17,39 @@
 -->
 <resources>
   <string-array name="navigation_list">
-    <item>記事</item>
-    <item>歸檔</item>
-    <item>提醒</item>
-    <item>回收站</item>
-    <item>未分類</item>
+    <item>Poznámky</item>
+    <item>Archív</item>
+    <item>Pripomienky</item>
+    <item>Kôš</item>
+    <item>Nekategorizované</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>標題</item>
-    <item>創建日期</item>
-    <item>最後修改日期</item>
-    <item>提醒日期</item>
+    <item>Názov</item>
+    <item>Dátum vytvorenia</item>
+    <item>Dátum poslednej zmeny</item>
+    <item>Dátum pripomenky</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>保持原位</item>
-    <item>移動至所有事項末尾</item>
-    <item>取消勾選後移動至未勾選事項頂端</item>
+    <item>Podržať pozíciu</item>
+    <item>Presunúť na koniec všetkých položiek</item>
+    <item>Presunúť navrch nezaškrtnutých</item>
   </string-array>
   <string-array name="colors_app">
-    <item>禁用</item>
-    <item>僅條狀顏色標識</item>
-    <item>僅記事列表全彩</item>
-    <item>全彩</item>
+    <item>Zakázané</item>
+    <item>Iba pás</item>
+    <item>Iba zoznam poznámok</item>
+    <item>Kompletné</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>禁用</item>
-    <item>僅條狀顏色標識</item>
-    <item>記事列表全彩</item>
+    <item>Zakázané</item>
+    <item>Iba pás</item>
+    <item>Zoznam poznámok</item>
   </string-array>
   <string-array name="text_size">
-    <item>最小字體</item>
-    <item>小字體</item>
-    <item>默認</item>
-    <item>大字體</item>
-    <item>最大字體</item>
+    <item>Najmenšie</item>
+    <item>Malé</item>
+    <item>Predvolené</item>
+    <item>Veľké</item>
+    <item>Najväčšie</item>
   </string-array>
 </resources>

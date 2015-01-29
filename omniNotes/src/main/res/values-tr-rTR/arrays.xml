@@ -17,39 +17,39 @@
 -->
 <resources>
   <string-array name="navigation_list">
-    <item>記事</item>
-    <item>歸檔</item>
-    <item>提醒</item>
-    <item>回收站</item>
-    <item>未分類</item>
+    <item>Notlar</item>
+    <item>Arşiv</item>
+    <item>Hatırlatmalar</item>
+    <item>Çöp kutusu</item>
+    <item>Uncategorized</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>標題</item>
-    <item>創建日期</item>
-    <item>最後修改日期</item>
-    <item>提醒日期</item>
+    <item>Başlık</item>
+    <item>Oluşturma tarihi</item>
+    <item>Son değiştirme tarihi</item>
+    <item>Hatırlatma tarihi</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>保持原位</item>
-    <item>移動至所有事項末尾</item>
-    <item>取消勾選後移動至未勾選事項頂端</item>
+    <item>Yerinde kalsın</item>
+    <item>En alta taşı</item>
+    <item>Onaylanmışların üstüne, onaylanmamışların altına taşı</item>
   </string-array>
   <string-array name="colors_app">
-    <item>禁用</item>
-    <item>僅條狀顏色標識</item>
-    <item>僅記事列表全彩</item>
-    <item>全彩</item>
+    <item>Etkisizleştir</item>
+    <item>Sadece şerit</item>
+    <item>Sadece listeler</item>
+    <item>Tamamı</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>禁用</item>
-    <item>僅條狀顏色標識</item>
-    <item>記事列表全彩</item>
+    <item>Devre dışı</item>
+    <item>Sadece şerit</item>
+    <item>Not listesi</item>
   </string-array>
   <string-array name="text_size">
-    <item>最小字體</item>
-    <item>小字體</item>
-    <item>默認</item>
-    <item>大字體</item>
-    <item>最大字體</item>
+    <item>En küçük</item>
+    <item>Küçük</item>
+    <item>Varsayılan</item>
+    <item>Büyük</item>
+    <item>En büyük</item>
   </string-array>
 </resources>

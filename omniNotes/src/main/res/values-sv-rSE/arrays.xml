@@ -17,39 +17,39 @@
 -->
 <resources>
   <string-array name="navigation_list">
-    <item>記事</item>
-    <item>歸檔</item>
-    <item>提醒</item>
-    <item>回收站</item>
-    <item>未分類</item>
+    <item>Anteckningar</item>
+    <item>Arkiv</item>
+    <item>Påminnelser</item>
+    <item>Papperskorg</item>
+    <item>Okategoriserat</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>標題</item>
-    <item>創建日期</item>
-    <item>最後修改日期</item>
-    <item>提醒日期</item>
+    <item>Titel</item>
+    <item>Skapandedatum</item>
+    <item>Senase ändringsdatum</item>
+    <item>Påminnelse datum</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>保持原位</item>
-    <item>移動至所有事項末尾</item>
-    <item>取消勾選後移動至未勾選事項頂端</item>
+    <item>Håll på plats</item>
+    <item>Flytta till slutet av listan</item>
+    <item>Flytta till slutet av omarkerade objekt</item>
   </string-array>
   <string-array name="colors_app">
-    <item>禁用</item>
-    <item>僅條狀顏色標識</item>
-    <item>僅記事列表全彩</item>
-    <item>全彩</item>
+    <item>Avstängd</item>
+    <item>Endast remsa</item>
+    <item>Endast anteckningslista</item>
+    <item>Färdig</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>禁用</item>
-    <item>僅條狀顏色標識</item>
-    <item>記事列表全彩</item>
+    <item>Avstängd</item>
+    <item>Endast remsa</item>
+    <item>Anteckningslista</item>
   </string-array>
   <string-array name="text_size">
-    <item>最小字體</item>
-    <item>小字體</item>
-    <item>默認</item>
-    <item>大字體</item>
-    <item>最大字體</item>
+    <item>Minsta</item>
+    <item>Liten</item>
+    <item>Vanlig</item>
+    <item>Stor</item>
+    <item>Största</item>
   </string-array>
 </resources>

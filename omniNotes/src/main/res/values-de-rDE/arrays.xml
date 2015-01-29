@@ -17,39 +17,39 @@
 -->
 <resources>
   <string-array name="navigation_list">
-    <item>記事</item>
-    <item>歸檔</item>
-    <item>提醒</item>
-    <item>回收站</item>
-    <item>未分類</item>
+    <item>Notizen</item>
+    <item>Archiv</item>
+    <item>Erinnerungen</item>
+    <item>Papierkorb</item>
+    <item>Nicht zugeordnet</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>標題</item>
-    <item>創建日期</item>
-    <item>最後修改日期</item>
-    <item>提醒日期</item>
+    <item>Titel</item>
+    <item>Erstellt am</item>
+    <item>Geändert am</item>
+    <item>Erinnerungsdatum</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>保持原位</item>
-    <item>移動至所有事項末尾</item>
-    <item>取消勾選後移動至未勾選事項頂端</item>
+    <item>Position des Eintrages beibehalten</item>
+    <item>Ans Ende der Einträge verschieben</item>
+    <item>Setze Eintrag an die erste Stelle der (bereits) markierten Einträge</item>
   </string-array>
   <string-array name="colors_app">
-    <item>禁用</item>
-    <item>僅條狀顏色標識</item>
-    <item>僅記事列表全彩</item>
-    <item>全彩</item>
+    <item>Deaktiviert</item>
+    <item>Nur Streifen</item>
+    <item>Nur Notizliste</item>
+    <item>Vollständig</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>禁用</item>
-    <item>僅條狀顏色標識</item>
-    <item>記事列表全彩</item>
+    <item>Deaktiviert</item>
+    <item>Nur Streifen</item>
+    <item>Notizliste</item>
   </string-array>
   <string-array name="text_size">
-    <item>最小字體</item>
-    <item>小字體</item>
-    <item>默認</item>
-    <item>大字體</item>
-    <item>最大字體</item>
+    <item>Sehr klein</item>
+    <item>Klein</item>
+    <item>Standard</item>
+    <item>Groß</item>
+    <item>Sehr groß</item>
   </string-array>
 </resources>
