@@ -800,6 +800,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      */
     @SuppressLint("NewApi")
     private void initSearchView(final Menu menu) {
+        
+        // Prevents some mysterious NullPointer on app fast-switching
+        if (getActivity() == null) return;
 
         // Save item as class attribute to make it collapse on drawer opening
         searchMenuItem = menu.findItem(R.id.menu_search);

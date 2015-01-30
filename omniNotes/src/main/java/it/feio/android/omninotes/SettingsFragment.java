@@ -99,7 +99,8 @@ public class SettingsFragment extends PreferenceFragment {
                 title = stringResourceId != 0 ? getString(stringResourceId) : title;
             }
         }
-        ((Toolbar) getActivity().findViewById(R.id.toolbar)).setTitle(title);
+        Toolbar toolbar = ((Toolbar) getActivity().findViewById(R.id.toolbar));
+        if (toolbar != null) toolbar.setTitle(title);
     }
 
 
