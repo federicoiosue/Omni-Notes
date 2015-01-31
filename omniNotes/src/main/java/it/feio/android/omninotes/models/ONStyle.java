@@ -27,7 +27,7 @@ import it.feio.android.omninotes.R;
 public class ONStyle {
 
     public static final int DURATION_INFINITE = -1;
-    public static final int DURATION_SHORT = 1000;
+    public static final int DURATION_SHORT = 950;
     public static final int DURATION_MEDIUM = 1650;
     public static final int DURATION_LONG = 2300;
 
@@ -45,7 +45,7 @@ public class ONStyle {
 
     static {
         CONFIGURATION = new Configuration.Builder()
-                .setDuration(DURATION_MEDIUM)
+                .setDuration(DURATION_SHORT)
                 .setInAnimation(R.animator.fade_in_support)
                 .setOutAnimation(R.animator.fade_out_support)
                 .build();
