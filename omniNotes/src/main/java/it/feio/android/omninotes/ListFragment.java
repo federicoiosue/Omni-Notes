@@ -822,11 +822,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         });
 
         MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
+            
+            boolean searchPerformed = false;
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                // Reinitialize notes list to all notes when search is
-                // collapsed
+                // Reinitialize notes list to all notes when search is collapsed
                 searchQuery = null;
                 if (getActivity().findViewById(R.id.search_layout).getVisibility() == View.VISIBLE) {
                     toggleSearchLabel(false);
@@ -850,13 +851,14 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     @Override
                     public boolean onQueryTextChange(String pattern) {
                         View searchLayout = getActivity().findViewById(R.id.search_layout);
-                        if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null) {
+                        if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null && searchPerformed) {
                             searchTags = null;
                             searchQuery = pattern;
                             NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
                             mNoteLoaderTask.execute("getNotesByPattern", pattern);
                             return true;
                         } else {
+                            searchPerformed = true;
                             return false;
                         }
                     }
@@ -1199,8 +1201,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         View searchLabel = getActivity().findViewById(R.id.search_layout);
         boolean isActive = searchLabel.getVisibility() == View.VISIBLE;
         if (activate) {
-            ((android.widget.TextView) getActivity().findViewById(R.id.search_query)).setText(Html.fromHtml("<i>"
-                    + getString(R.string.search) + ":</i> " + searchQuery));
+            ((android.widget.TextView) getActivity().findViewById(R.id.search_query)).setText(Html.fromHtml(getString(R.string.search)
+                    + ":<b> " + searchQuery + "</b>"));
             searchLabel.setVisibility(View.VISIBLE);
             getActivity().findViewById(R.id.search_cancel).setOnClickListener(new OnClickListener() {
                 @Override
