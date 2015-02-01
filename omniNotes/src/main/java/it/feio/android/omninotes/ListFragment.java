@@ -18,8 +18,6 @@ package it.feio.android.omninotes;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
@@ -28,8 +26,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,12 +47,10 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -127,6 +121,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private String searchTags;
     private boolean goBackOnToggleSearchLabel = false;
     private TextView listFooter;
+    private boolean searchLabelActive = false;
 
     //    private NoteCardArrayMultiChoiceAdapter listAdapter;
     private NoteAdapter listAdapter;
@@ -615,75 +610,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     }
 
 
-    private void zoomListItem(final View view, final Note note) {
-        final long animationDuration = getResources().getInteger(R.integer.zooming_view_anim_time);
-
-        final ImageView expandedImageView = getZoomListItemView(view, note);
-
-        // Calculate the starting and ending bounds for the zoomed-in image.
-        // This step involves lots of math. Yay, math.
-        final Rect startBounds = new Rect();
-        final Rect finalBounds = new Rect();
-        final Point globalOffset = new Point();
-
-        // The start bounds are the global visible rectangle of the thumbnail,
-        // and the final bounds are the global visible rectangle of the container
-        // view. Also set the container view's offset as the origin for the
-        // bounds, since that's the origin for the positioning animation
-        // properties (X, Y).
-        view.getGlobalVisibleRect(startBounds);
-        getActivity().findViewById(R.id.list_root)
-                .getGlobalVisibleRect(finalBounds, globalOffset);
-        startBounds.offset(-globalOffset.x, -globalOffset.y);
-        finalBounds.offset(-globalOffset.x, -globalOffset.y);
-
-        // Adjust the start bounds to be the same aspect ratio as the final
-        // bounds using the "center crop" technique. This prevents undesirable
-        // stretching during the animation. Also calculate the start scaling
-        // factor (the end scaling factor is always 1.0).
-        float startScale;
-        if ((float) finalBounds.width() / finalBounds.height()
-                > (float) startBounds.width() / startBounds.height()) {
-            // Extend start bounds horizontally
-            startScale = (float) startBounds.height() / finalBounds.height();
-            float startWidth = startScale * finalBounds.width();
-            float deltaWidth = (startWidth - startBounds.width()) / 2;
-            startBounds.left -= deltaWidth;
-            startBounds.right += deltaWidth;
-        } else {
-            // Extend start bounds vertically
-            startScale = (float) startBounds.width() / finalBounds.width();
-            float startHeight = startScale * finalBounds.height();
-            float deltaHeight = (startHeight - startBounds.height()) / 2;
-            startBounds.top -= deltaHeight;
-            startBounds.bottom += deltaHeight;
-        }
-
-        // Hide the thumbnail and show the zoomed-in view. When the animation
-        // begins, it will position the zoomed-in view in the place of the
-        // thumbnail.
-        view.setAlpha(0f);
-        expandedImageView.setVisibility(View.VISIBLE);
-
-        // Construct and run the parallel animation of the four translation and
-        // scale properties (X, Y, SCALE_X, and SCALE_Y).
-        AnimatorSet set = new AnimatorSet();
-        set.play(ObjectAnimator.ofFloat(expandedImageView, View.X, startBounds.left, finalBounds.left))
-                .with(ObjectAnimator.ofFloat(expandedImageView, View.Y, startBounds.top, finalBounds.top))
-                .with(ObjectAnimator.ofFloat(expandedImageView, View.SCALE_X, startScale, 1f))
-                .with(ObjectAnimator.ofFloat(expandedImageView, View.SCALE_Y, startScale, 1f));
-        set.setDuration(animationDuration);
-        set.setInterpolator(new DecelerateInterpolator());
-        set.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                editNote2(note);
-            }
-        });
-        set.start();
-    }
-
-
+    /**
+     * Retrieves from the single listview note item the element to be zoomed when opening a note
+     */
     private ImageView getZoomListItemView(View view, Note note) {
         final ImageView expandedImageView = (ImageView) getActivity().findViewById(R.id.expanded_image);
         View targetView = null;
@@ -702,6 +631,19 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         Bitmap bmp = targetView.getDrawingCache();
         expandedImageView.setBackgroundColor(BitmapHelper.getDominantColor(bmp));
         return expandedImageView;
+    }
+
+
+    /**
+     * Listener that fires note opening once the zooming animation is finished
+     */
+    private AnimatorListenerAdapter buildAnimatorListenerAdapter(final Note note) {
+        return new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                editNote2(note);
+            }
+        };
     }
 
 
@@ -1017,12 +959,14 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 public void onPasswordValidated(boolean passwordConfirmed) {
                     if (passwordConfirmed) {
                         note.setPasswordChecked(true);
-                        zoomListItem(view, note);
+                        AnimationsHelper.zoomListItem(getActivity(), view, getZoomListItemView(view, note),
+                                getActivity().findViewById(R.id.list_root), buildAnimatorListenerAdapter(note));
                     }
                 }
             });
         } else {
-            zoomListItem(view, note);
+            AnimationsHelper.zoomListItem(getActivity(), view, getZoomListItemView(view, note),
+                    getActivity().findViewById(R.id.list_root), buildAnimatorListenerAdapter(note));
         }
     }
 
@@ -1199,7 +1143,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     public void toggleSearchLabel(boolean activate) {
         View searchLabel = getActivity().findViewById(R.id.search_layout);
-        boolean isActive = searchLabel.getVisibility() == View.VISIBLE;
         if (activate) {
             ((android.widget.TextView) getActivity().findViewById(R.id.search_query)).setText(Html.fromHtml(getString(R.string.search)
                     + ":<b> " + searchQuery + "</b>"));
@@ -1210,9 +1153,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     toggleSearchLabel(false);
                 }
             });
+            searchLabelActive = true;
         } else {
-            if (isActive) {
-                getActivity().findViewById(R.id.search_layout).setVisibility(View.GONE);
+            if (searchLabelActive) {
+                searchLabelActive = false;
+                AnimationsHelper.expandOrCollapse(searchLabel, false);
                 searchTags = null;
                 searchQuery = null;
                 if (!goBackOnToggleSearchLabel) {

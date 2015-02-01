@@ -34,9 +34,9 @@
             android:orientation="horizontal"
             android:visibility="gone"
             android:paddingLeft="16dp"
-            android:paddingTop="6dp"
+            android:paddingTop="16dp"
             android:paddingRight="16dp"
-            android:paddingBottom="6dp">
+            android:paddingBottom="8dp">
 
             <TextView
                 android:id="@+id/search_query"
