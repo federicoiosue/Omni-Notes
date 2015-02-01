@@ -100,6 +100,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
@@ -396,16 +398,15 @@ public class DetailFragment extends Fragment implements
                 String widgetId = i.getExtras().get(Constants.INTENT_WIDGET).toString();
                 if (widgetId != null) {
                     String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
-                    String pattern = DbHelper.KEY_CATEGORY + " = ";
-                    if (sqlCondition.lastIndexOf(pattern) != -1) {
-                        String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length())
-                                .trim();
-                        Category tag;
+                    String categoryId = TextHelper.checkIntentCategory(sqlCondition);
+                    if (categoryId != null) {
+                        Category category;
                         try {
-                            tag = DbHelper.getInstance(getActivity()).getCategory(Integer.parseInt(tagId));
+                            category = DbHelper.getInstance(getActivity()).getCategory(Integer.parseInt(categoryId));
                             noteTmp = new Note();
-                            noteTmp.setCategory(tag);
+                            noteTmp.setCategory(category);
                         } catch (NumberFormatException e) {
+                            Ln.e("Category with not-numeric value!", e);
                         }
                     }
                 }

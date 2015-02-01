@@ -1170,12 +1170,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                         .get(Constants.INTENT_WIDGET).toString() : null;
                 if (widgetId != null) {
                     String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
-                    String pattern = DbHelper.KEY_CATEGORY + " = ";
-                    if (sqlCondition.lastIndexOf(pattern) != -1) {
-                        String tagId = sqlCondition.substring(sqlCondition.lastIndexOf(pattern) + pattern.length())
-                                .trim();
-                        getMainActivity().navigationTmp = !TextUtils.isEmpty(tagId) ? tagId : null;
-                    }
+                    String categoryId = TextHelper.checkIntentCategory(sqlCondition);
+                    getMainActivity().navigationTmp = !TextUtils.isEmpty(categoryId) ? categoryId : null;
                 }
                 intent.removeExtra(Constants.INTENT_WIDGET);
                 if (getMainActivity().loadNotesSync) {
@@ -1355,8 +1351,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      */
     @SuppressLint("NewApi")
     protected void trashNote(List<Note> notes, boolean trash) {
-        new NoteProcessorTrash(notes, trash).process();
         listAdapter.remove(notes);
+        new NoteProcessorTrash(notes, trash).process();
     }
 
 

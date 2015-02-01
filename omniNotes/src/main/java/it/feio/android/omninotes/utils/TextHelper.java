@@ -21,9 +21,12 @@ import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.SpannedString;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class TextHelper {
@@ -108,6 +111,22 @@ public class TextHelper {
         res.append(string.substring(0, 1).toUpperCase(Locale.getDefault())).append(
                 string.substring(1, string.length()).toLowerCase(Locale.getDefault()));
         return res.toString();
+    }
+
+
+    /**
+     * Checks if a query conditions searches for category
+     * @param sqlCondition query "where" condition
+     * @return Category id
+     */
+    public static String checkIntentCategory(String sqlCondition) {
+        String pattern = DbHelper.KEY_CATEGORY + "\\s*=\\s*([\\d]+)";
+        Pattern p = Pattern.compile(pattern);
+        Matcher matcher = p.matcher(sqlCondition);
+        if (matcher.find() && matcher.group(1) != null) {
+            return matcher.group(1).trim();
+        }
+        return null;
     }
 
 }
