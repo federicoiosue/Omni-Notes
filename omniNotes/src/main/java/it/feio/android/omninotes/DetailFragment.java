@@ -1569,8 +1569,8 @@ public class DetailFragment extends Fragment implements
      */
     private boolean saveNotNeeded() {
         if (noteTmp.get_id() == 0 && prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
-            noteTmp.setLatitude("");
-            noteTmp.setLongitude("");
+            note.setLatitude(noteTmp.getLatitude());
+            note.setLongitude(noteTmp.getLongitude());
         }
         if (!noteTmp.isChanged(note)) {
             exitMessage = "";
