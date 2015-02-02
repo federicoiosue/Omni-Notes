@@ -22,9 +22,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
+import it.feio.android.omninotes.R;
 
 
 public class NotificationsHelper {
@@ -41,17 +44,30 @@ public class NotificationsHelper {
 
     /**
      * Creation of notification on operations completed
-     *
-     * @param intent2
-     * @param mContext
-     * @param message
      */
-    public NotificationsHelper createNotification(int icon, String title, PendingIntent notifyIntent) {
-        mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(icon).setContentTitle(title)
+    public NotificationsHelper createNotification(int smallIcon, String title, PendingIntent notifyIntent) {
+        mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(smallIcon).setContentTitle(title)
                 .setAutoCancel(true);
-        // Puts the PendingIntent into the notification builder
         mBuilder.setContentIntent(notifyIntent);
         return this;
+    }
+
+
+    public Builder getBuilder() {
+        return mBuilder;
+    }
+
+
+    public NotificationsHelper setLargeIcon(Bitmap largeIconBitmap) {
+        mBuilder.setLargeIcon(largeIconBitmap);
+        return this;
+    }
+
+
+    public NotificationsHelper setLargeIcon(int largeIconResource) {
+        Bitmap largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(),
+                R.drawable.ic_launcher);
+        return setLargeIcon(largeIconBitmap);
     }
 
 
@@ -113,18 +129,15 @@ public class NotificationsHelper {
         if (mNotificationManager == null) {
             mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         }
-
         Notification mNotification = mBuilder.build();
-
         if (mNotification.contentIntent == null) {
             // Creates a dummy PendingIntent
             mBuilder.setContentIntent(PendingIntent.getActivity(mContext, 0, new Intent(),
                     PendingIntent.FLAG_UPDATE_CURRENT));
         }
-
-        // Builds an anonymous Notification object from the builder, and
-        // passes it to the NotificationManager
+        // Builds an anonymous Notification object from the builder, and passes it to the NotificationManager
         mNotificationManager.notify(id == null ? 0 : id, mBuilder.build());
         return this;
     }
+    
 }
