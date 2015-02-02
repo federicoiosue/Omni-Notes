@@ -32,7 +32,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
@@ -66,6 +65,8 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.PopupWindow.OnDismissListener;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.request.target.SquaringDrawable;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -100,8 +101,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
@@ -1756,7 +1755,7 @@ public class DetailFragment extends Fragment implements
             if (BitmapDrawable.class.isAssignableFrom(d.getClass())) {
                 recordingBitmap = ((BitmapDrawable) d).getBitmap();
             } else {
-                recordingBitmap = ((BitmapDrawable) ((TransitionDrawable) d).getDrawable(1)).getBitmap();
+                recordingBitmap = ((GlideBitmapDrawable)d.getCurrent()).getBitmap();
             }
             ((ImageView) v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail
                     (BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.stop), 
