@@ -90,13 +90,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//		if (savedInstanceState != null) {
-//			if (savedInstanceState.containsKey("listViewPosition")) {
-//				mSketchView.setPaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable("paths"));
-//				mSketchView.setUndonePaths((ArrayList<Pair<Path, Paint>>) savedInstanceState.getSerializable
-// ("undonePaths"));
-//			}			
-//		}		
         return inflater.inflate(R.layout.fragment_sketch, container, false);
     }
 
@@ -110,6 +103,13 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        getMainActivity().getToolbar().setNavigationOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
 
         mSketchView = (SketchView) getActivity().findViewById(R.id.drawing);
         mSketchView.setOnDrawChangedListener(this);
@@ -209,14 +209,10 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         // Inflate the popup_layout.xml
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(ActionBarActivity
                 .LAYOUT_INFLATER_SERVICE);
-//		popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, (ViewGroup) getActivity().findViewById(R.id
-// .layout_root));
         popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, null);
         // And the one for eraser
         LayoutInflater inflaterEraser = (LayoutInflater) getActivity().getSystemService(ActionBarActivity
                 .LAYOUT_INFLATER_SERVICE);
-//		popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, 
-// (ViewGroup) getActivity().findViewById(R.id.layout_root));
         popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, null);
 
         // Actual stroke shape size is retrieved
@@ -225,7 +221,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         size = circleDrawable.getIntrinsicWidth();
         // Actual eraser shape size is retrieved
         eraserImageView = (ImageView) popupEraserLayout.findViewById(R.id.stroke_circle);
-//		final Drawable circleEraserDrawable = getResources().getDrawable(R.drawable.circle);
         size = circleDrawable.getIntrinsicWidth();
 
         setSeekbarProgress(SketchView.DEFAULT_STROKE_SIZE, SketchView.STROKE);
@@ -246,22 +241,9 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     }
 
 
-//	@Override
-//	public void onSaveInstanceState(Bundle outState) {
-//		outState.putSerializable("paths", mSketchView.getPaths());
-//		outState.putSerializable("undonePaths", mSketchView.getUndonePaths());
-//		super.onSaveInstanceState(outState);
-//	}
-
-
     @Override
     public void onPause() {
         super.onPause();
-//		save();
-
-        // Removes forced portrait orientation for this fragment
-//		getActivity().setRequestedOrientation(
-//                ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 
 
@@ -277,7 +259,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
 
     public void save() {
-
         Bitmap bitmap = mSketchView.getBitmap();
         if (bitmap != null) {
 
@@ -288,9 +269,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
                 out.close();
                 if (bitmapFile.exists()) {
-//					if (mOnSketchSavedListener != null) {
-//						mOnSketchSavedListener.onSketchSaved(uri);
-//					}					
                     getMainActivity().sketchUri = uri;
                 } else {
                     getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
@@ -300,7 +278,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 Ln.e(e, "Error writing sketch image data");
             }
         }
-//		getActivity().getSupportFragmentManager().popBackStack(); 
     }
 
 
@@ -333,7 +310,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
         // Displaying the popup at the specified location, + offsets (transformed 
         // dp to pixel to support multiple screen sizes)
-//		popup.showAsDropDown(anchor, 0, DensityUtil.convertDpToPixel(isErasing ? -120 : -390, getActivity()));
         popup.showAsDropDown(anchor);
 
         // Stroke size seekbar initialization and event managing
@@ -366,7 +342,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
 
     protected void setSeekbarProgress(int progress, int eraserOrStroke) {
-        // Avoid 
         int calcProgress = progress > 1 ? progress : 1;
 
         int newSize = (int) Math.round((size / 100f) * calcProgress);
