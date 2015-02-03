@@ -94,10 +94,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         notificationsHelper.createNotification(R.drawable.ic_stat_notification_icon, title, notifyIntent);
         notificationsHelper.setLargeIcon(R.drawable.ic_launcher).setMessage(text);
 
-        notificationsHelper.getBuilder().addAction(R.drawable.ic_snooze_reminder,
-                it.feio.android.omninotes.utils.TextHelper.capitalize(mContext.getString(R.string.snooze)) +
-                        ": " + snoozeDelay, piSnooze)
-                .addAction(R.drawable.ic_reminder,
+        notificationsHelper.getBuilder()
+                .addAction(R.drawable.ic_material_reminder_time_light, it.feio.android.omninotes.utils.TextHelper
+                        .capitalize(mContext.getString(R.string.snooze)) + ": " + snoozeDelay, piSnooze)
+                .addAction(R.drawable.ic_remind_later_light,
                         it.feio.android.omninotes.utils.TextHelper.capitalize(mContext.getString(R.string
                                 .add_reminder)), piPostpone);
 
