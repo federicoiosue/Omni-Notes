@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.feio.android.omninotes.async;
+package it.feio.android.omninotes.async.notes;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -23,7 +23,7 @@ import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.StorageManager;
+import it.feio.android.omninotes.utils.StorageHelper;
 
 
 public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {
@@ -49,7 +49,7 @@ public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {
             // Attachment deletion from storage
             boolean attachmentsDeleted = false;
             for (Attachment mAttachment : note.getAttachmentsList()) {
-                StorageManager.deleteExternalStoragePrivateFile(mContext, mAttachment.getUri().getLastPathSegment());
+                StorageHelper.deleteExternalStoragePrivateFile(mContext, mAttachment.getUri().getLastPathSegment());
             }
             result = deleted && attachmentsDeleted ? note.get_id() : null;
         }

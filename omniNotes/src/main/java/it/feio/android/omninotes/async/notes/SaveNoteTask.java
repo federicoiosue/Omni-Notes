@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.async;
+package it.feio.android.omninotes.async.notes;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -28,7 +28,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.utils.ReminderHelper;
-import it.feio.android.omninotes.utils.StorageManager;
+import it.feio.android.omninotes.utils.StorageHelper;
 import roboguice.util.Ln;
 
 import java.util.Calendar;
@@ -87,7 +87,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
         }
         // Remove from database deleted attachments
         for (Attachment deletedAttachment : deletedAttachments) {
-            StorageManager.delete(mActivity, deletedAttachment.getUri().getPath());
+            StorageHelper.delete(mActivity, deletedAttachment.getUri().getPath());
             Ln.d("Removed attachment " + deletedAttachment.getUri());
         }
     }

@@ -41,7 +41,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.omninotes.async.DeleteNoteTask;
+import it.feio.android.omninotes.async.notes.DeleteNoteTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;

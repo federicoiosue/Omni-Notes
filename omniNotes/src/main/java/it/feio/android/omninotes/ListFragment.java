@@ -60,10 +60,10 @@ import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCa
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.checklistview.utils.DensityUtil;
-import it.feio.android.omninotes.async.NoteLoaderTask;
-import it.feio.android.omninotes.async.NoteProcessorArchive;
-import it.feio.android.omninotes.async.NoteProcessorCategorize;
-import it.feio.android.omninotes.async.NoteProcessorTrash;
+import it.feio.android.omninotes.async.notes.NoteLoaderTask;
+import it.feio.android.omninotes.async.notes.NoteProcessorArchive;
+import it.feio.android.omninotes.async.notes.NoteProcessorCategorize;
+import it.feio.android.omninotes.async.notes.NoteProcessorTrash;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;

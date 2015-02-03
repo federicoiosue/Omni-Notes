@@ -30,7 +30,7 @@ import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
-import it.feio.android.omninotes.utils.StorageManager;
+import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.systemui.SystemUiHider;
 import it.feio.android.simplegallery.models.GalleryPagerAdapter;
 import it.feio.android.simplegallery.views.GalleryViewPager;
@@ -244,7 +244,7 @@ public class GalleryActivity extends ActionBarActivity {
         Attachment attachment = images.get(mViewPager.getCurrentItem());
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(attachment.getUri(),
-                StorageManager.getMimeType(this, attachment.getUri()));
+                StorageHelper.getMimeType(this, attachment.getUri()));
         startActivity(intent);
     }
 
@@ -252,7 +252,7 @@ public class GalleryActivity extends ActionBarActivity {
     private void shareMedia() {
         Attachment attachment = images.get(mViewPager.getCurrentItem());
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType(StorageManager.getMimeType(this, attachment.getUri()));
+        intent.setType(StorageHelper.getMimeType(this, attachment.getUri()));
         intent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
         startActivity(intent);
     }

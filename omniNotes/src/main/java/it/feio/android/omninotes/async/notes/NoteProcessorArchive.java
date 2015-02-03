@@ -15,30 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.async;
+package it.feio.android.omninotes.async.notes;
 
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 
 import java.util.List;
 
 
-public class NoteProcessorCategorize extends NoteProcessor {
+public class NoteProcessorArchive extends NoteProcessor {
 
-    Category category;
+    boolean archive;
 
 
-    public NoteProcessorCategorize(List<Note> notes, Category category) {
+    public NoteProcessorArchive(List<Note> notes, boolean archive) {
         super(notes);
-        this.category = category;
+        this.archive = archive;
     }
 
 
     @Override
     protected void processNote(Note note) {
-        note.setCategory(category);
-        DbHelper.getInstance(OmniNotes.getAppContext()).updateNote(note, false);
+        DbHelper.getInstance(OmniNotes.getAppContext()).archiveNote(note, archive);
     }
 }

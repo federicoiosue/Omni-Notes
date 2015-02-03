@@ -66,7 +66,6 @@ import android.widget.PopupWindow.OnDismissListener;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
-import com.bumptech.glide.request.target.SquaringDrawable;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
@@ -78,7 +77,7 @@ import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.omninotes.async.AttachmentTask;
-import it.feio.android.omninotes.async.SaveNoteTask;
+import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
@@ -566,7 +565,7 @@ public class DetailFragment extends Fragment implements
                 if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
 
                     attachmentIntent = new Intent(Intent.ACTION_VIEW);
-                    attachmentIntent.setDataAndType(uri, StorageManager.getMimeType(getActivity(), 
+                    attachmentIntent.setDataAndType(uri, StorageHelper.getMimeType(getActivity(),
                             attachment.getUri()));
                     attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
                             .FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -1300,7 +1299,7 @@ public class DetailFragment extends Fragment implements
             return;
         }
         // Checks for created file validity
-        File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_IMAGE_EXT);
+        File f = StorageHelper.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_IMAGE_EXT);
         if (f == null) {
             getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
             return;
@@ -1321,7 +1320,7 @@ public class DetailFragment extends Fragment implements
         }
         // File is stored in custom ON folder to speedup the attachment
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-            File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_VIDEO_EXT);
+            File f = StorageHelper.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_VIDEO_EXT);
             if (f == null) {
                 getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
 
@@ -1340,7 +1339,7 @@ public class DetailFragment extends Fragment implements
 
     private void takeSketch(Attachment attachment) {
 
-        File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_SKETCH_EXT);
+        File f = StorageHelper.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_SKETCH_EXT);
         if (f == null) {
             getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
             return;
@@ -1443,7 +1442,7 @@ public class DetailFragment extends Fragment implements
         if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
             for (Attachment newAttachment : noteTmp.getAttachmentsList()) {
                 if (!note.getAttachmentsList().contains(newAttachment)) {
-                    StorageManager.delete(getActivity(), newAttachment.getUri().getPath());
+                    StorageHelper.delete(getActivity(), newAttachment.getUri().getPath());
                 }
             }
         }
@@ -1799,7 +1798,7 @@ public class DetailFragment extends Fragment implements
 
 
     private void startRecording() {
-        File f = StorageManager.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_AUDIO_EXT);
+        File f = StorageHelper.createNewAttachmentFile(getActivity(), Constants.MIME_TYPE_AUDIO_EXT);
         if (f == null) {
             getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
 

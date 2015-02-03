@@ -112,13 +112,13 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         // Gets backup folder
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-        File backupDir = StorageManager.getBackupDir(backupName);
+        File backupDir = StorageHelper.getBackupDir(backupName);
 
         // Directory clean in case of previously used backup name
-        StorageManager.delete(this, backupDir.getAbsolutePath());
+        StorageHelper.delete(this, backupDir.getAbsolutePath());
 
         // Directory is re-created in case of previously used backup name (removed above)
-        backupDir = StorageManager.getBackupDir(backupName);
+        backupDir = StorageHelper.getBackupDir(backupName);
 
         // Database backup
         exportDB(backupDir);
@@ -141,7 +141,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         // Gets backup folder
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-        File backupDir = StorageManager.getBackupDir(backupName);
+        File backupDir = StorageHelper.getBackupDir(backupName);
 
         // Database backup
         importDB(backupDir);
@@ -340,13 +340,13 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
             String image = springpadElement.getImage();
             if (!TextUtils.isEmpty(image)) {
                 try {
-                    File file = StorageManager.createNewAttachmentFileFromHttp(this, image);
+                    File file = StorageHelper.createNewAttachmentFileFromHttp(this, image);
                     uri = Uri.fromFile(file);
-                    String mimeType = StorageManager.getMimeType(uri.getPath());
+                    String mimeType = StorageHelper.getMimeType(uri.getPath());
                     mAttachment = new Attachment(uri, mimeType);
                 } catch (MalformedURLException e) {
                     uri = Uri.parse(importer.getWorkingPath() + image);
-                    mAttachment = StorageManager.createAttachmentFromUri(this, uri, true);
+                    mAttachment = StorageHelper.createAttachmentFromUri(this, uri, true);
                 } catch (IOException e) {
                     Ln.e(e, "Error retrieving Springpad online image");
                 }
@@ -368,13 +368,13 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
                 // Tries first with online images
                 try {
-                    File file = StorageManager.createNewAttachmentFileFromHttp(this, springpadAttachment.getUrl());
+                    File file = StorageHelper.createNewAttachmentFileFromHttp(this, springpadAttachment.getUrl());
                     uri = Uri.fromFile(file);
-                    String mimeType = StorageManager.getMimeType(uri.getPath());
+                    String mimeType = StorageHelper.getMimeType(uri.getPath());
                     mAttachment = new Attachment(uri, mimeType);
                 } catch (MalformedURLException e) {
                     uri = Uri.parse(importer.getWorkingPath() + springpadAttachment.getUrl());
-                    mAttachment = StorageManager.createAttachmentFromUri(this, uri, true);
+                    mAttachment = StorageHelper.createAttachmentFromUri(this, uri, true);
                 } catch (IOException e) {
                     Ln.e(e, "Error retrieving Springpad online image");
                 }
@@ -427,10 +427,10 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         // Gets backup folder
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-        File backupDir = StorageManager.getBackupDir(backupName);
+        File backupDir = StorageHelper.getBackupDir(backupName);
 
         // Backup directory removal
-        StorageManager.delete(this, backupDir.getAbsolutePath());
+        StorageHelper.delete(this, backupDir.getAbsolutePath());
 
         String title = getString(R.string.data_deletion_completed);
         String text = backupName + " " + getString(R.string.deleted);
@@ -479,7 +479,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
      */
     private boolean exportDB(File backupDir) {
         File database = getDatabasePath(Constants.DATABASE_NAME);
-        return (StorageManager.copyFile(database, new File(backupDir, Constants.DATABASE_NAME)));
+        return (StorageHelper.copyFile(database, new File(backupDir, Constants.DATABASE_NAME)));
     }
 
 
@@ -490,7 +490,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
      * @return True if success, false otherwise
      */
     private boolean exportAttachments(File backupDir) {
-        File attachmentsDir = StorageManager.getAttachmentDir(this);
+        File attachmentsDir = StorageHelper.getAttachmentDir(this);
         File destinationattachmentsDir = new File(backupDir, attachmentsDir.getName());
 
         DbHelper db = DbHelper.getInstance(this);
@@ -498,7 +498,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         int exported = 0;
         for (Attachment attachment : list) {
-            StorageManager.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri().getPath()));
+            StorageHelper.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri().getPath()));
             mNotificationsHelper.setMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + exported++ + "/" + list.size())
                     .show();
         }
@@ -513,8 +513,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
      * @return
      */
     private boolean exportSettings(File backupDir) {
-        File preferences = StorageManager.getSharedPreferencesFile(this);
-        return (StorageManager.copyFile(preferences, new File(backupDir, preferences.getName())));
+        File preferences = StorageHelper.getSharedPreferencesFile(this);
+        return (StorageHelper.copyFile(preferences, new File(backupDir, preferences.getName())));
     }
 
 
@@ -525,9 +525,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
      * @return
      */
     private boolean importSettings(File backupDir) {
-        File preferences = StorageManager.getSharedPreferencesFile(this);
+        File preferences = StorageHelper.getSharedPreferencesFile(this);
         File preferenceBackup = new File(backupDir, preferences.getName());
-        return (StorageManager.copyFile(preferenceBackup, preferences));
+        return (StorageHelper.copyFile(preferenceBackup, preferences));
     }
 
 
@@ -542,7 +542,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         if (database.exists()) {
             database.delete();
         }
-        return (StorageManager.copyFile(new File(backupDir, Constants.DATABASE_NAME), database));
+        return (StorageHelper.copyFile(new File(backupDir, Constants.DATABASE_NAME), database));
     }
 
 
@@ -553,9 +553,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
      * @return True if success, false otherwise
      */
     private boolean importAttachments(File backupDir) {
-        File attachmentsDir = StorageManager.getAttachmentDir(this);
+        File attachmentsDir = StorageHelper.getAttachmentDir(this);
         // Clearing
-        StorageManager.delete(this, attachmentsDir.getAbsolutePath());
+        StorageHelper.delete(this, attachmentsDir.getAbsolutePath());
         // Moving back
         File backupAttachmentsDir = new File(backupDir, attachmentsDir.getName());
         if (!backupAttachmentsDir.exists()) return true;

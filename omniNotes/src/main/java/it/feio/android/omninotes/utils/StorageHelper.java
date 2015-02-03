@@ -40,7 +40,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 
-public class StorageManager {
+public class StorageHelper {
 
     public static boolean checkStorage() {
         boolean mExternalStorageAvailable = false;
@@ -523,11 +523,11 @@ public class StorageManager {
                 Ln.e(e, "Can't move file " + uri.getPath());
             }
         } else {
-            f = StorageManager.createExternalStoragePrivateFile(mContext, uri, extension);
+            f = StorageHelper.createExternalStoragePrivateFile(mContext, uri, extension);
         }
         Attachment mAttachment = null;
         if (f != null) {
-            mAttachment = new Attachment(Uri.fromFile(f), StorageManager.getMimeTypeInternal(mContext, uri));
+            mAttachment = new Attachment(Uri.fromFile(f), StorageHelper.getMimeTypeInternal(mContext, uri));
             mAttachment.setName(name);
             mAttachment.setSize(f.length());
         }

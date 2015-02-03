@@ -48,7 +48,7 @@ import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
-import it.feio.android.omninotes.utils.StorageManager;
+import it.feio.android.omninotes.utils.StorageHelper;
 import roboguice.util.Ln;
 
 import java.io.File;
@@ -147,7 +147,7 @@ public class SettingsFragment extends PreferenceFragment {
                     alertDialogBuilder.setView(v);
 
                     // Finds actually saved backups names
-                    final List<String> backups = Arrays.asList(StorageManager.getExternalStoragePublicDir().list());
+                    final List<String> backups = Arrays.asList(StorageHelper.getExternalStoragePublicDir().list());
 
                     // Sets default export file name
                     SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EXPORT);
@@ -217,7 +217,7 @@ public class SettingsFragment extends PreferenceFragment {
                 public boolean onPreferenceClick(Preference arg0) {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
-                    final CharSequence[] backups = StorageManager.getExternalStoragePublicDir().list();
+                    final CharSequence[] backups = StorageHelper.getExternalStoragePublicDir().list();
                     alertDialogBuilder.setTitle(R.string.data_import_message)
                             .setItems(backups, null);
 
@@ -239,12 +239,12 @@ public class SettingsFragment extends PreferenceFragment {
                                             getActivity());
 
                                     // Retrieves backup size
-                                    File backupDir = StorageManager.getBackupDir(backups[position].toString());
-                                    long size = StorageManager.getSize(backupDir) / 1024;
+                                    File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+                                    long size = StorageHelper.getSize(backupDir) / 1024;
                                     String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
                                     // Check preference presence
-                                    String prefName = StorageManager.getSharedPreferencesFile(getActivity()).getName();
+                                    String prefName = StorageHelper.getSharedPreferencesFile(getActivity()).getName();
                                     boolean hasPreferences = (new File(backupDir, prefName)).exists();
 
                                     String message = getString(R.string.confirm_restoring_backup) + " "
@@ -292,8 +292,8 @@ public class SettingsFragment extends PreferenceFragment {
                                             getActivity());
 
                                     // Retrieves backup size
-                                    File backupDir = StorageManager.getBackupDir(backups[position].toString());
-                                    long size = StorageManager.getSize(backupDir) / 1024;
+                                    File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+                                    long size = StorageHelper.getSize(backupDir) / 1024;
                                     String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
                                     // Set dialog message and button
@@ -657,11 +657,11 @@ public class SettingsFragment extends PreferenceFragment {
                                 public void onClick(DialogInterface dialog, int id) {
                                     prefs.edit().clear().commit();
                                     File db = getActivity().getDatabasePath(Constants.DATABASE_NAME);
-                                    StorageManager.delete(getActivity(), db.getAbsolutePath());
-                                    File attachmentsDir = StorageManager.getAttachmentDir(getActivity());
-                                    StorageManager.delete(getActivity(), attachmentsDir.getAbsolutePath());
-                                    File cacheDir = StorageManager.getCacheDir(getActivity());
-                                    StorageManager.delete(getActivity(), cacheDir.getAbsolutePath());
+                                    StorageHelper.delete(getActivity(), db.getAbsolutePath());
+                                    File attachmentsDir = StorageHelper.getAttachmentDir(getActivity());
+                                    StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
+                                    File cacheDir = StorageHelper.getCacheDir(getActivity());
+                                    StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
                                     // App tour is flagged as skipped anyhow
 //								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
                                     OmniNotes.restartApp(getActivity());

@@ -24,7 +24,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
-import it.feio.android.omninotes.utils.StorageManager;
+import it.feio.android.omninotes.utils.StorageHelper;
 
 import java.lang.ref.WeakReference;
 
@@ -55,7 +55,7 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
     @Override
     protected Attachment doInBackground(Void... params) {
-        return StorageManager.createAttachmentFromUri(mActivity, uri);
+        return StorageHelper.createAttachmentFromUri(mActivity, uri);
     }
 
 
@@ -69,7 +69,7 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
             }
         } else {
             if (mAttachment != null) {
-                StorageManager.delete(mActivity, mAttachment.getUri().getPath());
+                StorageHelper.delete(mActivity, mAttachment.getUri().getPath());
             }
         }
     }
