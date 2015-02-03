@@ -45,8 +45,6 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.models.adapters.ImageAndTextAdapter;
-import it.feio.android.omninotes.models.holders.ImageAndTextItem;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
@@ -55,7 +53,10 @@ import roboguice.util.Ln;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 
 public class SettingsFragment extends PreferenceFragment {
@@ -718,46 +719,46 @@ public class SettingsFragment extends PreferenceFragment {
 
 
         // Donations
-        Preference donation = findPreference("settings_donation");
-        if (donation != null) {
-            donation.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-
-                    ArrayList<ImageAndTextItem> options = new ArrayList<ImageAndTextItem>();
-                    options.add(new ImageAndTextItem(R.drawable.ic_paypal, getString(R.string.paypal)));
-                    options.add(new ImageAndTextItem(R.drawable.ic_bitcoin, getString(R.string.bitcoin)));
-
-                    alertDialogBuilder
-                            .setAdapter(new ImageAndTextAdapter(getActivity(), options),
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            switch (which) {
-                                                case 0:
-                                                    Intent intentPaypal = new Intent(Intent.ACTION_VIEW);
-                                                    intentPaypal.setData(Uri.parse(getString(R.string.paypal_url)));
-                                                    startActivity(intentPaypal);
-                                                    break;
-                                                case 1:
-                                                    Intent intentBitcoin = new Intent(Intent.ACTION_VIEW);
-                                                    intentBitcoin.setData(Uri.parse(getString(R.string.bitcoin_url)));
-                                                    startActivity(intentBitcoin);
-                                                    break;
-                                            }
-                                        }
-                                    });
-
-
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    // show it
-                    alertDialog.show();
-                    return false;
-                }
-            });
-        }
+//        Preference donation = findPreference("settings_donation");
+//        if (donation != null) {
+//            donation.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+//                @Override
+//                public boolean onPreferenceClick(Preference preference) {
+//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//
+//                    ArrayList<ImageAndTextItem> options = new ArrayList<ImageAndTextItem>();
+//                    options.add(new ImageAndTextItem(R.drawable.ic_paypal, getString(R.string.paypal)));
+//                    options.add(new ImageAndTextItem(R.drawable.ic_bitcoin, getString(R.string.bitcoin)));
+//
+//                    alertDialogBuilder
+//                            .setAdapter(new ImageAndTextAdapter(getActivity(), options),
+//                                    new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            switch (which) {
+//                                                case 0:
+//                                                    Intent intentPaypal = new Intent(Intent.ACTION_VIEW);
+//                                                    intentPaypal.setData(Uri.parse(getString(R.string.paypal_url)));
+//                                                    startActivity(intentPaypal);
+//                                                    break;
+//                                                case 1:
+//                                                    Intent intentBitcoin = new Intent(Intent.ACTION_VIEW);
+//                                                    intentBitcoin.setData(Uri.parse(getString(R.string.bitcoin_url)));
+//                                                    startActivity(intentBitcoin);
+//                                                    break;
+//                                            }
+//                                        }
+//                                    });
+//
+//
+//                    // create alert dialog
+//                    AlertDialog alertDialog = alertDialogBuilder.create();
+//                    // show it
+//                    alertDialog.show();
+//                    return false;
+//                }
+//            });
+//        }
 
 
         // About
