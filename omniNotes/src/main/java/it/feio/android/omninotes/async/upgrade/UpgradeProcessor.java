@@ -19,10 +19,12 @@ package it.feio.android.omninotes.async.upgrade;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.StorageHelper;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -89,13 +91,52 @@ public class UpgradeProcessor {
     }
 
 
+    /**
+     * Adjustment of all the old attachments without mimetype field set into DB
+     */
+    private void onUpgradeTo474() {
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] params) {
+                final DbHelper dbHelper = DbHelper.getInstance(OmniNotes.getAppContext());
+                for (Attachment attachment : dbHelper.getAllAttachments()) {
+                    if (attachment.getMime_type() == null) {
+                        String mimeType = StorageHelper.getMimeType(attachment.getUri().toString());
+                        if (!TextUtils.isEmpty(mimeType)) {
+                            String type = mimeType.replaceFirst("/.*", "");
+                            switch (type) {
+                                case "image":
+                                    attachment.setMime_type(Constants.MIME_TYPE_IMAGE);
+                                    break;
+                                case "video":
+                                    attachment.setMime_type(Constants.MIME_TYPE_VIDEO);
+                                    break;
+                                case "audio":
+                                    attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
+                                    break;
+                                default:
+                                    attachment.setMime_type(Constants.MIME_TYPE_FILES);
+                                    break;
+                            }
+                            dbHelper.updateAttachment(attachment);
+                        }
+                    }
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+
+    /**
+     * Upgrades all the old audio attachments to the new format 3gpp to avoid to exchange them for videos
+     */
     private void onUpgradeTo475() {
         new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] params) {
                 final DbHelper dbHelper = DbHelper.getInstance(OmniNotes.getAppContext());
-                List<Attachment> attachments = dbHelper.getAllAttachments();
-                for (Attachment attachment : attachments) {
+                for (Attachment attachment : dbHelper.getAllAttachments()) {
                     if (attachment.getMime_type().equals("audio/3gp")) {
 
                         // File renaming
@@ -112,7 +153,7 @@ public class UpgradeProcessor {
                 }
                 return null;
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
+        }.execute();
     }
+
 }
