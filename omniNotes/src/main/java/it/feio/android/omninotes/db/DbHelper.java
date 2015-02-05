@@ -24,6 +24,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.utils.*;
 import roboguice.util.Ln;
@@ -37,7 +38,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // Database name
     private static final String DATABASE_NAME = Constants.DATABASE_NAME;
     // Database version aligned if possible to software version
-    private static final int DATABASE_VERSION = 453;
+    private static final int DATABASE_VERSION = 475;
     // Sql query file directory
     private static final String SQL_DIR = "sql";
 
@@ -126,6 +127,7 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Ln.i("Upgrading database version from " + oldVersion + " to " + newVersion);
+        UpgradeProcessor.process(oldVersion, newVersion);
         try {
             for (String sqlFile : AssetUtils.list(SQL_DIR, mContext.getAssets())) {
                 if (sqlFile.startsWith(UPGRADE_QUERY_PREFIX)) {
@@ -211,18 +213,11 @@ public class DbHelper extends SQLiteOpenHelper {
         }
 
         // Updating attachments
-        ContentValues valuesAttachments = new ContentValues();
         List<Attachment> deletedAttachments = note.getAttachmentsListOld();
         for (Attachment attachment : note.getAttachmentsList()) {
             // Updating attachment
             if (attachment.getId() == 0) {
-                valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
-                valuesAttachments.put(KEY_ATTACHMENT_MIME_TYPE, attachment.getMime_type());
-                valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, (note.get_id() != 0 ? note.get_id() : resNote));
-                valuesAttachments.put(KEY_ATTACHMENT_NAME, attachment.getName());
-                valuesAttachments.put(KEY_ATTACHMENT_SIZE, attachment.getSize());
-                valuesAttachments.put(KEY_ATTACHMENT_LENGTH, attachment.getLength());
-                attachment.setId((int) db.insert(TABLE_ATTACHMENTS, null, valuesAttachments));
+                updateAttachment(note.get_id() != 0 ? note.get_id() : (int)resNote, attachment, db);
             } else {
                 deletedAttachments.remove(attachment);
             }
@@ -236,8 +231,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.setTransactionSuccessful();
         db.endTransaction();
 
-//		db.close();
-
         // Fill the note with correct data before returning it
         note.set_id(note.get_id() != 0 ? note.get_id() : (int) resNote);
         note.setCreation(note.getCreation() != null ? note.getCreation() : values.getAsLong(KEY_CREATION));
@@ -246,6 +239,36 @@ public class DbHelper extends SQLiteOpenHelper {
         return note;
     }
 
+
+    /**
+     * Attachments update
+     * */
+    public Attachment updateAttachment(Attachment attachment) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return updateAttachment(-1, attachment, db);
+    }
+
+
+    /**
+     * New attachment insertion
+     * */
+    public Attachment updateAttachment(int noteId, Attachment attachment, SQLiteDatabase db) {
+        ContentValues valuesAttachments = new ContentValues();
+        valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
+        valuesAttachments.put(KEY_ATTACHMENT_MIME_TYPE, attachment.getMime_type());
+        valuesAttachments.put(KEY_ATTACHMENT_NAME, attachment.getName());
+        valuesAttachments.put(KEY_ATTACHMENT_SIZE, attachment.getSize());
+        valuesAttachments.put(KEY_ATTACHMENT_LENGTH, attachment.getLength());
+        if (noteId != -1) {
+            valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
+            attachment.setId((int) db.insert(TABLE_ATTACHMENTS, null, valuesAttachments));
+        } else {
+            db.update(TABLE_ATTACHMENTS, valuesAttachments, KEY_ATTACHMENT_ID + " = ?", new String[]{String.valueOf
+                    (attachment.getId())});
+        }
+        return attachment;
+    }
+      
 
     /**
      * Getting single note
@@ -840,8 +863,6 @@ public class DbHelper extends SQLiteOpenHelper {
         } finally {
             if (cursor != null)
                 cursor.close();
-//			if (db != null)
-//				db.close();
         }
         return categoriesList;
     }

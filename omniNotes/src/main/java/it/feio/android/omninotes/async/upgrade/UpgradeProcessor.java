@@ -1,0 +1,118 @@
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package it.feio.android.omninotes.async.upgrade;
+
+import android.net.Uri;
+import android.os.AsyncTask;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.utils.Constants;
+
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * Processor used to perform asynchronous tasks on database upgrade.
+ * It's not intended to be used to perform actions strictly related to DB (for this
+ * {@link it.feio.android.omninotes.db.DbHelper#onUpgrade(android.database.sqlite.SQLiteDatabase, int, int)}
+ * DbHelper.onUpgrade()} is used
+ */
+public class UpgradeProcessor {
+
+    private final static String METHODS_PREFIX = "onUpgradeTo";
+    private static Class classObject;
+
+    private static UpgradeProcessor instance;
+
+
+    private UpgradeProcessor() {
+    }
+
+
+    private static UpgradeProcessor getInstance() {
+        if (instance == null) {
+            instance = new UpgradeProcessor();
+        }
+        return instance;
+    }
+
+
+    public static void process(int dbOldVersion, int dbNewVersion) {
+        try {
+            List<Method> methodsToLaunch = getInstance().getMethodsToLaunch(dbOldVersion, dbNewVersion);
+            for (Method methodToLaunch : methodsToLaunch) {
+                methodToLaunch.invoke(getInstance());
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private List<Method> getMethodsToLaunch(int dbOldVersion, int dbNewVersion) {
+        List<Method> methodsToLaunch = new ArrayList<Method>();
+        classObject = getInstance().getClass();
+        Method[] declaredMethods = classObject.getDeclaredMethods();
+        for (Method declaredMethod : declaredMethods) {
+            if (declaredMethod.getName().indexOf(METHODS_PREFIX) != -1) {
+                int methodVersionPostfix = Integer.parseInt(declaredMethod.getName().replace(METHODS_PREFIX, ""));
+                if (dbOldVersion <= methodVersionPostfix && methodVersionPostfix <= dbNewVersion) {
+                    methodsToLaunch.add(declaredMethod);
+                }
+            }
+        }
+        return methodsToLaunch;
+    }
+
+
+    private void onUpgradeTo475() {
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] params) {
+                final DbHelper dbHelper = DbHelper.getInstance(OmniNotes.getAppContext());
+                List<Attachment> attachments = dbHelper.getAllAttachments();
+                for (Attachment attachment : attachments) {
+                    if (attachment.getMime_type().equals("audio/3gp")) {
+
+                        // File renaming
+                        File from = new File(attachment.getUriPath());
+                        File to = new File(from.getParent(), from.getName().replace(".3gp",
+                                Constants.MIME_TYPE_AUDIO_EXT));
+                        from.renameTo(to);
+
+                        // Note's attachment update
+                        attachment.setUri(Uri.fromFile(to));
+                        attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
+                        dbHelper.updateAttachment(attachment);
+                    }
+                }
+                return null;
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+    }
+}
