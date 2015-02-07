@@ -268,19 +268,15 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
         String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
         int index = Arrays.asList(navigationListCodes).indexOf(navigation);
-        CharSequence title = "";
+        String title;
         // If is a traditional navigation item
         if (index >= 0 && index < navigationListCodes.length) {
             title = navigationList[index];
         } else {
-            ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
-            for (Category tag : categories) {
-                if (navigation.equals(String.valueOf(tag.getId()))) title = tag.getName();
-            }
+            title = DbHelper.getInstance(getActivity()).getCategory(Integer.parseInt(navigation)).getName();
         }
-
         title = title == null ? getString(R.string.title_activity_list) : title;
-        getMainActivity().setActionBarTitle(title.toString());
+        getMainActivity().setActionBarTitle(title);
     }
 
 
@@ -1180,6 +1176,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     @Override
     public void onNotesLoaded(ArrayList<Note> notes) {
+        Ln.d(Constants.TAG, "Notes loaded");
         layoutSelected = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
                 : R.layout.note_layout;
         listAdapter = new NoteAdapter(getActivity(), layoutSelected, notes);

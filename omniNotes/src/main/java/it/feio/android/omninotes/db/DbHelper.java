@@ -455,7 +455,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + whereCondition
                 + (order ? " ORDER BY " + sort_column + sort_order : "");
 
-        Ln.d("Query: " + query);
+        Ln.v("Query: " + query);
 
         Cursor cursor = null;
         try {

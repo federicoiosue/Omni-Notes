@@ -255,7 +255,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     }
 
 
-    protected void updateNavigation(String nav) {
+    public void updateNavigation(String nav) {
         prefs.edit().putString(Constants.PREF_NAVIGATION, nav).commit();
         navigation = nav;
         navigationTmp = null;

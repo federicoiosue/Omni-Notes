@@ -37,23 +37,23 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class NavDrawerCategoryAdapter extends BaseAdapter {
 
     private Activity mActivity;
     private int layout;
-    private ArrayList<Category> categories;
+    private List<Category> categories;
     private LayoutInflater inflater;
 
 
-    public NavDrawerCategoryAdapter(Activity mActivity, ArrayList<Category> categories) {
+    public NavDrawerCategoryAdapter(Activity mActivity, List<Category> categories) {
         this(mActivity, categories, null);
     }
 
 
-    public NavDrawerCategoryAdapter(Activity mActivity, ArrayList<Category> categories, String navigationTmp) {
+    public NavDrawerCategoryAdapter(Activity mActivity, List<Category> categories, String navigationTmp) {
         this.mActivity = mActivity;
         this.layout = R.layout.drawer_list_item;
         this.categories = categories;
@@ -89,7 +89,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
             convertView = inflater.inflate(layout, parent, false);
 
             // Overrides font sizes with the one selected from user
-            Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, 
+            Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME,
                     Context.MODE_MULTI_PROCESS), convertView);
 
             holder = new NoteDrawerCategoryAdapterViewHolder();

@@ -536,12 +536,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 //    }
 
 
-    void showMessage(int messageId, Style style) {
+    public void showMessage(int messageId, Style style) {
         showMessage(getString(messageId), style);
     }
 
 
-    void showMessage(String message, Style style) {
+    public void showMessage(String message, Style style) {
         if (croutonViewContainer == null) {
             // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
             croutonViewContainer = (ViewGroup) findViewById(R.id.crouton_handle);
