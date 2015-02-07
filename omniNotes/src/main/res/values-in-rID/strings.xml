@@ -265,10 +265,10 @@
   <string name="password_not_set">Sandi belum diatur</string>
   <string name="wrong_answer">Jawaban salah</string>
   <string name="colors_app">Skema aplikasi warna</string>
-  <string name="colors_widget">Widget color scheme</string>
+  <string name="colors_widget">Skema warna widget</string>
   <string name="settings_instant_search">Cari cepat</string>
   <string name="settings_navdrawer_on_exit">Menu navigasi pada tombol keluar</string>
-  <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
+  <string name="settings_navdrawer_on_exit_summary">Menekan \"kembali\" ketika dalam daftar catatan membuka menu navigasi bukan keluar</string>
   <string name="settings_text_size">Ukuran teks</string>
   <string name="settings_screen_behaviors">Behaviors</string>
   <string name="settings_swipe_to_trash">Geser untuk membuang</string>
@@ -276,8 +276,8 @@
   <string name="settings_swipe_to_trash_summary_2">Geser catatan dengan jari akan membuangnya</string>
   <string name="settings_show_uncategorized">Kelompok tidak dikategorikan</string>
   <string name="settings_show_uncategorized_summary">Tambah item baru pada menu navigasi untuk catatan yang tidak dikelompokkan</string>
-  <string name="settings_show_category_count">Note count</string>
-  <string name="settings_show_category_count_summary">Shows the number of associated notes next to the category</string>
+  <string name="settings_show_category_count">Penghitung catatan</string>
+  <string name="settings_show_category_count_summary">Menampilkan jumlah catatan yang terkait di sebelah Kategori</string>
   <string name="settings_auto_location">Lokasi otomatis</string>
   <string name="settings_auto_location_summary">Otomatis menambahkan lokasi pada catatan baru</string>
   <string name="settings_dynamic_menu">Menu dinamis</string>
@@ -296,7 +296,7 @@
   <string name="tour_detailactivity_action_title">Lakukan lebih banyak</string>
   <string name="tour_detailactivity_action_detail">Berbagi, tag, arsip, keamanan, dan banyak lagi&#8230;</string>
   <string name="tour_detailactivity_reminder_title">Hanya klik</string>
-  <string name="tour_detailactivity_reminder_detail">Long pression have different effects on an object (attachment, location, reminder) than short pression!</string>
+  <string name="tour_detailactivity_reminder_detail">Menekan lama mempunyai banyak fungsi pada sebuah objek (lampiran, lokasi, pengingat) daripada menekan singkat!</string>
   <string name="tour_detailactivity_links_title">Tautan</string>
   <string name="tour_detailactivity_links_detail">Klik dua kali pada URL atau alamat e-mail untuk menyalin atau membuka</string>
   <string name="tour_detailactivity_swipe_title">Geser</string>
