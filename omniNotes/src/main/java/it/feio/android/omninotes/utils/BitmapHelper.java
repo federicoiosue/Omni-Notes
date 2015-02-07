@@ -39,39 +39,33 @@ public class BitmapHelper {
 
     /**
      * Decodifica ottimizzata per la memoria dei bitmap
-     *
-     * @param uri       URI bitmap
-     * @param reqWidth  Larghezza richiesta
-     * @param reqHeight Altezza richiesta
-     * @return
-     * @throws FileNotFoundException
      */
     public static Bitmap decodeSampledFromUri(Context mContext, Uri uri, int reqWidth, int reqHeight)
             throws FileNotFoundException {
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri), null, options);
+        
+        Bitmap bmp;
+        try {
+            InputStream inputStream = mContext.getContentResolver().openInputStream(uri);
+            BitmapFactory.decodeStream(inputStream, null, options);
 
-        // Setting decode options
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-        options.inJustDecodeBounds = false;
+            // Setting decode options
+            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+            options.inJustDecodeBounds = false;
 
-        // Bitmap is now decoded for real using calculated inSampleSize
-        Bitmap bmp = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri), null, options);
+            // Bitmap is now decoded for real using calculated inSampleSize
+            bmp = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri), null, options);
+        } catch(FileNotFoundException e) {
+            bmp = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.attachment_broken);
+        }
         return bmp;
     }
 
 
     /**
      * Decoding with inJustDecodeBounds=true to check sampling index without breaking memory
-     *
-     * @param mContext
-     * @param uri
-     * @param reqWidth
-     * @param reqHeight
-     * @return
-     * @throws FileNotFoundException
      */
     private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
             throws FileNotFoundException {
