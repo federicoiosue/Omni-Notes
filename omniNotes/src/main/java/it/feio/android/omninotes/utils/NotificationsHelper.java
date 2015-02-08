@@ -49,6 +49,7 @@ public class NotificationsHelper {
         mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(smallIcon).setContentTitle(title)
                 .setAutoCancel(true);
         mBuilder.setContentIntent(notifyIntent);
+        setLargeIcon(R.drawable.logo);
         return this;
     }
 
@@ -139,5 +140,5 @@ public class NotificationsHelper {
         mNotificationManager.notify(id == null ? 0 : id, mBuilder.build());
         return this;
     }
-    
+
 }

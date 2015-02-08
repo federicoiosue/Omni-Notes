@@ -17,6 +17,11 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.0.0 Beta 8" changeDate="Feb 8, 2015">
+        <changelogtext>User will be questioned about deleting a merged note source notes</changelogtext>
+        <changelogtext>[u]Fix[/u] Crashes introduced with the last version</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 7" changeDate="Feb 7, 2015">
         <changelogtext>When a note is trashed if it has reminders or home launcher screenshots
             they'll be removed. If the note is restored reminder will be set back again</changelogtext>

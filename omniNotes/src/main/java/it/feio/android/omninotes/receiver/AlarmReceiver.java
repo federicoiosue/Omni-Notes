@@ -92,7 +92,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
         notificationsHelper.createNotification(R.drawable.ic_stat_notification_icon, title, notifyIntent);
-        notificationsHelper.setLargeIcon(R.drawable.ic_launcher).setMessage(text);
+        notificationsHelper.setMessage(text);
 
         notificationsHelper.getBuilder()
                 .addAction(R.drawable.ic_material_reminder_time_light, it.feio.android.omninotes.utils.TextHelper
