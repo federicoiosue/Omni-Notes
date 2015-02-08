@@ -72,15 +72,24 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
         // Inflater used for header and footer
         LayoutInflater inflater = (LayoutInflater) mainActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
-        // Inflation of Settings view
+        // Inflation of Settings view (no categories available)
         settingsView = mFragmentWeakReference.get().getView().findViewById(R.id.settings_placeholder);
         if (settingsView != null) {
-            ((ViewStub) settingsView).inflate();
+            settingsView = ((ViewStub) settingsView).inflate();
         } else {
             settingsView = mFragmentWeakReference.get().getView().findViewById(R.id.settings_view);
         }
 
-        settingsViewCat = inflater.inflate(R.layout.drawer_category_list_footer, null);
+        // Settings view when categories are available
+        mDrawerCategoriesList = (NonScrollableListView) mFragmentWeakReference.get().getView().findViewById(R.id
+                .drawer_tag_list);
+        if (mDrawerCategoriesList.getAdapter() == null) {
+            settingsViewCat = inflater.inflate(R.layout.drawer_category_list_footer, null);
+            mDrawerCategoriesList.addFooterView(settingsViewCat);
+        } else {
+            settingsViewCat = mDrawerCategoriesList.getChildAt(mDrawerCategoriesList.getChildCount() - 1);
+        }
+
     }
 
 
@@ -93,6 +102,10 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     @Override
     protected void onPostExecute(final List<Category> categories) {
         if (isAlive()) {
+
+            mDrawerCategoriesList.setAdapter(new NavDrawerCategoryAdapter(mainActivity, categories,
+                    mainActivity.getNavigationTmp()));
+            
             if (categories.size() == 0) {
                 settingsViewCat.setVisibility(View.GONE);
                 settingsView.setVisibility(View.VISIBLE);
@@ -100,61 +113,6 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
                 settingsViewCat.setVisibility(View.VISIBLE);
                 settingsView.setVisibility(View.GONE);
             }
-            
-            mDrawerCategoriesList.setAdapter(new NavDrawerCategoryAdapter(mainActivity, categories,
-                    mainActivity.getNavigationTmp()));
-
-            // Sets click events
-            mDrawerCategoriesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-
-                    // Commits pending deletion or archiviation
-                    mainActivity.commitPending();
-                    // Stops search service
-                    if (mainActivity.getSearchMenuItem() != null && MenuItemCompat.isActionViewExpanded(mainActivity
-                            .getSearchMenuItem()))
-                        MenuItemCompat.collapseActionView(mainActivity.getSearchMenuItem());
-
-                    Object item = mDrawerCategoriesList.getAdapter().getItem(position);
-                    // Ensuring that clicked item is not the ListView header
-                    if (item != null) {
-                        Category tag = (Category) item;
-                        selectNavigationItem(mDrawerCategoriesList, position);
-                        mainActivity.updateNavigation(String.valueOf(tag.getId()));
-                        mDrawerCategoriesList.setItemChecked(position, true);
-                        if (mDrawerList != null)
-                            mDrawerList.setItemChecked(0, false); // Forces redraw
-                        mainActivity.initNotesList(mainActivity.getIntent());
-                    }
-                }
-            });
-
-            // Sets long click events
-            mDrawerCategoriesList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
-                    if (mDrawerCategoriesList.getAdapter() != null) {
-                        Object item = mDrawerCategoriesList.getAdapter().getItem(position);
-                        // Ensuring that clicked item is not the ListView header
-                        if (item != null) {
-                            mainActivity.editTag((Category) item);
-                        }
-                    } else {
-                        mainActivity.showMessage(R.string.category_deleted, ONStyle.ALERT);
-                    }
-                    return true;
-                }
-            });
-
-//        // Restores listview position when turning back to list
-//        if (mDrawerCategoriesList != null && categories.size() > 0) {
-//            if (mDrawerCategoriesList.getCount() > listViewPosition) {
-//                mDrawerCategoriesList.setSelectionFromTop(listViewPosition, listViewPositionOffset);
-//            } else {
-//                mDrawerCategoriesList.setSelectionFromTop(0, 0);
-//            }
-//        }
 
             mDrawerCategoriesList.justifyListViewHeightBasedOnChildren();
         }
@@ -176,7 +134,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     private List<Category> buildCategoryMenu() {
         // Retrieves data to fill tags list
         ArrayList<Category> categories = DbHelper.getInstance(mainActivity).getCategories();
-        
+
         Fonts.overrideTextSize(mainActivity,
                 mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
                 settingsView);
@@ -187,7 +145,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
                 mainActivity.startActivity(settingsIntent);
             }
         });
-        
+
         Fonts.overrideTextSize(mainActivity,
                 mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
                 settingsViewCat);
@@ -199,12 +157,57 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
             }
         });
 
-        mDrawerCategoriesList = (NonScrollableListView) mFragmentWeakReference.get().getView().findViewById(R.id
-                .drawer_tag_list);
+        // Sets click events
+        mDrawerCategoriesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
-        if (mDrawerCategoriesList.getAdapter() == null) {
-            mDrawerCategoriesList.addFooterView(settingsViewCat);
-        }
+                // Commits pending deletion or archiviation
+                mainActivity.commitPending();
+                // Stops search service
+                if (mainActivity.getSearchMenuItem() != null && MenuItemCompat.isActionViewExpanded(mainActivity
+                        .getSearchMenuItem()))
+                    MenuItemCompat.collapseActionView(mainActivity.getSearchMenuItem());
+
+                Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+                // Ensuring that clicked item is not the ListView header
+                if (item != null) {
+                    Category tag = (Category) item;
+                    selectNavigationItem(mDrawerCategoriesList, position);
+                    mainActivity.updateNavigation(String.valueOf(tag.getId()));
+                    mDrawerCategoriesList.setItemChecked(position, true);
+                    if (mDrawerList != null)
+                        mDrawerList.setItemChecked(0, false); // Forces redraw
+                    mainActivity.initNotesList(mainActivity.getIntent());
+                }
+            }
+        });
+
+        // Sets long click events
+        mDrawerCategoriesList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long arg3) {
+                if (mDrawerCategoriesList.getAdapter() != null) {
+                    Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+                    // Ensuring that clicked item is not the ListView header
+                    if (item != null) {
+                        mainActivity.editTag((Category) item);
+                    }
+                } else {
+                    mainActivity.showMessage(R.string.category_deleted, ONStyle.ALERT);
+                }
+                return true;
+            }
+        });
+
+//        // Restores listview position when turning back to list
+//        if (mDrawerCategoriesList != null && categories.size() > 0) {
+//            if (mDrawerCategoriesList.getCount() > listViewPosition) {
+//                mDrawerCategoriesList.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+//            } else {
+//                mDrawerCategoriesList.setSelectionFromTop(0, 0);
+//            }
+//        }
 
         return categories;
     }
