@@ -94,7 +94,7 @@ public class UpgradeProcessor {
     /**
      * Adjustment of all the old attachments without mimetype field set into DB
      */
-    private void onUpgradeTo474() {
+    private void onUpgradeTo476() {
         new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] params) {
@@ -120,6 +120,8 @@ public class UpgradeProcessor {
                             }
                             dbHelper.updateAttachment(attachment);
                         }
+                    } else {
+                        attachment.setMime_type(Constants.MIME_TYPE_FILES);
                     }
                 }
                 return null;
@@ -131,7 +133,7 @@ public class UpgradeProcessor {
     /**
      * Upgrades all the old audio attachments to the new format 3gpp to avoid to exchange them for videos
      */
-    private void onUpgradeTo475() {
+    private void onUpgradeTo477() {
         new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] params) {
