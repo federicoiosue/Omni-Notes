@@ -52,7 +52,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     private final WeakReference<Fragment> mFragmentWeakReference;
     private final MainActivity mainActivity;
     private NonScrollableListView mDrawerCategoriesList;
-    private ViewStub settingsView;
+    private View settingsView;
     private NonScrollableListView mDrawerList;
 
 
@@ -164,7 +164,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
         // Inflation of Settings view
         settingsView = ((ViewStub) mFragmentWeakReference.get().getView().findViewById(R.id.settings_placeholder));
         if (settingsView != null) {
-            settingsView.inflate();
+            ((ViewStub) settingsView).inflate();
             Fonts.overrideTextSize(mainActivity,
                     mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
                     settingsView);
@@ -175,6 +175,8 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
                     mainActivity.startActivity(settingsIntent);
                 }
             });
+        } else {
+            settingsView = mFragmentWeakReference.get().getView().findViewById(R.id.settings_view);
         }
 
         View settingsViewCat = inflater.inflate(R.layout.drawer_category_list_footer, null);
@@ -202,6 +204,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
         } else if (categories.size() > 0) {
             categoriesListHeader.setVisibility(View.VISIBLE);
             settingsViewCat.setVisibility(View.VISIBLE);
+            settingsView.setVisibility(View.GONE);
         }
 
         return categories;
