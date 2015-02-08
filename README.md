@@ -18,18 +18,18 @@ The project was created by the absence of such applications compatible with old 
 
 Actually the following functions are implemented:
 
-☆ Material Design interface
-☆ Basic add, modify, archive, trash and delete notes actions
-☆ Share, merge and search notes
-☆ Image, audio and generic file attachments
-☆ Manage your notes using tags and categories
-☆ To-do list
-☆ Sketch-note mode
-☆ Notes shortcut on home screen
-☆ Export/import notes to backup
-☆ Google Now integration: just tell "write a note" followed by the content
-☆ Multiple widgets, DashClock extension, Android 4.2 lockscreen compatibility
-☆ Multilanguage: 30 languages supported: https://crowdin.com/project/omni-notes
+* Material Design interface
+*Basic add, modify, archive, trash and delete notes actions
+* Share, merge and search notes
+* Image, audio and generic file attachments
+* Manage your notes using tags and categories
+* To-do list
+* Sketch-note mode
+* Notes shortcut on home screen
+* Export/import notes to backup
+* Google Now integration: just tell "write a note" followed by the content
+* Multiple widgets, DashClock extension, Android 4.2 lockscreen compatibility
+* Multilanguage: 30 languages supported: https://crowdin.com/project/omni-notes
 
 
 Further developments will include:
@@ -41,7 +41,7 @@ You can find a complete changelog inside the application settings menu!
 
 If you need some help on how to use the application you'll find everything you need into the [Help Online](etc/help/help.md)
 
-<img src="https://lh3.googleusercontent.com/-Jijzn6SfPiUVNfIEyNF9sI/AAAAAAABEgs/3t9CQfS1nS4/w435-h325-no/02.png">
+<img src="https://lh3.googleusercontent.com/-Jijzn6SfPiU/VNfIEyNF9sI/AAAAAAABEgs/3t9CQfS1nS4/w435-h325-no/02.png">
 <img src="https://lh6.googleusercontent.com/-QHhX5hCiKOY/VNfIE0VkeDI/AAAAAAABEgs/tmUEADssGRA/w435-h325-no/03.png">
 <img src="https://lh4.googleusercontent.com/-s-8PCOfpDzE/VNfIE51mD9I/AAAAAAABEgs/gMeermrwEKE/w435-h325-no/04.png">
 <img src="https://lh5.googleusercontent.com/-Z3ruC3Zo8hY/VNfIJBUdp5I/AAAAAAABEgo/AlP-WiQUKuU/w435-h325-no/05.png">
