@@ -18,7 +18,6 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="5.0.0 Beta 8" changeDate="Feb 8, 2015">
-        <changelogtext>User will be questioned about deleting a merged note source notes</changelogtext>
         <changelogtext>[u]Fix[/u] Crashes introduced with the last version</changelogtext>
     </changelogversion>
 
