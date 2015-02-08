@@ -143,6 +143,7 @@ public interface Constants {
     final String SECURITY_ALGORITHM = "MD5";
 
     final String TIMESTAMP_UNIX_EPOCH = "0";
+    final String TIMESTAMP_UNIX_EPOCH_FAR = "18464193800000";
 
     final int MENU_SORT_GROUP_ID = 11998811;
 }

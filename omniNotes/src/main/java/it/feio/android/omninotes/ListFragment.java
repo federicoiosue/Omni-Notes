@@ -1223,8 +1223,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // Replace listview with Mr. Jingles if it is empty
         if (notes.size() == 0) list.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
-        // Restores listview position when turning back to list
+        // Restores listview position when turning back to list or when navigating reminders
         if (list != null && notes.size() > 0) {
+            if (Navigation.checkNavigation(Navigation.REMINDERS)) {
+                listViewPosition = listAdapter.getClosestNotePosition();
+            }
             if (list.getCount() > listViewPosition) {
                 list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
             } else {

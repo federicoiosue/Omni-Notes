@@ -35,9 +35,9 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.TextHelper;
 import roboguice.util.Ln;
 
@@ -55,6 +55,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     private OmniNotes app;
     private int appWidgetId;
     private List<Note> notes;
+    private int navigation;
 
 
     public ListRemoteViewsFactory(Application app, Intent intent) {
@@ -66,7 +67,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     @Override
     public void onCreate() {
         Ln.d("Created widget " + appWidgetId);
-        String condition = app.getSharedPreferences(Constants.PREFS_NAME, app.MODE_MULTI_PROCESS)
+        String condition = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
                 .getString(
                         Constants.PREF_WIDGET_PREFIX
                                 + String.valueOf(appWidgetId), "");
@@ -77,7 +78,9 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     @Override
     public void onDataSetChanged() {
         Ln.d("onDataSetChanged widget " + appWidgetId);
-        String condition = app.getSharedPreferences(Constants.PREFS_NAME, app.MODE_MULTI_PROCESS)
+        navigation = Navigation.getNavigation();
+
+        String condition = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
                 .getString(
                         Constants.PREF_WIDGET_PREFIX
                                 + String.valueOf(appWidgetId), "");
@@ -87,7 +90,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     @Override
     public void onDestroy() {
-        app.getSharedPreferences(Constants.PREFS_NAME, app.MODE_MULTI_PROCESS)
+        app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
                 .edit()
                 .remove(Constants.PREF_WIDGET_PREFIX
                         + String.valueOf(appWidgetId)).commit();
@@ -130,7 +133,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
             row.setInt(R.id.attachmentThumbnail, "setVisibility", View.GONE);
         }
 
-        row.setTextViewText(R.id.note_date, NoteAdapter.getDateText(app, note));
+        row.setTextViewText(R.id.note_date, TextHelper.getDateText(app, note, navigation));
 
         // Next, set a fill-intent, which will be used to fill in the pending intent template
         // that is set on the collection view in StackWidgetProvider.
@@ -174,7 +177,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition, 
                                            boolean thumbnails) {
         Ln.d("Widget configuration updated");
-        mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS).edit()
+        mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
                 .putString(Constants.PREF_WIDGET_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).commit();
         showThumbnails = thumbnails;
     }
@@ -182,7 +185,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     private void color(Note note, RemoteViews row) {
 
-        String colorsPref = app.getSharedPreferences(Constants.PREFS_NAME, app.MODE_MULTI_PROCESS)
+        String colorsPref = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
                 .getString("settings_colors_widget",
                         Constants.PREF_COLORS_APP_DEFAULT);
 

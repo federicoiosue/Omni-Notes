@@ -18,9 +18,11 @@
 package it.feio.android.omninotes.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.SpannedString;
+import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 
@@ -127,6 +129,44 @@ public class TextHelper {
             return matcher.group(1).trim();
         }
         return null;
+    }
+
+
+    /**
+     * Choosing which date must be shown depending on sorting criteria     *
+     * @return String ith formatted date
+     */
+    public static String getDateText(Context mContext, Note note, int navigation) {
+        String dateText;
+        String sort_column;
+        SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+
+        // Reminder screen forces sorting
+        if (Navigation.REMINDERS == navigation) {
+            sort_column = DbHelper.KEY_REMINDER;
+        } else {
+            sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
+        }
+
+        // Creation
+        if (sort_column.equals(DbHelper.KEY_CREATION)) {
+            dateText = mContext.getString(R.string.creation) + " " + note.getCreationShort(mContext);
+        }
+        // Reminder
+        else if (sort_column.equals(DbHelper.KEY_REMINDER)) {
+            String alarmShort = note.getAlarmShort(mContext);
+
+            if (alarmShort.length() == 0) {
+                dateText = mContext.getString(R.string.no_reminder_set);
+            } else {
+                dateText = mContext.getString(R.string.alarm_set_on) + " " + note.getAlarmShort(mContext);
+            }
+        }
+        // Others
+        else {
+            dateText = mContext.getString(R.string.last_update) + " " + note.getLastModificationShort(mContext);
+        }
+        return dateText;
     }
 
 }
