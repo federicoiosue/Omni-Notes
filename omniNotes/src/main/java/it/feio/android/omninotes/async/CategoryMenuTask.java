@@ -54,6 +54,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     private NonScrollableListView mDrawerCategoriesList;
     private View settingsView;
     private NonScrollableListView mDrawerList;
+    private View settingsViewCat;
 
 
     public CategoryMenuTask(Fragment mFragment) {
@@ -67,6 +68,19 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
         super.onPreExecute();
         mDrawerList = (NonScrollableListView) mFragmentWeakReference.get().getView()
                 .findViewById(R.id.drawer_nav_list);
+
+        // Inflater used for header and footer
+        LayoutInflater inflater = (LayoutInflater) mainActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+        // Inflation of Settings view
+        settingsView = mFragmentWeakReference.get().getView().findViewById(R.id.settings_placeholder);
+        if (settingsView != null) {
+            ((ViewStub) settingsView).inflate();
+        } else {
+            settingsView = mFragmentWeakReference.get().getView().findViewById(R.id.settings_view);
+        }
+
+        settingsViewCat = inflater.inflate(R.layout.drawer_category_list_footer, null);
     }
 
 
@@ -79,6 +93,14 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     @Override
     protected void onPostExecute(final List<Category> categories) {
         if (isAlive()) {
+            if (categories.size() == 0) {
+                settingsViewCat.setVisibility(View.GONE);
+                settingsView.setVisibility(View.VISIBLE);
+            } else if (categories.size() > 0) {
+                settingsViewCat.setVisibility(View.VISIBLE);
+                settingsView.setVisibility(View.GONE);
+            }
+            
             mDrawerCategoriesList.setAdapter(new NavDrawerCategoryAdapter(mainActivity, categories,
                     mainActivity.getNavigationTmp()));
 
@@ -154,32 +176,18 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     private List<Category> buildCategoryMenu() {
         // Retrieves data to fill tags list
         ArrayList<Category> categories = DbHelper.getInstance(mainActivity).getCategories();
-
-        // Inflater used for header and footer
-        LayoutInflater inflater = (LayoutInflater) mainActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
-        // Inflation of header view
-        View categoriesListHeader = inflater.inflate(R.layout.drawer_category_list_header, null);
-
-        // Inflation of Settings view
-        settingsView = ((ViewStub) mFragmentWeakReference.get().getView().findViewById(R.id.settings_placeholder));
-        if (settingsView != null) {
-            ((ViewStub) settingsView).inflate();
-            Fonts.overrideTextSize(mainActivity,
-                    mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
-                    settingsView);
-            settingsView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent settingsIntent = new Intent(mainActivity, SettingsActivity.class);
-                    mainActivity.startActivity(settingsIntent);
-                }
-            });
-        } else {
-            settingsView = mFragmentWeakReference.get().getView().findViewById(R.id.settings_view);
-        }
-
-        View settingsViewCat = inflater.inflate(R.layout.drawer_category_list_footer, null);
+        
+        Fonts.overrideTextSize(mainActivity,
+                mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
+                settingsView);
+        settingsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent settingsIntent = new Intent(mainActivity, SettingsActivity.class);
+                mainActivity.startActivity(settingsIntent);
+            }
+        });
+        
         Fonts.overrideTextSize(mainActivity,
                 mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
                 settingsViewCat);
@@ -196,15 +204,6 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
         if (mDrawerCategoriesList.getAdapter() == null) {
             mDrawerCategoriesList.addFooterView(settingsViewCat);
-        }
-        if (categories.size() == 0) {
-            categoriesListHeader.setVisibility(View.GONE);
-            settingsViewCat.setVisibility(View.GONE);
-            settingsView.setVisibility(View.VISIBLE);
-        } else if (categories.size() > 0) {
-            categoriesListHeader.setVisibility(View.VISIBLE);
-            settingsViewCat.setVisibility(View.VISIBLE);
-            settingsView.setVisibility(View.GONE);
         }
 
         return categories;
