@@ -159,10 +159,12 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
     @Override
     protected void onPostExecute(Void result) {
-        if (isAlive(mActivityReference) && promptUpdate) {
-            promptUpdate();
-        } else {
-            showChangelog();
+        if (isAlive(mActivityReference)) {
+            if (promptUpdate) {
+                promptUpdate();
+            } else {
+                showChangelog();
+            }
         }
     }
 
