@@ -25,10 +25,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.text.TextUtils;
-
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
-
+import it.feio.android.omninotes.utils.BitmapCache;
+import it.feio.android.omninotes.utils.Constants;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
@@ -37,13 +37,9 @@ import org.acra.sender.HttpSender.Type;
 
 import java.util.Locale;
 
-import it.feio.android.omninotes.utils.BitmapCache;
-import it.feio.android.omninotes.utils.Constants;
 
-
-@ReportsCrashes(formKey = "", httpMethod = Method.PUT, reportType = Type.JSON, 
-        formUri = "http://feio.cloudant.com/acra-omninotes/_design/acra-storage/_update/report", 
-        formUriBasicAuthLogin = "thelescivessiandesedclik", formUriBasicAuthPassword = "uScXIHpchNKfuCdgbm3nHTjo", 
+@ReportsCrashes(formKey = "", httpMethod = Method.POST, reportType = Type.FORM,
+        formUri = "http://collector.tracepot.com/3f39b042",
         mode = ReportingInteractionMode.DIALOG, resDialogCommentPrompt = R.string.crash_dialog_comment_prompt, 
         resDialogText = R.string.crash_dialog_text)
 public class OmniNotes extends Application {
