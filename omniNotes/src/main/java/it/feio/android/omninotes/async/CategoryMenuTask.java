@@ -105,13 +105,15 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
             mDrawerCategoriesList.setAdapter(new NavDrawerCategoryAdapter(mainActivity, categories,
                     mainActivity.getNavigationTmp()));
-            
+
             if (categories.size() == 0) {
-                settingsViewCat.setVisibility(View.GONE);
+                if (settingsViewCat != null)
+                    settingsViewCat.setVisibility(View.GONE);
                 settingsView.setVisibility(View.VISIBLE);
             } else if (categories.size() > 0) {
                 settingsViewCat.setVisibility(View.VISIBLE);
-                settingsView.setVisibility(View.GONE);
+                if (settingsViewCat != null)
+                    settingsView.setVisibility(View.GONE);
             }
 
             mDrawerCategoriesList.justifyListViewHeightBasedOnChildren();
@@ -135,21 +137,11 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
         // Retrieves data to fill tags list
         ArrayList<Category> categories = DbHelper.getInstance(mainActivity).getCategories();
 
+        View settings = categories.size() == 0 ? settingsView : settingsViewCat;
         Fonts.overrideTextSize(mainActivity,
                 mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
-                settingsView);
-        settingsView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent settingsIntent = new Intent(mainActivity, SettingsActivity.class);
-                mainActivity.startActivity(settingsIntent);
-            }
-        });
-
-        Fonts.overrideTextSize(mainActivity,
-                mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
-                settingsViewCat);
-        settingsViewCat.setOnClickListener(new View.OnClickListener() {
+                settings);
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent settingsIntent = new Intent(mainActivity, SettingsActivity.class);
