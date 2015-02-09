@@ -17,6 +17,11 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.0.0 Beta 9" changeDate="Feb 9, 2015">
+        <changelogtext>[b]New![/b] Reminder navigation screen will be initialized to show the closest future reminder note</changelogtext>
+        <changelogtext>[u]Fix[/u] Some other bugs</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 8" changeDate="Feb 8, 2015">
         <changelogtext>[u]Fix[/u] Crashes introduced with the last version</changelogtext>
     </changelogversion>
