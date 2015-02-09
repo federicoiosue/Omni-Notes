@@ -119,9 +119,9 @@ public class UpgradeProcessor {
                                     break;
                             }
                             dbHelper.updateAttachment(attachment);
+                        } else {
+                            attachment.setMime_type(Constants.MIME_TYPE_FILES);
                         }
-                    } else {
-                        attachment.setMime_type(Constants.MIME_TYPE_FILES);
                     }
                 }
                 return null;
