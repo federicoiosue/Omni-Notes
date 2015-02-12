@@ -1,61 +1,33 @@
-language: java
+language: android
 
 branches:
   only:
     - develop
     - master
 
-jdk: oraclejdk7
+android:
+  components:
+    # Uncomment the lines below if you want to
+    # use the latest revision of Android SDK Tools
+    - platform-tools
+    - tools
 
-env:
-  global:
-    - ANDROID_SDK_VERSION="r24"
+    # The BuildTools version used by your project
+    - build-tools-21.1.2
 
-notifications:
-  email: false
+    # The SDK version used to compile your project
+    - android-21
 
+    # Additional components
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-19
 
-before_install:
-
-  # environment info
-  - gradle -v
-  - uname -a
-
-  # required libs for android build tools
-  # Update a system for ia32 libraries
-  - sudo apt-get update -qq
-  - if [ `uname -m` = x86_64 ]; then sudo apt-get update; fi
-  - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch; fi
-
-  # for gradle output style
-  - export TERM=dumb
-
-  # newer version of gradle
-  - wget http://services.gradle.org/distributions/gradle-1.12-bin.zip
-  - unzip -qq gradle-1.12-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-1.11
-  - export PATH=$GRADLE_HOME/bin:$PATH
-
-  # just to test gradle version, against our provided one
-  - ./gradlew -v
-
-  # newest android SDK
-  - wget http://dl.google.com/android/android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
-  - tar -zxf android-sdk_${ANDROID_SDK_VERSION}-linux.tgz
-  - export ANDROID_HOME=`pwd`/android-sdk-linux
-  - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
-
-  # manually set sdk.dir variable, according to local paths
-  - echo "sdk.dir=$ANDROID_HOME" > local.properties
-
-  # Install required components.
-  # For a full list, run `android list sdk -a --extended`
-  - echo yes | android update sdk --filter platform-tools --no-ui --force > /dev/null
-  - echo yes | android update sdk --all --filter build-tools-21.0.0 --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter android-21 --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter extra-android-support --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter extra-google-m2repository --no-ui --force > /dev/null
-  - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-armeabi-v7a-android-19
+    - sys-img-x86-android-17
 
 # Build
 script: ./gradlew clean build

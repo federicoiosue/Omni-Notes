@@ -32,9 +32,9 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFile getDefaultProguardFile('proguard-android.txt')
+            //proguardFile getDefaultProguardFile('proguard-android.txt')
 
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     output.outputFile = new File(
@@ -45,6 +45,7 @@ android {
         }
     }
     lintOptions {
+        abortOnError false
         disable 'MissingTranslation'
     }
     compileOptions {
@@ -74,7 +75,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.4.0'
     compile 'com.afollestad:material-dialogs:0.5.6'
     compile "com.google.android.gms:play-services-identity:${GPS_VERSION}"
-//    compile "com.google.android.gms:play-services-base:${GPS_VERSION}"
 
     compile 'it.feio.android:simplegallery:1.1.0'
     compile 'it.feio.android:springpadimporter:1.0.0'
