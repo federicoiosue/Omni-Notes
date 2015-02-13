@@ -56,14 +56,16 @@ android {
 final GPS_VERSION = '6.5.87'
 
 dependencies {
-    androidTestCompile 'junit:junit:4.+'
+    androidTestCompile 'junit:junit:4.12'
     compile fileTree(include: '*.jar', dir: 'libs')
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile 'com.larswerkman:HoloColorPicker:1.4'
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    compile 'ch.acra:acra:4.5.0'
+    compile ('ch.acra:acra:4.5.0') {
+        exclude group: 'org.json'
+    }
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.2'
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
