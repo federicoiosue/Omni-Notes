@@ -57,6 +57,7 @@ final GPS_VERSION = '6.5.87'
 
 dependencies {
     androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
     compile fileTree(include: '*.jar', dir: 'libs')
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile 'com.larswerkman:HoloColorPicker:1.4'
@@ -85,4 +86,7 @@ dependencies {
     //        exclude group: 'org.mockito'
     //        exclude group: 'org.robolectric'
     //    }
+}
+dependencies{
+    androidTestCompile fileTree(dir: 'libs', include: ['robotium-solo-5.2.2-SNAPSHOT.jar'])
 }

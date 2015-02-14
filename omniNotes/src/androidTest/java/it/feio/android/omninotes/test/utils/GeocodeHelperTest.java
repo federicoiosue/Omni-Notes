@@ -15,9 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.utils;
+package it.feio.android.omninotes.test.utils;
 
-import android.location.Location;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
