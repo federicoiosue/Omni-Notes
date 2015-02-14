@@ -108,6 +108,9 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
 
     private List<NavigationItem> buildMainMenu() {
+        if (!isAlive()) {
+            return new ArrayList<NavigationItem>();
+        }
         // Sets the adapter for the MAIN navigation list view
         mDrawerList = (NonScrollableListView) mFragmentWeakReference.get().getView()
                 .findViewById(R.id.drawer_nav_list);
