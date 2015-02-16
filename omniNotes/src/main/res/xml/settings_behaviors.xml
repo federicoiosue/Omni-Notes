@@ -65,5 +65,12 @@
         android:key="settings_checked_items_behavior"
         android:title="@string/settings_checked_items_behavior"
         android:dialogTitle="@string/settings_checked_items_behavior_summary" />
+    
+    <CheckBoxPreference
+        android:key="acra.enable"
+        android:title="@string/settings_error_reporting"
+        android:summaryOn="@string/settings_error_reporting_summary_on"
+        android:summaryOff="@string/settings_error_reporting_summary_off"
+        android:defaultValue="true" />
 
 </PreferenceScreen>

@@ -64,7 +64,7 @@ dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    compile ('ch.acra:acra:4.5.0') {
+    compile ('ch.acra:acra:4.6.1') {
         exclude group: 'org.json'
     }
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.2'

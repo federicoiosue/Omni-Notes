@@ -38,10 +38,12 @@ import org.acra.sender.HttpSender.Type;
 import java.util.Locale;
 
 
-@ReportsCrashes(formKey = "", httpMethod = Method.POST, reportType = Type.FORM,
-        formUri = "http://collector.tracepot.com/3f39b042",
-        mode = ReportingInteractionMode.DIALOG, resDialogCommentPrompt = R.string.crash_dialog_comment_prompt, 
-        resDialogText = R.string.crash_dialog_text)
+@ReportsCrashes(httpMethod = Method.PUT, reportType = Type.JSON,
+        formUri = "http://feio.cloudant.com/acra-omninotes/_design/acra-storage/_update/report",
+        formUriBasicAuthLogin = "thelescivessiandesedclik", formUriBasicAuthPassword = "uScXIHpchNKfuCdgbm3nHTjo",
+        mode = ReportingInteractionMode.TOAST,
+        forceCloseDialogAfterToast = false,
+        resToastText = R.string.crash_toast)
 public class OmniNotes extends Application {
 
     private static Context mContext;
@@ -93,10 +95,7 @@ public class OmniNotes extends Application {
 
         if (TextUtils.isEmpty(language) && lang == null) {
             cfg.locale = Locale.getDefault();
-
-            String tmp = "";
-            tmp = Locale.getDefault().toString().substring(0, 2);
-
+            String tmp = Locale.getDefault().toString().substring(0, 2);
             prefs.edit().putString(PREF_LANG, tmp).commit();
 
         } else if (lang != null) {
