@@ -473,11 +473,12 @@ public class DetailFragment extends Fragment implements
     private void initViews() {
 
         // Sets onTouchListener to the whole activity to swipe notes
+        if (getView() == null) return;
         root = (ViewGroup) getView().findViewById(R.id.detail_root);
         root.setOnTouchListener(this);
 
         // ScrollView container
-        scrollView = (ScrollView) getView().findViewById(R.id.content_wrapper);
+        scrollView = (ScrollView) root.findViewById(R.id.content_wrapper);
 
         // Title view card container
         titleCardView = root.findViewById(R.id.detail_tile_card);
@@ -509,8 +510,7 @@ public class DetailFragment extends Fragment implements
                 GeocodeHelper.getAddressFromCoordinates(getActivity(), noteTmp.getLatitude(), noteTmp.getLongitude(),
                         mFragment);
             }
-        } else {
-        }
+        } 
 
         locationTextView.setOnClickListener(new OnClickListener() {
             @Override

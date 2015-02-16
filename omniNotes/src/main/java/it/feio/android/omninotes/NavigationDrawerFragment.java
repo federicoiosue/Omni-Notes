@@ -17,7 +17,6 @@
 
 package it.feio.android.omninotes;
 
-import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,13 +28,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import it.feio.android.omninotes.async.CategoryMenuTask;
 import it.feio.android.omninotes.async.MainMenuTask;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
-import it.feio.android.omninotes.models.misc.DynamicNavigationLookupTable;
-import it.feio.android.omninotes.models.views.NonScrollableListView;
+import it.feio.android.omninotes.models.listeners.OnNavigationItemClickedListener;
 import it.feio.android.omninotes.utils.Display;
 import roboguice.util.Ln;
 
@@ -47,24 +44,12 @@ import roboguice.util.Ln;
  * > design guidelines</a> for a complete explanation of the behaviors
  * implemented here.
  */
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends Fragment implements OnNavigationItemClickedListener {
 
     ActionBarDrawerToggle mDrawerToggle;
     DrawerLayout mDrawerLayout;
-    String[] mNavigationArray;
-    TypedArray mNavigationIconsArray;
-    TypedArray mNavigationIconsSelectedArray;
-    private NonScrollableListView mDrawerList;
-    private NonScrollableListView mDrawerCategoriesList;
-    private View categoriesListHeader;
-    private View settingsView, settingsViewCat;
     private MainActivity mActivity;
     private CharSequence mTitle;
-
-    // Categories list scrolling
-    private int listViewPosition;
-    private int listViewPositionOffset;
-    private DynamicNavigationLookupTable dynamicNavigationLookupTable;
 
 
     @Override
@@ -76,12 +61,6 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey("listViewPosition")) {
-                listViewPosition = savedInstanceState.getInt("listViewPosition");
-                listViewPositionOffset = savedInstanceState.getInt("listViewPositionOffset");
-            }
-        }
         return inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
     }
 
@@ -94,30 +73,12 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        refreshListScrollPosition();
-        outState.putInt("listViewPosition", listViewPosition);
-        outState.putInt("listViewPositionOffset", listViewPositionOffset);
-    }
-
-
-    private void refreshListScrollPosition() {
-        if (mDrawerCategoriesList != null) {
-            listViewPosition = mDrawerCategoriesList.getFirstVisiblePosition();
-            View v = mDrawerCategoriesList.getChildAt(0);
-            listViewPositionOffset = (v == null) ? 0 : v.getTop();
-        }
-    }
-
-
     /**
      * Initialization of compatibility navigation drawer
      */
     public void init() {
         Ln.d("Started navigation drawer initialization");
-        
+
         mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
         mDrawerLayout.setFocusableInTouchMode(false);
 
@@ -143,8 +104,6 @@ public class NavigationDrawerFragment extends Fragment {
                 R.string.drawer_close
         ) {
             public void onDrawerClosed(View view) {
-                // Saves the scrolling of the categories list
-                refreshListScrollPosition();
                 // Restore title
                 mActivity.getSupportActionBar().setTitle(mTitle);
                 // Call to onPrepareOptionsMenu()
@@ -187,7 +146,7 @@ public class NavigationDrawerFragment extends Fragment {
             }
         };
 
-        // just styling option
+        // Styling options
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -198,27 +157,24 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     private void buildCategoriesMenu() {
-        CategoryMenuTask task = new CategoryMenuTask(this);
+        CategoryMenuTask task = new CategoryMenuTask(this, this);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
     private void buildMainMenu() {
-        MainMenuTask task = new MainMenuTask(this);
+        MainMenuTask task = new MainMenuTask(this, this);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-    
 
-    /**
-     * Swaps fragments in the main content view
-     */
-    private void selectNavigationItem(ListView list, int position) {
-        Object itemSelected = list.getItemAtPosition(position);
-        if (itemSelected.getClass().isAssignableFrom(NavigationItem.class)) {
-            mTitle = ((NavigationItem) itemSelected).getText();
+
+    @Override
+    public void onNavigationItemclicked(Object navigationItem) {
+        if (navigationItem.getClass().isAssignableFrom(NavigationItem.class)) {
+            mTitle = ((NavigationItem) navigationItem).getText();
             // Is a category
         } else {
-            mTitle = ((Category) itemSelected).getName();
+            mTitle = ((Category) navigationItem).getName();
         }
         // Navigation drawer is closed after a while to avoid lag
         new Handler().postDelayed(new Runnable() {

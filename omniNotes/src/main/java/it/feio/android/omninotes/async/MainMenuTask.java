@@ -22,17 +22,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
+import it.feio.android.omninotes.models.listeners.OnNavigationItemClickedListener;
 import it.feio.android.omninotes.models.misc.DynamicNavigationLookupTable;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
 import it.feio.android.omninotes.utils.Constants;
@@ -48,13 +45,15 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
     private final WeakReference<Fragment> mFragmentWeakReference;
     private final MainActivity mainActivity;
+    private final OnNavigationItemClickedListener onNavigationItemclicked;
     private NonScrollableListView mDrawerList;
     private NonScrollableListView mDrawerCategoriesList;
 
 
-    public MainMenuTask(Fragment mFragment) {
+    public MainMenuTask(Fragment mFragment, OnNavigationItemClickedListener onNavigationItemclicked) {
         mFragmentWeakReference = new WeakReference<>(mFragment);
         this.mainActivity = (MainActivity) mFragment.getActivity();
+        this.onNavigationItemclicked = onNavigationItemclicked;
     }
 
 
@@ -77,7 +76,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
                     String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
                             .navigation_list_codes)[items.get(position)
                             .getArrayIndex()];
-                    selectNavigationItem(mDrawerList, position);
+                    onNavigationItemclicked.onNavigationItemclicked(mDrawerList.getItemAtPosition(position));
                     mainActivity.updateNavigation(navigation);
                     mDrawerList.setItemChecked(position, true);
                     if (mDrawerCategoriesList != null)
@@ -164,29 +163,6 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
                 break;
         }
         return skippable;
-    }
-
-
-    /**
-     * Swaps fragments in the main content view
-     */
-    private void selectNavigationItem(ListView list, int position) {
-        Object itemSelected = list.getItemAtPosition(position);
-        final String mTitle;
-        if (itemSelected.getClass().isAssignableFrom(NavigationItem.class)) {
-            mTitle = ((NavigationItem) itemSelected).getText();
-            // Is a category
-        } else {
-            mTitle = ((Category) itemSelected).getName();
-        }
-        // Navigation drawer is closed after a while to avoid lag
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mainActivity.getSupportActionBar().setTitle(mTitle);
-                mainActivity.getDrawerLayout().closeDrawer(GravityCompat.START);
-            }
-        }, 500);
     }
 
 }

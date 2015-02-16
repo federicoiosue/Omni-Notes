@@ -49,3 +49,7 @@
 
 # Keep all the ACRA classes
 -keep class org.acra.** { *; }
+
+# Fix reflection obfuscation
+-keep class it.feio.android.omninotes.db.DbHelper { *; }
+-keep class it.feio.android.omninotes.async.upgrade.UpgradeProcessor { *; }
