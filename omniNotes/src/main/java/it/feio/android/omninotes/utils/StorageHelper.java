@@ -118,7 +118,6 @@ public class StorageHelper {
             copyFile(is, os);
         } catch (IOException e) {
             try {
-//				InputStream is = new FileInputStream(uri.getPath());
                 is = new FileInputStream(FileHelper.getPath(mContext, uri));
                 os = new FileOutputStream(file);
                 copyFile(is, os);
@@ -261,7 +260,7 @@ public class StorageHelper {
     }
 
 
-    public static String createNewAttachmentName(String extension) {
+    public static synchronized String createNewAttachmentName(String extension) {
         Calendar now = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
         String name = sdf.format(now.getTime());
@@ -506,15 +505,13 @@ public class StorageHelper {
 
 
     /**
-     * @param mContext
-     * @param uri
-     * @return
+     * Creates a fiile to be used as attachment.
      */
     public static Attachment createAttachmentFromUri(Context mContext, Uri uri, boolean moveSource) {
         String name = FileHelper.getNameFromUri(mContext, uri);
         String extension = FileHelper.getFileExtension(FileHelper.getNameFromUri(mContext, uri)).toLowerCase(
                 Locale.getDefault());
-        File f = null;
+        File f;
         if (moveSource) {
             f = createNewAttachmentFile(mContext, extension);
             try {
