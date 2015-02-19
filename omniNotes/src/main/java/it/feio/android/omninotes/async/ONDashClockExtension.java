@@ -73,17 +73,15 @@ public class ONDashClockExtension extends DashClockExtension {
         StringBuilder expandedTitle = new StringBuilder();
         expandedTitle.append(notes).append(" ").append(getString(R.string.notes).toLowerCase());
         if (reminders > 0) {
-            expandedTitle.append(" ").append(reminders).append(" ").append(getString(R.string.reminders));
+            expandedTitle.append(", ").append(reminders).append(" ").append(getString(R.string.reminders));
         }
 
         StringBuilder expandedBody = new StringBuilder();
-        if (reminders > 0) {
+        if (todayReminders.size() > 0) {
             expandedBody.append(todayReminders.size()).append(" ").append(getString(R.string.today)).append(":");
             for (Note todayReminder : todayReminders) {
                 expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(TextHelper
-                        .parseTitleAndContent
-                                (this,
-                                        todayReminder)[0]);
+                        .parseTitleAndContent(this, todayReminder)[0]);
             }
         }
 
