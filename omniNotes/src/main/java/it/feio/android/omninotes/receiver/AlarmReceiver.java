@@ -22,12 +22,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Spanned;
 import android.widget.Toast;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.NotificationsHelper;
+import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.omninotes.utils.date.DateHelper;
 
 
@@ -50,13 +52,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
 
         // Prepare text contents
-        String title = note.getTitle().length() > 0 ? note.getTitle() : note
-                .getContent();
-        String alarmText = DateHelper.getString(
-                Long.parseLong(note.getAlarm()),
-                Constants.DATE_FORMAT_SHORT_DATE) + ", "
-                + DateHelper.getDateTimeShort(mContext, Long.parseLong(note.getAlarm()));
-        String text = note.getTitle().length() > 0 && note.getContent().length() > 0 ? note.getContent() : alarmText;
+        Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mContext, note);
+        String title = titleAndContent[0].toString();
+        String text = titleAndContent[1].toString();
 
         Intent snoozeIntent = new Intent(mContext, SnoozeActivity.class);
         snoozeIntent.setAction(Constants.ACTION_SNOOZE);
