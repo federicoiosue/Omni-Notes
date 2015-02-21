@@ -123,6 +123,7 @@
   <string name="sketch">كروكى</string>
   <string name="crash_dialog_text">حدث خطأ في أومني نوت /n هل تريد إرسال تقرير إلى المطور؟</string>
   <string name="crash_dialog_comment_prompt">إدراج تعليق اختياري هنا:</string>
+  <string name="crash_toast">Something went wrong in Omni Notes\nA report has been sent report to the developer!</string>
   <string name="new_update_available">تم طرح نسخة جديدة من أومني نوت، هل تريد التحديث؟</string>
   <string name="update">التحديث و التعديل!</string>
   <string name="not_now">ليس الآن</string>
@@ -163,6 +164,7 @@
   <string name="archived">تم الحفظ في الارشيف</string>
   <string name="files">ملفات</string>
   <string name="merge">دمج</string>
+  <string name="delete_merged">Delete original notes after merging?</string>
   <string name="not_set">لم يتم التعيين</string>
   <string name="empty_trash">Empty trash</string>
   <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
   <string name="settings_dynamic_menu">Dynamic menu</string>
   <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
+  <string name="settings_error_reporting">Error reporting</string>
+  <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
+  <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
   <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>
   <string name="tour_listactivity_intro_title">Welcome to Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">press \"Proceed\" to continue the tour</string>

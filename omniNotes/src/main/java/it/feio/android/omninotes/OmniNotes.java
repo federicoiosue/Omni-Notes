@@ -168,6 +168,7 @@ public class OmniNotes extends Application {
                     PendingIntent.FLAG_CANCEL_CURRENT);
             AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
             mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+            System.exit(0);
         }
     }
 

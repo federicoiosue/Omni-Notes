@@ -123,6 +123,7 @@
   <string name="sketch">Dessin</string>
   <string name="crash_dialog_text">Un problème est survenu dans Omni Notes\nEnvoyer un rapport automatique au développeur ?</string>
   <string name="crash_dialog_comment_prompt">Ajouter un commentaire ici (facultatif) :</string>
+  <string name="crash_toast">Un problème est survenu dans Omni Notes\nUn rapport a été envoyé au développeur !</string>
   <string name="new_update_available">Une nouvelle version d\'Omni Notes est disponible, souhaitez-vous mettre à jour ?</string>
   <string name="update">Mettre à jour et évaluer !</string>
   <string name="not_now">Pas maintenant</string>
@@ -163,6 +164,7 @@
   <string name="archived">archivé</string>
   <string name="files">Fichiers</string>
   <string name="merge">Fusionner</string>
+  <string name="delete_merged">Supprimer les notes d\'origine après la fusion ?</string>
   <string name="not_set">non défini</string>
   <string name="empty_trash">Vider la corbeille</string>
   <string name="empty_trash_confirmation">Confirmer la suppression de toutes les notes de la corbeille ?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Ajouter automatiquement une localisation aux nouvelles notes</string>
   <string name="settings_dynamic_menu">Menu dynamique</string>
   <string name="settings_dynamic_menu_summary">Les éléments inutilisés du menu sont automatiquement masqués</string>
+  <string name="settings_error_reporting">Rapport de bug</string>
+  <string name="settings_error_reporting_summary_on">Quand l\'application plante le développeur sera informé pour vous aider</string>
+  <string name="settings_error_reporting_summary_off">Aucun rapport de bug ne sera envoyé. Ne vous plaignez pas si un problème survient !</string>
   <string name="tour_request_start">Vous avez lancé Omni Note pour la première fois, souhaitez-vous faire le tour de l\'application ?</string>
   <string name="tour_listactivity_intro_title">Bienvenue sur Omni Notes !</string>
   <string name="tour_listactivity_intro_detail">Appuyez sur \"Continuer\" pour continuer la présentation</string>

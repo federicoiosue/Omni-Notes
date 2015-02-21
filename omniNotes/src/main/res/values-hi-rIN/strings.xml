@@ -123,6 +123,7 @@
   <string name="sketch">चित्र</string>
   <string name="crash_dialog_text">ओमनी नोट्स में कुछ गलत हुआ हे\n क्या आप डेवलपर को रिपोर्ट भेजना चाहते हे ?</string>
   <string name="crash_dialog_comment_prompt">एक वैकल्पिक टिप्पणी यहाँ डाले:</string>
+  <string name="crash_toast">Something went wrong in Omni Notes\nA report has been sent report to the developer!</string>
   <string name="new_update_available">ओमनी नोट्स का नया वर्शन मिल रहा हे, क्या आप अपडेट करना चाहेगे?</string>
   <string name="update">अपडेट करे और मूल्यांकन करे </string>
   <string name="not_now">अभी नहीं</string>
@@ -163,6 +164,7 @@
   <string name="archived">संग्रहीत</string>
   <string name="files">फ़ाइलें</string>
   <string name="merge">विलय</string>
+  <string name="delete_merged">Delete original notes after merging?</string>
   <string name="not_set">सेट नहीं</string>
   <string name="empty_trash">Empty Trash</string>
   <string name="empty_trash_confirmation">सभी ट्रैश किए गए नोट को हटाने की पुष्टि करें?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
   <string name="settings_dynamic_menu">Dynamic menu</string>
   <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
+  <string name="settings_error_reporting">Error reporting</string>
+  <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
+  <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
   <string name="tour_request_start">आपने ओमनी नोट पहला बार खोला हे, क्या आप एप्लीकेशन का टूर लेना चाहते हे ?</string>
   <string name="tour_listactivity_intro_title">ओमनी नोट्स में आपका स्वागत है!</string>
   <string name="tour_listactivity_intro_detail">टूर जारी रखने के लिए \"आगे बढ़ें\" दबाएँ</string>

@@ -123,6 +123,7 @@
   <string name="sketch">Очерк</string>
   <string name="crash_dialog_text">В Omni Notes что-то пошло не так!\n\nНе против ли Вы отправить отчет разработчику?</string>
   <string name="crash_dialog_comment_prompt">Дополните Ваш отчёт комментарием здесь:</string>
+  <string name="crash_toast">В Omni Notes что-то пошло не так\nОтчет уже отправлен разработчику!</string>
   <string name="new_update_available">Доступна новая версия Omni Notes, хотите провести обновление?</string>
   <string name="update">Обновить и оценить!</string>
   <string name="not_now">Не сейчас</string>
@@ -163,6 +164,7 @@
   <string name="archived">заархивировано</string>
   <string name="files">Файлы</string>
   <string name="merge">Объединить</string>
+  <string name="delete_merged">Удалить исходные заметки после слияния?</string>
   <string name="not_set">не задан</string>
   <string name="empty_trash">Очистить корзину</string>
   <string name="empty_trash_confirmation">Вы согласны удалить все заметки из корзины?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Автоматически добавлять Ваше местонахождение к новым заметкам</string>
   <string name="settings_dynamic_menu">Динамическое меню</string>
   <string name="settings_dynamic_menu_summary">Скрывать бесполезные элементы меню</string>
+  <string name="settings_error_reporting">Отчеты об ошибках</string>
+  <string name="settings_error_reporting_summary_on">Разработчик будет осведомлен и поможет вам, если в приложении произойдёт сбой</string>
+  <string name="settings_error_reporting_summary_off">Отчёты не отправляются. Если что-то пойдет не так - не жалуйтесь!</string>
   <string name="tour_request_start">Вы запустили Omni Notes впервые, желаете пройти обучение?</string>
   <string name="tour_listactivity_intro_title">Omni Notes приветствует Вас!</string>
   <string name="tour_listactivity_intro_detail">Нажмите «Продолжить» для начала обучения</string>

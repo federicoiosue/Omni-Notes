@@ -123,6 +123,7 @@
   <string name="sketch">ຂຽນດ້ວຍລາຍມື</string>
   <string name="crash_dialog_text">ມີຂໍ້ຜິດພາດເກີດຂຶ້ນກັບ Omni Notes\n ທ່ານຕ້ອງການສົ່ງການລາຍງານໄປຫາຜູ່ພັດທະນາບໍ່?</string>
   <string name="crash_dialog_comment_prompt">ພິມຄວາມເຫັນຂອງທ່ານໃສ່ບ່ອນນີ້:</string>
+  <string name="crash_toast">Something went wrong in Omni Notes\nA report has been sent report to the developer!</string>
   <string name="new_update_available">ມີ Omni Notes ເວີຊັນໃໝ່, ທ່ານຕ້ອງການອັບເດດບໍ່?</string>
   <string name="update">ອັບເດດ ແລະ ໃຫ້ຄະແນນ!</string>
   <string name="not_now">ບໍ່ແມ່ນຕອນນີ້</string>
@@ -163,6 +164,7 @@
   <string name="archived">archived</string>
   <string name="files">Files</string>
   <string name="merge">Merge</string>
+  <string name="delete_merged">Delete original notes after merging?</string>
   <string name="not_set">not set</string>
   <string name="empty_trash">Empty trash</string>
   <string name="empty_trash_confirmation">Confirm deleting all trashed notes?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
   <string name="settings_dynamic_menu">Dynamic menu</string>
   <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
+  <string name="settings_error_reporting">Error reporting</string>
+  <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
+  <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
   <string name="tour_request_start">ທ່ານເປີດໃຊ້ງານ Omni Notes ເປັນຄັ້ງທຳອິດ, ທ່ານຕ້ອງການເບິ່ງການແນະນຳແອັບພຼິເຄຊັນບໍ່?</string>
   <string name="tour_listactivity_intro_title">ຍິນດີຕ້ອນຮັບສູ່ Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">ກົດ \"ດຳເນີນການ\" ເພື່ອເບິ່ງການແນະນຳແອັບຯ</string>

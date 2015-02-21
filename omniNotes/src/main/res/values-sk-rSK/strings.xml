@@ -123,6 +123,7 @@
   <string name="sketch">Kresba</string>
   <string name="crash_dialog_text">Niečo sa pokazilo v Omni Notes\nChcete odoslať hlásenie vývojárovi?</string>
   <string name="crash_dialog_comment_prompt">Sem vložte nepovinný komentár:</string>
+  <string name="crash_toast">Vyskytol sa problém v Omni Notes\nHlásenie o páde bolo odoslané vývojárovi!</string>
   <string name="new_update_available">Nová verzia Omni Notes je k dispozícii, aktualizovať?</string>
   <string name="update">Aktualizovať a ohodnotiť</string>
   <string name="not_now">Nie teraz</string>
@@ -163,6 +164,7 @@
   <string name="archived">archivované</string>
   <string name="files">Súbory</string>
   <string name="merge">Spojiť</string>
+  <string name="delete_merged">Vymazať pôvodné poznámky po zlúčení?</string>
   <string name="not_set">nenastavená</string>
   <string name="empty_trash">Vyprázdniť kôš</string>
   <string name="empty_trash_confirmation">Potvrdzujete vymazanie všetkých zahodených poznámok v koši?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Automaticky pridať polohu do nových poznámok</string>
   <string name="settings_dynamic_menu">Dynamická ponuka</string>
   <string name="settings_dynamic_menu_summary">Automaticky skryť nepoužívané položky v ponuke</string>
+  <string name="settings_error_reporting">Hlásenie chýb</string>
+  <string name="settings_error_reporting_summary_on">Po páde aplikácie informovať vývojára o chybe, aby vám mohol pomôcť</string>
+  <string name="settings_error_reporting_summary_off">Neposielať žiadne hlásenia o pádoch. Nesťažujte sa, ak sa niečo pokazí!</string>
   <string name="tour_request_start">Spustili ste Omni Notes po prvý krát. Chcete si prezieť prehliadku aplikácie?</string>
   <string name="tour_listactivity_intro_title">Vitajte v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Stlačte \"Pokračovať\" pre pokračovanie v prehliadke</string>

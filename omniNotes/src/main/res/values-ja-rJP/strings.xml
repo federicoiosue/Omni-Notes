@@ -123,6 +123,7 @@
   <string name="sketch">スケッチ</string>
   <string name="crash_dialog_text">Omni Notes に何か問題があります\n開発者へ自動的にレポートを送信しますか?</string>
   <string name="crash_dialog_comment_prompt">ここにコメントを入力してください (オプション):</string>
+  <string name="crash_toast">Omni Notes に何か問題があります\n開発者にレポートを送信しました!</string>
   <string name="new_update_available">新しいバージョンの Omni Notes が利用可能です。更新しますか?</string>
   <string name="update">更新して評価する!</string>
   <string name="not_now">今はしない</string>
@@ -163,6 +164,7 @@
   <string name="archived">アーカイブ</string>
   <string name="files">ファイル</string>
   <string name="merge">結合</string>
+  <string name="delete_merged">結合した後に、元のノートを削除しますか?</string>
   <string name="not_set">未設定</string>
   <string name="empty_trash">ごみ箱を空にする</string>
   <string name="empty_trash_confirmation">ごみ箱のノートをすべて削除してもよろしいですか?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">自動的に、新しいノートに場所を追加します</string>
   <string name="settings_dynamic_menu">動的メニュー</string>
   <string name="settings_dynamic_menu_summary">未使用のメニュー項目を自動的に非表示にします</string>
+  <string name="settings_error_reporting">エラー報告</string>
+  <string name="settings_error_reporting_summary_on">アプリがクラッシュした時に、あなたの役に立つように開発者に通知されます</string>
+  <string name="settings_error_reporting_summary_off">クラッシュ レポートは送信されません。何か問題があっても文句を言わないでくださいね!</string>
   <string name="tour_request_start">Omni Notes をはじめて起動しました。アプリケーション ツアーを表示しますか?</string>
   <string name="tour_listactivity_intro_title">Omni Notes へようこそ!</string>
   <string name="tour_listactivity_intro_detail">\"続行\" を押すと、ツアーを続行します</string>

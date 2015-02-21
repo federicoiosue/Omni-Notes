@@ -123,6 +123,7 @@
   <string name="sketch">手绘</string>
   <string name="crash_dialog_text">Omni Notes\n 出错。是否向开发者发送报告?</string>
   <string name="crash_dialog_comment_prompt">在此插入可选注释</string>
+  <string name="crash_toast">Something went wrong in Omni Notes\nA report has been sent report to the developer!</string>
   <string name="new_update_available">检测到新版本 Omni Notes，是否更新?</string>
   <string name="update">更新并评分！</string>
   <string name="not_now">稍后</string>
@@ -163,6 +164,7 @@
   <string name="archived">已归档</string>
   <string name="files">文件</string>
   <string name="merge">合并</string>
+  <string name="delete_merged">Delete original notes after merging?</string>
   <string name="not_set">未设置</string>
   <string name="empty_trash">清空回收站</string>
   <string name="empty_trash_confirmation">确认删除回收站中所有记事？</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">自动将位置信息添加至新记事</string>
   <string name="settings_dynamic_menu">Dynamic menu</string>
   <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
+  <string name="settings_error_reporting">Error reporting</string>
+  <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
+  <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
   <string name="tour_request_start">这是您第一次使用Omni Note，您是否希望观看用户引导？</string>
   <string name="tour_listactivity_intro_title">欢迎使用 Omni Notes ！</string>
   <string name="tour_listactivity_intro_detail">点击\"继续\"观看引导</string>

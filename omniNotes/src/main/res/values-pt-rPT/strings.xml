@@ -123,6 +123,7 @@
   <string name="sketch">Desenho</string>
   <string name="crash_dialog_text">Algo de errado aconteceu no Omni Notes\n Gostaria de enviar um relatório para o programador?</string>
   <string name="crash_dialog_comment_prompt">Insira um comentário opcional aqui:</string>
+  <string name="crash_toast">Algo correu mal no Omni Notes\nUm relatório foi enviado para o programador!</string>
   <string name="new_update_available">Uma nova versão do Omni Notes está disponível, deseja actualizar?</string>
   <string name="update">Actualize e classifique!</string>
   <string name="not_now">Agora não</string>
@@ -163,6 +164,7 @@
   <string name="archived">arquivadas</string>
   <string name="files">Ficheiros</string>
   <string name="merge">Unir</string>
+  <string name="delete_merged">Eliminar notas originais ao juntar?</string>
   <string name="not_set">não definido</string>
   <string name="empty_trash">Esvaziar lixo</string>
   <string name="empty_trash_confirmation">Confirma a eliminação de todas as notas no lixo?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Adiciona automaticamente a localização para novas notas</string>
   <string name="settings_dynamic_menu">Menu dinâmico</string>
   <string name="settings_dynamic_menu_summary">Itens do menu não utilizados são escondidos automaticamente</string>
+  <string name="settings_error_reporting">Comunicação de erros</string>
+  <string name="settings_error_reporting_summary_on">Quando a aplicação bloquear o programador vai ser informado para que possa investigar o problema</string>
+  <string name="settings_error_reporting_summary_off">Não serão enviados relatórios de erro. Depois não se queixe quando algo correr mal!</string>
   <string name="tour_request_start">Abriu o Omni Notes pela primeira vez, deseja ver uma apresentação da aplicação?</string>
   <string name="tour_listactivity_intro_title">Bem-vindo ao Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">pressione \"Continuar\" para retomar a apresentação</string>

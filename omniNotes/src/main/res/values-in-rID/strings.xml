@@ -123,6 +123,7 @@
   <string name="sketch">Sketsa</string>
   <string name="crash_dialog_text">Terjadi sesuatu yang salah di Omni Notes\nKirim laporan otomatis ke pengembang?</string>
   <string name="crash_dialog_comment_prompt">Masukkan komentar disini (opsional):</string>
+  <string name="crash_toast">Telah terjadi kesalahan pada Omni Notes\nLaporan telah dikirim ke pengembang!</string>
   <string name="new_update_available">Versi Omni Notes yang baru telah tersedia, apakah kamu ingin memperbaharuinya?</string>
   <string name="update">Perbaharui dan beri rating!</string>
   <string name="not_now">Tidak sekarang</string>
@@ -163,6 +164,7 @@
   <string name="archived">terarsip</string>
   <string name="files">Berkas</string>
   <string name="merge">Gabungkan</string>
+  <string name="delete_merged">Hapus catatan asli setelah penggabungan?</string>
   <string name="not_set">tidak diatur</string>
   <string name="empty_trash">Kosongkan tempat sampah</string>
   <string name="empty_trash_confirmation">Konfirmasi penghapusan semua catatan yang ada ditempat sampah?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Otomatis menambahkan lokasi pada catatan baru</string>
   <string name="settings_dynamic_menu">Menu dinamis</string>
   <string name="settings_dynamic_menu_summary">Menu tak terpakai otomatis tersembunyi</string>
+  <string name="settings_error_reporting">Pelaporan kesalahan</string>
+  <string name="settings_error_reporting_summary_on">Ketika apl berhenti dg tidak wajar pengembang akan memberi informasi untuk membantu Anda</string>
+  <string name="settings_error_reporting_summary_off">Tidak ada laporan kerusakan akan dikirim. Jangan mengeluh jika terjadi sesuatu kesalahan!</string>
   <string name="tour_request_start">Anda meluncurkan Omni Note untuk pertama kali, Anda ingin mengambil tur dalam aplikasi?</string>
   <string name="tour_listactivity_intro_title">Selamat datang di Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Tekan \"Lanjut\" untuk melanjutkan tur</string>
@@ -308,7 +313,7 @@
   <string name="drawer_open">drawer terbuka</string>
   <string name="drawer_close">drawer tertutup</string>
   <string name="reminder">pengingat</string>
-  <string name="stroke_size">stroke size</string>
+  <string name="stroke_size">Ukuran stroke</string>
   <string name="note_thumbnail">thumbnail catatan</string>
   <string name="note_reminder_symbol">simbol pengingat catatan</string>
   <string name="navigation_drawer_open">Buka drawer navigasi</string>

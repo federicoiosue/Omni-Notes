@@ -123,6 +123,7 @@
   <string name="sketch">Skizze</string>
   <string name="crash_dialog_text">Es ist ein Fehler aufgetreten.\nMöchten Sie einen Bericht an den Entwickler schicken?</string>
   <string name="crash_dialog_comment_prompt">Beschreibung (optional):</string>
+  <string name="crash_toast">In Omni Notes ist etwas schief gelaufen\nEin Bericht wurde an den Entwickler gesendet!</string>
   <string name="new_update_available">Eine neue Version von Omni Notes ist verfügbar. Möchten Sie das Programm aktualisieren?</string>
   <string name="update">Aktualisieren und bewerten!</string>
   <string name="not_now">Nicht jetzt</string>
@@ -163,6 +164,7 @@
   <string name="archived">archivierte</string>
   <string name="files">Dateien</string>
   <string name="merge">Zusammenführen</string>
+  <string name="delete_merged">Originalnotizen löschen nach dem Zusammenführen?</string>
   <string name="not_set">nicht festgelegt</string>
   <string name="empty_trash">Papierkorb leeren</string>
   <string name="empty_trash_confirmation">Alle Notizen im Papierkorb löschen?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Fügt einer neuen Notiz den aktuellen Standort hinzu</string>
   <string name="settings_dynamic_menu">Dynamisches Menü</string>
   <string name="settings_dynamic_menu_summary">Unbenutzte Menüpunkte werden automatisch ausgeblendet</string>
+  <string name="settings_error_reporting">Fehlerberichte</string>
+  <string name="settings_error_reporting_summary_on">Sollte die App abstürzen, wird der Entwickler informiert um Ihnen zu helfen</string>
+  <string name="settings_error_reporting_summary_off">Absturzberichte werden nicht gesendet.</string>
   <string name="tour_request_start">Sie haben Omni Notes das erste Mal gestartet. Möchten Sie eine Anwendungstour machen?</string>
   <string name="tour_listactivity_intro_title">Willkommen bei Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Drücken Sie \"Weiter\",\num die Tour fortzusetzen.</string>

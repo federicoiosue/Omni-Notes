@@ -123,6 +123,7 @@
   <string name="sketch">Schets</string>
   <string name="crash_dialog_text">Er is iets misgegaan in Omni Notes\n Wilt u dit melden aan de ontwikkelaar?</string>
   <string name="crash_dialog_comment_prompt">Een optionele opmerking hier invoegen:</string>
+  <string name="crash_toast">Something went wrong in Omni Notes\nA report has been sent report to the developer!</string>
   <string name="new_update_available">Een nieuwe Omni Notes versie is beschikbaar, wil je bijwerken?</string>
   <string name="update">Update en beoordeel!</string>
   <string name="not_now">Niet nu</string>
@@ -163,6 +164,7 @@
   <string name="archived">gearchiveerd</string>
   <string name="files">Bestanden</string>
   <string name="merge">Samenvoegen</string>
+  <string name="delete_merged">Delete original notes after merging?</string>
   <string name="not_set">niet ingesteld</string>
   <string name="empty_trash">Prullenbak legen</string>
   <string name="empty_trash_confirmation">Bevestig alle weggegooide notities verwijderen?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Automatisch locatie toevoegen aan nieuwe notities</string>
   <string name="settings_dynamic_menu">Dynamisch menu</string>
   <string name="settings_dynamic_menu_summary">Ongebruikte menu-items worden automatisch verborgen</string>
+  <string name="settings_error_reporting">Error reporting</string>
+  <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
+  <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
   <string name="tour_request_start">U startte Omni Notes voor de eerste keer, zou u een rondleiding willen van de toepassing?</string>
   <string name="tour_listactivity_intro_title">Welkom bij Omni notities!</string>
   <string name="tour_listactivity_intro_detail">Druk op \"Verdergaan\" om door te gaan met de tour</string>

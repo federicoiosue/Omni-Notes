@@ -124,6 +124,7 @@
   <string name="crash_dialog_text">Qualcosa è andato storto in Omni Notes\n
 Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="crash_dialog_comment_prompt">Inserisci qui un commento opzionale:</string>
+  <string name="crash_toast">Qualcosa è andato storto con Omni Notes\nUn report è stato inviato allo sviluppatore!</string>
   <string name="new_update_available">Una nuova versione Omni Notes è disponibile, vuoi aggiornare?</string>
   <string name="update">Aggiorna e vota!</string>
   <string name="not_now">Non ora</string>
@@ -164,6 +165,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="archived">archiviate</string>
   <string name="files">File</string>
   <string name="merge">Unisci</string>
+  <string name="delete_merged">Cancellare le note originali dopo averle unite?</string>
   <string name="not_set">non impostato</string>
   <string name="empty_trash">Svuota il cestino</string>
   <string name="empty_trash_confirmation">Confermi la cancellazione di tutte le note nel cestino?</string>
@@ -283,6 +285,9 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_auto_location_summary">Aggiunge automaticamente la posizione attuale alle nuove note</string>
   <string name="settings_dynamic_menu">Menu dinamico</string>
   <string name="settings_dynamic_menu_summary">Le voci non usate del menu vengono automaticamente nascoste</string>
+  <string name="settings_error_reporting">Segnalazione errori</string>
+  <string name="settings_error_reporting_summary_on">Quando l\'applicazione ha un problema verrà inviata una segnalazione allo sviluppatore</string>
+  <string name="settings_error_reporting_summary_off">Non verranno inviate segnalazioni per i problemi dell\'applicazione. Non lamentarti poi se qualcosa va storto!</string>
   <string name="tour_request_start">E\' la prima volta che esegui Omni Notes, vuoi effettuare un tour dell\'applicazione?</string>
   <string name="tour_listactivity_intro_title">Benvenuti in Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Premere \"Prosegui\" per continuare il tour</string>

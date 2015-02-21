@@ -123,6 +123,7 @@
   <string name="sketch">Esbozo a lapis</string>
   <string name="crash_dialog_text">Produciuse un erro en Omni Notes\n Queres enviar un informe do erro ao desenvolvedor?</string>
   <string name="crash_dialog_comment_prompt">Inserir un comentario opcional aquí:</string>
+  <string name="crash_toast">Algo foi mal en Omni Notes\nEnvióuselle un informe ao desenvolvedor!</string>
   <string name="new_update_available">Hai dispoñible unha nova versión de Omni Notes, gustaríache actualizar agora?</string>
   <string name="update">Actualizar e valorar!</string>
   <string name="not_now">Agora non</string>
@@ -163,6 +164,7 @@
   <string name="archived">arquivadas</string>
   <string name="files">Ficheiros</string>
   <string name="merge">Fusionar</string>
+  <string name="delete_merged">Eliminar as notas orixinais logo da fusión?</string>
   <string name="not_set">sen definir</string>
   <string name="empty_trash">Baleirar a papeleira</string>
   <string name="empty_trash_confirmation">Realmente queres eliminar todas as notas desbotadas?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Engadir automaticamente a localización ás novas notas</string>
   <string name="settings_dynamic_menu">Menú dinámico</string>
   <string name="settings_dynamic_menu_summary">Os elementos do menú que non se usan agóchanse automaticamente</string>
+  <string name="settings_error_reporting">Erro ao enviar o informe</string>
+  <string name="settings_error_reporting_summary_on">Cando o aplicativo se bloquee, o desenvolvedor será informado para poder axudarche</string>
+  <string name="settings_error_reporting_summary_off">Non se enviarán informes de erros. Non te queixes se algo falla!</string>
   <string name="tour_request_start">Iniciaches Omni Notes por vez primeira, gustaríache dar unha volta polo aplicativo a modo de titorial?</string>
   <string name="tour_listactivity_intro_title">Benvido/a a Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">toca \"Continuar\" para seguir vendo a introdución</string>

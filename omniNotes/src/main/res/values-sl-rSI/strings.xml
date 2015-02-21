@@ -123,6 +123,7 @@
   <string name="sketch">Skica</string>
   <string name="crash_dialog_text">Napaka v OmniNotes\n Želite poslati poročilo razvijalcu?</string>
   <string name="crash_dialog_comment_prompt">Tu lahko dodate komentar:</string>
+  <string name="crash_toast">Nekaj je šlo narobe v Omni Notes\n poročilo je bilo poslano poročilo razvijalec!</string>
   <string name="new_update_available">Na voljo je nova različica Omni Notes. Želite posodobitev?</string>
   <string name="update">Posodobi in oceni!</string>
   <string name="not_now">Ne zdaj</string>
@@ -163,6 +164,7 @@
   <string name="archived">arhiviran</string>
   <string name="files">Datoteke</string>
   <string name="merge">Spajanje</string>
+  <string name="delete_merged">Izbrišite izvirno ugotavlja po združitvi?</string>
   <string name="not_set">ni nastavljena</string>
   <string name="empty_trash">Izprazni smeti</string>
   <string name="empty_trash_confirmation">Potrdite brisanje vseh smetnjaku ugotavlja?</string>
@@ -282,6 +284,9 @@
   <string name="settings_auto_location_summary">Samodejno doda mesto za nove opombe</string>
   <string name="settings_dynamic_menu">Dinamično meni</string>
   <string name="settings_dynamic_menu_summary">Neuporabljene meni elementi samodejno skriti</string>
+  <string name="settings_error_reporting">Poročanje o napakah</string>
+  <string name="settings_error_reporting_summary_on">Čas uporaba tresk razvijalec boste obveščeni, da vam pomaga</string>
+  <string name="settings_error_reporting_summary_off">Poročila ne tresk hoteti obstati odposlati. Se ne pritožujejo, če gre kaj narobe!</string>
   <string name="tour_request_start">Si želite ob prvem zagonu ogledati krajšo predstavitev aplikacije?</string>
   <string name="tour_listactivity_intro_title">Dobrodošli v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">klikni \'Nadaljuj\' za nadaljevanje predstavitve</string>
