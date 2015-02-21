@@ -23,14 +23,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Spanned;
-import android.widget.Toast;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.NotificationsHelper;
 import it.feio.android.omninotes.utils.TextHelper;
-import it.feio.android.omninotes.utils.date.DateHelper;
+import roboguice.util.Ln;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -41,7 +40,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             Note note = intent.getExtras().getParcelable(Constants.INTENT_NOTE);
             createNotification(mContext, note);
         } catch (Exception e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+            Ln.e("Error on receiving reminder", e);
         }
     }
 
@@ -107,8 +106,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         // Vibration options
         long[] pattern = {500, 500};
-        if (prefs.getBoolean("settings_notification_vibration", true))
+        if (prefs.getBoolean("settings_notification_vibration", true)) {
             notificationsHelper.setVibration(pattern);
+        }
 
         notificationsHelper.show(note.get_id());
     }

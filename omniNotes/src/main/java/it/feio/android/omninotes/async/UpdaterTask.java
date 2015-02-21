@@ -60,7 +60,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 
     public UpdaterTask(Activity mActivity) {
-        this.mActivityReference = new WeakReference<Activity>(mActivity);
+        this.mActivityReference = new WeakReference<>(mActivity);
         this.mActivity = mActivity;
     }
 
@@ -197,10 +197,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
      * @return True or false
      */
     private boolean isAlive(WeakReference<Activity> weakActivityReference) {
-        if (weakActivityReference.get() == null || weakActivityReference.get().isFinishing()) {
-            return false;
-        }
-        return true;
+        return !(weakActivityReference.get() == null || weakActivityReference.get().isFinishing());
     }
 
 
@@ -289,7 +286,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
      * @return
      */
     private boolean isGooglePlayAvailable() {
-        boolean googlePlayStoreInstalled = true;
+        boolean googlePlayStoreInstalled;
         int val = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
         googlePlayStoreInstalled = val == ConnectionResult.SUCCESS;
         return googlePlayStoreInstalled;

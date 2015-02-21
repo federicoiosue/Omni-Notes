@@ -41,7 +41,7 @@ public class TimePickerFragment extends DialogFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = (Activity) activity;
+        mActivity = activity;
         if (getArguments().containsKey(DEFAULT_TIME)) {
             this.defaultTime = getArguments().getLong(DEFAULT_TIME);
         }

@@ -35,7 +35,7 @@ import java.util.Date;
 public class DateHelper {
 
     public static String getSortableDate() {
-        String result = null;
+        String result;
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
         Date now = Calendar.getInstance().getTime();
         result = sdf.format(now);
@@ -85,8 +85,7 @@ public class DateHelper {
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, month);
         cal.set(Calendar.DAY_OF_MONTH, day);
-        String dateString = sdf.format(cal.getTime());
-        return dateString;
+        return sdf.format(cal.getTime());
     }
 
 
@@ -103,8 +102,7 @@ public class DateHelper {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, hour);
         cal.set(Calendar.MINUTE, minute);
-        String dateString = sdf.format(cal.getTime());
-        return dateString;
+        return sdf.format(cal.getTime());
     }
 
 

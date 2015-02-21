@@ -101,7 +101,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         }
 
         // Creation of a map to associate PendingIntent(s) to views
-        SparseArray<PendingIntent> map = new SparseArray<PendingIntent>();
+        SparseArray<PendingIntent> map = new SparseArray<>();
         map.put(R.id.list, pendingIntentList);
         map.put(R.id.add, pendingIntentDetail);
         map.put(R.id.camera, pendingIntentDetailPhoto);

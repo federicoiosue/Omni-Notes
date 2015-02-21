@@ -95,20 +95,17 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
 
     private boolean isAlive() {
-        if (mFragmentWeakReference != null
+        return mFragmentWeakReference != null
                 && mFragmentWeakReference.get() != null
                 && mFragmentWeakReference.get().isAdded()
                 && mFragmentWeakReference.get().getActivity() != null
-                && !mFragmentWeakReference.get().getActivity().isFinishing()) {
-            return true;
-        }
-        return false;
+                && !mFragmentWeakReference.get().getActivity().isFinishing();
     }
 
 
     private List<NavigationItem> buildMainMenu() {
         if (!isAlive()) {
-            return new ArrayList<NavigationItem>();
+            return new ArrayList<>();
         }
         // Sets the adapter for the MAIN navigation list view
         mDrawerList = (NonScrollableListView) mFragmentWeakReference.get().getView()
@@ -127,7 +124,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         dynamicNavigationLookupTable.init(mainActivity);
         Ln.d("Finished lookup");
 
-        final List<NavigationItem> items = new ArrayList<NavigationItem>();
+        final List<NavigationItem> items = new ArrayList<>();
         for (int i = 0; i < mNavigationArray.length; i++) {
             if (!checkSkippableItem(dynamicNavigationLookupTable, i)) {
                 NavigationItem item = new NavigationItem(i, mNavigationArray[i], mNavigationIconsArray.getResourceId(i,

@@ -70,7 +70,7 @@ public class Navigation {
     public static String getCategory() {
         if (getNavigation() == CATEGORY) {
             Context mContext = OmniNotes.getAppContext();
-            return mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS).getString
+            return mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getString
                     (Constants.PREF_NAVIGATION, "");
         } else {
             return null;
@@ -89,7 +89,7 @@ public class Navigation {
     public static boolean checkNavigation(Integer[] navigationsToCheck) {
         boolean res = false;
         int navigation = getNavigation();
-        for (int navigationToCheck : new ArrayList<Integer>(Arrays.asList(navigationsToCheck))) {
+        for (int navigationToCheck : new ArrayList<>(Arrays.asList(navigationsToCheck))) {
             if (navigation == navigationToCheck) {
                 res = true;
                 break;
@@ -105,7 +105,7 @@ public class Navigation {
     public static boolean checkNavigationCategory(Category categoryToCheck) {
         Context mContext = OmniNotes.getAppContext();
         String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-        String navigation = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS).getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+        String navigation = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
         return (categoryToCheck != null && navigation.equals(String.valueOf(categoryToCheck.getId())));
     }
 

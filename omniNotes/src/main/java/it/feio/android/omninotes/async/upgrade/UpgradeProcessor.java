@@ -25,6 +25,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
+import roboguice.util.Ln;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -65,22 +66,18 @@ public class UpgradeProcessor {
             for (Method methodToLaunch : methodsToLaunch) {
                 methodToLaunch.invoke(getInstance());
             }
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (SecurityException | IllegalAccessException | InvocationTargetException e) {
+            Ln.d("Explosion processing upgrade!", e);
         }
     }
 
 
     private List<Method> getMethodsToLaunch(int dbOldVersion, int dbNewVersion) {
-        List<Method> methodsToLaunch = new ArrayList<Method>();
+        List<Method> methodsToLaunch = new ArrayList<>();
         classObject = getInstance().getClass();
         Method[] declaredMethods = classObject.getDeclaredMethods();
         for (Method declaredMethod : declaredMethods) {
-            if (declaredMethod.getName().indexOf(METHODS_PREFIX) != -1) {
+            if (declaredMethod.getName().contains(METHODS_PREFIX)) {
                 int methodVersionPostfix = Integer.parseInt(declaredMethod.getName().replace(METHODS_PREFIX, ""));
                 if (dbOldVersion <= methodVersionPostfix && methodVersionPostfix <= dbNewVersion) {
                     methodsToLaunch.add(declaredMethod);

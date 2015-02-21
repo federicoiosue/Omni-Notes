@@ -40,7 +40,7 @@ public class TagsHelper {
 
 
     public static HashMap<String, Integer> retrieveTags(Note note) {
-        HashMap<String, Integer> tagsMap = new HashMap<String, Integer>();
+        HashMap<String, Integer> tagsMap = new HashMap<>();
         Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getTitle() + " " + note.getContent());
         while (matcher.find()) {
             String tagText = matcher.group().trim();
@@ -53,7 +53,7 @@ public class TagsHelper {
 
     public static Pair<String, List<Tag>> addTagToNote(List<Tag> tags, Integer[] selectedTags, Note note) {
         StringBuilder sbTags = new StringBuilder();
-        List<Tag> tagsToRemove = new ArrayList<Tag>();
+        List<Tag> tagsToRemove = new ArrayList<>();
         HashMap<String, Integer> tagsMap = retrieveTags(note);
 
         List<Integer> selectedTagsList = Arrays.asList(selectedTags);
@@ -91,7 +91,7 @@ public class TagsHelper {
             title = title.replaceAll(tagToRemove.getText(), "");
             content = content.replaceAll(tagToRemove.getText(), "");
         }
-        return new Pair<String, String>(title, content);
+        return new Pair<>(title, content);
     }
 
 
@@ -105,7 +105,7 @@ public class TagsHelper {
 
 
     public static Integer[] getPreselectedTagsArray(Note note, List<Tag> tags) {
-        List<Note> notes = new ArrayList<Note>();
+        List<Note> notes = new ArrayList<>();
         notes.add(note);
         return getPreselectedTagsArray(notes, tags);
     }
@@ -114,7 +114,7 @@ public class TagsHelper {
     public static Integer[] getPreselectedTagsArray(List<Note> notes, List<Tag> tags) {
         final Integer[] preSelectedTags;
         if (notes.size() == 1) {
-            List<Integer> t = new ArrayList<Integer>();
+            List<Integer> t = new ArrayList<>();
             for (String noteTag : TagsHelper.retrieveTags(notes.get(0)).keySet()) {
                 for (Tag tag : tags) {
                     if (tag.getText().equals(noteTag)) {

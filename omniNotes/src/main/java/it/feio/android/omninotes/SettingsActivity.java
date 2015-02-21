@@ -13,7 +13,7 @@ import java.util.List;
 public class SettingsActivity extends ActionBarActivity {
 
     private Toolbar toolbar;
-    private List<Fragment> backStack = new ArrayList<Fragment>();
+    private List<Fragment> backStack = new ArrayList<>();
 
 
     @Override
@@ -22,12 +22,6 @@ public class SettingsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_settings);
         initUI();
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
 

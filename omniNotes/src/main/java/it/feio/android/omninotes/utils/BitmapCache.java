@@ -37,12 +37,12 @@ public class BitmapCache extends LruCache<String, Bitmap> {
      * Get max available VM memory, exceeding this amount will throw an OutOfMemory exception. Stored in kilobytes as
      * LruCache takes an int in its constructor. Use 1/4th of the available memory for this memory cache.
      */
-    public static int MEMORY_CACHE_DEFAULT_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024) / 4;
+    public static final int MEMORY_CACHE_DEFAULT_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024) / 4;
 
     /**
      * Default size of space used for store data on physical disk cache. 20 Megabytes.
      */
-    private final int DISK_CACHE_DEFAULT_SIZE = 1024 * 1024 * 20;
+    private static final int DISK_CACHE_DEFAULT_SIZE = 1024 * 1024 * 20;
 
     private Context mContext;
     private SimpleDiskCache mDiskLruCache;
@@ -88,9 +88,7 @@ public class BitmapCache extends LruCache<String, Bitmap> {
                 }
                 try {
                     mDiskLruCache = SimpleDiskCache.open(params[0], version, maxDiskSize);
-                } catch (IOException e) {
-                    Ln.e("Error retrieving disk cache", e);
-                } catch (NullPointerException e) {
+                } catch (IOException | NullPointerException e) {
                     Ln.e("Error retrieving disk cache", e);
                 }
                 mDiskCacheStarting = false; // Finished initialization
@@ -125,7 +123,7 @@ public class BitmapCache extends LruCache<String, Bitmap> {
                     mDiskLruCache.put(key, BitmapHelper.getBitmapInputStream(bitmap));
                 }
             } catch (IOException e) {
-
+                Ln.e("Error managing diskk cache", e);
             }
         }
     }
@@ -133,9 +131,6 @@ public class BitmapCache extends LruCache<String, Bitmap> {
 
     /**
      * Retrieval of bitmap from chache
-     *
-     * @param key
-     * @return
      */
     public Bitmap getBitmap(String key) {
 
@@ -151,6 +146,7 @@ public class BitmapCache extends LruCache<String, Bitmap> {
                     try {
                         mDiskCacheLock.wait();
                     } catch (InterruptedException e) {
+                        Ln.e("Error managing diskk cache", e);
                     }
                 }
                 if (mDiskLruCache != null) {

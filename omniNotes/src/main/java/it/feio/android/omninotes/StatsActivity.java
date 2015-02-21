@@ -54,8 +54,7 @@ public class StatsActivity extends Activity {
 
             @Override
             protected Stats doInBackground(Void... params) {
-                Stats mStats = (DbHelper.getInstance(mContext)).getStats();
-                return mStats;
+                return (DbHelper.getInstance(mContext)).getStats();
             }
 
 

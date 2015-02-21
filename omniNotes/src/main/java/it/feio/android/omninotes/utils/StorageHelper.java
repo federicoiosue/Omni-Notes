@@ -16,7 +16,6 @@
  */
 package it.feio.android.omninotes.utils;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -43,22 +42,26 @@ import java.util.Locale;
 public class StorageHelper {
 
     public static boolean checkStorage() {
-        boolean mExternalStorageAvailable = false;
-        boolean mExternalStorageWriteable = false;
+        boolean mExternalStorageAvailable;
+        boolean mExternalStorageWriteable;
         String state = Environment.getExternalStorageState();
 
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            // We can read and write the media
-            mExternalStorageAvailable = mExternalStorageWriteable = true;
-        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            // We can only read the media
-            mExternalStorageAvailable = true;
-            mExternalStorageWriteable = false;
-        } else {
-            // Something else is wrong. It may be one of many other states, but
-            // all we need
-            // to know is we can neither read nor write
-            mExternalStorageAvailable = mExternalStorageWriteable = false;
+        switch (state) {
+            case Environment.MEDIA_MOUNTED:
+                // We can read and write the media
+                mExternalStorageAvailable = mExternalStorageWriteable = true;
+                break;
+            case Environment.MEDIA_MOUNTED_READ_ONLY:
+                // We can only read the media
+                mExternalStorageAvailable = true;
+                mExternalStorageWriteable = false;
+                break;
+            default:
+                // Something else is wrong. It may be one of many other states, but
+                // all we need
+                // to know is we can neither read nor write
+                mExternalStorageAvailable = mExternalStorageWriteable = false;
+                break;
         }
         return mExternalStorageAvailable && mExternalStorageWriteable;
     }
@@ -196,16 +199,13 @@ public class StorageHelper {
         // Checks for external storage availability
         if (!checkStorage()) {
             Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
-            return res;
+            return false;
         }
 
         File file = new File(mContext.getExternalFilesDir(null), name);
-        if (file != null) {
-            file.delete();
-            res = true;
-        }
+        file.delete();
 
-        return res;
+        return true;
     }
 
 
@@ -215,20 +215,18 @@ public class StorageHelper {
         // Checks for external storage availability
         if (!checkStorage()) {
             Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
-            return res;
+            return false;
         }
 
         File file = new File(name);
-        if (file != null) {
-            if (file.isFile()) {
-                res = file.delete();
-            } else if (file.isDirectory()) {
-                File[] files = file.listFiles();
-                for (File file2 : files) {
-                    res = delete(mContext, file2.getAbsolutePath());
-                }
-                res = file.delete();
+        if (file.isFile()) {
+            res = file.delete();
+        } else if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (File file2 : files) {
+                res = delete(mContext, file2.getAbsolutePath());
             }
+            res = file.delete();
         }
 
         return res;
@@ -241,9 +239,7 @@ public class StorageHelper {
         try {
             mContext.getContentResolver().query(contentUri, proj, null, null, null);
         } catch (Exception e) {
-        }
-        if (cursor == null) {
-            return null;
+            Ln.e("Maybe was not a category!", e);
         }
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
@@ -333,24 +329,19 @@ public class StorageHelper {
     public static File getSharedPreferencesFile(Context mContext) {
         File appData = mContext.getFilesDir().getParentFile();
         String packageName = mContext.getApplicationContext().getPackageName();
-        File prefsPath = new File(appData
+        return new File(appData
                 + System.getProperty("file.separator")
                 + "shared_prefs"
                 + System.getProperty("file.separator")
                 + packageName
                 + "_preferences.xml");
-        return prefsPath;
     }
 
 
     /**
      * Returns a directory size in bytes
-     *
-     * @param directory
-     * @return
      */
     @SuppressWarnings("deprecation")
-    @SuppressLint("NewApi")
     public static long getSize(File directory) {
         StatFs statFs = new StatFs(directory.getAbsolutePath());
         long blockSize = 0;
@@ -362,8 +353,8 @@ public class StorageHelper {
             }
             // Can't understand why on some devices this fails
         } catch (NoSuchMethodError e) {
+            Ln.e("Mysterious error", e);
         }
-
         return getSize(directory, blockSize);
     }
 

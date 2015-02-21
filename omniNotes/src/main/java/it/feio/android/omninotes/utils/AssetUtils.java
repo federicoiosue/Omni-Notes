@@ -46,24 +46,14 @@ public class AssetUtils {
 
     /**
      * Loads a file into string
-     *
-     * @param name
-     * @param assetManager
-     * @return
-     * @throws IOException
      */
     public static String readFile(String fileName, AssetManager assetManager) throws IOException {
         InputStream input;
-        String text = null;
         input = assetManager.open(fileName);
-
         int size = input.available();
         byte[] buffer = new byte[size];
         input.read(buffer);
         input.close();
-
-        // byte buffer into a string
-        text = new String(buffer);
-        return text;
+        return new String(buffer);
     }
 }

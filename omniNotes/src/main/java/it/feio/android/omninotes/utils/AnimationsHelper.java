@@ -33,6 +33,8 @@ import it.feio.android.omninotes.R;
 
 
 public class AnimationsHelper {
+    
+    private AnimationsHelper(){}
 
     public static void zoomListItem(Context context, final View view, ImageView expandedImageView, View targetView,
                                     AnimatorListenerAdapter animatorListenerAdapter) {
@@ -96,7 +98,7 @@ public class AnimationsHelper {
 
 
     public static void expandOrCollapse(final View v, boolean expand) {
-        TranslateAnimation anim = null;
+        TranslateAnimation anim;
         if (expand) {
             anim = new TranslateAnimation(0.0f, 0.0f, -v.getHeight(), 0.0f);
             v.setVisibility(View.VISIBLE);
@@ -105,11 +107,13 @@ public class AnimationsHelper {
             Animation.AnimationListener collapselistener = new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
+                    // Useless
                 }
 
 
                 @Override
                 public void onAnimationRepeat(Animation animation) {
+                    // Useless
                 }
 
 

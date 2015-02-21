@@ -120,7 +120,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
             Attachment mAttachment = note.getAttachmentsList().get(0);
             // Fetch from cache if possible
             String cacheKey = mAttachment.getUri().getPath() + WIDTH + HEIGHT;
-            Bitmap bmp = app.getBitmapCache().getBitmap(cacheKey);
+            Bitmap bmp = OmniNotes.getBitmapCache().getBitmap(cacheKey);
 
             if (bmp == null) {
                 bmp = BitmapHelper.getBitmapFromAttachment(app, mAttachment,

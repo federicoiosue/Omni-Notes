@@ -40,7 +40,7 @@ public class IntentChecker {
         final PackageManager mgr = ctx.getPackageManager();
         // Intent resolver
         List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        res = res && list.size() > 0;
+        res = list.size() > 0;
         // Features
         if (features != null) {
             for (String feature : features) {

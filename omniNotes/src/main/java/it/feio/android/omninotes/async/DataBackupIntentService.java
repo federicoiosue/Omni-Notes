@@ -127,8 +127,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         exportAttachments(backupDir);
 
         // Settings
-        if (intent.getBooleanExtra(INTENT_BACKUP_INCLUDE_SETTINGS, true)) ;
-        exportSettings(backupDir);
+        if (intent.getBooleanExtra(INTENT_BACKUP_INCLUDE_SETTINGS, true)) {
+            exportSettings(backupDir);
+        }
 
         // Notification of operation ended
         String title = getString(R.string.data_export_completed);
@@ -192,7 +193,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         }
 
         // These maps are used to associate with post processing notes to categories (notebooks)
-        HashMap<String, Category> categoriesWithUuid = new HashMap<String, Category>();
+        HashMap<String, Category> categoriesWithUuid = new HashMap<>();
 
         // Adds all the notebooks (categories)
         for (SpringpadElement springpadElement : importer.getNotebooks()) {
@@ -215,7 +216,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         // And then notes are created
         Note note;
         Attachment mAttachment = null;
-        Uri uri = null;
+        Uri uri;
         for (SpringpadElement springpadElement : importer.getNotes()) {
             note = new Note();
 
@@ -364,7 +365,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
                 if (TextUtils.isEmpty(springpadAttachment.getUrl())) {
                     continue;
                 }
-                ;
 
                 // Tries first with online images
                 try {
@@ -381,7 +381,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
                 if (mAttachment != null) {
                     note.addAttachment(mAttachment);
                 }
-                uri = null;
                 mAttachment = null;
             }
 
@@ -399,7 +398,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
             importedSpringpadNotes++;
             updateImportNotification(importer);
         }
-        ;
 
         // Delete temp data
         try {
@@ -440,10 +438,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     /**
      * Creation of notification on operations completed
-     *
-     * @param intent2
-     * @param ctx
-     * @param message
      */
     private void createNotification(Intent intent, Context mContext, String title, String message) {
 
@@ -474,7 +468,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     /**
      * Export database to backup folder
      *
-     * @param backupDir
      * @return True if success, false otherwise
      */
     private boolean exportDB(File backupDir) {
@@ -486,7 +479,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     /**
      * Export attachments to backup folder
      *
-     * @param backupDir
      * @return True if success, false otherwise
      */
     private boolean exportAttachments(File backupDir) {
@@ -508,9 +500,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     /**
      * Exports settings if required
-     *
-     * @param backupDir
-     * @return
      */
     private boolean exportSettings(File backupDir) {
         File preferences = StorageHelper.getSharedPreferencesFile(this);
@@ -520,9 +509,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     /**
      * Imports settings
-     *
-     * @param backupDir
-     * @return
      */
     private boolean importSettings(File backupDir) {
         File preferences = StorageHelper.getSharedPreferencesFile(this);
@@ -533,9 +519,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     /**
      * Import database from backup folder
-     *
-     * @param backupDir
-     * @return True if success, false otherwise
      */
     private boolean importDB(File backupDir) {
         File database = getDatabasePath(Constants.DATABASE_NAME);
@@ -548,9 +531,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     /**
      * Import attachments from backup folder
-     *
-     * @param backupDir
-     * @return True if success, false otherwise
      */
     private boolean importAttachments(File backupDir) {
         File attachmentsDir = StorageHelper.getAttachmentDir(this);
@@ -562,12 +542,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         boolean result = true;
         Collection list = FileUtils.listFiles(backupAttachmentsDir, FileFilterUtils.trueFileFilter(),
                 TrueFileFilter.INSTANCE);
-        Iterator<File> i = list.iterator();
+        Iterator i = list.iterator();
         int imported = 0;
         File file = null;
         while (i.hasNext()) {
             try {
-                file = i.next();
+                file = (File) i.next();
                 FileUtils.copyFileToDirectory(file, attachmentsDir, true);
                 mNotificationsHelper.setMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + imported++ + "/" + list.size())
                         .show();

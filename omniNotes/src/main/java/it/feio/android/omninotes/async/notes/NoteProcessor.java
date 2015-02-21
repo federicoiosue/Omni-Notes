@@ -30,7 +30,7 @@ public abstract class NoteProcessor {
 
 
     protected NoteProcessor(List<Note> notes) {
-        this.notes = new ArrayList<Note>(notes);
+        this.notes = new ArrayList<>(notes);
     }
 
 

@@ -41,7 +41,7 @@ import java.util.List;
 public class NavDrawerAdapter extends BaseAdapter {
 
     private Activity mActivity;
-    private List<NavigationItem> items = new ArrayList<NavigationItem>();
+    private List<NavigationItem> items = new ArrayList<>();
     private LayoutInflater inflater;
 
 

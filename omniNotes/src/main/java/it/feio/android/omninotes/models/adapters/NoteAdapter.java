@@ -51,7 +51,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
     private final Activity mActivity;
     private final int navigation;
-    private List<Note> notes = new ArrayList<Note>();
+    private List<Note> notes = new ArrayList<>();
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     private boolean expandedView;
     private int layout;

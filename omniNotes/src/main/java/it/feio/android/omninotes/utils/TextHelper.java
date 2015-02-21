@@ -54,11 +54,10 @@ public class TextHelper {
             titleText = limit(content, 0, TITLE_SUBSTRING_OF_CONTENT_LIMIT, true, false);
             contentText = limit(content.replace(titleText, "").trim(), 0, CONTENT_SUBSTRING_LENGTH, false, false);
         }
-        content = null;
 
         // Masking title and content string if note is locked
         if (note.isLocked()
-                && !mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS).getBoolean(
+                && !mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean(
                 "settings_password_access", false)) {
             // This checks if a part of content is used as title and should be partially masked
             if (!note.getTitle().equals(titleText) && titleText.length() > 3) {
@@ -109,10 +108,8 @@ public class TextHelper {
 
 
     public static String capitalize(String string) {
-        StringBuilder res = new StringBuilder();
-        res.append(string.substring(0, 1).toUpperCase(Locale.getDefault())).append(
-                string.substring(1, string.length()).toLowerCase(Locale.getDefault()));
-        return res.toString();
+        return string.substring(0, 1).toUpperCase(Locale.getDefault()) + string.substring(1, 
+                string.length()).toLowerCase(Locale.getDefault());
     }
 
 
@@ -149,22 +146,24 @@ public class TextHelper {
         }
 
         // Creation
-        if (sort_column.equals(DbHelper.KEY_CREATION)) {
-            dateText = mContext.getString(R.string.creation) + " " + note.getCreationShort(mContext);
-        }
-        // Reminder
-        else if (sort_column.equals(DbHelper.KEY_REMINDER)) {
-            String alarmShort = note.getAlarmShort(mContext);
+        switch (sort_column) {
+            case DbHelper.KEY_CREATION:
+                dateText = mContext.getString(R.string.creation) + " " + note.getCreationShort(mContext);
+                break;
+            // Reminder
+            case DbHelper.KEY_REMINDER:
+                String alarmShort = note.getAlarmShort(mContext);
 
-            if (alarmShort.length() == 0) {
-                dateText = mContext.getString(R.string.no_reminder_set);
-            } else {
-                dateText = mContext.getString(R.string.alarm_set_on) + " " + note.getAlarmShort(mContext);
-            }
-        }
-        // Others
-        else {
-            dateText = mContext.getString(R.string.last_update) + " " + note.getLastModificationShort(mContext);
+                if (alarmShort.length() == 0) {
+                    dateText = mContext.getString(R.string.no_reminder_set);
+                } else {
+                    dateText = mContext.getString(R.string.alarm_set_on) + " " + note.getAlarmShort(mContext);
+                }
+                break;
+            // Others
+            default:
+                dateText = mContext.getString(R.string.last_update) + " " + note.getLastModificationShort(mContext);
+                break;
         }
         return dateText;
     }

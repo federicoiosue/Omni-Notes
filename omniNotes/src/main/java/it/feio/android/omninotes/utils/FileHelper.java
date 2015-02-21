@@ -27,13 +27,12 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import roboguice.util.Ln;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
-import roboguice.util.Ln;
 
 
 public class FileHelper {
@@ -87,12 +86,16 @@ public class FileHelper {
                 final String type = split[0];
 
                 Uri contentUri = null;
-                if ("image".equals(type)) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                } else if ("video".equals(type)) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                } else if ("audio".equals(type)) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                switch (type) {
+                    case "image":
+                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                        break;
+                    case "video":
+                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                        break;
+                    case "audio":
+                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                        break;
                 }
 
                 final String selection = "_id=?";
@@ -193,94 +196,35 @@ public class FileHelper {
     }
 
 
-//	public static File getFileFromUri(Context mContext, Uri uri) {
-//		File f = null;
-//		try {
-//			InputStream is = mContext.getContentResolver().openInputStream(uri);			
-//			f = getFileFromInputStream(mContext, is, getNameFromUri(mContext, uri));
-//		} catch (FileNotFoundException e) {
-//			Ln.e("Error creating InputStream", e);
-//		}
-//		return f;
-//	}
-
-
+    /**
+     * Trying to retrieve file name from content resolver
+     */
     public static String getNameFromUri(Context mContext, Uri uri) {
         String fileName = "";
-        // Trying to retrieve file name from content resolver
+        Cursor cursor = null;
         try {
-            Cursor c = mContext.getContentResolver().query(uri, new String[]{"_display_name"}, null, null, null);
-            if (c != null) {
+            cursor = mContext.getContentResolver().query(uri, new String[]{"_display_name"}, null, null, null);
+            if (cursor != null) {
                 try {
-                    if (c.moveToFirst()) {
-                        fileName = c.getString(0);
+                    if (cursor.moveToFirst()) {
+                        fileName = cursor.getString(0);
                     }
 
                 } catch (Exception e) {
+                    Ln.e("Error managing diskk cache", e);
                 }
             } else {
                 fileName = uri.getLastPathSegment();
             }
         } catch (SecurityException e) {
             return null;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return fileName;
     }
-
-
-//	public static File getFileFromInputStream(Context mContext, InputStream inputStream, String fileName) {
-//		File file = null;
-//		File f = null;
-//		
-//		try {
-////			String name = !TextUtils.isEmpty(getFilePrefix(fileName)) ? getFilePrefix(fileName) : String
-////					.valueOf(Calendar.getInstance().getTimeInMillis());
-////			String extension = !TextUtils.isEmpty(getFileExtension(fileName)) ? getFileExtension(fileName) : "";
-////			f = File.createTempFile(name, extension);
-//			f = new File(StorageManager.getCacheDir(mContext), fileName);
-//			f = StorageManager.createExternalStoragePrivateFile(mContext, uri, extension)
-//			f.deleteOnExit();
-//		} catch (IOException e1) {
-//			Ln.e("Error creating file from InputStream", e1);
-//			return file;
-//		}
-//		OutputStream outputStream = null;
-//
-//		try {
-//
-//			outputStream = new FileOutputStream(f);
-//
-//			int read = 0;
-//			byte[] bytes = new byte[1024];
-//			while ((read = inputStream.read(bytes)) != -1) {
-//				outputStream.write(bytes, 0, read);
-//			}
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} finally {
-//			if (inputStream != null) {
-//				try {
-//					inputStream.close();
-//				} catch (IOException e) {
-//					Ln.e(Constants.TAG,
-//							"Error closing InputStream", e);
-//				}
-//			}
-//			if (outputStream != null) {
-//				try {
-//					// outputStream.flush();
-//					file = f;
-//					outputStream.close();
-//				} catch (IOException e) {
-//					Ln.e(Constants.TAG,
-//							"Error closing OutputStream", e);
-//				}
-//
-//			}
-//		}
-//		return file;
-//	}
 
 
     public static String getFilePrefix(File file) {

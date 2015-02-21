@@ -125,8 +125,7 @@ public class DbExporter {
         try {
             channel.write(buff);
         } finally {
-            if (channel != null)
-                channel.close();
+            channel.close();
         }
     }
 
@@ -154,25 +153,24 @@ public class DbExporter {
         private final StringBuilder sb;
 
 
-        public XmlBuilder() throws IOException {
+        public XmlBuilder() {
             this.sb = new StringBuilder();
         }
 
 
         void start(String dbName) {
-            this.sb.append(OPEN_XML_STANZA);
-            this.sb.append(DB_OPEN + dbName + CLOSE_WITH_TICK);
+            this.sb.append(OPEN_XML_STANZA).append(DB_OPEN).append(dbName).append(CLOSE_WITH_TICK);
         }
 
 
-        String end() throws IOException {
+        String end() {
             this.sb.append(DB_CLOSE);
             return this.sb.toString();
         }
 
 
         void openTable(String tableName) {
-            this.sb.append(TABLE_OPEN + tableName + CLOSE_WITH_TICK);
+            this.sb.append(TABLE_OPEN).append(tableName).append(CLOSE_WITH_TICK);
         }
 
 
@@ -191,8 +189,8 @@ public class DbExporter {
         }
 
 
-        void addColumn(final String name, final String val) throws IOException {
-            this.sb.append(COL_OPEN + name + CLOSE_WITH_TICK + val + COL_CLOSE);
+        void addColumn(final String name, final String val) {
+            this.sb.append(COL_OPEN).append(name).append(CLOSE_WITH_TICK).append(val).append(COL_CLOSE);
         }
     }
 }

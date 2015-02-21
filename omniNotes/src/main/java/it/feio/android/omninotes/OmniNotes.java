@@ -158,7 +158,6 @@ public class OmniNotes extends Application {
      * Performs a full app restart
      */
     public static void restartApp(final Context mContext) {
-
         if (MainActivity.getInstance() != null) {
             MainActivity.getInstance().finish();
             Intent intent = new Intent(mContext, MainActivity.class);
@@ -169,7 +168,6 @@ public class OmniNotes extends Application {
                     PendingIntent.FLAG_CANCEL_CURRENT);
             AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
             mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-            System.exit(0);
         }
     }
 

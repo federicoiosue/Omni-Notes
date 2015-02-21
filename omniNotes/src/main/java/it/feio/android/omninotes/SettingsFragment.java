@@ -83,9 +83,8 @@ public class SettingsFragment extends PreferenceFragment {
     private int getXmlId() {
         if (getArguments() == null || !getArguments().containsKey(XML_NAME)) return 0;
         String xmlName = getArguments().getString(XML_NAME);
-        int settingsXmlId = getActivity().getResources().getIdentifier(xmlName, "xml",
+        return getActivity().getResources().getIdentifier(xmlName, "xml",
                 getActivity().getPackageName());
-        return settingsXmlId;
     }
 
 
@@ -502,7 +501,7 @@ public class SettingsFragment extends PreferenceFragment {
                     Locale locale = new Locale(value.toString());
                     Configuration config = getResources().getConfiguration();
 
-                    if (!config.locale.getCountry().equals(locale)) {
+                    if (!config.locale.getCountry().equals(locale.getCountry())) {
                         OmniNotes.updateLanguage(getActivity(), value.toString());
                         OmniNotes.restartApp(getActivity());
                     }
@@ -798,23 +797,18 @@ public class SettingsFragment extends PreferenceFragment {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case SPRINGPAD_IMPORT:
-                    if (resultCode == Activity.RESULT_OK) {
-                        Uri filesUri = intent.getData();
-                        String path = FileHelper.getPath(getActivity(), filesUri);
-                        // An IntentService will be launched to accomplish the import task
-                        Intent service = new Intent(getActivity(), DataBackupIntentService.class);
-                        service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_SPRINGPAD);
-                        service.putExtra(DataBackupIntentService.EXTRA_SPRINGPAD_BACKUP, path);
-                        getActivity().startService(service);
-                    } else {
-                        Toast.makeText(getActivity(), R.string.error, Toast.LENGTH_SHORT).show();
-
-                    }
+                    Uri filesUri = intent.getData();
+                    String path = FileHelper.getPath(getActivity(), filesUri);
+                    // An IntentService will be launched to accomplish the import task
+                    Intent service = new Intent(getActivity(), DataBackupIntentService.class);
+                    service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_SPRINGPAD);
+                    service.putExtra(DataBackupIntentService.EXTRA_SPRINGPAD_BACKUP, path);
+                    getActivity().startService(service);
                     break;
 
                 case RINGTONE_REQUEST_CODE:
                     Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-                    prefs.edit().putString("settings_notification_ringtone", uri.toString()).commit();
+                    prefs.edit().putString("settings_notification_ringtone", uri.toString()).apply();
                     break;
             }
         }
@@ -867,6 +861,7 @@ class AboutOrStatsThread extends Thread {
                 mContext.startActivity(aboutIntent);
             }
         } catch (InterruptedException e) {
+            Ln.w("Thread interrupted, I don't care", e);
         }
     }
 

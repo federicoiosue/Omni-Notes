@@ -309,7 +309,7 @@ public class DetailFragment extends Fragment implements
         handleIntents();
 
         if (noteOriginal == null) {
-            noteOriginal = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);
+            noteOriginal = getArguments().getParcelable(Constants.INTENT_NOTE);
         }
 
         if (note == null) {
@@ -366,7 +366,7 @@ public class DetailFragment extends Fragment implements
         if (Constants.ACTION_MERGE.equals(i.getAction())) {
             noteOriginal = new Note();
             note = new Note(noteOriginal);
-            noteTmp = (Note) getArguments().getParcelable(Constants.INTENT_NOTE);
+            noteTmp = getArguments().getParcelable(Constants.INTENT_NOTE);
             i.setAction(null);
         }
 
@@ -561,7 +561,7 @@ public class DetailFragment extends Fragment implements
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Attachment attachment = (Attachment) parent.getAdapter().getItem(position);
                 Uri uri = attachment.getUri();
-                Intent attachmentIntent = null;
+                Intent attachmentIntent;
                 if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
 
                     attachmentIntent = new Intent(Intent.ACTION_VIEW);
@@ -586,7 +586,7 @@ public class DetailFragment extends Fragment implements
                             noteTmp)[0].toString();
                     // Images
                     int clickedImage = 0;
-                    ArrayList<Attachment> images = new ArrayList<Attachment>();
+                    ArrayList<Attachment> images = new ArrayList<>();
                     for (Attachment mAttachment : noteTmp.getAttachmentsList()) {
                         if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
                                 || Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())
@@ -796,7 +796,7 @@ public class DetailFragment extends Fragment implements
         if (!colorsPref.equals("disabled")) {
 
             // Choosing target view depending on another preference
-            ArrayList<View> target = new ArrayList<View>();
+            ArrayList<View> target = new ArrayList<>();
             if (colorsPref.equals("complete")) {
                 target.add(getView().findViewById(R.id.title_wrapper));
                 target.add(getView().findViewById(R.id.content_wrapper));
@@ -889,7 +889,7 @@ public class DetailFragment extends Fragment implements
             }
             address = noteTmp.getLatitude() + ", " + noteTmp.getLongitude();
         }
-        if (!GeocodeHelper.areCoordinates(address)) {
+        if (GeocodeHelper.notCoordinates(address)) {
             noteTmp.setAddress(address);
         }
         locationTextView.setVisibility(View.VISIBLE);
@@ -906,7 +906,7 @@ public class DetailFragment extends Fragment implements
             GeocodeHelper.getAddressFromCoordinates(getActivity(), coords[0], coords[1], new OnGeoUtilResultListener() {
                 @Override
                 public void onAddressResolved(String address) {
-                    if (!GeocodeHelper.areCoordinates(address)) {
+                    if (GeocodeHelper.notCoordinates(address)) {
                         noteTmp.setAddress(address);
                     }
                     locationTextView.setVisibility(View.VISIBLE);
@@ -1020,7 +1020,7 @@ public class DetailFragment extends Fragment implements
         }
 
         if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            getMainActivity().animateBurger(getMainActivity().BURGER);
+            getMainActivity().animateBurger(MainActivity.BURGER);
         }
 
         return true;
@@ -1418,7 +1418,7 @@ public class DetailFragment extends Fragment implements
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void onActivityResultManageReceivedFiles(Intent intent) {
-        List<Uri> uris = new ArrayList<Uri>();
+        List<Uri> uris = new ArrayList<>();
         if (Build.VERSION.SDK_INT < 16 || intent.getClipData() != null) {
             for (int i = 0; i < intent.getClipData().getItemCount(); i++) {
                 uris.add(intent.getClipData().getItemAt(i).getUri());
@@ -1603,7 +1603,7 @@ public class DetailFragment extends Fragment implements
 
 
     private String getNoteTitle() {
-        String res = "";
+        String res;
         if (getActivity() != null && getActivity().findViewById(R.id.detail_title) != null) {
             Editable editableTitle = ((EditText) getActivity().findViewById(R.id.detail_title)).getText();
             res = TextUtils.isEmpty(editableTitle) ? "" : editableTitle.toString();
@@ -1621,13 +1621,10 @@ public class DetailFragment extends Fragment implements
             // a com.neopixl.pixlui.components.edittext.EditText but a standard
             // android.widget.EditText
             try {
-                try {
-                    content = ((EditText) getActivity().findViewById(R.id.detail_content)).getText().toString();
-                } catch (ClassCastException e) {
-                    content = ((android.widget.EditText) getActivity().findViewById(R.id.detail_content)).getText()
-                            .toString();
-                }
-            } catch (NullPointerException e) {
+                content = ((EditText) getActivity().findViewById(R.id.detail_content)).getText().toString();
+            } catch (ClassCastException e) {
+                content = ((android.widget.EditText) getActivity().findViewById(R.id.detail_content)).getText()
+                        .toString();
             }
         } else {
             if (mChecklistManager != null) {

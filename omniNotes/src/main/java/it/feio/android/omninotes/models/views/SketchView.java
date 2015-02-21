@@ -50,8 +50,8 @@ public class SketchView extends View implements OnTouchListener {
     private float mX, mY;
     private int width, height;
 
-    private ArrayList<Pair<Path, Paint>> paths = new ArrayList<Pair<Path, Paint>>();
-    private ArrayList<Pair<Path, Paint>> undonePaths = new ArrayList<Pair<Path, Paint>>();
+    private ArrayList<Pair<Path, Paint>> paths = new ArrayList<>();
+    private ArrayList<Pair<Path, Paint>> undonePaths = new ArrayList<>();
     private Context mContext;
 
     private Bitmap bitmap;
@@ -80,8 +80,6 @@ public class SketchView extends View implements OnTouchListener {
         m_Paint.setStrokeJoin(Paint.Join.ROUND);
         m_Paint.setStrokeCap(Paint.Cap.ROUND);
         m_Paint.setStrokeWidth(strokeSize);
-
-//		mCanvas = new Canvas();
         m_Path = new Path();
         Paint newPaint = new Paint(m_Paint);
         invalidate();
@@ -170,7 +168,7 @@ public class SketchView extends View implements OnTouchListener {
         }
 
         for (Pair<Path, Paint> p : paths) {
-            canvas.drawPath((Path) p.first, (Paint) p.second);
+            canvas.drawPath(p.first, p.second);
         }
 
         onDrawChangedListener.onDrawChanged();
@@ -193,7 +191,7 @@ public class SketchView extends View implements OnTouchListener {
 
         // Avoids that a sketch with just erasures is saved
         if (!(paths.size() == 0 && mode == ERASER && bitmap == null)) {
-            paths.add(new Pair<Path, Paint>(m_Path, newPaint));
+            paths.add(new Pair<>(m_Path, newPaint));
         }
 
         m_Path.reset();
@@ -206,11 +204,9 @@ public class SketchView extends View implements OnTouchListener {
     private void touch_move(float x, float y) {
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
-//		if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
         m_Path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
         mX = x;
         mY = y;
-//		}
     }
 
 
@@ -220,7 +216,7 @@ public class SketchView extends View implements OnTouchListener {
 
         // Avoids that a sketch with just erasures is saved
         if (!(paths.size() == 0 && mode == ERASER && bitmap == null)) {
-            paths.add(new Pair<Path, Paint>(m_Path, newPaint));
+            paths.add(new Pair<>(m_Path, newPaint));
         }
 
         // kill this so we don't double draw
@@ -243,7 +239,7 @@ public class SketchView extends View implements OnTouchListener {
         }
         Canvas canvas = new Canvas(bitmap);
         for (Pair<Path, Paint> p : paths) {
-            canvas.drawPath((Path) p.first, (Paint) p.second);
+            canvas.drawPath(p.first, p.second);
         }
         return bitmap;
     }
@@ -294,7 +290,7 @@ public class SketchView extends View implements OnTouchListener {
 
 
     public int getStrokeSize() {
-        return (int) Math.round(this.strokeSize);
+        return Math.round(this.strokeSize);
     }
 
 

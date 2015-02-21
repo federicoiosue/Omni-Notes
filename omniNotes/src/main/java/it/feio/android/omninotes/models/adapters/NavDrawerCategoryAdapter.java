@@ -155,11 +155,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
                 .getString(Constants.PREF_NAVIGATION,
                         navigationListCodes[0]);
 
-        if (navigation.equals(String.valueOf(categories.get(position).getId()))) {
-            return true;
-        } else {
-            return false;
-        }
+        return navigation.equals(String.valueOf(categories.get(position).getId()));
     }
 
 }

@@ -400,11 +400,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     private boolean noteAlreadyOpened(Note note) {
         DetailFragment detailFragment = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
-        if (detailFragment != null && detailFragment.getCurrentNote() != null && detailFragment.getCurrentNote()
-                .get_id() == note.get_id()) {
-            return true;
-        }
-        return false;
+        return detailFragment != null && detailFragment.getCurrentNote() != null && detailFragment.getCurrentNote()
+                .get_id() == note.get_id();
     }
 
 
@@ -470,9 +467,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             // Intent with multiple images
         } else if (note.getAttachmentsList().size() > 1) {
             shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-            ArrayList<Uri> uris = new ArrayList<Uri>();
+            ArrayList<Uri> uris = new ArrayList<>();
             // A check to decide the mime type of attachments to share is done here
-            HashMap<String, Boolean> mimeTypes = new HashMap<String, Boolean>();
+            HashMap<String, Boolean> mimeTypes = new HashMap<>();
             for (Attachment attachment : note.getAttachmentsList()) {
                 uris.add(attachment.getUri());
                 mimeTypes.put(attachment.getMime_type(), true);

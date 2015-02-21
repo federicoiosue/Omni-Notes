@@ -40,13 +40,13 @@ public class Security {
             byte messageDigest[] = digest.digest();
 
             // Create Hex String
-            StringBuffer hexString = new StringBuffer();
+            StringBuilder hexString = new StringBuilder();
             for (int i = 0; i < messageDigest.length; i++)
                 hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            Ln.d("Something is gone wrong calculating MD5", e);
         }
         return "";
     }
@@ -64,27 +64,15 @@ public class Security {
             cipher.init(Cipher.ENCRYPT_MODE, key);
             encrypedValue = Base64.encodeToString(cipher.doFinal(clearText), Base64.DEFAULT);
             return encrypedValue;
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
+        } catch (InvalidKeyException | NoSuchPaddingException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            Ln.d("Something is gone wrong encrypting", e);
         }
         return encrypedValue;
     }
 
 
     public static String decrypt(String value, String password) {
-        String decryptedValue = "";
+        String decryptedValue;
         try {
             DESKeySpec keySpec = new DESKeySpec(password.getBytes("UTF8"));
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");

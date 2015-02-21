@@ -102,7 +102,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private DbHelper(Context mContext) {
         super(mContext, DATABASE_NAME, null, DATABASE_VERSION);
         this.mContext = mContext;
-        this.prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS);
+        this.prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
     }
 
 
@@ -161,7 +161,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // Inserting or updating single note
     public Note updateNote(Note note, boolean updateLastModification) {
 
-        long resNote, resAttachment;
+        long resNote;
         SQLiteDatabase db = this.getWritableDatabase();
 
         String content;
@@ -272,9 +272,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * Getting single note
-     *
-     * @param id
-     * @return
      */
     public Note getNote(int id) {
 
@@ -360,9 +357,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * Counts words in a note
-     *
-     * @param note
-     * @return
      */
     public int getWords(Note note) {
         int count = 0;
@@ -392,9 +386,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * Counts chars in a note
-     *
-     * @param note
-     * @return
      */
     public int getChars(Note note) {
         int count = 0;
@@ -406,13 +397,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * Common method for notes retrieval. It accepts a query to perform and returns matching records.
-     *
-     * @return Notes list
      */
     public List<Note> getNotes(String whereCondition, boolean order) {
-        List<Note> noteList = new ArrayList<Note>();
+        List<Note> noteList = new ArrayList<>();
 
-        String sort_column = "", sort_order = "";
+        String sort_column, sort_order = "";
 
         // Getting sorting criteria from preferences. Reminder screen forces sorting.
         if (Navigation.checkNavigation(Navigation.REMINDERS)) {
@@ -503,8 +492,6 @@ public class DbHelper extends SQLiteOpenHelper {
         } finally {
             if (cursor != null)
                 cursor.close();
-//			if (db != null)
-//				db.close();	
         }
 
         return noteList;
@@ -513,8 +500,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * Archives/restore single note
-     *
-     * @param note
      */
     public void archiveNote(Note note, boolean archive) {
         note.setArchived(archive);
@@ -524,8 +509,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * Trashes/restore single note
-     *
-     * @param note
      */
     public void trashNote(Note note, boolean trash) {
         note.setTrashed(trash);
@@ -535,34 +518,24 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * Deleting single note
-     *
-     * @param note
      */
     public boolean deleteNote(Note note) {
         int deletedNotes, deletedAttachments;
-
-        SQLiteDatabase db = null;
         boolean result;
-        try {
-            db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
-            // Delete notes
-            deletedNotes = db.delete(TABLE_NOTES, KEY_ID + " = ?",
-                    new String[]{String.valueOf(note.get_id())});
+        // Delete notes
+        deletedNotes = db.delete(TABLE_NOTES, KEY_ID + " = ?",
+                new String[]{String.valueOf(note.get_id())});
 
-            // Delete note's attachments
-            deletedAttachments = db.delete(TABLE_ATTACHMENTS,
-                    KEY_ATTACHMENT_NOTE_ID + " = ?",
-                    new String[]{String.valueOf(note.get_id())});
+        // Delete note's attachments
+        deletedAttachments = db.delete(TABLE_ATTACHMENTS,
+                KEY_ATTACHMENT_NOTE_ID + " = ?",
+                new String[]{String.valueOf(note.get_id())});
 
-            // Check on correct and complete deletion
-            result = deletedNotes == 1
-                    && deletedAttachments == note.getAttachmentsList().size();
-
-        } finally {
-//			if (db != null)
-//				db.close();
-        }
+        // Check on correct and complete deletion
+        result = deletedNotes == 1
+                && deletedAttachments == note.getAttachmentsList().size();
 
         return result;
     }
@@ -635,9 +608,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * Retrieves all attachments related to specific note
-     *
-     * @param note
-     * @return List of attachments
      */
     public ArrayList<Attachment> getNoteAttachments(Note note) {
         String whereCondition = " WHERE " + KEY_ATTACHMENT_NOTE_ID + " = " + note.get_id();
@@ -690,8 +660,8 @@ public class DbHelper extends SQLiteOpenHelper {
      * Retrieves all tags of a specified note
      */
     public List<Tag> getTags(Note note) {
-        List<Tag> tags = new ArrayList<Tag>();
-        HashMap<String, Integer> tagsMap = new HashMap<String, Integer>();
+        List<Tag> tags = new ArrayList<>();
+        HashMap<String, Integer> tagsMap = new HashMap<>();
 
         String whereCondition = " WHERE "
                 + (note != null ? KEY_ID + " = " + note.get_id() + " AND " : "")
@@ -726,7 +696,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * Retrieves all notes related to category it passed as parameter
      */
     public List<Note> getNotesByTag(String tag) {
-        if (tag.indexOf(",") != -1) {
+        if (tag.contains(",")) {
             return getNotesByTag(tag.split(","));
         } else {
             return getNotesByTag(new String[]{tag});
@@ -745,13 +715,14 @@ public class DbHelper extends SQLiteOpenHelper {
             if (i != 0) {
                 whereCondition.append(" AND ");
             }
-            whereCondition.append("(" + KEY_CONTENT + " LIKE '%" + tags[i] + "%' OR " + KEY_TITLE + " LIKE '%" +
-                    tags[i] + "%')");
+            whereCondition.append("(" + KEY_CONTENT + " LIKE '%").append(tags[i]).append("%' OR ").append(KEY_TITLE)
+                    .append(" LIKE '%").append(tags[i]).append("%')");
         }
 
         // Trashed notes must be included in search results only if search if performed from trash
-        whereCondition.append(" AND " + KEY_TRASHED + " IS " + (Navigation.checkNavigation(Navigation.TRASH) ? "" : "" +
-                " NOT ") + " 1");
+        whereCondition.append(" AND " + KEY_TRASHED + " IS ").append(Navigation.checkNavigation(Navigation.TRASH) ? 
+                "" : "" +
+                " NOT ").append(" 1");
 
         return getNotes(whereCondition.toString(), true);
     }
@@ -765,11 +736,6 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<Attachment> getAttachmentsOfType(String mimeType) {
-        return getAttachments(" WHERE " + KEY_ATTACHMENT_MIME_TYPE + " = '" + mimeType + "'");
-    }
-
-
     /**
      * Retrieves attachments using a condition passed as parameter
      *
@@ -777,7 +743,7 @@ public class DbHelper extends SQLiteOpenHelper {
      */
     public ArrayList<Attachment> getAttachments(String whereCondition) {
 
-        ArrayList<Attachment> attachmentsList = new ArrayList<Attachment>();
+        ArrayList<Attachment> attachmentsList = new ArrayList<>();
         String sql = "SELECT "
                 + KEY_ATTACHMENT_ID + ","
                 + KEY_ATTACHMENT_URI + ","
@@ -787,7 +753,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + KEY_ATTACHMENT_MIME_TYPE
                 + " FROM " + TABLE_ATTACHMENTS
                 + whereCondition;
-        SQLiteDatabase db = null;
+        SQLiteDatabase db;
         Cursor cursor = null;
 
         try {
@@ -799,10 +765,9 @@ public class DbHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 Attachment mAttachment;
                 do {
-                    mAttachment = new Attachment(Integer.valueOf(cursor.getInt(0)),
-                            Uri.parse(cursor.getString(1)), cursor.getString(2), Integer.valueOf(cursor.getInt(3)),
-                            Long.valueOf(cursor.getInt(4)), cursor.getString(5));
-//					mAttachment.setMoveWhenNoteSaved(false);
+                    mAttachment = new Attachment(cursor.getInt(0),
+                            Uri.parse(cursor.getString(1)), cursor.getString(2), cursor.getInt(3),
+                            (long) cursor.getInt(4), cursor.getString(5));
                     attachmentsList.add(mAttachment);
                 } while (cursor.moveToNext());
             }
@@ -810,8 +775,6 @@ public class DbHelper extends SQLiteOpenHelper {
         } finally {
             if (cursor != null)
                 cursor.close();
-//			if (db != null)
-//				db.close();
         }
         return attachmentsList;
     }
@@ -823,7 +786,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return List of categories
      */
     public ArrayList<Category> getCategories() {
-        ArrayList<Category> categoriesList = new ArrayList<Category>();
+        ArrayList<Category> categoriesList = new ArrayList<>();
         String sql = "SELECT "
                 + KEY_CATEGORY_ID + ","
                 + KEY_CATEGORY_NAME + ","
@@ -844,17 +807,16 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " ORDER BY IFNULL(NULLIF(" + KEY_CATEGORY_NAME + ", ''),'zzzzzzzz') ";
 
 
-        SQLiteDatabase db = null;
+        SQLiteDatabase db;
         Cursor cursor = null;
 
         try {
-
             db = this.getReadableDatabase();
             cursor = db.rawQuery(sql, null);
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 do {
-                    categoriesList.add(new Category(Integer.valueOf(cursor.getInt(0)),
+                    categoriesList.add(new Category(cursor.getInt(0),
                             cursor.getString(1), cursor.getString(2), cursor
                             .getString(3), cursor.getInt(4)));
                 } while (cursor.moveToNext());
@@ -876,32 +838,25 @@ public class DbHelper extends SQLiteOpenHelper {
      */
     public Category updateCategory(Category category) {
 
-        SQLiteDatabase db = null;
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        try {
-            db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_CATEGORY_NAME, category.getName());
+        values.put(KEY_CATEGORY_DESCRIPTION, category.getDescription());
+        values.put(KEY_CATEGORY_COLOR, category.getColor());
 
-            ContentValues values = new ContentValues();
-            values.put(KEY_CATEGORY_NAME, category.getName());
-            values.put(KEY_CATEGORY_DESCRIPTION, category.getDescription());
-            values.put(KEY_CATEGORY_COLOR, category.getColor());
-
-            // Updating row
-            if (category.getId() != null) {
-                values.put(KEY_CATEGORY_ID, category.getId());
-                db.update(TABLE_CATEGORY, values, KEY_CATEGORY_ID + " = ?",
-                        new String[]{String.valueOf(category.getId())});
-                Ln.d("Updated category titled '" + category.getName() + "'");
-                // Inserting new category
-            } else {
-                long id = db.insert(TABLE_CATEGORY, null, values);
-                Ln.d("Saved new category titled '" + category.getName() + "' with id: " + id);
-                category.setId((int) id);
-            }
-
-        } finally {
+        // Updating row
+        if (category.getId() != null) {
+            values.put(KEY_CATEGORY_ID, category.getId());
+            db.update(TABLE_CATEGORY, values, KEY_CATEGORY_ID + " = ?",
+                    new String[]{String.valueOf(category.getId())});
+            Ln.d("Updated category titled '" + category.getName() + "'");
+            // Inserting new category
+        } else {
+            long id = db.insert(TABLE_CATEGORY, null, values);
+            Ln.d("Saved new category titled '" + category.getName() + "' with id: " + id);
+            category.setId((int) id);
         }
-
         return category;
     }
 
@@ -915,34 +870,24 @@ public class DbHelper extends SQLiteOpenHelper {
     public long deleteCategory(Category category) {
         long deleted;
 
-        SQLiteDatabase db = null;
-        try {
-            db = this.getWritableDatabase();
-            // Un-categorize notes associated with this category
-            ContentValues values = new ContentValues();
-            values.put(KEY_CATEGORY, "");
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Un-categorize notes associated with this category
+        ContentValues values = new ContentValues();
+        values.put(KEY_CATEGORY, "");
 
-            // Updating row
-            db.update(TABLE_NOTES, values, KEY_CATEGORY + " = ?",
-                    new String[]{String.valueOf(category.getId())});
+        // Updating row
+        db.update(TABLE_NOTES, values, KEY_CATEGORY + " = ?",
+                new String[]{String.valueOf(category.getId())});
 
-            // Delete category
-            deleted = db.delete(TABLE_CATEGORY, KEY_CATEGORY_ID + " = ?",
-                    new String[]{String.valueOf(category.getId())});
-
-        } finally {
-//			if (db != null)
-//				db.close();
-        }
+        // Delete category
+        deleted = db.delete(TABLE_CATEGORY, KEY_CATEGORY_ID + " = ?",
+                new String[]{String.valueOf(category.getId())});
         return deleted;
     }
 
 
     /**
      * Get note Category
-     *
-     * @param id
-     * @return
      */
     public Category getCategory(Integer id) {
         Category category = null;
@@ -970,8 +915,6 @@ public class DbHelper extends SQLiteOpenHelper {
         } finally {
             if (cursor != null)
                 cursor.close();
-//			if (db != null)
-//				db.close();
         }
         return category;
     }
@@ -997,8 +940,6 @@ public class DbHelper extends SQLiteOpenHelper {
         } finally {
             if (cursor != null)
                 cursor.close();
-//			if (db != null)
-//				db.close();
         }
         return count;
     }
@@ -1006,64 +947,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * Retrieves statistics data based on app usage
-     *
-     * @return
      */
-//	public Stats getStats() {
-//		Stats mStats = new Stats();
-//
-//		mStats.setNotesActive(getNotesActive().size());
-//		mStats.setNotesArchived(getNotesArchived().size());
-//		mStats.setNotesTrashed(getNotesTrashed().size());
-//		mStats.setReminders(getNotesWithReminder(true).size());
-//		mStats.setRemindersFutures(getNotesWithReminder(false).size());
-//		mStats.setNotesChecklist(getChecklists().size());
-//		mStats.setNotesMasked(getMasked().size());
-//		mStats.setCategories(getCategories().size());
-//		mStats.setTags(getTags().size());
-//
-//		mStats.setAttachments(getAllAttachments().size());
-//		mStats.setImages(getAttachmentsOfType(Constants.MIME_TYPE_IMAGE).size());
-//		mStats.setVideos(getAttachmentsOfType(Constants.MIME_TYPE_VIDEO).size());
-//		mStats.setAudioRecordings(getAttachmentsOfType(Constants.MIME_TYPE_AUDIO).size());
-//		mStats.setSketches(getAttachmentsOfType(Constants.MIME_TYPE_SKETCH).size());
-//		mStats.setFiles(getAttachmentsOfType(Constants.MIME_TYPE_FILES).size());
-//		mStats.setLocation(getNotesWithLocation().size());
-//
-//		int totalWords = 0;
-//		int totalChars = 0;
-//		int maxWords = 0;
-//		int maxChars = 0;
-//		int avgWords = 0;
-//		int avgChars = 0;
-//		
-//		List<Note> notes = getAllNotes(false);
-//		int words, chars;
-//		for (Note note : notes) {
-//			words = getWords(note);
-//			chars = getChars(note);
-//			if (words > maxWords) {
-//				maxWords = words;
-//			}
-//			if (chars > maxChars) {
-//				maxChars = chars;
-//			}
-//			totalWords += words;
-//			totalChars += chars;
-//		}
-//		avgWords = totalWords / notes.size();
-//		avgChars = totalChars / notes.size();
-//		
-//		
-//		mStats.setWords(totalWords);
-//		mStats.setWordsMax(maxWords);
-//		mStats.setWordsAvg(avgWords);
-//		mStats.setChars(totalChars);
-//		mStats.setCharsMax(maxChars);
-//		mStats.setCharsAvg(avgChars);
-//		
-//		return mStats;
-//	}
     public Stats getStats() {
         Stats mStats = new Stats();
 

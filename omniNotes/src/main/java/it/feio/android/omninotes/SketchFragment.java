@@ -116,7 +116,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
         Uri baseUri = getArguments().getParcelable("base");
         if (baseUri != null) {
-            Bitmap bmp = null;
+            Bitmap bmp;
             try {
                 bmp = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
                 mSketchView.setBackgroundBitmap(getActivity(), bmp);
@@ -344,8 +344,8 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     protected void setSeekbarProgress(int progress, int eraserOrStroke) {
         int calcProgress = progress > 1 ? progress : 1;
 
-        int newSize = (int) Math.round((size / 100f) * calcProgress);
-        int offset = (int) Math.round((size - newSize) / 2);
+        int newSize = Math.round((size / 100f) * calcProgress);
+        int offset = Math.round((size - newSize) / 2);
         Ln.v("Stroke size " + newSize + " (" + calcProgress + "%)");
 
         LayoutParams lp = new LayoutParams(newSize, newSize);

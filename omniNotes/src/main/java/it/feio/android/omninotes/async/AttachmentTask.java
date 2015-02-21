@@ -43,9 +43,9 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
     }
 
 
-    public AttachmentTask(Fragment mFragment, Uri uri, String fileName, 
+    public AttachmentTask(Fragment mFragment, Uri uri, String fileName,
                           OnAttachingFileListener mOnAttachingFileListener) {
-        mFragmentWeakReference = new WeakReference<Fragment>(mFragment);
+        mFragmentWeakReference = new WeakReference<>(mFragment);
         this.uri = uri;
         this.fileName = TextUtils.isEmpty(fileName) ? "" : fileName;
         this.mOnAttachingFileListener = mOnAttachingFileListener;
@@ -65,7 +65,7 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
             if (mAttachment != null) {
                 mOnAttachingFileListener.onAttachingFileFinished(mAttachment);
             } else {
-                mOnAttachingFileListener.onAttachingFileErrorOccurred(mAttachment);
+                mOnAttachingFileListener.onAttachingFileErrorOccurred(null);
             }
         } else {
             if (mAttachment != null) {
@@ -76,14 +76,11 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
 
     private boolean isAlive() {
-        if (mFragmentWeakReference != null
+        return mFragmentWeakReference != null
                 && mFragmentWeakReference.get() != null
                 && mFragmentWeakReference.get().isAdded()
                 && mFragmentWeakReference.get().getActivity() != null
-                && !mFragmentWeakReference.get().getActivity().isFinishing()) {
-            return true;
-        }
-        return false;
+                && !mFragmentWeakReference.get().getActivity().isFinishing();
     }
 
 }

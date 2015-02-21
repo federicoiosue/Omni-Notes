@@ -19,6 +19,7 @@ package it.feio.android.omninotes.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,15 +27,12 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
-
 import com.neopixl.pixlui.components.textview.TextView;
-
 import it.feio.android.omninotes.R;
 
 
 public class AppRater {
 
-    private final static String APP_TITLE = "Omni Notes";
     private final static String APP_PNAME = "it.feio.android.omninotes";
 
     private final static int DAYS_UNTIL_PROMPT = 0;
@@ -43,7 +41,7 @@ public class AppRater {
 
     public static void appLaunched(Activity mActivity, String message, String rateBtn, String dismissBtn, 
                                    String laterBtn) {
-        SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS);
+        SharedPreferences prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
         if (prefs.getBoolean(Constants.PREF_RATE_DISMISSED, false)) {
             return;
         }

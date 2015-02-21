@@ -34,3 +34,30 @@ allprojects {
         }
     }
 }
+
+
+
+
+
+
+
+apply plugin: "sonar-runner"
+
+sonarRunner {
+    sonarProperties {
+        // can be also set on command line like -Dsonar.analysis.mode=incremental
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.analysis.mode", "incremental"
+        property 'sonar.sourceEncoding', 'UTF-8'
+        property 'sonar.language', 'java'
+        property 'sonar.profile', 'Default'
+    }
+}
+
+subprojects {
+    sonarRunner {
+        sonarProperties {
+            properties["sonar.sources"] += "omniNotes/src/main/java"
+        }
+    }
+}

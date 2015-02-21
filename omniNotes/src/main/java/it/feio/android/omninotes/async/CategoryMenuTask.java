@@ -121,14 +121,11 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
 
     private boolean isAlive() {
-        if (mFragmentWeakReference != null
+        return mFragmentWeakReference != null
                 && mFragmentWeakReference.get() != null
                 && mFragmentWeakReference.get().isAdded()
                 && mFragmentWeakReference.get().getActivity() != null
-                && !mFragmentWeakReference.get().getActivity().isFinishing()) {
-            return true;
-        }
-        return false;
+                && !mFragmentWeakReference.get().getActivity().isFinishing();
     }
 
 

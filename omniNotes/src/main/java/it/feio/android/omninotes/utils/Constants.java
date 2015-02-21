@@ -26,10 +26,6 @@ public interface Constants {
     final String APP_STORAGE_DIRECTORY_ATTACHMENTS = "attachments";
     final String APP_STORAGE_DIRECTORY_SB_SYNC = "db_sync";
 
-    // Splash screen timer
-    static int SPLASH_TIME_OUT = 1200;
-    static long SPLASH_MIN_OFFSET = 24 * 60 * 60 * 1000; // 1 day
-
     final String DEV_EMAIL = "federico.iosue@gmail.com";
 
     // Used for updates retrieval
@@ -50,11 +46,6 @@ public interface Constants {
 
     final int THUMBNAIL_SIZE = 300;
 
-    final String DATE_SEPARATOR = "/";
-    final String TIME_SEPARATOR = ":";
-
-    final String DATE_FORMAT_EU = "dd/MM/yyyy HH:mm";
-    final String DATE_FORMAT_SHORT = "d MMM HH:mm";
     final String DATE_FORMAT_SHORT_DATE = "d MMM yyyy";
     final String DATE_FORMAT_SORTABLE = "yyyyMMdd_HHmmss_SSS";
     final String DATE_FORMAT_SORTABLE_OLD = "yyyyMMddHHmmss";

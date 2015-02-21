@@ -76,7 +76,7 @@ public class ImageAndTextAdapter extends BaseAdapter {
 
             // Overrides font sizes with the one selected from user
             Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(
-                            Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS),
+                            Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
                     convertView);
 
             holder = new ImageAndTextViewHolder();

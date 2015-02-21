@@ -50,7 +50,7 @@ public class BitmapWorkerTask extends AsyncTask<Attachment, Void, Bitmap> {
 
     public BitmapWorkerTask(Context activity, SquareImageView imageView, int width, int height) {
         this.context = activity;
-        imageViewReference = new WeakReference<SquareImageView>(imageView);
+        imageViewReference = new WeakReference<>(imageView);
         this.width = width / 100 * QUALITY_FACTOR;
         this.height = height / 100 * QUALITY_FACTOR;
     }

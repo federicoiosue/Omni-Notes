@@ -48,7 +48,7 @@ public class SimpleDiskCache {
 
     private static final int VALUE_IDX = 0;
     private static final int METADATA_IDX = 1;
-    private static final List<File> usedDirs = new ArrayList<File>();
+    private static final List<File> usedDirs = new ArrayList<>();
 
     private final DiskLruCache diskLruCache;
 
@@ -207,9 +207,7 @@ public class SimpleDiskCache {
             byte[] digest = m.digest();
             BigInteger bigInt = new BigInteger(1, digest);
             return bigInt.toString(16);
-        } catch (NoSuchAlgorithmException e) {
-            throw new AssertionError();
-        } catch (UnsupportedEncodingException e) {
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             throw new AssertionError();
         }
     }

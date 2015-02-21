@@ -44,7 +44,7 @@ public class ThumbnailLruCache extends LruCache<String, Bitmap> {
             instance = new ThumbnailLruCache(cacheSize);
         }
 
-        mMemoryCache = new LruCache<String, Bitmap>(cacheSize);
+        mMemoryCache = new LruCache<>(cacheSize);
 
         return instance;
     }

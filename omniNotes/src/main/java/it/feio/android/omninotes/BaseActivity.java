@@ -46,6 +46,7 @@ import it.feio.android.omninotes.widget.ListWidgetProvider;
 import roboguice.util.Ln;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 //import com.espian.showcaseview.ShowcaseView;
@@ -56,8 +57,6 @@ import java.util.List;
 
 @SuppressLint("Registered")
 public class BaseActivity extends ActionBarActivity implements LocationListener {
-
-    private final boolean TEST = false;
 
     protected final int TRANSITION_VERTICAL = 0;
     protected final int TRANSITION_HORIZONTAL = 1;
@@ -86,15 +85,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*
-		 * Executing the application in test will activate ScrictMode to debug
-		 * heavy i/o operations on main thread and data sending to GA will be
-		 * disabled
-		 */
-        if (TEST) {
-            StrictMode.enableDefaults();
-//			GoogleAnalytics.getInstance(this).setDryRun(true);
-        }
+        StrictMode.enableDefaults();
         // Preloads shared preferences for all derived classes
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
         // Starts location manager
@@ -107,7 +98,8 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
                 menuKeyField.setAccessible(true);
                 menuKeyField.setBoolean(config, false);
             }
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            Ln.d("Just a little issue in physical menu button management", e);
         }
         super.onCreate(savedInstanceState);
     }
@@ -157,11 +149,6 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     }
 
 
-    protected boolean navigationArchived() {
-        return "1".equals(prefs.getString(Constants.PREF_NAVIGATION, "0"));
-    }
-
-
     protected void showToast(CharSequence text, int duration) {
         if (prefs.getBoolean("settings_enable_info", true)) {
             Toast.makeText(getApplicationContext(), text, duration).show();
@@ -183,7 +170,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
         MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
                 .autoDismiss(false)
                 .title(R.string.insert_security_password)
-                .customView(v)
+                .customView(v, false)
                 .positiveText(R.string.ok)
                 .callback(new MaterialDialog.SimpleCallback() {
                     @Override
@@ -256,7 +243,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
 
     public void updateNavigation(String nav) {
-        prefs.edit().putString(Constants.PREF_NAVIGATION, nav).commit();
+        prefs.edit().putString(Constants.PREF_NAVIGATION, nav).apply();
         navigation = nav;
         navigationTmp = null;
     }
@@ -335,7 +322,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
         // Home widgets
         AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
         int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity, ListWidgetProvider.class));
-        Ln.d("Notifies AppWidget data changed for widgets " + ids);
+        Ln.d("Notifies AppWidget data changed for widgets " + Arrays.toString(ids));
         mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 
         // Dashclock

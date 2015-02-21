@@ -82,7 +82,9 @@ public abstract class AbsListViewScrollDetector implements AbsListView.OnScrollL
 
 
     private int getTopItemScrollY() {
-        if (mListView == null || mListView.getChildAt(0) == null) return 0;
+        if (mListView == null || mListView.getChildAt(0) == null) {
+            return 0;
+        }
         View topChild = mListView.getChildAt(0);
         return topChild.getTop();
     }

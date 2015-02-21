@@ -40,7 +40,7 @@ public class AppTourHelper {
 
 
     public static ArrayList<String> getShowcases() {
-        ArrayList<String> showcases = new ArrayList<String>();
+        ArrayList<String> showcases = new ArrayList<>();
         for (String showcaseSuffix : SHOWCASES_SUFFIXES) {
             showcases.add(Constants.PREF_TOUR_PREFIX + showcaseSuffix);
         }
@@ -64,7 +64,7 @@ public class AppTourHelper {
                 return true;
             } else {
                 if (res) {
-                    res = res && prefs.getBoolean(showcase, false);
+                    res = prefs.getBoolean(showcase, false);
                 } else {
                     return false;
                 }
@@ -110,7 +110,6 @@ public class AppTourHelper {
         prefs.edit().putBoolean(PREF_TOUR_COMPLETE, true).commit();
         for (String showcase : showcases) {
             prefs.edit().putBoolean(showcase, true).commit();
-            break;
         }
     }
 

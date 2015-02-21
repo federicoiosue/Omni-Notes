@@ -90,9 +90,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private static final int REQUEST_CODE_CATEGORY_NOTES = 3;
 
     private DynamicListView list;
-    private List<Note> selectedNotes = new ArrayList<Note>();
+    private List<Note> selectedNotes = new ArrayList<>();
     private Note swipedNote;
-    private List<Note> modifiedNotes = new ArrayList<Note>();
+    private List<Note> modifiedNotes = new ArrayList<>();
     private SearchView searchView;
     private MenuItem searchMenuItem;
     private Menu menu;
@@ -112,9 +112,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private boolean undoCategorize = false;
     private Category undoCategorizeCategory = null;
     // private Category removedCategory;
-    private SparseArray<Note> undoNotesList = new SparseArray<Note>();
+    private SparseArray<Note> undoNotesList = new SparseArray<>();
     // Used to remember removed categories from notes
-    private Map<Note, Category> undoCategoryMap = new HashMap<Note, Category>();
+    private Map<Note, Category> undoCategoryMap = new HashMap<>();
 
     // Search variables
     private String searchQuery;
@@ -402,7 +402,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
 
             // Backups modified notes in another structure to perform post-elaborations
-            modifiedNotes = new ArrayList<Note>(getSelectedNotes());
+            modifiedNotes = new ArrayList<>(getSelectedNotes());
 
             // Clears data structures
             selectedNotes.clear();
@@ -970,16 +970,17 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     void editNote2(Note note) {
         if (note.get_id() == 0) {
             Ln.d("Adding new note");
-            // if navigation is a tag it will be set into note
+            // if navigation is a category it will be set into note
             try {
-                int tagId;
+                int categoryId;
                 if (!TextUtils.isEmpty(getMainActivity().navigationTmp)) {
-                    tagId = Integer.parseInt(getMainActivity().navigationTmp);
+                    categoryId = Integer.parseInt(getMainActivity().navigationTmp);
                 } else {
-                    tagId = Integer.parseInt(getMainActivity().navigation);
+                    categoryId = Integer.parseInt(getMainActivity().navigation);
                 }
-                note.setCategory(DbHelper.getInstance(getActivity()).getCategory(tagId));
+                note.setCategory(DbHelper.getInstance(getActivity()).getCategory(categoryId));
             } catch (NumberFormatException e) {
+                Ln.e("Maybe was not a category!", e);
             }
         } else {
             Ln.d("Editing note with id: " + note.get_id());
@@ -1033,7 +1034,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private void checkSortActionPerformed(MenuItem item) {
         if (item.getGroupId() == Constants.MENU_SORT_GROUP_ID) {
             final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
-            prefs.edit().putString(Constants.PREF_SORTING_COLUMN, (String) arrayDb[item.getOrder()]).commit();
+            prefs.edit().putString(Constants.PREF_SORTING_COLUMN, arrayDb[item.getOrder()]).commit();
             initNotesList(getActivity().getIntent());
             // Resets list scrolling position
             listViewPositionOffset = 0;
@@ -1529,7 +1530,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             ubc.showUndoBar(false, getString(R.string.notes_category_removed), null);
             hideFab();
             undoCategorize = true;
-            undoCategorizeCategory = category;
+            undoCategorizeCategory = null;
         } else {
             getSelectedNotes().clear();
         }
@@ -1770,7 +1771,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         Note mergedNote = null;
         boolean locked = false;
         StringBuilder content = new StringBuilder();
-        ArrayList<Attachment> attachments = new ArrayList<Attachment>();
+        ArrayList<Attachment> attachments = new ArrayList<>();
 
         for (Note note : getSelectedNotes()) {
 
@@ -1857,9 +1858,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     @Override
                     public void onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
                         // Retrieves selected tags
-                        List<String> selectedTags = new ArrayList<String>();
-                        for (int i = 0; i < which.length; i++) {
-                            selectedTags.add(tags.get(which[i]).getText());
+                        List<String> selectedTags = new ArrayList<>();
+                        for (Integer aWhich : which) {
+                            selectedTags.add(tags.get(aWhich).getText());
                         }
 
                         // Saved here to allow persisting search

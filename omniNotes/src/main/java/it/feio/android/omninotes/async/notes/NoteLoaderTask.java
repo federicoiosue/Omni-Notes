@@ -37,7 +37,7 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 
     public NoteLoaderTask(Fragment mFragment,
                           OnNotesLoadedListener mOnNotesLoadedListener) {
-        mFragmentReference = new WeakReference<Fragment>(mFragment);
+        mFragmentReference = new WeakReference<>(mFragment);
         mActivity = mFragment.getActivity();
         this.mOnNotesLoadedListener = mOnNotesLoadedListener;
     }
@@ -45,7 +45,7 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected ArrayList<Note> doInBackground(Object... params) {
-		ArrayList<Note> notes = new ArrayList<Note>();
+		ArrayList<Note> notes = new ArrayList<>();
 		String methodName = params[0].toString();
 		Object methodArgs = params[1];
 		DbHelper db = DbHelper.getInstance(mActivity);
