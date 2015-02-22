@@ -17,6 +17,17 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.0.0" changeDate="Feb 21, 2015">
+        <changelogtext>[b]New![/b] Material design UI and new icon</changelogtext>
+        <changelogtext>[b]New![/b] Floating action button with long-press-shortcut to checklist and camera</changelogtext>
+        <changelogtext>[b]New![/b] Exceptionally improved image loading! Forget the lag!</changelogtext>
+        <changelogtext>[b]New![/b] Support for animated gif in notes list and detail</changelogtext>
+        <changelogtext>[b]New![/b] Filterable reminders: you can selectivelly include or not past reminders with a  single touch</changelogtext>
+        <changelogtext>[b]New![/b] Dynamic menu: only used items are shown withing navigation list (option in settings)</changelogtext>
+        <changelogtext>[b]New![/b] Application size reduced by 40% on Android Lollipop</changelogtext>
+        <changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 11" changeDate="Feb 17, 2015">
         <changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>
         <changelogtext>[u]Fix[/u] Toolbar title not changing on navigation</changelogtext>

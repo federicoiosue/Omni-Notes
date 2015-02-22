@@ -87,6 +87,3 @@ dependencies {
     //        exclude group: 'org.robolectric'
     //    }
 }
-dependencies{
-    androidTestCompile fileTree(dir: 'libs', include: ['robotium-solo-5.2.2-SNAPSHOT.jar'])
-}
