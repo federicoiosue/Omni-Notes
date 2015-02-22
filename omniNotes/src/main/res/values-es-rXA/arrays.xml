@@ -18,38 +18,38 @@
 <resources>
   <string-array name="navigation_list">
     <item>Notes</item>
-    <item>Ficheru</item>
-    <item>Avisos</item>
-    <item>Papelera</item>
-    <item>Ensin categoría</item>
+    <item>Arxiu</item>
+    <item>Recordatoris</item>
+    <item>Paperera</item>
+    <item>Sense categoria</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Títulu</item>
-    <item>Data de creación</item>
-    <item>Cabera modificación fecha</item>
-    <item>Data del avisu</item>
+    <item>Títol</item>
+    <item>Data de creació</item>
+    <item>Data de l\'última modificació</item>
+    <item>Data de notificació</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Caltener posición</item>
-    <item>Dir al final de la llista</item>
-    <item>Dir a la primera ensin marcar</item>
+    <item>Conserva la posició</item>
+    <item>Mou al final de la llista</item>
+    <item>Mou al final dels elements sense marcar</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Deshabilitáu</item>
-    <item>Namái la tira</item>
-    <item>Namái llistáu de notes</item>
-    <item>Completu</item>
+    <item>Desactivat</item>
+    <item>Només la tira</item>
+    <item>Només la llista de notes</item>
+    <item>Complet</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Deshabilitáu</item>
-    <item>Namái la tira</item>
+    <item>Desactivat</item>
+    <item>Només la tira</item>
     <item>Llista de notes</item>
   </string-array>
   <string-array name="text_size">
-    <item>Mui pequeñu</item>
-    <item>Pequeñu</item>
-    <item>Por defeutu</item>
-    <item>Grande</item>
-    <item>Mui grande</item>
+    <item>Més petit</item>
+    <item>Petit</item>
+    <item>Predeterminat</item>
+    <item>Gran</item>
+    <item>Més gran</item>
   </string-array>
 </resources>
