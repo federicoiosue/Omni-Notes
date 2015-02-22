@@ -1621,10 +1621,9 @@ public class DetailFragment extends Fragment implements
             // android.widget.EditText
             View contentView = root.findViewById(R.id.detail_content);
             if (contentView instanceof EditText) {
-                contentText = ((EditText) getActivity().findViewById(R.id.detail_content)).getText().toString();
+                contentText = ((EditText) contentView).getText().toString();
             } else if (contentView instanceof android.widget.EditText) {
-                contentText = ((android.widget.EditText) getActivity().findViewById(R.id.detail_content)).getText()
-                        .toString();
+                contentText = ((android.widget.EditText) contentView).getText().toString();
             }
         } else {
             if (mChecklistManager != null) {

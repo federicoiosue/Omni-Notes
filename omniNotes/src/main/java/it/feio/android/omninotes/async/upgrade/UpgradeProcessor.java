@@ -137,8 +137,8 @@ public class UpgradeProcessor {
             protected Object doInBackground(Object[] params) {
                 final DbHelper dbHelper = DbHelper.getInstance(OmniNotes.getAppContext());
                 for (Attachment attachment : dbHelper.getAllAttachments()) {
-                    if (attachment.getMime_type().equals("audio/3gp") || attachment.getMime_type().equals
-                            ("audio/3gpp")) {
+                    if ("audio/3gp".equals(attachment.getMime_type()) || "audio/3gpp".equals(attachment.getMime_type
+                            ())) {
 
                         // File renaming
                         File from = new File(attachment.getUriPath());
