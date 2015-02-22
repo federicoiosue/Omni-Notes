@@ -113,13 +113,13 @@ public interface Constants {
     final String EXPORT_FILE_NAME = TAG;
 
     final String MIME_TYPE_IMAGE = "image/jpeg";
-    final String MIME_TYPE_AUDIO = "audio/3gpp";
+    final String MIME_TYPE_AUDIO = "audio/amr";
     final String MIME_TYPE_VIDEO = "video/mp4";
     final String MIME_TYPE_SKETCH = "image/png";
     final String MIME_TYPE_FILES = "file/*";
 
     final String MIME_TYPE_IMAGE_EXT = ".jpeg";
-    final String MIME_TYPE_AUDIO_EXT = ".3gpp";
+    final String MIME_TYPE_AUDIO_EXT = ".amr";
     final String MIME_TYPE_VIDEO_EXT = ".mp4";
     final String MIME_TYPE_SKETCH_EXT = ".png";
 

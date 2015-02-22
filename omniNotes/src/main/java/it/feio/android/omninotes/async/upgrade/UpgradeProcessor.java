@@ -25,6 +25,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
+import org.apache.commons.io.FilenameUtils;
 import roboguice.util.Ln;
 
 import java.io.File;
@@ -130,18 +131,20 @@ public class UpgradeProcessor {
     /**
      * Upgrades all the old audio attachments to the new format 3gpp to avoid to exchange them for videos
      */
-    private void onUpgradeTo477() {
+    private void onUpgradeTo480() {
         new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] params) {
                 final DbHelper dbHelper = DbHelper.getInstance(OmniNotes.getAppContext());
                 for (Attachment attachment : dbHelper.getAllAttachments()) {
-                    if (attachment.getMime_type().equals("audio/3gp")) {
+                    if (attachment.getMime_type().equals("audio/3gp") || attachment.getMime_type().equals
+                            ("audio/3gpp")) {
 
                         // File renaming
                         File from = new File(attachment.getUriPath());
-                        File to = new File(from.getParent(), from.getName().replace(".3gp",
-                                Constants.MIME_TYPE_AUDIO_EXT));
+                        FilenameUtils.getExtension(from.getName());
+                        File to = new File(from.getParent(), from.getName().replace(FilenameUtils.getExtension(from
+                                .getName()), Constants.MIME_TYPE_AUDIO_EXT));
                         from.renameTo(to);
 
                         // Note's attachment update
