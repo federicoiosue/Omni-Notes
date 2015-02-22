@@ -268,9 +268,9 @@ public class DetailFragment extends Fragment implements
         super.onPause();
 
         // Checks "goBack" value to avoid performing a double saving
-        if (!goBack) {
-            saveNote(this);
-        }
+//        if (!goBack) {
+//            saveNote(this);
+//        }
 
         if (mRecorder != null) {
             mRecorder.release();
@@ -1603,37 +1603,37 @@ public class DetailFragment extends Fragment implements
 
 
     private String getNoteTitle() {
-        String res;
-        if (getActivity() != null && getActivity().findViewById(R.id.detail_title) != null) {
-            Editable editableTitle = ((EditText) getActivity().findViewById(R.id.detail_title)).getText();
-            res = TextUtils.isEmpty(editableTitle) ? "" : editableTitle.toString();
+        View titleView = root.findViewById(R.id.detail_title);
+        if (titleView instanceof EditText) {
+            Editable editableTitle = ((EditText) titleView).getText();
+            return TextUtils.isEmpty(editableTitle) ? "" : editableTitle.toString();
         } else {
-            res = title.getText() != null ? title.getText().toString() : "";
+            return title.getText() != null ? title.getText().toString() : "";
         }
-        return res;
     }
 
 
     private String getNoteContent() {
-        String content = "";
+        String contentText = "";
         if (!noteTmp.isChecklist()) {
             // Due to checklist library introduction the returned EditText class is no more
             // a com.neopixl.pixlui.components.edittext.EditText but a standard
             // android.widget.EditText
-            try {
-                content = ((EditText) getActivity().findViewById(R.id.detail_content)).getText().toString();
-            } catch (ClassCastException e) {
-                content = ((android.widget.EditText) getActivity().findViewById(R.id.detail_content)).getText()
+            View contentView = root.findViewById(R.id.detail_content);
+            if (contentView instanceof EditText) {
+                contentText = ((EditText) getActivity().findViewById(R.id.detail_content)).getText().toString();
+            } else if (contentView instanceof android.widget.EditText) {
+                contentText = ((android.widget.EditText) getActivity().findViewById(R.id.detail_content)).getText()
                         .toString();
             }
         } else {
             if (mChecklistManager != null) {
                 mChecklistManager.setKeepChecked(true);
                 mChecklistManager.setShowChecks(true);
-                content = mChecklistManager.getText();
+                contentText = mChecklistManager.getText();
             }
         }
-        return content;
+        return contentText;
     }
 
 
@@ -1847,11 +1847,13 @@ public class DetailFragment extends Fragment implements
             mAnimation.setAnimationListener(new AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
+                    // Nothind to do
                 }
 
 
                 @Override
                 public void onAnimationRepeat(Animation animation) {
+                    // Nothind to do
                 }
 
 
@@ -2001,28 +2003,28 @@ public class DetailFragment extends Fragment implements
 
 
     private void shrinkLayouts(int heightDiff) {
-        ViewGroup wrapper = ((ViewGroup) root.findViewById(R.id.detail_wrapper));
+        int heightDiffLocal = heightDiff;
+        ViewGroup wrapper = (ViewGroup) root.findViewById(R.id.detail_wrapper);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
                 && !title.hasFocus()) {
             wrapper.removeView(titleCardView);
-            heightDiff -= Display.getStatusBarHeight(getActivity());
+            heightDiffLocal -= Display.getStatusBarHeight(getActivity());
             if (orientationChanged) {
                 orientationChanged = false;
-                heightDiff -= Display.getActionbarHeight(getActivity());
+                heightDiffLocal -= Display.getActionbarHeight(getActivity());
             }
         }
         wrapper.removeView(timestampsView);
-
         keyboardPlaceholder = new View(getActivity());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
+            root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiffLocal);
         }
     }
 
 
     private void restoreLayouts() {
         if (root != null) {
-            ViewGroup wrapper = ((ViewGroup) root.findViewById(R.id.detail_wrapper));
+            ViewGroup wrapper = (ViewGroup) root.findViewById(R.id.detail_wrapper);
             if (root.indexOfChild(keyboardPlaceholder) != -1) {
                 root.removeView(keyboardPlaceholder);
             }
@@ -2073,13 +2075,14 @@ public class DetailFragment extends Fragment implements
 
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count,
-                                  int after) {
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // Nothing to do
     }
 
 
     @Override
     public void afterTextChanged(Editable s) {
+        // Nothing to do
     }
 
 
@@ -2173,12 +2176,16 @@ public class DetailFragment extends Fragment implements
 
         // Removes unchecked tags
         if (taggingResult.second.size() > 0) {
-            if (noteTmp.isChecklist()) toggleChecklist2(true, true);
+            if (noteTmp.isChecklist()) {
+                toggleChecklist2(true, true);
+            }
             Pair<String, String> titleAndContent = TagsHelper.removeTag(getNoteTitle(), getNoteContent(),
                     taggingResult.second);
             title.setText(titleAndContent.first);
             content.setText(titleAndContent.second);
-            if (noteTmp.isChecklist()) toggleChecklist2();
+            if (noteTmp.isChecklist()) {
+                toggleChecklist2();
+            }
         }
     }
 
