@@ -51,8 +51,8 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     private final OnNavigationItemClickedListener onNavigationItemclicked;
     private NonScrollableListView mDrawerCategoriesList;
     private View settingsView;
-    private NonScrollableListView mDrawerList;
     private View settingsViewCat;
+    private NonScrollableListView mDrawerList;
 
 
     public CategoryMenuTask(Fragment mFragment, OnNavigationItemClickedListener onNavigationItemclicked) {
@@ -94,7 +94,12 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
     @Override
     protected List<Category> doInBackground(Void... params) {
-        return buildCategoryMenu();
+        if (isAlive()) {
+            return buildCategoryMenu();
+        } else {
+            cancel(true);
+            return null;
+        }
     }
 
 
@@ -131,9 +136,9 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
     private List<Category> buildCategoryMenu() {
         // Retrieves data to fill tags list
-        ArrayList<Category> categories = DbHelper.getInstance(mainActivity).getCategories();
+        List<Category> categories = DbHelper.getInstance(mainActivity).getCategories();
 
-        View settings = categories.size() == 0 ? settingsView : settingsViewCat;
+        View settings = categories.isEmpty() ? settingsView : settingsViewCat;
         Fonts.overrideTextSize(mainActivity,
                 mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
                 settings);
@@ -164,8 +169,10 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
                     onNavigationItemclicked.onNavigationItemclicked(mDrawerCategoriesList.getItemAtPosition(position));
                     mainActivity.updateNavigation(String.valueOf(tag.getId()));
                     mDrawerCategoriesList.setItemChecked(position, true);
-                    if (mDrawerList != null)
-                        mDrawerList.setItemChecked(0, false); // Forces redraw
+                    // Forces redraw
+                    if (mDrawerList != null) {
+                        mDrawerList.setItemChecked(0, false);
+                    }
                     mainActivity.initNotesList(mainActivity.getIntent());
                 }
             }
