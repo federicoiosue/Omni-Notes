@@ -17,7 +17,7 @@
 
 package it.feio.android.omninotes.async.notes;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import it.feio.android.omninotes.DetailFragment;
@@ -37,20 +37,20 @@ import java.util.List;
 
 public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 
-    private final Activity mActivity;
+    private Context context;
     private boolean error = false;
     private boolean updateLastModification = true;
     private OnNoteSaved mOnNoteSaved;
 
 
-    public SaveNoteTask(DetailFragment activity, boolean updateLastModification) {
-        this(activity, null, updateLastModification);
+    public SaveNoteTask(Context context, boolean updateLastModification) {
+        this(context, null, updateLastModification);
     }
 
 
-    public SaveNoteTask(DetailFragment activity, OnNoteSaved mOnNoteSaved, boolean updateLastModification) {
+    public SaveNoteTask(Context context, OnNoteSaved mOnNoteSaved, boolean updateLastModification) {
         super();
-        mActivity = activity.getActivity();
+        context = context;
         this.mOnNoteSaved = mOnNoteSaved;
         this.updateLastModification = updateLastModification;
     }
@@ -60,16 +60,12 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
     protected Note doInBackground(Note... params) {
         Note note = params[0];
         purgeRemovedAttachments(note);
-
         if (!error) {
-            DbHelper db = DbHelper.getInstance(mActivity);
-            // Note updating on database
+            DbHelper db = DbHelper.getInstance(context);
             note = db.updateNote(note, updateLastModification);
         } else {
-            Toast.makeText(mActivity, mActivity.getString(R.string.error_saving_attachments), 
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.error_saving_attachments), Toast.LENGTH_SHORT).show();
         }
-
         return note;
     }
 
@@ -87,7 +83,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
         }
         // Remove from database deleted attachments
         for (Attachment deletedAttachment : deletedAttachments) {
-            StorageHelper.delete(mActivity, deletedAttachment.getUri().getPath());
+            StorageHelper.delete(context, deletedAttachment.getUri().getPath());
             Ln.d("Removed attachment " + deletedAttachment.getUri());
         }
     }

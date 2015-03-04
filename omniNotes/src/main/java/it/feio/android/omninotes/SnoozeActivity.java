@@ -25,10 +25,13 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
+import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
@@ -59,11 +62,10 @@ public class SnoozeActivity extends FragmentActivity implements OnReminderPicked
             finish();
         } else if (Constants.ACTION_SNOOZE.equals(getIntent().getAction())) {
             String snoozeDelay = prefs.getString("settings_notification_snooze_delay", "10");
-            long newAlarm = Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
-            setAlarm(note, newAlarm);
-            finish();
+            long newReminder = Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
+            updateNoteReminder(newReminder);
         } else if (Constants.ACTION_POSTPONE.equals(getIntent().getAction())) {
-            int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP : 
+            int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
                     ReminderPickers.TYPE_GOOGLE;
             ReminderPickers reminderPicker = new ReminderPickers(this, this, pickerType);
             reminderPicker.pick(Long.parseLong(note.getAlarm()));
@@ -85,20 +87,16 @@ public class SnoozeActivity extends FragmentActivity implements OnReminderPicked
     }
 
 
-    private void setAlarm(Note note, long newAlarm) {
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
-        PendingIntent sender = PendingIntent.getBroadcast(this, Constants.INTENT_ALARM_CODE, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager am = (AlarmManager) this.getSystemService(ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, newAlarm, sender);
+    @Override
+    public void onReminderPicked(long reminder) {
+        updateNoteReminder(reminder);
     }
 
 
-    @Override
-    public void onReminderPicked(long reminder) {
+    private void updateNoteReminder(long reminder) {
         note.setAlarm(reminder);
-        setAlarm(note, reminder);
+        new SaveNoteTask(this, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+        Toast.makeText(this, R.string.note_updated, Toast.LENGTH_SHORT).show();
         finish();
     }
 
