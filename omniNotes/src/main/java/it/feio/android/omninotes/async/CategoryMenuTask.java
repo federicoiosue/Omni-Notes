@@ -139,6 +139,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
         List<Category> categories = DbHelper.getInstance(mainActivity).getCategories();
 
         View settings = categories.isEmpty() ? settingsView : settingsViewCat;
+        if (settings == null) return categories;
         Fonts.overrideTextSize(mainActivity,
                 mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
                 settings);

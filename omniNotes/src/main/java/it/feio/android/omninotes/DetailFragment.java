@@ -1603,7 +1603,7 @@ public class DetailFragment extends Fragment implements
 
 
     private String getNoteTitle() {
-        View titleView = root.findViewById(R.id.detail_title);
+        View titleView = getView().findViewById(R.id.detail_title);
         if (titleView instanceof EditText) {
             Editable editableTitle = ((EditText) titleView).getText();
             return TextUtils.isEmpty(editableTitle) ? "" : editableTitle.toString();
