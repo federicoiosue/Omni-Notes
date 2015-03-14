@@ -32,6 +32,7 @@ import roboguice.util.Ln;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 
@@ -45,9 +46,10 @@ public class BitmapHelper {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         
-        Bitmap bmp;
+        InputStream inputStream = null;
+        InputStream inputStreamSampled = null;
         try {
-            InputStream inputStream = mContext.getContentResolver().openInputStream(uri);
+            inputStream = mContext.getContentResolver().openInputStream(uri);
             BitmapFactory.decodeStream(inputStream, null, options);
 
             // Setting decode options
@@ -55,11 +57,20 @@ public class BitmapHelper {
             options.inJustDecodeBounds = false;
 
             // Bitmap is now decoded for real using calculated inSampleSize
-            bmp = BitmapFactory.decodeStream(mContext.getContentResolver().openInputStream(uri), null, options);
+            inputStreamSampled = mContext.getContentResolver().openInputStream(uri);
+            return BitmapFactory.decodeStream(inputStreamSampled, null, options);
         } catch(FileNotFoundException e) {
-            bmp = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.attachment_broken);
+           return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.attachment_broken);
+        } finally {
+            try {
+                assert inputStream != null;
+                inputStream.close();
+                assert inputStreamSampled != null;
+                inputStreamSampled.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return bmp;
     }
 
 
