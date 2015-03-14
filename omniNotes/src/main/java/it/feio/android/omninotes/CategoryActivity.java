@@ -203,6 +203,9 @@ public class CategoryActivity extends Activity {
                         DbHelper db = DbHelper.getInstance(mActivity);
                         db.deleteCategory(category);
 
+                        // Updates app widgets
+                        BaseActivity.notifyAppWidgets(mActivity);
+
                         // Sets result to show proper message
                         setResult(RESULT_FIRST_USER);
                         finish();
