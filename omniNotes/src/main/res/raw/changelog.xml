@@ -28,6 +28,10 @@
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
 
+    <changelogversion versionName="5.0.0 Beta 13" changeDate="Mar 14, 2015">
+        <changelogtext>[u]Fix[/u] Various</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 12" changeDate="Feb 22, 2015">
         <changelogtext>Minor changes</changelogtext>
         <changelogtext>[u]Fix[/u] Audio attachments on Android versions previous Lollipop</changelogtext>
