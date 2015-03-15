@@ -1493,7 +1493,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
             // Update adapter content if actual navigation is the category
             // associated with actually cycled note
-            if (Navigation.checkNavigation(Navigation.CATEGORY) && !Navigation.checkNavigationCategory(category)) {
+            if ((Navigation.checkNavigation(Navigation.CATEGORY) && !Navigation.checkNavigationCategory(category)) ||
+             Navigation.checkNavigation(Navigation.UNCATEGORIZED)) {
                 listAdapter.remove(note);
             } else {
                 note.setCategory(category);
