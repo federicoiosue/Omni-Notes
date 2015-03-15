@@ -140,9 +140,9 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
         View settings = categories.isEmpty() ? settingsView : settingsViewCat;
         if (settings == null) return categories;
-        Fonts.overrideTextSize(mainActivity,
-                mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
-                settings);
+//        Fonts.overrideTextSize(mainActivity,
+//                mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
+//                settings);
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
