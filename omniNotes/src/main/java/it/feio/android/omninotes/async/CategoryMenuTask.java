@@ -114,7 +114,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
                 if (settingsViewCat != null)
                     settingsViewCat.setVisibility(View.GONE);
                 settingsView.setVisibility(View.VISIBLE);
-            } else if (categories.size() > 0) {
+            } else if (categories.size() > 0 && settingsViewCat != null) {
                 settingsViewCat.setVisibility(View.VISIBLE);
                 if (settingsViewCat != null)
                     settingsView.setVisibility(View.GONE);
