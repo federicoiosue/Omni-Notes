@@ -21,6 +21,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.text.TextUtils;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
@@ -29,7 +30,6 @@ import java.util.Calendar;
 
 
 public class ReminderHelper {
-
     public static void addReminder(Context context, Note note) {
         if (hasFutureReminder(note)) {
             Intent intent = new Intent(context, AlarmReceiver.class);

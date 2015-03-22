@@ -36,11 +36,12 @@ CREATE
 		alarm INTEGER DEFAULT null,
 		latitude REAL,
 		longitude REAL,
-		category_id INTEGER DEFAUL null,
+		category_id INTEGER DEFAULT null,
 		locked INTEGER,  
 		checklist  INTEGER   
 	);
-INSERT INTO notes(note_id, creation, last_modification, title, content, archived, alarm, latitude, longitude, category_id, locked, checklist)
-SELECT note_id, creation, last_modification, title, content, archived, alarm, latitude, longitude, tag_id, locked, checklist
+INSERT INTO notes(note_id, creation, last_modification, title, content, archived, trashed, alarm, latitude, longitude,
+category_id, locked, checklist)
+SELECT note_id, creation, last_modification, title, content, archived, trashed, alarm, latitude, longitude, tag_id, locked, checklist
 FROM notes_tmp;
 DROP TABLE notes_tmp; 

@@ -50,19 +50,36 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Pair;
-import android.view.*;
+import android.view.DragEvent;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnDragListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.ScrollView;
+import android.widget.Toast;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
@@ -71,6 +88,13 @@ import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.pushbullet.android.extension.MessagingExtension;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
@@ -79,7 +103,12 @@ import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.*;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
@@ -88,18 +117,24 @@ import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.AlphaManager;
+import it.feio.android.omninotes.utils.ConnectionManager;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.GeocodeHelper;
+import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.ShortcutHelper;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.TagsHelper;
+import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
 import roboguice.util.Ln;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
@@ -327,6 +362,10 @@ public class DetailFragment extends Fragment implements
 
         if (noteTmp.getAlarm() != null) {
             dateTimeText = initReminder(Long.parseLong(noteTmp.getAlarm()));
+            if (noteTmp.getRecurrenceRule() != null) {
+                dateTimeText = dateTimeText + " " + DateHelper.formatRecurrence(getActivity(), noteTmp
+                        .getRecurrenceRule());
+            }
         }
 
         initViews();
@@ -582,7 +621,7 @@ public class DetailFragment extends Fragment implements
                     // Title
                     noteTmp.setTitle(getNoteTitle());
                     noteTmp.setContent(getNoteContent());
-                    String title = it.feio.android.omninotes.utils.TextHelper.parseTitleAndContent(getActivity(), 
+                    String title = it.feio.android.omninotes.utils.TextHelper.parseTitleAndContent(getActivity(),
                             noteTmp)[0].toString();
                     // Images
                     int clickedImage = 0;
@@ -665,15 +704,17 @@ public class DetailFragment extends Fragment implements
         reminder_layout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP : 
+                int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
                         ReminderPickers.TYPE_GOOGLE;
                 ReminderPickers reminderPicker = new ReminderPickers(getActivity(), mFragment, pickerType);
                 Long presetDateTime = noteTmp.getAlarm() != null ? Long.parseLong(noteTmp.getAlarm()) : null;
-                reminderPicker.pick(presetDateTime);
+                reminderPicker.pick(presetDateTime, noteTmp.getRecurrenceRule());
                 onDateSetListener = reminderPicker;
                 onTimeSetListener = reminderPicker;
             }
         });
+
+
         reminder_layout.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -1833,6 +1874,7 @@ public class DetailFragment extends Fragment implements
         int anim = R.animator.fade_out_support;
         int visibilityTemp = View.GONE;
 
+
         if (fadeIn) {
             anim = R.animator.fade_in_support;
             visibilityTemp = View.VISIBLE;
@@ -2061,9 +2103,15 @@ public class DetailFragment extends Fragment implements
     public void onReminderPicked(long reminder) {
         noteTmp.setAlarm(reminder);
         if (mFragment.isAdded()) {
-            datetime.setText(getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(getActivity(), 
-                    reminder));
+            datetime.setText(getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(getActivity(), reminder));
         }
+    }
+
+    @Override
+    public void onRecurrenceReminderPicked(String recurrenceRule) {
+        Ln.d("Recurrent reminder set: " + recurrenceRule);
+        noteTmp.setRecurrenceRule(recurrenceRule);
+        datetime.append(" " + DateHelper.formatRecurrence(getActivity(), recurrenceRule));
     }
 
 

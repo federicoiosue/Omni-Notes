@@ -17,7 +17,12 @@
 package it.feio.android.omninotes.utils.date;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.format.Time;
+
+import be.billington.calendar.recurrencepicker.EventRecurrence;
+import be.billington.calendar.recurrencepicker.EventRecurrenceFormatter;
 import it.feio.android.omninotes.utils.Constants;
 import roboguice.util.Ln;
 
@@ -232,6 +237,20 @@ public class DateHelper {
         String m = String.valueOf(time / 1000 / 60);
         String s = String.format("%02d", (time / 1000) % 60);
         return m + ":" + s;
+    }
+
+
+    public static String formatRecurrence(Context mContext, String recurrenceRule) {
+        if (!TextUtils.isEmpty(recurrenceRule)) {
+            EventRecurrence recurrenceEvent = new EventRecurrence();
+            recurrenceEvent.setStartDate(new Time("" + new Date().getTime()));
+            recurrenceEvent.parse(recurrenceRule);
+            String srt = EventRecurrenceFormatter.getRepeatString(mContext.getApplicationContext(),
+                    mContext.getResources(), recurrenceEvent, true);
+            return srt;
+        } else {
+            return "";
+        }
     }
 
 }

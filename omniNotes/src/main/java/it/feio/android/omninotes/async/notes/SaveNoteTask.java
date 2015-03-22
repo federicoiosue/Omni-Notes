@@ -50,7 +50,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 
     public SaveNoteTask(Context context, OnNoteSaved mOnNoteSaved, boolean updateLastModification) {
         super();
-        context = context;
+        this.context = context;
         this.mOnNoteSaved = mOnNoteSaved;
         this.updateLastModification = updateLastModification;
     }

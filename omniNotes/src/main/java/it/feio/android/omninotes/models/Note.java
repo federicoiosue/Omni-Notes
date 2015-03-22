@@ -37,9 +37,12 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
 
     public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived,
-                Integer trashed, String alarm, String latitude, String longitude, Category category, Integer locked,
+                Integer trashed, String alarm, String recurrenceRule, String latitude, String longitude, Category
+                        category, Integer
+                        locked,
                 Integer checklist) {
-        super(_id, creation, lastModification, title, content, archived, trashed, alarm, latitude, longitude, category,
+        super(_id, creation, lastModification, title, content, archived, trashed, alarm, recurrenceRule, latitude,
+                longitude, category,
                 locked, checklist);
     }
 

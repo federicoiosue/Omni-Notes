@@ -1,5 +1,5 @@
 /*
-* Performs a column addition to keep location as string to avoid resolving everytime
+* Adds "recurrenceRule" column to the table
 */
 ALTER TABLE notes RENAME TO notes_tmp;
 CREATE
@@ -13,6 +13,7 @@ CREATE
 		archived INTEGER,
 		trashed INTEGER,
 		alarm INTEGER DEFAULT null,
+		recurrence_rule TEXT,
 		latitude REAL,
 		longitude REAL,
 		address TEXT,
@@ -20,7 +21,9 @@ CREATE
 		locked INTEGER,  
 		checklist  INTEGER   
 	);
-INSERT INTO notes(note_id, creation, last_modification, title, content, archived, alarm, latitude, longitude, category_id, locked, checklist)
-SELECT note_id, creation, last_modification, title, content, archived, alarm, latitude, longitude, category_id, locked, checklist
+INSERT INTO notes(note_id, creation, last_modification, title, content, archived, trashed, alarm, latitude, longitude,
+ address, category_id, locked, checklist)
+SELECT note_id, creation, last_modification, title, content, archived, trashed, alarm, latitude, longitude, address,
+category_id, locked, checklist
 FROM notes_tmp;
 DROP TABLE notes_tmp; 

@@ -53,6 +53,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String KEY_ARCHIVED = "archived";
     public static final String KEY_TRASHED = "trashed";
     public static final String KEY_REMINDER = "alarm";
+    public static final String KEY_RECURRENCE_RULE = "recurrence_rule";
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
     public static final String KEY_ADDRESS = "address";
@@ -186,6 +187,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_ARCHIVED, note.isArchived());
         values.put(KEY_TRASHED, note.isTrashed());
         values.put(KEY_REMINDER, note.getAlarm());
+        values.put(KEY_RECURRENCE_RULE, note.getRecurrenceRule());
         values.put(KEY_LATITUDE, note.getLatitude());
         values.put(KEY_LONGITUDE, note.getLongitude());
         values.put(KEY_ADDRESS, note.getAddress());
@@ -430,6 +432,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + KEY_ARCHIVED + ","
                 + KEY_TRASHED + ","
                 + KEY_REMINDER + ","
+                + KEY_RECURRENCE_RULE + ","
                 + KEY_LATITUDE + ","
                 + KEY_LONGITUDE + ","
                 + KEY_ADDRESS + ","
@@ -463,6 +466,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     note.setArchived("1".equals(cursor.getString(i++)));
                     note.setTrashed("1".equals(cursor.getString(i++)));
                     note.setAlarm(cursor.getString(i++));
+                    note.setRecurrenceRule(cursor.getString(i++));
                     note.setLatitude(cursor.getString(i++));
                     note.setLongitude(cursor.getString(i++));
                     note.setAddress(cursor.getString(i++));

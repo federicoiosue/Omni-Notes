@@ -68,6 +68,7 @@ dependencies {
         exclude group: 'org.json'
     }
     compile 'com.github.gabrielemariotti.changeloglib:library:1.5.2'
+    compile 'be.billington.calendar.recurrencepicker:library:1.1.1'
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'org.roboguice:roboguice:3.0'

@@ -37,6 +37,7 @@ import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
+import roboguice.util.Ln;
 
 import java.util.Calendar;
 
@@ -90,6 +91,11 @@ public class SnoozeActivity extends FragmentActivity implements OnReminderPicked
     @Override
     public void onReminderPicked(long reminder) {
         updateNoteReminder(reminder);
+    }
+
+    @Override
+    public void onRecurrenceReminderPicked(String recurrenceRule) {
+        Ln.d("Recurrent reminder set: " + recurrenceRule);
     }
 
 
