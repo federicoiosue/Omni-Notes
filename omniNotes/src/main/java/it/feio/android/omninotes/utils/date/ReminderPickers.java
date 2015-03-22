@@ -177,7 +177,7 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener, Re
     @Override
     public void onRecurrenceSet(final String rrule) {
         Calendar c = Calendar.getInstance();
-        c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minutes);
+        c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minutes, 0);
         if (mOnReminderPickedListener != null) {
             mOnReminderPickedListener.onReminderPicked(c.getTimeInMillis());
             mOnReminderPickedListener.onRecurrenceReminderPicked(rrule);
