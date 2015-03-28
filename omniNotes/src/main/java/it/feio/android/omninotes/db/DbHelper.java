@@ -24,13 +24,27 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
-import it.feio.android.omninotes.models.*;
-import it.feio.android.omninotes.utils.*;
-import roboguice.util.Ln;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+
+import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Stats;
+import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.utils.AssetUtils;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.Security;
+import it.feio.android.omninotes.utils.TagsHelper;
+import roboguice.util.Ln;
 
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -38,7 +52,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // Database name
     private static final String DATABASE_NAME = Constants.DATABASE_NAME;
     // Database version aligned if possible to software version
-    private static final int DATABASE_VERSION = 480;
+    private static final int DATABASE_VERSION = 481;
     // Sql query file directory
     private static final String SQL_DIR = "sql";
 

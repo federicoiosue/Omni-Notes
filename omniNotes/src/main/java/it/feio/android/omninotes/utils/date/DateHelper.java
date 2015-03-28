@@ -21,15 +21,17 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 
-import be.billington.calendar.recurrencepicker.EventRecurrence;
-import be.billington.calendar.recurrencepicker.EventRecurrenceFormatter;
-import it.feio.android.omninotes.utils.Constants;
-import roboguice.util.Ln;
+import net.fortuna.ical4j.model.property.RRule;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import be.billington.calendar.recurrencepicker.EventRecurrence;
+import be.billington.calendar.recurrencepicker.EventRecurrenceFormatter;
+import it.feio.android.omninotes.utils.Constants;
+import roboguice.util.Ln;
 
 
 /**
@@ -251,6 +253,21 @@ public class DateHelper {
         } else {
             return "";
         }
+    }
+
+
+    public static Long nextReminderFromRecurrenceRule(long reminder, String recurrenceRule) {
+        RRule rule = new RRule();
+        try {
+            rule.setValue(recurrenceRule);
+            net.fortuna.ical4j.model.DateTime seed = new net.fortuna.ical4j.model.DateTime(reminder);
+            net.fortuna.ical4j.model.DateTime start = new net.fortuna.ical4j.model.DateTime(reminder + 24L * 60L *
+                    60L * 1000L);
+            return rule.getRecur().getNextDate(seed, start).getTime();
+        } catch (ParseException e) {
+            Ln.e("Error parsing rrule");
+        }
+        return 0L;
     }
 
 }

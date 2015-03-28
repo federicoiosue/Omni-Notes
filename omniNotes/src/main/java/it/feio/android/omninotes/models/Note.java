@@ -62,6 +62,7 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
         setArchived(in.readInt());
         setTrashed(in.readInt());
         setAlarm(in.readString());
+        setRecurrenceRule(in.readString());
         setLatitude(in.readString());
         setLongitude(in.readString());
         setAddress(in.readString());
@@ -147,6 +148,7 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
         parcel.writeInt(isArchived() ? 1 : 0);
         parcel.writeInt(isTrashed() ? 1 : 0);
         parcel.writeString(getAlarm());
+        parcel.writeString(getRecurrenceRule());
         parcel.writeString(String.valueOf(getLatitude()));
         parcel.writeString(String.valueOf(getLongitude()));
         parcel.writeString(getAddress());

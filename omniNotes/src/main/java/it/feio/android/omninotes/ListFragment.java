@@ -611,21 +611,23 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      */
     private ImageView getZoomListItemView(View view, Note note) {
         final ImageView expandedImageView = (ImageView) getActivity().findViewById(R.id.expanded_image);
-        View targetView = null;
-        if (note.getAttachmentsList().size() > 0) {
-            targetView = view.findViewById(R.id.attachmentThumbnail);
+        if (expandedImageView != null) {
+            View targetView = null;
+            if (note.getAttachmentsList().size() > 0) {
+                targetView = view.findViewById(R.id.attachmentThumbnail);
+            }
+            if (targetView == null && note.getCategory() != null) {
+                targetView = view.findViewById(R.id.category_marker);
+            }
+            if (targetView == null) {
+                targetView = new ImageView(getActivity());
+                targetView.setBackgroundColor(Color.WHITE);
+            }
+            targetView.setDrawingCacheEnabled(true);
+            targetView.buildDrawingCache();
+            Bitmap bmp = targetView.getDrawingCache();
+            expandedImageView.setBackgroundColor(BitmapHelper.getDominantColor(bmp));
         }
-        if (targetView == null && note.getCategory() != null) {
-            targetView = view.findViewById(R.id.category_marker);
-        }
-        if (targetView == null) {
-            targetView = new ImageView(getActivity());
-            targetView.setBackgroundColor(Color.WHITE);
-        }
-        targetView.setDrawingCacheEnabled(true);
-        targetView.buildDrawingCache();
-        Bitmap bmp = targetView.getDrawingCache();
-        expandedImageView.setBackgroundColor(BitmapHelper.getDominantColor(bmp));
         return expandedImageView;
     }
 

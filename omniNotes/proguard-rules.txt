@@ -53,3 +53,26 @@
 # Fix reflection obfuscation
 -keep class it.feio.android.omninotes.db.DbHelper { *; }
 -keep class it.feio.android.omninotes.async.upgrade.UpgradeProcessor { *; }
+
+## ical4j also contains groovy code which is not used in android
+-dontwarn groovy.**
+-dontwarn org.codehaus.groovy.**
+-dontwarn org.apache.commons.logging.**
+-dontwarn sun.misc.Perf
+
+-dontnote com.google.vending.**
+-dontnote com.android.vending.licensing.**
+
+###################
+# Get rid of #can't find referenced method in library class java.lang.Object# warnings for clone() and finalize()
+# Warning: net.fortuna.ical4j.model.CalendarFactory: can't find referenced method 'void finalize()' in library class java.lang.Object
+# Warning: net.fortuna.ical4j.model.ContentBuilder: can't find referenced method 'java.lang.Object clone()' in library class java.lang.Object
+# for details see http://stackoverflow.com/questions/23883028/how-to-fix-proguard-warning-cant-find-referenced-method-for-existing-methods
+-dontwarn net.fortuna.ical4j.model.**
+
+###############
+# I use proguard only to remove unused stuff and to keep the app small.
+# I donot want to obfuscate (rename packages, classes, methods, ...) since this is open source
+-keepnames class ** { *; }
+-keepnames interface ** { *; }
+-keepnames enum ** { *; }
