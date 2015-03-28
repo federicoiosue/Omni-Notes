@@ -66,6 +66,15 @@
     <!--<item name="android:textColor">#ffffff</item>-->
     <!--</style>-->
 
+    <style name="OmniNotesTheme.NoDisplay">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowNoDisplay">true</item>
+    </style>
+
     <style name="OmniNotesTheme.ApiSpec.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@drawable/bg_card</item>

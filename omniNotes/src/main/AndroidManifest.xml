@@ -157,7 +157,7 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:noHistory="true"
-            android:theme="@android:style/Theme.NoDisplay" />
+            android:theme="@style/OmniNotesTheme.NoDisplay" />
 
         <!-- Stats -->
         <activity
