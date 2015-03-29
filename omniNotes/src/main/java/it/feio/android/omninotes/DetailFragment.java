@@ -1483,7 +1483,7 @@ public class DetailFragment extends Fragment implements
                 getMainActivity().deleteNote(noteTmp);
                 goHome();
             } else {
-                SaveNoteTask saveNoteTask = new SaveNoteTask(getActivity(), this, false);
+                SaveNoteTask saveNoteTask = new SaveNoteTask(this, false);
                 if (Build.VERSION.SDK_INT >= 11) {
                     saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
                 } else {
@@ -1585,7 +1585,7 @@ public class DetailFragment extends Fragment implements
         noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
         // Saving changes to the note
-        SaveNoteTask saveNoteTask = new SaveNoteTask(this.getActivity(), mOnNoteSaved, lastModificationUpdatedNeeded());
+        SaveNoteTask saveNoteTask = new SaveNoteTask(mOnNoteSaved, lastModificationUpdatedNeeded());
         saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteTmp);
     }
 

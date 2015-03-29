@@ -106,21 +106,23 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     @Override
     protected void onPostExecute(final List<Category> categories) {
         if (isAlive()) {
-
             mDrawerCategoriesList.setAdapter(new NavDrawerCategoryAdapter(mainActivity, categories,
                     mainActivity.getNavigationTmp()));
-
             if (categories.size() == 0) {
-                if (settingsViewCat != null)
-                    settingsViewCat.setVisibility(View.GONE);
-                settingsView.setVisibility(View.VISIBLE);
-            } else if (categories.size() > 0 && settingsViewCat != null) {
-                settingsViewCat.setVisibility(View.VISIBLE);
-                if (settingsViewCat != null)
-                    settingsView.setVisibility(View.GONE);
+                setWidgetVisibility(settingsViewCat, false);
+                setWidgetVisibility(settingsView, true);
+            } else {
+                setWidgetVisibility(settingsViewCat, true);
+                setWidgetVisibility(settingsView, false);
             }
-
             mDrawerCategoriesList.justifyListViewHeightBasedOnChildren();
+        }
+    }
+
+
+    private void setWidgetVisibility(View view, boolean visible) {
+        if (view != null) {
+            view.setVisibility(visible ? View.VISIBLE : View.GONE);
         }
     }
 

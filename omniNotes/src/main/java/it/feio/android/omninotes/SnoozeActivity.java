@@ -111,7 +111,7 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
     private void updateNoteReminder(long reminder, Note note) {
         if (note != null) {
             note.setAlarm(reminder);
-            new SaveNoteTask(this, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+            new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
         } else {
             ReminderHelper.addReminder(this, note, reminder);
         }

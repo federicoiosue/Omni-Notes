@@ -43,14 +43,14 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
     private OnNoteSaved mOnNoteSaved;
 
 
-    public SaveNoteTask(Context context, boolean updateLastModification) {
-        this(context, null, updateLastModification);
+    public SaveNoteTask(boolean updateLastModification) {
+        this(null, updateLastModification);
     }
 
 
-    public SaveNoteTask(Context context, OnNoteSaved mOnNoteSaved, boolean updateLastModification) {
+    public SaveNoteTask(OnNoteSaved mOnNoteSaved, boolean updateLastModification) {
         super();
-        this.context = context;
+        this.context = OmniNotes.getAppContext();
         this.mOnNoteSaved = mOnNoteSaved;
         this.updateLastModification = updateLastModification;
     }
@@ -104,7 +104,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
         // Set reminder if is not passed yet
         long now = Calendar.getInstance().getTimeInMillis();
         if (note.getAlarm() != null && Long.parseLong(note.getAlarm()) >= now) {
-            ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+            ReminderHelper.addReminder(context, note);
         }
 
         if (this.mOnNoteSaved != null) {
