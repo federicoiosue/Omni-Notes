@@ -98,7 +98,9 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
         if (!TextUtils.isEmpty(note.getRecurrenceRule())) {
             long nextReminder = DateHelper.nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()), note
                     .getRecurrenceRule());
-            updateNoteReminder(nextReminder, note);
+            if (nextReminder > 0) {
+                updateNoteReminder(nextReminder, note);
+            }
         }
     }
 

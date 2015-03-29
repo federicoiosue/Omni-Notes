@@ -263,9 +263,14 @@ public class DateHelper {
         try {
             rule.setValue(recurrenceRule);
             net.fortuna.ical4j.model.DateTime seed = new net.fortuna.ical4j.model.DateTime(reminder);
-            net.fortuna.ical4j.model.DateTime start = new net.fortuna.ical4j.model.DateTime(reminder + 24L * 60L *
-                    60L * 1000L);
-            return rule.getRecur().getNextDate(seed, start).getTime();
+            long startTimestamp = reminder + 24L * 60L * 60L * 1000L;
+            long now = Calendar.getInstance().getTimeInMillis();
+            if (startTimestamp < now) {
+                startTimestamp = now;
+            }
+            net.fortuna.ical4j.model.DateTime start = new net.fortuna.ical4j.model.DateTime(startTimestamp);
+            Date nextDate = rule.getRecur().getNextDate(seed, start);
+            return nextDate == null ? 0L : nextDate.getTime();
         } catch (ParseException e) {
             Ln.e("Error parsing rrule");
         }
