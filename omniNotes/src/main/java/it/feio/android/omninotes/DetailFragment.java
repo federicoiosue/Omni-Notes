@@ -168,9 +168,6 @@ public class DetailFragment extends Fragment implements
     private Note note;
     private Note noteTmp;
     private Note noteOriginal;
-    // Reminder
-    private String reminderDate = "", reminderTime = "";
-    private String dateTimeText = "";
     // Audio recording
     private String recordName;
     private MediaPlayer mPlayer = null;
@@ -358,14 +355,6 @@ public class DetailFragment extends Fragment implements
         if (noteTmp.isLocked() && !noteTmp.isPasswordChecked()) {
             checkNoteLock(noteTmp);
             return;
-        }
-
-        if (noteTmp.getAlarm() != null) {
-            dateTimeText = initReminder(Long.parseLong(noteTmp.getAlarm()));
-            if (noteTmp.getRecurrenceRule() != null) {
-                dateTimeText = dateTimeText + " " + DateHelper.formatRecurrence(getActivity(), noteTmp
-                        .getRecurrenceRule());
-            }
         }
 
         initViews();
@@ -724,8 +713,6 @@ public class DetailFragment extends Fragment implements
                         .callback(new MaterialDialog.SimpleCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
-                                reminderDate = "";
-                                reminderTime = "";
                                 noteTmp.setAlarm(null);
                                 datetime.setText("");
                             }
@@ -738,7 +725,7 @@ public class DetailFragment extends Fragment implements
 
         // Reminder
         datetime = (TextView) getView().findViewById(R.id.datetime);
-        datetime.setText(dateTimeText);
+        datetime.setText(initReminder(noteTmp));
 
         // Timestamps view
         timestampsView = getActivity().findViewById(R.id.detail_timestamps);
@@ -1151,7 +1138,7 @@ public class DetailFragment extends Fragment implements
 
         // Inflate the popup_layout.xml
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        final View layout = inflater.inflate(R.layout.dialog_remove_checklist_layout, 
+        final View layout = inflater.inflate(R.layout.dialog_remove_checklist_layout,
                 (ViewGroup) getView().findViewById(R.id.layout_root));
 
         // Retrieves options checkboxes and initialize their values
@@ -1742,24 +1729,17 @@ public class DetailFragment extends Fragment implements
     /**
      * Used to set actual reminder state when initializing a note to be edited
      */
-    private String initReminder(long reminderDateTime) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(reminderDateTime);
-        reminderDate = DateHelper.onDateSet(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH), Constants.DATE_FORMAT_SHORT_DATE);
-        reminderTime = DateHelper.getTimeShort(getActivity(), cal.getTimeInMillis());
-        return getString(R.string.alarm_set_on) + " " + reminderDate + " " + getString(R.string.at_time)
-                + " " + reminderTime;
-    }
-
-
-    public String getReminderDate() {
-        return reminderDate;
-    }
-
-
-    public String getReminderTime() {
-        return reminderTime;
+    private String initReminder(Note note) {
+        if (noteTmp.getAlarm() == null) {
+            return "";
+        }
+        long reminder = Long.parseLong(note.getAlarm());
+        String rrule = note.getRecurrenceRule();
+        if (!TextUtils.isEmpty(rrule)) {
+            return DateHelper.getNoteRecurrentReminderText(reminder, rrule);
+        } else {
+            return DateHelper.getNoteReminderText(reminder);
+        }
     }
 
 
@@ -1794,7 +1774,7 @@ public class DetailFragment extends Fragment implements
                 recordingBitmap = ((GlideBitmapDrawable)d.getCurrent()).getBitmap();
             }
             ((ImageView) v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail
-                    (BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.stop), 
+                    (BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.stop),
                             Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
         }
     }
@@ -2103,15 +2083,18 @@ public class DetailFragment extends Fragment implements
     public void onReminderPicked(long reminder) {
         noteTmp.setAlarm(reminder);
         if (mFragment.isAdded()) {
-            datetime.setText(getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(getActivity(), reminder));
+            datetime.setText(DateHelper.getNoteReminderText(reminder));
         }
     }
 
     @Override
     public void onRecurrenceReminderPicked(String recurrenceRule) {
-        Ln.d("Recurrent reminder set: " + recurrenceRule);
         noteTmp.setRecurrenceRule(recurrenceRule);
-        datetime.append(" " + DateHelper.formatRecurrence(getActivity(), recurrenceRule));
+        if (!TextUtils.isEmpty(recurrenceRule)) {
+            Ln.d("Recurrent reminder set: " + recurrenceRule);
+            datetime.setText(DateHelper.getNoteRecurrentReminderText(Long.parseLong(noteTmp
+                    .getAlarm()), recurrenceRule));
+        }
     }
 
 

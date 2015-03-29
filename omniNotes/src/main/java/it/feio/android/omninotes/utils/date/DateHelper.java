@@ -30,6 +30,8 @@ import java.util.Date;
 
 import be.billington.calendar.recurrencepicker.EventRecurrence;
 import be.billington.calendar.recurrencepicker.EventRecurrenceFormatter;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import roboguice.util.Ln;
 
@@ -268,6 +270,18 @@ public class DateHelper {
             Ln.e("Error parsing rrule");
         }
         return 0L;
+    }
+
+
+    public static String getNoteReminderText(long reminder) {
+        return OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + getDateTimeShort(OmniNotes
+                        .getAppContext(), reminder);
+    }
+
+
+    public static String getNoteRecurrentReminderText(long reminder, String rrule) {
+        return DateHelper.formatRecurrence(OmniNotes.getAppContext(), rrule) + " " + OmniNotes.getAppContext().getString
+                (R.string.starting_from) + " " + DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder);
     }
 
 }

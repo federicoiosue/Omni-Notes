@@ -17,19 +17,14 @@
 
 package it.feio.android.omninotes;
 
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.NotificationManager;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -41,16 +36,11 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
-import roboguice.util.Ln;
 
 
-//public class SnoozeActivity extends FragmentActivity implements OnReminderPickedListener, OnDateSetListener,
-//        OnTimeSetListener {
 public class SnoozeActivity extends ActionBarActivity implements OnReminderPickedListener {
 
     private Note note;
-//    private OnDateSetListener mOnDateSetListener;
-//    private OnTimeSetListener mOnTimeSetListener;
 
 
     @Override
@@ -75,8 +65,6 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
                     ReminderPickers.TYPE_GOOGLE;
             ReminderPickers reminderPicker = new ReminderPickers(this, this, pickerType);
             reminderPicker.pick(Long.parseLong(note.getAlarm()), note.getRecurrenceRule());
-//            mOnDateSetListener = reminderPicker;
-//            mOnTimeSetListener = reminderPicker;
         } else {
             setNextRecurrentReminder(note);
             Intent intent = new Intent(this, MainActivity.class);
@@ -130,19 +118,5 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
         Toast.makeText(this, getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(this, reminder), Toast
                 .LENGTH_SHORT).show();
     }
-
-
-//    @Override
-//    public void onDateSet(DatePicker view, int year, int monthOfYear,
-//                          int dayOfMonth) {
-//        mOnDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
-//    }
-//
-//
-//    @Override
-//    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//        mOnTimeSetListener.onTimeSet(view, hourOfDay, minute);
-//    }
-
 
 }
