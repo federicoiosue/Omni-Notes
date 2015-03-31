@@ -115,6 +115,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private SparseArray<Note> undoNotesList = new SparseArray<>();
     // Used to remember removed categories from notes
     private Map<Note, Category> undoCategoryMap = new HashMap<>();
+    // Used to remember archived state from notes
+    private Map<Note, Boolean> undoArchivedMap = new HashMap<>();
 
     // Search variables
     private String searchQuery;
@@ -1384,6 +1386,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             // If is restore it will be done immediately, otherwise the undo bar
             // will be shown
             if (archive) {
+                // Saves archived state to eventually undo
+                undoArchivedMap.put(note, note.isArchived());
                 // Saves notes to be eventually restored at right position
                 undoNotesList.put(listAdapter.getPosition(note) + undoNotesList.size(), note);
                 modifiedNotes.add(note);
@@ -1651,15 +1655,16 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 if (undoCategorize) {
                     note.setCategory(undoCategoryMap.get(note));
                 } else if (undoArchive) {
-                    note.setArchived(false);
+                    note.setArchived(undoArchivedMap.get(note));
                 }
                 listAdapter.replace(note, listAdapter.getPosition(note));
-                listAdapter.notifyDataSetChanged();
                 // Manages trash undo
             } else {
                 list.insert(undoNotesList.keyAt(undoNotesList.indexOfValue(note)), note);
             }
         }
+
+        listAdapter.notifyDataSetChanged();
 
         selectedNotes.clear();
         undoNotesList.clear();
@@ -1670,6 +1675,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         undoCategorize = false;
         undoNotesList.clear();
         undoCategoryMap.clear();
+        undoArchivedMap.clear();
         undoCategorizeCategory = null;
         Crouton.cancelAllCroutons();
 
@@ -1703,6 +1709,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             modifiedNotes.clear();
             undoNotesList.clear();
             undoCategoryMap.clear();
+            undoArchivedMap.clear();
             list.clearChoices();
 
             ubc.hideUndoBar(false);

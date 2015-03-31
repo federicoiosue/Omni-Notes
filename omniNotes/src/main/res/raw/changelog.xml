@@ -33,6 +33,7 @@
         <changelogtext>[u]Fix[/u] Catalan and Asturian translations (sorry for the mistake)</changelogtext>
         <changelogtext>[u]Fix[/u] FAB not shown after undo action</changelogtext>
         <changelogtext>[u]Fix[/u] Crash when swiping a note from inside trash to restore it</changelogtext>
+        <changelogtext>[u]Fix[/u] Undoing archive action from inside categories shows now correct archived state icon</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.0.0 Beta 14" changeDate="Mar 29, 2015">
