@@ -1677,6 +1677,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             getActionMode().finish();
         }
         ubc.hideUndoBar(false);
+        showFab();
     }
 
 
