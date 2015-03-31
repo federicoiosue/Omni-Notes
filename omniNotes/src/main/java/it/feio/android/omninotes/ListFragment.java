@@ -1766,17 +1766,40 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     }
 
 
+    public void merge() {
+        new MaterialDialog.Builder(getActivity())
+                .title(R.string.delete_merged)
+                .positiveText(R.string.ok)
+                .negativeText(R.string.no)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        mergeExecute(false);
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        mergeExecute(true);
+                    }
+                }).build().show();
+    }
+
+
     /**
      * Merges all the selected notes
      */
-    public void merge() {
+    public void mergeExecute(boolean keepMergedNotes) {
 
         Note mergedNote = null;
         boolean locked = false;
         StringBuilder content = new StringBuilder();
         ArrayList<Attachment> attachments = new ArrayList<>();
 
+        ArrayList<Integer> notesIds = new ArrayList<>();
+
         for (Note note : getSelectedNotes()) {
+
+            notesIds.add(note.get_id());
 
             if (mergedNote == null) {
                 mergedNote = new Note();
@@ -1822,6 +1845,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         // Sets the intent action to be recognized from DetailFragment and switch fragment
         getActivity().getIntent().setAction(Constants.ACTION_MERGE);
+        if (!keepMergedNotes) {
+            getActivity().getIntent().putIntegerArrayListExtra("merged_notes", notesIds);
+        }
         getMainActivity().switchToDetail(mergedNote);
     }
 

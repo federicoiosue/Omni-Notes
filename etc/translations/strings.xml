@@ -44,6 +44,7 @@
     <string name="delete_note_confirmation">Confirm note deletion?</string>
     <string name="confirm">Confirm</string>
     <string name="ok">Ok</string>
+    <string name="no">No</string>
     <string name="cancel">Cancel</string>
     <string name="note_updated">Note updated</string>
     <string name="empty_note_not_saved">Can\'t save an empty note</string>

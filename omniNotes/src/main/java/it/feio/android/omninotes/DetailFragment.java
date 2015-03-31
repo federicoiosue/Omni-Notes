@@ -192,12 +192,12 @@ public class DetailFragment extends Fragment implements
     private boolean orientationChanged;
     private long audioRecordingTimeStart;
     private long audioRecordingTime;
-    private boolean showKeyboard;
     private DetailFragment mFragment;
     private Attachment sketchEdited;
     private ScrollView scrollView;
     private int contentLineCounter = 1;
     private int contentCursorPosition;
+    private ArrayList<Integer> mergedNotesIds = new ArrayList<>();
 
 
     @Override
@@ -395,6 +395,9 @@ public class DetailFragment extends Fragment implements
             noteOriginal = new Note();
             note = new Note(noteOriginal);
             noteTmp = getArguments().getParcelable(Constants.INTENT_NOTE);
+            if (i.getIntegerArrayListExtra("merged_notes") != null) {
+                mergedNotesIds = i.getIntegerArrayListExtra("merged_notes");
+            }
             i.setAction(null);
         }
 
@@ -1624,8 +1627,17 @@ public class DetailFragment extends Fragment implements
     public void onNoteSaved(Note noteSaved) {
         MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
         note = new Note(noteSaved);
+        deleteMergedNotes(mergedNotesIds);
         if (goBack) {
             goHome();
+        }
+    }
+
+    private void deleteMergedNotes(ArrayList<Integer> mergedNotesIds) {
+        for (Integer mergedNoteId : mergedNotesIds) {
+            Note note = new Note();
+            note.set_id(mergedNoteId);
+            DbHelper.getInstance(getActivity().getApplicationContext()).deleteNote(note, true);
         }
     }
 

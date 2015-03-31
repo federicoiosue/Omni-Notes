@@ -28,6 +28,11 @@
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
 
+    <changelogversion versionName="5.0.0 Beta 15" changeDate="Mar 31, 2015">
+        <changelogtext>[b]New![/b] Choose if to delete merged note after succesfull merge</changelogtext>
+        <changelogtext>[u]Fix[/u] Fixed Catalan and Asturian translations (sorry for the mistake)</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 14" changeDate="Mar 29, 2015">
         <changelogtext>[b]New![/b] Recurrent reminders</changelogtext>
         <changelogtext>[u]Fix[/u] Graphic when setting reminder from notification actions</changelogtext>
