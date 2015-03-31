@@ -30,7 +30,9 @@
 
     <changelogversion versionName="5.0.0 Beta 15" changeDate="Mar 31, 2015">
         <changelogtext>[b]New![/b] Choose to keep or delete merged note after succesfull merge</changelogtext>
-        <changelogtext>[u]Fix[/u] Fixed Catalan and Asturian translations (sorry for the mistake)</changelogtext>
+        <changelogtext>[u]Fix[/u] Catalan and Asturian translations (sorry for the mistake)</changelogtext>
+        <changelogtext>[u]Fix[/u] FAB not shown after undo action</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash when swiping a note from inside trash to restore it</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.0.0 Beta 14" changeDate="Mar 29, 2015">

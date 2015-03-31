@@ -32,7 +32,9 @@ import java.util.Calendar;
 public class ReminderHelper {
 
     public static void addReminder(Context context, Note note) {
-        addReminder(context, note, Long.parseLong(note.getAlarm()));
+        if (note.getAlarm() != null) {
+            addReminder(context, note, Long.parseLong(note.getAlarm()));
+        }
     }
 
     public static void addReminder(Context context, Note note, long reminder) {
