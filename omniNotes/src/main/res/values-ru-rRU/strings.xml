@@ -54,6 +54,7 @@
   <string name="select_sorting_column">Сортировать по</string>
   <string name="tap_to_undo">Коснитесь, чтобы отменить</string>
   <string name="alarm_set_on">Сигнал установлен ​​на</string>
+  <string name="starting_from">начиная с</string>
   <string name="at_time">в</string>
   <string name="discard_changes">Отменить изменения</string>
   <string name="attachment">Прикрепить</string>

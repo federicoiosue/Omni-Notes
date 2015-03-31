@@ -54,6 +54,7 @@
   <string name="select_sorting_column">Sortera efter</string>
   <string name="tap_to_undo">Tryck för att ångra</string>
   <string name="alarm_set_on">Larm inställt på</string>
+  <string name="starting_from">starting from</string>
   <string name="at_time">vid</string>
   <string name="discard_changes">Ångra ändringar</string>
   <string name="attachment">Bilaga</string>

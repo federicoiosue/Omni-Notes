@@ -54,6 +54,7 @@
   <string name="select_sorting_column">排序</string>
   <string name="tap_to_undo">点击撤消</string>
   <string name="alarm_set_on">闹钟已设置于</string>
+  <string name="starting_from">starting from</string>
   <string name="at_time">,</string>
   <string name="discard_changes">放弃更改</string>
   <string name="attachment">附件</string>

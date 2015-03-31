@@ -54,6 +54,7 @@
   <string name="select_sorting_column">並べ替え方法</string>
   <string name="tap_to_undo">タップすると元に戻します</string>
   <string name="alarm_set_on">アラームの設定</string>
+  <string name="starting_from">始まり</string>
   <string name="at_time">時間</string>
   <string name="discard_changes">変更を破棄</string>
   <string name="attachment">添付</string>
@@ -123,7 +124,7 @@
   <string name="sketch">スケッチ</string>
   <string name="crash_dialog_text">Omni Notes に何か問題があります\n開発者へ自動的にレポートを送信しますか?</string>
   <string name="crash_dialog_comment_prompt">ここにコメントを入力してください (オプション):</string>
-  <string name="crash_toast">Omni Notes に何か問題があります\n開発者にレポートを送信しました!</string>
+  <string name="crash_toast">Omni Notes に何か問題がありました\n開発者にレポートを送信しました!</string>
   <string name="new_update_available">新しいバージョンの Omni Notes が利用可能です。更新しますか?</string>
   <string name="update">更新して評価する!</string>
   <string name="not_now">今はしない</string>

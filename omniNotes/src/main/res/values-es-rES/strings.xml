@@ -55,6 +55,7 @@
   <string name="select_sorting_column">Ordenar por</string>
   <string name="tap_to_undo">Pulse para deshacer</string>
   <string name="alarm_set_on">Alarma configurada el</string>
+  <string name="starting_from">starting from</string>
   <string name="at_time">a las</string>
   <string name="discard_changes">Descartar cambios</string>
   <string name="attachment">Adjuntar</string>
