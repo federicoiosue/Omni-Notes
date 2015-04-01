@@ -69,8 +69,10 @@ import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.listeners.AbsListViewScrollDetector;
+import it.feio.android.omninotes.models.listeners.OnFabItemClickedListener;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
+import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
@@ -129,11 +131,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private NoteAdapter listAdapter;
     private int layoutSelected;
     private UndoBarController ubc;
-
-    //    Fab
-    private FloatingActionsMenu fab;
-    private boolean fabAllowed;
-    private boolean fabHidden = true;
+    private Fab fab;
 
 
     @Override
@@ -182,83 +180,39 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         initEasterEgg();
         // Listview initialization
         initListView();
-        initFab();
         // Activity title initialization
         initTitle();
         ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
     }
 
 
-    boolean fabExpanded = false;
-
-
+    // FAB behaviors
     private void initFab() {
-        fab = (FloatingActionsMenu) getActivity().findViewById(R.id.fab);
-        AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(com.getbase
-                .floatingactionbutton.R.id.fab_expand_menu_button);
-        fabAddButton.setOnClickListener(new OnClickListener() {
+        boolean fabExpansionBehavior = prefs.getBoolean(Constants.PREF_FAB_EXPANSION_BEHAVIOR, true);
+        fab = new Fab(getActivity().findViewById(R.id.fab), list, fabExpansionBehavior);
+        fab.setOnFabItemClickedListener(new OnFabItemClickedListener() {
             @Override
-            public void onClick(View v) {
-                if (fabExpanded) {
-                    fab.toggle();
-                    fabExpanded = false;
-                } else {
-                    editNote(new Note(), v);
+            public void OnFabItemClick(int id) {
+                View v = getActivity().findViewById(id);
+                switch (id) {
+                    case com.getbase
+                            .floatingactionbutton.R.id.fab_expand_menu_button:
+                        editNote(new Note(), v);
+                        break;
+                    case R.id.fab_camera:
+                        Intent i = getActivity().getIntent();
+                        i.setAction(Constants.ACTION_TAKE_PHOTO);
+                        getActivity().setIntent(i);
+                        editNote(new Note(), v);
+                        break;
+                    case R.id.fab_checklist:
+                        Note note = new Note();
+                        note.setChecklist(true);
+                        editNote(note, v);
+                        break;
                 }
             }
         });
-        fabAddButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                fabExpanded = !fabExpanded;
-                fab.toggle();
-                return true;
-            }
-        });
-        list.setOnScrollListener(
-                new AbsListViewScrollDetector() {
-                    public void onScrollUp() {
-                        if (fab != null) {
-                            fab.collapse();
-                            hideFab();
-                        }
-                    }
-
-
-                    public void onScrollDown() {
-                        if (fab != null) {
-                            fab.collapse();
-                            showFab();
-                        }
-                    }
-                });
-
-        fab.findViewById(R.id.fab_checklist).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Note note = new Note();
-                note.setChecklist(true);
-                editNote(note, v);
-            }
-        });
-        fab.findViewById(R.id.fab_camera).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = getActivity().getIntent();
-                i.setAction(Constants.ACTION_TAKE_PHOTO);
-                getActivity().setIntent(i);
-                editNote(new Note(), v);
-            }
-        });
-
-        // In KitKat bottom padding is added by navbar height
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fab.getLayoutParams();
-            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin,
-                    navBarHeight + DensityUtil.pxToDp(params.bottomMargin, getActivity()));
-            fab.setLayoutParams(params);
-        }
     }
 
 
@@ -355,6 +309,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     @Override
     public void onResume() {
         super.onResume();
+
+        // FAB initialization
+        initFab();
+
         initNotesList(getActivity().getIntent());
 
         // Navigation drawer initialization to ensure data refresh
@@ -382,10 +340,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_list, menu);
             actionMode = mode;
-
-            fabAllowed = false;
-            hideFab();
-
+            fab.setFabAllowed(false);
+            fab.hideFab();
             return true;
         }
 
@@ -411,9 +367,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             listAdapter.clearSelectedItems();
             list.clearChoices();
 
-            setFabAllowed(true);
+            fab.setFabAllowed(true);
             if (undoNotesList.size() == 0) {
-                showFab();
+                fab.showFab();
             }
 
             actionMode = null;
@@ -449,74 +405,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
             return true;
         }
-    }
-
-
-    private void setFabAllowed(boolean allowed) {
-        if (allowed) {
-            boolean showFab = Navigation.checkNavigation(new Integer[]{Navigation.NOTES, Navigation.CATEGORY});
-            if (showFab) {
-                fabAllowed = true;
-            }
-        } else {
-            fabAllowed = false;
-        }
-    }
-
-
-    private void showFab() {
-        if (fab != null && fabAllowed && isFabHidden()) {
-            animateFab(0, View.VISIBLE, View.VISIBLE);
-            fabHidden = false;
-        }
-    }
-
-
-    private void hideFab() {
-        if (fab != null && !isFabHidden()) {
-            fab.collapse();
-            animateFab(fab.getHeight() + getMarginBottom(fab), View.VISIBLE, View.INVISIBLE);
-            fabHidden = true;
-        }
-    }
-
-
-    private boolean isFabHidden() {
-        return fabHidden;
-    }
-
-
-    private void animateFab(int translationY, final int visibilityBefore, final int visibilityAfter) {
-        animate(fab).setInterpolator(new AccelerateDecelerateInterpolator())
-                .setDuration(Constants.FAB_ANIMATION_TIME)
-                .translationY(translationY)
-                .setListener(new ViewPropertyAnimatorListener() {
-                    @Override
-                    public void onAnimationStart(View view) {
-                        fab.setVisibility(visibilityBefore);
-                    }
-
-
-                    @Override
-                    public void onAnimationEnd(View view) {
-                        fab.setVisibility(visibilityAfter);
-                    }
-
-
-                    @Override
-                    public void onAnimationCancel(View view) {
-                    }
-                });
-    }
-
-
-    private int getMarginBottom(View view) {
-        int marginBottom = 0;
-        final ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
-            marginBottom = ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
-        }
-        return marginBottom;
     }
 
 
@@ -822,13 +710,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         boolean navigationTrash = Navigation.checkNavigation(Navigation.TRASH);
 
         if (!navigationReminders && !navigationArchive && !navigationTrash) {
-            setFabAllowed(true);
+            fab.setFabAllowed(true);
             if (!drawerOpen) {
-                showFab();
+                fab.showFab();
             }
         } else {
-            setFabAllowed(false);
-            hideFab();
+            fab.setFabAllowed(false);
+            fab.hideFab();
         }
         menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
         menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders && 
@@ -952,7 +840,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     void editNote(final Note note, final View view) {
-        hideFab();
+        fab.hideFab();
         if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
             BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
                 @Override
@@ -1279,7 +1167,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // Creation of undo bar
         if (trash) {
             ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.trashed), null);
-            hideFab();
+            fab.hideFab();
             undoTrash = true;
         } else {
             getSelectedNotes().clear();
@@ -1417,7 +1305,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // Creation of undo bar
         if (archive) {
             ubc.showUndoBar(false, selectedNotesSize + " " + getString(R.string.archived), null);
-            hideFab();
+            fab.hideFab();
             undoArchive = true;
         } else {
             getSelectedNotes().clear();
@@ -1535,7 +1423,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // Creation of undo bar
         if (category == null) {
             ubc.showUndoBar(false, getString(R.string.notes_category_removed), null);
-            hideFab();
+            fab.hideFab();
             undoCategorize = true;
             undoCategorizeCategory = null;
         } else {
@@ -1683,7 +1571,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             getActionMode().finish();
         }
         ubc.hideUndoBar(false);
-        showFab();
+        fab.showFab();
     }
 
 
@@ -1713,7 +1601,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             list.clearChoices();
 
             ubc.hideUndoBar(false);
-            showFab();
+            fab.showFab();
 
             BaseActivity.notifyAppWidgets(getActivity());
         }
