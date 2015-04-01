@@ -215,6 +215,16 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 }
             }
         });
+        fab.setOverlay(getActivity().findViewById(R.id.overlay));
+    }
+
+
+    boolean closeFab() {
+        if (fab.isExpanded()) {
+            fab.performToggle();
+            return true;
+        }
+        return false;
     }
 
 

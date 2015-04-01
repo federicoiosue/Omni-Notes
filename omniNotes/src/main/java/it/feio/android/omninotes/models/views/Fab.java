@@ -30,6 +30,7 @@ public class Fab {
     private boolean fabExpanded = false;
     private final ListView listView;
     private boolean expandOnLongClick;
+    private View overlay;
 
     OnFabItemClickedListener onFabItemClickedListener;
 
@@ -40,6 +41,7 @@ public class Fab {
         this.expandOnLongClick = expandOnLongClick;
         init();
     }
+
 
     private void init() {
         AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(R.id.fab_expand_menu_button);
@@ -108,9 +110,21 @@ public class Fab {
         }
     };
 
-    private void performToggle() {
+    public void performToggle() {
         fabExpanded = !fabExpanded;
         fab.toggle();
+        toggleOverlay();
+    }
+
+
+    private void toggleOverlay() {
+        if (this.overlay != null) {
+            if (fabExpanded) {
+                this.overlay.setVisibility(View.VISIBLE);
+            } else {
+                this.overlay.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void performAction(View v) {
@@ -124,7 +138,7 @@ public class Fab {
 
 
     public void showFab() {
-        if (fab != null && fabAllowed && isFabHidden()) {
+        if (fab != null && fabAllowed && fabHidden) {
             animateFab(0, View.VISIBLE, View.VISIBLE);
             fabHidden = false;
         }
@@ -132,16 +146,13 @@ public class Fab {
 
 
     public void hideFab() {
-        if (fab != null && !isFabHidden()) {
+        if (fab != null && !fabHidden) {
             fab.collapse();
             animateFab(fab.getHeight() + getMarginBottom(fab), View.VISIBLE, View.INVISIBLE);
             fabHidden = true;
+            fabExpanded = false;
+            toggleOverlay();
         }
-    }
-
-
-    public boolean isFabHidden() {
-        return fabHidden;
     }
 
 
@@ -192,5 +203,20 @@ public class Fab {
 
     public void setOnFabItemClickedListener(OnFabItemClickedListener onFabItemClickedListener) {
         this.onFabItemClickedListener = onFabItemClickedListener;
+    }
+
+
+    public void setOverlay(View overlay) {
+        this.overlay = overlay;
+        this.overlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performToggle();
+            }
+        });
+    }
+
+    public boolean isExpanded() {
+        return fabExpanded;
     }
 }

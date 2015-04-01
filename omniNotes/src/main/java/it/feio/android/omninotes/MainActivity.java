@@ -265,7 +265,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
                     getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
                 getDrawerLayout().closeDrawer(GravityCompat.START);
             } else {
-                super.onBackPressed();
+                if (!((ListFragment)f).closeFab()) {
+                    super.onBackPressed();
+                }
             }
             return;
         }
