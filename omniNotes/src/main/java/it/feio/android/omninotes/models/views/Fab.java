@@ -42,8 +42,7 @@ public class Fab {
     }
 
     private void init() {
-        AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(com.getbase
-                .floatingactionbutton.R.id.fab_expand_menu_button);
+        AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(R.id.fab_expand_menu_button);
         fabAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +73,6 @@ public class Fab {
                         }
                     }
 
-
                     public void onScrollDown() {
                         if (fab != null) {
                             fab.collapse();
@@ -83,18 +81,14 @@ public class Fab {
                     }
                 });
 
-        fab.findViewById(R.id.fab_checklist).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFabItemClickedListener.OnFabItemClick(v.getId());
-            }
-        });
-        fab.findViewById(R.id.fab_camera).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFabItemClickedListener.OnFabItemClick(v.getId());
-            }
-        });
+        fab.findViewById(R.id.fab_checklist).setOnClickListener(onClickListener);
+        fab.findViewById(R.id.fab_camera).setOnClickListener(onClickListener);
+
+        if (!expandOnLongClick) {
+            View noteBtn = fab.findViewById(R.id.fab_note);
+            noteBtn.setVisibility(View.VISIBLE);
+            noteBtn.setOnClickListener(onClickListener);
+        }
 
         // In KitKat bottom padding is added by navbar height
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -105,6 +99,14 @@ public class Fab {
             fab.setLayoutParams(params);
         }
     }
+
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onFabItemClickedListener.OnFabItemClick(v.getId());
+        }
+    };
 
     private void performToggle() {
         fabExpanded = !fabExpanded;

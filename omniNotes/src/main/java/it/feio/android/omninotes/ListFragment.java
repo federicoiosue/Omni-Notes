@@ -195,8 +195,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             public void OnFabItemClick(int id) {
                 View v = getActivity().findViewById(id);
                 switch (id) {
-                    case com.getbase
-                            .floatingactionbutton.R.id.fab_expand_menu_button:
+                    case R.id.fab_expand_menu_button:
+                        editNote(new Note(), v);
+                        break;
+                    case R.id.fab_note:
                         editNote(new Note(), v);
                         break;
                     case R.id.fab_camera:
