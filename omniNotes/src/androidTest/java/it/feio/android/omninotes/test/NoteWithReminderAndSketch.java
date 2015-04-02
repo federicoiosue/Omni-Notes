@@ -51,6 +51,10 @@ public class NoteWithReminderAndSketch extends ActivityInstrumentationTestCase2<
         solo.waitForDialogToOpen(5000);
         //Click on Done
         solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.done_button));
+        //Wait for dialog
+        solo.waitForDialogToOpen(5000);
+        //Click on Done in recurrent reminders fragment
+        solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.done));
         // Check if a reminder is present
         assertNotNull(((TextView) solo.getView(it.feio.android.omninotes.R.id.datetime)).getText().toString());
         //Click on Empty Text View
