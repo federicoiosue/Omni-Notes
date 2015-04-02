@@ -188,7 +188,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     // FAB behaviors
     private void initFab() {
-        boolean fabExpansionBehavior = prefs.getBoolean(Constants.PREF_FAB_EXPANSION_BEHAVIOR, true);
+        boolean fabExpansionBehavior = prefs.getBoolean(Constants.PREF_FAB_EXPANSION_BEHAVIOR, false);
         fab = new Fab(getActivity().findViewById(R.id.fab), list, fabExpansionBehavior);
         fab.setOnFabItemClickedListener(new OnFabItemClickedListener() {
             @Override
@@ -215,7 +215,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 }
             }
         });
-        fab.setOverlay(getActivity().findViewById(R.id.overlay));
+        fab.setOverlay(R.color.white_overlay);
     }
 
 

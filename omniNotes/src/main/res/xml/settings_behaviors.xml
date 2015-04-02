@@ -71,7 +71,7 @@
         android:title="@string/settings_fab_expansion_behavior"
         android:summaryOn="@string/settings_fab_expansion_behavior_summary_on"
         android:summaryOff="@string/settings_fab_expansion_behavior_summary_off"
-        android:defaultValue="true" />
+        android:defaultValue="false" />
 
     <CheckBoxPreference
         android:key="acra.enable"

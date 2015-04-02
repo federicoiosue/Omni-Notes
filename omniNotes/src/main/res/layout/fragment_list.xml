@@ -96,13 +96,6 @@
 
     </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
 
-    <View
-        android:id="@+id/overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white_overlay"
-        android:visibility="gone"/>
-
     <include
         android:id="@+id/undobar"
         layout="@layout/undobar" />

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -214,6 +215,25 @@ public class Fab {
                 performToggle();
             }
         });
+    }
+
+
+    public void setOverlay(int colorResurce) {
+        View overlayView = new View(OmniNotes.getAppContext());
+        overlayView.setBackgroundResource(colorResurce);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams
+                .MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        overlayView.setLayoutParams(params);
+        overlayView.setVisibility(View.GONE);
+        overlayView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performToggle();
+            }
+        });
+        ViewGroup parent = ((ViewGroup) fab.getParent());
+        parent.addView(overlayView, parent.indexOfChild(fab));
+        this.overlay = overlayView;
     }
 
     public boolean isExpanded() {
