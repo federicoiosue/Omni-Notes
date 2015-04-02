@@ -71,7 +71,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
                 .getString(
                         Constants.PREF_WIDGET_PREFIX
                                 + String.valueOf(appWidgetId), "");
-        notes = DbHelper.getInstance(app).getNotes(condition, true);
+        notes = DbHelper.getInstance().getNotes(condition, true);
     }
 
 
@@ -84,7 +84,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
                 .getString(
                         Constants.PREF_WIDGET_PREFIX
                                 + String.valueOf(appWidgetId), "");
-        notes = DbHelper.getInstance(app).getNotes(condition, true);
+        notes = DbHelper.getInstance().getNotes(condition, true);
     }
 
 

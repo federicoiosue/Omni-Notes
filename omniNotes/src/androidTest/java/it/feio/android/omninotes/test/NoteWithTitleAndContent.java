@@ -80,7 +80,7 @@ public class NoteWithTitleAndContent extends ActivityInstrumentationTestCase2<Ma
         // Wait a little
         solo.sleep(1500);
         // Retrieve note and check some assertions
-        List<Note> retrievedNotes = DbHelper.getInstance(OmniNotes.getAppContext()).getNotesByPattern(NOTE_CONTENT);
+        List<Note> retrievedNotes = DbHelper.getInstance().getNotesByPattern(NOTE_CONTENT);
         assertEquals(retrievedNotes.size(), 1);
         assertEquals(retrievedNotes.get(0).getTitle(), NOTE_TITLE);
     }

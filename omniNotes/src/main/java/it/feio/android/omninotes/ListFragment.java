@@ -241,7 +241,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         if (index >= 0 && index < navigationListCodes.length) {
             title = navigationList[index];
         } else {
-            title = DbHelper.getInstance(getActivity()).getCategory(Integer.parseInt(navigation)).getName();
+            title = DbHelper.getInstance().getCategory(Integer.parseInt(navigation)).getName();
         }
         title = title == null ? getString(R.string.title_activity_list) : title;
         getMainActivity().setActionBarTitle(title);
@@ -882,7 +882,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 } else {
                     categoryId = Integer.parseInt(getMainActivity().navigation);
                 }
-                note.setCategory(DbHelper.getInstance(getActivity()).getCategory(categoryId));
+                note.setCategory(DbHelper.getInstance().getCategory(categoryId));
             } catch (NumberFormatException e) {
                 Ln.e("Maybe was not a category!", e);
             }
@@ -999,7 +999,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     searchTags = null;
                 }
                 if (getMainActivity().loadNotesSync) {
-                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance(getActivity()).getNotesByPattern(searchQuery));
+                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance().getNotesByPattern(searchQuery));
                 } else {
                     mNoteLoaderTask.execute("getNotesByPattern", searchQuery);
                 }
@@ -1022,7 +1022,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 }
                 intent.removeExtra(Constants.INTENT_WIDGET);
                 if (getMainActivity().loadNotesSync) {
-                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance(getActivity()).getNotesByCategory(
+                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance().getNotesByCategory(
                             getMainActivity().navigationTmp));
                 } else {
                     mNoteLoaderTask.execute("getNotesByTag", getMainActivity().navigationTmp);
@@ -1032,7 +1032,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 // Gets all notes
             } else {
                 if (getMainActivity().loadNotesSync) {
-                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance(getActivity()).getAllNotes(true));
+                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance().getAllNotes(true));
                 } else {
                     mNoteLoaderTask.execute("getAllNotes", true);
                 }
@@ -1349,7 +1349,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      */
     private void categorizeNotes() {
         // Retrieves all available categories
-        final ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
+        final ArrayList<Category> categories = DbHelper.getInstance().getCategories();
 
         final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.categorize_as)
@@ -1455,7 +1455,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private void tagNotes() {
 
         // Retrieves all available tags
-        final List<Tag> tags = DbHelper.getInstance(getActivity()).getTags();
+        final List<Tag> tags = DbHelper.getInstance().getTags();
 
         // If there is no tag a message will be shown
         if (tags.size() == 0) {
@@ -1532,7 +1532,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         note.setTitle(titleAndContent.first);
         note.setContent(titleAndContent.second);
 
-        DbHelper.getInstance(getActivity()).updateNote(note, false);
+        DbHelper.getInstance().updateNote(note, false);
     }
 
 

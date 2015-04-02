@@ -405,7 +405,7 @@ public class DetailFragment extends Fragment implements
         if (Constants.ACTION_SHORTCUT.equals(i.getAction())
                 || Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())) {
             afterSavedReturnsToList = false;
-            noteOriginal = DbHelper.getInstance(getActivity()).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+            noteOriginal = DbHelper.getInstance().getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
             // Checks if the note pointed from the shortcut has been deleted
             if (noteOriginal == null) {
                 getMainActivity().showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
@@ -431,7 +431,7 @@ public class DetailFragment extends Fragment implements
                     if (categoryId != null) {
                         Category category;
                         try {
-                            category = DbHelper.getInstance(getActivity()).getCategory(Integer.parseInt(categoryId));
+                            category = DbHelper.getInstance().getCategory(Integer.parseInt(categoryId));
                             noteTmp = new Note();
                             noteTmp.setCategory(category);
                         } catch (NumberFormatException e) {
@@ -1220,7 +1220,7 @@ public class DetailFragment extends Fragment implements
      */
     private void categorizeNote() {
         // Retrieves all available categories
-        final ArrayList<Category> categories = DbHelper.getInstance(getActivity()).getCategories();
+        final ArrayList<Category> categories = DbHelper.getInstance().getCategories();
 
         final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.categorize_as)
@@ -1637,7 +1637,7 @@ public class DetailFragment extends Fragment implements
         for (Integer mergedNoteId : mergedNotesIds) {
             Note note = new Note();
             note.set_id(mergedNoteId);
-            DbHelper.getInstance(getActivity().getApplicationContext()).deleteNote(note, true);
+            DbHelper.getInstance().deleteNote(note, true);
         }
     }
 

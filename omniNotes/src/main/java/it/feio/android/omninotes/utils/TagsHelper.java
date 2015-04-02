@@ -35,7 +35,7 @@ public class TagsHelper {
 
 
     public static List<Tag> getAllTags(Context context) {
-        return DbHelper.getInstance(context).getTags();
+        return DbHelper.getInstance().getTags();
     }
 
 

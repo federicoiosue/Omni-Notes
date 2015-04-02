@@ -17,11 +17,10 @@
 
 package it.feio.android.omninotes.async.notes;
 
-import it.feio.android.omninotes.OmniNotes;
+import java.util.List;
+
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
-
-import java.util.List;
 
 
 public class NoteProcessorArchive extends NoteProcessor {
@@ -37,6 +36,6 @@ public class NoteProcessorArchive extends NoteProcessor {
 
     @Override
     protected void processNote(Note note) {
-        DbHelper.getInstance(OmniNotes.getAppContext()).archiveNote(note, archive);
+        DbHelper.getInstance().archiveNote(note, archive);
     }
 }

@@ -96,7 +96,7 @@ public class UpgradeProcessor {
         new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] params) {
-                final DbHelper dbHelper = DbHelper.getInstance(OmniNotes.getAppContext());
+                final DbHelper dbHelper = DbHelper.getInstance();
                 for (Attachment attachment : dbHelper.getAllAttachments()) {
                     if (attachment.getMime_type() == null) {
                         String mimeType = StorageHelper.getMimeType(attachment.getUri().toString());
@@ -135,7 +135,7 @@ public class UpgradeProcessor {
         new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] params) {
-                final DbHelper dbHelper = DbHelper.getInstance(OmniNotes.getAppContext());
+                final DbHelper dbHelper = DbHelper.getInstance();
                 for (Attachment attachment : dbHelper.getAllAttachments()) {
                     if ("audio/3gp".equals(attachment.getMime_type()) || "audio/3gpp".equals(attachment.getMime_type
                             ())) {

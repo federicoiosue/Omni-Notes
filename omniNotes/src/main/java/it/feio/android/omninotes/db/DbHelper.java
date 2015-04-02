@@ -33,6 +33,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -106,9 +107,9 @@ public class DbHelper extends SQLiteOpenHelper {
     private static DbHelper instance = null;
 
 
-    public static DbHelper getInstance(Context ctx) {
+    public static DbHelper getInstance() {
         if (instance == null) {
-            instance = new DbHelper(ctx.getApplicationContext());
+            instance = new DbHelper(OmniNotes.getAppContext());
         }
         return instance;
     }

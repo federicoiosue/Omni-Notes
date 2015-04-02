@@ -165,7 +165,7 @@ public class CategoryActivity extends Activity {
             category.setColor(String.valueOf(picker.getColor()));
 
         // Saved to DB and new id or update result catched
-        DbHelper db = DbHelper.getInstance(this);
+        DbHelper db = DbHelper.getInstance();
         category = db.updateCategory(category);
 
         // Sets result to show proper message
@@ -178,7 +178,7 @@ public class CategoryActivity extends Activity {
     private void deleteCategory() {
 
         // Retrieving how many notes are categorized with category to be deleted
-        DbHelper db = DbHelper.getInstance(this);
+        DbHelper db = DbHelper.getInstance();
         int count = db.getCategorizedCount(category);
         String msg;
         if (count > 0)
@@ -200,7 +200,7 @@ public class CategoryActivity extends Activity {
                         if (String.valueOf(category.getId()).equals(navigation))
                             prefs.edit().putString(Constants.PREF_NAVIGATION, navNotes).apply();
                         // Removes category and edit notes associated with it
-                        DbHelper db = DbHelper.getInstance(mActivity);
+                        DbHelper db = DbHelper.getInstance();
                         db.deleteCategory(category);
 
                         // Updates app widgets

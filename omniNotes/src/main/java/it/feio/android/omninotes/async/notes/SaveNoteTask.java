@@ -61,7 +61,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
         Note note = params[0];
         purgeRemovedAttachments(note);
         if (!error) {
-            DbHelper db = DbHelper.getInstance(context);
+            DbHelper db = DbHelper.getInstance();
             note = db.updateNote(note, updateLastModification);
         } else {
             Toast.makeText(context, context.getString(R.string.error_saving_attachments), Toast.LENGTH_SHORT).show();

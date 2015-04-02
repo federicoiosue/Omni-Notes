@@ -71,7 +71,7 @@ public class NoteWithAudioAndCategory extends ActivityInstrumentationTestCase2<M
 
 		// Category deletion
 
-		int categoriesCount = DbHelper.getInstance(getActivity()).getCategories().size();
+		int categoriesCount = DbHelper.getInstance().getCategories().size();
 		//Open navigation drawer
 		solo.clickOnView(solo.getView(android.widget.ImageButton.class, 0));
 		//Long click on first category
@@ -82,6 +82,6 @@ public class NoteWithAudioAndCategory extends ActivityInstrumentationTestCase2<M
 		solo.clickOnView(solo.getView(com.afollestad.materialdialogs.R.id.buttonDefaultPositive));
 		solo.sleep(500);
 		//Checks categories number decreased
-		assertEquals(DbHelper.getInstance(getActivity()).getCategories().size(), categoriesCount - 1);
+		assertEquals(DbHelper.getInstance().getCategories().size(), categoriesCount - 1);
 	}
 }

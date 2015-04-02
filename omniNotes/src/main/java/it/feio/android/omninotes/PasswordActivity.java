@@ -151,10 +151,10 @@ public class PasswordActivity extends BaseActivity {
      * Removes the lock from all notes
      */
     private void unlockAllNotes() {
-        List<Note> lockedNotes = DbHelper.getInstance(getApplicationContext()).getNotesWithLock(true);
+        List<Note> lockedNotes = DbHelper.getInstance().getNotesWithLock(true);
         for (Note lockedNote : lockedNotes) {
             lockedNote.setLocked(false);
-            DbHelper.getInstance(getApplicationContext()).updateNote(lockedNote, false);
+            DbHelper.getInstance().updateNote(lockedNote, false);
         }
     }
 

@@ -17,12 +17,11 @@
 
 package it.feio.android.omninotes.async.notes;
 
-import it.feio.android.omninotes.OmniNotes;
+import java.util.List;
+
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
-
-import java.util.List;
 
 
 public class NoteProcessorCategorize extends NoteProcessor {
@@ -39,6 +38,6 @@ public class NoteProcessorCategorize extends NoteProcessor {
     @Override
     protected void processNote(Note note) {
         note.setCategory(category);
-        DbHelper.getInstance(OmniNotes.getAppContext()).updateNote(note, false);
+        DbHelper.getInstance().updateNote(note, false);
     }
 }

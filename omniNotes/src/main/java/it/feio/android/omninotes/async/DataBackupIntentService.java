@@ -200,7 +200,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
             Category cat = new Category();
             cat.setName(springpadElement.getName());
             cat.setColor(String.valueOf(Color.parseColor("#F9EA1B")));
-            DbHelper.getInstance(this).updateCategory(cat);
+            DbHelper.getInstance().updateCategory(cat);
             categoriesWithUuid.put(springpadElement.getUuid(), cat);
 
             // Updating notification
@@ -211,7 +211,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         Category defaulCategory = new Category();
         defaulCategory.setName("Springpad");
         defaulCategory.setColor(String.valueOf(Color.parseColor("#F9EA1B")));
-        DbHelper.getInstance(this).updateCategory(defaulCategory);
+        DbHelper.getInstance().updateCategory(defaulCategory);
 
         // And then notes are created
         Note note;
@@ -392,7 +392,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
             }
 
             // The note is saved
-            DbHelper.getInstance(this).updateNote(note, false);
+            DbHelper.getInstance().updateNote(note, false);
 
             // Updating notification
             importedSpringpadNotes++;
@@ -485,7 +485,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         File attachmentsDir = StorageHelper.getAttachmentDir(this);
         File destinationattachmentsDir = new File(backupDir, attachmentsDir.getName());
 
-        DbHelper db = DbHelper.getInstance(this);
+        DbHelper db = DbHelper.getInstance();
         ArrayList<Attachment> list = db.getAllAttachments();
 
         int exported = 0;

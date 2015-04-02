@@ -17,13 +17,13 @@
 
 package it.feio.android.omninotes.async.notes;
 
+import java.util.List;
+
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.ShortcutHelper;
-
-import java.util.List;
 
 
 public class NoteProcessorTrash extends NoteProcessor {
@@ -45,6 +45,6 @@ public class NoteProcessorTrash extends NoteProcessor {
         } else {
             ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
         }
-        DbHelper.getInstance(OmniNotes.getAppContext()).trashNote(note, trash);
+        DbHelper.getInstance().trashNote(note, trash);
     }
 }

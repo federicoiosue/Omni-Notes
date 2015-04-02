@@ -350,7 +350,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (receivedIntent(i)) {
             Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
             if (note == null) {
-                note = DbHelper.getInstance(this).getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+                note = DbHelper.getInstance().getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
             }
             // Checks if the same note is already opened to avoid to open again
             if (note != null && noteAlreadyOpened(note)) {
@@ -381,7 +381,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         Note note = new Note();
         note.setTitle(i.getStringExtra(Intent.EXTRA_SUBJECT));
         note.setContent(i.getStringExtra(Intent.EXTRA_TEXT));
-        DbHelper.getInstance(this).updateNote(note, true);
+        DbHelper.getInstance().updateNote(note, true);
         showToast(getString(R.string.note_updated), Toast.LENGTH_SHORT);
         finish();
     }

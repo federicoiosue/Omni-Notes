@@ -36,7 +36,7 @@ public class DynamicNavigationLookupTable {
 
 
     public void init(Context context) {
-        List<Note> notes = DbHelper.getInstance(context).getAllNotes(false);
+        List<Note> notes = DbHelper.getInstance().getAllNotes(false);
         for (int i = 0; i < notes.size(); i++) {
             if (notes.get(i).isTrashed()) trashed++;
             else if (notes.get(i).isArchived()) archived++;

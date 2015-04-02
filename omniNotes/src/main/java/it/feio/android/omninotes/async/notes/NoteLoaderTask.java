@@ -48,7 +48,7 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 		ArrayList<Note> notes = new ArrayList<>();
 		String methodName = params[0].toString();
 		Object methodArgs = params[1];
-		DbHelper db = DbHelper.getInstance(mActivity);
+		DbHelper db = DbHelper.getInstance();
 
 		// If null argument an empty list will be returned
 		if (methodArgs == null) {

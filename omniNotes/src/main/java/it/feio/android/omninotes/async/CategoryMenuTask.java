@@ -138,7 +138,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
     private List<Category> buildCategoryMenu() {
         // Retrieves data to fill tags list
-        List<Category> categories = DbHelper.getInstance(mainActivity).getCategories();
+        List<Category> categories = DbHelper.getInstance().getCategories();
 
         View settings = categories.isEmpty() ? settingsView : settingsViewCat;
         if (settings == null) return categories;

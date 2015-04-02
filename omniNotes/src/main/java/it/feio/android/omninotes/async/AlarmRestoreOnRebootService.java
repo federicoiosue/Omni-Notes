@@ -47,7 +47,7 @@ public class AlarmRestoreOnRebootService extends Service {
         BaseActivity.notifyAppWidgets(mContext);
 
         // Retrieves all notes with reminder set
-        DbHelper db = DbHelper.getInstance(mContext);
+        DbHelper db = DbHelper.getInstance();
         List<Note> notes = db.getNotesWithReminder(true);
         Ln.d("Found " + notes.size() + " reminders");
         for (Note note : notes) {
