@@ -17,7 +17,9 @@
 
 package it.feio.android.omninotes;
 
+import android.app.DatePickerDialog;
 import android.app.NotificationManager;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,6 +27,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -38,9 +42,11 @@ import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 
 
-public class SnoozeActivity extends ActionBarActivity implements OnReminderPickedListener {
+public class SnoozeActivity extends ActionBarActivity implements OnReminderPickedListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private Note note;
+    private ReminderPickers onDateSetListener;
+    private ReminderPickers onTimeSetListener;
 
 
     @Override
@@ -65,6 +71,8 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
                     ReminderPickers.TYPE_GOOGLE;
             ReminderPickers reminderPicker = new ReminderPickers(this, this, pickerType);
             reminderPicker.pick(Long.parseLong(note.getAlarm()), note.getRecurrenceRule());
+            onDateSetListener = reminderPicker;
+            onTimeSetListener = reminderPicker;
         } else {
             setNextRecurrentReminder(note);
             Intent intent = new Intent(this, MainActivity.class);
@@ -121,4 +129,13 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
                 .LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        onTimeSetListener.onTimeSet(view, hourOfDay, minute);
+    }
 }
