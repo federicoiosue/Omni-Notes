@@ -85,7 +85,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        StrictMode.enableDefaults();
+//        StrictMode.enableDefaults();
         // Preloads shared preferences for all derived classes
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
         // Starts location manager
