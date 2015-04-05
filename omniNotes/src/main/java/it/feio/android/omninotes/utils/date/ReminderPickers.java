@@ -51,6 +51,7 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener, Re
     private int minutes;
 
     private boolean timePickerCalledAlready = false;
+    private boolean recurrencePickerCalledAlready = false;
     private long presetDateTime;
     private String recurrenceRule;
 
@@ -170,7 +171,10 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener, Re
     public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
         this.hourOfDay = hourOfDay;
         this.minutes = minute;
-        showRecurrencePickerDialog(recurrenceRule);
+        if (!recurrencePickerCalledAlready) {    // Used to avoid native bug that calls onPositiveButtonPressed in the onClose()
+            recurrencePickerCalledAlready = true;
+            showRecurrencePickerDialog(recurrenceRule);
+        }
     }
 
 
