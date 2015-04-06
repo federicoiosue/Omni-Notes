@@ -30,6 +30,11 @@
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
 
+    <changelogversion versionName="5.0.0 Beta 16" changeDate="Apr 7, 2015">
+        <changelogtext>[u]Fix[/u] Notification actions when using AOSP reminder dialogs</changelogtext>
+        <changelogtext>[u]Fix[/u] Minor ones</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 15" changeDate="Apr 1, 2015">
         <changelogtext>[b]New![/b] Customizable floating action bar behavior</changelogtext>
         <changelogtext>[b]New![/b] Choose to keep or delete merged note after succesfull merge</changelogtext>
