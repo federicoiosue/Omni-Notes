@@ -1293,7 +1293,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
 
             // If actual navigation is not "Notes" the item will not be removed but replaced to fit the new state
-            if (Navigation.checkNavigation(Navigation.NOTES)) {
+            if (Navigation.checkNavigation(Navigation.NOTES) || (Navigation.checkNavigation(Navigation.ARCHIVE) && !archive)) {
                 listAdapter.remove(note);
             } else {
                 note.setArchived(archive);
