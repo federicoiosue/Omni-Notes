@@ -360,7 +360,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public List<Note> getNotesUncategorized() {
         String whereCondition = " WHERE "
-                + KEY_CATEGORY_ID + " IS NULL AND " + KEY_TRASHED + " IS NOT 1";
+                + "(" + KEY_CATEGORY_ID + " IS NULL OR " + KEY_CATEGORY_ID + " == 0) "
+                + "AND " + KEY_TRASHED + " IS NOT 1";
         return getNotes(whereCondition, true);
     }
 
