@@ -28,8 +28,9 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/navdrawer_image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/navigation_drawer_header_height"
+            android:layout_height="?attr/actionBarSize"
             android:src="@drawable/material_wall"
             android:scaleType="centerCrop" />
 

@@ -28,6 +28,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import it.feio.android.omninotes.async.CategoryMenuTask;
 import it.feio.android.omninotes.async.MainMenuTask;
 import it.feio.android.omninotes.models.Category;
@@ -81,6 +82,8 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
 
         mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
         mDrawerLayout.setFocusableInTouchMode(false);
+
+        initImage();
 
         // Setting specific bottom margin for Kitkat with translucent nav bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -153,6 +156,15 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
         mDrawerToggle.syncState();
 
         Ln.d("Finished navigation drawer initialization");
+    }
+
+
+    private void initImage() {
+        ImageView navDrawerImage = (ImageView) getActivity().findViewById(R.id.navdrawer_image);
+        ViewGroup.LayoutParams params = navDrawerImage.getLayoutParams();
+        int statusBarHeight = Display.getStatusBarHeight(getActivity());
+        params.height = params.height + statusBarHeight;
+        navDrawerImage.setLayoutParams(params);
     }
 
 

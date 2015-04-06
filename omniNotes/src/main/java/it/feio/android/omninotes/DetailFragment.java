@@ -735,7 +735,7 @@ public class DetailFragment extends Fragment implements
         // Bottom padding set for translucent navbar in Kitkat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
-            int timestampsViewPaddingBottom = navBarHeight > 0 ? navBarHeight - 22 : timestampsView.getPaddingBottom();
+            int timestampsViewPaddingBottom = navBarHeight > 0 ? navBarHeight - 25 : timestampsView.getPaddingBottom();
             timestampsView.setPadding(timestampsView.getPaddingStart(), timestampsView.getPaddingTop(),
                     timestampsView.getPaddingEnd(), timestampsViewPaddingBottom);
         }

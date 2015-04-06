@@ -884,7 +884,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 }
                 note.setCategory(DbHelper.getInstance().getCategory(categoryId));
             } catch (NumberFormatException e) {
-                Ln.e("Maybe was not a category!", e);
+                Ln.i("Maybe was not a category!", e);
             }
         } else {
             Ln.d("Editing note with id: " + note.get_id());
