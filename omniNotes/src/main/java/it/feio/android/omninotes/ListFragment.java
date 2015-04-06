@@ -589,9 +589,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private void prepareActionModeMenu() {
         Menu menu = getActionMode().getMenu();
         int navigation = Navigation.getNavigation();
-        boolean showArchive = navigation == Navigation.NOTES || navigation == Navigation.REMINDERS
+        boolean showArchive = navigation == Navigation.NOTES || navigation == Navigation.REMINDERS || navigation == Navigation.UNCATEGORIZED
                 || navigation == Navigation.CATEGORY;
-        boolean showUnarchive = navigation == Navigation.ARCHIVE || navigation == Navigation.CATEGORY;
+        boolean showUnarchive = navigation == Navigation.ARCHIVE || navigation == Navigation.UNCATEGORIZED || navigation == Navigation.CATEGORY;
 
         if (navigation == Navigation.TRASH) {
             menu.findItem(R.id.menu_untrash).setVisible(true);
@@ -1283,8 +1283,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             archiveNote(getSelectedNotes(), false);
         }
         for (Note note : getSelectedNotes()) {
-            // If is restore it will be done immediately, otherwise the undo bar
-            // will be shown
+            // If is restore it will be done immediately, otherwise the undo bar will be shown
             if (archive) {
                 // Saves archived state to eventually undo
                 undoArchivedMap.put(note, note.isArchived());
@@ -1293,13 +1292,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 modifiedNotes.add(note);
             }
 
-            // Updates adapter content. If actual navigation is a category or Reminders the item
-            // will not be removed but replaced to fit the new state
-            if (Navigation.checkNavigation(Navigation.CATEGORY)) {
+            // If actual navigation is not "Notes" the item will not be removed but replaced to fit the new state
+            if (Navigation.checkNavigation(Navigation.NOTES)) {
+                listAdapter.remove(note);
+            } else {
                 note.setArchived(archive);
                 listAdapter.replace(note, listAdapter.getPosition(note));
-            } else {
-                listAdapter.remove(note);
             }
         }
 
@@ -1551,7 +1549,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         for (Note note : modifiedNotes) {
             //   Manages uncategorize or archive  undo
             if ((undoCategorize && !Navigation.checkNavigationCategory(undoCategoryMap.get(note)))
-                    || undoArchive && Navigation.checkNavigation(Navigation.CATEGORY)) {
+                    || undoArchive && !Navigation.checkNavigation(Navigation.NOTES)) {
                 if (undoCategorize) {
                     note.setCategory(undoCategoryMap.get(note));
                 } else if (undoArchive) {
