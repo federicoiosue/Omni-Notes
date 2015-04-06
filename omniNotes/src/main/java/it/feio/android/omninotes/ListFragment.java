@@ -68,7 +68,6 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
-import it.feio.android.omninotes.models.listeners.AbsListViewScrollDetector;
 import it.feio.android.omninotes.models.listeners.OnFabItemClickedListener;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
@@ -87,13 +86,11 @@ import static android.support.v4.view.ViewCompat.animate;
 public class ListFragment extends Fragment implements OnNotesLoadedListener, OnViewTouchedListener, 
         UndoBarController.UndoListener {
 
-    static final int REQUEST_CODE_DETAIL = 1;
-    private static final int REQUEST_CODE_CATEGORY = 2;
-    private static final int REQUEST_CODE_CATEGORY_NOTES = 3;
+    private static final int REQUEST_CODE_CATEGORY = 1;
+    private static final int REQUEST_CODE_CATEGORY_NOTES = 2;
 
     private DynamicListView list;
     private List<Note> selectedNotes = new ArrayList<>();
-    private Note swipedNote;
     private List<Note> modifiedNotes = new ArrayList<>();
     private SearchView searchView;
     private MenuItem searchMenuItem;
@@ -101,7 +98,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private TextView empyListItem;
     private AnimationDrawable jinglesAnimation;
     private int listViewPosition;
-    private int listViewPositionOffset;
+    private int listViewPositionOffset = 16;
     private boolean sendToArchive;
     private SharedPreferences prefs;
     private ListFragment mFragment;
@@ -312,7 +309,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         if (list != null) {
             listViewPosition = list.getFirstVisiblePosition();
             View v = list.getChildAt(0);
-            listViewPositionOffset = (v == null) ? 0 : v.getTop();
+            listViewPositionOffset = (v == null) ? (int) getResources().getDimension(R.dimen.vertical_margin) : v.getTop();
         }
     }
 
@@ -941,7 +938,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             prefs.edit().putString(Constants.PREF_SORTING_COLUMN, arrayDb[item.getOrder()]).commit();
             initNotesList(getActivity().getIntent());
             // Resets list scrolling position
-            listViewPositionOffset = 0;
+            listViewPositionOffset = 16;
             listViewPosition = 0;
             list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
             // Updates app widgets
