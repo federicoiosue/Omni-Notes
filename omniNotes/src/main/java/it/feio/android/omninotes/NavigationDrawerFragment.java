@@ -70,7 +70,8 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = (MainActivity) getActivity();
-        //prefs = mActivity.prefs;
+
+        initImage();
     }
 
 
@@ -82,8 +83,6 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
 
         mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
         mDrawerLayout.setFocusableInTouchMode(false);
-
-        initImage();
 
         // Setting specific bottom margin for Kitkat with translucent nav bar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
