@@ -106,11 +106,12 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
         holder.txtTitle.setText(category.getName());
 
         if (isSelected(parent, position)) {
-            holder.txtTitle.setTextColor(Color.BLACK);
             holder.txtTitle.setTypeface(null, Typeface.BOLD);
+            int color = mActivity.getResources().getColor(R.color.colorPrimaryDark);
+            holder.txtTitle.setTextColor(color);
         } else {
-            holder.txtTitle.setTextColor(mActivity.getResources().getColor(R.color.drawer_text));
             holder.txtTitle.setTypeface(null, Typeface.NORMAL);
+            holder.txtTitle.setTextColor(mActivity.getResources().getColor(R.color.drawer_text));
         }
 
         // Set the results into ImageView checking if an icon is present before

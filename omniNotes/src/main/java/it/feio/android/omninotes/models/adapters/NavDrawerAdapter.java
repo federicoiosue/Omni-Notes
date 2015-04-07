@@ -19,6 +19,7 @@ package it.feio.android.omninotes.models.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,13 +93,15 @@ public class NavDrawerAdapter extends BaseAdapter {
         holder.txtTitle.setText(items.get(position).getText());
 
         if (isSelected(position)) {
-            holder.txtTitle.setTypeface(null, Typeface.BOLD);
-            holder.txtTitle.setTextColor(Color.BLACK);
             holder.imgIcon.setImageResource(items.get(position).getIconSelected());
+            holder.txtTitle.setTypeface(null, Typeface.BOLD);
+            int color = mActivity.getResources().getColor(R.color.colorPrimaryDark);
+            holder.txtTitle.setTextColor(color);
+            holder.imgIcon.getDrawable().mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         } else {
+            holder.imgIcon.setImageResource(items.get(position).getIcon());
             holder.txtTitle.setTypeface(null, Typeface.NORMAL);
             holder.txtTitle.setTextColor(mActivity.getResources().getColor(R.color.drawer_text));
-            holder.imgIcon.setImageResource(items.get(position).getIcon());
         }
 
         return convertView;
