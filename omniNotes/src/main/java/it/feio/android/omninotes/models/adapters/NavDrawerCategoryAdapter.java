@@ -132,8 +132,9 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
 
         // Sets category count if set in preferences
         if (mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean
-                ("settings_show_category_count", false)) {
+                ("settings_show_category_count", true)) {
             holder.count.setText(String.valueOf(category.getCount()));
+            holder.count.setVisibility(View.VISIBLE);
         }
 
         return convertView;

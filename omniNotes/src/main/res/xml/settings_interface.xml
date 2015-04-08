@@ -37,7 +37,7 @@
         android:title="@string/settings_simple_calendar" />
 
     <CheckBoxPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="settings_show_category_count"
         android:summary="@string/settings_show_category_count_summary"
         android:title="@string/settings_show_category_count" />

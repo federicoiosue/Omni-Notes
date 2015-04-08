@@ -23,14 +23,15 @@
         <!--<changelogtext>[b]New![/b] Exceptionally improved image loading! Forget the lag!</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Recurrent reminders</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Support for animated gif in notes list and detail</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Filterable reminders: you can selectivelly include or not past reminders with a  single touch</changelogtext>-->
+        <!--<changelogtext>[b]New![/b] Filterable reminders: you can selectively include or not past reminders with a  single touch</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Dynamic menu: only used items are shown withing navigation list (option in settings)</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Application size reduced by 35%</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Choose to keep or delete merged note after succesfull merge</changelogtext>-->
+        <!--<changelogtext>[b]New![/b] Choose to keep or delete merged note after merge succeeded</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
 
-    <changelogversion versionName="5.0.0 Beta 16" changeDate="Apr 7, 2015">
+    <changelogversion versionName="5.0.0 Beta 16" changeDate="Apr 9, 2015">
+        <changelogtext>Some graphical improvements (nainly in navigation panel)</changelogtext>
         <changelogtext>[u]Fix[/u] Notification actions when using AOSP reminder dialogs</changelogtext>
         <changelogtext>[u]Fix[/u] Minor ones</changelogtext>
     </changelogversion>

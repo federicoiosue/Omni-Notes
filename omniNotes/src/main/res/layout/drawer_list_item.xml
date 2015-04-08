@@ -46,13 +46,20 @@
             pixlui:typeface="Roboto-Regular.ttf"/>
 
         <TextView
-            android:id="@+id/count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/horizontal_margin"
-            android:paddingRight="@dimen/horizontal_margin"
-            android:textAppearance="@style/Text.Small"
-            android:layout_gravity="center_vertical"/>
+                android:id="@+id/count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/horizontal_margin"
+                android:layout_marginRight="@dimen/horizontal_margin"
+                android:textAppearance="@style/Text.Small"
+                android:textColor="@color/white"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/category_count_bg"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:gravity="center"
+                android:visibility="gone"/>
+
     </LinearLayout>
 
 </LinearLayout>
