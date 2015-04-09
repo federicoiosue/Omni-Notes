@@ -34,7 +34,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.SearchView;
@@ -46,12 +45,12 @@ import android.util.SparseArray;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.getbase.floatingactionbutton.AddFloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -59,7 +58,6 @@ import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.async.notes.NoteLoaderTask;
 import it.feio.android.omninotes.async.notes.NoteProcessorArchive;
 import it.feio.android.omninotes.async.notes.NoteProcessorCategorize;
@@ -110,7 +108,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private boolean undoArchive = false;
     private boolean undoCategorize = false;
     private Category undoCategorizeCategory = null;
-    // private Category removedCategory;
     private SparseArray<Note> undoNotesList = new SparseArray<>();
     // Used to remember removed categories from notes
     private Map<Note, Category> undoCategoryMap = new HashMap<>();
@@ -124,7 +121,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private TextView listFooter;
     private boolean searchLabelActive = false;
 
-    //    private NoteCardArrayMultiChoiceAdapter listAdapter;
     private NoteAdapter listAdapter;
     private int layoutSelected;
     private UndoBarController ubc;

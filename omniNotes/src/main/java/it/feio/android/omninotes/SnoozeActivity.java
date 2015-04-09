@@ -118,12 +118,12 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
     }
 
 
-    private void updateNoteReminder(long reminder, Note note) {
-        if (note != null) {
-            note.setAlarm(reminder);
-            new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+    private void updateNoteReminder(long reminder, Note noteToUpdate) {
+        if (noteToUpdate != null) {
+            noteToUpdate.setAlarm(reminder);
+            new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteToUpdate);
         } else {
-            ReminderHelper.addReminder(this, note, reminder);
+            ReminderHelper.addReminder(this, this.note, reminder);
         }
         Toast.makeText(this, getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(this, reminder), Toast
                 .LENGTH_SHORT).show();
