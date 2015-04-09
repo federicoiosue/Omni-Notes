@@ -62,7 +62,7 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
             setNextRecurrentReminder(note);
             finish();
         } else if (Constants.ACTION_SNOOZE.equals(getIntent().getAction())) {
-            String snoozeDelay = prefs.getString("settings_notification_snooze_delay", "10");
+            String snoozeDelay = prefs.getString("settings_notification_snooze_delay", Constants.PREF_SNOOZE_DEFAULT);
             long newReminder = Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
             updateNoteReminder(newReminder);
             finish();

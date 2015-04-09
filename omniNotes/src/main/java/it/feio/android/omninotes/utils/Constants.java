@@ -110,6 +110,7 @@ public interface Constants {
     String PREF_DYNAMIC_MENU = "settings_dynamic_menu";
     String PREF_CURRENT_APP_VERSION = "settings_current_app_version";
     String PREF_FAB_EXPANSION_BEHAVIOR = "settings_fab_expansion_behavior";
+    String PREF_SNOOZE_DEFAULT = "10";
     String EXPORT_FILE_NAME = TAG;
 
     String MIME_TYPE_IMAGE = "image/jpeg";

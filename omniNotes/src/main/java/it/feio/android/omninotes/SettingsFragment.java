@@ -598,13 +598,16 @@ public class SettingsFragment extends PreferenceFragment {
         final EditTextPreference snoozeDelay = (EditTextPreference) findPreference
                 ("settings_notification_snooze_delay");
         if (snoozeDelay != null) {
-            String snoozeDelayValue = prefs.getString("settings_notification_snooze_delay", "10");
-            snoozeDelay.setSummary(String.valueOf(snoozeDelayValue) + " " + getString(R.string.minutes));
+            String snooze = prefs.getString("settings_notification_snooze_delay", Constants.PREF_SNOOZE_DEFAULT);
+            snooze = TextUtils.isEmpty(snooze) ? Constants.PREF_SNOOZE_DEFAULT : snooze;
+            snoozeDelay.setSummary(String.valueOf(snooze) + " " + getString(R.string.minutes));
             snoozeDelay.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    snoozeDelay.setSummary(String.valueOf(newValue) + " " + getString(R.string.minutes));
-                    prefs.edit().putString("settings_notification_snooze_delay", newValue.toString()).apply();
+                    String snoozeUpdated = TextUtils.isEmpty(String.valueOf(newValue)) ? Constants
+                            .PREF_SNOOZE_DEFAULT : String.valueOf(newValue);
+                    snoozeDelay.setSummary(snoozeUpdated + " " + getString(R.string.minutes));
+                    prefs.edit().putString("settings_notification_snooze_delay", snoozeUpdated).apply();
                     return false;
                 }
             });

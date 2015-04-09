@@ -31,6 +31,7 @@
     <EditTextPreference
         android:key="settings_notification_snooze_delay"
         android:title="@string/settings_notification_snooze_delay"
-        android:inputType="number" />
+        android:inputType="number"
+        android:defaultValue="10"/>
 
 </PreferenceScreen>
