@@ -30,6 +30,10 @@
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
 
+    <changelogversion versionName="5.0.0 Beta 17" changeDate="Apr 10, 2015">
+        <changelogtext>[u]Fix[/u] Something here and there</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 16" changeDate="Apr 9, 2015">
         <changelogtext>Some graphical improvements (nainly in navigation panel)</changelogtext>
         <changelogtext>[u]Fix[/u] Notification actions when using AOSP reminder dialogs</changelogtext>
