@@ -35,6 +35,11 @@ public class Category extends it.feio.android.omninotes.commons.models.Category 
     }
 
 
+    public Category(it.feio.android.omninotes.commons.models.Category category) {
+        super(category.getId(), category.getName(), category.getDescription(), category.getColor());
+    }
+
+
     public Category(Integer id, String title, String description, String color) {
         super(id, title, description, color);
     }

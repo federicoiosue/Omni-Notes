@@ -128,7 +128,11 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
     @Override
     public Category getCategory() {
-        return (Category) super.getCategory();
+        if (super.getCategory() instanceof Category) {
+            return (Category) super.getCategory();
+        } else {
+            return new Category(super.getCategory());
+        }
     }
 
 
