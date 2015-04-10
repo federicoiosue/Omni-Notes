@@ -32,6 +32,8 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
     }
 
     buildTypes {
@@ -87,9 +89,10 @@ dependencies {
         exclude group: 'commons.io'
     }
 
+
     compile 'it.feio.android:simplegallery:1.1.0'
     compile 'it.feio.android:springpadimporter:1.0.0'
-    compile 'it.feio.android:omninotes_commons:1.0.3-SNAPSHOT'
+    compile 'it.feio.android:omninotes_commons:1.1.0-SNAPSHOT'
     compile 'it.feio.android:checklistview:2.0'
     compile 'it.feio.android:pixlUI:2.1'
     //    compile('it.feio.android:showcaseview:3.2.0') {
