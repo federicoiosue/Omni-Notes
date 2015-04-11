@@ -2,7 +2,7 @@
 CREATE
 	TABLE notes
 	(
-		creation INTEGER PRIMARY KEY,
+		creation INTEGER PRIMARY,
 		last_modification INTEGER,
 		title TEXT,
 		content TEXT,
@@ -39,7 +39,7 @@ CREATE
 CREATE
 	TABLE categories
 	(
-		category_id INTEGER PRIMARY KEY DEFAULT strftime('%s', 'now') * 1000,
+		category_id INTEGER PRIMARY KEY,
 		name TEXT,
 		description TEXT,
 		color TEXT

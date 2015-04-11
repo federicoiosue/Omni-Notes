@@ -875,7 +875,9 @@ public class DbHelper extends SQLiteOpenHelper {
             Ln.d("Updated category titled '" + category.getName() + "'");
             // Inserting new category
         } else {
-            long id = db.insert(TABLE_CATEGORY, null, values);
+            long id = Calendar.getInstance().getTimeInMillis();
+            values.put(KEY_CATEGORY_ID, id);
+            db.insert(TABLE_CATEGORY, null, values);
             Ln.d("Saved new category titled '" + category.getName() + "' with id: " + id);
             category.setId(id);
         }

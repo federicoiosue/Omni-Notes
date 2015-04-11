@@ -17,12 +17,14 @@
 
 package it.feio.android.omninotes.async.upgrade;
 
+import android.content.ContentValues;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 import org.apache.commons.io.FilenameUtils;
@@ -32,6 +34,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -152,6 +155,32 @@ public class UpgradeProcessor {
                         attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
                         dbHelper.updateAttachment(attachment);
                     }
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+
+    /**
+     * Switch of all categories IDs to timestamps
+     */
+    private void onUpgradeTo501() {
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] params) {
+                final DbHelper dbHelper = DbHelper.getInstance();
+                for (Category category : dbHelper.getCategories()) {
+                    long newCategoryId = Calendar.getInstance().getTimeInMillis();
+                    for (Note note : dbHelper.getNotesByCategory(String.valueOf(category.getId()))) {
+                        note.getCategory().setId(newCategoryId);
+                        dbHelper.updateNote(note, false);
+                    }
+                    ContentValues values = new ContentValues();
+                    values.put(DbHelper.KEY_CATEGORY_ID, newCategoryId);
+                    dbHelper.getWritableDatabase().update(DbHelper.TABLE_CATEGORY, values,
+                            DbHelper.KEY_CATEGORY_ID + " = ?",
+                            new String[]{String.valueOf(category.getId())});
                 }
                 return null;
             }
