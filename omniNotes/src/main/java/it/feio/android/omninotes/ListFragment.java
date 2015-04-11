@@ -62,8 +62,13 @@ import it.feio.android.omninotes.async.notes.NoteLoaderTask;
 import it.feio.android.omninotes.async.notes.NoteProcessorArchive;
 import it.feio.android.omninotes.async.notes.NoteProcessorCategorize;
 import it.feio.android.omninotes.async.notes.NoteProcessorTrash;
+import it.feio.android.omninotes.commons.models.*;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.listeners.OnFabItemClickedListener;
@@ -234,7 +239,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         if (index >= 0 && index < navigationListCodes.length) {
             title = navigationList[index];
         } else {
-            title = DbHelper.getInstance().getCategory(Integer.parseInt(navigation)).getName();
+            Category category = DbHelper.getInstance().getCategory(Integer.parseInt(navigation));
+            title = category != null ? category.getName() : "";
         }
         title = title == null ? getString(R.string.title_activity_list) : title;
         getMainActivity().setActionBarTitle(title);
