@@ -1084,6 +1084,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
                 // Avoids conflicts with action mode
                 finishActionMode();
+                modifiedNotes.clear();
 
                 for (int position : reverseSortedPositions) {
                     Note note;
