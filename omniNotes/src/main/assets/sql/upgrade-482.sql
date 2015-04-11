@@ -15,14 +15,14 @@ CREATE
 	);
 INSERT INTO attachments(attachment_id, uri, name, size, length, mime_type, note_id)
 SELECT
-	attachments.attachment_id,
-	attachments.uri,
-	attachments.name,
-	attachments.size,
-	attachments.length,
-	attachments.mime_type,
+	a.attachment_id,
+	a.uri,
+	a.name,
+	a.size,
+	a.length,
+	a.mime_type,
 	notes.creation
-FROM attachments_tmp JOIN attachments ON notes.note_id=attachments.note_id;
+FROM attachments_tmp a JOIN notes ON notes.note_id=attachments.note_id;
 DROP TABLE attachments_tmp;
 
 -- Update for NOTES
