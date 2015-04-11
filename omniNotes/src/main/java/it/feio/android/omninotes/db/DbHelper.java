@@ -494,7 +494,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     }
 
                     // Set category
-                    Category category = new Category(cursor.getInt(i++), cursor.getString(i++),
+                    Category category = new Category(cursor.getLong(i++), cursor.getString(i++),
                             cursor.getString(i++), cursor.getString(i++));
                     note.setCategory(category);
 
@@ -838,7 +838,7 @@ public class DbHelper extends SQLiteOpenHelper {
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 do {
-                    categoriesList.add(new Category(cursor.getInt(0),
+                    categoriesList.add(new Category(cursor.getLong(0),
                             cursor.getString(1), cursor.getString(2), cursor
                             .getString(3), cursor.getInt(4)));
                 } while (cursor.moveToNext());
@@ -877,7 +877,7 @@ public class DbHelper extends SQLiteOpenHelper {
         } else {
             long id = db.insert(TABLE_CATEGORY, null, values);
             Ln.d("Saved new category titled '" + category.getName() + "' with id: " + id);
-            category.setId((int) id);
+            category.setId(id);
         }
         return category;
     }
@@ -930,7 +930,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
-                category = new Category(cursor.getInt(0), cursor.getString(1),
+                category = new Category(cursor.getLong(0), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3));
             }
 

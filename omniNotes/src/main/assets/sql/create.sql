@@ -39,7 +39,7 @@ CREATE
 CREATE
 	TABLE categories
 	(
-		category_id INTEGER PRIMARY KEY AUTOINCREMENT,
+		category_id INTEGER PRIMARY KEY DEFAULT strftime('%s', 'now') * 1000,
 		name TEXT,
 		description TEXT,
 		color TEXT

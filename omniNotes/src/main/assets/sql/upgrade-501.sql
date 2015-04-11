@@ -1,5 +1,24 @@
 -- Refactors 'notes' and 'attachments' tables to use note's creation as primary key
 
+-- Update for CATEGORIES
+ALTER TABLE categories RENAME TO categories_tmp;
+CREATE
+	TABLE categories
+	(
+		category_id INTEGER PRIMARY KEY DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')),
+		name TEXT,
+		description TEXT,
+		color TEXT
+	);
+INSERT INTO categories(category_id, name, description, color)
+SELECT
+	category_id,
+	name,
+	description,
+	color
+FROM categories_tmp;
+DROP TABLE categories_tmp;
+
 -- Update for ATTACHMENTS
 ALTER TABLE attachments RENAME TO attachments_tmp;
 CREATE
@@ -30,7 +49,7 @@ ALTER TABLE notes RENAME TO notes_tmp;
 CREATE
 	TABLE notes
 	(
-		creation INTEGER PRIMARY KEY,
+		creation INTEGER PRIMARY KEY DEFAULT (STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')),
 		last_modification INTEGER,
 		title TEXT,
 		content TEXT,
