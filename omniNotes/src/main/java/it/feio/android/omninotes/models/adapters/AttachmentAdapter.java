@@ -127,7 +127,6 @@ public class AttachmentAdapter extends BaseAdapter {
                 .load(thumbnailUri)
                 .centerCrop()
                 .crossFade()
-                .placeholder(R.drawable.image_placeholder)
                 .into(holder.image);
 
         return convertView;
