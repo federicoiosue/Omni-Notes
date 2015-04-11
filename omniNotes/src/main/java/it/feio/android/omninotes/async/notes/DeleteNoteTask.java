@@ -26,7 +26,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.StorageHelper;
 
 
-public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {
+public class DeleteNoteTask extends AsyncTask<Note, Void, Long> {
 
     private final Context mContext;
 
@@ -37,8 +37,8 @@ public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {
 
 
     @Override
-    protected Integer doInBackground(Note... params) {
-        Integer result = null;
+    protected Long doInBackground(Note... params) {
+        long result = 0;
         Note note = params[0];
 
         // Deleting note using DbHelper
@@ -58,7 +58,7 @@ public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {
 
 
     @Override
-    protected void onPostExecute(Integer result) {
+    protected void onPostExecute(Long result) {
         super.onPostExecute(result);
         BaseActivity.notifyAppWidgets(mContext);
     }

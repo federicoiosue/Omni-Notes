@@ -53,14 +53,13 @@ public class DbHelper extends SQLiteOpenHelper {
     // Database name
     private static final String DATABASE_NAME = Constants.DATABASE_NAME;
     // Database version aligned if possible to software version
-    private static final int DATABASE_VERSION = 481;
+    private static final int DATABASE_VERSION = 482;
     // Sql query file directory
     private static final String SQL_DIR = "sql";
 
     // Notes table name
     public static final String TABLE_NOTES = "notes";
     // Notes table columns
-    public static final String KEY_ID = "note_id";
     public static final String KEY_CREATION = "creation";
     public static final String KEY_LAST_MODIFICATION = "last_modification";
     public static final String KEY_TITLE = "title";
@@ -75,6 +74,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String KEY_CATEGORY = "category_id";
     public static final String KEY_LOCKED = "locked";
     public static final String KEY_CHECKLIST = "checklist";
+    public static final String KEY_ID = KEY_CREATION;
 
     // Attachments table name
     public static final String TABLE_ATTACHMENTS = "attachments";
@@ -213,7 +213,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_CHECKLIST, checklist);
 
         // Updating row
-        if (note.get_id() != 0) {
+        if (note.get_id() != null) {
             values.put(KEY_ID, note.get_id());
             resNote = db.update(TABLE_NOTES, values, KEY_ID + " = ?",
                     new String[]{String.valueOf(note.get_id())});
@@ -234,7 +234,7 @@ public class DbHelper extends SQLiteOpenHelper {
         for (Attachment attachment : note.getAttachmentsList()) {
             // Updating attachment
             if (attachment.getId() == 0) {
-                updateAttachment(note.get_id() != 0 ? note.get_id() : (int)resNote, attachment, db);
+                updateAttachment(note.get_id() != null ? note.get_id() : (int)resNote, attachment, db);
             } else {
                 deletedAttachments.remove(attachment);
             }
@@ -249,7 +249,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.endTransaction();
 
         // Fill the note with correct data before returning it
-        note.set_id(note.get_id() != 0 ? note.get_id() : (int) resNote);
+        note.set_id(note.get_id() != null ? note.get_id() : (int) resNote);
         note.setCreation(note.getCreation() != null ? note.getCreation() : values.getAsLong(KEY_CREATION));
         note.setLastModification(values.getAsLong(KEY_LAST_MODIFICATION));
 
@@ -269,7 +269,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * New attachment insertion
      * */
-    public Attachment updateAttachment(int noteId, Attachment attachment, SQLiteDatabase db) {
+    public Attachment updateAttachment(long noteId, Attachment attachment, SQLiteDatabase db) {
         ContentValues valuesAttachments = new ContentValues();
         valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
         valuesAttachments.put(KEY_ATTACHMENT_MIME_TYPE, attachment.getMime_type());
@@ -440,7 +440,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
         // Generic query to be specialized with conditions passed as parameter
         String query = "SELECT "
-                + KEY_ID + ","
                 + KEY_CREATION + ","
                 + KEY_LAST_MODIFICATION + ","
                 + KEY_TITLE + ","
@@ -474,7 +473,6 @@ public class DbHelper extends SQLiteOpenHelper {
                 do {
                     int i = 0;
                     Note note = new Note();
-                    note.set_id(Integer.parseInt(cursor.getString(i++)));
                     note.setCreation(cursor.getLong(i++));
                     note.setLastModification(cursor.getLong(i++));
                     note.setTitle(cursor.getString(i++));

@@ -36,14 +36,13 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
     }
 
 
-    public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived,
+    public Note(Long creation, Long lastModification, String title, String content, Integer archived,
                 Integer trashed, String alarm, String recurrenceRule, String latitude, String longitude, Category
                         category, Integer
                         locked,
                 Integer checklist) {
-        super(_id, creation, lastModification, title, content, archived, trashed, alarm, recurrenceRule, latitude,
-                longitude, category,
-                locked, checklist);
+        super(creation, lastModification, title, content, archived, trashed, alarm, recurrenceRule, latitude,
+                longitude, category, locked, checklist);
     }
 
 
@@ -54,7 +53,6 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
 
     private Note(Parcel in) {
-        set_id(in.readInt());
         setCreation(in.readString());
         setLastModification(in.readString());
         setTitle(in.readString());
@@ -128,6 +126,9 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
     @Override
     public Category getCategory() {
+        if(super.getCategory() == null) {
+            return null;
+        }
         if (super.getCategory() instanceof Category) {
             return (Category) super.getCategory();
         } else {
@@ -144,7 +145,6 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(get_id());
         parcel.writeString(String.valueOf(getCreation()));
         parcel.writeString(String.valueOf(getLastModification()));
         parcel.writeString(getTitle());

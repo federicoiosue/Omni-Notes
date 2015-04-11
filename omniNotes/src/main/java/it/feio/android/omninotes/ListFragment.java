@@ -74,6 +74,7 @@ import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.pixlui.links.UrlCompleter;
+import org.apache.commons.lang.math.NumberUtils;
 import roboguice.util.Ln;
 
 import java.util.*;
@@ -865,7 +866,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     void editNote2(Note note) {
-        if (note.get_id() == 0) {
+        if (note.get_id() == null) {
             Ln.d("Adding new note");
             // if navigation is a category it will be set into note
             try {
@@ -1084,6 +1085,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
                 // Avoids conflicts with action mode
                 finishActionMode();
+                modifiedNotes.clear();
 
                 for (int position : reverseSortedPositions) {
                     Note note;
@@ -1551,7 +1553,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 listAdapter.replace(note, listAdapter.getPosition(note));
                 // Manages trash undo
             } else {
-                list.insert(undoNotesList.keyAt(undoNotesList.indexOfValue(note)), note);
+                try {
+                    list.insert(undoNotesList.keyAt(undoNotesList.indexOfValue(note)), note);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    Ln.d("SparseArray index " + undoNotesList.indexOfValue(note));
+                }
             }
         }
 
@@ -1694,7 +1700,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         StringBuilder content = new StringBuilder();
         ArrayList<Attachment> attachments = new ArrayList<>();
 
-        ArrayList<Integer> notesIds = new ArrayList<>();
+        ArrayList<Long> notesIds = new ArrayList<>();
 
         for (Note note : getSelectedNotes()) {
 
@@ -1745,7 +1751,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // Sets the intent action to be recognized from DetailFragment and switch fragment
         getActivity().getIntent().setAction(Constants.ACTION_MERGE);
         if (!keepMergedNotes) {
-            getActivity().getIntent().putIntegerArrayListExtra("merged_notes", notesIds);
+            getActivity().getIntent().putExtra("merged_notes", notesIds);
         }
         getMainActivity().switchToDetail(mergedNote);
     }

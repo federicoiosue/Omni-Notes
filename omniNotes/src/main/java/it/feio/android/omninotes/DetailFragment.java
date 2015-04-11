@@ -197,7 +197,7 @@ public class DetailFragment extends Fragment implements
     private ScrollView scrollView;
     private int contentLineCounter = 1;
     private int contentCursorPosition;
-    private ArrayList<Integer> mergedNotesIds = new ArrayList<>();
+    private long[] mergedNotesIds;
 
 
     @Override
@@ -395,8 +395,8 @@ public class DetailFragment extends Fragment implements
             noteOriginal = new Note();
             note = new Note(noteOriginal);
             noteTmp = getArguments().getParcelable(Constants.INTENT_NOTE);
-            if (i.getIntegerArrayListExtra("merged_notes") != null) {
-                mergedNotesIds = i.getIntegerArrayListExtra("merged_notes");
+            if (i.getLongArrayExtra("merged_notes") != null) {
+                mergedNotesIds = i.getLongArrayExtra("merged_notes");
             }
             i.setAction(null);
         }
@@ -529,7 +529,7 @@ public class DetailFragment extends Fragment implements
         // Initialization of location TextView
         locationTextView = (TextView) getView().findViewById(R.id.location);
         // Automatic location insertion
-        if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == 0) {
+        if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
             noteTmp.setLatitude(getMainActivity().currentLatitude);
             noteTmp.setLongitude(getMainActivity().currentLongitude);
         }
@@ -811,7 +811,7 @@ public class DetailFragment extends Fragment implements
      * Force focus and shows soft keyboard
      */
     private void requestFocus(final EditText view) {
-        if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
+        if (note.get_id() == null && !noteTmp.isChanged(note)) {
             KeyboardUtils.showKeyboard(view);
         }
     }
@@ -1002,7 +1002,7 @@ public class DetailFragment extends Fragment implements
             MenuItemCompat.collapseActionView(searchMenuItem);
         }
 
-        boolean newNote = noteTmp.get_id() == 0;
+        boolean newNote = noteTmp.get_id() == null;
 
         menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
         menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
@@ -1483,7 +1483,7 @@ public class DetailFragment extends Fragment implements
 
         if (!noteTmp.equals(noteOriginal)) {
             // Restore original status of the note
-            if (noteOriginal.get_id() == 0) {
+            if (noteOriginal.get_id() == null) {
                 getMainActivity().deleteNote(noteTmp);
                 goHome();
             } else {
@@ -1504,7 +1504,7 @@ public class DetailFragment extends Fragment implements
     @SuppressLint("NewApi")
     private void archiveNote(boolean archive) {
         // Simply go back if is a new note
-        if (noteTmp.get_id() == 0) {
+        if (noteTmp.get_id() == null) {
             goHome();
             return;
         }
@@ -1520,7 +1520,7 @@ public class DetailFragment extends Fragment implements
     @SuppressLint("NewApi")
     private void trashNote(boolean trash) {
         // Simply go back if is a new note
-        if (noteTmp.get_id() == 0) {
+        if (noteTmp.get_id() == null) {
             goHome();
             return;
         }
@@ -1598,7 +1598,7 @@ public class DetailFragment extends Fragment implements
      * Checks if nothing is changed to avoid committing if possible (check)
      */
     private boolean saveNotNeeded() {
-        if (noteTmp.get_id() == 0 && prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
+        if (noteTmp.get_id() == null && prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
             note.setLatitude(noteTmp.getLatitude());
             note.setLongitude(noteTmp.getLongitude());
         }
@@ -1634,11 +1634,13 @@ public class DetailFragment extends Fragment implements
         }
     }
 
-    private void deleteMergedNotes(ArrayList<Integer> mergedNotesIds) {
-        for (Integer mergedNoteId : mergedNotesIds) {
-            Note note = new Note();
-            note.set_id(mergedNoteId);
-            DbHelper.getInstance().deleteNote(note, true);
+    private void deleteMergedNotes(long[] mergedNotesIds) {
+        if (mergedNotesIds != null) {
+            for (long mergedNoteId : mergedNotesIds) {
+                Note note = new Note();
+                note.set_id(mergedNoteId);
+                DbHelper.getInstance().deleteNote(note, true);
+            }
         }
     }
 

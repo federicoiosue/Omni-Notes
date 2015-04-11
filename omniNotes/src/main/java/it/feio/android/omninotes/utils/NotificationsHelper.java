@@ -121,12 +121,12 @@ public class NotificationsHelper {
 
 
     public NotificationsHelper show() {
-        show(null);
+        show(0);
         return this;
     }
 
 
-    public NotificationsHelper show(Integer id) {
+    public NotificationsHelper show(long id) {
         if (mNotificationManager == null) {
             mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         }
@@ -137,7 +137,7 @@ public class NotificationsHelper {
                     PendingIntent.FLAG_UPDATE_CURRENT));
         }
         // Builds an anonymous Notification object from the builder, and passes it to the NotificationManager
-        mNotificationManager.notify(id == null ? 0 : id, mBuilder.build());
+        mNotificationManager.notify((int) id, mBuilder.build());
         return this;
     }
 
