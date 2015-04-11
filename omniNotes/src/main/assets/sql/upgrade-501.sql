@@ -22,7 +22,7 @@ SELECT
 	a.length,
 	a.mime_type,
 	notes.creation
-FROM attachments_tmp a JOIN notes ON notes.note_id=attachments_tmp.note_id;
+FROM attachments_tmp a JOIN notes ON notes.note_id=a.note_id;
 DROP TABLE attachments_tmp;
 
 -- Update for NOTES
