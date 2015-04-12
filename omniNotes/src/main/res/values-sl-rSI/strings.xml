@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Zares izbrišem beležko?</string>
   <string name="confirm">Potrdi</string>
   <string name="ok">V redu</string>
+  <string name="no">Ne</string>
   <string name="cancel">Prekliči</string>
   <string name="note_updated">Beležka je posodobljena</string>
   <string name="empty_note_not_saved">Prazna beležka ni bila shranjena</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">Samodejno doda mesto za nove opombe</string>
   <string name="settings_dynamic_menu">Dinamično meni</string>
   <string name="settings_dynamic_menu_summary">Neuporabljene meni elementi samodejno skriti</string>
+  <string name="settings_fab_expansion_behavior">Plavajočo vrstico z dejanji</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Kratek dotik izvede dejanje</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Kratek stik vklopi možnosti</string>
   <string name="settings_error_reporting">Poročanje o napakah</string>
   <string name="settings_error_reporting_summary_on">Čas uporaba tresk razvijalec boste obveščeni, da vam pomaga</string>
   <string name="settings_error_reporting_summary_off">Poročila ne tresk hoteti obstati odposlati. Se ne pritožujejo, če gre kaj narobe!</string>

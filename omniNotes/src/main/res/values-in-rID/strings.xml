@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Konfirmasi penghapusan catatan?</string>
   <string name="confirm">Konfirmasi</string>
   <string name="ok">Ok</string>
+  <string name="no">Tidak</string>
   <string name="cancel">Batal</string>
   <string name="note_updated">Catatan telah diperbaharui</string>
   <string name="empty_note_not_saved">Tidak dapat menyimpan catatan kosong</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">Otomatis menambahkan lokasi pada catatan baru</string>
   <string name="settings_dynamic_menu">Menu dinamis</string>
   <string name="settings_dynamic_menu_summary">Menu tak terpakai otomatis tersembunyi</string>
+  <string name="settings_fab_expansion_behavior">Bar aksi mengambang</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Sentuhan singkat menjalankan aksi</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Sentuhan singkat beralih pilihan</string>
   <string name="settings_error_reporting">Pelaporan kesalahan</string>
   <string name="settings_error_reporting_summary_on">Ketika apl berhenti dg tidak wajar pengembang akan memberi informasi untuk membantu Anda</string>
   <string name="settings_error_reporting_summary_off">Tidak ada laporan kerusakan akan dikirim. Jangan mengeluh jika terjadi sesuatu kesalahan!</string>

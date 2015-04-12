@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Potvrdzujete vymazanie poznámky?</string>
   <string name="confirm">Potvrdiť</string>
   <string name="ok">OK</string>
+  <string name="no">Nie</string>
   <string name="cancel">Zrušiť</string>
   <string name="note_updated">Poznámka bola aktualizovaná</string>
   <string name="empty_note_not_saved">Prázdna poznámka nebola uložená</string>
@@ -54,7 +55,7 @@
   <string name="select_sorting_column">Zoradiť podľa</string>
   <string name="tap_to_undo">Klepnite pre návrat</string>
   <string name="alarm_set_on">Pripomienka bola nastavená na</string>
-  <string name="starting_from">starting from</string>
+  <string name="starting_from">začína od</string>
   <string name="at_time">o</string>
   <string name="discard_changes">Zahodiť zmeny</string>
   <string name="attachment">Príloha</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">Automaticky pridať polohu do nových poznámok</string>
   <string name="settings_dynamic_menu">Dynamická ponuka</string>
   <string name="settings_dynamic_menu_summary">Automaticky skryť nepoužívané položky v ponuke</string>
+  <string name="settings_fab_expansion_behavior">Lietajúci tlačidlo akcií</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Krátky dotyk vykoná akciu</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Krátky dotyk prepína možnosti</string>
   <string name="settings_error_reporting">Hlásenie chýb</string>
   <string name="settings_error_reporting_summary_on">Po páde aplikácie informovať vývojára o chybe, aby vám mohol pomôcť</string>
   <string name="settings_error_reporting_summary_off">Neposielať žiadne hlásenia o pádoch. Nesťažujte sa, ak sa niečo pokazí!</string>

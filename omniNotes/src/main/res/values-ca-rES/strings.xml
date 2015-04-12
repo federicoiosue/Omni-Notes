@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Esteu segur de voler suprimir la nota?</string>
   <string name="confirm">Ho confirmo</string>
   <string name="ok">D\'acord</string>
+  <string name="no">No</string>
   <string name="cancel">Cancel·la</string>
   <string name="note_updated">S\'ha actualitzat la nota</string>
   <string name="empty_note_not_saved">No es pot desar una nota buida</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">Afegeix la ubicació a les notes noves automàticament</string>
   <string name="settings_dynamic_menu">Menú dinàmic</string>
   <string name="settings_dynamic_menu_summary">Els elements del menú poc usats s\'oculten automàticament</string>
+  <string name="settings_fab_expansion_behavior">Barra d\'acció flotant</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Toc curt realitza l\'acció</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Toc llarg canvi les opcions</string>
   <string name="settings_error_reporting">Informe d\'errors</string>
   <string name="settings_error_reporting_summary_on">Si l\'aplicació dóna un error s\'informarà al desenvolupador per a poder-vos ajudar</string>
   <string name="settings_error_reporting_summary_off">No s\'enviarà cap informe d\'error. No us queixeu si quelcom va malament!</string>

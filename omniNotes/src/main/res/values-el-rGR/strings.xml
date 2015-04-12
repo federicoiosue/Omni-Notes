@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Επιβεβαίωση διαγραφής σημείωσης;</string>
   <string name="confirm">Επιβεβαίωση</string>
   <string name="ok">ΟΚ</string>
+  <string name="no">όχι</string>
   <string name="cancel">Άκυρο</string>
   <string name="note_updated">Η σημείωση ενημερώθηκε</string>
   <string name="empty_note_not_saved">Δεν είναι δυνατή η αποθήκευση κενής σημείωσης</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">Προσθέτει αυτόματα την τοποθεσία στις νέες σημειώσεις</string>
   <string name="settings_dynamic_menu">Δυναμικό μενού</string>
   <string name="settings_dynamic_menu_summary">Αχρησιμοποίητα στοιχεία του μενού αποκρύπτονται αυτόματα</string>
+  <string name="settings_fab_expansion_behavior">Πλωτή μπάρα ενεργειών</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Το σύντομο άγγιγμα εκτελεί την ενέργεια</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Το σύντομο άγγιγμα εναλλάσσει τις επιλογές</string>
   <string name="settings_error_reporting">Αναφορά σφάλματος</string>
   <string name="settings_error_reporting_summary_on">Όταν η εφαρμογή καταρεύσει, θα είδοποιηθεί ο προγραμματιστής για να σας βοηθήσει</string>
   <string name="settings_error_reporting_summary_off">Δε θα σταλεί καμία αναφορά κατάρευσης. Μην παραπονεθείτε αν κάτι πάει στραβά!</string>
