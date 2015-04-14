@@ -172,7 +172,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
                 .title(R.string.insert_security_password)
                 .customView(v, false)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         // When positive button is pressed password correctness is checked
@@ -194,14 +194,11 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
                     }
                 }).build();
 
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                KeyboardUtils.hideKeyboard(passwordEditText);
-                dialog.dismiss();
-                mPasswordValidator.onPasswordValidated(false);
-            }
-        });
+        dialog.setOnCancelListener(dialog1 -> {
+			KeyboardUtils.hideKeyboard(passwordEditText);
+			dialog1.dismiss();
+			mPasswordValidator.onPasswordValidated(false);
+		});
 
         dialog.show();
 
@@ -230,12 +227,8 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
             }
         }
         if (askForPassword) {
-            BaseActivity.requestPassword(mActivity, new PasswordValidator() {
-                @Override
-                public void onPasswordValidated(boolean passwordConfirmed) {
-                    mPasswordValidator.onPasswordValidated(passwordConfirmed);
-                }
-            });
+            BaseActivity.requestPassword(mActivity, passwordConfirmed -> mPasswordValidator.onPasswordValidated
+                    (passwordConfirmed));
         } else {
             mPasswordValidator.onPasswordValidated(true);
         }

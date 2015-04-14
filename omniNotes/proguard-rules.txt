@@ -76,3 +76,7 @@
 -keepnames class ** { *; }
 -keepnames interface ** { *; }
 -keepnames enum ** { *; }
+
+###############
+# Retrolambda
+-dontwarn java.lang.invoke.*

@@ -105,16 +105,13 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     private void checkPassword() {
         if (prefs.getString(Constants.PREF_PASSWORD, null) != null
                 && prefs.getBoolean("settings_password_access", false)) {
-            requestPassword(this, new PasswordValidator() {
-                @Override
-                public void onPasswordValidated(boolean passwordConfirmed) {
-                    if (passwordConfirmed) {
-                        init();
-                    } else {
-                        finish();
-                    }
-                }
-            });
+            requestPassword(this, passwordConfirmed -> {
+				if (passwordConfirmed) {
+					init();
+				} else {
+					finish();
+				}
+			});
         } else {
             init();
         }
@@ -295,13 +292,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             if (targetShape != BURGER && targetShape != ARROW)
                 return;
             ValueAnimator anim = ValueAnimator.ofFloat((targetShape + 1) % 2, targetShape);
-            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    float slideOffset = (Float) valueAnimator.getAnimatedValue();
-                    drawerToggle.onDrawerSlide(getDrawerLayout(), slideOffset);
-                }
-            });
+            anim.addUpdateListener(valueAnimator -> {
+				float slideOffset = (Float) valueAnimator.getAnimatedValue();
+				drawerToggle.onDrawerSlide(getDrawerLayout(), slideOffset);
+			});
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(500);
             anim.start();
@@ -574,12 +568,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void onPushBulletReply(final String message) {
         final DetailFragment df = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
         if (df != null) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    df.appendToContentViewText(message);
-                }
-            });
+            runOnUiThread(() -> df.appendToContentViewText(message));
         }
     }
 }

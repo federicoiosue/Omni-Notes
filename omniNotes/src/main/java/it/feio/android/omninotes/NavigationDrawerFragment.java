@@ -188,13 +188,10 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
             mTitle = ((Category) navigationItem).getName();
         }
         // Navigation drawer is closed after a while to avoid lag
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mActivity.getSupportActionBar().setTitle(mTitle);
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-            }
-        }, 500);
+        new Handler().postDelayed(() -> {
+			mActivity.getSupportActionBar().setTitle(mTitle);
+			mDrawerLayout.closeDrawer(GravityCompat.START);
+		}, 500);
     }
 
 
