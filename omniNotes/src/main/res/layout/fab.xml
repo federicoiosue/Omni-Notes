@@ -27,8 +27,8 @@
     fab:fab_addButtonColorPressed="@color/colorAccentPressed"
     fab:fab_addButtonPlusIconColor="@color/white"
     android:layout_marginBottom="8dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginEnd="16dp"
+    android:layout_marginRight="@dimen/fab_right_margin"
+    android:layout_marginEnd="@dimen/fab_right_margin"
     android:visibility="invisible">
 
     <com.getbase.floatingactionbutton.FloatingActionButton

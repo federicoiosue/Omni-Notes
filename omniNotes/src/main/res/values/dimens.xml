@@ -50,10 +50,12 @@
     <dimen name="note_item_min_height">102dp</dimen>
     <dimen name="note_item_min_height_inner">100dp</dimen>
 
-
     <!-- Attachment dialog -->
     <dimen name="attachment_dialog_text_size">16sp</dimen>
     <dimen name="attachment_dialog_drawable_padding">10dp</dimen>
     <dimen name="attachment_dialog_items_padding">10dp</dimen>
+
+    <!-- FAB -->
+    <dimen name="fab_right_margin">8dp</dimen>
 
 </resources>
