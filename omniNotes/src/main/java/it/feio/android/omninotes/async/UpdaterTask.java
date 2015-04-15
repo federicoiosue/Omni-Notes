@@ -66,7 +66,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	@Override
 	protected void onPreExecute() {
 		now = System.currentTimeMillis();
-		if (now > prefs.getLong(Constants.PREF_LAST_UPDATE_CHECK, 0) + Constants.UPDATE_MIN_FREQUENCY) {
+		if (now < prefs.getLong(Constants.PREF_LAST_UPDATE_CHECK, 0) + Constants.UPDATE_MIN_FREQUENCY) {
 			cancel(true);
 		}
 		super.onPreExecute();
