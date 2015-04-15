@@ -64,7 +64,7 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
         } else if (Constants.ACTION_SNOOZE.equals(getIntent().getAction())) {
             String snoozeDelay = prefs.getString("settings_notification_snooze_delay", Constants.PREF_SNOOZE_DEFAULT);
             long newReminder = Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
-            updateNoteReminder(newReminder);
+            updateNoteReminder(newReminder, note);
             finish();
         } else if (Constants.ACTION_POSTPONE.equals(getIntent().getAction())) {
             int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
@@ -74,7 +74,6 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
             onDateSetListener = reminderPicker;
             onTimeSetListener = reminderPicker;
         } else {
-            setNextRecurrentReminder(note);
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(Constants.INTENT_KEY, note.get_id());
             intent.setAction(Constants.ACTION_NOTIFICATION_CLICK);
@@ -92,41 +91,41 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
 
     @Override
     public void onReminderPicked(long reminder) {
-        note.setAlarm(reminder);
+        this.note.setAlarm(reminder);
     }
 
     @Override
     public void onRecurrenceReminderPicked(String recurrenceRule) {
-        note.setRecurrenceRule(recurrenceRule);
+        this.note.setRecurrenceRule(recurrenceRule);
         setNextRecurrentReminder(note);
     }
 
 
-    private void setNextRecurrentReminder(Note note) {
+    public static void setNextRecurrentReminder(Note note) {
         if (!TextUtils.isEmpty(note.getRecurrenceRule())) {
             long nextReminder = DateHelper.nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()), note
                     .getRecurrenceRule());
             if (nextReminder > 0) {
-                updateNoteReminder(nextReminder, note);
+                updateNoteReminder(nextReminder, note, true);
             }
         }
     }
 
 
-    private void updateNoteReminder(long reminder) {
-        updateNoteReminder(reminder, null);
+    private static void updateNoteReminder(long reminder, Note note) {
+        updateNoteReminder(reminder, note, false);
     }
 
 
-    private void updateNoteReminder(long reminder, Note noteToUpdate) {
-        if (noteToUpdate != null) {
+    private static void updateNoteReminder(long reminder, Note noteToUpdate, boolean updateNote) {
+        if (updateNote) {
             noteToUpdate.setAlarm(reminder);
             new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteToUpdate);
         } else {
-            ReminderHelper.addReminder(this, this.note, reminder);
+            ReminderHelper.addReminder(OmniNotes.getAppContext(), noteToUpdate, reminder);
         }
-        Toast.makeText(this, getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(this, reminder), Toast
-                .LENGTH_SHORT).show();
+        Toast.makeText(OmniNotes.getAppContext(), OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " +
+                DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder), Toast.LENGTH_SHORT).show();
     }
 
     @Override
