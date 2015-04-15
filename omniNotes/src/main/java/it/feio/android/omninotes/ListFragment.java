@@ -930,7 +930,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         new MaterialDialog.Builder(getActivity())
                 .content(R.string.empty_trash_confirmation)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         for (int i = 0; i < listAdapter.getCount(); i++) {
