@@ -20,7 +20,10 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
-import android.content.*;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -28,7 +31,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
@@ -63,7 +65,6 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
     protected SharedPreferences prefs;
 
-    // Location variables
     protected LocationManager locationManager;
     protected Location currentLocation;
     protected double currentLatitude;
@@ -326,7 +327,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     @SuppressLint("InlinedApi")
     protected void animateTransition(FragmentTransaction transaction, int direction) {
         if (direction == TRANSITION_HORIZONTAL) {
-            transaction.setCustomAnimations(R.animator.fade_in_support, R.animator.fade_out_support, 
+            transaction.setCustomAnimations(R.animator.fade_in_support, R.animator.fade_out_support,
                     R.animator.fade_in_support, R.animator.fade_out_support);
         }
         if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -356,4 +357,8 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     }
 
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return keyCode == KeyEvent.KEYCODE_MENU || super.onKeyDown(keyCode, event);
+    }
 }
