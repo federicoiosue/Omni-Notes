@@ -23,6 +23,9 @@
     <color name="colorAccent">#F44336</color>
     <color name="colorAccentPressed">#D32F2F</color>
 
+    <!-- Statusbar overlay -->
+    <color name="statusbar_overlay">#20000000</color>
+
     <!--Floating action button-->
     <color name="half_black">#808080</color>
     <color name="white">#fafafa</color>
