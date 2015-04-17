@@ -29,6 +29,7 @@ import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -643,7 +644,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         searchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> setActionItemsVisibility(menu, hasFocus));
 
         MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
-            
+
             boolean searchPerformed = false;
 
             @Override
@@ -916,7 +917,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             // Resets list scrolling position
             listViewPositionOffset = 16;
             listViewPosition = 0;
-            list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+            restoreListScrollPosition();
             // Updates app widgets
             BaseActivity.notifyAppWidgets(getActivity());
         }
@@ -1099,15 +1100,21 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             if (Navigation.checkNavigation(Navigation.REMINDERS)) {
                 listViewPosition = listAdapter.getClosestNotePosition();
             }
-            if (list.getCount() > listViewPosition) {
-                list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
-            } else {
-                list.setSelectionFromTop(0, 0);
-            }
+            restoreListScrollPosition();
         }
 
         // Fade in the list view
         animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+    }
+
+
+    private void restoreListScrollPosition() {
+        if (list.getCount() > listViewPosition) {
+            list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+            new Handler().postDelayed(fab::showFab, 150);
+        } else {
+            list.setSelectionFromTop(0, 0);
+        }
     }
 
 
