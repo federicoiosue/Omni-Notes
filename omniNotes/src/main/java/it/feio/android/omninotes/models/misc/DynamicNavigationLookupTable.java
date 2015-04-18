@@ -52,12 +52,13 @@ public class DynamicNavigationLookupTable {
 
 	public void update() {
 		((Runnable) () -> {
+			archived = trashed = uncategorized = reminders = 0;
 			List<Note> notes = DbHelper.getInstance().getAllNotes(false);
 			for (int i = 0; i < notes.size(); i++) {
 				if (notes.get(i).isTrashed()) trashed++;
 				else if (notes.get(i).isArchived()) archived++;
 				else if (notes.get(i).getAlarm() != null) reminders++;
-				if (notes.get(i).getCategory() != null) uncategorized++;
+				if (notes.get(i).getCategory() == null || notes.get(i).getCategory().getId() == 0) uncategorized++;
 			}
 			EventBus.getDefault().post(new DynamicNavigationReadyEvent());
 		}).run();
