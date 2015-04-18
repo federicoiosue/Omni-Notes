@@ -31,6 +31,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Constants;
 import org.json.JSONObject;
 import roboguice.util.Ln;
@@ -66,7 +67,8 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	@Override
 	protected void onPreExecute() {
 		now = System.currentTimeMillis();
-		if (now < prefs.getLong(Constants.PREF_LAST_UPDATE_CHECK, 0) + Constants.UPDATE_MIN_FREQUENCY) {
+		if (!ConnectionManager.internetAvailable(OmniNotes.getAppContext()) || now < prefs.getLong(Constants
+				.PREF_LAST_UPDATE_CHECK, 0) + Constants.UPDATE_MIN_FREQUENCY) {
 			cancel(true);
 		}
 		super.onPreExecute();
