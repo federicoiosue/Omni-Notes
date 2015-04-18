@@ -624,6 +624,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
             boolean searchPerformed = false;
 
+
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 // Reinitialize notes list to all notes when search is collapsed
@@ -650,7 +651,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     @Override
                     public boolean onQueryTextChange(String pattern) {
                         View searchLayout = getActivity().findViewById(R.id.search_layout);
-                        if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null && searchPerformed) {
+                        if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null &&
+                                searchPerformed) {
                             searchTags = null;
                             searchQuery = pattern;
                             NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
@@ -1032,42 +1034,47 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         layoutSelected = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
                 : R.layout.note_layout;
         listAdapter = new NoteAdapter(getActivity(), layoutSelected, notes);
-        list.enableSwipeToDismiss((viewGroup, reverseSortedPositions) -> {
 
-			// Avoids conflicts with action mode
-			finishActionMode();
-			modifiedNotes.clear();
+        if (Navigation.getNavigation() != Navigation.UNCATEGORIZED) {
+            list.enableSwipeToDismiss((viewGroup, reverseSortedPositions) -> {
 
-			for (int position : reverseSortedPositions) {
-				Note note;
-				try {
-					note = listAdapter.getItem(position);
-				} catch (IndexOutOfBoundsException e) {
-					Ln.d("Please stop swiping in the zone beneath the last card");
-					continue;
-				}
-				getSelectedNotes().add(note);
+                // Avoids conflicts with action mode
+                finishActionMode();
+                modifiedNotes.clear();
 
-				// Depending on settings and note status this action will...
-				// ...restore
-				if (Navigation.checkNavigation(Navigation.TRASH)) {
-					trashNotes(false);
-				}
-				// ...removes category
-				else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
-					categorizeNotesExecute(null);
-				} else {
-					// ...trash
-					if (prefs.getBoolean("settings_swipe_to_trash", false)
-							|| Navigation.checkNavigation(Navigation.ARCHIVE)) {
-						trashNotes(true);
-						// ...archive
-					} else {
-						archiveNotes(true);
-					}
-				}
-			}
-		});
+                for (int position : reverseSortedPositions) {
+                    Note note;
+                    try {
+                        note = listAdapter.getItem(position);
+                    } catch (IndexOutOfBoundsException e) {
+                        Ln.d("Please stop swiping in the zone beneath the last card");
+                        continue;
+                    }
+                    getSelectedNotes().add(note);
+
+                    // Depending on settings and note status this action will...
+                    // ...restore
+                    if (Navigation.checkNavigation(Navigation.TRASH)) {
+                        trashNotes(false);
+                    }
+                    // ...removes category
+                    else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
+                        categorizeNotesExecute(null);
+                    } else {
+                        // ...trash
+                        if (prefs.getBoolean("settings_swipe_to_trash", false)
+                                || Navigation.checkNavigation(Navigation.ARCHIVE)) {
+                            trashNotes(true);
+                            // ...archive
+                        } else {
+                            archiveNotes(true);
+                        }
+                    }
+                }
+            });
+        } else {
+            list.disableSwipeToDismiss();
+        }
         list.setAdapter(listAdapter);
 
         // Replace listview with Mr. Jingles if it is empty
