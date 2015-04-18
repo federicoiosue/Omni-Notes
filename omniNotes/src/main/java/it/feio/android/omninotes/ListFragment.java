@@ -131,6 +131,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         setHasOptionsMenu(true);
         setRetainInstance(false);
+
+        EventBus.getDefault().register(this);
     }
 
 
@@ -140,6 +142,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
         OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
         super.onStart();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
 
