@@ -56,6 +56,7 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.async.notes.*;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
@@ -301,15 +302,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     public void onResume() {
         super.onResume();
 
-        // FAB initialization
         initFab();
 
         initNotesList(getActivity().getIntent());
-
-        // Removes navigation drawer forced closed status
-        if (getMainActivity().getDrawerLayout() != null) {
-            getMainActivity().getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        }
 
         // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
         prefs = getActivity().getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS);
@@ -1033,6 +1028,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     @Override
     public void onNotesLoaded(ArrayList<Note> notes) {
+        EventBus.getDefault().post(new NotesLoadedEvent());
         Ln.d(Constants.TAG, "Notes loaded");
         layoutSelected = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
                 : R.layout.note_layout;

@@ -3,12 +3,9 @@ package it.feio.android.omninotes.async.bus;
 import roboguice.util.Ln;
 
 
-/**
- * Created by fede on 18/04/15.
- */
-public class NotesUpdatedEvent {
+public class NotesLoadedEvent {
 
-	public NotesUpdatedEvent() {
+	public NotesLoadedEvent() {
 		Ln.d(this.getClass().getName());
 	}
 }

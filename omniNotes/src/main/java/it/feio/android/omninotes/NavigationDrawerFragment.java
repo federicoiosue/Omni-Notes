@@ -34,6 +34,7 @@ import it.feio.android.omninotes.async.CategoryMenuTask;
 import it.feio.android.omninotes.async.MainMenuTask;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.DynamicNavigationReadyEvent;
+import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
@@ -92,6 +93,15 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
 
 
     public void onEvent(CategoriesUpdatedEvent event) {
+        init();
+    }
+
+
+    public void onEvent(NotesLoadedEvent event) {
+        // Removes navigation drawer forced closed status
+        if (mDrawerLayout != null) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
         init();
     }
 

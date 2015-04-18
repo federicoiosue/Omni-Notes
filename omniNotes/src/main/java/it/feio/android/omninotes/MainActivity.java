@@ -203,13 +203,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
-//    public void initNavigationDrawer() {
-//        DynamicNavigationLookupTable.getInstance();
-//        Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
-//        if (f != null) ((NavigationDrawerFragment) f).init();
-//    }
-
-
     /**
      * Checks if allocated fragment is of the required type and then returns it or returns null
      */
