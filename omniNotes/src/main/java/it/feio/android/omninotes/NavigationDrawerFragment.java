@@ -20,7 +20,6 @@ package it.feio.android.omninotes;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -34,22 +33,15 @@ import it.feio.android.omninotes.async.CategoryMenuTask;
 import it.feio.android.omninotes.async.MainMenuTask;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.DynamicNavigationReadyEvent;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
 import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
-import it.feio.android.omninotes.models.listeners.OnNavigationItemClickedListener;
 import it.feio.android.omninotes.utils.Display;
 import roboguice.util.Ln;
 
 
-/**
- * Fragment used for managing interactions for and presentation of a navigation
- * drawer. See the <a href=
- * "https://developer.android.com/design/patterns/navigation-drawer.html#Interaction"
- * > design guidelines</a> for a complete explanation of the behaviors
- * implemented here.
- */
-public class NavigationDrawerFragment extends Fragment implements OnNavigationItemClickedListener {
+public class NavigationDrawerFragment extends Fragment {
 
     ActionBarDrawerToggle mDrawerToggle;
     DrawerLayout mDrawerLayout;
@@ -100,6 +92,7 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
         // Removes navigation drawer forced closed status
         if (mDrawerLayout != null) {
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         }
         init();
     }
@@ -198,30 +191,23 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
 
 
     private void buildCategoriesMenu() {
-        CategoryMenuTask task = new CategoryMenuTask(this, this);
+        CategoryMenuTask task = new CategoryMenuTask(this);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
     private void buildMainMenu() {
-        MainMenuTask task = new MainMenuTask(this, this);
+        MainMenuTask task = new MainMenuTask(this);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
-    @Override
-    public void onNavigationItemclicked(Object navigationItem) {
-        if (navigationItem.getClass().isAssignableFrom(NavigationItem.class)) {
-            mTitle = ((NavigationItem) navigationItem).getText();
-            // Is a category
+    public void onEvent(NavigationUpdatedEvent navigationUpdatedEvent) {
+        if (navigationUpdatedEvent.navigationItem.getClass().isAssignableFrom(NavigationItem.class)) {
+            mTitle = ((NavigationItem) navigationUpdatedEvent.navigationItem).getText();
         } else {
-            mTitle = ((Category) navigationItem).getName();
+            mTitle = ((Category) navigationUpdatedEvent.navigationItem).getName();
         }
-        // Navigation drawer is closed after a while to avoid lag
-        new Handler().postDelayed(() -> {
-			mActivity.getSupportActionBar().setTitle(mTitle);
-			mDrawerLayout.closeDrawer(GravityCompat.START);
-		}, 500);
     }
 
 

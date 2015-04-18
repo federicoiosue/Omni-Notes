@@ -23,18 +23,16 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-import android.view.View;
-import android.widget.AdapterView;
+import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
-import it.feio.android.omninotes.models.listeners.OnNavigationItemClickedListener;
 import it.feio.android.omninotes.models.misc.DynamicNavigationLookupTable;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
-import roboguice.util.Ln;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -45,15 +43,13 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
     private final WeakReference<Fragment> mFragmentWeakReference;
     private final MainActivity mainActivity;
-    private final OnNavigationItemClickedListener onNavigationItemclicked;
     private NonScrollableListView mDrawerList;
     private NonScrollableListView mDrawerCategoriesList;
 
 
-    public MainMenuTask(Fragment mFragment, OnNavigationItemClickedListener onNavigationItemclicked) {
+    public MainMenuTask(Fragment mFragment) {
         mFragmentWeakReference = new WeakReference<>(mFragment);
         this.mainActivity = (MainActivity) mFragment.getActivity();
-        this.onNavigationItemclicked = onNavigationItemclicked;
     }
 
 
@@ -74,7 +70,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 				String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
 						.navigation_list_codes)[items.get(position)
 						.getArrayIndex()];
-				onNavigationItemclicked.onNavigationItemclicked(mDrawerList.getItemAtPosition(position));
+                EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
 				mainActivity.updateNavigation(navigation);
 				mDrawerList.setItemChecked(position, true);
 				if (mDrawerCategoriesList != null)
@@ -92,8 +88,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
 
     private boolean isAlive() {
-        return mFragmentWeakReference != null
-                && mFragmentWeakReference.get() != null
+        return mFragmentWeakReference.get() != null
                 && mFragmentWeakReference.get().isAdded()
                 && mFragmentWeakReference.get().getActivity() != null
                 && !mFragmentWeakReference.get().getActivity().isFinishing();

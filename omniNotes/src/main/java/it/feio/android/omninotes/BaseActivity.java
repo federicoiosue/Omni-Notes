@@ -228,8 +228,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
             }
         }
         if (askForPassword) {
-            BaseActivity.requestPassword(mActivity, passwordConfirmed -> mPasswordValidator.onPasswordValidated
-                    (passwordConfirmed));
+            BaseActivity.requestPassword(mActivity, mPasswordValidator::onPasswordValidated);
         } else {
             mPasswordValidator.onPasswordValidated(true);
         }

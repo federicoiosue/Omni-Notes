@@ -55,6 +55,7 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
 import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.async.notes.*;
 import it.feio.android.omninotes.db.DbHelper;
@@ -442,16 +443,16 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         // Note long click to start CAB mode
         list.setOnItemLongClickListener((arg0, view, position, arg3) -> {
-			if (view.equals(listFooter)) return true;
-			if (getActionMode() != null) {
-				return false;
-			}
-			// Start the CAB using the ActionMode.Callback defined above
-			((MainActivity) getActivity()).startSupportActionMode(new ModeCallback());
-			toggleListViewItem(view, position);
-			setCabTitle();
-			return true;
-		});
+            if (view.equals(listFooter)) return true;
+            if (getActionMode() != null) {
+                return false;
+            }
+            // Start the CAB using the ActionMode.Callback defined above
+            ((MainActivity) getActivity()).startSupportActionMode(new ModeCallback());
+            toggleListViewItem(view, position);
+            setCabTitle();
+            return true;
+        });
 
         // Note single click listener managed by the activity itself
         list.setOnItemClickListener((arg0, view, position, arg3) -> {
@@ -520,7 +521,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         inflater.inflate(R.menu.menu_list, menu);
         super.onCreateOptionsMenu(menu, inflater);
         this.menu = menu;
-        // Initialization of SearchView
         initSearchView(menu);
 //		initShowCase();
     }
@@ -857,8 +857,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         super.onActivityResult(requestCode, resultCode, intent);
         switch (requestCode) {
             case REQUEST_CODE_CATEGORY:
-                // Dialog retarded to give time to activity's views of being
-                // completely initialized
+                // Dialog retarded to give time to activity's views of being completely initialized
                 // The dialog style is choosen depending on result code
                 switch (resultCode) {
                     case Activity.RESULT_OK:
@@ -1024,6 +1023,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 }
             }
         }
+    }
+
+
+    public void onEvent(NavigationUpdatedEvent navigationUpdatedEvent) {
+        listViewPosition = 0;
+        listViewPositionOffset = 16;
     }
 
 
