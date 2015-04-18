@@ -35,7 +35,6 @@ import it.feio.android.omninotes.async.MainMenuTask;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.DynamicNavigationReadyEvent;
 import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
-import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.models.listeners.OnNavigationItemClickedListener;
