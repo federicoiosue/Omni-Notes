@@ -113,7 +113,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
         final List<NavigationItem> items = new ArrayList<>();
         for (int i = 0; i < mNavigationArray.length; i++) {
-            if (!checkSkippableItem(DynamicNavigationLookupTable.getInstance(), i)) {
+            if (!checkSkippableItem(i)) {
                 NavigationItem item = new NavigationItem(i, mNavigationArray[i], mNavigationIconsArray.getResourceId(i,
                         0), mNavigationIconsSelectedArray.getResourceId(i, 0));
                 items.add(item);
@@ -123,10 +123,14 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
     }
 
 
-    private boolean checkSkippableItem(DynamicNavigationLookupTable dynamicNavigationLookupTable, int i) {
+    private boolean checkSkippableItem(int i) {
         boolean skippable = false;
         SharedPreferences prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
         boolean dynamicMenu = prefs.getBoolean(Constants.PREF_DYNAMIC_MENU, true);
+        DynamicNavigationLookupTable dynamicNavigationLookupTable = null;
+        if (dynamicMenu) {
+            dynamicNavigationLookupTable = DynamicNavigationLookupTable.getInstance();
+        }
         switch (i) {
             case Navigation.REMINDERS:
                 if (dynamicMenu && dynamicNavigationLookupTable.getReminders() == 0)
