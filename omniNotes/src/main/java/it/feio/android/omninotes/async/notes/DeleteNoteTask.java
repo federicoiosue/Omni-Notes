@@ -55,11 +55,4 @@ public class DeleteNoteTask extends AsyncTask<Note, Void, Integer> {
         }
         return result;
     }
-
-
-    @Override
-    protected void onPostExecute(Integer result) {
-        super.onPostExecute(result);
-        BaseActivity.notifyAppWidgets(mContext);
-    }
 }

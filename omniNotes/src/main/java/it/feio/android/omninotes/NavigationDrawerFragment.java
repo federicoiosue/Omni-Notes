@@ -29,8 +29,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.CategoryMenuTask;
 import it.feio.android.omninotes.async.MainMenuTask;
+import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.DynamicNavigationReadyEvent;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.models.listeners.OnNavigationItemClickedListener;
@@ -57,6 +61,14 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        EventBus.getDefault().register(this);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 
@@ -70,8 +82,17 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = (MainActivity) getActivity();
-
         initImage();
+    }
+
+
+    public void onEvent(DynamicNavigationReadyEvent event) {
+        init();
+    }
+
+
+    public void onEvent(CategoriesUpdatedEvent event) {
+        init();
     }
 
 

@@ -133,4 +133,6 @@ public interface Constants {
     String TIMESTAMP_UNIX_EPOCH_FAR = "18464193800000";
 
     int MENU_SORT_GROUP_ID = 11998811;
+
+    String MERGED_NOTES_SEPARATOR = "----------------------";
 }

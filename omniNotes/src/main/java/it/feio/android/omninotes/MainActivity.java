@@ -40,8 +40,10 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.notes.DeleteNoteTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.db.DbHelper;
@@ -50,6 +52,7 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
+import it.feio.android.omninotes.models.misc.DynamicNavigationLookupTable;
 import it.feio.android.omninotes.utils.Constants;
 import roboguice.util.Ln;
 
@@ -200,10 +203,11 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
-    public void initNavigationDrawer() {
-        Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
-        if (f != null) ((NavigationDrawerFragment) f).init();
-    }
+//    public void initNavigationDrawer() {
+//        DynamicNavigationLookupTable.getInstance();
+//        Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
+//        if (f != null) ((NavigationDrawerFragment) f).init();
+//    }
 
 
     /**
@@ -498,6 +502,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         // Saving changes to the note
         DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getApplicationContext());
         deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+        EventBus.getDefault().post(new NotesUpdatedEvent());
+        BaseActivity.notifyAppWidgets(this);
         // Informs about update
         Ln.d("Deleted permanently note with id '" + note.get_id() + "'");
     }

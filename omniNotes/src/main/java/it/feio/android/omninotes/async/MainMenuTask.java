@@ -69,25 +69,22 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
             mDrawerList.setAdapter(new NavDrawerAdapter(mainActivity, items));
 
             // Sets click events
-            mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                    mainActivity.commitPending();
-                    String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
-                            .navigation_list_codes)[items.get(position)
-                            .getArrayIndex()];
-                    onNavigationItemclicked.onNavigationItemclicked(mDrawerList.getItemAtPosition(position));
-                    mainActivity.updateNavigation(navigation);
-                    mDrawerList.setItemChecked(position, true);
-                    if (mDrawerCategoriesList != null)
-                        mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
-                    // Reset intent
-                    mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
+            mDrawerList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+				mainActivity.commitPending();
+				String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
+						.navigation_list_codes)[items.get(position)
+						.getArrayIndex()];
+				onNavigationItemclicked.onNavigationItemclicked(mDrawerList.getItemAtPosition(position));
+				mainActivity.updateNavigation(navigation);
+				mDrawerList.setItemChecked(position, true);
+				if (mDrawerCategoriesList != null)
+					mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
+				// Reset intent
+				mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
 
-                    // Call method to update notes list
-                    mainActivity.initNotesList(mainActivity.getIntent());
-                }
-            });
+				// Call method to update notes list
+				mainActivity.initNotesList(mainActivity.getIntent());
+			});
 
             mDrawerList.justifyListViewHeightBasedOnChildren();
         }
@@ -119,14 +116,9 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         TypedArray mNavigationIconsSelectedArray = mFragmentWeakReference.get().getResources().obtainTypedArray(R.array
                 .navigation_list_icons_selected);
 
-        Ln.d("Starting lookup");
-        DynamicNavigationLookupTable dynamicNavigationLookupTable = new DynamicNavigationLookupTable();
-        dynamicNavigationLookupTable.init(mainActivity);
-        Ln.d("Finished lookup");
-
         final List<NavigationItem> items = new ArrayList<>();
         for (int i = 0; i < mNavigationArray.length; i++) {
-            if (!checkSkippableItem(dynamicNavigationLookupTable, i)) {
+            if (!checkSkippableItem(DynamicNavigationLookupTable.getInstance(), i)) {
                 NavigationItem item = new NavigationItem(i, mNavigationArray[i], mNavigationIconsArray.getResourceId(i,
                         0), mNavigationIconsSelectedArray.getResourceId(i, 0));
                 items.add(item);

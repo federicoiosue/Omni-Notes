@@ -31,7 +31,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -44,10 +43,7 @@ import android.text.TextUtils;
 import android.util.Pair;
 import android.util.SparseArray;
 import android.view.*;
-import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -56,23 +52,15 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
+import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.omninotes.async.notes.NoteLoaderTask;
-import it.feio.android.omninotes.async.notes.NoteProcessorArchive;
-import it.feio.android.omninotes.async.notes.NoteProcessorCategorize;
-import it.feio.android.omninotes.async.notes.NoteProcessorTrash;
-import it.feio.android.omninotes.commons.models.*;
+import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.async.notes.*;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
-import it.feio.android.omninotes.models.listeners.OnFabItemClickedListener;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
@@ -189,31 +177,28 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private void initFab() {
         boolean fabExpansionBehavior = prefs.getBoolean(Constants.PREF_FAB_EXPANSION_BEHAVIOR, false);
         fab = new Fab(getActivity().findViewById(R.id.fab), list, fabExpansionBehavior);
-        fab.setOnFabItemClickedListener(new OnFabItemClickedListener() {
-            @Override
-            public void OnFabItemClick(int id) {
-                View v = getActivity().findViewById(id);
-                switch (id) {
-                    case R.id.fab_expand_menu_button:
-                        editNote(new Note(), v);
-                        break;
-                    case R.id.fab_note:
-                        editNote(new Note(), v);
-                        break;
-                    case R.id.fab_camera:
-                        Intent i = getActivity().getIntent();
-                        i.setAction(Constants.ACTION_TAKE_PHOTO);
-                        getActivity().setIntent(i);
-                        editNote(new Note(), v);
-                        break;
-                    case R.id.fab_checklist:
-                        Note note = new Note();
-                        note.setChecklist(true);
-                        editNote(note, v);
-                        break;
-                }
-            }
-        });
+        fab.setOnFabItemClickedListener(id -> {
+			View v = getActivity().findViewById(id);
+			switch (id) {
+				case R.id.fab_expand_menu_button:
+					editNote(new Note(), v);
+					break;
+				case R.id.fab_note:
+					editNote(new Note(), v);
+					break;
+				case R.id.fab_camera:
+					Intent i = getActivity().getIntent();
+					i.setAction(Constants.ACTION_TAKE_PHOTO);
+					getActivity().setIntent(i);
+					editNote(new Note(), v);
+					break;
+				case R.id.fab_checklist:
+					Note note = new Note();
+					note.setChecklist(true);
+					editNote(note, v);
+					break;
+			}
+		});
         fab.setOverlay(R.color.white_overlay);
     }
 
@@ -321,8 +306,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         initNotesList(getActivity().getIntent());
 
-        // Navigation drawer initialization to ensure data refresh
-        getMainActivity().initNavigationDrawer();
         // Removes navigation drawer forced closed status
         if (getMainActivity().getDrawerLayout() != null) {
             getMainActivity().getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -884,7 +867,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         getMainActivity().showMessage(R.string.category_saved, ONStyle.CONFIRM);
-                        getMainActivity().initNavigationDrawer();
+                        EventBus.getDefault().post(new CategoriesUpdatedEvent());
                         break;
                     case Activity.RESULT_FIRST_USER:
                         getMainActivity().showMessage(R.string.category_deleted, ONStyle.ALERT);
@@ -1157,7 +1140,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         } else {
             getSelectedNotes().clear();
         }
-        getMainActivity().initNavigationDrawer();
     }
 
 
@@ -1227,17 +1209,17 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      * Performs notes permanent deletion after confirmation by the user
      */
     private void deleteNotesExecute() {
-        for (Note note : getSelectedNotes()) {
-            listAdapter.remove(note);
-            getMainActivity().deleteNote(note);
-        }
+//        for (Note note : getSelectedNotes()) {
+//            listAdapter.remove(note);
+//            getMainActivity().deleteNote(note);
+//        }
+        new NoteProcessorDelete(getSelectedNotes()).process();
         list.clearChoices();
         finishActionMode();
         // If list is empty again Mr Jingles will appear again
         if (listAdapter.getCount() == 0)
             list.setEmptyView(getActivity().findViewById(R.id.empty_list));
         getMainActivity().showMessage(R.string.note_deleted, ONStyle.ALERT);
-        getMainActivity().initNavigationDrawer();
     }
 
 
@@ -1381,11 +1363,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         if (listAdapter.getCount() == 0)
             list.setEmptyView(getActivity().findViewById(R.id.empty_list));
 
-        // Refreshes navigation drawer if is set to show categories count numbers
-        if (prefs.getBoolean("settings_show_category_count", false)) {
-            getMainActivity().initNavigationDrawer();
-        }
-
         if (getActionMode() != null) {
             getActionMode().finish();
         }
@@ -1460,11 +1437,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // If list is empty again Mr Jingles will appear again
         if (listAdapter.getCount() == 0)
             list.setEmptyView(getActivity().findViewById(R.id.empty_list));
-
-        // Refreshes navigation drawer if is set to show categories count numbers
-        if (prefs.getBoolean("settings_show_category_count", false)) {
-            getMainActivity().initNavigationDrawer();
-        }
 
         if (getActionMode() != null) {
             getActionMode().finish();
@@ -1560,8 +1532,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 archiveNote(modifiedNotes, sendToArchive);
             else if (undoCategorize)
                 categorizeNote(modifiedNotes, undoCategorizeCategory);
-            // Refreshes navigation drawer if is set to show categories count numbers
-            getMainActivity().initNavigationDrawer();
 
             undoTrash = false;
             undoArchive = false;
@@ -1682,7 +1652,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 if (content.length() > 0
                         && (!TextUtils.isEmpty(note.getTitle()) || !TextUtils.isEmpty(note.getContent()))) {
                     content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"))
-                            .append("----------------------").append(System.getProperty("line.separator"))
+                            .append(Constants.MERGED_NOTES_SEPARATOR).append(System.getProperty("line.separator"))
                             .append(System.getProperty("line.separator"));
                 }
                 if (!TextUtils.isEmpty(note.getTitle())) {
