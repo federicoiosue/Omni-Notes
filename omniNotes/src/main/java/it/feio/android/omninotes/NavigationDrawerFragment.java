@@ -20,6 +20,7 @@ package it.feio.android.omninotes;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -92,7 +93,8 @@ public class NavigationDrawerFragment extends Fragment {
         // Removes navigation drawer forced closed status
         if (mDrawerLayout != null) {
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+            // Navigation drawer is closed after a while to avoid lag
+            new Handler().postDelayed(() -> mDrawerLayout.closeDrawer(GravityCompat.START), 250);
         }
         init();
     }
