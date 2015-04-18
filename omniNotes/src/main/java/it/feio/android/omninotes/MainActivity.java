@@ -18,13 +18,11 @@
 package it.feio.android.omninotes;
 
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,12 +37,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import edu.emory.mathcs.backport.java.util.Arrays;
 import it.feio.android.omninotes.async.UpdaterTask;
-import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
-import it.feio.android.omninotes.async.notes.DeleteNoteTask;
+import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -487,14 +484,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
      *
      * @param note Note to be deleted
      */
-    @SuppressLint("NewApi")
     public void deleteNote(Note note) {
-        // Saving changes to the note
-        DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getApplicationContext());
-        deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
-        EventBus.getDefault().post(new NotesUpdatedEvent());
+        new NoteProcessorDelete(Arrays.asList(new Note[]{note})).process();
         BaseActivity.notifyAppWidgets(this);
-        // Informs about update
         Ln.d("Deleted permanently note with id '" + note.get_id() + "'");
     }
 

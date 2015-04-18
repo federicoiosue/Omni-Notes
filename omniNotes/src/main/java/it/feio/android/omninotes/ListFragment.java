@@ -1225,10 +1225,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      * Performs notes permanent deletion after confirmation by the user
      */
     private void deleteNotesExecute() {
-//        for (Note note : getSelectedNotes()) {
-//            listAdapter.remove(note);
-//            getMainActivity().deleteNote(note);
-//        }
+        listAdapter.remove(getSelectedNotes());
         new NoteProcessorDelete(getSelectedNotes()).process();
         list.clearChoices();
         finishActionMode();
