@@ -64,7 +64,7 @@ public class NoteWithTitleAndContent extends ActivityInstrumentationTestCase2<Ma
         //Set default small timeout to 30522 milliseconds
         Timeout.setSmallTimeout(30522);
         //Click on ImageView
-        solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.fab_expand_menu_button));
+        solo.clickLongOnView(solo.getView(it.feio.android.omninotes.R.id.fab_expand_menu_button));
         //Click on Empty Text View
         EditText titleEditText = (EditText) solo.getView(it.feio.android.omninotes.R.id.detail_title);
         solo.clickOnView(titleEditText);
