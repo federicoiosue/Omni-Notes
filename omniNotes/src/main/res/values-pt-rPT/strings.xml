@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Confirma eliminação da nota?</string>
   <string name="confirm">Confirmar</string>
   <string name="ok">OK</string>
+  <string name="no">Não</string>
   <string name="cancel">Cancelar</string>
   <string name="note_updated">Nota actualizada</string>
   <string name="empty_note_not_saved">Nota vazia não guardada</string>
@@ -54,7 +55,7 @@
   <string name="select_sorting_column">Ordenar por</string>
   <string name="tap_to_undo">Toque para anular alteração</string>
   <string name="alarm_set_on">Alarme definido para</string>
-  <string name="starting_from">starting from</string>
+  <string name="starting_from">a começar em</string>
   <string name="at_time">às</string>
   <string name="discard_changes">Descartar alterações</string>
   <string name="attachment">Anexo</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">Adiciona automaticamente a localização para novas notas</string>
   <string name="settings_dynamic_menu">Menu dinâmico</string>
   <string name="settings_dynamic_menu_summary">Itens do menu não utilizados são escondidos automaticamente</string>
+  <string name="settings_fab_expansion_behavior">Botão de acção flutuante</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Toque curto executa a acção</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Toque curto alterna entre as opções</string>
   <string name="settings_error_reporting">Comunicação de erros</string>
   <string name="settings_error_reporting_summary_on">Quando a aplicação bloquear o programador vai ser informado para que possa investigar o problema</string>
   <string name="settings_error_reporting_summary_off">Não serão enviados relatórios de erro. Depois não se queixe quando algo correr mal!</string>

@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Вы согласны удалить заметку?</string>
   <string name="confirm">Подтвердить</string>
   <string name="ok">ОК</string>
+  <string name="no">No</string>
   <string name="cancel">Отмена</string>
   <string name="note_updated">Заметка изменена</string>
   <string name="empty_note_not_saved">Пустые заметки не сохраняются</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">Автоматически добавлять Ваше местонахождение к новым заметкам</string>
   <string name="settings_dynamic_menu">Динамическое меню</string>
   <string name="settings_dynamic_menu_summary">Скрывать бесполезные элементы меню</string>
+  <string name="settings_fab_expansion_behavior">Floating action bar</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
   <string name="settings_error_reporting">Отчеты об ошибках</string>
   <string name="settings_error_reporting_summary_on">Разработчик будет осведомлен и поможет вам, если в приложении произойдёт сбой</string>
   <string name="settings_error_reporting_summary_off">Отчёты не отправляются. Если что-то пойдет не так - не жалуйтесь!</string>

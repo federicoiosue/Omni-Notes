@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Silme işlemini onaylıyor musunuz?</string>
   <string name="confirm">Onayla</string>
   <string name="ok">Ok</string>
+  <string name="no">No</string>
   <string name="cancel">İptal</string>
   <string name="note_updated">Not güncellendi</string>
   <string name="empty_note_not_saved">Boş not kaydedilemez</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
   <string name="settings_dynamic_menu">Dynamic menu</string>
   <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
+  <string name="settings_fab_expansion_behavior">Floating action bar</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
   <string name="settings_error_reporting">Error reporting</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>

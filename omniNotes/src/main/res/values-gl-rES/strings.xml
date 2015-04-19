@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Tes a certeza de querer eliminar a nota?</string>
   <string name="confirm">Confirmar</string>
   <string name="ok">Ok</string>
+  <string name="no">Non</string>
   <string name="cancel">Cancelar</string>
   <string name="note_updated">Nota actualizada</string>
   <string name="empty_note_not_saved">Nota baleira non gardada</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">Engadir automaticamente a localización ás novas notas</string>
   <string name="settings_dynamic_menu">Menú dinámico</string>
   <string name="settings_dynamic_menu_summary">Os elementos do menú que non se usan agóchanse automaticamente</string>
+  <string name="settings_fab_expansion_behavior">Acción da barra flotante</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Toque breve para executar acción</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Toque breve para alternar opcións</string>
   <string name="settings_error_reporting">Erro ao enviar o informe</string>
   <string name="settings_error_reporting_summary_on">Cando o aplicativo se bloquee, o desenvolvedor será informado para poder axudarche</string>
   <string name="settings_error_reporting_summary_off">Non se enviarán informes de erros. Non te queixes se algo falla!</string>

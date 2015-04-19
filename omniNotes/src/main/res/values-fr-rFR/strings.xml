@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Confirmer la suppression de la note ?</string>
   <string name="confirm">Confirmer</string>
   <string name="ok">OK</string>
+  <string name="no">Non</string>
   <string name="cancel">Annuler</string>
   <string name="note_updated">Note mise à jour</string>
   <string name="empty_note_not_saved">Note vide non enregistrée</string>
@@ -54,7 +55,7 @@
   <string name="select_sorting_column">Trier par</string>
   <string name="tap_to_undo">Appuyer pour annuler</string>
   <string name="alarm_set_on">Rappel défini le</string>
-  <string name="starting_from">à partir de</string>
+  <string name="starting_from">à partir du</string>
   <string name="at_time">à</string>
   <string name="discard_changes">Annuler les modifications</string>
   <string name="attachment">Pièce jointe</string>
@@ -105,7 +106,7 @@
   <string name="no_tags_created">Aucun mot-clé n\'a été crée</string>
   <string name="no_categories_created">Aucune catégorie n\'a été créée</string>
   <string name="notes_category_removed">Catégorie des notes supprimée</string>
-  <string name="notes_categorized_as">Notes catégorisées en tant que</string>
+  <string name="notes_categorized_as">Notes catégorisées comme</string>
   <string name="insert_security_password">Ajouter le mot de passe</string>
   <string name="lock">Verrouiller</string>
   <string name="save_note_to_lock_it">Enregistrer la note pour la verrouiller</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">Ajouter automatiquement une localisation aux nouvelles notes</string>
   <string name="settings_dynamic_menu">Menu dynamique</string>
   <string name="settings_dynamic_menu_summary">Les éléments inutilisés du menu sont automatiquement masqués</string>
+  <string name="settings_fab_expansion_behavior">Bouton d\'action flottant</string>
+  <string name="settings_fab_expansion_behavior_summary_on">L\'appui court effectue une action</string>
+  <string name="settings_fab_expansion_behavior_summary_off">L\'appui court affiche des options</string>
   <string name="settings_error_reporting">Rapport de bug</string>
   <string name="settings_error_reporting_summary_on">Quand l\'application plante le développeur sera informé pour vous aider</string>
   <string name="settings_error_reporting_summary_off">Aucun rapport de bug ne sera envoyé. Ne vous plaignez pas si un problème survient !</string>

@@ -89,7 +89,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 
     private void setTitle() {
-        String title = getString(R.string.settings_category_preferences);
+        String title = getString(R.string.settings);
         if (getArguments() != null && getArguments().containsKey(XML_NAME)) {
             String xmlName = getArguments().getString(XML_NAME);
             if (!TextUtils.isEmpty(xmlName)) {
@@ -133,229 +133,191 @@ public class SettingsFragment extends PreferenceFragment {
         // Export notes
         Preference export = findPreference("settings_export_data");
         if (export != null) {
-            export.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            export.setOnPreferenceClickListener(arg0 -> {
 
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+				// Inflate layout
+				LayoutInflater inflater = getActivity().getLayoutInflater();
+				View v = inflater.inflate(R.layout.dialog_backup_layout, null);
+				alertDialogBuilder.setView(v);
 
-                    // Inflate layout
-                    LayoutInflater inflater = getActivity().getLayoutInflater();
-                    View v = inflater.inflate(R.layout.dialog_backup_layout, null);
-                    alertDialogBuilder.setView(v);
+				// Finds actually saved backups names
+				final List<String> backups = Arrays.asList(StorageHelper.getExternalStoragePublicDir().list());
 
-                    // Finds actually saved backups names
-                    final List<String> backups = Arrays.asList(StorageHelper.getExternalStoragePublicDir().list());
+				// Sets default export file name
+				SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EXPORT);
+				String fileName = sdf.format(Calendar.getInstance().getTime());
+				final EditText fileNameEditText = (EditText) v.findViewById(R.id.export_file_name);
+				final TextView backupExistingTextView = (TextView) v.findViewById(R.id.backup_existing);
+				fileNameEditText.setText(fileName);
 
-                    // Sets default export file name
-                    SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EXPORT);
-                    String fileName = sdf.format(Calendar.getInstance().getTime());
-                    final EditText fileNameEditText = (EditText) v.findViewById(R.id.export_file_name);
-                    final TextView backupExistingTextView = (TextView) v.findViewById(R.id.backup_existing);
-                    fileNameEditText.setText(fileName);
-
-                    fileNameEditText.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                        }
+				fileNameEditText.addTextChangedListener(new TextWatcher() {
+					@Override
+					public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+					}
 
 
-                        @Override
-                        public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                        }
+					@Override
+					public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+					}
 
 
-                        @Override
-                        public void afterTextChanged(Editable arg0) {
-                            if (backups.contains(arg0.toString())) {
-                                backupExistingTextView.setText(R.string.backup_existing);
-                            } else {
-                                backupExistingTextView.setText("");
-                            }
-                        }
-                    });
+					@Override
+					public void afterTextChanged(Editable arg0) {
+						if (backups.contains(arg0.toString())) {
+							backupExistingTextView.setText(R.string.backup_existing);
+						} else {
+							backupExistingTextView.setText("");
+						}
+					}
+				});
 
-                    // Creates dialog to choose backup name
-                    alertDialogBuilder
-                            .setTitle(R.string.data_export_message)
-                            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+				// Creates dialog to choose backup name
+				alertDialogBuilder
+						.setTitle(R.string.data_export_message)
+						.setPositiveButton(R.string.confirm, (dialog, id) -> {
+							// An IntentService will be launched to accomplish the export task
+							Intent service = new Intent(getActivity(), DataBackupIntentService.class);
+							service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
+							service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+									fileNameEditText.getText().toString());
+							getActivity().startService(service);
+						}).setNegativeButton(getString(R.string.cancel), (dialog, id) -> {
+							dialog.cancel();
+						});
 
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // An IntentService will be launched to accomplish the export task
-                                    Intent service = new Intent(getActivity(), DataBackupIntentService.class);
-                                    service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
-                                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-                                            fileNameEditText.getText().toString());
-                                    getActivity().startService(service);
-                                }
-                            }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
 
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-
-                    // show it
-                    alertDialog.show();
-                    return false;
-                }
-            });
+				// show it
+				alertDialog.show();
+				return false;
+			});
         }
 
 
         // Import notes
         Preference importData = findPreference("settings_import_data");
         if (importData != null) {
-            importData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            importData.setOnPreferenceClickListener(arg0 -> {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+				final CharSequence[] backups = StorageHelper.getExternalStoragePublicDir().list();
+				alertDialogBuilder.setTitle(R.string.data_import_message)
+						.setItems(backups, null);
 
-                    final CharSequence[] backups = StorageHelper.getExternalStoragePublicDir().list();
-                    alertDialogBuilder.setTitle(R.string.data_import_message)
-                            .setItems(backups, null);
+				// create alert dialog
+				final AlertDialog alertDialog = alertDialogBuilder.create();
 
-                    // create alert dialog
-                    final AlertDialog alertDialog = alertDialogBuilder.create();
+				// OnShow is overridden to allow long-click on item so user can remove them
+				alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 
-                    // OnShow is overridden to allow long-click on item so user can remove them
-                    alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+					@Override
+					public void onShow(final DialogInterface dialog) {
 
-                        @Override
-                        public void onShow(final DialogInterface dialog) {
+						ListView lv = alertDialog.getListView();
+						lv.setOnItemClickListener(new OnItemClickListener() {
 
-                            ListView lv = alertDialog.getListView();
-                            lv.setOnItemClickListener(new OnItemClickListener() {
+							@Override
+							public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+								final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+										getActivity());
 
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                                    final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                                            getActivity());
+								// Retrieves backup size
+								File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+								long size = StorageHelper.getSize(backupDir) / 1024;
+								String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
-                                    // Retrieves backup size
-                                    File backupDir = StorageHelper.getBackupDir(backups[position].toString());
-                                    long size = StorageHelper.getSize(backupDir) / 1024;
-                                    String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
+								// Check preference presence
+								String prefName = StorageHelper.getSharedPreferencesFile(getActivity()).getName();
+								boolean hasPreferences = (new File(backupDir, prefName)).exists();
 
-                                    // Check preference presence
-                                    String prefName = StorageHelper.getSharedPreferencesFile(getActivity()).getName();
-                                    boolean hasPreferences = (new File(backupDir, prefName)).exists();
+								String message = getString(R.string.confirm_restoring_backup) + " "
+										+ backups[position]
+										+ " (" + sizeString
+										+ (hasPreferences ? " " + getString(R.string.settings_included) : "")
+										+ ")";
 
-                                    String message = getString(R.string.confirm_restoring_backup) + " "
-                                            + backups[position]
-                                            + " (" + sizeString
-                                            + (hasPreferences ? " " + getString(R.string.settings_included) : "")
-                                            + ")";
+								// Set dialog message and button
+								alertDialogBuilder.setMessage(message)
+										.setPositiveButton(R.string.confirm, (dialogInner, which) -> {
+											dialogInner.dismiss();
+											dialog.dismiss();
+											// An IntentService will be launched to accomplish the import task
+											Intent service = new Intent(getActivity(),
+													DataBackupIntentService.class);
+											service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
+											service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+													backups[position]);
+											getActivity().startService(service);
+										})
+										.setNegativeButton(R.string.cancel, (dialog1, which) -> {
+											dialog1.cancel();
+										});
 
-                                    // Set dialog message and button
-                                    alertDialogBuilder.setMessage(message)
-                                            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+								alertDialogBuilder.create().show();
+							}
+						});
 
-                                                @Override
-                                                public void onClick(DialogInterface dialogInner, int which) {
-                                                    dialogInner.dismiss();
-                                                    dialog.dismiss();
-                                                    // An IntentService will be launched to accomplish the import task
-                                                    Intent service = new Intent(getActivity(),
-                                                            DataBackupIntentService.class);
-                                                    service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
-                                                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-                                                            backups[position]);
-                                                    getActivity().startService(service);
-                                                }
-                                            })
-                                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+						// Creation of backup removal dialog
+						lv.setOnItemLongClickListener((parent, view, position, id) -> {
+							final AlertDialog.Builder alertDialogBuilder1 = new AlertDialog.Builder(
+									getActivity());
 
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.cancel();
-                                                }
-                                            });
+							// Retrieves backup size
+							File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+							long size = StorageHelper.getSize(backupDir) / 1024;
+							String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
-                                    alertDialogBuilder.create().show();
-                                }
-                            });
+							// Set dialog message and button
+							alertDialogBuilder1.setMessage(
+                                    getString(R.string.confirm_removing_backup) + " " + backups[position] + "" +
+                                            " (" + sizeString + ")")
+									.setPositiveButton(R.string.confirm, (dialogInner, which) -> {
+									dialogInner.dismiss();
+									dialog.dismiss();
+									// An IntentService will be launched to accomplish the import task
+									Intent service = new Intent(getActivity(),
+									DataBackupIntentService.class);
+									service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
+									service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+									backups[position]);
+									getActivity().startService(service);
+									})
+									.setNegativeButton(R.string.cancel, (dialog1, which) -> {
+										dialog1.cancel();
+									});
 
-                            // Creation of backup removal dialog
-                            lv.setOnItemLongClickListener(new OnItemLongClickListener() {
+							alertDialogBuilder1.create().show();
+							return true;
+						});
+					}
+				});
 
-                                @Override
-                                public boolean onItemLongClick(AdapterView<?> parent, View view, final int position,
-                                                               long id) {
-                                    final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                                            getActivity());
-
-                                    // Retrieves backup size
-                                    File backupDir = StorageHelper.getBackupDir(backups[position].toString());
-                                    long size = StorageHelper.getSize(backupDir) / 1024;
-                                    String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
-
-                                    // Set dialog message and button
-                                    alertDialogBuilder.setMessage(
-                                            getString(R.string.confirm_removing_backup) + " " + backups[position] + "" +
-                                                    " (" + sizeString + ")")
-                                            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
-                                                @Override
-                                                public void onClick(DialogInterface dialogInner, int which) {
-                                                    dialogInner.dismiss();
-                                                    dialog.dismiss();
-                                                    // An IntentService will be launched to accomplish the import task
-                                                    Intent service = new Intent(getActivity(),
-                                                            DataBackupIntentService.class);
-                                                    service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
-                                                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-                                                            backups[position]);
-                                                    getActivity().startService(service);
-                                                }
-                                            })
-                                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.cancel();
-                                                }
-                                            });
-
-                                    alertDialogBuilder.create().show();
-                                    return true;
-                                }
-                            });
-                        }
-                    });
-
-                    // show it
-                    alertDialog.show();
-                    return false;
-                }
-            });
+				// show it
+				alertDialog.show();
+				return false;
+			});
         }
 
 
         // Import notes from Springpad export zip file
         Preference importFromSpringpad = findPreference("settings_import_from_springpad");
         if (importFromSpringpad != null) {
-            importFromSpringpad.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    Intent intent;
-                    intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("application/zip");
-                    if (!IntentChecker.isAvailable(getActivity(), intent, null)) {
-                        Toast.makeText(getActivity(), R.string.feature_not_available_on_this_device,
-                                Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-                    startActivityForResult(intent, SPRINGPAD_IMPORT);
-                    return false;
-                }
-            });
+            importFromSpringpad.setOnPreferenceClickListener(arg0 -> {
+				Intent intent;
+				intent = new Intent(Intent.ACTION_GET_CONTENT);
+				intent.addCategory(Intent.CATEGORY_OPENABLE);
+				intent.setType("application/zip");
+				if (!IntentChecker.isAvailable(getActivity(), intent, null)) {
+					Toast.makeText(getActivity(), R.string.feature_not_available_on_this_device,
+							Toast.LENGTH_SHORT).show();
+					return false;
+				}
+				startActivityForResult(intent, SPRINGPAD_IMPORT);
+				return false;
+			});
         }
 
 
@@ -388,18 +350,15 @@ public class SettingsFragment extends PreferenceFragment {
                 swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
                 swipeToTrash.setChecked(false);
             }
-            swipeToTrash.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, final Object newValue) {
-                    if ((Boolean) newValue) {
-                        swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
-                    } else {
-                        swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
-                    }
-                    swipeToTrash.setChecked((Boolean) newValue);
-                    return false;
-                }
-            });
+            swipeToTrash.setOnPreferenceChangeListener((preference, newValue) -> {
+				if ((Boolean) newValue) {
+					swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
+				} else {
+					swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
+				}
+				swipeToTrash.setChecked((Boolean) newValue);
+				return false;
+			});
         }
 
 
@@ -407,26 +366,20 @@ public class SettingsFragment extends PreferenceFragment {
         final CheckBoxPreference showUncategorized = (CheckBoxPreference) findPreference(Constants
                 .PREF_SHOW_UNCATEGORIZED);
         if (showUncategorized != null) {
-            showUncategorized.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, final Object newValue) {
-                    showUncategorized.setChecked((Boolean) newValue);
-                    return false;
-                }
-            });
+            showUncategorized.setOnPreferenceChangeListener((preference, newValue) -> {
+				showUncategorized.setChecked((Boolean) newValue);
+				return false;
+			});
         }
 
 
         // Show Automatically adds location to new notes
         final CheckBoxPreference autoLocation = (CheckBoxPreference) findPreference(Constants.PREF_AUTO_LOCATION);
         if (autoLocation != null) {
-            autoLocation.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, final Object newValue) {
-                    autoLocation.setChecked((Boolean) newValue);
-                    return false;
-                }
-            });
+            autoLocation.setOnPreferenceChangeListener((preference, newValue) -> {
+				autoLocation.setChecked((Boolean) newValue);
+				return false;
+			});
         }
 
 
@@ -436,29 +389,23 @@ public class SettingsFragment extends PreferenceFragment {
             String maxVideoSizeValue = prefs.getString("settings_max_video_size", getString(R.string.not_set));
             maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String.valueOf
                     (maxVideoSizeValue));
-            maxVideoSize.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String
-                            .valueOf(newValue));
-                    prefs.edit().putString("settings_max_video_size", newValue.toString()).commit();
-                    return false;
-                }
-            });
+            maxVideoSize.setOnPreferenceChangeListener((preference, newValue) -> {
+				maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String
+						.valueOf(newValue));
+				prefs.edit().putString("settings_max_video_size", newValue.toString()).commit();
+				return false;
+			});
         }
 
 
         // Set notes' protection password
         Preference password = findPreference("settings_password");
         if (password != null) {
-            password.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent passwordIntent = new Intent(getActivity(), PasswordActivity.class);
-                    startActivity(passwordIntent);
-                    return false;
-                }
-            });
+            password.setOnPreferenceClickListener(preference -> {
+				Intent passwordIntent = new Intent(getActivity(), PasswordActivity.class);
+				startActivity(passwordIntent);
+				return false;
+			});
         }
 
 
@@ -471,20 +418,14 @@ public class SettingsFragment extends PreferenceFragment {
             } else {
                 passwordAccess.setEnabled(true);
             }
-            passwordAccess.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, final Object newValue) {
-                    BaseActivity.requestPassword(getActivity(), new PasswordValidator() {
-                        @Override
-                        public void onPasswordValidated(boolean passwordConfirmed) {
-                            if (passwordConfirmed) {
-                                passwordAccess.setChecked((Boolean) newValue);
-                            }
-                        }
-                    });
-                    return false;
-                }
-            });
+            passwordAccess.setOnPreferenceChangeListener((preference, newValue) -> {
+				BaseActivity.requestPassword(getActivity(), passwordConfirmed -> {
+					if (passwordConfirmed) {
+						passwordAccess.setChecked((Boolean) newValue);
+					}
+				});
+				return false;
+			});
         }
 
 
@@ -494,20 +435,16 @@ public class SettingsFragment extends PreferenceFragment {
             String languageName = getResources().getConfiguration().locale.getDisplayName();
             lang.setSummary(languageName.substring(0, 1).toUpperCase(getResources().getConfiguration().locale)
                     + languageName.substring(1, languageName.length()));
-            lang.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            lang.setOnPreferenceChangeListener((preference, value) -> {
+				Locale locale = new Locale(value.toString());
+				Configuration config = getResources().getConfiguration();
 
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object value) {
-                    Locale locale = new Locale(value.toString());
-                    Configuration config = getResources().getConfiguration();
-
-                    if (!config.locale.getCountry().equals(locale.getCountry())) {
-                        OmniNotes.updateLanguage(getActivity(), value.toString());
-                        OmniNotes.restartApp(getActivity());
-                    }
-                    return false;
-                }
-            });
+				if (!config.locale.getCountry().equals(locale.getCountry())) {
+					OmniNotes.updateLanguage(getActivity(), value.toString());
+					OmniNotes.restartApp(getActivity());
+				}
+				return false;
+			});
         }
 
 
@@ -517,17 +454,14 @@ public class SettingsFragment extends PreferenceFragment {
             int textSizeIndex = textSize.findIndexOfValue(prefs.getString("settings_text_size", "default"));
             String textSizeString = getResources().getStringArray(R.array.text_size)[textSizeIndex];
             textSize.setSummary(textSizeString);
-            textSize.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    int textSizeIndex = textSize.findIndexOfValue(newValue.toString());
-                    String checklistString = getResources().getStringArray(R.array.text_size)[textSizeIndex];
-                    textSize.setSummary(checklistString);
-                    prefs.edit().putString("settings_text_size", newValue.toString()).commit();
-                    textSize.setValueIndex(textSizeIndex);
-                    return false;
-                }
-            });
+            textSize.setOnPreferenceChangeListener((preference, newValue) -> {
+				int textSizeIndex1 = textSize.findIndexOfValue(newValue.toString());
+				String checklistString = getResources().getStringArray(R.array.text_size)[textSizeIndex1];
+				textSize.setSummary(checklistString);
+				prefs.edit().putString("settings_text_size", newValue.toString()).commit();
+				textSize.setValueIndex(textSizeIndex1);
+				return false;
+			});
         }
 
 
@@ -538,17 +472,14 @@ public class SettingsFragment extends PreferenceFragment {
                     Constants.PREF_COLORS_APP_DEFAULT));
             String colorsAppString = getResources().getStringArray(R.array.colors_app)[colorsAppIndex];
             colorsApp.setSummary(colorsAppString);
-            colorsApp.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    int colorsAppIndex = colorsApp.findIndexOfValue(newValue.toString());
-                    String colorsAppString = getResources().getStringArray(R.array.colors_app)[colorsAppIndex];
-                    colorsApp.setSummary(colorsAppString);
-                    prefs.edit().putString("settings_colors_app", newValue.toString()).commit();
-                    colorsApp.setValueIndex(colorsAppIndex);
-                    return false;
-                }
-            });
+            colorsApp.setOnPreferenceChangeListener((preference, newValue) -> {
+				int colorsAppIndex1 = colorsApp.findIndexOfValue(newValue.toString());
+				String colorsAppString1 = getResources().getStringArray(R.array.colors_app)[colorsAppIndex1];
+				colorsApp.setSummary(colorsAppString1);
+				prefs.edit().putString("settings_colors_app", newValue.toString()).commit();
+				colorsApp.setValueIndex(colorsAppIndex1);
+				return false;
+			});
         }
 
 
@@ -558,18 +489,15 @@ public class SettingsFragment extends PreferenceFragment {
             int checklistIndex = checklist.findIndexOfValue(prefs.getString("settings_checked_items_behavior", "0"));
             String checklistString = getResources().getStringArray(R.array.checked_items_behavior)[checklistIndex];
             checklist.setSummary(checklistString);
-            checklist.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    int checklistIndex = checklist.findIndexOfValue(newValue.toString());
-                    String checklistString = getResources().getStringArray(R.array.checked_items_behavior)
-                            [checklistIndex];
-                    checklist.setSummary(checklistString);
-                    prefs.edit().putString("settings_checked_items_behavior", newValue.toString()).commit();
-                    checklist.setValueIndex(checklistIndex);
-                    return false;
-                }
-            });
+            checklist.setOnPreferenceChangeListener((preference, newValue) -> {
+				int checklistIndex1 = checklist.findIndexOfValue(newValue.toString());
+				String checklistString1 = getResources().getStringArray(R.array.checked_items_behavior)
+						[checklistIndex1];
+				checklist.setSummary(checklistString1);
+				prefs.edit().putString("settings_checked_items_behavior", newValue.toString()).commit();
+				checklist.setValueIndex(checklistIndex1);
+				return false;
+			});
         }
 
 
@@ -580,17 +508,14 @@ public class SettingsFragment extends PreferenceFragment {
                     Constants.PREF_COLORS_APP_DEFAULT));
             String colorsWidgetString = getResources().getStringArray(R.array.colors_widget)[colorsWidgetIndex];
             colorsWidget.setSummary(colorsWidgetString);
-            colorsWidget.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    int colorsWidgetIndex = colorsWidget.findIndexOfValue(newValue.toString());
-                    String colorsWidgetString = getResources().getStringArray(R.array.colors_widget)[colorsWidgetIndex];
-                    colorsWidget.setSummary(colorsWidgetString);
-                    prefs.edit().putString("settings_colors_widget", newValue.toString()).commit();
-                    colorsWidget.setValueIndex(colorsWidgetIndex);
-                    return false;
-                }
-            });
+            colorsWidget.setOnPreferenceChangeListener((preference, newValue) -> {
+				int colorsWidgetIndex1 = colorsWidget.findIndexOfValue(newValue.toString());
+				String colorsWidgetString1 = getResources().getStringArray(R.array.colors_widget)[colorsWidgetIndex1];
+				colorsWidget.setSummary(colorsWidgetString1);
+				prefs.edit().putString("settings_colors_widget", newValue.toString()).commit();
+				colorsWidget.setValueIndex(colorsWidgetIndex1);
+				return false;
+			});
         }
 
 
@@ -601,33 +526,26 @@ public class SettingsFragment extends PreferenceFragment {
             String snooze = prefs.getString("settings_notification_snooze_delay", Constants.PREF_SNOOZE_DEFAULT);
             snooze = TextUtils.isEmpty(snooze) ? Constants.PREF_SNOOZE_DEFAULT : snooze;
             snoozeDelay.setSummary(String.valueOf(snooze) + " " + getString(R.string.minutes));
-            snoozeDelay.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    String snoozeUpdated = TextUtils.isEmpty(String.valueOf(newValue)) ? Constants
-                            .PREF_SNOOZE_DEFAULT : String.valueOf(newValue);
-                    snoozeDelay.setSummary(snoozeUpdated + " " + getString(R.string.minutes));
-                    prefs.edit().putString("settings_notification_snooze_delay", snoozeUpdated).apply();
-                    return false;
-                }
-            });
+            snoozeDelay.setOnPreferenceChangeListener((preference, newValue) -> {
+				String snoozeUpdated = TextUtils.isEmpty(String.valueOf(newValue)) ? Constants
+						.PREF_SNOOZE_DEFAULT : String.valueOf(newValue);
+				snoozeDelay.setSummary(snoozeUpdated + " " + getString(R.string.minutes));
+				prefs.edit().putString("settings_notification_snooze_delay", snoozeUpdated).apply();
+				return false;
+			});
         }
 
 
         // Changelog
         Preference changelog = findPreference("settings_changelog");
         if (changelog != null) {
-            changelog.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    new MaterialDialog.Builder(getActivity())
-                            .customView(R.layout.activity_changelog, false)
-                            .positiveText(R.string.ok)
-                            .build().show();
-                    return false;
-                }
-            });
+            changelog.setOnPreferenceClickListener(arg0 -> {
+				new MaterialDialog.Builder(getActivity())
+						.customView(R.layout.activity_changelog, false)
+						.positiveText(R.string.ok)
+						.build().show();
+				return false;
+			});
             // Retrieval of installed app version to write it as summary
             PackageInfo pInfo;
             String versionString = "";
@@ -644,47 +562,36 @@ public class SettingsFragment extends PreferenceFragment {
         // Settings reset
         Preference resetData = findPreference("reset_all_data");
         if (resetData != null) {
-            resetData.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+            resetData.setOnPreferenceClickListener(arg0 -> {
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
 
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-
-                    // set dialog message
-                    alertDialogBuilder
-                            .setMessage(getString(R.string.reset_all_data_confirmation))
-                            .setCancelable(false).setPositiveButton(getString(R.string.confirm),
-                            new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int id) {
-                                    prefs.edit().clear().commit();
-                                    File db = getActivity().getDatabasePath(Constants.DATABASE_NAME);
-                                    StorageHelper.delete(getActivity(), db.getAbsolutePath());
-                                    File attachmentsDir = StorageHelper.getAttachmentDir(getActivity());
-                                    StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
-                                    File cacheDir = StorageHelper.getCacheDir(getActivity());
-                                    StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
-                                    // App tour is flagged as skipped anyhow
+				// set dialog message
+				alertDialogBuilder
+						.setMessage(getString(R.string.reset_all_data_confirmation))
+						.setCancelable(false).setPositiveButton(getString(R.string.confirm),
+                        (dialog, id) -> {
+							prefs.edit().clear().commit();
+							File db = getActivity().getDatabasePath(Constants.DATABASE_NAME);
+							StorageHelper.delete(getActivity(), db.getAbsolutePath());
+							File attachmentsDir = StorageHelper.getAttachmentDir(getActivity());
+							StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
+							File cacheDir = StorageHelper.getCacheDir(getActivity());
+							StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
+							// App tour is flagged as skipped anyhow
 //								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
-                                    OmniNotes.restartApp(getActivity());
-                                }
-                            }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+							OmniNotes.restartApp(getActivity());
+						}).setNegativeButton(getString(R.string.cancel), (dialog, id) -> {
+							dialog.cancel();
+						});
 
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
 
-                    // create alert dialog
-                    AlertDialog alertDialog = alertDialogBuilder.create();
+				// show it
+				alertDialog.show();
 
-                    // show it
-                    alertDialog.show();
-
-                    return false;
-                }
-
-            });
+				return false;
+			});
         }
 
 
@@ -766,22 +673,19 @@ public class SettingsFragment extends PreferenceFragment {
         // About
         Preference about = findPreference("settings_about");
         if (about != null) {
-            about.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference arg0) {
-                    if (mAboutOrStatsThread != null && !mAboutOrStatsThread.isAlive()) {
-                        aboutClickCounter = 0;
-                    }
-                    if (aboutClickCounter == 0) {
-                        aboutClickCounter++;
-                        mAboutOrStatsThread = new AboutOrStatsThread(getActivity(), aboutClickCounter);
-                        mAboutOrStatsThread.start();
-                    } else {
-                        mAboutOrStatsThread.setAboutClickCounter(++aboutClickCounter);
-                    }
-                    return false;
-                }
-            });
+            about.setOnPreferenceClickListener(arg0 -> {
+				if (mAboutOrStatsThread != null && !mAboutOrStatsThread.isAlive()) {
+					aboutClickCounter = 0;
+				}
+				if (aboutClickCounter == 0) {
+					aboutClickCounter++;
+					mAboutOrStatsThread = new AboutOrStatsThread(getActivity(), aboutClickCounter);
+					mAboutOrStatsThread.start();
+				} else {
+					mAboutOrStatsThread.setAboutClickCounter(++aboutClickCounter);
+				}
+				return false;
+			});
         }
     }
 
@@ -873,18 +777,3 @@ class AboutOrStatsThread extends Thread {
         this.aboutClickCounter = aboutClickCounter;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

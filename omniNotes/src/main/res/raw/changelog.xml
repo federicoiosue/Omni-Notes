@@ -17,7 +17,7 @@
   -->
 <changelog bulletedList="true">
 
-    <!--<changelogversion versionName="5.0.0" changeDate="Feb 21, 2015">-->
+    <!--<changelogversion versionName="5.0.0" changeDate="Apr 12, 2015">-->
         <!--<changelogtext>[b]New![/b] Material design UI and new icon</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Customizable floating action button with long-press-shortcut to checklist and camera</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Exceptionally improved image loading! Forget the lag!</changelogtext>-->
@@ -25,17 +25,30 @@
         <!--<changelogtext>[b]New![/b] Support for animated gif in notes list and detail</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Filterable reminders: you can selectively include or not past reminders with a  single touch</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Dynamic menu: only used items are shown withing navigation list (option in settings)</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Application size reduced by 35%</changelogtext>-->
+        <!--<changelogtext>[b]New![/b] Application size reduced by 25%</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Choose to keep or delete merged note after merge succeeded</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
+
+    <changelogversion versionName="5.0.0 Beta 19" changeDate="Apr 18, 2015">
+        <changelogtext>[u]Fix[/u] Dynamic menu items not appearing</changelogtext>
+        <changelogtext>[u]Fix[/u] Broken swipe on uncategorized notes (no more allowed)</changelogtext>
+        <changelogtext>[u]Fix[/u] Wrong title in settings</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="5.0.0 Beta 18" changeDate="Apr 16, 2015">
+        <changelogtext>[u]Fix[/u] Recurrent reminders were not set on notification dismiss</changelogtext>
+        <changelogtext>[u]Fix[/u] Navigation drawer sizes</changelogtext>
+        <changelogtext>[u]Fix[/u] Status bar transparency on Lollipop</changelogtext>
+        <changelogtext>[u]Fix[/u] Physical menu button inhibited, use the overflow!</changelogtext>
+    </changelogversion>
 
     <changelogversion versionName="5.0.0 Beta 17" changeDate="Apr 10, 2015">
         <changelogtext>[u]Fix[/u] Something here and there</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.0.0 Beta 16" changeDate="Apr 9, 2015">
-        <changelogtext>Some graphical improvements (nainly in navigation panel)</changelogtext>
+        <changelogtext>Some graphical improvements (mainly in navigation panel)</changelogtext>
         <changelogtext>[u]Fix[/u] Notification actions when using AOSP reminder dialogs</changelogtext>
         <changelogtext>[u]Fix[/u] Minor ones</changelogtext>
     </changelogversion>

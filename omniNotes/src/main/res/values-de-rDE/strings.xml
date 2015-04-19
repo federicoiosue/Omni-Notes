@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Notiz wirklich löschen?</string>
   <string name="confirm">OK</string>
   <string name="ok">OK</string>
+  <string name="no">Nein</string>
   <string name="cancel">Abbrechen</string>
   <string name="note_updated">Notiz gespeichert</string>
   <string name="empty_note_not_saved">Leere Notiz wurde nicht gespeichert</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">Fügt einer neuen Notiz den aktuellen Standort hinzu</string>
   <string name="settings_dynamic_menu">Dynamisches Menü</string>
   <string name="settings_dynamic_menu_summary">Unbenutzte Menüpunkte werden automatisch ausgeblendet</string>
+  <string name="settings_fab_expansion_behavior">Schwebende Aktionsleiste</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Kurze Berührung führt Aktion aus</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Umschalten von Optionen durch kurze Berührung</string>
   <string name="settings_error_reporting">Fehlerberichte</string>
   <string name="settings_error_reporting_summary_on">Sollte die App abstürzen, wird der Entwickler informiert um Ihnen zu helfen</string>
   <string name="settings_error_reporting_summary_off">Absturzberichte werden nicht gesendet.</string>

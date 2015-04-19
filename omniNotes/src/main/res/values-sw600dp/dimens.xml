@@ -27,4 +27,7 @@
     <dimen name="note_item_min_height">152dp</dimen>
     <dimen name="note_item_min_height_inner">150dp</dimen>
 
+    <!-- FAB -->
+    <dimen name="fab_right_margin">24dp</dimen>
+
 </resources>

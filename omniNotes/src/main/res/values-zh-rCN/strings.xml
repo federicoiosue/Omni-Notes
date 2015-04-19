@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">确认删除记事？</string>
   <string name="confirm">确认</string>
   <string name="ok">确定</string>
+  <string name="no">否</string>
   <string name="cancel">取消</string>
   <string name="note_updated">记事已更新</string>
   <string name="empty_note_not_saved">未保存空白记事</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">自动将位置信息添加至新记事</string>
   <string name="settings_dynamic_menu">动态菜单</string>
   <string name="settings_dynamic_menu_summary">自动隐藏未使用的菜单选项</string>
+  <string name="settings_fab_expansion_behavior">悬浮按钮</string>
+  <string name="settings_fab_expansion_behavior_summary_on">短按操作</string>
+  <string name="settings_fab_expansion_behavior_summary_off">短按开关选项</string>
   <string name="settings_error_reporting">错误报告</string>
   <string name="settings_error_reporting_summary_on">当程序崩溃时,将通知开发人员来帮助你</string>
   <string name="settings_error_reporting_summary_off">错误报告将不会被发送,问题可能不会被解决!</string>

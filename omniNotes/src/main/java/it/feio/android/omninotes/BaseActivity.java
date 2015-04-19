@@ -20,7 +20,10 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
-import android.content.*;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -28,7 +31,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
@@ -63,7 +65,6 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
     protected SharedPreferences prefs;
 
-    // Location variables
     protected LocationManager locationManager;
     protected Location currentLocation;
     protected double currentLatitude;
@@ -172,7 +173,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
                 .title(R.string.insert_security_password)
                 .customView(v, false)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         // When positive button is pressed password correctness is checked
@@ -194,14 +195,11 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
                     }
                 }).build();
 
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                KeyboardUtils.hideKeyboard(passwordEditText);
-                dialog.dismiss();
-                mPasswordValidator.onPasswordValidated(false);
-            }
-        });
+        dialog.setOnCancelListener(dialog1 -> {
+			KeyboardUtils.hideKeyboard(passwordEditText);
+			dialog1.dismiss();
+			mPasswordValidator.onPasswordValidated(false);
+		});
 
         dialog.show();
 
@@ -230,12 +228,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
             }
         }
         if (askForPassword) {
-            BaseActivity.requestPassword(mActivity, new PasswordValidator() {
-                @Override
-                public void onPasswordValidated(boolean passwordConfirmed) {
-                    mPasswordValidator.onPasswordValidated(passwordConfirmed);
-                }
-            });
+            BaseActivity.requestPassword(mActivity, mPasswordValidator::onPasswordValidated);
         } else {
             mPasswordValidator.onPasswordValidated(true);
         }
@@ -333,7 +326,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     @SuppressLint("InlinedApi")
     protected void animateTransition(FragmentTransaction transaction, int direction) {
         if (direction == TRANSITION_HORIZONTAL) {
-            transaction.setCustomAnimations(R.animator.fade_in_support, R.animator.fade_out_support, 
+            transaction.setCustomAnimations(R.animator.fade_in_support, R.animator.fade_out_support,
                     R.animator.fade_in_support, R.animator.fade_out_support);
         }
         if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -363,4 +356,8 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     }
 
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return keyCode == KeyEvent.KEYCODE_MENU || super.onKeyDown(keyCode, event);
+    }
 }

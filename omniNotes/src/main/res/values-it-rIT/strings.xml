@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">Confermare l\'eliminazione della nota?</string>
   <string name="confirm">Conferma</string>
   <string name="ok">Ok</string>
+  <string name="no">No</string>
   <string name="cancel">Annulla</string>
   <string name="note_updated">Nota aggiornata</string>
   <string name="empty_note_not_saved">Nota vuota non salvata</string>
@@ -286,6 +287,9 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_auto_location_summary">Aggiunge automaticamente la posizione attuale alle nuove note</string>
   <string name="settings_dynamic_menu">Menu dinamico</string>
   <string name="settings_dynamic_menu_summary">Le voci non usate del menu vengono automaticamente nascoste</string>
+  <string name="settings_fab_expansion_behavior">Floating action button</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Tocco breve per effettuare l\'azione</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Tocco breve per mostrare le opzioni</string>
   <string name="settings_error_reporting">Segnalazione errori</string>
   <string name="settings_error_reporting_summary_on">Quando l\'applicazione ha un problema verrà inviata una segnalazione allo sviluppatore</string>
   <string name="settings_error_reporting_summary_off">Non verranno inviate segnalazioni per i problemi dell\'applicazione. Non lamentarti poi se qualcosa va storto!</string>

@@ -23,18 +23,16 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-import android.view.View;
-import android.widget.AdapterView;
+import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
-import it.feio.android.omninotes.models.listeners.OnNavigationItemClickedListener;
 import it.feio.android.omninotes.models.misc.DynamicNavigationLookupTable;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
-import roboguice.util.Ln;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -45,15 +43,13 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
     private final WeakReference<Fragment> mFragmentWeakReference;
     private final MainActivity mainActivity;
-    private final OnNavigationItemClickedListener onNavigationItemclicked;
     private NonScrollableListView mDrawerList;
     private NonScrollableListView mDrawerCategoriesList;
 
 
-    public MainMenuTask(Fragment mFragment, OnNavigationItemClickedListener onNavigationItemclicked) {
+    public MainMenuTask(Fragment mFragment) {
         mFragmentWeakReference = new WeakReference<>(mFragment);
         this.mainActivity = (MainActivity) mFragment.getActivity();
-        this.onNavigationItemclicked = onNavigationItemclicked;
     }
 
 
@@ -69,25 +65,22 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
             mDrawerList.setAdapter(new NavDrawerAdapter(mainActivity, items));
 
             // Sets click events
-            mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                    mainActivity.commitPending();
-                    String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
-                            .navigation_list_codes)[items.get(position)
-                            .getArrayIndex()];
-                    onNavigationItemclicked.onNavigationItemclicked(mDrawerList.getItemAtPosition(position));
-                    mainActivity.updateNavigation(navigation);
-                    mDrawerList.setItemChecked(position, true);
-                    if (mDrawerCategoriesList != null)
-                        mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
-                    // Reset intent
-                    mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
+            mDrawerList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+				mainActivity.commitPending();
+				String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
+						.navigation_list_codes)[items.get(position)
+						.getArrayIndex()];
+                EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
+				mainActivity.updateNavigation(navigation);
+				mDrawerList.setItemChecked(position, true);
+				if (mDrawerCategoriesList != null)
+					mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
+				// Reset intent
+				mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
 
-                    // Call method to update notes list
-                    mainActivity.initNotesList(mainActivity.getIntent());
-                }
-            });
+				// Call method to update notes list
+				mainActivity.initNotesList(mainActivity.getIntent());
+			});
 
             mDrawerList.justifyListViewHeightBasedOnChildren();
         }
@@ -95,8 +88,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
 
     private boolean isAlive() {
-        return mFragmentWeakReference != null
-                && mFragmentWeakReference.get() != null
+        return mFragmentWeakReference.get() != null
                 && mFragmentWeakReference.get().isAdded()
                 && mFragmentWeakReference.get().getActivity() != null
                 && !mFragmentWeakReference.get().getActivity().isFinishing();
@@ -119,14 +111,9 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         TypedArray mNavigationIconsSelectedArray = mFragmentWeakReference.get().getResources().obtainTypedArray(R.array
                 .navigation_list_icons_selected);
 
-        Ln.d("Starting lookup");
-        DynamicNavigationLookupTable dynamicNavigationLookupTable = new DynamicNavigationLookupTable();
-        dynamicNavigationLookupTable.init(mainActivity);
-        Ln.d("Finished lookup");
-
         final List<NavigationItem> items = new ArrayList<>();
         for (int i = 0; i < mNavigationArray.length; i++) {
-            if (!checkSkippableItem(dynamicNavigationLookupTable, i)) {
+            if (!checkSkippableItem(i)) {
                 NavigationItem item = new NavigationItem(i, mNavigationArray[i], mNavigationIconsArray.getResourceId(i,
                         0), mNavigationIconsSelectedArray.getResourceId(i, 0));
                 items.add(item);
@@ -136,10 +123,14 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
     }
 
 
-    private boolean checkSkippableItem(DynamicNavigationLookupTable dynamicNavigationLookupTable, int i) {
+    private boolean checkSkippableItem(int i) {
         boolean skippable = false;
         SharedPreferences prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
         boolean dynamicMenu = prefs.getBoolean(Constants.PREF_DYNAMIC_MENU, true);
+        DynamicNavigationLookupTable dynamicNavigationLookupTable = null;
+        if (dynamicMenu) {
+            dynamicNavigationLookupTable = DynamicNavigationLookupTable.getInstance();
+        }
         switch (i) {
             case Navigation.REMINDERS:
                 if (dynamicMenu && dynamicNavigationLookupTable.getReminders() == 0)

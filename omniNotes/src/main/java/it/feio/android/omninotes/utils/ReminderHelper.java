@@ -38,7 +38,7 @@ public class ReminderHelper {
     }
 
     public static void addReminder(Context context, Note note, long reminder) {
-        if (hasFutureReminder(note)) {
+//        if (hasFutureReminder(note)) {
             Intent intent = new Intent(context, AlarmReceiver.class);
             intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
             PendingIntent sender = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent,
@@ -49,7 +49,7 @@ public class ReminderHelper {
             } else {
                 am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
             }
-        }
+//        }
     }
 
 

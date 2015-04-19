@@ -29,34 +29,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.CategoryMenuTask;
 import it.feio.android.omninotes.async.MainMenuTask;
+import it.feio.android.omninotes.async.bus.*;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
-import it.feio.android.omninotes.models.listeners.OnNavigationItemClickedListener;
 import it.feio.android.omninotes.utils.Display;
 import roboguice.util.Ln;
 
 
-/**
- * Fragment used for managing interactions for and presentation of a navigation
- * drawer. See the <a href=
- * "https://developer.android.com/design/patterns/navigation-drawer.html#Interaction"
- * > design guidelines</a> for a complete explanation of the behaviors
- * implemented here.
- */
-public class NavigationDrawerFragment extends Fragment implements OnNavigationItemClickedListener {
+public class NavigationDrawerFragment extends Fragment {
 
     ActionBarDrawerToggle mDrawerToggle;
     DrawerLayout mDrawerLayout;
     private MainActivity mActivity;
     private CharSequence mTitle;
+    private boolean alreadyInitialized;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        EventBus.getDefault().register(this);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 
@@ -70,8 +73,32 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = (MainActivity) getActivity();
-
         initImage();
+    }
+
+
+    public void onEvent(DynamicNavigationReadyEvent event) {
+        if (alreadyInitialized) {
+            alreadyInitialized = false;
+        } else {
+            init();
+        }
+    }
+
+
+    public void onEvent(CategoriesUpdatedEvent event) {
+        init();
+    }
+
+
+    public void onEvent(NotesUpdatedEvent event) {
+        alreadyInitialized = false;
+    }
+
+
+    public void onEvent(NotesLoadedEvent event) {
+        init();
+        alreadyInitialized = true;
     }
 
 
@@ -168,33 +195,29 @@ public class NavigationDrawerFragment extends Fragment implements OnNavigationIt
 
 
     private void buildCategoriesMenu() {
-        CategoryMenuTask task = new CategoryMenuTask(this, this);
+        CategoryMenuTask task = new CategoryMenuTask(this);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
     private void buildMainMenu() {
-        MainMenuTask task = new MainMenuTask(this, this);
+        MainMenuTask task = new MainMenuTask(this);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
-    @Override
-    public void onNavigationItemclicked(Object navigationItem) {
-        if (navigationItem.getClass().isAssignableFrom(NavigationItem.class)) {
-            mTitle = ((NavigationItem) navigationItem).getText();
-            // Is a category
+    public void onEvent(NavigationUpdatedEvent navigationUpdatedEvent) {
+        if (navigationUpdatedEvent.navigationItem.getClass().isAssignableFrom(NavigationItem.class)) {
+            mTitle = ((NavigationItem) navigationUpdatedEvent.navigationItem).getText();
         } else {
-            mTitle = ((Category) navigationItem).getName();
+            mTitle = ((Category) navigationUpdatedEvent.navigationItem).getName();
         }
-        // Navigation drawer is closed after a while to avoid lag
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mActivity.getSupportActionBar().setTitle(mTitle);
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-            }
-        }, 500);
+        // Removes navigation drawer forced closed status
+        if (mDrawerLayout != null) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            // Navigation drawer is closed after a while to avoid lag
+            new Handler().postDelayed(() -> mDrawerLayout.closeDrawer(GravityCompat.START), 250);
+        }
     }
 
 

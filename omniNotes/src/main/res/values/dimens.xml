@@ -26,12 +26,12 @@
     
     <dimen name="padding_half">8dp</dimen>
 
-    <dimen name="actionobar_icon_padding">8dp</dimen>
+    <dimen name="actionbar_icon_padding">8dp</dimen>
     <dimen name="toolbar_elevation">4dp</dimen>
 
     <dimen name="icon_text_margin">12dp</dimen>    
 
-    <dimen name="navigation_drawer_width">290dp</dimen>
+    <dimen name="navigation_drawer_width">264dp</dimen>
     <dimen name="navigation_drawer_line_height">48dp</dimen>
     <dimen name="navigation_drawer_icon_size">28dp</dimen>
     <dimen name="navigation_drawer_header_height">90dp</dimen>
@@ -50,10 +50,12 @@
     <dimen name="note_item_min_height">102dp</dimen>
     <dimen name="note_item_min_height_inner">100dp</dimen>
 
-
     <!-- Attachment dialog -->
     <dimen name="attachment_dialog_text_size">16sp</dimen>
     <dimen name="attachment_dialog_drawable_padding">10dp</dimen>
     <dimen name="attachment_dialog_items_padding">10dp</dimen>
+
+    <!-- FAB -->
+    <dimen name="fab_right_margin">8dp</dimen>
 
 </resources>

@@ -41,6 +41,7 @@
   <string name="delete_note_confirmation">ノートを削除してもよろしいですか?</string>
   <string name="confirm">確認</string>
   <string name="ok">OK</string>
+  <string name="no">いいえ</string>
   <string name="cancel">キャンセル</string>
   <string name="note_updated">ノートを更新しました</string>
   <string name="empty_note_not_saved">空のノートを保存できません</string>
@@ -285,6 +286,9 @@
   <string name="settings_auto_location_summary">自動的に、新しいノートに場所を追加します</string>
   <string name="settings_dynamic_menu">動的メニュー</string>
   <string name="settings_dynamic_menu_summary">未使用のメニュー項目を自動的に非表示にします</string>
+  <string name="settings_fab_expansion_behavior">フローティング アクションバー</string>
+  <string name="settings_fab_expansion_behavior_summary_on">短いタッチでアクションを実行します</string>
+  <string name="settings_fab_expansion_behavior_summary_off">短いタッチでオプションを切り替えます</string>
   <string name="settings_error_reporting">エラー報告</string>
   <string name="settings_error_reporting_summary_on">アプリがクラッシュした時に、あなたの役に立つように開発者に通知されます</string>
   <string name="settings_error_reporting_summary_off">クラッシュ レポートは送信されません。何か問題があっても文句を言わないでくださいね!</string>

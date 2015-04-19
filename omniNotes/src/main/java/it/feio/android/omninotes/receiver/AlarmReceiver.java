@@ -39,6 +39,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         try {
             Note note = intent.getExtras().getParcelable(Constants.INTENT_NOTE);
             createNotification(mContext, note);
+            SnoozeActivity.setNextRecurrentReminder(note);
         } catch (Exception e) {
             Ln.e("Error on receiving reminder", e);
         }

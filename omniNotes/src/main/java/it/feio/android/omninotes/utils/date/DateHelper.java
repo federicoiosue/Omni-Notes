@@ -263,7 +263,7 @@ public class DateHelper {
         try {
             rule.setValue(recurrenceRule);
             net.fortuna.ical4j.model.DateTime seed = new net.fortuna.ical4j.model.DateTime(reminder);
-            long startTimestamp = reminder + 24L * 60L * 60L * 1000L;
+            long startTimestamp = reminder + 60L * 60L * 1000L;
             long now = Calendar.getInstance().getTimeInMillis();
             if (startTimestamp < now) {
                 startTimestamp = now;

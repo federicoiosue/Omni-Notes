@@ -18,13 +18,11 @@
 package it.feio.android.omninotes;
 
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -41,13 +39,13 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.omninotes.async.notes.DeleteNoteTask;
+import edu.emory.mathcs.backport.java.util.Arrays;
 import it.feio.android.omninotes.async.UpdaterTask;
+import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
 import it.feio.android.omninotes.utils.Constants;
 import roboguice.util.Ln;
@@ -105,16 +103,13 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     private void checkPassword() {
         if (prefs.getString(Constants.PREF_PASSWORD, null) != null
                 && prefs.getBoolean("settings_password_access", false)) {
-            requestPassword(this, new PasswordValidator() {
-                @Override
-                public void onPasswordValidated(boolean passwordConfirmed) {
-                    if (passwordConfirmed) {
-                        init();
-                    } else {
-                        finish();
-                    }
-                }
-            });
+            requestPassword(this, passwordConfirmed -> {
+				if (passwordConfirmed) {
+					init();
+				} else {
+					finish();
+				}
+			});
         } else {
             init();
         }
@@ -199,12 +194,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (f != null) {
             ((ListFragment) f).commitPending();
         }
-    }
-
-
-    public void initNavigationDrawer() {
-        Fragment f = checkFragmentInstance(R.id.navigation_drawer, NavigationDrawerFragment.class);
-        if (f != null) ((NavigationDrawerFragment) f).init();
     }
 
 
@@ -295,13 +284,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             if (targetShape != BURGER && targetShape != ARROW)
                 return;
             ValueAnimator anim = ValueAnimator.ofFloat((targetShape + 1) % 2, targetShape);
-            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    float slideOffset = (Float) valueAnimator.getAnimatedValue();
-                    drawerToggle.onDrawerSlide(getDrawerLayout(), slideOffset);
-                }
-            });
+            anim.addUpdateListener(valueAnimator -> {
+				float slideOffset = (Float) valueAnimator.getAnimatedValue();
+				drawerToggle.onDrawerSlide(getDrawerLayout(), slideOffset);
+			});
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(500);
             anim.start();
@@ -498,12 +484,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
      *
      * @param note Note to be deleted
      */
-    @SuppressLint("NewApi")
     public void deleteNote(Note note) {
-        // Saving changes to the note
-        DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getApplicationContext());
-        deleteNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
-        // Informs about update
+        new NoteProcessorDelete(Arrays.asList(new Note[]{note})).process();
+        BaseActivity.notifyAppWidgets(this);
         Ln.d("Deleted permanently note with id '" + note.get_id() + "'");
     }
 
@@ -574,12 +557,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void onPushBulletReply(final String message) {
         final DetailFragment df = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
         if (df != null) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    df.appendToContentViewText(message);
-                }
-            });
+            runOnUiThread(() -> df.appendToContentViewText(message));
         }
     }
 }
