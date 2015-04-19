@@ -18,9 +18,7 @@ package it.feio.android.omninotes;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.webkit.WebView;
-
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
@@ -59,12 +57,7 @@ public class AboutActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNavigateUp();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onNavigateUp());
     }
 
 }
