@@ -32,10 +32,7 @@ import android.widget.ImageView;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.CategoryMenuTask;
 import it.feio.android.omninotes.async.MainMenuTask;
-import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
-import it.feio.android.omninotes.async.bus.DynamicNavigationReadyEvent;
-import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
-import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
+import it.feio.android.omninotes.async.bus.*;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.utils.Display;
@@ -48,6 +45,7 @@ public class NavigationDrawerFragment extends Fragment {
     DrawerLayout mDrawerLayout;
     private MainActivity mActivity;
     private CharSequence mTitle;
+    private boolean alreadyInitialized;
 
 
     @Override
@@ -80,12 +78,21 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     public void onEvent(DynamicNavigationReadyEvent event) {
-        init();
+        if (alreadyInitialized) {
+            alreadyInitialized = false;
+        } else {
+            init();
+        }
     }
 
 
     public void onEvent(CategoriesUpdatedEvent event) {
         init();
+    }
+
+
+    public void onEvent(NotesUpdatedEvent event) {
+        alreadyInitialized = false;
     }
 
 
@@ -97,6 +104,7 @@ public class NavigationDrawerFragment extends Fragment {
             new Handler().postDelayed(() -> mDrawerLayout.closeDrawer(GravityCompat.START), 250);
         }
         init();
+        alreadyInitialized = true;
     }
 
 

@@ -53,8 +53,13 @@ public abstract class NoteProcessor {
 			for (Note note : notes) {
 				processNote(note);
 			}
-			EventBus.getDefault().post(new NotesUpdatedEvent());
 			return null;
+		}
+
+
+		@Override
+		protected void onPostExecute(Void aVoid) {
+			EventBus.getDefault().post(new NotesUpdatedEvent());
 		}
 	}
 }
