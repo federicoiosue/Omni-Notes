@@ -97,6 +97,10 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     public void onEvent(NotesLoadedEvent event) {
+        // Removes navigation drawer forced closed status
+        if (mDrawerLayout != null) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        }
         init();
         alreadyInitialized = true;
     }
@@ -212,10 +216,7 @@ public class NavigationDrawerFragment extends Fragment {
         } else {
             mTitle = ((Category) navigationUpdatedEvent.navigationItem).getName();
         }
-        // Removes navigation drawer forced closed status
         if (mDrawerLayout != null) {
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-            // Navigation drawer is closed after a while to avoid lag
             new Handler().postDelayed(() -> mDrawerLayout.closeDrawer(GravityCompat.START), 250);
         }
     }
