@@ -269,12 +269,12 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
                 } else {
                     if (holder != null) {
                         holder.categoryMarker.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
+                    } else {
+                        v.findViewById(R.id.category_marker).setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
                     }
                 }
             } else {
-                if (holder != null) {
-                    holder.categoryMarker.setBackgroundColor(0);
-                }
+                v.findViewById(R.id.category_marker).setBackgroundColor(0);
             }
         }
     }

@@ -27,7 +27,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -66,6 +65,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
+import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
@@ -74,7 +74,6 @@ import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.pixlui.links.UrlCompleter;
 
-import java.text.BreakIterator;
 import java.util.*;
 
 import static android.support.v4.view.ViewCompat.animate;
@@ -95,6 +94,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     @InjectView(R.id.expanded_image) ImageView expandedImageView;
     @InjectView(R.id.fab)  View fabView;
     @InjectView(R.id.undobar) View undoBarView;
+
+    NoteViewHolder noteViewHolder;
 
     private List<Note> selectedNotes = new ArrayList<>();
     private List<Note> modifiedNotes = new ArrayList<>();
