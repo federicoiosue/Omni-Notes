@@ -18,7 +18,7 @@
 package it.feio.android.omninotes.utils;
 
 import android.util.Base64;
-import roboguice.util.Ln;
+import android.util.Log;
 
 import javax.crypto.*;
 import javax.crypto.spec.DESKeySpec;
@@ -46,7 +46,7 @@ public class Security {
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            Ln.d("Something is gone wrong calculating MD5", e);
+            Log.d(Constants.TAG, "Something is gone wrong calculating MD5", e);
         }
         return "";
     }
@@ -65,7 +65,7 @@ public class Security {
             encrypedValue = Base64.encodeToString(cipher.doFinal(clearText), Base64.DEFAULT);
             return encrypedValue;
         } catch (InvalidKeyException | NoSuchPaddingException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            Ln.d("Something is gone wrong encrypting", e);
+            Log.d(Constants.TAG, "Something is gone wrong encrypting", e);
         }
         return encrypedValue;
     }
@@ -86,29 +86,29 @@ public class Security {
 
             decryptedValue = new String(decrypedValueBytes);
         } catch (InvalidKeyException e) {
-            Ln.e(e, "Error decrypting");
+            Log.e(Constants.TAG, "Error decrypting");
             return value;
         } catch (UnsupportedEncodingException e) {
-            Ln.e(e, "Error decrypting");
+            Log.e(Constants.TAG, "Error decrypting");
             return value;
         } catch (InvalidKeySpecException e) {
-            Ln.e(e, "Error decrypting");
+            Log.e(Constants.TAG, "Error decrypting");
             return value;
         } catch (NoSuchAlgorithmException e) {
-            Ln.e(e, "Error decrypting");
+            Log.e(Constants.TAG, "Error decrypting");
             return value;
         } catch (BadPaddingException e) {
-            Ln.e(e, "Error decrypting");
+            Log.e(Constants.TAG, "Error decrypting");
             return value;
         } catch (NoSuchPaddingException e) {
-            Ln.e(e, "Error decrypting");
+            Log.e(Constants.TAG, "Error decrypting");
             return value;
         } catch (IllegalBlockSizeException e) {
-            Ln.e(e, "Error decrypting");
+            Log.e(Constants.TAG, "Error decrypting");
             return value;
             // try-catch ensure compatibility with old masked (without encryption) values
         } catch (IllegalArgumentException e) {
-            Ln.e(e, "Error decrypting");
+            Log.e(Constants.TAG, "Error decrypting");
             return value;
         }
         return decryptedValue;

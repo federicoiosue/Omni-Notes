@@ -1,6 +1,7 @@
 package it.feio.android.omninotes.async.bus;
 
-import roboguice.util.Ln;
+import android.util.Log;
+import it.feio.android.omninotes.utils.Constants;
 
 
 /**
@@ -9,6 +10,6 @@ import roboguice.util.Ln;
 public class NotesUpdatedEvent {
 
 	public NotesUpdatedEvent() {
-		Ln.d(this.getClass().getName());
+		Log.d(Constants.TAG, this.getClass().getName());
 	}
 }

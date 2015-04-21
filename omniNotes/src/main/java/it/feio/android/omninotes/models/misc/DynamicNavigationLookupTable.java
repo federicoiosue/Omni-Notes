@@ -18,13 +18,13 @@
 package it.feio.android.omninotes.models.misc;
 
 
+import android.util.Log;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.DynamicNavigationReadyEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
-import roboguice.util.Ln;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class DynamicNavigationLookupTable {
 				if (notes.get(i).getCategory() == null || notes.get(i).getCategory().getId() == 0) uncategorized++;
 			}
 			EventBus.getDefault().post(new DynamicNavigationReadyEvent());
-			Ln.d(Constants.TAG, "Dynamic menu finished counting items");
+			Log.d(Constants.TAG, "Dynamic menu finished counting items");
 		}).run();
 	}
 

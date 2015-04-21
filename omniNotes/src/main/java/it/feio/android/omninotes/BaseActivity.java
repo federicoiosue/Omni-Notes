@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.*;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -45,7 +46,6 @@ import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
-import roboguice.util.Ln;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -100,7 +100,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
                 menuKeyField.setBoolean(config, false);
             }
         } catch (Exception e) {
-            Ln.d("Just a little issue in physical menu button management", e);
+            Log.d(Constants.TAG, "Just a little issue in physical menu button management", e);
         }
         super.onCreate(savedInstanceState);
     }
@@ -112,7 +112,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
         // Navigation selected
         String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
         navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
-        Ln.d(prefs.getAll().toString());
+        Log.d(Constants.TAG, prefs.getAll().toString());
     }
 
 
@@ -315,7 +315,7 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
         // Home widgets
         AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
         int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity, ListWidgetProvider.class));
-        Ln.d("Notifies AppWidget data changed for widgets " + Arrays.toString(ids));
+        Log.d(Constants.TAG, "Notifies AppWidget data changed for widgets " + Arrays.toString(ids));
         mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 
         // Dashclock

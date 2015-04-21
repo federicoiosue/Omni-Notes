@@ -20,20 +20,18 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
-
+import android.util.Log;
+import be.billington.calendar.recurrencepicker.EventRecurrence;
+import be.billington.calendar.recurrencepicker.EventRecurrenceFormatter;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.utils.Constants;
 import net.fortuna.ical4j.model.property.RRule;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import be.billington.calendar.recurrencepicker.EventRecurrence;
-import be.billington.calendar.recurrencepicker.EventRecurrenceFormatter;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.utils.Constants;
-import roboguice.util.Ln;
 
 
 /**
@@ -70,10 +68,10 @@ public class DateHelper {
         try {
             cal.setTime(sdf.parse(str));
         } catch (ParseException e) {
-            Ln.e(e, "Malformed datetime string" + e.getMessage());
+            Log.e(Constants.TAG, "Malformed datetime string" + e.getMessage());
 
         } catch (NullPointerException e) {
-            Ln.e(e, "Date or time not set");
+            Log.e(Constants.TAG, "Date or time not set");
         }
         return cal;
     }
@@ -125,7 +123,7 @@ public class DateHelper {
             cDate.setTime(sdfDate.parse(date));
             cTime.setTime(sdfTime.parse(time));
         } catch (ParseException e) {
-            Ln.e(e, "Date or time parsing error: " + e.getMessage());
+            Log.e(Constants.TAG, "Date or time parsing error: " + e.getMessage());
         }
         cal.set(Calendar.YEAR, cDate.get(Calendar.YEAR));
         cal.set(Calendar.MONTH, cDate.get(Calendar.MONTH));
@@ -158,7 +156,7 @@ public class DateHelper {
             try {
                 date = sdf.parse(dateString);
             } catch (ParseException e1) {
-                Ln.e(e, "String is not formattable into date");
+                Log.e(Constants.TAG, "String is not formattable into date");
             }
         }
 
@@ -272,7 +270,7 @@ public class DateHelper {
             Date nextDate = rule.getRecur().getNextDate(seed, start);
             return nextDate == null ? 0L : nextDate.getTime();
         } catch (ParseException e) {
-            Ln.e("Error parsing rrule");
+            Log.e(Constants.TAG, "Error parsing rrule");
         }
         return 0L;
     }

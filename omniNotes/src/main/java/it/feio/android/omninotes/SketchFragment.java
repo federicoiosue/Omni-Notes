@@ -29,6 +29,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -47,7 +48,7 @@ import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 import it.feio.android.omninotes.models.views.SketchView;
-import roboguice.util.Ln;
+import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -121,7 +122,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 bmp = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
                 mSketchView.setBackgroundBitmap(getActivity(), bmp);
             } catch (FileNotFoundException e) {
-                Ln.e(e, "Error replacing sketch bitmap background");
+                Log.e(Constants.TAG, "Error replacing sketch bitmap background", e);
             }
         }
 
@@ -275,7 +276,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 }
 
             } catch (Exception e) {
-                Ln.e(e, "Error writing sketch image data");
+                Log.e(Constants.TAG, "Error writing sketch image data", e);
             }
         }
     }
@@ -346,7 +347,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
         int newSize = Math.round((size / 100f) * calcProgress);
         int offset = Math.round((size - newSize) / 2);
-        Ln.v("Stroke size " + newSize + " (" + calcProgress + "%)");
+        Log.v(Constants.TAG, "Stroke size " + newSize + " (" + calcProgress + "%)");
 
         LayoutParams lp = new LayoutParams(newSize, newSize);
         lp.setMargins(offset, offset, offset, offset);

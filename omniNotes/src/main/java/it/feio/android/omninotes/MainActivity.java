@@ -31,6 +31,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -48,7 +49,6 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
 import it.feio.android.omninotes.utils.Constants;
-import roboguice.util.Ln;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     @Override
     public void onLowMemory() {
-        Ln.w("Low memory, bitmap cache will be cleaned!");
+        Log.w(Constants.TAG, "Low memory, bitmap cache will be cleaned!");
         OmniNotes.getBitmapCache().evictAll();
         super.onLowMemory();
     }
@@ -157,7 +157,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         }
         setIntent(intent);
         handleIntents();
-        Ln.d("onNewIntent");
+        Log.d(Constants.TAG, "onNewIntent");
         super.onNewIntent(intent);
     }
 
@@ -487,7 +487,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void deleteNote(Note note) {
         new NoteProcessorDelete(Arrays.asList(new Note[]{note})).process();
         BaseActivity.notifyAppWidgets(this);
-        Ln.d("Deleted permanently note with id '" + note.get_id() + "'");
+        Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
     }
 
 

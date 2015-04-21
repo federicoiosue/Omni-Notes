@@ -27,13 +27,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
-
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
-import roboguice.util.Ln;
 
 
 public abstract class WidgetProvider extends AppWidgetProvider {
@@ -49,7 +48,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         ComponentName thisWidget = new ComponentName(context, getClass());
         int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
         for (int appWidgetId : allWidgetIds) {
-            Ln.d("WidgetProvider onUpdate() widget " + appWidgetId);
+            Log.d(Constants.TAG, "WidgetProvider onUpdate() widget " + appWidgetId);
             // Get the layout for and attach an on-click listener to views
             setLayout(context, appWidgetManager, appWidgetId);
         }
@@ -60,7 +59,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId,
                                           Bundle newOptions) {
-        Ln.d("Widget size changed");
+        Log.d(Constants.TAG, "Widget size changed");
         setLayout(context, appWidgetManager, appWidgetId);
     }
 

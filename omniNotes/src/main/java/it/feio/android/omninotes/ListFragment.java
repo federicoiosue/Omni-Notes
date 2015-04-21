@@ -39,6 +39,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.util.SparseArray;
 import android.view.*;
@@ -69,7 +70,6 @@ import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.pixlui.links.UrlCompleter;
-import roboguice.util.Ln;
 
 import java.util.*;
 
@@ -366,7 +366,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
 
             actionMode = null;
-            Ln.d("Closed multiselection contextual menu");
+            Log.d(Constants.TAG, "Closed multiselection contextual menu");
 
             // Updates app widgets
             BaseActivity.notifyAppWidgets(getActivity());
@@ -835,7 +835,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     void editNote2(Note note) {
         if (note.get_id() == 0) {
-            Ln.d("Adding new note");
+            Log.d(Constants.TAG, "Adding new note");
             // if navigation is a category it will be set into note
             try {
                 int categoryId;
@@ -846,10 +846,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 }
                 note.setCategory(DbHelper.getInstance().getCategory(categoryId));
             } catch (NumberFormatException e) {
-                Ln.i("Maybe was not a category!", e);
+                Log.v(Constants.TAG, "Maybe was not a category!");
             }
         } else {
-            Ln.d("Editing note with id: " + note.get_id());
+            Log.d(Constants.TAG, "Editing note with id: " + note.get_id());
         }
 
         // Current list scrolling position is saved to be restored later
@@ -934,7 +934,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      * Notes list adapter initialization and association to view
      */
     void initNotesList(Intent intent) {
-        Ln.d("initNotesList intent: " + intent.getAction());
+        Log.d(Constants.TAG, "initNotesList intent: " + intent.getAction());
 
         NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
 
@@ -1044,7 +1044,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     @Override
     public void onNotesLoaded(ArrayList<Note> notes) {
         EventBus.getDefault().post(new NotesLoadedEvent());
-        Ln.d(Constants.TAG, "Notes loaded");
+        Log.d(Constants.TAG, "Notes loaded");
         layoutSelected = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
                 : R.layout.note_layout;
         listAdapter = new NoteAdapter(getActivity(), layoutSelected, notes);
@@ -1061,7 +1061,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     try {
                         note = listAdapter.getItem(position);
                     } catch (IndexOutOfBoundsException e) {
-                        Ln.d("Please stop swiping in the zone beneath the last card");
+                        Log.d(Constants.TAG, "Please stop swiping in the zone beneath the last card");
                         continue;
                     }
                     getSelectedNotes().add(note);
@@ -1293,7 +1293,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
             listAdapter.remove(notes);
         }
-        Ln.d("Notes" + (archive ? "archived" : "restored from archive"));
+        Log.d(Constants.TAG, "Notes" + (archive ? "archived" : "restored from archive"));
     }
 
 

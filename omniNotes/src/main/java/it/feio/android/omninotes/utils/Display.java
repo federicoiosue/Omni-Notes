@@ -26,10 +26,9 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-
-import roboguice.util.Ln;
 
 
 public class Display {
@@ -57,7 +56,7 @@ public class Display {
                 }
             }
         } catch (Exception e) {
-            Ln.e(e, "checkDisplaySize", "Error checking display sizes");
+            Log.e(Constants.TAG , "Error checking display sizes", e);
         }
         return displaySize;
     }

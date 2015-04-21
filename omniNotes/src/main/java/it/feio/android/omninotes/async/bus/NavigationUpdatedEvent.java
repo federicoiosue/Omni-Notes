@@ -1,7 +1,7 @@
 package it.feio.android.omninotes.async.bus;
 
-import it.feio.android.omninotes.models.NavigationItem;
-import roboguice.util.Ln;
+import android.util.Log;
+import it.feio.android.omninotes.utils.Constants;
 
 
 /**
@@ -13,7 +13,7 @@ public class NavigationUpdatedEvent {
 
 
 	public NavigationUpdatedEvent(Object navigationItem) {
-		Ln.d(this.getClass().getName());
+		Log.d(Constants.TAG, this.getClass().getName());
 		this.navigationItem = navigationItem;
 	}
 }

@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.text.Spanned;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,6 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.*;
-import roboguice.util.Ln;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -181,7 +181,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
                 }
             }
         } catch (RejectedExecutionException e) {
-            Ln.w(e, "Oversized tasks pool to load texts!");
+            Log.w(Constants.TAG, "Oversized tasks pool to load texts!", e);
         }
     }
 

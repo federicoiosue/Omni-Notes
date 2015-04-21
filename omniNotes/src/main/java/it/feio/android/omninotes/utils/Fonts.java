@@ -19,15 +19,14 @@ package it.feio.android.omninotes.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.Arrays;
-
 import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.R;
-import roboguice.util.Ln;
+
+import java.util.Arrays;
 
 
 public class Fonts {
@@ -61,7 +60,7 @@ public class Fonts {
                 ((TextView) v).setTextSize(currentSize + offset);
             }
         } catch (Exception e) {
-            Ln.e(e, "Error setting font size");
+            Log.e(Constants.TAG, "Error setting font size", e);
         }
     }
 }

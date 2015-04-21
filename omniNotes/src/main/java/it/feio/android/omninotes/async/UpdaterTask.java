@@ -17,7 +17,6 @@
 package it.feio.android.omninotes.async;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,6 +24,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.android.gms.common.ConnectionResult;
@@ -34,7 +34,6 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Constants;
 import org.json.JSONObject;
-import roboguice.util.Ln;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -86,7 +85,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 					prefs.edit().putLong(Constants.PREF_LAST_UPDATE_CHECK, now).apply();
 				}
 			} catch (Exception e) {
-				Ln.w(e, "Error fetching app metadata");
+				Log.w(Constants.TAG, "Error fetching app metadata", e);
 			}
 		}
 		return null;
@@ -151,7 +150,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 						newVersion).commit();
 			}
 		} catch (NameNotFoundException e) {
-			Ln.e("Error retrieving app version", e);
+			Log.e(Constants.TAG, "Error retrieving app version", e);
 		}
 	}
 
@@ -187,7 +186,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			is.close();
 
 		} catch (IOException e) {
-			Ln.w(e, "Error fetching app metadata");
+			Log.w(Constants.TAG, "Error fetching app metadata", e);
 		}
 
 		return sb.toString();

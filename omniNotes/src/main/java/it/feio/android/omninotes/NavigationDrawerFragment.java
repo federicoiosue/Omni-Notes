@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,8 @@ import it.feio.android.omninotes.async.MainMenuTask;
 import it.feio.android.omninotes.async.bus.*;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
-import roboguice.util.Ln;
 
 
 public class NavigationDrawerFragment extends Fragment {
@@ -110,7 +111,7 @@ public class NavigationDrawerFragment extends Fragment {
      * Initialization of compatibility navigation drawer
      */
     public void init() {
-        Ln.d("Started navigation drawer initialization");
+        Log.d(Constants.TAG, "Started navigation drawer initialization");
 
         mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
         mDrawerLayout.setFocusableInTouchMode(false);
@@ -124,9 +125,9 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         buildMainMenu();
-        Ln.d("Finished main menu initialization");
+        Log.d(Constants.TAG, "Finished main menu initialization");
         buildCategoriesMenu();
-        Ln.d("Finished categories menu initialization");
+        Log.d(Constants.TAG, "Finished categories menu initialization");
 
         // ActionBarDrawerToggle± ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
@@ -185,7 +186,7 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        Ln.d("Finished navigation drawer initialization");
+        Log.d(Constants.TAG, "Finished navigation drawer initialization");
     }
 
 

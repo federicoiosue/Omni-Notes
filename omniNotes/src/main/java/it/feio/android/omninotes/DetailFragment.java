@@ -48,6 +48,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -89,7 +90,6 @@ import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
-import roboguice.util.Ln;
 
 import java.io.File;
 import java.io.IOException;
@@ -392,7 +392,7 @@ public class DetailFragment extends Fragment implements
                             noteTmp = new Note();
                             noteTmp.setCategory(category);
                         } catch (NumberFormatException e) {
-                            Ln.e("Category with not-numeric value!", e);
+                            Log.e(Constants.TAG, "Category with not-numeric value!", e);
                         }
                     }
                 }
@@ -1132,7 +1132,7 @@ public class DetailFragment extends Fragment implements
         try {
             newView = mChecklistManager.convert(toggleChecklistView);
         } catch (ViewNotSupportedException e) {
-            Ln.e("Error switching checklist view", e);
+            Log.e(Constants.TAG, "Error switching checklist view", e);
         }
 
         // Switches the views
@@ -1470,7 +1470,7 @@ public class DetailFragment extends Fragment implements
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         mainActivity.deleteNote(noteTmp);
-                        Ln.d("Deleted note with id '" + noteTmp.get_id() + "'");
+                        Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
                         mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
                         MainActivity.notifyAppWidgets(mainActivity);
                         EventBus.getDefault().post(new NotesUpdatedEvent());
@@ -1501,7 +1501,7 @@ public class DetailFragment extends Fragment implements
         // is an empty note
         if (goBack && TextUtils.isEmpty(noteTmp.getTitle()) && TextUtils.isEmpty(noteTmp.getContent())
                 && noteTmp.getAttachmentsList().size() == 0) {
-            Ln.d("Empty note not saved");
+            Log.d(Constants.TAG, "Empty note not saved");
             exitMessage = getString(R.string.empty_note_not_saved);
             exitCroutonStyle = ONStyle.INFO;
             goHome();
@@ -1617,7 +1617,7 @@ public class DetailFragment extends Fragment implements
      * Notes locking with security password to avoid viewing, editing or deleting from unauthorized
      */
     private void lockNote() {
-        Ln.d("Locking or unlocking note " + note.get_id());
+        Log.d(Constants.TAG, "Locking or unlocking note " + note.get_id());
 
         // If security password is not set yes will be set right now
         if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
@@ -1729,7 +1729,7 @@ public class DetailFragment extends Fragment implements
 				isPlayingView = null;
 			});
         } catch (IOException e) {
-            Ln.e("prepare() failed");
+            Log.e(Constants.TAG, "prepare() failed");
         }
     }
 
@@ -1765,7 +1765,7 @@ public class DetailFragment extends Fragment implements
             audioRecordingTimeStart = Calendar.getInstance().getTimeInMillis();
             mRecorder.start();
         } catch (IOException e) {
-            Ln.e("prepare() failed");
+            Log.e(Constants.TAG, "prepare() failed");
         }
     }
 
@@ -1892,7 +1892,7 @@ public class DetailFragment extends Fragment implements
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
-                Ln.v("MotionEvent.ACTION_DOWN");
+                Log.v(Constants.TAG, "MotionEvent.ACTION_DOWN");
                 int w;
 
                 Point displaySize = Display.getUsableSize(mainActivity);
@@ -1906,14 +1906,14 @@ public class DetailFragment extends Fragment implements
                 break;
 
             case MotionEvent.ACTION_UP:
-                Ln.v("MotionEvent.ACTION_UP");
+                Log.v(Constants.TAG, "MotionEvent.ACTION_UP");
                 if (swiping)
                     swiping = false;
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 if (swiping) {
-                    Ln.v("MotionEvent.ACTION_MOVE at position " + x + ", " + y);
+                    Log.v(Constants.TAG, "MotionEvent.ACTION_MOVE at position " + x + ", " + y);
                     if (Math.abs(x - startSwipeX) > Constants.SWIPE_OFFSET) {
                         swiping = false;
                         FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
@@ -2015,7 +2015,7 @@ public class DetailFragment extends Fragment implements
     public void onRecurrenceReminderPicked(String recurrenceRule) {
         noteTmp.setRecurrenceRule(recurrenceRule);
         if (!TextUtils.isEmpty(recurrenceRule)) {
-            Ln.d("Recurrent reminder set: " + recurrenceRule);
+            Log.d(Constants.TAG, "Recurrent reminder set: " + recurrenceRule);
             datetime.setText(DateHelper.getNoteRecurrentReminderText(Long.parseLong(noteTmp
                     .getAlarm()), recurrenceRule));
         }

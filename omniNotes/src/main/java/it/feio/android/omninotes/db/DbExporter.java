@@ -20,7 +20,8 @@ package it.feio.android.omninotes.db;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
-import roboguice.util.Ln;
+import android.util.Log;
+import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,7 +60,7 @@ public class DbExporter {
 
     public void export(String dbName, String exportFileNamePrefix)
             throws IOException {
-        Ln.i("exporting database - " + dbName
+        Log.i(Constants.TAG, "exporting database - " + dbName
                 + " exportFileNamePrefix=" + exportFileNamePrefix);
 
         this.xmlBuilder = new XmlBuilder();
@@ -68,12 +69,12 @@ public class DbExporter {
         // get the tables
         String sql = "select * from sqlite_master";
         Cursor c = this.db.rawQuery(sql, new String[0]);
-        Ln.d("select * from sqlite_master, cur size "
+        Log.d(Constants.TAG, "select * from sqlite_master, cur size "
                 + c.getCount());
         if (c.moveToFirst()) {
             do {
                 String tableName = c.getString(c.getColumnIndex("name"));
-                Ln.d("table name " + tableName);
+                Log.d(Constants.TAG, "table name " + tableName);
 
                 // skip metadata, sequence, and uidx (unique indexes)
                 if (!tableName.equals("android_metadata")
@@ -85,12 +86,12 @@ public class DbExporter {
         }
         String xmlString = this.xmlBuilder.end();
         this.writeToFile(xmlString, exportFileNamePrefix + ".xml");
-        Ln.i("exporting database complete");
+        Log.i(Constants.TAG, "exporting database complete");
     }
 
 
     private void exportTable(final String tableName) throws IOException {
-        Ln.d("exporting table - " + tableName);
+        Log.d(Constants.TAG, "exporting table - " + tableName);
         this.xmlBuilder.openTable(tableName);
         String sql = "select * from " + tableName;
         Cursor c = this.db.rawQuery(sql, new String[0]);

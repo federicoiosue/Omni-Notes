@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.*;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -33,7 +34,6 @@ import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.simplegallery.models.GalleryPagerAdapter;
 import it.feio.android.simplegallery.views.GalleryViewPager;
-import roboguice.util.Ln;
 
 import java.util.ArrayList;
 
@@ -41,8 +41,6 @@ import java.util.ArrayList;
 /**
  * An example full-screen activity that shows and hides the system UI (i.e. status bar and navigation/system bar) 
  * * with user interaction.
- *
- * @see SystemUiHider
  */
 public class GalleryActivity extends ActionBarActivity {
 
@@ -222,7 +220,7 @@ public class GalleryActivity extends ActionBarActivity {
                 float dx = Math.abs(x - ev.getX());
                 float dy = Math.abs(y - ev.getY());
                 double dxy = Math.sqrt(dx * dx + dy * dy);
-                Ln.d("Moved of " + dxy);
+                Log.d(Constants.TAG, "Moved of " + dxy);
                 if (dxy >= MOVING_THRESHOLD) {
                     status_pressed = false;
                 }

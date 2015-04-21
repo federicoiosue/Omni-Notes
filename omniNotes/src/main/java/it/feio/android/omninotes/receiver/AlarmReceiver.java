@@ -23,13 +23,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Spanned;
+import android.util.Log;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.NotificationsHelper;
 import it.feio.android.omninotes.utils.TextHelper;
-import roboguice.util.Ln;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -41,7 +41,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             createNotification(mContext, note);
             SnoozeActivity.setNextRecurrentReminder(note);
         } catch (Exception e) {
-            Ln.e("Error on receiving reminder", e);
+            Log.e(Constants.TAG, "Error on receiving reminder", e);
         }
     }
 
