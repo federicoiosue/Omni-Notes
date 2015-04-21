@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +48,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
@@ -71,6 +74,7 @@ import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.pixlui.links.UrlCompleter;
 
+import java.text.BreakIterator;
 import java.util.*;
 
 import static android.support.v4.view.ViewCompat.animate;
@@ -82,13 +86,21 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private static final int REQUEST_CODE_CATEGORY = 1;
     private static final int REQUEST_CODE_CATEGORY_NOTES = 2;
 
-    private DynamicListView list;
+    @InjectView(R.id.list_root) InterceptorLinearLayout listRoot;
+    @InjectView(R.id.list) DynamicListView list;
+    @InjectView(R.id.search_layout) View searchLayout;
+    @InjectView(R.id.search_query) android.widget.TextView searchQueryView;
+    @InjectView(R.id.search_cancel) ImageView searchCancel;
+    @InjectView(R.id.empty_list) TextView empyListItem;
+    @InjectView(R.id.expanded_image) ImageView expandedImageView;
+    @InjectView(R.id.fab)  View fabView;
+    @InjectView(R.id.undobar) View undoBarView;
+
     private List<Note> selectedNotes = new ArrayList<>();
     private List<Note> modifiedNotes = new ArrayList<>();
     private SearchView searchView;
     private MenuItem searchMenuItem;
     private Menu menu;
-    private TextView empyListItem;
     private AnimationDrawable jinglesAnimation;
     private int listViewPosition;
     private int listViewPositionOffset = 16;
@@ -97,6 +109,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private ListFragment mFragment;
     private android.support.v7.view.ActionMode actionMode;
     private boolean keepActionMode = false;
+    private TextView listFooter;
 
     // Undo archive/trash
     private boolean undoTrash = false;
@@ -113,11 +126,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private String searchQuery;
     private String searchTags;
     private boolean goBackOnToggleSearchLabel = false;
-    private TextView listFooter;
     private boolean searchLabelActive = false;
 
     private NoteAdapter listAdapter;
-    private int layoutSelected;
     private UndoBarController ubc;
     private Fab fab;
 
@@ -163,7 +174,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
             keepActionMode = false;
         }
-        return inflater.inflate(R.layout.fragment_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
 
@@ -179,14 +192,14 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         initListView();
         // Activity title initialization
         initTitle();
-        ubc = new UndoBarController(getActivity().findViewById(R.id.undobar), this);
+        ubc = new UndoBarController(undoBarView, this);
     }
 
 
     // FAB behaviors
     private void initFab() {
         boolean fabExpansionBehavior = prefs.getBoolean(Constants.PREF_FAB_EXPANSION_BEHAVIOR, false);
-        fab = new Fab(getActivity().findViewById(R.id.fab), list, fabExpansionBehavior);
+        fab = new Fab(fabView, list, fabExpansionBehavior);
         fab.setOnFabItemClickedListener(id -> {
 			View v = getActivity().findViewById(id);
 			switch (id) {
@@ -247,15 +260,14 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      * Starts a little animation on Mr.Jingles!
      */
     private void initEasterEgg() {
-        empyListItem = (TextView) getActivity().findViewById(R.id.empty_list);
         empyListItem.setOnClickListener(v -> {
-			if (jinglesAnimation == null) {
-				jinglesAnimation = (AnimationDrawable) empyListItem.getCompoundDrawables()[1];
-				empyListItem.post(() -> {
-					if (jinglesAnimation != null) jinglesAnimation.start();
-				});
-			} else {
-				stopJingles();
+            if (jinglesAnimation == null) {
+                jinglesAnimation = (AnimationDrawable) empyListItem.getCompoundDrawables()[1];
+                empyListItem.post(() -> {
+                    if (jinglesAnimation != null) jinglesAnimation.start();
+                });
+            } else {
+                stopJingles();
 			}
 		});
     }
@@ -410,15 +422,15 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      */
     private void toggleListViewItem(View view, int position) {
         Note note = listAdapter.getItem(position);
-        LinearLayout v = (LinearLayout) view.findViewById(R.id.card_layout);
+        LinearLayout cardLayout = (LinearLayout) view.findViewById(R.id.card_layout);
         if (!getSelectedNotes().contains(note)) {
             getSelectedNotes().add(note);
             listAdapter.addSelectedItem(position);
-            v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+            cardLayout.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
         } else {
             getSelectedNotes().remove(note);
             listAdapter.removeSelectedItem(position);
-            listAdapter.restoreDrawable(note, v);
+            listAdapter.restoreDrawable(note, cardLayout);
         }
         prepareActionModeMenu();
 
@@ -434,8 +446,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      * Notes list initialization. Data, actions and callback are defined here.
      */
     private void initListView() {
-        list = (DynamicListView) getActivity().findViewById(R.id.list);
-
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         list.setItemsCanFocus(false);
 
@@ -475,8 +485,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 			setCabTitle();
 		});
 
-        ((InterceptorLinearLayout) getActivity().findViewById(R.id.list_root))
-                .setOnViewTouchedListener(this);
+        listRoot.setOnViewTouchedListener(this);
     }
 
 
@@ -484,7 +493,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      * Retrieves from the single listview note item the element to be zoomed when opening a note
      */
     private ImageView getZoomListItemView(View view, Note note) {
-        final ImageView expandedImageView = (ImageView) getActivity().findViewById(R.id.expanded_image);
         if (expandedImageView != null) {
             View targetView = null;
             if (note.getAttachmentsList().size() > 0) {
@@ -638,7 +646,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 // Reinitialize notes list to all notes when search is collapsed
                 searchQuery = null;
-                if (getActivity().findViewById(R.id.search_layout).getVisibility() == View.VISIBLE) {
+                if (searchLayout.getVisibility() == View.VISIBLE) {
                     toggleSearchLabel(false);
                 }
                 getActivity().getIntent().setAction(Intent.ACTION_MAIN);
@@ -659,7 +667,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
                     @Override
                     public boolean onQueryTextChange(String pattern) {
-                        View searchLayout = getActivity().findViewById(R.id.search_layout);
                         if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null &&
                                 searchPerformed) {
                             searchTags = null;
@@ -823,12 +830,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 				if (passwordConfirmed) {
 					note.setPasswordChecked(true);
 					AnimationsHelper.zoomListItem(getActivity(), view, getZoomListItemView(view, note),
-							getActivity().findViewById(R.id.list_root), buildAnimatorListenerAdapter(note));
+							listRoot, buildAnimatorListenerAdapter(note));
 				}
 			});
         } else {
             AnimationsHelper.zoomListItem(getActivity(), view, getZoomListItemView(view, note),
-                    getActivity().findViewById(R.id.list_root), buildAnimatorListenerAdapter(note));
+                    listRoot, buildAnimatorListenerAdapter(note));
         }
     }
 
@@ -1004,17 +1011,15 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     public void toggleSearchLabel(boolean activate) {
-        View searchLabel = getActivity().findViewById(R.id.search_layout);
         if (activate) {
-            ((android.widget.TextView) getActivity().findViewById(R.id.search_query)).setText(Html.fromHtml(getString(R.string.search)
-                    + ":<b> " + searchQuery + "</b>"));
-            searchLabel.setVisibility(View.VISIBLE);
-            getActivity().findViewById(R.id.search_cancel).setOnClickListener(v -> toggleSearchLabel(false));
+            searchQueryView.setText(Html.fromHtml(getString(R.string.search) + ":<b> " + searchQuery + "</b>"));
+            searchLayout.setVisibility(View.VISIBLE);
+            searchCancel.setOnClickListener(v -> toggleSearchLabel(false));
             searchLabelActive = true;
         } else {
             if (searchLabelActive) {
                 searchLabelActive = false;
-                AnimationsHelper.expandOrCollapse(searchLabel, false);
+                AnimationsHelper.expandOrCollapse(searchLayout, false);
                 searchTags = null;
                 searchQuery = null;
                 if (!goBackOnToggleSearchLabel) {
@@ -1045,7 +1050,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     public void onNotesLoaded(ArrayList<Note> notes) {
         EventBus.getDefault().post(new NotesLoadedEvent());
         Log.d(Constants.TAG, "Notes loaded");
-        layoutSelected = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
+        int layoutSelected = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
                 : R.layout.note_layout;
         listAdapter = new NoteAdapter(getActivity(), layoutSelected, notes);
 
@@ -1092,7 +1097,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         list.setAdapter(listAdapter);
 
         // Replace listview with Mr. Jingles if it is empty
-        if (notes.size() == 0) list.setEmptyView(getActivity().findViewById(R.id.empty_list));
+        if (notes.size() == 0) list.setEmptyView(empyListItem);
 
         // Restores listview position when turning back to list or when navigating reminders
         if (list != null && notes.size() > 0) {
@@ -1137,7 +1142,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         // If list is empty again Mr Jingles will appear again
         if (listAdapter.getCount() == 0)
-            list.setEmptyView(getActivity().findViewById(R.id.empty_list));
+            list.setEmptyView(empyListItem);
 
         finishActionMode();
 
@@ -1231,7 +1236,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         finishActionMode();
         // If list is empty again Mr Jingles will appear again
         if (listAdapter.getCount() == 0)
-            list.setEmptyView(getActivity().findViewById(R.id.empty_list));
+            list.setEmptyView(empyListItem);
         getMainActivity().showMessage(R.string.note_deleted, ONStyle.ALERT);
     }
 
@@ -1270,7 +1275,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         finishActionMode();
 
         // If list is empty again Mr Jingles will appear again
-        if (listAdapter.getCount() == 0) list.setEmptyView(getActivity().findViewById(R.id.empty_list));
+        if (listAdapter.getCount() == 0) list.setEmptyView(empyListItem);
 
         // Advice to user
         int msg = archive ? R.string.note_archived : R.string.note_unarchived;
@@ -1374,7 +1379,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         // If list is empty again Mr Jingles will appear again
         if (listAdapter.getCount() == 0)
-            list.setEmptyView(getActivity().findViewById(R.id.empty_list));
+            list.setEmptyView(empyListItem);
 
         if (getActionMode() != null) {
             getActionMode().finish();
@@ -1449,7 +1454,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         // If list is empty again Mr Jingles will appear again
         if (listAdapter.getCount() == 0)
-            list.setEmptyView(getActivity().findViewById(R.id.empty_list));
+            list.setEmptyView(empyListItem);
 
         if (getActionMode() != null) {
             getActionMode().finish();

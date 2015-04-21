@@ -29,16 +29,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import com.bumptech.glide.Glide;
-import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.util.Insertable;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.TextWorkerTask;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
-import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.*;
 
 import java.util.ArrayList;
@@ -272,12 +269,12 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
                 } else {
                     if (holder != null) {
                         holder.categoryMarker.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
-                    } else {
-                        v.findViewById(R.id.category_marker).setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
                     }
                 }
             } else {
-                v.findViewById(R.id.category_marker).setBackgroundColor(0);
+                if (holder != null) {
+                    holder.categoryMarker.setBackgroundColor(0);
+                }
             }
         }
     }
@@ -313,28 +310,10 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
         // Overrides font sizes with the one selected from user
         Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME,
                 Context.MODE_MULTI_PROCESS), convertView);
-
-        NoteViewHolder holder = new NoteViewHolder();
-
-        holder.root = convertView.findViewById(R.id.root);
-        holder.cardLayout = convertView.findViewById(R.id.card_layout);
-        holder.categoryMarker = convertView.findViewById(R.id.category_marker);
-
-        holder.title = (TextView) convertView.findViewById(R.id.note_title);
-        holder.content = (TextView) convertView.findViewById(R.id.note_content);
-        holder.date = (TextView) convertView.findViewById(R.id.note_date);
-
-        holder.archiveIcon = (ImageView) convertView.findViewById(R.id.archivedIcon);
-        holder.locationIcon = (ImageView) convertView.findViewById(R.id.locationIcon);
-        holder.alarmIcon = (ImageView) convertView.findViewById(R.id.alarmIcon);
-        holder.lockedIcon = (ImageView) convertView.findViewById(R.id.lockedIcon);
-        if (!expandedView)
-            holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
-
-        holder.attachmentThumbnail = (SquareImageView) convertView.findViewById(R.id.attachmentThumbnail);
+        NoteViewHolder holder = new NoteViewHolder(convertView);
         return holder;
     }
-    
+
 }
 
 
