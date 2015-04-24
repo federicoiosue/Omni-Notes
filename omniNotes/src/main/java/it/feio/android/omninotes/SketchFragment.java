@@ -18,7 +18,6 @@
 package it.feio.android.omninotes;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -35,13 +34,11 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
-import android.widget.PopupWindow.OnDismissListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
 import it.feio.android.checklistview.utils.AlphaManager;
@@ -105,12 +102,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getMainActivity().getToolbar().setNavigationOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        getMainActivity().getToolbar().setNavigationOnClickListener(v -> getActivity().onBackPressed());
 
         mSketchView = (SketchView) getActivity().findViewById(R.id.drawing);
         mSketchView.setOnDrawChangedListener(this);
@@ -134,50 +126,33 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         }
 
         stroke = (ImageView) getActivity().findViewById(R.id.sketch_stroke);
-        stroke.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSketchView.getMode() == SketchView.STROKE) {
-                    showPopup(v, SketchView.STROKE);
-                } else {
-                    mSketchView.setMode(SketchView.STROKE);
-                    AlphaManager.setAlpha(eraser, 0.4f);
-                    AlphaManager.setAlpha(stroke, 1f);
-                }
-            }
-        });
+        stroke.setOnClickListener(v -> {
+			if (mSketchView.getMode() == SketchView.STROKE) {
+				showPopup(v, SketchView.STROKE);
+			} else {
+				mSketchView.setMode(SketchView.STROKE);
+				AlphaManager.setAlpha(eraser, 0.4f);
+				AlphaManager.setAlpha(stroke, 1f);
+			}
+		});
 
         eraser = (ImageView) getActivity().findViewById(R.id.sketch_eraser);
         AlphaManager.setAlpha(eraser, 0.4f);
-        eraser.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSketchView.getMode() == SketchView.ERASER) {
-                    showPopup(v, SketchView.ERASER);
-                } else {
-                    mSketchView.setMode(SketchView.ERASER);
-                    AlphaManager.setAlpha(stroke, 0.4f);
-                    AlphaManager.setAlpha(eraser, 1f);
-                }
-            }
-        });
+        eraser.setOnClickListener(v -> {
+			if (mSketchView.getMode() == SketchView.ERASER) {
+				showPopup(v, SketchView.ERASER);
+			} else {
+				mSketchView.setMode(SketchView.ERASER);
+				AlphaManager.setAlpha(stroke, 0.4f);
+				AlphaManager.setAlpha(eraser, 1f);
+			}
+		});
 
         undo = (ImageView) getActivity().findViewById(R.id.sketch_undo);
-        undo.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSketchView.undo();
-            }
-        });
+        undo.setOnClickListener(v -> mSketchView.undo());
 
         redo = (ImageView) getActivity().findViewById(R.id.sketch_redo);
-        redo.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSketchView.redo();
-
-            }
-        });
+        redo.setOnClickListener(v -> mSketchView.redo());
 
         erase = (ImageView) getActivity().findViewById(R.id.sketch_erase);
         erase.setOnClickListener(new OnClickListener() {
@@ -190,17 +165,11 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
             private void askForErase() {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
                 alertDialogBuilder.setMessage(R.string.erase_sketch)
-                        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                mSketchView.erase();
-                            }
-                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                        .setPositiveButton(R.string.confirm, (dialog, id) -> {
+							mSketchView.erase();
+						}).setNegativeButton(R.string.cancel, (dialog, id) -> {
+							dialog.cancel();
+						});
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
             }
@@ -231,12 +200,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         mColorPicker = (ColorPicker) popupLayout.findViewById(R.id.stroke_color_picker);
         mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.svbar));
         mColorPicker.addOpacityBar((OpacityBar) popupLayout.findViewById(R.id.opacitybar));
-        mColorPicker.setOnColorChangedListener(new OnColorChangedListener() {
-            @Override
-            public void onColorChanged(int color) {
-                mSketchView.setStrokeColor(color);
-            }
-        });
+        mColorPicker.setOnColorChangedListener(color -> mSketchView.setStrokeColor(color));
         mColorPicker.setColor(mSketchView.getStrokeColor());
         mColorPicker.setOldCenterColor(mSketchView.getStrokeColor());
     }
@@ -298,13 +262,10 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
         popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popup.setFocusable(true);
-        popup.setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                if (mColorPicker.getColor() != oldColor)
-                    mColorPicker.setOldCenterColor(oldColor);
-            }
-        });
+        popup.setOnDismissListener(() -> {
+			if (mColorPicker.getColor() != oldColor)
+				mColorPicker.setOldCenterColor(oldColor);
+		});
 
         // Clear the default translucent background
         popup.setBackgroundDrawable(new BitmapDrawable());
