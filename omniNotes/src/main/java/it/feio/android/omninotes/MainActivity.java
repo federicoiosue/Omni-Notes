@@ -38,6 +38,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -71,14 +73,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public boolean loadNotesSync = Constants.LOAD_NOTES_SYNC;
 
     public Uri sketchUri;
-    private ViewGroup croutonViewContainer;
-    private Toolbar toolbar;
+    @InjectView(R.id.crouton_handle) ViewGroup croutonViewContainer;
+    @InjectView(R.id.toolbar) Toolbar toolbar;
+    @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
 
         instance = this;
 
@@ -93,7 +97,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     private void initUI() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -296,7 +299,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     public DrawerLayout getDrawerLayout() {
-        return ((DrawerLayout) findViewById(R.id.drawer_layout));
+        return drawerLayout;
     }
 
 
@@ -526,10 +529,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     public void showMessage(String message, Style style) {
-        if (croutonViewContainer == null) {
-            // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
-            croutonViewContainer = (ViewGroup) findViewById(R.id.crouton_handle);
-        }
+        // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
         Crouton.makeText(this, message, style, croutonViewContainer).show();
     }
 

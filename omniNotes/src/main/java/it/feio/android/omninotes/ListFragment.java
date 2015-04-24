@@ -1055,6 +1055,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 : R.layout.note_layout;
         listAdapter = new NoteAdapter(getActivity(), layoutSelected, notes);
 
+        View noteLayout = LayoutInflater.from(getActivity()).inflate(layoutSelected, null, false);
+        noteViewHolder = new NoteViewHolder(noteLayout);
+
         if (Navigation.getNavigation() != Navigation.UNCATEGORIZED) {
             list.enableSwipeToDismiss((viewGroup, reverseSortedPositions) -> {
 

@@ -58,6 +58,9 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.Optional;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
@@ -112,20 +115,31 @@ public class DetailFragment extends Fragment implements
     private static final int TAG = 5;
     private static final int DETAIL = 6;
     private static final int FILES = 7;
+
+    @InjectView(R.id.detail_root) ViewGroup root;
+    @InjectView(R.id.detail_title) EditText title;
+    @InjectView(R.id.detail_content) EditText content;
+    @InjectView(R.id.gridview) ExpandableHeightGridView mGridView;
+    @InjectView(R.id.location) TextView locationTextView;
+    @InjectView(R.id.detail_timestamps) View timestampsView;
+    @InjectView(R.id.reminder_layout) LinearLayout reminder_layout;
+    @InjectView(R.id.datetime) TextView datetime;
+    @InjectView(R.id.detail_tile_card) View titleCardView;
+    @InjectView(R.id.content_wrapper) ScrollView scrollView;
+    @InjectView(R.id.creation) TextView creationTextView;
+    @InjectView(R.id.last_modification) TextView lastModificationTextView;
+    @InjectView(R.id.title_wrapper) View titleWrapperView;
+    @InjectView(R.id.tag_marker) View tagMarkerView;
+    @InjectView(R.id.detail_wrapper) ViewManager detailWrapperView;
+
     public OnDateSetListener onDateSetListener;
     public OnTimeSetListener onTimeSetListener;
     public boolean goBack = false;
     MediaRecorder mRecorder = null;
-    // Toggle checklist view
     View toggleChecklistView;
-    private LinearLayout reminder_layout;
-    private TextView datetime;
     private Uri attachmentUri;
     private AttachmentAdapter mAttachmentAdapter;
-    private ExpandableHeightGridView mGridView;
     private PopupWindow attachmentDialog;
-    private EditText title, content;
-    private TextView locationTextView;
     private Note note;
     private Note noteTmp;
     private Note noteOriginal;
@@ -143,19 +157,15 @@ public class DetailFragment extends Fragment implements
     // and in the last case a Toast will be shown instead than Crouton
     private boolean afterSavedReturnsToList = true;
     private boolean swiping;
-    private ViewGroup root;
     private int startSwipeX;
     private SharedPreferences prefs;
     private boolean onCreateOptionsMenuAlreadyCalled = false;
-    private View timestampsView;
     private View keyboardPlaceholder;
-    private View titleCardView;
     private boolean orientationChanged;
     private long audioRecordingTimeStart;
     private long audioRecordingTime;
     private DetailFragment mFragment;
     private Attachment sketchEdited;
-    private ScrollView scrollView;
     private int contentLineCounter = 1;
     private int contentCursorPosition;
     private ArrayList<Integer> mergedNotesIds = new ArrayList<>();
@@ -190,7 +200,9 @@ public class DetailFragment extends Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
 
@@ -461,15 +473,7 @@ public class DetailFragment extends Fragment implements
     private void initViews() {
 
         // Sets onTouchListener to the whole activity to swipe notes
-        if (getView() == null) return;
-        root = (ViewGroup) getView().findViewById(R.id.detail_root);
         root.setOnTouchListener(this);
-
-        // ScrollView container
-        scrollView = (ScrollView) root.findViewById(R.id.content_wrapper);
-
-        // Title view card container
-        titleCardView = root.findViewById(R.id.detail_tile_card);
 
         // Overrides font sizes with the one selected from user
         Fonts.overrideTextSize(mainActivity, prefs, root);
@@ -483,8 +487,6 @@ public class DetailFragment extends Fragment implements
 
         content = initContent();
 
-        // Initialization of location TextView
-        locationTextView = (TextView) getView().findViewById(R.id.location);
         // Automatic location insertion
         if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == 0) {
             noteTmp.setLatitude(mainActivity.currentLatitude);
@@ -501,36 +503,34 @@ public class DetailFragment extends Fragment implements
         } 
 
         locationTextView.setOnClickListener(v -> {
-			String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
-					+ "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
-			Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
-			if (!IntentChecker.isAvailable(mainActivity, locationIntent, null)) {
-				uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
-				locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
-			}
-			startActivity(locationIntent);
-		});
+            String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
+                    + "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
+            Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
+            if (!IntentChecker.isAvailable(mainActivity, locationIntent, null)) {
+                uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
+                locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
+            }
+            startActivity(locationIntent);
+        });
         locationTextView.setOnLongClickListener(v -> {
-			MaterialDialog.Builder builder = new MaterialDialog.Builder(mainActivity);
-			builder.content(R.string.remove_location);
-			builder.positiveText(R.string.ok);
-			builder.callback(new MaterialDialog.ButtonCallback() {
-				@Override
-				public void onPositive(MaterialDialog materialDialog) {
-					noteTmp.setLatitude("");
-					noteTmp.setLongitude("");
-					fade(locationTextView, false);
-				}
-			});
-			MaterialDialog dialog = builder.build();
-			dialog.show();
-			return true;
-		});
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(mainActivity);
+            builder.content(R.string.remove_location);
+            builder.positiveText(R.string.ok);
+            builder.callback(new MaterialDialog.ButtonCallback() {
+                @Override
+                public void onPositive(MaterialDialog materialDialog) {
+                    noteTmp.setLatitude("");
+                    noteTmp.setLongitude("");
+                    fade(locationTextView, false);
+                }
+            });
+            MaterialDialog dialog = builder.build();
+            dialog.show();
+            return true;
+        });
 
 
-        // Some fields can be filled by third party application and are always
-        // shown
-        mGridView = (ExpandableHeightGridView) getView().findViewById(R.id.gridview);
+        // Some fields can be filled by third party application and are always shown
         mAttachmentAdapter = new AttachmentAdapter(mainActivity, noteTmp.getAttachmentsList(), mGridView);
         mAttachmentAdapter.setOnErrorListener(this);
 
@@ -540,72 +540,72 @@ public class DetailFragment extends Fragment implements
 
         // Click events for images in gridview (zooms image)
         mGridView.setOnItemClickListener((parent, v, position, id) -> {
-			Attachment attachment = (Attachment) parent.getAdapter().getItem(position);
-			Uri uri = attachment.getUri();
-			Intent attachmentIntent;
-			if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
+            Attachment attachment = (Attachment) parent.getAdapter().getItem(position);
+            Uri uri = attachment.getUri();
+            Intent attachmentIntent;
+            if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
 
-				attachmentIntent = new Intent(Intent.ACTION_VIEW);
-				attachmentIntent.setDataAndType(uri, StorageHelper.getMimeType(mainActivity,
-						attachment.getUri()));
-				attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
-						.FLAG_GRANT_WRITE_URI_PERMISSION);
-				if (IntentChecker.isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
-					startActivity(attachmentIntent);
-				} else {
-					mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.WARN);
-				}
+                attachmentIntent = new Intent(Intent.ACTION_VIEW);
+                attachmentIntent.setDataAndType(uri, StorageHelper.getMimeType(mainActivity,
+                        attachment.getUri()));
+                attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
+                        .FLAG_GRANT_WRITE_URI_PERMISSION);
+                if (IntentChecker.isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
+                    startActivity(attachmentIntent);
+                } else {
+                    mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.WARN);
+                }
 
-				// Media files will be opened in internal gallery
-			} else if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
-					|| Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())
-					|| Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
-				// Title
-				noteTmp.setTitle(getNoteTitle());
-				noteTmp.setContent(getNoteContent());
-				String title1 = TextHelper.parseTitleAndContent(mainActivity,
-						noteTmp)[0].toString();
-				// Images
-				int clickedImage = 0;
-				ArrayList<Attachment> images = new ArrayList<>();
-				for (Attachment mAttachment : noteTmp.getAttachmentsList()) {
-					if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
-							|| Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())
-							|| Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
-						images.add(mAttachment);
-						if (mAttachment.equals(attachment)) {
-							clickedImage = images.size() - 1;
-						}
-					}
-				}
-				// Intent
-				attachmentIntent = new Intent(mainActivity, GalleryActivity.class);
-				attachmentIntent.putExtra(Constants.GALLERY_TITLE, title1);
-				attachmentIntent.putParcelableArrayListExtra(Constants.GALLERY_IMAGES, images);
-				attachmentIntent.putExtra(Constants.GALLERY_CLICKED_IMAGE, clickedImage);
-				startActivity(attachmentIntent);
+                // Media files will be opened in internal gallery
+            } else if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
+                    || Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())
+                    || Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
+                // Title
+                noteTmp.setTitle(getNoteTitle());
+                noteTmp.setContent(getNoteContent());
+                String title1 = TextHelper.parseTitleAndContent(mainActivity,
+                        noteTmp)[0].toString();
+                // Images
+                int clickedImage = 0;
+                ArrayList<Attachment> images = new ArrayList<>();
+                for (Attachment mAttachment : noteTmp.getAttachmentsList()) {
+                    if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
+                            || Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())
+                            || Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
+                        images.add(mAttachment);
+                        if (mAttachment.equals(attachment)) {
+                            clickedImage = images.size() - 1;
+                        }
+                    }
+                }
+                // Intent
+                attachmentIntent = new Intent(mainActivity, GalleryActivity.class);
+                attachmentIntent.putExtra(Constants.GALLERY_TITLE, title1);
+                attachmentIntent.putParcelableArrayListExtra(Constants.GALLERY_IMAGES, images);
+                attachmentIntent.putExtra(Constants.GALLERY_CLICKED_IMAGE, clickedImage);
+                startActivity(attachmentIntent);
 
-			} else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
-				playback(v, attachment.getUri());
-			}
+            } else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
+                playback(v, attachment.getUri());
+            }
 
-		});
+        });
 
         // Long click events for images in gridview (removes image)
         mGridView.setOnItemLongClickListener((parent, v, position, id) -> {
 
-			// To avoid deleting audio attachment during playback
-			if (mPlayer != null) return false;
+            // To avoid deleting audio attachment during playback
+            if (mPlayer != null) return false;
 
-			MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(mainActivity)
-					.positiveText(R.string.delete);
+            MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(mainActivity)
+                    .positiveText(R.string.delete);
 
-			// If is an image user could want to sketch it!
-			if (Constants.MIME_TYPE_SKETCH.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
-				dialogBuilder
-						.content(R.string.delete_selected_image)
-						.negativeText(R.string.edit)
-						.callback(new MaterialDialog.ButtonCallback() {
+            // If is an image user could want to sketch it!
+            if (Constants.MIME_TYPE_SKETCH.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
+                dialogBuilder
+                        .content(R.string.delete_selected_image)
+                        .negativeText(R.string.edit)
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 noteTmp.getAttachmentsList().remove(position);
@@ -620,10 +620,10 @@ public class DetailFragment extends Fragment implements
                                 takeSketch(sketchEdited);
                             }
                         });
-			} else {
-				dialogBuilder
-						.content(R.string.delete_selected_image)
-						.callback(new MaterialDialog.ButtonCallback() {
+            } else {
+                dialogBuilder
+                        .content(R.string.delete_selected_image)
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 noteTmp.getAttachmentsList().remove(position);
@@ -631,14 +631,13 @@ public class DetailFragment extends Fragment implements
                                 mGridView.autoresize();
                             }
                         });
-			}
-			dialogBuilder.build().show();
-			return true;
-		});
+            }
+            dialogBuilder.build().show();
+            return true;
+        });
 
 
         // Preparation for reminder icon
-        reminder_layout = (LinearLayout) getView().findViewById(R.id.reminder_layout);
         reminder_layout.setOnClickListener(v -> {
 			int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
 					ReminderPickers.TYPE_GOOGLE;
@@ -651,27 +650,24 @@ public class DetailFragment extends Fragment implements
 
 
         reminder_layout.setOnLongClickListener(v -> {
-			MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
-					.content(R.string.remove_reminder)
-					.positiveText(R.string.ok)
-					.callback(new MaterialDialog.ButtonCallback() {
+            MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
+                    .content(R.string.remove_reminder)
+                    .positiveText(R.string.ok)
+                    .callback(new MaterialDialog.ButtonCallback() {
                         @Override
                         public void onPositive(MaterialDialog materialDialog) {
                             noteTmp.setAlarm(null);
                             datetime.setText("");
                         }
                     }).build();
-			dialog.show();
-			return true;
-		});
-
+            dialog.show();
+            return true;
+        });
 
         // Reminder
-        datetime = (TextView) getView().findViewById(R.id.datetime);
         datetime.setText(initReminder(noteTmp));
 
         // Timestamps view
-        timestampsView = mainActivity.findViewById(R.id.detail_timestamps);
         // Bottom padding set for translucent navbar in Kitkat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             int navBarHeight = Display.getNavigationBarHeightKitkat(mainActivity);
@@ -682,25 +678,20 @@ public class DetailFragment extends Fragment implements
         }
 
         // Footer dates of creation...
-        TextView creationTextView = (TextView) getView().findViewById(R.id.creation);
         String creation = noteTmp.getCreationShort(mainActivity);
-        creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " "
-                + creation : "");
+        creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
         if (creationTextView.getText().length() == 0)
             creationTextView.setVisibility(View.GONE);
 
         // ... and last modification
-        TextView lastModificationTextView = (TextView) getView().findViewById(R.id.last_modification);
         String lastModification = noteTmp.getLastModificationShort(mainActivity);
-        lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " "
-                + lastModification : "");
+        lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " + lastModification : "");
         if (lastModificationTextView.getText().length() == 0)
             lastModificationTextView.setVisibility(View.GONE);
     }
 
 
     private EditText initTitle() {
-        EditText title = (EditText) getView().findViewById(R.id.detail_title);
         title.setText(noteTmp.getTitle());
         title.gatherLinksForText();
         title.setOnTextLinkClickListener(this);
@@ -722,7 +713,6 @@ public class DetailFragment extends Fragment implements
 
 
     private EditText initContent() {
-        EditText content = (EditText) getView().findViewById(R.id.detail_content);
         content.setText(noteTmp.getContent());
         content.gatherLinksForText();
         content.setOnTextLinkClickListener(this);
@@ -759,15 +749,15 @@ public class DetailFragment extends Fragment implements
         String colorsPref = prefs.getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
 
         // Checking preference
-        if (!colorsPref.equals("disabled")) {
+        if (!"disabled".equals(colorsPref)) {
 
             // Choosing target view depending on another preference
             ArrayList<View> target = new ArrayList<>();
-            if (colorsPref.equals("complete")) {
-                target.add(getView().findViewById(R.id.title_wrapper));
-                target.add(getView().findViewById(R.id.content_wrapper));
+            if ("complete".equals(colorsPref)) {
+                target.add(titleWrapperView);
+                target.add(scrollView);
             } else {
-                target.add(getView().findViewById(R.id.tag_marker));
+                target.add(tagMarkerView);
             }
 
             // Coloring the target
@@ -1569,7 +1559,7 @@ public class DetailFragment extends Fragment implements
 
 
     private String getNoteTitle() {
-        View titleView = root.findViewById(R.id.detail_title);
+        View titleView = title;
         if (titleView instanceof EditText) {
             Editable editableTitle = ((EditText) titleView).getText();
             return TextUtils.isEmpty(editableTitle) ? "" : editableTitle.toString();
@@ -1582,9 +1572,8 @@ public class DetailFragment extends Fragment implements
     private String getNoteContent() {
         String contentText = "";
         if (!noteTmp.isChecklist()) {
-            // Due to checklist library introduction the returned EditText class is no more
-            // a com.neopixl.pixlui.components.edittext.EditText but a standard
-            // android.widget.EditText
+            // Due to checklist library introduction the returned EditText class is no more a
+            // com.neopixl.pixlui.components.edittext.EditText but a standard android.widget.EditText
             View contentView = root.findViewById(R.id.detail_content);
             if (contentView instanceof EditText) {
                 contentText = ((EditText) contentView).getText().toString();
@@ -1949,17 +1938,16 @@ public class DetailFragment extends Fragment implements
 
     private void shrinkLayouts(int heightDiff) {
         int heightDiffLocal = heightDiff;
-        ViewGroup wrapper = (ViewGroup) root.findViewById(R.id.detail_wrapper);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
                 && !title.hasFocus()) {
-            wrapper.removeView(titleCardView);
+            detailWrapperView.removeView(titleCardView);
             heightDiffLocal -= Display.getStatusBarHeight(mainActivity);
             if (orientationChanged) {
                 orientationChanged = false;
                 heightDiffLocal -= Display.getActionbarHeight(mainActivity);
             }
         }
-        wrapper.removeView(timestampsView);
+        detailWrapperView.removeView(timestampsView);
         keyboardPlaceholder = new View(mainActivity);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiffLocal);
