@@ -17,10 +17,10 @@
 
 package it.feio.android.omninotes.extensions;
 
+import android.util.Log;
 import com.pushbullet.android.extension.MessagingExtension;
-
 import it.feio.android.omninotes.MainActivity;
-import roboguice.util.Ln;
+import it.feio.android.omninotes.utils.Constants;
 
 
 public class PushBulletExtension extends MessagingExtension {
@@ -30,7 +30,8 @@ public class PushBulletExtension extends MessagingExtension {
 
     @Override
     protected void onMessageReceived(final String conversationIden, final String message) {
-        Ln.i("Pushbullet MessagingExtension: onMessageReceived(" + conversationIden + ", " + message + ")");
+        Log.i(Constants.TAG, "Pushbullet MessagingExtension: onMessageReceived(" + conversationIden + ", " + message
+                + ")");
         MainActivity runningMainActivity = MainActivity.getInstance();
         if (runningMainActivity != null && !runningMainActivity.isFinishing()) {
             runningMainActivity.onPushBulletReply(message);
@@ -40,6 +41,6 @@ public class PushBulletExtension extends MessagingExtension {
 
     @Override
     protected void onConversationDismissed(final String conversationIden) {
-        Ln.i("Pushbullet MessagingExtension: onConversationDismissed(" + conversationIden + ")");
+        Log.i(Constants.TAG, "Pushbullet MessagingExtension: onConversationDismissed(" + conversationIden + ")");
     }
 }

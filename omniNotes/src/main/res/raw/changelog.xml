@@ -30,6 +30,12 @@
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
 
+    <changelogversion versionName="5.0.0 Beta 20" changeDate="Apr 25, 2015">
+        <changelogtext>[u]Fix[/u] Crash when deleting checklist item</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash when entering note detail on Samsung Tablets</changelogtext>
+        <changelogtext>[u]Fix[/u] Fixed "uncategorized" always visible in menu</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 19" changeDate="Apr 18, 2015">
         <changelogtext>[u]Fix[/u] Dynamic menu items not appearing</changelogtext>
         <changelogtext>[u]Fix[/u] Broken swipe on uncategorized notes (no more allowed)</changelogtext>

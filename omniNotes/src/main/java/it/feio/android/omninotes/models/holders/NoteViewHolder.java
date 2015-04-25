@@ -20,26 +20,34 @@ package it.feio.android.omninotes.models.holders;
 import android.view.View;
 import android.widget.ImageView;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.Optional;
 import com.neopixl.pixlui.components.textview.TextView;
 
+import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.views.SquareImageView;
 
 
 public class NoteViewHolder {
 
-    public View root;
-    public View cardLayout;
-    public View categoryMarker;
+	public NoteViewHolder(View view) {
+		ButterKnife.inject(this, view);
+	}
 
-    public TextView title;
-    public TextView content;
-    public TextView date;
+	@InjectView(R.id.root) public View root;
+	@InjectView(R.id.card_layout) public View cardLayout;
+	@InjectView(R.id.category_marker) public View categoryMarker;
 
-    public ImageView archiveIcon;
-    public ImageView locationIcon;
-    public ImageView alarmIcon;
-    public ImageView lockedIcon;
-    public ImageView attachmentIcon;
+	@InjectView(R.id.note_title) public TextView title;
+	@InjectView(R.id.note_content) public TextView content;
+	@InjectView(R.id.note_date) public TextView date;
 
-    public SquareImageView attachmentThumbnail;
+	@InjectView(R.id.archivedIcon) public ImageView archiveIcon;
+	@InjectView(R.id.locationIcon) public ImageView locationIcon;
+	@InjectView(R.id.alarmIcon) public ImageView alarmIcon;
+	@InjectView(R.id.lockedIcon) public ImageView lockedIcon;
+	@Optional @InjectView(R.id.attachmentIcon) public ImageView attachmentIcon;
+
+	@Optional @InjectView(R.id.attachmentThumbnail) public SquareImageView attachmentThumbnail;
 }

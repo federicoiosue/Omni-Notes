@@ -27,7 +27,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import roboguice.util.Ln;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -143,7 +143,7 @@ public class FileHelper {
                 return cursor.getString(column_index);
             }
         } catch (Exception e) {
-            Ln.e(e, "Error retrieving uri path");
+            Log.e(Constants.TAG, "Error retrieving uri path", e);
         } finally {
             if (cursor != null)
                 cursor.close();
@@ -211,7 +211,7 @@ public class FileHelper {
                     }
 
                 } catch (Exception e) {
-                    Ln.e("Error managing diskk cache", e);
+                    Log.e(Constants.TAG, "Error managing diskk cache", e);
                 }
             } else {
                 fileName = uri.getLastPathSegment();

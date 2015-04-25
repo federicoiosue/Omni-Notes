@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -39,7 +40,6 @@ import com.larswerkman.holocolorpicker.ValueBar;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
-import roboguice.util.Ln;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -74,10 +74,10 @@ public class CategoryActivity extends Activity {
         initViews();
 
         if (category == null) {
-            Ln.d("Adding new category");
+            Log.d(Constants.TAG, "Adding new category");
             category = new Category();
         } else {
-            Ln.d("Editing category " + category.getName());
+            Log.d(Constants.TAG, "Editing category " + category.getName());
             populateViews();
         }
     }
@@ -247,7 +247,7 @@ public class CategoryActivity extends Activity {
             super.finish();
 
         } catch (Exception e) {
-            Ln.d("Bitmap not found", e);
+            Log.d(Constants.TAG, "Bitmap not found", e);
         }
     }
 }

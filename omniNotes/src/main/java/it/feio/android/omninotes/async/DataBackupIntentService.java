@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 import exceptions.ImportException;
 import it.feio.android.omninotes.MainActivity;
@@ -45,7 +46,6 @@ import listeners.ZipProgressesListener;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
-import roboguice.util.Ln;
 
 import java.io.File;
 import java.io.IOException;
@@ -102,7 +102,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         }
 
         // Release the lock
-        // Ln.d(TAG, "Releasing power lock, all done");
+        // Log.d(Constants.TAG, TAG, "Releasing power lock, all done");
         // wl.release();
 
     }
@@ -323,7 +323,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
                     note.setLatitude(coords[0]);
                     note.setLongitude(coords[1]);
                 } catch (IOException e) {
-                    Ln.e(e, "An error occurred trying to resolve address to coords during Springpad import");
+                    Log.e(Constants.TAG, "An error occurred trying to resolve address to coords during Springpad import");
                 }
                 note.setAddress(address);
             }
@@ -349,7 +349,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
                     uri = Uri.parse(importer.getWorkingPath() + image);
                     mAttachment = StorageHelper.createAttachmentFromUri(this, uri, true);
                 } catch (IOException e) {
-                    Ln.e(e, "Error retrieving Springpad online image");
+                    Log.e(Constants.TAG, "Error retrieving Springpad online image");
                 }
                 if (mAttachment != null) {
                     note.addAttachment(mAttachment);
@@ -376,7 +376,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
                     uri = Uri.parse(importer.getWorkingPath() + springpadAttachment.getUrl());
                     mAttachment = StorageHelper.createAttachmentFromUri(this, uri, true);
                 } catch (IOException e) {
-                    Ln.e(e, "Error retrieving Springpad online image");
+                    Log.e(Constants.TAG, "Error retrieving Springpad online image");
                 }
                 if (mAttachment != null) {
                     note.addAttachment(mAttachment);
@@ -403,7 +403,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         try {
             importer.clean();
         } catch (IOException e) {
-            Ln.w(e, "Springpad import temp files not deleted");
+            Log.w(Constants.TAG, "Springpad import temp files not deleted");
         }
 
         String title = getString(R.string.data_import_completed);
@@ -553,7 +553,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
                         .show();
             } catch (IOException e) {
                 result = false;
-                Ln.e(e, "Error importing the attachment " + file.getName());
+                Log.e(Constants.TAG, "Error importing the attachment " + file.getName());
             }
         }
         return result;

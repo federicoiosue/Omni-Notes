@@ -24,8 +24,8 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.util.LruCache;
+import android.util.Log;
 import it.feio.android.omninotes.utils.SimpleDiskCache.BitmapEntry;
-import roboguice.util.Ln;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,12 +84,12 @@ public class BitmapCache extends LruCache<String, Bitmap> {
                 try {
                     version = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
                 } catch (NameNotFoundException e) {
-                    Ln.e("Error retrieving package name", e);
+                    Log.e(Constants.TAG, "Error retrieving package name", e);
                 }
                 try {
                     mDiskLruCache = SimpleDiskCache.open(params[0], version, maxDiskSize);
                 } catch (IOException | NullPointerException e) {
-                    Ln.e("Error retrieving disk cache", e);
+                    Log.e(Constants.TAG, "Error retrieving disk cache", e);
                 }
                 mDiskCacheStarting = false; // Finished initialization
                 mDiskCacheLock.notifyAll(); // Wake any waiting threads
@@ -123,7 +123,7 @@ public class BitmapCache extends LruCache<String, Bitmap> {
                     mDiskLruCache.put(key, BitmapHelper.getBitmapInputStream(bitmap));
                 }
             } catch (IOException e) {
-                Ln.e("Error managing diskk cache", e);
+                Log.e(Constants.TAG, "Error managing diskk cache", e);
             }
         }
     }
@@ -146,7 +146,7 @@ public class BitmapCache extends LruCache<String, Bitmap> {
                     try {
                         mDiskCacheLock.wait();
                     } catch (InterruptedException e) {
-                        Ln.e("Error managing diskk cache", e);
+                        Log.e(Constants.TAG, "Error managing diskk cache", e);
                     }
                 }
                 if (mDiskLruCache != null) {
@@ -156,7 +156,7 @@ public class BitmapCache extends LruCache<String, Bitmap> {
                             bitmap = bitmapEntry.getBitmap();
                         }
                     } catch (IOException e) {
-                        Ln.e("Error retrieving bitmap from disk cache");
+                        Log.e(Constants.TAG, "Error retrieving bitmap from disk cache");
                     }
                 }
             }

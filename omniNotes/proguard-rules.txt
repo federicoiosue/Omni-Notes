@@ -32,9 +32,6 @@
     public <init>(android.content.Context, android.util.AttributeSet, int);
     public void set*(...);
 }
--keep public class roboguice.util.Ln
--dontwarn org.roboguice.**
--dontwarn roboguice.**
 
 #ACRA specifics
 # Restore some Source file names and restore approximate line numbers in the stack traces,
@@ -90,3 +87,30 @@
 #-keepclassmembers class * extends de.greenrobot.event.util.ThrowableFailureEvent {
 #    <init>(java.lang.Throwable);
 #}
+
+
+###############
+# Logs removal
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+    public static *** w(...);
+    public static *** e(...);
+    public static *** wtf(...);
+}
+
+
+###############
+# Butterknife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewInjector { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}

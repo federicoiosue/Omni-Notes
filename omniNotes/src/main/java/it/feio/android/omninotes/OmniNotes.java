@@ -39,8 +39,9 @@ import java.util.Locale;
 
 
 @ReportsCrashes(httpMethod = Method.PUT, reportType = Type.JSON,
-        formUri = "http://feio.cloudant.com/acra-omninotes/_design/acra-storage/_update/report",
-        formUriBasicAuthLogin = "thelescivessiandesedclik", formUriBasicAuthPassword = "uScXIHpchNKfuCdgbm3nHTjo",
+        formUri = "https://collector.tracepot.com/3f39b042",
+//        formUri = "http://feio.cloudant.com/acra-omninotes/_design/acra-storage/_update/report",
+//        formUriBasicAuthLogin = "thelescivessiandesedclik", formUriBasicAuthPassword = "uScXIHpchNKfuCdgbm3nHTjo",
         mode = ReportingInteractionMode.TOAST,
         forceCloseDialogAfterToast = false,
         resToastText = R.string.crash_toast)

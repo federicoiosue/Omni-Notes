@@ -19,6 +19,7 @@ package it.feio.android.omninotes.models.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,6 @@ import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.date.DateHelper;
-import roboguice.util.Ln;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +72,7 @@ public class AttachmentAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Ln.v("GridView called for position " + position);
+        Log.v(Constants.TAG, "GridView called for position " + position);
 
         Attachment mAttachment = attachmentsList.get(position);
 

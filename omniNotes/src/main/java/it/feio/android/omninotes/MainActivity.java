@@ -31,12 +31,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -48,7 +51,6 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
 import it.feio.android.omninotes.utils.Constants;
-import roboguice.util.Ln;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,14 +73,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public boolean loadNotesSync = Constants.LOAD_NOTES_SYNC;
 
     public Uri sketchUri;
-    private ViewGroup croutonViewContainer;
-    private Toolbar toolbar;
+    @InjectView(R.id.crouton_handle) ViewGroup croutonViewContainer;
+    @InjectView(R.id.toolbar) Toolbar toolbar;
+    @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
 
         instance = this;
 
@@ -93,7 +97,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     private void initUI() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -144,7 +147,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     @Override
     public void onLowMemory() {
-        Ln.w("Low memory, bitmap cache will be cleaned!");
+        Log.w(Constants.TAG, "Low memory, bitmap cache will be cleaned!");
         OmniNotes.getBitmapCache().evictAll();
         super.onLowMemory();
     }
@@ -157,7 +160,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         }
         setIntent(intent);
         handleIntents();
-        Ln.d("onNewIntent");
+        Log.d(Constants.TAG, "onNewIntent");
         super.onNewIntent(intent);
     }
 
@@ -296,7 +299,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     public DrawerLayout getDrawerLayout() {
-        return ((DrawerLayout) findViewById(R.id.drawer_layout));
+        return drawerLayout;
     }
 
 
@@ -487,7 +490,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void deleteNote(Note note) {
         new NoteProcessorDelete(Arrays.asList(new Note[]{note})).process();
         BaseActivity.notifyAppWidgets(this);
-        Ln.d("Deleted permanently note with id '" + note.get_id() + "'");
+        Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
     }
 
 
@@ -526,10 +529,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     public void showMessage(String message, Style style) {
-        if (croutonViewContainer == null) {
-            // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
-            croutonViewContainer = (ViewGroup) findViewById(R.id.crouton_handle);
-        }
+        // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
         Crouton.makeText(this, message, style, croutonViewContainer).show();
     }
 

@@ -21,6 +21,7 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -28,7 +29,6 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 import org.apache.commons.io.FilenameUtils;
-import roboguice.util.Ln;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -71,7 +71,7 @@ public class UpgradeProcessor {
                 methodToLaunch.invoke(getInstance());
             }
         } catch (SecurityException | IllegalAccessException | InvocationTargetException e) {
-            Ln.d("Explosion processing upgrade!", e);
+            Log.d(Constants.TAG, "Explosion processing upgrade!", e);
         }
     }
 

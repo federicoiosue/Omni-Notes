@@ -19,16 +19,16 @@ package it.feio.android.omninotes.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
+import android.util.Log;
 import it.feio.android.omninotes.async.AlarmRestoreOnRebootService;
-import roboguice.util.Ln;
+import it.feio.android.omninotes.utils.Constants;
 
 
 public class BootCompleteReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context ctx, Intent intent) {
-        Ln.i("System rebooted: refreshing reminders");
+        Log.i(Constants.TAG, "System rebooted: refreshing reminders");
 
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             Intent service = new Intent(ctx, AlarmRestoreOnRebootService.class);

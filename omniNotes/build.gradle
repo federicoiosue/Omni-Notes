@@ -80,13 +80,13 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
-    compile 'org.roboguice:roboguice:3.0.1'
     compile 'com.getbase:floatingactionbutton:1.9.0'
     compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
     compile 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
-    compile 'com.github.bumptech.glide:glide:3.5.1'
+    compile 'com.github.bumptech.glide:glide:3.5.2'
     compile 'com.afollestad:material-dialogs:0.5.6'
     compile "com.google.android.gms:play-services-identity:${GPS_VERSION}"
+    compile 'com.jakewharton:butterknife:6.1.0'
     compile('org.mnode.ical4j:ical4j:1.0.6') {
         exclude group: 'commons.io'
     }
@@ -95,7 +95,7 @@ dependencies {
     compile 'it.feio.android:simplegallery:1.1.0'
     compile 'it.feio.android:springpadimporter:1.0.0'
     compile 'it.feio.android:omninotes_commons:1.1.0-SNAPSHOT'
-    compile 'it.feio.android:checklistview:2.0'
+    compile 'it.feio.android:checklistview:2.1'
     compile 'it.feio.android:pixlUI:2.1'
     //    compile('it.feio.android:showcaseview:3.2.0') {
     //        exclude group: 'org.mockito'

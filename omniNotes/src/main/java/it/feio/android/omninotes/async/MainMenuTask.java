@@ -23,6 +23,8 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
@@ -43,13 +45,14 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
     private final WeakReference<Fragment> mFragmentWeakReference;
     private final MainActivity mainActivity;
-    private NonScrollableListView mDrawerList;
-    private NonScrollableListView mDrawerCategoriesList;
+    @InjectView(R.id.drawer_nav_list) NonScrollableListView mDrawerList;
+    @InjectView(R.id.drawer_tag_list) NonScrollableListView mDrawerCategoriesList;
 
 
     public MainMenuTask(Fragment mFragment) {
         mFragmentWeakReference = new WeakReference<>(mFragment);
         this.mainActivity = (MainActivity) mFragment.getActivity();
+        ButterKnife.inject(this, mFragment.getView());
     }
 
 
@@ -99,16 +102,10 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         if (!isAlive()) {
             return new ArrayList<>();
         }
-        // Sets the adapter for the MAIN navigation list view
-        mDrawerList = (NonScrollableListView) mFragmentWeakReference.get().getView()
-                .findViewById(R.id.drawer_nav_list);
-        mDrawerCategoriesList = (NonScrollableListView) mFragmentWeakReference.get().getView()
-                .findViewById(R.id.drawer_tag_list);
 
-        String[] mNavigationArray = mFragmentWeakReference.get().getResources().getStringArray(R.array.navigation_list);
-        TypedArray mNavigationIconsArray = mFragmentWeakReference.get().getResources().obtainTypedArray(R.array
-                .navigation_list_icons);
-        TypedArray mNavigationIconsSelectedArray = mFragmentWeakReference.get().getResources().obtainTypedArray(R.array
+        String[] mNavigationArray = mainActivity.getResources().getStringArray(R.array.navigation_list);
+        TypedArray mNavigationIconsArray = mainActivity.getResources().obtainTypedArray(R.array.navigation_list_icons);
+        TypedArray mNavigationIconsSelectedArray = mainActivity.getResources().obtainTypedArray(R.array
                 .navigation_list_icons_selected);
 
         final List<NavigationItem> items = new ArrayList<>();
@@ -138,7 +135,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
                 break;
             case Navigation.UNCATEGORIZED:
                 boolean showUncategorized = prefs.getBoolean(Constants.PREF_SHOW_UNCATEGORIZED, false);
-                if (dynamicMenu && (!showUncategorized || dynamicNavigationLookupTable.getUncategorized() == 0))
+                if (!showUncategorized || (dynamicMenu && dynamicNavigationLookupTable.getUncategorized() == 0))
                     skippable = true;
                 break;
             case Navigation.ARCHIVE:

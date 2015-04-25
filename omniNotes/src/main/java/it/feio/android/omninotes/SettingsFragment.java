@@ -28,28 +28,24 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.*;
-import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.StorageHelper;
-import roboguice.util.Ln;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -553,7 +549,7 @@ public class SettingsFragment extends PreferenceFragment {
                 pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
                 versionString = pInfo.versionName;
             } catch (NameNotFoundException e) {
-                Ln.e("Error retrieving version", e);
+                Log.e(Constants.TAG, "Error retrieving version", e);
             }
             changelog.setSummary(versionString);
         }
@@ -768,7 +764,7 @@ class AboutOrStatsThread extends Thread {
                 mContext.startActivity(aboutIntent);
             }
         } catch (InterruptedException e) {
-            Ln.w("Thread interrupted, I don't care", e);
+            Log.w(Constants.TAG, "Thread interrupted, I don't care", e);
         }
     }
 

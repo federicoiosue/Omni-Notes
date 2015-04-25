@@ -27,6 +27,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
@@ -39,7 +40,6 @@ import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.TextHelper;
-import roboguice.util.Ln;
 
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-        Ln.d("Created widget " + appWidgetId);
+        Log.d(Constants.TAG, "Created widget " + appWidgetId);
         String condition = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
                 .getString(
                         Constants.PREF_WIDGET_PREFIX
@@ -77,7 +77,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
-        Ln.d("onDataSetChanged widget " + appWidgetId);
+        Log.d(Constants.TAG, "onDataSetChanged widget " + appWidgetId);
         navigation = Navigation.getNavigation();
 
         String condition = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
@@ -176,7 +176,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition, 
                                            boolean thumbnails) {
-        Ln.d("Widget configuration updated");
+        Log.d(Constants.TAG, "Widget configuration updated");
         mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
                 .putString(Constants.PREF_WIDGET_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).commit();
         showThumbnails = thumbnails;

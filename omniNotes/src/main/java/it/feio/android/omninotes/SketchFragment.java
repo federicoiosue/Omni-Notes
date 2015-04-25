@@ -18,7 +18,6 @@
 package it.feio.android.omninotes;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -29,25 +28,26 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
-import android.widget.PopupWindow.OnDismissListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 import it.feio.android.omninotes.models.views.SketchView;
-import roboguice.util.Ln;
+import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -56,12 +56,12 @@ import java.io.FileOutputStream;
 
 public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
-    private ImageView stroke;
-    private ImageView eraser;
-    private SketchView mSketchView;
-    private ImageView undo;
-    private ImageView redo;
-    private ImageView erase;
+    @InjectView(R.id.sketch_stroke) ImageView stroke;
+    @InjectView(R.id.sketch_eraser) ImageView eraser;
+    @InjectView(R.id.drawing) SketchView mSketchView;
+    @InjectView(R.id.sketch_undo) ImageView undo;
+    @InjectView(R.id.sketch_redo) ImageView redo;
+    @InjectView(R.id.sketch_erase) ImageView erase;
     private int seekBarStrokeProgress, seekBarEraserProgress;
     private View popupLayout, popupEraserLayout;
     private ImageView strokeImageView, eraserImageView;
@@ -90,7 +90,9 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_sketch, container, false);
+        View view = inflater.inflate(R.layout.fragment_sketch, container, false);
+        ButterKnife.inject(this, view);
+        return view;
     }
 
 
@@ -104,14 +106,8 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getMainActivity().getToolbar().setNavigationOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+        getMainActivity().getToolbar().setNavigationOnClickListener(v -> getActivity().onBackPressed());
 
-        mSketchView = (SketchView) getActivity().findViewById(R.id.drawing);
         mSketchView.setOnDrawChangedListener(this);
 
         Uri baseUri = getArguments().getParcelable("base");
@@ -121,7 +117,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 bmp = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
                 mSketchView.setBackgroundBitmap(getActivity(), bmp);
             } catch (FileNotFoundException e) {
-                Ln.e(e, "Error replacing sketch bitmap background");
+                Log.e(Constants.TAG, "Error replacing sketch bitmap background", e);
             }
         }
 
@@ -132,53 +128,31 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
             getMainActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        stroke = (ImageView) getActivity().findViewById(R.id.sketch_stroke);
-        stroke.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSketchView.getMode() == SketchView.STROKE) {
-                    showPopup(v, SketchView.STROKE);
-                } else {
-                    mSketchView.setMode(SketchView.STROKE);
-                    AlphaManager.setAlpha(eraser, 0.4f);
-                    AlphaManager.setAlpha(stroke, 1f);
-                }
+        stroke.setOnClickListener(v -> {
+            if (mSketchView.getMode() == SketchView.STROKE) {
+                showPopup(v, SketchView.STROKE);
+            } else {
+                mSketchView.setMode(SketchView.STROKE);
+                AlphaManager.setAlpha(eraser, 0.4f);
+                AlphaManager.setAlpha(stroke, 1f);
             }
         });
 
-        eraser = (ImageView) getActivity().findViewById(R.id.sketch_eraser);
         AlphaManager.setAlpha(eraser, 0.4f);
-        eraser.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSketchView.getMode() == SketchView.ERASER) {
-                    showPopup(v, SketchView.ERASER);
-                } else {
-                    mSketchView.setMode(SketchView.ERASER);
-                    AlphaManager.setAlpha(stroke, 0.4f);
-                    AlphaManager.setAlpha(eraser, 1f);
-                }
-            }
-        });
+        eraser.setOnClickListener(v -> {
+			if (mSketchView.getMode() == SketchView.ERASER) {
+				showPopup(v, SketchView.ERASER);
+			} else {
+				mSketchView.setMode(SketchView.ERASER);
+				AlphaManager.setAlpha(stroke, 0.4f);
+				AlphaManager.setAlpha(eraser, 1f);
+			}
+		});
 
-        undo = (ImageView) getActivity().findViewById(R.id.sketch_undo);
-        undo.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSketchView.undo();
-            }
-        });
+        undo.setOnClickListener(v -> mSketchView.undo());
 
-        redo = (ImageView) getActivity().findViewById(R.id.sketch_redo);
-        redo.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSketchView.redo();
+        redo.setOnClickListener(v -> mSketchView.redo());
 
-            }
-        });
-
-        erase = (ImageView) getActivity().findViewById(R.id.sketch_erase);
         erase.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,17 +163,11 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
             private void askForErase() {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
                 alertDialogBuilder.setMessage(R.string.erase_sketch)
-                        .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                mSketchView.erase();
-                            }
-                        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                        .setPositiveButton(R.string.confirm, (dialog, id) -> {
+							mSketchView.erase();
+						}).setNegativeButton(R.string.cancel, (dialog, id) -> {
+							dialog.cancel();
+						});
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
             }
@@ -230,12 +198,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         mColorPicker = (ColorPicker) popupLayout.findViewById(R.id.stroke_color_picker);
         mColorPicker.addSVBar((SVBar) popupLayout.findViewById(R.id.svbar));
         mColorPicker.addOpacityBar((OpacityBar) popupLayout.findViewById(R.id.opacitybar));
-        mColorPicker.setOnColorChangedListener(new OnColorChangedListener() {
-            @Override
-            public void onColorChanged(int color) {
-                mSketchView.setStrokeColor(color);
-            }
-        });
+        mColorPicker.setOnColorChangedListener(mSketchView::setStrokeColor);
         mColorPicker.setColor(mSketchView.getStrokeColor());
         mColorPicker.setOldCenterColor(mSketchView.getStrokeColor());
     }
@@ -275,7 +238,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 }
 
             } catch (Exception e) {
-                Ln.e(e, "Error writing sketch image data");
+                Log.e(Constants.TAG, "Error writing sketch image data", e);
             }
         }
     }
@@ -297,13 +260,10 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
         popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popup.setFocusable(true);
-        popup.setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                if (mColorPicker.getColor() != oldColor)
-                    mColorPicker.setOldCenterColor(oldColor);
-            }
-        });
+        popup.setOnDismissListener(() -> {
+			if (mColorPicker.getColor() != oldColor)
+				mColorPicker.setOldCenterColor(oldColor);
+		});
 
         // Clear the default translucent background
         popup.setBackgroundDrawable(new BitmapDrawable());
@@ -346,7 +306,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
         int newSize = Math.round((size / 100f) * calcProgress);
         int offset = Math.round((size - newSize) / 2);
-        Ln.v("Stroke size " + newSize + " (" + calcProgress + "%)");
+        Log.v(Constants.TAG, "Stroke size " + newSize + " (" + calcProgress + "%)");
 
         LayoutParams lp = new LayoutParams(newSize, newSize);
         lp.setMargins(offset, offset, offset, offset);
