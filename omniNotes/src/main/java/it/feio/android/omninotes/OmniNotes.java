@@ -96,8 +96,7 @@ public class OmniNotes extends Application {
 
         if (TextUtils.isEmpty(language) && lang == null) {
             cfg.locale = Locale.getDefault();
-            String tmp = Locale.getDefault().toString().substring(0, 2);
-            prefs.edit().putString(PREF_LANG, tmp).commit();
+            prefs.edit().putString(PREF_LANG, Locale.getDefault().toString()).commit();
 
         } else if (lang != null) {
             // Checks country
