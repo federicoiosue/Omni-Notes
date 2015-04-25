@@ -168,7 +168,7 @@ public class DetailFragment extends Fragment implements
     private Attachment sketchEdited;
     private int contentLineCounter = 1;
     private int contentCursorPosition;
-    private ArrayList<Integer> mergedNotesIds = new ArrayList<>();
+    private long[] mergedNotesIds;
     private MainActivity mainActivity;
 
 
@@ -365,7 +365,7 @@ public class DetailFragment extends Fragment implements
             note = new Note(noteOriginal);
             noteTmp = getArguments().getParcelable(Constants.INTENT_NOTE);
             if (i.getIntegerArrayListExtra("merged_notes") != null) {
-                mergedNotesIds = i.getIntegerArrayListExtra("merged_notes");
+                mergedNotesIds = i.getLongArrayExtra("merged_notes");
             }
             i.setAction(null);
         }
@@ -1549,8 +1549,8 @@ public class DetailFragment extends Fragment implements
         }
     }
 
-    private void deleteMergedNotes(ArrayList<Integer> mergedNotesIds) {
-        for (Integer mergedNoteId : mergedNotesIds) {
+    private void deleteMergedNotes(long[] mergedNotesIds) {
+        for (Long mergedNoteId : mergedNotesIds) {
             Note note = new Note();
             note.set_id(mergedNoteId);
             DbHelper.getInstance().deleteNote(note, true);

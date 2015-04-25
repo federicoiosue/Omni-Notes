@@ -842,8 +842,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     void editNote2(Note note) {
-        if (note.get_id() == null) {
-            Ln.d("Adding new note");
+        if (note.get_id() == 0) {
+            Log.d(Constants.TAG, "Adding new note");
             // if navigation is a category it will be set into note
             try {
                 int categoryId;
@@ -1521,7 +1521,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 try {
                     list.insert(undoNotesList.keyAt(undoNotesList.indexOfValue(note)), note);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    Ln.d("SparseArray index " + undoNotesList.indexOfValue(note));
+                    Log.e(Constants.TAG, "SparseArray index " + undoNotesList.indexOfValue(note), e);
                 }
             }
         }

@@ -2,7 +2,7 @@
 CREATE
 	TABLE notes
 	(
-		creation INTEGER PRIMARY,
+		creation INTEGER PRIMARY KEY,
 		last_modification INTEGER,
 		title TEXT,
 		content TEXT,
