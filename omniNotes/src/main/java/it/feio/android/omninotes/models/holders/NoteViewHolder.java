@@ -49,5 +49,5 @@ public class NoteViewHolder {
 	@InjectView(R.id.lockedIcon) public ImageView lockedIcon;
 	@Optional @InjectView(R.id.attachmentIcon) public ImageView attachmentIcon;
 
-	@InjectView(R.id.attachmentThumbnail) public SquareImageView attachmentThumbnail;
+	@Optional @InjectView(R.id.attachmentThumbnail) public SquareImageView attachmentThumbnail;
 }
