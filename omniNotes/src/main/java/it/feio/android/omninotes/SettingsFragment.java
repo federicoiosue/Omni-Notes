@@ -432,13 +432,8 @@ public class SettingsFragment extends PreferenceFragment {
             lang.setSummary(languageName.substring(0, 1).toUpperCase(getResources().getConfiguration().locale)
                     + languageName.substring(1, languageName.length()));
             lang.setOnPreferenceChangeListener((preference, value) -> {
-				Locale locale = new Locale(value.toString());
-				Configuration config = getResources().getConfiguration();
-
-				if (!config.locale.getCountry().equals(locale.getCountry())) {
-					OmniNotes.updateLanguage(getActivity(), value.toString());
-					OmniNotes.restartApp(getActivity());
-				}
+				OmniNotes.updateLanguage(getActivity(), value.toString());
+				OmniNotes.restartApp(getActivity());
 				return false;
 			});
         }
