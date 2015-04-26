@@ -77,8 +77,8 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	@Override
 	protected Void doInBackground(String... params) {
 		if (!isCancelled()) {
-			String appData = getAppData();
 			try {
+				String appData = getAppData();
 				JSONObject json = new JSONObject(appData);
 				promptUpdate = isVersionUpdated(json.getString("softwareVersion"));
 				if (promptUpdate) {
@@ -169,26 +169,20 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	/**
 	 * Fetches application data from internet
 	 */
-	public String getAppData() {
+	public String getAppData() throws IOException {
 		StringBuilder sb = new StringBuilder();
 		packageName = mActivity.getPackageName();
-		try {
-			URL url = new URL(Constants.PS_METADATA_FETCHER_URL + Constants.PLAY_STORE_URL + packageName);
-			URLConnection conn = url.openConnection();
-			InputStream is = conn.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		URL url = new URL(Constants.PS_METADATA_FETCHER_URL + Constants.PLAY_STORE_URL + packageName);
+		URLConnection conn = url.openConnection();
+		InputStream is = conn.getInputStream();
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-			String inputLine;
+		String inputLine;
 
-			while ((inputLine = br.readLine()) != null) {
-				sb.append(inputLine);
-			}
-			is.close();
-
-		} catch (IOException e) {
-			Log.w(Constants.TAG, "Error fetching app metadata", e);
+		while ((inputLine = br.readLine()) != null) {
+			sb.append(inputLine);
 		}
-
+		is.close();
 		return sb.toString();
 	}
 
