@@ -30,9 +30,10 @@
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
 
-    <changelogversion versionName="5.0.0 Beta 21" changeDate="Apr 25, 2015">
-        <changelogtext>[u]Fix[/u] Language change is now permament </changelogtext>
-        <changelogtext>[u]Fix[/u] Notification sound is correctly settable to "no sound"</changelogtext>
+    <changelogversion versionName="5.0.0 Beta 21" changeDate="Apr 26, 2015">
+        <changelogtext>[u]Fix[/u] Language change not permament</changelogtext>
+        <changelogtext>[u]Fix[/u] Notification sound is not correctly settable to "no sound"</changelogtext>
+        <changelogtext>[u]Fix[/u] Notification vibration cannot be disabled</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.0.0 Beta 20" changeDate="Apr 25, 2015">
