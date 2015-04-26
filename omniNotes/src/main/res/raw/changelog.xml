@@ -31,7 +31,8 @@
     <!--</changelogversion>-->
 
     <changelogversion versionName="5.0.0 Beta 21" changeDate="Apr 25, 2015">
-        <changelogtext>[u]Fix[/u] Language setting</changelogtext>
+        <changelogtext>[u]Fix[/u] Language change is now permament </changelogtext>
+        <changelogtext>[u]Fix[/u] Notification sound is correctly settable to "no sound"</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.0.0 Beta 20" changeDate="Apr 25, 2015">

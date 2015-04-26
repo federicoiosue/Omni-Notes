@@ -64,9 +64,10 @@ public class SettingsFragment extends PreferenceFragment {
     private final int SPRINGPAD_IMPORT = 0;
     private final int RINGTONE_REQUEST_CODE = 100;
     public final static String XML_NAME = "xmlName";
+	private Context mActivity;
 
 
-    @Override
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int xmlId = getXmlId() > 0 ? getXmlId() : R.xml.settings;
@@ -531,7 +532,7 @@ public class SettingsFragment extends PreferenceFragment {
         Preference changelog = findPreference("settings_changelog");
         if (changelog != null) {
             changelog.setOnPreferenceClickListener(arg0 -> {
-				new MaterialDialog.Builder(getActivity())
+				new MaterialDialog.Builder(mActivity)
 						.customView(R.layout.activity_changelog, false)
 						.positiveText(R.string.ok)
 						.build().show();
@@ -706,7 +707,8 @@ public class SettingsFragment extends PreferenceFragment {
 
                 case RINGTONE_REQUEST_CODE:
                     Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-                    prefs.edit().putString("settings_notification_ringtone", uri.toString()).apply();
+					String notificationSound = uri == null ? null : uri.toString();
+                    prefs.edit().putString("settings_notification_ringtone", notificationSound).apply();
                     break;
             }
         }
