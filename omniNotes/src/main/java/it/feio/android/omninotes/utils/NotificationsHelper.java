@@ -87,7 +87,6 @@ public class NotificationsHelper {
 
 
     public NotificationsHelper setVibration(long[] pattern) {
-        // Vibration options
         if (pattern == null || pattern.length == 0) {
             pattern = new long[]{500, 500};
         }

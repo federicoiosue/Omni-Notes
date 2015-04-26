@@ -106,9 +106,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         // Vibration options
-        long[] pattern = {500, 500};
         if (prefs.getBoolean("settings_notification_vibration", true)) {
-            notificationsHelper.setVibration(pattern);
+            notificationsHelper.setVibration();
         }
 
         notificationsHelper.show(note.get_id());

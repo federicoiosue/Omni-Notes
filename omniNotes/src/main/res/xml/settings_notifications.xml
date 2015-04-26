@@ -20,7 +20,7 @@
 
     <CheckBoxPreference
         android:defaultValue="true"
-        android:key="settings_enable_vibration"
+        android:key="settings_notification_vibration"
         android:title="@string/settings_enable_vibration" />
 
     <RingtonePreference
