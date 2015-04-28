@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -52,7 +51,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 
 public class SettingsFragment extends PreferenceFragment {
@@ -64,7 +62,7 @@ public class SettingsFragment extends PreferenceFragment {
     private final int SPRINGPAD_IMPORT = 0;
     private final int RINGTONE_REQUEST_CODE = 100;
     public final static String XML_NAME = "xmlName";
-	private Context mActivity;
+	private Activity activity;
 
 
 	@Override
@@ -72,12 +70,20 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         int xmlId = getXmlId() > 0 ? getXmlId() : R.xml.settings;
         addPreferencesFromResource(xmlId);
-        setTitle();
-        prefs = getActivity().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
     }
 
 
-    private int getXmlId() {
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		this.activity = activity;
+		Log.d("asd", activity.toString());
+		prefs = activity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+		setTitle();
+	}
+
+
+	private int getXmlId() {
         if (getArguments() == null || !getArguments().containsKey(XML_NAME)) return 0;
         String xmlName = getArguments().getString(XML_NAME);
         return getActivity().getResources().getIdentifier(xmlName, "xml",
@@ -532,7 +538,7 @@ public class SettingsFragment extends PreferenceFragment {
         Preference changelog = findPreference("settings_changelog");
         if (changelog != null) {
             changelog.setOnPreferenceClickListener(arg0 -> {
-				new MaterialDialog.Builder(mActivity)
+				new MaterialDialog.Builder(activity)
 						.customView(R.layout.activity_changelog, false)
 						.positiveText(R.string.ok)
 						.build().show();
