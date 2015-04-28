@@ -44,12 +44,10 @@ public class AlarmRestoreOnRebootService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(Constants.TAG, "System rebooted: service refreshing reminders");
         Context mContext = getApplicationContext();
-        // Refresh widgets data
+
         BaseActivity.notifyAppWidgets(mContext);
 
-        // Retrieves all notes with reminder set
-        DbHelper db = DbHelper.getInstance();
-        List<Note> notes = db.getNotesWithReminder(true);
+        List<Note> notes = DbHelper.getInstance().getNotesWithReminderNotFired();
         Log.d(Constants.TAG, "Found " + notes.size() + " reminders");
         for (Note note : notes) {
             ReminderHelper.addReminder(OmniNotes.getAppContext(), note);

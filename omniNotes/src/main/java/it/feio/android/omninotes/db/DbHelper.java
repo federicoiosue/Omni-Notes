@@ -39,7 +39,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // Database name
     private static final String DATABASE_NAME = Constants.DATABASE_NAME;
     // Database version aligned if possible to software version
-    private static final int DATABASE_VERSION = 481;
+    private static final int DATABASE_VERSION = 482;
     // Sql query file directory
     private static final String SQL_DIR = "sql";
 
@@ -54,6 +54,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String KEY_ARCHIVED = "archived";
     public static final String KEY_TRASHED = "trashed";
     public static final String KEY_REMINDER = "alarm";
+    public static final String KEY_REMINDER_FIRED = "reminder_fired";
     public static final String KEY_RECURRENCE_RULE = "recurrence_rule";
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
@@ -147,19 +148,6 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    protected void execSqlFile(String sqlFile, SQLiteDatabase db) throws SQLException, IOException {
-        Log.i(Constants.TAG, "  exec sql file: {}" + sqlFile);
-        for (String sqlInstruction : SqlParser.parseSqlFile(SQL_DIR + "/" + sqlFile, mContext.getAssets())) {
-            Log.v(Constants.TAG, "    sql: {}" + sqlInstruction);
-            try {
-                db.execSQL(sqlInstruction);
-            } catch (Exception e) {
-                Log.e(Constants.TAG, "Error executing command: " + sqlInstruction, e);
-            }
-        }
-    }
-
-
     // Inserting or updating single note
     public Note updateNote(Note note, boolean updateLastModification) {
 
@@ -188,6 +176,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_ARCHIVED, note.isArchived());
         values.put(KEY_TRASHED, note.isTrashed());
         values.put(KEY_REMINDER, note.getAlarm());
+        values.put(KEY_REMINDER_FIRED, note.isReminderFired());
         values.put(KEY_RECURRENCE_RULE, note.getRecurrenceRule());
         values.put(KEY_LATITUDE, note.getLatitude());
         values.put(KEY_LONGITUDE, note.getLongitude());
@@ -240,6 +229,19 @@ public class DbHelper extends SQLiteOpenHelper {
         note.setLastModification(values.getAsLong(KEY_LAST_MODIFICATION));
 
         return note;
+    }
+
+
+    protected void execSqlFile(String sqlFile, SQLiteDatabase db) throws SQLException, IOException {
+        Log.i(Constants.TAG, "  exec sql file: {}" + sqlFile);
+        for (String sqlInstruction : SqlParser.parseSqlFile(SQL_DIR + "/" + sqlFile, mContext.getAssets())) {
+            Log.v(Constants.TAG, "    sql: {}" + sqlInstruction);
+            try {
+                db.execSQL(sqlInstruction);
+            } catch (Exception e) {
+                Log.e(Constants.TAG, "Error executing command: " + sqlInstruction, e);
+            }
+        }
     }
 
 
@@ -434,6 +436,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + KEY_ARCHIVED + ","
                 + KEY_TRASHED + ","
                 + KEY_REMINDER + ","
+                + KEY_REMINDER_FIRED + ","
                 + KEY_RECURRENCE_RULE + ","
                 + KEY_LATITUDE + ","
                 + KEY_LONGITUDE + ","
@@ -468,6 +471,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     note.setArchived("1".equals(cursor.getString(i++)));
                     note.setTrashed("1".equals(cursor.getString(i++)));
                     note.setAlarm(cursor.getString(i++));
+                    note.setReminderFired(cursor.getInt(i++));
                     note.setRecurrenceRule(cursor.getString(i++));
                     note.setLatitude(cursor.getString(i++));
                     note.setLongitude(cursor.getString(i++));
@@ -597,6 +601,20 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     /**
+     * Returns all notes that have a reminder that has not been alredy fired
+     *
+     * @return Notes list
+     */
+    public List<Note> getNotesWithReminderNotFired () {
+        String whereCondition = " WHERE " + KEY_REMINDER + " IS NOT NULL"
+                                + " AND " + KEY_REMINDER_FIRED + " IS NOT 1"
+                                + " AND " + KEY_ARCHIVED + " IS NOT 1"
+                                + " AND " + KEY_TRASHED + " IS NOT 1";
+        return getNotes(whereCondition, true);
+    }
+
+
+    /**
      * Retrieves locked or unlocked notes
      */
     public List<Note> getNotesWithLock(boolean locked) {
@@ -692,12 +710,7 @@ public class DbHelper extends SQLiteOpenHelper {
             tags.add(tag);
         }
 
-        Collections.sort(tags, new Comparator<Tag>() {
-            @Override
-            public int compare(Tag tag1, Tag tag2) {
-                return tag1.getText().compareToIgnoreCase(tag2.getText());
-            }
-        });
+        Collections.sort(tags, (tag1, tag2) -> tag1.getText().compareToIgnoreCase(tag2.getText()));
         return tags;
     }
 
@@ -909,7 +922,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " FROM " + TABLE_CATEGORY
                 + " WHERE " + KEY_CATEGORY_ID + " = " + id;
 
-        SQLiteDatabase db = null;
+        SQLiteDatabase db;
         Cursor cursor = null;
 
         try {

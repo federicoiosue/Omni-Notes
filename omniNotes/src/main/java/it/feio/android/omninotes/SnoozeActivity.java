@@ -108,6 +108,8 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
             if (nextReminder > 0) {
                 updateNoteReminder(nextReminder, note, true);
             }
+        } else {
+            new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
         }
     }
 

@@ -26,8 +26,6 @@ import android.text.TextUtils;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 
-import java.util.Calendar;
-
 
 public class ReminderHelper {
 
@@ -38,28 +36,16 @@ public class ReminderHelper {
     }
 
     public static void addReminder(Context context, Note note, long reminder) {
-//        if (hasFutureReminder(note)) {
-            Intent intent = new Intent(context, AlarmReceiver.class);
-            intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
-            PendingIntent sender = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent,
-                    PendingIntent.FLAG_CANCEL_CURRENT);
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
-            } else {
-                am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
-            }
-//        }
-    }
-
-
-    private static boolean hasFutureReminder(Note note) {
-        boolean hasFutureReminder = false;
-        if (!TextUtils.isEmpty(note.getAlarm()) && Long.parseLong(note.getAlarm()) > Calendar.getInstance()
-                .getTimeInMillis()) {
-            hasFutureReminder = true;
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
+        PendingIntent sender = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
+        } else {
+            am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
         }
-        return hasFutureReminder;
     }
 
 
