@@ -45,12 +45,14 @@
             android:scrollingCache="false"
             android:animationCache="false" />
 
-        <ViewStub
-            android:id="@+id/settings_placeholder"
-            android:inflatedId="@+id/settings_view"
-            android:layout_width="@dimen/navigation_drawer_width"
-            android:layout_height="wrap_content"
-            android:layout="@layout/drawer_category_list_footer" />
+        <!--<ViewStub-->
+            <!--android:id="@+id/settings_placeholder"-->
+            <!--android:inflatedId="@+id/settings_view"-->
+            <!--android:layout_width="@dimen/navigation_drawer_width"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout="@layout/drawer_category_list_footer" />-->
+
+        <include android:id="@+id/settings_view" layout="@layout/drawer_category_list_footer"/>
 
         <it.feio.android.omninotes.models.views.NonScrollableListView
             android:id="@+id/drawer_tag_list"

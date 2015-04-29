@@ -59,24 +59,14 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        mDrawerList = (NonScrollableListView) mFragmentWeakReference.get().getView()
-                .findViewById(R.id.drawer_nav_list);
-
-        // Inflater used for header and footer
+        mDrawerList = (NonScrollableListView) mainActivity.findViewById(R.id.drawer_nav_list);
         LayoutInflater inflater = (LayoutInflater) mainActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
-        // Inflation of Settings view (no categories available)
-        settingsView = mFragmentWeakReference.get().getView().findViewById(R.id.settings_placeholder);
-        if (settingsView != null) {
-            settingsView = ((ViewStub) settingsView).inflate();
-        } else {
-            settingsView = mFragmentWeakReference.get().getView().findViewById(R.id.settings_view);
-        }
+        settingsView = mainActivity.findViewById(R.id.settings_view);
 
         // Settings view when categories are available
-        mDrawerCategoriesList = (NonScrollableListView) mFragmentWeakReference.get().getView().findViewById(R.id
-                .drawer_tag_list);
-        if (mDrawerCategoriesList.getAdapter() == null) {
+        mDrawerCategoriesList = (NonScrollableListView) mainActivity.findViewById(R.id.drawer_tag_list);
+        if (mDrawerCategoriesList.getAdapter() == null && mDrawerCategoriesList.getFooterViewsCount() == 0) {
             settingsViewCat = inflater.inflate(R.layout.drawer_category_list_footer, null);
             mDrawerCategoriesList.addFooterView(settingsViewCat);
         } else {
