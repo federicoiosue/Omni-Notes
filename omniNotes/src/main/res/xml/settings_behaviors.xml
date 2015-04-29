@@ -20,12 +20,6 @@
 
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="settings_navdrawer_on_exit"
-        android:summary="@string/settings_navdrawer_on_exit_summary"
-        android:title="@string/settings_navdrawer_on_exit" />
-
-    <CheckBoxPreference
-        android:defaultValue="false"
         android:key="settings_instant_search"
         android:title="@string/settings_instant_search" />
 
@@ -39,18 +33,6 @@
         android:key="settings_auto_location"
         android:title="@string/settings_auto_location"
         android:summary="@string/settings_auto_location_summary" />
-
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="settings_dynamic_menu"
-        android:title="@string/settings_dynamic_menu"
-        android:summary="@string/settings_dynamic_menu_summary" />
-
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="settings_show_uncategorized"
-        android:title="@string/settings_show_uncategorized"
-        android:summary="@string/settings_show_uncategorized_summary" />
 
     <EditTextPreference
         android:inputType="number"

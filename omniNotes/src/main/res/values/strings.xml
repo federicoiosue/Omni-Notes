@@ -228,6 +228,7 @@
     <string name="settings_screen_backup">Backup</string>
     <string name="settings_screen_notifications">Notifications</string>
     <string name="settings_enable_vibration">Vibration</string>
+    <string name="settings_screen_navigation">Navigation</string>
     <string name="settings_changelog">Changelog</string>
     <string name="settings_enable_editor_links">Links recognition</string>
     <string name="settings_max_video_size">Video attachments</string>
