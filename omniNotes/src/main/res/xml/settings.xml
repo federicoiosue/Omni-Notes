@@ -28,7 +28,7 @@
             android:title="@string/settings_screen_interface" />
 
         <PreferenceScreen
-                android:key="settings_navigation_panel"
+                android:key="settings_navigation"
                 android:title="@string/settings_screen_navigation" />
 
         <PreferenceScreen

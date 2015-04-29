@@ -25,10 +25,10 @@
             android:summary="@string/settings_dynamic_menu_summary"/>
 
     <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="settings_navdrawer_on_exit"
-            android:summary="@string/settings_navdrawer_on_exit_summary"
-            android:title="@string/settings_navdrawer_on_exit"/>
+            android:defaultValue="true"
+            android:key="settings_show_category_count"
+            android:summary="@string/settings_show_category_count_summary"
+            android:title="@string/settings_show_category_count"/>
 
     <CheckBoxPreference
             android:defaultValue="false"
@@ -37,10 +37,9 @@
             android:summary="@string/settings_show_uncategorized_summary"/>
 
     <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="settings_show_category_count"
-            android:summary="@string/settings_show_category_count_summary"
-            android:title="@string/settings_show_category_count"/>
-
+            android:defaultValue="false"
+            android:key="settings_navdrawer_on_exit"
+            android:summary="@string/settings_navdrawer_on_exit_summary"
+            android:title="@string/settings_navdrawer_on_exit"/>
 
 </PreferenceScreen>
