@@ -929,7 +929,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         for (int i = 0; i < listAdapter.getCount(); i++) {
-                            getSelectedNotes().add(listAdapter.getItem(i));
+                            selectedNotes.add(listAdapter.getItem(i));
                         }
                         deleteNotesExecute();
                     }
@@ -1236,6 +1236,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         listAdapter.remove(getSelectedNotes());
         new NoteProcessorDelete(getSelectedNotes()).process();
         list.clearChoices();
+        selectedNotes.clear();
         finishActionMode();
         // If list is empty again Mr Jingles will appear again
         if (listAdapter.getCount() == 0)

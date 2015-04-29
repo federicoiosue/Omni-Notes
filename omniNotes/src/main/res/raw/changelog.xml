@@ -34,6 +34,7 @@
         <changelogtext>Moved some settings to a specific "Navigation" item in preferences</changelogtext>
         <changelogtext>Some changes to improve and test recurrent reminders</changelogtext>
         <changelogtext>[u]Fix[/u] Floating action button not imploding when short-touched</changelogtext>
+        <changelogtext>[u]Fix[/u] Selected notes count was not reset after that trash was been emptied</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.0.0 Beta 22" changeDate="Apr 28, 2015">
