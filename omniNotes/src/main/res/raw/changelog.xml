@@ -17,7 +17,7 @@
   -->
 <changelog bulletedList="true">
 
-    <!--<changelogversion versionName="5.0.0" changeDate="Apr 12, 2015">-->
+    <!--<changelogversion versionName="5.0.0" changeDate="May 1, 2015">-->
         <!--<changelogtext>[b]New![/b] Material design UI and new icon</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Customizable floating action button with long-press-shortcut to checklist and camera</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Exceptionally improved image loading! Forget the lag!</changelogtext>-->
@@ -29,6 +29,10 @@
         <!--<changelogtext>[b]New![/b] Choose to keep or delete merged note after merge succeeded</changelogtext>-->
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
+
+    <changelogversion versionName="5.0.0 Beta 24" changeDate="May 2, 2015">
+        <changelogtext>Various bugfixes</changelogtext>
+    </changelogversion>
 
     <changelogversion versionName="5.0.0 Beta 23" changeDate="Apr 29, 2015">
         <changelogtext>Moved some settings to a specific "Navigation" item in preferences</changelogtext>

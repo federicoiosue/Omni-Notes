@@ -38,10 +38,8 @@ import org.acra.sender.HttpSender.Type;
 import java.util.Locale;
 
 
-@ReportsCrashes(httpMethod = Method.PUT, reportType = Type.JSON,
+@ReportsCrashes(httpMethod = Method.POST, reportType = Type.JSON,
         formUri = "https://collector.tracepot.com/3f39b042",
-//        formUri = "http://feio.cloudant.com/acra-omninotes/_design/acra-storage/_update/report",
-//        formUriBasicAuthLogin = "thelescivessiandesedclik", formUriBasicAuthPassword = "uScXIHpchNKfuCdgbm3nHTjo",
         mode = ReportingInteractionMode.TOAST,
         forceCloseDialogAfterToast = false,
         resToastText = R.string.crash_toast)
@@ -60,8 +58,7 @@ public class OmniNotes extends Application {
     public void onCreate() {
         mContext = getApplicationContext();
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-        // The following line triggers the initialization of ACRA
-        ACRA.init(this);
+        initAcra(this);
         // Instantiate bitmap cache
         mBitmapCache = new BitmapCache(getApplicationContext(), 0, 0, getExternalCacheDir());
         // Checks selected locale or default one
@@ -69,6 +66,13 @@ public class OmniNotes extends Application {
         // Google Analytics initialization
         initializeGa();
         super.onCreate();
+    }
+
+
+    private void initAcra(Application application) {
+        ACRA.init(application);
+        String isDebugBuild = BuildConfig.BUILD_TYPE.equals("debug") ? "1" : "0";
+        ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild);
     }
 
 
