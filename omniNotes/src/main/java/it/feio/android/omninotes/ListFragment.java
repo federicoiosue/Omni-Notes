@@ -125,6 +125,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     // Search variables
     private String searchQuery;
+    private String searchQueryInstant;
     private String searchTags;
     private boolean goBackOnToggleSearchLabel = false;
     private boolean searchLabelActive = false;
@@ -155,9 +156,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
         EventBus.getDefault().unregister(this);
-        super.onDestroy();
+        super.onStop();
     }
 
 
@@ -286,6 +287,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     @Override
     public void onPause() {
         super.onPause();
+        searchQueryInstant = searchQuery;
         stopJingles();
         Crouton.cancelAllCroutons();
         if (!keepActionMode) {
@@ -954,6 +956,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
 
         // Searching
+        searchQuery = searchQueryInstant;
+        searchQueryInstant = null;
         if (searchTags != null || searchQuery != null || Intent.ACTION_SEARCH.equals(intent.getAction())) {
 
             // Using tags
