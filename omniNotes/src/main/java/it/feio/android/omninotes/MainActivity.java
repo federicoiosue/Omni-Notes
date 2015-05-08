@@ -62,20 +62,17 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     static final int BURGER = 0;
     static final int ARROW = 1;
 
+    @InjectView(R.id.crouton_handle) ViewGroup croutonViewContainer;
+    @InjectView(R.id.toolbar) Toolbar toolbar;
+    @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
+
     public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
     public final String FRAGMENT_LIST_TAG = "fragment_list";
     public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
     public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
-
     private static MainActivity instance;
     private FragmentManager mFragmentManager;
-
-    public boolean loadNotesSync = Constants.LOAD_NOTES_SYNC;
-
     public Uri sketchUri;
-    @InjectView(R.id.crouton_handle) ViewGroup croutonViewContainer;
-    @InjectView(R.id.toolbar) Toolbar toolbar;
-    @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
 
 
     @Override
@@ -288,9 +285,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
                 return;
             ValueAnimator anim = ValueAnimator.ofFloat((targetShape + 1) % 2, targetShape);
             anim.addUpdateListener(valueAnimator -> {
-				float slideOffset = (Float) valueAnimator.getAnimatedValue();
-				drawerToggle.onDrawerSlide(getDrawerLayout(), slideOffset);
-			});
+                float slideOffset = (Float) valueAnimator.getAnimatedValue();
+                drawerToggle.onDrawerSlide(getDrawerLayout(), slideOffset);
+            });
             anim.setInterpolator(new DecelerateInterpolator());
             anim.setDuration(500);
             anim.start();

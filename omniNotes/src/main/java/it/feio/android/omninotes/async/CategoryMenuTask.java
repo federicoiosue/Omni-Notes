@@ -153,8 +153,8 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 				// Forces redraw
 				if (mDrawerList != null) {
 					mDrawerList.setItemChecked(0, false);
+                    EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
 				}
-				mainActivity.initNotesList(mainActivity.getIntent());
 			}
 		});
 

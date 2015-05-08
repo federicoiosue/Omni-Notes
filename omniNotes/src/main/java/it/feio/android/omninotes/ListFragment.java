@@ -66,7 +66,6 @@ import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
-import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
@@ -79,8 +78,7 @@ import java.util.*;
 import static android.support.v4.view.ViewCompat.animate;
 
 
-public class ListFragment extends Fragment implements OnNotesLoadedListener, OnViewTouchedListener, 
-        UndoBarController.UndoListener {
+public class ListFragment extends Fragment implements OnViewTouchedListener, UndoBarController.UndoListener {
 
     private static final int REQUEST_CODE_CATEGORY = 1;
     private static final int REQUEST_CODE_CATEGORY_NOTES = 2;
@@ -152,13 +150,6 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
         OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
         super.onStart();
-    }
-
-
-    @Override
-    public void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
     }
 
 
@@ -670,11 +661,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     @Override
                     public boolean onQueryTextChange(String pattern) {
                         if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null &&
-                                searchPerformed) {
+                                searchPerformed && mFragment.isAdded()) {
                             searchTags = null;
                             searchQuery = pattern;
-                            NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
-                            mNoteLoaderTask.execute("getNotesByPattern", pattern);
+                            new NoteLoaderTask().execute("getNotesByPattern", pattern);
                             return true;
                         } else {
                             searchPerformed = true;
@@ -945,7 +935,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     void initNotesList(Intent intent) {
         Log.d(Constants.TAG, "initNotesList intent: " + intent.getAction());
 
-        NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
+        list.setAlpha(0);
+
+        NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask();
 
         // Search for a tag
         // A workaround to simplify it's to simulate normal search
@@ -970,12 +962,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     searchQuery = intent.getStringExtra(SearchManager.QUERY);
                     searchTags = null;
                 }
-                if (mainActivity.loadNotesSync) {
-                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance().getNotesByPattern(searchQuery));
-                } else {
-                    mNoteLoaderTask.execute("getNotesByPattern", searchQuery);
-                }
-                mainActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
+                mNoteLoaderTask.execute("getNotesByPattern", searchQuery);
             }
 
             toggleSearchLabel(true);
@@ -993,22 +980,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     mainActivity.navigationTmp = !TextUtils.isEmpty(categoryId) ? categoryId : null;
                 }
                 intent.removeExtra(Constants.INTENT_WIDGET);
-                if (mainActivity.loadNotesSync) {
-                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance().getNotesByCategory(
-                            mainActivity.navigationTmp));
-                } else {
-                    mNoteLoaderTask.execute("getNotesByTag", mainActivity.navigationTmp);
-                }
-                mainActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
+                mNoteLoaderTask.execute("getNotesByTag", mainActivity.navigationTmp);
 
-                // Gets all notes
             } else {
-                if (mainActivity.loadNotesSync) {
-                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance().getAllNotes(true));
-                } else {
-                    mNoteLoaderTask.execute("getAllNotes", true);
-                }
-                mainActivity.loadNotesSync = Constants.LOAD_NOTES_SYNC;
+                mNoteLoaderTask.execute("getAllNotes", true);
             }
         }
     }
@@ -1047,16 +1022,16 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     public void onEvent(NavigationUpdatedEvent navigationUpdatedEvent) {
         listViewPosition = 0;
         listViewPositionOffset = 16;
+        commitPending();
+        initNotesList(mainActivity.getIntent());
     }
 
 
-    @Override
-    public void onNotesLoaded(ArrayList<Note> notes) {
-        EventBus.getDefault().post(new NotesLoadedEvent());
+    public void onEvent(NotesLoadedEvent notesLoadedEvent) {
         Log.d(Constants.TAG, "Notes loaded");
         int layoutSelected = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
                 : R.layout.note_layout;
-        listAdapter = new NoteAdapter(mainActivity, layoutSelected, notes);
+        listAdapter = new NoteAdapter(mainActivity, layoutSelected, notesLoadedEvent.notes);
 
         View noteLayout = LayoutInflater.from(mainActivity).inflate(layoutSelected, null, false);
         noteViewHolder = new NoteViewHolder(noteLayout);
@@ -1104,10 +1079,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         list.setAdapter(listAdapter);
 
         // Replace listview with Mr. Jingles if it is empty
-        if (notes.size() == 0) list.setEmptyView(empyListItem);
+        if (notesLoadedEvent.notes.size() == 0) list.setEmptyView(empyListItem);
 
         // Restores listview position when turning back to list or when navigating reminders
-        if (list != null && notes.size() > 0) {
+        if (list != null && notesLoadedEvent.notes.size() > 0) {
             if (Navigation.checkNavigation(Navigation.REMINDERS)) {
                 listViewPosition = listAdapter.getClosestNotePosition();
             }

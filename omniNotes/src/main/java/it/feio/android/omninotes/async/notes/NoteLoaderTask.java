@@ -16,32 +16,19 @@
  */
 package it.feio.android.omninotes.async.notes;
 
-import android.app.Activity;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.util.Log;
+import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
 import it.feio.android.omninotes.utils.Constants;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 
-	private final WeakReference<Fragment> mFragmentReference;
-	private final Activity mActivity;
-	private OnNotesLoadedListener mOnNotesLoadedListener;
-
-
-    public NoteLoaderTask(Fragment mFragment,
-                          OnNotesLoadedListener mOnNotesLoadedListener) {
-        mFragmentReference = new WeakReference<>(mFragment);
-        mActivity = mFragment.getActivity();
-        this.mOnNotesLoadedListener = mOnNotesLoadedListener;
-    }
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -74,22 +61,12 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Error retrieving notes", e);
 		}
-
 		return notes;
 	}
 
 	@Override
 	protected void onPostExecute(ArrayList<Note> notes) {
 		super.onPostExecute(notes);
-		if (isAlive()) {
-			mOnNotesLoadedListener.onNotesLoaded(notes);
-		}
+		EventBus.getDefault().post(new NotesLoadedEvent(notes));
 	}
-
-    private boolean isAlive() {
-        return mFragmentReference.get() != null
-                && mFragmentReference.get().getActivity() != null
-                && !mFragmentReference.get().getActivity().isFinishing()
-                && mFragmentReference.get().isAdded();
-    }
 }

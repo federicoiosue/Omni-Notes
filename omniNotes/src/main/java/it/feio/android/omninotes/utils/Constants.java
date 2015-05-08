@@ -51,8 +51,6 @@ public interface Constants {
     String DATE_FORMAT_SORTABLE_OLD = "yyyyMMddHHmmss";
     String DATE_FORMAT_EXPORT = "yyyy.MM.dd-HH.mm";
 
-    boolean LOAD_NOTES_SYNC = true;
-
     String INTENT_KEY = "note_id";
     String INTENT_NOTE = "note";
     String INTENT_MANAGING_SHARE = "managing_share"; // Used when handling received data

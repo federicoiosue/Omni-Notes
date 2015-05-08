@@ -94,7 +94,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static DbHelper instance = null;
 
 
-    public static DbHelper getInstance() {
+    public static synchronized DbHelper getInstance() {
         if (instance == null) {
             instance = new DbHelper(OmniNotes.getAppContext());
         }

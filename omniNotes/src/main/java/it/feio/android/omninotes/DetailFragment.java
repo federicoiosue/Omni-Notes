@@ -210,7 +210,7 @@ public class DetailFragment extends Fragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         
-        mainActivity = (MainActivity)getActivity();
+        mainActivity = (MainActivity) getActivity();
 
         prefs = mainActivity.prefs;
 
@@ -1498,7 +1498,13 @@ public class DetailFragment extends Fragment implements
             return;
         }
 
-        if (saveNotNeeded()) return;
+        if (saveNotNeeded()) {
+            exitMessage = "";
+            if (goBack) {
+                goHome();
+            }
+            return;
+        }
 
         noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
@@ -1516,12 +1522,7 @@ public class DetailFragment extends Fragment implements
             note.setLatitude(noteTmp.getLatitude());
             note.setLongitude(noteTmp.getLongitude());
         }
-        if (!noteTmp.isChanged(note)) {
-            exitMessage = "";
-            onNoteSaved(noteTmp);
-            return true;
-        }
-        return false;
+        return !noteTmp.isChanged(note);
     }
 
 

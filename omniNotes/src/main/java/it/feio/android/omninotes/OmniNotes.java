@@ -38,8 +38,8 @@ import org.acra.sender.HttpSender.Type;
 import java.util.Locale;
 
 
-@ReportsCrashes(httpMethod = Method.POST, reportType = Type.JSON,
-        formUri = "https://collector.tracepot.com/3f39b042",
+@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM,
+        formUri = "http://collector.tracepot.com/3f39b042",
         mode = ReportingInteractionMode.TOAST,
         forceCloseDialogAfterToast = false,
         resToastText = R.string.crash_toast)

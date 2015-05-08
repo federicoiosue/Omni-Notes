@@ -16,8 +16,9 @@
   -->
 
 <resources>
-    <integer name="list_view_fade_anim">700</integer>
+    <integer name="list_view_fade_anim">300</integer>
     <integer name="sliding_anim_time_short">350</integer>
     <integer name="sliding_anim_time_medium">500</integer>
     <integer name="zooming_view_anim_time">110</integer>
+    <integer name="drawer_toggle_animation_time">600</integer>
 </resources>

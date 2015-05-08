@@ -138,9 +138,7 @@ public class NavigationDrawerFragment extends Fragment {
                 R.string.drawer_close
         ) {
             public void onDrawerClosed(View view) {
-                // Restore title
                 mActivity.getSupportActionBar().setTitle(mTitle);
-                // Call to onPrepareOptionsMenu()
                 mActivity.supportInvalidateOptionsMenu();
             }
 
@@ -218,7 +216,8 @@ public class NavigationDrawerFragment extends Fragment {
             mTitle = ((Category) navigationUpdatedEvent.navigationItem).getName();
         }
         if (mDrawerLayout != null) {
-            new Handler().postDelayed(() -> mDrawerLayout.closeDrawer(GravityCompat.START), 350);
+//            new Handler().postDelayed(() -> mDrawerLayout.closeDrawer(GravityCompat.START), 250);
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         }
     }
 
