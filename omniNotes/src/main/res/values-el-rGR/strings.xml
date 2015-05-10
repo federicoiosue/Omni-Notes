@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">Διαγραφή όλων των δεδομένων</string>
   <string name="reset_all_data_confirmation">Διαγραφή όλων των δεδομένων της εφαρμογής;(τα αντίγραφα ασφαλείας θα παραμείνουν)</string>
   <string name="action_settings">Ρυθμίσεις</string>
-  <string name="settings_sync_import_export">Συγχρονισμός και αντίγραφα ασφαλείας</string>
+  <string name="settings_screen_sync_import_export">Συγχρονισμός και αντίγραφα ασφαλείας</string>
   <string name="settings_export">Δημιουργία αντιγράφου ασφαλείας</string>
   <string name="settings_import">Επαναφορά ή διαγραφή αντιγράφων ασφαλείας</string>
   <string name="settings_import_from_springpad">Εισαγωγή σημειώσεων από Springpad</string>

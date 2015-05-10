@@ -193,7 +193,7 @@ Send automatic report to developer?\"</string>
   <string name="settings_reset_all_data">លប់ទិន្នន័យទាំងអស់</string>
   <string name="reset_all_data_confirmation">Erase all of the app\'s data? (backups will be preserved)</string>
   <string name="action_settings">ការកំណត់</string>
-  <string name="settings_sync_import_export">Sync and Backups</string>
+  <string name="settings_screen_sync_import_export">Sync and Backups</string>
   <string name="settings_export">រក្សាទុក(Backup)</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>

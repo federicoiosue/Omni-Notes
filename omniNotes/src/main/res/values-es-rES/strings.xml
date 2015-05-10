@@ -190,7 +190,7 @@
   <string name="settings_reset_all_data">Borrar todos los datos</string>
   <string name="reset_all_data_confirmation">¿Está seguro de querer eliminar todos los datos de la aplicación (las copias de seguridad se conservarán)?</string>
   <string name="action_settings">Configuración</string>
-  <string name="settings_sync_import_export">Sincronización y copias de seguridad</string>
+  <string name="settings_screen_sync_import_export">Sincronización y copias de seguridad</string>
   <string name="settings_export">Copia de seguridad</string>
   <string name="settings_import">Restaurar o eliminar copias de seguridad</string>
   <string name="settings_import_from_springpad">Importar notas de Springpad</string>

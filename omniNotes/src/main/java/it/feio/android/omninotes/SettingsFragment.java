@@ -97,8 +97,7 @@ public class SettingsFragment extends PreferenceFragment {
             String xmlName = getArguments().getString(XML_NAME);
             if (!TextUtils.isEmpty(xmlName)) {
                 int stringResourceId = getActivity().getResources().getIdentifier(xmlName.replace("settings_",
-                                "settings_screen_"), "string",
-                        getActivity().getPackageName());
+                                "settings_screen_"), "string", getActivity().getPackageName());
                 title = stringResourceId != 0 ? getString(stringResourceId) : title;
             }
         }

@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">Effacer toutes les données </string>
   <string name="reset_all_data_confirmation">Effacer toutes les données de l\'application (les sauvegardes seront conservées) ?</string>
   <string name="action_settings">Paramètres</string>
-  <string name="settings_sync_import_export">Synchronisation et sauvegarde</string>
+  <string name="settings_screen_sync_import_export">Synchronisation et sauvegarde</string>
   <string name="settings_export">Sauvegarder</string>
   <string name="settings_import">Restaurer ou supprimer les sauvegardes</string>
   <string name="settings_import_from_springpad">Importer les notes de Springpad</string>

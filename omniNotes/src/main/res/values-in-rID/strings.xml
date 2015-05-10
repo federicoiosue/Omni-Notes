@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">Hapus semua data</string>
   <string name="reset_all_data_confirmation">Hapus semua app data? (cadangan akan dipertahankan)</string>
   <string name="action_settings">Setelan</string>
-  <string name="settings_sync_import_export">Sinkron dan cadangan</string>
+  <string name="settings_screen_sync_import_export">Sinkron dan cadangan</string>
   <string name="settings_export">Cadangan</string>
   <string name="settings_import">Memulihkan atau menghapus cadangan</string>
   <string name="settings_import_from_springpad">Impor catatan dari Springpad</string>

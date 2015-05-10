@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">Vymazat všechna data</string>
   <string name="reset_all_data_confirmation">Vymazat všechna data aplikace? (zálohy budou zachovány)</string>
   <string name="action_settings">Nastavení</string>
-  <string name="settings_sync_import_export">Synchronizace a zálohování</string>
+  <string name="settings_screen_sync_import_export">Synchronizace a zálohování</string>
   <string name="settings_export">Zálohování</string>
   <string name="settings_import">Obnovit nebo odstranit zálohy</string>
   <string name="settings_import_from_springpad">Importovat poznámky z aplikace Springpad</string>
