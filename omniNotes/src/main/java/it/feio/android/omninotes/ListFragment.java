@@ -78,7 +78,7 @@ import java.util.*;
 import static android.support.v4.view.ViewCompat.animate;
 
 
-public class ListFragment extends Fragment implements OnViewTouchedListener, UndoBarController.UndoListener {
+public class ListFragment extends BaseFragment implements OnViewTouchedListener, UndoBarController.UndoListener {
 
     private static final int REQUEST_CODE_CATEGORY = 1;
     private static final int REQUEST_CODE_CATEGORY_NOTES = 2;

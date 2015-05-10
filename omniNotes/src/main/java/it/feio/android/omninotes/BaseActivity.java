@@ -39,6 +39,7 @@ import android.view.*;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
+import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;

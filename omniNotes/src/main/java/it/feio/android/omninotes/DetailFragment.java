@@ -103,7 +103,7 @@ import java.util.List;
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 
-public class DetailFragment extends Fragment implements
+public class DetailFragment extends BaseFragment implements
         OnReminderPickedListener, TextLinkClickListener, OnTouchListener,
         OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved, 
         OnGeoUtilResultListener {

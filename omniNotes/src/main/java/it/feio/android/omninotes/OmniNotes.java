@@ -27,6 +27,8 @@ import android.content.res.Configuration;
 import android.text.TextUtils;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import it.feio.android.omninotes.utils.BitmapCache;
 import it.feio.android.omninotes.utils.Constants;
 import org.acra.ACRA;
@@ -52,12 +54,14 @@ public class OmniNotes extends Application {
     private static Tracker mTracker;
     private static GoogleAnalytics mGa;
     private static BitmapCache mBitmapCache;
+    private static RefWatcher refWatcher;
 
 
     @Override
     public void onCreate() {
         mContext = getApplicationContext();
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+        refWatcher = LeakCanary.install(this);
         initAcra(this);
         // Instantiate bitmap cache
         mBitmapCache = new BitmapCache(getApplicationContext(), 0, 0, getExternalCacheDir());
@@ -88,6 +92,10 @@ public class OmniNotes extends Application {
 
     public static Context getAppContext() {
         return OmniNotes.mContext;
+    }
+
+    public static RefWatcher getRefWatcher() {
+        return OmniNotes.refWatcher;
     }
 
 
