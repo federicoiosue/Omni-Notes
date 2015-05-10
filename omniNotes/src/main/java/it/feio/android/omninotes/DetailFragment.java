@@ -1560,12 +1560,10 @@ public class DetailFragment extends BaseFragment implements
 
 
     private String getNoteTitle() {
-        View titleView = title;
-        if (titleView instanceof EditText) {
-            Editable editableTitle = ((EditText) titleView).getText();
-            return TextUtils.isEmpty(editableTitle) ? "" : editableTitle.toString();
+        if (title != null && !TextUtils.isEmpty(title.getText())) {
+            return title.getText().toString();
         } else {
-            return title.getText() != null ? title.getText().toString() : "";
+            return "";
         }
     }
 
