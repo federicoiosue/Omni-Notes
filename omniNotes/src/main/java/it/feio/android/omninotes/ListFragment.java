@@ -58,7 +58,7 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
-import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedNavDrawerClosedEvent;
 import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.async.notes.*;
 import it.feio.android.omninotes.db.DbHelper;
@@ -1028,7 +1028,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
 
 
-    public void onEvent(NavigationUpdatedEvent navigationUpdatedEvent) {
+    public void onEvent(NavigationUpdatedNavDrawerClosedEvent navigationUpdatedNavDrawerClosedEvent) {
         listViewPosition = 0;
         listViewPositionOffset = 16;
         commitPending();
@@ -1037,7 +1037,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
     public void onEvent(NotesLoadedEvent notesLoadedEvent) {
-        Log.d(Constants.TAG, "Notes loaded");
         int layoutSelected = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
                 : R.layout.note_layout;
         listAdapter = new NoteAdapter(mainActivity, layoutSelected, notesLoadedEvent.notes);

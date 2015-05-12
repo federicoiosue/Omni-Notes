@@ -216,8 +216,9 @@ public class NavigationDrawerFragment extends Fragment {
             mTitle = ((Category) navigationUpdatedEvent.navigationItem).getName();
         }
         if (mDrawerLayout != null) {
-//            new Handler().postDelayed(() -> mDrawerLayout.closeDrawer(GravityCompat.START), 250);
             mDrawerLayout.closeDrawer(GravityCompat.START);
+            new Handler().postDelayed(() -> EventBus.getDefault().post(new NavigationUpdatedNavDrawerClosedEvent
+                    (navigationUpdatedEvent.navigationItem)), 400);
         }
     }
 
