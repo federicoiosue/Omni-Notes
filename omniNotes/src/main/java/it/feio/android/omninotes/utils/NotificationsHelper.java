@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
@@ -47,7 +48,7 @@ public class NotificationsHelper {
      */
     public NotificationsHelper createNotification(int smallIcon, String title, PendingIntent notifyIntent) {
         mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(smallIcon).setContentTitle(title)
-                .setAutoCancel(true);
+                .setAutoCancel(true).setLights(Color.BLUE, 1000, 1000);
         mBuilder.setContentIntent(notifyIntent);
         setLargeIcon(R.mipmap.ic_launcher);
         return this;
