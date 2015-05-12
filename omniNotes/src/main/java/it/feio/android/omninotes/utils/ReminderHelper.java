@@ -22,9 +22,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.widget.Toast;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
+import it.feio.android.omninotes.utils.date.DateHelper;
 
 
 public class ReminderHelper {
@@ -46,6 +51,7 @@ public class ReminderHelper {
         } else {
             am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
         }
+        showReminderMessage(reminder);
     }
 
 
@@ -57,5 +63,12 @@ public class ReminderHelper {
             am.cancel(p);
             p.cancel();
         }
+    }
+
+
+    private static void showReminderMessage(long reminder) {
+        new Handler(OmniNotes.getAppContext().getMainLooper()).post(() -> Toast.makeText(OmniNotes.getAppContext(),
+                OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " +
+                DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder), Toast.LENGTH_LONG).show());
     }
 }

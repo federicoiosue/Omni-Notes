@@ -126,8 +126,6 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
         } else {
             ReminderHelper.addReminder(OmniNotes.getAppContext(), noteToUpdate, reminder);
         }
-        Toast.makeText(OmniNotes.getAppContext(), OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " +
-                DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder), Toast.LENGTH_SHORT).show();
     }
 
     @Override
