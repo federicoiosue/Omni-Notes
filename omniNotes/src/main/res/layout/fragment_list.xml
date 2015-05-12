@@ -15,11 +15,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/activity_additional_margin"
-    android:layout_marginRight="@dimen/activity_additional_margin">
+             xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+             xmlns:wheel="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_marginLeft="@dimen/activity_additional_margin"
+             android:layout_marginRight="@dimen/activity_additional_margin">
 
     <it.feio.android.omninotes.models.views.InterceptorLinearLayout
         android:id="@+id/list_root"
@@ -55,25 +56,35 @@
                 android:paddingEnd="@dimen/horizontal_margin" />
         </LinearLayout>
 
-        <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:dividerHeight="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="@dimen/padding_half"
-            android:clipToPadding="false"
-            android:scrollbarSize="4dp"
-            android:drawSelectorOnTop="true"
-            android:listSelector="@drawable/icon_selector"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbarThumbVertical="@drawable/scroll_bar"
-            android:fastScrollEnabled="true"
-            android:smoothScrollbar="true"
-            android:scrollingCache="false"
-            android:animationCache="false"/>
+        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+            <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:dividerHeight="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="@dimen/padding_half"
+                    android:clipToPadding="false"
+                    android:scrollbarSize="4dp"
+                    android:drawSelectorOnTop="true"
+                    android:listSelector="@drawable/icon_selector"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:scrollbarThumbVertical="@drawable/scroll_bar"
+                    android:fastScrollEnabled="true"
+                    android:smoothScrollbar="true"
+                    android:scrollingCache="false"
+                    android:animationCache="false"/>
+
+            <com.pnikosis.materialishprogress.ProgressWheel
+                    android:id="@+id/progress_wheel"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    wheel:matProg_barColor="@color/colorPrimary"
+                    wheel:matProg_progressIndeterminate="true" />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

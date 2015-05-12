@@ -31,7 +31,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.view.ActionMode;
@@ -54,6 +53,7 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -92,6 +92,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     @InjectView(R.id.expanded_image) ImageView expandedImageView;
     @InjectView(R.id.fab)  View fabView;
     @InjectView(R.id.undobar) View undoBarView;
+    @InjectView(R.id.progress_wheel) ProgressWheel progress_wheel;
 
     NoteViewHolder noteViewHolder;
 
@@ -935,6 +936,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     void initNotesList(Intent intent) {
         Log.d(Constants.TAG, "initNotesList intent: " + intent.getAction());
 
+        progress_wheel.setAlpha(1);
         list.setAlpha(0);
 
         NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask();
@@ -1090,6 +1092,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         }
 
         // Fade in the list view
+        animate(progress_wheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
         animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
     }
 
