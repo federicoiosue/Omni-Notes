@@ -141,14 +141,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         mFragment = this;
         setHasOptionsMenu(true);
         setRetainInstance(false);
-        EventBus.getDefault().register(this);
-    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 
 
@@ -157,7 +149,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         // GA tracking
         OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
         OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
+        EventBus.getDefault().register(this);
         super.onStart();
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
 
