@@ -49,7 +49,7 @@ public class NotificationsHelper {
         mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(smallIcon).setContentTitle(title)
                 .setAutoCancel(true);
         mBuilder.setContentIntent(notifyIntent);
-        setLargeIcon(R.drawable.logo);
+        setLargeIcon(R.mipmap.ic_launcher);
         return this;
     }
 
@@ -66,8 +66,7 @@ public class NotificationsHelper {
 
 
     public NotificationsHelper setLargeIcon(int largeIconResource) {
-        Bitmap largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(),
-                R.drawable.ic_launcher);
+        Bitmap largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), largeIconResource);
         return setLargeIcon(largeIconBitmap);
     }
 
