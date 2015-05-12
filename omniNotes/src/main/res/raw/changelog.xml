@@ -30,6 +30,10 @@
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
 
+    <changelogversion versionName="5.0.0 Beta 25" changeDate="May 13, 2015">
+        <changelogtext>[u]Fix[/u] Search inside reminders</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 24" changeDate="May 2, 2015">
         <changelogtext>Various bugfixes</changelogtext>
     </changelogversion>
