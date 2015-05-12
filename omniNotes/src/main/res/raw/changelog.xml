@@ -31,6 +31,10 @@
     <!--</changelogversion>-->
 
     <changelogversion versionName="5.0.0 Beta 25" changeDate="May 13, 2015">
+        <changelogtext>[b]New![/b] Improved notes list and navigation smoothness</changelogtext>
+        <changelogtext>[b]New![/b] Reduced memory consumption</changelogtext>
+        <changelogtext>[b]New![/b] Reminders will be shown in a popup when set</changelogtext>
+        <changelogtext>[b]New![/b] Added led to notifications</changelogtext>
         <changelogtext>[u]Fix[/u] Search inside reminders</changelogtext>
     </changelogversion>
 
