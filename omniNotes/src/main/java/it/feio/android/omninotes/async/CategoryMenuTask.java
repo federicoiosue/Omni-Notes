@@ -35,6 +35,7 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
+import it.feio.android.omninotes.utils.Navigation;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -136,25 +137,23 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
         // Sets click events
         mDrawerCategoriesList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
 
-			// Commits pending deletion or archiviation
-			mainActivity.commitPending();
-			// Stops search service
-			if (mainActivity.getSearchMenuItem() != null && MenuItemCompat.isActionViewExpanded(mainActivity
-					.getSearchMenuItem()))
-				MenuItemCompat.collapseActionView(mainActivity.getSearchMenuItem());
-
 			Object item = mDrawerCategoriesList.getAdapter().getItem(position);
 			// Ensuring that clicked item is not the ListView header
-			if (item != null) {
+			if (item != null ) {
 				Category tag = (Category) item;
-				EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition(position)));
-				mainActivity.updateNavigation(String.valueOf(tag.getId()));
-				mDrawerCategoriesList.setItemChecked(position, true);
-				// Forces redraw
-				if (mDrawerList != null) {
-					mDrawerList.setItemChecked(0, false);
+
+                if (!Navigation.getNavigationText().equals(String.valueOf(tag.getId()))) {
+
                     EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition(position)));
-				}
+                    mainActivity.updateNavigation(String.valueOf(tag.getId()));
+                    mDrawerCategoriesList.setItemChecked(position, true);
+                    // Forces redraw
+                    if (mDrawerList != null) {
+                        mDrawerList.setItemChecked(0, false);
+                        EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
+                                (position)));
+                    }
+                }
 			}
 		});
 
