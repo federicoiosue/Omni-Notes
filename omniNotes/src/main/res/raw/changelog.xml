@@ -34,6 +34,7 @@
         <changelogtext>[b]New![/b] Improved notes list and navigation smoothness</changelogtext>
         <changelogtext>[b]New![/b] Reduced memory consumption</changelogtext>
         <changelogtext>[b]New![/b] Reminders will be shown in a popup when set</changelogtext>
+        <changelogtext>Some changes to menus and preferences</changelogtext>
         <changelogtext>[b]New![/b] Added led to notifications</changelogtext>
         <changelogtext>[u]Fix[/u] Search inside reminders</changelogtext>
     </changelogversion>

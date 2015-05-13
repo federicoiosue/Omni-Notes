@@ -19,13 +19,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/menu_select_all"
-        android:icon="@drawable/ic_select_all_white_24dp"
-        android:orderInCategory="50"
-        app:showAsAction="always"
-        android:title="@string/select_all"
-        android:visible="false"/>
-    <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search_white_24dp"
         android:orderInCategory="100"
@@ -61,6 +54,13 @@
         android:title="@string/tags"
         android:visible="false"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_select_all"
+        android:icon="@drawable/ic_select_all_white_24dp"
+        android:orderInCategory="250"
+        app:showAsAction="always"
+        android:title="@string/select_all"
+        android:visible="false"/>
     <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_share_white_24dp"
@@ -143,6 +143,6 @@
         app:showAsAction="never"
         android:title="@string/empty_trash"
         android:visible="false"/>
-    
+
 
 </menu>
