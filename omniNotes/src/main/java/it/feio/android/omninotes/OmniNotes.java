@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.StrictMode;
 import android.text.TextUtils;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
@@ -59,17 +60,25 @@ public class OmniNotes extends Application {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         mContext = getApplicationContext();
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
         refWatcher = LeakCanary.install(this);
+
+        if (BuildConfig.BUILD_TYPE.equals("debug")) {
+            StrictMode.enableDefaults();
+        }
+
         initAcra(this);
+
         // Instantiate bitmap cache
         mBitmapCache = new BitmapCache(getApplicationContext(), 0, 0, getExternalCacheDir());
+
         // Checks selected locale or default one
         updateLanguage(this, null);
+
         // Google Analytics initialization
         initializeGa();
-        super.onCreate();
     }
 
 
