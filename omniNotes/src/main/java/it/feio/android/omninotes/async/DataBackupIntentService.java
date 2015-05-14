@@ -182,7 +182,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         } catch (ImportException e) {
             new NotificationsHelper(this)
                     .createNotification(R.drawable.ic_stat_notification_icon,
-                            getString(R.string.import_fail) + ": " + e.getMessage(), null).show();
+                            getString(R.string.import_fail) + ": " + e.getMessage(), null).setLedActive().show();
             return;
         }
         List<SpringpadElement> elements = importer.getSpringpadNotes();
@@ -459,7 +459,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         NotificationsHelper mNotificationsHelper = new NotificationsHelper(mContext);
         mNotificationsHelper.createNotification(R.drawable.ic_stat_notification_icon, title, notifyIntent)
-                .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null));
+                .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null))
+                .setLedActive();
         if (prefs.getBoolean("settings_notification_vibration", true)) mNotificationsHelper.setVibration();
         mNotificationsHelper.show();
     }

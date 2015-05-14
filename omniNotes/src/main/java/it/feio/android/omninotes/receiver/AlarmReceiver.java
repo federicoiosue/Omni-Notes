@@ -34,82 +34,82 @@ import it.feio.android.omninotes.utils.TextHelper;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    @Override
-    public void onReceive(Context mContext, Intent intent) {
-        try {
-            Note note = intent.getExtras().getParcelable(Constants.INTENT_NOTE);
-            createNotification(mContext, note);
-            SnoozeActivity.setNextRecurrentReminder(note);
-        } catch (Exception e) {
-            Log.e(Constants.TAG, "Error on receiving reminder", e);
-        }
-    }
+	@Override
+	public void onReceive(Context mContext, Intent intent) {
+		try {
+			Note note = intent.getExtras().getParcelable(Constants.INTENT_NOTE);
+			createNotification(mContext, note);
+			SnoozeActivity.setNextRecurrentReminder(note);
+		} catch (Exception e) {
+			Log.e(Constants.TAG, "Error on receiving reminder", e);
+		}
+	}
 
 
-    private void createNotification(Context mContext, Note note) {
+	private void createNotification(Context mContext, Note note) {
 
-        // Retrieving preferences
-        SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+		// Retrieving preferences
+		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
 
-        // Prepare text contents
-        Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mContext, note);
-        String title = titleAndContent[0].toString();
-        String text = titleAndContent[1].toString();
+		// Prepare text contents
+		Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mContext, note);
+		String title = titleAndContent[0].toString();
+		String text = titleAndContent[1].toString();
 
-        Intent snoozeIntent = new Intent(mContext, SnoozeActivity.class);
-        snoozeIntent.setAction(Constants.ACTION_SNOOZE);
-        snoozeIntent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
-        snoozeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent piSnooze = PendingIntent.getActivity(mContext, 0, snoozeIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+		Intent snoozeIntent = new Intent(mContext, SnoozeActivity.class);
+		snoozeIntent.setAction(Constants.ACTION_SNOOZE);
+		snoozeIntent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
+		snoozeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		PendingIntent piSnooze = PendingIntent.getActivity(mContext, 0, snoozeIntent,
+				PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent postponeIntent = new Intent(mContext, SnoozeActivity.class);
-        postponeIntent.setAction(Constants.ACTION_POSTPONE);
-        postponeIntent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
-        snoozeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent piPostpone = PendingIntent.getActivity(mContext, 0, postponeIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+		Intent postponeIntent = new Intent(mContext, SnoozeActivity.class);
+		postponeIntent.setAction(Constants.ACTION_POSTPONE);
+		postponeIntent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
+		snoozeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		PendingIntent piPostpone = PendingIntent.getActivity(mContext, 0, postponeIntent,
+				PendingIntent.FLAG_UPDATE_CURRENT);
 
-        String snoozeDelay = mContext.getSharedPreferences(Constants.PREFS_NAME,
-                Context.MODE_MULTI_PROCESS).getString("settings_notification_snooze_delay", "10");
+		String snoozeDelay = mContext.getSharedPreferences(Constants.PREFS_NAME,
+				Context.MODE_MULTI_PROCESS).getString("settings_notification_snooze_delay", "10");
 
-        // Next create the bundle and initialize it
-        Intent intent = new Intent(mContext, SnoozeActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(Constants.INTENT_NOTE, note);
-        intent.putExtras(bundle);
+		// Next create the bundle and initialize it
+		Intent intent = new Intent(mContext, SnoozeActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putParcelable(Constants.INTENT_NOTE, note);
+		intent.putExtras(bundle);
 
-        // Sets the Activity to start in a new, empty task
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        // Workaround to fix problems with multiple notifications
-        intent.setAction(Constants.ACTION_NOTIFICATION_CLICK + Long.toString(System.currentTimeMillis()));
+		// Sets the Activity to start in a new, empty task
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		// Workaround to fix problems with multiple notifications
+		intent.setAction(Constants.ACTION_NOTIFICATION_CLICK + Long.toString(System.currentTimeMillis()));
 
-        // Creates the PendingIntent
-        PendingIntent notifyIntent = PendingIntent.getActivity(mContext, 0, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+		// Creates the PendingIntent
+		PendingIntent notifyIntent = PendingIntent.getActivity(mContext, 0, intent,
+				PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
-        notificationsHelper.createNotification(R.drawable.ic_stat_notification_icon, title, notifyIntent);
-        notificationsHelper.setMessage(text);
+		NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
+		notificationsHelper.createNotification(R.drawable.ic_stat_notification_icon, title, notifyIntent).setLedActive
+				().setMessage(text);
 
-        notificationsHelper.getBuilder()
-                .addAction(R.drawable.ic_material_reminder_time_light, it.feio.android.omninotes.utils.TextHelper
-                        .capitalize(mContext.getString(R.string.snooze)) + ": " + snoozeDelay, piSnooze)
-                .addAction(R.drawable.ic_remind_later_light,
-                        it.feio.android.omninotes.utils.TextHelper.capitalize(mContext.getString(R.string
-                                .add_reminder)), piPostpone);
+		notificationsHelper.getBuilder()
+				.addAction(R.drawable.ic_material_reminder_time_light, it.feio.android.omninotes.utils.TextHelper
+						.capitalize(mContext.getString(R.string.snooze)) + ": " + snoozeDelay, piSnooze)
+				.addAction(R.drawable.ic_remind_later_light,
+						it.feio.android.omninotes.utils.TextHelper.capitalize(mContext.getString(R.string
+								.add_reminder)), piPostpone);
 
-        // Ringtone options
-        String ringtone = prefs.getString("settings_notification_ringtone", null);
-        if (ringtone != null) {
-            notificationsHelper.setRingtone(ringtone);
-        }
+		// Ringtone options
+		String ringtone = prefs.getString("settings_notification_ringtone", null);
+		if (ringtone != null) {
+			notificationsHelper.setRingtone(ringtone);
+		}
 
-        // Vibration options
-        if (prefs.getBoolean("settings_notification_vibration", true)) {
-            notificationsHelper.setVibration();
-        }
+		// Vibration options
+		if (prefs.getBoolean("settings_notification_vibration", true)) {
+			notificationsHelper.setVibration();
+		}
 
-        notificationsHelper.show(note.get_id());
-    }
+		notificationsHelper.show(note.get_id());
+	}
 }

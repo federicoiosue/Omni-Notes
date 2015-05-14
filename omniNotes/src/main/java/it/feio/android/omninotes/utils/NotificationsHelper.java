@@ -39,7 +39,7 @@ public class NotificationsHelper {
 
 
     public NotificationsHelper(Context mContext) {
-        this.mContext = mContext;
+        this.mContext = mContext.getApplicationContext();
     }
 
 
@@ -48,7 +48,7 @@ public class NotificationsHelper {
      */
     public NotificationsHelper createNotification(int smallIcon, String title, PendingIntent notifyIntent) {
         mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(smallIcon).setContentTitle(title)
-                .setAutoCancel(true).setLights(Color.BLUE, 1000, 1000);
+                .setAutoCancel(true);
         mBuilder.setContentIntent(notifyIntent);
         setLargeIcon(R.mipmap.ic_launcher);
         return this;
@@ -91,6 +91,12 @@ public class NotificationsHelper {
             pattern = new long[]{500, 500};
         }
         mBuilder.setVibrate(pattern);
+        return this;
+    }
+
+
+    public NotificationsHelper setLedActive() {
+        mBuilder.setLights(Color.BLUE, 1000, 1000);
         return this;
     }
 
