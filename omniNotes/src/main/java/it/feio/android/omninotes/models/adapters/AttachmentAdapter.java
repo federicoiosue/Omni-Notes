@@ -45,7 +45,6 @@ public class AttachmentAdapter extends BaseAdapter {
     private Activity mActivity;
     private List<Attachment> attachmentsList = new ArrayList<>();
     private LayoutInflater inflater;
-    private OnAttachingFileListener mOnAttachingFileErrorListener;
 
 
     public AttachmentAdapter(Activity mActivity, List<Attachment> attachmentsList, ExpandableHeightGridView mGridView) {
@@ -123,7 +122,7 @@ public class AttachmentAdapter extends BaseAdapter {
 
         // Starts the AsyncTask to draw bitmap into ImageView
         Uri thumbnailUri = BitmapHelper.getThumbnailUri(mActivity, mAttachment);
-        Glide.with(mActivity)
+        Glide.with(mActivity.getApplicationContext())
                 .load(thumbnailUri)
                 .centerCrop()
                 .crossFade()
@@ -141,9 +140,5 @@ public class AttachmentAdapter extends BaseAdapter {
         SquareImageView image;
     }
 
-
-    public void setOnErrorListener(OnAttachingFileListener listener) {
-        this.mOnAttachingFileErrorListener = listener;
-    }
 
 }

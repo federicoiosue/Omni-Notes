@@ -25,6 +25,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,8 +53,8 @@ public class GeocodeHelper {
     private static final String API_KEY = "AIzaSyBq_nZEz9sZMwEJ28qmbg20CFG1Xo1JGp0";
 
 
-    public static LocationManager getLocationManager(Context context, final LocationListener locationListener) {
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    public static LocationManager getLocationManager(final LocationListener locationListener) {
+        LocationManager locationManager = (LocationManager) OmniNotes.getAppContext().getSystemService(Context.LOCATION_SERVICE);
         // A check is done to avoid crash when NETWORK_PROVIDER is not
         // available (ex. on emulator with API >= 11)
         if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)

@@ -101,8 +101,7 @@ import java.util.List;
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 
-public class DetailFragment extends BaseFragment implements
-        OnReminderPickedListener, TextLinkClickListener, OnTouchListener,
+public class DetailFragment extends BaseFragment implements OnReminderPickedListener, OnTouchListener,
         OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved, 
         OnGeoUtilResultListener {
 
@@ -193,6 +192,18 @@ public class DetailFragment extends BaseFragment implements
         if (root != null) {
             root.getViewTreeObserver().addOnGlobalLayoutListener(this);
         }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cleanMemoryLeaks();
+    }
+
+
+    private void cleanMemoryLeaks() {
+        ChecklistManager.unregister();
     }
 
 
@@ -530,7 +541,6 @@ public class DetailFragment extends BaseFragment implements
 
         // Some fields can be filled by third party application and are always shown
         mAttachmentAdapter = new AttachmentAdapter(mainActivity, noteTmp.getAttachmentsList(), mGridView);
-        mAttachmentAdapter.setOnErrorListener(this);
 
         // Initialzation of gridview for images
         mGridView.setAdapter(mAttachmentAdapter);
@@ -692,7 +702,7 @@ public class DetailFragment extends BaseFragment implements
     private EditText initTitle() {
         title.setText(noteTmp.getTitle());
         title.gatherLinksForText();
-        title.setOnTextLinkClickListener(this);
+        title.setOnTextLinkClickListener(textLinkClickListener);
         // To avoid dropping here the  dragged checklist items
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             title.setOnDragListener((v, event) -> {
@@ -713,7 +723,7 @@ public class DetailFragment extends BaseFragment implements
     private EditText initContent() {
         content.setText(noteTmp.getContent());
         content.gatherLinksForText();
-        content.setOnTextLinkClickListener(this);
+        content.setOnTextLinkClickListener(textLinkClickListener);
         // Avoids focused line goes under the keyboard
         content.addTextChangedListener(this);
 
@@ -1104,7 +1114,7 @@ public class DetailFragment extends BaseFragment implements
         mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
 
         // Links parsing options
-        mChecklistManager.setOnTextLinkClickListener(mFragment);
+        mChecklistManager.setOnTextLinkClickListener(textLinkClickListener);
         mChecklistManager.addTextChangedListener(mFragment);
         mChecklistManager.setCheckListChangedListener(mFragment);
 
@@ -1620,10 +1630,10 @@ public class DetailFragment extends BaseFragment implements
 
         // Password will be requested here
         BaseActivity.requestPassword(mainActivity, passwordConfirmed -> {
-			if (passwordConfirmed) {
-				lockUnlock();
-			}
-		});
+            if (passwordConfirmed) {
+                lockUnlock();
+            }
+        });
     }
 
 
@@ -1814,59 +1824,54 @@ public class DetailFragment extends BaseFragment implements
     }
 
 
-    /* (non-Javadoc)
-     * @see com.neopixl.pixlui.links.TextLinkClickListener#onTextLinkClick(android.view.View, java.lang.String, 
-     * * java.lang.String)
-     *
-     * Receives onClick from links in EditText and shows a dialog to open link or copy content
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Override
-    public void onTextLinkClick(View view, final String clickedString, final String url) {
-        new MaterialDialog.Builder(mainActivity)
-                .content(clickedString)
-                .positiveText(R.string.open)
-                .negativeText(R.string.copy)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        boolean error = false;
-                        Intent intent = null;
-                        try {
-                            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                            intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        } catch (NullPointerException e) {
-                            error = true;
+    TextLinkClickListener textLinkClickListener = new TextLinkClickListener() {
+        @Override
+        public void onTextLinkClick(View view, final String clickedString, final String url) {
+            new MaterialDialog.Builder(mainActivity)
+                    .content(clickedString)
+                    .positiveText(R.string.open)
+                    .negativeText(R.string.copy)
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            boolean error = false;
+                            Intent intent = null;
+                            try {
+                                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            } catch (NullPointerException e) {
+                                error = true;
+                            }
+
+                            if (intent == null
+                                    || error
+                                    || !IntentChecker
+                                    .isAvailable(
+                                            mainActivity,
+                                            intent,
+                                            new String[]{PackageManager.FEATURE_CAMERA})) {
+                                mainActivity.showMessage(R.string.no_application_can_perform_this_action,
+                                        ONStyle.ALERT);
+
+                            } else {
+                                startActivity(intent);
+                            }
                         }
 
-                        if (intent == null
-                                || error
-                                || !IntentChecker
-                                .isAvailable(
-                                        mainActivity,
-                                        intent,
-                                        new String[]{PackageManager.FEATURE_CAMERA})) {
-                            mainActivity.showMessage(R.string.no_application_can_perform_this_action,
-                                    ONStyle.ALERT);
 
-                        } else {
-                            startActivity(intent);
+                        @Override
+                        public void onNegative(MaterialDialog dialog) {
+                            android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
+                                    mainActivity
+                                            .getSystemService(Activity.CLIPBOARD_SERVICE);
+                            android.content.ClipData clip = android.content.ClipData.newPlainText("text label",
+                                    clickedString);
+                            clipboard.setPrimaryClip(clip);
                         }
-                    }
-
-
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
-                        android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
-                                mainActivity
-                                        .getSystemService(Activity.CLIPBOARD_SERVICE);
-                        android.content.ClipData clip = android.content.ClipData.newPlainText("text label",
-                                clickedString);
-                        clipboard.setPrimaryClip(clip);
-                    }
-                }).build().show();
-    }
+                    }).build().show();
+        }
+    };
 
 
     @SuppressLint("NewApi")

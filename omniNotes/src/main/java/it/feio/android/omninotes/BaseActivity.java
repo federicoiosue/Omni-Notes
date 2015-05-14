@@ -58,7 +58,7 @@ import java.util.List;
 
 
 @SuppressLint("Registered")
-public class BaseActivity extends ActionBarActivity implements LocationListener {
+public class BaseActivity extends ActionBarActivity {
 
     protected final int TRANSITION_VERTICAL = 0;
     protected final int TRANSITION_HORIZONTAL = 1;
@@ -86,11 +86,8 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        StrictMode.enableDefaults();
         // Preloads shared preferences for all derived classes
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-        // Starts location manager
-        locationManager = GeocodeHelper.getLocationManager(this, this);
         // Force menu overflow icon
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
@@ -107,6 +104,22 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        // Starts location manager
+        locationManager = GeocodeHelper.getLocationManager(locationListener);
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (locationManager != null)
+            locationManager.removeUpdates(locationListener);
+    }
+
+
+    @Override
     protected void onResume() {
         super.onResume();
         // Navigation selected
@@ -116,38 +129,32 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     }
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (locationManager != null)
-            locationManager.removeUpdates(this);
-    }
+    LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            currentLocation = location;
+            currentLatitude = currentLocation.getLatitude();
+            currentLongitude = currentLocation.getLongitude();
+        }
 
 
-    @Override
-    public void onLocationChanged(Location location) {
-        currentLocation = location;
-        currentLatitude = currentLocation.getLatitude();
-        currentLongitude = currentLocation.getLongitude();
-    }
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
 
 
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+        @Override
+        public void onProviderEnabled(String provider) {
 
-    }
-
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
+        }
 
 
-    @Override
-    public void onProviderDisabled(String provider) {
+        @Override
+        public void onProviderDisabled(String provider) {
 
-    }
+        }
+    };
 
 
     protected void showToast(CharSequence text, int duration) {
