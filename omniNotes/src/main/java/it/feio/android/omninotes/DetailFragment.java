@@ -1680,34 +1680,35 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     private void playback(View v, Uri uri) {
         // Some recording is playing right now
         if (mPlayer != null && mPlayer.isPlaying()) {
-            // If the audio actually played is NOT the one from the click view the last one is played
             if (isPlayingView != v) {
+                // If the audio actually played is NOT the one from the click view the last one is played
                 stopPlaying();
                 isPlayingView = v;
                 startPlaying(uri);
-                recordingBitmap = ((BitmapDrawable) ((ImageView) v.findViewById(R.id.gridview_item_picture))
-                        .getDrawable()).getBitmap();
-                ((ImageView) v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils
-                        .extractThumbnail(BitmapFactory.decodeResource(mainActivity.getResources(),
-                                R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
-                // Otherwise just stops playing
+                replacePlayingAudioBitmap(v);
             } else {
+                // Otherwise just stops playing
                 stopPlaying();
             }
-            // If nothing is playing audio just plays
         } else {
+            // If nothing is playing audio just plays
             isPlayingView = v;
             startPlaying(uri);
-            Drawable d = ((ImageView) v.findViewById(R.id.gridview_item_picture)).getDrawable();
-            if (BitmapDrawable.class.isAssignableFrom(d.getClass())) {
-                recordingBitmap = ((BitmapDrawable) d).getBitmap();
-            } else {
-                recordingBitmap = ((GlideBitmapDrawable)d.getCurrent()).getBitmap();
-            }
-            ((ImageView) v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils.extractThumbnail
-                    (BitmapFactory.decodeResource(mainActivity.getResources(), R.drawable.stop),
-                            Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+            replacePlayingAudioBitmap(v);
         }
+    }
+
+
+    private void replacePlayingAudioBitmap (View v) {
+        Drawable d = ((ImageView) v.findViewById(R.id.gridview_item_picture)).getDrawable();
+        if (BitmapDrawable.class.isAssignableFrom(d.getClass())) {
+            recordingBitmap =  ((BitmapDrawable) d).getBitmap();
+        } else {
+            recordingBitmap =  ((GlideBitmapDrawable)d.getCurrent()).getBitmap();
+        }
+        ((ImageView) v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils
+                .extractThumbnail(BitmapFactory.decodeResource(mainActivity.getResources(),
+                        R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
     }
 
 
