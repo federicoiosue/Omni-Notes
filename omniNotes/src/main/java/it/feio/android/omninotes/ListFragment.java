@@ -380,9 +380,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
             actionMode = null;
             Log.d(Constants.TAG, "Closed multiselection contextual menu");
-
-            // Updates app widgets
-            BaseActivity.notifyAppWidgets(mainActivity);
         }
 
 
@@ -530,6 +527,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     @Override
     public void onViewTouchOccurred(MotionEvent ev) {
+        Log.v(Constants.TAG, "Notes list: onViewTouchOccurred " + ev.getAction());
         commitPending();
     }
 
@@ -1560,6 +1558,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             fab.showFab();
 
             BaseActivity.notifyAppWidgets(mainActivity);
+            Log.d(Constants.TAG, "Changes committed");
         }
     }
 

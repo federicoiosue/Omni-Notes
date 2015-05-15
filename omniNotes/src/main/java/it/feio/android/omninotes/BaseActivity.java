@@ -317,7 +317,6 @@ public class BaseActivity extends ActionBarActivity {
     /**
      * Notifies App Widgets about data changes so they can update theirselves
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static void notifyAppWidgets(Context mActivity) {
         // Home widgets
         AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
