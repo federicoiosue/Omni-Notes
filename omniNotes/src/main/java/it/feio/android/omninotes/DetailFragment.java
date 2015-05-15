@@ -1156,7 +1156,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                 .title(R.string.categorize_as)
                 .adapter(new NavDrawerCategoryAdapter(mainActivity, categories, currentCategory))
                 .positiveText(R.string.add_category)
+                .positiveColor(R.color.colorPrimary)
                 .negativeText(R.string.remove_category)
+                .negativeColor(R.color.colorAccent)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
