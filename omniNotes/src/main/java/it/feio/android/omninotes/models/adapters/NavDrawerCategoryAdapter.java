@@ -30,8 +30,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.neopixl.pixlui.components.textview.TextView;
-import it.feio.android.omninotes.BaseActivity;
-import it.feio.android.omninotes.ListFragment;
+import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
@@ -150,9 +149,8 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
                 R.array.navigation_list_codes);
 
         // Managing temporary navigation indicator when coming from a widget
-        String navigationTmpLocal = ListFragment.class.isAssignableFrom(mActivity
-                .getClass()) ? ((BaseActivity) mActivity).getNavigationTmp()
-                : null;
+        String navigationTmpLocal = MainActivity.class.isAssignableFrom(mActivity.getClass()) ? ((MainActivity)
+                mActivity).getNavigationTmp() : null;
         navigationTmpLocal = this.navigationTmp != null ? this.navigationTmp : navigationTmpLocal;
 
         String navigation = navigationTmp != null ? navigationTmpLocal

@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes;
 
+import android.animation.ValueAnimator;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.CategoryMenuTask;
@@ -42,10 +44,12 @@ import it.feio.android.omninotes.utils.Display;
 
 public class NavigationDrawerFragment extends Fragment {
 
+    static final int BURGER = 0;
+    static final int ARROW = 1;
+
     ActionBarDrawerToggle mDrawerToggle;
     DrawerLayout mDrawerLayout;
     private MainActivity mActivity;
-    private CharSequence mTitle;
     private boolean alreadyInitialized;
 
 
@@ -57,15 +61,15 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         EventBus.getDefault().register(this);
     }
 
 
     @Override
-    public void onStop() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
         EventBus.getDefault().unregister(this);
     }
 
@@ -81,6 +85,11 @@ public class NavigationDrawerFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mActivity = (MainActivity) getActivity();
         initImage();
+    }
+
+
+    private MainActivity getMainActivity() {
+        return (MainActivity) getActivity();
     }
 
 
@@ -113,9 +122,31 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
 
-    /**
-     * Initialization of compatibility navigation drawer
-     */
+    public void onEvent(SwitchFragmentEvent event) {
+        switch (event.direction) {
+            case CHILDREN:
+                animateBurger(ARROW);
+                break;
+            default:
+                animateBurger(BURGER);
+        }
+    }
+
+
+    public void onEvent(NavigationUpdatedEvent navigationUpdatedEvent) {
+        if (navigationUpdatedEvent.navigationItem.getClass().isAssignableFrom(NavigationItem.class)) {
+            mActivity.getSupportActionBar().setTitle(((NavigationItem) navigationUpdatedEvent.navigationItem).getText());
+        } else {
+            mActivity.getSupportActionBar().setTitle(((Category) navigationUpdatedEvent.navigationItem).getName());
+        }
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            new Handler().postDelayed(() -> EventBus.getDefault().post(new NavigationUpdatedNavDrawerClosedEvent
+                    (navigationUpdatedEvent.navigationItem)), 400);
+        }
+    }
+
+
     public void init() {
         Log.d(Constants.TAG, "Started navigation drawer initialization");
 
@@ -144,7 +175,6 @@ public class NavigationDrawerFragment extends Fragment {
                 R.string.drawer_close
         ) {
             public void onDrawerClosed(View view) {
-                mActivity.getSupportActionBar().setTitle(mTitle);
                 mActivity.supportInvalidateOptionsMenu();
             }
 
@@ -154,10 +184,6 @@ public class NavigationDrawerFragment extends Fragment {
                 mActivity.commitPending();
                 // Finishes action mode
                 mActivity.finishActionMode();
-                mTitle = mActivity.getSupportActionBar().getTitle();
-                mActivity.getSupportActionBar().setTitle(mActivity.getApplicationContext().getString(R.string
-                        .app_name));
-                mActivity.supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 
                 // Show instructions on first launch
 //				final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
@@ -215,21 +241,18 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
 
-    public void onEvent(NavigationUpdatedEvent navigationUpdatedEvent) {
-        if (navigationUpdatedEvent.navigationItem.getClass().isAssignableFrom(NavigationItem.class)) {
-            mTitle = ((NavigationItem) navigationUpdatedEvent.navigationItem).getText();
-        } else {
-            mTitle = ((Category) navigationUpdatedEvent.navigationItem).getName();
+    void animateBurger(int targetShape) {
+        if (mDrawerToggle != null) {
+            if (targetShape != BURGER && targetShape != ARROW)
+                return;
+            ValueAnimator anim = ValueAnimator.ofFloat((targetShape + 1) % 2, targetShape);
+            anim.addUpdateListener(valueAnimator -> {
+                float slideOffset = (Float) valueAnimator.getAnimatedValue();
+                mDrawerToggle.onDrawerSlide(mDrawerLayout, slideOffset);
+            });
+            anim.setInterpolator(new DecelerateInterpolator());
+            anim.setDuration(500);
+            anim.start();
         }
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-            new Handler().postDelayed(() -> EventBus.getDefault().post(new NavigationUpdatedNavDrawerClosedEvent
-                    (navigationUpdatedEvent.navigationItem)), 400);
-        }
-    }
-
-
-    private MainActivity getMainActivity() {
-        return (MainActivity) getActivity();
     }
 }

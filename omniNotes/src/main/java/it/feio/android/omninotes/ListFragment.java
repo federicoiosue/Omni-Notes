@@ -72,6 +72,7 @@ import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.pixlui.links.UrlCompleter;
+import org.apache.commons.lang.ObjectUtils;
 
 import java.util.*;
 
@@ -186,17 +187,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (savedInstanceState != null) {
             mainActivity.navigationTmp = savedInstanceState.getString("navigationTmp");
         }
-        // Easter egg initialization
         initEasterEgg();
-        // Listview initialization
         initListView();
-        // Activity title initialization
-        initTitle();
         ubc = new UndoBarController(undoBarView, this);
     }
 
 
-    // FAB behaviors
     private void initFab() {
         boolean fabExpansionBehavior = prefs.getBoolean(Constants.PREF_FAB_EXPANSION_BEHAVIOR, false);
         fab = new Fab(fabView, list, fabExpansionBehavior);
@@ -241,7 +237,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private void initTitle() {
         String[] navigationList = getResources().getStringArray(R.array.navigation_list);
         String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
-        String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+        String navigation = mainActivity.navigationTmp != null ? mainActivity.navigationTmp : prefs.getString
+                (Constants.PREF_NAVIGATION, navigationListCodes[0]);
         int index = Arrays.asList(navigationListCodes).indexOf(navigation);
         String title;
         // If is a traditional navigation item
@@ -324,9 +321,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     public void onResume() {
         super.onResume();
 
+        initNotesList(mainActivity.getIntent());
+
         initFab();
 
-        initNotesList(mainActivity.getIntent());
+        initTitle();
 
         // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
         prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, mainActivity.MODE_MULTI_PROCESS);
@@ -975,7 +974,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             toggleSearchLabel(true);
 
         } else {
-            // Check if is launched from a widget with categories to set tag
+            // Check if is launched from a widget with categories
             if ((Constants.ACTION_WIDGET_SHOW_LIST.equals(intent.getAction()) && intent
                     .hasExtra(Constants.INTENT_WIDGET))
                     || !TextUtils.isEmpty(mainActivity.navigationTmp)) {

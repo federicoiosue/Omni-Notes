@@ -18,7 +18,6 @@ package it.feio.android.omninotes.models.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -27,8 +26,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.neopixl.pixlui.components.textview.TextView;
-import it.feio.android.omninotes.BaseActivity;
-import it.feio.android.omninotes.ListFragment;
+import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.utils.Constants;
@@ -114,7 +112,7 @@ public class NavDrawerAdapter extends BaseAdapter {
         String[] navigationListCodes = mActivity.getResources().getStringArray(R.array.navigation_list_codes);
 
         // Managing temporary navigation indicator when coming from a widget
-        String navigationTmp = ListFragment.class.isAssignableFrom(mActivity.getClass()) ? ((BaseActivity) mActivity)
+        String navigationTmp = MainActivity.class.isAssignableFrom(mActivity.getClass()) ? ((MainActivity) mActivity)
                 .getNavigationTmp() : null;
 
         String navigation = navigationTmp != null ? navigationTmp

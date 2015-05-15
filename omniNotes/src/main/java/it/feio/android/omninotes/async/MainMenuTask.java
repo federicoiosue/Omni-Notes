@@ -69,14 +69,12 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
             mDrawerList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
                 String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
                         .navigation_list_codes)[items.get(position).getArrayIndex()];
-                if (!Navigation.getNavigationText().equals(navigation)) {
-                    mainActivity.updateNavigation(navigation);
-                    mDrawerList.setItemChecked(position, true);
-                    if (mDrawerCategoriesList != null)
-                        mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
-                    mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
-                    EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
-                }
+                mainActivity.updateNavigation(navigation);
+                mDrawerList.setItemChecked(position, true);
+                if (mDrawerCategoriesList != null)
+                    mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
+                mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
+                EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
             });
             mDrawerList.justifyListViewHeightBasedOnChildren();
         }

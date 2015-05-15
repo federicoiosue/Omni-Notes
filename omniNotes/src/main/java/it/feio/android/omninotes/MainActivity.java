@@ -17,9 +17,9 @@
 
 package it.feio.android.omninotes;
 
-import android.animation.ValueAnimator;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -34,16 +34,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import it.feio.android.omninotes.async.UpdaterTask;
+import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -58,9 +59,6 @@ import java.util.HashMap;
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, 
         OnPushBulletReplyListener {
-
-    static final int BURGER = 0;
-    static final int ARROW = 1;
 
     @InjectView(R.id.crouton_handle) ViewGroup croutonViewContainer;
     @InjectView(R.id.toolbar) Toolbar toolbar;
@@ -285,23 +283,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
-    void animateBurger(int targetShape) {
-        final ActionBarDrawerToggle drawerToggle = getDrawerToggle();
-        if (drawerToggle != null) {
-            if (targetShape != BURGER && targetShape != ARROW)
-                return;
-            ValueAnimator anim = ValueAnimator.ofFloat((targetShape + 1) % 2, targetShape);
-            anim.addUpdateListener(valueAnimator -> {
-                float slideOffset = (Float) valueAnimator.getAnimatedValue();
-                drawerToggle.onDrawerSlide(getDrawerLayout(), slideOffset);
-            });
-            anim.setInterpolator(new DecelerateInterpolator());
-            anim.setDuration(500);
-            anim.start();
-        }
-    }
-
-
     public DrawerLayout getDrawerLayout() {
         return drawerLayout;
     }
@@ -411,6 +392,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             getDrawerToggle().setDrawerIndicatorEnabled(false);
         }
         mFragmentManager.getFragments();
+        EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
     }
 
 
@@ -428,7 +410,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack
                     (FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
         }
-        animateBurger(ARROW);
+        EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
     }
 
 

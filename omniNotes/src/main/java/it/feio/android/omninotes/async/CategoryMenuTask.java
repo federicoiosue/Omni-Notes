@@ -21,10 +21,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewStub;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
@@ -35,7 +33,6 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
-import it.feio.android.omninotes.utils.Navigation;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -140,19 +137,14 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 			Object item = mDrawerCategoriesList.getAdapter().getItem(position);
 			// Ensuring that clicked item is not the ListView header
 			if (item != null ) {
-				Category tag = (Category) item;
-
-                if (!Navigation.getNavigationText().equals(String.valueOf(tag.getId()))) {
-
-                    EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition(position)));
-                    mainActivity.updateNavigation(String.valueOf(tag.getId()));
-                    mDrawerCategoriesList.setItemChecked(position, true);
-                    // Forces redraw
-                    if (mDrawerList != null) {
-                        mDrawerList.setItemChecked(0, false);
-                        EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
-                                (position)));
-                    }
+                EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition(position)));
+                mainActivity.updateNavigation(String.valueOf(((Category) item).getId()));
+                mDrawerCategoriesList.setItemChecked(position, true);
+                // Forces redraw
+                if (mDrawerList != null) {
+                    mDrawerList.setItemChecked(0, false);
+                    EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
+                            (position)));
                 }
 			}
 		});

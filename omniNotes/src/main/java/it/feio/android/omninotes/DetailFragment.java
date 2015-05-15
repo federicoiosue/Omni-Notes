@@ -75,6 +75,7 @@ import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
@@ -979,7 +980,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         }
 
         if (mainActivity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            mainActivity.animateBurger(MainActivity.BURGER);
+            EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
         }
 
         return true;
