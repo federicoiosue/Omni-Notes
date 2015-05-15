@@ -38,6 +38,7 @@
         <changelogtext>[b]New![/b] Added led to notifications</changelogtext>
         <changelogtext>Some changes to menus and preferences</changelogtext>
         <changelogtext>[u]Fix[/u] Search inside reminders</changelogtext>
+        <changelogtext>[u]Fix[/u] Navigating the selected category from home widget works again</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.0.0 Beta 24" changeDate="May 2, 2015">

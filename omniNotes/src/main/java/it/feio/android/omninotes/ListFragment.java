@@ -987,7 +987,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                     mainActivity.navigationTmp = !TextUtils.isEmpty(categoryId) ? categoryId : null;
                 }
                 intent.removeExtra(Constants.INTENT_WIDGET);
-                mNoteLoaderTask.execute("getNotesByTag", mainActivity.navigationTmp);
+                mNoteLoaderTask.execute("getNotesByCategory", mainActivity.navigationTmp);
 
             } else {
                 mNoteLoaderTask.execute("getAllNotes", true);
