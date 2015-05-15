@@ -1150,9 +1150,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         // Retrieves all available categories
         final ArrayList<Category> categories = DbHelper.getInstance().getCategories();
 
+        String currentCategory = noteTmp.getCategory() != null ? String.valueOf(noteTmp.getCategory().getId()) : null;
+
         final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
                 .title(R.string.categorize_as)
-                .adapter(new NavDrawerCategoryAdapter(mainActivity, categories))
+                .adapter(new NavDrawerCategoryAdapter(mainActivity, categories, currentCategory))
                 .positiveText(R.string.add_category)
                 .negativeText(R.string.remove_category)
                 .callback(new MaterialDialog.ButtonCallback() {

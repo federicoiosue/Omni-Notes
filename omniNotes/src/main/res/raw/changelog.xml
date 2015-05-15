@@ -30,12 +30,13 @@
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
 
-    <changelogversion versionName="5.0.0 Beta 25" changeDate="May 13, 2015">
+    <changelogversion versionName="5.0.0 Beta 25" changeDate="May 15, 2015">
         <changelogtext>[b]New![/b] Improved notes list and navigation smoothness</changelogtext>
         <changelogtext>[b]New![/b] Reduced memory consumption</changelogtext>
         <changelogtext>[b]New![/b] Reminders will be shown in a popup when set</changelogtext>
-        <changelogtext>Some changes to menus and preferences</changelogtext>
+        <changelogtext>[b]New![/b] Highlighted current category when trying to change it from inside note detail</changelogtext>
         <changelogtext>[b]New![/b] Added led to notifications</changelogtext>
+        <changelogtext>Some changes to menus and preferences</changelogtext>
         <changelogtext>[u]Fix[/u] Search inside reminders</changelogtext>
     </changelogversion>
 

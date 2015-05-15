@@ -46,6 +46,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
     private int layout;
     private List<Category> categories;
     private LayoutInflater inflater;
+    private final String navigationTmp;
 
 
     public NavDrawerCategoryAdapter(Activity mActivity, List<Category> categories) {
@@ -57,6 +58,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
         this.mActivity = mActivity;
         this.layout = R.layout.drawer_list_item;
         this.categories = categories;
+        this.navigationTmp = navigationTmp;
         inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -105,7 +107,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
         // Set the results into TextViews	
         holder.txtTitle.setText(category.getName());
 
-        if (isSelected(parent, position)) {
+        if (isSelected(position)) {
             holder.txtTitle.setTypeface(null, Typeface.BOLD);
             int color = mActivity.getResources().getColor(R.color.colorPrimaryDark);
             holder.txtTitle.setTextColor(color);
@@ -141,18 +143,19 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
     }
 
 
-    private boolean isSelected(ViewGroup parent, int position) {
+    private boolean isSelected(int position) {
 
         // Getting actual navigation selection
         String[] navigationListCodes = mActivity.getResources().getStringArray(
                 R.array.navigation_list_codes);
 
         // Managing temporary navigation indicator when coming from a widget
-        String navigationTmp = ListFragment.class.isAssignableFrom(mActivity
+        String navigationTmpLocal = ListFragment.class.isAssignableFrom(mActivity
                 .getClass()) ? ((BaseActivity) mActivity).getNavigationTmp()
                 : null;
+        navigationTmpLocal = this.navigationTmp != null ? this.navigationTmp : navigationTmpLocal;
 
-        String navigation = navigationTmp != null ? navigationTmp
+        String navigation = navigationTmp != null ? navigationTmpLocal
                 : mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
                 .getString(Constants.PREF_NAVIGATION,
                         navigationListCodes[0]);
