@@ -26,8 +26,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
+import android.view.View;
 import it.feio.android.omninotes.R;
 
 
@@ -50,7 +52,7 @@ public class NotificationsHelper {
         mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(smallIcon).setContentTitle(title)
                 .setAutoCancel(true);
         mBuilder.setContentIntent(notifyIntent);
-        setLargeIcon(R.mipmap.ic_launcher);
+        setLargeIcon(R.drawable.logo_notification_lollipop);
         return this;
     }
 
@@ -67,7 +69,12 @@ public class NotificationsHelper {
 
 
     public NotificationsHelper setLargeIcon(int largeIconResource) {
-        Bitmap largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), largeIconResource);
+        Bitmap largeIconBitmap;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), largeIconResource);
+        } else {
+            largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_stat_notification_icon);
+        }
         return setLargeIcon(largeIconBitmap);
     }
 

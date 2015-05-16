@@ -92,6 +92,7 @@ import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -121,6 +122,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     @InjectView(R.id.location) TextView locationTextView;
     @InjectView(R.id.detail_timestamps) View timestampsView;
     @InjectView(R.id.reminder_layout) LinearLayout reminder_layout;
+    @InjectView(R.id.reminder_icon) ImageView reminderIcon;
     @InjectView(R.id.datetime) TextView datetime;
     @InjectView(R.id.detail_tile_card) View titleCardView;
     @InjectView(R.id.content_wrapper) ScrollView scrollView;
@@ -666,6 +668,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                         @Override
                         public void onPositive(MaterialDialog materialDialog) {
                             noteTmp.setAlarm(null);
+                            reminderIcon.setImageResource(R.drawable.ic_reminder_add);
                             datetime.setText("");
                         }
                     }).build();
@@ -674,7 +677,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         });
 
         // Reminder
-        datetime.setText(initReminder(noteTmp));
+        String reminderString = initReminder(noteTmp);
+        if (!StringUtils.isEmpty(reminderString)) {
+            reminderIcon.setImageResource(R.drawable.ic_alarm_grey600_18dp);
+            datetime.setText(reminderString);
+        }
 
         // Timestamps view
         // Bottom padding set for translucent navbar in Kitkat
@@ -2003,6 +2010,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     public void onReminderPicked(long reminder) {
         noteTmp.setAlarm(reminder);
         if (mFragment.isAdded()) {
+            reminderIcon.setImageResource(R.drawable.ic_alarm_grey600_18dp);
             datetime.setText(DateHelper.getNoteReminderText(reminder));
         }
     }

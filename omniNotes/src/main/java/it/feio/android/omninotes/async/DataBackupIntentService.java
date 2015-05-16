@@ -458,7 +458,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationsHelper mNotificationsHelper = new NotificationsHelper(mContext);
-        mNotificationsHelper.createNotification(R.drawable.ic_stat_notification_icon, title, notifyIntent)
+        mNotificationsHelper.createNotification(R.drawable.ic_content_save_white_24dp, title, notifyIntent)
                 .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null))
                 .setLedActive();
         if (prefs.getBoolean("settings_notification_vibration", true)) mNotificationsHelper.setVibration();
