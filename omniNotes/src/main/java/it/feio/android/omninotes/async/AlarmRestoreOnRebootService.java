@@ -50,7 +50,7 @@ public class AlarmRestoreOnRebootService extends Service {
         List<Note> notes = DbHelper.getInstance().getNotesWithReminderNotFired();
         Log.d(Constants.TAG, "Found " + notes.size() + " reminders");
         for (Note note : notes) {
-            ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+            ReminderHelper.addReminder(OmniNotes.getAppContext(), note, false);
         }
         return Service.START_NOT_STICKY;
     }

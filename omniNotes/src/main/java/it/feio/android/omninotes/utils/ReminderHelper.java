@@ -34,41 +34,56 @@ import it.feio.android.omninotes.utils.date.DateHelper;
 
 public class ReminderHelper {
 
-    public static void addReminder(Context context, Note note) {
-        if (note.getAlarm() != null) {
-            addReminder(context, note, Long.parseLong(note.getAlarm()));
-        }
-    }
-
-    public static void addReminder(Context context, Note note, long reminder) {
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
-        PendingIntent sender = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
-        } else {
-            am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
-        }
-        showReminderMessage(reminder);
-    }
+	public static void addReminder(Context context, Note note) {
+		addReminder(context, note, Long.parseLong(note.getAlarm()), true);
+	}
 
 
-    public static void removeReminder(Context context, Note note) {
-        if (!TextUtils.isEmpty(note.getAlarm())) {
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(context, AlarmReceiver.class);
-            PendingIntent p = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent, 0);
-            am.cancel(p);
-            p.cancel();
-        }
-    }
+	public static void addReminder(Context context, Note note, boolean showMessage) {
+		if (note.getAlarm() != null) {
+			addReminder(context, note, Long.parseLong(note.getAlarm()), showMessage);
+		}
+	}
 
 
-    private static void showReminderMessage(long reminder) {
-        new Handler(OmniNotes.getAppContext().getMainLooper()).post(() -> Toast.makeText(OmniNotes.getAppContext(),
-                OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " +
-                DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder), Toast.LENGTH_LONG).show());
-    }
+	public static void addReminder(Context context, Note note, long reminder) {
+		if (note.getAlarm() != null) {
+			addReminder(context, note, reminder, true);
+		}
+	}
+
+
+	public static void addReminder(Context context, Note note, long reminder, boolean showMessage) {
+		Intent intent = new Intent(context, AlarmReceiver.class);
+		intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
+		PendingIntent sender = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
+		} else {
+			am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
+		}
+		if (showMessage) {
+			showReminderMessage(reminder);
+		}
+	}
+
+
+	public static void removeReminder(Context context, Note note) {
+		if (!TextUtils.isEmpty(note.getAlarm())) {
+			AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, AlarmReceiver.class);
+			PendingIntent p = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent, 0);
+			am.cancel(p);
+			p.cancel();
+		}
+	}
+
+
+	private static void showReminderMessage(long reminder) {
+		new Handler(OmniNotes.getAppContext().getMainLooper()).post(() -> Toast.makeText(OmniNotes.getAppContext(),
+				OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " +
+						DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder), Toast.LENGTH_LONG).show());
+	}
 }
