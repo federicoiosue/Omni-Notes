@@ -126,7 +126,7 @@ public class PasswordActivity extends BaseActivity {
                         .autoDismiss(false)
                         .contentColorRes(R.color.text_color)
                         .positiveText(R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 // When positive button is pressed answer correctness is checked
@@ -168,7 +168,7 @@ public class PasswordActivity extends BaseActivity {
             new MaterialDialog.Builder(mActivity)
                     .content(R.string.agree_unlocking_all_notes)
                     .positiveText(R.string.ok)
-                    .callback(new MaterialDialog.SimpleCallback() {
+                    .callback(new MaterialDialog.ButtonCallback() {
                         @Override
                         public void onPositive(MaterialDialog materialDialog) {
                             removePassword();

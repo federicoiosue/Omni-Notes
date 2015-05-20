@@ -1056,7 +1056,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         new MaterialDialog.Builder(getActivity())
                 .content(R.string.empty_trash_confirmation)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         for (int i = 0; i < listAdapter.getCount(); i++) {
@@ -1331,7 +1331,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         new MaterialDialog.Builder(getActivity())
                 .content(R.string.delete_note_confirmation)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         getMainActivity().requestPassword(getActivity(), getSelectedNotes(),
@@ -1446,10 +1446,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.categorize_as)
-                .adapter(new NavDrawerCategoryAdapter(getActivity(), categories))
+                .adapter(new NavDrawerCategoryAdapter(getActivity(), categories),null)
                 .positiveText(R.string.add_category)
                 .negativeText(R.string.remove_category)
-                .callback(new MaterialDialog.Callback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         keepActionMode = true;
@@ -1562,11 +1562,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 .title(R.string.select_tags)
                 .items(TagsHelper.getTagsArray(tags))
                 .positiveText(R.string.ok)
-                .itemsCallbackMultiChoice(preSelectedTags, new MaterialDialog.ListCallbackMulti() {
+                .itemsCallbackMultiChoice(preSelectedTags, new MaterialDialog.ListCallbackMultiChoice() {
                     @Override
-                    public void onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
                         dialog.dismiss();
                         tagNotesExecute(tags, which, preSelectedTags);
+                        return true;
                     }
                 }).build().show();
     }
@@ -1853,9 +1854,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 .title(R.string.select_tags)
                 .items(TagsHelper.getTagsArray(tags))
                 .positiveText(R.string.ok)
-                .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMulti() {
+                .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
                     @Override
-                    public void onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
                         // Retrieves selected tags
                         List<String> selectedTags = new ArrayList<String>();
                         for (int i = 0; i < which.length; i++) {
@@ -1873,6 +1874,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
                         intent.removeExtra(SearchManager.QUERY);
                         initNotesList(intent);
+                        return true;
                     }
                 }).build().show();
     }

@@ -238,7 +238,7 @@ public class CategoryActivity extends Activity {
         new MaterialDialog.Builder(this)
                 .content(msg)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         // Changes navigation if actually are shown notes associated with this category
