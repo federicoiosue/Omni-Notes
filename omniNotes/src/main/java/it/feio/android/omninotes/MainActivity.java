@@ -410,7 +410,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack
                     (FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
         }
-        EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
     }
 
 

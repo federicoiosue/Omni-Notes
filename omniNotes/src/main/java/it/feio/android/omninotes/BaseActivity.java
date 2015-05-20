@@ -39,6 +39,8 @@ import android.view.*;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
+import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
@@ -66,6 +68,7 @@ public class BaseActivity extends ActionBarActivity {
     protected SharedPreferences prefs;
 
     protected LocationManager locationManager;
+    protected LocationListener locationListener;
     protected Location currentLocation;
     protected double currentLatitude;
     protected double currentLongitude;
@@ -86,7 +89,6 @@ public class BaseActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Preloads shared preferences for all derived classes
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
         // Force menu overflow icon
         try {
@@ -107,6 +109,7 @@ public class BaseActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         // Starts location manager
+        locationListener = buildLocationListener();
         locationManager = GeocodeHelper.getLocationManager(locationListener);
     }
 
@@ -114,8 +117,10 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     public void onStop() {
         super.onStop();
-        if (locationManager != null)
+        if (locationManager != null) {
             locationManager.removeUpdates(locationListener);
+            locationListener = null;
+        }
     }
 
 
@@ -126,35 +131,27 @@ public class BaseActivity extends ActionBarActivity {
         String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
         navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
         Log.d(Constants.TAG, prefs.getAll().toString());
+        EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
     }
 
 
-    LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            currentLocation = location;
-            currentLatitude = currentLocation.getLatitude();
-            currentLongitude = currentLocation.getLongitude();
-        }
+    private LocationListener buildLocationListener() {
+        return new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                currentLocation = location;
+                currentLatitude = currentLocation.getLatitude();
+                currentLongitude = currentLocation.getLongitude();
+            }
 
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            @Override
+            public void onProviderEnabled(String provider) {}
+            @Override
+            public void onProviderDisabled(String provider) {}
+        };
+    }
 
 
     protected void showToast(CharSequence text, int duration) {

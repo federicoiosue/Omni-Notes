@@ -27,6 +27,7 @@ import android.util.Log;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.NotificationsHelper;
 import it.feio.android.omninotes.utils.TextHelper;
@@ -89,8 +90,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
 		NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
-		notificationsHelper.createNotification(R.drawable.ic_alarm_grey600_48dp, title, notifyIntent).setLedActive().setMessage
+		notificationsHelper.createNotification(R.drawable.ic_alarm_white_24dp, title, notifyIntent).setLedActive().setMessage
 				(text);
+
+		if (note.getAttachmentsList().size() > 0 && !note.getAttachmentsList().get(0).getMime_type().equals(Constants
+				.MIME_TYPE_FILES)) {
+			notificationsHelper.setLargeIcon(BitmapHelper.getBitmapFromAttachment(mContext, note.getAttachmentsList()
+					.get(0), 128, 128));
+		}
 
 		notificationsHelper.getBuilder()
 				.addAction(R.drawable.ic_material_reminder_time_light, it.feio.android.omninotes.utils.TextHelper

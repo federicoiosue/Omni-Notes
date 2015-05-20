@@ -195,6 +195,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         if (root != null) {
             root.getViewTreeObserver().addOnGlobalLayoutListener(this);
         }
+        EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
     }
 
 

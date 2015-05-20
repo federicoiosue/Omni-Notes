@@ -50,9 +50,14 @@ public class NotificationsHelper {
      */
     public NotificationsHelper createNotification(int smallIcon, String title, PendingIntent notifyIntent) {
         mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(smallIcon).setContentTitle(title)
-                .setAutoCancel(true);
+                .setAutoCancel(true).setColor(mContext.getResources().getColor(R.color.colorAccent));
         mBuilder.setContentIntent(notifyIntent);
-        setLargeIcon(R.drawable.logo_notification_lollipop);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setLargeIcon(R.drawable.logo_notification_lollipop);
+        } else {
+            setLargeIcon(R.mipmap.ic_launcher);
+        }
+
         return this;
     }
 
@@ -69,12 +74,7 @@ public class NotificationsHelper {
 
 
     public NotificationsHelper setLargeIcon(int largeIconResource) {
-        Bitmap largeIconBitmap;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), largeIconResource);
-        } else {
-            largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_stat_notification_icon);
-        }
+        Bitmap largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), largeIconResource);
         return setLargeIcon(largeIconBitmap);
     }
 

@@ -55,7 +55,6 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
 
         SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
-        // If an alarm has been fired a notification must be generated
         if (Constants.ACTION_DISMISS.equals(getIntent().getAction())) {
             setNextRecurrentReminder(note);
             finish();

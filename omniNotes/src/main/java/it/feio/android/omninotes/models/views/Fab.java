@@ -27,8 +27,8 @@ public class Fab {
 
     private FloatingActionsMenu fab;
     private boolean fabAllowed;
-    private boolean fabHidden = true;
-    private boolean fabExpanded = false;
+    private boolean fabHidden;
+    private boolean fabExpanded;
     private final ListView listView;
     private boolean expandOnLongClick;
     private View overlay;
@@ -45,6 +45,9 @@ public class Fab {
 
 
     private void init() {
+        this.fabHidden = true;
+        this.fabExpanded = false;
+
         AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(R.id.fab_expand_menu_button);
         fabAddButton.setOnClickListener(v -> {
 			if (!isExpanded() && expandOnLongClick) {
@@ -173,15 +176,8 @@ public class Fab {
     }
 
 
-    public void setFabAllowed(boolean allowed) {
-        if (allowed) {
-            boolean showFab = Navigation.checkNavigation(new Integer[]{Navigation.NOTES, Navigation.CATEGORY});
-            if (showFab) {
-                fabAllowed = true;
-            }
-        } else {
-            fabAllowed = false;
-        }
+    public void setAllowed(boolean allowed) {
+        fabAllowed = allowed;
     }
 
 

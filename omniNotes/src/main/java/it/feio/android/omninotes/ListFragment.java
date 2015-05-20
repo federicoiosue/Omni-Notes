@@ -72,7 +72,6 @@ import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.pixlui.links.UrlCompleter;
-import org.apache.commons.lang.ObjectUtils;
 
 import java.util.*;
 
@@ -194,30 +193,29 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
     private void initFab() {
-        boolean fabExpansionBehavior = prefs.getBoolean(Constants.PREF_FAB_EXPANSION_BEHAVIOR, false);
-        fab = new Fab(fabView, list, fabExpansionBehavior);
+        fab = new Fab(fabView, list, prefs.getBoolean(Constants.PREF_FAB_EXPANSION_BEHAVIOR, false));
         fab.setOnFabItemClickedListener(id -> {
-			View v = mainActivity.findViewById(id);
-			switch (id) {
-				case R.id.fab_expand_menu_button:
-					editNote(new Note(), v);
-					break;
-				case R.id.fab_note:
-					editNote(new Note(), v);
-					break;
-				case R.id.fab_camera:
-					Intent i = mainActivity.getIntent();
-					i.setAction(Constants.ACTION_TAKE_PHOTO);
-					mainActivity.setIntent(i);
-					editNote(new Note(), v);
-					break;
-				case R.id.fab_checklist:
-					Note note = new Note();
-					note.setChecklist(true);
-					editNote(note, v);
-					break;
-			}
-		});
+            View v = mainActivity.findViewById(id);
+            switch (id) {
+                case R.id.fab_expand_menu_button:
+                    editNote(new Note(), v);
+                    break;
+                case R.id.fab_note:
+                    editNote(new Note(), v);
+                    break;
+                case R.id.fab_camera:
+                    Intent i = mainActivity.getIntent();
+                    i.setAction(Constants.ACTION_TAKE_PHOTO);
+                    mainActivity.setIntent(i);
+                    editNote(new Note(), v);
+                    break;
+                case R.id.fab_checklist:
+                    Note note = new Note();
+                    note.setChecklist(true);
+                    editNote(note, v);
+                    break;
+            }
+        });
         fab.setOverlay(R.color.white_overlay);
     }
 
@@ -265,8 +263,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 });
             } else {
                 stopJingles();
-			}
-		});
+            }
+        });
     }
 
 
@@ -345,7 +343,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_list, menu);
             actionMode = mode;
-            fab.setFabAllowed(false);
+            fab.setAllowed(false);
             fab.hideFab();
             return true;
         }
@@ -372,7 +370,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             listAdapter.clearSelectedItems();
             list.clearChoices();
 
-            fab.setFabAllowed(true);
+            fab.setAllowed(true);
             if (undoNotesList.size() == 0) {
                 fab.showFab();
             }
@@ -395,10 +393,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             if (!Arrays.asList(protectedActions).contains(item.getItemId())) {
                 mainActivity.requestPassword(mainActivity, getSelectedNotes(),
                         passwordConfirmed -> {
-							if (passwordConfirmed) {
-								performAction(item, mode);
-							}
-						});
+                            if (passwordConfirmed) {
+                                performAction(item, mode);
+                            }
+                        });
             } else {
                 performAction(item, mode);
             }
@@ -472,15 +470,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
         // Note single click listener managed by the activity itself
         list.setOnItemClickListener((arg0, view, position, arg3) -> {
-			if (view.equals(listFooter)) return;
-			if (getActionMode() == null) {
-				editNote(listAdapter.getItem(position), view);
-				return;
-			}
-			// If in CAB mode
-			toggleListViewItem(view, position);
-			setCabTitle();
-		});
+            if (view.equals(listFooter)) return;
+            if (getActionMode() == null) {
+                editNote(listAdapter.getItem(position), view);
+                return;
+            }
+            // If in CAB mode
+            toggleListViewItem(view, position);
+            setCabTitle();
+        });
 
         listRoot.setOnViewTouchedListener(this);
     }
@@ -566,9 +564,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private void prepareActionModeMenu() {
         Menu menu = getActionMode().getMenu();
         int navigation = Navigation.getNavigation();
-        boolean showArchive = navigation == Navigation.NOTES || navigation == Navigation.REMINDERS || navigation == Navigation.UNCATEGORIZED
-                || navigation == Navigation.CATEGORY;
-        boolean showUnarchive = navigation == Navigation.ARCHIVE || navigation == Navigation.UNCATEGORIZED || navigation == Navigation.CATEGORY;
+        boolean showArchive = navigation == Navigation.NOTES || navigation == Navigation.REMINDERS || navigation ==
+                Navigation.UNCATEGORIZED || navigation == Navigation.CATEGORY;
+        boolean showUnarchive = navigation == Navigation.ARCHIVE || navigation == Navigation.UNCATEGORIZED ||
+                navigation == Navigation.CATEGORY;
 
         if (navigation == Navigation.TRASH) {
             menu.findItem(R.id.menu_untrash).setVisible(true);
@@ -619,7 +618,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
      */
     @SuppressLint("NewApi")
     private void initSearchView(final Menu menu) {
-        
+
         // Prevents some mysterious NullPointer on app fast-switching
         if (mainActivity == null) return;
 
@@ -689,23 +688,24 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 && mainActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START);
         boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
         boolean filterPastReminders = prefs.getBoolean(Constants.PREF_FILTER_PAST_REMINDERS, true);
-        boolean navigationReminders = Navigation.checkNavigation(Navigation.REMINDERS);
-        boolean navigationArchive = Navigation.checkNavigation(Navigation.ARCHIVE);
-        boolean navigationTrash = Navigation.checkNavigation(Navigation.TRASH);
+        int navigation = Navigation.getNavigation();
+        boolean navigationReminders = navigation == Navigation.REMINDERS;
+        boolean navigationArchive = navigation == Navigation.ARCHIVE;
+        boolean navigationTrash = navigation == Navigation.TRASH;
 
         if (!navigationReminders && !navigationArchive && !navigationTrash) {
-            fab.setFabAllowed(true);
+            fab.setAllowed(true);
             if (!drawerOpen) {
                 fab.showFab();
             }
         } else {
-            fab.setFabAllowed(false);
+            fab.setAllowed(false);
             fab.hideFab();
         }
         menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-        menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders && 
+        menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders &&
                 !searchViewHasFocus);
-        menu.findItem(R.id.menu_filter_remove).setVisible(!drawerOpen && filterPastReminders && navigationReminders 
+        menu.findItem(R.id.menu_filter_remove).setVisible(!drawerOpen && filterPastReminders && navigationReminders
                 && !searchViewHasFocus);
         menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !navigationReminders && !searchViewHasFocus);
         menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView && !searchViewHasFocus);
@@ -720,10 +720,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         Integer[] protectedActions = {R.id.menu_empty_trash};
         if (Arrays.asList(protectedActions).contains(item.getItemId())) {
             mainActivity.requestPassword(mainActivity, getSelectedNotes(), passwordConfirmed -> {
-				if (passwordConfirmed) {
-					performAction(item, null);
-				}
-			});
+                if (passwordConfirmed) {
+                    performAction(item, null);
+                }
+            });
         } else {
             performAction(item, null);
         }
@@ -824,12 +824,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         fab.hideFab();
         if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
             BaseActivity.requestPassword(mainActivity, passwordConfirmed -> {
-				if (passwordConfirmed) {
-					note.setPasswordChecked(true);
-					AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
-							listRoot, buildAnimatorListenerAdapter(note));
-				}
-			});
+                if (passwordConfirmed) {
+                    note.setPasswordChecked(true);
+                    AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
+                            listRoot, buildAnimatorListenerAdapter(note));
+                }
+            });
         } else {
             AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
                     listRoot, buildAnimatorListenerAdapter(note));
@@ -1207,8 +1207,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                                 passwordConfirmed -> {
                                     if (passwordConfirmed) {
                                         deleteNotesExecute();
-									}
-								});
+                                    }
+                                });
                     }
                 }).build().show();
     }
@@ -1356,7 +1356,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             // Update adapter content if actual navigation is the category
             // associated with actually cycled note
             if ((Navigation.checkNavigation(Navigation.CATEGORY) && !Navigation.checkNavigationCategory(category)) ||
-             Navigation.checkNavigation(Navigation.UNCATEGORIZED)) {
+                    Navigation.checkNavigation(Navigation.UNCATEGORIZED)) {
                 listAdapter.remove(note);
             } else {
                 note.setCategory(category);
@@ -1422,9 +1422,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 .items(TagsHelper.getTagsArray(tags))
                 .positiveText(R.string.ok)
                 .itemsCallbackMultiChoice(preSelectedTags, (dialog, which, text) -> {
-					dialog.dismiss();
-					tagNotesExecute(tags, which, preSelectedTags);
-				}).build().show();
+                    dialog.dismiss();
+                    tagNotesExecute(tags, which, preSelectedTags);
+                }).build().show();
     }
 
 
@@ -1470,7 +1470,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         }
 
         // Removes unchecked tags
-        Pair<String, String> titleAndContent = TagsHelper.removeTag(note.getTitle(), note.getContent(), 
+        Pair<String, String> titleAndContent = TagsHelper.removeTag(note.getTitle(), note.getContent(),
                 taggingResult.second);
         note.setTitle(titleAndContent.first);
         note.setContent(titleAndContent.second);
@@ -1627,6 +1627,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                         mergeExecute(false);
                     }
 
+
                     @Override
                     public void onNegative(MaterialDialog dialog) {
                         mergeExecute(true);
@@ -1734,24 +1735,24 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 .items(TagsHelper.getTagsArray(tags))
                 .positiveText(R.string.ok)
                 .itemsCallbackMultiChoice(new Integer[]{}, (dialog, which, text) -> {
-					// Retrieves selected tags
-					List<String> selectedTags = new ArrayList<>();
-					for (Integer aWhich : which) {
-						selectedTags.add(tags.get(aWhich).getText());
-					}
+                    // Retrieves selected tags
+                    List<String> selectedTags = new ArrayList<>();
+                    for (Integer aWhich : which) {
+                        selectedTags.add(tags.get(aWhich).getText());
+                    }
 
-					// Saved here to allow persisting search
-					searchTags = selectedTags.toString().substring(1, selectedTags.toString().length() - 1)
-							.replace(" ", "");
-					Intent intent = mainActivity.getIntent();
+                    // Saved here to allow persisting search
+                    searchTags = selectedTags.toString().substring(1, selectedTags.toString().length() - 1)
+                            .replace(" ", "");
+                    Intent intent = mainActivity.getIntent();
 
-					// Hides keyboard
-					searchView.clearFocus();
-					KeyboardUtils.hideKeyboard(searchView);
+                    // Hides keyboard
+                    searchView.clearFocus();
+                    KeyboardUtils.hideKeyboard(searchView);
 
-					intent.removeExtra(SearchManager.QUERY);
-					initNotesList(intent);
-				}).build().show();
+                    intent.removeExtra(SearchManager.QUERY);
+                    initNotesList(intent);
+                }).build().show();
     }
 
 
