@@ -630,7 +630,8 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return Notes list
      */
     public List<Note> getTodayReminders() {
-        String whereCondition = " WHERE DATE(" + KEY_REMINDER + "/1000, 'unixepoch') = DATE('now')";
+        String whereCondition = " WHERE DATE(" + KEY_REMINDER + "/1000, 'unixepoch') = DATE('now') AND " +
+                KEY_TRASHED + " IS NOT 1";
         return getNotes(whereCondition, false);
     }
 
