@@ -181,10 +181,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     @Override
     public void onStart() {
-        // GA tracking
+        super.onStart();
         OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
         OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
-        super.onStart();
+        EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
     }
 
 
@@ -195,7 +195,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         if (root != null) {
             root.getViewTreeObserver().addOnGlobalLayoutListener(this);
         }
-        EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
     }
 
 
