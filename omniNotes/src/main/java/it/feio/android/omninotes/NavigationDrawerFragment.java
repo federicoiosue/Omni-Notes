@@ -93,7 +93,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
 
-    public void onEvent(DynamicNavigationReadyEvent event) {
+    public void onEventMainThread(DynamicNavigationReadyEvent event) {
         if (alreadyInitialized) {
             alreadyInitialized = false;
         } else {
@@ -107,7 +107,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
 
-    public void onEvent(NotesUpdatedEvent event) {
+    public void onEventAsync(NotesUpdatedEvent event) {
         alreadyInitialized = false;
     }
 

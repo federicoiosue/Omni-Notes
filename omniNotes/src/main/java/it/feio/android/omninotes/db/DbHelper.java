@@ -504,6 +504,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 cursor.close();
         }
 
+        Log.v(Constants.TAG, "Query: Retrieval finished!");
         return noteList;
     }
 

@@ -149,7 +149,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         // GA tracking
         OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
         OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
-        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this, 1);
         super.onStart();
     }
 
@@ -1025,7 +1025,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
 
 
-    public void onEvent(NavigationUpdatedNavDrawerClosedEvent navigationUpdatedNavDrawerClosedEvent) {
+    public void onEventAsync(NavigationUpdatedNavDrawerClosedEvent navigationUpdatedNavDrawerClosedEvent) {
         listViewPosition = 0;
         listViewPositionOffset = 16;
         commitPending();
