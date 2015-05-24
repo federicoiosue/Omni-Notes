@@ -30,6 +30,11 @@
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
 
+    <changelogversion versionName="5.0.0 Beta 26" changeDate="May 23, 2015">
+        <changelogtext>Single touch to open links</changelogtext>
+        <changelogtext>[u]Fix[/u] Various</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 25" changeDate="May 15, 2015">
         <changelogtext>[b]New![/b] Improved notes list and navigation smoothness</changelogtext>
         <changelogtext>[b]New![/b] Reduced memory consumption</changelogtext>

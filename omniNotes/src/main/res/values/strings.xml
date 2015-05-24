@@ -209,6 +209,7 @@
     <string name="action_settings">Settings</string>
     <string name="settings_screen_sync_import_export">Sync and Backups</string>
     <string name="settings_export">Backup</string>
+    <string name="settings_sync_import_export">Sync and Backups</string>
     <string name="settings_import">Restore or delete backups</string>
     <string name="settings_import_from_springpad">Import notes from Springpad</string>
     <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>   
