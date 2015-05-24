@@ -183,9 +183,9 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
         MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
                 .autoDismiss(false)
                 .title(R.string.insert_security_password)
-                .customView(v)
+                .customView(v,false)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .callback(new MaterialDialog.ButtonCallback()  {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         // When positive button is pressed password correctness is checked

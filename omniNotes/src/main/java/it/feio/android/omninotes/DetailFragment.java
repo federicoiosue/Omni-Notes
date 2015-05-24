@@ -532,7 +532,7 @@ public class DetailFragment extends Fragment implements
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity());
                 builder.content(R.string.remove_location);
                 builder.positiveText(R.string.ok);
-                builder.callback(new MaterialDialog.SimpleCallback() {
+                builder.callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         noteTmp.setLatitude("");
@@ -628,7 +628,7 @@ public class DetailFragment extends Fragment implements
                     dialogBuilder
                             .content(R.string.delete_selected_image)
                             .negativeText(R.string.edit)
-                            .callback(new MaterialDialog.Callback() {
+                            .callback(new MaterialDialog.ButtonCallback() {
                                 @Override
                                 public void onPositive(MaterialDialog materialDialog) {
                                     noteTmp.getAttachmentsList().remove(position);
@@ -646,7 +646,7 @@ public class DetailFragment extends Fragment implements
                 } else {
                     dialogBuilder
                             .content(R.string.delete_selected_image)
-                            .callback(new MaterialDialog.SimpleCallback() {
+                            .callback(new MaterialDialog.ButtonCallback() {
                                 @Override
                                 public void onPositive(MaterialDialog materialDialog) {
                                     noteTmp.getAttachmentsList().remove(position);
@@ -681,7 +681,7 @@ public class DetailFragment extends Fragment implements
                 MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                         .content(R.string.remove_reminder)
                         .positiveText(R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
+                        .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 reminderDate = "";
@@ -835,7 +835,7 @@ public class DetailFragment extends Fragment implements
         final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .customView(autoCompView, false)
                 .positiveText(R.string.use_current_location)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         if (TextUtils.isEmpty(autoCompView.getText().toString())) {
@@ -1123,7 +1123,7 @@ public class DetailFragment extends Fragment implements
         new MaterialDialog.Builder(getActivity())
                 .customView(layout, false)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         prefs.edit()
@@ -1194,10 +1194,10 @@ public class DetailFragment extends Fragment implements
 
         final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.categorize_as)
-                .adapter(new NavDrawerCategoryAdapter(getActivity(), categories))
+                .adapter(new NavDrawerCategoryAdapter(getActivity(), categories),null)
                 .positiveText(R.string.add_category)
                 .negativeText(R.string.remove_category)
-                .callback(new MaterialDialog.Callback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         Intent intent = new Intent(getActivity(), CategoryActivity.class);
@@ -1512,7 +1512,7 @@ public class DetailFragment extends Fragment implements
         new MaterialDialog.Builder(getActivity())
                 .content(R.string.delete_note_confirmation)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         getMainActivity().deleteNote(noteTmp);
@@ -1888,7 +1888,7 @@ public class DetailFragment extends Fragment implements
                 .content(clickedString)
                 .positiveText(R.string.open)
                 .negativeText(R.string.copy)
-                .callback(new MaterialDialog.Callback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         boolean error = false;
@@ -2130,11 +2130,12 @@ public class DetailFragment extends Fragment implements
                 .title(R.string.select_tags)
                 .positiveText(R.string.ok)
                 .items(TagsHelper.getTagsArray(tags))
-                .itemsCallbackMultiChoice(preselectedTags, new MaterialDialog.ListCallbackMulti() {
+                .itemsCallbackMultiChoice(preselectedTags, new MaterialDialog.ListCallbackMultiChoice() {
                     @Override
-                    public void onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
                         dialog.dismiss();
                         tagNote(tags, which, currentNote);
+                        return true;
                     }
                 }).build();
         dialog.show();
