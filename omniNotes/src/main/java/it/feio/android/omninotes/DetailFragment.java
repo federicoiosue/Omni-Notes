@@ -39,6 +39,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
@@ -1842,6 +1843,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         public void onTextLinkClick(View view, final String clickedString, final String url) {
             new MaterialDialog.Builder(mainActivity)
                     .content(clickedString)
+                    .negativeColor(R.color.colorPrimary)
                     .positiveText(R.string.open)
                     .negativeText(R.string.copy)
                     .callback(new MaterialDialog.ButtonCallback() {
@@ -1883,6 +1885,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                             clipboard.setPrimaryClip(clip);
                         }
                     }).build().show();
+			View clickedView = noteTmp.isChecklist() ? toggleChecklistView : content;
+			KeyboardUtils.hideKeyboard(clickedView);
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+					View clickedView = noteTmp.isChecklist() ? toggleChecklistView : content;
+					KeyboardUtils.hideKeyboard(clickedView);
+                }
+            });
         }
     };
 
