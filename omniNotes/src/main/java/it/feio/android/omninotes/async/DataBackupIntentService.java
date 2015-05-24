@@ -87,7 +87,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         // Creates an indeterminate processing notification until the work is complete
         mNotificationsHelper = new NotificationsHelper(this)
-                .createNotification(R.drawable.ic_stat_notification_icon, getString(R.string.working), null)
+                .createNotification(R.drawable.ic_content_save_white_24dp, getString(R.string.working), null)
                 .setIndeterminate().setOngoing().show();
 
         // If an alarm has been fired a notification must be generated
@@ -170,18 +170,13 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         String backupPath = intent.getStringExtra(EXTRA_SPRINGPAD_BACKUP);
         Importer importer = new Importer();
         try {
-            importer.setZipProgressesListener(new ZipProgressesListener() {
-                @Override
-                public void onZipProgress(int percentage) {
-                    mNotificationsHelper.setMessage(getString(R.string.extracted) + " " + percentage + "%").show();
-                }
-            });
+            importer.setZipProgressesListener(percentage -> mNotificationsHelper.setMessage(getString(R.string.extracted) + " " + percentage + "%").show());
             importer.doImport(backupPath);
             // Updating notification
             updateImportNotification(importer);
         } catch (ImportException e) {
             new NotificationsHelper(this)
-                    .createNotification(R.drawable.ic_stat_notification_icon,
+                    .createNotification(R.drawable.ic_emoticon_sad_white_24dp,
                             getString(R.string.import_fail) + ": " + e.getMessage(), null).setLedActive().show();
             return;
         }
