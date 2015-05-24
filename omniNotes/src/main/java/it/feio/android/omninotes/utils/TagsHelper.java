@@ -98,7 +98,7 @@ public class TagsHelper {
     public static String[] getTagsArray(List<Tag> tags) {
         String[] tagsArray = new String[tags.size()];
         for (int i = 0; i < tags.size(); i++) {
-            tagsArray[i] = tags.get(i).getText() + " (" + tags.get(i).getCount() + ")";
+            tagsArray[i] = tags.get(i).getText().substring(1) + " (" + tags.get(i).getCount() + ")";
         }
         return tagsArray;
     }
