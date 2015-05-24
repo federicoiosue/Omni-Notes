@@ -96,7 +96,7 @@ public class ONDashClockExtension extends DashClockExtension {
         List<Note> today = new ArrayList<>();
         for (Note note : DbHelper.getInstance().getNotesActive()) {
             activeNotes.add(note);
-            if (note.getAlarm() != null) {
+            if (note.getAlarm() != null && !note.isReminderFired()) {
                 reminders.add(note);
                 if (DateHelper.isSameDay(Long.valueOf(note.getAlarm()), Calendar.getInstance().getTimeInMillis())) {
                     today.add(note);
