@@ -17,7 +17,6 @@
 package it.feio.android.omninotes;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -26,9 +25,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -39,12 +35,9 @@ import android.view.*;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
-import de.greenrobot.event.EventBus;
-import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
@@ -67,22 +60,14 @@ public class BaseActivity extends ActionBarActivity {
 
     protected SharedPreferences prefs;
 
-    protected LocationManager locationManager;
-    protected LocationListener locationListener;
-    protected Location currentLocation;
-    protected double currentLatitude;
-    protected double currentLongitude;
-
     protected String navigation;
     protected String navigationTmp; // used for widget navigation
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_list, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -106,51 +91,11 @@ public class BaseActivity extends ActionBarActivity {
 
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        // Starts location manager
-        locationListener = buildLocationListener();
-        locationManager = GeocodeHelper.getLocationManager(locationListener);
-    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (locationManager != null) {
-            locationManager.removeUpdates(locationListener);
-            locationListener = null;
-        }
-    }
-
-
-    @Override
     protected void onResume() {
         super.onResume();
-        // Navigation selected
         String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
         navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
         Log.d(Constants.TAG, prefs.getAll().toString());
-        EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
-    }
-
-
-    private LocationListener buildLocationListener() {
-        return new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                currentLocation = location;
-                currentLatitude = currentLocation.getLatitude();
-                currentLongitude = currentLocation.getLongitude();
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-            @Override
-            public void onProviderEnabled(String provider) {}
-            @Override
-            public void onProviderDisabled(String provider) {}
-        };
     }
 
 

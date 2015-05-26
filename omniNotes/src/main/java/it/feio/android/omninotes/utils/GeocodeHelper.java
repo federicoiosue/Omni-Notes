@@ -18,10 +18,7 @@
 package it.feio.android.omninotes.utils;
 
 import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.location.*;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
@@ -53,24 +50,11 @@ public class GeocodeHelper {
     private static final String API_KEY = "AIzaSyBq_nZEz9sZMwEJ28qmbg20CFG1Xo1JGp0";
 
 
-    public static LocationManager getLocationManager(final LocationListener locationListener) {
-        LocationManager locationManager = (LocationManager) OmniNotes.getAppContext().getSystemService(Context.LOCATION_SERVICE);
-        // A check is done to avoid crash when NETWORK_PROVIDER is not
-        // available (ex. on emulator with API >= 11)
-        if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)
-                && locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 60000, 50, locationListener);
-        }
-        if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)
-                && locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 60000, 50, locationListener);
-        } else {
-            locationManager.requestLocationUpdates(
-                    LocationManager.PASSIVE_PROVIDER, 60000, 50, locationListener);
-        }
-        return locationManager;
+    public static Location getLastKnowLocation() {
+        LocationManager locationManager = (LocationManager) OmniNotes.getAppContext().getSystemService(Context
+                .LOCATION_SERVICE);
+        String provider = locationManager.getBestProvider(new Criteria(), true);
+        return locationManager.getLastKnownLocation(provider);
     }
 
 

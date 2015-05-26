@@ -32,6 +32,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
@@ -93,6 +94,7 @@ import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
+import net.fortuna.ical4j.model.property.Geo;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
@@ -502,8 +504,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
         // Automatic location insertion
         if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == 0) {
-            noteTmp.setLatitude(mainActivity.currentLatitude);
-            noteTmp.setLongitude(mainActivity.currentLongitude);
+			Location location = GeocodeHelper.getLastKnowLocation();
+			noteTmp.setLatitude(location.getLatitude());
+			noteTmp.setLongitude(location.getLongitude());
         }
         if (isNoteLocationValid()) {
             if (!TextUtils.isEmpty(noteTmp.getAddress())) {
@@ -793,9 +796,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     @SuppressLint("NewApi")
     private void setAddress() {
+        Location location = GeocodeHelper.getLastKnowLocation();
         if (!ConnectionManager.internetAvailable(mainActivity)) {
-            noteTmp.setLatitude(mainActivity.currentLatitude);
-            noteTmp.setLongitude(mainActivity.currentLongitude);
+            noteTmp.setLatitude(location.getLatitude());
+            noteTmp.setLongitude(location.getLongitude());
             onAddressResolved("");
             return;
         }
@@ -811,10 +815,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         if (TextUtils.isEmpty(autoCompView.getText().toString())) {
-                            double lat = mainActivity.currentLatitude;
-                            double lon = mainActivity.currentLongitude;
-                            noteTmp.setLatitude(lat);
-                            noteTmp.setLongitude(lon);
+                            noteTmp.setLatitude(location.getLatitude());
+                            noteTmp.setLongitude(location.getLongitude());
                             GeocodeHelper.getAddressFromCoordinates(mainActivity, noteTmp.getLatitude(),
                                     noteTmp.getLongitude(), mFragment);
                         } else {
