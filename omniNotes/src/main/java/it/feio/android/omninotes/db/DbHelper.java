@@ -573,10 +573,13 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return Notes list
      */
     public List<Note> getNotesByPattern(String pattern) {
+        int navigation = Navigation.getNavigation();
         String whereCondition = " WHERE "
-                + KEY_TRASHED + (Navigation.checkNavigation(Navigation.TRASH) ? " IS 1" : " IS NOT 1")
-                + (Navigation.checkNavigation(Navigation.CATEGORY) ? " AND " + KEY_CATEGORY + " = " + Navigation
-                .getCategory() : "")
+                + KEY_TRASHED + (navigation == Navigation.TRASH ? " IS 1" : " IS NOT 1")
+                + (navigation == Navigation.ARCHIVE ? " AND " + KEY_ARCHIVED + " IS 1" : "")
+                + (navigation == Navigation.CATEGORY ? " AND " + KEY_CATEGORY + " = " + Navigation.getCategory() : "")
+                + (navigation == Navigation.UNCATEGORIZED ? " AND (" + KEY_CATEGORY + " IS NULL OR " + KEY_CATEGORY_ID
+                + " == 0) " : "")
                 + (Navigation.checkNavigation(Navigation.REMINDERS) ? " AND " + KEY_REMINDER + " IS NOT NULL" : "")
                 + " AND ("
                 + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR " +
