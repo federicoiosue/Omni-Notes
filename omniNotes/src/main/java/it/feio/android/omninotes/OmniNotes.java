@@ -28,8 +28,8 @@ import android.os.StrictMode;
 import android.text.TextUtils;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
-//import com.squareup.leakcanary.LeakCanary;
-//import com.squareup.leakcanary.RefWatcher;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import it.feio.android.omninotes.utils.BitmapCache;
 import it.feio.android.omninotes.utils.Constants;
 import org.acra.ACRA;
@@ -55,7 +55,7 @@ public class OmniNotes extends Application {
     private static Tracker mTracker;
     private static GoogleAnalytics mGa;
     private static BitmapCache mBitmapCache;
-//    private static RefWatcher refWatcher;
+    private static RefWatcher refWatcher;
 
 
     @Override
@@ -63,7 +63,7 @@ public class OmniNotes extends Application {
         super.onCreate();
         mContext = getApplicationContext();
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-//        refWatcher = LeakCanary.install(this);
+        refWatcher = LeakCanary.install(this);
 
         if (BuildConfig.BUILD_TYPE.equals("debug")) {
             StrictMode.enableDefaults();
@@ -103,9 +103,9 @@ public class OmniNotes extends Application {
         return OmniNotes.mContext;
     }
 
-//    public static RefWatcher getRefWatcher() {
-//        return OmniNotes.refWatcher;
-//    }
+    public static RefWatcher getRefWatcher() {
+        return OmniNotes.refWatcher;
+    }
 
 
     /**

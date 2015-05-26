@@ -1,7 +1,7 @@
 package it.feio.android.omninotes;
 
 import android.support.v4.app.Fragment;
-//import com.squareup.leakcanary.RefWatcher;
+import com.squareup.leakcanary.RefWatcher;
 
 
 /**
@@ -12,8 +12,8 @@ public class BaseFragment extends Fragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-//		RefWatcher refWatcher = OmniNotes.getRefWatcher();
-//		refWatcher.watch(this);
+		RefWatcher refWatcher = OmniNotes.getRefWatcher();
+		refWatcher.watch(this);
 	}
 
 }

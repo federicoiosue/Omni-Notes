@@ -19,7 +19,6 @@ package it.feio.android.omninotes;
 
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
