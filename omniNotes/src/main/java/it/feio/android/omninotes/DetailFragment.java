@@ -981,14 +981,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
             mainActivity.getSupportFragmentManager().popBackStack();
             if (mainActivity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
                 mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+                if (mainActivity.getDrawerToggle() != null) {
+                    mainActivity.getDrawerToggle().setDrawerIndicatorEnabled(true);
+                }
+                EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
             }
-            if (mainActivity.getDrawerToggle() != null) {
-                mainActivity.getDrawerToggle().setDrawerIndicatorEnabled(true);
-            }
-        }
-
-        if (mainActivity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
         }
 
         return true;
