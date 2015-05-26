@@ -94,7 +94,6 @@ import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
-import net.fortuna.ical4j.model.property.Geo;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;

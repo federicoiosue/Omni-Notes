@@ -34,28 +34,24 @@ public class Fonts {
     /**
      * Overrides all the fonts set to TextView class descendants found in the
      * view passed as parameter
-     *
-     * @param context
-     * @param v
      */
     public static void overrideTextSize(Context context, SharedPreferences prefs, View v) {
+        Context privateContext = context.getApplicationContext();
         try {
             if (v instanceof ViewGroup) {
                 ViewGroup vg = (ViewGroup) v;
                 for (int i = 0; i < vg.getChildCount(); i++) {
                     View child = vg.getChildAt(i);
-                    overrideTextSize(context, prefs, child);
+                    overrideTextSize(privateContext, prefs, child);
                 }
             } else if (v instanceof TextView) {
-                // ((TextView) v).setTypeface(Typeface.createFromAsset(
-                // context.getAssets(), "font.ttf"));
-                float currentSize = DensityUtil.pxToDp(((TextView) v).getTextSize(), context);
+                float currentSize = DensityUtil.pxToDp(((TextView) v).getTextSize(), privateContext);
                 int index = Arrays
-                        .asList(context.getResources().getStringArray(
+                        .asList(privateContext.getResources().getStringArray(
                                 R.array.text_size_values))
                         .indexOf(
                                 prefs.getString("settings_text_size", "default"));
-                float offset = context.getResources().getIntArray(
+                float offset = privateContext.getResources().getIntArray(
                         R.array.text_size_offset)[index == -1 ? 0 : index];
                 ((TextView) v).setTextSize(currentSize + offset);
             }
