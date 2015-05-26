@@ -27,10 +27,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcelable;
+import android.os.*;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.view.ActionMode;
@@ -74,6 +71,7 @@ import it.feio.android.omninotes.utils.Display;
 import it.feio.android.pixlui.links.UrlCompleter;
 
 import java.util.*;
+import java.util.concurrent.Executor;
 
 import static android.support.v4.view.ViewCompat.animate;
 
@@ -961,14 +959,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             // Using tags
             if (searchTags != null && intent.getStringExtra(SearchManager.QUERY) == null) {
                 searchQuery = searchTags;
-                mNoteLoaderTask.execute("getNotesByTag", searchQuery);
+                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByTag", searchQuery);
             } else {
                 // Get the intent, verify the action and get the query
                 if (intent.getStringExtra(SearchManager.QUERY) != null) {
                     searchQuery = intent.getStringExtra(SearchManager.QUERY);
                     searchTags = null;
                 }
-                mNoteLoaderTask.execute("getNotesByPattern", searchQuery);
+                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByPattern", searchQuery);
             }
 
             toggleSearchLabel(true);
@@ -986,10 +984,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                     mainActivity.navigationTmp = !TextUtils.isEmpty(categoryId) ? categoryId : null;
                 }
                 intent.removeExtra(Constants.INTENT_WIDGET);
-                mNoteLoaderTask.execute("getNotesByCategory", mainActivity.navigationTmp);
+                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByCategory", mainActivity
+						.navigationTmp);
 
             } else {
-                mNoteLoaderTask.execute("getAllNotes", true);
+                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
             }
         }
     }
