@@ -30,6 +30,11 @@
         <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
     <!--</changelogversion>-->
 
+    <changelogversion versionName="5.0.0 Beta 27" changeDate="May 27, 2015">
+        <changelogtext>Searching in Archive or Uncategorized will return only archived or uncategorized notes respectively</changelogtext>
+        <changelogtext>Deeply changed location retrieval to improve battery life and avoid memory leaks</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0 Beta 26" changeDate="May 23, 2015">
         <changelogtext>Single touch to open links</changelogtext>
         <changelogtext>[u]Fix[/u] Various</changelogtext>
