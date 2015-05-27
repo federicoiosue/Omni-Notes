@@ -503,9 +503,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
         // Automatic location insertion
         if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == 0) {
-			Location location = GeocodeHelper.getLastKnowLocation();
-			noteTmp.setLatitude(location.getLatitude());
-			noteTmp.setLongitude(location.getLongitude());
+			Location location = getLocation();
+			if (location != null) {
+				noteTmp.setLatitude(location.getLatitude());
+				noteTmp.setLongitude(location.getLongitude());
+			}
         }
         if (isNoteLocationValid()) {
             if (!TextUtils.isEmpty(noteTmp.getAddress())) {
@@ -795,8 +797,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     @SuppressLint("NewApi")
     private void setAddress() {
-        Location location = GeocodeHelper.getLastKnowLocation();
-        if (!ConnectionManager.internetAvailable(mainActivity)) {
+		Location location = getLocation();
+		if (location == null) {
+			return;
+		}
+		if (!ConnectionManager.internetAvailable(mainActivity)) {
             noteTmp.setLatitude(location.getLatitude());
             noteTmp.setLongitude(location.getLongitude());
             onAddressResolved("");
@@ -849,7 +854,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
 
 
-    @Override
+	private Location getLocation() {
+		Location location = GeocodeHelper.getLastKnowLocation();
+		if (location == null) {
+			mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
+			return null;
+		}
+		return location;
+	}
+
+
+	@Override
     public void onAddressResolved(String address) {
         if (TextUtils.isEmpty(address)) {
             if (!isNoteLocationValid()) {
