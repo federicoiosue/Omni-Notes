@@ -1024,7 +1024,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
 
 
-    public void onEventAsync(NavigationUpdatedNavDrawerClosedEvent navigationUpdatedNavDrawerClosedEvent) {
+    public void onEvent(NavigationUpdatedNavDrawerClosedEvent navigationUpdatedNavDrawerClosedEvent) {
         listViewPosition = 0;
         listViewPositionOffset = 16;
         commitPending();
