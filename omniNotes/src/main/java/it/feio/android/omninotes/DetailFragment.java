@@ -1884,6 +1884,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                         }
                     }).build().show();
 			View clickedView = noteTmp.isChecklist() ? toggleChecklistView : content;
+			clickedView.clearFocus();
 			KeyboardUtils.hideKeyboard(clickedView);
             new Handler().post(new Runnable() {
                 @Override
