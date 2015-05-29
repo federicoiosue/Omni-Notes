@@ -17,9 +17,6 @@
 
 package it.feio.android.omninotes.models.listeners;
 
-import android.view.MotionEvent;
-
-
 public interface OnFabItemClickedListener {
 
     void OnFabItemClick(int id);
