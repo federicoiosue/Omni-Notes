@@ -77,6 +77,7 @@ import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
@@ -187,7 +188,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
         OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
         EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
+        EventBus.getDefault().register(this);
     }
+
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EventBus.getDefault().unregister(this);
+	}
 
 
     @Override
@@ -2184,11 +2193,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
 
 
-    public void appendToContentViewText(String text) {
-        content.setText(getNoteContent() + System.getProperty("line.separator") + text);
-    }
-
-
     /**
      * Used to check currently opened note from activity to avoid openind multiple times the same one
      */
@@ -2268,6 +2272,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                     break;
             }
         }
+    }
+
+
+    public void onEventMainThread(PushbulletReplyEvent pushbulletReplyEvent) {
+        content.setText(getNoteContent() + System.getProperty("line.separator") + pushbulletReplyEvent.message);
     }
 }
 

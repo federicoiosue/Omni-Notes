@@ -49,15 +49,14 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.MiscUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, 
-        OnPushBulletReplyListener {
+public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
 
     @InjectView(R.id.crouton_handle) ViewGroup croutonViewContainer;
     @InjectView(R.id.toolbar) Toolbar toolbar;
@@ -67,7 +66,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public final String FRAGMENT_LIST_TAG = "fragment_list";
     public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
     public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
-    private static MainActivity instance;
     private FragmentManager mFragmentManager;
     public Uri sketchUri;
 
@@ -77,8 +75,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-
-        instance = this;
 
         // This method starts the bootstrap chain.
 //		requestShowCaseViewVisualization();
@@ -93,7 +89,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        instance = null;
     }
 
 
@@ -117,11 +112,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         } else {
             init();
         }
-    }
-
-
-    public static MainActivity getInstance() {
-        return instance;
     }
 
 
@@ -318,7 +308,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (i.getAction() == null) return;
 
         if (Constants.ACTION_RESTART_APP.equals(i.getAction())) {
-            OmniNotes.restartApp(getApplicationContext());
+            MiscUtils.restartApp(getApplicationContext(), MainActivity.class);
         }
 
         if (receivedIntent(i)) {
@@ -533,15 +523,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         DetailFragment f = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
         if (f != null && f.isAdded()) {
             f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
-        }
-    }
-
-
-    @Override
-    public void onPushBulletReply(final String message) {
-        final DetailFragment df = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
-        if (df != null) {
-            runOnUiThread(() -> df.appendToContentViewText(message));
         }
     }
 }

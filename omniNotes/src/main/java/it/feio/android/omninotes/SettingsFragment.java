@@ -41,10 +41,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.FileHelper;
-import it.feio.android.omninotes.utils.IntentChecker;
-import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.*;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -439,7 +436,7 @@ public class SettingsFragment extends PreferenceFragment {
                     + languageName.substring(1, languageName.length()));
             lang.setOnPreferenceChangeListener((preference, value) -> {
 				OmniNotes.updateLanguage(getActivity(), value.toString());
-				OmniNotes.restartApp(getActivity());
+				MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 				return false;
 			});
         }
@@ -576,7 +573,7 @@ public class SettingsFragment extends PreferenceFragment {
 							StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
 							// App tour is flagged as skipped anyhow
 //								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
-							OmniNotes.restartApp(getActivity());
+							MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 						}).setNegativeButton(getString(R.string.cancel), (dialog, id) -> {
 							dialog.cancel();
 						});
