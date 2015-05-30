@@ -73,7 +73,6 @@ public class GeocodeHelper implements LocationListener {
 		if (locationManager != null) {
 			locationManager.removeUpdates(instance);
 		}
-		instance = null;
 	}
 
 

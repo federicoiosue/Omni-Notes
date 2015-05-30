@@ -77,7 +77,7 @@ public class BaseActivity extends ActionBarActivity {
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
         // Force menu overflow icon
         try {
-            ViewConfiguration config = ViewConfiguration.get(this);
+            ViewConfiguration config = ViewConfiguration.get(this.getApplicationContext());
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
             if (menuKeyField != null) {
                 menuKeyField.setAccessible(true);
