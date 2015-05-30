@@ -1972,53 +1972,40 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
 
 
-    @Override
-    public void onGlobalLayout() {
-        int screenHeight = Display.getUsableSize(mainActivity).y;
-        int heightDiff = screenHeight - Display.getVisibleSize(root).y;
-        boolean keyboardVisible = heightDiff > 150;
-        if (keyboardVisible && keyboardPlaceholder == null) {
-            shrinkLayouts(heightDiff);
-        } else if (!keyboardVisible && keyboardPlaceholder != null) {
-            restoreLayouts();
-        }
-    }
+	@Override
+	public void onGlobalLayout() {
+		int screenHeight = Display.getUsableSize(mainActivity).y;
+		int heightDiff = screenHeight - Display.getVisibleSize(root).y;
+		boolean keyboardVisible = heightDiff > 150;
+		if (keyboardVisible && keyboardPlaceholder == null) {
+			shrinkLayouts(heightDiff);
+		} else if (!keyboardVisible && keyboardPlaceholder != null) {
+			restoreLayouts();
+		}
+	}
 
 
-    private void shrinkLayouts(int heightDiff) {
-        int heightDiffLocal = heightDiff;
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
-                && !title.hasFocus()) {
-            detailWrapperView.removeView(titleCardView);
-            heightDiffLocal -= Display.getStatusBarHeight(mainActivity);
-            if (orientationChanged) {
-                orientationChanged = false;
-                heightDiffLocal -= Display.getActionbarHeight(mainActivity);
-            }
-        }
-        detailWrapperView.removeView(timestampsView);
-        keyboardPlaceholder = new View(mainActivity);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiffLocal);
-        }
-    }
+	private void shrinkLayouts(int heightDiff) {
+		detailWrapperView.removeView(timestampsView);
+		keyboardPlaceholder = new View(mainActivity);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
+		}
+	}
 
 
-    private void restoreLayouts() {
-        if (root != null) {
-            ViewGroup wrapper = (ViewGroup) root.findViewById(R.id.detail_wrapper);
-            if (root.indexOfChild(keyboardPlaceholder) != -1) {
-                root.removeView(keyboardPlaceholder);
-            }
-            keyboardPlaceholder = null;
-            if (wrapper.indexOfChild(titleCardView) == -1) {
-                wrapper.addView(titleCardView, 0);
-            }
-            if (wrapper.indexOfChild(timestampsView) == -1) {
-                wrapper.addView(timestampsView);
-            }
-        }
-    }
+	private void restoreLayouts() {
+		if (root != null) {
+			ViewGroup wrapper = (ViewGroup) root.findViewById(R.id.detail_wrapper);
+			if (root.indexOfChild(keyboardPlaceholder) != -1) {
+				root.removeView(keyboardPlaceholder);
+			}
+			keyboardPlaceholder = null;
+			if (wrapper.indexOfChild(timestampsView) == -1) {
+				wrapper.addView(timestampsView);
+			}
+		}
+	}
 
 
     @Override
