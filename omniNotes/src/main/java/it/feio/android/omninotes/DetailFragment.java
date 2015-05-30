@@ -1992,7 +1992,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		detailWrapperView.removeView(timestampsView);
 		keyboardPlaceholder = new View(mainActivity);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getResources().getConfiguration().orientation
+					!= Configuration.ORIENTATION_LANDSCAPE) {
+				root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
+			}
 		}
 	}
 

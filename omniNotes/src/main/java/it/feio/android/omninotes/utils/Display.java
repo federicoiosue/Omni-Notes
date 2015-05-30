@@ -107,10 +107,10 @@ public class Display {
     @SuppressLint("NewApi")
     public static int getActionbarHeight(Object mObject) {
         int res = 0;
-        if (Activity.class.isAssignableFrom(mObject.getClass())) {
+		if (ActionBarActivity.class.isAssignableFrom(mObject.getClass())) {
+			res = ((ActionBarActivity) mObject).getSupportActionBar().getHeight();
+		} else if (Activity.class.isAssignableFrom(mObject.getClass())) {
             res = ((Activity) mObject).getActionBar().getHeight();
-        } else if (ActionBarActivity.class.isAssignableFrom(mObject.getClass())) {
-            res = ((ActionBarActivity) mObject).getSupportActionBar().getHeight();
         }
         return res;
     }
