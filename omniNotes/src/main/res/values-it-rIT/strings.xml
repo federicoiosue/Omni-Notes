@@ -158,6 +158,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="not_expired">non scaduti</string>
   <string name="expired">scadute</string>
   <string name="today">oggi</string>
+  <string name="tomorrow">domani</string>
   <string name="open">Apri</string>
   <string name="copy">Copia</string>
   <string name="no_application_can_perform_this_action">Nessuna applicazione trovata per eseguire quest\'azione</string>

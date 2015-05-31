@@ -157,6 +157,7 @@
   <string name="not_expired">not expired</string>
   <string name="expired">expired</string>
   <string name="today">today</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">Open</string>
   <string name="copy">Copy</string>
   <string name="no_application_can_perform_this_action">No application found for this action</string>

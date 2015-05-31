@@ -38,7 +38,7 @@ import java.util.*;
 
 public class ONDashClockExtension extends DashClockExtension {
 
-    private enum Counters {ACTIVE, REMINDERS, TODAY};
+    private enum Counters {ACTIVE, REMINDERS, TODAY, TOMORROW};
 
 
     private DashClockUpdateReceiver mDashClockReceiver;
@@ -70,13 +70,23 @@ public class ONDashClockExtension extends DashClockExtension {
         }
 
         StringBuilder expandedBody = new StringBuilder();
-        if (notesCounters.get(Counters.TODAY).size() > 0) {
-            expandedBody.append(notesCounters.get(Counters.TODAY).size()).append(" ").append(getString(R.string.today)).append(":");
-            for (Note todayReminder : notesCounters.get(Counters.TODAY)) {
-                expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(TextHelper
-                        .parseTitleAndContent(this, todayReminder)[0]);
-            }
-        }
+
+		if (notesCounters.get(Counters.TODAY).size() > 0) {
+			expandedBody.append(notesCounters.get(Counters.TODAY).size()).append(" ").append(getString(R.string.today)).append(":");
+			for (Note todayReminder : notesCounters.get(Counters.TODAY)) {
+				expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(TextHelper
+						.parseTitleAndContent(this, todayReminder)[0]);
+			}
+			expandedBody.append("\n");
+		}
+
+		if (notesCounters.get(Counters.TOMORROW).size() > 0) {
+			expandedBody.append(notesCounters.get(Counters.TOMORROW).size()).append(" ").append(getString(R.string.tomorrow)).append(":");
+			for (Note tomorrowReminder : notesCounters.get(Counters.TOMORROW)) {
+				expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(TextHelper
+						.parseTitleAndContent(this, tomorrowReminder)[0]);
+			}
+		}
 
         // Publish the extension data update.
         publishUpdate(new ExtensionData()
@@ -94,18 +104,23 @@ public class ONDashClockExtension extends DashClockExtension {
         List<Note> activeNotes = new ArrayList<>();
         List<Note> reminders = new ArrayList<>();
         List<Note> today = new ArrayList<>();
+        List<Note> tomorrow = new ArrayList<>();
         for (Note note : DbHelper.getInstance().getNotesActive()) {
             activeNotes.add(note);
             if (note.getAlarm() != null && !note.isReminderFired()) {
                 reminders.add(note);
                 if (DateHelper.isSameDay(Long.valueOf(note.getAlarm()), Calendar.getInstance().getTimeInMillis())) {
                     today.add(note);
-                }
+				} else if ((Long.valueOf(note.getAlarm()) - Calendar.getInstance().getTimeInMillis()) / (1000 * 60 *
+						60) < 24) {
+					tomorrow.add(note);
+				}
             }
         }
         noteCounters.put(Counters.ACTIVE, activeNotes);
         noteCounters.put(Counters.REMINDERS, reminders);
         noteCounters.put(Counters.TODAY, today);
+        noteCounters.put(Counters.TOMORROW, tomorrow);
         return noteCounters;
     }
 
