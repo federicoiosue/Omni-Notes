@@ -17,18 +17,18 @@
   -->
 <changelog bulletedList="true">
 
-    <!--<changelogversion versionName="5.0.0" changeDate="May 1, 2015">-->
-        <!--<changelogtext>[b]New![/b] Material design UI and new icon</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Customizable floating action button with long-press-shortcut to checklist and camera</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Exceptionally improved image loading! Forget the lag!</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Recurrent reminders</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Support for animated gif in notes list and detail</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Filterable reminders: you can selectively include or not past reminders with a  single touch</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Dynamic menu: only used items are shown withing navigation list (option in settings)</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Application size reduced by 25%</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Choose to keep or delete merged note after merge succeeded</changelogtext>-->
-        <!--<changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>-->
-    <!--</changelogversion>-->
+    <changelogversion versionName="5.0.0" changeDate="Jun 1, 2015">
+        <changelogtext>[b]New![/b] Material design UI and new icon</changelogtext>
+        <changelogtext>[b]New![/b] Customizable floating action button with long-press-shortcut to checklist and camera</changelogtext>
+        <changelogtext>[b]New![/b] Exceptionally improved image loading! Forget the lag!</changelogtext>
+        <changelogtext>[b]New![/b] Recurrent reminders</changelogtext>
+        <changelogtext>[b]New![/b] Support for animated gif in notes list and detail</changelogtext>
+        <changelogtext>[b]New![/b] Filterable reminders: you can selectively include or not past reminders with a  single touch</changelogtext>
+        <changelogtext>[b]New![/b] Dynamic menu: only used items are shown withing navigation list (option in settings)</changelogtext>
+        <changelogtext>[b]New![/b] Application size reduced by 25%</changelogtext>
+        <changelogtext>[b]New![/b] Choose to keep or delete merged note after merge succeeded</changelogtext>
+        <changelogtext>[b]New![/b] Crash reports can now be deactivated from settings (not recommended)</changelogtext>
+    </changelogversion>
 
     <changelogversion versionName="5.0.0 Beta 28" changeDate="May 30, 2015">
         <changelogtext>[u]Fix[/u] Crash on new note when auto-geolocation is turned on</changelogtext>
