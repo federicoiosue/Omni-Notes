@@ -92,69 +92,57 @@ public class UpgradeProcessor {
      * Adjustment of all the old attachments without mimetype field set into DB
      */
     private void onUpgradeTo476() {
-        new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] params) {
-                final DbHelper dbHelper = DbHelper.getInstance();
-                for (Attachment attachment : dbHelper.getAllAttachments()) {
-                    if (attachment.getMime_type() == null) {
-                        String mimeType = StorageHelper.getMimeType(attachment.getUri().toString());
-                        if (!TextUtils.isEmpty(mimeType)) {
-                            String type = mimeType.replaceFirst("/.*", "");
-                            switch (type) {
-                                case "image":
-                                    attachment.setMime_type(Constants.MIME_TYPE_IMAGE);
-                                    break;
-                                case "video":
-                                    attachment.setMime_type(Constants.MIME_TYPE_VIDEO);
-                                    break;
-                                case "audio":
-                                    attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
-                                    break;
-                                default:
-                                    attachment.setMime_type(Constants.MIME_TYPE_FILES);
-                                    break;
-                            }
-                            dbHelper.updateAttachment(attachment);
-                        } else {
-                            attachment.setMime_type(Constants.MIME_TYPE_FILES);
-                        }
-                    }
-                }
-                return null;
-            }
-        }.execute();
+		final DbHelper dbHelper = DbHelper.getInstance();
+		for (Attachment attachment : dbHelper.getAllAttachments()) {
+			if (attachment.getMime_type() == null) {
+				String mimeType = StorageHelper.getMimeType(attachment.getUri().toString());
+				if (!TextUtils.isEmpty(mimeType)) {
+					String type = mimeType.replaceFirst("/.*", "");
+					switch (type) {
+						case "image":
+							attachment.setMime_type(Constants.MIME_TYPE_IMAGE);
+							break;
+						case "video":
+							attachment.setMime_type(Constants.MIME_TYPE_VIDEO);
+							break;
+						case "audio":
+							attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
+							break;
+						default:
+							attachment.setMime_type(Constants.MIME_TYPE_FILES);
+							break;
+					}
+					dbHelper.updateAttachment(attachment);
+				} else {
+					attachment.setMime_type(Constants.MIME_TYPE_FILES);
+				}
+			}
+		}
     }
 
 
-    /**
-     * Upgrades all the old audio attachments to the new format 3gpp to avoid to exchange them for videos
-     */
-    private void onUpgradeTo480() {
-        new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] params) {
-                final DbHelper dbHelper = DbHelper.getInstance();
-                for (Attachment attachment : dbHelper.getAllAttachments()) {
-                    if ("audio/3gp".equals(attachment.getMime_type()) || "audio/3gpp".equals(attachment.getMime_type
-                            ())) {
+	/**
+	 * Upgrades all the old audio attachments to the new format 3gpp to avoid to exchange them for videos
+	 */
+	private void onUpgradeTo480() {
+		final DbHelper dbHelper = DbHelper.getInstance();
+		for (Attachment attachment : dbHelper.getAllAttachments()) {
+			if ("audio/3gp".equals(attachment.getMime_type()) || "audio/3gpp".equals(attachment.getMime_type
+					())) {
 
-                        // File renaming
-                        File from = new File(attachment.getUriPath());
-                        FilenameUtils.getExtension(from.getName());
-                        File to = new File(from.getParent(), from.getName().replace(FilenameUtils.getExtension(from
-                                .getName()), Constants.MIME_TYPE_AUDIO_EXT));
-                        from.renameTo(to);
+				// File renaming
+				File from = new File(attachment.getUriPath());
+				FilenameUtils.getExtension(from.getName());
+				File to = new File(from.getParent(), from.getName().replace(FilenameUtils.getExtension(from
+						.getName()), Constants.MIME_TYPE_AUDIO_EXT));
+				from.renameTo(to);
 
-                        // Note's attachment update
-                        attachment.setUri(Uri.fromFile(to));
-                        attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
-                        dbHelper.updateAttachment(attachment);
-                    }
-                }
-                return null;
-            }
-        }.execute();
-    }
+				// Note's attachment update
+				attachment.setUri(Uri.fromFile(to));
+				attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
+				dbHelper.updateAttachment(attachment);
+			}
+		}
+	}
 
 }
