@@ -30,6 +30,7 @@ import android.util.Log;
 import android.widget.Toast;
 import exceptions.ImportException;
 import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -42,7 +43,6 @@ import it.feio.android.springpadimporter.models.SpringpadAttachment;
 import it.feio.android.springpadimporter.models.SpringpadComment;
 import it.feio.android.springpadimporter.models.SpringpadElement;
 import it.feio.android.springpadimporter.models.SpringpadItem;
-import listeners.ZipProgressesListener;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -76,13 +76,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        // PowerManager pm = (PowerManager)
-        // getSystemService(Context.POWER_SERVICE);
-        // PowerManager.WakeLock wl =
-        // pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
-        // // Acquire the lock
-        // wl.acquire();
-
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
         // Creates an indeterminate processing notification until the work is complete
@@ -100,11 +93,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         } else if (ACTION_DATA_DELETE.equals(intent.getAction())) {
             deleteData(intent);
         }
-
-        // Release the lock
-        // Log.d(Constants.TAG, TAG, "Releasing power lock, all done");
-        // wl.release();
-
     }
 
 
@@ -150,8 +138,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         // Attachments backup
         importAttachments(backupDir);
 
-        // Settings restore
-        importSettings(backupDir);
+		// Settings restore
+		importSettings(backupDir);
+
+		// Reminders restore
+		resetReminders();
 
         String title = getString(R.string.data_import_completed);
         String text = getString(R.string.click_to_refresh_application);
@@ -159,14 +150,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     }
 
 
-    /**
+	/**
      * Imports notes and notebooks from Springpad exported archive
      *
      * @param intent
      */
     synchronized private void importDataFromSpringpad(Intent intent) {
-
-        // Backupped notes retrieval
         String backupPath = intent.getStringExtra(EXTRA_SPRINGPAD_BACKUP);
         Importer importer = new Importer();
         try {
@@ -388,6 +377,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
             // The note is saved
             DbHelper.getInstance().updateNote(note, false);
+			ReminderHelper.addReminder(OmniNotes.getAppContext(), note, false);
 
             // Updating notification
             importedSpringpadNotes++;
@@ -511,6 +501,17 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         File preferenceBackup = new File(backupDir, preferences.getName());
         return (StorageHelper.copyFile(preferenceBackup, preferences));
     }
+
+
+	/**
+	 * Schedules reminders
+	 */
+	private void resetReminders() {
+		Log.d(Constants.TAG, "Resettings reminders");
+		for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
+			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+		}
+	}
 
 
     /**

@@ -30,6 +30,6 @@ FROM notes_tmp;
 
 UPDATE notes
 SET reminder_fired = 1
-WHERE alarm >= (SELECT strftime('%s', 'now') + 1000);
+WHERE alarm < (SELECT strftime('%s', 'now') + 1000);
 
 DROP TABLE notes_tmp; 
