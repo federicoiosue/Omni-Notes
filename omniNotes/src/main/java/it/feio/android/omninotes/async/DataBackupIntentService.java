@@ -509,7 +509,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 	private void resetReminders() {
 		Log.d(Constants.TAG, "Resettings reminders");
 		for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
-			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+			ReminderHelper.addReminder(OmniNotes.getAppContext(), note, false);
 		}
 	}
 

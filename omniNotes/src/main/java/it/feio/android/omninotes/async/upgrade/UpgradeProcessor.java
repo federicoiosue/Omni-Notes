@@ -21,9 +21,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import org.apache.commons.io.FilenameUtils;
 
@@ -142,6 +145,16 @@ public class UpgradeProcessor {
 				attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
 				dbHelper.updateAttachment(attachment);
 			}
+		}
+	}
+
+
+	/**
+	 * Reschedule reminders after upgrade
+	 */
+	private void onUpgradeTo482() {
+		for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
+			ReminderHelper.addReminder(OmniNotes.getAppContext(), note, false);
 		}
 	}
 
