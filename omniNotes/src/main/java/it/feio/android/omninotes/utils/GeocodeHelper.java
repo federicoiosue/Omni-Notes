@@ -22,12 +22,14 @@ import android.location.*;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -64,8 +66,9 @@ public class GeocodeHelper implements LocationListener {
 		if (instance == null) {
 			instance = new GeocodeHelper();
 		}
-		locationManager.requestLocationUpdates(locationManager.getBestProvider(new Criteria(), true), 60000, 50,
-				instance, null);
+		String provider = locationManager.getBestProvider(new Criteria(), true);
+		provider = TextUtils.isEmpty(provider) ? LocationManager.PASSIVE_PROVIDER : provider;
+		locationManager.requestLocationUpdates(provider, 60000, 50, instance, null);
 	}
 
 
