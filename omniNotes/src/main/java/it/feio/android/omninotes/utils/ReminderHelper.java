@@ -35,7 +35,9 @@ import it.feio.android.omninotes.utils.date.DateHelper;
 public class ReminderHelper {
 
 	public static void addReminder(Context context, Note note) {
-		addReminder(context, note, Long.parseLong(note.getAlarm()), true);
+		if (note.getAlarm() != null) {
+			addReminder(context, note, Long.parseLong(note.getAlarm()), true);
+		}
 	}
 
 
