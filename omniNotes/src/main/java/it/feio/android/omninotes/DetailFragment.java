@@ -298,9 +298,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		super.onPause();
 
 		// Checks "goBack" value to avoid performing a double saving
-//        if (!goBack) {
-//            saveNote(this);
-//        }
+        if (!goBack) {
+            saveNote(this);
+        }
 
 		if (mRecorder != null) {
 			mRecorder.release();
