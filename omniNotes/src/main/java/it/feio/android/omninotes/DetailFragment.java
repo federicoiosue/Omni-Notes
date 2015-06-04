@@ -1991,11 +1991,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private void shrinkLayouts(int heightDiff) {
 		detailWrapperView.removeView(timestampsView);
 		keyboardPlaceholder = new View(mainActivity);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && getResources().getConfiguration().orientation
-					!= Configuration.ORIENTATION_LANDSCAPE) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT || (Build.VERSION.SDK_INT >= Build.VERSION_CODES
+				.LOLLIPOP && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE)) {
 				root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
-			}
 		}
 	}
 
