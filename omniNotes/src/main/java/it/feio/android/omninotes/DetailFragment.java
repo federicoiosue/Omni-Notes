@@ -33,7 +33,6 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
@@ -277,17 +276,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-
-		// Must be restored to re-fill title EditText
-		restoreLayouts();
-
-		noteTmp.setTitle(getNoteTitle());
-		noteTmp.setContent(getNoteContent());
-		outState.putParcelable("noteTmp", noteTmp);
-		outState.putParcelable("note", note);
-		outState.putParcelable("noteOriginal", noteOriginal);
-		outState.putParcelable("attachmentUri", attachmentUri);
-		outState.putBoolean("orientationChanged", orientationChanged);
+		if (noteTmp != null) {
+			noteTmp.setTitle(getNoteTitle());
+			noteTmp.setContent(getNoteContent());
+			outState.putParcelable("noteTmp", noteTmp);
+			outState.putParcelable("note", note);
+			outState.putParcelable("noteOriginal", noteOriginal);
+			outState.putParcelable("attachmentUri", attachmentUri);
+			outState.putBoolean("orientationChanged", orientationChanged);
+		}
 		super.onSaveInstanceState(outState);
 	}
 
