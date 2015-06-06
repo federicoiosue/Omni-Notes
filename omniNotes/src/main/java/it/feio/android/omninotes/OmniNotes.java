@@ -17,11 +17,8 @@
 
 package it.feio.android.omninotes;
 
-import android.app.AlarmManager;
 import android.app.Application;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
@@ -30,7 +27,6 @@ import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
-import it.feio.android.omninotes.utils.BitmapCache;
 import it.feio.android.omninotes.utils.Constants;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -54,7 +50,6 @@ public class OmniNotes extends Application {
     static SharedPreferences prefs;
     private static Tracker mTracker;
     private static GoogleAnalytics mGa;
-    private static BitmapCache mBitmapCache;
     private static RefWatcher refWatcher;
 
 
@@ -70,9 +65,6 @@ public class OmniNotes extends Application {
         }
 
         initAcra(this);
-
-        // Instantiate bitmap cache
-        mBitmapCache = new BitmapCache(getApplicationContext(), 0, 0, getExternalCacheDir());
 
         // Checks selected locale or default one
         updateLanguage(this, null);
@@ -164,14 +156,6 @@ public class OmniNotes extends Application {
      */
     public static GoogleAnalytics getGaInstance() {
         return mGa;
-    }
-
-
-    /*
-     * Returns the Google Analytics instance.
-     */
-    public static BitmapCache getBitmapCache() {
-        return mBitmapCache;
     }
 
 }
