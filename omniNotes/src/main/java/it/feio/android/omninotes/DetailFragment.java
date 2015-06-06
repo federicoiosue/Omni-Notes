@@ -76,6 +76,7 @@ import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListViewItem;
+import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
@@ -1978,7 +1979,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public void onGlobalLayout() {
 		int screenHeight = Display.getUsableSize(mainActivity).y;
-		int heightDiff = screenHeight - Display.getVisibleSize(root).y;
+		int navBarOffset = Display.orientationLandscape(mainActivity) ? 0 : DensityUtil.pxToDp(Display
+				.getNavigationBarHeight(mainActivity.getWindow().getDecorView()), mainActivity);
+		int heightDiff = screenHeight - Display.getVisibleSize(mainActivity).y + navBarOffset;
 		boolean keyboardVisible = heightDiff > 150;
 		if (keyboardVisible && keyboardPlaceholder == null) {
 			shrinkLayouts(heightDiff);
@@ -1991,9 +1994,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private void shrinkLayouts(int heightDiff) {
 		detailWrapperView.removeView(timestampsView);
 		keyboardPlaceholder = new View(mainActivity);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT || (Build.VERSION.SDK_INT >= Build.VERSION_CODES
-				.LOLLIPOP && getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE)) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Display.orientationLandscape(mainActivity))) {
 				root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
+			}
 		}
 	}
 
