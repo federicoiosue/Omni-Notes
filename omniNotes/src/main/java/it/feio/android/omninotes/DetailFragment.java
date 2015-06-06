@@ -1408,7 +1408,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void onActivityResultManageReceivedFiles(Intent intent) {
 		List<Uri> uris = new ArrayList<>();
-		if (Build.VERSION.SDK_INT < 16 || intent.getClipData() != null) {
+		if (Build.VERSION.SDK_INT > 16 && intent.getClipData() != null) {
 			for (int i = 0; i < intent.getClipData().getItemCount(); i++) {
 				uris.add(intent.getClipData().getItemAt(i).getUri());
 			}
@@ -1515,10 +1515,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
 	public void saveAndExit(OnNoteSaved mOnNoteSaved) {
-		exitMessage = getString(R.string.note_updated);
-		exitCroutonStyle = ONStyle.CONFIRM;
-		goBack = true;
-		saveNote(mOnNoteSaved);
+		 if (isAdded()) {
+			exitMessage = getString(R.string.note_updated);
+			exitCroutonStyle = ONStyle.CONFIRM;
+			goBack = true;
+			saveNote(mOnNoteSaved);
+		}
 	}
 
 
