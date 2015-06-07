@@ -1595,7 +1595,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
 			EventBus.getDefault().post(new NotesUpdatedEvent());
 			deleteMergedNotes(mergedNotesIds);
-			if (!noteTmp.getAlarm().equals(note.getAlarm())) {
+			if (noteTmp.getAlarm() != null && !noteTmp.getAlarm().equals(note.getAlarm())) {
 				ReminderHelper.showReminderMessage(noteTmp.getAlarm());
 			}
 		}
