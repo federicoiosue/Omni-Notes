@@ -154,7 +154,7 @@ public class UpgradeProcessor {
 	 */
 	private void onUpgradeTo482() {
 		for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
-			ReminderHelper.addReminder(OmniNotes.getAppContext(), note, false);
+			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
 		}
 	}
 

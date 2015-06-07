@@ -122,6 +122,7 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
             new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteToUpdate);
         } else {
             ReminderHelper.addReminder(OmniNotes.getAppContext(), noteToUpdate, reminder);
+			ReminderHelper.showReminderMessage(noteToUpdate.getAlarm());
         }
     }
 

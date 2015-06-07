@@ -31,31 +31,19 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.date.DateHelper;
 
+import java.util.Calendar;
+
 
 public class ReminderHelper {
 
 	public static void addReminder(Context context, Note note) {
 		if (note.getAlarm() != null) {
-			addReminder(context, note, Long.parseLong(note.getAlarm()), true);
-		}
-	}
-
-
-	public static void addReminder(Context context, Note note, boolean showMessage) {
-		if (note.getAlarm() != null) {
-			addReminder(context, note, Long.parseLong(note.getAlarm()), showMessage);
+			addReminder(context, note, Long.parseLong(note.getAlarm()));
 		}
 	}
 
 
 	public static void addReminder(Context context, Note note, long reminder) {
-		if (note.getAlarm() != null) {
-			addReminder(context, note, reminder, true);
-		}
-	}
-
-
-	public static void addReminder(Context context, Note note, long reminder, boolean showMessage) {
 		Intent intent = new Intent(context, AlarmReceiver.class);
 		intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
 		PendingIntent sender = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent,
@@ -65,9 +53,6 @@ public class ReminderHelper {
 			am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
 		} else {
 			am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
-		}
-		if (showMessage) {
-			showReminderMessage(reminder);
 		}
 	}
 
@@ -83,9 +68,14 @@ public class ReminderHelper {
 	}
 
 
-	private static void showReminderMessage(long reminder) {
-		new Handler(OmniNotes.getAppContext().getMainLooper()).post(() -> Toast.makeText(OmniNotes.getAppContext(),
-				OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " +
-						DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder), Toast.LENGTH_LONG).show());
+	public static void showReminderMessage(String reminderString) {
+		if (reminderString != null) {
+			long reminder = Long.parseLong(reminderString);
+			if (reminder > Calendar.getInstance().getTimeInMillis()) {
+				new Handler(OmniNotes.getAppContext().getMainLooper()).post(() -> Toast.makeText(OmniNotes.getAppContext(),
+						OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort
+								(OmniNotes.getAppContext(), reminder), Toast.LENGTH_LONG).show());
+			}
+		}
 	}
 }

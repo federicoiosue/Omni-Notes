@@ -377,7 +377,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
             // The note is saved
             DbHelper.getInstance().updateNote(note, false);
-			ReminderHelper.addReminder(OmniNotes.getAppContext(), note, false);
+			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
 
             // Updating notification
             importedSpringpadNotes++;
@@ -509,7 +509,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 	private void resetReminders() {
 		Log.d(Constants.TAG, "Resettings reminders");
 		for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
-			ReminderHelper.addReminder(OmniNotes.getAppContext(), note, false);
+			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
 		}
 	}
 
