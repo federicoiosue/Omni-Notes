@@ -931,18 +931,18 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 //                && !onCreateOptionsMenuAlreadyCalled) {
 //            onCreateOptionsMenuAlreadyCalled = true;
 //            ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-//            list.add(new Integer[]{R.id.menu_attachment, R.string.tour_detailactivity_attachment_title, 
+//            list.add(new Integer[]{R.id.menu_attachment, R.string.tour_detailactivity_attachment_title,
 // R.string.tour_detailactivity_attachment_detail, ShowcaseView.ITEM_ACTION_ITEM});
-//            list.add(new Integer[]{R.id.menu_category, R.string.tour_detailactivity_action_title, 
+//            list.add(new Integer[]{R.id.menu_category, R.string.tour_detailactivity_action_title,
 // R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
-//            list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title, 
+//            list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title,
 // R.string.tour_detailactivity_reminder_detail, null});
-//            list.add(new Integer[]{R.id.detail_title, R.string.tour_detailactivity_links_title, 
+//            list.add(new Integer[]{R.id.detail_title, R.string.tour_detailactivity_links_title,
 // R.string.tour_detailactivity_links_detail, null});
-//            list.add(new Integer[]{null, R.string.tour_detailactivity_swipe_title, 
-// R.string.tour_detailactivity_swipe_detail, null, -10, Display.getUsableSize(mainActivity).y / 3, 80, 
+//            list.add(new Integer[]{null, R.string.tour_detailactivity_swipe_title,
+// R.string.tour_detailactivity_swipe_detail, null, -10, Display.getUsableSize(mainActivity).y / 3, 80,
 // Display.getUsableSize(mainActivity).y / 3});
-//            list.add(new Integer[]{0, R.string.tour_detailactivity_save_title, 
+//            list.add(new Integer[]{0, R.string.tour_detailactivity_save_title,
 // R.string.tour_detailactivity_save_detail, ShowcaseView.ITEM_ACTION_HOME});
 //            ((MainActivity) mainActivity).showCaseView(list, new OnShowcaseAcknowledged() {
 //                @Override
@@ -987,6 +987,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@SuppressLint("NewApi")
 	public boolean goHome() {
 		stopPlaying();
+
+		doBeforeLeave();
 
 		// The activity has managed a shared intent from third party app and
 		// performs a normal onBackPressed instead of returning back to ListActivity
@@ -1520,6 +1522,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			exitCroutonStyle = ONStyle.CONFIRM;
 			goBack = true;
 			saveNote(mOnNoteSaved);
+			 doBeforeLeave();
 		}
 	}
 
@@ -1587,14 +1590,19 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public void onNoteSaved(Note noteSaved) {
-		MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
-		EventBus.getDefault().post(new NotesUpdatedEvent());
 		note = new Note(noteSaved);
-		deleteMergedNotes(mergedNotesIds);
 		if (goBack) {
 			goHome();
 		}
 	}
+
+
+	private void doBeforeLeave() {
+		MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
+		EventBus.getDefault().post(new NotesUpdatedEvent());
+		deleteMergedNotes(mergedNotesIds);
+	}
+
 
 	private void deleteMergedNotes(ArrayList<Integer> mergedNotesIds) {
 		for (Integer mergedNoteId : mergedNotesIds) {
