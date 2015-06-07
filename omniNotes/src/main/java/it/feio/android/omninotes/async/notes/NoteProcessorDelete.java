@@ -29,15 +29,24 @@ import java.util.List;
 public class NoteProcessorDelete extends NoteProcessor {
 
 
+	private final boolean keepAttachments;
+
+
 	public NoteProcessorDelete(List<Note> notes) {
+		this(notes, false);
+	}
+
+
+	public NoteProcessorDelete(List<Note> notes, boolean keepAttachments) {
 		super(notes);
+		this.keepAttachments = keepAttachments;
 	}
 
 
 	@Override
 	protected void processNote(Note note) {
 		DbHelper db = DbHelper.getInstance();
-		if (db.deleteNote(note)) {
+		if (db.deleteNote(note) && !keepAttachments) {
 			for (Attachment mAttachment : note.getAttachmentsList()) {
 				StorageHelper.deleteExternalStoragePrivateFile(OmniNotes.getAppContext(), mAttachment.getUri()
 						.getLastPathSegment());

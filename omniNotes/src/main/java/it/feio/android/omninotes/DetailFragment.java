@@ -80,6 +80,7 @@ import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
+import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
@@ -174,6 +175,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private int contentCursorPosition;
 	private ArrayList<Integer> mergedNotesIds = new ArrayList<>();
 	private MainActivity mainActivity;
+	private boolean activityPausing;
 
 
 	@Override
@@ -209,6 +211,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (root != null) {
 			root.getViewTreeObserver().addOnGlobalLayoutListener(this);
 		}
+
+		activityPausing = false;
 	}
 
 
@@ -294,6 +298,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		activityPausing = true;
 
 		// Checks "goBack" value to avoid performing a double saving
         if (!goBack) {
@@ -988,8 +994,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public boolean goHome() {
 		stopPlaying();
 
-		doBeforeLeave();
-
 		// The activity has managed a shared intent from third party app and
 		// performs a normal onBackPressed instead of returning back to ListActivity
 		if (!afterSavedReturnsToList) {
@@ -1508,8 +1512,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 						mainActivity.deleteNote(noteTmp);
 						Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
 						mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
-						MainActivity.notifyAppWidgets(mainActivity);
-						EventBus.getDefault().post(new NotesUpdatedEvent());
 						goHome();
 					}
 				}).build().show();
@@ -1522,7 +1524,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			exitCroutonStyle = ONStyle.CONFIRM;
 			goBack = true;
 			saveNote(mOnNoteSaved);
-			 doBeforeLeave();
 		}
 	}
 
@@ -1590,6 +1591,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public void onNoteSaved(Note noteSaved) {
+		if (!activityPausing) {
+			MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
+			EventBus.getDefault().post(new NotesUpdatedEvent());
+			deleteMergedNotes(mergedNotesIds);
+			if (!noteTmp.getAlarm().equals(note.getAlarm())) {
+				ReminderHelper.showReminderMessage(noteTmp.getAlarm());
+			}
+		}
 		note = new Note(noteSaved);
 		if (goBack) {
 			goHome();
@@ -1597,20 +1606,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
-	private void doBeforeLeave() {
-		MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
-		EventBus.getDefault().post(new NotesUpdatedEvent());
-		deleteMergedNotes(mergedNotesIds);
-		ReminderHelper.showReminderMessage(noteTmp.getAlarm());
-	}
-
-
 	private void deleteMergedNotes(ArrayList<Integer> mergedNotesIds) {
+		ArrayList<Note> notesToDelete = new ArrayList<Note>();
 		for (Integer mergedNoteId : mergedNotesIds) {
 			Note note = new Note();
 			note.set_id(mergedNoteId);
-			DbHelper.getInstance().deleteNote(note, true);
+			notesToDelete.add(note);
 		}
+		new NoteProcessorDelete(notesToDelete).process();
 	}
 
 
