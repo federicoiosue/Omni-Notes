@@ -17,6 +17,15 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.0.1" changeDate="Jun 7, 2015">
+        <changelogtext>Reminders popup shown only when updated instead that on all note changes</changelogtext>
+        <changelogtext>Reduced title height into note's detail</changelogtext>
+        <changelogtext>Faster home widgets' image visualization</changelogtext>
+        <changelogtext>[u]Fix[/u] Files attaching on ICS devices</changelogtext>
+        <changelogtext>[u]Fix[/u] Landscape visualization on tablets</changelogtext>
+        <changelogtext>[u]Fix[/u] Missing attachments for merged notes in some cases</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.0" changeDate="Jun 1, 2015">
         <changelogtext>[b]New![/b] Material design UI and new icon</changelogtext>
         <changelogtext>[b]New![/b] Customizable floating action button with long-press-shortcut to checklist and camera</changelogtext>
