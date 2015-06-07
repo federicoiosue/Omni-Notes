@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.*;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -54,15 +55,15 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
-import it.feio.android.omninotes.async.bus.NavigationUpdatedNavDrawerClosedEvent;
-import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
+import it.feio.android.omninotes.async.AttachmentTask;
+import it.feio.android.omninotes.async.bus.*;
 import it.feio.android.omninotes.async.notes.*;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
@@ -1623,14 +1624,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        mergeExecute(false);
+                        EventBus.getDefault().post(new NotesMergeEvent(false));
                     }
 
 
                     @Override
                     public void onNegative(MaterialDialog dialog) {
-                        mergeExecute(true);
-                    }
+						EventBus.getDefault().post(new NotesMergeEvent(true));
+					}
                 }).build().show();
     }
 
@@ -1638,7 +1639,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     /**
      * Merges all the selected notes
      */
-    public void mergeExecute(boolean keepMergedNotes) {
+    public void onEventAsync(NotesMergeEvent notesMergeEvent) {
 
         Note mergedNote = null;
         boolean locked = false;
@@ -1675,7 +1676,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             }
 
             locked = locked || note.isLocked();
-            attachments.addAll(note.getAttachmentsList());
+
+			if (notesMergeEvent.keepMergedNotes) {
+				for (Attachment attachment : note.getAttachmentsList()) {
+					attachments.add(StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), attachment.getUri
+							()));
+				}
+			} else {
+				attachments.addAll(note.getAttachmentsList());
+			}
         }
 
         // Resets all the attachments id to force their note re-assign when saved
@@ -1688,21 +1697,24 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         mergedNote.setLocked(locked);
         mergedNote.setAttachmentsList(attachments);
 
-        getSelectedNotes().clear();
-        if (getActionMode() != null) {
-            getActionMode().finish();
-        }
+		final Note finalMergedNote = mergedNote;
+		new Handler(Looper.getMainLooper()).post(() -> {
+			getSelectedNotes().clear();
+			if (getActionMode() != null) {
+				getActionMode().finish();
+			}
 
-        // Sets the intent action to be recognized from DetailFragment and switch fragment
-        mainActivity.getIntent().setAction(Constants.ACTION_MERGE);
-        if (!keepMergedNotes) {
-            mainActivity.getIntent().putIntegerArrayListExtra("merged_notes", notesIds);
-        }
-        mainActivity.switchToDetail(mergedNote);
+			// Sets the intent action to be recognized from DetailFragment and switch fragment
+			mainActivity.getIntent().setAction(Constants.ACTION_MERGE);
+			if (!notesMergeEvent.keepMergedNotes) {
+				mainActivity.getIntent().putIntegerArrayListExtra("merged_notes", notesIds);
+			}
+			mainActivity.switchToDetail(finalMergedNote);
+		});
     }
 
 
-    /**
+	/**
      * Excludes past reminders
      */
     private void filterReminders(boolean filter) {

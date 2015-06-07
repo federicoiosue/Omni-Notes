@@ -17,11 +17,11 @@
 
 package it.feio.android.omninotes.async;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.utils.StorageHelper;
@@ -32,7 +32,6 @@ import java.lang.ref.WeakReference;
 public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
     private final WeakReference<Fragment> mFragmentWeakReference;
-    private final Activity mActivity;
     private OnAttachingFileListener mOnAttachingFileListener;
     private Uri uri;
     private String fileName;
@@ -49,13 +48,12 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
         this.uri = uri;
         this.fileName = TextUtils.isEmpty(fileName) ? "" : fileName;
         this.mOnAttachingFileListener = mOnAttachingFileListener;
-        this.mActivity = mFragment.getActivity();
     }
 
 
     @Override
     protected Attachment doInBackground(Void... params) {
-        return StorageHelper.createAttachmentFromUri(mActivity, uri);
+        return StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), uri);
     }
 
 
@@ -69,7 +67,7 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
             }
         } else {
             if (mAttachment != null) {
-                StorageHelper.delete(mActivity, mAttachment.getUri().getPath());
+                StorageHelper.delete(OmniNotes.getAppContext(), mAttachment.getUri().getPath());
             }
         }
     }
