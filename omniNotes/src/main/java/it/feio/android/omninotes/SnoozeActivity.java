@@ -29,10 +29,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
-import java.util.Calendar;
-
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
@@ -40,6 +36,8 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
+
+import java.util.Calendar;
 
 
 public class SnoozeActivity extends ActionBarActivity implements OnReminderPickedListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -57,7 +55,6 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
 
         SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
-        // If an alarm has been fired a notification must be generated
         if (Constants.ACTION_DISMISS.equals(getIntent().getAction())) {
             setNextRecurrentReminder(note);
             finish();
@@ -108,6 +105,8 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
             if (nextReminder > 0) {
                 updateNoteReminder(nextReminder, note, true);
             }
+        } else {
+            new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
         }
     }
 
@@ -123,9 +122,8 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
             new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteToUpdate);
         } else {
             ReminderHelper.addReminder(OmniNotes.getAppContext(), noteToUpdate, reminder);
+			ReminderHelper.showReminderMessage(noteToUpdate.getAlarm());
         }
-        Toast.makeText(OmniNotes.getAppContext(), OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " +
-                DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder), Toast.LENGTH_SHORT).show();
     }
 
     @Override

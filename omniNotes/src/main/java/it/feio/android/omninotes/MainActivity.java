@@ -17,7 +17,6 @@
 
 package it.feio.android.omninotes;
 
-import android.animation.ValueAnimator;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
@@ -34,48 +33,41 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import it.feio.android.omninotes.async.UpdaterTask;
+import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.listeners.OnPushBulletReplyListener;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.MiscUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, 
-        OnPushBulletReplyListener {
+public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
 
-    static final int BURGER = 0;
-    static final int ARROW = 1;
+    @InjectView(R.id.crouton_handle) ViewGroup croutonViewContainer;
+    @InjectView(R.id.toolbar) Toolbar toolbar;
+    @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
 
     public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
     public final String FRAGMENT_LIST_TAG = "fragment_list";
     public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
     public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
-
-    private static MainActivity instance;
     private FragmentManager mFragmentManager;
-
-    public boolean loadNotesSync = Constants.LOAD_NOTES_SYNC;
-
     public Uri sketchUri;
-    @InjectView(R.id.crouton_handle) ViewGroup croutonViewContainer;
-    @InjectView(R.id.toolbar) Toolbar toolbar;
-    @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
 
 
     @Override
@@ -84,8 +76,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        instance = this;
-
         // This method starts the bootstrap chain.
 //		requestShowCaseViewVisualization();
         checkPassword();
@@ -93,6 +83,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         initUI();
 
         new UpdaterTask(this).execute();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
 
@@ -119,11 +115,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
-    public static MainActivity getInstance() {
-        return instance;
-    }
-
-
     private void init() {
         mFragmentManager = getSupportFragmentManager();
 
@@ -142,14 +133,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
         // Handling of Intent actions
         handleIntents();
-    }
-
-
-    @Override
-    public void onLowMemory() {
-        Log.w(Constants.TAG, "Low memory, bitmap cache will be cleaned!");
-        OmniNotes.getBitmapCache().evictAll();
-        super.onLowMemory();
     }
 
 
@@ -281,23 +264,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
-    void animateBurger(int targetShape) {
-        final ActionBarDrawerToggle drawerToggle = getDrawerToggle();
-        if (drawerToggle != null) {
-            if (targetShape != BURGER && targetShape != ARROW)
-                return;
-            ValueAnimator anim = ValueAnimator.ofFloat((targetShape + 1) % 2, targetShape);
-            anim.addUpdateListener(valueAnimator -> {
-				float slideOffset = (Float) valueAnimator.getAnimatedValue();
-				drawerToggle.onDrawerSlide(getDrawerLayout(), slideOffset);
-			});
-            anim.setInterpolator(new DecelerateInterpolator());
-            anim.setDuration(500);
-            anim.start();
-        }
-    }
-
-
     public DrawerLayout getDrawerLayout() {
         return drawerLayout;
     }
@@ -334,7 +300,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (i.getAction() == null) return;
 
         if (Constants.ACTION_RESTART_APP.equals(i.getAction())) {
-            OmniNotes.restartApp(getApplicationContext());
+            MiscUtils.restartApp(getApplicationContext(), MainActivity.class);
         }
 
         if (receivedIntent(i)) {
@@ -407,6 +373,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             getDrawerToggle().setDrawerIndicatorEnabled(false);
         }
         mFragmentManager.getFragments();
+        EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
     }
 
 
@@ -424,7 +391,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack
                     (FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
         }
-        animateBurger(ARROW);
     }
 
 
@@ -549,15 +515,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         DetailFragment f = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
         if (f != null && f.isAdded()) {
             f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
-        }
-    }
-
-
-    @Override
-    public void onPushBulletReply(final String message) {
-        final DetailFragment df = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
-        if (df != null) {
-            runOnUiThread(() -> df.appendToContentViewText(message));
         }
     }
 }

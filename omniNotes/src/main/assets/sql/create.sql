@@ -9,13 +9,14 @@ CREATE
 		archived INTEGER,
 		trashed INTEGER,
 		alarm INTEGER DEFAULT null,
+        reminder_fired INTEGER,
 		recurrence_rule TEXT,
 		latitude REAL,
 		longitude REAL,
 		address TEXT,
 		category_id INTEGER DEFAULT null,
 		locked INTEGER,  
-		checklist  INTEGER   
+		checklist  INTEGER
 	);
 	
 

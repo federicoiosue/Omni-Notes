@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">Очищення всіх даних</string>
   <string name="reset_all_data_confirmation">Підтверджуєте очищення всіх даних програми (резервні копії будуть збережені)?</string>
   <string name="action_settings">Налаштування</string>
-  <string name="settings_sync_import_export">Синхронізація і резервне копіювання</string>
+  <string name="settings_screen_sync_import_export">Синхронізація і резервне копіювання</string>
   <string name="settings_export">Резервні копії</string>
   <string name="settings_import">Відновлення/видалення резервних копій</string>
   <string name="settings_import_from_springpad">Імпорт нотаток зі Springpad</string>

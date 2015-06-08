@@ -27,8 +27,8 @@ public class Fab {
 
     private FloatingActionsMenu fab;
     private boolean fabAllowed;
-    private boolean fabHidden = true;
-    private boolean fabExpanded = false;
+    private boolean fabHidden;
+    private boolean fabExpanded;
     private final ListView listView;
     private boolean expandOnLongClick;
     private View overlay;
@@ -45,28 +45,25 @@ public class Fab {
 
 
     private void init() {
+        this.fabHidden = true;
+        this.fabExpanded = false;
+
         AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(R.id.fab_expand_menu_button);
-        fabAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (expandOnLongClick) {
-                    performAction(v);
-                } else {
-                    performToggle();
-                }
-            }
-        });
-        fabAddButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (!expandOnLongClick) {
-                    performAction(v);
-                } else {
-                    performToggle();
-                }
-                return true;
-            }
-        });
+        fabAddButton.setOnClickListener(v -> {
+			if (!isExpanded() && expandOnLongClick) {
+				performAction(v);
+			} else {
+				performToggle();
+			}
+		});
+        fabAddButton.setOnLongClickListener(v -> {
+			if (!expandOnLongClick) {
+				performAction(v);
+			} else {
+				performToggle();
+			}
+			return true;
+		});
         listView.setOnScrollListener(
                 new AbsListViewScrollDetector() {
                     public void onScrollUp() {
@@ -167,12 +164,10 @@ public class Fab {
                         fab.setVisibility(visibilityBefore);
                     }
 
-
                     @Override
                     public void onAnimationEnd(View view) {
                         fab.setVisibility(visibilityAfter);
                     }
-
 
                     @Override
                     public void onAnimationCancel(View view) {
@@ -181,15 +176,8 @@ public class Fab {
     }
 
 
-    public void setFabAllowed(boolean allowed) {
-        if (allowed) {
-            boolean showFab = Navigation.checkNavigation(new Integer[]{Navigation.NOTES, Navigation.CATEGORY});
-            if (showFab) {
-                fabAllowed = true;
-            }
-        } else {
-            fabAllowed = false;
-        }
+    public void setAllowed(boolean allowed) {
+        fabAllowed = allowed;
     }
 
 
@@ -209,12 +197,7 @@ public class Fab {
 
     public void setOverlay(View overlay) {
         this.overlay = overlay;
-        this.overlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performToggle();
-            }
-        });
+        this.overlay.setOnClickListener(v -> performToggle());
     }
 
 
@@ -225,12 +208,7 @@ public class Fab {
                 .MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         overlayView.setLayoutParams(params);
         overlayView.setVisibility(View.GONE);
-        overlayView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performToggle();
-            }
-        });
+        overlayView.setOnClickListener(v -> performToggle());
         ViewGroup parent = ((ViewGroup) fab.getParent());
         parent.addView(overlayView, parent.indexOfChild(fab));
         this.overlay = overlayView;

@@ -114,3 +114,11 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }
+
+
+###############
+# Keeps R inner classes
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+-keep class **.R$*

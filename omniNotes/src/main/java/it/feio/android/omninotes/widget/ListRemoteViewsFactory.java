@@ -118,15 +118,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
         if (note.getAttachmentsList().size() > 0 && showThumbnails) {
             Attachment mAttachment = note.getAttachmentsList().get(0);
-            // Fetch from cache if possible
-            String cacheKey = mAttachment.getUri().getPath() + WIDTH + HEIGHT;
-            Bitmap bmp = OmniNotes.getBitmapCache().getBitmap(cacheKey);
-
-            if (bmp == null) {
-                bmp = BitmapHelper.getBitmapFromAttachment(app, mAttachment,
-                        WIDTH, HEIGHT);
-//				app.getBitmapCache().addBitmap(cacheKey, bmp);
-            }
+            Bitmap bmp = BitmapHelper.getBitmapFromAttachment(app, mAttachment, WIDTH, HEIGHT);
             row.setBitmap(R.id.attachmentThumbnail, "setImageBitmap", bmp);
             row.setInt(R.id.attachmentThumbnail, "setVisibility", View.VISIBLE);
         } else {

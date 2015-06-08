@@ -30,6 +30,7 @@ import android.util.Log;
 import android.widget.Toast;
 import exceptions.ImportException;
 import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -42,7 +43,6 @@ import it.feio.android.springpadimporter.models.SpringpadAttachment;
 import it.feio.android.springpadimporter.models.SpringpadComment;
 import it.feio.android.springpadimporter.models.SpringpadElement;
 import it.feio.android.springpadimporter.models.SpringpadItem;
-import listeners.ZipProgressesListener;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -76,18 +76,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        // PowerManager pm = (PowerManager)
-        // getSystemService(Context.POWER_SERVICE);
-        // PowerManager.WakeLock wl =
-        // pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
-        // // Acquire the lock
-        // wl.acquire();
-
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
         // Creates an indeterminate processing notification until the work is complete
         mNotificationsHelper = new NotificationsHelper(this)
-                .createNotification(R.drawable.ic_stat_notification_icon, getString(R.string.working), null)
+                .createNotification(R.drawable.ic_content_save_white_24dp, getString(R.string.working), null)
                 .setIndeterminate().setOngoing().show();
 
         // If an alarm has been fired a notification must be generated
@@ -100,11 +93,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         } else if (ACTION_DATA_DELETE.equals(intent.getAction())) {
             deleteData(intent);
         }
-
-        // Release the lock
-        // Log.d(Constants.TAG, TAG, "Releasing power lock, all done");
-        // wl.release();
-
     }
 
 
@@ -150,8 +138,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         // Attachments backup
         importAttachments(backupDir);
 
-        // Settings restore
-        importSettings(backupDir);
+		// Settings restore
+		importSettings(backupDir);
+
+		// Reminders restore
+		resetReminders();
 
         String title = getString(R.string.data_import_completed);
         String text = getString(R.string.click_to_refresh_application);
@@ -159,30 +150,23 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     }
 
 
-    /**
+	/**
      * Imports notes and notebooks from Springpad exported archive
      *
      * @param intent
      */
     synchronized private void importDataFromSpringpad(Intent intent) {
-
-        // Backupped notes retrieval
         String backupPath = intent.getStringExtra(EXTRA_SPRINGPAD_BACKUP);
         Importer importer = new Importer();
         try {
-            importer.setZipProgressesListener(new ZipProgressesListener() {
-                @Override
-                public void onZipProgress(int percentage) {
-                    mNotificationsHelper.setMessage(getString(R.string.extracted) + " " + percentage + "%").show();
-                }
-            });
+            importer.setZipProgressesListener(percentage -> mNotificationsHelper.setMessage(getString(R.string.extracted) + " " + percentage + "%").show());
             importer.doImport(backupPath);
             // Updating notification
             updateImportNotification(importer);
         } catch (ImportException e) {
             new NotificationsHelper(this)
-                    .createNotification(R.drawable.ic_stat_notification_icon,
-                            getString(R.string.import_fail) + ": " + e.getMessage(), null).show();
+                    .createNotification(R.drawable.ic_emoticon_sad_white_24dp,
+                            getString(R.string.import_fail) + ": " + e.getMessage(), null).setLedActive().show();
             return;
         }
         List<SpringpadElement> elements = importer.getSpringpadNotes();
@@ -393,6 +377,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
             // The note is saved
             DbHelper.getInstance().updateNote(note, false);
+			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
 
             // Updating notification
             importedSpringpadNotes++;
@@ -458,8 +443,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationsHelper mNotificationsHelper = new NotificationsHelper(mContext);
-        mNotificationsHelper.createNotification(R.drawable.ic_stat_notification_icon, title, notifyIntent)
-                .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null));
+        mNotificationsHelper.createNotification(R.drawable.ic_content_save_white_24dp, title, notifyIntent)
+                .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null))
+                .setLedActive();
         if (prefs.getBoolean("settings_notification_vibration", true)) mNotificationsHelper.setVibration();
         mNotificationsHelper.show();
     }
@@ -515,6 +501,17 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         File preferenceBackup = new File(backupDir, preferences.getName());
         return (StorageHelper.copyFile(preferenceBackup, preferences));
     }
+
+
+	/**
+	 * Schedules reminders
+	 */
+	private void resetReminders() {
+		Log.d(Constants.TAG, "Resettings reminders");
+		for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
+			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+		}
+	}
 
 
     /**

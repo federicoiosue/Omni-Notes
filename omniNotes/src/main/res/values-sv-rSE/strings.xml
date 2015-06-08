@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">Radera alla uppgifter</string>
   <string name="reset_all_data_confirmation">Bekräfta att ta bort alla app-data (säkerhetskopior kommer att sparas)?</string>
   <string name="action_settings">Inställningar</string>
-  <string name="settings_sync_import_export">Synkronisering och säkerhetskopiering</string>
+  <string name="settings_screen_sync_import_export">Synkronisering och säkerhetskopiering</string>
   <string name="settings_export">Säkerhetskopiera</string>
   <string name="settings_import">Återställ eller radera säkerhetskopior</string>
   <string name="settings_import_from_springpad">Importera anteckningar från Springpad</string>

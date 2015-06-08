@@ -65,12 +65,12 @@
                     android:hint="@string/title"
                     android:inputType="textCapSentences"
                     android:linksClickable="false"
-                    android:paddingBottom="12dp"
+                    android:paddingBottom="6dp"
                     paddingStart="6dp"
                     android:paddingLeft="6dp"
                     paddingEnd="16dp"
                     android:paddingRight="16dp"
-                    android:paddingTop="12dp"
+                    android:paddingTop="6dp"
                     android:textAppearance="@style/Text.Big"
                     android:textColorHint="@color/text_color_lighter"
                     android:textColor="@color/text_color"
@@ -168,13 +168,13 @@
                             android:gravity="center_vertical">
 
                             <ImageView
-                                android:id="@+id/reminder"
+                                android:id="@+id/reminder_icon"
                                 android:layout_height="20dp"
                                 android:layout_width="20dp"
                                 android:layout_marginEnd="5dp"
                                 android:layout_marginRight="5dp"
                                 android:contentDescription="@string/reminder"
-                                android:src="@drawable/ic_alarm_grey600_48dp" />
+                                android:src="@drawable/ic_reminder_add" />
 
                             <com.neopixl.pixlui.components.textview.TextView
                                 android:id="@+id/datetime"

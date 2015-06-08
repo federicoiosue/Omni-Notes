@@ -57,21 +57,31 @@ If you need some help on how to use the application you'll find everything you n
 [<img src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png">][1]
 
 
-##Dependencies
+##Build the app
+
+Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as code versioning methodology (even before it was formalized) you, as developer should **always** start working on [develop branch](https://github.com/federicoiosue/Omni-Notes/tree/develop) that contains the most recent changes.
+
+To simplify the approach with the app code I switched to the new Android Studio IDE (BETAs are ready to be daily used) and I created a personal [Maven repository](https://github.com/federicoiosue/repository) to avoid you to download all the libraries and sub-projects Omni Notes depends on.
+
+Short story long: you have to clone from Omni Notes' develop branch on GitHub the code into Android Studio, wait for all dependencies have been downloaded and start coding!
+
+**Don't forget to contribute to original code! Don't be selfish or lazy!**
+
+####Dependences
+
+They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni-Notes/blob/develop/omniNotes/build.gradle) file but due to the fact that many of the dependences have been customized by me I'd like to say thanks here to the original developers of these great libraries:
 
 * https://github.com/derekbrameyer/android-betterpickers
 * https://github.com/gabrielemariotti/changeloglib
-* https://github.com/federicoiosue/CheckListView
 * https://github.com/LarsWerkman/HoloColorPicker
 * https://github.com/keyboardsurfer
-* https://github.com/federicoiosue/SimpleGallery
-* https://github.com/federicoiosue/PixlUI
+* https://github.com/neopixl/PixlUI
 
 
-##Developed By
+##Developed with love and passion by
 
 
-* Federico Iosue - <federico.iosue@gmail.com>
+* Federico Iosue - [Website](http://www.iosue.it/federico)
 
 
 

@@ -37,11 +37,9 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
 
     public Note(Long creation, Long lastModification, String title, String content, Integer archived,
-                Integer trashed, String alarm, String recurrenceRule, String latitude, String longitude, Category
-                        category, Integer
-                        locked,
-                Integer checklist) {
-        super(creation, lastModification, title, content, archived, trashed, alarm, recurrenceRule, latitude,
+				Integer trashed, String alarm, String recurrenceRule, Integer reminderFired, String latitude, String longitude, Category
+                        category, Integer locked, Integer checklist) {
+        super(creation, lastModification, title, content, archived, trashed, alarm, reminderFired, recurrenceRule, latitude,
                 longitude, category, locked, checklist);
     }
 
@@ -59,12 +57,13 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
         setContent(in.readString());
         setArchived(in.readInt());
         setTrashed(in.readInt());
-        setAlarm(in.readString());
+		setAlarm(in.readString());
+		setReminderFired(in.readInt());
         setRecurrenceRule(in.readString());
         setLatitude(in.readString());
         setLongitude(in.readString());
         setAddress(in.readString());
-        setCategory((Category) in.readParcelable(Category.class.getClassLoader()));
+        setCategory(in.readParcelable(Category.class.getClassLoader()));
         setLocked(in.readInt());
         setChecklist(in.readInt());
         in.readList(getAttachmentsList(), Attachment.class.getClassLoader());
@@ -126,14 +125,7 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
     @Override
     public Category getCategory() {
-        if(super.getCategory() == null) {
-            return null;
-        }
-        if (super.getCategory() instanceof Category) {
-            return (Category) super.getCategory();
-        } else {
-            return new Category(super.getCategory());
-        }
+        return (Category) super.getCategory();
     }
 
 
@@ -151,7 +143,8 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
         parcel.writeString(getContent());
         parcel.writeInt(isArchived() ? 1 : 0);
         parcel.writeInt(isTrashed() ? 1 : 0);
-        parcel.writeString(getAlarm());
+		parcel.writeString(getAlarm());
+		parcel.writeInt(isReminderFired() ? 1 : 0);
         parcel.writeString(getRecurrenceRule());
         parcel.writeString(String.valueOf(getLatitude()));
         parcel.writeString(String.valueOf(getLongitude()));

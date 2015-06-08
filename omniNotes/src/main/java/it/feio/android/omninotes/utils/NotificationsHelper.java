@@ -24,9 +24,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
+import android.view.View;
 import it.feio.android.omninotes.R;
 
 
@@ -38,7 +41,7 @@ public class NotificationsHelper {
 
 
     public NotificationsHelper(Context mContext) {
-        this.mContext = mContext;
+        this.mContext = mContext.getApplicationContext();
     }
 
 
@@ -47,9 +50,14 @@ public class NotificationsHelper {
      */
     public NotificationsHelper createNotification(int smallIcon, String title, PendingIntent notifyIntent) {
         mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(smallIcon).setContentTitle(title)
-                .setAutoCancel(true);
+                .setAutoCancel(true).setColor(mContext.getResources().getColor(R.color.colorAccent));
         mBuilder.setContentIntent(notifyIntent);
-        setLargeIcon(R.drawable.logo);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setLargeIcon(R.drawable.logo_notification_lollipop);
+        } else {
+            setLargeIcon(R.mipmap.ic_launcher);
+        }
+
         return this;
     }
 
@@ -66,8 +74,7 @@ public class NotificationsHelper {
 
 
     public NotificationsHelper setLargeIcon(int largeIconResource) {
-        Bitmap largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(),
-                R.drawable.ic_launcher);
+        Bitmap largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), largeIconResource);
         return setLargeIcon(largeIconBitmap);
     }
 
@@ -87,11 +94,16 @@ public class NotificationsHelper {
 
 
     public NotificationsHelper setVibration(long[] pattern) {
-        // Vibration options
         if (pattern == null || pattern.length == 0) {
             pattern = new long[]{500, 500};
         }
         mBuilder.setVibrate(pattern);
+        return this;
+    }
+
+
+    public NotificationsHelper setLedActive() {
+        mBuilder.setLights(Color.BLUE, 1000, 1000);
         return this;
     }
 

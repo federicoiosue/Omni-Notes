@@ -157,6 +157,7 @@
   <string name="not_expired">期限内</string>
   <string name="expired">期限切れ</string>
   <string name="today">今日</string>
+  <string name="tomorrow">明日</string>
   <string name="open">開く</string>
   <string name="copy">コピー</string>
   <string name="no_application_can_perform_this_action">このアクションのアプリケーションが見つかりません</string>
@@ -189,8 +190,9 @@
   <string name="settings_reset_all_data">データをすべて消去</string>
   <string name="reset_all_data_confirmation">アプリのデータをすべて消去しますか? (バックアップは保持されます)</string>
   <string name="action_settings">設定</string>
-  <string name="settings_sync_import_export">同期とバックアップ</string>
+  <string name="settings_screen_sync_import_export">同期とバックアップ</string>
   <string name="settings_export">バックアップ</string>
+  <string name="settings_sync_import_export">同期とバックアップ</string>
   <string name="settings_import">バックアップを復元または削除</string>
   <string name="settings_import_from_springpad">Springpad からノートをインポート</string>
   <string name="settings_import_from_springpad_summary">Springpad でエクスポートしたアーカイブを選択して、インターネットに接続されていることを確認してください</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">バックアップ</string>
   <string name="settings_screen_notifications">通知</string>
   <string name="settings_enable_vibration">バイブレーション</string>
+  <string name="settings_screen_navigation">ナビゲーション</string>
   <string name="settings_changelog">変更履歴</string>
   <string name="settings_enable_editor_links">リンクの認識</string>
   <string name="settings_max_video_size">ビデオの添付</string>

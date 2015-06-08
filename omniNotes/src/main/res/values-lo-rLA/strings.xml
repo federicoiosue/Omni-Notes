@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">ລຶບຂໍ້ມູນທັງໝົດ?</string>
   <string name="reset_all_data_confirmation">ຢືນຢັນການລຶບຂໍ້ມູນທັງໝົດຂອງແອັບຯ (ຂໍ້ມູນສຳຮອງ​ຈະ​ຖືກຮັກ​ສາ​ໄວ້​)​?</string>
   <string name="action_settings">ການ​ຕັ້ງຄ່າ</string>
-  <string name="settings_sync_import_export">ການຊິ້ງ ແລະ ສຳຮອງຂໍ້ມູນ</string>
+  <string name="settings_screen_sync_import_export">ການຊິ້ງ ແລະ ສຳຮອງຂໍ້ມູນ</string>
   <string name="settings_export">ການສຳຮອງຂໍ້ມູນ</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>

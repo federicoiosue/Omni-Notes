@@ -157,6 +157,7 @@
   <string name="not_expired">not expired</string>
   <string name="expired">expired</string>
   <string name="today">today</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">Open</string>
   <string name="copy">Copy</string>
   <string name="no_application_can_perform_this_action">No application found for this action</string>
@@ -189,7 +190,7 @@
   <string name="settings_reset_all_data">Erase all data</string>
   <string name="reset_all_data_confirmation">Erase all of the app\'s data? (backups will be preserved)</string>
   <string name="action_settings">Settings</string>
-  <string name="settings_sync_import_export">Sync and Backups</string>
+  <string name="settings_screen_sync_import_export">Sync and Backups</string>
   <string name="settings_export">Backup</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>

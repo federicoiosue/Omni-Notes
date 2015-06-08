@@ -20,9 +20,7 @@ package it.feio.android.omninotes.async.notes;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
@@ -38,7 +36,6 @@ import java.util.List;
 public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 
     private Context context;
-    private boolean error = false;
     private boolean updateLastModification = true;
     private OnNoteSaved mOnNoteSaved;
 
@@ -60,11 +57,11 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
     protected Note doInBackground(Note... params) {
         Note note = params[0];
         purgeRemovedAttachments(note);
-        if (!error) {
-            DbHelper db = DbHelper.getInstance();
-            note = db.updateNote(note, updateLastModification);
-        } else {
-            Toast.makeText(context, context.getString(R.string.error_saving_attachments), Toast.LENGTH_SHORT).show();
+        note.setReminderFired(note.getAlarm() == null || Long.parseLong(note.getAlarm()) < Calendar.getInstance()
+                .getTimeInMillis());
+        note = DbHelper.getInstance().updateNote(note, updateLastModification);
+        if (!note.isReminderFired()) {
+            ReminderHelper.addReminder(context, note);
         }
         return note;
     }
@@ -100,13 +97,6 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
     @Override
     protected void onPostExecute(Note note) {
         super.onPostExecute(note);
-
-        // Set reminder if is not passed yet
-        long now = Calendar.getInstance().getTimeInMillis();
-        if (note.getAlarm() != null && Long.parseLong(note.getAlarm()) >= now) {
-            ReminderHelper.addReminder(context, note);
-        }
-
         if (this.mOnNoteSaved != null) {
             mOnNoteSaved.onNoteSaved(note);
         }

@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,17 +41,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.FileHelper;
-import it.feio.android.omninotes.utils.IntentChecker;
-import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.*;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 
 public class SettingsFragment extends PreferenceFragment {
@@ -64,19 +59,28 @@ public class SettingsFragment extends PreferenceFragment {
     private final int SPRINGPAD_IMPORT = 0;
     private final int RINGTONE_REQUEST_CODE = 100;
     public final static String XML_NAME = "xmlName";
+	private Activity activity;
 
 
-    @Override
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int xmlId = getXmlId() > 0 ? getXmlId() : R.xml.settings;
         addPreferencesFromResource(xmlId);
-        setTitle();
-        prefs = getActivity().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
     }
 
 
-    private int getXmlId() {
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		this.activity = activity;
+		Log.d("asd", activity.toString());
+		prefs = activity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+		setTitle();
+	}
+
+
+	private int getXmlId() {
         if (getArguments() == null || !getArguments().containsKey(XML_NAME)) return 0;
         String xmlName = getArguments().getString(XML_NAME);
         return getActivity().getResources().getIdentifier(xmlName, "xml",
@@ -90,8 +94,7 @@ public class SettingsFragment extends PreferenceFragment {
             String xmlName = getArguments().getString(XML_NAME);
             if (!TextUtils.isEmpty(xmlName)) {
                 int stringResourceId = getActivity().getResources().getIdentifier(xmlName.replace("settings_",
-                                "settings_screen_"), "string",
-                        getActivity().getPackageName());
+                                "settings_screen_"), "string", getActivity().getPackageName());
                 title = stringResourceId != 0 ? getString(stringResourceId) : title;
             }
         }
@@ -433,7 +436,7 @@ public class SettingsFragment extends PreferenceFragment {
                     + languageName.substring(1, languageName.length()));
             lang.setOnPreferenceChangeListener((preference, value) -> {
 				OmniNotes.updateLanguage(getActivity(), value.toString());
-				OmniNotes.restartApp(getActivity());
+				MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 				return false;
 			});
         }
@@ -531,7 +534,7 @@ public class SettingsFragment extends PreferenceFragment {
         Preference changelog = findPreference("settings_changelog");
         if (changelog != null) {
             changelog.setOnPreferenceClickListener(arg0 -> {
-				new MaterialDialog.Builder(getActivity())
+				new MaterialDialog.Builder(activity)
 						.customView(R.layout.activity_changelog, false)
 						.positiveText(R.string.ok)
 						.build().show();
@@ -570,7 +573,7 @@ public class SettingsFragment extends PreferenceFragment {
 							StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
 							// App tour is flagged as skipped anyhow
 //								prefs.edit().putBoolean(Constants.PREF_TOUR_PREFIX + "skipped", true).commit();
-							OmniNotes.restartApp(getActivity());
+							MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 						}).setNegativeButton(getString(R.string.cancel), (dialog, id) -> {
 							dialog.cancel();
 						});
@@ -706,7 +709,8 @@ public class SettingsFragment extends PreferenceFragment {
 
                 case RINGTONE_REQUEST_CODE:
                     Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-                    prefs.edit().putString("settings_notification_ringtone", uri.toString()).apply();
+					String notificationSound = uri == null ? null : uri.toString();
+                    prefs.edit().putString("settings_notification_ringtone", notificationSound).apply();
                     break;
             }
         }

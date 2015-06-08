@@ -23,6 +23,7 @@
         android:entryValues="@array/languages_codes"
         android:key="settings_language"
         android:title="@string/settings_choose_language" />
+
     <ListPreference
         android:entries="@array/text_size"
         android:entryValues="@array/text_size_values"
@@ -35,12 +36,6 @@
         android:key="settings_simple_calendar"
         android:summary="@string/settings_simple_calendar_summary"
         android:title="@string/settings_simple_calendar" />
-
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="settings_show_category_count"
-        android:summary="@string/settings_show_category_count_summary"
-        android:title="@string/settings_show_category_count" />
 
     <ListPreference
         android:entries="@array/colors_app"

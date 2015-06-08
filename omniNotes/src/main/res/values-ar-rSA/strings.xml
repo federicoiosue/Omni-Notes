@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">محو كافة البيانات</string>
   <string name="reset_all_data_confirmation">تأكيد إزالة كافة بيانات التطبيق (سيتم الاحتفاظ النسخ الاحتياطية)؟</string>
   <string name="action_settings">إعدادات</string>
-  <string name="settings_sync_import_export">المزامنة والنسخ الاحتياطي</string>
+  <string name="settings_screen_sync_import_export">المزامنة والنسخ الاحتياطي</string>
   <string name="settings_export">النسخ الاحتياطي</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>

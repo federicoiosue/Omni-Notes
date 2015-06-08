@@ -51,3 +51,7 @@ Thumbs.db
 # gradle directory
 .gradle
 build/
+
+# Android Studio
+.navigation
+captures

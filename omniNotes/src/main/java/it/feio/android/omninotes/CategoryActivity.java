@@ -28,13 +28,10 @@ import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 import it.feio.android.omninotes.db.DbHelper;
@@ -67,10 +64,8 @@ public class CategoryActivity extends Activity {
 
         mActivity = this;
 
-        // Retrieving intent
         category = getIntent().getParcelableExtra(Constants.INTENT_TAG);
 
-        // Getting Views from layout
         initViews();
 
         if (category == null) {
@@ -87,27 +82,16 @@ public class CategoryActivity extends Activity {
         title = (EditText) findViewById(R.id.category_title);
         description = (EditText) findViewById(R.id.category_description);
         picker = (ColorPicker) findViewById(R.id.colorpicker_category);
-        picker.setOnColorChangedListener(new OnColorChangedListener() {
-            @Override
-            public void onColorChanged(int color) {
-                picker.setOldCenterColor(picker.getColor());
-                colorChanged = true;
-            }
-        });
+        picker.setOnColorChangedListener(color -> {
+			picker.setOldCenterColor(picker.getColor());
+			colorChanged = true;
+		});
         // Long click on color picker to remove color
-        picker.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                picker.setColor(Color.WHITE);
-                return true;
-            }
-        });
-        picker.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                picker.setColor(Color.WHITE);
-            }
-        });
+        picker.setOnLongClickListener(v -> {
+			picker.setColor(Color.WHITE);
+			return true;
+		});
+        picker.setOnClickListener(v -> picker.setColor(Color.WHITE));
 
         // Added invisible saturation and value bars to get achieve pastel colors
         SaturationBar saturationbar = (SaturationBar) findViewById(R.id.saturationbar_category);
@@ -119,26 +103,17 @@ public class CategoryActivity extends Activity {
 
         deleteBtn = (Button) findViewById(R.id.delete);
         saveBtn = (Button) findViewById(R.id.save);
-//		discardBtn = (Button) findViewById(R.id.discard);
 
         // Buttons events
-        deleteBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteCategory();
-            }
-        });
-        saveBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // In case category name is not compiled a message will be shown
-                if (title.getText().toString().length() > 0) {
-                    saveCategory();
-                } else {
-                    title.setError(getString(R.string.category_missing_title));
-                }
-            }
-        });
+        deleteBtn.setOnClickListener(v -> deleteCategory());
+        saveBtn.setOnClickListener(v -> {
+			// In case category name is not compiled a message will be shown
+			if (title.getText().toString().length() > 0) {
+				saveCategory();
+			} else {
+				title.setError(getString(R.string.category_missing_title));
+			}
+		});
     }
 
 
@@ -186,11 +161,11 @@ public class CategoryActivity extends Activity {
         else
             msg = getString(R.string.delete_unused_category_confirmation);
 
-        // Showing dialog
         new MaterialDialog.Builder(this)
                 .content(msg)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.SimpleCallback() {
+                .positiveColor(R.color.colorAccent)
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         // Changes navigation if actually are shown notes associated with this category
@@ -203,10 +178,8 @@ public class CategoryActivity extends Activity {
                         DbHelper db = DbHelper.getInstance();
                         db.deleteCategory(category);
 
-                        // Updates app widgets
                         BaseActivity.notifyAppWidgets(mActivity);
 
-                        // Sets result to show proper message
                         setResult(RESULT_FIRST_USER);
                         finish();
                     }

@@ -17,16 +17,16 @@
 
 package it.feio.android.omninotes.async.upgrade;
 
-import android.content.ContentValues;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import org.apache.commons.io.FilenameUtils;
 
@@ -34,7 +34,6 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -96,95 +95,67 @@ public class UpgradeProcessor {
      * Adjustment of all the old attachments without mimetype field set into DB
      */
     private void onUpgradeTo476() {
-        new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] params) {
-                final DbHelper dbHelper = DbHelper.getInstance();
-                for (Attachment attachment : dbHelper.getAllAttachments()) {
-                    if (attachment.getMime_type() == null) {
-                        String mimeType = StorageHelper.getMimeType(attachment.getUri().toString());
-                        if (!TextUtils.isEmpty(mimeType)) {
-                            String type = mimeType.replaceFirst("/.*", "");
-                            switch (type) {
-                                case "image":
-                                    attachment.setMime_type(Constants.MIME_TYPE_IMAGE);
-                                    break;
-                                case "video":
-                                    attachment.setMime_type(Constants.MIME_TYPE_VIDEO);
-                                    break;
-                                case "audio":
-                                    attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
-                                    break;
-                                default:
-                                    attachment.setMime_type(Constants.MIME_TYPE_FILES);
-                                    break;
-                            }
-                            dbHelper.updateAttachment(attachment);
-                        } else {
-                            attachment.setMime_type(Constants.MIME_TYPE_FILES);
-                        }
-                    }
-                }
-                return null;
-            }
-        }.execute();
+		final DbHelper dbHelper = DbHelper.getInstance();
+		for (Attachment attachment : dbHelper.getAllAttachments()) {
+			if (attachment.getMime_type() == null) {
+				String mimeType = StorageHelper.getMimeType(attachment.getUri().toString());
+				if (!TextUtils.isEmpty(mimeType)) {
+					String type = mimeType.replaceFirst("/.*", "");
+					switch (type) {
+						case "image":
+							attachment.setMime_type(Constants.MIME_TYPE_IMAGE);
+							break;
+						case "video":
+							attachment.setMime_type(Constants.MIME_TYPE_VIDEO);
+							break;
+						case "audio":
+							attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
+							break;
+						default:
+							attachment.setMime_type(Constants.MIME_TYPE_FILES);
+							break;
+					}
+					dbHelper.updateAttachment(attachment);
+				} else {
+					attachment.setMime_type(Constants.MIME_TYPE_FILES);
+				}
+			}
+		}
     }
 
 
-    /**
-     * Upgrades all the old audio attachments to the new format 3gpp to avoid to exchange them for videos
-     */
-    private void onUpgradeTo480() {
-        new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] params) {
-                final DbHelper dbHelper = DbHelper.getInstance();
-                for (Attachment attachment : dbHelper.getAllAttachments()) {
-                    if ("audio/3gp".equals(attachment.getMime_type()) || "audio/3gpp".equals(attachment.getMime_type
-                            ())) {
+	/**
+	 * Upgrades all the old audio attachments to the new format 3gpp to avoid to exchange them for videos
+	 */
+	private void onUpgradeTo480() {
+		final DbHelper dbHelper = DbHelper.getInstance();
+		for (Attachment attachment : dbHelper.getAllAttachments()) {
+			if ("audio/3gp".equals(attachment.getMime_type()) || "audio/3gpp".equals(attachment.getMime_type
+					())) {
 
-                        // File renaming
-                        File from = new File(attachment.getUriPath());
-                        FilenameUtils.getExtension(from.getName());
-                        File to = new File(from.getParent(), from.getName().replace(FilenameUtils.getExtension(from
-                                .getName()), Constants.MIME_TYPE_AUDIO_EXT));
-                        from.renameTo(to);
+				// File renaming
+				File from = new File(attachment.getUriPath());
+				FilenameUtils.getExtension(from.getName());
+				File to = new File(from.getParent(), from.getName().replace(FilenameUtils.getExtension(from
+						.getName()), Constants.MIME_TYPE_AUDIO_EXT));
+				from.renameTo(to);
 
-                        // Note's attachment update
-                        attachment.setUri(Uri.fromFile(to));
-                        attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
-                        dbHelper.updateAttachment(attachment);
-                    }
-                }
-                return null;
-            }
-        }.execute();
-    }
+				// Note's attachment update
+				attachment.setUri(Uri.fromFile(to));
+				attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
+				dbHelper.updateAttachment(attachment);
+			}
+		}
+	}
 
 
-    /**
-     * Switch of all categories IDs to timestamps
-     */
-    private void onUpgradeTo501() {
-        new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] params) {
-                final DbHelper dbHelper = DbHelper.getInstance();
-                for (Category category : dbHelper.getCategories()) {
-                    long newCategoryId = Calendar.getInstance().getTimeInMillis();
-                    for (Note note : dbHelper.getNotesByCategory(String.valueOf(category.getId()))) {
-                        note.getCategory().setId(newCategoryId);
-                        dbHelper.updateNote(note, false);
-                    }
-                    ContentValues values = new ContentValues();
-                    values.put(DbHelper.KEY_CATEGORY_ID, newCategoryId);
-                    dbHelper.getWritableDatabase().update(DbHelper.TABLE_CATEGORY, values,
-                            DbHelper.KEY_CATEGORY_ID + " = ?",
-                            new String[]{String.valueOf(category.getId())});
-                }
-                return null;
-            }
-        }.execute();
-    }
+	/**
+	 * Reschedule reminders after upgrade
+	 */
+	private void onUpgradeTo482() {
+		for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
+			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+		}
+	}
 
 }

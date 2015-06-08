@@ -158,6 +158,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="not_expired">non scaduti</string>
   <string name="expired">scadute</string>
   <string name="today">oggi</string>
+  <string name="tomorrow">domani</string>
   <string name="open">Apri</string>
   <string name="copy">Copia</string>
   <string name="no_application_can_perform_this_action">Nessuna applicazione trovata per eseguire quest\'azione</string>
@@ -211,6 +212,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_screen_backup">Backup</string>
   <string name="settings_screen_notifications">Notifiche</string>
   <string name="settings_enable_vibration">Vibrazione</string>
+  <string name="settings_screen_navigation">Navigazione</string>
   <string name="settings_changelog">Cambiamenti</string>
   <string name="settings_enable_editor_links">Riconoscimento links</string>
   <string name="settings_max_video_size">Allegati video</string>

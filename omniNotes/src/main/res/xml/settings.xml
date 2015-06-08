@@ -28,6 +28,10 @@
             android:title="@string/settings_screen_interface" />
 
         <PreferenceScreen
+                android:key="settings_navigation"
+                android:title="@string/settings_screen_navigation" />
+
+        <PreferenceScreen
             android:key="settings_behaviors"
             android:title="@string/settings_screen_behaviors" />
 

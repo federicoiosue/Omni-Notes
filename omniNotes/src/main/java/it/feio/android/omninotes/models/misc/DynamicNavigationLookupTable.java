@@ -68,7 +68,7 @@ public class DynamicNavigationLookupTable {
 	}
 
 
-	public void onEvent(NotesUpdatedEvent event) {
+	public void onEventAsync(NotesUpdatedEvent event) {
 		update();
 	}
 

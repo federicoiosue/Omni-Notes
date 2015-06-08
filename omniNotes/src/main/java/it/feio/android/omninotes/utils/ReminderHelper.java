@@ -22,54 +22,60 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.widget.Toast;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
+import it.feio.android.omninotes.utils.date.DateHelper;
 
 import java.util.Calendar;
 
 
 public class ReminderHelper {
 
-    public static void addReminder(Context context, Note note) {
-        if (note.getAlarm() != null) {
-            addReminder(context, note, Long.parseLong(note.getAlarm()));
-        }
-    }
-
-    public static void addReminder(Context context, Note note, long reminder) {
-//        if (hasFutureReminder(note)) {
-            Intent intent = new Intent(context, AlarmReceiver.class);
-            intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
-            PendingIntent sender = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent,
-                    PendingIntent.FLAG_CANCEL_CURRENT);
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
-            } else {
-                am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
-            }
-//        }
-    }
+	public static void addReminder(Context context, Note note) {
+		if (note.getAlarm() != null) {
+			addReminder(context, note, Long.parseLong(note.getAlarm()));
+		}
+	}
 
 
-    private static boolean hasFutureReminder(Note note) {
-        boolean hasFutureReminder = false;
-        if (!TextUtils.isEmpty(note.getAlarm()) && Long.parseLong(note.getAlarm()) > Calendar.getInstance()
-                .getTimeInMillis()) {
-            hasFutureReminder = true;
-        }
-        return hasFutureReminder;
-    }
+	public static void addReminder(Context context, Note note, long reminder) {
+		Intent intent = new Intent(context, AlarmReceiver.class);
+		intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
+		PendingIntent sender = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
+		} else {
+			am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
+		}
+	}
 
 
-    public static void removeReminder(Context context, Note note) {
-        if (!TextUtils.isEmpty(note.getAlarm())) {
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(context, AlarmReceiver.class);
-            PendingIntent p = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent, 0);
-            am.cancel(p);
-            p.cancel();
-        }
-    }
+	public static void removeReminder(Context context, Note note) {
+		if (!TextUtils.isEmpty(note.getAlarm())) {
+			AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(context, AlarmReceiver.class);
+			PendingIntent p = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent, 0);
+			am.cancel(p);
+			p.cancel();
+		}
+	}
+
+
+	public static void showReminderMessage(String reminderString) {
+		if (reminderString != null) {
+			long reminder = Long.parseLong(reminderString);
+			if (reminder > Calendar.getInstance().getTimeInMillis()) {
+				new Handler(OmniNotes.getAppContext().getMainLooper()).post(() -> Toast.makeText(OmniNotes.getAppContext(),
+						OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort
+								(OmniNotes.getAppContext(), reminder), Toast.LENGTH_LONG).show());
+			}
+		}
+	}
 }

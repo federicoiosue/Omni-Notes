@@ -27,11 +27,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
+import android.net.Uri;
+import android.os.*;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.view.ActionMode;
@@ -54,19 +51,19 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
-import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
-import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
+import it.feio.android.omninotes.async.AttachmentTask;
+import it.feio.android.omninotes.async.bus.*;
 import it.feio.android.omninotes.async.notes.*;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
-import it.feio.android.omninotes.models.listeners.OnNotesLoadedListener;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
@@ -75,12 +72,12 @@ import it.feio.android.omninotes.utils.Display;
 import it.feio.android.pixlui.links.UrlCompleter;
 
 import java.util.*;
+import java.util.concurrent.Executor;
 
 import static android.support.v4.view.ViewCompat.animate;
 
 
-public class ListFragment extends Fragment implements OnNotesLoadedListener, OnViewTouchedListener, 
-        UndoBarController.UndoListener {
+public class ListFragment extends BaseFragment implements OnViewTouchedListener, UndoBarController.UndoListener {
 
     private static final int REQUEST_CODE_CATEGORY = 1;
     private static final int REQUEST_CODE_CATEGORY_NOTES = 2;
@@ -94,6 +91,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     @InjectView(R.id.expanded_image) ImageView expandedImageView;
     @InjectView(R.id.fab)  View fabView;
     @InjectView(R.id.undobar) View undoBarView;
+    @InjectView(R.id.progress_wheel) ProgressWheel progress_wheel;
 
     NoteViewHolder noteViewHolder;
 
@@ -125,6 +123,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     // Search variables
     private String searchQuery;
+    private String searchQueryInstant;
     private String searchTags;
     private boolean goBackOnToggleSearchLabel = false;
     private boolean searchLabelActive = false;
@@ -132,19 +131,15 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private NoteAdapter listAdapter;
     private UndoBarController ubc;
     private Fab fab;
+    private MainActivity mainActivity;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mFragment = this;
-        prefs = getMainActivity().prefs;
-
         setHasOptionsMenu(true);
         setRetainInstance(false);
-
-        EventBus.getDefault().register(this);
     }
 
 
@@ -153,14 +148,15 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // GA tracking
         OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
         OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
+        EventBus.getDefault().register(this, 1);
         super.onStart();
     }
 
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
+        super.onStop();
         EventBus.getDefault().unregister(this);
-        super.onDestroy();
     }
 
 
@@ -184,45 +180,41 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mainActivity = (MainActivity) getActivity();
+        prefs = mainActivity.prefs;
         if (savedInstanceState != null) {
-            getMainActivity().navigationTmp = savedInstanceState.getString("navigationTmp");
+            mainActivity.navigationTmp = savedInstanceState.getString("navigationTmp");
         }
-        // Easter egg initialization
         initEasterEgg();
-        // Listview initialization
         initListView();
-        // Activity title initialization
-        initTitle();
         ubc = new UndoBarController(undoBarView, this);
     }
 
 
-    // FAB behaviors
     private void initFab() {
-        boolean fabExpansionBehavior = prefs.getBoolean(Constants.PREF_FAB_EXPANSION_BEHAVIOR, false);
-        fab = new Fab(fabView, list, fabExpansionBehavior);
+        fab = new Fab(fabView, list, prefs.getBoolean(Constants.PREF_FAB_EXPANSION_BEHAVIOR, false));
         fab.setOnFabItemClickedListener(id -> {
-			View v = getActivity().findViewById(id);
-			switch (id) {
-				case R.id.fab_expand_menu_button:
-					editNote(new Note(), v);
-					break;
-				case R.id.fab_note:
-					editNote(new Note(), v);
-					break;
-				case R.id.fab_camera:
-					Intent i = getActivity().getIntent();
-					i.setAction(Constants.ACTION_TAKE_PHOTO);
-					getActivity().setIntent(i);
-					editNote(new Note(), v);
-					break;
-				case R.id.fab_checklist:
-					Note note = new Note();
-					note.setChecklist(true);
-					editNote(note, v);
-					break;
-			}
-		});
+            View v = mainActivity.findViewById(id);
+            switch (id) {
+                case R.id.fab_expand_menu_button:
+                    editNote(new Note(), v);
+                    break;
+                case R.id.fab_note:
+                    editNote(new Note(), v);
+                    break;
+                case R.id.fab_camera:
+                    Intent i = mainActivity.getIntent();
+                    i.setAction(Constants.ACTION_TAKE_PHOTO);
+                    mainActivity.setIntent(i);
+                    editNote(new Note(), v);
+                    break;
+                case R.id.fab_checklist:
+                    Note note = new Note();
+                    note.setChecklist(true);
+                    editNote(note, v);
+                    break;
+            }
+        });
         fab.setOverlay(R.color.white_overlay);
     }
 
@@ -242,7 +234,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private void initTitle() {
         String[] navigationList = getResources().getStringArray(R.array.navigation_list);
         String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
-        String navigation = prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+        String navigation = mainActivity.navigationTmp != null ? mainActivity.navigationTmp : prefs.getString
+                (Constants.PREF_NAVIGATION, navigationListCodes[0]);
         int index = Arrays.asList(navigationListCodes).indexOf(navigation);
         String title;
         // If is a traditional navigation item
@@ -253,7 +246,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             title = category != null ? category.getName() : "";
         }
         title = title == null ? getString(R.string.title_activity_list) : title;
-        getMainActivity().setActionBarTitle(title);
+        mainActivity.setActionBarTitle(title);
     }
 
 
@@ -269,8 +262,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 });
             } else {
                 stopJingles();
-			}
-		});
+            }
+        });
     }
 
 
@@ -287,6 +280,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     @Override
     public void onPause() {
         super.onPause();
+        searchQueryInstant = searchQuery;
         stopJingles();
         Crouton.cancelAllCroutons();
         if (!keepActionMode) {
@@ -324,16 +318,18 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     public void onResume() {
         super.onResume();
 
+        initNotesList(mainActivity.getIntent());
+
         initFab();
 
-        initNotesList(getActivity().getIntent());
+        initTitle();
 
         // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
-        prefs = getActivity().getSharedPreferences(Constants.PREFS_NAME, getActivity().MODE_MULTI_PROCESS);
+        prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, mainActivity.MODE_MULTI_PROCESS);
 
 //        // Menu is invalidated to start again instructions tour if requested
 //        if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "list", false)) {
-//            getActivity().supportInvalidateOptionsMenu();
+//            mainActivity.supportInvalidateOptionsMenu();
 //        }
     }
 
@@ -346,7 +342,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_list, menu);
             actionMode = mode;
-            fab.setFabAllowed(false);
+            fab.setAllowed(false);
             fab.hideFab();
             return true;
         }
@@ -373,16 +369,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             listAdapter.clearSelectedItems();
             list.clearChoices();
 
-            fab.setFabAllowed(true);
+            fab.setAllowed(true);
             if (undoNotesList.size() == 0) {
                 fab.showFab();
             }
 
             actionMode = null;
             Log.d(Constants.TAG, "Closed multiselection contextual menu");
-
-            // Updates app widgets
-            BaseActivity.notifyAppWidgets(getActivity());
         }
 
 
@@ -397,12 +390,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
             Integer[] protectedActions = {R.id.menu_select_all, R.id.menu_merge};
             if (!Arrays.asList(protectedActions).contains(item.getItemId())) {
-                ((MainActivity) getActivity()).requestPassword(getActivity(), getSelectedNotes(),
+                mainActivity.requestPassword(mainActivity, getSelectedNotes(),
                         passwordConfirmed -> {
-							if (passwordConfirmed) {
-								performAction(item, mode);
-							}
-						});
+                            if (passwordConfirmed) {
+                                performAction(item, mode);
+                            }
+                        });
             } else {
                 performAction(item, mode);
             }
@@ -453,8 +446,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // If device runs KitKat a footer is added to list to avoid
         // navigation bar transparency covering items
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            int navBarHeight = Display.getNavigationBarHeightKitkat(getActivity());
-            listFooter = new TextView(getActivity().getApplicationContext());
+            int navBarHeight = Display.getNavigationBarHeightKitkat(mainActivity);
+            listFooter = new TextView(mainActivity.getApplicationContext());
             listFooter.setHeight(navBarHeight);
             // To avoid useless events on footer
             listFooter.setOnClickListener(null);
@@ -468,7 +461,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 return false;
             }
             // Start the CAB using the ActionMode.Callback defined above
-            ((MainActivity) getActivity()).startSupportActionMode(new ModeCallback());
+            mainActivity.startSupportActionMode(new ModeCallback());
             toggleListViewItem(view, position);
             setCabTitle();
             return true;
@@ -476,15 +469,15 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         // Note single click listener managed by the activity itself
         list.setOnItemClickListener((arg0, view, position, arg3) -> {
-			if (view.equals(listFooter)) return;
-			if (getActionMode() == null) {
-				editNote(listAdapter.getItem(position), view);
-				return;
-			}
-			// If in CAB mode
-			toggleListViewItem(view, position);
-			setCabTitle();
-		});
+            if (view.equals(listFooter)) return;
+            if (getActionMode() == null) {
+                editNote(listAdapter.getItem(position), view);
+                return;
+            }
+            // If in CAB mode
+            toggleListViewItem(view, position);
+            setCabTitle();
+        });
 
         listRoot.setOnViewTouchedListener(this);
     }
@@ -503,7 +496,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 targetView = view.findViewById(R.id.category_marker);
             }
             if (targetView == null) {
-                targetView = new ImageView(getActivity());
+                targetView = new ImageView(mainActivity);
                 targetView.setBackgroundColor(Color.WHITE);
             }
             targetView.setDrawingCacheEnabled(true);
@@ -530,6 +523,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     @Override
     public void onViewTouchOccurred(MotionEvent ev) {
+        Log.v(Constants.TAG, "Notes list: onViewTouchOccurred " + ev.getAction());
         commitPending();
     }
 
@@ -569,9 +563,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private void prepareActionModeMenu() {
         Menu menu = getActionMode().getMenu();
         int navigation = Navigation.getNavigation();
-        boolean showArchive = navigation == Navigation.NOTES || navigation == Navigation.REMINDERS || navigation == Navigation.UNCATEGORIZED
-                || navigation == Navigation.CATEGORY;
-        boolean showUnarchive = navigation == Navigation.ARCHIVE || navigation == Navigation.UNCATEGORIZED || navigation == Navigation.CATEGORY;
+        boolean showArchive = navigation == Navigation.NOTES || navigation == Navigation.REMINDERS || navigation ==
+                Navigation.UNCATEGORIZED || navigation == Navigation.CATEGORY;
+        boolean showUnarchive = navigation == Navigation.ARCHIVE || navigation == Navigation.UNCATEGORIZED ||
+                navigation == Navigation.CATEGORY;
 
         if (navigation == Navigation.TRASH) {
             menu.findItem(R.id.menu_untrash).setVisible(true);
@@ -622,17 +617,17 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      */
     @SuppressLint("NewApi")
     private void initSearchView(final Menu menu) {
-        
+
         // Prevents some mysterious NullPointer on app fast-switching
-        if (getActivity() == null) return;
+        if (mainActivity == null) return;
 
         // Save item as class attribute to make it collapse on drawer opening
         searchMenuItem = menu.findItem(R.id.menu_search);
 
         // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) mainActivity.getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(mainActivity.getComponentName()));
         searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
         // Expands the widget hiding other actionbar icons
@@ -650,9 +645,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 if (searchLayout.getVisibility() == View.VISIBLE) {
                     toggleSearchLabel(false);
                 }
-                getActivity().getIntent().setAction(Intent.ACTION_MAIN);
-                initNotesList(getActivity().getIntent());
-                getActivity().supportInvalidateOptionsMenu();
+                mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
+                initNotesList(mainActivity.getIntent());
+                mainActivity.supportInvalidateOptionsMenu();
                 return true;
             }
 
@@ -669,11 +664,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                     @Override
                     public boolean onQueryTextChange(String pattern) {
                         if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null &&
-                                searchPerformed) {
+                                searchPerformed && mFragment.isAdded()) {
                             searchTags = null;
                             searchQuery = pattern;
-                            NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
-                            mNoteLoaderTask.execute("getNotesByPattern", pattern);
+                            new NoteLoaderTask().execute("getNotesByPattern", pattern);
                             return true;
                         } else {
                             searchPerformed = true;
@@ -689,27 +683,28 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
     private void setActionItemsVisibility(Menu menu, boolean searchViewHasFocus) {
         // Defines the conditions to set actionbar items visible or not
-        boolean drawerOpen = (getMainActivity().getDrawerLayout() != null && getMainActivity()
-                .getDrawerLayout().isDrawerOpen(GravityCompat.START));
+        boolean drawerOpen = mainActivity.getDrawerLayout() != null
+                && mainActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START);
         boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
         boolean filterPastReminders = prefs.getBoolean(Constants.PREF_FILTER_PAST_REMINDERS, true);
-        boolean navigationReminders = Navigation.checkNavigation(Navigation.REMINDERS);
-        boolean navigationArchive = Navigation.checkNavigation(Navigation.ARCHIVE);
-        boolean navigationTrash = Navigation.checkNavigation(Navigation.TRASH);
+        int navigation = Navigation.getNavigation();
+        boolean navigationReminders = navigation == Navigation.REMINDERS;
+        boolean navigationArchive = navigation == Navigation.ARCHIVE;
+        boolean navigationTrash = navigation == Navigation.TRASH;
 
         if (!navigationReminders && !navigationArchive && !navigationTrash) {
-            fab.setFabAllowed(true);
+            fab.setAllowed(true);
             if (!drawerOpen) {
                 fab.showFab();
             }
         } else {
-            fab.setFabAllowed(false);
+            fab.setAllowed(false);
             fab.hideFab();
         }
         menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-        menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders && 
+        menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders &&
                 !searchViewHasFocus);
-        menu.findItem(R.id.menu_filter_remove).setVisible(!drawerOpen && filterPastReminders && navigationReminders 
+        menu.findItem(R.id.menu_filter_remove).setVisible(!drawerOpen && filterPastReminders && navigationReminders
                 && !searchViewHasFocus);
         menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !navigationReminders && !searchViewHasFocus);
         menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView && !searchViewHasFocus);
@@ -723,11 +718,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     public boolean onOptionsItemSelected(final MenuItem item) {
         Integer[] protectedActions = {R.id.menu_empty_trash};
         if (Arrays.asList(protectedActions).contains(item.getItemId())) {
-            ((MainActivity) getActivity()).requestPassword(getActivity(), getSelectedNotes(), passwordConfirmed -> {
-				if (passwordConfirmed) {
-					performAction(item, null);
-				}
-			});
+            mainActivity.requestPassword(mainActivity, getSelectedNotes(), passwordConfirmed -> {
+                if (passwordConfirmed) {
+                    performAction(item, null);
+                }
+            });
         } else {
             performAction(item, null);
         }
@@ -742,10 +737,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         if (actionMode == null) {
             switch (item.getItemId()) {
                 case android.R.id.home:
-                    if (getMainActivity().getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
-                        getMainActivity().getDrawerLayout().closeDrawer(GravityCompat.START);
+                    if (mainActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+                        mainActivity.getDrawerLayout().closeDrawer(GravityCompat.START);
                     } else {
-                        getMainActivity().getDrawerLayout().openDrawer(GravityCompat.START);
+                        mainActivity.getDrawerLayout().openDrawer(GravityCompat.START);
                     }
                     break;
                 case R.id.menu_filter:
@@ -818,24 +813,24 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
         prefs.edit().putBoolean(Constants.PREF_EXPANDED_VIEW, !expandedView).commit();
         // Change list view
-        initNotesList(getActivity().getIntent());
+        initNotesList(mainActivity.getIntent());
         // Called to switch menu voices
-        getActivity().supportInvalidateOptionsMenu();
+        mainActivity.supportInvalidateOptionsMenu();
     }
 
 
     void editNote(final Note note, final View view) {
         fab.hideFab();
         if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
-            BaseActivity.requestPassword(getActivity(), passwordConfirmed -> {
-				if (passwordConfirmed) {
-					note.setPasswordChecked(true);
-					AnimationsHelper.zoomListItem(getActivity(), view, getZoomListItemView(view, note),
-							listRoot, buildAnimatorListenerAdapter(note));
-				}
-			});
+            BaseActivity.requestPassword(mainActivity, passwordConfirmed -> {
+                if (passwordConfirmed) {
+                    note.setPasswordChecked(true);
+                    AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
+                            listRoot, buildAnimatorListenerAdapter(note));
+                }
+            });
         } else {
-            AnimationsHelper.zoomListItem(getActivity(), view, getZoomListItemView(view, note),
+            AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
                     listRoot, buildAnimatorListenerAdapter(note));
         }
     }
@@ -847,10 +842,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             // if navigation is a category it will be set into note
             try {
                 int categoryId;
-                if (!TextUtils.isEmpty(getMainActivity().navigationTmp)) {
-                    categoryId = Integer.parseInt(getMainActivity().navigationTmp);
+                if (!TextUtils.isEmpty(mainActivity.navigationTmp)) {
+                    categoryId = Integer.parseInt(mainActivity.navigationTmp);
                 } else {
-                    categoryId = Integer.parseInt(getMainActivity().navigation);
+                    categoryId = Integer.parseInt(mainActivity.navigation);
                 }
                 note.setCategory(DbHelper.getInstance().getCategory(categoryId));
             } catch (NumberFormatException e) {
@@ -864,7 +859,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         refreshListScrollPosition();
 
         // Fragments replacing
-        getMainActivity().switchToDetail(note);
+        mainActivity.switchToDetail(note);
     }
 
 
@@ -878,11 +873,11 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 // The dialog style is choosen depending on result code
                 switch (resultCode) {
                     case Activity.RESULT_OK:
-                        getMainActivity().showMessage(R.string.category_saved, ONStyle.CONFIRM);
+                        mainActivity.showMessage(R.string.category_saved, ONStyle.CONFIRM);
                         EventBus.getDefault().post(new CategoriesUpdatedEvent());
                         break;
                     case Activity.RESULT_FIRST_USER:
-                        getMainActivity().showMessage(R.string.category_deleted, ONStyle.ALERT);
+                        mainActivity.showMessage(R.string.category_deleted, ONStyle.ALERT);
                         break;
                     default:
                         break;
@@ -908,13 +903,13 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         if (item.getGroupId() == Constants.MENU_SORT_GROUP_ID) {
             final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
             prefs.edit().putString(Constants.PREF_SORTING_COLUMN, arrayDb[item.getOrder()]).commit();
-            initNotesList(getActivity().getIntent());
+            initNotesList(mainActivity.getIntent());
             // Resets list scrolling position
             listViewPositionOffset = 16;
             listViewPosition = 0;
             restoreListScrollPosition();
             // Updates app widgets
-            BaseActivity.notifyAppWidgets(getActivity());
+            BaseActivity.notifyAppWidgets(mainActivity);
         }
     }
 
@@ -923,14 +918,14 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      * Empties trash deleting all the notes
      */
     private void emptyTrash() {
-        new MaterialDialog.Builder(getActivity())
+        new MaterialDialog.Builder(mainActivity)
                 .content(R.string.empty_trash_confirmation)
                 .positiveText(R.string.ok)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
                         for (int i = 0; i < listAdapter.getCount(); i++) {
-                            getSelectedNotes().add(listAdapter.getItem(i));
+                            selectedNotes.add(listAdapter.getItem(i));
                         }
                         deleteNotesExecute();
                     }
@@ -944,7 +939,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     void initNotesList(Intent intent) {
         Log.d(Constants.TAG, "initNotesList intent: " + intent.getAction());
 
-        NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask(mFragment, mFragment);
+        progress_wheel.setAlpha(1);
+        list.setAlpha(0);
+
+        NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask();
 
         // Search for a tag
         // A workaround to simplify it's to simulate normal search
@@ -955,57 +953,43 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
 
         // Searching
+        searchQuery = searchQueryInstant;
+        searchQueryInstant = null;
         if (searchTags != null || searchQuery != null || Intent.ACTION_SEARCH.equals(intent.getAction())) {
 
             // Using tags
             if (searchTags != null && intent.getStringExtra(SearchManager.QUERY) == null) {
                 searchQuery = searchTags;
-                mNoteLoaderTask.execute("getNotesByTag", searchQuery);
+                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByTag", searchQuery);
             } else {
                 // Get the intent, verify the action and get the query
                 if (intent.getStringExtra(SearchManager.QUERY) != null) {
                     searchQuery = intent.getStringExtra(SearchManager.QUERY);
                     searchTags = null;
                 }
-                if (getMainActivity().loadNotesSync) {
-                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance().getNotesByPattern(searchQuery));
-                } else {
-                    mNoteLoaderTask.execute("getNotesByPattern", searchQuery);
-                }
-                getMainActivity().loadNotesSync = Constants.LOAD_NOTES_SYNC;
+                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByPattern", searchQuery);
             }
 
             toggleSearchLabel(true);
 
         } else {
-            // Check if is launched from a widget with categories to set tag
+            // Check if is launched from a widget with categories
             if ((Constants.ACTION_WIDGET_SHOW_LIST.equals(intent.getAction()) && intent
                     .hasExtra(Constants.INTENT_WIDGET))
-                    || !TextUtils.isEmpty(getMainActivity().navigationTmp)) {
+                    || !TextUtils.isEmpty(mainActivity.navigationTmp)) {
                 String widgetId = intent.hasExtra(Constants.INTENT_WIDGET) ? intent.getExtras()
                         .get(Constants.INTENT_WIDGET).toString() : null;
                 if (widgetId != null) {
                     String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
                     String categoryId = TextHelper.checkIntentCategory(sqlCondition);
-                    getMainActivity().navigationTmp = !TextUtils.isEmpty(categoryId) ? categoryId : null;
+                    mainActivity.navigationTmp = !TextUtils.isEmpty(categoryId) ? categoryId : null;
                 }
                 intent.removeExtra(Constants.INTENT_WIDGET);
-                if (getMainActivity().loadNotesSync) {
-                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance().getNotesByCategory(
-                            getMainActivity().navigationTmp));
-                } else {
-                    mNoteLoaderTask.execute("getNotesByTag", getMainActivity().navigationTmp);
-                }
-                getMainActivity().loadNotesSync = Constants.LOAD_NOTES_SYNC;
+                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByCategory", mainActivity
+						.navigationTmp);
 
-                // Gets all notes
             } else {
-                if (getMainActivity().loadNotesSync) {
-                    onNotesLoaded((ArrayList<Note>) DbHelper.getInstance().getAllNotes(true));
-                } else {
-                    mNoteLoaderTask.execute("getAllNotes", true);
-                }
-                getMainActivity().loadNotesSync = Constants.LOAD_NOTES_SYNC;
+                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
             }
         }
     }
@@ -1024,38 +1008,37 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 searchTags = null;
                 searchQuery = null;
                 if (!goBackOnToggleSearchLabel) {
-                    getActivity().getIntent().setAction(Intent.ACTION_MAIN);
+                    mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
                     if (searchView != null) {
                         MenuItemCompat.collapseActionView(searchMenuItem);
                     }
-                    initNotesList(getActivity().getIntent());
+                    initNotesList(mainActivity.getIntent());
                 } else {
-                    getActivity().onBackPressed();
+                    mainActivity.onBackPressed();
                 }
                 goBackOnToggleSearchLabel = false;
-                if (Intent.ACTION_VIEW.equals(getActivity().getIntent().getAction())) {
-                    getActivity().getIntent().setAction(null);
+                if (Intent.ACTION_VIEW.equals(mainActivity.getIntent().getAction())) {
+                    mainActivity.getIntent().setAction(null);
                 }
             }
         }
     }
 
 
-    public void onEvent(NavigationUpdatedEvent navigationUpdatedEvent) {
+    public void onEvent(NavigationUpdatedNavDrawerClosedEvent navigationUpdatedNavDrawerClosedEvent) {
         listViewPosition = 0;
         listViewPositionOffset = 16;
+        commitPending();
+        initNotesList(mainActivity.getIntent());
     }
 
 
-    @Override
-    public void onNotesLoaded(ArrayList<Note> notes) {
-        EventBus.getDefault().post(new NotesLoadedEvent());
-        Log.d(Constants.TAG, "Notes loaded");
+    public void onEvent(NotesLoadedEvent notesLoadedEvent) {
         int layoutSelected = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
                 : R.layout.note_layout;
-        listAdapter = new NoteAdapter(getActivity(), layoutSelected, notes);
+        listAdapter = new NoteAdapter(mainActivity, layoutSelected, notesLoadedEvent.notes);
 
-        View noteLayout = LayoutInflater.from(getActivity()).inflate(layoutSelected, null, false);
+        View noteLayout = LayoutInflater.from(mainActivity).inflate(layoutSelected, null, false);
         noteViewHolder = new NoteViewHolder(noteLayout);
 
         if (Navigation.getNavigation() != Navigation.UNCATEGORIZED) {
@@ -1101,10 +1084,10 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         list.setAdapter(listAdapter);
 
         // Replace listview with Mr. Jingles if it is empty
-        if (notes.size() == 0) list.setEmptyView(empyListItem);
+        if (notesLoadedEvent.notes.size() == 0) list.setEmptyView(empyListItem);
 
         // Restores listview position when turning back to list or when navigating reminders
-        if (list != null && notes.size() > 0) {
+        if (list != null && notesLoadedEvent.notes.size() > 0) {
             if (Navigation.checkNavigation(Navigation.REMINDERS)) {
                 listViewPosition = listAdapter.getClosestNotePosition();
             }
@@ -1112,6 +1095,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
 
         // Fade in the list view
+        animate(progress_wheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
         animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
     }
 
@@ -1152,9 +1136,9 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
         // Advice to user
         if (trash) {
-            getMainActivity().showMessage(R.string.note_trashed, ONStyle.WARN);
+            mainActivity.showMessage(R.string.note_trashed, ONStyle.WARN);
         } else {
-            getMainActivity().showMessage(R.string.note_untrashed, ONStyle.INFO);
+            mainActivity.showMessage(R.string.note_untrashed, ONStyle.INFO);
         }
 
         // Creation of undo bar
@@ -1213,18 +1197,18 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      * Batch note permanent deletion
      */
     private void deleteNotes() {
-        new MaterialDialog.Builder(getActivity())
+        new MaterialDialog.Builder(mainActivity)
                 .content(R.string.delete_note_confirmation)
                 .positiveText(R.string.ok)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog materialDialog) {
-                        getMainActivity().requestPassword(getActivity(), getSelectedNotes(),
+                        mainActivity.requestPassword(mainActivity, getSelectedNotes(),
                                 passwordConfirmed -> {
-									if (passwordConfirmed) {
-										deleteNotesExecute();
-									}
-								});
+                                    if (passwordConfirmed) {
+                                        deleteNotesExecute();
+                                    }
+                                });
                     }
                 }).build().show();
     }
@@ -1237,11 +1221,12 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         listAdapter.remove(getSelectedNotes());
         new NoteProcessorDelete(getSelectedNotes()).process();
         list.clearChoices();
+        selectedNotes.clear();
         finishActionMode();
         // If list is empty again Mr Jingles will appear again
         if (listAdapter.getCount() == 0)
             list.setEmptyView(empyListItem);
-        getMainActivity().showMessage(R.string.note_deleted, ONStyle.ALERT);
+        mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
     }
 
 
@@ -1284,7 +1269,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // Advice to user
         int msg = archive ? R.string.note_archived : R.string.note_unarchived;
         Style style = archive ? ONStyle.WARN : ONStyle.INFO;
-        getMainActivity().showMessage(msg, style);
+        mainActivity.showMessage(msg, style);
 
         // Creation of undo bar
         if (archive) {
@@ -1310,7 +1295,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
      * Categories addition and editing
      */
     void editCategory(Category category) {
-        Intent categoryIntent = new Intent(getActivity(), CategoryActivity.class);
+        Intent categoryIntent = new Intent(mainActivity, CategoryActivity.class);
         categoryIntent.putExtra(Constants.INTENT_TAG, category);
         startActivityForResult(categoryIntent, REQUEST_CODE_CATEGORY);
     }
@@ -1323,16 +1308,16 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // Retrieves all available categories
         final ArrayList<Category> categories = DbHelper.getInstance().getCategories();
 
-        final MaterialDialog dialog = new MaterialDialog.Builder(getActivity())
+        final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
                 .title(R.string.categorize_as)
-                .adapter(new NavDrawerCategoryAdapter(getActivity(), categories))
+                .adapter(new NavDrawerCategoryAdapter(mainActivity, categories))
                 .positiveText(R.string.add_category)
                 .negativeText(R.string.remove_category)
                 .callback(new MaterialDialog.Callback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         keepActionMode = true;
-                        Intent intent = new Intent(getActivity(), CategoryActivity.class);
+                        Intent intent = new Intent(mainActivity, CategoryActivity.class);
                         intent.putExtra("noHome", true);
                         startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
                     }
@@ -1371,7 +1356,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             // Update adapter content if actual navigation is the category
             // associated with actually cycled note
             if ((Navigation.checkNavigation(Navigation.CATEGORY) && !Navigation.checkNavigationCategory(category)) ||
-             Navigation.checkNavigation(Navigation.UNCATEGORIZED)) {
+                    Navigation.checkNavigation(Navigation.UNCATEGORIZED)) {
                 listAdapter.remove(note);
             } else {
                 note.setCategory(category);
@@ -1396,7 +1381,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         } else {
             msg = getResources().getText(R.string.notes_category_removed).toString();
         }
-        getMainActivity().showMessage(msg, ONStyle.INFO);
+        mainActivity.showMessage(msg, ONStyle.INFO);
 
         // Creation of undo bar
         if (category == null) {
@@ -1426,20 +1411,20 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         // If there is no tag a message will be shown
         if (tags.size() == 0) {
             finishActionMode();
-            getMainActivity().showMessage(R.string.no_tags_created, ONStyle.WARN);
+            mainActivity.showMessage(R.string.no_tags_created, ONStyle.WARN);
             return;
         }
 
         final Integer[] preSelectedTags = TagsHelper.getPreselectedTagsArray(selectedNotes, tags);
 
-        new MaterialDialog.Builder(getActivity())
+        new MaterialDialog.Builder(mainActivity)
                 .title(R.string.select_tags)
                 .items(TagsHelper.getTagsArray(tags))
                 .positiveText(R.string.ok)
                 .itemsCallbackMultiChoice(preSelectedTags, (dialog, which, text) -> {
-					dialog.dismiss();
-					tagNotesExecute(tags, which, preSelectedTags);
-				}).build().show();
+                    dialog.dismiss();
+                    tagNotesExecute(tags, which, preSelectedTags);
+                }).build().show();
     }
 
 
@@ -1464,7 +1449,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             getActionMode().finish();
         }
 
-        getMainActivity().showMessage(R.string.tags_added, ONStyle.INFO);
+        mainActivity.showMessage(R.string.tags_added, ONStyle.INFO);
     }
 
 
@@ -1473,7 +1458,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         Pair<String, List<Tag>> taggingResult = TagsHelper.addTagToNote(tags, selectedTags, note);
 
         if (note.isChecklist()) {
-            note.setTitle(note.getContent() + System.getProperty("line.separator") + taggingResult.first);
+            note.setTitle(note.getTitle() + System.getProperty("line.separator") + taggingResult.first);
         } else {
             StringBuilder sb = new StringBuilder(note.getContent());
             if (sb.length() > 0) {
@@ -1485,7 +1470,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         }
 
         // Removes unchecked tags
-        Pair<String, String> titleAndContent = TagsHelper.removeTag(note.getTitle(), note.getContent(), 
+        Pair<String, String> titleAndContent = TagsHelper.removeTag(note.getTitle(), note.getContent(),
                 taggingResult.second);
         note.setTitle(titleAndContent.first);
         note.setContent(titleAndContent.second);
@@ -1495,7 +1480,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
 //	private void synchronizeSelectedNotes() {
-//		new DriveSyncTask(getActivity()).execute(new ArrayList<Note>(getSelectedNotes()));
+//		new DriveSyncTask(mainActivity).execute(new ArrayList<Note>(getSelectedNotes()));
 //		// Clears data structures
 //		listAdapter.clearSelectedItems();
 //		list.clearChoices();
@@ -1518,11 +1503,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
                 listAdapter.replace(note, listAdapter.getPosition(note));
                 // Manages trash undo
             } else {
-                try {
-                    list.insert(undoNotesList.keyAt(undoNotesList.indexOfValue(note)), note);
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    Log.e(Constants.TAG, "SparseArray index " + undoNotesList.indexOfValue(note), e);
-                }
+                list.insert(undoNotesList.keyAt(undoNotesList.indexOfValue(note)), note);
             }
         }
 
@@ -1575,7 +1556,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             ubc.hideUndoBar(false);
             fab.showFab();
 
-            BaseActivity.notifyAppWidgets(getActivity());
+            BaseActivity.notifyAppWidgets(mainActivity);
+            Log.d(Constants.TAG, "Changes committed");
         }
     }
 
@@ -1583,8 +1565,8 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 //	private void initShowCase() {
 //		// Show instructions on first launch
 //		final String instructionName = Constants.PREF_TOUR_PREFIX + "list";
-//		if (AppTourHelper.isStepTurn(getActivity(), instructionName)) {
-//            getMainActivity().getDrawerLayout().closeDrawer(GravityCompat.START);
+//		if (AppTourHelper.isStepTurn(mainActivity, instructionName)) {
+//            mainActivity.getDrawerLayout().closeDrawer(GravityCompat.START);
 //			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 //			list.add(new Integer[] { 0, R.string.tour_listactivity_intro_title,
 //					R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE });
@@ -1592,26 +1574,26 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 ////					R.string.tour_listactivity_actions_detail, null });
 //			list.add(new Integer[] { 0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail,
 //					ShowcaseView.ITEM_ACTION_HOME });
-//			getMainActivity().showCaseView(list, new OnShowcaseAcknowledged() {
+//			mainActivity.showCaseView(list, new OnShowcaseAcknowledged() {
 //				@Override
 //				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-//					AppTourHelper.completeStep(getActivity(), instructionName);
-//					getMainActivity().getDrawerLayout().openDrawer(GravityCompat.START);
+//					AppTourHelper.completeStep(mainActivity, instructionName);
+//					mainActivity.getDrawerLayout().openDrawer(GravityCompat.START);
 //				}
 //			});
 //		}
 //
 //		// Show instructions on first launch
 //		final String instructionName2 = Constants.PREF_TOUR_PREFIX + "list2";
-//		if (AppTourHelper.isStepTurn(getActivity(), instructionName2)) {
+//		if (AppTourHelper.isStepTurn(mainActivity, instructionName2)) {
 //			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
 //			list.add(new Integer[] { null, R.string.tour_listactivity_final_title,
 //					R.string.tour_listactivity_final_detail, null });
-//			getMainActivity().showCaseView(list, new OnShowcaseAcknowledged() {
+//			mainActivity.showCaseView(list, new OnShowcaseAcknowledged() {
 //				@Override
 //				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-//					AppTourHelper.completeStep(getActivity(), instructionName2);
-//                    AppTourHelper.complete(getActivity());
+//					AppTourHelper.completeStep(mainActivity, instructionName2);
+//                    AppTourHelper.complete(mainActivity);
 //				}
 //			});
 //		}
@@ -1624,7 +1606,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private void share() {
         // Only one note should be selected to perform sharing but they'll be cycled anyhow
         for (final Note note : getSelectedNotes()) {
-            getMainActivity().shareNote(note);
+            mainActivity.shareNote(note);
         }
 
         getSelectedNotes().clear();
@@ -1635,20 +1617,21 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
 
 
     public void merge() {
-        new MaterialDialog.Builder(getActivity())
+        new MaterialDialog.Builder(mainActivity)
                 .title(R.string.delete_merged)
                 .positiveText(R.string.ok)
                 .negativeText(R.string.no)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        mergeExecute(false);
+                        EventBus.getDefault().post(new NotesMergeEvent(false));
                     }
+
 
                     @Override
                     public void onNegative(MaterialDialog dialog) {
-                        mergeExecute(true);
-                    }
+						EventBus.getDefault().post(new NotesMergeEvent(true));
+					}
                 }).build().show();
     }
 
@@ -1656,7 +1639,7 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     /**
      * Merges all the selected notes
      */
-    public void mergeExecute(boolean keepMergedNotes) {
+    public void onEventAsync(NotesMergeEvent notesMergeEvent) {
 
         Note mergedNote = null;
         boolean locked = false;
@@ -1693,7 +1676,15 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
             }
 
             locked = locked || note.isLocked();
-            attachments.addAll(note.getAttachmentsList());
+
+			if (notesMergeEvent.keepMergedNotes) {
+				for (Attachment attachment : note.getAttachmentsList()) {
+					attachments.add(StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), attachment.getUri
+							()));
+				}
+			} else {
+				attachments.addAll(note.getAttachmentsList());
+			}
         }
 
         // Resets all the attachments id to force their note re-assign when saved
@@ -1706,29 +1697,32 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
         mergedNote.setLocked(locked);
         mergedNote.setAttachmentsList(attachments);
 
-        getSelectedNotes().clear();
-        if (getActionMode() != null) {
-            getActionMode().finish();
-        }
+		final Note finalMergedNote = mergedNote;
+		new Handler(Looper.getMainLooper()).post(() -> {
+			getSelectedNotes().clear();
+			if (getActionMode() != null) {
+				getActionMode().finish();
+			}
 
-        // Sets the intent action to be recognized from DetailFragment and switch fragment
-        getActivity().getIntent().setAction(Constants.ACTION_MERGE);
-        if (!keepMergedNotes) {
-            getActivity().getIntent().putExtra("merged_notes", notesIds);
-        }
-        getMainActivity().switchToDetail(mergedNote);
+			// Sets the intent action to be recognized from DetailFragment and switch fragment
+			mainActivity.getIntent().setAction(Constants.ACTION_MERGE);
+			if (!notesMergeEvent.keepMergedNotes) {
+				mainActivity.getIntent().putExtra("merged_notes", notesIds);
+			}
+			mainActivity.switchToDetail(finalMergedNote);
+		});
     }
 
 
-    /**
+	/**
      * Excludes past reminders
      */
     private void filterReminders(boolean filter) {
         prefs.edit().putBoolean(Constants.PREF_FILTER_PAST_REMINDERS, filter).apply();
         // Change list view
-        initNotesList(getActivity().getIntent());
+        initNotesList(mainActivity.getIntent());
         // Called to switch menu voices
-        getActivity().supportInvalidateOptionsMenu();
+        mainActivity.supportInvalidateOptionsMenu();
     }
 
 
@@ -1738,48 +1732,43 @@ public class ListFragment extends Fragment implements OnNotesLoadedListener, OnV
     private void filterByTags() {
 
         // Retrieves all available categories
-        final List<Tag> tags = TagsHelper.getAllTags(getActivity());
+        final List<Tag> tags = TagsHelper.getAllTags(mainActivity);
 
         // If there is no category a message will be shown
         if (tags.size() == 0) {
-            getMainActivity().showMessage(R.string.no_tags_created, ONStyle.WARN);
+            mainActivity.showMessage(R.string.no_tags_created, ONStyle.WARN);
             return;
         }
 
         // Dialog and events creation
-        new MaterialDialog.Builder(getActivity())
+        new MaterialDialog.Builder(mainActivity)
                 .title(R.string.select_tags)
                 .items(TagsHelper.getTagsArray(tags))
                 .positiveText(R.string.ok)
                 .itemsCallbackMultiChoice(new Integer[]{}, (dialog, which, text) -> {
-					// Retrieves selected tags
-					List<String> selectedTags = new ArrayList<>();
-					for (Integer aWhich : which) {
-						selectedTags.add(tags.get(aWhich).getText());
-					}
+                    // Retrieves selected tags
+                    List<String> selectedTags = new ArrayList<>();
+                    for (Integer aWhich : which) {
+                        selectedTags.add(tags.get(aWhich).getText());
+                    }
 
-					// Saved here to allow persisting search
-					searchTags = selectedTags.toString().substring(1, selectedTags.toString().length() - 1)
-							.replace(" ", "");
-					Intent intent = getActivity().getIntent();
+                    // Saved here to allow persisting search
+                    searchTags = selectedTags.toString().substring(1, selectedTags.toString().length() - 1)
+                            .replace(" ", "");
+                    Intent intent = mainActivity.getIntent();
 
-					// Hides keyboard
-					searchView.clearFocus();
-					KeyboardUtils.hideKeyboard(searchView);
+                    // Hides keyboard
+                    searchView.clearFocus();
+                    KeyboardUtils.hideKeyboard(searchView);
 
-					intent.removeExtra(SearchManager.QUERY);
-					initNotesList(intent);
-				}).build().show();
+                    intent.removeExtra(SearchManager.QUERY);
+                    initNotesList(intent);
+                }).build().show();
     }
 
 
     public MenuItem getSearchMenuItem() {
         return searchMenuItem;
-    }
-
-
-    private MainActivity getMainActivity() {
-        return (MainActivity) getActivity();
     }
 
 

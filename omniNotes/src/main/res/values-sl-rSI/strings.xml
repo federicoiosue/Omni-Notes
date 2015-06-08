@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">Izbriši celotno vsebino</string>
   <string name="reset_all_data_confirmation">Zares odstranim vso vsebino (varnostne kopije ne bodo izbrisane)?</string>
   <string name="action_settings">Nastavitve</string>
-  <string name="settings_sync_import_export">Sinhronizacija in varnostne kopije</string>
+  <string name="settings_screen_sync_import_export">Sinhronizacija in varnostne kopije</string>
   <string name="settings_export">Varnostno kopiranje</string>
   <string name="settings_import">Obnoviti ali jo izbrisati varnostne kopije</string>
   <string name="settings_import_from_springpad">Uvažanje beležke iz Springpad</string>

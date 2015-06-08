@@ -40,11 +40,8 @@ public class Navigation {
      * Returns actual navigation status
      */
     public static int getNavigation() {
-        Context mContext = OmniNotes.getAppContext();
-        String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-        @SuppressWarnings("static-access")
-        String navigation = mContext.getSharedPreferences(Constants.PREFS_NAME, 
-                mContext.MODE_MULTI_PROCESS).getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+        String[] navigationListCodes = OmniNotes.getAppContext().getResources().getStringArray(R.array.navigation_list_codes);
+        String navigation = getNavigationText();
 
         if (navigationListCodes[NOTES].equals(navigation)) {
             return NOTES;
@@ -59,6 +56,16 @@ public class Navigation {
         } else {
             return CATEGORY;
         }
+    }
+
+
+    public static String getNavigationText() {
+        Context mContext = OmniNotes.getAppContext();
+        String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
+        @SuppressWarnings("static-access")
+        String navigation = mContext.getSharedPreferences(Constants.PREFS_NAME,
+                mContext.MODE_MULTI_PROCESS).getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+        return navigation;
     }
 
 

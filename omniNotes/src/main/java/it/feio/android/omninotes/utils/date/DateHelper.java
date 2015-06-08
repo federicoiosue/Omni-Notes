@@ -257,14 +257,18 @@ public class DateHelper {
 
 
     public static Long nextReminderFromRecurrenceRule(long reminder, String recurrenceRule) {
+        return nextReminderFromRecurrenceRule(reminder, Calendar.getInstance().getTimeInMillis(), recurrenceRule);
+    }
+
+
+    public static Long nextReminderFromRecurrenceRule(long reminder, long currentTime, String recurrenceRule) {
         RRule rule = new RRule();
         try {
             rule.setValue(recurrenceRule);
             net.fortuna.ical4j.model.DateTime seed = new net.fortuna.ical4j.model.DateTime(reminder);
-            long startTimestamp = reminder + 60L * 60L * 1000L;
-            long now = Calendar.getInstance().getTimeInMillis();
-            if (startTimestamp < now) {
-                startTimestamp = now;
+            long startTimestamp = reminder + 60 * 1000;
+            if (startTimestamp < currentTime) {
+                startTimestamp = currentTime;
             }
             net.fortuna.ical4j.model.DateTime start = new net.fortuna.ical4j.model.DateTime(startTimestamp);
             Date nextDate = rule.getRecur().getNextDate(seed, start);
@@ -285,6 +289,16 @@ public class DateHelper {
     public static String getNoteRecurrentReminderText(long reminder, String rrule) {
         return DateHelper.formatRecurrence(OmniNotes.getAppContext(), rrule) + " " + OmniNotes.getAppContext().getString
                 (R.string.starting_from) + " " + DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder);
+    }
+
+
+    public static boolean isSameDay(long date1, long date2) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTimeInMillis(date1);
+        cal2.setTimeInMillis(date2);
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get
+                (Calendar.DAY_OF_YEAR);
     }
 
 }

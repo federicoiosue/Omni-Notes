@@ -19,7 +19,8 @@ package it.feio.android.omninotes.extensions;
 
 import android.util.Log;
 import com.pushbullet.android.extension.MessagingExtension;
-import it.feio.android.omninotes.MainActivity;
+import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
 import it.feio.android.omninotes.utils.Constants;
 
 
@@ -32,10 +33,11 @@ public class PushBulletExtension extends MessagingExtension {
     protected void onMessageReceived(final String conversationIden, final String message) {
         Log.i(Constants.TAG, "Pushbullet MessagingExtension: onMessageReceived(" + conversationIden + ", " + message
                 + ")");
-        MainActivity runningMainActivity = MainActivity.getInstance();
-        if (runningMainActivity != null && !runningMainActivity.isFinishing()) {
-            runningMainActivity.onPushBulletReply(message);
-        }
+        EventBus.getDefault().post(new PushbulletReplyEvent(message));
+//        MainActivity runningMainActivity = MainActivity.getInstance();
+//        if (runningMainActivity != null && !runningMainActivity.isFinishing()) {
+//            runningMainActivity.onPushBulletReply(message);
+//        }
     }
 
 

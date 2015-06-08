@@ -17,7 +17,6 @@
 package it.feio.android.omninotes;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -26,9 +25,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -42,7 +38,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
@@ -58,17 +53,12 @@ import java.util.List;
 
 
 @SuppressLint("Registered")
-public class BaseActivity extends ActionBarActivity implements LocationListener {
+public class BaseActivity extends ActionBarActivity {
 
     protected final int TRANSITION_VERTICAL = 0;
     protected final int TRANSITION_HORIZONTAL = 1;
 
     protected SharedPreferences prefs;
-
-    protected LocationManager locationManager;
-    protected Location currentLocation;
-    protected double currentLatitude;
-    protected double currentLongitude;
 
     protected String navigation;
     protected String navigationTmp; // used for widget navigation
@@ -76,24 +66,18 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_list, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        StrictMode.enableDefaults();
-        // Preloads shared preferences for all derived classes
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-        // Starts location manager
-        locationManager = GeocodeHelper.getLocationManager(this, this);
         // Force menu overflow icon
         try {
-            ViewConfiguration config = ViewConfiguration.get(this);
+            ViewConfiguration config = ViewConfiguration.get(this.getApplicationContext());
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
             if (menuKeyField != null) {
                 menuKeyField.setAccessible(true);
@@ -109,44 +93,9 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     @Override
     protected void onResume() {
         super.onResume();
-        // Navigation selected
         String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
         navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
         Log.d(Constants.TAG, prefs.getAll().toString());
-    }
-
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (locationManager != null)
-            locationManager.removeUpdates(this);
-    }
-
-
-    @Override
-    public void onLocationChanged(Location location) {
-        currentLocation = location;
-        currentLatitude = currentLocation.getLatitude();
-        currentLongitude = currentLocation.getLongitude();
-    }
-
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
     }
 
 
@@ -310,7 +259,6 @@ public class BaseActivity extends ActionBarActivity implements LocationListener 
     /**
      * Notifies App Widgets about data changes so they can update theirselves
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static void notifyAppWidgets(Context mActivity) {
         // Home widgets
         AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);

@@ -48,7 +48,7 @@ public class AboutActivity extends BaseActivity {
     @Override
     public boolean onNavigateUp() {
         onBackPressed();
-        return super.onNavigateUp();
+        return true;
     }
 
 

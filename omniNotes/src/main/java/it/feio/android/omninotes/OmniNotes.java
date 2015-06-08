@@ -17,17 +17,16 @@
 
 package it.feio.android.omninotes;
 
-import android.app.AlarmManager;
 import android.app.Application;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.StrictMode;
 import android.text.TextUtils;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
-import it.feio.android.omninotes.utils.BitmapCache;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import it.feio.android.omninotes.utils.Constants;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -38,10 +37,8 @@ import org.acra.sender.HttpSender.Type;
 import java.util.Locale;
 
 
-@ReportsCrashes(httpMethod = Method.PUT, reportType = Type.JSON,
-        formUri = "https://collector.tracepot.com/3f39b042",
-//        formUri = "http://feio.cloudant.com/acra-omninotes/_design/acra-storage/_update/report",
-//        formUriBasicAuthLogin = "thelescivessiandesedclik", formUriBasicAuthPassword = "uScXIHpchNKfuCdgbm3nHTjo",
+@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM,
+        formUri = "http://collector.tracepot.com/3f39b042",
         mode = ReportingInteractionMode.TOAST,
         forceCloseDialogAfterToast = false,
         resToastText = R.string.crash_toast)
@@ -53,22 +50,34 @@ public class OmniNotes extends Application {
     static SharedPreferences prefs;
     private static Tracker mTracker;
     private static GoogleAnalytics mGa;
-    private static BitmapCache mBitmapCache;
+    private static RefWatcher refWatcher;
 
 
     @Override
     public void onCreate() {
+        super.onCreate();
         mContext = getApplicationContext();
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-        // The following line triggers the initialization of ACRA
-        ACRA.init(this);
-        // Instantiate bitmap cache
-        mBitmapCache = new BitmapCache(getApplicationContext(), 0, 0, getExternalCacheDir());
+        refWatcher = LeakCanary.install(this);
+
+        if (BuildConfig.BUILD_TYPE.equals("debug")) {
+            StrictMode.enableDefaults();
+        }
+
+        initAcra(this);
+
         // Checks selected locale or default one
         updateLanguage(this, null);
+
         // Google Analytics initialization
         initializeGa();
-        super.onCreate();
+    }
+
+
+    private void initAcra(Application application) {
+        ACRA.init(application);
+        String isDebugBuild = BuildConfig.BUILD_TYPE.equals("debug") ? "1" : "0";
+        ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild);
     }
 
 
@@ -84,6 +93,10 @@ public class OmniNotes extends Application {
 
     public static Context getAppContext() {
         return OmniNotes.mContext;
+    }
+
+    public static RefWatcher getRefWatcher() {
+        return OmniNotes.refWatcher;
     }
 
 
@@ -143,33 +156,6 @@ public class OmniNotes extends Application {
      */
     public static GoogleAnalytics getGaInstance() {
         return mGa;
-    }
-
-
-    /*
-     * Returns the Google Analytics instance.
-     */
-    public static BitmapCache getBitmapCache() {
-        return mBitmapCache;
-    }
-
-
-    /**
-     * Performs a full app restart
-     */
-    public static void restartApp(final Context mContext) {
-        if (MainActivity.getInstance() != null) {
-            MainActivity.getInstance().finish();
-            Intent intent = new Intent(mContext, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            int mPendingIntentId = 123456;
-            PendingIntent mPendingIntent = PendingIntent.getActivity(mContext, mPendingIntentId, intent,
-                    PendingIntent.FLAG_CANCEL_CURRENT);
-            AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-            System.exit(0);
-        }
     }
 
 }

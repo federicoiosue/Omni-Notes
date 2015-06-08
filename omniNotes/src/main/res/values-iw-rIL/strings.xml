@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">מחיקת כל המידע</string>
   <string name="reset_all_data_confirmation">אישור הסרת כל מידע האפליקציה (הגיבויים ישמרו)?</string>
   <string name="action_settings">הגדרות</string>
-  <string name="settings_sync_import_export">סנכרון וגיבויים</string>
+  <string name="settings_screen_sync_import_export">סנכרון וגיבויים</string>
   <string name="settings_export">גיבוי</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>

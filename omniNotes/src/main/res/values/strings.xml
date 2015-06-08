@@ -173,6 +173,7 @@
     <string name="not_expired">not expired</string>
     <string name="expired">expired</string>
     <string name="today">today</string>
+    <string name="tomorrow">tomorrow</string>
     <string name="open">Open</string>
     <string name="copy">Copy</string>
     <string name="no_application_can_perform_this_action">No application found for this action</string>
@@ -207,8 +208,9 @@
     <string name="settings_reset_all_data">Erase all data</string>
     <string name="reset_all_data_confirmation">Erase all of the app\'s data? (backups will be preserved)</string>
     <string name="action_settings">Settings</string>
-    <string name="settings_sync_import_export">Sync and Backups</string>
+    <string name="settings_screen_sync_import_export">Sync and Backups</string>
     <string name="settings_export">Backup</string>
+    <string name="settings_sync_import_export">Sync and Backups</string>
     <string name="settings_import">Restore or delete backups</string>
     <string name="settings_import_from_springpad">Import notes from Springpad</string>
     <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>   
@@ -228,6 +230,7 @@
     <string name="settings_screen_backup">Backup</string>
     <string name="settings_screen_notifications">Notifications</string>
     <string name="settings_enable_vibration">Vibration</string>
+    <string name="settings_screen_navigation">Navigation</string>
     <string name="settings_changelog">Changelog</string>
     <string name="settings_enable_editor_links">Links recognition</string>
     <string name="settings_max_video_size">Video attachments</string>
@@ -304,7 +307,7 @@
     <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
     <string name="settings_dynamic_menu">Dynamic menu</string>
     <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
-    <string name="settings_fab_expansion_behavior">Floating action bar</string>
+    <string name="settings_fab_expansion_behavior">Floating action button</string>
     <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
     <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
     <string name="settings_error_reporting">Error reporting</string>

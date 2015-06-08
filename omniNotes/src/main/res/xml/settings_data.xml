@@ -18,10 +18,10 @@
     android:fitsSystemWindows="true">
 
     <PreferenceScreen
-        android:key="settings_backup"
+        android:key="settings_sync_import_export"
         android:persistent="false"
         android:summary="@string/settings_backup_summary"
-        android:title="@string/settings_screen_backup" />
+        android:title="@string/settings_screen_sync_import_export" />
 
     <Preference
         android:key="settings_password"

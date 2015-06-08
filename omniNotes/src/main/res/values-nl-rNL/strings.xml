@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">Wis alle data</string>
   <string name="reset_all_data_confirmation">Bevestig verwijdering van alle app data (backups worden behouden)?</string>
   <string name="action_settings">Instellingen</string>
-  <string name="settings_sync_import_export">Synchronisatie en back-ups</string>
+  <string name="settings_screen_sync_import_export">Synchronisatie en back-ups</string>
   <string name="settings_export">Back-up</string>
   <string name="settings_import">Terugplaatsen of verwijderen van back-ups</string>
   <string name="settings_import_from_springpad">Notities importeren uit Springpad</string>

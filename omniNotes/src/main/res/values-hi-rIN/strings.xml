@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">सभी डाटा मिटाये</string>
   <string name="reset_all_data_confirmation">सभी अनुप्रयोग डेटा (बैकअप संरक्षित किया जाएगा) को हटाने की पुष्टि करें?</string>
   <string name="action_settings">सेटिंग्स</string>
-  <string name="settings_sync_import_export">सिंक और बैकअप</string>
+  <string name="settings_screen_sync_import_export">सिंक और बैकअप</string>
   <string name="settings_export">बैकअप</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>

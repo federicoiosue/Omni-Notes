@@ -47,11 +47,11 @@
         android:name="it.feio.android.omninotes.OmniNotes"
         android:allowBackup="true"
         android:largeHeap="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/OmniNotesTheme.ApiSpec"
-        tools:replace="android:theme">
+        tools:replace="android:theme, android:icon">
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".ListActivity" />

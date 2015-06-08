@@ -189,7 +189,7 @@
   <string name="settings_reset_all_data">Tüm verileri sil</string>
   <string name="reset_all_data_confirmation">Bütün uygulama verilerini kaldırmayı onaylıyor musunuz? (yedekler korunacak)</string>
   <string name="action_settings">Ayarlar</string>
-  <string name="settings_sync_import_export">Senkronize et ve Yedekle</string>
+  <string name="settings_screen_sync_import_export">Senkronize et ve Yedekle</string>
   <string name="settings_export">Yedekle</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>
