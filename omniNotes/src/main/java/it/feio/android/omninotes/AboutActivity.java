@@ -17,40 +17,47 @@
 package it.feio.android.omninotes;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
-
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 
+
 public class AboutActivity extends BaseActivity {
 
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_about);
-		
-		WebView webview = (WebView) findViewById(R.id.webview);
-		webview.loadUrl("file:///android_asset/html/about.html");
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_about);
 
-		// Show the Up button in the action bar.
-		if (getSupportActionBar() != null) {
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		}
-	}
+        WebView webview = (WebView) findViewById(R.id.webview);
+        webview.loadUrl("file:///android_asset/html/about.html");
 
-	
-	@Override
-	public void onStart() {
-		// GA tracking
-		OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
-		OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());		
-		super.onStart();
-	}
-	
+        initUI();
+    }
 
-	@Override
-	public boolean onNavigateUp() {
-		onBackPressed();
-		return super.onNavigateUp();
-	}
+
+    @Override
+    public void onStart() {
+        // GA tracking
+        OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
+        OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
+        super.onStart();
+    }
+
+
+    @Override
+    public boolean onNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+
+    private void initUI() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> onNavigateUp());
+    }
 
 }

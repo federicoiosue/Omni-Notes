@@ -16,345 +16,305 @@
  */
 package it.feio.android.omninotes.models.adapters;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
+import android.support.annotation.NonNull;
+import android.text.Spanned;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import com.bumptech.glide.Glide;
+import com.nhaarman.listviewanimations.util.Insertable;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.async.TextWorkerTask;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.holders.NoteViewHolder;
+import it.feio.android.omninotes.utils.*;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.BitmapWorkerTask;
-import it.feio.android.omninotes.async.TextWorkerTask;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.views.SquareImageView;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Fonts;
-import roboguice.util.Ln;
+
+public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
+
+    private final Activity mActivity;
+    private final int navigation;
+    private List<Note> notes = new ArrayList<>();
+    private SparseBooleanArray selectedItems = new SparseBooleanArray();
+    private boolean expandedView;
+    private int layout;
+    private LayoutInflater inflater;
+    private long closestNoteReminder = Long.parseLong(Constants.TIMESTAMP_UNIX_EPOCH_FAR);
+    private int closestNotePosition;
 
 
-public class NoteAdapter extends ArrayAdapter<Note> {
+    public NoteAdapter(Activity activity, int layout, List<Note> notes) {
+        super(activity, R.layout.note_layout_expanded, notes);
+        this.mActivity = activity;
+        this.notes = notes;
+        this.layout = layout;
 
-	private final Activity mActivity;
-	private final List<Note> notes;
-	private SparseBooleanArray selectedItems = new SparseBooleanArray();
-	private boolean expandedView;
-	private int layout;
-	private LayoutInflater inflater;
-	
-
-	public NoteAdapter(Activity activity, int layout, List<Note> notes) {
-		super(activity, R.layout.note_layout_expanded, notes);
-		this.mActivity = activity;
-		this.notes = notes;		
-		this.layout = layout;
-		
-		expandedView = layout == R.layout.note_layout_expanded;
-		inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	}
-
-	@SuppressLint("NewApi")
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		
-		Note note = notes.get(position);
-		
-		NoteAdapterViewHolder holder;
-	    if (convertView == null) {
-	    	convertView = inflater.inflate(layout, parent, false);
-
-			// Overrides font sizes with the one selected from user
-			Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS), convertView);
-	    	
-	    	holder = new NoteAdapterViewHolder();
-    		    	
-	    	holder.root = convertView.findViewById(R.id.root);
-	    	holder.cardLayout = convertView.findViewById(R.id.card_layout);
-	    	holder.categoryMarker = convertView.findViewById(R.id.category_marker);
-
-	    	holder.title = (TextView) convertView.findViewById(R.id.note_title);
-	    	holder.content = (TextView) convertView.findViewById(R.id.note_content);
-	    	holder.date = (TextView) convertView.findViewById(R.id.note_date);
-
-	    	holder.archiveIcon = (ImageView) convertView.findViewById(R.id.archivedIcon);
-//	    	holder.trashIcon = (ImageView) convertView.findViewById(R.id.trashedIcon);
-	    	holder.locationIcon = (ImageView) convertView.findViewById(R.id.locationIcon);
-	    	holder.alarmIcon = (ImageView) convertView.findViewById(R.id.alarmIcon);
-	    	holder.lockedIcon = (ImageView) convertView.findViewById(R.id.lockedIcon);
-	    	if (!expandedView)
-	    		holder.attachmentIcon = (ImageView) convertView.findViewById(R.id.attachmentIcon);
-
-	    	holder.attachmentThumbnail = (SquareImageView) convertView.findViewById(R.id.attachmentThumbnail);	    	
-	    	
-	    	convertView.setTag(holder);
-			
-	    } else {
-	        holder = (NoteAdapterViewHolder) convertView.getTag();
-	    }
-	    
-		try {
-//			if (note.isChecklist()) {
-				TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
-				if (Build.VERSION.SDK_INT >= 11) {
-					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
-				} else {
-					task.execute(note);
-				}
-//			} else {
-//				Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
-//				holder.title.setText(titleAndContent[0]);
-//				holder.content.setText(titleAndContent[1]);
-//			}
-		} catch (RejectedExecutionException e) {
-			Ln.w(e, "Oversized tasks pool to load texts!");
-		}
+        expandedView = layout == R.layout.note_layout_expanded;
+        inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        navigation = Navigation.getNavigation();
+        manageCloserNote(notes, navigation);
+    }
 
 
-		// Evaluates the archived state...
-		holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
-		// .. the trashed state
-//		holder.trashIcon.setVisibility(note.isTrashed() ? View.VISIBLE : View.GONE);
-		// ...the location
-		holder.locationIcon.setVisibility(note.getLongitude() != null && note.getLongitude() != 0 ? View.VISIBLE : View.GONE);
-		// ...the presence of an alarm
-		holder.alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
-		// ...the locked with password state	
-		holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
-		// ...the attachment icon for contracted view
-		if (!expandedView) {
-			holder.attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
-		}
-				
-		
-		String dateText = getDateText(mActivity, note);
-		holder.date.setText(dateText);
-		
-		
-		// Highlighted if is part of multiselection of notes. Remember to search for child with card ui
-		if (selectedItems.get(position)) {
-			holder.cardLayout.setBackgroundColor(mActivity.getResources().getColor(
-					R.color.list_bg_selected));
-		} else {
-			restoreDrawable(note, holder.cardLayout, holder);
-		}
-		
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Note note = notes.get(position);
+        NoteViewHolder holder;
+        if (convertView == null) {
+            convertView = inflater.inflate(layout, parent, false);
+            holder = buildHolder(convertView, parent);
+            convertView.setTag(holder);
+        } else {
+            holder = (NoteViewHolder) convertView.getTag();
+        }
+        initText(note, holder);
+        initIcons(note, holder);
+        initDates(note, holder);
+        initThumbnail(note, holder);
+        manageSelectionColor(position, note, holder);
+        return convertView;
+    }
 
-		// Attachment thumbnail
-		if (expandedView) {
-			// If note is locked or without attachments nothing is shown
-			if ((note.isLocked() && !mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS).getBoolean("settings_password_access", false))
-					|| note.getAttachmentsList().size() == 0) {
-				holder.attachmentThumbnail.setImageResource(0);
-				holder.attachmentThumbnail.setVisibility(View.GONE);
-			}
-			// Otherwise...
-			else {
-				Attachment mAttachment = note.getAttachmentsList().get(0);
-				loadThumbnail(holder, mAttachment);
-			}
-		}
 
-//		Animation animation = AnimationUtils.loadAnimation(mActivity, R.animator.fade_in);
-//		animation.setDuration(60);
-//		convertView.startAnimation(animation);
-		
-		return convertView;
-	}
+    /**
+     * Highlighted if is part of multiselection of notes. Remember to search for child with card ui
+     */
+    private void manageSelectionColor(int position, Note note, NoteViewHolder holder) {
+        if (selectedItems.get(position)) {
+            holder.cardLayout.setBackgroundColor(mActivity.getResources().getColor(
+                    R.color.list_bg_selected));
+        } else {
+            restoreDrawable(note, holder.cardLayout, holder);
+        }
+    }
 
-	
-	
-	/**
-	 * Choosing which date must be shown depending on sorting criteria
-	 * @return String ith formatted date
-	 */
-	public static String getDateText(Context mContext, Note note) {
-		String dateText;
-		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, mContext.MODE_MULTI_PROCESS);
-		String sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
-		
-		// Creation
-		if (sort_column.equals(DbHelper.KEY_CREATION)) {
-			dateText = mContext.getString(R.string.creation) + " " + note.getCreationShort(mContext);
-		}
-		// Reminder
-		else if (sort_column.equals(DbHelper.KEY_ALARM)) {
-			String alarmShort = note.getAlarmShort(mContext);
-			
-			if (alarmShort.length() == 0) {
-				dateText =  mContext.getString(R.string.no_reminder_set);
-			} else {
-				dateText = mContext.getString(R.string.alarm_set_on) + " "
-					+ note.getAlarmShort(mContext);
-			}
-		}
-		// Others
-		else {
-			dateText = mContext.getString(R.string.last_update) + " "
-					+ note.getLastModificationShort(mContext);
-		}
-		return dateText;
-	}
 
-	
-	
-	
-	
+    private void initThumbnail(Note note, NoteViewHolder holder) {
+        // Attachment thumbnail
+        if (expandedView) {
+            // If note is locked or without attachments nothing is shown
+            if ((note.isLocked() && !mActivity.getSharedPreferences(Constants.PREFS_NAME,
+                    Context.MODE_MULTI_PROCESS).getBoolean("settings_password_access", false))
+                    || note.getAttachmentsList().size() == 0) {
+                holder.attachmentThumbnail.setVisibility(View.GONE);
+            }
+            // Otherwise...
+            else {
+                holder.attachmentThumbnail.setVisibility(View.VISIBLE);
+                Attachment mAttachment = note.getAttachmentsList().get(0);
+                Uri thumbnailUri = BitmapHelper.getThumbnailUri(mActivity, mAttachment);
+                Glide.with(mActivity)
+                        .load(thumbnailUri)
+                        .centerCrop()
+                        .crossFade()
+                        .into(holder.attachmentThumbnail);
+            }
+        }
+    }
 
-	public SparseBooleanArray getSelectedItems() {
-		return selectedItems;
-	}
 
-	public void addSelectedItem(Integer selectedItem) {
-		this.selectedItems.put(selectedItem, true);
-	}
+    public List<Note> getNotes() {
+        return notes;
+    }
 
-	public void removeSelectedItem(Integer selectedItem) {
-		this.selectedItems.delete(selectedItem);
-	}
 
-	public void clearSelectedItems() {
-		this.selectedItems.clear();
-	}	
+    private void initDates(Note note, NoteViewHolder holder) {
+        String dateText = TextHelper.getDateText(mActivity, note, navigation);
+        holder.date.setText(dateText);
+    }
 
-	
-	public void restoreDrawable(Note note, View v) {
-		restoreDrawable(note, v, null);
-	}
-	
-	
-	public void restoreDrawable(Note note, View v, NoteAdapterViewHolder holder) {
-		final int paddingBottom = v.getPaddingBottom(), paddingLeft = v.getPaddingLeft();
-	    final int paddingRight = v.getPaddingRight(), paddingTop = v.getPaddingTop();
-	    v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
-	    colorNote(note, v, holder);
-	}
-	
 
-	@SuppressWarnings("unused")
-	private void colorNote(Note note, View v) {
-		colorNote(note, v, null);
-	}
+    private void initIcons(Note note, NoteViewHolder holder) {
+        // Evaluates the archived state...
+        holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
+        // ...the location
+        holder.locationIcon.setVisibility(note.getLongitude() != null && note.getLongitude() != 0 ? View.VISIBLE :
+                View.GONE);
 
-	/**
-	 * Color of category marker if note is categorized a function is active in preferences
-	 * @param note
-	 * @param rowView
-	 */
-	private void colorNote(Note note, View v, NoteAdapterViewHolder holder) {
+        // ...the presence of an alarm
+        holder.alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
+        // ...the locked with password state
+        holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
+        // ...the attachment icon for contracted view
+        if (!expandedView) {
+            holder.attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
+        }
+    }
 
-		String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, mActivity.MODE_MULTI_PROCESS)
-									.getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
-		
-		// Checking preference
-		if (!colorsPref.equals("disabled")) {
 
-			// Resetting transparent color to the view
-			v.setBackgroundColor(Color.parseColor("#00000000"));
+    private void initText(Note note, NoteViewHolder holder) {
+        try {
+            if (note.isChecklist()) {
+                TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
+                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+            } else {
+                Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
+                holder.title.setText(titleAndContent[0]);
+                holder.content.setText(titleAndContent[1]);
+                holder.title.setText(titleAndContent[0]);
+                if (titleAndContent[1].length() > 0) {
+                    holder.content.setText(titleAndContent[1]);
+                    holder.content.setVisibility(View.VISIBLE);
+                } else {
+                    if (expandedView) {
+                        holder.content.setVisibility(View.INVISIBLE);
+                    } else {
+                        holder.content.setVisibility(View.GONE);
+                    }
+                }
+            }
+        } catch (RejectedExecutionException e) {
+            Log.w(Constants.TAG, "Oversized tasks pool to load texts!", e);
+        }
+    }
 
-			// If category is set the color will be applied on the appropriate target
-			if (note.getCategory() != null && note.getCategory().getColor() != null) {
-				if (colorsPref.equals("complete") || colorsPref.equals("list")) {
-					v.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
-				} else {
-					if (holder != null) {
-						holder.categoryMarker.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
-					} else {
-						v.findViewById(R.id.category_marker).setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
-					}
-				}
-			} else {
-				v.findViewById(R.id.category_marker).setBackgroundColor(0);
-			}
-		}
-	}
-	 
-	
-	
-	@SuppressLint("NewApi")
-	private void loadThumbnail(NoteAdapterViewHolder holder, Attachment mAttachment) {
-//		if (isNewWork(mAttachment.getUri(), holder.attachmentThumbnail)) {
-			BitmapWorkerTask task = new BitmapWorkerTask(mActivity, holder.attachmentThumbnail,
-					Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE);
-			holder.attachmentThumbnail.setAsyncTask(task);
-			try {
-				if (Build.VERSION.SDK_INT >= 11) {
-					task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, mAttachment);
-				} else {
-					task.execute(mAttachment);
-				}
-			} catch (RejectedExecutionException e) {
-				Ln.w(e, "Oversized tasks pool to load thumbnails!");
-			}
-			holder.attachmentThumbnail.setVisibility(View.VISIBLE);
-//		}
-	}
 
-	
-	public static boolean isNewWork(Uri uri, SquareImageView imageView) {
-		final BitmapWorkerTask bitmapWorkerTask = (BitmapWorkerTask)imageView.getAsyncTask();
+    /**
+     * Saves the position of the closest note to align list scrolling with it on start
+     */
+    private void manageCloserNote(List<Note> notes, int navigation) {
+        if (navigation == Navigation.REMINDERS) {
+            for (int i = 0; i < notes.size(); i++) {
+                long now = Calendar.getInstance().getTimeInMillis();
+                long reminder = Long.parseLong(notes.get(i).getAlarm());
+                if (now < reminder && reminder < closestNoteReminder) {
+                    closestNotePosition = i;
+                    closestNoteReminder = reminder;
+                }
+            }
+        }
 
-		if (bitmapWorkerTask != null && bitmapWorkerTask.getAttachment() != null) {
-			final Uri bitmapData = bitmapWorkerTask.getAttachment().getUri();
-			// If bitmapData is not yet set or it differs from the new data
-			if (bitmapData == null || bitmapData != uri) {
-				// Cancel previous task
-				bitmapWorkerTask.cancel(true);
-			} else {
-				// The same work is already in progress
-				return false;
-			}
-		}
-		// No task associated with the ImageView, or an existing task was
-		// cancelled
-		return true;
-	}
-	
-	
-	/**
-	 * Replaces notes
-	 */
-	public void replace(Note note, int index) {
+    }
+
+
+    /**
+     * Returns the note with the nearest reminder in the future
+     */
+    public int getClosestNotePosition() {
+        return closestNotePosition;
+    }
+
+
+    public SparseBooleanArray getSelectedItems() {
+        return selectedItems;
+    }
+
+
+    public void addSelectedItem(Integer selectedItem) {
+        this.selectedItems.put(selectedItem, true);
+    }
+
+
+    public void removeSelectedItem(Integer selectedItem) {
+        this.selectedItems.delete(selectedItem);
+    }
+
+
+    public void clearSelectedItems() {
+        this.selectedItems.clear();
+    }
+
+
+    public void restoreDrawable(Note note, View v) {
+        restoreDrawable(note, v, null);
+    }
+
+
+    public void restoreDrawable(Note note, View v, NoteViewHolder holder) {
+        final int paddingBottom = v.getPaddingBottom(), paddingLeft = v.getPaddingLeft();
+        final int paddingRight = v.getPaddingRight(), paddingTop = v.getPaddingTop();
+        v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
+        colorNote(note, v, holder);
+    }
+
+
+    @SuppressWarnings("unused")
+    private void colorNote(Note note, View v) {
+        colorNote(note, v, null);
+    }
+
+
+    /**
+     * Color of category marker if note is categorized a function is active in preferences
+     */
+    private void colorNote(Note note, View v, NoteViewHolder holder) {
+
+        String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
+                .getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
+
+        // Checking preference
+        if (!colorsPref.equals("disabled")) {
+
+            // Resetting transparent color to the view
+            v.setBackgroundColor(Color.parseColor("#00000000"));
+
+            // If category is set the color will be applied on the appropriate target
+            if (note.getCategory() != null && note.getCategory().getColor() != null) {
+                if (colorsPref.equals("complete") || colorsPref.equals("list")) {
+                    v.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
+                } else {
+                    if (holder != null) {
+                        holder.categoryMarker.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
+                    } else {
+                        v.findViewById(R.id.category_marker).setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
+                    }
+                }
+            } else {
+                v.findViewById(R.id.category_marker).setBackgroundColor(0);
+            }
+        }
+    }
+
+
+    /**
+     * Replaces notes
+     */
+    public void replace(Note note, int index) {
         if (notes.indexOf(note) != -1) {
             notes.remove(index);
-        }  else {
+        } else {
             index = notes.size();
         }
-		notes.add(index, note);
-	}
+        notes.add(index, note);
+    }
+
+
+    @Override
+    public void add(int i, @NonNull Object o) {
+        insert((Note) o, i);
+    }
+
+
+    public void remove(List<Note> notes) {
+        for (Note note : notes) {
+            remove(note);
+        }
+    }
+
+
+    private NoteViewHolder buildHolder(View convertView, ViewGroup parent) {
+        // Overrides font sizes with the one selected from user
+        Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME,
+                Context.MODE_MULTI_PROCESS), convertView);
+        NoteViewHolder holder = new NoteViewHolder(convertView);
+        return holder;
+    }
+
 }
 
 
 
-class NoteAdapterViewHolder {
-	
-	View root;
-	View cardLayout;
-	View categoryMarker;
-	
-	TextView title;
-	TextView content;
-	TextView date;
-
-	ImageView archiveIcon;
-//	ImageView trashIcon;
-	ImageView locationIcon;
-	ImageView alarmIcon;
-	ImageView lockedIcon;
-	ImageView attachmentIcon;
-	
-	SquareImageView attachmentThumbnail;
-}

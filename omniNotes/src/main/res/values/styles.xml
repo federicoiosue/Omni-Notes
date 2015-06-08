@@ -18,47 +18,64 @@
   -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- the theme applied to the application or activity -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
-        <item name="actionBarStyle">@style/AppTheme.ActionBarStyle</item>
-        <item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>
+    <style name="OmniNotesTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <!--<item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/colorPrimaryDark</item>
+        <item name="searchViewStyle">@style/SearchViewStyle</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
-    <!-- ActionBar styles -->
-    <style name="AppTheme.ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar">
-        <item name="background">@color/gray_bg</item>
+    <style name="OmniNotesTheme.ApiSpec"></style>
+
+    <style name="PreferencesTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
+
+    <style name="OmniNotesFullscreenTheme" parent="@style/Theme.AppCompat">
+        <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="background">@color/black_overlay</item>
+    </style>
+
+    <style name="OmniNotesFullscreenTheme.ApiSpec"></style>
 
     <!-- ShowcaseView styles -->
-    <style name="CustomShowcaseTheme" parent="ShowcaseView.Light">
-        <item name="sv_backgroundColor">#ee2d2d2d</item>
-        <item name="sv_buttonBackgroundColor">#CF3119</item>
-        <item name="sv_buttonText">@string/proceed</item>
-        <item name="sv_titleTextAppearance">@style/TourTitle</item>
-        <item name="sv_detailTextAppearance">@style/TourDetail</item>
+    <!--<style name="CustomShowcaseTheme" parent="ShowcaseView.Light">-->
+    <!--<item name="sv_backgroundColor">#ee2d2d2d</item>-->
+    <!--<item name="sv_buttonBackgroundColor">#CF3119</item>-->
+    <!--<item name="sv_buttonText">@string/proceed</item>-->
+    <!--<item name="sv_titleTextAppearance">@style/TourTitle</item>-->
+    <!--<item name="sv_detailTextAppearance">@style/TourDetail</item>-->
+    <!--</style>-->
+
+    <!--<style name="TourTitle" parent="TextAppearance.ShowcaseView.Title.Light">-->
+    <!--<item name="android:textSize">24sp</item>-->
+    <!--<item name="android:textStyle">bold</item>-->
+    <!-- <item name="android:textColor">#0099CC</item> -->
+    <!--</style>-->
+
+    <!--<style name="TourDetail" parent="TextAppearance.ShowcaseView.Detail.Light">-->
+    <!--<item name="android:textSize">18sp</item>-->
+    <!--<item name="android:textColor">#ffffff</item>-->
+    <!--</style>-->
+
+    <style name="OmniNotesTheme.NoDisplay">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowNoDisplay">true</item>
     </style>
 
-    <style name="TourTitle" parent="TextAppearance.ShowcaseView.Title.Light">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textStyle">bold</item>
-        <!-- <item name="android:textColor">#0099CC</item> -->
-    </style>
-
-    <style name="TourDetail" parent="TextAppearance.ShowcaseView.Detail.Light">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">#ffffff</item>
-    </style>
-
-    <!-- Preferences -->
-    <style name="Theme.Preferences" parent="@style/Theme.AppCompat.Light">
-        <item name="android:listViewStyle">@style/lightListView</item>
-    </style>
-
-    <style name="lightListView">
-        <item name="android:background">#ffffff<item></item></item>
-    </style>
-
-    <style name="Theme.AppCompat.Dialog" parent="AppTheme">
+    <style name="OmniNotesTheme.ApiSpec.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@drawable/bg_card</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -77,27 +94,46 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="closeIcon">@drawable/ic_cancel_white_24dp</item>
+    </style>
+
+    <style name="AppTheme.ActionBar.Fullscreen.TitleTextStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="Theme.AppCompat.Dialog.About" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@color/about_bg</item>
     </style>
 
-    <style name="Button.Dialog" parent="Widget.AppCompat.ActionButton">
-        <item name="android:textColor">@color/list_note_dates</item>
+    <style name="Button.Dialog" parent="MD_ActionButton">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:background">@null</item>
+        <item name="android:textCursorDrawable">@null</item>
     </style>
 
-    <style name="Text.Big" parent="android:attr/textAppearanceSmall">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/actionbar_title_text</item>
+    <style name="Button.Dialog.Accent" parent="MD_ActionButton">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@null</item>
+        <item name="android:textCursorDrawable">@null</item>
     </style>
 
-    <style name="Text.Normal" parent="android:attr/textAppearanceSmall">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/actionbar_title_text</item>
+    <style name="Text" parent="android:TextAppearance.Holo.Medium.Inverse">
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textColorHint">@color/text_color_lighter</item>
+        <item name="android:textCursorDrawable">@null</item>
     </style>
 
-    <style name="Text.Small" parent="android:attr/textAppearanceSmall">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/list_note_dates</item>
+    <style name="Text.Big">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Text.Normal">
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="Text.Small">
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="Text.Big.Widget" parent="@style/Text.Big">
@@ -114,13 +150,13 @@
 
     <style name="UndoBar">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_height">56dp</item>
         <item name="android:layout_gravity">bottom</item>
-        <item name="android:layout_marginLeft">8dp</item>
-        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
         <item name="android:layout_marginBottom">@dimen/undobar_margin_bottom</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@drawable/undobar</item>
+        <item name="android:background">@color/card_undobar_material_background_color</item>
         <item name="android:clickable">true</item>
     </style>
 
@@ -135,38 +171,16 @@
         <item name="android:textColor">#fff</item>
     </style>
 
-    <style name="UndoBarDivider">
-        <item name="android:layout_width">1dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@drawable/undobar_divider</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
-    </style>
-
     <style name="UndoBarButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
-        <item name="android:background">@drawable/undobar_button</item>
-        <item name="android:drawableLeft">@drawable/ic_undobar_undo</item>
-        <item name="android:drawablePadding">12dp</item>
-        <item name="android:textAppearance">@style/Text.Small</item>
-        <item name="android:textColor">#fff</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccent</item>
         <item name="android:text">@string/undo</item>
-    </style>
-
-    <style name="FullscreenTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
-        <item name="windowActionBarOverlay">true</item>
-        <item name="metaButtonBarStyle">@style/ButtonBar</item>
-        <item name="metaButtonBarButtonStyle">@style/ButtonBarButton</item>
-    </style>
-
-    <style name="FullscreenActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="background">@color/black_overlay</item>
-<!--         <item name="titleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
-<!--         <item name="subtitleTextStyle">@style/AppTheme.ActionBar.Fullscreen.TitleTextStyle</item> -->
     </style>
 
     <style name="ButtonBar">
@@ -177,10 +191,9 @@
         <item name="android:background">@android:drawable/bottom_bar</item>
     </style>
 
-    <style name="ButtonBarButton" />
-
-
-    <style name="AppTheme.ActionBar.Fullscreen.TitleTextStyle" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@android:color/white</item>
+    <style name="crouton_text">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
     </style>
+
 </resources>

@@ -21,7 +21,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.2'
+        classpath 'com.android.tools.build:gradle:1.1.0'
+        classpath 'me.tatarka:gradle-retrolambda:3.0.1'
     }
 }
 
@@ -31,6 +32,33 @@ allprojects {
         jcenter()
         maven {
             url "https://github.com/federicoiosue/repository/raw/master/"
+        }
+    }
+}
+
+
+
+
+
+
+
+apply plugin: "sonar-runner"
+
+sonarRunner {
+    sonarProperties {
+        // can be also set on command line like -Dsonar.analysis.mode=incremental
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.analysis.mode", "incremental"
+        property 'sonar.sourceEncoding', 'UTF-8'
+        property 'sonar.language', 'java'
+        property 'sonar.profile', 'Default'
+    }
+}
+
+subprojects {
+    sonarRunner {
+        sonarProperties {
+            properties["sonar.sources"] += "omniNotes/src/main/java"
         }
     }
 }

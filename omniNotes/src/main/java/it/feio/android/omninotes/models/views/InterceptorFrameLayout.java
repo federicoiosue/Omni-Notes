@@ -24,28 +24,33 @@ import android.widget.FrameLayout;
 
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 
+
 public class InterceptorFrameLayout extends FrameLayout {
 
-	private OnViewTouchedListener mOnViewTouchedListener;
+    private OnViewTouchedListener mOnViewTouchedListener;
 
-	public InterceptorFrameLayout(Context context) {
-		super(context);
-	}
 
-	public InterceptorFrameLayout(Context context, AttributeSet attrs) {
-		super(context, attrs);
-	}
+    public InterceptorFrameLayout(Context context) {
+        super(context);
+    }
 
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		if (mOnViewTouchedListener != null) {
-			mOnViewTouchedListener.onViewTouchOccurred(ev);
-		}
-		return super.onInterceptTouchEvent(ev);
-	}
 
-	public void setOnViewTouchedListener(OnViewTouchedListener mOnViewTouchedListener) {
-		this.mOnViewTouchedListener = mOnViewTouchedListener;
-	}
+    public InterceptorFrameLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (mOnViewTouchedListener != null) {
+            mOnViewTouchedListener.onViewTouchOccurred(ev);
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
+
+
+    public void setOnViewTouchedListener(OnViewTouchedListener mOnViewTouchedListener) {
+        this.mOnViewTouchedListener = mOnViewTouchedListener;
+    }
 
 }

@@ -20,36 +20,38 @@
 
     <item
         android:id="@+id/menu_attachment"
-        android:icon="@drawable/ic_action_attachment"
+        android:icon="@drawable/ic_attachment_white_24dp"
         android:orderInCategory="100"
         android:title="@string/attachment"
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_category"
-        android:icon="@drawable/ic_action_category"
+        android:icon="@drawable/ic_folder_special_white_24dp"
         android:orderInCategory="200"
         android:title="@string/category"
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_tag"
-        android:icon="@drawable/ic_action_labels"
+        android:icon="@drawable/ic_loyalty_white_24dp"
         android:orderInCategory="300"
         android:title="@string/add_tag"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_share"
-        android:icon="@drawable/ic_action_share"
+        android:icon="@drawable/ic_share_white_24dp"
         android:orderInCategory="400"
         android:title="@string/share"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_checklist_on"
+        android:icon="@drawable/ic_format_list_bulleted_white_48dp"
         android:orderInCategory="500"
         android:title="@string/checklist_on"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_checklist_off"
+        android:icon="@drawable/ic_action_view_as_list"
         android:orderInCategory="500"
         android:title="@string/checklist_off"
         android:visible="false"
@@ -76,35 +78,35 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_archive"
-        android:icon="@drawable/ic_archive_dark"
+        android:icon="@drawable/ic_archive_grey600_48dp"
         android:orderInCategory="800"
         android:title="@string/archive"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_unarchive"
-        android:icon="@drawable/ic_unarchive_dark"
+        android:icon="@drawable/ic_unarchive_grey600_48dp"
         android:orderInCategory="800"
         android:title="@string/unarchive"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_trash"
-        android:icon="@drawable/ic_action_discard"
+        android:icon="@drawable/ic_delete_grey600_48dp"
         android:orderInCategory="900"
         android:title="@string/trash"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_untrash"
-        android:icon="@drawable/ic_action_untrash"
+        android:icon="@drawable/ic_undelete_white_24dp"
         android:orderInCategory="900"
         android:title="@string/untrash"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_discard_changes"
-        android:icon="@drawable/ic_action_undo"
+        android:icon="@drawable/ic_undo_grey600_24dp"
         android:orderInCategory="1000"
         android:title="@string/discard_changes"
         app:showAsAction="ifRoom"/>

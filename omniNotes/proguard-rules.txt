@@ -1,0 +1,124 @@
+-target 1.7
+-dontobfuscate
+-dontoptimize
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontpreverify
+-verbose
+-dump ../bin/class_files.txt
+-printseeds ../bin/seeds.txt
+-printusage ../bin/unused.txt
+-printmapping ../bin/mapping.txt
+
+# The -optimizations option disables some arithmetic simplifications that Dalvik 1.0 and 1.5 can't handle.
+-optimizations !code/simplification/arithmetic
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep class com.google.inject.Binder
+-keepclassmembers class * {
+    @com.google.inject.Inject <init>(...);
+}
+# There's no way to keep all @Observes methods, so use the On*Event convention to identify event handlers
+-keepclassmembers class * {
+    void *(**On*Event);
+}
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(...);
+}
+
+#ACRA specifics
+# Restore some Source file names and restore approximate line numbers in the stack traces,
+# otherwise the stack traces are pretty useless
+-keepattributes SourceFile,LineNumberTable
+
+# ACRA needs "annotations" so add this...
+# Note: This may already be defined in the default "proguard-android-optimize.txt"
+# file in the SDK. If it is, then you don't need to duplicate it. See your
+# "project.properties" file to get the path to the default "proguard-android-optimize.txt".
+-keepattributes *Annotation*
+
+# Keep all the ACRA classes
+-keep class org.acra.** { *; }
+
+# Fix reflection obfuscation
+-keep class it.feio.android.omninotes.db.DbHelper { *; }
+-keep class it.feio.android.omninotes.async.upgrade.UpgradeProcessor { *; }
+
+## ical4j also contains groovy code which is not used in android
+-dontwarn groovy.**
+-dontwarn org.codehaus.groovy.**
+-dontwarn org.apache.commons.logging.**
+-dontwarn sun.misc.Perf
+
+-dontnote com.google.vending.**
+-dontnote com.android.vending.licensing.**
+
+###################
+# Get rid of #can't find referenced method in library class java.lang.Object# warnings for clone() and finalize()
+# Warning: net.fortuna.ical4j.model.CalendarFactory: can't find referenced method 'void finalize()' in library class java.lang.Object
+# Warning: net.fortuna.ical4j.model.ContentBuilder: can't find referenced method 'java.lang.Object clone()' in library class java.lang.Object
+# for details see http://stackoverflow.com/questions/23883028/how-to-fix-proguard-warning-cant-find-referenced-method-for-existing-methods
+-dontwarn net.fortuna.ical4j.model.**
+
+###############
+# I use proguard only to remove unused stuff and to keep the app small.
+# I donot want to obfuscate (rename packages, classes, methods, ...) since this is open source
+-keepnames class ** { *; }
+-keepnames interface ** { *; }
+-keepnames enum ** { *; }
+
+###############
+# Retrolambda
+-dontwarn java.lang.invoke.*
+
+###############
+# EventBus
+-keepclassmembers class ** {
+    public void onEvent*(**);
+}
+# Only required if you use AsyncExecutor
+#-keepclassmembers class * extends de.greenrobot.event.util.ThrowableFailureEvent {
+#    <init>(java.lang.Throwable);
+#}
+
+
+###############
+# Logs removal
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+    public static *** w(...);
+    public static *** e(...);
+    public static *** wtf(...);
+}
+
+
+###############
+# Butterknife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewInjector { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+
+
+###############
+# Keeps R inner classes
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
+-keep class **.R$*

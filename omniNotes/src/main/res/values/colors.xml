@@ -17,15 +17,32 @@
   -->
 <resources>
 
+    <!-- Material -->
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#F44336</color>
+    <color name="colorAccentPressed">#D32F2F</color>
+
+    <!-- Statusbar overlay -->
+    <color name="statusbar_overlay">#20000000</color>
+
+    <!--Floating action button-->
+    <color name="half_black">#808080</color>
+    <color name="white">#fafafa</color>
+    <color name="white_pressed">#f1f1f1</color>
+    <color name="action_color">#B78B00</color>
+    <color name="action_color_pressed">#916E02</color>
+    <color name="white_overlay">#bbFFFFFF</color>
+
     <color name="navigation_bg">#ffffffff</color>
     <color name="gray_bg">#e2e2e2</color>
     <color name="list_bg">#eeffffff</color>
     <color name="holo_blue_dark">#880099CC</color>
-    <color name="holo_blue_light">#8833B5E5</color>    
+    <color name="holo_blue_light">#8833B5E5</color>
     <color name="kitkat_gray_dark">#25000000</color>
-    <color name="kitkat_gray_light">#19000000</color> 
+    <color name="kitkat_gray_light">#19000000</color>
     <color name="list_bg_pressed">#88336699</color>
-    <color name="list_bg_selected">#8833B5E5</color>
+    <color name="list_bg_selected">#19000000</color>
     <color name="list_note_title">#cc000000</color>
     <color name="list_note_dates">#aa000000</color>
     <color name="about_bg">#dd222222</color>
@@ -37,13 +54,18 @@
     <color name="selected">#8833B5E5</color>
     <color name="transparent">#00ffffff</color>
     <color name="audio_attachment_text">#aa000000</color>
-    <color name="actionbar_title_text">#565656</color>
+    <color name="text_color">#565656</color>
+    <color name="text_color_lighter">#868686</color>
 
     <!-- toasts -->
-    <color name="confirm">#ee99CC00</color>
-    <color name="warning">#eeFFBB33</color>
-    <color name="alert">#eeFF4444</color>
+    <color name="confirm">#303F9F</color>
+    <color name="warning">#ff9800</color>
+    <color name="alert">#e51c23</color>
     <color name="info">#ee33B5E5</color>
-    <color name="black_overlay">#66000000</color>
+    <color name="black_overlay">#33000000</color>
+
+    <!--Undo bar-->
+    <color name="card_undobar_material_text_color">#4CAF50</color>
+    <color name="card_undobar_material_background_color">#323232</color>
 
 </resources>

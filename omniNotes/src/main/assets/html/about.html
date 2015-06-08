@@ -17,64 +17,94 @@
 
 <html>
 
-	<head>
-		<style>
-			body {font-family:lucida sans unicode,lucida grande,sans-serif; font-size: 14px;}
-			a {text-decoration: none; color: #0099cc;}
-			strong {color:#0099cc;}
-			.small {font-size: 10px;}
-			.center {text-align: center;}
-			.padded {padding-top: 20px;}
-		</style>
-	</head>
-  
-  
-	<body>
-	
-		<div class="padded center">
-			<p>
-				<img src="file:///android_res/drawable/logo.png" style="height: 130px; width: 130px;" >
-			</p>
-			<p class="small">
-				Copyleft (<img src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAQAAABpN6lAAAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAABMIAAATCAbzPkBgAAAAJdnBBZwAAAIAAAACAADDhMZoAAAotSURBVHja7Z17bJTHEcB/dz5suAfGTzDYYEywihPS2k5oo4iICMRDIQ1KlTY0f4VKVpugVimNSFostQIqpBZRUGu1RaIhNa0KCpUpwhDR1q0tlaoBQiC2mmJz2EAxfh72nZ931z/Ork24fXz3hHw3n+6P0+7O7sw33+zszOyuhUSAFQdO8ihhCSUUkYkD58QPvAxO/Dx00EYrbXQxiJdA/IdmiTN2B/P5PJWUsZA8HNiZoWgzhg8vXbTTzHkucQsvwYePATYKqOAJnuBRcpkVIZYhuvmYD/iAC/yX8YeDARayeZINrGYx9hjh9HGNP1PPv+iNtTTElgGzeIz1rGM5s2M7TADucpkznOYKQ3HAHjU4WEstt/ETjOPj5za1rMWRbHLvBRcbOUZvXEmf/vRyjI24kk12CBxsog5PwoiffDzUsSnZkmClgsNJIH6KCYepwJos8uexnbakET/5tLGdeYknPoPnaWA06eQHCTJKA8+TkUjy89hFT9IJn/70sIu8RJFfzoko3/04Pgbop5tOOummnwF8jEcpBycoN06MUUMogxepZlkEbPMzQD83uE477fTiw4cPL+DAjh072SxkIYsoZA4u0iLoo4WdHGckfgzI4nu8xhxDbQIM0MFFznMRNwP4pAPMwI6LYsqppJwiXAZ1fD81/JS+CJinAXM5yIghsfTQRDWrKIhARWVQwCqqaTI4zY5wkLnxIL+YowbM3BGaOcB6cqJcbVjIYT0HaDbAej9HKY41+WWcJqA5gGHOsZVibDHr3UYxWznHsOYIApymLJbkV9Ck2fUQjVRREJdldgFVNDKkOZImKmLVdZkm+QEuUUV+zEmfDvlUcUlTFptiIwXFnNbq7g57WRpnFxuAhaXs5Y7WmE5HrwvmcVSD36PUs5r0uBM/Cemspl7DGAtwNLp1QhYHNTR/H7vjLPjhIJ/d9GnMCAfJipzPuzW43MLLiV2I/B8yeJkWDencHalsblZyOEB97HRtRFBBvfIT7WNzJKjLaVYgHucIhUklH6CQI8plVLPxZVI+dQqkw9QkbgEqhTxqlCZSnTEtNYNdCq562UNmFINOx0UWueSTyxxcUWqRTPbgVUjrrvAxqfDz9pc5RI6kw1H2sYtBg8O04CCbUkopZAH5OJhFOiP48NJHB9dx82868UXAAic7eEOq7HrYwgk9ZAU0KLhZY/DtW8jiad7mT1zFI5Stce7Syh/ZwbNkGTapMqlRSG0DBTqIrLzFmFTz1xr69tMp403+Ro/2WjJAH39lO18wOH3lUSudEcZ4S8e7UEGrdHinKDJA/JeowR2Rs8tPBzU8ZUg7FHFKirNVPWnbOSxF0aI971tYzs+5pb2IDi8Lt/k15Qa8QhUK0+iwKmC7Sep/6dU2KZxsUdoRuk8r2w34eDZLQ3QeNskau6Sz/7i2UbmMQwzGiPwgQUY5y0pNtZjObuknVyeLKW6Uvv96rfcwk1f4KCrBD/+4+aZmJHAu9VIZ2Chq6OCYpGEnazQ6d7AjbrHCQfZJrZMpWEOnBM8xESPXShY/AfYqs3tgNj9WWGTRPWO8ozWXz2CvRAb7WBtedGslXX/IUmW3WezT9thF+vh5T2saXsqHEiy1zLy/yQpuCxsMU6XsMpdfJiRYGuD3WrqoSrJAus2K+xtUSzptVK6lZrI3ytie/jPOrzSiU/k0SnBUf7p6jsTzO6J8/xZe5W6CyA+N6IcaGqlKEkxp+rQ6XS/R3eeUiucpriaQ/CBBuvmKkgEFnBO297B+etU09gurjrFV0dEC3k8w+UGCfMRjShZslSzr9ofiz6Hw1XxWC5H8h5PSTjLYJmkdDsbox00Ld/AwhIs8cilkKdmGQuLL+S6vKzIGT/KaMJS/mvl0TP55QWK4HlAM6zkD6XEBujnJtygnd5pRbWUW2axgGyekBsz9Yqz6DNI4IGw9yAtTFXcKq91lg7SLHM24UZAgvRxipTS7z8FKfqvh7Z98GpmvYMEGiXLeOVnJJVlFNymMz29oRmzHOcsGraRpOxuol7pkjOgn2ex2avJllNIurFQtRZ+rcJ5NydHPlO9qOsxlv6ZJrZ6hxPZNO6WhKi/hE1Tp41kp8s3ClveK/rcNJ8w72UaXBm61jfKs8JPy8VKoyh4h+stS/jo4rjHEPrZqGC33g40q+jXwv69w0BZwWdh2D8idIO9KHSBPSlYPU29oR8RR4wx+pJEY08MzUizpvCtsW4fLipNFgqZBzjMqQb1OY1FynF9IcchghH38DtUGiWzWSctHOS/EsQgnPM5N4bcr420mZ5Vvp0XDWpNDKVeUvfxDMVM9I7RUbvK4lRKho8mDW4J2sZI4P7/h4ygZ8AmHlHuFHuERabkbj6DEQYmNJUJH8U0GJGjzaKFVIqBWrmsIsBr+wFf5orRGFpX8U1I+wE1BqoydJTZKhDraLY3SNSoN0VG8UZMPNzlCpTTlLo0KZjAmLPfh5umwJTMosUkcTO3SpNZhhmNAng40cEdhRpXilKTHjtAuLCuyCmdRv6RZYuEaFxU1CnFKy9vxC0oyrUIVOEpvsimfgEH+rqgxWyEhvcKp2GEV8s4fUZw+PtCsyEWYpWCATygBTrEEPEgMuKPYA2BTfAJiBkgkYPwBYkC3QuGmKWK+PqEtIZWAWExisQGv0JTRY4BXJgEmB6vwPacle1fmNHAolrwqfeUQ+jW9VqF+tcVs83v0kBsulmeAAXahJTkok4AHhwH5ikyhccU0aY9EAh4kBpQpprkhbkXIAIkEpJOdbLonwKnw+cBdBQOyhV4pr1U4waSxMNmUT8BiZarzDcUnsFAoAR7bVHgoTLMMiQU2U/mJjMbo/JdVyuD8J1IGZEheZYeNNsYEHoFi7BIGrOT7pCscIm9yI2ryF/CKYgOenwsSbwDYhTuHxmiz0YpPMMsuwCVZZXexTOEUXcFFfhK1DHyNSkWNPs5Ly10sEJT4aLXSJlSDmdI9V9e4ohhYGq/yaJTkl7JFuQHzKlel5cVCM8pLm5UuugTFc6TKx0ODcvif4weRb1kC5vC2xt6/v9AjLS8XJtR00WVlkOuCYguV0qDGGTqVg3uR16MIjLzB15X5ob2ckZanUynEcT2kPE0eGksFR1PhcdMnSJg+RcbUSVIhI+MCbqHJsoYiaZD0LO/wHc1NLRZyeI61MUmTg/c4pahRJEnxd3NhOqdMmyg5CSZPlU0lS2P6dPnUhonUlhnTb5pKbZvD9BsnU1tnMf3m6dT2eUx/gELqCA1MdohK6hidsGCig5REYPKjtMD0h6mB6Y/TSx2oiOmP1ATTH6oKpj9WF0x/sDKY/mhtMP3h6mD64/XhM3rBgumv2DD9JSuRwGfqmp3IwOQXLYHpr9oKgakvWwuBya/bC4GpL1ycBFNfuTkJD+mlq6a/djd18XLMGRACE1+9fS92016+fi9YceAkjxKWUEIRmThwTvzAy+DEz0MHbbTSRheDeAnEf2j/A30UCnne4DaUAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEwLTAxLTMwVDIwOjIxOjQwLTA3OjAwZwVHHwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMC0wMS0xMVQwOTo0NzoxNy0wNzowMGIbul4AAAAydEVYdExpY2Vuc2UAaHR0cDovL2VuLndpa2lwZWRpYS5vcmcvd2lraS9QdWJsaWNfZG9tYWluP/3qzwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAAYdEVYdFNvdXJjZQBXaWtpbWVkaWEgQ29tbW9uc9LCU5oAAAA2dEVYdFNvdXJjZV9VUkwAaHR0cDovL2NvbW1vbnMud2lraW1lZGlhLm9yZy93aWtpL01haW5fUGFnZRL8Fy0AAAAASUVORK5CYII=" style="height: 10px; width: 10px;" />) 2014 Federico Iosue
-			</p>
-		</div>
-		
-		<div class="padded center">
-			<p>
-				Omni Notes is an open source project available at&nbsp;<a href="http://goo.gl/Fc15Wy">https://github.com/federicoiosue/Omni-Notes</a>&nbsp;and the complete app changelog is available</span> <span style="color:#0099cc;"><a href="https://github.com/federicoiosue/Omni-Notes/commits/dev">here</a>
-			</p>
-			<p>
-				Give a look at <a href="https://plus.google.com/u/0/communities/112276053772152071903">Google+ Comunity</a> for Beta releases and at <a href="http://goo.gl/4lBJCy">developer&#39;s personal mini-site</a> for other softwares, libraries and trashwares!
-			</p>			
-		</div>
-		
-		<div class="padded">		
-			<p><strong>Translations</strong></p>
-			<p>ON is currently translated in:</p>
-			<p>Arabic, Chinese (China and Taiwan), Dutch, French, Galician, German, Hebrew, Italian, Lao, Portugese (Brazil and Portugal), Turkish, Russian, Slovak, Spanish, Swedish, Ukrainian</p>
-			<p>The translation project itself is opened to everyone wants to help, join the community of (great) translators on <a href="http://goo.gl/VKDKAP">Crowdin</a>!</p>
-		</div>
-		
-		<div class="padded">
-			<strong>Opensource libraries and scripts used</strong></p>
-			<ul>			
-				<li><a href="https://github.com/derekbrameyer/android-betterpickers">BetterPickers</a> by Derek Brameyer</li>
-				<li><a href="https://github.com/gabrielemariotti/changeloglib">ChangelogLib</a> by Gabriele Mariotti</li>
-				<li><a href="https://github.com/federicoiosue/CheckListView">CheckListView</a> by Federico Iosue</li>
-				<li><a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> by Benjamin Weiss</li>	
-				<li><a href="https://github.com/JakeWharton/DiskLruCache">DiskLruCache</a> by Jake Wharton</li>	
-				<li><a href="https://github.com/LarsWerkman/HoloColorPicker">HoloColorPicker</a> by Lars Werkman</li>
-				<li><a href="https://github.com/nhaarman/ListViewAnimations">ListViewAnimations by Niek Haarman</a></li>
-				<li><a href="https://github.com/neopixl/PixlUI‎">Neopixl</a> by Olivier Demolliens</li>
-				<li><a href="https://github.com/JakeWharton/NineOldAndroids">NineOldAndroids</a> by Jake Warthon</li>
-				<li><a href="https://github.com/federicoiosue/PSMetadataFetcher">PSMetadataFetcher</a> by Federico Iosue</li>				
-				<li><a href="https://github.com/fhucho/simple-disk-cache">Simple-disk-cache</a> by fhucho</a></li>		
-				<li><a href="https://github.com/federicoiosue/SimpleGallery">SimpleGallery</a> by Federico Iosue</li>		
-			</ul>
-		</div>
-		
-		<div class="padded center" style="heigth: 40px">
-		</div>
-	</body>
+<head>
+    <style>
+        body {font-family:lucida sans unicode,lucida grande,sans-serif; font-size: 15px;}
+        a {text-decoration: none; color: #0099cc;}
+        strong {color:#0099cc;}
+        .small {font-size: 11px;}
+        .center {text-align: center;}
+        .padded {padding-top: 20px;}
+        .doublePadded {padding-top: 40px;}
+    </style>
+</head>
+
+
+<body>
+
+<div class="doublePadded center">
+    <p>
+        <img src="file:///android_res/drawable/logo.png"
+        style="height: 220px; width: 220px;">
+    </p>
+
+    <p class="small">
+        Copyright (&copy;) 2015 Federico Iosue
+    </p>
+</div>
+
+<div class="padded center">
+    <p>
+        Omni Notes is an open source project available at&nbsp;<a href="http://goo.gl/Fc15Wy">https://github.com/federicoiosue/Omni-Notes</a>&nbsp;and
+        the complete app changelog is available <span style="color:#0099cc;"><a href="https://github.com/federicoiosue/Omni-Notes/commits/master">here</a></span>
+    </p>
+
+    <p>
+        Give a look at <a href="https://plus.google.com/u/0/communities/112276053772152071903">Google+ Comunity</a> for
+        Beta releases and at <a href="http://goo.gl/mcwMiU">developer&#39;s personal mini-site</a> for other softwares,
+        libraries and trashwares!
+    </p>
+</div>
+
+<div class="padded">
+    <p><strong>Translations</strong></p>
+
+    <p>ON is currently translated in:</p>
+
+    <p>Arabic, Asturian, Catalan, Chinese Simplified, Czech, Dutch, English, French, Galician, German, Greek,
+        Hebrew, Hindi, Indonesian, Italian, Khmer, Korean, Lao, Portuguese, Portuguese, Brazilian, Russian, Slovak,
+        Slovenian, Spanish, Swedish, Turkish, Ukrainian</p>
+
+    <p>The translation project itself is opened to everyone wants to help, join the community of (great) translators on
+        <a href="http://goo.gl/VKDKAP">Crowdin</a>!</p>
+</div>
+
+<div class="padded">
+    <strong>Opensource libraries and scripts used</strong>
+    <ul>
+        <li><a href="https://github.com/ACRA/acra">Acra</a> by A.C.R.A</li>
+        <li><a href="https://github.com/Shusshu/Android-RecurrencePicker">Android Recurrence Picker</a> by Benoit Billington</li>
+        <li><a href="https://github.com/JakeWharton/butterknife">ButterKnife</a> by Jake Wharton</li>
+        <li><a href="https://github.com/gabrielemariotti/changeloglib">ChangelogLib</a> by Gabriele Mariotti</li>
+        <li><a href="https://github.com/federicoiosue/CheckListView">CheckListView</a> by Federico Iosue</li>
+        <li><a href="https://github.com/keyboardsurfer/Crouton">Crouton</a> by Benjamin Weiss</li>
+        <li><a href="https://github.com/flavienlaurent/datetimepicker">Datetimepicker</a> by Flavien Laurent</li>
+        <li><a href="https://github.com/greenrobot/EventBus">EventBus</a> by GreenRobot</li>
+        <li><a href="https://github.com/bumptech/glide">Glide</a> by Bump Technologies</li>
+        <li><a href="https://github.com/LarsWerkman/HoloColorPicker">HoloColorPicker</a> by Lars Werkman</li>
+        <li><a href="https://github.com/ical4j/ical4j">iCal4j</a> by iCal4j</li>
+        <li><a href="https://github.com/square/leakcanary">LeakCanary</a> by Square</li>
+        <li><a href="https://github.com/nhaarman/ListViewAnimations">ListViewAnimations</a> by Niek Haarman</li>
+        <li><a href="https://github.com/afollestad/material-dialogs">Material Dialog</a> by Aidan Follestad</li>
+        <li><a href="https://github.com/neopixl/PixlUI‎">Neopixl</a> by Olivier Demolliens</li>
+        <li><a href="https://github.com/federicoiosue/PSMetadataFetcher">PSMetadataFetcher</a> by Federico Iosue</li>
+        <li><a href="https://github.com/RobotiumTech/robotium">Robotium</a> by RobotiumTech</li>
+        <li><a href="https://github.com/federicoiosue/SimpleGallery">SimpleGallery</a> by Federico Iosue</li>
+    </ul>
+</div>
+
+<div class="padded">
+    <strong>Contributions</strong>
+    <p>These companies gave their paid products for free to contributo to open-source</p>
+    <ul>
+        <li><a href="https://testobject.com">TestObject</a> by TestObject</li>
+        <li><a href="https://www.jetbrains.com/idea/">IntelliJ IDEA 14 Ultimate</a> by JetBrains</li>
+        <li><a href="https://www.jetbrains.com/youtrack/">Youtrack</a> by JetBrains</li>
+        <li><a href="https://crowdin.com/">Crowdin</a> by Crowdin LLC</li>
+    </ul>
+</div>
+
+<div class="padded center" style="heigth: 40px">
+</div>
+</body>
 </html>

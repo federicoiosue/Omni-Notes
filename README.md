@@ -1,5 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=ready&title=Ready)](https://waffle.io/federicoiosue/Omni-Notes)
 [![Stories in In Progress](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=In%20Progress&title=In Progress)](https://waffle.io/federicoiosue/Omni-Notes)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/omni-notes/localized.png)](https://crowdin.com/project/omni-notes)
+[![Build Status](https://travis-ci.org/federicoiosue/Omni-Notes.svg?branch=develop)](https://travis-ci.org/federicoiosue/Omni-Notes)
 Omni-Notes
 ==========
 
@@ -14,21 +16,20 @@ The project was created by the absence of such applications compatible with old 
 
 ##Features
 
-
 Actually the following functions are implemented:
 
-* Android KitKat-ready appearance
-* Manage active, archived, trashed notes and filter the ones with reminder
-* Add, modify, share notes
-* Use categories to organize notes and add them some color
-* Mask notes to avoid others to look at that without having the password
-* Note searching by text or tags and optimized search-as-you-type mode
-* Batch operations choosing multiple notes: merge, archive, trash, delete
-* Export/import notes and settings to safe backup folder
-* Multimedia attachments: all file types are supported!
-* Sketch mode to add hand made drawings or notes
-* To-do list with customizable behavior
-* Gesture actions to delete and create notes in a faster way
+* Material Design interface
+*Basic add, modify, archive, trash and delete notes actions
+* Share, merge and search notes
+* Image, audio and generic file attachments
+* Manage your notes using tags and categories
+* To-do list
+* Sketch-note mode
+* Notes shortcut on home screen
+* Export/import notes to backup
+* Google Now integration: just tell "write a note" followed by the content
+* Multiple widgets, DashClock extension, Android 4.2 lockscreen compatibility
+* Multilanguage: 30 languages supported: https://crowdin.com/project/omni-notes
 
 
 Further developments will include:
@@ -40,18 +41,17 @@ You can find a complete changelog inside the application settings menu!
 
 If you need some help on how to use the application you'll find everything you need into the [Help Online](etc/help/help.md)
 
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_00.png">][3]
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_01.png">][4]
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_02.png">][5]
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_03.png">][6]
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_04.png">][7]
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_05.png">][8]
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_06.png">][9]
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_07.png">][10]
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_08.png">][11]
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_09.png">][12]
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_10.png">][13]
-[<img src="https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/thumb_11.png">][14]
+<img src="https://lh3.googleusercontent.com/-Jijzn6SfPiU/VNfIEyNF9sI/AAAAAAABEgs/3t9CQfS1nS4/w435-h400-no/02.png">
+<img src="https://lh6.googleusercontent.com/-QHhX5hCiKOY/VNfIE0VkeDI/AAAAAAABEgs/tmUEADssGRA/w435-h400-no/03.png">
+<img src="https://lh4.googleusercontent.com/-s-8PCOfpDzE/VNfIE51mD9I/AAAAAAABEgs/gMeermrwEKE/w435-h400-no/04.png">
+<img src="https://lh5.googleusercontent.com/-Z3ruC3Zo8hY/VNfIJBUdp5I/AAAAAAABEgo/AlP-WiQUKuU/w435-h400-no/05.png">
+<img src="https://lh5.googleusercontent.com/-ZgVBFf3rGSI/VNfIJZp9hPI/AAAAAAABEgs/LzpD_bzPCkM/w435-h400-no/06.png">
+<img src="https://lh4.googleusercontent.com/-TZDwcuJDHMU/VNfIJ0DanSI/AAAAAAABEgs/ab0ZZ5PEOew/w435-h400-no/07.png">
+<img src="https://lh5.googleusercontent.com/-n1nFdNjHrbE/VNfIPBJC7wI/AAAAAAABEgs/K8Ahd3739aM/w435-h400-no/08.png">
+<img src="https://lh5.googleusercontent.com/-2nnhW6LgVZQ/VNfINf1JwrI/AAAAAAABEgs/cpy9Ha8c66g/w435-h400-no/09.png">
+<img src="https://lh6.googleusercontent.com/-lcBCJuGuX1w/VNfINt3dlpI/AAAAAAABEgs/H3weKJhVuZo/w435-h400-no/10.png">
+<img src="https://lh6.googleusercontent.com/-q8NNjDWQTYs/VNfIROXznHI/AAAAAAABEgs/d9bOdnocwFw/w435-h400-no/11.png">
+<img src="https://lh5.googleusercontent.com/-DHwG9HonLXo/VNfISDXOUwI/AAAAAAABEgs/K166hLafrA4/w435-h400-no/12.png">
 
 
 [<img src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png">][1]
@@ -109,15 +109,3 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 
  [1]: https://play.google.com/store/apps/details?id=it.feio.android.omninotes
  [2]: https://crowdin.net/project/omni-notes/
- [3]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/01.png
- [4]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/02.png
- [5]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/03.png
- [6]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/04.png
- [7]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/05.png
- [8]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/06.png
- [9]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/07.png
- [10]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/08.png
- [11]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/09.png
- [12]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/10.png
- [13]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/11.png
- [14]: https://raw.githubusercontent.com/federicoiosue/Omni-Notes/master/etc/play_store_pics/12.png

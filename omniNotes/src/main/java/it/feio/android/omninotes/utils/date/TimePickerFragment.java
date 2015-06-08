@@ -23,48 +23,50 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.TextView;
+import it.feio.android.omninotes.R;
 
 import java.util.Calendar;
 
-import it.feio.android.omninotes.R;
 
 public class TimePickerFragment extends DialogFragment {
 
-	public static final String DEFAULT_TIME = "default_time";
-	
-	TextView timer_label;
-	private Activity mActivity;
-	private OnTimeSetListener mListener;
-	private Long defaultTime = null;
+    public static final String DEFAULT_TIME = "default_time";
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mActivity = (Activity) activity;
-		if (getArguments().containsKey(DEFAULT_TIME)) {
-			this.defaultTime = getArguments().getLong(DEFAULT_TIME);
-		}
+    TextView timer_label;
+    private Activity mActivity;
+    private OnTimeSetListener mListener;
+    private Long defaultTime = null;
 
-		try {
-			mListener = (OnTimeSetListener) mActivity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
-					+ " must implement OnTimeSetListener");
-		}
-	}
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		
-		Calendar cal = DateHelper.getCalendar(defaultTime);
-		int hour = cal.get(Calendar.HOUR_OF_DAY);
-		int minute = cal.get(Calendar.MINUTE);
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
+        if (getArguments().containsKey(DEFAULT_TIME)) {
+            this.defaultTime = getArguments().getLong(DEFAULT_TIME);
+        }
 
-		// Create a new instance of TimePickerDialog and return it
-		boolean is24HourMode = DateHelper.is24HourMode(mActivity);
-		TimePickerDialog tpd = new TimePickerDialog(mActivity, R.style.Theme_AppCompat_Dialog_NoBackgroundOrDim, mListener, hour, minute, is24HourMode);
-		tpd.setTitle("");
-		return tpd;
-	}
+        try {
+            mListener = (OnTimeSetListener) mActivity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnTimeSetListener");
+        }
+    }
+
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        Calendar cal = DateHelper.getCalendar(defaultTime);
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int minute = cal.get(Calendar.MINUTE);
+
+        // Create a new instance of TimePickerDialog and return it
+        boolean is24HourMode = DateHelper.is24HourMode(mActivity);
+        TimePickerDialog tpd = new TimePickerDialog(mActivity, R.style.Theme_AppCompat_Dialog_NoBackgroundOrDim, mListener, hour, minute, is24HourMode);
+        tpd.setTitle("");
+        return tpd;
+    }
 
 }

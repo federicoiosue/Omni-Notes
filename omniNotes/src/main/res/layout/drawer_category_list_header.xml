@@ -25,7 +25,6 @@
 <!--     android:paddingRight="@dimen/horizontal_margin"  -->
 <!--     android:paddingEnd="@dimen/horizontal_margin" > -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:id="@+id/layout_root"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -42,7 +41,7 @@
         android:textAllCaps="true"
         android:text="@string/categories"
         android:textAppearance="@style/Text.Small"
-        android:textColor="@color/actionbar_title_text" />
+        android:textColor="@color/text_color" />
     
     <View 
         android:layout_width="match_parent"

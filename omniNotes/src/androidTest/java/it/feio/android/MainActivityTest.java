@@ -50,7 +50,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     public MainActivity getActivity() {
         if (super.getActivity().getClass().isAssignableFrom(MainActivity.class)) {
-            return (MainActivity) super.getActivity();
+            return super.getActivity();
         }
         return null;
     }

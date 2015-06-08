@@ -101,7 +101,7 @@
             <!-- android:layout_height="15dp" -->
             <!-- android:layout_gravity="bottom|right" -->
             <!-- android:contentDescription="@string/note_reminder_symbol" -->
-            <!-- android:src="@drawable/ic_reminder_dark" -->
+            <!-- android:src="@drawable/ic_alarm_grey600_48dp" -->
             <!-- android:visibility="gone" /> -->
 
 
@@ -119,7 +119,7 @@
             <!-- android:layout_width="15dp" -->
             <!-- android:layout_height="15dp" -->
             <!-- android:layout_gravity="bottom|right" -->
-            <!-- android:src="@drawable/ic_archive_dark" -->
+            <!-- android:src="@drawable/ic_archive_grey600_48dp" -->
             <!-- android:visibility="gone" /> -->
 
 

@@ -16,7 +16,7 @@ CREATE
 		latitude REAL,
 		longitude REAL,
 		address TEXT,
-		category_id INTEGER DEFAUL null,
+		category_id INTEGER DEFAULT null,
 		locked INTEGER,  
 		checklist  INTEGER   
 	);

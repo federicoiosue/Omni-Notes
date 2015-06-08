@@ -15,33 +15,54 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="true"
+    android:clipToPadding="false"
     android:fitsSystemWindows="false"
-    android:paddingTop="@dimen/padding_top_kitkat" >
+    tools:context="it.feio.android.omninotes.MainActivity">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="it.feio.android.omninotes.MainActivity" >
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:id="@+id/fragment_container"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/padding_top_kitkat">
 
-        <FrameLayout
+            <include android:id="@+id/toolbar" layout="@layout/toolbar" />
+
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/toolbar"
+                android:background="@color/gray_bg"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@drawable/toolbar_dropshadow"
+                android:layout_below="@id/toolbar"/>
+
+            <include android:id="@+id/crouton_handle" layout="@layout/crouton_handle" />
+
+        </RelativeLayout>
+
+        <fragment
             android:id="@+id/navigation_drawer"
+            android:name="it.feio.android.omninotes.NavigationDrawerFragment"
             android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="match_parent"
-            android:layout_gravity="left|start" />
+            android:layout_gravity="left|start"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"/>
+
     </android.support.v4.widget.DrawerLayout>
 
 </FrameLayout>

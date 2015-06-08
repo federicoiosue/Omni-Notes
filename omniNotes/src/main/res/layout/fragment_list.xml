@@ -15,93 +15,112 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+             xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+             xmlns:wheel="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_marginLeft="@dimen/activity_additional_margin"
+             android:layout_marginRight="@dimen/activity_additional_margin">
 
     <it.feio.android.omninotes.models.views.InterceptorLinearLayout
-        android:id="@+id/list_root"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-        
-        <LinearLayout
-            android:id="@+id/search_layout"
+            android:id="@+id/list_root"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone" 
-            android:paddingLeft="16dp"
-            android:paddingTop="6dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="6dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-<!--             <com.neopixl.pixlui.components.textview.TextView -->
-                <TextView
-                android:id="@+id/search_query"
-                android:layout_width="0dp"
+        <LinearLayout
+                android:id="@+id/search_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:paddingLeft="@dimen/horizontal_margin"
+                android:paddingStart="@dimen/horizontal_margin">
+
+            <TextView
+                    android:id="@+id/search_query"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAppearance="@style/Text.Small"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"/>
 
             <ImageView
-                android:id="@+id/search_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_action_cancel" />
+                    android:id="@+id/search_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_cancel_grey600_18dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="@dimen/horizontal_margin"
+                    android:paddingEnd="@dimen/horizontal_margin"/>
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/notes_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:dividerHeight="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:scrollbarSize="4dp"
-            android:drawSelectorOnTop="true"
-            android:listSelector="@drawable/icon_selector"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbarThumbVertical="@drawable/scroll_bar" 
-            android:fastScrollEnabled="true" >
-        </ListView>
+        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+            <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:dividerHeight="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="@dimen/padding_half"
+                    android:clipToPadding="false"
+                    android:scrollbarSize="4dp"
+                    android:drawSelectorOnTop="true"
+                    android:listSelector="@drawable/icon_selector"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:scrollbarThumbVertical="@drawable/scroll_bar"
+                    android:fastScrollEnabled="true"
+                    android:smoothScrollbar="true"
+                    android:scrollingCache="false"
+                    android:animationCache="false"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center" >
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
 
-            <com.neopixl.pixlui.components.textview.TextView
-                android:id="@+id/empty_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="10dp"
-                android:drawableTop="@animator/jingles_animation"
-                android:gravity="center"
-                android:text="@string/no_items_in_list"
-                android:textColor="@color/list_note_dates"
-                android:textSize="20sp"
-                android:visibility="gone"
-                pixlui:typeface="Roboto-Regular.ttf" />
-        </LinearLayout>
+                <com.neopixl.pixlui.components.textview.TextView
+                        android:id="@+id/empty_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:drawableTop="@animator/jingles_animation"
+                        android:gravity="center"
+                        android:text="@string/no_items_in_list"
+                        android:textColor="@color/list_note_dates"
+                        android:textSize="20sp"
+                        android:visibility="gone"
+                        pixlui:typeface="Roboto-Regular.ttf"/>
+            </LinearLayout>
+
+
+            <com.pnikosis.materialishprogress.ProgressWheel
+                    android:id="@+id/progress_wheel"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    wheel:matProg_barColor="@color/colorPrimary"
+                    wheel:matProg_progressIndeterminate="true"/>
+
+        </FrameLayout>
+
     </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
 
-    <LinearLayout
-        android:id="@+id/undobar"
-        style="@style/UndoBar"
-        android:orientation="horizontal"
-        android:visibility="gone" >
+    <include
+            android:id="@+id/undobar"
+            layout="@layout/undobar"/>
 
-        <TextView
-            android:id="@+id/undobar_message"
-            style="@style/UndoBarMessage" />
+    <include
+            android:id="@+id/fab"
+            layout="@layout/fab"/>
 
-        <View style="@style/UndoBarDivider" />
-
-        <Button
-            android:id="@+id/undobar_button"
-            style="@style/UndoBarButton" />
-    </LinearLayout>
+    <ImageView
+            android:id="@+id/expanded_image"
+            android:layout_width="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_height="match_parent"/>
 
 </FrameLayout>
