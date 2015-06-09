@@ -1,4 +1,6 @@
--- Refactors 'notes' and 'attachments' tables to use note's creation as primary key
+/*
+ * Refactors 'notes' and 'attachments' tables to use note's creation as primary key
+ */
 
 -- Update for ATTACHMENTS
 ALTER TABLE attachments RENAME TO attachments_tmp;

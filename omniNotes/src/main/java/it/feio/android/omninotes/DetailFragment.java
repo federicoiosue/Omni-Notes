@@ -518,7 +518,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		content = initContent();
 
 		// Automatic location insertion
-		if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == 0) {
+		if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
 			Location location = getLocation();
 			if (location != null) {
 				noteTmp.setLatitude(location.getLatitude());
@@ -772,7 +772,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	 * Force focus and shows soft keyboard
 	 */
 	private void requestFocus(final EditText view) {
-		if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
+		if (note.get_id() == null && !noteTmp.isChanged(note)) {
 			KeyboardUtils.showKeyboard(view);
 		}
 	}
@@ -970,7 +970,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			MenuItemCompat.collapseActionView(searchMenuItem);
 		}
 
-		boolean newNote = noteTmp.get_id() == 0;
+		boolean newNote = noteTmp.get_id() == null;
 
 		menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
 		menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
@@ -1446,7 +1446,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		if (!noteTmp.equals(noteOriginal)) {
 			// Restore original status of the note
-			if (noteOriginal.get_id() == 0) {
+			if (noteOriginal.get_id() == null) {
 				mainActivity.deleteNote(noteTmp);
 				goHome();
 			} else {
@@ -1467,7 +1467,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@SuppressLint("NewApi")
 	private void archiveNote(boolean archive) {
 		// Simply go back if is a new note
-		if (noteTmp.get_id() == 0) {
+		if (noteTmp.get_id() == null) {
 			goHome();
 			return;
 		}
@@ -1483,7 +1483,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@SuppressLint("NewApi")
 	private void trashNote(boolean trash) {
 		// Simply go back if is a new note
-		if (noteTmp.get_id() == 0) {
+		if (noteTmp.get_id() == null) {
 			goHome();
 			return;
 		}
@@ -1568,7 +1568,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	 * Checks if nothing is changed to avoid committing if possible (check)
 	 */
 	private boolean saveNotNeeded() {
-		if (noteTmp.get_id() == 0 && prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
+		if (noteTmp.get_id() == null && prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
 			note.setLatitude(noteTmp.getLatitude());
 			note.setLongitude(noteTmp.getLongitude());
 		}
@@ -1608,12 +1608,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void deleteMergedNotes(long[] mergedNotesIds) {
 		ArrayList<Note> notesToDelete = new ArrayList<Note>();
-		for (long mergedNoteId : mergedNotesIds) {
-			Note note = new Note();
-			note.set_id(mergedNoteId);
-			notesToDelete.add(note);
+		if (mergedNotesIds != null) {
+			for (long mergedNoteId : mergedNotesIds) {
+				Note note = new Note();
+				note.set_id(mergedNoteId);
+				notesToDelete.add(note);
+			}
+			new NoteProcessorDelete(notesToDelete).process();
 		}
-		new NoteProcessorDelete(notesToDelete).process();
 	}
 
 
