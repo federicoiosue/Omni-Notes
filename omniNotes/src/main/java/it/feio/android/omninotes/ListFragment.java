@@ -534,7 +534,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         super.onCreateOptionsMenu(menu, inflater);
         this.menu = menu;
         initSearchView(menu);
-//		initShowCase();
     }
 
 
@@ -1560,44 +1559,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             Log.d(Constants.TAG, "Changes committed");
         }
     }
-
-
-//	private void initShowCase() {
-//		// Show instructions on first launch
-//		final String instructionName = Constants.PREF_TOUR_PREFIX + "list";
-//		if (AppTourHelper.isStepTurn(mainActivity, instructionName)) {
-//            mainActivity.getDrawerLayout().closeDrawer(GravityCompat.START);
-//			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-//			list.add(new Integer[] { 0, R.string.tour_listactivity_intro_title,
-//					R.string.tour_listactivity_intro_detail, ShowcaseView.ITEM_TITLE });
-////			list.add(new Integer[] { R.id.fab, R.string.tour_listactivity_actions_title,
-////					R.string.tour_listactivity_actions_detail, null });
-//			list.add(new Integer[] { 0, R.string.tour_listactivity_home_title, R.string.tour_listactivity_home_detail,
-//					ShowcaseView.ITEM_ACTION_HOME });
-//			mainActivity.showCaseView(list, new OnShowcaseAcknowledged() {
-//				@Override
-//				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-//					AppTourHelper.completeStep(mainActivity, instructionName);
-//					mainActivity.getDrawerLayout().openDrawer(GravityCompat.START);
-//				}
-//			});
-//		}
-//
-//		// Show instructions on first launch
-//		final String instructionName2 = Constants.PREF_TOUR_PREFIX + "list2";
-//		if (AppTourHelper.isStepTurn(mainActivity, instructionName2)) {
-//			ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-//			list.add(new Integer[] { null, R.string.tour_listactivity_final_title,
-//					R.string.tour_listactivity_final_detail, null });
-//			mainActivity.showCaseView(list, new OnShowcaseAcknowledged() {
-//				@Override
-//				public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-//					AppTourHelper.completeStep(mainActivity, instructionName2);
-//                    AppTourHelper.complete(mainActivity);
-//				}
-//			});
-//		}
-//	}
 
 
     /**

@@ -46,12 +46,6 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
-//import com.espian.showcaseview.ShowcaseView;
-//import com.espian.showcaseview.ShowcaseViews;
-//import com.espian.showcaseview.ShowcaseViews.ItemViewProperties;
-//import com.espian.showcaseview.ShowcaseViews.OnShowcaseAcknowledged;
-
-
 @SuppressLint("Registered")
 public class BaseActivity extends ActionBarActivity {
 
@@ -189,58 +183,6 @@ public class BaseActivity extends ActionBarActivity {
         navigation = nav;
         navigationTmp = null;
     }
-
-
-    /**
-     * Builds ShowcaseView and show it
-     * @param viewsArrays
-     *            List of Integer arrays containing the following informations
-     *            that have to be used for ItemViewProperties building: id,
-     *            titleResId, messageResId, itemType, scale, configOptions
-     */
-//	protected void showCaseView(ArrayList<Integer[]> viewsArrays, OnShowcaseAcknowledged mOnShowcaseAcknowledged) {
-//
-//		final float scale = 0.6F;
-//		ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
-//		ShowcaseViews mViews;
-//		if (mOnShowcaseAcknowledged != null) {
-//			mViews = new ShowcaseViews(this, mOnShowcaseAcknowledged);
-//		} else {
-//			mViews = new ShowcaseViews(this);
-//		}
-//
-//		LayoutParams lp = new LayoutParams(300, 300);
-//		lp.bottomMargin = DensityUtil.dpToPx(100, this);
-//		lp.setMargins(12, 12, 12, getResources().getDimensionPixelSize(R.dimen.showcase_margin_bottom));
-//		co.buttonLayoutParams = lp;
-//
-//		co.fadeInDuration = 700;
-//
-//		ItemViewProperties ivp;
-//		for (Integer[] view : viewsArrays) {
-//
-//			// No showcase
-//			if (view[0] == null) {
-//				ivp = new ItemViewProperties(view[1], view[2], co);
-//
-//			// No actionbar or reflection types
-//			} else if (view[3] == null) {
-//				ivp = new ItemViewProperties(view[0], view[1], view[2], scale, co);
-//			} else {
-//				ivp = new ItemViewProperties(view[0], view[1], view[2], view[3], scale, co);
-//			}
-//			mViews.addView(ivp);
-//
-//			// Animated hand gesture
-//			if (view.length > 4) {
-//				int index = viewsArrays.indexOf(view);
-//				mViews.addAnimatedGestureToView(index, view[4], view[5], view[6], view[7], true);
-//			}
-//		}
-//
-//		mViews.show();
-//
-//	}
 
 
     /**

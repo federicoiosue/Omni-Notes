@@ -77,7 +77,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         ButterKnife.inject(this);
 
         // This method starts the bootstrap chain.
-//		requestShowCaseViewVisualization();
         checkPassword();
 
         initUI();
@@ -458,35 +457,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         BaseActivity.notifyAppWidgets(this);
         Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
     }
-
-
-//    /**
-//     * Showcase view displaying request for first launch
-//     */
-//    private void requestShowCaseViewVisualization() {
-//
-//        if (AppTourHelper.mustRun(getApplicationContext())) {
-//            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-//            alertDialogBuilder
-//                    .setTitle(R.string.app_name)
-//                    .setMessage(R.string.tour_request_start)
-//                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            checkPassword();
-//                        }
-//                    }).setNegativeButton(R.string.not_now, new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int id) {
-//                    AppTourHelper.complete(getApplicationContext());
-//                    checkPassword();
-//                }
-//            });
-//            alertDialogBuilder.create().show();
-//        } else {
-//            checkPassword();
-//        }
-//    }
 
 
     public void showMessage(int messageId, Style style) {
