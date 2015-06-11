@@ -242,7 +242,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (index >= 0 && index < navigationListCodes.length) {
             title = navigationList[index];
         } else {
-            Category category = DbHelper.getInstance().getCategory(Integer.parseInt(navigation));
+            Category category = DbHelper.getInstance().getCategory(Long.parseLong(navigation));
             title = category != null ? category.getName() : "";
         }
         title = title == null ? getString(R.string.title_activity_list) : title;
@@ -841,11 +841,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             Log.d(Constants.TAG, "Adding new note");
             // if navigation is a category it will be set into note
             try {
-                int categoryId;
+                Long categoryId;
                 if (!TextUtils.isEmpty(mainActivity.navigationTmp)) {
-                    categoryId = Integer.parseInt(mainActivity.navigationTmp);
+                    categoryId = Long.parseLong(mainActivity.navigationTmp);
                 } else {
-                    categoryId = Integer.parseInt(mainActivity.navigation);
+                    categoryId = Long.parseLong(mainActivity.navigation);
                 }
                 note.setCategory(DbHelper.getInstance().getCategory(categoryId));
             } catch (NumberFormatException e) {
@@ -887,7 +887,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
             case REQUEST_CODE_CATEGORY_NOTES:
                 if (intent != null) {
-                    Category tag = intent.getParcelableExtra(Constants.INTENT_TAG);
+                    Category tag = intent.getParcelableExtra(Constants.INTENT_CATEGORY);
                     categorizeNotesExecute(tag);
                 }
                 break;
@@ -1296,7 +1296,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
      */
     void editCategory(Category category) {
         Intent categoryIntent = new Intent(mainActivity, CategoryActivity.class);
-        categoryIntent.putExtra(Constants.INTENT_TAG, category);
+        categoryIntent.putExtra(Constants.INTENT_CATEGORY, category);
         startActivityForResult(categoryIntent, REQUEST_CODE_CATEGORY);
     }
 
@@ -1689,7 +1689,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
         // Resets all the attachments id to force their note re-assign when saved
         for (Attachment attachment : attachments) {
-            attachment.setId(0);
+            attachment.setId(null);
         }
 
         // Sets content text and attachments list

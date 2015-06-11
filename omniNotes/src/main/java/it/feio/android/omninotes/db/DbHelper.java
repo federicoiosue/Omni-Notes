@@ -150,8 +150,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     // Inserting or updating single note
     public Note updateNote(Note note, boolean updateLastModification) {
-
-        long resNote;
         SQLiteDatabase db = this.getWritableDatabase();
 
         String content;
@@ -187,32 +185,14 @@ public class DbHelper extends SQLiteOpenHelper {
         boolean checklist = note.isChecklist() != null ? note.isChecklist() : false;
         values.put(KEY_CHECKLIST, checklist);
 
-        // Updating row
-        if (note.get_id() != null) {
-            values.put(KEY_ID, note.get_id());
-            resNote = db.update(TABLE_NOTES, values, KEY_ID + " = ?",
-                    new String[]{String.valueOf(note.get_id())});
-            // Importing data from csv without existing note in db
-            if (resNote == 0) {
-                resNote = db.insert(TABLE_NOTES, null, values);
-            }
-            Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
-
-            // Inserting new note
-        } else {
-            resNote = db.insert(TABLE_NOTES, null, values);
-            Log.d(Constants.TAG, "Saved new note titled '" + note.getTitle() + "' with id: " + resNote);
-        }
+		db.insertWithOnConflict(TABLE_NOTES, KEY_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
+		Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
 
         // Updating attachments
         List<Attachment> deletedAttachments = note.getAttachmentsListOld();
         for (Attachment attachment : note.getAttachmentsList()) {
-            // Updating attachment
-            if (attachment.getId() == 0) {
-                updateAttachment(note.get_id() != null ? note.get_id() : resNote, attachment, db);
-            } else {
-                deletedAttachments.remove(attachment);
-            }
+			updateAttachment(note.get_id() != null ? note.get_id() : values.getAsLong(KEY_CREATION), attachment, db);
+			deletedAttachments.remove(attachment);
         }
         // Remove from database deleted attachments
         for (Attachment attachmentDeleted : deletedAttachments) {
@@ -224,7 +204,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.endTransaction();
 
         // Fill the note with correct data before returning it
-        note.set_id(note.get_id() != null ? note.get_id() : (int) resNote);
         note.setCreation(note.getCreation() != null ? note.getCreation() : values.getAsLong(KEY_CREATION));
         note.setLastModification(values.getAsLong(KEY_LAST_MODIFICATION));
 
@@ -259,18 +238,22 @@ public class DbHelper extends SQLiteOpenHelper {
      * */
     public Attachment updateAttachment(long noteId, Attachment attachment, SQLiteDatabase db) {
         ContentValues valuesAttachments = new ContentValues();
+		valuesAttachments.put(KEY_ATTACHMENT_ID, attachment.getId() != null ? attachment.getId() : Calendar
+				.getInstance().getTimeInMillis());
+		valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
         valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
         valuesAttachments.put(KEY_ATTACHMENT_MIME_TYPE, attachment.getMime_type());
         valuesAttachments.put(KEY_ATTACHMENT_NAME, attachment.getName());
         valuesAttachments.put(KEY_ATTACHMENT_SIZE, attachment.getSize());
         valuesAttachments.put(KEY_ATTACHMENT_LENGTH, attachment.getLength());
-        if (noteId != -1) {
-            valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
-            attachment.setId((int) db.insert(TABLE_ATTACHMENTS, null, valuesAttachments));
-        } else {
-            db.update(TABLE_ATTACHMENTS, valuesAttachments, KEY_ATTACHMENT_ID + " = ?", new String[]{String.valueOf
-                    (attachment.getId())});
-        }
+//		if (noteId != -1) {
+//			valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
+//			attachment.setId((int) db.insert(TABLE_ATTACHMENTS, null, valuesAttachments));
+//		} else {
+//			db.update(TABLE_ATTACHMENTS, valuesAttachments, KEY_ATTACHMENT_ID + " = ?", new String[]{String.valueOf
+//					(attachment.getId())});
+//		}
+		db.insertWithOnConflict(TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID, valuesAttachments, SQLiteDatabase.CONFLICT_REPLACE);
         return attachment;
     }
       
@@ -668,7 +651,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public List<Note> getNotesByCategory(String categoryId) {
         List<Note> notes;
         try {
-            int id = Integer.parseInt(categoryId);
+            Long id = Long.parseLong(categoryId);
             String whereCondition = " WHERE "
                     + KEY_CATEGORY_ID + " = " + id
                     + " AND " + KEY_TRASHED + " IS NOT 1";
@@ -792,7 +775,7 @@ public class DbHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 Attachment mAttachment;
                 do {
-                    mAttachment = new Attachment(cursor.getInt(0),
+                    mAttachment = new Attachment(cursor.getLong(0),
                             Uri.parse(cursor.getString(1)), cursor.getString(2), cursor.getInt(3),
                             (long) cursor.getInt(4), cursor.getString(5));
                     attachmentsList.add(mAttachment);
@@ -864,27 +847,15 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return Rows affected or new inserted category id
      */
     public Category updateCategory(Category category) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
-        values.put(KEY_CATEGORY_NAME, category.getName());
+		values.put(KEY_CATEGORY_ID, category.getId() != null ? category.getId() : Calendar.getInstance()
+				.getTimeInMillis());
+		values.put(KEY_CATEGORY_NAME, category.getName());
         values.put(KEY_CATEGORY_DESCRIPTION, category.getDescription());
         values.put(KEY_CATEGORY_COLOR, category.getColor());
-
-        // Updating row
-        if (category.getId() != null) {
-            values.put(KEY_CATEGORY_ID, category.getId());
-            db.update(TABLE_CATEGORY, values, KEY_CATEGORY_ID + " = ?",
-                    new String[]{String.valueOf(category.getId())});
-            Log.d(Constants.TAG, "Updated category titled '" + category.getName() + "'");
-            // Inserting new category
-        } else {
-            long id = db.insert(TABLE_CATEGORY, null, values);
-            Log.d(Constants.TAG, "Saved new category titled '" + category.getName() + "' with id: " + id);
-            category.setId(id);
-        }
-        return category;
+		this.getWritableDatabase().insertWithOnConflict(TABLE_CATEGORY, KEY_CATEGORY_ID, values, SQLiteDatabase
+				.CONFLICT_REPLACE);
+		return category;
     }
 
 
@@ -916,7 +887,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * Get note Category
      */
-    public Category getCategory(Integer id) {
+    public Category getCategory(Long id) {
         Category category = null;
         String sql = "SELECT "
                 + KEY_CATEGORY_ID + ","

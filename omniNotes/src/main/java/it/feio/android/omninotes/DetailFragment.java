@@ -116,7 +116,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private static final int TAKE_VIDEO = 2;
 	private static final int SET_PASSWORD = 3;
 	private static final int SKETCH = 4;
-	private static final int TAG = 5;
+	private static final int CATEGORY = 5;
 	private static final int DETAIL = 6;
 	private static final int FILES = 7;
 
@@ -262,7 +262,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Added the sketched image if present returning from SketchFragment
 		if (mainActivity.sketchUri != null) {
 			Attachment mAttachment = new Attachment(mainActivity.sketchUri, Constants.MIME_TYPE_SKETCH);
-			noteTmp.getAttachmentsList().add(mAttachment);
+			addAttachment(mAttachment);
 			mainActivity.sketchUri = null;
 			// Removes previous version of edited image
 			if (sketchEdited != null) {
@@ -430,7 +430,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					if (categoryId != null) {
 						Category category;
 						try {
-							category = DbHelper.getInstance().getCategory(Integer.parseInt(categoryId));
+							category = DbHelper.getInstance().getCategory(Long.parseLong(categoryId));
 							noteTmp = new Note();
 							noteTmp.setCategory(category);
 						} catch (NumberFormatException e) {
@@ -640,7 +640,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 						.callback(new MaterialDialog.ButtonCallback() {
 							@Override
 							public void onPositive(MaterialDialog materialDialog) {
-								noteTmp.getAttachmentsList().remove(position);
+								removeAttachment(position);
 								mAttachmentAdapter.notifyDataSetChanged();
 								mGridView.autoresize();
 							}
@@ -658,7 +658,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 						.callback(new MaterialDialog.ButtonCallback() {
 							@Override
 							public void onPositive(MaterialDialog materialDialog) {
-								noteTmp.getAttachmentsList().remove(position);
+								removeAttachment(position);
 								mAttachmentAdapter.notifyDataSetChanged();
 								mGridView.autoresize();
 							}
@@ -725,6 +725,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " + lastModification : "");
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
+	}
+
+
+	private void removeAttachment(int position) {
+		noteTmp.removeAttachment(noteTmp.getAttachmentsList().get(position));
+		mAttachmentAdapter.getAttachmentsList().remove(position);
 	}
 
 
@@ -1202,7 +1208,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					public void onPositive(MaterialDialog dialog) {
 						Intent intent = new Intent(mainActivity, CategoryActivity.class);
 						intent.putExtra("noHome", true);
-						startActivityForResult(intent, TAG);
+						startActivityForResult(intent, CATEGORY);
 					}
 
 
@@ -1369,7 +1375,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			switch (requestCode) {
 				case TAKE_PHOTO:
 					attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
-					noteTmp.getAttachmentsList().add(attachment);
+					addAttachment(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();
 					break;
@@ -1380,7 +1386,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					} else {
 						attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_VIDEO);
 					}
-					noteTmp.getAttachmentsList().add(attachment);
+					addAttachment(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();
 					break;
@@ -1393,21 +1399,27 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					break;
 				case SKETCH:
 					attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_SKETCH);
-					noteTmp.getAttachmentsList().add(attachment);
+					addAttachment(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();
 					break;
-				case TAG:
+				case CATEGORY:
 					mainActivity.showMessage(R.string.category_saved, ONStyle.CONFIRM);
-					Category tag = intent.getParcelableExtra("tag");
-					noteTmp.setCategory(tag);
-					setTagMarkerColor(tag);
+					Category category = intent.getParcelableExtra("category");
+					noteTmp.setCategory(category);
+					setTagMarkerColor(category);
 					break;
 				case DETAIL:
 					mainActivity.showMessage(R.string.note_updated, ONStyle.CONFIRM);
 					break;
 			}
 		}
+	}
+
+
+	private void addAttachment(Attachment attachment) {
+		noteTmp.addAttachment(attachment);
+		mAttachmentAdapter.getAttachmentsList().add(attachment);
 	}
 
 
@@ -2033,16 +2045,22 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onAttachingFileErrorOccurred(Attachment mAttachment) {
 		mainActivity.showMessage(R.string.error_saving_attachments, ONStyle.ALERT);
 		if (noteTmp.getAttachmentsList().contains(mAttachment)) {
-			noteTmp.getAttachmentsList().remove(mAttachment);
+			removeAttachment(mAttachment);
 			mAttachmentAdapter.notifyDataSetChanged();
 			mGridView.autoresize();
 		}
 	}
 
 
+	private void removeAttachment(Attachment mAttachment) {
+		noteTmp.removeAttachment(mAttachment);
+		mAttachmentAdapter.getAttachmentsList().remove(mAttachment);
+	}
+
+
 	@Override
 	public void onAttachingFileFinished(Attachment mAttachment) {
-		noteTmp.getAttachmentsList().add(mAttachment);
+		addAttachment(mAttachment);
 		mAttachmentAdapter.notifyDataSetChanged();
 		mGridView.autoresize();
 	}
@@ -2243,7 +2261,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 						stopRecording();
 						Attachment attachment = new Attachment(Uri.parse(recordName), Constants.MIME_TYPE_AUDIO);
 						attachment.setLength(audioRecordingTime);
-						noteTmp.getAttachmentsList().add(attachment);
+						addAttachment(attachment);
 						mAttachmentAdapter.notifyDataSetChanged();
 						mGridView.autoresize();
 						attachmentDialog.dismiss();

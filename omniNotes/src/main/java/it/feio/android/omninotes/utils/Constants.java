@@ -59,7 +59,7 @@ public interface Constants {
     String GALLERY_CLICKED_IMAGE = "gallery_clicked_image";
     String GALLERY_IMAGES = "gallery_images";
     int INTENT_ALARM_CODE = 12345;
-    String INTENT_TAG = "tag";
+    String INTENT_CATEGORY = "category";
     String INTENT_DETAIL_RESULT_CODE = "detail_result_code";
     String INTENT_DETAIL_RESULT_MESSAGE = "detail_result_message";
     String INTENT_GOOGLE_NOW = "com.google.android.gm.action.AUTO_SEND";

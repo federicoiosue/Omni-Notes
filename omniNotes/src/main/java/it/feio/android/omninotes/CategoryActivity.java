@@ -40,6 +40,7 @@ import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Calendar;
 
 
 public class CategoryActivity extends Activity {
@@ -64,7 +65,7 @@ public class CategoryActivity extends Activity {
 
         mActivity = this;
 
-        category = getIntent().getParcelableExtra(Constants.INTENT_TAG);
+        category = getIntent().getParcelableExtra(Constants.INTENT_CATEGORY);
 
         initViews();
 
@@ -134,6 +135,7 @@ public class CategoryActivity extends Activity {
      * Category saving
      */
     private void saveCategory() {
+		category.setId(Calendar.getInstance().getTimeInMillis());
         category.setName(title.getText().toString());
         category.setDescription(description.getText().toString());
         if (colorChanged || category.getColor() == null)
@@ -144,7 +146,7 @@ public class CategoryActivity extends Activity {
         category = db.updateCategory(category);
 
         // Sets result to show proper message
-        getIntent().putExtra(Constants.INTENT_TAG, category);
+        getIntent().putExtra(Constants.INTENT_CATEGORY, category);
         setResult(RESULT_OK, getIntent());
         finish();
     }

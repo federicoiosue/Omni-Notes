@@ -45,6 +45,7 @@ import it.feio.android.springpadimporter.models.SpringpadElement;
 import it.feio.android.springpadimporter.models.SpringpadItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import java.io.File;
@@ -109,7 +110,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         backupDir = StorageHelper.getBackupDir(backupName);
 
         // Database backup
-        exportDB(backupDir);
+//        exportDB(backupDir);
+		exportNotes(backupDir);
 
         // Attachments backup
         exportAttachments(backupDir);
@@ -133,7 +135,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         File backupDir = StorageHelper.getBackupDir(backupName);
 
         // Database backup
-        importDB(backupDir);
+//        importDB(backupDir);
+        importNotes(backupDir);
 
         // Attachments backup
         importAttachments(backupDir);
@@ -461,6 +464,17 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         return (StorageHelper.copyFile(database, new File(backupDir, Constants.DATABASE_NAME)));
     }
 
+    private void exportNotes(File backupDir) {
+		for (Note note : DbHelper.getInstance().getAllNotes(false)) {
+			File noteFile = new File(backupDir, String.valueOf(note.get_id()));
+			try {
+				FileUtils.write(noteFile, note.toJSON());
+			} catch (IOException e) {
+				Log.e(Constants.TAG, "Error backupping note: " + note.get_id());
+			}
+		}
+	}
+
 
     /**
      * Export attachments to backup folder
@@ -526,13 +540,30 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     }
 
 
+    private void importNotes(File backupDir) {
+		for (File file : FileUtils.listFiles(backupDir, new RegexFileFilter("\\d{13}"), TrueFileFilter.INSTANCE)) {
+			try {
+				Note note = new Note();
+				note.buildFromJson(FileUtils.readFileToString(file));
+				if (note.getCategory() != null) {
+					DbHelper.getInstance().updateCategory(note.getCategory());
+				}
+				for (Attachment attachment : note.getAttachmentsList()) {
+					DbHelper.getInstance().updateAttachment(attachment);
+				}
+				DbHelper.getInstance().updateNote(note, false);
+			} catch (IOException e) {
+				Log.e(Constants.TAG, "Error parsing note json");
+			}
+		}
+    }
+
+
     /**
      * Import attachments from backup folder
      */
     private boolean importAttachments(File backupDir) {
         File attachmentsDir = StorageHelper.getAttachmentDir(this);
-        // Clearing
-        StorageHelper.delete(this, attachmentsDir.getAbsolutePath());
         // Moving back
         File backupAttachmentsDir = new File(backupDir, attachmentsDir.getName());
         if (!backupAttachmentsDir.exists()) return true;
