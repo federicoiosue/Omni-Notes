@@ -135,7 +135,8 @@ public class CategoryActivity extends Activity {
      * Category saving
      */
     private void saveCategory() {
-		category.setId(Calendar.getInstance().getTimeInMillis());
+		Long id = category.getId() != null ? category.getId() : Calendar.getInstance().getTimeInMillis();
+		category.setId(id);
         category.setName(title.getText().toString());
         category.setDescription(description.getText().toString());
         if (colorChanged || category.getColor() == null)
