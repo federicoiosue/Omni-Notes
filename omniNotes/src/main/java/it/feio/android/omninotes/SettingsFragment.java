@@ -589,36 +589,21 @@ public class SettingsFragment extends PreferenceFragment {
         }
 
 
-//		// Instructions
-//		Preference instructions = findPreference("settings_tour_show_again");
-//		instructions.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-//			@Override
-//			public boolean onPreferenceClick(Preference arg0) {
-//				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-//				// set dialog message
-//				alertDialogBuilder
-//						.setMessage(getString(R.string.settings_tour_show_again_summary) + "?")
-//						.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
-//							public void onClick(DialogInterface dialog, int id) {
-//								AppTourHelper.reset(getActivity());
-//								prefs.edit()
-//										.putString(Constants.PREF_NAVIGATION,
-//												getResources().getStringArray(R.array.navigation_list_codes)[0])
-//										.commit();
-//								OmniNotes.restartApp(getApplicationContext());
-//							}
-//						}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-//							public void onClick(DialogInterface dialog, int id) {
-//								dialog.cancel();
-//							}
-//						});
-//				// create alert dialog
-//				AlertDialog alertDialog = alertDialogBuilder.create();
-//				// show it
-//				alertDialog.show();
-//				return false;
-//			}
-//		});
+		// Instructions
+		Preference instructions = findPreference("settings_tour_show_again");
+		instructions.setOnPreferenceClickListener(arg0 -> {
+			new MaterialDialog.Builder(getActivity())
+					.content(getString(R.string.settings_tour_show_again_summary) + "?")
+					.positiveText(R.string.confirm)
+					.callback(new MaterialDialog.ButtonCallback() {
+						@Override
+						public void onPositive(MaterialDialog materialDialog) {
+							prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
+							MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+						}
+					}).build().show();
+			return false;
+		});
 
 
         // Donations

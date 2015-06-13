@@ -46,6 +46,7 @@ import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -76,10 +77,14 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        // This method starts the bootstrap chain.
+		//  This method starts the bootstrap chain.
         checkPassword();
 
         initUI();
+
+		if (IntroActivity.mustRun(getApplicationContext())) {
+			startActivity(new Intent(this.getApplicationContext(), IntroActivity.class));
+		}
 
         new UpdaterTask(this).execute();
     }
