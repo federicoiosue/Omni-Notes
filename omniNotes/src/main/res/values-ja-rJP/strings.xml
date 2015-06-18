@@ -311,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">押すだけで</string>
   <string name="tour_detailactivity_reminder_detail">オブジェクトで長押しすると、短く押した時と異なる効果があります (添付、場所、アラーム)</string>
   <string name="tour_detailactivity_links_title">リンク</string>
-  <string name="tour_detailactivity_links_detail">URL やメールアドレスをダブルクリックすると、コピーしたり開くことができます</string>
+  <string name="tour_detailactivity_links_detail">URL や電子メール アドレスををクリックすると、コピーまたは開きます</string>
   <string name="tour_detailactivity_swipe_title">スワイプ</string>
   <string name="tour_detailactivity_swipe_detail">編集中のノートから離れることなく\n新しいノートを作成することができます</string>
   <string name="tour_detailactivity_save_title">保存</string>
   <string name="tour_detailactivity_save_detail">\"上\" のナビゲーション アイコン、またはデバイスのボタンを押すと、戻ることができます</string>
   <string name="tour_listactivity_final_title">お楽しみください</string>
-  <string name="tour_listactivity_final_detail">Omni Notes をご利用いただきありがとうございます \n\n 仕事や個人でノートを取る際に \n お使いいただける \n オープンソースのひとつの選択肢です \n\n \"続行\" を押すとツアーを終了し \n 最初のノートが開始します!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">ドロワーを開く</string>
   <string name="drawer_close">ドロワーを閉じる</string>
   <string name="reminder">アラーム</string>

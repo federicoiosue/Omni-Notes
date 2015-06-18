@@ -157,6 +157,7 @@
   <string name="not_expired">aktuální</string>
   <string name="expired">s vypršenou platností</string>
   <string name="today">dnes</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">Otevřít</string>
   <string name="copy">Kopírovat</string>
   <string name="no_application_can_perform_this_action">Nenalezena žádná aplikace pro tuto akci</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">Nastavení</string>
   <string name="settings_screen_sync_import_export">Synchronizace a zálohování</string>
   <string name="settings_export">Zálohování</string>
+  <string name="settings_sync_import_export">Synchronizace a zálohování</string>
   <string name="settings_import">Obnovit nebo odstranit zálohy</string>
   <string name="settings_import_from_springpad">Importovat poznámky z aplikace Springpad</string>
   <string name="settings_import_from_springpad_summary">Vyberte archiv exportovaný z aplikace Springpad a ujistěte se, že připojení k Internetu</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">Zálohování</string>
   <string name="settings_screen_notifications">Notifications</string>
   <string name="settings_enable_vibration">Vibrace</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Přehled změn</string>
   <string name="settings_enable_editor_links">Rozpoznávání odkazů</string>
   <string name="settings_max_video_size">Video přílohy</string>
@@ -286,7 +289,7 @@
   <string name="settings_auto_location_summary">Automaticky přidá informaci o poloze do nové poznámky</string>
   <string name="settings_dynamic_menu">Dynamic menu</string>
   <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
-  <string name="settings_fab_expansion_behavior">Floating action bar</string>
+  <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
   <string name="settings_error_reporting">Error reporting</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Stačí stisknout</string>
   <string name="tour_detailactivity_reminder_detail">Podržení má na objekt (příloha, poloha, připomenutí) jiné účinky, než krátké stisknutí!</string>
   <string name="tour_detailactivity_links_title">Odkazy</string>
-  <string name="tour_detailactivity_links_detail">Poklepejte na URL, nebo emailovou adresu pro její zkopírování, nebo otevření</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Tažení prstem</string>
   <string name="tour_detailactivity_swipe_detail">Vytvořte novou poznámku \nbez opuštění té, kterou \nprávě upravujete</string>
   <string name="tour_detailactivity_save_title">Uložit</string>
   <string name="tour_detailactivity_save_detail">Pro návrat stiskněte tlačíto \"zpět\", nebo tlačítko vašeho zařízení</string>
   <string name="tour_listactivity_final_title">Užijte si aplikaci</string>
-  <string name="tour_listactivity_final_detail">Děkujeme, že používáte Omni Notes \n\nOpensource alternativu pro psaní \npoznámek v práci i ve voném čase. \n\nStiskněte \"Pokračovat\" pro ukončení \nprohlídky a začněte vytvářet \nVaši první poznámku!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">lišta otevřena</string>
   <string name="drawer_close">lišta zavřena</string>
   <string name="reminder">připomenutí</string>

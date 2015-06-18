@@ -157,6 +157,7 @@
   <string name="not_expired">δεν έχει λήξει</string>
   <string name="expired">έληξε</string>
   <string name="today">σήμερα</string>
+  <string name="tomorrow">αύριο</string>
   <string name="open">Άνοιγμα</string>
   <string name="copy">Αντιγραφή</string>
   <string name="no_application_can_perform_this_action">Δε βρέθηκε εφαρμογή για αυτή την ενέργεια</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">Ρυθμίσεις</string>
   <string name="settings_screen_sync_import_export">Συγχρονισμός και αντίγραφα ασφαλείας</string>
   <string name="settings_export">Δημιουργία αντιγράφου ασφαλείας</string>
+  <string name="settings_sync_import_export">Συγχρονισμός και αντίγραφα ασφαλείας</string>
   <string name="settings_import">Επαναφορά ή διαγραφή αντιγράφων ασφαλείας</string>
   <string name="settings_import_from_springpad">Εισαγωγή σημειώσεων από Springpad</string>
   <string name="settings_import_from_springpad_summary">Επιλέξτε το εξαγόμενο αρχείο Springpad και βεβαιωθείτε ότι είστε συνδεδεμένοι στο Διαδίκτυο</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">Αντίγραφο ασφαλείας</string>
   <string name="settings_screen_notifications">Ειδοποιήσεις</string>
   <string name="settings_enable_vibration">Δόνηση</string>
+  <string name="settings_screen_navigation">Πλοήγησης</string>
   <string name="settings_changelog">Καταγραφή αλλαγών</string>
   <string name="settings_enable_editor_links">Αναγνώριση συνδέσμων</string>
   <string name="settings_max_video_size">Συνημμένα Βίντεο</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Απλά πατήστε το πλήκτρο</string>
   <string name="tour_detailactivity_reminder_detail">Το παρατεταμένο πάτημα έχει διαφορετικό αποτέλεσμα σε ένα αντικείμενο(συννημένο, τοποθεσία, υπενθύμιση) από το απλό πάτημα!</string>
   <string name="tour_detailactivity_links_title">Σύνδεσμοι</string>
-  <string name="tour_detailactivity_links_detail">Κάντε διπλό κλικ σε μια διεύθυνση URL ή ηλεκτρονικού ταχυδρομείου για αντιγραφή ή άνοιγμα</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Σύρσιμο</string>
   <string name="tour_detailactivity_swipe_detail">Δημιουργία νέων σημειώσεων χωρίς \n να αφήσετε αυτο που επεξεργάζεστε</string>
   <string name="tour_detailactivity_save_title">Αποθήκευση</string>
   <string name="tour_detailactivity_save_detail">Για να επιστρέψετε, πιέστε το \"επάνω\" εικονίδιο πλοήγησης, ή το κουμπί της συσκευής σας</string>
   <string name="tour_listactivity_final_title">Καλή Διασκέδαση</string>
-  <string name="tour_listactivity_final_detail">Ευχαριστούμε που χρησιμοποιείτε τις Σημειώσεις Omni \n\n εναλλακτικές \n και ανοικτού κώδικα, για παραγωγικότητα και  \n ευχάριστη εισαγωγή σημειώσεων \n\n Πατήστε \"Συνέχεια\" \n για να σταματήσει η περιήγηση και ξεκινήστε την πρώτη σας σημείωση!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">μενού ανοικτό</string>
   <string name="drawer_close">μενού κλειστό</string>
   <string name="reminder">υπενθύμιση</string>

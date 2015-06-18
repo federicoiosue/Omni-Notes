@@ -161,6 +161,7 @@ Send automatic report to developer?\"</string>
   <string name="not_expired">not expired</string>
   <string name="expired">expired</string>
   <string name="today">today</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">Open</string>
   <string name="copy">Copy</string>
   <string name="no_application_can_perform_this_action">No application found for this action</string>
@@ -195,6 +196,7 @@ Send automatic report to developer?\"</string>
   <string name="action_settings">ការកំណត់</string>
   <string name="settings_screen_sync_import_export">Sync and Backups</string>
   <string name="settings_export">រក្សាទុក(Backup)</string>
+  <string name="settings_sync_import_export">Sync and Backups</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>
   <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>
@@ -214,6 +216,7 @@ Send automatic report to developer?\"</string>
   <string name="settings_screen_backup">រក្សាទុក(Backup)</string>
   <string name="settings_screen_notifications">Notifications</string>
   <string name="settings_enable_vibration">Vibration</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Changelog</string>
   <string name="settings_enable_editor_links">Links recognition</string>
   <string name="settings_max_video_size">Video attachments</string>
@@ -290,7 +293,7 @@ Send automatic report to developer?\"</string>
   <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
   <string name="settings_dynamic_menu">Dynamic menu</string>
   <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
-  <string name="settings_fab_expansion_behavior">Floating action bar</string>
+  <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
   <string name="settings_error_reporting">Error reporting</string>
@@ -312,15 +315,14 @@ Send automatic report to developer?\"</string>
   <string name="tour_detailactivity_reminder_title">Just press</string>
   <string name="tour_detailactivity_reminder_detail">Long pression have different effects on an object (attachment, location, reminder) than short pression!</string>
   <string name="tour_detailactivity_links_title">Links</string>
-  <string name="tour_detailactivity_links_detail">Double-click on an URL or e-mail address to copy or open it</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Swipe</string>
   <string name="tour_detailactivity_swipe_detail">\"Create new notes without 
  leaving the one you\'re editing\"</string>
   <string name="tour_detailactivity_save_title">រក្សាទុក</string>
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
-  <string name="tour_listactivity_final_detail">\"Thanks for using Khmer Notes
-\"</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">drawer open</string>
   <string name="drawer_close">drawer closed</string>
   <string name="reminder">reminder</string>

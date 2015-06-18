@@ -192,6 +192,7 @@
   <string name="action_settings">Settings</string>
   <string name="settings_screen_sync_import_export">Sync and Backups</string>
   <string name="settings_export">Backup</string>
+  <string name="settings_sync_import_export">Sync and Backups</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>
   <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>
@@ -211,6 +212,7 @@
   <string name="settings_screen_backup">Backup</string>
   <string name="settings_screen_notifications">Notifications</string>
   <string name="settings_enable_vibration">Vibration</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Changelog</string>
   <string name="settings_enable_editor_links">Links recognition</string>
   <string name="settings_max_video_size">Video attachments</string>
@@ -309,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Just press</string>
   <string name="tour_detailactivity_reminder_detail">Long presses have different effects on an object (attachment, location, reminder) than short ones!</string>
   <string name="tour_detailactivity_links_title">Links</string>
-  <string name="tour_detailactivity_links_detail">Double-click on an URL or e-mail address to copy or open it</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Swipe</string>
   <string name="tour_detailactivity_swipe_detail">Create new notes without \n leaving the one you\'re editing</string>
   <string name="tour_detailactivity_save_title">Save</string>
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \n\n The opensource alternative \n for productivity and \n leisure note-taking \n\n Press \"Proceed\" to end tour \n and start inserting your first note!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">drawer open</string>
   <string name="drawer_close">drawer closed</string>
   <string name="reminder">reminder</string>

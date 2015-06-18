@@ -157,6 +157,7 @@
   <string name="not_expired">غير منتهية</string>
   <string name="expired">منتهية</string>
   <string name="today">اليوم</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">افتح</string>
   <string name="copy">انسخ</string>
   <string name="no_application_can_perform_this_action">لا يوجد برنامج لهذه الوظيفة</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">إعدادات</string>
   <string name="settings_screen_sync_import_export">المزامنة والنسخ الاحتياطي</string>
   <string name="settings_export">النسخ الاحتياطي</string>
+  <string name="settings_sync_import_export">المزامنة والنسخ الاحتياطي</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>
   <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">النسخ الاحتياطي</string>
   <string name="settings_screen_notifications">Notifications</string>
   <string name="settings_enable_vibration">الاهتزاز</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">سِجل التغييرات</string>
   <string name="settings_enable_editor_links">التعرف على الروابط</string>
   <string name="settings_max_video_size">مرفقات الفيديو</string>
@@ -286,7 +289,7 @@
   <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
   <string name="settings_dynamic_menu">Dynamic menu</string>
   <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
-  <string name="settings_fab_expansion_behavior">Floating action bar</string>
+  <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
   <string name="settings_error_reporting">Error reporting</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Just press</string>
   <string name="tour_detailactivity_reminder_detail">Long pression have different effects on an object (attachment, location, reminder) than short pression!</string>
   <string name="tour_detailactivity_links_title">Links</string>
-  <string name="tour_detailactivity_links_detail">Double-click on an URL or e-mail address to copy or open it</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Swipe</string>
   <string name="tour_detailactivity_swipe_detail">Create new notes without \n leaving the one you\'re editing</string>
   <string name="tour_detailactivity_save_title">حفظ</string>
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \n\n The opensource alternative \n for productivity and \n leisure note-taking \n\n Press \"Proceed\" to end tour \n and start inserting your first note!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">درج مفتوح</string>
   <string name="drawer_close">درج مغلق</string>
   <string name="reminder">تذكير</string>

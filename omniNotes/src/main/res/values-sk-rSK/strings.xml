@@ -157,6 +157,7 @@
   <string name="not_expired">nevypršané</string>
   <string name="expired">vypršané</string>
   <string name="today">dnes</string>
+  <string name="tomorrow">zajtra</string>
   <string name="open">Otvoriť</string>
   <string name="copy">Kopírovať</string>
   <string name="no_application_can_perform_this_action">Žiadna aplikácia nemôže vykonať túto akciu</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">Nastavenia</string>
   <string name="settings_screen_sync_import_export">Synchronizácia a zálohovanie</string>
   <string name="settings_export">Zálohovať</string>
+  <string name="settings_sync_import_export">Synchronizácia a zálohovanie</string>
   <string name="settings_import">Obnoviť alebo vymazať zálohy</string>
   <string name="settings_import_from_springpad">Importovať poznámky zo Springpad</string>
   <string name="settings_import_from_springpad_summary">Vybrať váš exportovaný archív zo Springpad a uistiť sa, že ste pripojený k internetu</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">Zálohovať</string>
   <string name="settings_screen_notifications">Oznámenia</string>
   <string name="settings_enable_vibration">Vibrácie</string>
+  <string name="settings_screen_navigation">Navigácia</string>
   <string name="settings_changelog">Zoznam zmien</string>
   <string name="settings_enable_editor_links">Rozoznávanie odkazov</string>
   <string name="settings_max_video_size">Video prílohy</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Stačí stlačiť</string>
   <string name="tour_detailactivity_reminder_detail">Krátke alebo dlhé stlačenie objektov (prílohy, poloha, pripomienky) má odlišný efekt!</string>
   <string name="tour_detailactivity_links_title">Odkazy</string>
-  <string name="tour_detailactivity_links_detail">Dvakrát kliknite na webové odkazy alebo e-mailové adresy pre ich skopírovanie alebo otvorenie</string>
+  <string name="tour_detailactivity_links_detail">Kliknite na URL alebo e-mailovú adresu pre jej skopírovanie alebo otvorenie</string>
   <string name="tour_detailactivity_swipe_title">Potiahnite</string>
   <string name="tour_detailactivity_swipe_detail">Vytvorte nové poznámky bez \n opustenia tej, ktorú upravujete</string>
   <string name="tour_detailactivity_save_title">Ukladajte</string>
   <string name="tour_detailactivity_save_detail">Jednoducho stlačte ikonu navigácie \"hore\" alebo použite tlačidlo Späť na vašom zariadení</string>
   <string name="tour_listactivity_final_title">Užívajte</string>
-  <string name="tour_listactivity_final_detail">Ďakujeme, že používate Omni Notes\n\nOmni Notes je aplikácia s otvoreným zdrojovým kódom, ktorá je zameraná na vašu produktivitu a zábavu pri vytváraní poznámok.\n\nStlačte \"Pokračovať\" na ukončenie prehliadky a začatie vytvárania vašej prvej poznámky!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">Otvoriť ponuku</string>
   <string name="drawer_close">Zavrieť ponuku</string>
   <string name="reminder">Pripomienka</string>

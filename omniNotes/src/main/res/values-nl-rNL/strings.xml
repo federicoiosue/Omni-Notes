@@ -41,7 +41,7 @@
   <string name="delete_note_confirmation">Bevestig Notitie Verwijdering?</string>
   <string name="confirm">Bevestig</string>
   <string name="ok">Oké</string>
-  <string name="no">No</string>
+  <string name="no">Nee</string>
   <string name="cancel">Annuleer</string>
   <string name="note_updated">Notitie bijgewerkt</string>
   <string name="empty_note_not_saved">Kan geen lege notitie opslaan</string>
@@ -55,7 +55,7 @@
   <string name="select_sorting_column">Sorteer op</string>
   <string name="tap_to_undo">Tik om ongedaan te maken</string>
   <string name="alarm_set_on">Alarm ingesteld op</string>
-  <string name="starting_from">starting from</string>
+  <string name="starting_from">Begint van</string>
   <string name="at_time">om</string>
   <string name="discard_changes">Veranderingen negeren</string>
   <string name="attachment">Bijlage</string>
@@ -125,7 +125,7 @@
   <string name="sketch">Schets</string>
   <string name="crash_dialog_text">Er is iets misgegaan in Omni Notes\n Wilt u dit melden aan de ontwikkelaar?</string>
   <string name="crash_dialog_comment_prompt">Een optionele opmerking hier invoegen:</string>
-  <string name="crash_toast">Something went wrong in Omni Notes\nA report has been sent report to the developer!</string>
+  <string name="crash_toast">Er ging iets mis in Omni Notes\nA verslag is verstuurd verslag aan de ontwikkelaar!</string>
   <string name="new_update_available">Een nieuwe Omni Notes versie is beschikbaar, wil je bijwerken?</string>
   <string name="update">Update en beoordeel!</string>
   <string name="not_now">Niet nu</string>
@@ -157,6 +157,7 @@
   <string name="not_expired">niet vervallen</string>
   <string name="expired">verlopen</string>
   <string name="today">vandaag</string>
+  <string name="tomorrow">morgen</string>
   <string name="open">Open</string>
   <string name="copy">Kopie</string>
   <string name="no_application_can_perform_this_action">Geen toepassing kan deze actie uitvoeren</string>
@@ -166,7 +167,7 @@
   <string name="archived">gearchiveerd</string>
   <string name="files">Bestanden</string>
   <string name="merge">Samenvoegen</string>
-  <string name="delete_merged">Delete original notes after merging?</string>
+  <string name="delete_merged">Oorspronkelijke notities verwijderen na het samenvoegen?</string>
   <string name="not_set">niet ingesteld</string>
   <string name="empty_trash">Prullenbak legen</string>
   <string name="empty_trash_confirmation">Bevestig alle weggegooide notities verwijderen?</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">Instellingen</string>
   <string name="settings_screen_sync_import_export">Synchronisatie en back-ups</string>
   <string name="settings_export">Back-up</string>
+  <string name="settings_sync_import_export">Synchronisatie en back-ups</string>
   <string name="settings_import">Terugplaatsen of verwijderen van back-ups</string>
   <string name="settings_import_from_springpad">Notities importeren uit Springpad</string>
   <string name="settings_import_from_springpad_summary">Selecteer uw uit Springpad geëxporteerd archief en zorg ervoor dat u verbonden bent met internet</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">Back-up</string>
   <string name="settings_screen_notifications">Notificaties</string>
   <string name="settings_enable_vibration">Vibratie</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Wijzigingen</string>
   <string name="settings_enable_editor_links">Links herkennen</string>
   <string name="settings_max_video_size">Video bijlagen</string>
@@ -286,10 +289,10 @@
   <string name="settings_auto_location_summary">Automatisch locatie toevoegen aan nieuwe notities</string>
   <string name="settings_dynamic_menu">Dynamisch menu</string>
   <string name="settings_dynamic_menu_summary">Ongebruikte menu-items worden automatisch verborgen</string>
-  <string name="settings_fab_expansion_behavior">Floating action bar</string>
+  <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
-  <string name="settings_error_reporting">Error reporting</string>
+  <string name="settings_error_reporting">Foutrapportage</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
   <string name="tour_request_start">U startte Omni Notes voor de eerste keer, zou u een rondleiding willen van de toepassing?</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Druk gewoon op</string>
   <string name="tour_detailactivity_reminder_detail">Korte of lange drukken op objecten (bijlagen, locatie, herinnering) hebben verschillende effecten!</string>
   <string name="tour_detailactivity_links_title">Links</string>
-  <string name="tour_detailactivity_links_detail">Dubbelklik op web of e-mail adressen om te kopiëren of te openen</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Veeg</string>
   <string name="tour_detailactivity_swipe_detail">Nieuwe notities maken zonder\ndegene die u aan het bewerken\n bent te verlaten</string>
   <string name="tour_detailactivity_save_title">Opslaan</string>
   <string name="tour_detailactivity_save_detail">Druk gewoon op \"op\" navigatie pictogram of ga terug met uw knop van het apparaat</string>
   <string name="tour_listactivity_final_title">Geniet</string>
-  <string name="tour_listactivity_final_detail">Bedankt voor het gebruiken van \nOmni notities \n\n het opensource alternatief \n voor uw productiviteit en \n entertainment notities \n\n druk op \"Verdergaan\" om de tour te\n sluiten  en begin met het invoegen \nvan uw eerste notitie!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">lade open</string>
   <string name="drawer_close">lade dicht</string>
   <string name="reminder">herinnering</string>

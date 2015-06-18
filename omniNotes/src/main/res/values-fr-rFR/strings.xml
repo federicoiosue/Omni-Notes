@@ -311,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Appuyez juste</string>
   <string name="tour_detailactivity_reminder_detail">Des appuis courts ou longs sur un élément (pièce jointe, localisation, rappel) ont des effets différents !</string>
   <string name="tour_detailactivity_links_title">Liens</string>
-  <string name="tour_detailactivity_links_detail">Appui double sur un lien ou une adresse e-mail pour le copier ou l\'ouvrir</string>
+  <string name="tour_detailactivity_links_detail">Appuyez sur une adresse URL ou e-mail pour la copier ou l\'ouvrir</string>
   <string name="tour_detailactivity_swipe_title">Glisser</string>
   <string name="tour_detailactivity_swipe_detail">Créer de nouvelles notes sans \nquitter celle que vous modifiez</string>
   <string name="tour_detailactivity_save_title">Enregistrer</string>
   <string name="tour_detailactivity_save_detail">Pour revenir en arrière, appuyez sur l\'icône de navigation \"Haut\" ou sur le bouton de votre appareil</string>
   <string name="tour_listactivity_final_title">Profitez bien</string>
-  <string name="tour_listactivity_final_detail">Merci d\'utiliser Omni Notes \n\nL\'alternative open source \npour votre productivité et \nla prise de notes de loisirs \n\nAppuyez sur \"Continuer\" pour fermer la présentation \net commencer à écrire votre première note !</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">volet ouvert</string>
   <string name="drawer_close">volet fermé</string>
   <string name="reminder">rappel</string>

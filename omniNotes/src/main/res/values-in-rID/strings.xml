@@ -157,6 +157,7 @@
   <string name="not_expired">tidak kadaluarsa</string>
   <string name="expired">kadaluarsa</string>
   <string name="today">hari ini</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">Buka</string>
   <string name="copy">Salin</string>
   <string name="no_application_can_perform_this_action">Tidak ditemukan aplikasi untuk aksi ini</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">Setelan</string>
   <string name="settings_screen_sync_import_export">Sinkron dan cadangan</string>
   <string name="settings_export">Cadangan</string>
+  <string name="settings_sync_import_export">Sinkron dan cadangan</string>
   <string name="settings_import">Memulihkan atau menghapus cadangan</string>
   <string name="settings_import_from_springpad">Impor catatan dari Springpad</string>
   <string name="settings_import_from_springpad_summary">Pilih arsip Springpad anda yang sudah diekspor dan pastikan untuk terhubung ke internet</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">Cadangan</string>
   <string name="settings_screen_notifications">Pemberitahuan</string>
   <string name="settings_enable_vibration">Getaran</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Log perubahan</string>
   <string name="settings_enable_editor_links">Pendeteksi tautan</string>
   <string name="settings_max_video_size">Lampiran video</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Hanya klik</string>
   <string name="tour_detailactivity_reminder_detail">Menekan lama mempunyai banyak fungsi pada sebuah objek (lampiran, lokasi, pengingat) daripada menekan singkat!</string>
   <string name="tour_detailactivity_links_title">Tautan</string>
-  <string name="tour_detailactivity_links_detail">Klik dua kali pada URL atau alamat e-mail untuk menyalin atau membuka</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Geser</string>
   <string name="tour_detailactivity_swipe_detail">Buat catatan baru tanpa \n meninggalkan apa yang anda ubah</string>
   <string name="tour_detailactivity_save_title">Simpan</string>
   <string name="tour_detailactivity_save_detail">Untuk kembali, tekan ikon navigasi \"up\", atau tombol kembali di perangkat Anda</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
-  <string name="tour_listactivity_final_detail">Terima kasih untuk menggunakan Omni Notes \n\n Alternatif open-source \n untuk produktivitas dan \n rekreasi mencatat \n\n Tekan \"Lanjutkan\" untuk mengakhiri tur \n dan mulai membuat catatan pertama Anda!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">drawer terbuka</string>
   <string name="drawer_close">drawer tertutup</string>
   <string name="reminder">pengingat</string>

@@ -191,8 +191,9 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_reset_all_data">Cancella tutti i dati</string>
   <string name="reset_all_data_confirmation">Confermi la rimozione di tutti i dati (i backup verranno conservati)?</string>
   <string name="action_settings">Impostazioni</string>
-  <string name="settings_sync_import_export">Sincronizzazione e backup</string>
+  <string name="settings_screen_sync_import_export">Sincronizzazione e backup</string>
   <string name="settings_export">Backup</string>
+  <string name="settings_sync_import_export">Sincronizzazione e backup</string>
   <string name="settings_import">Ripristina o cancella backup</string>
   <string name="settings_import_from_springpad">Importa le note da Springpad</string>
   <string name="settings_import_from_springpad_summary">Seleziona l\'archivio delle note esportate da Springpad ed assicurati di essere connesso ad internet</string>
@@ -311,13 +312,13 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="tour_detailactivity_reminder_title">Basta premere</string>
   <string name="tour_detailactivity_reminder_detail">Pressioni brevi o lunghe sugli oggetti (allegati, località, promemoria) hanno effetti diverso!</string>
   <string name="tour_detailactivity_links_title">Links</string>
-  <string name="tour_detailactivity_links_detail">Clicca due volte un un indirizzo internet o e-mail per copiarlo o aprirlo</string>
+  <string name="tour_detailactivity_links_detail">Fai click su un URL o un indirizzo e-mail per copiarlo o aprirlo</string>
   <string name="tour_detailactivity_swipe_title">Scorrimento</string>
   <string name="tour_detailactivity_swipe_detail">Crea nuove note senza \n lasciare quella che stai modificando</string>
   <string name="tour_detailactivity_save_title">Salva</string>
   <string name="tour_detailactivity_save_detail">Per tornare indietro, premi l\'icona di navigazione \"torna su\", o usa il pulsante del tuo telefono</string>
   <string name="tour_listactivity_final_title">Divertiti</string>
-  <string name="tour_listactivity_final_detail">Grazie per usare Omni Notes \n\n L\'alternativa open source \n per le tue note nei momenti di \n lavoro o svago \n\n Premi \"Procedi\" per terminare \n il tour e cominciare \n ad inserire la tua prima nota!</string>
+  <string name="tour_listactivity_final_detail">Grazie per aver scelto Omni Notes \n L\'alternativa open source per le tue note nei momenti di lavoro o svago!</string>
   <string name="drawer_open">drawer aperto</string>
   <string name="drawer_close">drawer chiuso</string>
   <string name="reminder">promemoria</string>
