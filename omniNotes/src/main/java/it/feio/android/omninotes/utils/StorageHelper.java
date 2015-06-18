@@ -220,12 +220,10 @@ public class StorageHelper {
 
     public static String getRealPathFromURI(Context mContext, Uri contentUri) {
         String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = null;
-        try {
-            mContext.getContentResolver().query(contentUri, proj, null, null, null);
-        } catch (Exception e) {
-            Log.e(Constants.TAG, "Maybe was not a category!", e);
-        }
+        Cursor cursor = mContext.getContentResolver().query(contentUri, proj, null, null, null);
+		if (cursor == null) {
+			return null;
+		}
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         return cursor.getString(column_index);
