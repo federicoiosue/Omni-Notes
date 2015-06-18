@@ -17,8 +17,9 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.1.0 Beta 1" changeDate="Jun 9, 2015">
-        <changelogtext>[b]New![/b] New export</changelogtext>
+    <changelogversion versionName="5.1.0 Beta 1" changeDate="Jun 19, 2015">
+        <changelogtext>[b]New![/b] New notes backup/restore system using JSON format</changelogtext>
+        <changelogtext>[b]New![/b] Added an intro to the app</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.0.1" changeDate="Jun 7, 2015">
