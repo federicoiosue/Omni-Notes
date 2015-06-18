@@ -37,35 +37,23 @@ public class BitmapHelper {
     /**
      * Decodifica ottimizzata per la memoria dei bitmap
      */
-    public static Bitmap decodeSampledFromUri(Context mContext, Uri uri, int reqWidth, int reqHeight) {
+    public static Bitmap decodeSampledFromUri(Context mContext, Uri uri, int reqWidth, int reqHeight) throws
+			FileNotFoundException {
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         
-        InputStream inputStream = null;
-        InputStream inputStreamSampled = null;
-        try {
-            inputStream = mContext.getContentResolver().openInputStream(uri);
+        try (InputStream inputStream =  mContext.getContentResolver().openInputStream(uri)) {
             BitmapFactory.decodeStream(inputStream, null, options);
 
-            // Setting decode options
             options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
             options.inJustDecodeBounds = false;
 
             // Bitmap is now decoded for real using calculated inSampleSize
-            inputStreamSampled = mContext.getContentResolver().openInputStream(uri);
+			InputStream inputStreamSampled = mContext.getContentResolver().openInputStream(uri);
             return BitmapFactory.decodeStream(inputStreamSampled, null, options);
-        } catch(FileNotFoundException e) {
+        } catch(IOException e) {
            return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.attachment_broken);
-        } finally {
-            try {
-                assert inputStream != null;
-                inputStream.close();
-                assert inputStreamSampled != null;
-                inputStreamSampled.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -101,33 +89,35 @@ public class BitmapHelper {
     /**
      * Creates a thumbnail of requested size by doing a first sampled decoding of the bitmap to optimize memory
      */
-    public static Bitmap getThumbnail(Context mContext, Uri uri, int reqWidth, int reqHeight) {
-        Bitmap srcBmp;
-        Bitmap dstBmp = null;
-        srcBmp = decodeSampledFromUri(mContext, uri, reqWidth, reqHeight);
+	public static Bitmap getThumbnail(Context mContext, Uri uri, int reqWidth, int reqHeight) {
+		Bitmap dstBmp = null;
+		try {
+			Bitmap srcBmp = decodeSampledFromUri(mContext, uri, reqWidth, reqHeight);
 
-        // If picture is smaller than required thumbnail
-        if (srcBmp.getWidth() < reqWidth && srcBmp.getHeight() < reqHeight) {
-            dstBmp = ThumbnailUtils.extractThumbnail(srcBmp, reqWidth, reqHeight);
+			// If picture is smaller than required thumbnail
+			if (srcBmp.getWidth() < reqWidth && srcBmp.getHeight() < reqHeight) {
+				dstBmp = ThumbnailUtils.extractThumbnail(srcBmp, reqWidth, reqHeight);
 
-            // Otherwise the ratio between measures is calculated to fit requested thumbnail's one
-        } else {
-
-            // Cropping
-            int x = 0, y = 0, width = srcBmp.getWidth(), height = srcBmp.getHeight();
-            float ratio = ((float) reqWidth / (float) reqHeight) * ((float) srcBmp.getHeight() / (float) srcBmp
-                    .getWidth());
-            if (ratio < 1) {
-                x = (int) (srcBmp.getWidth() - srcBmp.getWidth() * ratio) / 2;
-                width = (int) (srcBmp.getWidth() * ratio);
-            } else {
-                y = (int) (srcBmp.getHeight() - srcBmp.getHeight() / ratio) / 2;
-                height = (int) (srcBmp.getHeight() / ratio);
-            }
-            dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height);
-        }
-        return dstBmp;
-    }
+				// Otherwise the ratio between measures is calculated to fit requested thumbnail's one
+			} else {
+				// Cropping
+				int x = 0, y = 0, width = srcBmp.getWidth(), height = srcBmp.getHeight();
+				float ratio = ((float) reqWidth / (float) reqHeight) * ((float) srcBmp.getHeight() / (float) srcBmp
+						.getWidth());
+				if (ratio < 1) {
+					x = (int) (srcBmp.getWidth() - srcBmp.getWidth() * ratio) / 2;
+					width = (int) (srcBmp.getWidth() * ratio);
+				} else {
+					y = (int) (srcBmp.getHeight() - srcBmp.getHeight() / ratio) / 2;
+					height = (int) (srcBmp.getHeight() / ratio);
+				}
+				dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height);
+			}
+		} catch (FileNotFoundException e) {
+			Log.e(Constants.TAG, "File not found for attachment " + uri.getPath(), e);
+		}
+		return dstBmp;
+	}
 
 
     /**
