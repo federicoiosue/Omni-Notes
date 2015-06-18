@@ -820,7 +820,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
     void editNote(final Note note, final View view) {
-        fab.hideFab();
         if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
             BaseActivity.requestPassword(mainActivity, passwordConfirmed -> {
                 if (passwordConfirmed) {
