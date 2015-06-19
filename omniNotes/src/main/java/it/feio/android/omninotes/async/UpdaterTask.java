@@ -27,8 +27,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.analytics.tracking.android.MapBuilder;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.ConnectionManager;
@@ -229,13 +227,12 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	}
 
 
-	/**
-	 * Checks Google Play availability
-	 */
 	private boolean isGooglePlayAvailable() {
-		boolean googlePlayStoreInstalled;
-		int val = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
-		googlePlayStoreInstalled = val == ConnectionResult.SUCCESS;
-		return googlePlayStoreInstalled;
+		try {
+			mActivity.getPackageManager().getPackageInfo("com.android.vending", 0);
+			return true;
+		} catch (NameNotFoundException e) {
+			return false;
+		}
 	}
 }
