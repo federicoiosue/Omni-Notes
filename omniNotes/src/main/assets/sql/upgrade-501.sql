@@ -39,6 +39,7 @@ CREATE
 		archived INTEGER,
 		trashed INTEGER,
 		alarm INTEGER DEFAULT null,
+        reminder_fired INTEGER,
 		recurrence_rule TEXT,
 		latitude REAL,
 		longitude REAL,
@@ -47,9 +48,9 @@ CREATE
 		locked INTEGER,  
 		checklist  INTEGER   
 	);
-INSERT INTO notes(creation, last_modification, title, content, archived, trashed, alarm, latitude, longitude,
- address, category_id, locked, checklist)
-SELECT creation, last_modification, title, content, archived, trashed, alarm, latitude, longitude, address,
-category_id, locked, checklist
+INSERT INTO notes(creation, last_modification, title, content, archived, trashed, alarm, reminder_fired,
+    recurrence_rule, latitude, longitude, address, category_id, locked, checklist)
+SELECT creation, last_modification, title, content, archived, trashed, alarm, reminder_fired, recurrence_rule,
+    latitude, longitude, address, category_id, locked, checklist
 FROM notes_tmp;
 DROP TABLE notes_tmp; 
