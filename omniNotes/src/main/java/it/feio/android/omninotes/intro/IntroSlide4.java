@@ -1,19 +1,18 @@
 package it.feio.android.omninotes.intro;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import it.feio.android.omninotes.R;
 
 
-public class IntroSlide4 extends Fragment {
-
+public class IntroSlide4 extends IntroFragment {
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.intro_slide_4, container, false);
-		return v;
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		background.setBackgroundColor(Color.parseColor("#2196f3"));
+		title.setText(R.string.tour_detailactivity_attachment_title);
+		image.setImageResource(R.drawable.slide4);
+		description.setText(R.string.tour_detailactivity_attachment_detail);
 	}
 }
