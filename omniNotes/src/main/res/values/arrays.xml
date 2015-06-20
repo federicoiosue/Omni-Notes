@@ -139,6 +139,7 @@
         <item>ελληνικά (Greek)</item>
         <item>עברית (Hebrew)</item>
         <item>हिंदी (Hindi)</item>
+        <item>Magyar (Hungarian)</item>
         <item>Bahasa Indonesia (Indonesian)</item>
         <item>Italiano (Italian)</item>
         <item>日本語 (Japanese)</item>
@@ -170,6 +171,7 @@
         <item>el_GR</item>
         <item>iw_IL</item>
         <item>hi_IN</item>
+        <item>hu_HU</item>
         <item>in_ID</item>
         <item>it_IT</item>
         <item>ja_JP</item>
