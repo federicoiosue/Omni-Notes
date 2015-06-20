@@ -23,8 +23,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
 import android.text.TextUtils;
-import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.Tracker;
+import android.util.Log;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import it.feio.android.omninotes.utils.Constants;
@@ -33,7 +32,10 @@ import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender.Method;
 import org.acra.sender.HttpSender.Type;
+import org.piwik.sdk.Piwik;
+import org.piwik.sdk.Tracker;
 
+import java.net.MalformedURLException;
 import java.util.Locale;
 
 
@@ -49,11 +51,10 @@ public class OmniNotes extends Application {
     private final static String PREF_LANG = "settings_language";
     static SharedPreferences prefs;
     private static Tracker mTracker;
-    private static GoogleAnalytics mGa;
     private static RefWatcher refWatcher;
 
 
-    @Override
+	@Override
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
@@ -69,8 +70,8 @@ public class OmniNotes extends Application {
         // Checks selected locale or default one
         updateLanguage(this, null);
 
-        // Google Analytics initialization
-        initializeGa();
+        // Analytics initialization
+        getTracker();
     }
 
 
@@ -133,29 +134,18 @@ public class OmniNotes extends Application {
     }
 
 
-    /*
-     * Method to handle basic Google Analytics initialization. This call will not block as all Google Analytics work
-     * occurs off the main thread.
-     */
-    private void initializeGa() {
-        mGa = GoogleAnalytics.getInstance(this);
-        mTracker = mGa.getTracker("UA-45502770-1");
-    }
-
-
-    /*
-     * Returns the Google Analytics tracker.
-     */
-    public static Tracker getGaTracker() {
-        return mTracker;
-    }
-
-
-    /*
-     * Returns the Google Analytics instance.
-     */
-    public static GoogleAnalytics getGaInstance() {
-        return mGa;
-    }
+	public synchronized Tracker getTracker() {
+		if (mTracker != null) {
+			return mTracker;
+		}
+		try {
+			mTracker = Piwik.getInstance(this).newTracker(Constants.ANALYTICS_URL, 1);
+			mTracker.trackAppDownload();
+		} catch (MalformedURLException e) {
+			Log.w(Constants.TAG, "Malformed url to get analytics tracker", e);
+			return null;
+		}
+		return mTracker;
+	}
 
 }

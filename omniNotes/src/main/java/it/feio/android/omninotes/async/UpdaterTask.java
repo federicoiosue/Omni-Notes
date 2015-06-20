@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.analytics.tracking.android.MapBuilder;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.ConnectionManager;
@@ -101,17 +100,13 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 					@Override
 					public void onPositive(MaterialDialog materialDialog) {
 						if (isGooglePlayAvailable()) {
+							((OmniNotes) mActivityReference.get().getApplication()).getTracker().trackEvent("Update",
+									"Play Store");
 							mActivityReference.get().startActivity(new Intent(
 									Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));
 						} else {
-							// MapBuilder.createEvent().build() returns a Map of event fields and values
-							// that are set and sent with the hit.
-							OmniNotes.getGaTracker().send(MapBuilder
-									.createEvent("ui_action",     // Event category (required)
-											"button_press",  // Event action (required)
-											"Google Drive Update",   // Event label
-											null)            // Event value
-									.build());
+							((OmniNotes) mActivityReference.get().getApplication()).getTracker().trackEvent("Update",
+									"Drive Repository");
 							mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants
 									.DRIVE_FOLDER_LAST_BUILD)));
 						}

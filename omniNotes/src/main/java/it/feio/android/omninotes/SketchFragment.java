@@ -38,8 +38,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
@@ -80,9 +78,8 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
     @Override
     public void onStart() {
-        // GA tracking
-        OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
-        OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
+		// Analytics tracking
+		((OmniNotes) getActivity().getApplication()).getTracker().trackScreenView(getClass().getName());
         super.onStart();
     }
 

@@ -9,6 +9,15 @@ import com.squareup.leakcanary.RefWatcher;
  */
 public class BaseFragment extends Fragment {
 
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		// Analytics tracking
+		((OmniNotes) getActivity().getApplication()).getTracker().trackScreenView(getClass().getName());
+	}
+
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();

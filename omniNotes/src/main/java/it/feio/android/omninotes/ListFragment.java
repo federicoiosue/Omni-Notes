@@ -27,7 +27,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.net.Uri;
 import android.os.*;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -47,23 +46,22 @@ import android.widget.ListView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.omninotes.async.AttachmentTask;
-import it.feio.android.omninotes.async.bus.*;
+import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedNavDrawerClosedEvent;
+import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
+import it.feio.android.omninotes.async.bus.NotesMergeEvent;
 import it.feio.android.omninotes.async.notes.*;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
-import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
@@ -72,7 +70,6 @@ import it.feio.android.omninotes.utils.Display;
 import it.feio.android.pixlui.links.UrlCompleter;
 
 import java.util.*;
-import java.util.concurrent.Executor;
 
 import static android.support.v4.view.ViewCompat.animate;
 
@@ -145,11 +142,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     @Override
     public void onStart() {
-        // GA tracking
-        OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
-        OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
+		super.onStart();
         EventBus.getDefault().register(this, 1);
-        super.onStart();
     }
 
 

@@ -38,8 +38,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.StringUtils;
@@ -645,9 +643,8 @@ public class SettingsFragment extends PreferenceFragment {
 
 	@Override
 	public void onStart() {
-		// GA tracking
-		OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
-		OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
+		// Analytics tracking
+		((OmniNotes) getActivity().getApplication()).getTracker().trackScreenView(getClass().getName());
 		super.onStart();
 	}
 

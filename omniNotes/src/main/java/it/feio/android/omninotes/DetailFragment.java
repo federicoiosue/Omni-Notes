@@ -64,8 +64,6 @@ import butterknife.InjectView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.pushbullet.android.extension.MessagingExtension;
@@ -189,8 +187,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
-		OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
 		EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
 		EventBus.getDefault().register(this);
 	}
