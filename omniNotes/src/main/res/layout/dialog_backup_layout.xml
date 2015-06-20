@@ -26,7 +26,12 @@
     <EditText
         android:id="@+id/export_file_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_half"
+        android:layout_marginLeft="@dimen/padding_half"
+        android:layout_marginEnd="@dimen/padding_half"
+        android:layout_marginRight="@dimen/padding_half"
+        android:gravity="center_horizontal">
 
         <requestFocus />
     </EditText>

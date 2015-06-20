@@ -157,6 +157,7 @@
   <string name="not_expired">nicht abgelaufen</string>
   <string name="expired">abgelaufen</string>
   <string name="today">Heute</string>
+  <string name="tomorrow">morgen</string>
   <string name="open">Öffnen</string>
   <string name="copy">Kopieren</string>
   <string name="no_application_can_perform_this_action">Aktion mit keiner Anwendung ausführbar</string>
@@ -189,8 +190,9 @@
   <string name="settings_reset_all_data">Alle Anwendungsdaten löschen</string>
   <string name="reset_all_data_confirmation">Bestätigen Sie das Entfernen aller Anwendungsdaten\n(Sicherungen bleiben erhalten)</string>
   <string name="action_settings">Einstellungen</string>
-  <string name="settings_sync_import_export">Synchronisation und Datensicherung</string>
+  <string name="settings_screen_sync_import_export">Synchronisation und Datensicherung</string>
   <string name="settings_export">Neue Sicherung erstellen</string>
+  <string name="settings_sync_import_export">Synchronisation und Datensicherung</string>
   <string name="settings_import">Wiederherstellen oder Löschen von Sicherungen</string>
   <string name="settings_import_from_springpad">Importieren von Notizen aus Springpad</string>
   <string name="settings_import_from_springpad_summary">Wählen Sie Ihr exportiertes Springpadarchiv aus und achten Sie darauf, dass Sie mit dem Internet verbunden sind</string>
@@ -309,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Spezielle Aktionen</string>
   <string name="tour_detailactivity_reminder_detail">Kurzes oder langes Drücken auf ein Objekt (Anhänge, Standort, Erinnerung) haben unterschiedliche Effekte!</string>
   <string name="tour_detailactivity_links_title">Links</string>
-  <string name="tour_detailactivity_links_detail">Doppelklicken Sie auf Internet- oder E-Mail-Adressen um diese zu kopieren oder zu öffnen</string>
+  <string name="tour_detailactivity_links_detail">Klicken Sie auf einen Link oder E-Mail-Adresse zum kopieren oder öffnen</string>
   <string name="tour_detailactivity_swipe_title">Wischgesten</string>
   <string name="tour_detailactivity_swipe_detail">Neue Notiz erstellen, ohne\ndie Aktuelle zu verlassen</string>
   <string name="tour_detailactivity_save_title">Speichern</string>
   <string name="tour_detailactivity_save_detail">Um eine Notiz zu speichern, gehen mit dem oberen Navigation-Symbol oder mit der Zurücktaste Ihres Gerätes zur Notizliste zurück</string>
   <string name="tour_listactivity_final_title">Viel Spaß!</string>
-  <string name="tour_listactivity_final_detail">Danke, für die Verwendung von Omni Notes.\n\nDie Opensource-Notizalternative für Produktivität und zum Festhalten Ihrer persönlichen Momente.\n\nDrücken Sie \"Weiter\" um die Tour zu beenden und um Ihre erste Notiz anzulegen!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">Seitenleiste geöffnet</string>
   <string name="drawer_close">Seitenleiste geschlossenn</string>
   <string name="reminder">Erinnerung</string>

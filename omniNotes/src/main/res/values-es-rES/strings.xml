@@ -158,6 +158,7 @@
   <string name="not_expired">No expirado</string>
   <string name="expired">caducado</string>
   <string name="today">hoy</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">Abrir</string>
   <string name="copy">Copiar</string>
   <string name="no_application_can_perform_this_action">Ninguna aplicación puede realizar esta acción</string>
@@ -192,6 +193,7 @@
   <string name="action_settings">Configuración</string>
   <string name="settings_screen_sync_import_export">Sincronización y copias de seguridad</string>
   <string name="settings_export">Copia de seguridad</string>
+  <string name="settings_sync_import_export">Sincronización y copias de seguridad</string>
   <string name="settings_import">Restaurar o eliminar copias de seguridad</string>
   <string name="settings_import_from_springpad">Importar notas de Springpad</string>
   <string name="settings_import_from_springpad_summary">Selecciona tu archivo exportado de Springpad y asegúrate de estar conectado a Internet</string>
@@ -211,6 +213,7 @@
   <string name="settings_screen_backup">Copia de seguridad</string>
   <string name="settings_screen_notifications">Notifications</string>
   <string name="settings_enable_vibration">Vibración</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Registro de cambios</string>
   <string name="settings_enable_editor_links">Enlaces reconocimiento</string>
   <string name="settings_max_video_size">Vídeos adjuntados</string>
@@ -287,7 +290,7 @@
   <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
   <string name="settings_dynamic_menu">Dynamic menu</string>
   <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
-  <string name="settings_fab_expansion_behavior">Floating action bar</string>
+  <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
   <string name="settings_error_reporting">Error reporting</string>
@@ -309,13 +312,13 @@
   <string name="tour_detailactivity_reminder_title">Solo presione</string>
   <string name="tour_detailactivity_reminder_detail">Presiones cortas o largas en los objetos (archivos adjuntos, ubicación, recordatorio) tienen efecto diferente!</string>
   <string name="tour_detailactivity_links_title">Enlaces</string>
-  <string name="tour_detailactivity_links_detail">Haga doble clic en direcciones web o por correo electrónico para copiarlos o abrirlos</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Deslizar</string>
   <string name="tour_detailactivity_swipe_detail">Crear notas sin dejar \n la que estás editando</string>
   <string name="tour_detailactivity_save_title">Guardar</string>
   <string name="tour_detailactivity_save_detail">Simplemente pulse el icono de navegación \"arriba\"  o el botón de regresar de su dispositivo</string>
   <string name="tour_listactivity_final_title">Disfrute</string>
-  <string name="tour_listactivity_final_detail">Gracias por utilizar Omni Notes\n\n La alternativa de código libre \n para que sus momentos de tomar notas \n sean de forma productiva \n y entretenida. \n\n \Presione \"Proceder\" para cerrar el tour  \n y empezar a ingresar su primer nota!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">Editor abierto</string>
   <string name="drawer_close">Editor cerrado</string>
   <string name="reminder">recordatorio</string>

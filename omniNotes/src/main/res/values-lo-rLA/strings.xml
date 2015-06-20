@@ -157,6 +157,7 @@
   <string name="not_expired">ບໍ່ໝົດອາຍຸ</string>
   <string name="expired">ໝົດອາຍຸ</string>
   <string name="today">ມື້ນີ້</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">ເປີດ</string>
   <string name="copy">ຄັດລອກ</string>
   <string name="no_application_can_perform_this_action">ບໍ່ມີແອັບພຼິເຄຊັນທີ່ສາມາດປະຕິບັດການເຄື່ອນໄຫວນີ້ໄດ້</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">ການ​ຕັ້ງຄ່າ</string>
   <string name="settings_screen_sync_import_export">ການຊິ້ງ ແລະ ສຳຮອງຂໍ້ມູນ</string>
   <string name="settings_export">ການສຳຮອງຂໍ້ມູນ</string>
+  <string name="settings_sync_import_export">ການຊິ້ງ ແລະ ສຳຮອງຂໍ້ມູນ</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>
   <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">ການສຳຮອງຂໍ້ມູນ</string>
   <string name="settings_screen_notifications">Notifications</string>
   <string name="settings_enable_vibration">ການສັ່ນ</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">ລາຍການປ່ຽນແປງ</string>
   <string name="settings_enable_editor_links">ການ​ຮັບຮູ້ລິ້ງ</string>
   <string name="settings_max_video_size">ໄຟລ໌ແນບວິດີໂອ</string>
@@ -286,7 +289,7 @@
   <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
   <string name="settings_dynamic_menu">Dynamic menu</string>
   <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
-  <string name="settings_fab_expansion_behavior">Floating action bar</string>
+  <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
   <string name="settings_error_reporting">Error reporting</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">ກົດເລີຍ</string>
   <string name="tour_detailactivity_reminder_detail">ການກົດໄລຍະສັ້ນ ຫຼື ຍາວໃສ່ສິ່ງຕ່າງໆ (ໄຟລ໌ແນບ, ສະຖານທີ່, ໂຕເຕືອນຄວາມຈຳ) ມີຜົນໄດ້ຮັບແຕກຕ່າງກັນ!</string>
   <string name="tour_detailactivity_links_title">ລິ້ງ</string>
-  <string name="tour_detailactivity_links_detail">ຄຼິກສອງເທື່ອໃສ່ທີ່ຢູ່ເວັບ ຫຼື ອີເມລເພື່ອຄັດລອກ ຫຼື ເປີດ</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Swipe</string>
   <string name="tour_detailactivity_swipe_detail">Create new notes without \n leaving the one you\'re editing</string>
   <string name="tour_detailactivity_save_title">ຈັດເກັບ</string>
   <string name="tour_detailactivity_save_detail">ພຽງແຕ່ກົດໄອຄອນຄວບຄຸມ \"ຂຶ້ນ\" ຫຼື ກັບຄືນດ້ວຍປຸ່ມກົດຂອງອຸປະກອນທ່ານ</string>
   <string name="tour_listactivity_final_title">ຂໍໃຫ້ມີຄວາມສຸກ</string>
-  <string name="tour_listactivity_final_detail">ຂອບໃຈທີ່ໃຊ້ Omni Notes \n\n ແອັບຯ opensource ອີກແອັບຯໜຶ່ງ \n ສຳລັບການສ້າງສັນ \n ແລະ ຊ່ວງເວລາການຈົດບັນທຶກເພື່ອຄວາມບັນເທີງ \n ຂອງທ່ານ \n\n ກົດ \"ດຳເນີນການ\" ເພື່ອປິດການແນະນຳ \n ແລະ ເລີ່ມຈົດບັນທຶກອັນທຳອິດຂອງທ່ານ!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">drawer open</string>
   <string name="drawer_close">drawer close</string>
   <string name="reminder">ການແຈ້ງເຕືອນ</string>

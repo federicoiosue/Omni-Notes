@@ -17,39 +17,39 @@
 -->
 <resources>
   <string-array name="navigation_list">
-    <item>Poznámky</item>
+    <item>Jegyzetek</item>
     <item>Archív</item>
-    <item>Pripomienky</item>
-    <item>Kôš</item>
-    <item>Nekategorizované</item>
+    <item>Emlékeztetők</item>
+    <item>Lomtár</item>
+    <item>Kategorizálatlan</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Názov</item>
-    <item>Dátum vytvorenia</item>
-    <item>Dátum poslednej zmeny</item>
-    <item>Dátum pripomenky</item>
+    <item>Cím</item>
+    <item>Készítés dátuma</item>
+    <item>Utolsó módosítás dátuma</item>
+    <item>Emlékeztető dátuma</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Podržať pozíciu</item>
-    <item>Presunúť na koniec všetkých položiek</item>
-    <item>Presunúť navrch nezaškrtnutých</item>
+    <item>Pozíció megtartása</item>
+    <item>Mozgatás a lista végére</item>
+    <item>Mozgatás a nem jegyzett elemek végére</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Zakázané</item>
-    <item>Iba pás</item>
-    <item>Iba zoznam poznámok</item>
-    <item>Kompletné</item>
+    <item>Letiltva</item>
+    <item>Csak szalag</item>
+    <item>Csak a jegyzetek listája</item>
+    <item>Befejezve</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Zakázané</item>
-    <item>Iba pás</item>
-    <item>Zoznam poznámok</item>
+    <item>Letiltva</item>
+    <item>Csak szalag</item>
+    <item>Jegyzetek listája</item>
   </string-array>
   <string-array name="text_size">
-    <item>Najmenšie</item>
-    <item>Malé</item>
-    <item>Predvolené</item>
-    <item>Veľké</item>
-    <item>Najväčšie</item>
+    <item>Kisebb</item>
+    <item>Kicsi</item>
+    <item>Alapértelmezett</item>
+    <item>Nagy</item>
+    <item>Nagyobb</item>
   </string-array>
 </resources>

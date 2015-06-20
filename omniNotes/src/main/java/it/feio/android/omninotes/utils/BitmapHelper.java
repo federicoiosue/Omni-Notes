@@ -28,250 +28,42 @@ import android.text.TextUtils;
 import android.util.Log;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.simplegallery.util.BitmapUtils;
 
 import java.io.*;
 
 
 public class BitmapHelper {
 
-    /**
-     * Decodifica ottimizzata per la memoria dei bitmap
-     */
-    public static Bitmap decodeSampledFromUri(Context mContext, Uri uri, int reqWidth, int reqHeight) {
-
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        
-        InputStream inputStream = null;
-        InputStream inputStreamSampled = null;
-        try {
-            inputStream = mContext.getContentResolver().openInputStream(uri);
-            BitmapFactory.decodeStream(inputStream, null, options);
-
-            // Setting decode options
-            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-            options.inJustDecodeBounds = false;
-
-            // Bitmap is now decoded for real using calculated inSampleSize
-            inputStreamSampled = mContext.getContentResolver().openInputStream(uri);
-            return BitmapFactory.decodeStream(inputStreamSampled, null, options);
-        } catch(FileNotFoundException e) {
-           return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.attachment_broken);
-        } finally {
-            try {
-                assert inputStream != null;
-                inputStream.close();
-                assert inputStreamSampled != null;
-                inputStreamSampled.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    /**
-     * Decoding with inJustDecodeBounds=true to check sampling index without breaking memory
-     */
-    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-
-        // Calcolo dell'inSampleSize e delle nuove dimensioni proporzionate
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-        if (height > reqHeight || width > reqWidth) {
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-        return inSampleSize;
-    }
-
-
-    public static Uri getUri(Context mContext, int resource_id) {
-        return Uri.parse("android.resource://" + mContext.getPackageName() + "/" + resource_id);
-    }
-
 
     /**
      * Creates a thumbnail of requested size by doing a first sampled decoding of the bitmap to optimize memory
      */
-    public static Bitmap getThumbnail(Context mContext, Uri uri, int reqWidth, int reqHeight) {
-        Bitmap srcBmp;
-        Bitmap dstBmp = null;
-        srcBmp = decodeSampledFromUri(mContext, uri, reqWidth, reqHeight);
+	public static Bitmap getThumbnail(Context mContext, Uri uri, int reqWidth, int reqHeight) {
+		Bitmap srcBmp = BitmapUtils.decodeSampledFromUri(mContext, uri, reqWidth, reqHeight);
 
-        // If picture is smaller than required thumbnail
-        if (srcBmp.getWidth() < reqWidth && srcBmp.getHeight() < reqHeight) {
-            dstBmp = ThumbnailUtils.extractThumbnail(srcBmp, reqWidth, reqHeight);
+		// If picture is smaller than required thumbnail
+		Bitmap dstBmp;
+		if (srcBmp.getWidth() < reqWidth && srcBmp.getHeight() < reqHeight) {
+			dstBmp = ThumbnailUtils.extractThumbnail(srcBmp, reqWidth, reqHeight);
 
-            // Otherwise the ratio between measures is calculated to fit requested thumbnail's one
-        } else {
-
-            // Cropping
-            int x = 0, y = 0, width = srcBmp.getWidth(), height = srcBmp.getHeight();
-            float ratio = ((float) reqWidth / (float) reqHeight) * ((float) srcBmp.getHeight() / (float) srcBmp
-                    .getWidth());
-            if (ratio < 1) {
-                x = (int) (srcBmp.getWidth() - srcBmp.getWidth() * ratio) / 2;
-                width = (int) (srcBmp.getWidth() * ratio);
-            } else {
-                y = (int) (srcBmp.getHeight() - srcBmp.getHeight() / ratio) / 2;
-                height = (int) (srcBmp.getHeight() / ratio);
-            }
-            dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height);
-        }
-        return dstBmp;
-    }
-
-
-    /**
-     * Scales a bitmap to fit required ratio
-     */
-    @SuppressWarnings("unused")
-    private static Bitmap scaleImage(Context mContext, Bitmap bitmap, int reqWidth, int reqHeight) {
-
-        // Get current dimensions AND the desired bounding box
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int boundingX = dpToPx(mContext, reqWidth);
-        int boundingY = dpToPx(mContext, reqHeight);
-
-        // Determine how much to scale: the dimension requiring less scaling is
-        // closer to the its side. This way the image always stays inside your
-        // bounding box AND either x/y axis touches it.
-        float xScale = ((float) boundingX) / width;
-        float yScale = ((float) boundingY) / height;
-        float scale = (xScale >= yScale) ? xScale : yScale;
-
-        // Create a matrix for the scaling and add the scaling data
-        Matrix matrix = new Matrix();
-        matrix.postScale(scale, scale);
-
-        // Create a new bitmap and convert it to a format understood by the
-        // ImageView
-        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
-    }
-
-
-    /**
-     * To avoid problems with rotated videos retrieved from camera
-     */
-    public static Bitmap rotateImage(Bitmap bitmap, String filePath) {
-        Bitmap resultBitmap = bitmap;
-
-        try {
-            ExifInterface exifInterface = new ExifInterface(filePath);
-            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-
-            Matrix matrix = new Matrix();
-
-            if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
-                matrix.postRotate(ExifInterface.ORIENTATION_ROTATE_90);
-            } else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
-                matrix.postRotate(ExifInterface.ORIENTATION_ROTATE_180);
-            } else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
-                matrix.postRotate(ExifInterface.ORIENTATION_ROTATE_270);
-            }
-
-            // Rotate the bitmap
-            resultBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        } catch (Exception exception) {
-            Log.d(Constants.TAG, "Could not rotate the image");
-        }
-        return resultBitmap;
-    }
-
-
-    /**
-     * Draws text on a bitmap
-     */
-    public static Bitmap drawTextToBitmap(Context mContext, Bitmap bitmap,
-                                          String text, Integer offsetX, Integer offsetY, float textSize, 
-                                          Integer textColor) {
-        Resources resources = mContext.getResources();
-        float scale = resources.getDisplayMetrics().density;
-        // Bitmap bitmap =
-        // BitmapFactory.decodeResource(resources, gResId);
-
-        android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
-        // set default bitmap config if none
-        if (bitmapConfig == null) {
-            bitmapConfig = android.graphics.Bitmap.Config.RGB_565;
-        }
-        // if bitmap is not mutable a copy is done
-        if (!bitmap.isMutable())
-            bitmap = bitmap.copy(bitmapConfig, true);
-
-        Canvas canvas = new Canvas(bitmap);
-        // new antialised Paint
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        // text color - #3D3D3D
-        paint.setColor(textColor);
-        // text size in pixels is converted as follows:
-        // 1. multiplied for scale to obtain size in dp
-        // 2. multiplied for bitmap size to maintain proportionality
-        // 3. divided for a constant (300) to assimilate input size with android text sizes
-        textSize = (int) (textSize * scale * bitmap.getWidth() / 100);
-        // If is too big it will be limited
-        textSize = textSize < 15 ? textSize : 15;
-        paint.setTextSize(textSize);
-        // text shadow
-        paint.setShadowLayer(1f, 0f, 1f, Color.WHITE);
-
-        // Preparing text paint bounds
-        Rect bounds = new Rect();
-        paint.getTextBounds(text, 0, text.length(), bounds);
-
-        // Calculating position
-        int x, y;
-        // If no offset are set default is center of bitmap
-        if (offsetX == null) {
-            x = (bitmap.getWidth() - bounds.width()) / 2;
-        } else {
-            // If is a positive offset is set position is calculated
-            // starting from left limit of bitmap
-            if (offsetX >= 0) {
-                x = offsetX;
-                // Otherwise if negative offset is set position is calculated
-                // starting from right limit of bitmap
-            } else {
-                x = bitmap.getWidth() - bounds.width() - offsetX;
-            }
-        }
-        // If no offset are set default is center of bitmap
-        if (offsetY == null) {
-            y = (bitmap.getHeight() - bounds.height()) / 2;
-        } else {
-            // If is a positive offset is set position is calculated
-            // starting from top limit of bitmap
-            if (offsetY >= 0) {
-                y = offsetY;
-                // Otherwise if negative offset is set position is calculated
-                // starting from bottom limit of bitmap
-            } else {
-                y = bitmap.getHeight() - bounds.height() + offsetY;
-            }
-        }
-
-        // Drawing text
-        canvas.drawText(text, x, y, paint);
-
-        return bitmap;
-    }
-
-
-    public static InputStream getBitmapInputStream(Bitmap bitmap) {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
-        byte[] bitmapdata = bos.toByteArray();
-        return new ByteArrayInputStream(bitmapdata);
-    }
+			// Otherwise the ratio between measures is calculated to fit requested thumbnail's one
+		} else {
+			// Cropping
+			int x = 0, y = 0, width = srcBmp.getWidth(), height = srcBmp.getHeight();
+			float ratio = ((float) reqWidth / (float) reqHeight) * ((float) srcBmp.getHeight() / (float) srcBmp
+					.getWidth());
+			if (ratio < 1) {
+				x = (int) (srcBmp.getWidth() - srcBmp.getWidth() * ratio) / 2;
+				width = (int) (srcBmp.getWidth() * ratio);
+			} else {
+				y = (int) (srcBmp.getHeight() - srcBmp.getHeight() / ratio) / 2;
+				height = (int) (srcBmp.getHeight() / ratio);
+			}
+			dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height);
+		}
+		return dstBmp;
+	}
 
 
     /**
@@ -296,7 +88,7 @@ public class BitmapHelper {
             if (bmp == null) {
                 return null;
             } else {
-                bmp = createVideoThumbnail(mContext, bmp, width, height);
+                bmp = BitmapUtils.createVideoThumbnail(mContext, bmp, width, height);
             }
 
             // Image
@@ -350,23 +142,6 @@ public class BitmapHelper {
 
 
     /**
-     * Draws a watermark on ImageView to highlight videos
-     */
-    public static Bitmap createVideoThumbnail(Context mContext, Bitmap video, int width, int height) {
-        video = ThumbnailUtils.extractThumbnail(video, width, height);
-        Bitmap mark = ThumbnailUtils.extractThumbnail(
-                BitmapFactory.decodeResource(mContext.getResources(),
-                        R.drawable.play_no_bg), width, height);
-        Bitmap thumbnail = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        Canvas canvas = new Canvas(thumbnail);
-        canvas.drawBitmap(video, 0, 0, null);
-        canvas.drawBitmap(mark, 0, 0, null);
-
-        return thumbnail;
-    }
-
-
-    /**
      * Checks if a bitmap is null and returns a placeholder in its place
      */
     private static int dpToPx(Context mContext, int dp) {
@@ -400,7 +175,7 @@ public class BitmapHelper {
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeByteArray(byteArr, 0, count, options);
 
-            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+            options.inSampleSize = BitmapUtils.calculateInSampleSize(options, reqWidth, reqHeight);
             options.inPurgeable = true;
             options.inInputShareable = true;
             options.inJustDecodeBounds = false;

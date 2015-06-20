@@ -147,7 +147,7 @@ public class GalleryActivity extends ActionBarActivity {
             imagesPaths.add(FileHelper.getPath(this, uri));
         }
 
-        GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, imagesPaths);
+		GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, imagesPaths);
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.setCurrentItem(clickedImage);

@@ -157,6 +157,7 @@
   <string name="not_expired">ni potečeno</string>
   <string name="expired">potečeno</string>
   <string name="today">danes</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">Odpri</string>
   <string name="copy">Kopiraj</string>
   <string name="no_application_can_perform_this_action">Tega ravnanja ne podpira nobena aplikacija</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">Nastavitve</string>
   <string name="settings_screen_sync_import_export">Sinhronizacija in varnostne kopije</string>
   <string name="settings_export">Varnostno kopiranje</string>
+  <string name="settings_sync_import_export">Sinhronizacija in varnostne kopije</string>
   <string name="settings_import">Obnoviti ali jo izbrisati varnostne kopije</string>
   <string name="settings_import_from_springpad">Uvažanje beležke iz Springpad</string>
   <string name="settings_import_from_springpad_summary">Izberite Springpad, ki se izvažajo Arhiv in se prepričajte, za povezavo z internetom</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">Varnostno kopiranje</string>
   <string name="settings_screen_notifications">Obvestila</string>
   <string name="settings_enable_vibration">Vibriranje</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Seznam sprememb</string>
   <string name="settings_enable_editor_links">Potrditev povezav</string>
   <string name="settings_max_video_size">Video priponke</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Samo pritisnite</string>
   <string name="tour_detailactivity_reminder_detail">Kratki in dolgi pritiski na objekte (priponke, lokacije, opomnike) učinkujejo različno!</string>
   <string name="tour_detailactivity_links_title">Povezave</string>
-  <string name="tour_detailactivity_links_detail">Dvokliknite na spletne ali epoštne povezave, da jih odprete ali kopirate</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Močan</string>
   <string name="tour_detailactivity_swipe_detail">Ustvarite nove opombe brez \n zapušča tistega, ki ga urejate</string>
   <string name="tour_detailactivity_save_title">Shranjevanje</string>
   <string name="tour_detailactivity_save_detail">Preprosto pritisnite navigacijsko ikono \"gor\" ali pojdite nazaj z navigacijsko tipko</string>
   <string name="tour_listactivity_final_title">Uživajte</string>
-  <string name="tour_listactivity_final_detail">Hvala, ker ste izbrali Omni Notes \n\n odprtokodno alternativo \n\n za odlično produktivnost in \n\n enostavno beleženje \n trenutkov \n\n Pritisnite \'Nadaljuj\' za dokončanje predstavitve\n in začetek dela!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">poteznik odprt</string>
   <string name="drawer_close">poteznik zaprt</string>
   <string name="reminder">opomnik</string>

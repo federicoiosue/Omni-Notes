@@ -157,6 +157,7 @@
   <string name="not_expired">未过期</string>
   <string name="expired">已过期</string>
   <string name="today">今天</string>
+  <string name="tomorrow">明天</string>
   <string name="open">打开</string>
   <string name="copy">保存</string>
   <string name="no_application_can_perform_this_action">没有应用程序可以执行此操作</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">设置</string>
   <string name="settings_screen_sync_import_export">同步和备份</string>
   <string name="settings_export">备份</string>
+  <string name="settings_sync_import_export">同步和备份</string>
   <string name="settings_import">还原或删除备份</string>
   <string name="settings_import_from_springpad">从Sringpad导入记事</string>
   <string name="settings_import_from_springpad_summary">选择您的Springpad导出存档并确保已连接至网络</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">备份</string>
   <string name="settings_screen_notifications">通知</string>
   <string name="settings_enable_vibration">振动</string>
+  <string name="settings_screen_navigation">浏览</string>
   <string name="settings_changelog">更新日志</string>
   <string name="settings_enable_editor_links">链接识别</string>
   <string name="settings_max_video_size">视频附件</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">只需点击</string>
   <string name="tour_detailactivity_reminder_detail">在附件，地点及提醒上点击或长按会有不同的效果！</string>
   <string name="tour_detailactivity_links_title">链接</string>
-  <string name="tour_detailactivity_links_detail">在网址或电子邮件地址上双击以复制或打开</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">滑动手势</string>
   <string name="tour_detailactivity_swipe_detail">在当前记事编辑视图下 \n 创建新记事</string>
   <string name="tour_detailactivity_save_title">保存</string>
   <string name="tour_detailactivity_save_detail">点击“向上”导航图标或您设备的后退键即可保存</string>
   <string name="tour_listactivity_final_title">祝您使用愉快</string>
-  <string name="tour_listactivity_final_detail">感谢您使用 Omni Notes\n\n一款帮助您提高工作效率\n记录生活中精彩时刻的\n开源笔记应用。\n\n点击 \"继续\" 关闭本引导\n并开始创建您的第一条记事！</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">抽屉打开</string>
   <string name="drawer_close">抽屉关闭</string>
   <string name="reminder">提醒</string>

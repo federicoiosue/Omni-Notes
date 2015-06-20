@@ -157,6 +157,7 @@
   <string name="not_expired">não expirado</string>
   <string name="expired">expirado</string>
   <string name="today">hoje</string>
+  <string name="tomorrow">amanhã</string>
   <string name="open">Abrir</string>
   <string name="copy">Copiar</string>
   <string name="no_application_can_perform_this_action">Nenhuma aplicação para executar esta acção</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">Definições</string>
   <string name="settings_screen_sync_import_export">Sincronização e Cópias de Segurança</string>
   <string name="settings_export">Cópia de segurança</string>
+  <string name="settings_sync_import_export">Sincronização e Cópias de Segurança</string>
   <string name="settings_import">Restaurar ou eliminar cópias de segurança</string>
   <string name="settings_import_from_springpad">Importar notas do Springpad</string>
   <string name="settings_import_from_springpad_summary">Seleccione o seu ficheiro exportado do Springpad e certifique-se de que está ligado à Internet</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">Cópia de segurança</string>
   <string name="settings_screen_notifications">Notificações</string>
   <string name="settings_enable_vibration">Vibração</string>
+  <string name="settings_screen_navigation">Navegação</string>
   <string name="settings_changelog">Histórico de alterações</string>
   <string name="settings_enable_editor_links">Reconhecimento de ligações</string>
   <string name="settings_max_video_size">Anexos de vídeo</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Basta pressionar</string>
   <string name="tour_detailactivity_reminder_detail">Um toque curto ou longo em objectos (anexos, localização, alerta) tem efeitos diferentes!</string>
   <string name="tour_detailactivity_links_title">Ligações</string>
-  <string name="tour_detailactivity_links_detail">Toque duas vezes num endereço web ou email para copiá-lo ou abri-lo</string>
+  <string name="tour_detailactivity_links_detail">Clique num URL ou endereço de email para o copiar ou abrir</string>
   <string name="tour_detailactivity_swipe_title">Deslizar</string>
   <string name="tour_detailactivity_swipe_detail">Crie novas notas sem sair \n daquela que está a editar</string>
   <string name="tour_detailactivity_save_title">Guarde</string>
   <string name="tour_detailactivity_save_detail">Toque simplesmente no ícone de navegação \'para cima\' ou no botão \'voltar\' do seu dispositivo</string>
   <string name="tour_listactivity_final_title">Desfrute</string>
-  <string name="tour_listactivity_final_detail">Obrigado por usar o Omni Notes \n\n A alternativa gratuita \n para aqueles momentos \n em que precisa de tirar \n notas de trabalho \n ou lazer \n\n Toque em \"Prosseguir\" para fechar \n a apresentação e começar por \n inserir a sua primeira nota!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">gaveta aberta</string>
   <string name="drawer_close">gaveta fechada</string>
   <string name="reminder">alerta</string>

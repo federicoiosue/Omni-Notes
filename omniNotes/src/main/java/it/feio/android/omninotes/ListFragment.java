@@ -634,49 +634,49 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
         MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
 
-            boolean searchPerformed = false;
+			boolean searchPerformed = false;
 
 
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                // Reinitialize notes list to all notes when search is collapsed
-                searchQuery = null;
-                if (searchLayout.getVisibility() == View.VISIBLE) {
-                    toggleSearchLabel(false);
-                }
-                mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
-                initNotesList(mainActivity.getIntent());
-                mainActivity.supportInvalidateOptionsMenu();
-                return true;
-            }
+			@Override
+			public boolean onMenuItemActionCollapse(MenuItem item) {
+				// Reinitialize notes list to all notes when search is collapsed
+				searchQuery = null;
+				if (searchLayout.getVisibility() == View.VISIBLE) {
+					toggleSearchLabel(false);
+				}
+				mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
+				initNotesList(mainActivity.getIntent());
+				mainActivity.supportInvalidateOptionsMenu();
+				return true;
+			}
 
 
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                searchView.setOnQueryTextListener(new OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String arg0) {
-                        return prefs.getBoolean("settings_instant_search", false);
-                    }
+			@Override
+			public boolean onMenuItemActionExpand(MenuItem item) {
+				searchView.setOnQueryTextListener(new OnQueryTextListener() {
+					@Override
+					public boolean onQueryTextSubmit(String arg0) {
+						return prefs.getBoolean("settings_instant_search", false);
+					}
 
 
-                    @Override
-                    public boolean onQueryTextChange(String pattern) {
-                        if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null &&
-                                searchPerformed && mFragment.isAdded()) {
-                            searchTags = null;
-                            searchQuery = pattern;
-                            new NoteLoaderTask().execute("getNotesByPattern", pattern);
-                            return true;
-                        } else {
-                            searchPerformed = true;
-                            return false;
-                        }
-                    }
-                });
-                return true;
-            }
-        });
+					@Override
+					public boolean onQueryTextChange(String pattern) {
+						if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null &&
+								searchPerformed && mFragment.isAdded()) {
+							searchTags = null;
+							searchQuery = pattern;
+							new NoteLoaderTask().execute("getNotesByPattern", pattern);
+							return true;
+						} else {
+							searchPerformed = true;
+							return false;
+						}
+					}
+				});
+				return true;
+			}
+		});
     }
 
 
@@ -819,18 +819,17 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
     void editNote(final Note note, final View view) {
-        fab.hideFab();
         if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
             BaseActivity.requestPassword(mainActivity, passwordConfirmed -> {
-                if (passwordConfirmed) {
-                    note.setPasswordChecked(true);
-                    AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
-                            listRoot, buildAnimatorListenerAdapter(note));
-                }
-            });
+				if (passwordConfirmed) {
+					note.setPasswordChecked(true);
+					AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
+							listRoot, buildAnimatorListenerAdapter(note));
+				}
+			});
         } else {
             AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
-                    listRoot, buildAnimatorListenerAdapter(note));
+					listRoot, buildAnimatorListenerAdapter(note));
         }
     }
 
@@ -984,8 +983,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                     mainActivity.navigationTmp = !TextUtils.isEmpty(categoryId) ? categoryId : null;
                 }
                 intent.removeExtra(Constants.INTENT_WIDGET);
-                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByCategory", mainActivity
-						.navigationTmp);
+				if (mainActivity.navigationTmp != null) {
+					mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByCategory", mainActivity
+							.navigationTmp);
+				} else {
+					mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
+				}
 
             } else {
                 mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);

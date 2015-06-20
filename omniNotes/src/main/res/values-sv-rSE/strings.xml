@@ -157,6 +157,7 @@
   <string name="not_expired">Ej utgången</string>
   <string name="expired">utgången</string>
   <string name="today">Idag</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">Öppna</string>
   <string name="copy">Kopiera</string>
   <string name="no_application_can_perform_this_action">Ingen applikation kan slutföra denna åtgärd</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">Inställningar</string>
   <string name="settings_screen_sync_import_export">Synkronisering och säkerhetskopiering</string>
   <string name="settings_export">Säkerhetskopiera</string>
+  <string name="settings_sync_import_export">Synkronisering och säkerhetskopiering</string>
   <string name="settings_import">Återställ eller radera säkerhetskopior</string>
   <string name="settings_import_from_springpad">Importera anteckningar från Springpad</string>
   <string name="settings_import_from_springpad_summary">Välj ditt exporterade arkiv från Springpad och se till att vara ansluten till internet</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">Säkerhetskopiera</string>
   <string name="settings_screen_notifications">Notiser</string>
   <string name="settings_enable_vibration">Vibration</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Ändringslogg</string>
   <string name="settings_enable_editor_links">Länk igenkänning</string>
   <string name="settings_max_video_size">Videobilagor</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Bara tryck</string>
   <string name="tour_detailactivity_reminder_detail">Korta  eller långa funktioner på objekt (bifogningar, plats, påminnelse) har ny effekt!</string>
   <string name="tour_detailactivity_links_title">Länkar</string>
-  <string name="tour_detailactivity_links_detail">Dubbelklicka på webb eller mejladdresser för att öppna dem</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Dra</string>
   <string name="tour_detailactivity_swipe_detail">Skapa nya anteckningar \n utan att stänga den du skriver</string>
   <string name="tour_detailactivity_save_title">Spara</string>
   <string name="tour_detailactivity_save_detail">Tryck helt enkelt på navigationsikonen som pekar \"Upp\" eller gå tillbaka med din Androids tillbakaknapp</string>
   <string name="tour_listactivity_final_title">Njut!</string>
-  <string name="tour_listactivity_final_detail">Tack för att du använder Omni Notes\n\n det öppenkälla-alternativet \n  till din produktivitet och \n fritids antecknings-\n app \n\n Tryck \"fortsätt\" för att stänga touren \n och gör din första anteckning!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">drawer öppen</string>
   <string name="drawer_close">drawer stängd</string>
   <string name="reminder">påminnelse</string>

@@ -338,7 +338,7 @@
     <string name="tour_detailactivity_save_title">Save</string>
     <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
     <string name="tour_listactivity_final_title">Enjoy</string>
-    <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \n\n The opensource alternative \n for productivity and \n leisure note-taking!</string>
+    <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
 
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>

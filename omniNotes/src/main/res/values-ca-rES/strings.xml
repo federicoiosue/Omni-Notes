@@ -157,6 +157,7 @@
   <string name="not_expired">no ha expirat</string>
   <string name="expired">ha expirat</string>
   <string name="today">avui</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">Obre</string>
   <string name="copy">Copia</string>
   <string name="no_application_can_perform_this_action">No s\'ha trobat cap aplicació per a aquesta acció</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">Configuració</string>
   <string name="settings_screen_sync_import_export">Sincronització i còpies de seguretat</string>
   <string name="settings_export">Còpia de seguretat</string>
+  <string name="settings_sync_import_export">Sincronització i còpies de seguretat</string>
   <string name="settings_import">Restaura o suprimeix còpies de seguretat</string>
   <string name="settings_import_from_springpad">Importa les notes des de l\'Springpad</string>
   <string name="settings_import_from_springpad_summary">Seleccioneu l\'arxiu exportat de l\'Springpad i assegureu-vos d\'estar connectat a internet</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">Còpia de seguretat</string>
   <string name="settings_screen_notifications">Notificacions</string>
   <string name="settings_enable_vibration">Vibració</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Registre de canvis</string>
   <string name="settings_enable_editor_links">Reconeixement d\'enllaços</string>
   <string name="settings_max_video_size">Vídeos adjunts</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Només cal que pitgeu</string>
   <string name="tour_detailactivity_reminder_detail">Un toc llarg té efectes diferents en un objecte (adjunt, ubicació, recordatori) que no pas un toc cur!</string>
   <string name="tour_detailactivity_links_title">Enllaços</string>
-  <string name="tour_detailactivity_links_detail">Feu doble clic en un URL, o una adreça de correu, per copiar-lo o obrir-lo</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Llisqueu</string>
   <string name="tour_detailactivity_swipe_detail">Crea notes noves sense \n deixar la que esteu editant</string>
   <string name="tour_detailactivity_save_title">Desa</string>
   <string name="tour_detailactivity_save_detail">Per anar enrere, premeu la icona de navegació \"amunt\", o el botó del dispositiu</string>
   <string name="tour_listactivity_final_title">Gaudiu-ne</string>
-  <string name="tour_listactivity_final_detail">Gràcies per usar l\'Omni Notes \n\n L\'alternativa de codi obert  \n que us permet prendre notes \n de forma productiva i entretinguda \n\n Premeu \"Continua\" per a finalitzar la gira \n i començar a inserir la primera nota!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">obre el tauler</string>
   <string name="drawer_close">tanca el tauler</string>
   <string name="reminder">recordatori</string>

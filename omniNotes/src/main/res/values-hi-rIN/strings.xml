@@ -40,8 +40,8 @@
   <string name="last_update">अद्यतन:</string>
   <string name="delete_note_confirmation">नोट हटाए जाने की पुष्टि करें?</string>
   <string name="confirm">पुष्टि करें</string>
-  <string name="ok">Ok</string>
-  <string name="no">No</string>
+  <string name="ok">ठीक है</string>
+  <string name="no">नहीं</string>
   <string name="cancel">रद्द करें</string>
   <string name="note_updated">नोट अद्यतन किया</string>
   <string name="empty_note_not_saved">खाली नोट संचय नहीं किया गया</string>
@@ -157,6 +157,7 @@
   <string name="not_expired">समाप्त नहीं</string>
   <string name="expired">समय सीमा समाप्त</string>
   <string name="today">आज</string>
+  <string name="tomorrow">कल</string>
   <string name="open">खुला</string>
   <string name="copy">कॉपी</string>
   <string name="no_application_can_perform_this_action">कोई एप्लीकेशन ये काम नहीं कर सकती</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">सेटिंग्स</string>
   <string name="settings_screen_sync_import_export">सिंक और बैकअप</string>
   <string name="settings_export">बैकअप</string>
+  <string name="settings_sync_import_export">सिंक और बैकअप</string>
   <string name="settings_import">Restore or delete backups</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>
   <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">बैकअप</string>
   <string name="settings_screen_notifications">Notifications</string>
   <string name="settings_enable_vibration">कंपन</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">परिवर्तन लॉग इन</string>
   <string name="settings_enable_editor_links">कड़ियाँ मान्यता</string>
   <string name="settings_max_video_size">वीडियो अटैचमेंट</string>
@@ -286,7 +289,7 @@
   <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
   <string name="settings_dynamic_menu">Dynamic menu</string>
   <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
-  <string name="settings_fab_expansion_behavior">Floating action bar</string>
+  <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
   <string name="settings_error_reporting">Error reporting</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">बस दबाये</string>
   <string name="tour_detailactivity_reminder_detail">छोटे या बड़े प्रेशन्स का वस्तु(अटैचमेंट, जगह, रिमाइंडर) पर अलग प्रभाव होता हे </string>
   <string name="tour_detailactivity_links_title">कड़ियाँ</string>
-  <string name="tour_detailactivity_links_detail">वेब और ईमेल पते को कॉपी के खोलने के पिए दो बार क्लिक करे</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">उंगली गुमाईए</string>
   <string name="tour_detailactivity_swipe_detail">नयी नोट बनाये \nअभी खुली नोट को छोड़े बिना</string>
   <string name="tour_detailactivity_save_title">सेव</string>
   <string name="tour_detailactivity_save_detail">सरलता से \"उप\" बटन दबाये के पीछे जाइए आपले मोबाइल के बटन से</string>
   <string name="tour_listactivity_final_title">आनंद लें</string>
-  <string name="tour_listactivity_final_detail">ओमनी नोट्स का इस्तेमाल करने के लिए सुक्रिया आपकी उत्पादकता और नोट लेने के लिए खुला स्त्रोत वाला विकल्प.  ये टूर को बंध करने और आपकी पहली नोट डाल ने के लिए \"आगे बढे\" बटन दलाये</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">ड्रावर खुला</string>
   <string name="drawer_close">ड्रावर बंद करें</string>
   <string name="reminder">रिमाइंडर</string>

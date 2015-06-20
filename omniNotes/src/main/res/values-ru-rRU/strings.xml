@@ -157,6 +157,7 @@
   <string name="not_expired">не истек</string>
   <string name="expired">истекло</string>
   <string name="today">на сегодня</string>
+  <string name="tomorrow">tomorrow</string>
   <string name="open">Перейти</string>
   <string name="copy">Скопировать</string>
   <string name="no_application_can_perform_this_action">Нет соответсвующего приложения</string>
@@ -191,6 +192,7 @@
   <string name="action_settings">Настройки</string>
   <string name="settings_screen_sync_import_export">Синхронизация и резервное копирование</string>
   <string name="settings_export">Создать копию</string>
+  <string name="settings_sync_import_export">Синхронизация и резервное копирование</string>
   <string name="settings_import">Управление копиями</string>
   <string name="settings_import_from_springpad">Перенести заметки из Springpad</string>
   <string name="settings_import_from_springpad_summary">Выберите экспортированный из Springpad архив и подключитесь к интернету</string>
@@ -210,6 +212,7 @@
   <string name="settings_screen_backup">Резервные копии</string>
   <string name="settings_screen_notifications">Уведомления</string>
   <string name="settings_enable_vibration">Вибрация</string>
+  <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">История изменений</string>
   <string name="settings_enable_editor_links">Распознавание ссылок</string>
   <string name="settings_max_video_size">Видео вложения</string>
@@ -286,7 +289,7 @@
   <string name="settings_auto_location_summary">Автоматически добавлять Ваше местонахождение к новым заметкам</string>
   <string name="settings_dynamic_menu">Динамическое меню</string>
   <string name="settings_dynamic_menu_summary">Скрывать бесполезные элементы меню</string>
-  <string name="settings_fab_expansion_behavior">Floating action bar</string>
+  <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
   <string name="settings_error_reporting">Отчеты об ошибках</string>
@@ -308,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Просто коснитесь</string>
   <string name="tour_detailactivity_reminder_detail">Короткие или длительные нажатия на объектах (вложениях, размещениях, напоминаниях) действуют по-разному!</string>
   <string name="tour_detailactivity_links_title">Ссылки</string>
-  <string name="tour_detailactivity_links_detail">Дважды щелкните по адресу эл. почты или сайта, чтобы открыть или скопировать его</string>
+  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
   <string name="tour_detailactivity_swipe_title">Жесты</string>
   <string name="tour_detailactivity_swipe_detail">Создавайте новые заметки, не прекращая изменять предыдущие</string>
   <string name="tour_detailactivity_save_title">Сохранение</string>
   <string name="tour_detailactivity_save_detail">Просто нажмите на значок навигации или вернитесь с помощью клавиши устройства</string>
   <string name="tour_listactivity_final_title">Приятного пользования!</string>
-  <string name="tour_listactivity_final_detail">Спасибо за то, что выбрали Omni Notes\n\nИдеальное решение для ведения\nповседневных записей на все случаи жизни, с открытым исходным кодом\n\nНажмите \"Продолжить\", чтобы закрыть\nобучение и приступить к написанию\nВашей первой заметки!</string>
+  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
   <string name="drawer_open">сп. прил. открыт?</string>
   <string name="drawer_close">сп. прил. закрыт?</string>
   <string name="reminder">напоминание</string>

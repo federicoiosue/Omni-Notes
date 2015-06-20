@@ -17,7 +17,6 @@
 
 package it.feio.android.omninotes;
 
-import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -38,6 +37,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.larswerkman.holocolorpicker.ColorPicker;
@@ -159,19 +159,19 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 askForErase();
             }
 
-
-            private void askForErase() {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                alertDialogBuilder.setMessage(R.string.erase_sketch)
-                        .setPositiveButton(R.string.confirm, (dialog, id) -> {
-							mSketchView.erase();
-						}).setNegativeButton(R.string.cancel, (dialog, id) -> {
-							dialog.cancel();
-						});
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-            }
-        });
+			private void askForErase() {
+				new MaterialDialog.Builder(getActivity())
+						.content(R.string.erase_sketch)
+						.positiveText(R.string.confirm)
+						.callback(new MaterialDialog.ButtonCallback() {
+							@Override
+							public void onPositive(MaterialDialog dialog) {
+								mSketchView.erase();
+							}
+						})
+						.build().show();
+			}
+		});
 
 
         // Inflate the popup_layout.xml
