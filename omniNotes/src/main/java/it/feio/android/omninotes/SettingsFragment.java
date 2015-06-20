@@ -42,6 +42,7 @@ import com.google.analytics.tracking.android.Fields;
 import com.google.analytics.tracking.android.MapBuilder;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.utils.*;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -146,7 +147,7 @@ public class SettingsFragment extends PreferenceFragment {
 				String fileName = sdf.format(Calendar.getInstance().getTime());
 				final EditText fileNameEditText = (EditText) v.findViewById(R.id.export_file_name);
 				final TextView backupExistingTextView = (TextView) v.findViewById(R.id.backup_existing);
-				fileNameEditText.setText(fileName);
+				fileNameEditText.setHint(fileName);
 				fileNameEditText.addTextChangedListener(new TextWatcher() {
 					@Override
 					public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
@@ -173,8 +174,9 @@ public class SettingsFragment extends PreferenceFragment {
 								// An IntentService will be launched to accomplish the export task
 								Intent service = new Intent(getActivity(), DataBackupIntentService.class);
 								service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
-								service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-										fileNameEditText.getText().toString());
+								String backupName = StringUtils.isEmpty(fileNameEditText.getText().toString()) ?
+										fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
+								service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupName);
 								getActivity().startService(service);
 							}
 						}).build().show();
