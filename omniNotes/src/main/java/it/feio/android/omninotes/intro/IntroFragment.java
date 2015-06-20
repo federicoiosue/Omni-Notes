@@ -23,6 +23,9 @@ public class IntroFragment extends Fragment {
 	@InjectView(R.id.intro_image)
 	ImageView image;
 
+	@InjectView(R.id.intro_image_small)
+	ImageView image_small;
+
 	@InjectView(R.id.intro_description)
 	TextView description;
 

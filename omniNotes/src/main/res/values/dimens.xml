@@ -57,4 +57,9 @@
     <!-- FAB -->
     <dimen name="fab_right_margin">8dp</dimen>
 
+    <!-- Introduction -->
+    <dimen name="intro_top_padding">32dp</dimen>
+    <dimen name="intro_bottom_padding">24dp</dimen>
+    <dimen name="intro_side_padding">64dp</dimen>
+
 </resources>

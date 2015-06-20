@@ -14,8 +14,8 @@
             android:fontFamily="sans-serif-thin"
             android:textColor="#ffffff"
             android:textSize="28sp"
-            android:paddingTop="@dimen/vertical_margin"
-            android:paddingBottom="@dimen/vertical_margin"/>
+            android:paddingTop="@dimen/intro_top_padding"
+            android:paddingBottom="@dimen/intro_bottom_padding"/>
 
     <ImageView
             android:id="@+id/intro_image"
@@ -23,9 +23,24 @@
             android:layout_height="0dp"
             android:layout_weight="5"
             android:layout_gravity="center"
-            android:paddingLeft="64dp"
-            android:paddingRight="64dp"
-            android:maxWidth="150dp"/>
+            android:paddingLeft="@dimen/intro_side_padding"
+            android:paddingStart="@dimen/intro_side_padding"
+            android:paddingRight="@dimen/intro_side_padding"
+            android:paddingEnd="@dimen/intro_side_padding"/>
+
+    <ImageView
+            android:id="@+id/intro_image_small"
+            android:layout_width="450dp"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:layout_gravity="center"
+            android:paddingTop="@dimen/intro_side_padding"
+            android:paddingBottom="@dimen/intro_side_padding"
+            android:paddingLeft="@dimen/intro_side_padding"
+            android:paddingStart="@dimen/intro_side_padding"
+            android:paddingRight="@dimen/intro_side_padding"
+            android:paddingEnd="@dimen/intro_side_padding"
+            android:visibility="gone"/>
 
     <TextView
             android:id="@+id/intro_description"
@@ -37,8 +52,8 @@
             android:paddingLeft="64dp"
             android:paddingRight="64dp"
             android:textSize="16sp"
-            android:paddingTop="@dimen/vertical_margin"
-            android:paddingBottom="@dimen/vertical_margin"/>
+            android:paddingTop="@dimen/intro_top_padding"
+            android:paddingBottom="@dimen/intro_bottom_padding"/>
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="64dp"/>
