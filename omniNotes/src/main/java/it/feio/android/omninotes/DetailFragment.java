@@ -402,12 +402,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			afterSavedReturnsToList = false;
 			noteOriginal = DbHelper.getInstance().getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
 			// Checks if the note pointed from the shortcut has been deleted
-			if (noteOriginal == null) {
+			try {
+				note = new Note(noteOriginal);
+				noteTmp = new Note(noteOriginal);
+			} catch (NullPointerException e) {
 				mainActivity.showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
 				mainActivity.finish();
 			}
-			note = new Note(noteOriginal);
-			noteTmp = new Note(noteOriginal);
 			i.setAction(null);
 		}
 
