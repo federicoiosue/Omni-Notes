@@ -4,7 +4,11 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.ViewGroup;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +16,12 @@ import java.util.List;
 
 public class SettingsActivity extends ActionBarActivity {
 
-    private Toolbar toolbar;
+	@InjectView(R.id.toolbar)
+    Toolbar toolbar;
+
+	@InjectView(R.id.crouton_handle)
+	ViewGroup croutonViewContainer;
+
     private List<Fragment> backStack = new ArrayList<>();
 
 
@@ -20,13 +29,13 @@ public class SettingsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+		ButterKnife.inject(this);
         initUI();
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
     }
 
 
     void initUI() {
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,4 +67,15 @@ public class SettingsActivity extends ActionBarActivity {
             super.onBackPressed();
         }
     }
+
+
+	public void showMessage(int messageId, Style style) {
+		showMessage(getString(messageId), style);
+	}
+
+
+	public void showMessage(String message, Style style) {
+		// ViewGroup used to show Crouton keeping compatibility with the new Toolbar
+		Crouton.makeText(this, message, style, croutonViewContainer).show();
+	}
 }

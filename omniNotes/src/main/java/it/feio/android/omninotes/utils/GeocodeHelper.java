@@ -29,7 +29,6 @@ import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -103,7 +102,11 @@ public class GeocodeHelper implements LocationListener {
 		if (locationManager == null) {
 			throw new NullPointerException("Call 'startListening' before!");
 		}
-		return locationManager.getLastKnownLocation(locationManager.getBestProvider(new Criteria(), true));
+		String provider = locationManager.getBestProvider(new Criteria(), true);
+		if (provider == null) {
+			return null;
+		}
+		return locationManager.getLastKnownLocation(provider);
 	}
 
 

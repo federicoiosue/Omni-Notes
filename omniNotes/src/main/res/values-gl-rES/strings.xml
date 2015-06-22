@@ -311,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">Abonda con tocar</string>
   <string name="tour_detailactivity_reminder_detail">Un toque normal ou longo nos diferentes obxectos (anexos, localización, recordatorio) ten efectos diferentes!</string>
   <string name="tour_detailactivity_links_title">Ligazóns</string>
-  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
+  <string name="tour_detailactivity_links_detail">Toca no URL ou no enderezo electrónico para copialo ou abrilo</string>
   <string name="tour_detailactivity_swipe_title">Pasar o dedo</string>
   <string name="tour_detailactivity_swipe_detail">Crear novas notas sen\n deixar a que estás a editar</string>
   <string name="tour_detailactivity_save_title">Gardar</string>
   <string name="tour_detailactivity_save_detail">Simplemente toca a icona de \"arriba\"  ou o botón de volver do dispositivo</string>
   <string name="tour_listactivity_final_title">Pásao ben!</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_listactivity_final_detail">Grazas por usares Omni Notes\nA alternativa de código aberto para tomar notas no ámbito laboral ou nos momentos de lecer!</string>
   <string name="drawer_open">abrir editor</string>
   <string name="drawer_close">pechar editor</string>
   <string name="reminder">recordatorio</string>

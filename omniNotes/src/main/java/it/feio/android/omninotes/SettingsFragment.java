@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.StringUtils;
 
@@ -189,91 +190,96 @@ public class SettingsFragment extends PreferenceFragment {
 		if (importData != null) {
 			importData.setOnPreferenceClickListener(arg0 -> {
 
-
 				final CharSequence[] backups = StorageHelper.getExternalStoragePublicDir().list();
 
-				MaterialDialog importDialog = new MaterialDialog.Builder(getActivity())
-						.title(R.string.data_import_message)
-						.content(R.string.delete_note_confirmation)
-						.items(backups)
-						.positiveText(R.string.confirm)
-						.callback(new MaterialDialog.ButtonCallback() {
-							@Override
-							public void onPositive(MaterialDialog materialDialog) {
+				if (backups.length == 0) {
+					((SettingsActivity)getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
+				} else {
 
-							}
-						}).build();
+					MaterialDialog importDialog = new MaterialDialog.Builder(getActivity())
+							.title(R.string.data_import_message)
+							.content(R.string.delete_note_confirmation)
+							.items(backups)
+							.positiveText(R.string.confirm)
+							.callback(new MaterialDialog.ButtonCallback() {
+								@Override
+								public void onPositive(MaterialDialog materialDialog) {
 
-				// OnShow is overridden to allow long-click on item so user can remove them
-				importDialog.setOnShowListener(dialog -> {
+								}
+							}).build();
 
-					ListView lv = importDialog.getListView();
-					lv.setOnItemClickListener((parent, view, position, id) -> {
+					// OnShow is overridden to allow long-click on item so user can remove them
+					importDialog.setOnShowListener(dialog -> {
 
-						// Retrieves backup size
-						File backupDir = StorageHelper.getBackupDir(backups[position].toString());
-						long size = StorageHelper.getSize(backupDir) / 1024;
-						String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
+						ListView lv = importDialog.getListView();
+						assert lv != null;
+						lv.setOnItemClickListener((parent, view, position, id) -> {
 
-						// Check preference presence
-						String prefName = StorageHelper.getSharedPreferencesFile(getActivity()).getName();
-						boolean hasPreferences = (new File(backupDir, prefName)).exists();
+							// Retrieves backup size
+							File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+							long size = StorageHelper.getSize(backupDir) / 1024;
+							String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
-						String message = backups[position]
-								+ " (" + sizeString
-								+ (hasPreferences ? " " + getString(R.string.settings_included) : "")
-								+ ")";
+							// Check preference presence
+							String prefName = StorageHelper.getSharedPreferencesFile(getActivity()).getName();
+							boolean hasPreferences = (new File(backupDir, prefName)).exists();
 
-						new MaterialDialog.Builder(getActivity())
-								.title(R.string.confirm_restoring_backup)
-								.content(message)
-								.positiveText(R.string.confirm)
-								.callback(new MaterialDialog.ButtonCallback() {
-									@Override
-									public void onPositive(MaterialDialog materialDialog) {
-										importDialog.dismiss();
-										// An IntentService will be launched to accomplish the import task
-										Intent service = new Intent(getActivity(),
-												DataBackupIntentService.class);
-										service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
-										service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-												backups[position]);
-										getActivity().startService(service);
-									}
-								}).build().show();
+							String message = backups[position]
+									+ " (" + sizeString
+									+ (hasPreferences ? " " + getString(R.string.settings_included) : "")
+									+ ")";
+
+							new MaterialDialog.Builder(getActivity())
+									.title(R.string.confirm_restoring_backup)
+									.content(message)
+									.positiveText(R.string.confirm)
+									.callback(new MaterialDialog.ButtonCallback() {
+										@Override
+										public void onPositive(MaterialDialog materialDialog) {
+											importDialog.dismiss();
+											// An IntentService will be launched to accomplish the import task
+											Intent service = new Intent(getActivity(),
+													DataBackupIntentService.class);
+											service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
+											service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+													backups[position]);
+											getActivity().startService(service);
+										}
+									}).build().show();
+						});
+
+						// Creation of backup removal dialog
+						lv.setOnItemLongClickListener((parent, view, position, id) -> {
+
+							// Retrieves backup size
+							File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+							long size = StorageHelper.getSize(backupDir) / 1024;
+							String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
+
+							new MaterialDialog.Builder(getActivity())
+									.title(R.string.confirm_removing_backup)
+									.content(backups[position] + "" + " (" + sizeString + ")")
+									.positiveText(R.string.confirm)
+									.callback(new MaterialDialog.ButtonCallback() {
+										@Override
+										public void onPositive(MaterialDialog materialDialog) {
+											importDialog.dismiss();
+											// An IntentService will be launched to accomplish the deletion task
+											Intent service = new Intent(getActivity(),
+													DataBackupIntentService.class);
+											service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
+											service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+													backups[position]);
+											getActivity().startService(service);
+										}
+									}).build().show();
+
+							return true;
+						});
 					});
 
-					// Creation of backup removal dialog
-					lv.setOnItemLongClickListener((parent, view, position, id) -> {
-
-						// Retrieves backup size
-						File backupDir = StorageHelper.getBackupDir(backups[position].toString());
-						long size = StorageHelper.getSize(backupDir) / 1024;
-						String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
-
-						new MaterialDialog.Builder(getActivity())
-								.title(R.string.confirm_removing_backup)
-								.content(backups[position] + "" + " (" + sizeString + ")")
-								.positiveText(R.string.confirm)
-								.callback(new MaterialDialog.ButtonCallback() {
-									@Override
-									public void onPositive(MaterialDialog materialDialog) {
-										importDialog.dismiss();
-										// An IntentService will be launched to accomplish the deletion task
-										Intent service = new Intent(getActivity(),
-												DataBackupIntentService.class);
-										service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
-										service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-												backups[position]);
-										getActivity().startService(service);
-									}
-								}).build().show();
-
-						return true;
-					});
-				});
-
-				importDialog.show();
+					importDialog.show();
+				}
 				return false;
 			});
 		}
@@ -307,7 +313,7 @@ public class SettingsFragment extends PreferenceFragment {
 //				intent.addCategory(Intent.CATEGORY_OPENABLE);
 //				intent.setType("application/zip");
 //				if (!IntentChecker.isAvailable(getActivity(), intent, null)) {
-//					Crouton.makeText(getActivity(), R.string.feature_not_available_on_this_device, 
+//					Crouton.makeText(getActivity(), R.string.feature_not_available_on_this_device,
 // ONStyle.ALERT).show();
 //					return false;
 //				}
