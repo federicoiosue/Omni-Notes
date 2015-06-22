@@ -317,7 +317,7 @@
   <string name="tour_detailactivity_save_title">保存</string>
   <string name="tour_detailactivity_save_detail">\"上\" のナビゲーション アイコン、またはデバイスのボタンを押すと、戻ることができます</string>
   <string name="tour_listactivity_final_title">お楽しみください</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_listactivity_final_detail">Omni Notes をご利用ありがとうございます \n効率的かつ快適にノートをとることができるオープン ソースです!</string>
   <string name="drawer_open">ドロワーを開く</string>
   <string name="drawer_close">ドロワーを閉じる</string>
   <string name="reminder">アラーム</string>
