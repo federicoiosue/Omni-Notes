@@ -30,11 +30,15 @@ public class IntroActivity extends AppIntro2 {
 	}
 
 
-
-
 	public static boolean mustRun(Context mContext) {
 		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
 		return !prefs.getBoolean(Constants.PREF_TOUR_COMPLETE, false);
+	}
+
+
+	@Override
+	public void onBackPressed() {
+		// Does nothing, you HAVE TO SEE THE INTRO!
 	}
 }
 
