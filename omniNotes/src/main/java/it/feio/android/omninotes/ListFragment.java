@@ -1306,10 +1306,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
         final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
                 .title(R.string.categorize_as)
-                .adapter(new NavDrawerCategoryAdapter(mainActivity, categories))
+                .adapter(new NavDrawerCategoryAdapter(mainActivity, categories), null)
                 .positiveText(R.string.add_category)
                 .negativeText(R.string.remove_category)
-                .callback(new MaterialDialog.Callback() {
+                .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         keepActionMode = true;
@@ -1420,6 +1420,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 .itemsCallbackMultiChoice(preSelectedTags, (dialog, which, text) -> {
                     dialog.dismiss();
                     tagNotesExecute(tags, which, preSelectedTags);
+					return false;
                 }).build().show();
     }
 
@@ -1721,6 +1722,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
                     intent.removeExtra(SearchManager.QUERY);
                     initNotesList(intent);
+					return false;
                 }).build().show();
     }
 

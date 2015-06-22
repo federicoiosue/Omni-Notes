@@ -1165,7 +1165,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
 				.title(R.string.categorize_as)
-				.adapter(new NavDrawerCategoryAdapter(mainActivity, categories, currentCategory))
+				.adapter(new NavDrawerCategoryAdapter(mainActivity, categories, currentCategory), null)
 				.positiveText(R.string.add_category)
 				.positiveColor(R.color.colorPrimary)
 				.negativeText(R.string.remove_category)
@@ -2120,6 +2120,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				.itemsCallbackMultiChoice(preselectedTags, (dialog1, which, text) -> {
 					dialog1.dismiss();
 					tagNote(tags, which, currentNote);
+					return false;
 				}).build();
 		dialog.show();
 	}
