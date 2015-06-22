@@ -165,7 +165,6 @@ public class SettingsFragment extends PreferenceFragment {
 				new MaterialDialog.Builder(getActivity())
 						.title(R.string.data_export_message)
 						.customView(v, false)
-						.content(R.string.delete_note_confirmation)
 						.positiveText(R.string.confirm)
 						.callback(new MaterialDialog.ButtonCallback() {
 							@Override
