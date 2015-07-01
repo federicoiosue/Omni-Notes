@@ -836,10 +836,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 Long categoryId;
                 if (!TextUtils.isEmpty(mainActivity.navigationTmp)) {
                     categoryId = Long.parseLong(mainActivity.navigationTmp);
-                } else {
-                    categoryId = Long.parseLong(mainActivity.navigation);
+					note.setCategory(DbHelper.getInstance().getCategory(categoryId));
                 }
-                note.setCategory(DbHelper.getInstance().getCategory(categoryId));
             } catch (NumberFormatException e) {
                 Log.v(Constants.TAG, "Maybe was not a category!");
             }

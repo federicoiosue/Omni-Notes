@@ -467,9 +467,12 @@ public class DbHelper extends SQLiteOpenHelper {
                     }
 
                     // Set category
-                    Category category = new Category(cursor.getLong(i++), cursor.getString(i++),
-                            cursor.getString(i++), cursor.getString(i++));
-                    note.setCategory(category);
+					long categoryId = cursor.getLong(i++);
+					if (categoryId != 0) {
+						Category category = new Category(categoryId, cursor.getString(i++),
+								cursor.getString(i++), cursor.getString(i++));
+						note.setCategory(category);
+					}
 
                     // Add eventual attachments uri
                     note.setAttachmentsList(getNoteAttachments(note));
