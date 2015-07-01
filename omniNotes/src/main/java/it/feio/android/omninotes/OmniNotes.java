@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import com.squareup.leakcanary.LeakCanary;
@@ -140,6 +141,8 @@ public class OmniNotes extends Application {
 		}
 		try {
 			mTracker = Piwik.getInstance(this).newTracker(Constants.ANALYTICS_URL, 1);
+			mTracker.setUserId(((TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE))
+					.getDeviceId());
 			mTracker.trackAppDownload();
 		} catch (MalformedURLException e) {
 			Log.w(Constants.TAG, "Malformed url to get analytics tracker", e);
