@@ -1,9 +1,6 @@
 # built application files
 *.apk
 *.ap_
-*.jar
-!omniNotes/libs/libGoogleAnalyticsServices.jar
-!gradle/wrapper/gradle-wrapper.jar
 
 # lint folder
 lint
