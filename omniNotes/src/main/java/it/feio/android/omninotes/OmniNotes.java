@@ -22,7 +22,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
-import android.telephony.TelephonyManager;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import com.squareup.leakcanary.LeakCanary;
@@ -41,98 +41,98 @@ import java.util.Locale;
 
 
 @ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM,
-        formUri = "http://collector.tracepot.com/3f39b042",
-        mode = ReportingInteractionMode.TOAST,
-        forceCloseDialogAfterToast = false,
-        resToastText = R.string.crash_toast)
+		formUri = "http://collector.tracepot.com/3f39b042",
+		mode = ReportingInteractionMode.TOAST,
+		forceCloseDialogAfterToast = false,
+		resToastText = R.string.crash_toast)
 public class OmniNotes extends Application {
 
-    private static Context mContext;
+	private static Context mContext;
 
-    private final static String PREF_LANG = "settings_language";
-    static SharedPreferences prefs;
-    private static Tracker mTracker;
-    private static RefWatcher refWatcher;
+	private final static String PREF_LANG = "settings_language";
+	static SharedPreferences prefs;
+	private static Tracker mTracker;
+	private static RefWatcher refWatcher;
 
 
 	@Override
-    public void onCreate() {
-        super.onCreate();
-        mContext = getApplicationContext();
-        prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-        refWatcher = LeakCanary.install(this);
+	public void onCreate() {
+		super.onCreate();
+		mContext = getApplicationContext();
+		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+		refWatcher = LeakCanary.install(this);
 
-        if (BuildConfig.BUILD_TYPE.equals("debug")) {
-            StrictMode.enableDefaults();
-        }
+		if (BuildConfig.BUILD_TYPE.equals("debug")) {
+			StrictMode.enableDefaults();
+		}
 
-        initAcra(this);
+		initAcra(this);
 
-        // Checks selected locale or default one
-        updateLanguage(this, null);
+		// Checks selected locale or default one
+		updateLanguage(this, null);
 
-        // Analytics initialization
-        getTracker();
-    }
-
-
-    private void initAcra(Application application) {
-        ACRA.init(application);
-        String isDebugBuild = BuildConfig.BUILD_TYPE.equals("debug") ? "1" : "0";
-        ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild);
-    }
+		// Analytics initialization
+		getTracker();
+	}
 
 
-    @Override
-    // Used to restore user selected locale when configuration changes
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        String language = prefs.getString(PREF_LANG, "");
-        super.onConfigurationChanged(newConfig);
-        updateLanguage(this, language);
-    }
+	private void initAcra(Application application) {
+		ACRA.init(application);
+		String isDebugBuild = BuildConfig.BUILD_TYPE.equals("debug") ? "1" : "0";
+		ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild);
+	}
 
 
-    public static Context getAppContext() {
-        return OmniNotes.mContext;
-    }
+	@Override
+	// Used to restore user selected locale when configuration changes
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		String language = prefs.getString(PREF_LANG, "");
+		super.onConfigurationChanged(newConfig);
+		updateLanguage(this, language);
+	}
 
-    public static RefWatcher getRefWatcher() {
-        return OmniNotes.refWatcher;
-    }
+
+	public static Context getAppContext() {
+		return OmniNotes.mContext;
+	}
+
+	public static RefWatcher getRefWatcher() {
+		return OmniNotes.refWatcher;
+	}
 
 
-    /**
-     * Updates default language with forced one
-     */
-    public static void updateLanguage(Context ctx, String lang) {
-        Configuration cfg = new Configuration();
-        String language = prefs.getString(PREF_LANG, "");
+	/**
+	 * Updates default language with forced one
+	 */
+	public static void updateLanguage(Context ctx, String lang) {
+		Configuration cfg = new Configuration();
+		String language = prefs.getString(PREF_LANG, "");
 
-        if (TextUtils.isEmpty(language) && lang == null) {
-            cfg.locale = Locale.getDefault();
-            prefs.edit().putString(PREF_LANG, Locale.getDefault().toString()).commit();
+		if (TextUtils.isEmpty(language) && lang == null) {
+			cfg.locale = Locale.getDefault();
+			prefs.edit().putString(PREF_LANG, Locale.getDefault().toString()).commit();
 
-        } else if (lang != null) {
-            // Checks country
-            if (lang.contains("_")) {
-                cfg.locale = new Locale(lang.split("_")[0], lang.split("_")[1]);
-            } else {
-                cfg.locale = new Locale(lang);
-            }
-            prefs.edit().putString(PREF_LANG, lang).commit();
+		} else if (lang != null) {
+			// Checks country
+			if (lang.contains("_")) {
+				cfg.locale = new Locale(lang.split("_")[0], lang.split("_")[1]);
+			} else {
+				cfg.locale = new Locale(lang);
+			}
+			prefs.edit().putString(PREF_LANG, lang).commit();
 
-        } else if (!TextUtils.isEmpty(language)) {
-            // Checks country
-            if (language.contains("_")) {
-                cfg.locale = new Locale(language.split("_")[0], language.split("_")[1]);
-            } else {
-                cfg.locale = new Locale(language);
-            }
-        }
+		} else if (!TextUtils.isEmpty(language)) {
+			// Checks country
+			if (language.contains("_")) {
+				cfg.locale = new Locale(language.split("_")[0], language.split("_")[1]);
+			} else {
+				cfg.locale = new Locale(language);
+			}
+		}
 
-        ctx.getResources().updateConfiguration(cfg, null);
-    }
+		ctx.getResources().updateConfiguration(cfg, null);
+	}
 
 
 	public synchronized Tracker getTracker() {
@@ -141,8 +141,7 @@ public class OmniNotes extends Application {
 		}
 		try {
 			mTracker = Piwik.getInstance(this).newTracker(Constants.ANALYTICS_URL, 1);
-			mTracker.setUserId(((TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE))
-					.getDeviceId());
+			mTracker.setUserId(Settings.Secure.ANDROID_ID);
 			mTracker.trackAppDownload();
 		} catch (MalformedURLException e) {
 			Log.w(Constants.TAG, "Malformed url to get analytics tracker", e);
