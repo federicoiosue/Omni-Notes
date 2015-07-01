@@ -60,7 +60,7 @@ public class Attachment extends it.feio.android.omninotes.commons.models.Attachm
 
 	public void setUri(Uri uri) {
 		this.uri = uri;
-		setUriPath(uri.getPath());
+		setUriPath(uri.toString());
 	}
 
 
