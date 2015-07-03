@@ -16,5 +16,6 @@ public class IntroSlide1 extends IntroFragment {
 		image.setVisibility(View.GONE);
 		image_small.setImageResource(R.drawable.logo);
 		image_small.setVisibility(View.VISIBLE);
+		description.setText(R.string.tour_listactivity_final_detail);
 	}
 }
