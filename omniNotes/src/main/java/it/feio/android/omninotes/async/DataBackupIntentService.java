@@ -110,8 +110,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         backupDir = StorageHelper.getBackupDir(backupName);
 
         // Database backup
-//        exportDB(backupDir);
-		exportNotes(backupDir);
+        exportDB(backupDir);
+//		exportNotes(backupDir);
 
         // Attachments backup
         exportAttachments(backupDir);
@@ -124,7 +124,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         // Notification of operation ended
         String title = getString(R.string.data_export_completed);
         String text = backupDir.getPath();
-        createNotification(intent, this, title, text);
+        createNotification(intent, this, title, text, backupDir);
     }
 
 
@@ -135,8 +135,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         File backupDir = StorageHelper.getBackupDir(backupName);
 
         // Database backup
-//        importDB(backupDir);
-        importNotes(backupDir);
+        importDB(backupDir);
+//        importNotes(backupDir);
 
         // Attachments backup
         importAttachments(backupDir);
@@ -149,7 +149,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         String title = getString(R.string.data_import_completed);
         String text = getString(R.string.click_to_refresh_application);
-        createNotification(intent, this, title, text);
+        createNotification(intent, this, title, text, backupDir);
     }
 
 
@@ -396,7 +396,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         String title = getString(R.string.data_import_completed);
         String text = getString(R.string.click_to_refresh_application);
-        createNotification(intent, this, title, text);
+        createNotification(intent, this, title, text, null);
     }
 
 
@@ -420,21 +420,21 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         String title = getString(R.string.data_deletion_completed);
         String text = backupName + " " + getString(R.string.deleted);
-        createNotification(intent, this, title, text);
+        createNotification(intent, this, title, text, backupDir);
     }
 
 
     /**
      * Creation of notification on operations completed
      */
-    private void createNotification(Intent intent, Context mContext, String title, String message) {
+    private void createNotification(Intent intent, Context mContext, String title, String message, File backupDir) {
 
         // The behavior differs depending on intent action
         Intent intentLaunch;
         if (DataBackupIntentService.ACTION_DATA_IMPORT.equals(intent.getAction())
                 || DataBackupIntentService.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
-            intentLaunch = new Intent(mContext, MainActivity.class);
-            intentLaunch.setAction(Constants.ACTION_RESTART_APP);
+			intentLaunch = new Intent(mContext, MainActivity.class);
+			intentLaunch.setAction(Constants.ACTION_RESTART_APP);
         } else {
             intentLaunch = new Intent();
         }
