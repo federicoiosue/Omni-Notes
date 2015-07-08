@@ -21,7 +21,7 @@
     <item>ארכיון</item>
     <item>תזכורות</item>
     <item>אשפה</item>
-    <item>Uncategorized</item>
+    <item>לא בקטגוריה</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>כותרת</item>
