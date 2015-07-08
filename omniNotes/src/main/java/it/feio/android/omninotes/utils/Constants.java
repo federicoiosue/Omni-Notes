@@ -125,6 +125,7 @@ public interface Constants {
     String MIME_TYPE_AUDIO_EXT = ".amr";
     String MIME_TYPE_VIDEO_EXT = ".mp4";
     String MIME_TYPE_SKETCH_EXT = ".png";
+    String MIME_TYPE_CONTACT_EXT = ".vcf";
 
     int ERROR_NOTE_NOT_DELETED = -1;
     int ERROR_ATTACHMENTS_NOT_DELETED = -2;
