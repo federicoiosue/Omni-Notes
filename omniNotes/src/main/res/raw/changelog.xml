@@ -18,7 +18,7 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="5.0.4" changeDate="Jul 8, 2015">
-        <changelogtext>Added Croatian language</changelogtext>
+        <changelogtext>Added Croatian language (thanks illunius)</changelogtext>
         <changelogtext>Updated other translations</changelogtext>
         <changelogtext>[u]Fix[/u] Floating button actions left opened when editing a note</changelogtext>
     </changelogversion>
