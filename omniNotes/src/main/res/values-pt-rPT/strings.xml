@@ -317,7 +317,7 @@
   <string name="tour_detailactivity_save_title">Guarde</string>
   <string name="tour_detailactivity_save_detail">Toque simplesmente no ícone de navegação \'para cima\' ou no botão \'voltar\' do seu dispositivo</string>
   <string name="tour_listactivity_final_title">Desfrute</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_listactivity_final_detail">Obrigado por usar o Omni Notes \nA alternativa de código aberto para anotações de produtividade e lazer!</string>
   <string name="drawer_open">gaveta aberta</string>
   <string name="drawer_close">gaveta fechada</string>
   <string name="reminder">alerta</string>

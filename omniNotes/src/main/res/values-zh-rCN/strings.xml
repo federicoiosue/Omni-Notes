@@ -311,13 +311,13 @@
   <string name="tour_detailactivity_reminder_title">只需点击</string>
   <string name="tour_detailactivity_reminder_detail">在附件，地点及提醒上点击或长按会有不同的效果！</string>
   <string name="tour_detailactivity_links_title">链接</string>
-  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
+  <string name="tour_detailactivity_links_detail">点击网址或邮箱链接来复制或者打开它</string>
   <string name="tour_detailactivity_swipe_title">滑动手势</string>
   <string name="tour_detailactivity_swipe_detail">在当前记事编辑视图下 \n 创建新记事</string>
   <string name="tour_detailactivity_save_title">保存</string>
   <string name="tour_detailactivity_save_detail">点击“向上”导航图标或您设备的后退键即可保存</string>
   <string name="tour_listactivity_final_title">祝您使用愉快</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_listactivity_final_detail">感谢您使用 Omni Notes\n\n一款帮助您提高工作效率\n记录生活中精彩时刻的\n开源笔记应用！</string>
   <string name="drawer_open">抽屉打开</string>
   <string name="drawer_close">抽屉关闭</string>
   <string name="reminder">提醒</string>

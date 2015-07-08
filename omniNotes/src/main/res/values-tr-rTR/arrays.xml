@@ -21,7 +21,7 @@
     <item>Arşiv</item>
     <item>Hatırlatmalar</item>
     <item>Çöp kutusu</item>
-    <item>Uncategorized</item>
+    <item>Kategorilenmemiş</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Başlık</item>
