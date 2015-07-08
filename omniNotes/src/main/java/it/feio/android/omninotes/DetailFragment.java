@@ -409,10 +409,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			if (noteOriginal == null) {
 				mainActivity.showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
 				mainActivity.finish();
+			} else {
+				note = new Note(noteOriginal);
+				noteTmp = new Note(noteOriginal);
+				i.setAction(null);
 			}
-			note = new Note(noteOriginal);
-			noteTmp = new Note(noteOriginal);
-			i.setAction(null);
 		}
 
 		// Check if is launched from a widget
