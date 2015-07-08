@@ -17,39 +17,39 @@
 -->
 <resources>
   <string-array name="navigation_list">
-    <item>Notlar</item>
-    <item>Arşiv</item>
-    <item>Hatırlatmalar</item>
-    <item>Çöp kutusu</item>
-    <item>Kategorilenmemiş</item>
+    <item>Bilješke</item>
+    <item>Arhiva</item>
+    <item>Podsjetnici</item>
+    <item>Obriši</item>
+    <item>Nekategorizirano</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Başlık</item>
-    <item>Oluşturma tarihi</item>
-    <item>Son değiştirme tarihi</item>
-    <item>Hatırlatma tarihi</item>
+    <item>Naslov</item>
+    <item>Datum nastanka</item>
+    <item>Datum zadnje izmjene</item>
+    <item>Datum podsjetnika</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Yerinde kalsın</item>
-    <item>En alta taşı</item>
-    <item>Onaylanmışların üstüne, onaylanmamışların altına taşı</item>
+    <item>Zadrži poziciju</item>
+    <item>Premjesti na kraj popisa</item>
+    <item>Premjesti na kraj stavki bez oznake</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Etkisizleştir</item>
-    <item>Sadece şerit</item>
-    <item>Sadece listeler</item>
-    <item>Tamamı</item>
+    <item>Onemogućeno</item>
+    <item>Samo crta</item>
+    <item>Samo popis bilješki</item>
+    <item>Završeno</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Devre dışı</item>
-    <item>Sadece şerit</item>
-    <item>Not listesi</item>
+    <item>Onemogućeno</item>
+    <item>Samo crta</item>
+    <item>Samo bilješke</item>
   </string-array>
   <string-array name="text_size">
-    <item>En küçük</item>
-    <item>Küçük</item>
-    <item>Varsayılan</item>
-    <item>Büyük</item>
-    <item>En büyük</item>
+    <item>Najmanje</item>
+    <item>Malo</item>
+    <item>Zadano</item>
+    <item>Veliko</item>
+    <item>Najveće</item>
   </string-array>
 </resources>

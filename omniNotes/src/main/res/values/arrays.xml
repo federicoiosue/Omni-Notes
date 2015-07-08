@@ -129,6 +129,7 @@
         <item>Asturianu (Asturian)</item>
         <item>Català (Catalan)</item>
         <item>中文 (Chinese)</item>
+        <item>Hrvatski (Croatian)</item>
         <item>Čeština (Czech)</item>
         <item>Nederlands (Dutch)</item>
         <item>English (English)</item>
@@ -161,6 +162,7 @@
         <item>es_XA</item>
         <item>ca_ES</item>
         <item>zh_CN</item>
+        <item>hr_HR</item>
         <item>cs_CZ</item>
         <item>nl_NL</item>
         <item>en_US</item>

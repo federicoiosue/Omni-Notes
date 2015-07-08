@@ -856,6 +856,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         // Current list scrolling position is saved to be restored later
         refreshListScrollPosition();
 
+		closeFab();
+
         // Fragments replacing
         mainActivity.switchToDetail(note);
     }

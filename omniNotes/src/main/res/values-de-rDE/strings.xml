@@ -317,7 +317,7 @@
   <string name="tour_detailactivity_save_title">Speichern</string>
   <string name="tour_detailactivity_save_detail">Um eine Notiz zu speichern, gehen mit dem oberen Navigation-Symbol oder mit der Zurücktaste Ihres Gerätes zur Notizliste zurück</string>
   <string name="tour_listactivity_final_title">Viel Spaß!</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_listactivity_final_detail">Vielen Dank das Sie sich für Omni Notes entschieden haben.\n\nDie Opensource-Alternative\n für Produktivität und\n einfache Notizen!</string>
   <string name="drawer_open">Seitenleiste geöffnet</string>
   <string name="drawer_close">Seitenleiste geschlossenn</string>
   <string name="reminder">Erinnerung</string>

@@ -17,6 +17,13 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.0.4" changeDate="Jul 8, 2015">
+        <changelogtext>[b]New![/b] vCard support for attachments</changelogtext>
+        <changelogtext>Added Croatian language (thanks illunius)</changelogtext>
+        <changelogtext>Updated other translations</changelogtext>
+        <changelogtext>[u]Fix[/u] Floating button actions left opened when editing a note</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.0.3" changeDate="Jun 22, 2015">
         <changelogtext>Updated translations</changelogtext>
         <changelogtext>[u]Fix[/u] Crash when trying to open notes restore dialog without having any backup</changelogtext>
