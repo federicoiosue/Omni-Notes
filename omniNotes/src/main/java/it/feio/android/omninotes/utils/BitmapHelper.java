@@ -29,6 +29,7 @@ import android.util.Log;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.simplegallery.util.BitmapUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
 
@@ -91,7 +92,7 @@ public class BitmapHelper {
                 bmp = BitmapUtils.createVideoThumbnail(mContext, bmp, width, height);
             }
 
-            // Image
+		// Image
         } else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
                 || Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())) {
             try {
@@ -100,18 +101,27 @@ public class BitmapHelper {
                 bmp = null;
             }
 
-            // Audio
+		// Audio
         } else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
             bmp = ThumbnailUtils.extractThumbnail(
                     decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R.drawable.play),
                             width, height), width, height);
 
-            // File
-        } else if (Constants.MIME_TYPE_FILES.equals(mAttachment.getMime_type())) {
-            bmp = ThumbnailUtils.extractThumbnail(
-                    decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R.drawable.files),
-                            width, height), width, height);
-        }
+		// File
+		} else if (Constants.MIME_TYPE_FILES.equals(mAttachment.getMime_type())) {
+
+			// vCard
+			if (Constants.MIME_TYPE_CONTACT_EXT.equals(FilenameUtils.getExtension(mAttachment.getName()))) {
+				bmp = ThumbnailUtils.extractThumbnail(
+						decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R.drawable.vcard),
+								width, height), width, height);
+			} else {
+				bmp = ThumbnailUtils.extractThumbnail(
+						decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R.drawable.files),
+
+								width, height), width, height);
+			}
+		}
 
         return bmp;
     }
@@ -121,7 +131,8 @@ public class BitmapHelper {
         Uri uri = mAttachment.getUri();
         String mimeType = StorageHelper.getMimeType(uri.toString());
         if (!TextUtils.isEmpty(mimeType)) {
-            String type = mimeType.replaceFirst("/.*", "");
+            String type = mimeType.split("/")[0];
+            String subtype = mimeType.split("/")[1];
             switch (type) {
                 case "image":
                 case "video":
@@ -131,7 +142,8 @@ public class BitmapHelper {
                     uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.drawable.play);
                     break;
                 default:
-                    uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.drawable.files);
+					int drawable = "x-vcard".equals(subtype) ? R.drawable.vcard : R.drawable.files;
+                    uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + drawable);
                     break;
             }
         } else {
