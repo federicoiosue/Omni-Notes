@@ -38,7 +38,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
