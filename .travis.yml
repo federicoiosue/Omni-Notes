@@ -1,5 +1,7 @@
 language: android
 
+jdk: oraclejdk8
+
 branches:
   only:
     - develop
