@@ -18,6 +18,7 @@
 package it.feio.android.omninotes;
 
 import android.animation.ValueAnimator;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -113,10 +114,11 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     public void onEvent(NotesLoadedEvent event) {
-        // Removes navigation drawer forced closed status
         if (mDrawerLayout != null) {
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        }
+			if (!isDoublePanelActive()) {
+				mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+			}
+		}
         init();
         alreadyInitialized = true;
     }
@@ -140,7 +142,9 @@ public class NavigationDrawerFragment extends Fragment {
             mActivity.getSupportActionBar().setTitle(((Category) navigationUpdatedEvent.navigationItem).getName());
         }
         if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+			if (!isDoublePanelActive()) {
+				mDrawerLayout.closeDrawer(GravityCompat.START);
+			}
             new Handler().postDelayed(() -> EventBus.getDefault().post(new NavigationUpdatedNavDrawerClosedEvent
                     (navigationUpdatedEvent.navigationItem)), 400);
         }
@@ -184,6 +188,10 @@ public class NavigationDrawerFragment extends Fragment {
                 mActivity.finishActionMode();
             }
         };
+
+		if (isDoublePanelActive()) {
+			mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+		}
 
         // Styling options
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -230,4 +238,11 @@ public class NavigationDrawerFragment extends Fragment {
             anim.start();
         }
     }
+
+
+	public static boolean isDoublePanelActive() {
+		Resources resources = OmniNotes.getAppContext().getResources();
+		return resources.getDimension(R.dimen.navigation_drawer_width) == resources.getDimension(R.dimen
+				.navigation_drawer_reserved_space);
+	}
 }
