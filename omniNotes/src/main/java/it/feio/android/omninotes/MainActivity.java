@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-		//  This method starts the bootstrap chain.
+        // This method starts the bootstrap chain.
         checkPassword();
 
         initUI();
@@ -87,6 +87,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 
         new UpdaterTask(this).execute();
+
+		// Commented for now due to changed response from web service
+//        new UpdaterTask(this).execute();
     }
 
 
