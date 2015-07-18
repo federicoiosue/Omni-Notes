@@ -97,7 +97,7 @@ dependencies {
 
     compile 'it.feio.android:simplegallery:1.1.1'
     compile 'it.feio.android:springpadimporter:1.0.1'
-    compile 'it.feio.android:omninotes_commons:1.0.3'
+    compile 'it.feio.android:omninotes_commons:1.1.0-SNAPSHOT'
     compile 'it.feio.android:checklistview:2.2'
     compile 'it.feio.android:pixlUI:2.2'
 }

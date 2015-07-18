@@ -1605,11 +1605,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         StringBuilder content = new StringBuilder();
         ArrayList<Attachment> attachments = new ArrayList<>();
 
-        ArrayList<Long> notesIds = new ArrayList<>();
+        ArrayList<String> notesIds = new ArrayList<>();
 
         for (Note note : getSelectedNotes()) {
 
-            notesIds.add(note.get_id());
+            notesIds.add(String.valueOf(note.get_id()));
 
             if (mergedNote == null) {
                 mergedNote = new Note();
@@ -1667,6 +1667,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 			mainActivity.getIntent().setAction(Constants.ACTION_MERGE);
 			if (!notesMergeEvent.keepMergedNotes) {
 				mainActivity.getIntent().putExtra("merged_notes", notesIds);
+
 			}
 			mainActivity.switchToDetail(finalMergedNote);
 		});

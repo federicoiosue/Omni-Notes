@@ -37,10 +37,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
+import android.os.*;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
@@ -171,7 +168,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private Attachment sketchEdited;
 	private int contentLineCounter = 1;
 	private int contentCursorPosition;
-	private long[] mergedNotesIds;
+	private ArrayList<String> mergedNotesIds;
 	private MainActivity mainActivity;
 	private boolean activityPausing;
 
@@ -243,8 +240,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
 		mainActivity.getToolbar().setNavigationOnClickListener(v -> navigateUp());
 
-		// Force the navigation drawer to stay closed
-		if (!NavigationDrawerFragment.isDoublePanelActive()) {
+		// Force the navigation drawer to stay opened if tablet mode is on, otherwise has to stay closed
+		if (NavigationDrawerFragment.isDoublePanelActive()) {
+			mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+		} else {
 			mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		}
 
@@ -392,8 +391,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			noteOriginal = new Note();
 			note = new Note(noteOriginal);
 			noteTmp = getArguments().getParcelable(Constants.INTENT_NOTE);
-			if (i.getIntegerArrayListExtra("merged_notes") != null) {
-				mergedNotesIds = i.getLongArrayExtra("merged_notes");
+			if (i.getStringArrayListExtra("merged_notes") != null) {
+				mergedNotesIds = i.getStringArrayListExtra("merged_notes");
 			}
 			i.setAction(null);
 		}
@@ -1587,12 +1586,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
-	private void deleteMergedNotes(long[] mergedNotesIds) {
+	private void deleteMergedNotes(List<String> mergedNotesIds) {
 		ArrayList<Note> notesToDelete = new ArrayList<Note>();
 		if (mergedNotesIds != null) {
-			for (long mergedNoteId : mergedNotesIds) {
+			for (String mergedNoteId : mergedNotesIds) {
 				Note note = new Note();
-				note.set_id(mergedNoteId);
+				note.set_id(Long.valueOf(mergedNoteId));
 				notesToDelete.add(note);
 			}
 			new NoteProcessorDelete(notesToDelete).process();
