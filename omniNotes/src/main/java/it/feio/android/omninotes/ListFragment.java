@@ -58,6 +58,7 @@ import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.async.bus.NotesMergeEvent;
 import it.feio.android.omninotes.async.notes.*;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
@@ -68,6 +69,7 @@ import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.pixlui.links.UrlCompleter;
+import org.apache.commons.lang.ObjectUtils;
 
 import java.util.*;
 
@@ -1600,75 +1602,22 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
      */
     public void onEventAsync(NotesMergeEvent notesMergeEvent) {
 
-        Note mergedNote = null;
-        boolean locked = false;
-        StringBuilder content = new StringBuilder();
-        ArrayList<Attachment> attachments = new ArrayList<>();
-
-        ArrayList<String> notesIds = new ArrayList<>();
-
-        for (Note note : getSelectedNotes()) {
-
-            notesIds.add(String.valueOf(note.get_id()));
-
-            if (mergedNote == null) {
-                mergedNote = new Note();
-                mergedNote.setTitle(note.getTitle());
-                content.append(note.getContent());
-
-            } else {
-                if (content.length() > 0
-                        && (!TextUtils.isEmpty(note.getTitle()) || !TextUtils.isEmpty(note.getContent()))) {
-                    content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"))
-                            .append(Constants.MERGED_NOTES_SEPARATOR).append(System.getProperty("line.separator"))
-                            .append(System.getProperty("line.separator"));
-                }
-                if (!TextUtils.isEmpty(note.getTitle())) {
-                    content.append(note.getTitle());
-                }
-                if (!TextUtils.isEmpty(note.getTitle()) && !TextUtils.isEmpty(note.getContent())) {
-                    content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"));
-                }
-                if (!TextUtils.isEmpty(note.getContent())) {
-                    content.append(note.getContent());
-                }
-            }
-
-            locked = locked || note.isLocked();
-
-			if (notesMergeEvent.keepMergedNotes) {
-				for (Attachment attachment : note.getAttachmentsList()) {
-					attachments.add(StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), attachment.getUri
-							()));
-				}
-			} else {
-				attachments.addAll(note.getAttachmentsList());
-			}
-        }
-
-        // Resets all the attachments id to force their note re-assign when saved
-        for (Attachment attachment : attachments) {
-            attachment.setId(null);
-        }
-
-        // Sets content text and attachments list
-        mergedNote.setContent(content.toString());
-        mergedNote.setLocked(locked);
-        mergedNote.setAttachmentsList(attachments);
-
-		final Note finalMergedNote = mergedNote;
+		final Note finalMergedNote = NotesHelper.mergeNotes(getSelectedNotes(), notesMergeEvent.keepMergedNotes);
 		new Handler(Looper.getMainLooper()).post(() -> {
 			getSelectedNotes().clear();
 			if (getActionMode() != null) {
 				getActionMode().finish();
 			}
 
-			// Sets the intent action to be recognized from DetailFragment and switch fragment
-			mainActivity.getIntent().setAction(Constants.ACTION_MERGE);
 			if (!notesMergeEvent.keepMergedNotes) {
+				ArrayList<String> notesIds = new ArrayList<>();
+				for (Note selectedNote : getSelectedNotes()) {
+					notesIds.add(String.valueOf(selectedNote.get_id()));
+				}
 				mainActivity.getIntent().putExtra("merged_notes", notesIds);
-
 			}
+
+			mainActivity.getIntent().setAction(Constants.ACTION_MERGE);
 			mainActivity.switchToDetail(finalMergedNote);
 		});
     }
