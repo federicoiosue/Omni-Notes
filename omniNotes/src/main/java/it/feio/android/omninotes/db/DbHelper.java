@@ -261,7 +261,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * Getting single note
      */
-    public Note getNote(int id) {
+    public Note getNote(long id) {
 
         String whereCondition = " WHERE "
                 + KEY_ID + " = " + id;
