@@ -835,10 +835,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             Log.d(Constants.TAG, "Adding new note");
             // if navigation is a category it will be set into note
             try {
-                Long categoryId;
-                if (!TextUtils.isEmpty(mainActivity.navigationTmp)) {
-                    categoryId = Long.parseLong(mainActivity.navigationTmp);
-					note.setCategory(DbHelper.getInstance().getCategory(categoryId));
+                if (Navigation.checkNavigation(Navigation.CATEGORY) || !TextUtils.isEmpty(mainActivity.navigationTmp)) {
+					String categoryId = (String) ObjectUtils.defaultIfNull(mainActivity.navigationTmp,
+							Navigation.getCategory().toString());
+					note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
                 }
             } catch (NumberFormatException e) {
                 Log.v(Constants.TAG, "Maybe was not a category!");

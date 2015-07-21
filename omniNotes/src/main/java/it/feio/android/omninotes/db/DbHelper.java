@@ -651,12 +651,11 @@ public class DbHelper extends SQLiteOpenHelper {
      * @param categoryId Category integer identifier
      * @return List of notes with requested category
      */
-    public List<Note> getNotesByCategory(String categoryId) {
+    public List<Note> getNotesByCategory(Long categoryId) {
         List<Note> notes;
         try {
-            Long id = Long.parseLong(categoryId);
             String whereCondition = " WHERE "
-                    + KEY_CATEGORY_ID + " = " + id
+                    + KEY_CATEGORY_ID + " = " + categoryId
                     + " AND " + KEY_TRASHED + " IS NOT 1";
             notes = getNotes(whereCondition, true);
         } catch (NumberFormatException e) {

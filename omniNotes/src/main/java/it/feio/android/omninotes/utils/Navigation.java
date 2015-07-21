@@ -72,14 +72,13 @@ public class Navigation {
     /**
      * Retrieves category currently shown
      *
-     * @return id of category or 0 if current navigation is not a category
+     * @return id of category or null if current navigation is not a category
      */
-    public static String getCategory() {
+    public static Long getCategory() {
         if (getNavigation() == CATEGORY) {
-            Context mContext = OmniNotes.getAppContext();
-            return mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getString
-                    (Constants.PREF_NAVIGATION, "");
-        } else {
+			return Long.valueOf(OmniNotes.getAppContext().getSharedPreferences(Constants.PREFS_NAME, Context
+					.MODE_MULTI_PROCESS).getString(Constants.PREF_NAVIGATION, ""));
+		} else {
             return null;
         }
     }
