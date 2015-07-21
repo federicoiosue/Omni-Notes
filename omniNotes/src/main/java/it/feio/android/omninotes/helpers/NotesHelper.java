@@ -22,7 +22,7 @@ public class NotesHelper {
 		StringBuilder content = new StringBuilder();
 		ArrayList<Attachment> attachments = new ArrayList<>();
 		Category category = null;
-		Long reminder = null;
+		String reminder = null;
 		String reminderRecurrenceRule = null;
 		Double latitude = null, longitude = null;
 
@@ -57,7 +57,7 @@ public class NotesHelper {
 
 			String currentReminder = note.getAlarm();
 			if (!TextUtils.isEmpty(currentReminder) && reminder == null) {
-				reminder = Long.parseLong(currentReminder);
+				reminder = currentReminder;
 				reminderRecurrenceRule = note.getRecurrenceRule();
 			}
 

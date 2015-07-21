@@ -1605,10 +1605,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 		final Note finalMergedNote = NotesHelper.mergeNotes(getSelectedNotes(), notesMergeEvent.keepMergedNotes);
 		new Handler(Looper.getMainLooper()).post(() -> {
-			getSelectedNotes().clear();
-			if (getActionMode() != null) {
-				getActionMode().finish();
-			}
 
 			if (!notesMergeEvent.keepMergedNotes) {
 				ArrayList<String> notesIds = new ArrayList<>();
@@ -1616,6 +1612,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 					notesIds.add(String.valueOf(selectedNote.get_id()));
 				}
 				mainActivity.getIntent().putExtra("merged_notes", notesIds);
+			}
+
+			getSelectedNotes().clear();
+			if (getActionMode() != null) {
+				getActionMode().finish();
 			}
 
 			mainActivity.getIntent().setAction(Constants.ACTION_MERGE);
