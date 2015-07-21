@@ -298,6 +298,8 @@
     <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
     <string name="settings_text_size">Text size</string>
     <string name="settings_screen_behaviors">Behaviors</string>
+    <string name="settings_enable_swipe">Swipe notes</string>
+    <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
     <string name="settings_swipe_to_trash">Swipe to trash</string>
     <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
     <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>

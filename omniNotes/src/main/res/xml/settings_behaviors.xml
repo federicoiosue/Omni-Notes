@@ -24,9 +24,16 @@
         android:title="@string/settings_instant_search" />
 
     <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="settings_swipe_to_trash"
-        android:title="@string/settings_swipe_to_trash" />
+            android:defaultValue="true"
+            android:key="settings_enable_swipe"
+            android:title="@string/settings_enable_swipe"
+            android:summary="@string/settings_enable_swipe_summary" />
+
+    <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="settings_swipe_to_trash"
+            android:title="@string/settings_swipe_to_trash"
+            android:dependency="settings_enable_swipe"/>
 
     <CheckBoxPreference
         android:defaultValue="false"

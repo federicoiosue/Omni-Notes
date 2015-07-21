@@ -113,6 +113,7 @@ public interface Constants {
     String PREF_FAB_EXPANSION_BEHAVIOR = "settings_fab_expansion_behavior";
     String PREF_SNOOZE_DEFAULT = "10";
 	String PREF_TOUR_COMPLETE = "pref_tour_complete";
+	String PREF_ENABLE_SWIPE = "settings_enable_swipe";
     String EXPORT_FILE_NAME = TAG;
 
     String MIME_TYPE_IMAGE = "image/jpeg";

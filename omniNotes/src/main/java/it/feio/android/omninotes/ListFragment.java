@@ -1039,8 +1039,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         View noteLayout = LayoutInflater.from(mainActivity).inflate(layoutSelected, null, false);
         noteViewHolder = new NoteViewHolder(noteLayout);
 
-        if (Navigation.getNavigation() != Navigation.UNCATEGORIZED) {
-            list.enableSwipeToDismiss((viewGroup, reverseSortedPositions) -> {
+		if (Navigation.getNavigation() != Navigation.UNCATEGORIZED && prefs.getBoolean(Constants.PREF_ENABLE_SWIPE,
+				true)) {
+			list.enableSwipeToDismiss((viewGroup, reverseSortedPositions) -> {
 
                 // Avoids conflicts with action mode
                 finishActionMode();
