@@ -21,7 +21,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.0'
+        classpath 'com.android.tools.build:gradle:1.2.3'
         classpath 'me.tatarka:gradle-retrolambda:3.0.1'
     }
 }
@@ -30,7 +30,9 @@ allprojects {
     repositories {
         mavenLocal()
         jcenter()
-        maven { url "https://github.com/federicoiosue/repository/raw/master/" }
+        maven {
+            url "https://jitpack.io"
+        }
     }
 }
 
