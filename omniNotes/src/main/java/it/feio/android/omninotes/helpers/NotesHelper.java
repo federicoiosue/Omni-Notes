@@ -74,11 +74,6 @@ public class NotesHelper {
 			}
 		}
 
-		// Resets all the attachments id to force their note re-assign when saved
-		for (Attachment attachment : attachments) {
-			attachment.setId(null);
-		}
-
 		// Sets merged values
 		mergedNote.setContent(content.toString());
 		mergedNote.setLocked(locked);
