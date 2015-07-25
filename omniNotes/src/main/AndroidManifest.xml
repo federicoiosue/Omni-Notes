@@ -122,7 +122,7 @@
             android:name="it.feio.android.omninotes.CategoryActivity"
             android:label="@string/title_activity_category"
             android:parentActivityName="it.feio.android.omninotes.MainActivity"
-            android:theme="@style/Theme.AppCompat.Dialog">
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

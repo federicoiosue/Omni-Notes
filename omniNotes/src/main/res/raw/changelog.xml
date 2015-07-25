@@ -24,6 +24,7 @@
         <changelogtext>[b]New![/b] Omni Notes is now FOSS, libraries included</changelogtext>
         <changelogtext>[i]Improved[/i] Merging notes will now keep the first valid category, position and reminder from selected notes</changelogtext>
         <changelogtext>[i]Improved[/i] Optionally disable swipe action in notes list</changelogtext>
+        <changelogtext>[u]Fix[/u] Theme inconsistences</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.0.4" changeDate="Jul 8, 2015">

@@ -158,16 +158,15 @@ public class CategoryActivity extends Activity {
         // Retrieving how many notes are categorized with category to be deleted
         DbHelper db = DbHelper.getInstance();
         int count = db.getCategorizedCount(category);
-        String msg;
+        String msg = "";
         if (count > 0)
             msg = getString(R.string.delete_category_confirmation).replace("$1$", String.valueOf(count));
-        else
-            msg = getString(R.string.delete_unused_category_confirmation);
 
         new MaterialDialog.Builder(this)
+				.title(R.string.delete_unused_category_confirmation)
                 .content(msg)
-                .positiveText(R.string.ok)
-                .positiveColor(R.color.colorAccent)
+                .positiveText(R.string.confirm)
+                .positiveColorRes(R.color.colorAccent)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
