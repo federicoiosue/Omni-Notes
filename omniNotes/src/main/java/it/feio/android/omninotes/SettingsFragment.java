@@ -54,8 +54,6 @@ public class SettingsFragment extends PreferenceFragment {
 
 	private SharedPreferences prefs;
 
-	AboutOrStatsThread mAboutOrStatsThread;
-	private int aboutClickCounter = 0;
 	private final int SPRINGPAD_IMPORT = 0;
 	private final int RINGTONE_REQUEST_CODE = 100;
 	public final static String XML_NAME = "xmlName";
@@ -74,7 +72,6 @@ public class SettingsFragment extends PreferenceFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		this.activity = activity;
-		Log.d("asd", activity.toString());
 		prefs = activity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
 		setTitle();
 	}
@@ -624,25 +621,6 @@ public class SettingsFragment extends PreferenceFragment {
 //                }
 //            });
 //        }
-
-
-		// About
-		Preference about = findPreference("settings_about");
-		if (about != null) {
-			about.setOnPreferenceClickListener(arg0 -> {
-				if (mAboutOrStatsThread != null && !mAboutOrStatsThread.isAlive()) {
-					aboutClickCounter = 0;
-				}
-				if (aboutClickCounter == 0) {
-					aboutClickCounter++;
-					mAboutOrStatsThread = new AboutOrStatsThread(getActivity(), aboutClickCounter);
-					mAboutOrStatsThread.start();
-				} else {
-					mAboutOrStatsThread.setAboutClickCounter(++aboutClickCounter);
-				}
-				return false;
-			});
-		}
 	}
 
 
@@ -675,61 +653,5 @@ public class SettingsFragment extends PreferenceFragment {
 					break;
 			}
 		}
-	}
-}
-
-
-/**
- * Thread to launch about screen or stats dialog depending on clicks
- *
- * @author fede
- */
-class AboutOrStatsThread extends Thread {
-
-	private final int ABOUT_CLICK_DELAY = 400;
-	private int ABOUT_CLICKS_REQUIRED = 3;
-	private int aboutClickCounter;
-	private Context mContext;
-	private boolean startAbout = true;
-
-	private int aboutClickCounterInternal;
-
-
-	AboutOrStatsThread(Context mContext, int aboutClickCounter) {
-		this.mContext = mContext;
-		this.aboutClickCounterInternal = aboutClickCounter;
-
-	}
-
-
-	@Override
-	public void run() {
-		try {
-			Thread.sleep(ABOUT_CLICK_DELAY);
-			while (aboutClickCounterInternal != aboutClickCounter) {
-				if (aboutClickCounter >= ABOUT_CLICKS_REQUIRED) {
-					// Launches StatsActivity
-					Intent statsIntent = new Intent(mContext,
-							StatsActivity.class);
-					mContext.startActivity(statsIntent);
-					startAbout = false;
-					break;
-				}
-				Thread.sleep(ABOUT_CLICK_DELAY);
-				aboutClickCounterInternal = aboutClickCounter;
-			}
-			if (startAbout) {
-				// Launches about Activity
-				Intent aboutIntent = new Intent(mContext, AboutActivity.class);
-				mContext.startActivity(aboutIntent);
-			}
-		} catch (InterruptedException e) {
-			Log.w(Constants.TAG, "Thread interrupted, I don't care", e);
-		}
-	}
-
-
-	public void setAboutClickCounter(int aboutClickCounter) {
-		this.aboutClickCounter = aboutClickCounter;
 	}
 }
