@@ -27,6 +27,7 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
@@ -147,7 +148,7 @@ public class BaseActivity extends ActionBarActivity {
         dialog.show();
 
         // Force focus and shows soft keyboard
-        KeyboardUtils.showKeyboard(passwordEditText);
+		new Handler().postDelayed(() -> KeyboardUtils.showKeyboard(passwordEditText), 100);
     }
 
 
