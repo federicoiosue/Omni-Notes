@@ -241,8 +241,9 @@ public class NavigationDrawerFragment extends Fragment {
 
 
 	public static boolean isDoublePanelActive() {
-		Resources resources = OmniNotes.getAppContext().getResources();
-		return resources.getDimension(R.dimen.navigation_drawer_width) == resources.getDimension(R.dimen
-				.navigation_drawer_reserved_space);
+//		Resources resources = OmniNotes.getAppContext().getResources();
+//		return resources.getDimension(R.dimen.navigation_drawer_width) == resources.getDimension(R.dimen
+//				.navigation_drawer_reserved_space);
+		return false;
 	}
 }
