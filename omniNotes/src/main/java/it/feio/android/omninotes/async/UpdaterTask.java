@@ -75,9 +75,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	protected Void doInBackground(String... params) {
 		if (!isCancelled()) {
 			try {
-				String appData = getAppData();
-				JSONObject json = new JSONObject(appData);
-				promptUpdate = isVersionUpdated(json.getString("softwareVersion"));
+				promptUpdate = isVersionUpdated(getAppData());
 				if (promptUpdate) {
 					prefs.edit().putLong(Constants.PREF_LAST_UPDATE_CHECK, now).apply();
 				}
@@ -164,18 +162,18 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 */
 	public String getAppData() throws IOException {
 		StringBuilder sb = new StringBuilder();
-		packageName = mActivity.getPackageName();
-		URL url = new URL(Constants.PS_METADATA_FETCHER_URL + Constants.PLAY_STORE_URL + packageName);
-		URLConnection conn = url.openConnection();
+		URLConnection conn = new URL(Constants.ON_VERSION_CHECK_URL).openConnection();
 		InputStream is = conn.getInputStream();
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		InputStreamReader inputStreamReader = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(inputStreamReader);
 
 		String inputLine;
-
 		while ((inputLine = br.readLine()) != null) {
 			sb.append(inputLine);
 		}
+		inputStreamReader.close();
 		is.close();
+
 		return sb.toString();
 	}
 
