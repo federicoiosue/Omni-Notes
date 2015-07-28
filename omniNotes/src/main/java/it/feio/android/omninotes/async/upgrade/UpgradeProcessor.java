@@ -17,8 +17,8 @@
 
 package it.feio.android.omninotes.async.upgrade;
 
+import android.content.ContentValues;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 import it.feio.android.omninotes.OmniNotes;
@@ -34,7 +34,9 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -46,7 +48,6 @@ import java.util.List;
 public class UpgradeProcessor {
 
     private final static String METHODS_PREFIX = "onUpgradeTo";
-    private static Class classObject;
 
     private static UpgradeProcessor instance;
 
@@ -77,8 +78,7 @@ public class UpgradeProcessor {
 
     private List<Method> getMethodsToLaunch(int dbOldVersion, int dbNewVersion) {
         List<Method> methodsToLaunch = new ArrayList<>();
-        classObject = getInstance().getClass();
-        Method[] declaredMethods = classObject.getDeclaredMethods();
+        Method[] declaredMethods = getInstance().getClass().getDeclaredMethods();
         for (Method declaredMethod : declaredMethods) {
             if (declaredMethod.getName().contains(METHODS_PREFIX)) {
                 int methodVersionPostfix = Integer.parseInt(declaredMethod.getName().replace(METHODS_PREFIX, ""));
@@ -155,6 +155,25 @@ public class UpgradeProcessor {
 	private void onUpgradeTo482() {
 		for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
 			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+		}
+	}
+
+
+	/**
+	 * Ensures that no duplicates will be found during the creation-to-id transition
+	 */
+	private void onUpgradeTo501() {
+		List<Long> creations = new ArrayList<>();
+		for (Note note : DbHelper.getInstance().getAllNotes(false)) {
+			if (creations.contains(note.getCreation())) {
+
+				ContentValues values = new ContentValues();
+				values.put(DbHelper.KEY_CREATION, note.getCreation() + (long) (Math.random() * 999));
+				DbHelper.getInstance().getDatabase().update(DbHelper.TABLE_NOTES, values, DbHelper.KEY_TITLE +
+						" = ? AND " + DbHelper.KEY_CREATION + " = ? AND " + DbHelper.KEY_CONTENT + " = ?", new String[]{note
+						.getTitle(), String.valueOf(note.getCreation()), note.getContent()});
+			}
+			creations.add(note.getCreation());
 		}
 	}
 

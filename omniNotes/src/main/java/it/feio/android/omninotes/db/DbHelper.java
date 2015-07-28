@@ -114,7 +114,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return DATABASE_NAME;
     }
 
-	private SQLiteDatabase getDatabase() {
+	public SQLiteDatabase getDatabase() {
 		try {
 			return getReadableDatabase();
 		} catch (IllegalStateException e) {
@@ -140,7 +140,9 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		this.db = db;
         Log.i(Constants.TAG, "Upgrading database version from " + oldVersion + " to " + newVersion);
+
         UpgradeProcessor.process(oldVersion, newVersion);
+
         try {
             for (String sqlFile : AssetUtils.list(SQL_DIR, mContext.getAssets())) {
                 if (sqlFile.startsWith(UPGRADE_QUERY_PREFIX)) {
@@ -152,15 +154,16 @@ public class DbHelper extends SQLiteOpenHelper {
                 }
             }
             Log.i(Constants.TAG, "Database upgrade successful");
-        } catch (IOException exception) {
-            throw new RuntimeException("Database upgrade failed", exception);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Database upgrade failed", e);
         }
     }
 
 
     // Inserting or updating single note
     public Note updateNote(Note note, boolean updateLastModification) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getDatabase();
 
         String content;
         if (note.isLocked()) {
@@ -1006,7 +1009,7 @@ public class DbHelper extends SQLiteOpenHelper {
         mStats.setTags(tags);
         mStats.setLocation(locations);
         avgWords = totalWords / (notes.size() != 0 ? notes.size() : 1);
-        avgChars = totalChars / (notes.size() != 0 ? notes.size() : 1);
+		avgChars = totalChars / (notes.size() != 0 ? notes.size() : 1);
 
         mStats.setWords(totalWords);
         mStats.setWordsMax(maxWords);
