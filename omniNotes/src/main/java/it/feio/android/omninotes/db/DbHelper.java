@@ -1005,8 +1005,8 @@ public class DbHelper extends SQLiteOpenHelper {
         mStats.setNotesMasked(notesMasked);
         mStats.setTags(tags);
         mStats.setLocation(locations);
-        avgWords = totalWords / notes.size();
-        avgChars = totalChars / notes.size();
+        avgWords = totalWords / (notes.size() != 0 ? notes.size() : 1);
+        avgChars = totalChars / (notes.size() != 0 ? notes.size() : 1);
 
         mStats.setWords(totalWords);
         mStats.setWordsMax(maxWords);
