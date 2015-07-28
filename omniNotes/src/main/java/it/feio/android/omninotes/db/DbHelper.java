@@ -92,9 +92,10 @@ public class DbHelper extends SQLiteOpenHelper {
     private final SharedPreferences prefs;
 
     private static DbHelper instance = null;
+	private SQLiteDatabase db;
 
 
-    public static synchronized DbHelper getInstance() {
+	public static synchronized DbHelper getInstance() {
         if (instance == null) {
             instance = new DbHelper(OmniNotes.getAppContext());
         }
@@ -113,6 +114,14 @@ public class DbHelper extends SQLiteOpenHelper {
         return DATABASE_NAME;
     }
 
+	private SQLiteDatabase getDatabase() {
+		try {
+			return getReadableDatabase();
+		} catch (IllegalStateException e) {
+			return this.db;
+		}
+	}
+
 
     // Creating Tables
     @Override
@@ -129,6 +138,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		this.db = db;
         Log.i(Constants.TAG, "Upgrading database version from " + oldVersion + " to " + newVersion);
         UpgradeProcessor.process(oldVersion, newVersion);
         try {
@@ -438,7 +448,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         Cursor cursor = null;
         try {
-            cursor = getReadableDatabase().rawQuery(query, null);
+            cursor = getDatabase().rawQuery(query, null);
 
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
@@ -770,8 +780,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         try {
 
-            db = this.getReadableDatabase();
-            cursor = db.rawQuery(sql, null);
+            cursor = getDatabase().rawQuery(sql, null);
 
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
@@ -818,13 +827,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 + KEY_CATEGORY_COLOR
                 + " ORDER BY IFNULL(NULLIF(" + KEY_CATEGORY_NAME + ", ''),'zzzzzzzz') ";
 
-
-        SQLiteDatabase db;
         Cursor cursor = null;
-
         try {
-            db = this.getReadableDatabase();
-            cursor = db.rawQuery(sql, null);
+            cursor = getDatabase().rawQuery(sql, null);
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 do {
@@ -899,12 +904,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " FROM " + TABLE_CATEGORY
                 + " WHERE " + KEY_CATEGORY_ID + " = " + id;
 
-        SQLiteDatabase db;
         Cursor cursor = null;
-
         try {
-            db = this.getReadableDatabase();
-            cursor = db.rawQuery(sql, null);
+            cursor = getDatabase().rawQuery(sql, null);
 
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
@@ -926,11 +928,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " FROM " + TABLE_NOTES
                 + " WHERE " + KEY_CATEGORY + " = " + category.getId();
 
-        SQLiteDatabase db = null;
         Cursor cursor = null;
         try {
-            db = this.getReadableDatabase();
-            cursor = db.rawQuery(sql, null);
+            cursor = getDatabase().rawQuery(sql, null);
 
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
