@@ -666,11 +666,13 @@ public class DbHelper extends SQLiteOpenHelper {
      */
     public List<Note> getNotesByCategory(Long categoryId) {
         List<Note> notes;
+		boolean filterArchived = prefs.getBoolean(Constants.PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
         try {
             String whereCondition = " WHERE "
                     + KEY_CATEGORY_ID + " = " + categoryId
-                    + " AND " + KEY_TRASHED + " IS NOT 1";
-            notes = getNotes(whereCondition, true);
+					+ " AND " + KEY_TRASHED + " IS NOT 1"
+					+ (filterArchived ? " AND " + KEY_ARCHIVED + " IS NOT 1" : "");
+			notes = getNotes(whereCondition, true);
         } catch (NumberFormatException e) {
             notes = getAllNotes(true);
         }

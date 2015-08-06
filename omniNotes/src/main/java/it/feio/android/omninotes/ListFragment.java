@@ -677,15 +677,20 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
     private void setActionItemsVisibility(Menu menu, boolean searchViewHasFocus) {
-        // Defines the conditions to set actionbar items visible or not
-        boolean drawerOpen = mainActivity.getDrawerLayout() != null
-                && mainActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START);
-        boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
-        boolean filterPastReminders = prefs.getBoolean(Constants.PREF_FILTER_PAST_REMINDERS, true);
-        int navigation = Navigation.getNavigation();
-        boolean navigationReminders = navigation == Navigation.REMINDERS;
-        boolean navigationArchive = navigation == Navigation.ARCHIVE;
-        boolean navigationTrash = navigation == Navigation.TRASH;
+
+		boolean drawerOpen = mainActivity.getDrawerLayout() != null && mainActivity.getDrawerLayout().isDrawerOpen
+				(GravityCompat.START);
+		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
+
+		int navigation = Navigation.getNavigation();
+		boolean navigationReminders = navigation == Navigation.REMINDERS;
+		boolean navigationArchive = navigation == Navigation.ARCHIVE;
+		boolean navigationTrash = navigation == Navigation.TRASH;
+		boolean navigationCategory = navigation == Navigation.CATEGORY;
+
+		boolean filterPastReminders = prefs.getBoolean(Constants.PREF_FILTER_PAST_REMINDERS, true);
+		boolean filterArchivedInCategory = navigationCategory && prefs.getBoolean(Constants
+				.PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false);
 
         if (!navigationReminders && !navigationArchive && !navigationTrash) {
             fab.setAllowed(true);
@@ -697,11 +702,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             fab.hideFab();
         }
         menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-        menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders &&
-                !searchViewHasFocus);
-        menu.findItem(R.id.menu_filter_remove).setVisible(!drawerOpen && filterPastReminders && navigationReminders
-                && !searchViewHasFocus);
-        menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !navigationReminders && !searchViewHasFocus);
+		menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders &&
+				!searchViewHasFocus);
+		menu.findItem(R.id.menu_filter_remove).setVisible(!drawerOpen && filterPastReminders && navigationReminders
+				&& !searchViewHasFocus);
+		menu.findItem(R.id.menu_filter_category).setVisible(!drawerOpen && !filterArchivedInCategory &&
+				navigationCategory && !searchViewHasFocus);
+		menu.findItem(R.id.menu_filter_category_remove).setVisible(!drawerOpen && filterArchivedInCategory &&
+				navigationCategory && !searchViewHasFocus);
+		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !navigationReminders && !searchViewHasFocus);
         menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView && !searchViewHasFocus);
         menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView && !searchViewHasFocus);
         menu.findItem(R.id.menu_empty_trash).setVisible(!drawerOpen && navigationTrash);
@@ -738,12 +747,18 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                         mainActivity.getDrawerLayout().openDrawer(GravityCompat.START);
                     }
                     break;
-                case R.id.menu_filter:
-                    filterReminders(true);
-                    break;
-                case R.id.menu_filter_remove:
-                    filterReminders(false);
-                    break;
+				case R.id.menu_filter:
+					filterReminders(true);
+					break;
+				case R.id.menu_filter_remove:
+					filterReminders(false);
+					break;
+				case R.id.menu_filter_category:
+					filterCategoryArchived(true);
+					break;
+				case R.id.menu_filter_category_remove:
+					filterCategoryArchived(false);
+					break;
                 case R.id.menu_tags:
                     filterByTags();
                     break;
@@ -1251,8 +1266,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             }
 
             // If actual navigation is not "Notes" the item will not be removed but replaced to fit the new state
-            if (Navigation.checkNavigation(Navigation.NOTES) || (Navigation.checkNavigation(Navigation.ARCHIVE) && !archive)) {
-                listAdapter.remove(note);
+            if (Navigation.checkNavigation(Navigation.NOTES)
+					|| (Navigation.checkNavigation(Navigation.ARCHIVE) && !archive)
+					|| (Navigation.checkNavigation(Navigation.CATEGORY) && prefs.getBoolean(Constants
+					.PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false))) {
+				listAdapter.remove(note);
             } else {
                 note.setArchived(archive);
                 listAdapter.replace(note, listAdapter.getPosition(note));
@@ -1630,6 +1648,22 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
      */
     private void filterReminders(boolean filter) {
         prefs.edit().putBoolean(Constants.PREF_FILTER_PAST_REMINDERS, filter).apply();
+        // Change list view
+        initNotesList(mainActivity.getIntent());
+        // Called to switch menu voices
+        mainActivity.supportInvalidateOptionsMenu();
+    }
+
+
+	/**
+     * Excludes archived notes in categories navigation
+     */
+    private void filterCategoryArchived(boolean filter) {
+		if (filter) {
+			prefs.edit().putBoolean(Constants.PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), true).apply();
+		} else {
+			prefs.edit().remove(Constants.PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory()).apply();
+		}
         // Change list view
         initNotesList(mainActivity.getIntent());
         // Called to switch menu voices
