@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.StringUtils;
@@ -626,8 +627,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	@Override
 	public void onStart() {
-		// Analytics tracking
-		((OmniNotes) getActivity().getApplication()).getTracker().trackScreenView(getClass().getName());
+		AnalyticsHelper.trackScreenView(getClass().getName());
 		super.onStart();
 	}
 

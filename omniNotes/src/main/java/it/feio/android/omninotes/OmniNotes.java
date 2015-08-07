@@ -22,21 +22,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
-import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.utils.Constants;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender.Method;
 import org.acra.sender.HttpSender.Type;
-import org.piwik.sdk.Piwik;
-import org.piwik.sdk.Tracker;
 
-import java.net.MalformedURLException;
 import java.util.Locale;
 
 
@@ -51,7 +47,6 @@ public class OmniNotes extends Application {
 
 	private final static String PREF_LANG = "settings_language";
 	static SharedPreferences prefs;
-	private static Tracker mTracker;
 	private static RefWatcher refWatcher;
 
 
@@ -72,7 +67,7 @@ public class OmniNotes extends Application {
 		updateLanguage(this, null);
 
 		// Analytics initialization
-		getTracker();
+		AnalyticsHelper.init(this);
 	}
 
 
@@ -135,19 +130,6 @@ public class OmniNotes extends Application {
 	}
 
 
-	public synchronized Tracker getTracker() {
-		if (mTracker != null) {
-			return mTracker;
-		}
-		try {
-			mTracker = Piwik.getInstance(this).newTracker(Constants.ANALYTICS_URL, 1);
-			mTracker.setUserId(Settings.Secure.ANDROID_ID);
-			mTracker.trackAppDownload();
-		} catch (MalformedURLException e) {
-			Log.w(Constants.TAG, "Malformed url to get analytics tracker", e);
-			return null;
-		}
-		return mTracker;
-	}
+
 
 }

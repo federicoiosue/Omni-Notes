@@ -31,9 +31,6 @@ public interface Constants {
 	long UPDATE_MIN_FREQUENCY = 24 * 60 * 60 * 1000; // 1 day
 	String DRIVE_FOLDER_LAST_BUILD = "https://goo.gl/gB55RE";
 
-	// Piwik server
-	String ANALYTICS_URL = "http://www.iosue.it/federico/analytics/piwik.php";
-
 	// Notes swipe
 	int SWIPE_MARGIN = 30;
 	int SWIPE_OFFSET = 100;

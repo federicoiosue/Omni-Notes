@@ -19,6 +19,7 @@ package it.feio.android.omninotes;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 
 
 public class AboutActivity extends BaseActivity {
@@ -34,12 +35,11 @@ public class AboutActivity extends BaseActivity {
     }
 
 
-    @Override
-    public void onStart() {
-		// Analytics tracking
-		((OmniNotes) getApplication()).getTracker().trackScreenView(getClass().getName());
-        super.onStart();
-    }
+	@Override
+	public void onStart() {
+		AnalyticsHelper.trackScreenView(getClass().getName());
+		super.onStart();
+	}
 
 
     @Override

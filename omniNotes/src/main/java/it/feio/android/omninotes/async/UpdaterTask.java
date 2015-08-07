@@ -28,9 +28,9 @@ import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Constants;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -98,13 +98,11 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 					@Override
 					public void onPositive(MaterialDialog materialDialog) {
 						if (isGooglePlayAvailable()) {
-							((OmniNotes) mActivityReference.get().getApplication()).getTracker().trackEvent("Update",
-									"Play Store");
-							mActivityReference.get().startActivity(new Intent(
-									Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));
+							AnalyticsHelper.trackEvent("Update", "Play Store");
+							mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
+									("market://details?id=" + packageName)));
 						} else {
-							((OmniNotes) mActivityReference.get().getApplication()).getTracker().trackEvent("Update",
-									"Drive Repository");
+							AnalyticsHelper.trackEvent("Update", "Drive Repository");
 							mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants
 									.DRIVE_FOLDER_LAST_BUILD)));
 						}

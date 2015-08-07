@@ -58,6 +58,7 @@ import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.async.bus.NotesMergeEvent;
 import it.feio.android.omninotes.async.notes.*;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
@@ -812,6 +813,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 //                    break;
             }
         }
+
+		AnalyticsHelper.trackActionFromResourceId(getActivity(), item.getItemId());
 
         checkSortActionPerformed(item);
 

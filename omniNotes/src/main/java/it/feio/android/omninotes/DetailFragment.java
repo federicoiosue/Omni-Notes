@@ -78,6 +78,7 @@ import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
@@ -1051,6 +1052,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				deleteNote();
 				break;
 		}
+
+		AnalyticsHelper.trackActionFromResourceId(getActivity(), item.getItemId());
+
 		return super.onOptionsItemSelected(item);
 	}
 
