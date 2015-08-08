@@ -2,6 +2,7 @@ package it.feio.android.omninotes.helpers;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.res.Resources;
 import android.provider.Settings;
 import android.util.Log;
 import it.feio.android.omninotes.utils.Constants;
@@ -52,7 +53,11 @@ public class AnalyticsHelper {
 
 	public static void trackActionFromResourceId(Activity activity, int resourceId) {
 		checkInit();
-		tracker.trackEvent("action", activity.getResources().getResourceEntryName(resourceId));
+		try {
+			tracker.trackEvent("action", activity.getResources().getResourceEntryName(resourceId));
+		} catch (Resources.NotFoundException e) {
+			Log.w(Constants.TAG, "No resource name found for request id");
+		}
 	}
 
 
