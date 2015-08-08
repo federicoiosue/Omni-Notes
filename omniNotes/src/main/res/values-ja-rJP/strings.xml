@@ -278,6 +278,8 @@
   <string name="settings_navdrawer_on_exit_summary">ノート リストで \"戻る\" を押すと、終了ではなくナビゲーション メニューを表示します</string>
   <string name="settings_text_size">テキストサイズ</string>
   <string name="settings_screen_behaviors">動作</string>
+  <string name="settings_enable_swipe">ノートをスワイプ</string>
+  <string name="settings_enable_swipe_summary">ノートの上でスワイプして、アクションを実行します</string>
   <string name="settings_swipe_to_trash">ごみ箱にスワイプ</string>
   <string name="settings_swipe_to_trash_summary_1">指でノートをスワイプすると、ノートをアーカイブします</string>
   <string name="settings_swipe_to_trash_summary_2">指でノートをスワイプすると、ノートをごみ箱に入れます</string>

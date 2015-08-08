@@ -278,6 +278,8 @@
   <string name="settings_navdrawer_on_exit_summary">Pressionar \"voltar\" na lista de notas abre o menu de navegação ao invés de sair</string>
   <string name="settings_text_size">Tamanho do texto</string>
   <string name="settings_screen_behaviors">Comportamentos</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
   <string name="settings_swipe_to_trash">Deslize para excluir</string>
   <string name="settings_swipe_to_trash_summary_1">Deslizar notas com dedo irá movê-las para a lixeira</string>
   <string name="settings_swipe_to_trash_summary_2">Deslizar notas com dedo irá excluí-las permanentemente</string>

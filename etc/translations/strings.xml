@@ -286,7 +286,6 @@
     <string name="settings_enable_swipe">Swipe notes</string>
     <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
     <string name="settings_swipe_to_trash">Swipe to trash</string>
-    <string name="settings_swipe_to_trash">Swipe to trash</string>
     <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
     <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
     <string name="settings_show_uncategorized">Group not categorized</string>

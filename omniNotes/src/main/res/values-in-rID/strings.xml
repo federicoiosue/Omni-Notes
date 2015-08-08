@@ -157,7 +157,7 @@
   <string name="not_expired">tidak kadaluarsa</string>
   <string name="expired">kadaluarsa</string>
   <string name="today">hari ini</string>
-  <string name="tomorrow">tomorrow</string>
+  <string name="tomorrow">besok</string>
   <string name="open">Buka</string>
   <string name="copy">Salin</string>
   <string name="no_application_can_perform_this_action">Tidak ditemukan aplikasi untuk aksi ini</string>
@@ -212,7 +212,7 @@
   <string name="settings_screen_backup">Cadangan</string>
   <string name="settings_screen_notifications">Pemberitahuan</string>
   <string name="settings_enable_vibration">Getaran</string>
-  <string name="settings_screen_navigation">Navigation</string>
+  <string name="settings_screen_navigation">Navigasi</string>
   <string name="settings_changelog">Log perubahan</string>
   <string name="settings_enable_editor_links">Pendeteksi tautan</string>
   <string name="settings_max_video_size">Lampiran video</string>
@@ -278,6 +278,8 @@
   <string name="settings_navdrawer_on_exit_summary">Menekan \"kembali\" ketika dalam daftar catatan membuka menu navigasi bukan keluar</string>
   <string name="settings_text_size">Ukuran teks</string>
   <string name="settings_screen_behaviors">Behaviors</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
   <string name="settings_swipe_to_trash">Geser untuk membuang</string>
   <string name="settings_swipe_to_trash_summary_1">Geser catatan dengan jari akan mengarsipkannya</string>
   <string name="settings_swipe_to_trash_summary_2">Geser catatan dengan jari akan membuangnya</string>
@@ -311,7 +313,7 @@
   <string name="tour_detailactivity_reminder_title">Hanya klik</string>
   <string name="tour_detailactivity_reminder_detail">Menekan lama mempunyai banyak fungsi pada sebuah objek (lampiran, lokasi, pengingat) daripada menekan singkat!</string>
   <string name="tour_detailactivity_links_title">Tautan</string>
-  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
+  <string name="tour_detailactivity_links_detail">Klik di URL atau alamat surel untuk menyalin atau membukanya</string>
   <string name="tour_detailactivity_swipe_title">Geser</string>
   <string name="tour_detailactivity_swipe_detail">Buat catatan baru tanpa \n meninggalkan apa yang anda ubah</string>
   <string name="tour_detailactivity_save_title">Simpan</string>
