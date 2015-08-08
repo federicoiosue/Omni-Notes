@@ -23,6 +23,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteReadOnlyDatabaseException;
 import android.net.Uri;
 import android.util.Log;
 import it.feio.android.omninotes.OmniNotes;
@@ -115,8 +116,17 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 	public SQLiteDatabase getDatabase() {
+		return getDatabase(false);
+	}
+
+
+	public SQLiteDatabase getDatabase(boolean forceWritable) {
 		try {
-			return getReadableDatabase();
+			SQLiteDatabase db = getReadableDatabase();
+			if (forceWritable && db.isReadOnly()) {
+				throw new SQLiteReadOnlyDatabaseException("Required writable database, obtained read-only");
+			}
+			return db;
 		} catch (IllegalStateException e) {
 			return this.db;
 		}
@@ -163,7 +173,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     // Inserting or updating single note
     public Note updateNote(Note note, boolean updateLastModification) {
-        SQLiteDatabase db = getDatabase();
+        SQLiteDatabase db = getDatabase(true);
 
         String content;
         if (note.isLocked()) {
@@ -241,8 +251,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * Attachments update
      * */
     public Attachment updateAttachment(Attachment attachment) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return updateAttachment(-1, attachment, db);
+        return updateAttachment(-1, attachment, getDatabase(true));
     }
 
 
@@ -538,7 +547,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public boolean deleteNote(Note note, boolean keepAttachments) {
         int deletedNotes;
         boolean result = true;
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getDatabase(true);
         // Delete notes
         deletedNotes = db.delete(TABLE_NOTES, KEY_ID + " = ?", new String[]{String.valueOf(note.get_id())});
         if (!keepAttachments) {
@@ -865,7 +874,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		values.put(KEY_CATEGORY_NAME, category.getName());
         values.put(KEY_CATEGORY_DESCRIPTION, category.getDescription());
         values.put(KEY_CATEGORY_COLOR, category.getColor());
-		this.getWritableDatabase().insertWithOnConflict(TABLE_CATEGORY, KEY_CATEGORY_ID, values, SQLiteDatabase
+		getDatabase(true).insertWithOnConflict(TABLE_CATEGORY, KEY_CATEGORY_ID, values, SQLiteDatabase
 				.CONFLICT_REPLACE);
 		return category;
     }
@@ -880,7 +889,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public long deleteCategory(Category category) {
         long deleted;
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getDatabase(true);
         // Un-categorize notes associated with this category
         ContentValues values = new ContentValues();
         values.put(KEY_CATEGORY, "");
