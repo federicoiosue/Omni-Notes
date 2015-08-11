@@ -195,7 +195,6 @@ public class SettingsFragment extends PreferenceFragment {
 
 					MaterialDialog importDialog = new MaterialDialog.Builder(getActivity())
 							.title(R.string.data_import_message)
-							.content(R.string.delete_note_confirmation)
 							.items(backups)
 							.positiveText(R.string.confirm)
 							.callback(new MaterialDialog.ButtonCallback() {
