@@ -1,2 +1,2 @@
 **Contributors**
-Suraj Patil (@thewhitetuip)
+Suraj Patil (@thewhitetulip)
