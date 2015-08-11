@@ -136,7 +136,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public OnDateSetListener onDateSetListener;
 	public OnTimeSetListener onTimeSetListener;
 	public boolean goBack = false;
-	MediaRecorder mRecorder = null;
 	View toggleChecklistView;
 	private Uri attachmentUri;
 	private AttachmentAdapter mAttachmentAdapter;
@@ -146,6 +145,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private Note noteOriginal;
 	// Audio recording
 	private String recordName;
+	private MediaRecorder mRecorder = null;
 	private MediaPlayer mPlayer = null;
 	private boolean isRecording = false;
 	private View isPlayingView = null;
@@ -1749,7 +1749,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
 	private void startPlaying(Uri uri) {
-		mPlayer = new MediaPlayer();
+		if (mPlayer == null) {
+			mPlayer = new MediaPlayer();
+		}
 		try {
 			mPlayer.setDataSource(mainActivity, uri);
 			mPlayer.prepare();
@@ -1762,7 +1764,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				isPlayingView = null;
 			});
 		} catch (IOException e) {
-			Log.e(Constants.TAG, "prepare() failed");
+			Log.e(Constants.TAG, "prepare() failed", e);
+			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
 		}
 	}
 
@@ -1782,23 +1785,26 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_AUDIO_EXT);
 		if (f == null) {
 			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
-
 			return;
 		}
+		if (mRecorder == null) {
+			mRecorder = new MediaRecorder();
+			mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+			mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+			mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB);
+			mRecorder.setAudioEncodingBitRate(16);
+			mRecorder.setAudioSamplingRate(44100);
+		}
 		recordName = f.getAbsolutePath();
-		mRecorder = new MediaRecorder();
-		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-		mRecorder.setAudioEncodingBitRate(16);
 		mRecorder.setOutputFile(recordName);
 
 		try {
-			mRecorder.prepare();
 			audioRecordingTimeStart = Calendar.getInstance().getTimeInMillis();
+			mRecorder.prepare();
 			mRecorder.start();
-		} catch (IOException e) {
-			Log.e(Constants.TAG, "prepare() failed");
+		} catch (IOException | IllegalStateException e) {
+			Log.e(Constants.TAG, "prepare() failed", e);
+			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
 		}
 	}
 

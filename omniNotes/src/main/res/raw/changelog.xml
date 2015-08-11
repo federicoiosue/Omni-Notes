@@ -17,6 +17,11 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.1.0 Beta 2" changeDate="Aug 11, 2015">
+        <changelogtext>[i]Improved[/i] Audio recording quality</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash on some action toolbar actions performed</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.1.0 Beta 1" changeDate="Aug 6, 2015">
         <changelogtext>[b]New![/b] Added app intro</changelogtext>
         <changelogtext>[b]New![/b] Filter archived notes when you don't need them in categories</changelogtext>
