@@ -98,11 +98,11 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 					@Override
 					public void onPositive(MaterialDialog materialDialog) {
 						if (isGooglePlayAvailable()) {
-							AnalyticsHelper.trackEvent("Update", "Play Store");
+							AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.UPDATE, "Play Store");
 							mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
 									("market://details?id=" + packageName)));
 						} else {
-							AnalyticsHelper.trackEvent("Update", "Drive Repository");
+							AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.UPDATE, "Drive Repository");
 							mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants
 									.DRIVE_FOLDER_LAST_BUILD)));
 						}

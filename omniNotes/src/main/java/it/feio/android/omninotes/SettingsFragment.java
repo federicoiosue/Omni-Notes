@@ -167,6 +167,7 @@ public class SettingsFragment extends PreferenceFragment {
 						.callback(new MaterialDialog.ButtonCallback() {
 							@Override
 							public void onPositive(MaterialDialog materialDialog) {
+								AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
 								// An IntentService will be launched to accomplish the export task
 								Intent service = new Intent(getActivity(), DataBackupIntentService.class);
 								service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
@@ -232,7 +233,12 @@ public class SettingsFragment extends PreferenceFragment {
 									.callback(new MaterialDialog.ButtonCallback() {
 										@Override
 										public void onPositive(MaterialDialog materialDialog) {
+
+											AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+													"settings_import_data");
+
 											importDialog.dismiss();
+
 											// An IntentService will be launched to accomplish the import task
 											Intent service = new Intent(getActivity(),
 													DataBackupIntentService.class);
@@ -514,6 +520,9 @@ public class SettingsFragment extends PreferenceFragment {
 		Preference changelog = findPreference("settings_changelog");
 		if (changelog != null) {
 			changelog.setOnPreferenceClickListener(arg0 -> {
+
+				AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_changelog");
+
 				new MaterialDialog.Builder(activity)
 						.customView(R.layout.activity_changelog, false)
 						.positiveText(R.string.ok)
@@ -571,6 +580,9 @@ public class SettingsFragment extends PreferenceFragment {
 						.callback(new MaterialDialog.ButtonCallback() {
 							@Override
 							public void onPositive(MaterialDialog materialDialog) {
+
+								AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
+
 								prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
 								MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 							}

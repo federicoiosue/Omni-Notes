@@ -15,9 +15,11 @@ import java.net.MalformedURLException;
 public class AnalyticsHelper {
 
 
-	private static String ANALYTICS_URL = "http://www.iosue.it/federico/analytics/piwik.php";
+	private final static String ANALYTICS_URL = "http://www.iosue.it/federico/analytics/piwik.php";
 
 	private static Tracker tracker;
+
+	public enum CATEGORIES {ACTION, SETTING, UPDATE}
 
 
 	public static void init(Application application) {
@@ -45,16 +47,16 @@ public class AnalyticsHelper {
 	}
 
 
-	public static void trackEvent(String category, String action) {
+	public static void trackEvent(CATEGORIES category, String action) {
 		checkInit();
-		tracker.trackEvent(category, action);
+		tracker.trackEvent(category.name(), action);
 	}
 
 
 	public static void trackActionFromResourceId(Activity activity, int resourceId) {
 		checkInit();
 		try {
-			tracker.trackEvent("action", activity.getResources().getResourceEntryName(resourceId));
+			tracker.trackEvent(CATEGORIES.ACTION.name(), activity.getResources().getResourceEntryName(resourceId));
 		} catch (Resources.NotFoundException e) {
 			Log.w(Constants.TAG, "No resource name found for request id");
 		}
