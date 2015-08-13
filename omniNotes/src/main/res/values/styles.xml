@@ -32,6 +32,10 @@
 
     <style name="OmniNotesTheme.ApiSpec"></style>
 
+    <style name="OmniNotesTheme.ApiSpec.Branded">
+        <item name="android:windowBackground">@drawable/branded_background</item>
+    </style>
+
     <style name="PreferencesTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
