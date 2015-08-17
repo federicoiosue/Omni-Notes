@@ -46,6 +46,7 @@ import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -73,17 +74,20 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		setTheme(R.style.OmniNotesTheme_ApiSpec);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
         // This method starts the bootstrap chain.
-//		requestShowCaseViewVisualization();
         checkPassword();
 
         initUI();
 
-		// Commented for now due to changed response from web service
-//        new UpdaterTask(this).execute();
+		if (IntroActivity.mustRun(getApplicationContext())) {
+			startActivity(new Intent(this.getApplicationContext(), IntroActivity.class));
+		}
+
+        new UpdaterTask(this).execute();
     }
 
 
@@ -459,35 +463,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         BaseActivity.notifyAppWidgets(this);
         Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
     }
-
-
-//    /**
-//     * Showcase view displaying request for first launch
-//     */
-//    private void requestShowCaseViewVisualization() {
-//
-//        if (AppTourHelper.mustRun(getApplicationContext())) {
-//            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-//            alertDialogBuilder
-//                    .setTitle(R.string.app_name)
-//                    .setMessage(R.string.tour_request_start)
-//                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            checkPassword();
-//                        }
-//                    }).setNegativeButton(R.string.not_now, new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int id) {
-//                    AppTourHelper.complete(getApplicationContext());
-//                    checkPassword();
-//                }
-//            });
-//            alertDialogBuilder.create().show();
-//        } else {
-//            checkPassword();
-//        }
-//    }
 
 
     public void showMessage(int messageId, Style style) {

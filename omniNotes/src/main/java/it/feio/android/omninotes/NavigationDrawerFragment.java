@@ -18,6 +18,7 @@
 package it.feio.android.omninotes;
 
 import android.animation.ValueAnimator;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -113,10 +114,11 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     public void onEvent(NotesLoadedEvent event) {
-        // Removes navigation drawer forced closed status
         if (mDrawerLayout != null) {
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        }
+			if (!isDoublePanelActive()) {
+				mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+			}
+		}
         init();
         alreadyInitialized = true;
     }
@@ -140,7 +142,9 @@ public class NavigationDrawerFragment extends Fragment {
             mActivity.getSupportActionBar().setTitle(((Category) navigationUpdatedEvent.navigationItem).getName());
         }
         if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+			if (!isDoublePanelActive()) {
+				mDrawerLayout.closeDrawer(GravityCompat.START);
+			}
             new Handler().postDelayed(() -> EventBus.getDefault().post(new NavigationUpdatedNavDrawerClosedEvent
                     (navigationUpdatedEvent.navigationItem)), 400);
         }
@@ -180,35 +184,14 @@ public class NavigationDrawerFragment extends Fragment {
 
 
             public void onDrawerOpened(View drawerView) {
-                // Commits all pending actions
                 mActivity.commitPending();
-                // Finishes action mode
                 mActivity.finishActionMode();
-
-                // Show instructions on first launch
-//				final String instructionName = Constants.PREF_TOUR_PREFIX + "navdrawer";
-//				if (AppTourHelper.isStepTurn(mActivity, instructionName)) {
-//					ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-////					list.add(new Integer[] { R.id.menu_add_category, R.string.tour_listactivity_tag_title,
-////							R.string.tour_listactivity_tag_detail, ShowcaseView.ITEM_ACTION_ITEM });
-//					mActivity.showCaseView(list, new OnShowcaseAcknowledged() {
-//						@Override
-//						public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-//							AppTourHelper.completeStep(mActivity, instructionName);
-//							mDrawerLayout.closeDrawer(GravityCompat.START);
-//
-//							// Attaches a dummy image as example
-//							Note note = new Note();
-//							Attachment attachment = new Attachment(BitmapHelper.getUri(mActivity,
-//									R.drawable.ic_launcher), Constants.MIME_TYPE_IMAGE);
-//							note.getAttachmentsList().add(attachment);
-//							note.setTitle("http://www.opensource.org");
-//							mActivity.editNote(note);
-//						}
-//					});
-//				}
             }
         };
+
+		if (isDoublePanelActive()) {
+			mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+		}
 
         // Styling options
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -255,4 +238,12 @@ public class NavigationDrawerFragment extends Fragment {
             anim.start();
         }
     }
+
+
+	public static boolean isDoublePanelActive() {
+//		Resources resources = OmniNotes.getAppContext().getResources();
+//		return resources.getDimension(R.dimen.navigation_drawer_width) == resources.getDimension(R.dimen
+//				.navigation_drawer_reserved_space);
+		return false;
+	}
 }

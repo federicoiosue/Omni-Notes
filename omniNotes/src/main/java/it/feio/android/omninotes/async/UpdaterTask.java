@@ -26,12 +26,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.analytics.tracking.android.MapBuilder;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Constants;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -76,9 +75,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	protected Void doInBackground(String... params) {
 		if (!isCancelled()) {
 			try {
-				String appData = getAppData();
-				JSONObject json = new JSONObject(appData);
-				promptUpdate = isVersionUpdated(json.getString("softwareVersion"));
+				promptUpdate = isVersionUpdated(getAppData());
 				if (promptUpdate) {
 					prefs.edit().putLong(Constants.PREF_LAST_UPDATE_CHECK, now).apply();
 				}
@@ -101,17 +98,11 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 					@Override
 					public void onPositive(MaterialDialog materialDialog) {
 						if (isGooglePlayAvailable()) {
-							mActivityReference.get().startActivity(new Intent(
-									Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));
+							AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.UPDATE, "Play Store");
+							mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
+									("market://details?id=" + packageName)));
 						} else {
-							// MapBuilder.createEvent().build() returns a Map of event fields and values
-							// that are set and sent with the hit.
-							OmniNotes.getGaTracker().send(MapBuilder
-									.createEvent("ui_action",     // Event category (required)
-											"button_press",  // Event action (required)
-											"Google Drive Update",   // Event label
-											null)            // Event value
-									.build());
+							AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.UPDATE, "Drive Repository");
 							mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants
 									.DRIVE_FOLDER_LAST_BUILD)));
 						}
@@ -169,18 +160,18 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 */
 	public String getAppData() throws IOException {
 		StringBuilder sb = new StringBuilder();
-		packageName = mActivity.getPackageName();
-		URL url = new URL(Constants.PS_METADATA_FETCHER_URL + Constants.PLAY_STORE_URL + packageName);
-		URLConnection conn = url.openConnection();
+		URLConnection conn = new URL(Constants.ON_VERSION_CHECK_URL).openConnection();
 		InputStream is = conn.getInputStream();
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		InputStreamReader inputStreamReader = new InputStreamReader(is);
+		BufferedReader br = new BufferedReader(inputStreamReader);
 
 		String inputLine;
-
 		while ((inputLine = br.readLine()) != null) {
 			sb.append(inputLine);
 		}
+		inputStreamReader.close();
 		is.close();
+
 		return sb.toString();
 	}
 

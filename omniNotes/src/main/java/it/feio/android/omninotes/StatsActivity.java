@@ -21,10 +21,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Stats;
 
@@ -48,7 +46,6 @@ public class StatsActivity extends Activity {
 
             public StatsTask(Context mContext) {
                 this.mContext = mContext;
-
             }
 
 
@@ -64,12 +61,7 @@ public class StatsActivity extends Activity {
             }
         }
 
-        StatsTask task = new StatsTask(this);
-        if (Build.VERSION.SDK_INT >= 11) {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            task.execute();
-        }
+		new StatsTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 

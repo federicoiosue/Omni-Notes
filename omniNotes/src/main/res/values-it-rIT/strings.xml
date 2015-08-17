@@ -75,7 +75,6 @@
   <string name="video">Video</string>
   <string name="feature_not_available_on_this_device">Funzione non disponibile su questo dispositivo</string>
   <string name="error_occurred_deleting_note">Si è verificato un errore nella cancellazione della nota</string>
-  <string name="no_backups_available">Nessun backup creato</string>
   <string name="data_export_message">Inserire il nome del backup</string>
   <string name="data_import_message">Clic -&gt; Ripristina \nTieni premuto -&gt; Cancella</string>
   <string name="data_import_message_warning">ATTENZIONE: Questo sostituirà tutti i dati attuali!</string>
@@ -280,6 +279,8 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_navdrawer_on_exit_summary">Premendo \"indietro\" dalla lista delle note verrà aperto il menu di navigazione prima di uscire</string>
   <string name="settings_text_size">Dimensione testo</string>
   <string name="settings_screen_behaviors">Comportamenti</string>
+  <string name="settings_enable_swipe">Trascina note</string>
+  <string name="settings_enable_swipe_summary">Trascina orizontalmente una nota per compiere delle azioni</string>
   <string name="settings_swipe_to_trash">Scorri per spostare nel cestino</string>
   <string name="settings_swipe_to_trash_summary_1">Scorrendo le note con il dito, verranno archiviate</string>
   <string name="settings_swipe_to_trash_summary_2">Scorrendo le note con il dito, verranno spostate nel cestino</string>

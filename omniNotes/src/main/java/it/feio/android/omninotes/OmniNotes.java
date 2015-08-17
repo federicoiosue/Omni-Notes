@@ -23,10 +23,9 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
 import android.text.TextUtils;
-import com.google.analytics.tracking.android.GoogleAnalytics;
-import com.google.analytics.tracking.android.Tracker;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.utils.Constants;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -38,124 +37,99 @@ import java.util.Locale;
 
 
 @ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM,
-        formUri = "http://collector.tracepot.com/3f39b042",
-        mode = ReportingInteractionMode.TOAST,
-        forceCloseDialogAfterToast = false,
-        resToastText = R.string.crash_toast)
+		formUri = "http://collector.tracepot.com/3f39b042",
+		mode = ReportingInteractionMode.TOAST,
+		forceCloseDialogAfterToast = false,
+		resToastText = R.string.crash_toast)
 public class OmniNotes extends Application {
 
-    private static Context mContext;
+	private static Context mContext;
 
-    private final static String PREF_LANG = "settings_language";
-    static SharedPreferences prefs;
-    private static Tracker mTracker;
-    private static GoogleAnalytics mGa;
-    private static RefWatcher refWatcher;
+	private final static String PREF_LANG = "settings_language";
+	static SharedPreferences prefs;
+	private static RefWatcher refWatcher;
 
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mContext = getApplicationContext();
-        prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-        refWatcher = LeakCanary.install(this);
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		mContext = getApplicationContext();
+		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+		refWatcher = LeakCanary.install(this);
 
-        if (BuildConfig.BUILD_TYPE.equals("debug")) {
-            StrictMode.enableDefaults();
-        }
+		if (BuildConfig.BUILD_TYPE.equals("debug")) {
+			StrictMode.enableDefaults();
+		}
 
-        initAcra(this);
+		initAcra(this);
 
-        // Checks selected locale or default one
-        updateLanguage(this, null);
+		// Checks selected locale or default one
+		updateLanguage(this, null);
 
-        // Google Analytics initialization
-        initializeGa();
-    }
-
-
-    private void initAcra(Application application) {
-        ACRA.init(application);
-        String isDebugBuild = BuildConfig.BUILD_TYPE.equals("debug") ? "1" : "0";
-        ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild);
-    }
+		// Analytics initialization
+		AnalyticsHelper.init(this);
+	}
 
 
-    @Override
-    // Used to restore user selected locale when configuration changes
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        String language = prefs.getString(PREF_LANG, "");
-        super.onConfigurationChanged(newConfig);
-        updateLanguage(this, language);
-    }
+	private void initAcra(Application application) {
+		ACRA.init(application);
+		String isDebugBuild = BuildConfig.BUILD_TYPE.equals("debug") ? "1" : "0";
+		ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild);
+	}
 
 
-    public static Context getAppContext() {
-        return OmniNotes.mContext;
-    }
-
-    public static RefWatcher getRefWatcher() {
-        return OmniNotes.refWatcher;
-    }
-
-
-    /**
-     * Updates default language with forced one
-     */
-    public static void updateLanguage(Context ctx, String lang) {
-        Configuration cfg = new Configuration();
-        String language = prefs.getString(PREF_LANG, "");
-
-        if (TextUtils.isEmpty(language) && lang == null) {
-            cfg.locale = Locale.getDefault();
-            prefs.edit().putString(PREF_LANG, Locale.getDefault().toString()).commit();
-
-        } else if (lang != null) {
-            // Checks country
-            if (lang.contains("_")) {
-                cfg.locale = new Locale(lang.split("_")[0], lang.split("_")[1]);
-            } else {
-                cfg.locale = new Locale(lang);
-            }
-            prefs.edit().putString(PREF_LANG, lang).commit();
-
-        } else if (!TextUtils.isEmpty(language)) {
-            // Checks country
-            if (language.contains("_")) {
-                cfg.locale = new Locale(language.split("_")[0], language.split("_")[1]);
-            } else {
-                cfg.locale = new Locale(language);
-            }
-        }
-
-        ctx.getResources().updateConfiguration(cfg, null);
-    }
+	@Override
+	// Used to restore user selected locale when configuration changes
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		String language = prefs.getString(PREF_LANG, "");
+		super.onConfigurationChanged(newConfig);
+		updateLanguage(this, language);
+	}
 
 
-    /*
-     * Method to handle basic Google Analytics initialization. This call will not block as all Google Analytics work
-     * occurs off the main thread.
-     */
-    private void initializeGa() {
-        mGa = GoogleAnalytics.getInstance(this);
-        mTracker = mGa.getTracker("UA-45502770-1");
-    }
+	public static Context getAppContext() {
+		return OmniNotes.mContext;
+	}
+
+	public static RefWatcher getRefWatcher() {
+		return OmniNotes.refWatcher;
+	}
 
 
-    /*
-     * Returns the Google Analytics tracker.
-     */
-    public static Tracker getGaTracker() {
-        return mTracker;
-    }
+	/**
+	 * Updates default language with forced one
+	 */
+	public static void updateLanguage(Context ctx, String lang) {
+		Configuration cfg = new Configuration();
+		String language = prefs.getString(PREF_LANG, "");
+
+		if (TextUtils.isEmpty(language) && lang == null) {
+			cfg.locale = Locale.getDefault();
+			prefs.edit().putString(PREF_LANG, Locale.getDefault().toString()).commit();
+
+		} else if (lang != null) {
+			// Checks country
+			if (lang.contains("_")) {
+				cfg.locale = new Locale(lang.split("_")[0], lang.split("_")[1]);
+			} else {
+				cfg.locale = new Locale(lang);
+			}
+			prefs.edit().putString(PREF_LANG, lang).commit();
+
+		} else if (!TextUtils.isEmpty(language)) {
+			// Checks country
+			if (language.contains("_")) {
+				cfg.locale = new Locale(language.split("_")[0], language.split("_")[1]);
+			} else {
+				cfg.locale = new Locale(language);
+			}
+		}
+
+		ctx.getResources().updateConfiguration(cfg, null);
+	}
 
 
-    /*
-     * Returns the Google Analytics instance.
-     */
-    public static GoogleAnalytics getGaInstance() {
-        return mGa;
-    }
+
 
 }

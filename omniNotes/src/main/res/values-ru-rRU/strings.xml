@@ -21,7 +21,7 @@
   <string name="add_note">Добавить заметку</string>
   <string name="title">Заголовок</string>
   <string name="title_activity_list">Omni Notes</string>
-  <string name="search">Найти</string>
+  <string name="search">Поиск</string>
   <string name="search_hint">Поиск по заметкам</string>
   <string name="content">Содержание</string>
   <string name="save">Сохранить</string>
@@ -41,7 +41,7 @@
   <string name="delete_note_confirmation">Вы согласны удалить заметку?</string>
   <string name="confirm">Подтвердить</string>
   <string name="ok">ОК</string>
-  <string name="no">No</string>
+  <string name="no">Heт</string>
   <string name="cancel">Отмена</string>
   <string name="note_updated">Заметка изменена</string>
   <string name="empty_note_not_saved">Пустые заметки не сохраняются</string>
@@ -157,7 +157,7 @@
   <string name="not_expired">не истек</string>
   <string name="expired">истекло</string>
   <string name="today">на сегодня</string>
-  <string name="tomorrow">tomorrow</string>
+  <string name="tomorrow">завтра</string>
   <string name="open">Перейти</string>
   <string name="copy">Скопировать</string>
   <string name="no_application_can_perform_this_action">Нет соответсвующего приложения</string>
@@ -190,9 +190,9 @@
   <string name="settings_reset_all_data">Стереть все данные</string>
   <string name="reset_all_data_confirmation">Вы согласны удалить все данные приложения?  Рез. копии не будут затронуты</string>
   <string name="action_settings">Настройки</string>
-  <string name="settings_screen_sync_import_export">Синхронизация и резервное копирование</string>
+  <string name="settings_screen_sync_import_export">Синхронизация и резервирование</string>
   <string name="settings_export">Создать копию</string>
-  <string name="settings_sync_import_export">Синхронизация и резервное копирование</string>
+  <string name="settings_sync_import_export">Sync and Backups</string>
   <string name="settings_import">Управление копиями</string>
   <string name="settings_import_from_springpad">Перенести заметки из Springpad</string>
   <string name="settings_import_from_springpad_summary">Выберите экспортированный из Springpad архив и подключитесь к интернету</string>
@@ -212,7 +212,7 @@
   <string name="settings_screen_backup">Резервные копии</string>
   <string name="settings_screen_notifications">Уведомления</string>
   <string name="settings_enable_vibration">Вибрация</string>
-  <string name="settings_screen_navigation">Navigation</string>
+  <string name="settings_screen_navigation">Панель навигации</string>
   <string name="settings_changelog">История изменений</string>
   <string name="settings_enable_editor_links">Распознавание ссылок</string>
   <string name="settings_max_video_size">Видео вложения</string>
@@ -278,6 +278,8 @@
   <string name="settings_navdrawer_on_exit_summary">Открывать меню навигации при нажатии кнопки «Назад» вместо выхода</string>
   <string name="settings_text_size">Размер текста</string>
   <string name="settings_screen_behaviors">Взаимодействие</string>
+  <string name="settings_enable_swipe">Действия по смахиваниям</string>
+  <string name="settings_enable_swipe_summary">Сдвигайте заметки для выполнения действий</string>
   <string name="settings_swipe_to_trash">Жест удаления</string>
   <string name="settings_swipe_to_trash_summary_1">Проведение по заметке пальцем заархивирует её</string>
   <string name="settings_swipe_to_trash_summary_2">Проведение по заметке пальцем удалит её</string>
@@ -289,9 +291,9 @@
   <string name="settings_auto_location_summary">Автоматически добавлять Ваше местонахождение к новым заметкам</string>
   <string name="settings_dynamic_menu">Динамическое меню</string>
   <string name="settings_dynamic_menu_summary">Скрывать бесполезные элементы меню</string>
-  <string name="settings_fab_expansion_behavior">Floating action button</string>
-  <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
-  <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
+  <string name="settings_fab_expansion_behavior">Поведение всплывающей кнопки</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Короткое касание создает заметку</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Короткое касание позволяет выбрать опции</string>
   <string name="settings_error_reporting">Отчеты об ошибках</string>
   <string name="settings_error_reporting_summary_on">Разработчик будет осведомлен и поможет вам, если в приложении произойдёт сбой</string>
   <string name="settings_error_reporting_summary_off">Отчёты не отправляются. Если что-то пойдет не так - не жалуйтесь!</string>
@@ -311,13 +313,13 @@
   <string name="tour_detailactivity_reminder_title">Просто коснитесь</string>
   <string name="tour_detailactivity_reminder_detail">Короткие или длительные нажатия на объектах (вложениях, размещениях, напоминаниях) действуют по-разному!</string>
   <string name="tour_detailactivity_links_title">Ссылки</string>
-  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
+  <string name="tour_detailactivity_links_detail">Нажмите на URL или почтовый адрес, чтобы скопировать или открыть его</string>
   <string name="tour_detailactivity_swipe_title">Жесты</string>
   <string name="tour_detailactivity_swipe_detail">Создавайте новые заметки, не прекращая изменять предыдущие</string>
   <string name="tour_detailactivity_save_title">Сохранение</string>
   <string name="tour_detailactivity_save_detail">Просто нажмите на значок навигации или вернитесь с помощью клавиши устройства</string>
   <string name="tour_listactivity_final_title">Приятного пользования!</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_listactivity_final_detail">Спасибо за использование Omni Notes\nСвободной альтернативы для производительности труда и повседневных заметок!</string>
   <string name="drawer_open">сп. прил. открыт?</string>
   <string name="drawer_close">сп. прил. закрыт?</string>
   <string name="reminder">напоминание</string>

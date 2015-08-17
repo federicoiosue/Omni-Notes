@@ -70,7 +70,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
     private void purgeRemovedAttachments(Note note) {
         List<Attachment> deletedAttachments = note.getAttachmentsListOld();
         for (Attachment attachment : note.getAttachmentsList()) {
-            if (attachment.getId() != 0) {
+            if (attachment.getId() != null) {
                 // Workaround to prevent deleting attachments if instance is changed (app restart)
                 if (deletedAttachments.indexOf(attachment) == -1) {
                     attachment = getFixedAttachmentInstance(deletedAttachments, attachment);

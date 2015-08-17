@@ -45,6 +45,7 @@ import it.feio.android.springpadimporter.models.SpringpadElement;
 import it.feio.android.springpadimporter.models.SpringpadItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import java.io.File;
@@ -110,6 +111,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         // Database backup
         exportDB(backupDir);
+//		exportNotes(backupDir);
 
         // Attachments backup
         exportAttachments(backupDir);
@@ -122,7 +124,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         // Notification of operation ended
         String title = getString(R.string.data_export_completed);
         String text = backupDir.getPath();
-        createNotification(intent, this, title, text);
+        createNotification(intent, this, title, text, backupDir);
     }
 
 
@@ -134,6 +136,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         // Database backup
         importDB(backupDir);
+//        importNotes(backupDir);
 
         // Attachments backup
         importAttachments(backupDir);
@@ -146,7 +149,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         String title = getString(R.string.data_import_completed);
         String text = getString(R.string.click_to_refresh_application);
-        createNotification(intent, this, title, text);
+        createNotification(intent, this, title, text, backupDir);
     }
 
 
@@ -393,7 +396,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         String title = getString(R.string.data_import_completed);
         String text = getString(R.string.click_to_refresh_application);
-        createNotification(intent, this, title, text);
+        createNotification(intent, this, title, text, null);
     }
 
 
@@ -417,21 +420,21 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         String title = getString(R.string.data_deletion_completed);
         String text = backupName + " " + getString(R.string.deleted);
-        createNotification(intent, this, title, text);
+        createNotification(intent, this, title, text, backupDir);
     }
 
 
     /**
      * Creation of notification on operations completed
      */
-    private void createNotification(Intent intent, Context mContext, String title, String message) {
+    private void createNotification(Intent intent, Context mContext, String title, String message, File backupDir) {
 
         // The behavior differs depending on intent action
         Intent intentLaunch;
         if (DataBackupIntentService.ACTION_DATA_IMPORT.equals(intent.getAction())
                 || DataBackupIntentService.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
-            intentLaunch = new Intent(mContext, MainActivity.class);
-            intentLaunch.setAction(Constants.ACTION_RESTART_APP);
+			intentLaunch = new Intent(mContext, MainActivity.class);
+			intentLaunch.setAction(Constants.ACTION_RESTART_APP);
         } else {
             intentLaunch = new Intent();
         }
@@ -460,6 +463,17 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         File database = getDatabasePath(Constants.DATABASE_NAME);
         return (StorageHelper.copyFile(database, new File(backupDir, Constants.DATABASE_NAME)));
     }
+
+    private void exportNotes(File backupDir) {
+		for (Note note : DbHelper.getInstance().getAllNotes(false)) {
+			File noteFile = new File(backupDir, String.valueOf(note.get_id()));
+			try {
+				FileUtils.write(noteFile, note.toJSON());
+			} catch (IOException e) {
+				Log.e(Constants.TAG, "Error backupping note: " + note.get_id());
+			}
+		}
+	}
 
 
     /**
@@ -526,13 +540,30 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     }
 
 
+    private void importNotes(File backupDir) {
+		for (File file : FileUtils.listFiles(backupDir, new RegexFileFilter("\\d{13}"), TrueFileFilter.INSTANCE)) {
+			try {
+				Note note = new Note();
+				note.buildFromJson(FileUtils.readFileToString(file));
+				if (note.getCategory() != null) {
+					DbHelper.getInstance().updateCategory(note.getCategory());
+				}
+				for (Attachment attachment : note.getAttachmentsList()) {
+					DbHelper.getInstance().updateAttachment(attachment);
+				}
+				DbHelper.getInstance().updateNote(note, false);
+			} catch (IOException e) {
+				Log.e(Constants.TAG, "Error parsing note json");
+			}
+		}
+    }
+
+
     /**
      * Import attachments from backup folder
      */
     private boolean importAttachments(File backupDir) {
         File attachmentsDir = StorageHelper.getAttachmentDir(this);
-        // Clearing
-        StorageHelper.delete(this, attachmentsDir.getAbsolutePath());
         // Moving back
         File backupAttachmentsDir = new File(backupDir, attachmentsDir.getName());
         if (!backupAttachmentsDir.exists()) return true;

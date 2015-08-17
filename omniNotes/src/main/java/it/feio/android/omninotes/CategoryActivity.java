@@ -40,6 +40,7 @@ import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Calendar;
 
 
 public class CategoryActivity extends Activity {
@@ -64,7 +65,7 @@ public class CategoryActivity extends Activity {
 
         mActivity = this;
 
-        category = getIntent().getParcelableExtra(Constants.INTENT_TAG);
+        category = getIntent().getParcelableExtra(Constants.INTENT_CATEGORY);
 
         initViews();
 
@@ -134,6 +135,8 @@ public class CategoryActivity extends Activity {
      * Category saving
      */
     private void saveCategory() {
+		Long id = category.getId() != null ? category.getId() : Calendar.getInstance().getTimeInMillis();
+		category.setId(id);
         category.setName(title.getText().toString());
         category.setDescription(description.getText().toString());
         if (colorChanged || category.getColor() == null)
@@ -144,7 +147,7 @@ public class CategoryActivity extends Activity {
         category = db.updateCategory(category);
 
         // Sets result to show proper message
-        getIntent().putExtra(Constants.INTENT_TAG, category);
+        getIntent().putExtra(Constants.INTENT_CATEGORY, category);
         setResult(RESULT_OK, getIntent());
         finish();
     }
@@ -155,16 +158,15 @@ public class CategoryActivity extends Activity {
         // Retrieving how many notes are categorized with category to be deleted
         DbHelper db = DbHelper.getInstance();
         int count = db.getCategorizedCount(category);
-        String msg;
+        String msg = "";
         if (count > 0)
             msg = getString(R.string.delete_category_confirmation).replace("$1$", String.valueOf(count));
-        else
-            msg = getString(R.string.delete_unused_category_confirmation);
 
         new MaterialDialog.Builder(this)
+				.title(R.string.delete_unused_category_confirmation)
                 .content(msg)
-                .positiveText(R.string.ok)
-                .positiveColor(R.color.colorAccent)
+                .positiveText(R.string.confirm)
+                .positiveColorRes(R.color.colorAccent)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {

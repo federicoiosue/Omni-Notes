@@ -36,11 +36,12 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
     }
 
 
-    public Note(int _id, Long creation, Long lastModification, String title, String content, Integer archived,
+    public Note(Long creation, Long lastModification, String title, String content, Integer archived,
 				Integer trashed, String alarm, String recurrenceRule, Integer reminderFired, String latitude, String longitude, Category
                         category, Integer locked, Integer checklist) {
-        super(_id, creation, lastModification, title, content, archived, trashed, alarm, reminderFired, recurrenceRule, latitude,
-                longitude, category, locked, checklist);
+        super(creation, lastModification, title, content, archived, trashed, alarm, reminderFired, recurrenceRule,
+				latitude,
+				longitude, category, locked, checklist);
     }
 
 
@@ -51,7 +52,6 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
 
     private Note(Parcel in) {
-        set_id(in.readInt());
         setCreation(in.readString());
         setLastModification(in.readString());
         setTitle(in.readString());
@@ -88,7 +88,15 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
 
     public List<Attachment> getAttachmentsList() {
-        return (List<Attachment>) super.getAttachmentsList();
+		List<Attachment> list = new ArrayList<>();
+		for (it.feio.android.omninotes.commons.models.Attachment attachment : super.getAttachmentsList()) {
+			if (attachment.getClass().equals(Attachment.class)) {
+				list.add((Attachment) attachment);
+			} else {
+				list.add(new Attachment(attachment));
+			}
+		}
+		return list;
     }
 
 
@@ -97,11 +105,18 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
     }
 
 
-    public void addAttachment(Attachment attachment) {
-        List<Attachment> attachmentsList = ((List<Attachment>) super.getAttachmentsList());
-        attachmentsList.add(attachment);
-        setAttachmentsList(attachmentsList);
-    }
+	public void addAttachment(Attachment attachment) {
+		List<Attachment> attachmentsList = ((List<Attachment>) super.getAttachmentsList());
+		attachmentsList.add(attachment);
+		setAttachmentsList(attachmentsList);
+	}
+
+
+	public void removeAttachment(Attachment attachment) {
+		List<Attachment> attachmentsList = ((List<Attachment>) super.getAttachmentsList());
+		attachmentsList.remove(attachment);
+		setAttachmentsList(attachmentsList);
+	}
 
 
     public List<Attachment> getAttachmentsListOld() {
@@ -126,8 +141,20 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
     @Override
     public Category getCategory() {
-        return (Category) super.getCategory();
+		try {
+			return (Category) super.getCategory();
+		} catch (ClassCastException e) {
+			return new Category(super.getCategory());
+		}
     }
+
+
+	public void setCategory(Category category) {
+		if (category != null && category.getClass().equals(it.feio.android.omninotes.commons.models.Category.class)) {
+			setCategory(new Category(category));
+		}
+		super.setCategory(category);
+	}
 
 
     @Override
@@ -138,7 +165,6 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(get_id());
         parcel.writeString(String.valueOf(getCreation()));
         parcel.writeString(String.valueOf(getLastModification()));
         parcel.writeString(getTitle());

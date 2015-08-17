@@ -37,10 +37,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
+import android.os.*;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
@@ -64,8 +61,6 @@ import butterknife.InjectView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.pushbullet.android.extension.MessagingExtension;
@@ -83,6 +78,7 @@ import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
@@ -116,7 +112,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private static final int TAKE_VIDEO = 2;
 	private static final int SET_PASSWORD = 3;
 	private static final int SKETCH = 4;
-	private static final int TAG = 5;
+	private static final int CATEGORY = 5;
 	private static final int DETAIL = 6;
 	private static final int FILES = 7;
 
@@ -140,7 +136,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public OnDateSetListener onDateSetListener;
 	public OnTimeSetListener onTimeSetListener;
 	public boolean goBack = false;
-	MediaRecorder mRecorder = null;
 	View toggleChecklistView;
 	private Uri attachmentUri;
 	private AttachmentAdapter mAttachmentAdapter;
@@ -150,6 +145,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private Note noteOriginal;
 	// Audio recording
 	private String recordName;
+	private MediaRecorder mRecorder = null;
 	private MediaPlayer mPlayer = null;
 	private boolean isRecording = false;
 	private View isPlayingView = null;
@@ -173,7 +169,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private Attachment sketchEdited;
 	private int contentLineCounter = 1;
 	private int contentCursorPosition;
-	private ArrayList<Integer> mergedNotesIds = new ArrayList<>();
+	private ArrayList<String> mergedNotesIds;
 	private MainActivity mainActivity;
 	private boolean activityPausing;
 
@@ -189,8 +185,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
-		OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
 		EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
 		EventBus.getDefault().register(this);
 	}
@@ -247,8 +241,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
 		mainActivity.getToolbar().setNavigationOnClickListener(v -> navigateUp());
 
-		// Force the navigation drawer to stay closed
-		mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+		// Force the navigation drawer to stay opened if tablet mode is on, otherwise has to stay closed
+		if (NavigationDrawerFragment.isDoublePanelActive()) {
+			mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+		} else {
+			mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+		}
 
 		// Restored temp note after orientation change
 		if (savedInstanceState != null) {
@@ -262,7 +260,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Added the sketched image if present returning from SketchFragment
 		if (mainActivity.sketchUri != null) {
 			Attachment mAttachment = new Attachment(mainActivity.sketchUri, Constants.MIME_TYPE_SKETCH);
-			noteTmp.getAttachmentsList().add(mAttachment);
+			addAttachment(mAttachment);
 			mainActivity.sketchUri = null;
 			// Removes previous version of edited image
 			if (sketchEdited != null) {
@@ -394,8 +392,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			noteOriginal = new Note();
 			note = new Note(noteOriginal);
 			noteTmp = getArguments().getParcelable(Constants.INTENT_NOTE);
-			if (i.getIntegerArrayListExtra("merged_notes") != null) {
-				mergedNotesIds = i.getIntegerArrayListExtra("merged_notes");
+			if (i.getStringArrayListExtra("merged_notes") != null) {
+				mergedNotesIds = i.getStringArrayListExtra("merged_notes");
 			}
 			i.setAction(null);
 		}
@@ -404,16 +402,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
 				|| Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())) {
 			afterSavedReturnsToList = false;
-			noteOriginal = DbHelper.getInstance().getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+			noteOriginal = DbHelper.getInstance().getNote(i.getLongExtra(Constants.INTENT_KEY, 0));
 			// Checks if the note pointed from the shortcut has been deleted
-			if (noteOriginal == null) {
-				mainActivity.showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
-				mainActivity.finish();
-			} else {
+			try {
 				note = new Note(noteOriginal);
 				noteTmp = new Note(noteOriginal);
-				i.setAction(null);
+			} catch (NullPointerException e) {
+				mainActivity.showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
+				mainActivity.finish();
 			}
+			i.setAction(null);
 		}
 
 		// Check if is launched from a widget
@@ -431,7 +429,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					if (categoryId != null) {
 						Category category;
 						try {
-							category = DbHelper.getInstance().getCategory(Integer.parseInt(categoryId));
+							category = DbHelper.getInstance().getCategory(Long.parseLong(categoryId));
 							noteTmp = new Note();
 							noteTmp.setCategory(category);
 						} catch (NumberFormatException e) {
@@ -519,7 +517,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		content = initContent();
 
 		// Automatic location insertion
-		if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == 0) {
+		if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
 			Location location = getLocation();
 			if (location != null) {
 				noteTmp.setLatitude(location.getLatitude());
@@ -641,7 +639,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 						.callback(new MaterialDialog.ButtonCallback() {
 							@Override
 							public void onPositive(MaterialDialog materialDialog) {
-								noteTmp.getAttachmentsList().remove(position);
+								removeAttachment(position);
 								mAttachmentAdapter.notifyDataSetChanged();
 								mGridView.autoresize();
 							}
@@ -659,7 +657,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 						.callback(new MaterialDialog.ButtonCallback() {
 							@Override
 							public void onPositive(MaterialDialog materialDialog) {
-								noteTmp.getAttachmentsList().remove(position);
+								removeAttachment(position);
 								mAttachmentAdapter.notifyDataSetChanged();
 								mGridView.autoresize();
 							}
@@ -729,6 +727,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
+	private void removeAttachment(int position) {
+		noteTmp.removeAttachment(noteTmp.getAttachmentsList().get(position));
+		mAttachmentAdapter.getAttachmentsList().remove(position);
+	}
+
+
 	private EditText initTitle() {
 		title.setText(noteTmp.getTitle());
 		title.gatherLinksForText();
@@ -773,7 +777,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	 * Force focus and shows soft keyboard
 	 */
 	private void requestFocus(final EditText view) {
-		if (note.get_id() == 0 && !noteTmp.isChanged(note)) {
+		if (note.get_id() == null && !noteTmp.isChanged(note)) {
 			KeyboardUtils.showKeyboard(view);
 		}
 	}
@@ -928,37 +932,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
 		inflater.inflate(R.menu.menu_detail, menu);
 		super.onCreateOptionsMenu(menu, inflater);
-
-		// Show instructions on first launch
-//        final String instructionName = Constants.PREF_TOUR_PREFIX + "detail";
-//        if (AppTourHelper.isStepTurn(mainActivity, instructionName)
-//                && !onCreateOptionsMenuAlreadyCalled) {
-//            onCreateOptionsMenuAlreadyCalled = true;
-//            ArrayList<Integer[]> list = new ArrayList<Integer[]>();
-//            list.add(new Integer[]{R.id.menu_attachment, R.string.tour_detailactivity_attachment_title,
-// R.string.tour_detailactivity_attachment_detail, ShowcaseView.ITEM_ACTION_ITEM});
-//            list.add(new Integer[]{R.id.menu_category, R.string.tour_detailactivity_action_title,
-// R.string.tour_detailactivity_action_detail, ShowcaseView.ITEM_ACTION_ITEM});
-//            list.add(new Integer[]{R.id.datetime, R.string.tour_detailactivity_reminder_title,
-// R.string.tour_detailactivity_reminder_detail, null});
-//            list.add(new Integer[]{R.id.detail_title, R.string.tour_detailactivity_links_title,
-// R.string.tour_detailactivity_links_detail, null});
-//            list.add(new Integer[]{null, R.string.tour_detailactivity_swipe_title,
-// R.string.tour_detailactivity_swipe_detail, null, -10, Display.getUsableSize(mainActivity).y / 3, 80,
-// Display.getUsableSize(mainActivity).y / 3});
-//            list.add(new Integer[]{0, R.string.tour_detailactivity_save_title,
-// R.string.tour_detailactivity_save_detail, ShowcaseView.ITEM_ACTION_HOME});
-//            ((MainActivity) mainActivity).showCaseView(list, new OnShowcaseAcknowledged() {
-//                @Override
-//                public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
-//                    prefs.edit().putBoolean(instructionName, true).commit();
-//                    discard();
-//                }
-//            });
-//        }
 	}
 
 
@@ -971,7 +946,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			MenuItemCompat.collapseActionView(searchMenuItem);
 		}
 
-		boolean newNote = noteTmp.get_id() == 0;
+		boolean newNote = noteTmp.get_id() == null;
 
 		menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
 		menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
@@ -1077,6 +1052,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				deleteNote();
 				break;
 		}
+
+		AnalyticsHelper.trackActionFromResourceId(getActivity(), item.getItemId());
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -1193,7 +1171,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
 				.title(R.string.categorize_as)
-				.adapter(new NavDrawerCategoryAdapter(mainActivity, categories, currentCategory))
+				.adapter(new NavDrawerCategoryAdapter(mainActivity, categories, currentCategory), null)
 				.positiveText(R.string.add_category)
 				.positiveColor(R.color.colorPrimary)
 				.negativeText(R.string.remove_category)
@@ -1203,7 +1181,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					public void onPositive(MaterialDialog dialog) {
 						Intent intent = new Intent(mainActivity, CategoryActivity.class);
 						intent.putExtra("noHome", true);
-						startActivityForResult(intent, TAG);
+						startActivityForResult(intent, CATEGORY);
 					}
 
 
@@ -1342,9 +1320,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 		attachmentUri = Uri.fromFile(f);
 
-		// Forces potrait orientation to this fragment only
-		mainActivity.setRequestedOrientation(
-				ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// Forces portrait orientation to this fragment only
+		mainActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// Fragments replacing
 		FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
@@ -1370,7 +1347,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			switch (requestCode) {
 				case TAKE_PHOTO:
 					attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
-					noteTmp.getAttachmentsList().add(attachment);
+					addAttachment(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();
 					break;
@@ -1381,7 +1358,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					} else {
 						attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_VIDEO);
 					}
-					noteTmp.getAttachmentsList().add(attachment);
+					addAttachment(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();
 					break;
@@ -1394,21 +1371,27 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					break;
 				case SKETCH:
 					attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_SKETCH);
-					noteTmp.getAttachmentsList().add(attachment);
+					addAttachment(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();
 					break;
-				case TAG:
+				case CATEGORY:
 					mainActivity.showMessage(R.string.category_saved, ONStyle.CONFIRM);
-					Category tag = intent.getParcelableExtra("tag");
-					noteTmp.setCategory(tag);
-					setTagMarkerColor(tag);
+					Category category = intent.getParcelableExtra("category");
+					noteTmp.setCategory(category);
+					setTagMarkerColor(category);
 					break;
 				case DETAIL:
 					mainActivity.showMessage(R.string.note_updated, ONStyle.CONFIRM);
 					break;
 			}
 		}
+	}
+
+
+	private void addAttachment(Attachment attachment) {
+		noteTmp.addAttachment(attachment);
+		mAttachmentAdapter.getAttachmentsList().add(attachment);
 	}
 
 
@@ -1447,7 +1430,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		if (!noteTmp.equals(noteOriginal)) {
 			// Restore original status of the note
-			if (noteOriginal.get_id() == 0) {
+			if (noteOriginal.get_id() == null) {
 				mainActivity.deleteNote(noteTmp);
 				goHome();
 			} else {
@@ -1468,7 +1451,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@SuppressLint("NewApi")
 	private void archiveNote(boolean archive) {
 		// Simply go back if is a new note
-		if (noteTmp.get_id() == 0) {
+		if (noteTmp.get_id() == null) {
 			goHome();
 			return;
 		}
@@ -1484,7 +1467,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@SuppressLint("NewApi")
 	private void trashNote(boolean trash) {
 		// Simply go back if is a new note
-		if (noteTmp.get_id() == 0) {
+		if (noteTmp.get_id() == null) {
 			goHome();
 			return;
 		}
@@ -1569,7 +1552,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	 * Checks if nothing is changed to avoid committing if possible (check)
 	 */
 	private boolean saveNotNeeded() {
-		if (noteTmp.get_id() == 0 && prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
+		if (noteTmp.get_id() == null && prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
 			note.setLatitude(noteTmp.getLatitude());
 			note.setLongitude(noteTmp.getLongitude());
 		}
@@ -1607,14 +1590,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
-	private void deleteMergedNotes(ArrayList<Integer> mergedNotesIds) {
+	private void deleteMergedNotes(List<String> mergedNotesIds) {
 		ArrayList<Note> notesToDelete = new ArrayList<Note>();
-		for (Integer mergedNoteId : mergedNotesIds) {
-			Note note = new Note();
-			note.set_id(mergedNoteId);
-			notesToDelete.add(note);
+		if (mergedNotesIds != null) {
+			for (String mergedNoteId : mergedNotesIds) {
+				Note note = new Note();
+				note.set_id(Long.valueOf(mergedNoteId));
+				notesToDelete.add(note);
+			}
+			new NoteProcessorDelete(notesToDelete).process();
 		}
-		new NoteProcessorDelete(notesToDelete).process();
 	}
 
 
@@ -1764,7 +1749,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
 	private void startPlaying(Uri uri) {
-		mPlayer = new MediaPlayer();
+		if (mPlayer == null) {
+			mPlayer = new MediaPlayer();
+		}
 		try {
 			mPlayer.setDataSource(mainActivity, uri);
 			mPlayer.prepare();
@@ -1777,7 +1764,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				isPlayingView = null;
 			});
 		} catch (IOException e) {
-			Log.e(Constants.TAG, "prepare() failed");
+			Log.e(Constants.TAG, "prepare() failed", e);
+			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
 		}
 	}
 
@@ -1797,23 +1785,26 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_AUDIO_EXT);
 		if (f == null) {
 			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
-
 			return;
 		}
+		if (mRecorder == null) {
+			mRecorder = new MediaRecorder();
+			mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+			mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+			mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB);
+			mRecorder.setAudioEncodingBitRate(16);
+			mRecorder.setAudioSamplingRate(44100);
+		}
 		recordName = f.getAbsolutePath();
-		mRecorder = new MediaRecorder();
-		mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-		mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-		mRecorder.setAudioEncodingBitRate(16);
 		mRecorder.setOutputFile(recordName);
 
 		try {
-			mRecorder.prepare();
 			audioRecordingTimeStart = Calendar.getInstance().getTimeInMillis();
+			mRecorder.prepare();
 			mRecorder.start();
-		} catch (IOException e) {
-			Log.e(Constants.TAG, "prepare() failed");
+		} catch (IOException | IllegalStateException e) {
+			Log.e(Constants.TAG, "prepare() failed", e);
+			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
 		}
 	}
 
@@ -2032,16 +2023,22 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onAttachingFileErrorOccurred(Attachment mAttachment) {
 		mainActivity.showMessage(R.string.error_saving_attachments, ONStyle.ALERT);
 		if (noteTmp.getAttachmentsList().contains(mAttachment)) {
-			noteTmp.getAttachmentsList().remove(mAttachment);
+			removeAttachment(mAttachment);
 			mAttachmentAdapter.notifyDataSetChanged();
 			mGridView.autoresize();
 		}
 	}
 
 
+	private void removeAttachment(Attachment mAttachment) {
+		noteTmp.removeAttachment(mAttachment);
+		mAttachmentAdapter.getAttachmentsList().remove(mAttachment);
+	}
+
+
 	@Override
 	public void onAttachingFileFinished(Attachment mAttachment) {
-		noteTmp.getAttachmentsList().add(mAttachment);
+		addAttachment(mAttachment);
 		mAttachmentAdapter.notifyDataSetChanged();
 		mGridView.autoresize();
 	}
@@ -2134,6 +2131,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				.itemsCallbackMultiChoice(preselectedTags, (dialog1, which, text) -> {
 					dialog1.dismiss();
 					tagNote(tags, which, currentNote);
+					return false;
 				}).build();
 		dialog.show();
 	}
@@ -2242,7 +2240,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 						stopRecording();
 						Attachment attachment = new Attachment(Uri.parse(recordName), Constants.MIME_TYPE_AUDIO);
 						attachment.setLength(audioRecordingTime);
-						noteTmp.getAttachmentsList().add(attachment);
+						addAttachment(attachment);
 						mAttachmentAdapter.notifyDataSetChanged();
 						mGridView.autoresize();
 						attachmentDialog.dismiss();

@@ -23,7 +23,7 @@ import android.os.Parcelable;
 public class Category extends it.feio.android.omninotes.commons.models.Category implements Parcelable {
 
     private Category(Parcel in) {
-        setId(in.readInt());
+        setId(in.readLong());
         setName(in.readString());
         setDescription(in.readString());
         setColor(in.readString());
@@ -35,12 +35,17 @@ public class Category extends it.feio.android.omninotes.commons.models.Category 
     }
 
 
-    public Category(Integer id, String title, String description, String color) {
+    public Category(it.feio.android.omninotes.commons.models.Category category) {
+        super(category.getId(), category.getName(), category.getDescription(), category.getColor());
+    }
+
+
+    public Category(Long id, String title, String description, String color) {
         super(id, title, description, color);
     }
 
 
-    public Category(Integer id, String title, String description, String color, int count) {
+    public Category(Long id, String title, String description, String color, int count) {
         super(id, title, description, color, count);
     }
 
@@ -53,7 +58,7 @@ public class Category extends it.feio.android.omninotes.commons.models.Category 
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(getId());
+        parcel.writeLong(getId());
         parcel.writeString(getName());
         parcel.writeString(getDescription());
         parcel.writeString(getColor());

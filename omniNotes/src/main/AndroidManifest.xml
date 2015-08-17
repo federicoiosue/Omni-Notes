@@ -50,7 +50,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/OmniNotesTheme.ApiSpec"
+        android:theme="@style/OmniNotesTheme.ApiSpec.Branded"
         tools:replace="android:theme, android:icon">
         <meta-data
             android:name="android.app.default_searchable"
@@ -122,7 +122,7 @@
             android:name="it.feio.android.omninotes.CategoryActivity"
             android:label="@string/title_activity_category"
             android:parentActivityName="it.feio.android.omninotes.MainActivity"
-            android:theme="@style/Theme.AppCompat.Dialog">
+            android:theme="@style/Theme.AppCompat.Light.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -151,6 +151,12 @@
             android:label="@string/title_activity_about"
             android:launchMode="singleTop" />
 
+        <!-- Intro -->
+        <activity
+            android:name=".intro.IntroActivity"
+            android:label="@string/app_name"
+            android:theme="@style/PreferencesTheme"/>
+
         <!-- Snooze reminder -->
         <activity
             android:name="it.feio.android.omninotes.SnoozeActivity"
@@ -162,7 +168,7 @@
         <!-- Stats -->
         <activity
             android:name="it.feio.android.omninotes.StatsActivity"
-            android:theme="@style/Theme.AppCompat.Dialog" />
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <!-- ACRA -->
         <activity

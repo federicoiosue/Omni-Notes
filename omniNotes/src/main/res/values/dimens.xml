@@ -35,12 +35,12 @@
     <dimen name="navigation_drawer_line_height">48dp</dimen>
     <dimen name="navigation_drawer_icon_size">28dp</dimen>
     <dimen name="navigation_drawer_header_height">90dp</dimen>
+    <dimen name="navigation_drawer_reserved_space">0dp</dimen>
 
     <dimen name="tag_circle_padding">25dp</dimen>
     
     <dimen name="padding_top_kitkat">0dp</dimen>
     <dimen name="padding_bottom_kitkat">0dp</dimen>
-    <dimen name="showcase_margin_bottom">12dp</dimen>
 
     <dimen name="widget_height">56dp</dimen>
     
@@ -57,5 +57,10 @@
 
     <!-- FAB -->
     <dimen name="fab_right_margin">8dp</dimen>
+
+    <!-- Introduction -->
+    <dimen name="intro_top_padding">32dp</dimen>
+    <dimen name="intro_bottom_padding">24dp</dimen>
+    <dimen name="intro_side_padding">64dp</dimen>
 
 </resources>

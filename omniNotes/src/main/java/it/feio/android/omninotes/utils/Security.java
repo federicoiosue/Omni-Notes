@@ -64,8 +64,9 @@ public class Security {
             cipher.init(Cipher.ENCRYPT_MODE, key);
             encrypedValue = Base64.encodeToString(cipher.doFinal(clearText), Base64.DEFAULT);
             return encrypedValue;
-        } catch (InvalidKeyException | NoSuchPaddingException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            Log.d(Constants.TAG, "Something is gone wrong encrypting", e);
+		} catch (InvalidKeyException | NoSuchPaddingException | InvalidKeySpecException | BadPaddingException |
+				IllegalBlockSizeException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			Log.d(Constants.TAG, "Something is gone wrong encrypting", e);
         }
         return encrypedValue;
     }
@@ -85,30 +86,14 @@ public class Security {
             byte[] decrypedValueBytes = (cipher.doFinal(encrypedPwdBytes));
 
             decryptedValue = new String(decrypedValueBytes);
-        } catch (InvalidKeyException e) {
-            Log.e(Constants.TAG, "Error decrypting");
-            return value;
-        } catch (UnsupportedEncodingException e) {
-            Log.e(Constants.TAG, "Error decrypting");
-            return value;
-        } catch (InvalidKeySpecException e) {
-            Log.e(Constants.TAG, "Error decrypting");
-            return value;
-        } catch (NoSuchAlgorithmException e) {
-            Log.e(Constants.TAG, "Error decrypting");
-            return value;
-        } catch (BadPaddingException e) {
-            Log.e(Constants.TAG, "Error decrypting");
-            return value;
-        } catch (NoSuchPaddingException e) {
-            Log.e(Constants.TAG, "Error decrypting");
-            return value;
-        } catch (IllegalBlockSizeException e) {
-            Log.e(Constants.TAG, "Error decrypting");
+		} catch (InvalidKeyException | UnsupportedEncodingException | InvalidKeySpecException |
+				NoSuchAlgorithmException | BadPaddingException | NoSuchPaddingException | IllegalBlockSizeException
+				e) {
+			Log.e(Constants.TAG, "Error decrypting");
             return value;
             // try-catch ensure compatibility with old masked (without encryption) values
         } catch (IllegalArgumentException e) {
-            Log.e(Constants.TAG, "Error decrypting");
+            Log.e(Constants.TAG, "Error decrypting: old notes were not encrypted but just masked to users");
             return value;
         }
         return decryptedValue;

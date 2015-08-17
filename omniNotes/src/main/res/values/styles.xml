@@ -21,7 +21,6 @@
     <style name="OmniNotesTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
-        <!--<item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>-->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -32,6 +31,10 @@
     </style>
 
     <style name="OmniNotesTheme.ApiSpec"></style>
+
+    <style name="OmniNotesTheme.ApiSpec.Branded">
+        <item name="android:windowBackground">@drawable/branded_background</item>
+    </style>
 
     <style name="PreferencesTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -45,26 +48,6 @@
     </style>
 
     <style name="OmniNotesFullscreenTheme.ApiSpec"></style>
-
-    <!-- ShowcaseView styles -->
-    <!--<style name="CustomShowcaseTheme" parent="ShowcaseView.Light">-->
-    <!--<item name="sv_backgroundColor">#ee2d2d2d</item>-->
-    <!--<item name="sv_buttonBackgroundColor">#CF3119</item>-->
-    <!--<item name="sv_buttonText">@string/proceed</item>-->
-    <!--<item name="sv_titleTextAppearance">@style/TourTitle</item>-->
-    <!--<item name="sv_detailTextAppearance">@style/TourDetail</item>-->
-    <!--</style>-->
-
-    <!--<style name="TourTitle" parent="TextAppearance.ShowcaseView.Title.Light">-->
-    <!--<item name="android:textSize">24sp</item>-->
-    <!--<item name="android:textStyle">bold</item>-->
-    <!-- <item name="android:textColor">#0099CC</item> -->
-    <!--</style>-->
-
-    <!--<style name="TourDetail" parent="TextAppearance.ShowcaseView.Detail.Light">-->
-    <!--<item name="android:textSize">18sp</item>-->
-    <!--<item name="android:textColor">#ffffff</item>-->
-    <!--</style>-->
 
     <style name="OmniNotesTheme.NoDisplay">
         <item name="android:windowBackground">@null</item>

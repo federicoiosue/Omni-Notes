@@ -20,7 +20,6 @@ package it.feio.android.omninotes;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -28,7 +27,6 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;
 
@@ -68,82 +66,67 @@ public class PasswordActivity extends BaseActivity {
         answer = (EditText) findViewById(R.id.answer);
         answerCheck = (EditText) findViewById(R.id.answer_check);
 
-        findViewById(R.id.password_remove).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
-                    requestPassword(mActivity, new PasswordValidator() {
-                        @Override
-                        public void onPasswordValidated(boolean passwordConfirmed) {
-                            if (passwordConfirmed) {
-                                updatePassword(null, null, null);
-                            }
-                        }
-                    });
-                } else {
-                    Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
-                }
-            }
-        });
+        findViewById(R.id.password_remove).setOnClickListener(v -> {
+			if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
+				requestPassword(mActivity, passwordConfirmed -> {
+					if (passwordConfirmed) {
+						updatePassword(null, null, null);
+					}
+				});
+			} else {
+				Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
+			}
+		});
 
-        findViewById(R.id.password_confirm).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkData()) {
-                    final String passwordText = password.getText().toString();
-                    final String questionText = question.getText().toString();
-                    final String answerText = answer.getText().toString();
-                    if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
-                        requestPassword(mActivity, new PasswordValidator() {
-                            @Override
-                            public void onPasswordValidated(boolean passwordConfirmed) {
-                                if (passwordConfirmed) {
-                                    updatePassword(passwordText, questionText, answerText);
-                                }
-                            }
-                        });
-                    } else {
-                        updatePassword(passwordText, questionText, answerText);
-                    }
-                }
-            }
-        });
+        findViewById(R.id.password_confirm).setOnClickListener(v -> {
+			if (checkData()) {
+				final String passwordText = password.getText().toString();
+				final String questionText = question.getText().toString();
+				final String answerText = answer.getText().toString();
+				if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
+					requestPassword(mActivity, passwordConfirmed -> {
+						if (passwordConfirmed) {
+							updatePassword(passwordText, questionText, answerText);
+						}
+					});
+				} else {
+					updatePassword(passwordText, questionText, answerText);
+				}
+			}
+		});
 
-        findViewById(R.id.password_forgotten).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
-                    Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
-                    return;
-                }
-                // Inflate layout
-                View layout = getLayoutInflater().inflate(R.layout.password_reset_dialog_layout, null);
-                final EditText answerEditText = (EditText) layout.findViewById(R.id.reset_password_answer);
+        findViewById(R.id.password_forgotten).setOnClickListener(v -> {
+			if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
+				Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
+				return;
+			}
+			// Inflate layout
+			View layout = getLayoutInflater().inflate(R.layout.password_reset_dialog_layout, null);
+			final EditText answerEditText = (EditText) layout.findViewById(R.id.reset_password_answer);
 
-                new MaterialDialog.Builder(mActivity)
-                        .title(prefs.getString(Constants.PREF_PASSWORD_QUESTION, ""))
-                        .customView(layout, false)
-                        .autoDismiss(false)
-                        .contentColorRes(R.color.text_color)
-                        .positiveText(R.string.ok)
-                        .callback(new MaterialDialog.SimpleCallback() {
-                            @Override
-                            public void onPositive(MaterialDialog materialDialog) {
-                                // When positive button is pressed answer correctness is checked
-                                String oldAnswer = prefs.getString(Constants.PREF_PASSWORD_ANSWER, "");
-                                String answer = answerEditText.getText().toString();
-                                // The check is done on password's hash stored in preferences
-                                boolean result = Security.md5(answer).equals(oldAnswer);
+			new MaterialDialog.Builder(mActivity)
+					.title(prefs.getString(Constants.PREF_PASSWORD_QUESTION, ""))
+					.customView(layout, false)
+					.autoDismiss(false)
+					.contentColorRes(R.color.text_color)
+					.positiveText(R.string.ok)
+					.callback(new MaterialDialog.ButtonCallback() {
+						@Override
+						public void onPositive(MaterialDialog materialDialog) {
+							// When positive button is pressed answer correctness is checked
+							String oldAnswer = prefs.getString(Constants.PREF_PASSWORD_ANSWER, "");
+							String answer1 = answerEditText.getText().toString();
+							// The check is done on password's hash stored in preferences
+							boolean result = Security.md5(answer1).equals(oldAnswer);
 
-                                if (result) {
-                                    removePassword();
-                                } else {
-                                    answerEditText.setError(getString(R.string.wrong_answer));
-                                }
-                            }
-                        }).build().show();
-            }
-        });
+							if (result) {
+								removePassword();
+							} else {
+								answerEditText.setError(getString(R.string.wrong_answer));
+							}
+						}
+					}).build().show();
+		});
     }
 
 
@@ -168,7 +151,7 @@ public class PasswordActivity extends BaseActivity {
             new MaterialDialog.Builder(mActivity)
                     .content(R.string.agree_unlocking_all_notes)
                     .positiveText(R.string.ok)
-                    .callback(new MaterialDialog.SimpleCallback() {
+                    .callback(new MaterialDialog.ButtonCallback() {
                         @Override
                         public void onPositive(MaterialDialog materialDialog) {
                             removePassword();

@@ -19,8 +19,7 @@ package it.feio.android.omninotes;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 
 
 public class AboutActivity extends BaseActivity {
@@ -36,13 +35,11 @@ public class AboutActivity extends BaseActivity {
     }
 
 
-    @Override
-    public void onStart() {
-        // GA tracking
-        OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
-        OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
-        super.onStart();
-    }
+	@Override
+	public void onStart() {
+		AnalyticsHelper.trackScreenView(getClass().getName());
+		super.onStart();
+	}
 
 
     @Override

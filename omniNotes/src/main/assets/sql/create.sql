@@ -2,8 +2,7 @@
 CREATE
 	TABLE notes
 	(
-		note_id INTEGER PRIMARY KEY AUTOINCREMENT,
-		creation INTEGER,
+		creation INTEGER PRIMARY KEY,
 		last_modification INTEGER,
 		title TEXT,
 		content TEXT,
@@ -41,7 +40,7 @@ CREATE
 CREATE
 	TABLE categories
 	(
-		category_id INTEGER PRIMARY KEY AUTOINCREMENT,
+		category_id INTEGER PRIMARY KEY,
 		name TEXT,
 		description TEXT,
 		color TEXT

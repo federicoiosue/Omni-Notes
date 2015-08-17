@@ -26,8 +26,7 @@ import android.util.Log;
 import android.view.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.google.analytics.tracking.android.Fields;
-import com.google.analytics.tracking.android.MapBuilder;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
@@ -90,9 +89,7 @@ public class GalleryActivity extends ActionBarActivity {
 
     @Override
     public void onStart() {
-        // GA tracking
-        OmniNotes.getGaTracker().set(Fields.SCREEN_NAME, getClass().getName());
-        OmniNotes.getGaTracker().send(MapBuilder.createAppView().build());
+		AnalyticsHelper.trackScreenView(getClass().getName());
         super.onStart();
     }
 

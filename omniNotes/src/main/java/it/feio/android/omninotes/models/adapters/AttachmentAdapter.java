@@ -132,6 +132,11 @@ public class AttachmentAdapter extends BaseAdapter {
     }
 
 
+	public List<Attachment> getAttachmentsList() {
+		return this.attachmentsList;
+	}
+
+
 
 
     public class AttachmentHolder {

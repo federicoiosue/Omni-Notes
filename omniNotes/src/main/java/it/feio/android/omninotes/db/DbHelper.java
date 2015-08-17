@@ -23,6 +23,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteReadOnlyDatabaseException;
 import android.net.Uri;
 import android.util.Log;
 import it.feio.android.omninotes.OmniNotes;
@@ -39,14 +40,14 @@ public class DbHelper extends SQLiteOpenHelper {
     // Database name
     private static final String DATABASE_NAME = Constants.DATABASE_NAME;
     // Database version aligned if possible to software version
-    private static final int DATABASE_VERSION = 482;
+    private static final int DATABASE_VERSION = 501;
     // Sql query file directory
     private static final String SQL_DIR = "sql";
 
     // Notes table name
     public static final String TABLE_NOTES = "notes";
     // Notes table columns
-    public static final String KEY_ID = "note_id";
+    public static final String KEY_ID = "creation";
     public static final String KEY_CREATION = "creation";
     public static final String KEY_LAST_MODIFICATION = "last_modification";
     public static final String KEY_TITLE = "title";
@@ -92,9 +93,10 @@ public class DbHelper extends SQLiteOpenHelper {
     private final SharedPreferences prefs;
 
     private static DbHelper instance = null;
+	private SQLiteDatabase db;
 
 
-    public static synchronized DbHelper getInstance() {
+	public static synchronized DbHelper getInstance() {
         if (instance == null) {
             instance = new DbHelper(OmniNotes.getAppContext());
         }
@@ -113,6 +115,23 @@ public class DbHelper extends SQLiteOpenHelper {
         return DATABASE_NAME;
     }
 
+	public SQLiteDatabase getDatabase() {
+		return getDatabase(false);
+	}
+
+
+	public SQLiteDatabase getDatabase(boolean forceWritable) {
+		try {
+			SQLiteDatabase db = getReadableDatabase();
+			if (forceWritable && db.isReadOnly()) {
+				throw new SQLiteReadOnlyDatabaseException("Required writable database, obtained read-only");
+			}
+			return db;
+		} catch (IllegalStateException e) {
+			return this.db;
+		}
+	}
+
 
     // Creating Tables
     @Override
@@ -129,8 +148,11 @@ public class DbHelper extends SQLiteOpenHelper {
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		this.db = db;
         Log.i(Constants.TAG, "Upgrading database version from " + oldVersion + " to " + newVersion);
+
         UpgradeProcessor.process(oldVersion, newVersion);
+
         try {
             for (String sqlFile : AssetUtils.list(SQL_DIR, mContext.getAssets())) {
                 if (sqlFile.startsWith(UPGRADE_QUERY_PREFIX)) {
@@ -142,17 +164,16 @@ public class DbHelper extends SQLiteOpenHelper {
                 }
             }
             Log.i(Constants.TAG, "Database upgrade successful");
-        } catch (IOException exception) {
-            throw new RuntimeException("Database upgrade failed", exception);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Database upgrade failed", e);
         }
     }
 
 
     // Inserting or updating single note
     public Note updateNote(Note note, boolean updateLastModification) {
-
-        long resNote;
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getDatabase(true);
 
         String content;
         if (note.isLocked()) {
@@ -187,32 +208,14 @@ public class DbHelper extends SQLiteOpenHelper {
         boolean checklist = note.isChecklist() != null ? note.isChecklist() : false;
         values.put(KEY_CHECKLIST, checklist);
 
-        // Updating row
-        if (note.get_id() != 0) {
-            values.put(KEY_ID, note.get_id());
-            resNote = db.update(TABLE_NOTES, values, KEY_ID + " = ?",
-                    new String[]{String.valueOf(note.get_id())});
-            // Importing data from csv without existing note in db
-            if (resNote == 0) {
-                resNote = db.insert(TABLE_NOTES, null, values);
-            }
-            Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
-
-            // Inserting new note
-        } else {
-            resNote = db.insert(TABLE_NOTES, null, values);
-            Log.d(Constants.TAG, "Saved new note titled '" + note.getTitle() + "' with id: " + resNote);
-        }
+		db.insertWithOnConflict(TABLE_NOTES, KEY_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
+		Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
 
         // Updating attachments
         List<Attachment> deletedAttachments = note.getAttachmentsListOld();
         for (Attachment attachment : note.getAttachmentsList()) {
-            // Updating attachment
-            if (attachment.getId() == 0) {
-                updateAttachment(note.get_id() != 0 ? note.get_id() : (int)resNote, attachment, db);
-            } else {
-                deletedAttachments.remove(attachment);
-            }
+			updateAttachment(note.get_id() != null ? note.get_id() : values.getAsLong(KEY_CREATION), attachment, db);
+			deletedAttachments.remove(attachment);
         }
         // Remove from database deleted attachments
         for (Attachment attachmentDeleted : deletedAttachments) {
@@ -224,7 +227,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.endTransaction();
 
         // Fill the note with correct data before returning it
-        note.set_id(note.get_id() != 0 ? note.get_id() : (int) resNote);
         note.setCreation(note.getCreation() != null ? note.getCreation() : values.getAsLong(KEY_CREATION));
         note.setLastModification(values.getAsLong(KEY_LAST_MODIFICATION));
 
@@ -249,28 +251,31 @@ public class DbHelper extends SQLiteOpenHelper {
      * Attachments update
      * */
     public Attachment updateAttachment(Attachment attachment) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return updateAttachment(-1, attachment, db);
+        return updateAttachment(-1, attachment, getDatabase(true));
     }
 
 
     /**
      * New attachment insertion
      * */
-    public Attachment updateAttachment(int noteId, Attachment attachment, SQLiteDatabase db) {
+    public Attachment updateAttachment(long noteId, Attachment attachment, SQLiteDatabase db) {
         ContentValues valuesAttachments = new ContentValues();
+		valuesAttachments.put(KEY_ATTACHMENT_ID, attachment.getId() != null ? attachment.getId() : Calendar
+				.getInstance().getTimeInMillis());
+		valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
         valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
         valuesAttachments.put(KEY_ATTACHMENT_MIME_TYPE, attachment.getMime_type());
         valuesAttachments.put(KEY_ATTACHMENT_NAME, attachment.getName());
         valuesAttachments.put(KEY_ATTACHMENT_SIZE, attachment.getSize());
         valuesAttachments.put(KEY_ATTACHMENT_LENGTH, attachment.getLength());
-        if (noteId != -1) {
-            valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
-            attachment.setId((int) db.insert(TABLE_ATTACHMENTS, null, valuesAttachments));
-        } else {
-            db.update(TABLE_ATTACHMENTS, valuesAttachments, KEY_ATTACHMENT_ID + " = ?", new String[]{String.valueOf
-                    (attachment.getId())});
-        }
+//		if (noteId != -1) {
+//			valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
+//			attachment.setId((int) db.insert(TABLE_ATTACHMENTS, null, valuesAttachments));
+//		} else {
+//			db.update(TABLE_ATTACHMENTS, valuesAttachments, KEY_ATTACHMENT_ID + " = ?", new String[]{String.valueOf
+//					(attachment.getId())});
+//		}
+		db.insertWithOnConflict(TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID, valuesAttachments, SQLiteDatabase.CONFLICT_REPLACE);
         return attachment;
     }
       
@@ -278,7 +283,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * Getting single note
      */
-    public Note getNote(int id) {
+    public Note getNote(long id) {
 
         String whereCondition = " WHERE "
                 + KEY_ID + " = " + id;
@@ -428,7 +433,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
         // Generic query to be specialized with conditions passed as parameter
         String query = "SELECT "
-                + KEY_ID + ","
                 + KEY_CREATION + ","
                 + KEY_LAST_MODIFICATION + ","
                 + KEY_TITLE + ","
@@ -456,14 +460,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
         Cursor cursor = null;
         try {
-            cursor = getReadableDatabase().rawQuery(query, null);
+            cursor = getDatabase().rawQuery(query, null);
 
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 do {
                     int i = 0;
                     Note note = new Note();
-                    note.set_id(Integer.parseInt(cursor.getString(i++)));
                     note.setCreation(cursor.getLong(i++));
                     note.setLastModification(cursor.getLong(i++));
                     note.setTitle(cursor.getString(i++));
@@ -486,9 +489,12 @@ public class DbHelper extends SQLiteOpenHelper {
                     }
 
                     // Set category
-                    Category category = new Category(cursor.getInt(i++), cursor.getString(i++),
-                            cursor.getString(i++), cursor.getString(i++));
-                    note.setCategory(category);
+					long categoryId = cursor.getLong(i++);
+					if (categoryId != 0) {
+						Category category = new Category(categoryId, cursor.getString(i++),
+								cursor.getString(i++), cursor.getString(i++));
+						note.setCategory(category);
+					}
 
                     // Add eventual attachments uri
                     note.setAttachmentsList(getNoteAttachments(note));
@@ -541,7 +547,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public boolean deleteNote(Note note, boolean keepAttachments) {
         int deletedNotes;
         boolean result = true;
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getDatabase(true);
         // Delete notes
         deletedNotes = db.delete(TABLE_NOTES, KEY_ID + " = ?", new String[]{String.valueOf(note.get_id())});
         if (!keepAttachments) {
@@ -667,14 +673,15 @@ public class DbHelper extends SQLiteOpenHelper {
      * @param categoryId Category integer identifier
      * @return List of notes with requested category
      */
-    public List<Note> getNotesByCategory(String categoryId) {
+    public List<Note> getNotesByCategory(Long categoryId) {
         List<Note> notes;
+		boolean filterArchived = prefs.getBoolean(Constants.PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
         try {
-            int id = Integer.parseInt(categoryId);
             String whereCondition = " WHERE "
-                    + KEY_CATEGORY_ID + " = " + id
-                    + " AND " + KEY_TRASHED + " IS NOT 1";
-            notes = getNotes(whereCondition, true);
+                    + KEY_CATEGORY_ID + " = " + categoryId
+					+ " AND " + KEY_TRASHED + " IS NOT 1"
+					+ (filterArchived ? " AND " + KEY_ARCHIVED + " IS NOT 1" : "");
+			notes = getNotes(whereCondition, true);
         } catch (NumberFormatException e) {
             notes = getAllNotes(true);
         }
@@ -787,14 +794,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
         try {
 
-            db = this.getReadableDatabase();
-            cursor = db.rawQuery(sql, null);
+            cursor = getDatabase().rawQuery(sql, null);
 
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 Attachment mAttachment;
                 do {
-                    mAttachment = new Attachment(cursor.getInt(0),
+                    mAttachment = new Attachment(cursor.getLong(0),
                             Uri.parse(cursor.getString(1)), cursor.getString(2), cursor.getInt(3),
                             (long) cursor.getInt(4), cursor.getString(5));
                     attachmentsList.add(mAttachment);
@@ -835,17 +841,13 @@ public class DbHelper extends SQLiteOpenHelper {
                 + KEY_CATEGORY_COLOR
                 + " ORDER BY IFNULL(NULLIF(" + KEY_CATEGORY_NAME + ", ''),'zzzzzzzz') ";
 
-
-        SQLiteDatabase db;
         Cursor cursor = null;
-
         try {
-            db = this.getReadableDatabase();
-            cursor = db.rawQuery(sql, null);
+            cursor = getDatabase().rawQuery(sql, null);
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 do {
-                    categoriesList.add(new Category(cursor.getInt(0),
+                    categoriesList.add(new Category(cursor.getLong(0),
                             cursor.getString(1), cursor.getString(2), cursor
                             .getString(3), cursor.getInt(4)));
                 } while (cursor.moveToNext());
@@ -866,27 +868,15 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return Rows affected or new inserted category id
      */
     public Category updateCategory(Category category) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
-        values.put(KEY_CATEGORY_NAME, category.getName());
+		values.put(KEY_CATEGORY_ID, category.getId() != null ? category.getId() : Calendar.getInstance()
+				.getTimeInMillis());
+		values.put(KEY_CATEGORY_NAME, category.getName());
         values.put(KEY_CATEGORY_DESCRIPTION, category.getDescription());
         values.put(KEY_CATEGORY_COLOR, category.getColor());
-
-        // Updating row
-        if (category.getId() != null) {
-            values.put(KEY_CATEGORY_ID, category.getId());
-            db.update(TABLE_CATEGORY, values, KEY_CATEGORY_ID + " = ?",
-                    new String[]{String.valueOf(category.getId())});
-            Log.d(Constants.TAG, "Updated category titled '" + category.getName() + "'");
-            // Inserting new category
-        } else {
-            long id = db.insert(TABLE_CATEGORY, null, values);
-            Log.d(Constants.TAG, "Saved new category titled '" + category.getName() + "' with id: " + id);
-            category.setId((int) id);
-        }
-        return category;
+		getDatabase(true).insertWithOnConflict(TABLE_CATEGORY, KEY_CATEGORY_ID, values, SQLiteDatabase
+				.CONFLICT_REPLACE);
+		return category;
     }
 
 
@@ -899,7 +889,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public long deleteCategory(Category category) {
         long deleted;
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getDatabase(true);
         // Un-categorize notes associated with this category
         ContentValues values = new ContentValues();
         values.put(KEY_CATEGORY, "");
@@ -918,7 +908,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * Get note Category
      */
-    public Category getCategory(Integer id) {
+    public Category getCategory(Long id) {
         Category category = null;
         String sql = "SELECT "
                 + KEY_CATEGORY_ID + ","
@@ -928,16 +918,13 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " FROM " + TABLE_CATEGORY
                 + " WHERE " + KEY_CATEGORY_ID + " = " + id;
 
-        SQLiteDatabase db;
         Cursor cursor = null;
-
         try {
-            db = this.getReadableDatabase();
-            cursor = db.rawQuery(sql, null);
+            cursor = getDatabase().rawQuery(sql, null);
 
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
-                category = new Category(cursor.getInt(0), cursor.getString(1),
+                category = new Category(cursor.getLong(0), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3));
             }
 
@@ -955,11 +942,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " FROM " + TABLE_NOTES
                 + " WHERE " + KEY_CATEGORY + " = " + category.getId();
 
-        SQLiteDatabase db = null;
         Cursor cursor = null;
         try {
-            db = this.getReadableDatabase();
-            cursor = db.rawQuery(sql, null);
+            cursor = getDatabase().rawQuery(sql, null);
 
             // Looping through all rows and adding to list
             if (cursor.moveToFirst()) {
@@ -1034,8 +1019,8 @@ public class DbHelper extends SQLiteOpenHelper {
         mStats.setNotesMasked(notesMasked);
         mStats.setTags(tags);
         mStats.setLocation(locations);
-        avgWords = totalWords / notes.size();
-        avgChars = totalChars / notes.size();
+        avgWords = totalWords / (notes.size() != 0 ? notes.size() : 1);
+		avgChars = totalChars / (notes.size() != 0 ? notes.size() : 1);
 
         mStats.setWords(totalWords);
         mStats.setWordsMax(maxWords);
