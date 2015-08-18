@@ -98,6 +98,6 @@ dependencies {
     compile 'com.github.federicoiosue:simplegallery:1.1.2'
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'
     compile 'com.github.federicoiosue:Omni-Notes-Commons:1.1.0'
-    compile 'com.github.federicoiosue:CheckListView:3.0.0'
+    compile 'com.github.federicoiosue:CheckListView:3.0.2'
     compile 'com.github.federicoiosue:pixlUI:2.2'
 }
