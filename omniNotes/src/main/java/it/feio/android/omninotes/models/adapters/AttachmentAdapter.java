@@ -28,7 +28,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.BitmapHelper;
@@ -36,20 +35,23 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.date.DateHelper;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
 public class AttachmentAdapter extends BaseAdapter {
 
     private Activity mActivity;
-    private List<Attachment> attachmentsList = new ArrayList<>();
+    private List<Attachment> attachmentsList;
     private LayoutInflater inflater;
 
 
     public AttachmentAdapter(Activity mActivity, List<Attachment> attachmentsList, ExpandableHeightGridView mGridView) {
         this.mActivity = mActivity;
-        this.attachmentsList = attachmentsList;
+		if (attachmentsList == null) {
+			attachmentsList = Collections.emptyList();
+		}
+		this.attachmentsList = attachmentsList;
         this.inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
