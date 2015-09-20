@@ -41,18 +41,17 @@ You can find a complete changelog inside the application settings menu!
 
 If you need some help on how to use the application you'll find everything you need into the [Help Online](etc/help/help.md)
 
-<img src="https://lh3.googleusercontent.com/-Jijzn6SfPiU/VNfIEyNF9sI/AAAAAAABEgs/3t9CQfS1nS4/w435-h400-no/02.png">
-<img src="https://lh6.googleusercontent.com/-QHhX5hCiKOY/VNfIE0VkeDI/AAAAAAABEgs/tmUEADssGRA/w435-h400-no/03.png">
-<img src="https://lh4.googleusercontent.com/-s-8PCOfpDzE/VNfIE51mD9I/AAAAAAABEgs/gMeermrwEKE/w435-h400-no/04.png">
-<img src="https://lh5.googleusercontent.com/-Z3ruC3Zo8hY/VNfIJBUdp5I/AAAAAAABEgo/AlP-WiQUKuU/w435-h400-no/05.png">
-<img src="https://lh5.googleusercontent.com/-ZgVBFf3rGSI/VNfIJZp9hPI/AAAAAAABEgs/LzpD_bzPCkM/w435-h400-no/06.png">
-<img src="https://lh4.googleusercontent.com/-TZDwcuJDHMU/VNfIJ0DanSI/AAAAAAABEgs/ab0ZZ5PEOew/w435-h400-no/07.png">
-<img src="https://lh5.googleusercontent.com/-n1nFdNjHrbE/VNfIPBJC7wI/AAAAAAABEgs/K8Ahd3739aM/w435-h400-no/08.png">
-<img src="https://lh5.googleusercontent.com/-2nnhW6LgVZQ/VNfINf1JwrI/AAAAAAABEgs/cpy9Ha8c66g/w435-h400-no/09.png">
-<img src="https://lh6.googleusercontent.com/-lcBCJuGuX1w/VNfINt3dlpI/AAAAAAABEgs/H3weKJhVuZo/w435-h400-no/10.png">
-<img src="https://lh6.googleusercontent.com/-q8NNjDWQTYs/VNfIROXznHI/AAAAAAABEgs/d9bOdnocwFw/w435-h400-no/11.png">
-<img src="https://lh5.googleusercontent.com/-DHwG9HonLXo/VNfISDXOUwI/AAAAAAABEgs/K166hLafrA4/w435-h400-no/12.png">
-
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/02.resized.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/03.resized.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/04.resized.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/05.resized.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/06.resized.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/07.resized.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/08.resized.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/09.resized.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/10.resized.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/11.resized.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/12.resized.png)
 
 [<img src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png">][1]
 
@@ -82,6 +81,7 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 
 
 * Federico Iosue - [Website](http://www.iosue.it/federico)
+* [Other contributors](https://github.com/federicoiosue/Omni-Notes/blob/master/contributors.md)
 
 
 
