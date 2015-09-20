@@ -21,7 +21,7 @@
     <item>Archivo</item>
     <item>Recordatorios</item>
     <item>Papelera</item>
-    <item>Uncategorized</item>
+    <item>Sin clasificar</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Título</item>

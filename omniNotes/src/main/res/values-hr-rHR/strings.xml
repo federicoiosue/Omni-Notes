@@ -245,7 +245,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">Više o</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Pretplatite se u Google+ zajednici kako biste primali vijesti o najnovijim značajkama</string>
+  <string name="settings_beta_summary">Priključite se Google+ zajednici da biste primali vijesti o najnovijim značajkama</string>
   <string name="donate">Donirajte</string>
   <string name="donate_summary">Podržite razvoj ove aplikacije neprofitnom donacijom</string>
   <string name="settings_choose_language">Jezik</string>
@@ -281,6 +281,7 @@
   <string name="settings_enable_swipe">Povuci bilješke</string>
   <string name="settings_enable_swipe_summary">Povuci bilješke za obavljanje radnji</string>
   <string name="settings_swipe_to_trash">Swipe za brisanje</string>
+  <string name="settings_swipe_to_trash">Swipe za brisanje</string>
   <string name="settings_swipe_to_trash_summary_1">Swipanje bilježaka će ih arhivirati</string>
   <string name="settings_swipe_to_trash_summary_2">Swipanje bilježaka će ih obrisati</string>
   <string name="settings_show_uncategorized">Grupa nije kategorizirana</string>
@@ -303,7 +304,7 @@
   <string name="tour_listactivity_actions_title">Radnje</string>
   <string name="tour_listactivity_actions_detail">Stvorite nove bilješke, sortirajte ih, prema osobnim postavkama</string>
   <string name="tour_listactivity_home_title">Navigacija</string>
-  <string name="tour_listactivity_home_detail">Navigacijski izbornik omogućuje vam kretanje kroz bilješke pomoću filtera i tagova</string>
+  <string name="tour_listactivity_home_detail">Navigacijski izbornik omogućuje vam navigaciju kroz bilješke pomoću filtera i tagova</string>
   <string name="tour_listactivity_tag_title">Tagovi</string>
   <string name="tour_listactivity_tag_detail">Dodajte obojene tagove kako biste lakše pronašli bilješke</string>
   <string name="tour_detailactivity_attachment_title">Poboljšanja</string>
@@ -319,7 +320,7 @@
   <string name="tour_detailactivity_save_title">Spremi</string>
   <string name="tour_detailactivity_save_detail">Za povratak pritisnite navigacijsku ikonu za \"gore\" ili gumb na vašem uređaju</string>
   <string name="tour_listactivity_final_title">Uživajte</string>
-  <string name="tour_listactivity_final_detail">Hvala što koristite aplikaciju Omni bilješke \nAlternativa otvorenog programskog koda za produktivnost i jednostavno pravljenje bilježaka!</string>
+  <string name="tour_listactivity_final_detail">Hvala što koristite aplikaciju Omni bilješke, \nalternativu otvorenog programskog koda za produktivnost i jednostavno pravljenje bilježaka!</string>
   <string name="drawer_open">ladica otvorena</string>
   <string name="drawer_close">ladica zatvorena</string>
   <string name="reminder">podsjetnik</string>

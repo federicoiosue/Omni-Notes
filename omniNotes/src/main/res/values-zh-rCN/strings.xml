@@ -212,7 +212,7 @@
   <string name="settings_screen_backup">备份</string>
   <string name="settings_screen_notifications">通知</string>
   <string name="settings_enable_vibration">振动</string>
-  <string name="settings_screen_navigation">浏览</string>
+  <string name="settings_screen_navigation">导航</string>
   <string name="settings_changelog">更新日志</string>
   <string name="settings_enable_editor_links">链接识别</string>
   <string name="settings_max_video_size">视频附件</string>
@@ -278,6 +278,9 @@
   <string name="settings_navdrawer_on_exit_summary">在记事列表视图下点击后退键打开导航菜单而非退出应用</string>
   <string name="settings_text_size">字体大小</string>
   <string name="settings_screen_behaviors">行为</string>
+  <string name="settings_enable_swipe">滑动记事</string>
+  <string name="settings_enable_swipe_summary">在记事上滑动以执行操作</string>
+  <string name="settings_swipe_to_trash">滑动删除</string>
   <string name="settings_swipe_to_trash">滑动删除</string>
   <string name="settings_swipe_to_trash_summary_1">滑动以将记事归档</string>
   <string name="settings_swipe_to_trash_summary_2">滑动以删除记事</string>

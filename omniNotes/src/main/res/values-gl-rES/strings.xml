@@ -278,6 +278,9 @@
   <string name="settings_navdrawer_on_exit_summary">Ao tocar \"Atrás\" na listaxe de notas ábrese o menú de navegación no canto de saír</string>
   <string name="settings_text_size">Tamaño do texto</string>
   <string name="settings_screen_behaviors">Comportamentos</string>
+  <string name="settings_enable_swipe">Pasar o dedo polas notas</string>
+  <string name="settings_enable_swipe_summary">Pasar o dedo polas notas para realizar accións</string>
+  <string name="settings_swipe_to_trash">Pasa o dedo para enviar á papeleira</string>
   <string name="settings_swipe_to_trash">Pasa o dedo para enviar á papeleira</string>
   <string name="settings_swipe_to_trash_summary_1">Ao pasar o dedo polas notas arquivaranse</string>
   <string name="settings_swipe_to_trash_summary_2">Ao pasar o dedo polas notas irán á papeleira</string>
