@@ -516,23 +516,24 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		content = initContent();
 
+		if (isNoteLocationValid()) {
+			if (TextUtils.isEmpty(noteTmp.getAddress())) {
+				try {
+					noteTmp.setAddress(GeocodeHelper.getAddressFromCoordinates(mainActivity, noteTmp.getLatitude(),
+							noteTmp.getLongitude()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			locationTextView.setVisibility(View.VISIBLE);
+			locationTextView.setText(noteTmp.getAddress());
+		}
+
 		// Automatic location insertion
 		if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
-			Location location = getLocation();
-			if (location != null) {
-				noteTmp.setLatitude(location.getLatitude());
-				noteTmp.setLongitude(location.getLongitude());
-			}
+			GeocodeHelper.getLocation(mainActivity, this);
 		}
-		if (isNoteLocationValid()) {
-			if (!TextUtils.isEmpty(noteTmp.getAddress())) {
-				locationTextView.setVisibility(View.VISIBLE);
-				locationTextView.setText(noteTmp.getAddress());
-			} else {
-				GeocodeHelper.getAddressFromCoordinates(mainActivity, noteTmp.getLatitude(), noteTmp.getLongitude(),
-						mFragment);
-			}
-		}
+
 
 		locationTextView.setOnClickListener(v -> {
 			String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
@@ -817,71 +818,89 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
 	@SuppressLint("NewApi")
-	private void setAddress() {
-		Location location = getLocation();
-		if (location == null) {
-			return;
-		}
-		if (!ConnectionManager.internetAvailable(mainActivity)) {
-			noteTmp.setLatitude(location.getLatitude());
-			noteTmp.setLongitude(location.getLongitude());
-			onAddressResolved("");
-			return;
-		}
-		LayoutInflater inflater = mainActivity.getLayoutInflater();
-		View v = inflater.inflate(R.layout.dialog_location, null);
-		final AutoCompleteTextView autoCompView = (AutoCompleteTextView) v.findViewById(R.id.auto_complete_location);
-		autoCompView.setHint(getString(R.string.search_location));
-		autoCompView.setAdapter(new PlacesAutoCompleteAdapter(mainActivity, R.layout.simple_text_layout));
-		final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
-				.customView(autoCompView, false)
-				.positiveText(R.string.use_current_location)
-				.callback(new MaterialDialog.ButtonCallback() {
+	private void displayLocationDialog() {
+		GeocodeHelper.getLocation(mainActivity.getApplicationContext(), new OnGeoUtilResultListener() {
+			@Override
+			public void onAddressResolved(String address) {}
+
+			@Override
+			public void onCoordinatesResolved(Location location, String address) {}
+
+			@Override
+			public void onLocationRetrieved(Location location) {
+				if (location == null) {
+					return;
+				}
+				if (!ConnectionManager.internetAvailable(mainActivity)) {
+					noteTmp.setLatitude(location.getLatitude());
+					noteTmp.setLongitude(location.getLongitude());
+					onAddressResolved("");
+					return;
+				}
+				LayoutInflater inflater = mainActivity.getLayoutInflater();
+				View v = inflater.inflate(R.layout.dialog_location, null);
+				final AutoCompleteTextView autoCompView = (AutoCompleteTextView) v.findViewById(R.id
+						.auto_complete_location);
+				autoCompView.setHint(getString(R.string.search_location));
+				autoCompView.setAdapter(new PlacesAutoCompleteAdapter(mainActivity, R.layout.simple_text_layout));
+				final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
+						.customView(autoCompView, false)
+						.positiveText(R.string.use_current_location)
+						.callback(new MaterialDialog.ButtonCallback() {
+							@Override
+							public void onPositive(MaterialDialog materialDialog) {
+								if (TextUtils.isEmpty(autoCompView.getText().toString())) {
+									noteTmp.setLatitude(location.getLatitude());
+									noteTmp.setLongitude(location.getLongitude());
+									GeocodeHelper.getAddressFromCoordinates(mainActivity, location, mFragment);
+								} else {
+									GeocodeHelper.getCoordinatesFromAddress(mainActivity, autoCompView.getText()
+													.toString(),
+											mFragment);
+								}
+							}
+						})
+						.build();
+				autoCompView.addTextChangedListener(new TextWatcher() {
 					@Override
-					public void onPositive(MaterialDialog materialDialog) {
-						if (TextUtils.isEmpty(autoCompView.getText().toString())) {
-							noteTmp.setLatitude(location.getLatitude());
-							noteTmp.setLongitude(location.getLongitude());
-							GeocodeHelper.getAddressFromCoordinates(mainActivity, noteTmp.getLatitude(),
-									noteTmp.getLongitude(), mFragment);
+					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					}
+
+
+					@Override
+					public void onTextChanged(CharSequence s, int start, int before, int count) {
+						if (s.length() != 0) {
+							dialog.setActionButton(DialogAction.POSITIVE, getString(R.string.confirm));
 						} else {
-							GeocodeHelper.getCoordinatesFromAddress(mainActivity, autoCompView.getText().toString(),
-									mFragment);
+							dialog.setActionButton(DialogAction.POSITIVE, getString(R.string.use_current_location));
 						}
 					}
-				})
-				.build();
-		autoCompView.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
 
 
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (s.length() != 0) {
-					dialog.setActionButton(DialogAction.POSITIVE, getString(R.string.confirm));
-				} else {
-					dialog.setActionButton(DialogAction.POSITIVE, getString(R.string.use_current_location));
-				}
-			}
-
-
-			@Override
-			public void afterTextChanged(Editable s) {
+					@Override
+					public void afterTextChanged(Editable s) {
+					}
+				});
+				dialog.show();
 			}
 		});
-		dialog.show();
+
 	}
 
 
-	private Location getLocation() {
-		Location location = GeocodeHelper.getLastKnowLocation();
+	@Override
+	public void onLocationRetrieved(Location location) {
 		if (location == null) {
 			mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
-			return null;
 		}
-		return location;
+		if (isNoteLocationValid()) {
+			if (!TextUtils.isEmpty(noteTmp.getAddress())) {
+				locationTextView.setVisibility(View.VISIBLE);
+				locationTextView.setText(noteTmp.getAddress());
+			} else {
+				GeocodeHelper.getAddressFromCoordinates(mainActivity, location, mFragment);
+			}
+		}
 	}
 
 
@@ -894,7 +913,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			}
 			address = noteTmp.getLatitude() + ", " + noteTmp.getLongitude();
 		}
-		if (GeocodeHelper.notCoordinates(address)) {
+		if (!GeocodeHelper.areCoordinates(address)) {
 			noteTmp.setAddress(address);
 		}
 		locationTextView.setVisibility(View.VISIBLE);
@@ -904,26 +923,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
 	@Override
-	public void onCoordinatesResolved(double[] coords) {
-		if (coords != null) {
-			noteTmp.setLatitude(coords[0]);
-			noteTmp.setLongitude(coords[1]);
-			GeocodeHelper.getAddressFromCoordinates(mainActivity, coords[0], coords[1], new OnGeoUtilResultListener() {
-				@Override
-				public void onAddressResolved(String address) {
-					if (GeocodeHelper.notCoordinates(address)) {
-						noteTmp.setAddress(address);
-					}
-					locationTextView.setVisibility(View.VISIBLE);
-					locationTextView.setText(address);
-					fade(locationTextView, true);
-				}
-
-
-				@Override
-				public void onCoordinatesResolved(double[] coords) {
-				}
-			});
+	public void onCoordinatesResolved(Location location, String address) {
+		if (location != null) {
+			noteTmp.setLatitude(location.getLatitude());
+			noteTmp.setLongitude(location.getLongitude());
+			noteTmp.setAddress(address);
+			locationTextView.setVisibility(View.VISIBLE);
+			locationTextView.setText(address);
+			fade(locationTextView, true);
 		} else {
 			mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
 		}
@@ -1173,9 +1180,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				.title(R.string.categorize_as)
 				.adapter(new NavDrawerCategoryAdapter(mainActivity, categories, currentCategory), null)
 				.positiveText(R.string.add_category)
-				.positiveColor(R.color.colorPrimary)
+				.positiveColorRes(R.color.colorPrimary)
 				.negativeText(R.string.remove_category)
-				.negativeColor(R.color.colorAccent)
+				.negativeColorRes(R.color.colorAccent)
 				.callback(new MaterialDialog.ButtonCallback() {
 					@Override
 					public void onPositive(MaterialDialog dialog) {
@@ -1872,7 +1879,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		public void onTextLinkClick(View view, final String clickedString, final String url) {
 			new MaterialDialog.Builder(mainActivity)
 					.content(clickedString)
-					.negativeColor(R.color.colorPrimary)
+					.negativeColorRes(R.color.colorPrimary)
 					.positiveText(R.string.open)
 					.negativeText(R.string.copy)
 					.callback(new MaterialDialog.ButtonCallback() {
@@ -2264,7 +2271,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					attachmentDialog.dismiss();
 					break;
 				case R.id.location:
-					setAddress();
+					displayLocationDialog();
 					attachmentDialog.dismiss();
 					break;
 				case R.id.pushbullet:
