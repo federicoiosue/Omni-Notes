@@ -281,7 +281,6 @@
   <string name="settings_enable_swipe">Potiahnutie poznámok</string>
   <string name="settings_enable_swipe_summary">Potiahnutím poznámky vykonať akcie</string>
   <string name="settings_swipe_to_trash">Potiahnúť pre zahodenie do koša</string>
-  <string name="settings_swipe_to_trash">Potiahnúť pre zahodenie do koša</string>
   <string name="settings_swipe_to_trash_summary_1">Potiahnutím archivovať poznámky</string>
   <string name="settings_swipe_to_trash_summary_2">Potiahnutím zahodiť poznámky do koša</string>
   <string name="settings_show_uncategorized">Skupina Nekategorizované</string>

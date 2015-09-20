@@ -281,7 +281,6 @@
   <string name="settings_enable_swipe">Gesek pada catatan</string>
   <string name="settings_enable_swipe_summary">Gesek pada catatan untuk melakukan tindakan</string>
   <string name="settings_swipe_to_trash">Geser untuk membuang</string>
-  <string name="settings_swipe_to_trash">Geser untuk membuang</string>
   <string name="settings_swipe_to_trash_summary_1">Geser catatan dengan jari akan mengarsipkannya</string>
   <string name="settings_swipe_to_trash_summary_2">Geser catatan dengan jari akan membuangnya</string>
   <string name="settings_show_uncategorized">Kelompok tidak dikategorikan</string>

@@ -282,7 +282,6 @@
   <string name="settings_enable_swipe">Pasar notas</string>
   <string name="settings_enable_swipe_summary">Pase de notas para realizar acciones</string>
   <string name="settings_swipe_to_trash">Mover a la papelera</string>
-  <string name="settings_swipe_to_trash">Mover a la papelera</string>
   <string name="settings_swipe_to_trash_summary_1">Mueve las notas con el dedo para archivarlas</string>
   <string name="settings_swipe_to_trash_summary_2">Mueve las notas con el dedo para tirarlas</string>
   <string name="settings_show_uncategorized">Grupo no categorizado</string>

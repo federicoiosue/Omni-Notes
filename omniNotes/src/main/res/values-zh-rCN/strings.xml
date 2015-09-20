@@ -281,7 +281,6 @@
   <string name="settings_enable_swipe">滑动记事</string>
   <string name="settings_enable_swipe_summary">在记事上滑动以执行操作</string>
   <string name="settings_swipe_to_trash">滑动删除</string>
-  <string name="settings_swipe_to_trash">滑动删除</string>
   <string name="settings_swipe_to_trash_summary_1">滑动以将记事归档</string>
   <string name="settings_swipe_to_trash_summary_2">滑动以删除记事</string>
   <string name="settings_show_uncategorized">未分类组</string>

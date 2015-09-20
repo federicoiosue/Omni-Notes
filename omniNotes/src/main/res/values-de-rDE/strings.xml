@@ -281,7 +281,6 @@
   <string name="settings_enable_swipe">Wischgesten</string>
   <string name="settings_enable_swipe_summary">Wischgesten für Notizaktionen</string>
   <string name="settings_swipe_to_trash">Wischen, um in den Papierkorb zu verschieben</string>
-  <string name="settings_swipe_to_trash">Wischen, um in den Papierkorb zu verschieben</string>
   <string name="settings_swipe_to_trash_summary_1">Wischen von Notizen zum archivieren</string>
   <string name="settings_swipe_to_trash_summary_2">Wischen von Notizen um sie in den Papierkorb zu verschieben</string>
   <string name="settings_show_uncategorized">Gruppe für nicht zugeordnete Notizen</string>

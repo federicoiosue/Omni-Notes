@@ -281,7 +281,6 @@
   <string name="settings_enable_swipe">Przeciąganie notatek</string>
   <string name="settings_enable_swipe_summary">Przeciągnij po notatce żeby wykonać czynność</string>
   <string name="settings_swipe_to_trash">Przeciągnij do kosza</string>
-  <string name="settings_swipe_to_trash">Przeciągnij do kosza</string>
   <string name="settings_swipe_to_trash_summary_1">Przeciągając notatki palcem archiwizuję je</string>
   <string name="settings_swipe_to_trash_summary_2">Przesuwając notatki palcem przenoszę je do kosza</string>
   <string name="settings_show_uncategorized">Grupa bez kategorii</string>

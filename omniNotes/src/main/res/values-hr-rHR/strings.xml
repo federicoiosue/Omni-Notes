@@ -281,7 +281,6 @@
   <string name="settings_enable_swipe">Povuci bilješke</string>
   <string name="settings_enable_swipe_summary">Povuci bilješke za obavljanje radnji</string>
   <string name="settings_swipe_to_trash">Swipe za brisanje</string>
-  <string name="settings_swipe_to_trash">Swipe za brisanje</string>
   <string name="settings_swipe_to_trash_summary_1">Swipanje bilježaka će ih arhivirati</string>
   <string name="settings_swipe_to_trash_summary_2">Swipanje bilježaka će ih obrisati</string>
   <string name="settings_show_uncategorized">Grupa nije kategorizirana</string>
