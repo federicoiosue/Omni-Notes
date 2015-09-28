@@ -281,7 +281,6 @@
   <string name="settings_enable_swipe">Pasar o dedo polas notas</string>
   <string name="settings_enable_swipe_summary">Pasar o dedo polas notas para realizar accións</string>
   <string name="settings_swipe_to_trash">Pasa o dedo para enviar á papeleira</string>
-  <string name="settings_swipe_to_trash">Pasa o dedo para enviar á papeleira</string>
   <string name="settings_swipe_to_trash_summary_1">Ao pasar o dedo polas notas arquivaranse</string>
   <string name="settings_swipe_to_trash_summary_2">Ao pasar o dedo polas notas irán á papeleira</string>
   <string name="settings_show_uncategorized">Grupo sen categoría</string>
