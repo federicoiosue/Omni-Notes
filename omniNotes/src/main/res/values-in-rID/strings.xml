@@ -278,8 +278,8 @@
   <string name="settings_navdrawer_on_exit_summary">Menekan \"kembali\" ketika dalam daftar catatan membuka menu navigasi bukan keluar</string>
   <string name="settings_text_size">Ukuran teks</string>
   <string name="settings_screen_behaviors">Behaviors</string>
-  <string name="settings_enable_swipe">Swipe notes</string>
-  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
+  <string name="settings_enable_swipe">Gesek pada catatan</string>
+  <string name="settings_enable_swipe_summary">Gesek pada catatan untuk melakukan tindakan</string>
   <string name="settings_swipe_to_trash">Geser untuk membuang</string>
   <string name="settings_swipe_to_trash_summary_1">Geser catatan dengan jari akan mengarsipkannya</string>
   <string name="settings_swipe_to_trash_summary_2">Geser catatan dengan jari akan membuangnya</string>
@@ -319,7 +319,7 @@
   <string name="tour_detailactivity_save_title">Simpan</string>
   <string name="tour_detailactivity_save_detail">Untuk kembali, tekan ikon navigasi \"up\", atau tombol kembali di perangkat Anda</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_listactivity_final_detail">Terima kasih telah menggunakan Omni Notes \nAplikasi catatan alternatif bersumber terbuka yang cocok untuk kerja maupun rekreasi!</string>
   <string name="drawer_open">drawer terbuka</string>
   <string name="drawer_close">drawer tertutup</string>
   <string name="reminder">pengingat</string>

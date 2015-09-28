@@ -17,39 +17,39 @@
 -->
 <resources>
   <string-array name="navigation_list">
-    <item>Notas</item>
-    <item>Archivo</item>
-    <item>Recordatorios</item>
-    <item>Papelera</item>
-    <item>Sin clasificar</item>
+    <item>Notes</item>
+    <item>Archiwum</item>
+    <item>Powiadomienia</item>
+    <item>Kosz</item>
+    <item>Bez kategorii</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Título</item>
-    <item>Fecha de creación</item>
-    <item>Fecha de la última modificación</item>
-    <item>Fecha de recordatorio</item>
+    <item>Tytuł</item>
+    <item>Data utworzenia</item>
+    <item>Data ostatniej modyfikacji</item>
+    <item>Data powiadomienia</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Mantener la posición</item>
-    <item>Ir al final de todos los elementos</item>
-    <item>Ir a la primera sin marcar</item>
+    <item>Zachowaj pozycję</item>
+    <item>Przenieś na koniec listy</item>
+    <item>Przenieś na koniec zaznaczone elementy</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Deshabilitado</item>
-    <item>Sólo la tira</item>
-    <item>Sólo listado de notas</item>
-    <item>Completo</item>
+    <item>Wyłączone</item>
+    <item>Tylko pasek</item>
+    <item>Tylko lista notatek</item>
+    <item>Zakończone</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Deshabilitado</item>
-    <item>Sólo la tira</item>
-    <item>Lista de notas</item>
+    <item>Wyłączone</item>
+    <item>Tylko pasek</item>
+    <item>Lista notatek</item>
   </string-array>
   <string-array name="text_size">
-    <item>Más pequeña</item>
-    <item>Pequeño</item>
-    <item>Predeterminado</item>
-    <item>Grande</item>
-    <item>Más grande</item>
+    <item>Najmniejsza</item>
+    <item>Mała</item>
+    <item>Domyślna</item>
+    <item>Duża</item>
+    <item>Największa</item>
   </string-array>
 </resources>

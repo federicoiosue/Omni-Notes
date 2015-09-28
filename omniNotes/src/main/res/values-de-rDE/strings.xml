@@ -278,6 +278,8 @@
   <string name="settings_navdrawer_on_exit_summary">Drücken der \"Zurücktaste\" in der Notizliste, öffnet das Navigationsmenü, anstatt die Anwendung zu beenden</string>
   <string name="settings_text_size">Schriftgröße</string>
   <string name="settings_screen_behaviors">Verhalten</string>
+  <string name="settings_enable_swipe">Wischgesten</string>
+  <string name="settings_enable_swipe_summary">Wischgesten für Notizaktionen</string>
   <string name="settings_swipe_to_trash">Wischen, um in den Papierkorb zu verschieben</string>
   <string name="settings_swipe_to_trash_summary_1">Wischen von Notizen zum archivieren</string>
   <string name="settings_swipe_to_trash_summary_2">Wischen von Notizen um sie in den Papierkorb zu verschieben</string>

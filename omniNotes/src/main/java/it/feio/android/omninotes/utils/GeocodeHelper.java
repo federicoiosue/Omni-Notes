@@ -19,11 +19,12 @@ package it.feio.android.omninotes.utils;
 
 import android.content.Context;
 import android.location.*;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import io.nlopez.smartlocation.SmartLocation;
+import io.nlopez.smartlocation.location.config.LocationParams;
+import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import org.json.JSONArray;
@@ -98,6 +99,13 @@ public class GeocodeHelper implements LocationListener {
 	}
 
 
+	public static void getLocation(Context context, OnGeoUtilResultListener onGeoUtilResultListener) {
+		SmartLocation.with(context).location().config(LocationParams.NAVIGATION).provider(new
+				LocationGooglePlayServicesWithFallbackProvider(context)).oneFix().start
+				(onGeoUtilResultListener::onLocationRetrieved);
+	}
+
+
 	public static Location getLastKnowLocation() {
 		if (locationManager == null) {
 			throw new NullPointerException("Call 'startListening' before!");
@@ -125,43 +133,12 @@ public class GeocodeHelper implements LocationListener {
 	}
 
 
-	public static void getAddressFromCoordinates(Context mContext, double latitude, double longitude,
-												 final OnGeoUtilResultListener listener) {
-		class AddressResolverTask extends AsyncTask<Double, Void, String> {
-
-			private Context mContext;
-
-
-			public AddressResolverTask(Context context) {
-				this.mContext = context;
-			}
-
-
-			@Override
-			protected String doInBackground(Double... params) {
-				String addressString;
-				try {
-					addressString = GeocodeHelper.getAddressFromCoordinates(this.mContext, params[0], params[1]);
-				} catch (IOException ex) {
-					addressString = null;
-				}
-				return addressString;
-			}
-
-
-			@Override
-			protected void onPostExecute(String result) {
-				super.onPostExecute(result);
-				listener.onAddressResolved(result);
-			}
-		}
-
-		AddressResolverTask task = new AddressResolverTask(mContext);
-		if (Build.VERSION.SDK_INT >= 11) {
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, latitude, longitude);
-		} else {
-			task.execute(latitude, longitude);
-		}
+	public static void getAddressFromCoordinates(Context context, Location location,
+												 final OnGeoUtilResultListener onGeoUtilResultListener) {
+		SmartLocation.with(context).geocoding().reverse(location, (location1, list) -> {
+			String address = list.size() > 0 ? list.get(0).getAddressLine(0) : null;
+			onGeoUtilResultListener.onAddressResolved(address);
+		});
 	}
 
 
@@ -180,43 +157,13 @@ public class GeocodeHelper implements LocationListener {
 	}
 
 
-	public static void getCoordinatesFromAddress(Context mContext, String address,
-												 final OnGeoUtilResultListener listener) {
-		class CoordinatesResolverTask extends AsyncTask<String, Void, double[]> {
-
-			private Context mContext;
-
-
-			public CoordinatesResolverTask(Context context) {
-				this.mContext = context;
+	public static void getCoordinatesFromAddress(Context context, String address, final OnGeoUtilResultListener
+			listener) {
+		SmartLocation.with(context).geocoding().direct(address, (name, results) -> {
+			if (results.size() > 0) {
+				listener.onCoordinatesResolved(results.get(0).getLocation(), address);
 			}
-
-
-			@Override
-			protected double[] doInBackground(String... params) {
-				double[] coords;
-				try {
-					coords = GeocodeHelper.getCoordinatesFromAddress(mContext, params[0]);
-				} catch (IOException ex) {
-					coords = null;
-				}
-				return coords;
-			}
-
-
-			@Override
-			protected void onPostExecute(double[] coords) {
-				super.onPostExecute(coords);
-				listener.onCoordinatesResolved(coords);
-			}
-		}
-
-		CoordinatesResolverTask task = new CoordinatesResolverTask(mContext);
-		if (Build.VERSION.SDK_INT >= 11) {
-			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, address);
-		} else {
-			task.execute(address);
-		}
+		});
 	}
 
 
@@ -267,7 +214,7 @@ public class GeocodeHelper implements LocationListener {
 	}
 
 
-	public static boolean notCoordinates(String string) {
+	public static boolean areCoordinates(String string) {
 		Pattern p = Pattern.compile("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|" +
 				"([1-9]?\\d))(\\.\\d+)?)$");
 		Matcher m = p.matcher(string);

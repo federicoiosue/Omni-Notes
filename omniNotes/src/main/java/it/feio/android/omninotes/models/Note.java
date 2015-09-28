@@ -88,15 +88,17 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 
 
     public List<Attachment> getAttachmentsList() {
-		List<Attachment> list = new ArrayList<>();
-		for (it.feio.android.omninotes.commons.models.Attachment attachment : super.getAttachmentsList()) {
-			if (attachment.getClass().equals(Attachment.class)) {
-				list.add((Attachment) attachment);
-			} else {
-				list.add(new Attachment(attachment));
-			}
-		}
-		return list;
+//		List<Attachment> list = new ArrayList<>();
+//		for (it.feio.android.omninotes.commons.models.Attachment attachment : super.getAttachmentsList()) {
+//			if (attachment.getClass().equals(Attachment.class)) {
+//				list.add((Attachment) attachment);
+//			} else {
+//				list.add(new Attachment(attachment));
+//			}
+//		}
+//		return list;
+        // FIXME This fixes https://github.com/federicoiosue/Omni-Notes/issues/199 but could introduce other issues
+        return (List<Attachment>) super.getAttachmentsList();
     }
 
 

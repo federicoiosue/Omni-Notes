@@ -17,6 +17,17 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.1.2" changeDate="Sep 28, 2015">
+        <changelogtext>[i]Improved[/i] Translations</changelogtext>
+        <changelogtext>[u]Fix[/u] Attachments shown twice</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="5.1.1" changeDate="Sep 24, 2015">
+        <changelogtext>[i]Improved[/i] Location used only on esplicit user's request</changelogtext>
+        <changelogtext>[i]Improved[/i] Translations</changelogtext>
+        <changelogtext>[u]Fix[/u] Widget opening notes without attachments</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.1.0" changeDate="Aug 13, 2015">
         <changelogtext>[b]New![/b] Added app intro</changelogtext>
         <changelogtext>[b]New![/b] Filter archived notes when you don't need them in categories</changelogtext>

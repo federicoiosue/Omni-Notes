@@ -278,6 +278,8 @@
   <string name="settings_navdrawer_on_exit_summary">Po stlačení tlačidla \"Späť\" v zozname poznámok sa otvorí navigačná ponuka namiesto ukončenia aplikácie</string>
   <string name="settings_text_size">Veľkosť textu</string>
   <string name="settings_screen_behaviors">Správania</string>
+  <string name="settings_enable_swipe">Potiahnutie poznámok</string>
+  <string name="settings_enable_swipe_summary">Potiahnutím poznámky vykonať akcie</string>
   <string name="settings_swipe_to_trash">Potiahnúť pre zahodenie do koša</string>
   <string name="settings_swipe_to_trash_summary_1">Potiahnutím archivovať poznámky</string>
   <string name="settings_swipe_to_trash_summary_2">Potiahnutím zahodiť poznámky do koša</string>
@@ -317,7 +319,7 @@
   <string name="tour_detailactivity_save_title">Ukladajte</string>
   <string name="tour_detailactivity_save_detail">Jednoducho stlačte ikonu navigácie \"hore\" alebo použite tlačidlo Späť na vašom zariadení</string>
   <string name="tour_listactivity_final_title">Užívajte</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_listactivity_final_detail">Ďakujeme, že používate Omni Notes. \n\nAlternatíva s otvoreným zdrojovým kódom pre produktivitu a písanie poznámok vo voľnom čase!</string>
   <string name="drawer_open">Otvoriť ponuku</string>
   <string name="drawer_close">Zavrieť ponuku</string>
   <string name="reminder">Pripomienka</string>
