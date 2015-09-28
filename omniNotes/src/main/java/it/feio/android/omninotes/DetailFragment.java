@@ -1398,7 +1398,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void addAttachment(Attachment attachment) {
 		noteTmp.addAttachment(attachment);
-		mAttachmentAdapter.getAttachmentsList().add(attachment);
+//		mAttachmentAdapter.getAttachmentsList().add(attachment);
 	}
 
 
