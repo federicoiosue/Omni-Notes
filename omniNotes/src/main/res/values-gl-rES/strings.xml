@@ -281,6 +281,7 @@
   <string name="settings_enable_swipe">Pasar o dedo polas notas</string>
   <string name="settings_enable_swipe_summary">Pasar o dedo polas notas para realizar accións</string>
   <string name="settings_swipe_to_trash">Pasa o dedo para enviar á papeleira</string>
+  <string name="settings_swipe_to_trash">Pasa o dedo para enviar á papeleira</string>
   <string name="settings_swipe_to_trash_summary_1">Ao pasar o dedo polas notas arquivaranse</string>
   <string name="settings_swipe_to_trash_summary_2">Ao pasar o dedo polas notas irán á papeleira</string>
   <string name="settings_show_uncategorized">Grupo sen categoría</string>
@@ -306,7 +307,7 @@
   <string name="tour_listactivity_home_detail">O menú de navegación permite moverse a través das notas con etiquetas e filtros</string>
   <string name="tour_listactivity_tag_title">Etiquetas</string>
   <string name="tour_listactivity_tag_detail">Engadir cores ás notas para manter os pensamentos dun xeito eficiente</string>
-  <string name="tour_detailactivity_attachment_title">Mellorar</string>
+  <string name="tour_detailactivity_attachment_title">Melloras</string>
   <string name="tour_detailactivity_attachment_detail">Engade unha morea de anexos de diferentes tipos ás túas notas!</string>
   <string name="tour_detailactivity_action_title">Facer máis</string>
   <string name="tour_detailactivity_action_detail">Compartir, etiquetar, arquivar, protexer e&#8230;</string>

@@ -32,7 +32,7 @@
   <string-array name="checked_items_behavior">
     <item>Zachowaj pozycję</item>
     <item>Przenieś na koniec listy</item>
-    <item>Przenieś do koniec zaznaczone elementy</item>
+    <item>Przenieś na koniec zaznaczone elementy</item>
   </string-array>
   <string-array name="colors_app">
     <item>Wyłączone</item>

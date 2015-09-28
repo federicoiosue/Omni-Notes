@@ -54,7 +54,7 @@
   <string name="sort">Sortuj</string>
   <string name="select_sorting_column">Sortuj według</string>
   <string name="tap_to_undo">Dotknij, aby cofnąć</string>
-  <string name="alarm_set_on">Przypomnienie dla</string>
+  <string name="alarm_set_on">Przypomnienie</string>
   <string name="starting_from">począwszy od</string>
   <string name="at_time">w</string>
   <string name="discard_changes">Porzuć zmiany</string>
@@ -142,8 +142,8 @@
   <string name="error_importing_some_attachments">Błąd importowania załączników</string>
   <string name="error_saving_attachments">Wystąpił błąd podczas zapisywania załączników</string>
   <string name="proceed">Kontynuuj</string>
-  <string name="contracted_view">Zmniejszona widocznosć</string>
-  <string name="expanded_view">Zwiększona widocznosć</string>
+  <string name="contracted_view">Widok pomniejszony</string>
+  <string name="expanded_view">Widok rozszerzony</string>
   <string name="add_shortcut">Utwórz skrót</string>
   <string name="shortcut_added">Skrót dodany do ekranu głównego</string>
   <string name="shortcut_note_deleted">Skrót odnosi się do usuniętej notatki</string>
@@ -254,7 +254,7 @@
   <string name="settings_enable_tag_marker_full_summary">W pełni kolorowe notatki w widoku listy i szczegółów</string>
   <string name="settings_enable_tag_marker_full_list_only">Tylko lista</string>
   <string name="settings_enable_tag_marker_full_list_only_summary">Włącza pełen kolor w widoku listy. W widoku szczegółów będą kolorowe tylko znaczniki</string>
-  <string name="settings_notification_snooze_delay">Opóźnienie przypomnienia w sekundach</string>
+  <string name="settings_notification_snooze_delay">Opóźnienie drugiego przypomnienia</string>
   <string name="minutes">minuty</string>
   <string name="settings_simple_calendar">Prosty kalendarz i czas</string>
   <string name="settings_simple_calendar_summary">Użyj interfejsu Androida (prostsze) do wyboru daty/czasu, zamiast interfejsu Google</string>
@@ -276,12 +276,13 @@
   <string name="settings_instant_search">Szybkie wyszukiwanie</string>
   <string name="settings_navdrawer_on_exit">Menu nawigacyjne przy wyjściu</string>
   <string name="settings_navdrawer_on_exit_summary">Naciśnięcie klawisza \"wstecz\" w liście notatek otwiera menu nawigacji zamiast zamykania</string>
-  <string name="settings_text_size">Rozmiar tekstu</string>
+  <string name="settings_text_size">Rozmiar czcionki</string>
   <string name="settings_screen_behaviors">Zachowanie</string>
   <string name="settings_enable_swipe">Przeciąganie notatek</string>
   <string name="settings_enable_swipe_summary">Przeciągnij po notatce żeby wykonać czynność</string>
   <string name="settings_swipe_to_trash">Przeciągnij do kosza</string>
-  <string name="settings_swipe_to_trash_summary_1">Przeciągając notatki palcem archiwizuję je</string>
+  <string name="settings_swipe_to_trash">Przeciągnij do kosza</string>
+  <string name="settings_swipe_to_trash_summary_1">Przeciągając palcem archiwizuję notatki</string>
   <string name="settings_swipe_to_trash_summary_2">Przesuwając notatki palcem przenoszę je do kosza</string>
   <string name="settings_show_uncategorized">Grupa bez kategorii</string>
   <string name="settings_show_uncategorized_summary">Dodaje nowy element w menu nawigacji dla notatek nie sklasyfikowanych</string>
