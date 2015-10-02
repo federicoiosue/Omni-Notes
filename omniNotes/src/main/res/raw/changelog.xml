@@ -17,6 +17,12 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.1.3" changeDate="Oct 2, 2015">
+        <changelogtext>[u]Fix[/u] Crash on attachment removal</changelogtext>
+        <changelogtext>[u]Fix[/u] Location provider still used without user explicit request</changelogtext>
+    </changelogversion>
+
+
     <changelogversion versionName="5.1.2" changeDate="Sep 28, 2015">
         <changelogtext>[i]Improved[/i] Translations</changelogtext>
         <changelogtext>[u]Fix[/u] Attachments shown twice</changelogtext>
