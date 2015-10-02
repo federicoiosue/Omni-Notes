@@ -178,7 +178,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mFragment = this;
-		GeocodeHelper.startListening();
 	}
 
 
@@ -194,7 +193,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onStop() {
 		super.onStop();
 		EventBus.getDefault().unregister(this);
-		GeocodeHelper.stopListening();
 	}
 
 
@@ -725,12 +723,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " + lastModification : "");
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
-	}
-
-
-	private void removeAttachment(int position) {
-		noteTmp.removeAttachment(noteTmp.getAttachmentsList().get(position));
-		mAttachmentAdapter.getAttachmentsList().remove(position);
 	}
 
 
@@ -1396,12 +1388,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
-	private void addAttachment(Attachment attachment) {
-		noteTmp.addAttachment(attachment);
-//		mAttachmentAdapter.getAttachmentsList().add(attachment);
-	}
-
-
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void onActivityResultManageReceivedFiles(Intent intent) {
 		List<Uri> uris = new ArrayList<>();
@@ -2037,9 +2023,21 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
+	private void addAttachment(Attachment attachment) {
+		noteTmp.addAttachment(attachment);
+//		mAttachmentAdapter.getAttachmentsList().add(attachment);
+	}
+
+
 	private void removeAttachment(Attachment mAttachment) {
 		noteTmp.removeAttachment(mAttachment);
-		mAttachmentAdapter.getAttachmentsList().remove(mAttachment);
+//		mAttachmentAdapter.getAttachmentsList().remove(mAttachment);
+	}
+
+
+	private void removeAttachment(int position) {
+		noteTmp.removeAttachment(noteTmp.getAttachmentsList().get(position));
+//		mAttachmentAdapter.getAttachmentsList().remove(position);
 	}
 
 
