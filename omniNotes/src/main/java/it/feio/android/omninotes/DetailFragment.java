@@ -178,7 +178,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mFragment = this;
-		GeocodeHelper.startListening();
 	}
 
 
@@ -194,7 +193,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onStop() {
 		super.onStop();
 		EventBus.getDefault().unregister(this);
-		GeocodeHelper.stopListening();
 	}
 
 
