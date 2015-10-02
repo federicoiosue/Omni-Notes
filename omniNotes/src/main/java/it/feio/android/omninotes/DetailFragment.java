@@ -726,12 +726,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
-	private void removeAttachment(int position) {
-		noteTmp.removeAttachment(noteTmp.getAttachmentsList().get(position));
-		mAttachmentAdapter.getAttachmentsList().remove(position);
-	}
-
-
 	private EditText initTitle() {
 		title.setText(noteTmp.getTitle());
 		title.gatherLinksForText();
@@ -1394,12 +1388,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
-	private void addAttachment(Attachment attachment) {
-		noteTmp.addAttachment(attachment);
-//		mAttachmentAdapter.getAttachmentsList().add(attachment);
-	}
-
-
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void onActivityResultManageReceivedFiles(Intent intent) {
 		List<Uri> uris = new ArrayList<>();
@@ -2035,9 +2023,21 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
+	private void addAttachment(Attachment attachment) {
+		noteTmp.addAttachment(attachment);
+//		mAttachmentAdapter.getAttachmentsList().add(attachment);
+	}
+
+
 	private void removeAttachment(Attachment mAttachment) {
 		noteTmp.removeAttachment(mAttachment);
-		mAttachmentAdapter.getAttachmentsList().remove(mAttachment);
+//		mAttachmentAdapter.getAttachmentsList().remove(mAttachment);
+	}
+
+
+	private void removeAttachment(int position) {
+		noteTmp.removeAttachment(noteTmp.getAttachmentsList().get(position));
+//		mAttachmentAdapter.getAttachmentsList().remove(position);
 	}
 
 
