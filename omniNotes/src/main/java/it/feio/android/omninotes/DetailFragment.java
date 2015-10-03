@@ -885,7 +885,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (location == null) {
 			mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
 		}
-		if (isNoteLocationValid()) {
+		if (location != null) {
+			noteTmp.setLatitude(location.getLatitude());
+			noteTmp.setLongitude(location.getLongitude());
 			if (!TextUtils.isEmpty(noteTmp.getAddress())) {
 				locationTextView.setVisibility(View.VISIBLE);
 				locationTextView.setText(noteTmp.getAddress());
