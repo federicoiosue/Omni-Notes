@@ -23,13 +23,20 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import io.nlopez.smartlocation.SmartLocation;
+import io.nlopez.smartlocation.geocoding.providers.AndroidGeocodingProvider;
 import io.nlopez.smartlocation.location.config.LocationParams;
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider;
+import io.nlopez.smartlocation.rx.ObservableFactory;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.functions.Action1;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,6 +47,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -100,21 +108,28 @@ public class GeocodeHelper implements LocationListener {
 
 
 	public static void getLocation(Context context, OnGeoUtilResultListener onGeoUtilResultListener) {
-		SmartLocation.with(context).location().config(LocationParams.NAVIGATION).provider(new
-				LocationGooglePlayServicesWithFallbackProvider(context)).oneFix().start
-				(onGeoUtilResultListener::onLocationRetrieved);
-	}
+		SmartLocation.LocationControl bod = SmartLocation.with(context).location(new
+				LocationGooglePlayServicesWithFallbackProvider(context)).config(LocationParams.NAVIGATION).oneFix();
+
+		Observable<Location> locations = ObservableFactory.from(bod).timeout(2, TimeUnit.SECONDS);
+		locations.subscribe(new Subscriber<Location>() {
+			@Override
+			public void onNext(Location location) {
+				onGeoUtilResultListener.onLocationRetrieved(location);
+				unsubscribe();
+			}
 
 
-	public static Location getLastKnowLocation() {
-		if (locationManager == null) {
-			throw new NullPointerException("Call 'startListening' before!");
-		}
-		String provider = locationManager.getBestProvider(new Criteria(), true);
-		if (provider == null) {
-			return null;
-		}
-		return locationManager.getLastKnownLocation(provider);
+			@Override
+			public void onCompleted() {
+			}
+
+
+			@Override
+			public void onError(Throwable e) {
+				onGeoUtilResultListener.onLocationUnavailable();
+			}
+		});
 	}
 
 
@@ -135,10 +150,14 @@ public class GeocodeHelper implements LocationListener {
 
 	public static void getAddressFromCoordinates(Context context, Location location,
 												 final OnGeoUtilResultListener onGeoUtilResultListener) {
-		SmartLocation.with(context).geocoding().reverse(location, (location1, list) -> {
-			String address = list.size() > 0 ? list.get(0).getAddressLine(0) : null;
-			onGeoUtilResultListener.onAddressResolved(address);
-		});
+		if (!Geocoder.isPresent()) {
+			onGeoUtilResultListener.onAddressResolved("");
+		} else {
+			SmartLocation.with(context).geocoding().reverse(location, (location1, list) -> {
+				String address = list.size() > 0 ? list.get(0).getAddressLine(0) : null;
+				onGeoUtilResultListener.onAddressResolved(address);
+			});
+		}
 	}
 
 

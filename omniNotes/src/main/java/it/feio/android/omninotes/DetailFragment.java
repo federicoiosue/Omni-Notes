@@ -818,6 +818,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			@Override
 			public void onCoordinatesResolved(Location location, String address) {}
 
+
+			@Override
+			public void onLocationUnavailable() {
+				mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
+			}
+
+
 			@Override
 			public void onLocationRetrieved(Location location) {
 				if (location == null) {
@@ -895,6 +902,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				GeocodeHelper.getAddressFromCoordinates(mainActivity, location, mFragment);
 			}
 		}
+	}
+
+
+	@Override
+	public void onLocationUnavailable() {
+		mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
 	}
 
 

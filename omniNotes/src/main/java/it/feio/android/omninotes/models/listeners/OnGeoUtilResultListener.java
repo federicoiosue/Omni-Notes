@@ -28,4 +28,6 @@ public interface OnGeoUtilResultListener {
 	public void onCoordinatesResolved(Location location, String address);
 
 	public void onLocationRetrieved(Location location);
+
+	public void onLocationUnavailable();
 }
