@@ -299,6 +299,9 @@
     <string name="settings_fab_expansion_behavior">Floating action button</string>
     <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
     <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
+    <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+    <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+    <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
     <string name="settings_error_reporting">Error reporting</string>
     <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
     <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>

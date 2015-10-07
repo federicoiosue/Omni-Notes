@@ -51,11 +51,11 @@
             android:title="@string/colors_app"
             android:defaultValue="strip"/>
 
-    <ListPreference
-            android:entries="@array/colors_widget"
-            android:entryValues="@array/colors_widget_values"
-            android:key="settings_colors_widget"
-            android:title="@string/colors_widget"
-            android:defaultValue="strip"/>
+    <CheckBoxPreference
+            android:key="settings_attachments_on_bottom"
+            android:summaryOn="@string/settings_attachments_on_bottom_summary_on"
+            android:summaryOff="@string/settings_attachments_on_bottom_summary_off"
+            android:title="@string/settings_attachments_on_bottom"
+            android:defaultValue="false"/>
 
 </PreferenceScreen>

@@ -58,6 +58,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.Optional;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
@@ -119,7 +120,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@InjectView(R.id.detail_root) ViewGroup root;
 	@InjectView(R.id.detail_title) EditText title;
 	@InjectView(R.id.detail_content) EditText content;
-	@InjectView(R.id.gridview) ExpandableHeightGridView mGridView;
+	@InjectView(R.id.detail_attachments_above) ViewStub attachmentsAbove;
+	@InjectView(R.id.detail_attachments_below) ViewStub attachmentsBelow;
+	@InjectView(R.id.gridview) @Optional ExpandableHeightGridView mGridView;
 	@InjectView(R.id.location) TextView locationTextView;
 	@InjectView(R.id.detail_timestamps) View timestampsView;
 	@InjectView(R.id.reminder_layout) LinearLayout reminder_layout;
@@ -498,6 +501,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@SuppressLint("NewApi")
 	private void initViews() {
+
+		// Attachments position based on preferences
+		if (prefs.getBoolean(Constants.PREF_ATTANCHEMENTS_ON_BOTTOM, false)) {
+			attachmentsBelow.inflate();
+		} else {
+			attachmentsAbove.inflate();
+		}
+//		ButterKnife.inject(mGridView);
+		mGridView = (ExpandableHeightGridView) root.findViewById(R.id.gridview);
 
 		// Sets onTouchListener to the whole activity to swipe notes
 		root.setOnTouchListener(this);
