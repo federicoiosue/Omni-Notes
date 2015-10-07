@@ -23,9 +23,12 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
@@ -70,8 +73,8 @@ public class GalleryActivity extends ActionBarActivity {
      * The instance of the {@link SystemUiHider} for this activity.
      */
 
-    @InjectView(R.id.gallery_root) InterceptorFrameLayout galleryRootView;
-    @InjectView(R.id.fullscreen_content)  GalleryViewPager mViewPager;
+    @Bind(R.id.gallery_root) InterceptorFrameLayout galleryRootView;
+    @Bind(R.id.fullscreen_content)  GalleryViewPager mViewPager;
 
     private ArrayList<Attachment> images;
 
@@ -80,7 +83,7 @@ public class GalleryActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         initViews();
         initData();

@@ -36,8 +36,8 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -59,9 +59,9 @@ import java.util.HashMap;
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
 
-    @InjectView(R.id.crouton_handle) ViewGroup croutonViewContainer;
-    @InjectView(R.id.toolbar) Toolbar toolbar;
-    @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @Bind(R.id.crouton_handle) ViewGroup croutonViewContainer;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
 
     public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
     public final String FRAGMENT_LIST_TAG = "fragment_list";
@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         super.onCreate(savedInstanceState);
 		setTheme(R.style.OmniNotesTheme_ApiSpec);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         // This method starts the bootstrap chain.
         checkPassword();

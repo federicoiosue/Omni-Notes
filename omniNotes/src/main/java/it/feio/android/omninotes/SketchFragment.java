@@ -35,8 +35,8 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
@@ -55,12 +55,12 @@ import java.io.FileOutputStream;
 
 public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
-    @InjectView(R.id.sketch_stroke) ImageView stroke;
-    @InjectView(R.id.sketch_eraser) ImageView eraser;
-    @InjectView(R.id.drawing) SketchView mSketchView;
-    @InjectView(R.id.sketch_undo) ImageView undo;
-    @InjectView(R.id.sketch_redo) ImageView redo;
-    @InjectView(R.id.sketch_erase) ImageView erase;
+    @Bind(R.id.sketch_stroke) ImageView stroke;
+    @Bind(R.id.sketch_eraser) ImageView eraser;
+    @Bind(R.id.drawing) SketchView mSketchView;
+    @Bind(R.id.sketch_undo) ImageView undo;
+    @Bind(R.id.sketch_redo) ImageView redo;
+    @Bind(R.id.sketch_erase) ImageView erase;
     private int seekBarStrokeProgress, seekBarEraserProgress;
     private View popupLayout, popupEraserLayout;
     private ImageView strokeImageView, eraserImageView;
@@ -88,7 +88,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sketch, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
         return view;
     }
 

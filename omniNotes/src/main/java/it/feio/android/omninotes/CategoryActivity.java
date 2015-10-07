@@ -30,6 +30,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SaturationBar;
@@ -48,12 +50,13 @@ public class CategoryActivity extends Activity {
     private final float SATURATION = 0.4f;
     private final float VALUE = 0.9f;
 
+    @Bind(R.id.category_title) EditText title;
+    @Bind(R.id.category_description) EditText description;
+    @Bind(R.id.delete) Button deleteBtn;
+    @Bind(R.id.save) Button saveBtn;
+
     Category category;
-    EditText title;
-    EditText description;
     ColorPicker picker;
-    Button deleteBtn;
-    Button saveBtn;
     private CategoryActivity mActivity;
     private boolean colorChanged = false;
 
@@ -62,6 +65,7 @@ public class CategoryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        ButterKnife.bind(this);
 
         mActivity = this;
 
@@ -80,18 +84,16 @@ public class CategoryActivity extends Activity {
 
 
     private void initViews() {
-        title = (EditText) findViewById(R.id.category_title);
-        description = (EditText) findViewById(R.id.category_description);
         picker = (ColorPicker) findViewById(R.id.colorpicker_category);
         picker.setOnColorChangedListener(color -> {
-			picker.setOldCenterColor(picker.getColor());
-			colorChanged = true;
-		});
+            picker.setOldCenterColor(picker.getColor());
+            colorChanged = true;
+        });
         // Long click on color picker to remove color
         picker.setOnLongClickListener(v -> {
-			picker.setColor(Color.WHITE);
-			return true;
-		});
+            picker.setColor(Color.WHITE);
+            return true;
+        });
         picker.setOnClickListener(v -> picker.setColor(Color.WHITE));
 
         // Added invisible saturation and value bars to get achieve pastel colors
@@ -101,9 +103,6 @@ public class CategoryActivity extends Activity {
         ValueBar valuebar = (ValueBar) findViewById(R.id.valuebar_category);
         valuebar.setValue(VALUE);
         picker.addValueBar(valuebar);
-
-        deleteBtn = (Button) findViewById(R.id.delete);
-        saveBtn = (Button) findViewById(R.id.save);
 
         // Buttons events
         deleteBtn.setOnClickListener(v -> deleteCategory());

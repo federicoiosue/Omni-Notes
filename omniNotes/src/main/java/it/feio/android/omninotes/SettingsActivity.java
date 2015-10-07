@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
@@ -16,11 +16,8 @@ import java.util.List;
 
 public class SettingsActivity extends ActionBarActivity {
 
-	@InjectView(R.id.toolbar)
-    Toolbar toolbar;
-
-	@InjectView(R.id.crouton_handle)
-	ViewGroup croutonViewContainer;
+	@Bind(R.id.toolbar) Toolbar toolbar;
+	@Bind(R.id.crouton_handle) ViewGroup croutonViewContainer;
 
     private List<Fragment> backStack = new ArrayList<>();
 
@@ -29,7 +26,7 @@ public class SettingsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-		ButterKnife.inject(this);
+		ButterKnife.bind(this);
         initUI();
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
     }

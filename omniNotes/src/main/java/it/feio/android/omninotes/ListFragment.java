@@ -43,8 +43,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
@@ -82,16 +82,16 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private static final int REQUEST_CODE_CATEGORY = 1;
     private static final int REQUEST_CODE_CATEGORY_NOTES = 2;
 
-    @InjectView(R.id.list_root) InterceptorLinearLayout listRoot;
-    @InjectView(R.id.list) DynamicListView list;
-    @InjectView(R.id.search_layout) View searchLayout;
-    @InjectView(R.id.search_query) android.widget.TextView searchQueryView;
-    @InjectView(R.id.search_cancel) ImageView searchCancel;
-    @InjectView(R.id.empty_list) TextView empyListItem;
-    @InjectView(R.id.expanded_image) ImageView expandedImageView;
-    @InjectView(R.id.fab)  View fabView;
-    @InjectView(R.id.undobar) View undoBarView;
-    @InjectView(R.id.progress_wheel) ProgressWheel progress_wheel;
+    @Bind(R.id.list_root) InterceptorLinearLayout listRoot;
+    @Bind(R.id.list) DynamicListView list;
+    @Bind(R.id.search_layout) View searchLayout;
+    @Bind(R.id.search_query) android.widget.TextView searchQueryView;
+    @Bind(R.id.search_cancel) ImageView searchCancel;
+    @Bind(R.id.empty_list) TextView empyListItem;
+    @Bind(R.id.expanded_image) ImageView expandedImageView;
+    @Bind(R.id.fab)  View fabView;
+    @Bind(R.id.undobar) View undoBarView;
+    @Bind(R.id.progress_wheel) ProgressWheel progress_wheel;
 
     NoteViewHolder noteViewHolder;
 
@@ -169,7 +169,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             keepActionMode = false;
         }
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        ButterKnife.inject(this, view);
+        ButterKnife.bind(this, view);
         return view;
     }
 

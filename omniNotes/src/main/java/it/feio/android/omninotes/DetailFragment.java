@@ -37,8 +37,12 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.*;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -56,9 +60,8 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.Optional;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
@@ -117,24 +120,24 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private static final int DETAIL = 6;
 	private static final int FILES = 7;
 
-	@InjectView(R.id.detail_root) ViewGroup root;
-	@InjectView(R.id.detail_title) EditText title;
-	@InjectView(R.id.detail_content) EditText content;
-	@InjectView(R.id.detail_attachments_above) ViewStub attachmentsAbove;
-	@InjectView(R.id.detail_attachments_below) ViewStub attachmentsBelow;
-	@InjectView(R.id.gridview) @Optional ExpandableHeightGridView mGridView;
-	@InjectView(R.id.location) TextView locationTextView;
-	@InjectView(R.id.detail_timestamps) View timestampsView;
-	@InjectView(R.id.reminder_layout) LinearLayout reminder_layout;
-	@InjectView(R.id.reminder_icon) ImageView reminderIcon;
-	@InjectView(R.id.datetime) TextView datetime;
-	@InjectView(R.id.detail_tile_card) View titleCardView;
-	@InjectView(R.id.content_wrapper) ScrollView scrollView;
-	@InjectView(R.id.creation) TextView creationTextView;
-	@InjectView(R.id.last_modification) TextView lastModificationTextView;
-	@InjectView(R.id.title_wrapper) View titleWrapperView;
-	@InjectView(R.id.tag_marker) View tagMarkerView;
-	@InjectView(R.id.detail_wrapper) ViewManager detailWrapperView;
+	@Bind(R.id.detail_root) ViewGroup root;
+	@Bind(R.id.detail_title) EditText title;
+	@Bind(R.id.detail_content) EditText content;
+	@Bind(R.id.detail_attachments_above) ViewStub attachmentsAbove;
+	@Bind(R.id.detail_attachments_below) ViewStub attachmentsBelow;
+	@Nullable @Bind(R.id.gridview) ExpandableHeightGridView mGridView;
+	@Bind(R.id.location) TextView locationTextView;
+	@Bind(R.id.detail_timestamps) View timestampsView;
+	@Bind(R.id.reminder_layout) LinearLayout reminder_layout;
+	@Bind(R.id.reminder_icon) ImageView reminderIcon;
+	@Bind(R.id.datetime) TextView datetime;
+	@Bind(R.id.detail_tile_card) View titleCardView;
+	@Bind(R.id.content_wrapper) ScrollView scrollView;
+	@Bind(R.id.creation) TextView creationTextView;
+	@Bind(R.id.last_modification) TextView lastModificationTextView;
+	@Bind(R.id.title_wrapper) View titleWrapperView;
+	@Bind(R.id.tag_marker) View tagMarkerView;
+	@Bind(R.id.detail_wrapper) ViewManager detailWrapperView;
 
 	public OnDateSetListener onDateSetListener;
 	public OnTimeSetListener onTimeSetListener;
@@ -226,7 +229,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_detail, container, false);
-		ButterKnife.inject(this, view);
+		ButterKnife.bind(this, view);
 		return view;
 	}
 

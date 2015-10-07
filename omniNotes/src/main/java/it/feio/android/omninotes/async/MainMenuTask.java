@@ -23,8 +23,8 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
@@ -45,14 +45,14 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
     private final WeakReference<Fragment> mFragmentWeakReference;
     private final MainActivity mainActivity;
-    @InjectView(R.id.drawer_nav_list) NonScrollableListView mDrawerList;
-    @InjectView(R.id.drawer_tag_list) NonScrollableListView mDrawerCategoriesList;
+    @Bind(R.id.drawer_nav_list) NonScrollableListView mDrawerList;
+    @Bind(R.id.drawer_tag_list) NonScrollableListView mDrawerCategoriesList;
 
 
     public MainMenuTask(Fragment mFragment) {
         mFragmentWeakReference = new WeakReference<>(mFragment);
         this.mainActivity = (MainActivity) mFragment.getActivity();
-        ButterKnife.inject(this, mFragment.getView());
+        ButterKnife.bind(this, mFragment.getView());
     }
 
 

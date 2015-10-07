@@ -17,14 +17,12 @@
 
 package it.feio.android.omninotes.models.holders;
 
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
-
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.Optional;
 import com.neopixl.pixlui.components.textview.TextView;
-
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.views.SquareImageView;
 
@@ -32,22 +30,21 @@ import it.feio.android.omninotes.models.views.SquareImageView;
 public class NoteViewHolder {
 
 	public NoteViewHolder(View view) {
-		ButterKnife.inject(this, view);
+		ButterKnife.bind(this, view);
 	}
 
-	@InjectView(R.id.root) public View root;
-	@InjectView(R.id.card_layout) public View cardLayout;
-	@InjectView(R.id.category_marker) public View categoryMarker;
+	@Bind(R.id.root) public View root;
+	@Bind(R.id.card_layout) public View cardLayout;
+	@Bind(R.id.category_marker) public View categoryMarker;
 
-	@InjectView(R.id.note_title) public TextView title;
-	@InjectView(R.id.note_content) public TextView content;
-	@InjectView(R.id.note_date) public TextView date;
+	@Bind(R.id.note_title) public TextView title;
+	@Bind(R.id.note_content) public TextView content;
+	@Bind(R.id.note_date) public TextView date;
 
-	@InjectView(R.id.archivedIcon) public ImageView archiveIcon;
-	@InjectView(R.id.locationIcon) public ImageView locationIcon;
-	@InjectView(R.id.alarmIcon) public ImageView alarmIcon;
-	@InjectView(R.id.lockedIcon) public ImageView lockedIcon;
-	@Optional @InjectView(R.id.attachmentIcon) public ImageView attachmentIcon;
-
-	@Optional @InjectView(R.id.attachmentThumbnail) public SquareImageView attachmentThumbnail;
+	@Bind(R.id.archivedIcon) public ImageView archiveIcon;
+	@Bind(R.id.locationIcon) public ImageView locationIcon;
+	@Bind(R.id.alarmIcon) public ImageView alarmIcon;
+	@Bind(R.id.lockedIcon) public ImageView lockedIcon;
+	@Nullable @Bind(R.id.attachmentIcon) public ImageView attachmentIcon;
+	@Nullable @Bind(R.id.attachmentThumbnail) public SquareImageView attachmentThumbnail;
 }
