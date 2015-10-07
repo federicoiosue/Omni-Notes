@@ -516,15 +516,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		if (isNoteLocationValid()) {
 			if (TextUtils.isEmpty(noteTmp.getAddress())) {
-				try {
-					noteTmp.setAddress(GeocodeHelper.getAddressFromCoordinates(mainActivity, noteTmp.getLatitude(),
-							noteTmp.getLongitude()));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				GeocodeHelper.getAddressFromCoordinates(mainActivity, new Location("sasd"), this);
+			} else {
+				locationTextView.setText(noteTmp.getAddress());
+				locationTextView.setVisibility(View.VISIBLE);
 			}
-			locationTextView.setVisibility(View.VISIBLE);
-			locationTextView.setText(noteTmp.getAddress());
 		}
 
 		// Automatic location insertion
