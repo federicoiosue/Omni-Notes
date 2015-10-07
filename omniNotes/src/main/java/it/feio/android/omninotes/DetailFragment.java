@@ -502,15 +502,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@SuppressLint("NewApi")
 	private void initViews() {
 
-		// Attachments position based on preferences
-		if (prefs.getBoolean(Constants.PREF_ATTANCHEMENTS_ON_BOTTOM, false)) {
-			attachmentsBelow.inflate();
-		} else {
-			attachmentsAbove.inflate();
-		}
-//		ButterKnife.inject(mGridView);
-		mGridView = (ExpandableHeightGridView) root.findViewById(R.id.gridview);
-
 		// Sets onTouchListener to the whole activity to swipe notes
 		root.setOnTouchListener(this);
 
@@ -520,11 +511,85 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Color of tag marker if note is tagged a function is active in preferences
 		setTagMarkerColor(noteTmp.getCategory());
 
-		// Sets links clickable in title and content Views
-		title = initTitle();
-		requestFocus(title);
+		initViewTitle();
 
-		content = initContent();
+		initViewContent();
+
+		initViewLocation();
+
+		initViewAttachments();
+
+		initViewReminder();
+
+		initViewFooter();
+	}
+
+
+	private void initViewFooter() {
+		// Footer dates of creation...
+		String creation = noteTmp.getCreationShort(mainActivity);
+		creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
+		if (creationTextView.getText().length() == 0)
+			creationTextView.setVisibility(View.GONE);
+
+		// ... and last modification
+		String lastModification = noteTmp.getLastModificationShort(mainActivity);
+		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " + lastModification : "");
+		if (lastModificationTextView.getText().length() == 0)
+			lastModificationTextView.setVisibility(View.GONE);
+	}
+
+
+	private void initViewReminder() {
+
+		// Preparation for reminder icon
+		reminder_layout.setOnClickListener(v -> {
+			int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
+					ReminderPickers.TYPE_GOOGLE;
+			ReminderPickers reminderPicker = new ReminderPickers(mainActivity, mFragment, pickerType);
+			Long presetDateTime = noteTmp.getAlarm() != null ? Long.parseLong(noteTmp.getAlarm()) : null;
+			reminderPicker.pick(presetDateTime, noteTmp.getRecurrenceRule());
+			onDateSetListener = reminderPicker;
+			onTimeSetListener = reminderPicker;
+		});
+
+
+		reminder_layout.setOnLongClickListener(v -> {
+			MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
+					.content(R.string.remove_reminder)
+					.positiveText(R.string.ok)
+					.callback(new MaterialDialog.ButtonCallback() {
+						@Override
+						public void onPositive(MaterialDialog materialDialog) {
+							noteTmp.setAlarm(null);
+							reminderIcon.setImageResource(R.drawable.ic_reminder_add);
+							datetime.setText("");
+						}
+					}).build();
+			dialog.show();
+			return true;
+		});
+
+		// Reminder
+		String reminderString = initReminder(noteTmp);
+		if (!StringUtils.isEmpty(reminderString)) {
+			reminderIcon.setImageResource(R.drawable.ic_alarm_grey600_18dp);
+			datetime.setText(reminderString);
+		}
+
+		// Timestamps view
+		// Bottom padding set for translucent navbar in Kitkat
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			int navBarHeight = Display.getNavigationBarHeightKitkat(mainActivity);
+			int negativePadding = navBarHeight >= 27*3 ? - 27 : 0;
+			int timestampsViewPaddingBottom = navBarHeight > 0 ? navBarHeight + negativePadding : timestampsView.getPaddingBottom();
+			timestampsView.setPadding(timestampsView.getPaddingStart(), timestampsView.getPaddingTop(),
+					timestampsView.getPaddingEnd(), timestampsViewPaddingBottom);
+		}
+	}
+
+
+	private void initViewLocation() {
 
 		if (isNoteLocationValid()) {
 			if (TextUtils.isEmpty(noteTmp.getAddress())) {
@@ -567,7 +632,18 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			dialog.show();
 			return true;
 		});
+	}
 
+
+	private void initViewAttachments() {
+
+		// Attachments position based on preferences
+		if (prefs.getBoolean(Constants.PREF_ATTANCHEMENTS_ON_BOTTOM, false)) {
+			attachmentsBelow.inflate();
+		} else {
+			attachmentsAbove.inflate();
+		}
+		mGridView = (ExpandableHeightGridView) root.findViewById(R.id.gridview);
 
 		// Some fields can be filled by third party application and are always shown
 		mAttachmentAdapter = new AttachmentAdapter(mainActivity, noteTmp.getAttachmentsList(), mGridView);
@@ -673,68 +749,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			dialogBuilder.build().show();
 			return true;
 		});
-
-
-		// Preparation for reminder icon
-		reminder_layout.setOnClickListener(v -> {
-			int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
-					ReminderPickers.TYPE_GOOGLE;
-			ReminderPickers reminderPicker = new ReminderPickers(mainActivity, mFragment, pickerType);
-			Long presetDateTime = noteTmp.getAlarm() != null ? Long.parseLong(noteTmp.getAlarm()) : null;
-			reminderPicker.pick(presetDateTime, noteTmp.getRecurrenceRule());
-			onDateSetListener = reminderPicker;
-			onTimeSetListener = reminderPicker;
-		});
-
-
-		reminder_layout.setOnLongClickListener(v -> {
-			MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
-					.content(R.string.remove_reminder)
-					.positiveText(R.string.ok)
-					.callback(new MaterialDialog.ButtonCallback() {
-						@Override
-						public void onPositive(MaterialDialog materialDialog) {
-							noteTmp.setAlarm(null);
-							reminderIcon.setImageResource(R.drawable.ic_reminder_add);
-							datetime.setText("");
-						}
-					}).build();
-			dialog.show();
-			return true;
-		});
-
-		// Reminder
-		String reminderString = initReminder(noteTmp);
-		if (!StringUtils.isEmpty(reminderString)) {
-			reminderIcon.setImageResource(R.drawable.ic_alarm_grey600_18dp);
-			datetime.setText(reminderString);
-		}
-
-		// Timestamps view
-		// Bottom padding set for translucent navbar in Kitkat
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			int navBarHeight = Display.getNavigationBarHeightKitkat(mainActivity);
-			int negativePadding = navBarHeight >= 27*3 ? - 27 : 0;
-			int timestampsViewPaddingBottom = navBarHeight > 0 ? navBarHeight + negativePadding : timestampsView.getPaddingBottom();
-			timestampsView.setPadding(timestampsView.getPaddingStart(), timestampsView.getPaddingTop(),
-					timestampsView.getPaddingEnd(), timestampsViewPaddingBottom);
-		}
-
-		// Footer dates of creation...
-		String creation = noteTmp.getCreationShort(mainActivity);
-		creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
-		if (creationTextView.getText().length() == 0)
-			creationTextView.setVisibility(View.GONE);
-
-		// ... and last modification
-		String lastModification = noteTmp.getLastModificationShort(mainActivity);
-		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " + lastModification : "");
-		if (lastModificationTextView.getText().length() == 0)
-			lastModificationTextView.setVisibility(View.GONE);
 	}
 
 
-	private EditText initTitle() {
+	private void initViewTitle() {
+
 		title.setText(noteTmp.getTitle());
 		title.gatherLinksForText();
 		title.setOnTextLinkClickListener(textLinkClickListener);
@@ -751,11 +770,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			content.setSelection(content.getText().length());
 			return false;
 		});
-		return title;
+		requestFocus(title);
 	}
 
 
-	private EditText initContent() {
+	private void initViewContent() {
+
 		content.setText(noteTmp.getContent());
 		content.gatherLinksForText();
 		content.setOnTextLinkClickListener(textLinkClickListener);
@@ -769,8 +789,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			AlphaManager.setAlpha(toggleChecklistView, 0);
 			toggleChecklist2();
 		}
-
-		return content;
 	}
 
 
