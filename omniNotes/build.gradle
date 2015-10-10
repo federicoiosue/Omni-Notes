@@ -84,7 +84,12 @@ dependencies {
     compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
     compile 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
     compile 'com.github.bumptech.glide:glide:3.5.2'
-    compile 'com.afollestad:material-dialogs:0.7.6.0'
+    compile('com.afollestad.material-dialogs:core:0.8.2.0@aar') {
+        transitive=true
+    }
+    compile('com.afollestad.material-dialogs:commons:0.8.2.0@aar') {
+        transitive=true
+    }
     compile 'com.jakewharton:butterknife:7.0.1'
     compile('org.mnode.ical4j:ical4j:1.0.6') {
         exclude group: 'commons.io'

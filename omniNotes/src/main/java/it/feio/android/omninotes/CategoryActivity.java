@@ -17,25 +17,27 @@
 
 package it.feio.android.omninotes;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.SaturationBar;
-import com.larswerkman.holocolorpicker.ValueBar;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
@@ -45,7 +47,7 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 
 
-public class CategoryActivity extends Activity {
+public class CategoryActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback{
 
     private final float SATURATION = 0.4f;
     private final float VALUE = 0.9f;
@@ -54,11 +56,11 @@ public class CategoryActivity extends Activity {
     @Bind(R.id.category_description) EditText description;
     @Bind(R.id.delete) Button deleteBtn;
     @Bind(R.id.save) Button saveBtn;
+    @Bind(R.id.color_chooser) ImageView colorChooser;
 
     Category category;
     ColorPicker picker;
-    private CategoryActivity mActivity;
-    private boolean colorChanged = false;
+    private int selectedColor;
 
 
     @Override
@@ -67,11 +69,7 @@ public class CategoryActivity extends Activity {
         setContentView(R.layout.activity_category);
         ButterKnife.bind(this);
 
-        mActivity = this;
-
         category = getIntent().getParcelableExtra(Constants.INTENT_CATEGORY);
-
-        initViews();
 
         if (category == null) {
             Log.d(Constants.TAG, "Adding new category");
@@ -83,37 +81,24 @@ public class CategoryActivity extends Activity {
     }
 
 
-    private void initViews() {
-        picker = (ColorPicker) findViewById(R.id.colorpicker_category);
-        picker.setOnColorChangedListener(color -> {
-            picker.setOldCenterColor(picker.getColor());
-            colorChanged = true;
-        });
-        // Long click on color picker to remove color
-        picker.setOnLongClickListener(v -> {
-            picker.setColor(Color.WHITE);
-            return true;
-        });
-        picker.setOnClickListener(v -> picker.setColor(Color.WHITE));
 
-        // Added invisible saturation and value bars to get achieve pastel colors
-        SaturationBar saturationbar = (SaturationBar) findViewById(R.id.saturationbar_category);
-        saturationbar.setSaturation(SATURATION);
-        picker.addSaturationBar(saturationbar);
-        ValueBar valuebar = (ValueBar) findViewById(R.id.valuebar_category);
-        valuebar.setValue(VALUE);
-        picker.addValueBar(valuebar);
 
-        // Buttons events
-        deleteBtn.setOnClickListener(v -> deleteCategory());
-        saveBtn.setOnClickListener(v -> {
-			// In case category name is not compiled a message will be shown
-			if (title.getText().toString().length() > 0) {
-				saveCategory();
-			} else {
-				title.setError(getString(R.string.category_missing_title));
-			}
-		});
+    @OnClick(R.id.color_chooser)
+    public void showColorChooserCustomColors() {
+
+        int[][] subColors = new int[][]{
+                new int[]{Color.parseColor("#EF5350"), Color.parseColor("#F44336"), Color.parseColor("#E53935")},
+                new int[]{Color.parseColor("#EC407A"), Color.parseColor("#E91E63"), Color.parseColor("#D81B60")},
+                new int[]{Color.parseColor("#AB47BC"), Color.parseColor("#9C27B0"), Color.parseColor("#8E24AA")},
+                new int[]{Color.parseColor("#7E57C2"), Color.parseColor("#673AB7"), Color.parseColor("#5E35B1")},
+                new int[]{Color.parseColor("#5C6BC0"), Color.parseColor("#3F51B5"), Color.parseColor("#3949AB")},
+                new int[]{Color.parseColor("#42A5F5"), Color.parseColor("#2196F3"), Color.parseColor("#1E88E5")}
+        };
+
+        //FIXME: Waiting for fixed library update to use standard MD colors palette avoiding crash
+        new ColorChooserDialog.Builder(this, R.string.colors)
+                .customColors(R.array.material_colors, subColors)
+                .show();
     }
 
 
@@ -123,8 +108,7 @@ public class CategoryActivity extends Activity {
         // Reset picker to saved color
         String color = category.getColor();
         if (color != null && color.length() > 0) {
-            picker.setColor(Integer.parseInt(color));
-            picker.setOldCenterColor(Integer.parseInt(color));
+            colorChooser.getDrawable().mutate().setColorFilter(Integer.valueOf(color), PorterDuff.Mode.SRC_ATOP);
         }
         deleteBtn.setVisibility(View.VISIBLE);
     }
@@ -133,13 +117,21 @@ public class CategoryActivity extends Activity {
     /**
      * Category saving
      */
-    private void saveCategory() {
+    @OnClick(R.id.save)
+    public void saveCategory() {
+
+        if (title.getText().toString().length() == 0) {
+            title.setError(getString(R.string.category_missing_title));
+            return;
+        }
+
 		Long id = category.getId() != null ? category.getId() : Calendar.getInstance().getTimeInMillis();
 		category.setId(id);
         category.setName(title.getText().toString());
         category.setDescription(description.getText().toString());
-        if (colorChanged || category.getColor() == null)
-            category.setColor(String.valueOf(picker.getColor()));
+        if (selectedColor != 0 || category.getColor() == null) {
+            category.setColor(String.valueOf(selectedColor));
+        }
 
         // Saved to DB and new id or update result catched
         DbHelper db = DbHelper.getInstance();
@@ -152,7 +144,8 @@ public class CategoryActivity extends Activity {
     }
 
 
-    private void deleteCategory() {
+    @OnClick(R.id.delete)
+    public void deleteCategory() {
 
         // Retrieving how many notes are categorized with category to be deleted
         DbHelper db = DbHelper.getInstance();
@@ -179,7 +172,7 @@ public class CategoryActivity extends Activity {
                         DbHelper db = DbHelper.getInstance();
                         db.deleteCategory(category);
 
-                        BaseActivity.notifyAppWidgets(mActivity);
+                        BaseActivity.notifyAppWidgets(OmniNotes.getAppContext());
 
                         setResult(RESULT_FIRST_USER);
                         finish();
@@ -223,5 +216,12 @@ public class CategoryActivity extends Activity {
         } catch (Exception e) {
             Log.d(Constants.TAG, "Bitmap not found", e);
         }
+    }
+
+
+    @Override
+    public void onColorSelection(ColorChooserDialog colorChooserDialog, int color) {
+        colorChooser.getDrawable().mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        selectedColor = color;
     }
 }

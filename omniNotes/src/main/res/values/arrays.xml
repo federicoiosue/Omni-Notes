@@ -192,5 +192,23 @@
         <item>uk_UA</item>
     </string-array>
 
+    <!--due righe-->
+    <array name="material_colors">
+        <!--<item>#e51c23</item>-->
+        <!--<item>#e91e63</item>-->
+        <!--<item>#9c27b0</item>-->
+        <!--<item>#673ab7</item>-->
+        <!--<item>#ff5177</item>-->
+        <!--<item>#ff4081</item>-->
+        <!--<item>#e040fb</item>-->
+        <!--<item>#7c4dff</item>-->
+        <item>#F44336</item>
+        <item>#E91E63</item>
+        <item>#9C27B0</item>
+        <item>#673AB7</item>
+        <item>#3F51B5</item>
+        <item>#2196F3</item>
+    </array>
+
 
 </resources>

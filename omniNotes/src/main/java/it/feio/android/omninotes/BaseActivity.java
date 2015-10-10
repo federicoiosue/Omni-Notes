@@ -202,15 +202,15 @@ public class BaseActivity extends ActionBarActivity {
     /**
      * Notifies App Widgets about data changes so they can update theirselves
      */
-    public static void notifyAppWidgets(Context mActivity) {
+    public static void notifyAppWidgets(Context context) {
         // Home widgets
-        AppWidgetManager mgr = AppWidgetManager.getInstance(mActivity);
-        int[] ids = mgr.getAppWidgetIds(new ComponentName(mActivity, ListWidgetProvider.class));
+        AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+        int[] ids = mgr.getAppWidgetIds(new ComponentName(context, ListWidgetProvider.class));
         Log.d(Constants.TAG, "Notifies AppWidget data changed for widgets " + Arrays.toString(ids));
         mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 
         // Dashclock
-        LocalBroadcastManager.getInstance(mActivity).sendBroadcast(new Intent(Constants.INTENT_UPDATE_DASHCLOCK));
+        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constants.INTENT_UPDATE_DASHCLOCK));
     }
 
 
