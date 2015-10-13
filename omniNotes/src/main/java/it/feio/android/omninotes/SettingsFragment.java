@@ -64,7 +64,11 @@ public class SettingsFragment extends PreferenceFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		int xmlId = getXmlId() > 0 ? getXmlId() : R.xml.settings;
+		int xmlId = R.xml.settings;
+		if (getArguments() != null && getArguments().containsKey(XML_NAME)) {
+			xmlId = ResourcesUtils.getXmlId(OmniNotes.getAppContext(), ResourcesUtils.ResourceIdentifiers.xml, String
+					.valueOf(getArguments().get(XML_NAME)));
+		}
 		addPreferencesFromResource(xmlId);
 	}
 
@@ -75,14 +79,6 @@ public class SettingsFragment extends PreferenceFragment {
 		this.activity = activity;
 		prefs = activity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
 		setTitle();
-	}
-
-
-	private int getXmlId() {
-		if (getArguments() == null || !getArguments().containsKey(XML_NAME)) return 0;
-		String xmlName = getArguments().getString(XML_NAME);
-		return getActivity().getResources().getIdentifier(xmlName, "xml",
-				getActivity().getPackageName());
 	}
 
 
