@@ -90,7 +90,7 @@
             <ScrollView
                     android:id="@+id/content_wrapper"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:scrollbarSize="4dp"
                     android:scrollbarStyle="outsideOverlay"
                     android:scrollbarThumbVertical="@drawable/scroll_bar">
