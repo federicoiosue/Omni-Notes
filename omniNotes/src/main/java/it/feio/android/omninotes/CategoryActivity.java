@@ -37,20 +37,18 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
-import com.larswerkman.holocolorpicker.ColorPicker;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
+import java.util.Random;
 
 
 public class CategoryActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback{
-
-    private final float SATURATION = 0.4f;
-    private final float VALUE = 0.9f;
 
     @Bind(R.id.category_title) EditText title;
     @Bind(R.id.category_description) EditText description;
@@ -59,7 +57,6 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     @Bind(R.id.color_chooser) ImageView colorChooser;
 
     Category category;
-    ColorPicker picker;
     private int selectedColor;
 
 
@@ -74,31 +71,33 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         if (category == null) {
             Log.d(Constants.TAG, "Adding new category");
             category = new Category();
+            category.setColor(String.valueOf(getRandomPaletteColor()));
         } else {
             Log.d(Constants.TAG, "Editing category " + category.getName());
-            populateViews();
         }
+        populateViews();
     }
 
 
+    private int getRandomPaletteColor() {
+        int[] paletteArray = getResources().getIntArray(R.array.material_colors);
+        return paletteArray[new Random().nextInt((paletteArray.length) + 1)];
+    }
 
 
     @OnClick(R.id.color_chooser)
     public void showColorChooserCustomColors() {
 
-        int[][] subColors = new int[][]{
-                new int[]{Color.parseColor("#EF5350"), Color.parseColor("#F44336"), Color.parseColor("#E53935")},
-                new int[]{Color.parseColor("#EC407A"), Color.parseColor("#E91E63"), Color.parseColor("#D81B60")},
-                new int[]{Color.parseColor("#AB47BC"), Color.parseColor("#9C27B0"), Color.parseColor("#8E24AA")},
-                new int[]{Color.parseColor("#7E57C2"), Color.parseColor("#673AB7"), Color.parseColor("#5E35B1")},
-                new int[]{Color.parseColor("#5C6BC0"), Color.parseColor("#3F51B5"), Color.parseColor("#3949AB")},
-                new int[]{Color.parseColor("#42A5F5"), Color.parseColor("#2196F3"), Color.parseColor("#1E88E5")}
-        };
-
-        //FIXME: Waiting for fixed library update to use standard MD colors palette avoiding crash
         new ColorChooserDialog.Builder(this, R.string.colors)
-                .customColors(R.array.material_colors, subColors)
+                .customColors(R.array.material_colors, null)
                 .show();
+    }
+
+
+    @Override
+    public void onColorSelection(ColorChooserDialog colorChooserDialog, int color) {
+        BitmapHelper.changeImageViewDrawableColor(colorChooser, color);
+        selectedColor = color;
     }
 
 
@@ -216,12 +215,5 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         } catch (Exception e) {
             Log.d(Constants.TAG, "Bitmap not found", e);
         }
-    }
-
-
-    @Override
-    public void onColorSelection(ColorChooserDialog colorChooserDialog, int color) {
-        colorChooser.getDrawable().mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        selectedColor = color;
     }
 }

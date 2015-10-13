@@ -192,23 +192,23 @@
         <item>uk_UA</item>
     </string-array>
 
-    <!--due righe-->
     <array name="material_colors">
-        <!--<item>#e51c23</item>-->
-        <!--<item>#e91e63</item>-->
-        <!--<item>#9c27b0</item>-->
-        <!--<item>#673ab7</item>-->
-        <!--<item>#ff5177</item>-->
-        <!--<item>#ff4081</item>-->
-        <!--<item>#e040fb</item>-->
-        <!--<item>#7c4dff</item>-->
-        <item>#F44336</item>
-        <item>#E91E63</item>
-        <item>#9C27B0</item>
-        <item>#673AB7</item>
-        <item>#3F51B5</item>
-        <item>#2196F3</item>
+        <item>#AEC6CF</item>
+        <item>#DEA5A4</item>
+        <item>#779ECB</item>
+        <item>#77DD77</item>
+        <item>#af8c6e</item>
+        <item>#966FD6</item>
+        <item>#4BFE78</item>
+        <item>#93BF96</item>
+        <item>#cc85d2</item>
+        <item>#B19CD9</item>
+        <item>#FFD1DC</item>
+        <item>#FDFD96</item>
+        <item>#FFB347</item>
+        <item>#CFCFC4</item>
+        <item>#b5ef74</item>
+        <item>#ff6f6f</item>
     </array>
-
 
 </resources>

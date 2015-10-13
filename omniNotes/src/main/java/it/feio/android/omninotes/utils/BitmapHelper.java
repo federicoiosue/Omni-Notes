@@ -26,6 +26,8 @@ import android.net.Uri;
 import android.provider.MediaStore.Images.Thumbnails;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.simplegallery.util.BitmapUtils;
@@ -271,4 +273,8 @@ public class BitmapHelper {
         return Color.HSVToColor(hsv);
     }
 
+
+    public static void changeImageViewDrawableColor(ImageView imageView, int color) {
+        imageView.getDrawable().mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+    }
 }

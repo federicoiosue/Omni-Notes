@@ -3,6 +3,6 @@
     android:shape="oval">
     <solid android:color="#BCBCBC" />
     <size
-        android:width="@dimen/md_simplelist_icon"
-        android:height="@dimen/md_simplelist_icon" />
+        android:width="60dp"
+        android:height="60dp" />
 </shape>
