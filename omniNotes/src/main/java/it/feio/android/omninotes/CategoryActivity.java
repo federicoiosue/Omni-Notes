@@ -90,6 +90,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
 
         new ColorChooserDialog.Builder(this, R.string.colors)
                 .customColors(R.array.material_colors, null)
+                .dynamicButtonColor(false)
                 .show();
     }
 
