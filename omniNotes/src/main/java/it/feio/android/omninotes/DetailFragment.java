@@ -102,6 +102,7 @@ import org.apache.commons.lang.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -708,50 +709,65 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		});
 
-		// Long click events for images in gridview (removes image)
 		mGridView.setOnItemLongClickListener((parent, v, position, id) -> {
 
 			// To avoid deleting audio attachment during playback
 			if (mPlayer != null) return false;
 
-			MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(mainActivity)
-					.positiveText(R.string.delete);
-
-			// If is an image user could want to sketch it!
-			if (Constants.MIME_TYPE_SKETCH.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
-				dialogBuilder
-						.content(R.string.delete_selected_image)
-						.negativeText(R.string.edit)
-						.callback(new MaterialDialog.ButtonCallback() {
-							@Override
-							public void onPositive(MaterialDialog materialDialog) {
-								removeAttachment(position);
-								mAttachmentAdapter.notifyDataSetChanged();
-								mGridView.autoresize();
-							}
-
-
-							@Override
-							public void onNegative(MaterialDialog materialDialog) {
-								sketchEdited = mAttachmentAdapter.getItem(position);
-								takeSketch(sketchEdited);
-							}
-						});
-			} else {
-				dialogBuilder
-						.content(R.string.delete_selected_image)
-						.callback(new MaterialDialog.ButtonCallback() {
-							@Override
-							public void onPositive(MaterialDialog materialDialog) {
-								removeAttachment(position);
-								mAttachmentAdapter.notifyDataSetChanged();
-								mGridView.autoresize();
-							}
-						});
+			List<String> items = Arrays.asList(getResources().getStringArray(R.array.attachments_actions));
+			if (!Constants.MIME_TYPE_SKETCH.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
+				items = items.subList(0, items.size() - 1);
 			}
-			dialogBuilder.build().show();
+
+			new MaterialDialog.Builder(mainActivity)
+					.title(mAttachmentAdapter.getItem(position).getName())
+					.items(items.toArray(new String[items.size()]))
+					.itemsCallback((materialDialog, view, i, charSequence) ->
+							performAttachmentAction(position, i))
+					.build()
+					.show();
 			return true;
 		});
+	}
+
+
+	/**
+	 * Performs an action when long-click option is selected
+	 * @param attachmentPosition
+	 * @param i item index
+	 */
+	private void performAttachmentAction(int attachmentPosition, int i) {
+		switch (getResources().getStringArray(R.array.attachments_actions_values)[i]) {
+			case "share":
+				Intent shareIntent = new Intent(Intent.ACTION_SEND);
+				Attachment attachment = mAttachmentAdapter.getItem(attachmentPosition);
+				shareIntent.setType(StorageHelper.getMimeType(OmniNotes.getAppContext(), attachment.getUri()));
+				shareIntent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
+				if (IntentChecker.isAvailable(OmniNotes.getAppContext(), shareIntent, null)) {
+					startActivity(shareIntent);
+				} else {
+					mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.WARN);
+				}
+				break;
+			case "delete":
+				removeAttachment(attachmentPosition);
+				mAttachmentAdapter.notifyDataSetChanged();
+				mGridView.autoresize();
+				break;
+			case "delete all":
+				new MaterialDialog.Builder(mainActivity)
+						.title(R.string.delete_all_attachments)
+						.positiveText(R.string.confirm)
+						.onPositive((materialDialog, dialogAction) -> removeAllAttachments())
+						.build()
+						.show();
+				break;
+			case "edit":
+				takeSketch(mAttachmentAdapter.getItem(attachmentPosition));
+				break;
+			default:
+				Log.w(Constants.TAG, "No action available");
+		}
 	}
 
 
@@ -2082,6 +2098,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private void removeAttachment(int position) {
 		noteTmp.removeAttachment(noteTmp.getAttachmentsList().get(position));
 //		mAttachmentAdapter.getAttachmentsList().remove(position);
+	}
+
+
+	private void removeAllAttachments() {
+		noteTmp.setAttachmentsList(new ArrayList<>());
+		mAttachmentAdapter = new AttachmentAdapter(mainActivity, new ArrayList<>(), mGridView);
+		mGridView.invalidateViews();
+		mGridView.setAdapter(mAttachmentAdapter);
 	}
 
 

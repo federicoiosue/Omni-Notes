@@ -211,4 +211,18 @@
         <item>#ff6f6f</item>
     </array>
 
+    <string-array name="attachments_actions">
+        <item>Share</item>
+        <item>Delete</item>
+        <item>Delete All</item>
+        <item>Edit</item>
+    </string-array>
+
+    <string-array name="attachments_actions_values">
+        <item>share</item>
+        <item>delete</item>
+        <item>delete all</item>
+        <item>edit</item>
+    </string-array>
+
 </resources>

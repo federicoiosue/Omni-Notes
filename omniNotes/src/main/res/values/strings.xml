@@ -78,6 +78,7 @@
     <string name="attachment">Attachment</string>
     <string name="camera">Camera</string>
     <string name="delete_selected_image">Delete selected attachment?</string>
+    <string name="delete_all_attachments">Delete all the attachments?</string>
     <string name="gallery">Gallery</string>
     <string name="location">Location</string>
     <string name="pushbullet">Pushbullet</string>
