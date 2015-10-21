@@ -416,16 +416,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (note.getAttachmentsList().size() == 0) {
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 
             // Intent with single image attachment
         } else if (note.getAttachmentsList().size() == 1) {
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.setType(note.getAttachmentsList().get(0).getMime_type());
             shareIntent.putExtra(Intent.EXTRA_STREAM, note.getAttachmentsList().get(0).getUri());
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 
             // Intent with multiple images
         } else if (note.getAttachmentsList().size() > 1) {
@@ -445,9 +441,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             }
 
             shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
         }
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 
         startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
     }
