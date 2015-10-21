@@ -129,7 +129,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:textAppearance="@style/Text.Small"
-                pixlui:typeface="Roboto-Regular.ttf"/>
+                pixlui:typeface="Roboto-Regular.ttf"
+                android:alpha="0.6"/>
         </LinearLayout>
     </LinearLayout>
 

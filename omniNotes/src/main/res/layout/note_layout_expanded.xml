@@ -76,7 +76,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|start"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:alpha="0.6">
 
                 <com.neopixl.pixlui.components.textview.TextView
                     android:id="@+id/note_date"
@@ -84,7 +85,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|left"
                     android:layout_marginRight="15dp"
-                    android:alpha="0.5"
                     android:gravity="bottom|start"
                     android:textAppearance="@style/Text.Small"
                     pixlui:typeface="Roboto-Regular.ttf" />

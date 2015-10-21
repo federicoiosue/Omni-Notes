@@ -75,8 +75,8 @@
                 android:gravity="center_vertical"
                 android:hint="@string/add_reminder"
                 android:textAppearance="@style/Text.Small"
-                android:textColorHint="@color/text_color"
-                android:textColor="@color/text_color"
+                android:textColorHint="@color/text_color_lighter"
+                android:textColor="@color/text_color_lighter"
                 pixlui:typeface="Roboto-Regular.ttf"/>
     </LinearLayout>
 </LinearLayout>
