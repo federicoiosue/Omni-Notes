@@ -23,6 +23,6 @@ public class IntroSlide6 extends IntroFragment {
 			intent.setData(Uri.parse(getString(R.string.gplus_community)));
 			startActivity(intent);
 		});
-		description.setText(R.string.settings_beta_summary);
+		description.setText(R.string.tour_community);
 	}
 }
