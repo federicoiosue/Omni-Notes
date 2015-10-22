@@ -19,15 +19,15 @@
              xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
              android:id="@+id/root"
              android:layout_width="match_parent"
-             android:layout_height="wrap_content"
+             android:layout_height="@dimen/note_item_min_height_reduced"
              android:background="@drawable/bg_card"
-             android:paddingBottom="2dp"
-             android:layout_marginBottom="20dp">
+             android:paddingBottom="2dp">
 
     <LinearLayout
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:minHeight="@dimen/note_item_min_height_reduced"
         android:orientation="horizontal">
 
         <View
@@ -36,17 +36,6 @@
             android:layout_height="match_parent"
             android:background="@null"/>
 
-        <!--         <LinearLayout -->
-        <!--             android:layout_width="0dp" -->
-        <!--             android:layout_weight="1" -->
-        <!--             android:layout_height="wrap_content" -->
-        <!--             android:orientation="vertical" -->
-        <!--             android:paddingBottom="7dp" -->
-        <!--             android:paddingStart="6dp" -->
-        <!--             android:paddingLeft="6dp" -->
-        <!--             android:paddingEnd="16dp" -->
-        <!--             android:paddingRight="16dp" -->
-        <!--             android:paddingTop="7dp" > -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -118,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|start"
-                android:singleLine="true"
+                android:maxLines="@integer/textview_max_lines"
                 android:textAppearance="@style/Text.Normal"
                 android:visibility="gone"
                 pixlui:typeface="RobotoSlab-Regular.ttf"/>

@@ -19,8 +19,7 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="@dimen/note_item_min_height"
+    android:layout_height="@dimen/note_item_min_height"
     android:paddingBottom="2dp"
     android:background="@drawable/bg_card">
 
@@ -67,7 +66,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:maxLines="2"
+                android:maxLines="@integer/textview_max_lines_expanded"
                 android:textAppearance="@style/Text.Normal"
                 android:visibility="invisible"
                 pixlui:typeface="RobotoSlab-Regular.ttf" />

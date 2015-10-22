@@ -26,6 +26,7 @@
     <!-- Notes layout in list -->
     <dimen name="note_item_min_height">152dp</dimen>
     <dimen name="note_item_min_height_inner">150dp</dimen>
+    <dimen name="note_item_min_height_reduced">100dp</dimen>
 
     <!-- FAB -->
     <dimen name="fab_right_margin">24dp</dimen>

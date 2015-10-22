@@ -16,18 +16,6 @@
   -->
 
 <resources>
-
-    <!--
-         Declare custom theme attributes that allow changing which styles are
-         used for button bars depending on the API level.
-         ?android:attr/buttonBarStyle is new as of API 11 so this is
-         necessary to support previous API levels.
-    -->
-<!--     <declare-styleable name="ButtonBarContainerTheme"> -->
-<!--         <attr name="metaButtonBarStyle" format="reference" /> -->
-<!--         <attr name="metaButtonBarButtonStyle" format="reference" /> -->
-<!--     </declare-styleable> -->
-    <declare-styleable name="ScrimInsetsView">
-        <attr name="insetForeground" format="reference|color" />
-    </declare-styleable>
+    <integer name="textview_max_lines">2</integer>
+    <integer name="textview_max_lines_expanded">3</integer>
 </resources>

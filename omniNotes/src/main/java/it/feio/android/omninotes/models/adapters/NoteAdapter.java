@@ -170,11 +170,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
                     holder.content.setText(titleAndContent[1]);
                     holder.content.setVisibility(View.VISIBLE);
                 } else {
-                    if (expandedView) {
-                        holder.content.setVisibility(View.INVISIBLE);
-                    } else {
-                        holder.content.setVisibility(View.GONE);
-                    }
+                    holder.content.setVisibility(View.INVISIBLE);
                 }
             }
         } catch (RejectedExecutionException e) {
