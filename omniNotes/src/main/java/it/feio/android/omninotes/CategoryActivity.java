@@ -20,7 +20,6 @@ package it.feio.android.omninotes;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
@@ -89,7 +88,6 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     public void showColorChooserCustomColors() {
 
         new ColorChooserDialog.Builder(this, R.string.colors)
-                .customColors(R.array.material_colors, null)
                 .dynamicButtonColor(false)
                 .show();
     }

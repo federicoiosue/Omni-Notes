@@ -192,25 +192,6 @@
         <item>uk_UA</item>
     </string-array>
 
-    <array name="material_colors">
-        <item>#AEC6CF</item>
-        <item>#DEA5A4</item>
-        <item>#779ECB</item>
-        <item>#77DD77</item>
-        <item>#af8c6e</item>
-        <item>#966FD6</item>
-        <item>#4BFE78</item>
-        <item>#93BF96</item>
-        <item>#cc85d2</item>
-        <item>#B19CD9</item>
-        <item>#FFD1DC</item>
-        <item>#FDFD96</item>
-        <item>#FFB347</item>
-        <item>#CFCFC4</item>
-        <item>#b5ef74</item>
-        <item>#ff6f6f</item>
-    </array>
-
     <string-array name="attachments_actions">
         <item>Share</item>
         <item>Delete</item>
