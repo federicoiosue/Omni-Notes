@@ -92,13 +92,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         return view;
     }
 
-
-    @Override
-    public void onAttach(android.app.Activity activity) {
-        super.onAttach(activity);
-    }
-
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -199,13 +192,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         mColorPicker.setColor(mSketchView.getStrokeColor());
         mColorPicker.setOldCenterColor(mSketchView.getStrokeColor());
     }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

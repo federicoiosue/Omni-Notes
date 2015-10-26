@@ -39,7 +39,7 @@ import java.util.*;
 
 public class ONDashClockExtension extends DashClockExtension {
 
-    private enum Counters {ACTIVE, REMINDERS, TODAY, TOMORROW};
+    private enum Counters {ACTIVE, REMINDERS, TODAY, TOMORROW}
 
 
     private DashClockUpdateReceiver mDashClockReceiver;
