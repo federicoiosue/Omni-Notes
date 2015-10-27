@@ -105,7 +105,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_trash"
-        android:icon="@drawable/ic_delete_grey600_48dp"
+        android:icon="@drawable/ic_delete_black_48dp"
         android:orderInCategory="1100"
         android:title="@string/trash"
         android:visible="false"

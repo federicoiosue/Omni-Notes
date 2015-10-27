@@ -50,7 +50,7 @@
                     android:id="@+id/search_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_cancel_grey600_18dp"
+                    android:src="@drawable/ic_cancel_black_18dp"
                     android:paddingTop="10dp"
                     android:paddingRight="@dimen/horizontal_margin"
                     android:paddingEnd="@dimen/horizontal_margin"/>

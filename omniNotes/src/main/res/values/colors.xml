@@ -47,7 +47,6 @@
     <color name="list_note_dates">#aa000000</color>
     <color name="about_bg">#dd222222</color>
     <color name="drawer_text">@color/text_color</color>
-    <color name="drawer_text_selected">#dd33B5E5</color>
     <color name="drawer_line">#ee222222</color>
     <color name="text_gray">#2d2d2d</color>
     <color name="location_text">@color/text_color_lighter</color>

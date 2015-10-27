@@ -44,28 +44,28 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/menu_checklist_on"
-        android:icon="@drawable/ic_format_list_bulleted_white_48dp"
+        android:icon="@drawable/ic_format_list_bulleted_black_24dp"
         android:orderInCategory="500"
         android:title="@string/checklist_on"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_checklist_off"
-        android:icon="@drawable/ic_action_view_as_list"
+        android:icon="@drawable/ic_file_document_box_white_48dp"
         android:orderInCategory="500"
         android:title="@string/checklist_off"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_lock"
-        android:icon="@drawable/ic_action_secure"
+        android:icon="@drawable/ic_lock_black_24dp"
         android:orderInCategory="600"
         android:title="@string/lock"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_unlock"
-        android:icon="@drawable/ic_action_secure"
+        android:icon="@drawable/ic_lock_black_24dp"
         android:orderInCategory="600"
         android:title="@string/unlock"
         android:visible="false"
@@ -78,7 +78,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_archive"
-        android:icon="@drawable/ic_archive_grey600_48dp"
+        android:icon="@drawable/ic_archive_black_48dp"
         android:orderInCategory="800"
         android:title="@string/archive"
         android:visible="false"
@@ -92,7 +92,6 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_trash"
-        android:icon="@drawable/ic_delete_grey600_48dp"
         android:orderInCategory="900"
         android:title="@string/trash"
         android:visible="false"
@@ -106,7 +105,6 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_discard_changes"
-        android:icon="@drawable/ic_undo_grey600_24dp"
         android:orderInCategory="1000"
         android:title="@string/discard_changes"
         app:showAsAction="ifRoom"/>
