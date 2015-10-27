@@ -74,6 +74,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         } else {
             Log.d(Constants.TAG, "Editing category " + category.getName());
         }
+        selectedColor = Integer.parseInt(category.getColor());
         populateViews();
     }
 
@@ -89,6 +90,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
 
         new ColorChooserDialog.Builder(this, R.string.colors)
                 .dynamicButtonColor(false)
+                .preselect(selectedColor)
                 .show();
     }
 
