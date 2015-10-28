@@ -166,6 +166,15 @@
             android:noHistory="true"
             android:theme="@style/OmniNotesTheme.NoDisplay" />
 
+        <!-- Home launcher shortcut -->
+        <activity
+            android:name="it.feio.android.omninotes.ShortcutActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
         <!-- Stats -->
         <activity
             android:name="it.feio.android.omninotes.StatsActivity"
