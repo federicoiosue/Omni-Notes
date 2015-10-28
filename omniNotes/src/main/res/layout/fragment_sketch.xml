@@ -91,7 +91,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/colors"
-                android:src="@drawable/ic_delete_black_48dp" />
+                android:src="@drawable/ic_delete_red_48dp" />
         </LinearLayout>
 
         <it.feio.android.omninotes.models.views.SketchView
