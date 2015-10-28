@@ -332,6 +332,11 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (Intent.ACTION_VIEW.equals(i.getAction())) {
             switchToList();
         }
+
+        // Home launcher shortcut widget
+        if (Constants.ACTION_SHORTCUT_WIDGET.equals(i.getAction())) {
+            switchToDetail(new Note());
+        }
     }
 
 
