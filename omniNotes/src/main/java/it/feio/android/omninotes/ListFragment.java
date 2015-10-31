@@ -1332,7 +1332,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 .title(R.string.categorize_as)
                 .adapter(new NavDrawerCategoryAdapter(mainActivity, categories), null)
                 .positiveText(R.string.add_category)
+                .positiveColorRes(R.color.colorPrimary)
                 .negativeText(R.string.remove_category)
+                .negativeColorRes(R.color.colorAccent)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
