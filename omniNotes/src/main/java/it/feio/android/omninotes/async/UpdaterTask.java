@@ -48,7 +48,6 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	private final WeakReference<Activity> mActivityReference;
 	private final Activity mActivity;
 	private final SharedPreferences prefs;
-	private String packageName;
 	private boolean promptUpdate = false;
 	private long now;
 
@@ -100,7 +99,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 						if (isGooglePlayAvailable()) {
 							AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.UPDATE, "Play Store");
 							mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
-									("market://details?id=" + packageName)));
+									("market://details?id=" + mActivity.getPackageName())));
 						} else {
 							AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.UPDATE, "Drive Repository");
 							mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants
