@@ -30,7 +30,7 @@
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
-    <style name="OmniNotesTheme.ApiSpec"></style>
+    <style name="OmniNotesTheme.ApiSpec"/>
 
     <style name="OmniNotesTheme.ApiSpec.Branded">
         <item name="android:windowBackground">@drawable/branded_background</item>
@@ -47,7 +47,7 @@
         <item name="background">@color/black_overlay</item>
     </style>
 
-    <style name="OmniNotesFullscreenTheme.ApiSpec"></style>
+    <style name="OmniNotesFullscreenTheme.ApiSpec"/>
 
     <style name="OmniNotesTheme.NoDisplay">
         <item name="android:windowBackground">@null</item>
