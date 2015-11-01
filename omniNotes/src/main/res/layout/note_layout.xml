@@ -67,6 +67,7 @@
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
                     android:src="@drawable/ic_alarm_black_48dp"
+                    android:alpha="0.6"
                     android:visibility="gone"/>
 
                 <ImageView
@@ -75,6 +76,7 @@
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
                     android:src="@drawable/ic_pin_drop_black_18dp"
+                    android:alpha="0.6"
                     android:visibility="gone"/>
 
                 <ImageView
@@ -83,6 +85,7 @@
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
                     android:src="@drawable/ic_archive_black_18dp"
+                    android:alpha="0.6"
                     android:visibility="gone"/>
 
                 <ImageView
@@ -91,6 +94,7 @@
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
                     android:src="@drawable/ic_attachment_black_18dp"
+                    android:alpha="0.6"
                     android:visibility="gone"/>
 
                 <ImageView
@@ -99,6 +103,7 @@
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
                     android:src="@drawable/ic_lock_black_24dp"
+                    android:alpha="0.6"
                     android:visibility="gone"/>
             </LinearLayout>
 
@@ -116,10 +121,10 @@
                 android:id="@+id/note_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="right|end"
                 android:textAppearance="@style/Text.Small"
-                pixlui:typeface="Roboto-Regular.ttf"
-                android:alpha="0.6"/>
+                android:alpha="0.6"
+                pixlui:typeface="Roboto-Regular.ttf"/>
         </LinearLayout>
     </LinearLayout>
 
