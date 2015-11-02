@@ -37,12 +37,14 @@ import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.date.DateHelper;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 
 public class SnoozeActivity extends ActionBarActivity implements OnReminderPickedListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private Note note;
+    private Note[] notes;
     private ReminderPickers onDateSetListener;
     private ReminderPickers onTimeSetListener;
 
@@ -53,8 +55,17 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
 
         note = getIntent().getParcelableExtra(Constants.INTENT_NOTE);
 
-        SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+        if (note != null) {
+            manageNotification(getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS));
+        } else {
+            Object[] asd = (Object[]) getIntent().getExtras().get(Constants.INTENT_NOTE);
+            notes = Arrays.copyOf(asd, asd.length, Note[].class);
+            postpone(getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS), null, null);
+        }
+    }
 
+
+    private void manageNotification(SharedPreferences prefs) {
         if (Constants.ACTION_DISMISS.equals(getIntent().getAction())) {
             setNextRecurrentReminder(note);
             finish();
@@ -64,12 +75,7 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
             updateNoteReminder(newReminder, note);
             finish();
         } else if (Constants.ACTION_POSTPONE.equals(getIntent().getAction())) {
-            int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
-                    ReminderPickers.TYPE_GOOGLE;
-            ReminderPickers reminderPicker = new ReminderPickers(this, this, pickerType);
-            reminderPicker.pick(Long.parseLong(note.getAlarm()), note.getRecurrenceRule());
-            onDateSetListener = reminderPicker;
-            onTimeSetListener = reminderPicker;
+            postpone(prefs, Long.parseLong(note.getAlarm()), note.getRecurrenceRule());
         } else {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(Constants.INTENT_KEY, note.get_id());
@@ -77,6 +83,16 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
             startActivity(intent);
         }
         removeNotification(note);
+    }
+
+
+    private void postpone(SharedPreferences prefs, Long alarm, String recurrenceRule) {
+        int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
+				ReminderPickers.TYPE_GOOGLE;
+        ReminderPickers reminderPicker = new ReminderPickers(this, this, pickerType);
+        reminderPicker.pick(alarm, recurrenceRule);
+        onDateSetListener = reminderPicker;
+        onTimeSetListener = reminderPicker;
     }
 
 
@@ -88,13 +104,30 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
 
     @Override
     public void onReminderPicked(long reminder) {
-        this.note.setAlarm(reminder);
+        if (this.note != null) {
+            this.note.setAlarm(reminder);
+        } else {
+            for (Note note : this.notes) {
+                note.setAlarm(reminder);
+            }
+        }
     }
 
     @Override
     public void onRecurrenceReminderPicked(String recurrenceRule) {
-        this.note.setRecurrenceRule(recurrenceRule);
-        setNextRecurrentReminder(note);
+        if (this.note != null) {
+            this.note.setRecurrenceRule(recurrenceRule);
+            setNextRecurrentReminder(this.note);
+        } else {
+            for (Note note : this.notes) {
+                note.setRecurrenceRule(recurrenceRule);
+                setNextRecurrentReminder(note);
+            }
+            setResult(RESULT_OK, getIntent());
+            finish();
+        }
+
+
     }
 
 

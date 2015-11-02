@@ -81,6 +81,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     private static final int REQUEST_CODE_CATEGORY = 1;
     private static final int REQUEST_CODE_CATEGORY_NOTES = 2;
+    private static final int REQUEST_CODE_ADD_ALARMS = 3;
 
     @Bind(R.id.list_root) InterceptorLinearLayout listRoot;
     @Bind(R.id.list) DynamicListView list;
@@ -584,6 +585,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 menu.findItem(R.id.menu_unarchive).setVisible(showUnarchive);
 
             }
+            menu.findItem(R.id.menu_add_reminder).setVisible(true);
             menu.findItem(R.id.menu_category).setVisible(true);
             menu.findItem(R.id.menu_tags).setVisible(true);
             menu.findItem(R.id.menu_trash).setVisible(true);
@@ -808,6 +810,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 case R.id.menu_select_all:
                     selectAllNotes();
                     break;
+                case R.id.menu_add_reminder:
+                    addReminders();
+                    break;
 //                case R.id.menu_synchronize:
 //                    synchronizeSelectedNotes();
 //                    break;
@@ -819,6 +824,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         checkSortActionPerformed(item);
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void addReminders() {
+        Intent intent = new Intent(OmniNotes.getAppContext(), SnoozeActivity.class);
+        intent.setAction(Constants.ACTION_POSTPONE);
+        intent.putExtra(Constants.INTENT_NOTE, selectedNotes.toArray(new Note[selectedNotes.size()]));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivityForResult(intent, REQUEST_CODE_ADD_ALARMS);
     }
 
 
@@ -902,6 +916,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                     Category tag = intent.getParcelableExtra(Constants.INTENT_CATEGORY);
                     categorizeNotesExecute(tag);
                 }
+                break;
+
+            case REQUEST_CODE_ADD_ALARMS:
+                list.clearChoices();
+                selectedNotes.clear();
+                finishActionMode();
+                list.invalidateViews();
                 break;
 
             default:
@@ -1391,10 +1412,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         // If list is empty again Mr Jingles will appear again
         if (listAdapter.getCount() == 0)
             list.setEmptyView(empyListItem);
-
-        if (getActionMode() != null) {
-            getActionMode().finish();
-        }
 
         // Advice to user
         String msg;
