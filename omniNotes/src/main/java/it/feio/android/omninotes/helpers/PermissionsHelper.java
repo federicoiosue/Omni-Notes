@@ -31,7 +31,7 @@ import it.feio.android.omninotes.models.listeners.OnPermissionRequestedListener;
 public class PermissionsHelper {
 
 
-	public static void requestPermission(Activity activity, String permission, String rationaleDescription, View
+	public static void requestPermission(Activity activity, String permission, int rationaleDescription, View
 			messageView, OnPermissionRequestedListener onPermissionRequestedListener) {
 
 		if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
@@ -59,7 +59,7 @@ public class PermissionsHelper {
 					if (granted) {
 						onPermissionRequestedListener.onPermissionGranted();
 					} else {
-						Snackbar.make(messageView, R.string.permissions_not_granted,
+						Snackbar.make(messageView, R.string.permission_not_granted,
 								Snackbar.LENGTH_SHORT).show();
 					}
 				});

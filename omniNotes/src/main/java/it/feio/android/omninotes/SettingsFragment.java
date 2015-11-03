@@ -136,8 +136,9 @@ public class SettingsFragment extends PreferenceFragment {
 				View v = inflater.inflate(R.layout.dialog_backup_layout, null);
 
 				// Finds actually saved backups names
-				PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE,
-						"Stianta", activity.findViewById(R.id.crouton_handle), () -> export(v));
+				PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+						.string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> export
+						(v));
 
 				return false;
 			});
