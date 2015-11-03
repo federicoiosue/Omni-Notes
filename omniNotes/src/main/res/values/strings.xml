@@ -202,6 +202,7 @@
     <string name="use_current_location">Use current location</string>
     <string name="filter">Filter</string>
     <string name="remove_filter">Remove filter</string>
+    <string name="permissions_not_granted">Permission not granted</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
