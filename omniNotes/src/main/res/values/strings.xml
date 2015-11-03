@@ -203,6 +203,7 @@
     <string name="filter">Filter</string>
     <string name="remove_filter">Remove filter</string>
     <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+    <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
     <string name="permission_not_granted">Permission not granted</string>
 
     <!-- Settings -->

@@ -16,6 +16,7 @@
  */
 package it.feio.android.omninotes;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -83,14 +84,12 @@ import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
+import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
-import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
-import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
-import it.feio.android.omninotes.models.listeners.OnNoteSaved;
-import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
+import it.feio.android.omninotes.models.listeners.*;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
@@ -1834,31 +1833,40 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
-	private void startRecording() {
-		File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_AUDIO_EXT);
-		if (f == null) {
-			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
-			return;
-		}
-		if (mRecorder == null) {
-			mRecorder = new MediaRecorder();
-			mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-			mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-			mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB);
-			mRecorder.setAudioEncodingBitRate(16);
-			mRecorder.setAudioSamplingRate(44100);
-		}
-		recordName = f.getAbsolutePath();
-		mRecorder.setOutputFile(recordName);
+	private void startRecording(View v) {
+		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.RECORD_AUDIO,
+				R.string.permission_audio_recording, mainActivity.findViewById(R.id.crouton_handle), () -> {
 
-		try {
-			audioRecordingTimeStart = Calendar.getInstance().getTimeInMillis();
-			mRecorder.prepare();
-			mRecorder.start();
-		} catch (IOException | IllegalStateException e) {
-			Log.e(Constants.TAG, "prepare() failed", e);
-			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
-		}
+					isRecording = true;
+					android.widget.TextView mTextView = (android.widget.TextView) v;
+					mTextView.setText(getString(R.string.stop));
+					mTextView.setTextColor(Color.parseColor("#ff0000"));
+
+					File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_AUDIO_EXT);
+					if (f == null) {
+						mainActivity.showMessage(R.string.error, ONStyle.ALERT);
+						return;
+					}
+					if (mRecorder == null) {
+						mRecorder = new MediaRecorder();
+						mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+						mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+						mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB);
+						mRecorder.setAudioEncodingBitRate(16);
+						mRecorder.setAudioSamplingRate(44100);
+					}
+					recordName = f.getAbsolutePath();
+					mRecorder.setOutputFile(recordName);
+
+					try {
+						audioRecordingTimeStart = Calendar.getInstance().getTimeInMillis();
+						mRecorder.prepare();
+						mRecorder.start();
+					} catch (IOException | IllegalStateException e) {
+						Log.e(Constants.TAG, "prepare() failed", e);
+						mainActivity.showMessage(R.string.error, ONStyle.ALERT);
+					}
+				});
 	}
 
 
@@ -2303,11 +2311,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					break;
 				case R.id.recording:
 					if (!isRecording) {
-						isRecording = true;
-						android.widget.TextView mTextView = (android.widget.TextView) v;
-						mTextView.setText(getString(R.string.stop));
-						mTextView.setTextColor(Color.parseColor("#ff0000"));
-						startRecording();
+						startRecording(v);
 					} else {
 						isRecording = false;
 						stopRecording();
