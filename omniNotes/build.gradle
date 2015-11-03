@@ -78,6 +78,7 @@ dependencies {
     compile 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
     compile 'be.billington.calendar.recurrencepicker:library:1.1.1'
     compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:design:23.1.0'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'com.getbase:floatingactionbutton:1.9.0'
@@ -102,6 +103,7 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'com.artemzin.rxjava:proguard-rules:1.0.14.2'
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
 
     compile 'com.github.federicoiosue:simplegallery:1.1.2'
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'
