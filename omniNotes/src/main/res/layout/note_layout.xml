@@ -19,15 +19,15 @@
              xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
              android:id="@+id/root"
              android:layout_width="match_parent"
-             android:layout_height="wrap_content"
+             android:layout_height="@dimen/note_item_min_height_reduced"
              android:background="@drawable/bg_card"
-             android:paddingBottom="2dp"
-             android:layout_marginBottom="20dp">
+             android:paddingBottom="2dp">
 
     <LinearLayout
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:minHeight="@dimen/note_item_min_height_reduced"
         android:orientation="horizontal">
 
         <View
@@ -36,17 +36,6 @@
             android:layout_height="match_parent"
             android:background="@null"/>
 
-        <!--         <LinearLayout -->
-        <!--             android:layout_width="0dp" -->
-        <!--             android:layout_weight="1" -->
-        <!--             android:layout_height="wrap_content" -->
-        <!--             android:orientation="vertical" -->
-        <!--             android:paddingBottom="7dp" -->
-        <!--             android:paddingStart="6dp" -->
-        <!--             android:paddingLeft="6dp" -->
-        <!--             android:paddingEnd="16dp" -->
-        <!--             android:paddingRight="16dp" -->
-        <!--             android:paddingTop="7dp" > -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -77,7 +66,8 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
-                    android:src="@drawable/ic_alarm_grey600_48dp"
+                    android:src="@drawable/ic_alarm_black_48dp"
+                    android:alpha="0.6"
                     android:visibility="gone"/>
 
                 <ImageView
@@ -85,7 +75,8 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
-                    android:src="@drawable/ic_pin_drop_grey600_18dp"
+                    android:src="@drawable/ic_pin_drop_black_18dp"
+                    android:alpha="0.6"
                     android:visibility="gone"/>
 
                 <ImageView
@@ -93,7 +84,8 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
-                    android:src="@drawable/ic_archive_grey600_18dp"
+                    android:src="@drawable/ic_archive_black_18dp"
+                    android:alpha="0.6"
                     android:visibility="gone"/>
 
                 <ImageView
@@ -101,7 +93,8 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
-                    android:src="@drawable/ic_attachment_grey600_18dp"
+                    android:src="@drawable/ic_attachment_black_18dp"
+                    android:alpha="0.6"
                     android:visibility="gone"/>
 
                 <ImageView
@@ -109,7 +102,8 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="top|end"
-                    android:src="@drawable/ic_action_secure"
+                    android:src="@drawable/ic_lock_black_24dp"
+                    android:alpha="0.6"
                     android:visibility="gone"/>
             </LinearLayout>
 
@@ -118,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|start"
-                android:singleLine="true"
+                android:maxLines="@integer/textview_max_lines"
                 android:textAppearance="@style/Text.Normal"
                 android:visibility="gone"
                 pixlui:typeface="RobotoSlab-Regular.ttf"/>
@@ -127,8 +121,9 @@
                 android:id="@+id/note_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="right|end"
                 android:textAppearance="@style/Text.Small"
+                android:alpha="0.6"
                 pixlui:typeface="Roboto-Regular.ttf"/>
         </LinearLayout>
     </LinearLayout>

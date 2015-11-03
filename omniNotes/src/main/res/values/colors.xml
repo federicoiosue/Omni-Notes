@@ -46,16 +46,15 @@
     <color name="list_note_title">#cc000000</color>
     <color name="list_note_dates">#aa000000</color>
     <color name="about_bg">#dd222222</color>
-    <color name="drawer_text">#bb222222</color>
-    <color name="drawer_text_selected">#dd33B5E5</color>
+    <color name="drawer_text">@color/text_color</color>
     <color name="drawer_line">#ee222222</color>
     <color name="text_gray">#2d2d2d</color>
-    <color name="location_text">#ee2d2d2d</color>
+    <color name="location_text">@color/text_color_lighter</color>
     <color name="selected">#8833B5E5</color>
     <color name="transparent">#00ffffff</color>
     <color name="audio_attachment_text">#aa000000</color>
-    <color name="text_color">#565656</color>
-    <color name="text_color_lighter">#868686</color>
+    <color name="text_color">#b9000000</color>
+    <color name="text_color_lighter">#9b000000</color>
 
     <!-- toasts -->
     <color name="confirm">#303F9F</color>

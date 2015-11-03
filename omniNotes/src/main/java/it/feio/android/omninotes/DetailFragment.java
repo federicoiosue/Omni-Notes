@@ -566,7 +566,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 						@Override
 						public void onPositive(MaterialDialog materialDialog) {
 							noteTmp.setAlarm(null);
-							reminderIcon.setImageResource(R.drawable.ic_reminder_add);
+							reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
 							datetime.setText("");
 						}
 					}).build();
@@ -577,7 +577,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Reminder
 		String reminderString = initReminder(noteTmp);
 		if (!StringUtils.isEmpty(reminderString)) {
-			reminderIcon.setImageResource(R.drawable.ic_alarm_grey600_18dp);
+			reminderIcon.setImageResource(R.drawable.ic_alarm_add_black_18dp);
 			datetime.setText(reminderString);
 		}
 
@@ -2121,7 +2121,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onReminderPicked(long reminder) {
 		noteTmp.setAlarm(reminder);
 		if (mFragment.isAdded()) {
-			reminderIcon.setImageResource(R.drawable.ic_alarm_grey600_18dp);
+			reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
 			datetime.setText(DateHelper.getNoteReminderText(reminder));
 		}
 	}

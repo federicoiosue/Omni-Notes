@@ -76,6 +76,11 @@
         android:title="@string/select_all"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_add_reminder"
+        android:orderInCategory="250"
+        android:title="@string/add_reminder"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_share_white_24dp"
         android:orderInCategory="300"
@@ -105,7 +110,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_trash"
-        android:icon="@drawable/ic_delete_grey600_48dp"
+        android:icon="@drawable/ic_delete_black_48dp"
         android:orderInCategory="1100"
         android:title="@string/trash"
         android:visible="false"

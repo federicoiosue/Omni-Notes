@@ -19,8 +19,7 @@
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="@dimen/note_item_min_height"
+    android:layout_height="@dimen/note_item_min_height"
     android:paddingBottom="2dp"
     android:background="@drawable/bg_card">
 
@@ -67,7 +66,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:maxLines="2"
+                android:maxLines="@integer/textview_max_lines_expanded"
                 android:textAppearance="@style/Text.Normal"
                 android:visibility="invisible"
                 pixlui:typeface="RobotoSlab-Regular.ttf" />
@@ -76,7 +75,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|start"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:alpha="0.6">
 
                 <com.neopixl.pixlui.components.textview.TextView
                     android:id="@+id/note_date"
@@ -84,7 +84,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|left"
                     android:layout_marginRight="15dp"
-                    android:alpha="0.5"
                     android:gravity="bottom|start"
                     android:textAppearance="@style/Text.Small"
                     pixlui:typeface="Roboto-Regular.ttf" />
@@ -95,7 +94,7 @@
                     android:layout_height="15dp"
                     android:layout_gravity="bottom|right"
                     android:contentDescription="@string/note_reminder_symbol"
-                    android:src="@drawable/ic_alarm_grey600_18dp"
+                    android:src="@drawable/ic_alarm_black_18dp"
                     android:visibility="gone" />
 
                 <ImageView
@@ -103,7 +102,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="bottom|right"
-                    android:src="@drawable/ic_pin_drop_grey600_18dp"
+                    android:src="@drawable/ic_pin_drop_black_18dp"
                     android:visibility="gone" />
 
                 <ImageView
@@ -111,7 +110,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="bottom|right"
-                    android:src="@drawable/ic_archive_grey600_18dp"
+                    android:src="@drawable/ic_archive_black_18dp"
                     android:visibility="gone" />
 
                 <ImageView
@@ -119,7 +118,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="bottom|end"
-                    android:src="@drawable/ic_action_secure"
+                    android:src="@drawable/ic_lock_black_24dp"
                     android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
