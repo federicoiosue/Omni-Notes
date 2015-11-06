@@ -597,9 +597,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		DetailFragment detailFragment = this;
 
 		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION, R.string
-				.permission_coarse_location, mainActivity.findViewById(R.id.toolbar), () -> {
+				.permission_coarse_location, mainActivity.findViewById(R.id.snackBarPlaceholder), () -> {
 					if (isNoteLocationValid()) {
 						if (TextUtils.isEmpty(noteTmp.getAddress())) {
+							//FIXME: What's this "sasd"?
 							GeocodeHelper.getAddressFromCoordinates(mainActivity, new Location("sasd"), detailFragment);
 						} else {
 							locationTextView.setText(noteTmp.getAddress());
@@ -861,8 +862,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void displayLocationDialog() {
 		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION, R.string
-				.permission_coarse_location, mainActivity.findViewById(R.id.crouton_handle), () -> GeocodeHelper
-				.getLocation(mainActivity.getApplicationContext(), new OnGeoUtilResultListener() { //FIXME: Snackbar position
+				.permission_coarse_location, mainActivity.findViewById(R.id.snackBarPlaceholder), () -> GeocodeHelper
+				.getLocation(mainActivity.getApplicationContext(), new OnGeoUtilResultListener() {
 			@Override
 			public void onAddressResolved(String address) {
 			}
@@ -1847,7 +1848,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void startRecording(View v) {
 		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.RECORD_AUDIO,
-				R.string.permission_audio_recording, mainActivity.findViewById(R.id.reminder_layout), () -> {
+				R.string.permission_audio_recording, mainActivity.findViewById(R.id.snackBarPlaceholder), () -> {
 
 					isRecording = true;
 					android.widget.TextView mTextView = (android.widget.TextView) v;
