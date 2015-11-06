@@ -59,8 +59,8 @@ public class PermissionsHelper {
 					if (granted) {
 						onPermissionRequestedListener.onPermissionGranted();
 					} else {
-						Snackbar.make(messageView, R.string.permission_not_granted,
-								Snackbar.LENGTH_SHORT).show();
+						String msg = activity.getString(R.string.permission_not_granted) + ": " + permission;
+						Snackbar.make(messageView, msg, Snackbar.LENGTH_LONG).show();
 					}
 				});
 	}
