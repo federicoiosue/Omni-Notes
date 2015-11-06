@@ -95,28 +95,19 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener, Re
         // Sets actual time or previously saved in note
         final Calendar now = DateHelper.getCalendar(reminder);
         DatePickerDialog mCalendarDatePickerDialog = DatePickerDialog.newInstance(
-                new DatePickerDialog.OnDateSetListener() {
-
-                    @Override
-                    public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
-                        reminderYear = year;
-                        reminderMonth = monthOfYear;
-                        reminderDay = dayOfMonth;
-                        TimePickerDialog mRadialTimePickerDialog = TimePickerDialog.newInstance(
-                                new TimePickerDialog.OnTimeSetListener() {
-
-                                    @Override
-                                    public void onTimeSet(RadialPickerLayout radialPickerLayout, int hour, int minute) {
-                                        hourOfDay = hour;
-                                        minutes = minute;
-                                        showRecurrencePickerDialog(recurrenceRule);
-                                    }
-                                }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), 
-                                DateHelper.is24HourMode(mActivity));
-                        mRadialTimePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
-                    }
-
-                }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+                (dialog, year, monthOfYear, dayOfMonth) -> {
+					reminderYear = year;
+					reminderMonth = monthOfYear;
+					reminderDay = dayOfMonth;
+					TimePickerDialog mRadialTimePickerDialog = TimePickerDialog.newInstance(
+                            (radialPickerLayout, hour, minute) -> {
+								hourOfDay = hour;
+								minutes = minute;
+								showRecurrencePickerDialog(recurrenceRule);
+							}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE),
+							DateHelper.is24HourMode(mActivity));
+					mRadialTimePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
+				}, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
         mCalendarDatePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
     }
 
