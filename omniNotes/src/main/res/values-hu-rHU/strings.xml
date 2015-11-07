@@ -61,6 +61,7 @@
   <string name="attachment">Melléklet</string>
   <string name="camera">Kamera</string>
   <string name="delete_selected_image">Törli a kijelölt mellékletet?</string>
+  <string name="delete_all_attachments">Törli az összes mellékletet?</string>
   <string name="gallery">Galéria</string>
   <string name="location">Helyszín</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Videó</string>
   <string name="feature_not_available_on_this_device">A szolgáltatás nem érhető el ezen az eszközön sajnálom</string>
   <string name="error_occurred_deleting_note">Hiba a jegyzet törlése közben</string>
+  <string name="no_backups_available">Nincs elérhető mentés</string>
   <string name="data_export_message">Írja be a biztonsági másolat nevét</string>
   <string name="data_import_message">Kattintás -&gt; visszaállítás\nHosszú kattintás -&gt; törlés</string>
   <string name="data_import_message_warning">FIGYELEM: Ez minden aktuális adatot helyettesít!</string>
@@ -183,6 +185,13 @@
   <string name="use_current_location">Aktuális hely használata</string>
   <string name="filter">Szűrő</string>
   <string name="remove_filter">Szűrő eltávolítása</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
   <string name="settings">Beállítások</string>
   <string name="settings_about">Információ</string>
@@ -245,7 +254,7 @@
   <string name="settings_category_beta">Béta</string>
   <string name="settings_category_about">Névjegy</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Subscribe to the community to keep up to date with the latest features</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Támogatás</string>
   <string name="donate_summary">Support the development of this app with a non-profit donation</string>
   <string name="settings_choose_language">Nyelv</string>
@@ -278,6 +287,8 @@
   <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
   <string name="settings_text_size">Szövegméret</string>
   <string name="settings_screen_behaviors">Viselkedés</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
   <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
   <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
@@ -292,9 +303,13 @@
   <string name="settings_fab_expansion_behavior">Lebegő művelet gomb</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Hibajelentés</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
+  <string name="settings_statistics">Statisztika</string>
   <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>
   <string name="tour_listactivity_intro_title">Üdvözli az Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">press \"Proceed\" to continue the tour</string>
@@ -318,12 +333,13 @@
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Jó szórakozást</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-  <string name="drawer_open">drawer open</string>
-  <string name="drawer_close">drawer closed</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
+  <string name="drawer_open">fiók nyitva</string>
+  <string name="drawer_close">fiók zárva</string>
   <string name="reminder">emlékeztető</string>
   <string name="stroke_size">stroke size</string>
   <string name="note_thumbnail">note thumbnail</string>
   <string name="note_reminder_symbol">note reminder symbol</string>
-  <string name="navigation_drawer_open">Open navigation drawer</string>
-  <string name="navigation_drawer_close">Close navigation drawer</string>
+  <string name="navigation_drawer_open">Navigációs fiók megnyitása</string>
+  <string name="navigation_drawer_close">Navigációs fiók bezárása</string>
 </resources>

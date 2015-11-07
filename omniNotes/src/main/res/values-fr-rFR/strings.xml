@@ -19,7 +19,7 @@
 <resources>
   <string name="title_item_list">Notes</string>
   <string name="add_note">Ajouter une note</string>
-  <string name="title">Titre </string>
+  <string name="title">Titre</string>
   <string name="title_activity_list">Omni Notes</string>
   <string name="search">Rechercher</string>
   <string name="search_hint">Rechercher dans les notes</string>
@@ -61,13 +61,14 @@
   <string name="attachment">Pièce jointe</string>
   <string name="camera">Appareil photo</string>
   <string name="delete_selected_image">Supprimer la pièce jointe sélectionnée ?</string>
+  <string name="delete_all_attachments">Supprimer toutes les pièces jointes ?</string>
   <string name="gallery">Galerie</string>
   <string name="location">Localisation</string>
   <string name="pushbullet">Pushbullet</string>
   <string name="remove_location">Supprimer la localisation ?</string>
   <string name="remove_reminder">Supprimer le rappel ?</string>
   <string name="add_reminder">Ajouter un rappel</string>
-  <string name="location_not_found">Localisation non définie</string>
+  <string name="location_not_found">Localisation non trouvée</string>
   <string name="record">Enregistrer</string>
   <string name="stop">Arrêter</string>
   <string name="no_app_to_handle_intent">Aucune application pour gérer le fichier</string>
@@ -75,6 +76,7 @@
   <string name="video">Vidéo</string>
   <string name="feature_not_available_on_this_device">Fonctionnalité non disponible sur cet appareil</string>
   <string name="error_occurred_deleting_note">Erreur lors de la suppression de la note</string>
+  <string name="no_backups_available">Aucune sauvegarde disponible</string>
   <string name="data_export_message">Entrer un nom de sauvegarde</string>
   <string name="data_import_message">Appui court -&gt; restaurer\nAppui long -&gt; supprimer</string>
   <string name="data_import_message_warning">AVERTISSEMENT : Cela remplacera toutes les données actuelles !</string>
@@ -113,7 +115,7 @@
   <string name="save_note_to_unlock_it">Enregistrer la note pour la déverrouiller</string>
   <string name="unlock">Déverrouiller</string>
   <string name="title_activity_password">Éditer le mot de passe</string>
-  <string name="title_activity_about">Infos</string>
+  <string name="title_activity_about">Informations</string>
   <string name="deleted">supprimé</string>
   <string name="no_items_in_list">Aucune note !</string>
   <string name="checklist_on">Activer la liste à cocher</string>
@@ -183,9 +185,16 @@
   <string name="use_current_location">Utiliser la localisation actuelle</string>
   <string name="filter">Filtrer</string>
   <string name="remove_filter">Supprimer le filtre</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Affiche quelques statistiques et rappels proches d\'Omni Notes</string>
   <string name="settings">Paramètres</string>
-  <string name="settings_about">Infos</string>
+  <string name="settings_about">Informations</string>
   <string name="settings_category_other">Autres</string>
   <string name="settings_reset_all_data">Effacer toutes les données </string>
   <string name="reset_all_data_confirmation">Effacer toutes les données de l\'application (les sauvegardes seront conservées) ?</string>
@@ -245,7 +254,7 @@
   <string name="settings_category_beta">Bêta</string>
   <string name="settings_category_about">À propos</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Rejoindre la communauté pour se tenir informé des dernières fonctionnalités</string>
+  <string name="settings_beta_summary">Rejoindre le programme bêta pour être à jour avec les dernières fonctionnalités</string>
   <string name="donate">Donation</string>
   <string name="donate_summary">Soutenir le développement de cette application avec un don à but non lucratif</string>
   <string name="settings_choose_language">Langue</string>
@@ -278,6 +287,8 @@
   <string name="settings_navdrawer_on_exit_summary">Appuyer sur \"Retour\" dans la liste de notes ouvre le menu de navigation au lieu de quitter</string>
   <string name="settings_text_size">Taille du texte</string>
   <string name="settings_screen_behaviors">Comportements</string>
+  <string name="settings_enable_swipe">Geste</string>
+  <string name="settings_enable_swipe_summary">Glisser pour effectuer des actions</string>
   <string name="settings_swipe_to_trash">Glisser pour effacer</string>
   <string name="settings_swipe_to_trash_summary_1">Glisser les notes avec le doigt les archiveront</string>
   <string name="settings_swipe_to_trash_summary_2">Glisser les notes avec le doigt les mettront à la corbeille</string>
@@ -292,9 +303,13 @@
   <string name="settings_fab_expansion_behavior">Bouton d\'action flottant</string>
   <string name="settings_fab_expansion_behavior_summary_on">L\'appui court effectue une action</string>
   <string name="settings_fab_expansion_behavior_summary_off">L\'appui court affiche des options</string>
+  <string name="settings_attachments_on_bottom">Pièces jointes dessous</string>
+  <string name="settings_attachments_on_bottom_summary_on">Afficher les pièces jointes dessous le contenu de la note</string>
+  <string name="settings_attachments_on_bottom_summary_off">Afficher les pièces jointes dessus le contenu de la note</string>
   <string name="settings_error_reporting">Rapport de bug</string>
   <string name="settings_error_reporting_summary_on">Quand l\'application plante le développeur sera informé pour vous aider</string>
   <string name="settings_error_reporting_summary_off">Aucun rapport de bug ne sera envoyé. Ne vous plaignez pas si un problème survient !</string>
+  <string name="settings_statistics">Statistiques</string>
   <string name="tour_request_start">Vous avez lancé Omni Note pour la première fois, souhaitez-vous faire le tour de l\'application ?</string>
   <string name="tour_listactivity_intro_title">Bienvenue sur Omni Notes !</string>
   <string name="tour_listactivity_intro_detail">Appuyez sur \"Continuer\" pour continuer la présentation</string>
@@ -318,6 +333,7 @@
   <string name="tour_detailactivity_save_detail">Pour revenir en arrière, appuyez sur l\'icône de navigation \"Haut\" ou sur le bouton de votre appareil</string>
   <string name="tour_listactivity_final_title">Profitez bien</string>
   <string name="tour_listactivity_final_detail">Merci d\'utiliser Omni Notes \nL\'alternative open source pour la productivité et la prise de notes de loisir !</string>
+  <string name="tour_community">Rejoindre la communauté pour participer !</string>
   <string name="drawer_open">volet ouvert</string>
   <string name="drawer_close">volet fermé</string>
   <string name="reminder">rappel</string>

@@ -61,6 +61,7 @@
   <string name="attachment">Anhang</string>
   <string name="camera">Kamera</string>
   <string name="delete_selected_image">Ausgewählten Anhang löschen?</string>
+  <string name="delete_all_attachments">Alle Anhänge löschen?</string>
   <string name="gallery">Galerie</string>
   <string name="location">Standort</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Video</string>
   <string name="feature_not_available_on_this_device">Feature auf diesem Gerät nicht verfügbar</string>
   <string name="error_occurred_deleting_note">Fehler beim Löschen der Notiz</string>
+  <string name="no_backups_available">Keine Sicherungen vorhanden</string>
   <string name="data_export_message">Name der Sicherungsdatei eingeben</string>
   <string name="data_import_message">kurz drücken -&gt; Wiederherstellen\nlang drücken -&gt; Löschen</string>
   <string name="data_import_message_warning">WARNUNG: Dies wird alle aktuellen Daten ersetzen!</string>
@@ -183,6 +185,13 @@
   <string name="use_current_location">Aktuellen Standort verwenden</string>
   <string name="filter">Filter</string>
   <string name="remove_filter">Filter entfernen</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Zeige Statistiken und sich nähernde Errinerungen</string>
   <string name="settings">Einstellungen</string>
   <string name="settings_about">Info</string>
@@ -245,7 +254,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">Über</string>
   <string name="settings_beta">Google+ </string>
-  <string name="settings_beta_summary">Folgen Sie der Community um eine Vorschau auf die neuesten Funktionen zu erhalten</string>
+  <string name="settings_beta_summary">Tragen Sie sich in das Beta-Programm ein um die aktuellesten Funktionen schon früher zu erhalten</string>
   <string name="donate">Spenden</string>
   <string name="donate_summary">Unterstützen Sie die Entwicklung dieser APP mit einer Spende</string>
   <string name="settings_choose_language">Sprache</string>
@@ -294,9 +303,13 @@
   <string name="settings_fab_expansion_behavior">Schwebende Aktionsleiste</string>
   <string name="settings_fab_expansion_behavior_summary_on">Kurze Berührung führt Aktion aus</string>
   <string name="settings_fab_expansion_behavior_summary_off">Umschalten von Optionen durch kurze Berührung</string>
+  <string name="settings_attachments_on_bottom">Anhänge am unteren Rand</string>
+  <string name="settings_attachments_on_bottom_summary_on">Anhänge unterhalb der Notiz anzeigen</string>
+  <string name="settings_attachments_on_bottom_summary_off">Anhänge überhalb der Notiz anzeigen</string>
   <string name="settings_error_reporting">Fehlerberichte</string>
   <string name="settings_error_reporting_summary_on">Sollte die App abstürzen, wird der Entwickler informiert um Ihnen zu helfen</string>
   <string name="settings_error_reporting_summary_off">Absturzberichte werden nicht gesendet.</string>
+  <string name="settings_statistics">Statistiken</string>
   <string name="tour_request_start">Sie haben Omni Notes das erste Mal gestartet. Möchten Sie eine Anwendungstour machen?</string>
   <string name="tour_listactivity_intro_title">Willkommen bei Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Drücken Sie \"Weiter\",\num die Tour fortzusetzen.</string>
@@ -320,6 +333,7 @@
   <string name="tour_detailactivity_save_detail">Um eine Notiz zu speichern, gehen mit dem oberen Navigation-Symbol oder mit der Zurücktaste Ihres Gerätes zur Notizliste zurück</string>
   <string name="tour_listactivity_final_title">Viel Spaß!</string>
   <string name="tour_listactivity_final_detail">Vielen Dank das Sie sich für Omni Notes entschieden haben.\n\nDie Opensource-Alternative\n für Produktivität und\n einfache Notizen!</string>
+  <string name="tour_community">Abonnieren Sie die Community um teilzunehmen!</string>
   <string name="drawer_open">Seitenleiste geöffnet</string>
   <string name="drawer_close">Seitenleiste geschlossenn</string>
   <string name="reminder">Erinnerung</string>

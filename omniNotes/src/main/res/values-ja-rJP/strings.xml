@@ -61,6 +61,7 @@
   <string name="attachment">添付</string>
   <string name="camera">カメラ</string>
   <string name="delete_selected_image">選択した添付ファイルを削除しますか?</string>
+  <string name="delete_all_attachments">すべての添付ファイルを削除しますか?</string>
   <string name="gallery">ギャラリー</string>
   <string name="location">場所</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">ビデオ</string>
   <string name="feature_not_available_on_this_device">このデバイスでは使用できない機能です。申し訳ありません</string>
   <string name="error_occurred_deleting_note">ノートの削除中にエラー</string>
+  <string name="no_backups_available">利用可能なバックアップはありません</string>
   <string name="data_export_message">バックアップ名を入力してください</string>
   <string name="data_import_message">クリック -&gt; 復元\n長押し -&gt; 削除</string>
   <string name="data_import_message_warning">警告: これは現在のデータをすべて置き換えます!</string>
@@ -183,6 +185,13 @@
   <string name="use_current_location">現在の場所を使用</string>
   <string name="filter">フィルター</string>
   <string name="remove_filter">フィルターを削除</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">統計情報と Omni Notes から期限切れのアラームを表示します</string>
   <string name="settings">設定</string>
   <string name="settings_about">情報</string>
@@ -245,7 +254,7 @@
   <string name="settings_category_beta">ベータ</string>
   <string name="settings_category_about">...について</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">最新の機能を維持するためにコミュニティを購読します</string>
+  <string name="settings_beta_summary">最新の機能に保つためにベータプログラムに登録します</string>
   <string name="donate">寄付</string>
   <string name="donate_summary">非営利の寄付でこのアプリの開発をサポートします</string>
   <string name="settings_choose_language">言語</string>
@@ -294,9 +303,13 @@
   <string name="settings_fab_expansion_behavior">フローティング アクションバー</string>
   <string name="settings_fab_expansion_behavior_summary_on">短いタッチでアクションを実行します</string>
   <string name="settings_fab_expansion_behavior_summary_off">短いタッチでオプションを切り替えます</string>
+  <string name="settings_attachments_on_bottom">下に添付ファイル</string>
+  <string name="settings_attachments_on_bottom_summary_on">ノート内容の下に添付ファイルを表示します</string>
+  <string name="settings_attachments_on_bottom_summary_off">ノート内容の上に添付ファイルを表示します</string>
   <string name="settings_error_reporting">エラー報告</string>
   <string name="settings_error_reporting_summary_on">アプリがクラッシュした時に、あなたの役に立つように開発者に通知されます</string>
   <string name="settings_error_reporting_summary_off">クラッシュ レポートは送信されません。何か問題があっても文句を言わないでくださいね!</string>
+  <string name="settings_statistics">統計情報</string>
   <string name="tour_request_start">Omni Notes をはじめて起動しました。アプリケーション ツアーを表示しますか?</string>
   <string name="tour_listactivity_intro_title">Omni Notes へようこそ!</string>
   <string name="tour_listactivity_intro_detail">\"続行\" を押すと、ツアーを続行します</string>
@@ -320,6 +333,7 @@
   <string name="tour_detailactivity_save_detail">\"上\" のナビゲーション アイコン、またはデバイスのボタンを押すと、戻ることができます</string>
   <string name="tour_listactivity_final_title">お楽しみください</string>
   <string name="tour_listactivity_final_detail">Omni Notes をご利用ありがとうございます \n効率的かつ快適にノートをとることができるオープン ソースです!</string>
+  <string name="tour_community">コミュニティに登録して、参加します!</string>
   <string name="drawer_open">ドロワーを開く</string>
   <string name="drawer_close">ドロワーを閉じる</string>
   <string name="reminder">アラーム</string>

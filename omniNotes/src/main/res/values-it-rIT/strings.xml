@@ -126,7 +126,7 @@
   <string name="checklist_keep_symbols">Tieni i segni di spunta (per ricordare quelli controllati)</string>
   <string name="sketch">Disegno</string>
   <string name="crash_dialog_text">Qualcosa è andato storto in Omni Notes\n
-    Vuoi inviare una segnalazione allo sviluppatore?</string>
+Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="crash_dialog_comment_prompt">Inserisci qui un commento opzionale:</string>
   <string name="crash_toast">Qualcosa è andato storto con Omni Notes\nUn report è stato inviato allo sviluppatore!</string>
   <string name="new_update_available">Una nuova versione Omni Notes è disponibile, vuoi aggiornare?</string>
@@ -186,6 +186,13 @@
   <string name="use_current_location">Usa la posizione attuale</string>
   <string name="filter">Filtro</string>
   <string name="remove_filter">Rimuovi filtro</string>
+  <string name="permission_external_storage">Il permesso alla scrittura su memoria esterna è necessaria per consentire i backup in cartelle pubbliche</string>
+  <string name="permission_audio_recording">È necessario il permesso di utilizzare il microfono per registrare note audio</string>
+  <string name="permission_coarse_location">Il permesso di accesso alla geolocalizzazione è necessario per aggiungere informazioni di posizione per le note</string>
+  <string name="permission_not_granted">Permesso non concesso</string>
+  <string name="checklist">Lista di controllo</string>
+  <string name="text_note">Nota testuale</string>
+  <string name="photo">Foto</string>
   <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
   <string name="settings">Impostazioni</string>
   <string name="settings_about">Info</string>
@@ -248,7 +255,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">Informazioni</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Iscriviti alla comunità per avere tutte le ultimissime funzionalità in anteprima</string>
+  <string name="settings_beta_summary">Iscriviti al programma beta per ricevere sempre gli aggiornamenti con le ultimissime modifiche</string>
   <string name="donate">Dona</string>
   <string name="donate_summary">Supporta lo sviluppo dell\'applicazione con una donazione senza fini di lucro</string>
   <string name="settings_choose_language">Lingua</string>
@@ -327,6 +334,7 @@
   <string name="tour_detailactivity_save_detail">Per tornare indietro, premi l\'icona di navigazione \"torna su\", o usa il pulsante del tuo telefono</string>
   <string name="tour_listactivity_final_title">Divertiti</string>
   <string name="tour_listactivity_final_detail">Grazie per aver scelto Omni Notes \n L\'alternativa open source per le tue note nei momenti di lavoro o svago!</string>
+  <string name="tour_community">Non dimenticare di iscriverti alla nostra community!</string>
   <string name="drawer_open">drawer aperto</string>
   <string name="drawer_close">drawer chiuso</string>
   <string name="reminder">promemoria</string>
