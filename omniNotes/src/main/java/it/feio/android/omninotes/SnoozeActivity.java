@@ -60,7 +60,7 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
         } else {
             Object[] asd = (Object[]) getIntent().getExtras().get(Constants.INTENT_NOTE);
             notes = Arrays.copyOf(asd, asd.length, Note[].class);
-            postpone(getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS), null, null);
+            postpone(getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS), DateHelper.getNextMinute(), null);
         }
     }
 

@@ -301,4 +301,9 @@ public class DateHelper {
                 (Calendar.DAY_OF_YEAR);
     }
 
+
+    public static long getNextMinute() {
+        return Calendar.getInstance().getTimeInMillis() + 1000 * 60;
+    }
+
 }
