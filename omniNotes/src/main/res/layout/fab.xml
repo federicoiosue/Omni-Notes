@@ -29,7 +29,9 @@
     android:layout_marginBottom="8dp"
     android:layout_marginRight="@dimen/fab_right_margin"
     android:layout_marginEnd="@dimen/fab_right_margin"
-    android:visibility="invisible">
+    android:visibility="invisible"
+    fab:fab_labelsPosition="left"
+    fab:fab_labelStyle="@style/fab_labels_style">
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_camera"
@@ -38,7 +40,8 @@
         fab:fab_icon="@drawable/ic_camera_alt_white_48dp"
         fab:fab_colorNormal="@color/action_color"
         fab:fab_colorPressed="@color/action_color_pressed"
-        fab:fab_size="mini" />
+        fab:fab_size="mini"
+        fab:fab_title="@string/photo"/>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_checklist"
@@ -47,7 +50,8 @@
         fab:fab_icon="@drawable/ic_format_list_bulleted_white_48dp"
         fab:fab_colorNormal="@color/colorPrimary"
         fab:fab_colorPressed="@color/colorPrimaryDark"
-        fab:fab_size="mini" />
+        fab:fab_size="mini"
+        fab:fab_title="@string/checklist"/>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_note"
@@ -57,6 +61,7 @@
         fab:fab_colorNormal="@color/colorAccent"
         fab:fab_colorPressed="@color/colorAccentPressed"
         android:visibility="gone"
-        fab:fab_size="mini" />
+        fab:fab_size="mini"
+        fab:fab_title="@string/text_note"/>
 
 </com.getbase.floatingactionbutton.FloatingActionsMenu>

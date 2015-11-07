@@ -33,6 +33,7 @@
     <color name="action_color">#B78B00</color>
     <color name="action_color_pressed">#916E02</color>
     <color name="white_overlay">#bbFFFFFF</color>
+    <color name="labels_background">#dd222222</color>
 
     <color name="navigation_bg">#ffffffff</color>
     <color name="gray_bg">#e2e2e2</color>
