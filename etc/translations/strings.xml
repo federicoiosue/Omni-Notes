@@ -188,6 +188,13 @@
     <string name="use_current_location">Use current location</string>
     <string name="filter">Filter</string>
     <string name="remove_filter">Remove filter</string>
+    <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+    <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+    <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+    <string name="permission_not_granted">Permission not granted</string>
+    <string name="checklist">Checklist</string>
+    <string name="text_note">Text note</string>
+    <string name="photo">Photo</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
