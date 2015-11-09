@@ -81,6 +81,7 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
             intent.putExtra(Constants.INTENT_KEY, note.get_id());
             intent.setAction(Constants.ACTION_NOTIFICATION_CLICK);
             startActivity(intent);
+            finish();
         }
         removeNotification(note);
     }
@@ -124,10 +125,8 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
                 setNextRecurrentReminder(note);
             }
             setResult(RESULT_OK, getIntent());
-            finish();
         }
-
-
+        finish();
     }
 
 

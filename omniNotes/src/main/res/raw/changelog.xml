@@ -22,6 +22,7 @@
         <changelogtext>[b]New![/b] Set a reminder to multiple notes at the same time</changelogtext>
         <changelogtext>[i]Improved[/i] Added labels to floating action button</changelogtext>
         <changelogtext>[i]Improved[/i] Translations</changelogtext>
+        <changelogtext>[u]Fix[/u] More notifications at the same time now working</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.0 Beta 3" changeDate="Nov 1, 2015">
