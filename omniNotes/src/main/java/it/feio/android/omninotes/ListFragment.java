@@ -1394,7 +1394,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 // Saves categories associated to eventually undo
                 undoCategoryMap.put(note, note.getCategory());
                 // Saves notes to be eventually restored at right position
-                undoNotesList.put(listAdapter.getPosition(note) + undoNotesList.size(), note);
+                undoNotesList.put(listAdapter.getPosition(note), note);
                 modifiedNotes.add(note);
             }
             // Update adapter content if actual navigation is the category
