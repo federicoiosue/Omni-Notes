@@ -29,7 +29,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
-import android.view.View;
 import it.feio.android.omninotes.R;
 
 
@@ -149,7 +148,8 @@ public class NotificationsHelper {
                     PendingIntent.FLAG_UPDATE_CURRENT));
         }
         // Builds an anonymous Notification object from the builder, and passes it to the NotificationManager
-        mNotificationManager.notify((int) id, mBuilder.build());
+//        mNotificationManager.notify((int) id, mBuilder.build());
+        mNotificationManager.notify(String.valueOf(id), 0, mBuilder.build());
         return this;
     }
 
