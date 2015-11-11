@@ -188,6 +188,10 @@
     <string name="use_current_location">Use current location</string>
     <string name="filter">Filter</string>
     <string name="remove_filter">Remove filter</string>
+    <string name="filter_old_reminders">Hide old reminders</string>
+    <string name="remove_filter_old_reminders">Show old reminders</string>
+    <string name="filter_archived">Hide archived notes</string>
+    <string name="remove_filter_archived">Show archived notes</string>
     <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
     <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
     <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
@@ -226,6 +230,8 @@
     <string name="settings_screen_backup">Backup</string>
     <string name="settings_screen_notifications">Notifications</string>
     <string name="settings_enable_vibration">Vibration</string>
+    <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+    <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
     <string name="settings_screen_navigation">Navigation</string>
     <string name="settings_changelog">Changelog</string>
     <string name="settings_enable_editor_links">Links recognition</string>

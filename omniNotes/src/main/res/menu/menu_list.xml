@@ -30,28 +30,28 @@
         android:id="@+id/menu_filter"
         android:icon="@drawable/ic_filter_white_24dp"
         android:orderInCategory="150"
-        android:title="@string/filter"
+        android:title="@string/filter_old_reminders"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_filter_remove"
         android:icon="@drawable/ic_filter_remove_white_24dp"
         android:orderInCategory="150"
-        android:title="@string/remove_filter"
+        android:title="@string/remove_filter_old_reminders"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_filter_category"
         android:icon="@drawable/ic_filter_white_24dp"
         android:orderInCategory="150"
-        android:title="@string/filter"
+        android:title="@string/filter_archived"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_filter_category_remove"
         android:icon="@drawable/ic_filter_remove_white_24dp"
         android:orderInCategory="150"
-        android:title="@string/remove_filter"
+        android:title="@string/remove_filter_archived"
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
