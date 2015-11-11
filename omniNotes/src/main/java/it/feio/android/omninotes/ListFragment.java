@@ -340,7 +340,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_list, menu);
             actionMode = mode;
-            fab.setAllowed(false);
+            fab.setAllowed(isFabAllowed());
             fab.hideFab();
             return true;
         }
@@ -367,7 +367,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             listAdapter.clearSelectedItems();
             list.clearChoices();
 
-            fab.setAllowed(true);
+            fab.setAllowed(isFabAllowed(true));
             if (undoNotesList.size() == 0) {
                 fab.showFab();
             }
@@ -695,11 +695,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 		boolean filterArchivedInCategory = navigationCategory && prefs.getBoolean(Constants
 				.PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false);
 
-        if (!navigationReminders && !navigationArchive && !navigationTrash) {
+        if (isFabAllowed()) {
             fab.setAllowed(true);
-            if (!drawerOpen) {
-                fab.showFab();
-            }
+            fab.showFab();
         } else {
             fab.setAllowed(false);
             fab.hideFab();
@@ -1650,22 +1648,22 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 		final Note finalMergedNote = NotesHelper.mergeNotes(getSelectedNotes(), notesMergeEvent.keepMergedNotes);
 		new Handler(Looper.getMainLooper()).post(() -> {
 
-			if (!notesMergeEvent.keepMergedNotes) {
-				ArrayList<String> notesIds = new ArrayList<>();
-				for (Note selectedNote : getSelectedNotes()) {
-					notesIds.add(String.valueOf(selectedNote.get_id()));
-				}
-				mainActivity.getIntent().putExtra("merged_notes", notesIds);
-			}
+            if (!notesMergeEvent.keepMergedNotes) {
+                ArrayList<String> notesIds = new ArrayList<>();
+                for (Note selectedNote : getSelectedNotes()) {
+                    notesIds.add(String.valueOf(selectedNote.get_id()));
+                }
+                mainActivity.getIntent().putExtra("merged_notes", notesIds);
+            }
 
-			getSelectedNotes().clear();
-			if (getActionMode() != null) {
-				getActionMode().finish();
-			}
+            getSelectedNotes().clear();
+            if (getActionMode() != null) {
+                getActionMode().finish();
+            }
 
-			mainActivity.getIntent().setAction(Constants.ACTION_MERGE);
-			mainActivity.switchToDetail(finalMergedNote);
-		});
+            mainActivity.getIntent().setAction(Constants.ACTION_MERGE);
+            mainActivity.switchToDetail(finalMergedNote);
+        });
     }
 
 
@@ -1741,6 +1739,29 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     public MenuItem getSearchMenuItem() {
         return searchMenuItem;
+    }
+
+
+    private boolean isFabAllowed() {
+        return isFabAllowed(false);
+    }
+
+
+    private boolean isFabAllowed(boolean actionModeFinishing) {
+
+        boolean isAllowed = true;
+
+        // Actionmode check
+        isAllowed = isAllowed && (getActionMode() == null || actionModeFinishing);
+        // Navigation check
+        int navigation = Navigation.getNavigation();
+        isAllowed = isAllowed && navigation != Navigation.ARCHIVE && navigation != Navigation.REMINDERS && navigation
+                != Navigation.TRASH;
+        // Navigation drawer check
+        isAllowed = isAllowed && mainActivity.getDrawerLayout() != null && !mainActivity.getDrawerLayout().isDrawerOpen
+                (GravityCompat.START);
+
+        return isAllowed;
     }
 
 
