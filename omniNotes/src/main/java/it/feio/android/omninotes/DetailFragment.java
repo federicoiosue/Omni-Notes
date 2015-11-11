@@ -1049,22 +1049,23 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				mainActivity.showToast(exitMessage, Toast.LENGTH_SHORT);
 			}
 			mainActivity.finish();
-			return true;
+
 		} else {
+
 			if (!TextUtils.isEmpty(exitMessage) && exitCroutonStyle != null) {
 				mainActivity.showMessage(exitMessage, exitCroutonStyle);
 			}
-		}
 
-		// Otherwise the result is passed to ListActivity
-		if (mainActivity != null && mainActivity.getSupportFragmentManager() != null) {
-			mainActivity.getSupportFragmentManager().popBackStack();
-			if (mainActivity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
-				mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-				if (mainActivity.getDrawerToggle() != null) {
-					mainActivity.getDrawerToggle().setDrawerIndicatorEnabled(true);
+			// Otherwise the result is passed to ListActivity
+			if (mainActivity != null && mainActivity.getSupportFragmentManager() != null) {
+				mainActivity.getSupportFragmentManager().popBackStack();
+				if (mainActivity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
+					mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+					if (mainActivity.getDrawerToggle() != null) {
+						mainActivity.getDrawerToggle().setDrawerIndicatorEnabled(true);
+					}
+					EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
 				}
-				EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
 			}
 		}
 
