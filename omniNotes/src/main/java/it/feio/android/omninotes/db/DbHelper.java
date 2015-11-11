@@ -268,13 +268,6 @@ public class DbHelper extends SQLiteOpenHelper {
         valuesAttachments.put(KEY_ATTACHMENT_NAME, attachment.getName());
         valuesAttachments.put(KEY_ATTACHMENT_SIZE, attachment.getSize());
         valuesAttachments.put(KEY_ATTACHMENT_LENGTH, attachment.getLength());
-//		if (noteId != -1) {
-//			valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
-//			attachment.setId((int) db.insert(TABLE_ATTACHMENTS, null, valuesAttachments));
-//		} else {
-//			db.update(TABLE_ATTACHMENTS, valuesAttachments, KEY_ATTACHMENT_ID + " = ?", new String[]{String.valueOf
-//					(attachment.getId())});
-//		}
 		db.insertWithOnConflict(TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID, valuesAttachments, SQLiteDatabase.CONFLICT_REPLACE);
         return attachment;
     }
@@ -1053,6 +1046,13 @@ public class DbHelper extends SQLiteOpenHelper {
         mStats.setFiles(files);
 
         return mStats;
+    }
+
+
+    public void setReminderFired(long noteId, boolean fired) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_REMINDER_FIRED, fired);
+        getDatabase(true).update(TABLE_NOTES, values, KEY_ID + " = ?", new String[]{String.valueOf(noteId)});
     }
 
 

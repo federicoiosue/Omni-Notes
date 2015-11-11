@@ -34,4 +34,10 @@
         android:inputType="number"
         android:defaultValue="10"/>
 
+    <Preference
+            android:title="@string/settings_notification_enable_boot_persistence"
+            android:summary="@string/settings_notification_enable_boot_persistence_summary">
+        <intent android:action="android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"/>
+    </Preference>
+
 </PreferenceScreen>

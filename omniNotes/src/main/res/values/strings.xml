@@ -240,6 +240,8 @@
     <string name="settings_screen_backup">Backup</string>
     <string name="settings_screen_notifications">Notifications</string>
     <string name="settings_enable_vibration">Vibration</string>
+    <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+    <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
     <string name="settings_screen_navigation">Navigation</string>
     <string name="settings_changelog">Changelog</string>
     <string name="settings_enable_editor_links">Links recognition</string>
