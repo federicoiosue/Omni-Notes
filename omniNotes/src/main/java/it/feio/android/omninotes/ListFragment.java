@@ -1156,9 +1156,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
         // Restore is performed immediately, otherwise undo bar is shown
         if (trash) {
-            for (Note note : getSelectedNotes()) {
+            for (Note note : getSelectedNotes().subList(getActionMode()!=null ? 0 : selectedNotesSize - 1, selectedNotesSize)) {
                 // Saves notes to be eventually restored at right position
-                undoNotesList.put(listAdapter.getPosition(note) + undoNotesList.size(), note);
+                undoNotesList.put(listAdapter.getPosition(note), note);
                 modifiedNotes.add(note);
                 listAdapter.remove(note);
             }
@@ -1279,13 +1279,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (!archive) {
             archiveNote(getSelectedNotes(), false);
         }
-        for (Note note : getSelectedNotes()) {
+        for (Note note : getSelectedNotes().subList(getActionMode()!=null ? 0 : selectedNotesSize - 1, selectedNotesSize)) {
             // If is restore it will be done immediately, otherwise the undo bar will be shown
             if (archive) {
                 // Saves archived state to eventually undo
                 undoArchivedMap.put(note, note.isArchived());
                 // Saves notes to be eventually restored at right position
-                undoNotesList.put(listAdapter.getPosition(note) + undoNotesList.size(), note);
+                undoNotesList.put(listAdapter.getPosition(note), note);
                 modifiedNotes.add(note);
             }
 
@@ -1386,14 +1386,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private void categorizeNotesExecute(Category category) {
         if (category != null)
             categorizeNote(getSelectedNotes(), category);
-        for (Note note : getSelectedNotes()) {
+            int selectedNotesSize = getSelectedCount();
+        for (Note note : getSelectedNotes().subList(getActionMode() != null ? 0 : selectedNotesSize - 1, selectedNotesSize)) {
             // If is restore it will be done immediately, otherwise the undo bar
             // will be shown
             if (category == null) {
                 // Saves categories associated to eventually undo
                 undoCategoryMap.put(note, note.getCategory());
                 // Saves notes to be eventually restored at right position
-                undoNotesList.put(listAdapter.getPosition(note) + undoNotesList.size(), note);
+                undoNotesList.put(listAdapter.getPosition(note), note);
                 modifiedNotes.add(note);
             }
             // Update adapter content if actual navigation is the category
@@ -1526,12 +1527,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 //		list.clearChoices();
 //		finishActionMode();
 //	}
-
+    private List<Note> reverse(List<Note> arrayList){
+        java.util.Collections.reverse(arrayList);
+        return arrayList;
+    }
 
     @Override
     public void onUndo(Parcelable undoToken) {
         // Cycles removed items to re-insert into adapter
-        for (Note note : modifiedNotes) {
+        for (Note note : reverse(modifiedNotes)) {
             //   Manages uncategorize or archive  undo
             if ((undoCategorize && !Navigation.checkNavigationCategory(undoCategoryMap.get(note)))
                     || undoArchive && !Navigation.checkNavigation(Navigation.NOTES)) {
