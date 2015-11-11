@@ -99,7 +99,7 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
 
     private void removeNotification(Note note) {
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.cancel(note.get_id().intValue());
+        manager.cancel(String.valueOf(note.get_id()), 0);
     }
 
 
