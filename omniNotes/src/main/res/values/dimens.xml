@@ -36,6 +36,7 @@
     <dimen name="navigation_drawer_icon_size">28dp</dimen>
     <dimen name="navigation_drawer_header_height">90dp</dimen>
     <dimen name="navigation_drawer_reserved_space">0dp</dimen>
+    <dimen name="navigation_drawer_image_height">130dp</dimen>
 
     <dimen name="tag_circle_padding">25dp</dimen>
     

@@ -16,9 +16,10 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/navigation_bg">
+            xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/navigation_bg">
 
     <LinearLayout
         android:id="@+id/left_drawer"
@@ -27,12 +28,38 @@
         android:layout_gravity="left|start"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/navdrawer_image"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:src="@drawable/material_wall"
-            android:scaleType="centerCrop" />
+        <!--<ImageView-->
+            <!--android:id="@+id/navdrawer_image"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="?attr/actionBarSize"-->
+            <!--android:src="@drawable/material_wall"-->
+            <!--android:scaleType="centerCrop" />-->
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_drawer_image_height">
+
+            <ImageView
+                    android:id="@+id/navdrawer_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/material_wall"
+                    android:scaleType="centerCrop"/>
+
+            <com.neopixl.pixlui.components.textview.TextView
+                    android:id="@+id/navdrawer_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:paddingLeft="@dimen/horizontal_margin"
+                    android:paddingStart="@dimen/horizontal_margin"
+                    android:paddingBottom="@dimen/padding_half"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    pixlui:typeface="RobotoSlab-Regular.ttf"
+                    android:text="@string/app_name"/>
+
+        </RelativeLayout>
 
         <it.feio.android.omninotes.models.views.NonScrollableListView
             android:id="@+id/drawer_nav_list"
