@@ -216,7 +216,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
     boolean closeFab() {
-        if (fab.isExpanded()) {
+        if (fab != null && fab.isExpanded()) {
             fab.performToggle();
             return true;
         }
@@ -279,6 +279,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         searchQueryInstant = searchQuery;
         stopJingles();
         Crouton.cancelAllCroutons();
+        closeFab();
         if (!keepActionMode) {
             commitPending();
             list.clearChoices();
@@ -875,8 +876,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         // Current list scrolling position is saved to be restored later
         refreshListScrollPosition();
 
-		closeFab();
-
         // Fragments replacing
         mainActivity.switchToDetail(note);
     }
@@ -1127,6 +1126,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         // Fade in the list view
         animate(progress_wheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
         animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+
+        closeFab();
     }
 
 
