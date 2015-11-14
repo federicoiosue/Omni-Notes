@@ -46,13 +46,22 @@ public class ReminderHelper {
 	public static void addReminder(Context context, Note note, long reminder) {
 		Intent intent = new Intent(context, AlarmReceiver.class);
 		intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) note);
-		PendingIntent sender = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent,
+		PendingIntent sender = PendingIntent.getBroadcast(context, getRequestCode(note), intent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
 		} else {
 			am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
+		}
+	}
+
+
+	private static int getRequestCode(Note note) {
+		if (note.getCreation() != null) {
+			return note.getCreation().intValue();
+		} else {
+			return Long.valueOf(Calendar.getInstance().getTimeInMillis()).intValue();
 		}
 	}
 

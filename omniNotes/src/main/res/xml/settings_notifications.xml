@@ -35,6 +35,7 @@
         android:defaultValue="10"/>
 
     <Preference
+            android:key="settings_notification_service_listener"
             android:title="@string/settings_notification_enable_boot_persistence"
             android:summary="@string/settings_notification_enable_boot_persistence_summary">
         <intent android:action="android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"/>
