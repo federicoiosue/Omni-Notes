@@ -81,7 +81,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
 
     private int getRandomPaletteColor() {
         int[] paletteArray = getResources().getIntArray(R.array.material_colors);
-        return paletteArray[new Random().nextInt((paletteArray.length) + 1)];
+        return paletteArray[new Random().nextInt((paletteArray.length))];
     }
 
 
