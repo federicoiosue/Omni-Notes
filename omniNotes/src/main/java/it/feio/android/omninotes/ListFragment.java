@@ -184,6 +184,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         initEasterEgg();
         initListView();
         ubc = new UndoBarController(undoBarView, this);
+
+        initNotesList(mainActivity.getIntent());
+        initFab();
+        initTitle();
+
+        // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
+        prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, mainActivity.MODE_MULTI_PROCESS);
     }
 
 
@@ -314,20 +321,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     @Override
     public void onResume() {
         super.onResume();
-
-        initNotesList(mainActivity.getIntent());
-
-        initFab();
-
-        initTitle();
-
-        // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
-        prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, mainActivity.MODE_MULTI_PROCESS);
-
-//        // Menu is invalidated to start again instructions tour if requested
-//        if (!prefs.getBoolean(Constants.PREF_TOUR_PREFIX + "list", false)) {
-//            mainActivity.supportInvalidateOptionsMenu();
-//        }
+        if (Intent.ACTION_SEARCH.equals(mainActivity.getIntent().getAction())) {
+            initNotesList(mainActivity.getIntent());
+        }
     }
 
 
@@ -1058,6 +1054,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         listViewPosition = 0;
         listViewPositionOffset = 16;
         commitPending();
+        initNotesList(mainActivity.getIntent());
+    }
+
+
+    public void onEvent(CategoriesUpdatedEvent categoriesUpdatedEvent) {
         initNotesList(mainActivity.getIntent());
     }
 
