@@ -180,8 +180,8 @@
     </style>
 
     <style name="fab_labels_style">
-        <item name="android:background">@drawable/fab_label_background</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/fab_labels_background</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
 
 </resources>
