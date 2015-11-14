@@ -37,7 +37,6 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
-import android.util.SparseArray;
 import android.view.*;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
@@ -97,7 +96,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     NoteViewHolder noteViewHolder;
 
     private List<Note> selectedNotes = new ArrayList<>();
-    private List<Note> modifiedNotes = new ArrayList<>();
     private SearchView searchView;
     private MenuItem searchMenuItem;
     private Menu menu;
@@ -116,7 +114,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private boolean undoArchive = false;
     private boolean undoCategorize = false;
     private Category undoCategorizeCategory = null;
-    private SparseArray<Note> undoNotesList = new SparseArray<>();
+    private SortedMap<Integer, Note> undoNotesMap = new TreeMap<>();
     // Used to remember removed categories from notes
     private Map<Note, Category> undoCategoryMap = new HashMap<>();
     // Used to remember archived state from notes
@@ -359,16 +357,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 }
             }
 
-            // Backups modified notes in another structure to perform post-elaborations
-            modifiedNotes = new ArrayList<>(getSelectedNotes());
-
             // Clears data structures
             selectedNotes.clear();
             listAdapter.clearSelectedItems();
             list.clearChoices();
 
             fab.setAllowed(isFabAllowed(true));
-            if (undoNotesList.size() == 0) {
+            if (undoNotesMap.size() == 0) {
                 fab.showFab();
             }
 
@@ -633,49 +628,49 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
         MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
 
-			boolean searchPerformed = false;
+            boolean searchPerformed = false;
 
 
-			@Override
-			public boolean onMenuItemActionCollapse(MenuItem item) {
-				// Reinitialize notes list to all notes when search is collapsed
-				searchQuery = null;
-				if (searchLayout.getVisibility() == View.VISIBLE) {
-					toggleSearchLabel(false);
-				}
-				mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
-				initNotesList(mainActivity.getIntent());
-				mainActivity.supportInvalidateOptionsMenu();
-				return true;
-			}
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Reinitialize notes list to all notes when search is collapsed
+                searchQuery = null;
+                if (searchLayout.getVisibility() == View.VISIBLE) {
+                    toggleSearchLabel(false);
+                }
+                mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
+                initNotesList(mainActivity.getIntent());
+                mainActivity.supportInvalidateOptionsMenu();
+                return true;
+            }
 
 
-			@Override
-			public boolean onMenuItemActionExpand(MenuItem item) {
-				searchView.setOnQueryTextListener(new OnQueryTextListener() {
-					@Override
-					public boolean onQueryTextSubmit(String arg0) {
-						return prefs.getBoolean("settings_instant_search", false);
-					}
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                searchView.setOnQueryTextListener(new OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String arg0) {
+                        return prefs.getBoolean("settings_instant_search", false);
+                    }
 
 
-					@Override
-					public boolean onQueryTextChange(String pattern) {
-						if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null &&
-								searchPerformed && mFragment.isAdded()) {
-							searchTags = null;
-							searchQuery = pattern;
-							new NoteLoaderTask().execute("getNotesByPattern", pattern);
-							return true;
-						} else {
-							searchPerformed = true;
-							return false;
-						}
-					}
-				});
-				return true;
-			}
-		});
+                    @Override
+                    public boolean onQueryTextChange(String pattern) {
+                        if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null &&
+                                searchPerformed && mFragment.isAdded()) {
+                            searchTags = null;
+                            searchQuery = pattern;
+                            new NoteLoaderTask().execute("getNotesByPattern", pattern);
+                            return true;
+                        } else {
+                            searchPerformed = true;
+                            return false;
+                        }
+                    }
+                });
+                return true;
+            }
+        });
     }
 
 
@@ -847,15 +842,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     void editNote(final Note note, final View view) {
         if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
             BaseActivity.requestPassword(mainActivity, passwordConfirmed -> {
-				if (passwordConfirmed) {
-					note.setPasswordChecked(true);
-					AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
-							listRoot, buildAnimatorListenerAdapter(note));
-				}
-			});
+                if (passwordConfirmed) {
+                    note.setPasswordChecked(true);
+                    AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
+                            listRoot, buildAnimatorListenerAdapter(note));
+                }
+            });
         } else {
             AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
-					listRoot, buildAnimatorListenerAdapter(note));
+                    listRoot, buildAnimatorListenerAdapter(note));
         }
     }
 
@@ -1082,7 +1077,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
                 // Avoids conflicts with action mode
                 finishActionMode();
-                modifiedNotes.clear();
 
                 for (int position : reverseSortedPositions) {
                     Note note;
@@ -1154,10 +1148,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
         // Restore is performed immediately, otherwise undo bar is shown
         if (trash) {
-            for (Note note : getSelectedNotes().subList(getActionMode()!=null ? 0 : selectedNotesSize - 1, selectedNotesSize)) {
-                // Saves notes to be eventually restored at right position
-                undoNotesList.put(listAdapter.getPosition(note), note);
-                modifiedNotes.add(note);
+            trackModifiedNotes(getSelectedNotes());
+            for (Note note : getSelectedNotes()) {
                 listAdapter.remove(note);
             }
         } else {
@@ -1276,15 +1268,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
         if (!archive) {
             archiveNote(getSelectedNotes(), false);
+        } else {
+            trackModifiedNotes(getSelectedNotes());
         }
-        for (Note note : getSelectedNotes().subList(getActionMode()!=null ? 0 : selectedNotesSize - 1, selectedNotesSize)) {
+
+        for (Note note : getSelectedNotes()) {
             // If is restore it will be done immediately, otherwise the undo bar will be shown
             if (archive) {
                 // Saves archived state to eventually undo
                 undoArchivedMap.put(note, note.isArchived());
-                // Saves notes to be eventually restored at right position
-                undoNotesList.put(listAdapter.getPosition(note), note);
-                modifiedNotes.add(note);
             }
 
             // If actual navigation is not "Notes" the item will not be removed but replaced to fit the new state
@@ -1317,6 +1309,16 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             undoArchive = true;
         } else {
             getSelectedNotes().clear();
+        }
+    }
+
+
+    /**
+     * Saves notes to be eventually restored at right position
+     */
+    private void trackModifiedNotes(List<Note> modifiedNotesToTrack) {
+        for (Note note : modifiedNotesToTrack) {
+            undoNotesMap.put(listAdapter.getPosition(note), note);
         }
     }
 
@@ -1382,18 +1384,17 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
     private void categorizeNotesExecute(Category category) {
-        if (category != null)
+        if (category != null) {
             categorizeNote(getSelectedNotes(), category);
-            int selectedNotesSize = getSelectedCount();
-        for (Note note : getSelectedNotes().subList(getActionMode() != null ? 0 : selectedNotesSize - 1, selectedNotesSize)) {
+        } else {
+            trackModifiedNotes(getSelectedNotes());
+        }
+        for (Note note : getSelectedNotes()) {
             // If is restore it will be done immediately, otherwise the undo bar
             // will be shown
             if (category == null) {
                 // Saves categories associated to eventually undo
                 undoCategoryMap.put(note, note.getCategory());
-                // Saves notes to be eventually restored at right position
-                undoNotesList.put(listAdapter.getPosition(note), note);
-                modifiedNotes.add(note);
             }
             // Update adapter content if actual navigation is the category
             // associated with actually cycled note
@@ -1525,40 +1526,37 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 //		list.clearChoices();
 //		finishActionMode();
 //	}
-    private List<Note> reverse(List<Note> arrayList){
-        java.util.Collections.reverse(arrayList);
-        return arrayList;
-    }
+
 
     @Override
     public void onUndo(Parcelable undoToken) {
         // Cycles removed items to re-insert into adapter
-        for (Note note : reverse(modifiedNotes)) {
+        for (Integer notePosition : undoNotesMap.keySet()) {
+            Note currentNote = undoNotesMap.get(notePosition);
             //   Manages uncategorize or archive  undo
-            if ((undoCategorize && !Navigation.checkNavigationCategory(undoCategoryMap.get(note)))
+            if ((undoCategorize && !Navigation.checkNavigationCategory(undoCategoryMap.get(currentNote)))
                     || undoArchive && !Navigation.checkNavigation(Navigation.NOTES)) {
                 if (undoCategorize) {
-                    note.setCategory(undoCategoryMap.get(note));
+                    currentNote.setCategory(undoCategoryMap.get(currentNote));
                 } else if (undoArchive) {
-                    note.setArchived(undoArchivedMap.get(note));
+                    currentNote.setArchived(undoArchivedMap.get(currentNote));
                 }
-                listAdapter.replace(note, listAdapter.getPosition(note));
+                listAdapter.replace(currentNote, listAdapter.getPosition(currentNote));
                 // Manages trash undo
             } else {
-                list.insert(undoNotesList.keyAt(undoNotesList.indexOfValue(note)), note);
+                list.insert(notePosition, currentNote);
             }
         }
 
         listAdapter.notifyDataSetChanged();
 
         selectedNotes.clear();
-        undoNotesList.clear();
-        modifiedNotes.clear();
+        undoNotesMap.clear();
 
         undoTrash = false;
         undoArchive = false;
         undoCategorize = false;
-        undoNotesList.clear();
+        undoNotesMap.clear();
         undoCategoryMap.clear();
         undoArchivedMap.clear();
         undoCategorizeCategory = null;
@@ -1575,12 +1573,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     void commitPending() {
         if (undoTrash || undoArchive || undoCategorize) {
 
+            List<Note> notesList = new ArrayList<>(undoNotesMap.values());
             if (undoTrash)
-                trashNote(modifiedNotes, true);
+                trashNote(notesList, true);
             else if (undoArchive)
-                archiveNote(modifiedNotes, sendToArchive);
+                archiveNote(notesList, sendToArchive);
             else if (undoCategorize)
-                categorizeNote(modifiedNotes, undoCategorizeCategory);
+                categorizeNote(notesList, undoCategorizeCategory);
 
             undoTrash = false;
             undoArchive = false;
@@ -1589,8 +1588,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
             // Clears data structures
             selectedNotes.clear();
-            modifiedNotes.clear();
-            undoNotesList.clear();
+            undoNotesMap.clear();
             undoCategoryMap.clear();
             undoArchivedMap.clear();
             list.clearChoices();
