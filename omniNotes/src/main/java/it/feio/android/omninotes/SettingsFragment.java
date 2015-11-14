@@ -24,6 +24,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.*;
 import android.support.v7.widget.Toolbar;
@@ -386,6 +387,15 @@ public class SettingsFragment extends PreferenceFragment {
 				prefs.edit().putString("settings_notification_snooze_delay", snoozeUpdated).apply();
 				return false;
 			});
+		}
+
+
+		// NotificationServiceListener shortcut
+		final Preference norificationServiceListenerPreference = findPreference("settings_notification_service_listener");
+		if (norificationServiceListenerPreference != null) {
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+				getPreferenceScreen().removePreference(norificationServiceListenerPreference);
+			}
 		}
 
 
