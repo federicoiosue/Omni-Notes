@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -57,7 +58,7 @@ public class OmniNotes extends Application {
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 		refWatcher = LeakCanary.install(this);
 
-		if (BuildConfig.BUILD_TYPE.equals("debug")) {
+		if (isDebugBuild()) {
 			StrictMode.enableDefaults();
 		}
 
@@ -73,8 +74,13 @@ public class OmniNotes extends Application {
 
 	private void initAcra(Application application) {
 		ACRA.init(application);
-		String isDebugBuild = BuildConfig.BUILD_TYPE.equals("debug") ? "1" : "0";
-		ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild);
+		ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
+	}
+
+
+	@NonNull
+	public static boolean isDebugBuild() {
+		return BuildConfig.BUILD_TYPE.equals("debug");
 	}
 
 

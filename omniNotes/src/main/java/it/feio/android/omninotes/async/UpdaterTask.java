@@ -62,7 +62,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	@Override
 	protected void onPreExecute() {
 		now = System.currentTimeMillis();
-		if (!ConnectionManager.internetAvailable(OmniNotes.getAppContext()) || now < prefs.getLong(Constants
+		if (OmniNotes.isDebugBuild() || !ConnectionManager.internetAvailable(OmniNotes.getAppContext()) || now < prefs.getLong(Constants
 				.PREF_LAST_UPDATE_CHECK, 0) + Constants.UPDATE_MIN_FREQUENCY) {
 			cancel(true);
 		}

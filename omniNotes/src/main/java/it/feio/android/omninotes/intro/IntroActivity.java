@@ -1,7 +1,6 @@
 package it.feio.android.omninotes.intro;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.github.paolorotolo.appintro.AppIntro2;
 import it.feio.android.omninotes.OmniNotes;
@@ -23,16 +22,15 @@ public class IntroActivity extends AppIntro2 {
 
 	@Override
 	public void onDonePressed() {
-		SharedPreferences prefs = OmniNotes.getAppContext().getSharedPreferences(Constants.PREFS_NAME, Context
-				.MODE_MULTI_PROCESS);
-		prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, true).apply();
+		OmniNotes.getAppContext().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
+				.putBoolean(Constants.PREF_TOUR_COMPLETE, true).apply();
 		finish();
 	}
 
 
 	public static boolean mustRun(Context mContext) {
-		SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-		return !prefs.getBoolean(Constants.PREF_TOUR_COMPLETE, false);
+		return !OmniNotes.isDebugBuild() && mContext.getSharedPreferences(Constants.PREFS_NAME, Context
+				.MODE_MULTI_PROCESS).getBoolean(Constants.PREF_TOUR_COMPLETE, false);
 	}
 
 
@@ -41,8 +39,3 @@ public class IntroActivity extends AppIntro2 {
 		// Does nothing, you HAVE TO SEE THE INTRO!
 	}
 }
-
-
-
-
-
