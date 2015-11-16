@@ -107,12 +107,13 @@ public class GeocodeHelper implements LocationListener {
 		SmartLocation.LocationControl bod = SmartLocation.with(context).location(new
 				LocationGooglePlayServicesWithFallbackProvider(context)).config(LocationParams.NAVIGATION).oneFix();
 
-		Observable<Location> locations = ObservableFactory.from(bod).timeout(4, TimeUnit.SECONDS);
+		Observable<Location> locations = ObservableFactory.from(bod).timeout(2, TimeUnit.SECONDS);
 		locations.subscribe(new Subscriber<Location>() {
 			@Override
 			public void onNext(Location location) {
 				onGeoUtilResultListener.onLocationRetrieved(location);
 				unsubscribe();
+				SmartLocation.with(context).location().stop();
 			}
 
 
@@ -124,6 +125,7 @@ public class GeocodeHelper implements LocationListener {
 			@Override
 			public void onError(Throwable e) {
 				onGeoUtilResultListener.onLocationUnavailable();
+				SmartLocation.with(context).location().stop();
 			}
 		});
 	}
@@ -152,6 +154,7 @@ public class GeocodeHelper implements LocationListener {
 			SmartLocation.with(context).geocoding().reverse(location, (location1, list) -> {
 				String address = list.size() > 0 ? list.get(0).getAddressLine(0) : null;
 				onGeoUtilResultListener.onAddressResolved(address);
+				SmartLocation.with(context).location().stop();
 			});
 		}
 	}
@@ -178,6 +181,7 @@ public class GeocodeHelper implements LocationListener {
 			if (results.size() > 0) {
 				listener.onCoordinatesResolved(results.get(0).getLocation(), address);
 			}
+			SmartLocation.with(context).geocoding().stop();
 		});
 	}
 
