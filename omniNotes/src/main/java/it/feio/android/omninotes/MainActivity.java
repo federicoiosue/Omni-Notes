@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
         initUI();
 
-		if (IntroActivity.mustRun(getApplicationContext())) {
+		if (IntroActivity.mustRun()) {
 			startActivity(new Intent(this.getApplicationContext(), IntroActivity.class));
 		}
 
