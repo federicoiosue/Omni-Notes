@@ -333,7 +333,7 @@
   <string name="tour_detailactivity_save_detail">点击“向上”导航图标或您设备的后退键即可保存</string>
   <string name="tour_listactivity_final_title">祝您使用愉快</string>
   <string name="tour_listactivity_final_detail">感謝你使用 Omni Notes \n該開源供工作效率和休閒筆記!</string>
-  <string name="tour_community">Subscribe to the community to partecipate!</string>
+  <string name="tour_community">Subscribe to the community to participate!</string>
   <string name="drawer_open">抽屉打开</string>
   <string name="drawer_close">抽屉关闭</string>
   <string name="reminder">提醒</string>

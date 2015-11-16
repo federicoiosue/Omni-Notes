@@ -333,7 +333,7 @@
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Jó szórakozást</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-  <string name="tour_community">Subscribe to the community to partecipate!</string>
+  <string name="tour_community">Subscribe to the community to participate!</string>
   <string name="drawer_open">fiók nyitva</string>
   <string name="drawer_close">fiók zárva</string>
   <string name="reminder">emlékeztető</string>
