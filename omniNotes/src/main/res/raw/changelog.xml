@@ -17,10 +17,20 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.0 Beta 5" changeDate="Nov 16, 2015">
+        <changelogtext>[i]Improved[/i] Strongly Reduced notes list refresh event occurrences</changelogtext>
+        <changelogtext>[i]Improved[/i] Minor interface changes</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash creating new note with reminder</changelogtext>
+        <changelogtext>[u]Fix[/u] Removed notifications persistence link from settings on Android versions minor than Jelly Bean</changelogtext>
+        <changelogtext>[u]Fix[/u] Random crash when creating new category</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash when undoing any operation on the last note of the list</changelogtext>
+        <changelogtext>[u]Fix[/u] Minor issues with FAB left open when changing navigation or leaving the app paused</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.0 Beta 4" changeDate="Nov 11, 2015">
         <changelogtext>[b]New![/b] Marshmallow's runtime permissions support</changelogtext>
         <changelogtext>[b]New![/b] Set a reminder to multiple notes at the same time</changelogtext>
-        <changelogtext>[i]Improved[/i] Notifications will now survive to reboots if not dismissed (activation from settings)</changelogtext>
+        <changelogtext>[i]Improved[/i] Notifications will now survive to reboots if not dismissed (activation from settings for Android versions major than Jelly Bean)</changelogtext>
         <changelogtext>[i]Improved[/i] Added labels to floating action button</changelogtext>
         <changelogtext>[i]Improved[/i] Translations</changelogtext>
         <changelogtext>[u]Fix[/u] More notifications at the same time now working</changelogtext>
