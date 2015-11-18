@@ -1076,9 +1076,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				navigateUp();
-				break;
 			case R.id.menu_attachment:
 				showPopup(mainActivity.findViewById(R.id.menu_attachment));
 				break;
