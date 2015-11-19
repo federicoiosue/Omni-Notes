@@ -599,48 +599,48 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION, R.string
 				.permission_coarse_location, mainActivity.findViewById(R.id.snackBarPlaceholder), () -> {
-					if (isNoteLocationValid()) {
-						if (TextUtils.isEmpty(noteTmp.getAddress())) {
-							//FIXME: What's this "sasd"?
-							GeocodeHelper.getAddressFromCoordinates(mainActivity, new Location("sasd"), detailFragment);
-						} else {
-							locationTextView.setText(noteTmp.getAddress());
-							locationTextView.setVisibility(View.VISIBLE);
-						}
+			if (isNoteLocationValid()) {
+				if (TextUtils.isEmpty(noteTmp.getAddress())) {
+					//FIXME: What's this "sasd"?
+					GeocodeHelper.getAddressFromCoordinates(mainActivity, new Location("sasd"), detailFragment);
+				} else {
+					locationTextView.setText(noteTmp.getAddress());
+					locationTextView.setVisibility(View.VISIBLE);
+				}
+			}
+
+			// Automatic location insertion
+			if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
+				GeocodeHelper.getLocation(mainActivity, detailFragment);
+			}
+
+
+			locationTextView.setOnClickListener(v -> {
+				String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
+						+ "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
+				Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
+				if (!IntentChecker.isAvailable(mainActivity, locationIntent, null)) {
+					uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp
+							.getLongitude();
+					locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
+				}
+				startActivity(locationIntent);
+			});
+			locationTextView.setOnLongClickListener(v -> {
+				MaterialDialog.Builder builder = new MaterialDialog.Builder(mainActivity);
+				builder.content(R.string.remove_location);
+				builder.positiveText(R.string.ok);
+				builder.callback(new MaterialDialog.ButtonCallback() {
+					@Override
+					public void onPositive(MaterialDialog materialDialog) {
+						noteTmp.setLatitude("");
+						noteTmp.setLongitude("");
+						fade(locationTextView, false);
 					}
-
-					// Automatic location insertion
-					if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
-						GeocodeHelper.getLocation(mainActivity, detailFragment);
-					}
-
-
-					locationTextView.setOnClickListener(v -> {
-						String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
-								+ "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
-						Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
-						if (!IntentChecker.isAvailable(mainActivity, locationIntent, null)) {
-							uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp
-									.getLongitude();
-							locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
-						}
-						startActivity(locationIntent);
-					});
-					locationTextView.setOnLongClickListener(v -> {
-						MaterialDialog.Builder builder = new MaterialDialog.Builder(mainActivity);
-						builder.content(R.string.remove_location);
-						builder.positiveText(R.string.ok);
-						builder.callback(new MaterialDialog.ButtonCallback() {
-							@Override
-							public void onPositive(MaterialDialog materialDialog) {
-								noteTmp.setLatitude("");
-								noteTmp.setLongitude("");
-								fade(locationTextView, false);
-							}
-						});
-						MaterialDialog dialog = builder.build();
-						dialog.show();
-						return true;
+				});
+				MaterialDialog dialog = builder.build();
+				dialog.show();
+				return true;
 					});
 				});
 	}

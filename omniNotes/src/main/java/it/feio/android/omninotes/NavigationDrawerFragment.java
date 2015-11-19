@@ -12,13 +12,12 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenseqs/>.
  */
 
 package it.feio.android.omninotes;
 
 import android.animation.ValueAnimator;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,7 +31,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.ImageView;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.CategoryMenuTask;
 import it.feio.android.omninotes.async.MainMenuTask;
@@ -85,6 +83,7 @@ public class NavigationDrawerFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = (MainActivity) getActivity();
+        init();
     }
 
 
@@ -97,13 +96,13 @@ public class NavigationDrawerFragment extends Fragment {
         if (alreadyInitialized) {
             alreadyInitialized = false;
         } else {
-            init();
+            refreshMenus();
         }
     }
 
 
     public void onEvent(CategoriesUpdatedEvent event) {
-        init();
+        refreshMenus();
     }
 
 
@@ -118,7 +117,10 @@ public class NavigationDrawerFragment extends Fragment {
 				mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 			}
 		}
-        init();
+        if (getMainActivity().getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            init();
+        }
+        refreshMenus();
         alreadyInitialized = true;
     }
 
@@ -164,11 +166,6 @@ public class NavigationDrawerFragment extends Fragment {
                     leftDrawer.getPaddingRight(), leftDrawerBottomPadding);
         }
 
-        buildMainMenu();
-        Log.d(Constants.TAG, "Finished main menu initialization");
-        buildCategoriesMenu();
-        Log.d(Constants.TAG, "Finished categories menu initialization");
-
         // ActionBarDrawerToggle± ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
         mDrawerToggle = new ActionBarDrawerToggle(mActivity,
@@ -188,17 +185,24 @@ public class NavigationDrawerFragment extends Fragment {
             }
         };
 
-		if (isDoublePanelActive()) {
-			mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
-		}
+        if (isDoublePanelActive()) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+        }
 
         // Styling options
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
 
         Log.d(Constants.TAG, "Finished navigation drawer initialization");
+    }
+
+
+    private void refreshMenus() {
+        buildMainMenu();
+        Log.d(Constants.TAG, "Finished main menu initialization");
+        buildCategoriesMenu();
+        Log.d(Constants.TAG, "Finished categories menu initialization");
+        mDrawerToggle.syncState();
     }
 
 
