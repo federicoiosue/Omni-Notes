@@ -322,20 +322,24 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
                 note = new Note();
             }
             switchToDetail(note);
+            return;
         }
 
         if (Constants.ACTION_SEND_AND_EXIT.equals(i.getAction())) {
             saveAndExit(i);
+            return;
         }
 
         // Tag search
         if (Intent.ACTION_VIEW.equals(i.getAction())) {
             switchToList();
+            return;
         }
 
         // Home launcher shortcut widget
         if (Constants.ACTION_SHORTCUT_WIDGET.equals(i.getAction())) {
             switchToDetail(new Note());
+            return;
         }
     }
 
