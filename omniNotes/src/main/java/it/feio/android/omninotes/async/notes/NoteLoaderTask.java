@@ -44,23 +44,16 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 		}
 
 		// Checks the argument class with reflection
-		@SuppressWarnings("rawtypes")
-		Class[] paramClass = new Class[1];
-		if (Boolean.class.isAssignableFrom(methodArgs.getClass())) {
-			paramClass[0] = Boolean.class;
-		} else {
-			paramClass[0] = String.class;
-		}
+		Class[] paramClass = new Class[]{methodArgs.getClass()};
 
 		// Retrieves and calls the right method
-		Method method;
 		try {
-			method = db.getClass().getDeclaredMethod(methodName, paramClass);
-			notes = (ArrayList<Note>) method.invoke(db,
-					paramClass[0].cast(methodArgs));
+			Method method = db.getClass().getDeclaredMethod(methodName, paramClass);
+			notes = (ArrayList<Note>) method.invoke(db, paramClass[0].cast(methodArgs));
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Error retrieving notes", e);
 		}
+
 		return notes;
 	}
 

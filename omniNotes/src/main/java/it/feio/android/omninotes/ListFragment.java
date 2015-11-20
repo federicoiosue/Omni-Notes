@@ -1007,8 +1007,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 }
                 intent.removeExtra(Constants.INTENT_WIDGET);
 				if (mainActivity.navigationTmp != null) {
-					mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByCategory", mainActivity
-							.navigationTmp);
+                    Long categoryId = Long.parseLong(mainActivity.navigationTmp);
+                    mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByCategory", categoryId);
 				} else {
 					mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
 				}
