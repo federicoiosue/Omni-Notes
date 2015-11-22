@@ -1055,6 +1055,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         listViewPositionOffset = 16;
         commitPending();
         initNotesList(mainActivity.getIntent());
+        setActionItemsVisibility(menu, false);
     }
 
 
