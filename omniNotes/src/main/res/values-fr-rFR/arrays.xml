@@ -25,7 +25,7 @@
     <item>Sans catégorie</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Titre </item>
+    <item>Titre</item>
     <item>Date de création</item>
     <item>Date de modification</item>
     <item>Date de rappel</item>

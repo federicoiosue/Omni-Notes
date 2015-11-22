@@ -61,6 +61,7 @@
   <string name="attachment">Príloha</string>
   <string name="camera">Fotoaparát</string>
   <string name="delete_selected_image">Vymazať vybranú prílohu?</string>
+  <string name="delete_all_attachments">Vymazať všetky prílohy?</string>
   <string name="gallery">Galéria</string>
   <string name="location">Poloha</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Video</string>
   <string name="feature_not_available_on_this_device">Funkcia nie je k dispozícii na tomto zariadení</string>
   <string name="error_occurred_deleting_note">Došlo k chybe pri vymazávaní poznámky</string>
+  <string name="no_backups_available">Žiadne dostupné zálohy</string>
   <string name="data_export_message">Vložte názov zálohy</string>
   <string name="data_import_message">Kliknutie -&gt; obnoviť\nDlhé kliknutie -&gt; vymazať</string>
   <string name="data_import_message_warning">VAROVANIE: Toto nahradí všetky aktuálne údaje!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Použiť aktuálnu polohu</string>
   <string name="filter">Filtrovať</string>
   <string name="remove_filter">Odstrániť filter</string>
+  <string name="filter_old_reminders">Skryť staré pripomienky</string>
+  <string name="remove_filter_old_reminders">Zobraziť staré pripomienky</string>
+  <string name="filter_archived">Skryť archivované poznámky</string>
+  <string name="remove_filter_archived">Zobraziť archivované poznámky</string>
+  <string name="permission_external_storage">Povolenie na zápis na externé úložisko je potrebné na ukladanie záloh do verejných priečinkov</string>
+  <string name="permission_audio_recording">Povolenie na použitie mikrofónu je potrebné na nahrávanie zvukových poznámok</string>
+  <string name="permission_coarse_location">Povolenie na prístup k polohe je potrebné na pridanie informácií o polohe do vašich poznámok</string>
+  <string name="permission_not_granted">Povolenie nebolo udelené</string>
+  <string name="checklist">Zoznam úloh</string>
+  <string name="text_note">Textová poznámka</string>
+  <string name="photo">Fotografia</string>
   <string name="dashclock_description">Zobrazí niektoré štatistiky a blížiace sa pripomienky z Omni Notes</string>
   <string name="settings">Nastavenia</string>
   <string name="settings_about">Informácie</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">Zálohovať</string>
   <string name="settings_screen_notifications">Oznámenia</string>
   <string name="settings_enable_vibration">Vibrácie</string>
+  <string name="settings_notification_enable_boot_persistence">Povoliť trvalé oznámenia</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Povoliť aplikácii prístup k oznámeniam pre ich zachovanie po reštartoch</string>
   <string name="settings_screen_navigation">Navigácia</string>
   <string name="settings_changelog">Zoznam zmien</string>
   <string name="settings_enable_editor_links">Rozoznávanie odkazov</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">O aplikácii</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Zaregistrujte sa v komunite na získanie všetkých najnovších funkcií</string>
+  <string name="settings_beta_summary">Prihlásiť sa do beta program a držať krok s najnovšími funkciami</string>
   <string name="donate">Darovať</string>
   <string name="donate_summary">Podporiť vývoj tejto aplikácie prostredníctvom neziskového daru</string>
   <string name="settings_choose_language">Jazyk</string>
@@ -280,7 +295,7 @@
   <string name="settings_screen_behaviors">Správania</string>
   <string name="settings_enable_swipe">Potiahnutie poznámok</string>
   <string name="settings_enable_swipe_summary">Potiahnutím poznámky vykonať akcie</string>
-  <string name="settings_swipe_to_trash">Potiahnúť pre zahodenie do koša</string>
+  <string name="settings_swipe_to_trash">Potiahnuť pre zahodenie do koša</string>
   <string name="settings_swipe_to_trash_summary_1">Potiahnutím archivovať poznámky</string>
   <string name="settings_swipe_to_trash_summary_2">Potiahnutím zahodiť poznámky do koša</string>
   <string name="settings_show_uncategorized">Skupina Nekategorizované</string>
@@ -294,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Lietajúci tlačidlo akcií</string>
   <string name="settings_fab_expansion_behavior_summary_on">Krátky dotyk vykoná akciu</string>
   <string name="settings_fab_expansion_behavior_summary_off">Krátky dotyk prepína možnosti</string>
+  <string name="settings_attachments_on_bottom">Prílohy na spodku</string>
+  <string name="settings_attachments_on_bottom_summary_on">Zobraziť prílohy pod obsahom poznámky</string>
+  <string name="settings_attachments_on_bottom_summary_off">Zobraziť prílohy nad obsahom poznámky</string>
   <string name="settings_error_reporting">Hlásenie chýb</string>
   <string name="settings_error_reporting_summary_on">Po páde aplikácie informovať vývojára o chybe, aby vám mohol pomôcť</string>
   <string name="settings_error_reporting_summary_off">Neposielať žiadne hlásenia o pádoch. Nesťažujte sa, ak sa niečo pokazí!</string>
+  <string name="settings_statistics">Štatistiky</string>
   <string name="tour_request_start">Spustili ste Omni Notes po prvý krát. Chcete si prezieť prehliadku aplikácie?</string>
   <string name="tour_listactivity_intro_title">Vitajte v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Stlačte \"Pokračovať\" pre pokračovanie v prehliadke</string>
@@ -320,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">Jednoducho stlačte ikonu navigácie \"hore\" alebo použite tlačidlo Späť na vašom zariadení</string>
   <string name="tour_listactivity_final_title">Užívajte</string>
   <string name="tour_listactivity_final_detail">Ďakujeme, že používate Omni Notes. \n\nAlternatíva s otvoreným zdrojovým kódom pre produktivitu a písanie poznámok vo voľnom čase!</string>
+  <string name="tour_community">Prihlásiť sa ku komunite Omni Notes!</string>
   <string name="drawer_open">Otvoriť ponuku</string>
   <string name="drawer_close">Zavrieť ponuku</string>
   <string name="reminder">Pripomienka</string>

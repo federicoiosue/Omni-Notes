@@ -186,6 +186,10 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="use_current_location">Usa la posizione attuale</string>
   <string name="filter">Filtro</string>
   <string name="remove_filter">Rimuovi filtro</string>
+  <string name="filter_old_reminders">Nascondi i promemoria passati</string>
+  <string name="remove_filter_old_reminders">Mostra i promemoria passati</string>
+  <string name="filter_archived">Nascondi le note archiviate</string>
+  <string name="remove_filter_archived">Mostra le note archiviate</string>
   <string name="permission_external_storage">Il permesso alla scrittura su memoria esterna è necessaria per consentire i backup in cartelle pubbliche</string>
   <string name="permission_audio_recording">È necessario il permesso di utilizzare il microfono per registrare note audio</string>
   <string name="permission_coarse_location">Il permesso di accesso alla geolocalizzazione è necessario per aggiungere informazioni di posizione per le note</string>
@@ -222,6 +226,8 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_screen_backup">Backup</string>
   <string name="settings_screen_notifications">Notifiche</string>
   <string name="settings_enable_vibration">Vibrazione</string>
+  <string name="settings_notification_enable_boot_persistence">Abilita la persistenza delle notifiche</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Consenti all\'applicazione di accedere alle notifiche per farle perdurare dopo un riavvio</string>
   <string name="settings_screen_navigation">Navigazione</string>
   <string name="settings_changelog">Cambiamenti</string>
   <string name="settings_enable_editor_links">Riconoscimento links</string>
