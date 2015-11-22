@@ -38,20 +38,20 @@
             android:title="@string/colors_app"
             android:defaultValue="strip"/>
 
-    <CheckBoxPreference
+    <SwitchPreference
             android:key="settings_fab_expansion_behavior"
             android:title="@string/settings_fab_expansion_behavior"
             android:summaryOn="@string/settings_fab_expansion_behavior_summary_on"
             android:summaryOff="@string/settings_fab_expansion_behavior_summary_off"
             android:defaultValue="false"/>
 
-    <CheckBoxPreference
+    <SwitchPreference
             android:defaultValue="false"
             android:key="settings_simple_calendar"
             android:summary="@string/settings_simple_calendar_summary"
             android:title="@string/settings_simple_calendar"/>
 
-    <CheckBoxPreference
+    <SwitchPreference
             android:key="settings_attachments_on_bottom"
             android:summaryOn="@string/settings_attachments_on_bottom_summary_on"
             android:summaryOff="@string/settings_attachments_on_bottom_summary_off"

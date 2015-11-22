@@ -18,7 +18,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:fitsSystemWindows="true">
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="true"
         android:key="settings_notification_vibration"
         android:title="@string/settings_enable_vibration" />

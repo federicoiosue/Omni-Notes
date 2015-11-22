@@ -200,7 +200,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 
 		// Swiping action
-		final CheckBoxPreference swipeToTrash = (CheckBoxPreference) findPreference("settings_swipe_to_trash");
+		final SwitchPreference swipeToTrash = (SwitchPreference) findPreference("settings_swipe_to_trash");
 		if (swipeToTrash != null) {
 			if (prefs.getBoolean("settings_swipe_to_trash", false)) {
 				swipeToTrash.setChecked(true);
@@ -222,7 +222,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 
 		// Show uncategorized notes in menu
-		final CheckBoxPreference showUncategorized = (CheckBoxPreference) findPreference(Constants
+		final SwitchPreference showUncategorized = (SwitchPreference) findPreference(Constants
 				.PREF_SHOW_UNCATEGORIZED);
 		if (showUncategorized != null) {
 			showUncategorized.setOnPreferenceChangeListener((preference, newValue) -> {
@@ -233,7 +233,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 
 		// Show Automatically adds location to new notes
-		final CheckBoxPreference autoLocation = (CheckBoxPreference) findPreference(Constants.PREF_AUTO_LOCATION);
+		final SwitchPreference autoLocation = (SwitchPreference) findPreference(Constants.PREF_AUTO_LOCATION);
 		if (autoLocation != null) {
 			autoLocation.setOnPreferenceChangeListener((preference, newValue) -> {
 				autoLocation.setChecked((Boolean) newValue);
@@ -269,7 +269,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 
 		// Use password to grant application access
-		final CheckBoxPreference passwordAccess = (CheckBoxPreference) findPreference("settings_password_access");
+		final SwitchPreference passwordAccess = (SwitchPreference) findPreference("settings_password_access");
 		if (passwordAccess != null) {
 			if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
 				passwordAccess.setEnabled(false);

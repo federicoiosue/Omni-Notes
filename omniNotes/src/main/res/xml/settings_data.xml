@@ -28,7 +28,7 @@
         android:summary="@string/settings_password_summary"
         android:title="@string/settings_password" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:defaultValue="false"
         android:key="settings_password_access"
         android:title="@string/settings_password_access" />
