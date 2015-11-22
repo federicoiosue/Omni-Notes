@@ -18,6 +18,8 @@
 <changelog bulletedList="true">
 
     <changelogversion versionName="5.2.0 Beta 6" changeDate="Nov 22, 2015">
+        <changelogtext>[i]Improved[/i] Layout modifications</changelogtext>
+        <changelogtext>[i]Improved[/i] Translations</changelogtext>
         <changelogtext>[u]Fix[/u] Many widgets and navigation issues</changelogtext>
         <changelogtext>[u]Fix[/u] Menu not refreshed on navigation changes</changelogtext>
     </changelogversion>
