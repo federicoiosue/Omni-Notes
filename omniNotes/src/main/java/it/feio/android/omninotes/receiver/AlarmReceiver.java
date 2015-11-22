@@ -26,7 +26,9 @@ import android.text.Spanned;
 import android.util.Log;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.services.NotificationListener;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.NotificationsHelper;
@@ -41,6 +43,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 			Note note = intent.getExtras().getParcelable(Constants.INTENT_NOTE);
 			createNotification(mContext, note);
 			SnoozeActivity.setNextRecurrentReminder(note);
+			if (!NotificationListener.isRunning()) {
+				DbHelper.getInstance().setReminderFired(note.get_id(), true);
+			}
 		} catch (Exception e) {
 			Log.e(Constants.TAG, "Error on receiving reminder", e);
 		}

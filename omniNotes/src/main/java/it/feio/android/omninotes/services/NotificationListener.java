@@ -1,16 +1,23 @@
 package it.feio.android.omninotes.services;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.os.Build;
+import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.async.bus.NotificationRemovedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
+
+import java.util.List;
 
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -46,6 +53,16 @@ public class NotificationListener extends NotificationListenerService {
 		if (!DateHelper.isFuture(note.getAlarm())) {
 			DbHelper.getInstance().setReminderFired(nodeId, true);
 		}
+	}
+
+
+	public static boolean isRunning() {
+
+		ContentResolver contentResolver = OmniNotes.getAppContext().getContentResolver();
+		String enabledNotificationListeners = Settings.Secure.getString(contentResolver,
+				"enabled_notification_listeners");
+		return enabledNotificationListeners != null && enabledNotificationListeners.contains(NotificationListener
+				.class.getSimpleName());
 	}
 
 }
