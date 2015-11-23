@@ -125,6 +125,7 @@ public class GeocodeHelper implements LocationListener {
 			@Override
 			public void onError(Throwable e) {
 				onGeoUtilResultListener.onLocationUnavailable();
+				unsubscribe();
 				SmartLocation.with(context).location().stop();
 			}
 		});
