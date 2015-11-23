@@ -27,12 +27,32 @@ import it.feio.android.omninotes.utils.Constants;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+
 public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 
+	private static NoteLoaderTask instance;
 
-	@SuppressWarnings("unchecked")
+	private NoteLoaderTask() {}
+
+
+	public static NoteLoaderTask getInstance() {
+
+		if (instance != null) {
+			if (instance.getStatus() == Status.RUNNING && !instance.isCancelled()) {
+				instance.cancel(true);
+			} else if (instance.getStatus() == Status.PENDING) {
+				return instance;
+			}
+		}
+
+		instance = new NoteLoaderTask();
+		return instance;
+	}
+
+
 	@Override
 	protected ArrayList<Note> doInBackground(Object... params) {
+
 		ArrayList<Note> notes = new ArrayList<>();
 		String methodName = params[0].toString();
 		Object methodArgs = params[1];
@@ -57,8 +77,10 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 		return notes;
 	}
 
+
 	@Override
 	protected void onPostExecute(ArrayList<Note> notes) {
+
 		super.onPostExecute(notes);
 		EventBus.getDefault().post(new NotesLoadedEvent(notes));
 	}

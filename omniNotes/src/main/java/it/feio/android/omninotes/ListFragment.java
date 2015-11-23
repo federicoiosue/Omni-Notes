@@ -657,7 +657,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                                 searchPerformed && mFragment.isAdded()) {
                             searchTags = null;
                             searchQuery = pattern;
-                            new NoteLoaderTask().execute("getNotesByPattern", pattern);
+                            NoteLoaderTask.getInstance().execute("getNotesByPattern", pattern);
                             return true;
                         } else {
                             searchPerformed = true;
@@ -963,8 +963,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         progress_wheel.setAlpha(1);
         list.setAlpha(0);
 
-        NoteLoaderTask mNoteLoaderTask = new NoteLoaderTask();
-
         // Search for a tag
         // A workaround to simplify it's to simulate normal search
         if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getCategories() != null
@@ -981,14 +979,16 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             // Using tags
             if (searchTags != null && intent.getStringExtra(SearchManager.QUERY) == null) {
                 searchQuery = searchTags;
-                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByTag", searchQuery);
+                NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByTag",
+                        searchQuery);
             } else {
                 // Get the intent, verify the action and get the query
                 if (intent.getStringExtra(SearchManager.QUERY) != null) {
                     searchQuery = intent.getStringExtra(SearchManager.QUERY);
                     searchTags = null;
                 }
-                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByPattern", searchQuery);
+                NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByPattern",
+                        searchQuery);
             }
 
             toggleSearchLabel(true);
@@ -1008,13 +1008,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 intent.removeExtra(Constants.INTENT_WIDGET);
 				if (mainActivity.navigationTmp != null) {
                     Long categoryId = Long.parseLong(mainActivity.navigationTmp);
-                    mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByCategory", categoryId);
+                    NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                            "getNotesByCategory", categoryId);
 				} else {
-					mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
+                    NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
 				}
 
             } else {
-                mNoteLoaderTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
+                NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
             }
         }
     }
