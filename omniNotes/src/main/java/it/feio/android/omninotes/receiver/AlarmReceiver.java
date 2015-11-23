@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.util.Log;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.db.DbHelper;
@@ -59,7 +60,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 		// Prepare text contents
 		Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mContext, note);
-		String title = titleAndContent[0].toString();
+		String title = TextHelper.getAlternativeTitle(mContext, note, titleAndContent[0]);
 		String text = titleAndContent[1].toString();
 
 		Intent snoozeIntent = new Intent(mContext, SnoozeActivity.class);
@@ -93,8 +94,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
 		NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
-		notificationsHelper.createNotification(R.drawable.ic_alarm_white_24dp, title, notifyIntent).setLedActive().setMessage
-				(text);
+		notificationsHelper.createNotification(R.drawable.ic_alarm_white_24dp, title, notifyIntent).setLedActive()
+				.setMessage(text);
 
 		if (note.getAttachmentsList().size() > 0 && !note.getAttachmentsList().get(0).getMime_type().equals(Constants
 				.MIME_TYPE_FILES)) {

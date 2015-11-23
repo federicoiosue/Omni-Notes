@@ -168,4 +168,20 @@ public class TextHelper {
         return dateText;
     }
 
+
+	/**
+	 * Gets an alternative title if empty
+	 * @param context
+	 * @param note
+	 * @param spanned
+	 * @return
+	 */
+	public static String getAlternativeTitle(Context context, Note note, Spanned spanned) {
+		if (spanned.length() > 0) {
+			return spanned.toString();
+		}
+		return context.getString(R.string.note) + " " + context.getString(R.string.creation) + " " + note
+				.getCreationShort(context);
+	}
+
 }

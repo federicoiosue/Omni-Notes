@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Spanned;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 import it.feio.android.omninotes.MainActivity;
@@ -74,8 +75,8 @@ public class ONDashClockExtension extends DashClockExtension {
 		if (notesCounters.get(Counters.TODAY).size() > 0) {
 			expandedBody.append(notesCounters.get(Counters.TODAY).size()).append(" ").append(getString(R.string.today)).append(":");
 			for (Note todayReminder : notesCounters.get(Counters.TODAY)) {
-				expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(TextHelper
-						.parseTitleAndContent(this, todayReminder)[0]);
+				expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(getNoteTitle(this,
+						todayReminder));
 			}
 			expandedBody.append("\n");
 		}
@@ -83,8 +84,8 @@ public class ONDashClockExtension extends DashClockExtension {
 		if (notesCounters.get(Counters.TOMORROW).size() > 0) {
 			expandedBody.append(notesCounters.get(Counters.TOMORROW).size()).append(" ").append(getString(R.string.tomorrow)).append(":");
 			for (Note tomorrowReminder : notesCounters.get(Counters.TOMORROW)) {
-				expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(TextHelper
-						.parseTitleAndContent(this, tomorrowReminder)[0]);
+				expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(getNoteTitle(this,
+						tomorrowReminder));
 			}
 		}
 
@@ -99,7 +100,12 @@ public class ONDashClockExtension extends DashClockExtension {
     }
 
 
-    private Map<String, List<Note>> getNotesCounters() {
+	private String getNoteTitle(Context context, Note note) {
+		return TextHelper.getAlternativeTitle(context, note, TextHelper.parseTitleAndContent(context, note)[0]);
+	}
+
+
+	private Map<String, List<Note>> getNotesCounters() {
         Map noteCounters = new HashMap<>();
         List<Note> activeNotes = new ArrayList<>();
         List<Note> reminders = new ArrayList<>();
