@@ -161,7 +161,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     @Override
     public boolean hasStableIds() {
-        // TODO Auto-generated method stub
         return false;
     }
 
