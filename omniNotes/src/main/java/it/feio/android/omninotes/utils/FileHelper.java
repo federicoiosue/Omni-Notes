@@ -25,7 +25,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -33,6 +32,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
+import it.feio.android.omninotes.factory.MediaStoreFactory;
 
 
 public class FileHelper {
@@ -84,19 +85,8 @@ public class FileHelper {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
                 final String type = split[0];
-
-                Uri contentUri = null;
-                switch (type) {
-                    case "image":
-                        contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                        break;
-                    case "video":
-                        contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                        break;
-                    case "audio":
-                        contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                        break;
-                }
+                MediaStoreFactory mediaStoreFactory = new MediaStoreFactory();
+                Uri contentUri = mediaStoreFactory.createURI(type);
 
                 final String selection = "_id=?";
                 final String[] selectionArgs = new String[]{split[1]};
