@@ -15,8 +15,50 @@ import java.util.List;
 
 public class NotesHelper {
 
-	public static Note mergeNotes(List<Note> notes, boolean keepMergedNotes) {
+    public static StringBuilder appendContent(Note note, StringBuilder content) {
+        if (content.length() > 0
+                && (!TextUtils.isEmpty(note.getTitle()) || !TextUtils.isEmpty(note.getContent()))) {
+            content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"))
+                    .append(Constants.MERGED_NOTES_SEPARATOR).append(System.getProperty("line.separator"))
+                    .append(System.getProperty("line.separator"));
+        }
+        if (!TextUtils.isEmpty(note.getTitle())) {
+            content.append(note.getTitle());
+        }
+        if (!TextUtils.isEmpty(note.getTitle()) && !TextUtils.isEmpty(note.getContent())) {
+            content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"));
+        }
+        if (!TextUtils.isEmpty(note.getContent())) {
+            content.append(note.getContent());
+        }
+        return content;
+    }
 
+    public static setMergedValues(Note mergedNote) {
+        mergedNote.setContent(content.toString());
+        mergedNote.setLocked(locked);
+        mergedNote.setCategory(category);
+        mergedNote.setAlarm(reminder);
+        mergedNote.setRecurrenceRule(reminderRecurrenceRule);
+        mergedNote.setLatitude(latitude);
+        mergedNote.setLongitude(longitude);
+        mergedNote.setAttachmentsList(attachments);
+
+        return mergedNote;
+    }
+
+    public static void addAttachments(boolean keepMergedNotes, Note note) {
+        if (keepMergedNotes) {
+            for (Attachment attachment : note.getAttachmentsList()) {
+                attachments.add(StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), attachment.getUri
+                        ()));
+            }
+        } else {
+            attachments.addAll(note.getAttachmentsList());
+        }
+    }
+
+	public static Note mergeNotes(List<Note> notes, boolean keepMergedNotes) {
 		Note mergedNote = null;
 		boolean locked = false;
 		StringBuilder content = new StringBuilder();
@@ -32,23 +74,8 @@ public class NotesHelper {
 				mergedNote = new Note();
 				mergedNote.setTitle(note.getTitle());
 				content.append(note.getContent());
-
 			} else {
-				if (content.length() > 0
-						&& (!TextUtils.isEmpty(note.getTitle()) || !TextUtils.isEmpty(note.getContent()))) {
-					content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"))
-							.append(Constants.MERGED_NOTES_SEPARATOR).append(System.getProperty("line.separator"))
-							.append(System.getProperty("line.separator"));
-				}
-				if (!TextUtils.isEmpty(note.getTitle())) {
-					content.append(note.getTitle());
-				}
-				if (!TextUtils.isEmpty(note.getTitle()) && !TextUtils.isEmpty(note.getContent())) {
-					content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"));
-				}
-				if (!TextUtils.isEmpty(note.getContent())) {
-					content.append(note.getContent());
-				}
+                content = this.appendContent(mergedNote, content);
 			}
 
 			locked = locked || note.isLocked();
@@ -64,26 +91,10 @@ public class NotesHelper {
 			latitude = (Double) ObjectUtils.defaultIfNull(latitude, note.getLatitude());
 			longitude = (Double) ObjectUtils.defaultIfNull(longitude, note.getLongitude());
 
-			if (keepMergedNotes) {
-				for (Attachment attachment : note.getAttachmentsList()) {
-					attachments.add(StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), attachment.getUri
-							()));
-				}
-			} else {
-				attachments.addAll(note.getAttachmentsList());
-			}
+			this.addAttachments(keepMergedNotes, note);
 		}
-
-		// Sets merged values
-		mergedNote.setContent(content.toString());
-		mergedNote.setLocked(locked);
-		mergedNote.setCategory(category);
-		mergedNote.setAlarm(reminder);
-		mergedNote.setRecurrenceRule(reminderRecurrenceRule);
-		mergedNote.setLatitude(latitude);
-		mergedNote.setLongitude(longitude);
-		mergedNote.setAttachmentsList(attachments);
 
 		return mergedNote;
 	}
+
 }
