@@ -75,7 +75,7 @@ public class NotesHelper {
 				mergedNote.setTitle(note.getTitle());
 				content.append(note.getContent());
 			} else {
-                content = this.appendContent(mergedNote, content);
+                content = appendContent(mergedNote, content);
 			}
 
 			locked = locked || note.isLocked();
@@ -91,8 +91,10 @@ public class NotesHelper {
 			latitude = (Double) ObjectUtils.defaultIfNull(latitude, note.getLatitude());
 			longitude = (Double) ObjectUtils.defaultIfNull(longitude, note.getLongitude());
 
-			this.addAttachments(keepMergedNotes, note);
+			addAttachments(keepMergedNotes, note);
 		}
+
+        setMergedValues(mergedNote);
 
 		return mergedNote;
 	}
