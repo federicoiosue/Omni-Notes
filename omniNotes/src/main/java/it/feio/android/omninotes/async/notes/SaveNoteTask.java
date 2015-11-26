@@ -59,10 +59,10 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
         Note note = params[0];
         purgeRemovedAttachments(note);
         if (DateHelper.isFuture(note.getAlarm())) {
-            ReminderHelper.addReminder(context, note);
             note.setReminderFired(false);
         }
         note = DbHelper.getInstance().updateNote(note, updateLastModification);
+		ReminderHelper.addReminder(context, note);
         return note;
     }
 
