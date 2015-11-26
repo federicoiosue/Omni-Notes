@@ -66,23 +66,6 @@ public class GeocodeHelper implements LocationListener {
 	}
 
 
-	public static void startListening() {
-		if (instance == null) {
-			instance = new GeocodeHelper();
-		}
-		String provider = locationManager.getBestProvider(new Criteria(), true);
-		provider = TextUtils.isEmpty(provider) ? LocationManager.PASSIVE_PROVIDER : provider;
-		locationManager.requestLocationUpdates(provider, 60000, 50, instance, null);
-	}
-
-
-	public static void stopListening() {
-		if (locationManager != null) {
-			locationManager.removeUpdates(instance);
-		}
-	}
-
-
 	@Override
 	public void onLocationChanged(Location newLocation) {
 	}
@@ -103,9 +86,10 @@ public class GeocodeHelper implements LocationListener {
 	}
 
 
-	public static void getLocation(Context context, OnGeoUtilResultListener onGeoUtilResultListener) {
-		SmartLocation.LocationControl bod = SmartLocation.with(context).location(new
-				LocationGooglePlayServicesWithFallbackProvider(context)).config(LocationParams.NAVIGATION).oneFix();
+	public static void getLocation(OnGeoUtilResultListener onGeoUtilResultListener) {
+		SmartLocation.LocationControl bod = SmartLocation.with(OmniNotes.getAppContext()).location(new
+				LocationGooglePlayServicesWithFallbackProvider(OmniNotes.getAppContext())).config(LocationParams
+				.NAVIGATION).oneFix();
 
 		Observable<Location> locations = ObservableFactory.from(bod).timeout(2, TimeUnit.SECONDS);
 		locations.subscribe(new Subscriber<Location>() {
@@ -113,7 +97,6 @@ public class GeocodeHelper implements LocationListener {
 			public void onNext(Location location) {
 				onGeoUtilResultListener.onLocationRetrieved(location);
 				unsubscribe();
-				SmartLocation.with(context).location().stop();
 			}
 
 
@@ -126,9 +109,17 @@ public class GeocodeHelper implements LocationListener {
 			public void onError(Throwable e) {
 				onGeoUtilResultListener.onLocationUnavailable();
 				unsubscribe();
-				SmartLocation.with(context).location().stop();
 			}
 		});
+	}
+
+
+	public static void stop() {
+
+		SmartLocation.with(OmniNotes.getAppContext()).location().stop();
+		if (Geocoder.isPresent()) {
+			SmartLocation.with(OmniNotes.getAppContext()).geocoding().stop();
+		}
 	}
 
 
@@ -147,15 +138,14 @@ public class GeocodeHelper implements LocationListener {
 	}
 
 
-	public static void getAddressFromCoordinates(Context context, Location location,
+	public static void getAddressFromCoordinates(Location location,
 												 final OnGeoUtilResultListener onGeoUtilResultListener) {
 		if (!Geocoder.isPresent()) {
 			onGeoUtilResultListener.onAddressResolved("");
 		} else {
-			SmartLocation.with(context).geocoding().reverse(location, (location1, list) -> {
+			SmartLocation.with(OmniNotes.getAppContext()).geocoding().reverse(location, (location1, list) -> {
 				String address = list.size() > 0 ? list.get(0).getAddressLine(0) : null;
 				onGeoUtilResultListener.onAddressResolved(address);
-				SmartLocation.with(context).location().stop();
 			});
 		}
 	}
@@ -176,13 +166,12 @@ public class GeocodeHelper implements LocationListener {
 	}
 
 
-	public static void getCoordinatesFromAddress(Context context, String address, final OnGeoUtilResultListener
+	public static void getCoordinatesFromAddress(String address, final OnGeoUtilResultListener
 			listener) {
-		SmartLocation.with(context).geocoding().direct(address, (name, results) -> {
+		SmartLocation.with(OmniNotes.getAppContext()).geocoding().direct(address, (name, results) -> {
 			if (results.size() > 0) {
 				listener.onCoordinatesResolved(results.get(0).getLocation(), address);
 			}
-			SmartLocation.with(context).geocoding().stop();
 		});
 	}
 

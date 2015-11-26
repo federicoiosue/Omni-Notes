@@ -199,6 +199,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onStop() {
 		super.onStop();
 		EventBus.getDefault().unregister(this);
+		GeocodeHelper.stop();
 	}
 
 
@@ -602,7 +603,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			if (isNoteLocationValid()) {
 				if (TextUtils.isEmpty(noteTmp.getAddress())) {
 					//FIXME: What's this "sasd"?
-					GeocodeHelper.getAddressFromCoordinates(mainActivity, new Location("sasd"), detailFragment);
+					GeocodeHelper.getAddressFromCoordinates(new Location("sasd"), detailFragment);
 				} else {
 					locationTextView.setText(noteTmp.getAddress());
 					locationTextView.setVisibility(View.VISIBLE);
@@ -611,7 +612,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 			// Automatic location insertion
 			if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
-				GeocodeHelper.getLocation(mainActivity, detailFragment);
+				GeocodeHelper.getLocation(detailFragment);
 			}
 
 
@@ -864,7 +865,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private void displayLocationDialog() {
 		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION, R.string
 				.permission_coarse_location, mainActivity.findViewById(R.id.snackBarPlaceholder), () -> GeocodeHelper
-				.getLocation(mainActivity.getApplicationContext(), new OnGeoUtilResultListener() {
+				.getLocation(new OnGeoUtilResultListener() {
 			@Override
 			public void onAddressResolved(String address) {
 			}
@@ -908,12 +909,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 								if (TextUtils.isEmpty(autoCompView.getText().toString())) {
 									noteTmp.setLatitude(location.getLatitude());
 									noteTmp.setLongitude(location.getLongitude());
-									GeocodeHelper.getAddressFromCoordinates(mainActivity, location, mFragment);
+//									GeocodeHelper.getAddressFromCoordinates(location, mFragment);
 								} else {
-									GeocodeHelper.getCoordinatesFromAddress(mainActivity, autoCompView
-													.getText()
-													.toString(),
-											mFragment);
+									GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(), mFragment);
 								}
 							}
 						})
@@ -957,7 +955,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				locationTextView.setVisibility(View.VISIBLE);
 				locationTextView.setText(noteTmp.getAddress());
 			} else {
-				GeocodeHelper.getAddressFromCoordinates(mainActivity, location, mFragment);
+				GeocodeHelper.getAddressFromCoordinates(location, mFragment);
 			}
 		}
 	}
