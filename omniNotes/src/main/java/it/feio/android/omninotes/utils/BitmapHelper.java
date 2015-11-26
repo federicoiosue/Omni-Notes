@@ -63,7 +63,16 @@ public class BitmapHelper {
 				y = (int) (srcBmp.getHeight() - srcBmp.getHeight() / ratio) / 2;
 				height = (int) (srcBmp.getHeight() / ratio);
 			}
-			dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height);
+
+			int rotation = neededRotation(new File(uri.getPath()));
+			if (rotation != 0) {
+				Matrix matrix = new Matrix();
+				matrix.postRotate(rotation);
+				dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height, matrix, true);
+			} else {
+				dstBmp = Bitmap.createBitmap(srcBmp, x, y, width, height);
+			}
+
 		}
 		return dstBmp;
 	}
@@ -87,7 +96,7 @@ public class BitmapHelper {
                 path = FileHelper.getPath(mContext, mAttachment.getUri());
             }
             bmp = ThumbnailUtils.createVideoThumbnail(path,
-                    Thumbnails.MINI_KIND);
+					Thumbnails.MINI_KIND);
             if (bmp == null) {
                 return null;
             } else {
@@ -277,4 +286,29 @@ public class BitmapHelper {
     public static void changeImageViewDrawableColor(ImageView imageView, int color) {
         imageView.getDrawable().mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
     }
+
+
+	public static int neededRotation(File ff) {
+		try {
+
+			ExifInterface exif = new ExifInterface(ff.getAbsolutePath());
+			int orientation = exif.getAttributeInt(
+					ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+			if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+				return 270;
+			}
+			if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
+				return 180;
+			}
+			if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
+				return 90;
+			}
+			return 0;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }
