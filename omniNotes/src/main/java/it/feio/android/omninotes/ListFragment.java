@@ -69,6 +69,7 @@ import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.pixlui.links.UrlCompleter;
+import it.feio.android.simplegallery.util.BitmapUtils;
 import org.apache.commons.lang.ObjectUtils;
 
 import java.util.*;
@@ -492,7 +493,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             targetView.setDrawingCacheEnabled(true);
             targetView.buildDrawingCache();
             Bitmap bmp = targetView.getDrawingCache();
-            expandedImageView.setBackgroundColor(BitmapHelper.getDominantColor(bmp));
+            expandedImageView.setBackgroundColor(BitmapUtils.getDominantColor(bmp));
         }
         return expandedImageView;
     }

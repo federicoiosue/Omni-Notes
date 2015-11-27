@@ -412,12 +412,7 @@ public class StorageHelper {
     }
 
 
-    /**
-     * Tries to retrieve mime types from file extension
-     *
-     * @param url
-     * @return
-     */
+
     public static String getMimeType(String url) {
         String type = null;
         String extension = MimeTypeMap.getFileExtensionFromUrl(url);

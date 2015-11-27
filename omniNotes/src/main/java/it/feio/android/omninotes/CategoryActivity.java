@@ -40,6 +40,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.simplegallery.util.BitmapUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -97,7 +98,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
 
     @Override
     public void onColorSelection(ColorChooserDialog colorChooserDialog, int color) {
-        BitmapHelper.changeImageViewDrawableColor(colorChooser, color);
+        BitmapUtils.changeImageViewDrawableColor(colorChooser, color);
         selectedColor = color;
     }
 

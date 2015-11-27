@@ -40,6 +40,7 @@ import it.feio.android.simplegallery.models.GalleryPagerAdapter;
 import it.feio.android.simplegallery.views.GalleryViewPager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -69,14 +70,10 @@ public class GalleryActivity extends ActionBarActivity {
      * The flags to pass to {@link SystemUiHider#getInstance}.
      */
 
-    /**
-     * The instance of the {@link SystemUiHider} for this activity.
-     */
-
     @Bind(R.id.gallery_root) InterceptorFrameLayout galleryRootView;
     @Bind(R.id.fullscreen_content)  GalleryViewPager mViewPager;
 
-    private ArrayList<Attachment> images;
+    private List<Attachment> images;
 
 
     @Override
