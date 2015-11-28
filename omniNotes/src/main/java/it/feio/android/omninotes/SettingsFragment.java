@@ -43,6 +43,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
+import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnPermissionRequestedListener;
 import it.feio.android.omninotes.utils.*;
@@ -439,7 +440,7 @@ public class SettingsFragment extends PreferenceFragment {
 								prefs.edit().clear().commit();
 								File db = getActivity().getDatabasePath(Constants.DATABASE_NAME);
 								StorageHelper.delete(getActivity(), db.getAbsolutePath());
-								File attachmentsDir = StorageHelper.getAttachmentDir(getActivity());
+								File attachmentsDir = StorageHelper.getAttachmentDir();
 								StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
 								File cacheDir = StorageHelper.getCacheDir(getActivity());
 								StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
@@ -677,8 +678,8 @@ public class SettingsFragment extends PreferenceFragment {
 					String path = FileHelper.getPath(getActivity(), filesUri);
 					// An IntentService will be launched to accomplish the import task
 					Intent service = new Intent(getActivity(), DataBackupIntentService.class);
-					service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_SPRINGPAD);
-					service.putExtra(DataBackupIntentService.EXTRA_SPRINGPAD_BACKUP, path);
+					service.setAction(SpringImportHelper.ACTION_DATA_IMPORT_SPRINGPAD);
+					service.putExtra(SpringImportHelper.EXTRA_SPRINGPAD_BACKUP, path);
 					getActivity().startService(service);
 					break;
 

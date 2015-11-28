@@ -28,6 +28,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import org.apache.commons.io.FileUtils;
@@ -74,8 +75,8 @@ public class StorageHelper {
     }
 
 
-    public static File getAttachmentDir(Context mContext) {
-        return mContext.getExternalFilesDir(null);
+    public static File getAttachmentDir() {
+        return OmniNotes.getAppContext().getExternalFilesDir(null);
     }
 
 
