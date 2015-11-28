@@ -159,7 +159,18 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
 	}
 
 
-    @Override
+	@Override
+	public void buildFromJson(String jsonNote) {
+		super.buildFromJson(jsonNote);
+		List<Attachment> attachments = new ArrayList<>();
+		for (it.feio.android.omninotes.commons.models.Attachment attachment : getAttachmentsList()) {
+			attachments.add(new Attachment(attachment));
+		}
+		this.setAttachmentsList(attachments);
+	}
+
+
+	@Override
     public int describeContents() {
         return 0;
     }

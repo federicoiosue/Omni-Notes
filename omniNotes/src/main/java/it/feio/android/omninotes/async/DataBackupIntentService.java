@@ -110,8 +110,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         backupDir = StorageHelper.getBackupDir(backupName);
 
         // Database backup
-        exportDB(backupDir);
-//		exportNotes(backupDir);
+//        exportDB(backupDir);
+		exportNotes(backupDir);
 
         // Attachments backup
         exportAttachments(backupDir);
@@ -135,8 +135,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         File backupDir = StorageHelper.getBackupDir(backupName);
 
         // Database backup
-        importDB(backupDir);
-//        importNotes(backupDir);
+//        importDB(backupDir);
+        importNotes(backupDir);
 
         // Attachments backup
         importAttachments(backupDir);
@@ -547,9 +547,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				note.buildFromJson(FileUtils.readFileToString(file));
 				if (note.getCategory() != null) {
 					DbHelper.getInstance().updateCategory(note.getCategory());
-				}
-				for (Attachment attachment : note.getAttachmentsList()) {
-					DbHelper.getInstance().updateAttachment(attachment);
 				}
 				DbHelper.getInstance().updateNote(note, false);
 			} catch (IOException e) {
