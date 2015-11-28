@@ -116,4 +116,6 @@ public interface Constants {
 	int MENU_SORT_GROUP_ID = 11998811;
 
 	String MERGED_NOTES_SEPARATOR = "----------------------";
+
+	String AUTO_BACKUP_DIR = "_autobackup";
 }

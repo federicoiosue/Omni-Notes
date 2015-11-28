@@ -37,18 +37,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 
 public class BackupHelper {
 
 	public static void exportNotes(File backupDir) {
 		for (Note note : DbHelper.getInstance().getAllNotes(false)) {
-			File noteFile = new File(backupDir, String.valueOf(note.get_id()));
-			try {
-				FileUtils.write(noteFile, note.toJSON());
-			} catch (IOException e) {
-				Log.e(Constants.TAG, "Error backupping note: " + note.get_id());
-			}
+			exportNote(backupDir, note);
+		}
+	}
+
+
+	public static void exportNote(File backupDir, Note note) {
+		File noteFile = new File(backupDir, String.valueOf(note.get_id()));
+		try {
+			FileUtils.write(noteFile, note.toJSON());
+		} catch (IOException e) {
+			Log.e(Constants.TAG, "Error backupping note: " + note.get_id());
 		}
 	}
 
@@ -71,6 +77,13 @@ public class BackupHelper {
 	public static boolean exportAttachments(File backupDir, NotificationsHelper notificationsHelper) {
 		File destinationattachmentsDir = new File(backupDir, StorageHelper.getAttachmentDir().getName());
 		ArrayList<Attachment> list = DbHelper.getInstance().getAllAttachments();
+		exportAttachments(notificationsHelper, destinationattachmentsDir, list);
+		return true;
+	}
+
+
+	public static void exportAttachments(NotificationsHelper notificationsHelper, File destinationattachmentsDir,
+										  List<Attachment> list) {
 		int exported = 0;
 		for (Attachment attachment : list) {
 			StorageHelper.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri().getPath()));
@@ -79,7 +92,6 @@ public class BackupHelper {
 						.attachment)) + " " + exported++ + "/" + list.size()).show();
 			}
 		}
-		return true;
 	}
 
 

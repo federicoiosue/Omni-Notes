@@ -77,6 +77,7 @@ import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.async.AttachmentTask;
+import it.feio.android.omninotes.async.bus.NoteSavedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
@@ -84,6 +85,7 @@ import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
+import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
@@ -538,7 +540,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		// ... and last modification
 		String lastModification = noteTmp.getLastModificationShort(mainActivity);
-		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " + lastModification : "");
+		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " +
+				lastModification : "");
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
 	}
@@ -1637,6 +1640,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public void onNoteSaved(Note noteSaved) {
+		EventBus.getDefault().post(new NoteSavedEvent(noteSaved));
 		if (!activityPausing) {
 			MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
 			EventBus.getDefault().post(new NotesUpdatedEvent());
@@ -1649,6 +1653,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (goBack) {
 			goHome();
 		}
+	}
+
+
+	public void onEventAsync(NoteSavedEvent noteSavedEvent) {
+		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+		BackupHelper.exportNote(autoBackupDir, noteSavedEvent.note);
+		BackupHelper.exportAttachments(null, new File(autoBackupDir, StorageHelper.getAttachmentDir().getName()),
+				noteSavedEvent.note.getAttachmentsList());
 	}
 
 
