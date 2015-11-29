@@ -20,11 +20,8 @@ package it.feio.android.omninotes.async.notes;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.async.bus.NoteSavedEvent;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
@@ -33,7 +30,6 @@ import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.date.DateHelper;
 
-import java.io.File;
 import java.util.List;
 
 

@@ -28,6 +28,7 @@ import it.feio.android.omninotes.utils.NotificationsHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TextHelper;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -170,5 +171,17 @@ public class BackupHelper {
 		File preferences = StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext());
 		File preferenceBackup = new File(backupDir, preferences.getName());
 		return (StorageHelper.copyFile(preferenceBackup, preferences));
+	}
+
+
+	public static boolean deleteNoteBackup(File backupDir, Note note) {
+		boolean result = true;
+		File noteFile = new File(backupDir, String.valueOf(note.get_id()));
+		result = result && noteFile.delete();
+		File attachmentBackup = new File(backupDir, StorageHelper.getAttachmentDir().getName());
+		for (Attachment attachment : note.getAttachmentsList()) {
+			result = result && new File(attachmentBackup, FilenameUtils.getName(attachment.getUri().getPath())).delete();
+		}
+		return result;
 	}
 }

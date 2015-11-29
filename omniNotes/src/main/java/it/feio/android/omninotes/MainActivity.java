@@ -43,16 +43,21 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import it.feio.android.omninotes.async.UpdaterTask;
+import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
+import it.feio.android.omninotes.async.bus.NotesSavedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.MiscUtils;
+import it.feio.android.omninotes.utils.StorageHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -77,6 +82,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		setTheme(R.style.OmniNotesTheme_ApiSpec);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+		EventBus.getDefault().register(this);
 
         // This method starts the bootstrap chain.
         checkPassword();
@@ -498,4 +504,22 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
         }
     }
+
+
+	public void onEventAsync(NotesSavedEvent notesSavedEvent) {
+		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+		for (Note note : notesSavedEvent.notes) {
+			BackupHelper.exportNote(autoBackupDir, note);
+			BackupHelper.exportAttachments(null, new File(autoBackupDir, StorageHelper.getAttachmentDir().getName()),
+					note.getAttachmentsList());
+		}
+	}
+
+
+	public void onEventAsync(NotesDeletedEvent notesDeletedEvent) {
+		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+		for (Note note : notesDeletedEvent.notes) {
+			BackupHelper.deleteNoteBackup(autoBackupDir, note);
+		}
+	}
 }

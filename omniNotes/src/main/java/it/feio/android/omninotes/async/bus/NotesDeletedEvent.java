@@ -21,16 +21,16 @@ import android.util.Log;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
-public class NoteSavedEvent {
+public class NotesDeletedEvent {
 
-	public Note note;
+	public List<Note> notes;
 
 
-	public NoteSavedEvent(Note note) {
+	public NotesDeletedEvent(List<Note> notes) {
 		Log.d(Constants.TAG, this.getClass().getName());
-		this.note = note;
+		this.notes = notes;
 	}
 }

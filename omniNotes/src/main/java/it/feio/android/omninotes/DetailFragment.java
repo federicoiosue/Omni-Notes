@@ -77,7 +77,7 @@ import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.async.AttachmentTask;
-import it.feio.android.omninotes.async.bus.NoteSavedEvent;
+import it.feio.android.omninotes.async.bus.NotesSavedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
@@ -85,7 +85,6 @@ import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
-import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
@@ -102,10 +101,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
@@ -645,8 +641,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				MaterialDialog dialog = builder.build();
 				dialog.show();
 				return true;
-					});
-				});
+			});
+		});
 	}
 
 
@@ -1640,7 +1636,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public void onNoteSaved(Note noteSaved) {
-		EventBus.getDefault().post(new NoteSavedEvent(noteSaved));
+		EventBus.getDefault().post(new NotesSavedEvent(Arrays.asList(new Note[]{noteSaved})));
 		if (!activityPausing) {
 			MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
 			EventBus.getDefault().post(new NotesUpdatedEvent());
@@ -1653,14 +1649,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (goBack) {
 			goHome();
 		}
-	}
-
-
-	public void onEventAsync(NoteSavedEvent noteSavedEvent) {
-		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
-		BackupHelper.exportNote(autoBackupDir, noteSavedEvent.note);
-		BackupHelper.exportAttachments(null, new File(autoBackupDir, StorageHelper.getAttachmentDir().getName()),
-				noteSavedEvent.note.getAttachmentsList());
 	}
 
 

@@ -17,12 +17,17 @@
 
 package it.feio.android.omninotes.async.notes;
 
+import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
+import it.feio.android.omninotes.async.bus.NotesSavedEvent;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.StorageHelper;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -53,4 +58,12 @@ public class NoteProcessorDelete extends NoteProcessor {
 			}
 		}
 	}
+
+
+	@Override
+	protected void afterProcess(List<Note> notes) {
+		super.afterProcess(notes);
+		EventBus.getDefault().post(new NotesDeletedEvent(notes));
+	}
+
 }
