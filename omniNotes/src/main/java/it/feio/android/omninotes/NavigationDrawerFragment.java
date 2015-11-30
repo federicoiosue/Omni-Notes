@@ -153,7 +153,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     public void init() {
-        Log.d(Constants.TAG, "Started navigation drawer initialization");
+        Log.v(Constants.TAG, "Started navigation drawer initialization");
 
         mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
         mDrawerLayout.setFocusableInTouchMode(false);
@@ -193,15 +193,15 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
 
-        Log.d(Constants.TAG, "Finished navigation drawer initialization");
+        Log.v(Constants.TAG, "Finished navigation drawer initialization");
     }
 
 
     private void refreshMenus() {
         buildMainMenu();
-        Log.d(Constants.TAG, "Finished main menu initialization");
+        Log.v(Constants.TAG, "Finished main menu initialization");
         buildCategoriesMenu();
-        Log.d(Constants.TAG, "Finished categories menu initialization");
+        Log.v(Constants.TAG, "Finished categories menu initialization");
         mDrawerToggle.syncState();
     }
 
