@@ -156,6 +156,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         String title = getString(R.string.data_import_completed);
         String text = getString(R.string.click_to_refresh_application);
         createNotification(intent, this, title, text, backupDir);
+
+		// Performs auto-backup filling after backup restore
+		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+		BackupHelper.exportNotes(autoBackupDir);
+		BackupHelper.exportAttachments(autoBackupDir);
     }
 
 
