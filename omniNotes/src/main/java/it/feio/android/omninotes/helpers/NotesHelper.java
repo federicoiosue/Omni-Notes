@@ -34,20 +34,7 @@ public class NotesHelper {
         return content;
     }
 
-    public static setMergedValues(Note mergedNote) {
-        mergedNote.setContent(content.toString());
-        mergedNote.setLocked(locked);
-        mergedNote.setCategory(category);
-        mergedNote.setAlarm(reminder);
-        mergedNote.setRecurrenceRule(reminderRecurrenceRule);
-        mergedNote.setLatitude(latitude);
-        mergedNote.setLongitude(longitude);
-        mergedNote.setAttachmentsList(attachments);
-
-        return mergedNote;
-    }
-
-    public static void addAttachments(boolean keepMergedNotes, Note note) {
+    public static void addAttachments(boolean keepMergedNotes, Note note, ArrayList<Attachment> attachments) {
         if (keepMergedNotes) {
             for (Attachment attachment : note.getAttachmentsList()) {
                 attachments.add(StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), attachment.getUri
@@ -62,7 +49,7 @@ public class NotesHelper {
 		Note mergedNote = null;
 		boolean locked = false;
 		StringBuilder content = new StringBuilder();
-		ArrayList<Attachment> attachments = new ArrayList<>();
+		ArrayList<Attachment> attachments = new ArrayList<Attachment>();
 		Category category = null;
 		String reminder = null;
 		String reminderRecurrenceRule = null;
@@ -91,12 +78,19 @@ public class NotesHelper {
 			latitude = (Double) ObjectUtils.defaultIfNull(latitude, note.getLatitude());
 			longitude = (Double) ObjectUtils.defaultIfNull(longitude, note.getLongitude());
 
-			addAttachments(keepMergedNotes, note);
+			addAttachments(keepMergedNotes, note, attachments);
 		}
 
-        setMergedValues(mergedNote);
+        mergedNote.setContent(content.toString());
+        mergedNote.setLocked(locked);
+        mergedNote.setCategory(category);
+        mergedNote.setAlarm(reminder);
+        mergedNote.setRecurrenceRule(reminderRecurrenceRule);
+        mergedNote.setLatitude(latitude);
+        mergedNote.setLongitude(longitude);
+        mergedNote.setAttachmentsList(attachments);
 
-		return mergedNote;
+        return mergedNote;
 	}
 
 }
