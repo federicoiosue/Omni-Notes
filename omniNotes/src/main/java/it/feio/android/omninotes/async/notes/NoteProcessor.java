@@ -65,6 +65,6 @@ public abstract class NoteProcessor {
 
 
 	protected void afterProcess(List<Note> notes) {
-		EventBus.getDefault().post(new NotesUpdatedEvent());
+		EventBus.getDefault().post(new NotesUpdatedEvent(notes));
 	}
 }

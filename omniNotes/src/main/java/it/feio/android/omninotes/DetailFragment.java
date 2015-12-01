@@ -77,7 +77,6 @@ import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.async.AttachmentTask;
-import it.feio.android.omninotes.async.bus.NotesSavedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
@@ -90,7 +89,10 @@ import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
-import it.feio.android.omninotes.models.listeners.*;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
+import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
+import it.feio.android.omninotes.models.listeners.OnNoteSaved;
+import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
@@ -1636,10 +1638,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public void onNoteSaved(Note noteSaved) {
-		EventBus.getDefault().post(new NotesSavedEvent(Arrays.asList(new Note[]{noteSaved})));
+		EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(noteSaved)));
 		if (!activityPausing) {
 			MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
-			EventBus.getDefault().post(new NotesUpdatedEvent());
 			deleteMergedNotes(mergedNotesIds);
 			if (noteTmp.getAlarm() != null && !noteTmp.getAlarm().equals(note.getAlarm())) {
 				ReminderHelper.showReminderMessage(noteTmp.getAlarm());

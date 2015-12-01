@@ -20,7 +20,7 @@ package it.feio.android.omninotes.services;
 import android.os.FileObserver;
 import android.util.Log;
 import de.greenrobot.event.EventBus;
-import it.feio.android.omninotes.async.bus.NotesSavedEvent;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
@@ -28,6 +28,7 @@ import it.feio.android.omninotes.utils.StorageHelper;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -88,6 +89,7 @@ public class AutoBackupFileObserver extends FileObserver {
 		if (!isRecentlyModifiedNote(path)) {
 			logMsg.append(" externally");
 			BackupHelper.importNote(new File(monitoredPath + "/" + path));
+
 		}
 		Log.d(getClass().getSimpleName(), logMsg.toString());
 	}
@@ -103,9 +105,8 @@ public class AutoBackupFileObserver extends FileObserver {
 		return false;
 	}
 
-
-	public void onEventAsync(NotesSavedEvent notesSavedEvent) {
-		recentlyModifiedNotes = new ArrayList<>(notesSavedEvent.notes);
+	public void onEventAsync(NotesUpdatedEvent notesUpdatedEvent) {
+		recentlyModifiedNotes = new ArrayList<>(notesUpdatedEvent.notes);
 	}
 
 

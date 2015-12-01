@@ -44,7 +44,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
-import it.feio.android.omninotes.async.bus.NotesSavedEvent;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
@@ -510,9 +510,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
-	public void onEventAsync(NotesSavedEvent notesSavedEvent) {
+	public void onEventAsync(NotesUpdatedEvent notesUpdatedEvent) {
 		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
-		for (Note note : notesSavedEvent.notes) {
+		for (Note note : notesUpdatedEvent.notes) {
 			BackupHelper.exportNote(autoBackupDir, note);
 			BackupHelper.exportAttachments(null, new File(autoBackupDir, StorageHelper.getAttachmentDir().getName()),
 					note.getAttachmentsList());
