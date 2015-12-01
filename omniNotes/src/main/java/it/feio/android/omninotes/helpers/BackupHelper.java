@@ -103,16 +103,24 @@ public class BackupHelper {
 	 */
 	public static void importNotes(File backupDir) {
 		for (File file : FileUtils.listFiles(backupDir, new RegexFileFilter("\\d{13}"), TrueFileFilter.INSTANCE)) {
-			try {
-				Note note = new Note();
-				note.buildFromJson(FileUtils.readFileToString(file));
-				if (note.getCategory() != null) {
-					DbHelper.getInstance().updateCategory(note.getCategory());
-				}
-				DbHelper.getInstance().updateNote(note, false);
-			} catch (IOException e) {
-				Log.e(Constants.TAG, "Error parsing note json");
+			importNote(file);
+		}
+	}
+
+
+	/**
+	 * Imports single note from its file
+	 */
+	public static void importNote(File file) {
+		try {
+			Note note = new Note();
+			note.buildFromJson(FileUtils.readFileToString(file));
+			if (note.getCategory() != null) {
+				DbHelper.getInstance().updateCategory(note.getCategory());
 			}
+			DbHelper.getInstance().updateNote(note, false);
+		} catch (IOException e) {
+			Log.e(Constants.TAG, "Error parsing note json");
 		}
 	}
 

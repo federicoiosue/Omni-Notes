@@ -39,6 +39,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
+import it.feio.android.omninotes.services.AutoBackupFileObserver;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
@@ -158,9 +159,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         createNotification(intent, this, title, text, backupDir);
 
 		// Performs auto-backup filling after backup restore
+		AutoBackupFileObserver.getInstance().stopWatching();
 		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
 		BackupHelper.exportNotes(autoBackupDir);
 		BackupHelper.exportAttachments(autoBackupDir);
+		AutoBackupFileObserver.getInstance().startWatching();
     }
 
 

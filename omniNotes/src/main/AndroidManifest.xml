@@ -296,6 +296,8 @@
                 android:value="1" />
         </service>
 
+        <service android:enabled="true" android:name=".services.AutoBackupFileModificationService"/>
+
     </application>
 
 </manifest>
