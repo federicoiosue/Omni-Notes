@@ -105,7 +105,7 @@ dependencies {
     compile 'com.artemzin.rxjava:proguard-rules:1.0.14.2'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
 
-    compile 'com.github.federicoiosue:SimpleGallery:521c6e8d73'
+    compile 'com.github.federicoiosue:SimpleGallery:1.2.0'
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'
     compile 'com.github.federicoiosue:Omni-Notes-Commons:1.1.0'
     compile 'com.github.federicoiosue:CheckListView:3.0.2'
