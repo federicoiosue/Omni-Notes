@@ -110,14 +110,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 						it.feio.android.omninotes.utils.TextHelper.capitalize(mContext.getString(R.string
 								.add_reminder)), piPostpone);
 
-        setAlarm(prefs, notificationsHelper);
+        setRingtone(prefs, notificationsHelper);
 
 		setVibrate(prefs, notificationsHelper);
 
 		notificationsHelper.show(note.get_id());
 	}
 
-    private void setAlarm(SharedPreferences prefs,NotificationsHelper notificationsHelper) {
+    private void setRingtone(SharedPreferences prefs,NotificationsHelper notificationsHelper) {
         String ringtone = prefs.getString("settings_notification_ringtone", null);
         if (ringtone != null) notificationsHelper.setRingtone(ringtone);
     }
