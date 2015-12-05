@@ -90,13 +90,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         new UpdaterTask(this).execute();
     }
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-
     private void initUI() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -110,20 +110,21 @@ public class AlarmReceiver extends BroadcastReceiver {
 						it.feio.android.omninotes.utils.TextHelper.capitalize(mContext.getString(R.string
 								.add_reminder)), piPostpone);
 
-		// Ringtone options
-		String ringtone = prefs.getString("settings_notification_ringtone", null);
-		if (ringtone != null) {
-			notificationsHelper.setRingtone(ringtone);
-		}
+        setRingtone(prefs, notificationsHelper);
 
-		// Vibration options
-		if (prefs.getBoolean("settings_notification_vibration", true)) {
-			notificationsHelper.setVibration();
-		}
+		setVibrate(prefs, notificationsHelper);
 
 		notificationsHelper.show(note.get_id());
 	}
 
+    private void setRingtone(SharedPreferences prefs,NotificationsHelper notificationsHelper) {
+        String ringtone = prefs.getString("settings_notification_ringtone", null);
+        if (ringtone != null) notificationsHelper.setRingtone(ringtone);
+    }
+
+    private void setVibrate(SharedPreferences prefs, NotificationsHelper notificationsHelper) {
+        if (prefs.getBoolean("settings_notification_vibration", true)) notificationsHelper.setVibration();
+    }
 
 	private int getUniqueRequestCode(Note note) {
 		return note.get_id().intValue();
