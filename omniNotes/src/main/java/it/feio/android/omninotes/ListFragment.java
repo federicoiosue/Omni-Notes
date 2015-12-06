@@ -1055,7 +1055,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     public void onEvent(NavigationUpdatedNavDrawerClosedEvent navigationUpdatedNavDrawerClosedEvent) {
         listViewPosition = 0;
         listViewPositionOffset = 16;
-        commitPending();
         initNotesList(mainActivity.getIntent());
         setActionItemsVisibility(menu, false);
     }
