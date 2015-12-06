@@ -306,8 +306,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
         // Overrides font sizes with the one selected from user
         Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME,
                 Context.MODE_MULTI_PROCESS), convertView);
-        NoteViewHolder holder = new NoteViewHolder(convertView);
-        return holder;
+        return new NoteViewHolder(convertView);
     }
 
 }

@@ -191,6 +191,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         // Styling options
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
 
         Log.v(Constants.TAG, "Finished navigation drawer initialization");

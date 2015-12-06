@@ -36,12 +36,7 @@ import org.acra.sender.HttpSender.Type;
 
 import java.util.Locale;
 
-
-@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM,
-		formUri = "http://collector.tracepot.com/3f39b042",
-		mode = ReportingInteractionMode.TOAST,
-		forceCloseDialogAfterToast = false,
-		resToastText = R.string.crash_toast)
+@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = "http://collector.tracepot.com/3f39b042", mode = ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
 public class OmniNotes extends Application {
 
 	private static Context mContext;
@@ -49,7 +44,6 @@ public class OmniNotes extends Application {
 	private final static String PREF_LANG = "settings_language";
 	static SharedPreferences prefs;
 	private static RefWatcher refWatcher;
-
 
 	@Override
 	public void onCreate() {
@@ -71,7 +65,6 @@ public class OmniNotes extends Application {
 		AnalyticsHelper.init(this);
 	}
 
-
 	private void initAcra(Application application) {
 		ACRA.init(application);
 		ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
@@ -83,7 +76,6 @@ public class OmniNotes extends Application {
 		return BuildConfig.BUILD_TYPE.equals("debug");
 	}
 
-
 	@Override
 	// Used to restore user selected locale when configuration changes
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -93,7 +85,6 @@ public class OmniNotes extends Application {
 		updateLanguage(this, language);
 	}
 
-
 	public static Context getAppContext() {
 		return OmniNotes.mContext;
 	}
@@ -101,7 +92,6 @@ public class OmniNotes extends Application {
 	public static RefWatcher getRefWatcher() {
 		return OmniNotes.refWatcher;
 	}
-
 
 	/**
 	 * Updates default language with forced one
@@ -115,27 +105,18 @@ public class OmniNotes extends Application {
 			prefs.edit().putString(PREF_LANG, Locale.getDefault().toString()).commit();
 
 		} else if (lang != null) {
-			// Checks country
-			if (lang.contains("_")) {
-				cfg.locale = new Locale(lang.split("_")[0], lang.split("_")[1]);
-			} else {
-				cfg.locale = new Locale(lang);
-			}
+			// Adds language from parameter to configuration and preferences if
+			// it is not null
+			cfg.locale = new Locale(lang.split("_")[0]);
 			prefs.edit().putString(PREF_LANG, lang).commit();
 
 		} else if (!TextUtils.isEmpty(language)) {
-			// Checks country
-			if (language.contains("_")) {
-				cfg.locale = new Locale(language.split("_")[0], language.split("_")[1]);
-			} else {
-				cfg.locale = new Locale(language);
-			}
+			// Adds language from preferences to configuration if the string is
+			// not empty
+			cfg.locale = new Locale(language.split("_")[0]);
 		}
 
 		ctx.getResources().updateConfiguration(cfg, null);
 	}
-
-
-
 
 }

@@ -247,9 +247,8 @@ public class DateHelper {
             EventRecurrence recurrenceEvent = new EventRecurrence();
             recurrenceEvent.setStartDate(new Time("" + new Date().getTime()));
             recurrenceEvent.parse(recurrenceRule);
-            String srt = EventRecurrenceFormatter.getRepeatString(mContext.getApplicationContext(),
+            return EventRecurrenceFormatter.getRepeatString(mContext.getApplicationContext(),
                     mContext.getResources(), recurrenceEvent, true);
-            return srt;
         } else {
             return "";
         }

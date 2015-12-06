@@ -40,6 +40,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
 
@@ -179,10 +180,14 @@ public class BaseActivity extends ActionBarActivity {
     }
 
 
-    public void updateNavigation(String nav) {
+    public boolean updateNavigation(String nav) {
+		if (Navigation.getNavigationText().equals(nav)) {
+			return false;
+		}
         prefs.edit().putString(Constants.PREF_NAVIGATION, nav).apply();
         navigation = nav;
         navigationTmp = null;
+		return true;
     }
 
 

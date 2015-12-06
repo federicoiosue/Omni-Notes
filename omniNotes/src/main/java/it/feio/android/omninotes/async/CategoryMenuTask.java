@@ -135,10 +135,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
         mDrawerCategoriesList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
 
 			Object item = mDrawerCategoriesList.getAdapter().getItem(position);
-			// Ensuring that clicked item is not the ListView header
-			if (item != null ) {
-                EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition(position)));
-                mainActivity.updateNavigation(String.valueOf(((Category) item).getId()));
+			if (mainActivity.updateNavigation(String.valueOf(((Category) item).getId()))) {
                 mDrawerCategoriesList.setItemChecked(position, true);
                 // Forces redraw
                 if (mDrawerList != null) {
