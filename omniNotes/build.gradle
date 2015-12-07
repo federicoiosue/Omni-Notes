@@ -57,13 +57,19 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    sourceSets {
+        androidTest {
+            java.srcDirs = ['src/androidTest/java']
+        }
+    }
 }
 
 final GPS_VERSION = '6.5.87'
 
 dependencies {
     androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.5.3'
 
     compile fileTree(include: '*.jar', dir: 'libs')
 
