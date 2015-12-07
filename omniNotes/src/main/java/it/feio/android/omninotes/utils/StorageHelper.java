@@ -32,6 +32,7 @@ import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
@@ -145,13 +146,14 @@ public class StorageHelper {
 
 
     public static boolean copyFile(File source, File destination) {
-        try {
-            return copyFile(new FileInputStream(source), new FileOutputStream(destination));
-        } catch (FileNotFoundException e) {
-            Log.e(Constants.TAG, "Error copying file", e);
-            return false;
-        }
-    }
+		try {
+			FileUtils.copyFile(source, destination);
+			return true;
+		} catch (IOException e) {
+			Log.e(Constants.TAG, "Error copying file", e);
+			return false;
+		}
+	}
 
 
     /**
@@ -161,38 +163,26 @@ public class StorageHelper {
      * @param os Output
      * @return True if copy is done, false otherwise
      */
-    public static boolean copyFile(InputStream is, OutputStream os) {
-        boolean res = false;
-        byte[] data = new byte[1024];
-        int len;
-        try {
-            while ((len = is.read(data)) > 0) {
-                os.write(data, 0, len);
-            }
-            is.close();
-            os.close();
-            res = true;
-        } catch (IOException e) {
-            Log.e(Constants.TAG, "Error copying file", e);
-        }
-        return res;
-    }
+	public static boolean copyFile(InputStream is, OutputStream os) {
+		try {
+			IOUtils.copy(is, os);
+			return true;
+		} catch (IOException e) {
+			Log.e(Constants.TAG, "Error copying file", e);
+			return false;
+		}
+	}
 
 
-    public static boolean deleteExternalStoragePrivateFile(Context mContext, String name) {
-        boolean res = false;
-
-        // Checks for external storage availability
-        if (!checkStorage()) {
-            Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        File file = new File(mContext.getExternalFilesDir(null), name);
-        file.delete();
-
-        return true;
-    }
+	public static boolean deleteExternalStoragePrivateFile(Context mContext, String name) {
+		// Checks for external storage availability
+		if (!checkStorage()) {
+			Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		File file = new File(mContext.getExternalFilesDir(null), name);
+		return file.delete();
+	}
 
 
     public static boolean delete(Context mContext, String name) {
