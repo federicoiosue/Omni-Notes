@@ -17,6 +17,10 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.0 Beta 9" changeDate="Dec 06, 2015">
+        <changelogtext>[u]Fix[/u] Broken language selection</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.0 Beta 8" changeDate="Dec 06, 2015">
         <changelogtext>[u]Fix[/u] Cropped images in internal gallery</changelogtext>
         <changelogtext>[u]Fix[/u] Avoided multiple selection of the same navigation menu item</changelogtext>

@@ -102,21 +102,26 @@ public class OmniNotes extends Application {
 
 		if (TextUtils.isEmpty(language) && lang == null) {
 			cfg.locale = Locale.getDefault();
-			prefs.edit().putString(PREF_LANG, Locale.getDefault().toString()).commit();
-
+			prefs.edit().putString(PREF_LANG, cfg.locale.toString()).commit();
 		} else if (lang != null) {
-			// Adds language from parameter to configuration and preferences if
-			// it is not null
-			cfg.locale = new Locale(lang.split("_")[0]);
+			cfg.locale = getLocale(lang);
 			prefs.edit().putString(PREF_LANG, lang).commit();
-
 		} else if (!TextUtils.isEmpty(language)) {
-			// Adds language from preferences to configuration if the string is
-			// not empty
-			cfg.locale = new Locale(language.split("_")[0]);
+			cfg.locale = getLocale(language);
 		}
-
 		ctx.getResources().updateConfiguration(cfg, null);
+	}
+
+
+	/**
+	 * Checks country AND region
+	 */
+	private static Locale getLocale(String lang) {
+		if (lang.contains("_")) {
+			return new Locale(lang.split("_")[0], lang.split("_")[1]);
+		} else {
+			return new Locale(lang);
+		}
 	}
 
 }
