@@ -12,10 +12,10 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Navigation;
 
 
-public class NoteWithAudioAndCategory extends ActivityInstrumentationTestCase2<MainActivity> {
+public class NoteWithAudioAndCategoryTest extends ActivityInstrumentationTestCase2<MainActivity> {
   	private Solo solo;
 
-  	public NoteWithAudioAndCategory() {
+  	public NoteWithAudioAndCategoryTest() {
 		super(MainActivity.class);
   	}
 
@@ -31,7 +31,7 @@ public class NoteWithAudioAndCategory extends ActivityInstrumentationTestCase2<M
         super.tearDown();
   	}
 
-	public void testCategory() {
+	public void testNoteWithAudioAndCategory() {
         //Wait for activity: 'it.feio.android.omninotes.MainActivity'
 		solo.waitForActivity(MainActivity.class, 2000);
         //Set default small timeout to 19121 milliseconds

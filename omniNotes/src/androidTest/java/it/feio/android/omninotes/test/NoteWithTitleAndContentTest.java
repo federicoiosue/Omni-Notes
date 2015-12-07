@@ -31,7 +31,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class NoteWithTitleAndContent extends ActivityInstrumentationTestCase2<MainActivity> {
+public class NoteWithTitleAndContentTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Solo solo;
     private final String NOTE_TITLE = "new note";
@@ -39,7 +39,7 @@ public class NoteWithTitleAndContent extends ActivityInstrumentationTestCase2<Ma
             .getTimeInMillis();
 
 
-    public NoteWithTitleAndContent() {
+    public NoteWithTitleAndContentTest() {
         super(MainActivity.class);
     }
 
@@ -58,7 +58,7 @@ public class NoteWithTitleAndContent extends ActivityInstrumentationTestCase2<Ma
     }
 
 
-    public void testRun() {
+    public void testNoteWithTitleAndContent() {
         //Wait for activity: 'it.feio.android.omninotes.MainActivity'
         solo.waitForActivity(MainActivity.class, 4000);
         //Set default small timeout to 30522 milliseconds

@@ -7,12 +7,12 @@ import com.robotium.solo.Timeout;
 import it.feio.android.omninotes.MainActivity;
 
 
-public class NoteWithReminderAndSketch extends ActivityInstrumentationTestCase2<MainActivity> {
+public class NoteWithReminderAndSketchTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Solo solo;
 
 
-    public NoteWithReminderAndSketch() {
+    public NoteWithReminderAndSketchTest() {
         super(MainActivity.class);
     }
 
@@ -31,30 +31,27 @@ public class NoteWithReminderAndSketch extends ActivityInstrumentationTestCase2<
     }
 
 
-    public void testRun() {
+    public void testNoteWithReminderAndSketch() {
         //Wait for activity: 'it.feio.android.omninotes.MainActivity'
-        solo.waitForActivity(it.feio.android.omninotes.MainActivity.class, 4000);
-        //Set default small timeout to 30522 milliseconds
+		solo.waitForActivity(MainActivity.class, 2000);
+		//Set default small timeout to 30522 milliseconds
         Timeout.setSmallTimeout(30522);
         //Click on ImageView
         solo.clickLongOnView(solo.getView(it.feio.android.omninotes.R.id.fab_expand_menu_button));
-        //Click on LinearLayout
-        solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.reminder_layout));
-        // Check that no reminder is set
-        assertEquals(((TextView) solo.getView(it.feio.android.omninotes.R.id.datetime)).getText().toString().length()
-                , 0);
-        //Wait for dialog
-        solo.waitForDialogToOpen(5000);
-        //Click on Done
-        solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.done));
-        //Wait for dialog
-        solo.waitForDialogToOpen(5000);
-        //Click on Done
-        solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.done_button));
-        //Wait for dialog
-        solo.waitForDialogToOpen(5000);
-        //Click on Done in recurrent reminders fragment
-        solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.done));
+		//Click on LinearLayout
+		solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.reminder_layout));
+		//Wait for dialog
+		solo.waitForDialogToOpen(5000);
+		//Click on Done
+		solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.done));
+		//Wait for dialog
+		solo.waitForDialogToOpen(5000);
+		//Click on Done
+		solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.done_button));
+		//Wait for dialog
+		solo.waitForDialogToOpen(5000);
+		//Click on Done
+		solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.done));
         // Check if a reminder is present
         assertNotNull(((TextView) solo.getView(it.feio.android.omninotes.R.id.datetime)).getText().toString());
         //Click on Empty Text View

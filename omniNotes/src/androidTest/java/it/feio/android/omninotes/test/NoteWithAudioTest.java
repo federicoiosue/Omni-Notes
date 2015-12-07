@@ -5,10 +5,10 @@ import com.robotium.solo.*;
 import android.test.ActivityInstrumentationTestCase2;
 
 
-public class NoteWithAudio extends ActivityInstrumentationTestCase2<MainActivity> {
+public class NoteWithAudioTest extends ActivityInstrumentationTestCase2<MainActivity> {
   	private Solo solo;
   	
-  	public NoteWithAudio() {
+  	public NoteWithAudioTest() {
 		super(MainActivity.class);
   	}
 
@@ -24,7 +24,7 @@ public class NoteWithAudio extends ActivityInstrumentationTestCase2<MainActivity
         super.tearDown();
   	}
   
-	public void testRun() {
+	public void testNoteWithAudio() {
         //Wait for activity: 'it.feio.android.omninotes.MainActivity'
 		solo.waitForActivity(it.feio.android.omninotes.MainActivity.class, 2000);
         //Set default small timeout to 19121 milliseconds
