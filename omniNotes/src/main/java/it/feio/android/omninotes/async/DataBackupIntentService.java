@@ -22,13 +22,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.net.Uri;
-import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
-import exceptions.ImportException;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
@@ -36,25 +30,15 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.services.AutoBackupFileObserver;
-import it.feio.android.omninotes.utils.*;
-import it.feio.android.springpadimporter.Importer;
-import it.feio.android.springpadimporter.models.SpringpadAttachment;
-import it.feio.android.springpadimporter.models.SpringpadComment;
-import it.feio.android.springpadimporter.models.SpringpadElement;
-import it.feio.android.springpadimporter.models.SpringpadItem;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.io.filefilter.RegexFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.NotificationsHelper;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.StorageHelper;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.*;
 
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
@@ -117,7 +101,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         backupDir = StorageHelper.getBackupDir(backupName);
 
         // Database backup
-//        exportDB(backupDir);
 		BackupHelper.exportNotes(backupDir);
 
         // Attachments backup
@@ -142,7 +125,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         File backupDir = StorageHelper.getBackupDir(backupName);
 
         // Database backup
-//        importDB(backupDir);
 		BackupHelper.importNotes(backupDir);
 
         // Attachments backup
@@ -212,20 +194,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     }
 
 
-    /**
-     * Export database to backup folder
-     *
-     * @return True if success, false otherwise
-	 * @deprecated
-	 * {@link BackupHelper#exportNotes(File)}
-	 */
-     @Deprecated
-    private boolean exportDB(File backupDir) {
-        File database = getDatabasePath(Constants.DATABASE_NAME);
-        return (StorageHelper.copyFile(database, new File(backupDir, Constants.DATABASE_NAME)));
-    }
-
-
 	/**
 	 * Schedules reminders
 	 */
@@ -237,32 +205,15 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 	}
 
 
-    /**
-     * Import database from backup folder
-	 * @deprecated
-	 * {@link BackupHelper#importNotes(File)}
-     */
-	@Deprecated
-    private boolean importDB(File backupDir) {
-        File database = getDatabasePath(Constants.DATABASE_NAME);
-        if (database.exists()) {
-            database.delete();
-        }
-        return (StorageHelper.copyFile(new File(backupDir, Constants.DATABASE_NAME), database));
-    }
-
-
     @Override
     public void onAttachingFileErrorOccurred(Attachment mAttachment) {
         // TODO Auto-generated method stub
-
     }
 
 
     @Override
     public void onAttachingFileFinished(Attachment mAttachment) {
         // TODO Auto-generated method stub
-
     }
 
 }
