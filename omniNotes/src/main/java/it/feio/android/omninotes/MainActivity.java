@@ -503,6 +503,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
+	/**
+	 * Performs auto-backup into file of a modified note
+	 * @param notesUpdatedEvent Event containing updated note
+	 */
 	public void onEventAsync(NotesUpdatedEvent notesUpdatedEvent) {
 		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
 		for (Note note : notesUpdatedEvent.notes) {
@@ -513,6 +517,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	}
 
 
+	/**
+	 * Performs deletion from auto-backup folder of a pernanently deleted note
+	 * @param notesDeletedEvent Event containing deleted note
+	 */
 	public void onEventAsync(NotesDeletedEvent notesDeletedEvent) {
 		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
 		for (Note note : notesDeletedEvent.notes) {
