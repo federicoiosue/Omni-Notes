@@ -84,10 +84,14 @@ public class AutoBackupFileObserverTest extends ActivityInstrumentationTestCase2
 
 
 	private void deleteDummyNote(Note dummyNote) {
-		File dummyNodeFile = new File(Constants.AUTO_BACKUP_DIR, dummyNote.get_id().toString());
+		File dummyNodeFile = new File(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR), dummyNote.get_id().toString());
+		Log.d(getClass().getSimpleName(), "Checking if exists " + dummyNodeFile.getAbsolutePath());
 		assertTrue(dummyNodeFile.exists());
 		new NoteProcessorDelete(Collections.singletonList(dummyNote)).process();
-		assertFalse(dummyNodeFile.exists());
+		new Handler().postDelayed(() -> {
+			assertFalse(dummyNodeFile.exists());
+		}
+				, 400);
 	}
 
 
