@@ -24,6 +24,7 @@ import android.util.Log;
 import com.robotium.solo.Solo;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
@@ -50,6 +51,7 @@ public class AutoBackupFileObserverTest extends ActivityInstrumentationTestCase2
 
 	public void setUp() throws Exception {
 		super.setUp();
+		EventBus.getDefault().register(this);
 		solo = new Solo(getInstrumentation());
 		getActivity();
 	}
@@ -69,9 +71,26 @@ public class AutoBackupFileObserverTest extends ActivityInstrumentationTestCase2
 			new Handler().postDelayed(() -> {
 				checkNoteFile(noteSaved);
 				deleteDummyNote(noteSaved);
+				checkNoteFileExists(noteSaved);
 			}
 					, 400);
 		});
+	}
+
+
+	private void checkNoteFileExists(Note dummyNote) {
+		File dummyNodeFile = new File(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR), dummyNote.get_id().toString());
+		Log.d(getClass().getSimpleName(), "Checking if exists " + dummyNodeFile.getAbsolutePath());
+		assertTrue(dummyNodeFile.exists());
+	}
+
+
+	public void onEvent(NotesDeletedEvent notesDeletedEvent) {
+		for (Note dummyNote : notesDeletedEvent.notes) {
+			File dummyNodeFile = new File(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR), dummyNote.get_id().toString());
+			Log.d(getClass().getSimpleName(), "Checking if is deleted " + dummyNodeFile.getAbsolutePath());
+			assertFalse(dummyNodeFile.exists());
+		}
 	}
 
 
@@ -84,14 +103,7 @@ public class AutoBackupFileObserverTest extends ActivityInstrumentationTestCase2
 
 
 	private void deleteDummyNote(Note dummyNote) {
-		File dummyNodeFile = new File(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR), dummyNote.get_id().toString());
-		Log.d(getClass().getSimpleName(), "Checking if exists " + dummyNodeFile.getAbsolutePath());
-		assertTrue(dummyNodeFile.exists());
 		new NoteProcessorDelete(Collections.singletonList(dummyNote)).process();
-		new Handler().postDelayed(() -> {
-			assertFalse(dummyNodeFile.exists());
-		}
-				, 400);
 	}
 
 

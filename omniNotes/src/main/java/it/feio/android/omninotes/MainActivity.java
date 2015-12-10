@@ -518,7 +518,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
 	/**
-	 * Performs deletion from auto-backup folder of a pernanently deleted note
+	 * Performs deletion from auto-backup folder of a permanently deleted note
 	 * @param notesDeletedEvent Event containing deleted note
 	 */
 	public void onEventAsync(NotesDeletedEvent notesDeletedEvent) {
