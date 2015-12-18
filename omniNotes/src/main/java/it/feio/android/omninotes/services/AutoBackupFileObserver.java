@@ -20,16 +20,16 @@ package it.feio.android.omninotes.services;
 import android.os.FileObserver;
 import android.util.Log;
 import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 public class AutoBackupFileObserver extends FileObserver {
@@ -39,11 +39,12 @@ public class AutoBackupFileObserver extends FileObserver {
 
 	private List<Note> recentlyModifiedNotes = new ArrayList<>();
 
-	private List<String> receivedOnce = new ArrayList<>(); // Workaround for MODIFY event called twice
+	private Map<String, Long> eventLog = new HashMap<>(); // Workaround for MODIFY event called twice
+	private final long EVENTS_DELAY = 500;
 
 
 	private AutoBackupFileObserver() {
-		super(monitoredPath, FileObserver.CREATE | FileObserver.MODIFY);
+		super(monitoredPath, FileObserver.MODIFY | FileObserver.DELETE);
 		EventBus.getDefault().register(this);
 	}
 
@@ -72,25 +73,34 @@ public class AutoBackupFileObserver extends FileObserver {
 			return;
 		}
 
-		if (!receivedOnce.contains(path)) {
-			receivedOnce.add(path);
+		long now = Calendar.getInstance().getTimeInMillis();
+		Long lastEventTime = eventLog.containsKey(path) ? eventLog.get(path) : now - EVENTS_DELAY;
+		eventLog.put(path, now);
+
+		Log.d(getClass().getSimpleName(), "Events delay: " + (now - lastEventTime));
+		if (now - lastEventTime < EVENTS_DELAY) {
+			Log.d(getClass().getSimpleName(), "Events delay below THRESHOLD: " + (now - lastEventTime < EVENTS_DELAY));
 			return;
 		}
-
-		receivedOnce.remove(path);
 
 		StringBuilder logMsg = new StringBuilder(path);
 		if (isEvent(event, FileObserver.MODIFY)) {
 			logMsg.append(" has been modified");
-		} else if (isEvent(event, FileObserver.CREATE)) {
-			logMsg.append(" has been created");
+		} else if (isEvent(event, FileObserver.DELETE)) {
+			logMsg.append(" has been deleted");
 		}
 
 		if (!isRecentlyModifiedNote(path)) {
 			logMsg.append(" externally");
-			BackupHelper.importNote(new File(monitoredPath + "/" + path));
-
+			if (isEvent(event, FileObserver.DELETE)) {
+//				BackupHelper.deleteNote(new File(monitoredPath + "/" + path));
+				DbHelper.getInstance().deleteNote(Long.valueOf(path), false);
+			} else {
+				BackupHelper.importNote(new File(monitoredPath + "/" + path));
+			}
 		}
+
+
 		Log.d(getClass().getSimpleName(), logMsg.toString());
 	}
 
@@ -105,8 +115,14 @@ public class AutoBackupFileObserver extends FileObserver {
 		return false;
 	}
 
-	public void onEventAsync(NotesUpdatedEvent notesUpdatedEvent) {
+
+	public void onEvent(NotesUpdatedEvent notesUpdatedEvent) {
 		recentlyModifiedNotes = new ArrayList<>(notesUpdatedEvent.notes);
+	}
+
+
+	public void onEvent(NotesDeletedEvent notesDeletedEvent) {
+		recentlyModifiedNotes = new ArrayList<>(notesDeletedEvent.notes);
 	}
 
 

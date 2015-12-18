@@ -192,4 +192,15 @@ public class BackupHelper {
 		}
 		return result;
 	}
+
+
+	public static void deleteNote(File file) {
+		try {
+			Note note = new Note();
+			note.buildFromJson(FileUtils.readFileToString(file));
+			DbHelper.getInstance().deleteNote(note);
+		} catch (IOException e) {
+			Log.e(Constants.TAG, "Error parsing note json");
+		}
+	}
 }

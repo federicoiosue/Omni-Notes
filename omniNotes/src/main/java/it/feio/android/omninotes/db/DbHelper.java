@@ -534,25 +534,25 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    /**
-     * Deleting single note but keeping attachments
-     */
-    public boolean deleteNote(Note note, boolean keepAttachments) {
-        int deletedNotes;
-        boolean result = true;
-        SQLiteDatabase db = getDatabase(true);
-        // Delete notes
-        deletedNotes = db.delete(TABLE_NOTES, KEY_ID + " = ?", new String[]{String.valueOf(note.get_id())});
-        if (!keepAttachments) {
-            // Delete note's attachments
-            int deletedAttachments = db.delete(TABLE_ATTACHMENTS, KEY_ATTACHMENT_NOTE_ID + " = ?",
-                    new String[]{String.valueOf(note.get_id())});
-            result = result && deletedAttachments == note.getAttachmentsList().size();
-        }
-        // Check on correct and complete deletion
-        result = result && deletedNotes == 1;
-        return result;
-    }
+	/**
+	 * Deleting single note, eventually keeping attachments
+	 */
+	public boolean deleteNote(Note note, boolean keepAttachments) {
+		return deleteNote(note.get_id(), keepAttachments);
+	}
+
+
+	/**
+	 * Deleting single note by its id
+	 */
+	public boolean deleteNote(long noteId, boolean keepAttachments) {
+		SQLiteDatabase db = getDatabase(true);
+		db.delete(TABLE_NOTES, KEY_ID + " = ?", new String[]{String.valueOf(noteId)});
+		if (!keepAttachments) {
+			db.delete(TABLE_ATTACHMENTS, KEY_ATTACHMENT_NOTE_ID + " = ?", new String[]{String.valueOf(noteId)});
+		}
+		return true;
+	}
 
 
     /**
