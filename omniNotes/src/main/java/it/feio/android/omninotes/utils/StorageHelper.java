@@ -115,8 +115,8 @@ public class StorageHelper {
         }
         File file = createNewAttachmentFile(mContext, extension);
 
-        InputStream is;
-        OutputStream os;
+        InputStream is = null;
+        OutputStream os = null;
         try {
             is = mContext.getContentResolver().openInputStream(uri);
             os = new FileOutputStream(file);
@@ -140,8 +140,19 @@ public class StorageHelper {
                 Log.e(Constants.TAG, "Error writing " + file, e2);
                 file = null;
             }
-        }
-        return file;
+        } finally {
+			if (is != null) {
+				try {
+					is.close();
+					if (os != null) {
+						os.close();
+					}
+				} catch (IOException e) {
+					Log.e(Constants.TAG, "Error writing " + file, e);
+				}
+			}
+		}
+		return file;
     }
 
 
