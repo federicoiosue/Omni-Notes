@@ -31,6 +31,7 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.MiscUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -96,7 +97,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 				.callback(new MaterialDialog.ButtonCallback() {
 					@Override
 					public void onPositive(MaterialDialog materialDialog) {
-						if (isGooglePlayAvailable()) {
+						if (MiscUtils.isGooglePlayAvailable(mActivity)) {
 							AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.UPDATE, "Play Store");
 							mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
 									("market://details?id=" + mActivity.getPackageName())));
@@ -214,15 +215,5 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 		}
 
 		return result;
-	}
-
-
-	private boolean isGooglePlayAvailable() {
-		try {
-			mActivity.getPackageManager().getPackageInfo("com.android.vending", 0);
-			return true;
-		} catch (NameNotFoundException e) {
-			return false;
-		}
 	}
 }
