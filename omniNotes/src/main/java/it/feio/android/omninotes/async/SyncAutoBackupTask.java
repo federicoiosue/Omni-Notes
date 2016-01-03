@@ -31,6 +31,7 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,11 +46,12 @@ public class SyncAutoBackupTask extends AsyncTask<Void, Void, Boolean> {
 		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
 		boolean refreshNotes = false;
 
-		for (File file : FileUtils.listFiles(autoBackupDir, new
-				RegexFileFilter("\\d{13}"), TrueFileFilter.INSTANCE)) {
+		List<Note> autoBackupNotes = new ArrayList<>();
+		for (File file : FileUtils.listFiles(autoBackupDir, new RegexFileFilter("\\d{13}"), TrueFileFilter.INSTANCE)) {
 			try {
 				Note note = new Note();
 				note.buildFromJson(FileUtils.readFileToString(file));
+				autoBackupNotes.add(note);
 				if (!allNotes.contains(note)) {
 					Log.d(getClass().getSimpleName(), "Matching note found: " + note.get_id());
 					BackupHelper.importNote(file);
@@ -60,6 +62,14 @@ public class SyncAutoBackupTask extends AsyncTask<Void, Void, Boolean> {
 				Log.e(getClass().getSimpleName(), "Error parsing note JSON", e);
 			}
 		}
+
+		// Managing remote note deletion
+		for (Note note : allNotes) {
+			if (!autoBackupNotes.contains(note)) {
+				DbHelper.getInstance().deleteNote(note);
+			}
+		}
+
 		return refreshNotes;
 	}
 
