@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes.helpers;
 
+import android.text.TextUtils;
 import android.util.Log;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
@@ -114,11 +115,14 @@ public class BackupHelper {
 	public static void importNote(File file) {
 		try {
 			Note note = new Note();
-			note.buildFromJson(FileUtils.readFileToString(file));
-			if (note.getCategory() != null) {
-				DbHelper.getInstance().updateCategory(note.getCategory());
+			String jsonString = FileUtils.readFileToString(file);
+			if (!TextUtils.isEmpty(jsonString)) {
+				note.buildFromJson(jsonString);
+				if (note.getCategory() != null) {
+					DbHelper.getInstance().updateCategory(note.getCategory());
+				}
+				DbHelper.getInstance().updateNote(note, false);
 			}
-			DbHelper.getInstance().updateNote(note, false);
 		} catch (IOException e) {
 			Log.e(Constants.TAG, "Error parsing note json");
 		}
