@@ -44,12 +44,13 @@ public class AutoBackupFileObserver extends FileObserver {
 
 
 	private AutoBackupFileObserver() {
+
 		super(monitoredPath, FileObserver.MODIFY | FileObserver.DELETE);
-		EventBus.getDefault().register(this);
 	}
 
 
 	public static AutoBackupFileObserver getInstance() {
+
 		if (instance == null) {
 			monitoredPath = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR).getAbsolutePath();
 			instance = new AutoBackupFileObserver();
@@ -59,19 +60,29 @@ public class AutoBackupFileObserver extends FileObserver {
 
 
 	@Override
+	public void startWatching() {
+
+		super.startWatching();
+		if (!EventBus.getDefault().isRegistered(this)) {
+			EventBus.getDefault().register(this);
+		}
+	}
+
+
+	@Override
 	public void stopWatching() {
+
 		if (instance != null) {
 			super.stopWatching();
 		}
+		EventBus.getDefault().unregister(this);
 	}
 
 
 	@Override
 	public void onEvent(int event, String path) {
 
-		if (path == null) {
-			return;
-		}
+		if (path == null) return;
 
 		long now = Calendar.getInstance().getTimeInMillis();
 		Long lastEventTime = eventLog.containsKey(path) ? eventLog.get(path) : now - EVENTS_DELAY;
@@ -93,11 +104,11 @@ public class AutoBackupFileObserver extends FileObserver {
 		if (!isRecentlyModifiedNote(path)) {
 			logMsg.append(" externally");
 			if (isEvent(event, FileObserver.DELETE)) {
-//				BackupHelper.deleteNote(new File(monitoredPath + "/" + path));
 				DbHelper.getInstance().deleteNote(Long.valueOf(path), false);
 			} else {
 				BackupHelper.importNote(new File(monitoredPath + "/" + path));
 			}
+
 		}
 
 
