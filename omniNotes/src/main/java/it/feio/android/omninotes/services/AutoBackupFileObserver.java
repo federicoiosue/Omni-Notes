@@ -105,12 +105,12 @@ public class AutoBackupFileObserver extends FileObserver {
 			logMsg.append(" externally");
 			if (isEvent(event, FileObserver.DELETE)) {
 				DbHelper.getInstance().deleteNote(Long.valueOf(path), false);
+				EventBus.getDefault().post(new NotesDeletedEvent(null));
 			} else {
-				BackupHelper.importNote(new File(monitoredPath + "/" + path));
+				Note note = BackupHelper.importNote(new File(monitoredPath + "/" + path));
+				EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(note)));
 			}
-
 		}
-
 
 		Log.d(getClass().getSimpleName(), logMsg.toString());
 	}

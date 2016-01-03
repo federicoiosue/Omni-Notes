@@ -112,7 +112,7 @@ public class BackupHelper {
 	/**
 	 * Imports single note from its file
 	 */
-	public static void importNote(File file) {
+	public static Note importNote(File file) {
 		try {
 			Note note = new Note();
 			String jsonString = FileUtils.readFileToString(file);
@@ -124,8 +124,10 @@ public class BackupHelper {
 				note.setAttachmentsListOld(DbHelper.getInstance().getNoteAttachments(note));
 				DbHelper.getInstance().updateNote(note, false);
 			}
+			return note;
 		} catch (IOException e) {
 			Log.e(Constants.TAG, "Error parsing note json");
+			return new Note();
 		}
 	}
 
