@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,9 +40,12 @@ public class SyncAutoBackupTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... params) {
+
 		List<Note> allNotes = DbHelper.getInstance().getAllNotes(false);
+		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
 		boolean refreshNotes = false;
-		for (File file : FileUtils.listFiles(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR), new
+
+		for (File file : FileUtils.listFiles(autoBackupDir, new
 				RegexFileFilter("\\d{13}"), TrueFileFilter.INSTANCE)) {
 			try {
 				Note note = new Note();
@@ -50,6 +53,7 @@ public class SyncAutoBackupTask extends AsyncTask<Void, Void, Boolean> {
 				if (!allNotes.contains(note)) {
 					Log.d(getClass().getSimpleName(), "Matching note found: " + note.get_id());
 					BackupHelper.importNote(file);
+					BackupHelper.importAttachments(note, autoBackupDir);
 					refreshNotes = true;
 				}
 			} catch (IOException e) {
@@ -62,6 +66,7 @@ public class SyncAutoBackupTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean refreshNotes) {
+
 		if (refreshNotes) {
 			EventBus.getDefault().post(new NotesUpdatedEvent(Collections.emptyList()));
 		}

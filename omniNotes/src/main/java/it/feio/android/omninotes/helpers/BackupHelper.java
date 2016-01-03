@@ -169,6 +169,25 @@ public class BackupHelper {
 
 
 	/**
+	 * Import attachments of a specific note from backup folder
+	 */
+	public static void importAttachments(Note note, File backupDir) throws IOException {
+
+		File backupAttachmentsDir = new File(backupDir, StorageHelper.getAttachmentDir().getName());
+
+		for (Attachment attachment : note.getAttachmentsList()) {
+			String attachmentFileName = FilenameUtils.getName(attachment.getUriPath());
+			File attachmentFile = new File (backupAttachmentsDir, attachmentFileName);
+			if (attachmentFile.exists()) {
+				FileUtils.copyFileToDirectory(attachmentFile, StorageHelper.getAttachmentDir(), true);
+			} else {
+				Log.e(Constants.TAG, "Attachment file not found: " + attachmentFileName);
+			}
+		}
+	}
+
+
+	/**
 	 * Exports settings if required
 	 */
 	public static boolean exportSettings(File backupDir) {
