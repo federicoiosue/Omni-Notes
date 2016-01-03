@@ -42,6 +42,7 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
+import it.feio.android.omninotes.async.SyncAutoBackupTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
@@ -95,6 +96,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 
         new UpdaterTask(this).execute();
+
+		new SyncAutoBackupTask().execute();
     }
 
     private void initUI() {
@@ -514,6 +517,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			BackupHelper.exportAttachments(null, new File(autoBackupDir, StorageHelper.getAttachmentDir().getName()),
 					note.getAttachmentsList());
 		}
+		initNotesList(getIntent());
 	}
 
 
