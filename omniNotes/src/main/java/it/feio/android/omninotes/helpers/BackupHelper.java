@@ -121,6 +121,7 @@ public class BackupHelper {
 				if (note.getCategory() != null) {
 					DbHelper.getInstance().updateCategory(note.getCategory());
 				}
+				note.setAttachmentsListOld(DbHelper.getInstance().getNoteAttachments(note));
 				DbHelper.getInstance().updateNote(note, false);
 			}
 		} catch (IOException e) {
