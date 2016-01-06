@@ -85,6 +85,7 @@ public interface Constants {
 	String PREF_KEEP_CHECKMARKS = "show_checkmarks";
 	String PREF_EXPANDED_VIEW = "expanded_view";
 	String PREF_COLORS_APP_DEFAULT = "strip";
+	String PREF_FIRST_DAY_OF_WEEK_DEFAULT = "locale_default";
 	String PREF_WIDGET_PREFIX = "widget_";
 	String PREF_SHOW_UNCATEGORIZED = "settings_show_uncategorized";
 	String PREF_AUTO_LOCATION = "settings_auto_location";
