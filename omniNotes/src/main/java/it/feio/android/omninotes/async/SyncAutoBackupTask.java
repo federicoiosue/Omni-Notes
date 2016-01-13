@@ -46,6 +46,8 @@ public class SyncAutoBackupTask extends AsyncTask<Void, Void, Boolean> {
 		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
 		boolean refreshNotes = false;
 
+		if (!autoBackupDir.exists()) return refreshNotes;
+
 		List<Note> autoBackupNotes = new ArrayList<>();
 		for (File file : FileUtils.listFiles(autoBackupDir, new RegexFileFilter("\\d{13}"), TrueFileFilter.INSTANCE)) {
 			try {
