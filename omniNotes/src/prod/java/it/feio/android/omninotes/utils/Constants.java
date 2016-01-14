@@ -18,8 +18,8 @@
 package it.feio.android.omninotes.utils;
 
 
-public interface Constants extends Constants {
+public interface Constants extends ConstantsBase {
 
-s	String TAG = "Omni Notes";
+	String TAG = "Omni Notes";
 
 }
