@@ -23,7 +23,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "it.feio.android.omninotes"
+        applicationId project.PACKAGE
         minSdkVersion project.MIN_SDK
         targetSdkVersion project.TARGET_SDK
         versionName project.VERSION_NAME
@@ -42,17 +42,27 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
+                    def file = output.outputFile
                     output.outputFile = new File(
-                            output.outputFile.parent,
-                            output.outputFile.name.replace(".apk", "-${variant.versionName}.apk"))
+                            (String)file.parent,
+                            (String)file.name.replace("omniNotes", "Omni Notes-${variant.versionName}"))
                 }
             }
         }
     }
+
+    productFlavors {
+        prod {}
+        alpha {
+            applicationId project.PACKAGE + ".alpha"
+        }
+    }
+
     lintOptions {
         abortOnError false
         disable 'MissingTranslation'
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
