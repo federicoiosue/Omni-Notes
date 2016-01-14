@@ -274,13 +274,7 @@ public class StorageHelper {
         }
 
         File destination = new File(backupDir, file.getName());
-
-        try {
-            copyFile(new FileInputStream(file), new FileOutputStream(destination));
-        } catch (FileNotFoundException e) {
-            Log.e(Constants.TAG, "Error copying file to backup", e);
-            destination = null;
-        }
+		copyFile(file, destination);
 
         return destination;
     }

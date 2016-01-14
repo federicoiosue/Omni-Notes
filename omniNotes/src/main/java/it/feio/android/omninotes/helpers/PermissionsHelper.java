@@ -46,7 +46,9 @@ public class PermissionsHelper {
 				requestPermissionExecute(activity, permission, onPermissionRequestedListener, messageView);
 			}
 		} else {
-			onPermissionRequestedListener.onPermissionGranted();
+			if (onPermissionRequestedListener != null) {
+				onPermissionRequestedListener.onPermissionGranted();
+			}
 		}
 	}
 
@@ -57,7 +59,9 @@ public class PermissionsHelper {
 				.request(permission)
 				.subscribe(granted -> {
 					if (granted) {
-						onPermissionRequestedListener.onPermissionGranted();
+						if (onPermissionRequestedListener != null) {
+							onPermissionRequestedListener.onPermissionGranted();
+						}
 					} else {
 						String msg = activity.getString(R.string.permission_not_granted) + ": " + permission;
 						Snackbar.make(messageView, msg, Snackbar.LENGTH_LONG).show();

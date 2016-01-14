@@ -89,10 +89,7 @@ import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
-import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
-import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
-import it.feio.android.omninotes.models.listeners.OnNoteSaved;
-import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
+import it.feio.android.omninotes.models.listeners.*;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
@@ -599,9 +596,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		DetailFragment detailFragment = this;
 
-		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION, R.string
-				.permission_coarse_location, mainActivity.findViewById(R.id.snackBarPlaceholder), () -> {
-			if (isNoteLocationValid()) {
+		if (isNoteLocationValid()) {
+			PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION, R.string
+					.permission_coarse_location, mainActivity.findViewById(R.id.snackBarPlaceholder), () -> {
 				if (TextUtils.isEmpty(noteTmp.getAddress())) {
 					//FIXME: What's this "sasd"?
 					GeocodeHelper.getAddressFromCoordinates(new Location("sasd"), detailFragment);
@@ -609,41 +606,45 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					locationTextView.setText(noteTmp.getAddress());
 					locationTextView.setVisibility(View.VISIBLE);
 				}
-			}
+			});
+		}
 
-			// Automatic location insertion
-			if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
+		// Automatic location insertion
+		if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
+			PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION, R.string
+							.permission_coarse_location, mainActivity.findViewById(R.id.snackBarPlaceholder), () -> {
+
 				GeocodeHelper.getLocation(detailFragment);
+			});
+		}
+
+
+		locationTextView.setOnClickListener(v -> {
+			String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
+					+ "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
+			Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
+			if (!IntentChecker.isAvailable(mainActivity, locationIntent, null)) {
+				uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp
+						.getLongitude();
+				locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
 			}
-
-
-			locationTextView.setOnClickListener(v -> {
-				String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
-						+ "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
-				Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
-				if (!IntentChecker.isAvailable(mainActivity, locationIntent, null)) {
-					uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp
-							.getLongitude();
-					locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
+			startActivity(locationIntent);
+		});
+		locationTextView.setOnLongClickListener(v -> {
+			MaterialDialog.Builder builder = new MaterialDialog.Builder(mainActivity);
+			builder.content(R.string.remove_location);
+			builder.positiveText(R.string.ok);
+			builder.callback(new MaterialDialog.ButtonCallback() {
+				@Override
+				public void onPositive(MaterialDialog materialDialog) {
+					noteTmp.setLatitude("");
+					noteTmp.setLongitude("");
+					fade(locationTextView, false);
 				}
-				startActivity(locationIntent);
 			});
-			locationTextView.setOnLongClickListener(v -> {
-				MaterialDialog.Builder builder = new MaterialDialog.Builder(mainActivity);
-				builder.content(R.string.remove_location);
-				builder.positiveText(R.string.ok);
-				builder.callback(new MaterialDialog.ButtonCallback() {
-					@Override
-					public void onPositive(MaterialDialog materialDialog) {
-						noteTmp.setLatitude("");
-						noteTmp.setLongitude("");
-						fade(locationTextView, false);
-					}
-				});
-				MaterialDialog dialog = builder.build();
-				dialog.show();
-				return true;
-			});
+			MaterialDialog dialog = builder.build();
+			dialog.show();
+			return true;
 		});
 	}
 

@@ -17,12 +17,14 @@
 
 package it.feio.android.omninotes;
 
+import android.Manifest;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -50,6 +52,7 @@ import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -91,16 +94,20 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
         initUI();
 
-		if (IntroActivity.mustRun()) {
-			startActivity(new Intent(this.getApplicationContext(), IntroActivity.class));
+		PermissionsHelper.requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+				.string.permission_external_storage, croutonViewContainer, null);
+
+			if (IntroActivity.mustRun()) {
+				startActivity(new Intent(this.getApplicationContext(), IntroActivity.class));
+			}
+
+			new UpdaterTask(this).execute();
+
+			new SyncAutoBackupTask().execute();
 		}
 
-        new UpdaterTask(this).execute();
 
-		new SyncAutoBackupTask().execute();
-    }
-
-    private void initUI() {
+	private void initUI() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -180,8 +187,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void initNotesList(Intent intent) {
         Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
         if (f != null) {
-            ((ListFragment) f).toggleSearchLabel(false);
-            ((ListFragment) f).initNotesList(intent);
+			new Handler(getMainLooper()).post(() -> {
+				((ListFragment) f).toggleSearchLabel(false);
+				((ListFragment) f).initNotesList(intent);
+			});
         }
     }
 
@@ -201,7 +210,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         Fragment result = null;
         if (mFragmentManager != null) {
             Fragment fragment = mFragmentManager.findFragmentById(id);
-            if (instanceClass.equals(fragment.getClass())) {
+            if (fragment != null && instanceClass.equals(fragment.getClass())) {
                 result = fragment;
             }
         }
