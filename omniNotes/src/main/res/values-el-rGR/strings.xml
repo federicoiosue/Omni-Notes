@@ -61,6 +61,7 @@
   <string name="attachment">Συνημμένο</string>
   <string name="camera">Φωτογραφική μηχανή</string>
   <string name="delete_selected_image">Διαγραφή επιλεγμένου συνημμένου;</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">Συλλογή</string>
   <string name="location">Τοποθεσία</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Βίντεο</string>
   <string name="feature_not_available_on_this_device">Μη διαθέσιμο χαρακτηριστικό για αυτή τη συσκευή, λυπάμαι</string>
   <string name="error_occurred_deleting_note">Σφάλμα κατά τη διαγραφή Σημείωσης</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">Εισαγωγή ονόματος αντιγράφου ασφαλείας</string>
   <string name="data_import_message">Πάτημα -&gt; Επαναφορά\nΠαρατεταμένο-πάτημα -&gt; Διαγραφή</string>
   <string name="data_import_message_warning">ΠΡΟΣΟΧΗ: Αυτό θα αντικαταστήσει όλα τα δεδομένα!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Χρήση τρέχουσας τοποθεσίας</string>
   <string name="filter">Φίλτρο</string>
   <string name="remove_filter">Αφαίρεση φίλτρου</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Εμφανίζει κάποια στατιστικά στοιχεία και ληγμένες υπενθυμίσεις από τις σημειώσεις Omni</string>
   <string name="settings">Ρυθμίσεις</string>
   <string name="settings_about">Πληροφορίες</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">Αντίγραφο ασφαλείας</string>
   <string name="settings_screen_notifications">Ειδοποιήσεις</string>
   <string name="settings_enable_vibration">Δόνηση</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Πλοήγησης</string>
   <string name="settings_changelog">Καταγραφή αλλαγών</string>
   <string name="settings_enable_editor_links">Αναγνώριση συνδέσμων</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">Beta (Δοκιμαστική)</string>
   <string name="settings_category_about">Σχετικά</string>
   <string name="settings_beta">Google +</string>
-  <string name="settings_beta_summary">Εγγραφείτε στην Κοινότητα για να είστε ενημερωμένοι για τις τελευταίες δυνατότητες</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Κάντε δωρεά</string>
   <string name="donate_summary">Υποστήριξη της ανάπτυξης, αυτό της εφαρμογής με μια μη κερδοσκοπική δωρεά</string>
   <string name="settings_choose_language">Γλώσσα</string>
@@ -278,7 +293,9 @@
   <string name="settings_navdrawer_on_exit_summary">Πιέζοντας το πλήκτρο \"πίσω\", στη λίστα σημειώσεων ανοίγει το μενού πλοήγησης, αντί για έξοδο</string>
   <string name="settings_text_size">Μέγεθος κειμένου</string>
   <string name="settings_screen_behaviors">Συμπεριφορές</string>
-  <string name="settings_swipe_to_trash">Σύρσιμο για αποστολή στα διεγραμμένα</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">Σύροντας τις σημειώσεις με το δάχτυλο, εκτελείται αρχειοθέτηση τους</string>
   <string name="settings_swipe_to_trash_summary_2">Σύροντας τις σημειώσεις με δάχτυλο αποστέλλονται στα διεγραμμένα</string>
   <string name="settings_show_uncategorized">Η ομάδα δεν κατηγοριοποιήθηκε</string>
@@ -292,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Πλωτή μπάρα ενεργειών</string>
   <string name="settings_fab_expansion_behavior_summary_on">Το σύντομο άγγιγμα εκτελεί την ενέργεια</string>
   <string name="settings_fab_expansion_behavior_summary_off">Το σύντομο άγγιγμα εναλλάσσει τις επιλογές</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Αναφορά σφάλματος</string>
   <string name="settings_error_reporting_summary_on">Όταν η εφαρμογή καταρεύσει, θα είδοποιηθεί ο προγραμματιστής για να σας βοηθήσει</string>
   <string name="settings_error_reporting_summary_off">Δε θα σταλεί καμία αναφορά κατάρευσης. Μην παραπονεθείτε αν κάτι πάει στραβά!</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">Ξεκινήσατε τις Σημειώσεις Omni για πρώτη φορά, θα θέλατε να γίνει μια περιήγηση στην εφαρμογή;</string>
   <string name="tour_listactivity_intro_title">Καλώς ήλθατε στις Σημειώσεις Omni!</string>
   <string name="tour_listactivity_intro_detail">πατήστε \"Συνέχεια\" για να συνεχίστει η περιήγηση</string>
@@ -318,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">Για να επιστρέψετε, πιέστε το \"επάνω\" εικονίδιο πλοήγησης, ή το κουμπί της συσκευής σας</string>
   <string name="tour_listactivity_final_title">Καλή Διασκέδαση</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">μενού ανοικτό</string>
   <string name="drawer_close">μενού κλειστό</string>
   <string name="reminder">υπενθύμιση</string>

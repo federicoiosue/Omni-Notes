@@ -61,6 +61,7 @@
   <string name="attachment">Lampiran</string>
   <string name="camera">Kamera</string>
   <string name="delete_selected_image">Hapus lampiran yang dipilih?</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">Galeri</string>
   <string name="location">Lokasi</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Video</string>
   <string name="feature_not_available_on_this_device">Fitur tidak tersedia diperangkat ini, maaf</string>
   <string name="error_occurred_deleting_note">Galat ketika menghapus catatan</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">Masukkan nama cadangan</string>
   <string name="data_import_message">Klik -&gt; kembalikan\nKlik-lama -&gt; hapus</string>
   <string name="data_import_message_warning">PERINGATAN: Ini akan menggantikan semua data yang sudah ada!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Gunakan lokasi saat ini</string>
   <string name="filter">Saring</string>
   <string name="remove_filter">Hapus filter</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Tampilkan beberapa statistik dan mengakhiri pengingat dari Omni Notes</string>
   <string name="settings">Setelan</string>
   <string name="settings_about">Info</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">Cadangan</string>
   <string name="settings_screen_notifications">Pemberitahuan</string>
   <string name="settings_enable_vibration">Getaran</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Navigasi</string>
   <string name="settings_changelog">Log perubahan</string>
   <string name="settings_enable_editor_links">Pendeteksi tautan</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">Tentang</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Berlangganan ke komunitas untuk menjaga tetap up-to-date dengan fitur terbaru</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Donasi</string>
   <string name="donate_summary">Dukung pengembangan aplikasi ini dengan donasi non-profit</string>
   <string name="settings_choose_language">Bahasa</string>
@@ -280,7 +295,7 @@
   <string name="settings_screen_behaviors">Behaviors</string>
   <string name="settings_enable_swipe">Gesek pada catatan</string>
   <string name="settings_enable_swipe_summary">Gesek pada catatan untuk melakukan tindakan</string>
-  <string name="settings_swipe_to_trash">Geser untuk membuang</string>
+  <string name="settings_swipe_to_trash">Gesek untuk membuang</string>
   <string name="settings_swipe_to_trash_summary_1">Geser catatan dengan jari akan mengarsipkannya</string>
   <string name="settings_swipe_to_trash_summary_2">Geser catatan dengan jari akan membuangnya</string>
   <string name="settings_show_uncategorized">Kelompok tidak dikategorikan</string>
@@ -294,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Bar aksi mengambang</string>
   <string name="settings_fab_expansion_behavior_summary_on">Sentuhan singkat menjalankan aksi</string>
   <string name="settings_fab_expansion_behavior_summary_off">Sentuhan singkat beralih pilihan</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Pelaporan kesalahan</string>
   <string name="settings_error_reporting_summary_on">Ketika apl berhenti dg tidak wajar pengembang akan memberi informasi untuk membantu Anda</string>
   <string name="settings_error_reporting_summary_off">Tidak ada laporan kerusakan akan dikirim. Jangan mengeluh jika terjadi sesuatu kesalahan!</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">Anda meluncurkan Omni Note untuk pertama kali, Anda ingin mengambil tur dalam aplikasi?</string>
   <string name="tour_listactivity_intro_title">Selamat datang di Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Tekan \"Lanjut\" untuk melanjutkan tur</string>
@@ -320,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">Untuk kembali, tekan ikon navigasi \"up\", atau tombol kembali di perangkat Anda</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
   <string name="tour_listactivity_final_detail">Terima kasih telah menggunakan Omni Notes \nAplikasi catatan alternatif bersumber terbuka yang cocok untuk kerja maupun rekreasi!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">drawer terbuka</string>
   <string name="drawer_close">drawer tertutup</string>
   <string name="reminder">pengingat</string>

@@ -61,6 +61,7 @@
   <string name="attachment">קובץ מצורף</string>
   <string name="camera">מצלמה</string>
   <string name="delete_selected_image">הסרת הקבצים המצורפים שנבחרו?</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">גלריה</string>
   <string name="location">מיקום</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">וידיאו</string>
   <string name="feature_not_available_on_this_device">תכונה זו איננה זמינה במכשיר זה</string>
   <string name="error_occurred_deleting_note">התרחשה שגיאה במחיקת ההערה</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">הזנת שם לגיבוי</string>
   <string name="data_import_message">לחיצה -&gt; שחזור\nלחיצה ארוכה -&gt; מחיקה</string>
   <string name="data_import_message_warning">אזהרה: פעולה זו תחליף את כל המידע הנוכחי!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">השתמש במיקום הנוכחי</string>
   <string name="filter">סינון</string>
   <string name="remove_filter">הסר מסנן</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">הצגת נתונים סטטיסטיים ותזכורות שתוקפן עומד לפוג מ-Omni Notes</string>
   <string name="settings">הגדרות</string>
   <string name="settings_about">מידע</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">גיבוי</string>
   <string name="settings_screen_notifications">התראות</string>
   <string name="settings_enable_vibration">רטט</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">ניווט</string>
   <string name="settings_changelog">רשימת שינויים</string>
   <string name="settings_enable_editor_links">זיהוי קישורים</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">בטא</string>
   <string name="settings_category_about">אודות</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">הרשמה לקהילה לקבלת תצוגה מקדימה לכל התכונות העדכניות ביותר</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">תרומה</string>
   <string name="donate_summary">Support the development of this app with a non-profit donation</string>
   <string name="settings_choose_language">שפה</string>
@@ -278,7 +293,9 @@
   <string name="settings_navdrawer_on_exit_summary">לחיצה על \"חזרה\" כאשר נמצאים ברשימת ההערות תפתח את תפריט הניווט במקום לצאת</string>
   <string name="settings_text_size">גודל הטקסט</string>
   <string name="settings_screen_behaviors">התנהגויות</string>
-  <string name="settings_swipe_to_trash">החלק להעברה לאשפה</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
   <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
   <string name="settings_show_uncategorized">קבוצה ללא קטגוריה</string>
@@ -292,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Error reporting</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">זוהי הפעם הראשונה שאתם משתמשים ב-Omni Note, ברצונכם לעשות סיור באפליקציה?</string>
   <string name="tour_listactivity_intro_title">ברוך הבא ל-Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">לחצו על \"הבא\" להמשך הסיור</string>
@@ -318,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">כדי לחזור, הקישו על אייקון הניווט \"למעלה\", או על הכפתור במכשיר שלכם</string>
   <string name="tour_listactivity_final_title">תהנו</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">המגירה פתוחה</string>
   <string name="drawer_close">המגירה סגורה</string>
   <string name="reminder">תזכורת</string>

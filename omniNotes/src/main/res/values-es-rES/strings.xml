@@ -62,6 +62,7 @@
   <string name="attachment">Adjuntar</string>
   <string name="camera">Cámara</string>
   <string name="delete_selected_image">¿Eliminar elemento adjuntado seleccionado?</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">Galeria</string>
   <string name="location">Lugar/País</string>
   <string name="pushbullet">Pushbullet</string>
@@ -76,6 +77,7 @@
   <string name="video">Vídeo</string>
   <string name="feature_not_available_on_this_device">Característica no disponible en este dispositivo</string>
   <string name="error_occurred_deleting_note">Se produjo un error al borrar la nota</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">Inserte el nombre de la copia de seguridad</string>
   <string name="data_import_message">Clic -&gt; restaura\nClick largo -&gt; borra</string>
   <string name="data_import_message_warning">ADVERTENCIA: ¡Esto reemplazará todos los datos actuales!</string>
@@ -184,6 +186,17 @@
   <string name="use_current_location">Utilice la ubicación actual</string>
   <string name="filter">Filtrar</string>
   <string name="remove_filter">Remover filtro</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Muestra algunas estadísticas y recordatorios cercanos de Omni Notes</string>
   <string name="settings">Configuración</string>
   <string name="settings_about">Información</string>
@@ -213,6 +226,8 @@
   <string name="settings_screen_backup">Respaldar</string>
   <string name="settings_screen_notifications">Notificaciones</string>
   <string name="settings_enable_vibration">Vibración</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Navegación</string>
   <string name="settings_changelog">Registro de cambios</string>
   <string name="settings_enable_editor_links">Enlaces reconocimiento</string>
@@ -246,7 +261,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">Sobre</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Inscríbete a la comunidad para obtener todas las últimas características</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Donar</string>
   <string name="donate_summary">Contribuye al desarrollo de la aplicación con una donación sin ánimo de lucro</string>
   <string name="settings_choose_language">Idioma</string>
@@ -281,7 +296,7 @@
   <string name="settings_screen_behaviors">Comportamientos</string>
   <string name="settings_enable_swipe">Pasar notas</string>
   <string name="settings_enable_swipe_summary">Pase de notas para realizar acciones</string>
-  <string name="settings_swipe_to_trash">Mover a la papelera</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">Mueve las notas con el dedo para archivarlas</string>
   <string name="settings_swipe_to_trash_summary_2">Mueve las notas con el dedo para tirarlas</string>
   <string name="settings_show_uncategorized">Grupo no categorizado</string>
@@ -295,9 +310,13 @@
   <string name="settings_fab_expansion_behavior">Botón de acción flotante</string>
   <string name="settings_fab_expansion_behavior_summary_on">Toque corto realiza acción</string>
   <string name="settings_fab_expansion_behavior_summary_off">Toque corto cambia opciones</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Informe de errores</string>
   <string name="settings_error_reporting_summary_on">Cuando se cierra la aplicación el desarrollador será informado para ayudarle</string>
   <string name="settings_error_reporting_summary_off">No informes de crash serán enviados ¡No quejes si algo sale mal!</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">Se ha iniciado Omni Notes por primera vez, ¿le gustaría hacer un tour de la aplicación?</string>
   <string name="tour_listactivity_intro_title">Bienvenido a Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Presione \"Continuar\" para seguir el recorrido del tour</string>
@@ -321,6 +340,7 @@
   <string name="tour_detailactivity_save_detail">Simplemente pulse el icono de navegación \"arriba\"  o el botón de regresar de su dispositivo</string>
   <string name="tour_listactivity_final_title">Disfrute</string>
   <string name="tour_listactivity_final_detail">Gracias por usar Omni Notes\nLa alternativa de código abierto para productividad y ocio para tomar notas!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">Editor abierto</string>
   <string name="drawer_close">Editor cerrado</string>
   <string name="reminder">recordatorio</string>

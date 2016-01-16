@@ -61,6 +61,7 @@
   <string name="attachment">Bijlage</string>
   <string name="camera">Camera</string>
   <string name="delete_selected_image">Geselecteerde bijlage verwijderen?</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">Galerij</string>
   <string name="location">Locatie</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Video</string>
   <string name="feature_not_available_on_this_device">Functie niet beschikbaar op dit toestel</string>
   <string name="error_occurred_deleting_note">Fout tijdens het verwijderen van de notitie</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">Geef backup naam in</string>
   <string name="data_import_message">Klik -&gt; herstel\nLang-klik -&gt; verwijder</string>
   <string name="data_import_message_warning">WAARSCHUWING: Dit zal alle huidige data vervangen!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Gebruik huidige locatie</string>
   <string name="filter">Filter</string>
   <string name="remove_filter">Verwijder filter</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Sommige statistieken en de naderende herinneringen van Omni notities worden weergegeven</string>
   <string name="settings">Instellingen</string>
   <string name="settings_about">Informatie</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">Back-up</string>
   <string name="settings_screen_notifications">Notificaties</string>
   <string name="settings_enable_vibration">Vibratie</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Wijzigingen</string>
   <string name="settings_enable_editor_links">Links herkennen</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">Beta </string>
   <string name="settings_category_about">Over </string>
   <string name="settings_beta">Google+ </string>
-  <string name="settings_beta_summary">Registreer voor de gemeenschap om de laatste nieuwe preview-functies te krijgen</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Doneren</string>
   <string name="donate_summary">Ondersteun de ontwikkeling van deze app met een non-profit donatie</string>
   <string name="settings_choose_language">Taal</string>
@@ -278,7 +293,9 @@
   <string name="settings_navdrawer_on_exit_summary">De \"terug\" knop indrukken in notities lijst opent het navigatie menu in plaats van te sluiten</string>
   <string name="settings_text_size">Tekstgrootte</string>
   <string name="settings_screen_behaviors">Gedrag</string>
-  <string name="settings_swipe_to_trash">Sleep voor verwijderen</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">Notities met vinger verslepen zal hen archiveren</string>
   <string name="settings_swipe_to_trash_summary_2">Notities met je vinger verslepen zal ze verwijderen</string>
   <string name="settings_show_uncategorized">Groep niet gecategoriseerd</string>
@@ -292,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Foutrapportage</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">U startte Omni Notes voor de eerste keer, zou u een rondleiding willen van de toepassing?</string>
   <string name="tour_listactivity_intro_title">Welkom bij Omni notities!</string>
   <string name="tour_listactivity_intro_detail">Druk op \"Verdergaan\" om door te gaan met de tour</string>
@@ -318,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">Druk gewoon op \"op\" navigatie pictogram of ga terug met uw knop van het apparaat</string>
   <string name="tour_listactivity_final_title">Geniet</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">lade open</string>
   <string name="drawer_close">lade dicht</string>
   <string name="reminder">herinnering</string>

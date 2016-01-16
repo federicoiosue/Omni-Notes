@@ -61,6 +61,7 @@
   <string name="attachment">Вкладення</string>
   <string name="camera">Камера</string>
   <string name="delete_selected_image">Видалити вибране вкладення?</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">Галерея</string>
   <string name="location">Розташування</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Відео</string>
   <string name="feature_not_available_on_this_device">Ця функція недоступна на цьому пристрої</string>
   <string name="error_occurred_deleting_note">Виникла помилка під час видалення нотатки</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">Введіть назву резервної копії</string>
   <string name="data_import_message">Торкніться для відновлення\nУтримуйте для видалення</string>
   <string name="data_import_message_warning">УВАГА: Поточні дані будуть замінені!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Use current location</string>
   <string name="filter">Фільтр</string>
   <string name="remove_filter">Видалити фільтр</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Відображає деяку статистику і найближчі події в Omni Notes</string>
   <string name="settings">Налаштування</string>
   <string name="settings_about">Інформація</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">Резервні копії</string>
   <string name="settings_screen_notifications">Сповіщення</string>
   <string name="settings_enable_vibration">Вібрація</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Навігація</string>
   <string name="settings_changelog">Історія змін</string>
   <string name="settings_enable_editor_links">Розпізнавання посилань</string>
@@ -250,7 +265,7 @@
   <string name="settings_category_beta">Бета-тестування</string>
   <string name="settings_category_about">Про програму</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Приєднуйтеся до спільноти, щоб отримати найновіші функції програми</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Підтримати</string>
   <string name="donate_summary">Підтримайте розробку цієї програми некомерційною пожертвою</string>
   <string name="settings_choose_language">Вибір мови</string>
@@ -283,7 +298,9 @@
   <string name="settings_navdrawer_on_exit_summary">Натиснення кнопки \"назад\" у списку нотаток відкриває панель навігації замість виходу з програми</string>
   <string name="settings_text_size">Розмір тексту</string>
   <string name="settings_screen_behaviors">Поведінка</string>
-  <string name="settings_swipe_to_trash">Перетягувати у сміття</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">Протягуйте по нотатках пальцем, щоб заархівувати їх</string>
   <string name="settings_swipe_to_trash_summary_2">Протягуйте по нотатках пальцем, щоб видалити їх</string>
   <string name="settings_show_uncategorized">Групувати без категорій</string>
@@ -297,9 +314,13 @@
   <string name="settings_fab_expansion_behavior">Плаваюча кнопка \"+\"</string>
   <string name="settings_fab_expansion_behavior_summary_on">Утримуйте кнопку \"+\" для додаткових дій</string>
   <string name="settings_fab_expansion_behavior_summary_off">Жодних додаткових дій при утриманні</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Звітувати про помилки</string>
   <string name="settings_error_reporting_summary_on">Коли програма видасть помилку розробник про це дізнається</string>
   <string name="settings_error_reporting_summary_off">Ніякі дані про помилки не будуть надсилатися</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">Ви запустили Omni Notes вперше, бажаєте ознайомитись з коротким довідником?</string>
   <string name="tour_listactivity_intro_title">Ласкаво просимо до Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">натисніть \"Продовжити\", щоб ознайомитися з програмою</string>
@@ -323,6 +344,7 @@
   <string name="tour_detailactivity_save_detail">Лише натисніть навігаційну іконку \"вгору\" чи натисніть кнопку \"назад\" на вашому пристрої</string>
   <string name="tour_listactivity_final_title">Насолоджуйтесь</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">сп. програм відкритий</string>
   <string name="drawer_close">сп. програм закритий</string>
   <string name="reminder">нагадування</string>

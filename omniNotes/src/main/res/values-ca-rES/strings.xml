@@ -61,6 +61,7 @@
   <string name="attachment">Adjunt</string>
   <string name="camera">Càmera</string>
   <string name="delete_selected_image">Voleu suprimir l\'adjunt seleccionat?</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">Galeria</string>
   <string name="location">Ubicació</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Vídeo</string>
   <string name="feature_not_available_on_this_device">Aquesta característica no és disponible en aquest dispositiu</string>
   <string name="error_occurred_deleting_note">S\'ha produït un error en suprimir una nota</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">Inseriu un nom per a la còpia de seguretat</string>
   <string name="data_import_message">Feu clic per a-&gt; restaura\nFeu clic llarg per a-&gt; suprimeix</string>
   <string name="data_import_message_warning">ATENCIÓ: això substituirà totes les dades actuals!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Usa la ubicació actual</string>
   <string name="filter">Filtra</string>
   <string name="remove_filter">Treu el filtre</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Mostra algunes estadístiques i recordatoris expirats de l\'Omni Notes</string>
   <string name="settings">Configuració</string>
   <string name="settings_about">Informació</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">Còpia de seguretat</string>
   <string name="settings_screen_notifications">Notificacions</string>
   <string name="settings_enable_vibration">Vibració</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Registre de canvis</string>
   <string name="settings_enable_editor_links">Reconeixement d\'enllaços</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">Quant a</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Subscriviu-vos a la comunitat per a estar al dia de les darreres característiques</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Feu un donatiu</string>
   <string name="donate_summary">Doneu suport al desenvolupament d\'aquesta aplicació amb un donatiu sense afany de lucre</string>
   <string name="settings_choose_language">Llengua</string>
@@ -278,7 +293,9 @@
   <string name="settings_navdrawer_on_exit_summary">Prémer \"enrere\" a la llista de notes obre el menú de navegació en comptes de sortir</string>
   <string name="settings_text_size">Mida del text</string>
   <string name="settings_screen_behaviors">Comportaments</string>
-  <string name="settings_swipe_to_trash">Llisqueu per enviar a la paperera</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">Feu lliscar el dit a les notes per a arxivar-les</string>
   <string name="settings_swipe_to_trash_summary_2">Llisqueu el dit sobre les notes per enviar-les a la paperera</string>
   <string name="settings_show_uncategorized">Grup sense categoria</string>
@@ -292,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Barra d\'acció flotant</string>
   <string name="settings_fab_expansion_behavior_summary_on">Toc curt realitza l\'acció</string>
   <string name="settings_fab_expansion_behavior_summary_off">Toc llarg canvi les opcions</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Informe d\'errors</string>
   <string name="settings_error_reporting_summary_on">Si l\'aplicació dóna un error s\'informarà al desenvolupador per a poder-vos ajudar</string>
   <string name="settings_error_reporting_summary_off">No s\'enviarà cap informe d\'error. No us queixeu si quelcom va malament!</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">Heu executat l\'Omni Notes per primera vegada, voleu fer la gira de l\'aplicació?</string>
   <string name="tour_listactivity_intro_title">Us donem la benvinguda a l\'Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">pitgeu \"Continua\" per continuar la gira</string>
@@ -318,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">Per anar enrere, premeu la icona de navegació \"amunt\", o el botó del dispositiu</string>
   <string name="tour_listactivity_final_title">Gaudiu-ne</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">obre el tauler</string>
   <string name="drawer_close">tanca el tauler</string>
   <string name="reminder">recordatori</string>

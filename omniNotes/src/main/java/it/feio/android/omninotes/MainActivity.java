@@ -492,7 +492,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     public void showMessage(String message, Style style) {
         // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
-        Crouton.makeText(this, message, style, croutonViewContainer).show();
+		runOnUiThread(() -> Crouton.makeText(this, message, style, croutonViewContainer).show());
     }
 
 
