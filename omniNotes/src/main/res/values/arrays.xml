@@ -128,7 +128,8 @@
         <item>العربية (Arabic)</item>
         <item>Asturianu (Asturian)</item>
         <item>Català (Catalan)</item>
-        <item>中文 (Chinese)</item>
+        <item>中文 (Chinese Simplified)</item>
+        <item>臺灣話 (Chinese Traditional)</item>
         <item>Hrvatski (Croatian)</item>
         <item>Čeština (Czech)</item>
         <item>Nederlands (Dutch)</item>
@@ -153,7 +154,6 @@
         <item>Slovenščina (Slovenian)</item>
         <item>Español (Spanish)</item>
         <item>Kinesiska (Swedish)</item>
-        <item>臺灣話 (Taiwanese)</item>
         <item>Türkçe (Turkish)</item>
         <item>Українська (Ukrainian)</item>
     </string-array>
@@ -163,6 +163,7 @@
         <item>es_XA</item>
         <item>ca_ES</item>
         <item>zh_CN</item>
+        <item>zh_TW</item>
         <item>hr_HR</item>
         <item>cs_CZ</item>
         <item>nl_NL</item>
@@ -187,7 +188,6 @@
         <item>sl_SL</item>
         <item>es_ES</item>
         <item>sv_SE</item>
-        <item>zh_TW</item>
         <item>tr_TR</item>
         <item>uk_UA</item>
     </string-array>
