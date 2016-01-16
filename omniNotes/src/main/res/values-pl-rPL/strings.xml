@@ -61,6 +61,7 @@
   <string name="attachment">Załącznik</string>
   <string name="camera">Aparat</string>
   <string name="delete_selected_image">Usunąć wybrane załączniki?</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">Galeria</string>
   <string name="location">Lokalizacja</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Wideo</string>
   <string name="feature_not_available_on_this_device">Funkcja niedostępna na tym urządzeniu, przepraszam</string>
   <string name="error_occurred_deleting_note">Błąd podczas usuwania notatki</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">Wstaw nazwę kopii zapasowej</string>
   <string name="data_import_message">Kliknij -&gt; przywróć\nDłużej kliknij -&gt; usuń</string>
   <string name="data_import_message_warning">Ostrzeżenie: To zastąpi wszystkie bieżące dane!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Użyj bieżącej lokalizacji</string>
   <string name="filter">Filtr</string>
   <string name="remove_filter">Usuń filtr</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Wyświetla niektóre statystyki i wygasłe przypomnienia z Omni Notes</string>
   <string name="settings">Ustawienia</string>
   <string name="settings_about">Informacja</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">Kopia</string>
   <string name="settings_screen_notifications">Powiadomienia</string>
   <string name="settings_enable_vibration">Wibracje</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Nawigacja</string>
   <string name="settings_changelog">Lista zmian</string>
   <string name="settings_enable_editor_links">Rozpoznawanie linków</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">O aplikacji</string>
   <string name="settings_beta">Google +</string>
-  <string name="settings_beta_summary">Zapisz się do wspólnoty i bądź na bieżąco z najnowszymi funkcjami</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Dotacja</string>
   <string name="donate_summary">Wsparcie rozwoju tej aplikacji z darowizny non-profit</string>
   <string name="settings_choose_language">Język</string>
@@ -280,7 +295,7 @@
   <string name="settings_screen_behaviors">Zachowanie</string>
   <string name="settings_enable_swipe">Przeciąganie notatek</string>
   <string name="settings_enable_swipe_summary">Przeciągnij po notatce żeby wykonać czynność</string>
-  <string name="settings_swipe_to_trash">Przeciągnij do kosza</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">Przeciągając palcem archiwizuję notatki</string>
   <string name="settings_swipe_to_trash_summary_2">Przesuwając notatki palcem przenoszę je do kosza</string>
   <string name="settings_show_uncategorized">Grupa bez kategorii</string>
@@ -294,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Pływający przycisk akcji</string>
   <string name="settings_fab_expansion_behavior_summary_on">Krótkie dotknięcie wykonuje działania</string>
   <string name="settings_fab_expansion_behavior_summary_off">Krótkie dotknięcie włącza opcje</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Raportowanie błędów</string>
   <string name="settings_error_reporting_summary_on">Gdy wystąpi błąd w aplikacji autor zostanie powiadomiony, żeby pomóc</string>
   <string name="settings_error_reporting_summary_off">Raporty awarii nie będą wysyłane. Nie narzekam, jeśli coś pójdzie nie tak!</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">Uruchomiono Omni Notes po raz pierwszy, masz ochotę na przewodnik po aplikacji?</string>
   <string name="tour_listactivity_intro_title">Witamy w Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">naciśnij \"Kontynuuj\", aby kontynuować zwiedzanie</string>
@@ -320,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">Aby wrócić, naciśnij ikonę nawigacji \"góra\", lub przycisk urządzenia</string>
   <string name="tour_listactivity_final_title">Korzystaj z przyjemnością</string>
   <string name="tour_listactivity_final_detail">Dziękujemy za korzystanie z Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">otwarta szuflada</string>
   <string name="drawer_close">zamknięta szuflada</string>
   <string name="reminder">przypomnienie</string>

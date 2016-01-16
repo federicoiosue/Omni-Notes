@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -470,7 +471,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     public void showMessage(String message, Style style) {
         // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
-        Crouton.makeText(this, message, style, croutonViewContainer).show();
+		runOnUiThread(() -> Crouton.makeText(this, message, style, croutonViewContainer).show());
     }
 
 

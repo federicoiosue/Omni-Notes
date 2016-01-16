@@ -1,9 +1,7 @@
 package it.feio.android.omninotes.services;
 
 import android.annotation.TargetApi;
-import android.app.ActivityManager;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.os.Build;
 import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
@@ -16,8 +14,6 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateHelper;
-
-import java.util.List;
 
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -35,6 +31,13 @@ public class NotificationListener extends NotificationListenerService {
 	public void onDestroy() {
 		super.onDestroy();
 		EventBus.getDefault().unregister(this);
+	}
+
+
+	@Override
+	public void onNotificationPosted(StatusBarNotification sbn) {
+
+		super.onNotificationPosted(sbn);
 	}
 
 

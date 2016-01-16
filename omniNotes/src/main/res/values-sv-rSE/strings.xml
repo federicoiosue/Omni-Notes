@@ -61,6 +61,7 @@
   <string name="attachment">Bilaga</string>
   <string name="camera">Kamera</string>
   <string name="delete_selected_image">Ta bort markerad bilaga?</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">Galleri</string>
   <string name="location">Plats</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Video</string>
   <string name="feature_not_available_on_this_device">Funktionen ej tillgänglig på denna enhet</string>
   <string name="error_occurred_deleting_note">Fel uppstod radera anteckning</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">Infoga backup namn</string>
   <string name="data_import_message">Klicka -&gt; återställa \nLång Klick -&gt; Ta bort</string>
   <string name="data_import_message_warning">VARNING: Det här kommer att ersätta alla aktuella uppgifter!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Använd nuvarande plats</string>
   <string name="filter">Filtrera</string>
   <string name="remove_filter">Ta bort filter</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Visar statistik och närliggande påminnelser från Omni Tools</string>
   <string name="settings">Inställningar</string>
   <string name="settings_about">Informatr</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">Säkerhetskopiera</string>
   <string name="settings_screen_notifications">Notiser</string>
   <string name="settings_enable_vibration">Vibration</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Ändringslogg</string>
   <string name="settings_enable_editor_links">Länk igenkänning</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">Om</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Anmäl dig i communityt att få alla senaste beta funktioner</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Donera</string>
   <string name="donate_summary">Stöd utvecklingen av appen med en \"non-profit\" donation</string>
   <string name="settings_choose_language">Språk</string>
@@ -278,7 +293,9 @@
   <string name="settings_navdrawer_on_exit_summary">Tryck \"tillbaka\" när du är i anteckningslistan för att öppna navigationsmeny istället för att gå till hemskärmen</string>
   <string name="settings_text_size">Textstorlek</string>
   <string name="settings_screen_behaviors">Beteenden</string>
-  <string name="settings_swipe_to_trash">Svep för att ta bort</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">När du sveper med fingret över anteckningar arkiveras dem</string>
   <string name="settings_swipe_to_trash_summary_2">Svep med fingret över en anteckning för att ta bort dem</string>
   <string name="settings_show_uncategorized">Grupp ej kategoriserad</string>
@@ -292,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Flytande åtgärdsbar</string>
   <string name="settings_fab_expansion_behavior_summary_on">Kort touch utför åtgärd</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Felrapportering</string>
   <string name="settings_error_reporting_summary_on">Om appen kraschar så kommer en buggrapport skickas automatiskt</string>
   <string name="settings_error_reporting_summary_off">Inga kraschrapporter kommer skickas. Klaga inte om något går fel igen!</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">Detta är första gången du kör Omni Tools, vill du få en genomgång av applikationen?</string>
   <string name="tour_listactivity_intro_title">Välkommen till Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Tryck \"Fortsätt\" för att fortsätta touren</string>
@@ -318,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">Tryck helt enkelt på navigationsikonen som pekar \"Upp\" eller gå tillbaka med din Androids tillbakaknapp</string>
   <string name="tour_listactivity_final_title">Njut!</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">drawer öppen</string>
   <string name="drawer_close">drawer stängd</string>
   <string name="reminder">påminnelse</string>

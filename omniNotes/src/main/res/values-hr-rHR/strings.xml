@@ -61,6 +61,7 @@
   <string name="attachment">Privitak</string>
   <string name="camera">Fotoaparat</string>
   <string name="delete_selected_image">Izbriši odabrani privitak?</string>
+  <string name="delete_all_attachments">Obrisati sve privitke?</string>
   <string name="gallery">Galerija</string>
   <string name="location">Lokacija</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Videozapis</string>
   <string name="feature_not_available_on_this_device">Nažalost, značajka nije dostupna na ovom uređaju</string>
   <string name="error_occurred_deleting_note">Pogreška tijekom brisanja bilješke</string>
+  <string name="no_backups_available">Nema dostupnih sigurnosnih kopija</string>
   <string name="data_export_message">Unesite naziv sigurnosne kopije</string>
   <string name="data_import_message">Klik -&gt; vrati\nDugi klik -&gt; obriši</string>
   <string name="data_import_message_warning">UPOZORENJE: Ovo će zamijeniti sve postojeće podatke!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Koristi trenutnu lokaciju</string>
   <string name="filter">Filtriraj</string>
   <string name="remove_filter">Ukloni filtar</string>
+  <string name="filter_old_reminders">Sakrij stare podsjetnike</string>
+  <string name="remove_filter_old_reminders">Prikaži stare podsjetnike</string>
+  <string name="filter_archived">Sakrij arhivirane bilješke</string>
+  <string name="remove_filter_archived">Prikaži arhivirane bilješke</string>
+  <string name="permission_external_storage">Dopuštenje za pisanje na vanjskoj pohrani je potrebno kako bi se omogućile sigurnosne kopije u javnim mapama</string>
+  <string name="permission_audio_recording">Dopuštenje za korištenje mikrofona je potrebno za snimanje audio bilježaka</string>
+  <string name="permission_coarse_location">Dopuštenje za pristup lokaciji je potrebno za dodavanje informacija o lokaciji vašim bilješkama</string>
+  <string name="permission_not_granted">Dopuštenje nije dano</string>
+  <string name="checklist">Check lista</string>
+  <string name="text_note">Tekstualna bilješka</string>
+  <string name="photo">Fotografija</string>
   <string name="dashclock_description">Prikazuje neke statistike i podsjetnike koji istječu u aplikaciji Omni bilješke</string>
   <string name="settings">Postavke</string>
   <string name="settings_about">Informacije</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">Sigurnosna kopija</string>
   <string name="settings_screen_notifications">Obavijesti</string>
   <string name="settings_enable_vibration">Vibracija</string>
+  <string name="settings_notification_enable_boot_persistence">Uključi stalne obavijesti</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Omogući aplikaciji pristup aplikacijama kako bi one preživjele ponovno pokretanje</string>
   <string name="settings_screen_navigation">Navigacija</string>
   <string name="settings_changelog">Promjene</string>
   <string name="settings_enable_editor_links">Prepoznavanje linkova</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">Više o</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Priključite se Google+ zajednici da biste primali vijesti o najnovijim značajkama</string>
+  <string name="settings_beta_summary">Pridruži se beta programu za pristup najnovijim značajkama</string>
   <string name="donate">Donirajte</string>
   <string name="donate_summary">Podržite razvoj ove aplikacije neprofitnom donacijom</string>
   <string name="settings_choose_language">Jezik</string>
@@ -280,7 +295,7 @@
   <string name="settings_screen_behaviors">Ponašanja</string>
   <string name="settings_enable_swipe">Povuci bilješke</string>
   <string name="settings_enable_swipe_summary">Povuci bilješke za obavljanje radnji</string>
-  <string name="settings_swipe_to_trash">Swipe za brisanje</string>
+  <string name="settings_swipe_to_trash">Povuci prstom za brisanje</string>
   <string name="settings_swipe_to_trash_summary_1">Swipanje bilježaka će ih arhivirati</string>
   <string name="settings_swipe_to_trash_summary_2">Swipanje bilježaka će ih obrisati</string>
   <string name="settings_show_uncategorized">Grupa nije kategorizirana</string>
@@ -294,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Plutajući akcijski gumb</string>
   <string name="settings_fab_expansion_behavior_summary_on">Kratki dodir obavlja radnju</string>
   <string name="settings_fab_expansion_behavior_summary_off">Kratki dodir uključuje/isključuje opcije</string>
+  <string name="settings_attachments_on_bottom">Privitci na dnu</string>
+  <string name="settings_attachments_on_bottom_summary_on">Prikaži privitke ispod sadržaja bilješke</string>
+  <string name="settings_attachments_on_bottom_summary_off">Prikaži privitke iznad sadržaja bilješke</string>
   <string name="settings_error_reporting">Izvještavanje o pogreškama</string>
   <string name="settings_error_reporting_summary_on">Kada se aplikacija sruši razvojni programer bit će obaviješten kako bi vam mogao pomoći</string>
   <string name="settings_error_reporting_summary_off">Izvješća o rušenju aplikacije neće biti poslana. Nemojte se žaliti ako nešto pođe po zlu!</string>
+  <string name="settings_statistics">Statistika</string>
   <string name="tour_request_start">Pokrenuli ste Omni Bilješke po prvi puta, želite li krenuti na obilazak aplikacije?</string>
   <string name="tour_listactivity_intro_title">Dobrodošli u Omni Bilješke!</string>
   <string name="tour_listactivity_intro_detail">Pritisnite \"Nastavi\" za nastavak obilaska</string>
@@ -320,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">Za povratak pritisnite navigacijsku ikonu za \"gore\" ili gumb na vašem uređaju</string>
   <string name="tour_listactivity_final_title">Uživajte</string>
   <string name="tour_listactivity_final_detail">Hvala što koristite aplikaciju Omni bilješke, \nalternativu otvorenog programskog koda za produktivnost i jednostavno pravljenje bilježaka!</string>
+  <string name="tour_community">Uključite se u zajednicu!</string>
   <string name="drawer_open">ladica otvorena</string>
   <string name="drawer_close">ladica zatvorena</string>
   <string name="reminder">podsjetnik</string>
