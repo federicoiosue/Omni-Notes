@@ -21,10 +21,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.util.Log;
-import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.db.DbHelper;
@@ -44,7 +44,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			Note note = intent.getExtras().getParcelable(Constants.INTENT_NOTE);
 			createNotification(mContext, note);
 			SnoozeActivity.setNextRecurrentReminder(note);
-			if (!NotificationListener.isRunning()) {
+			if (Build.VERSION.SDK_INT >= 18 && !NotificationListener.isRunning()) {
 				DbHelper.getInstance().setReminderFired(note.get_id(), true);
 			}
 		} catch (Exception e) {
