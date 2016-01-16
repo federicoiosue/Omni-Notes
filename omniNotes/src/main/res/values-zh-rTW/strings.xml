@@ -185,6 +185,10 @@
   <string name="use_current_location">使用当前位置</string>
   <string name="filter">篩選</string>
   <string name="remove_filter">刪除篩選器</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
   <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
   <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
   <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
@@ -221,6 +225,8 @@
   <string name="settings_screen_backup">備份</string>
   <string name="settings_screen_notifications">通知。</string>
   <string name="settings_enable_vibration">振动</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">導航</string>
   <string name="settings_changelog">更新日志</string>
   <string name="settings_enable_editor_links">链接识别</string>
@@ -333,7 +339,7 @@
   <string name="tour_detailactivity_save_detail">点击“向上”导航图标或您设备的后退键即可保存</string>
   <string name="tour_listactivity_final_title">祝您使用愉快</string>
   <string name="tour_listactivity_final_detail">感謝你使用 Omni Notes \n該開源供工作效率和休閒筆記!</string>
-  <string name="tour_community">Subscribe to the community to participate!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">抽屉打开</string>
   <string name="drawer_close">抽屉关闭</string>
   <string name="reminder">提醒</string>

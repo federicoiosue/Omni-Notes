@@ -61,6 +61,7 @@
   <string name="attachment">Příloha</string>
   <string name="camera">Fotoaparát</string>
   <string name="delete_selected_image">Odstranit vybrané přílohy?</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">Galerie</string>
   <string name="location">Poloha</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">Video</string>
   <string name="feature_not_available_on_this_device">Funkce není k dispozici v tomto zařízení, omlouváme se</string>
   <string name="error_occurred_deleting_note">Chyba při mazání poznámky</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">Zadejte název zálohy</string>
   <string name="data_import_message">Klepněte pro&gt; obnovení\nPodržte pro&gt; smazání</string>
   <string name="data_import_message_warning">POZOR: Touto akcí nahradíte všechna aktuální data!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Použít aktuální polohu</string>
   <string name="filter">Filter</string>
   <string name="remove_filter">Remove filter</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Zobrazí statistiky a připomenutí kterým brzy vyprší platnost z Omni Notes</string>
   <string name="settings">Nastavení</string>
   <string name="settings_about">Informace</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">Zálohování</string>
   <string name="settings_screen_notifications">Notifications</string>
   <string name="settings_enable_vibration">Vibrace</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Přehled změn</string>
   <string name="settings_enable_editor_links">Rozpoznávání odkazů</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">O aplikaci</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Přihlašte se ke komunitě a držte krok s nejnovějšími funkcemi</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Přispět</string>
   <string name="donate_summary">Podpořte vývojáře této aplikace neziskovým příspěvkem</string>
   <string name="settings_choose_language">Jazyk</string>
@@ -278,7 +293,9 @@
   <string name="settings_navdrawer_on_exit_summary">Stisknutím tlačítka \"zpět\" v seznamu poznámek otevře navigační menu místo ukončení aplikace</string>
   <string name="settings_text_size">Velikost písma</string>
   <string name="settings_screen_behaviors">Behaviors</string>
-  <string name="settings_swipe_to_trash">Tažením do strany přesunout do koše</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">Tažením poznámek prstem je zaarchivujete</string>
   <string name="settings_swipe_to_trash_summary_2">Tažením poznámek prstem je přesunete do koše</string>
   <string name="settings_show_uncategorized">Skupina bez kategorie</string>
@@ -292,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Error reporting</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">Spustili jste Omni Notes poprvé. Chcete spustit prohlídku aplikace?</string>
   <string name="tour_listactivity_intro_title">Vítejte v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">stiskněte tlačítko \"Pokračovat\" pokračování v prohlídce</string>
@@ -318,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">Pro návrat stiskněte tlačíto \"zpět\", nebo tlačítko vašeho zařízení</string>
   <string name="tour_listactivity_final_title">Užijte si aplikaci</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">lišta otevřena</string>
   <string name="drawer_close">lišta zavřena</string>
   <string name="reminder">připomenutí</string>

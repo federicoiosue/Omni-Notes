@@ -61,6 +61,7 @@
   <string name="attachment">अटैचमेंट </string>
   <string name="camera">कैमरा</string>
   <string name="delete_selected_image">सेलेक्ट कि हुयी अटैचमेंट डिलीट करे ?</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">गैलरी</string>
   <string name="location">स्थान</string>
   <string name="pushbullet">Pushbullet</string>
@@ -75,6 +76,7 @@
   <string name="video">वीडियो</string>
   <string name="feature_not_available_on_this_device">इस डिवाइस पर सुविधा उपलब्ध नहीं</string>
   <string name="error_occurred_deleting_note">डिलीट करने के समय कुछ गलत हुआ</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">दूसरा नाम डालिये</string>
   <string name="data_import_message">क्लिक करे -&gt; वापस ले \n लम्बा क्लिक करे -&gt; डिलीट करे </string>
   <string name="data_import_message_warning">चेतावनी: ये सारे डेटा को बदल देगा </string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Use current location</string>
   <string name="filter">Filter</string>
   <string name="remove_filter">Remove filter</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">रिमाइंडर और कुछ आंकड़े ओमनी नोटस कि और से दिखाए</string>
   <string name="settings">सेटिंग्स</string>
   <string name="settings_about">जानकारी</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">बैकअप</string>
   <string name="settings_screen_notifications">Notifications</string>
   <string name="settings_enable_vibration">कंपन</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">परिवर्तन लॉग इन</string>
   <string name="settings_enable_editor_links">कड़ियाँ मान्यता</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">बीटा</string>
   <string name="settings_category_about">के बारे में</string>
   <string name="settings_beta">गूगल +</string>
-  <string name="settings_beta_summary">नवीनतम विशेषताएँ पाने के लिए कम्युनिटी में साइन उप करे ?</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">दान करें</string>
   <string name="donate_summary">Support the development of this app with a non-profit donation</string>
   <string name="settings_choose_language">भाषा</string>
@@ -278,7 +293,9 @@
   <string name="settings_navdrawer_on_exit_summary">नोट सूचि जब खुली हो तब \"वापस जाना\" बटन दबाने पर नेविगेशन मेनू खुलेगा न कि बहार जायेगा</string>
   <string name="settings_text_size">पाठ का आकार</string>
   <string name="settings_screen_behaviors">Behaviors</string>
-  <string name="settings_swipe_to_trash">ट्रैश करने के लिए ज़ोर से मारना</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">नोटों के साथ उंगली swiping उन्हें संग्रह होगा</string>
   <string name="settings_swipe_to_trash_summary_2">नोटों के साथ उंगली swiping उन्हें कचरा होगा</string>
   <string name="settings_show_uncategorized">Group not categorized</string>
@@ -292,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Error reporting</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">आपने ओमनी नोट पहला बार खोला हे, क्या आप एप्लीकेशन का टूर लेना चाहते हे ?</string>
   <string name="tour_listactivity_intro_title">ओमनी नोट्स में आपका स्वागत है!</string>
   <string name="tour_listactivity_intro_detail">टूर जारी रखने के लिए \"आगे बढ़ें\" दबाएँ</string>
@@ -318,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">सरलता से \"उप\" बटन दबाये के पीछे जाइए आपले मोबाइल के बटन से</string>
   <string name="tour_listactivity_final_title">आनंद लें</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">ड्रावर खुला</string>
   <string name="drawer_close">ड्रावर बंद करें</string>
   <string name="reminder">रिमाइंडर</string>

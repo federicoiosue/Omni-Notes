@@ -185,6 +185,10 @@
   <string name="use_current_location">Aktuális hely használata</string>
   <string name="filter">Szűrő</string>
   <string name="remove_filter">Szűrő eltávolítása</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
   <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
   <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
   <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
@@ -221,6 +225,8 @@
   <string name="settings_screen_backup">Biztonsági mentés</string>
   <string name="settings_screen_notifications">Értesítések</string>
   <string name="settings_enable_vibration">Rezgés</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Navigáció</string>
   <string name="settings_changelog">Változások</string>
   <string name="settings_enable_editor_links">Hivatkozások felismerése</string>
@@ -333,7 +339,7 @@
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Jó szórakozást</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-  <string name="tour_community">Subscribe to the community to participate!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">fiók nyitva</string>
   <string name="drawer_close">fiók zárva</string>
   <string name="reminder">emlékeztető</string>

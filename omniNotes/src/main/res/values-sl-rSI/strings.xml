@@ -61,6 +61,7 @@
   <string name="attachment">Priponka</string>
   <string name="camera">Kamera</string>
   <string name="delete_selected_image">Izbrišem izbrane priponke?</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">Galerija</string>
   <string name="location">Lokacija</string>
   <string name="pushbullet">Pushbullet (aplikacija)</string>
@@ -75,6 +76,7 @@
   <string name="video">Video</string>
   <string name="feature_not_available_on_this_device">Funkcija ni na voljo na tej napravi</string>
   <string name="error_occurred_deleting_note">Napaka pri brisanju beležke</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">Vstavi ime varnostne kopije</string>
   <string name="data_import_message">Klik -&gt; obnovi\nDolg-klik-&gt; izbriše</string>
   <string name="data_import_message_warning">OPOZORILO: to bo zamenjalo vse trenutne podatke!</string>
@@ -183,6 +185,17 @@
   <string name="use_current_location">Uporaba trenutno lokacijo</string>
   <string name="filter">Filter</string>
   <string name="remove_filter">Odstranite filter</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">Prikaz nekaterih statistik in bližnjih opomnikov iz Omni Notes</string>
   <string name="settings">Nastavitve</string>
   <string name="settings_about">Info</string>
@@ -212,6 +225,8 @@
   <string name="settings_screen_backup">Varnostno kopiranje</string>
   <string name="settings_screen_notifications">Obvestila</string>
   <string name="settings_enable_vibration">Vibriranje</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Navigation</string>
   <string name="settings_changelog">Seznam sprememb</string>
   <string name="settings_enable_editor_links">Potrditev povezav</string>
@@ -245,7 +260,7 @@
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">O aplikaciji</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Prijavite se v skupnost za dostop do delovnih različic</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Doniraj</string>
   <string name="donate_summary">Podpirati razvoj te vloge z neprofitno darovanja</string>
   <string name="settings_choose_language">Jezik</string>
@@ -278,7 +293,9 @@
   <string name="settings_navdrawer_on_exit_summary">Nujen \"nazaj\" v seznam zapiskov odpira menije namesto izhoda</string>
   <string name="settings_text_size">Velikost pisave</string>
   <string name="settings_screen_behaviors">Vedenje</string>
-  <string name="settings_swipe_to_trash">Obrišite, da se premaknete v koš</string>
+  <string name="settings_enable_swipe">Swipe notes</string>
+  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">Drsna ugotavlja s prstom, bo shranjevanje</string>
   <string name="settings_swipe_to_trash_summary_2">Drsna beležke s prstom, bodo premaknjeni v koš</string>
   <string name="settings_show_uncategorized">Skupina ni kategorizirana</string>
@@ -292,9 +309,13 @@
   <string name="settings_fab_expansion_behavior">Plavajočo vrstico z dejanji</string>
   <string name="settings_fab_expansion_behavior_summary_on">Kratek dotik izvede dejanje</string>
   <string name="settings_fab_expansion_behavior_summary_off">Kratek stik vklopi možnosti</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
   <string name="settings_error_reporting">Poročanje o napakah</string>
   <string name="settings_error_reporting_summary_on">Čas uporaba tresk razvijalec boste obveščeni, da vam pomaga</string>
   <string name="settings_error_reporting_summary_off">Poročila ne tresk hoteti obstati odposlati. Se ne pritožujejo, če gre kaj narobe!</string>
+  <string name="settings_statistics">Statistics</string>
   <string name="tour_request_start">Si želite ob prvem zagonu ogledati krajšo predstavitev aplikacije?</string>
   <string name="tour_listactivity_intro_title">Dobrodošli v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">klikni \'Nadaljuj\' za nadaljevanje predstavitve</string>
@@ -318,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">Preprosto pritisnite navigacijsko ikono \"gor\" ali pojdite nazaj z navigacijsko tipko</string>
   <string name="tour_listactivity_final_title">Uživajte</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">poteznik odprt</string>
   <string name="drawer_close">poteznik zaprt</string>
   <string name="reminder">opomnik</string>

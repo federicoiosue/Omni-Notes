@@ -185,6 +185,17 @@
   <string name="use_current_location">استخدام الموقع الحالي</string>
   <string name="filter">فلتر</string>
   <string name="remove_filter">إزالة عامل التصفية</string>
+  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <string name="dashclock_description">عرض بعض الاحصائيات و المذكرات المنتهية من مدونات أومني</string>
   <string name="settings">إعدادات</string>
   <string name="settings_about">معلومات</string>
@@ -214,6 +225,8 @@
   <string name="settings_screen_backup">النسخ الاحتياطي</string>
   <string name="settings_screen_notifications">التنبيهات</string>
   <string name="settings_enable_vibration">الاهتزاز</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">تصفح</string>
   <string name="settings_changelog">سِجل التغييرات</string>
   <string name="settings_enable_editor_links">التعرف على الروابط</string>
@@ -247,7 +260,7 @@
   <string name="settings_category_beta">الإصدار بيتا</string>
   <string name="settings_category_about">حول</string>
   <string name="settings_beta">جوجل +</string>
-  <string name="settings_beta_summary">الاشتراك في المجتمع للحصول على جميع أحدث الميزات</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">تبرع</string>
   <string name="donate_summary">Support the development of this app with a non-profit donation</string>
   <string name="settings_choose_language">اختر اللغة</string>
@@ -326,6 +339,7 @@
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">درج مفتوح</string>
   <string name="drawer_close">درج مغلق</string>
   <string name="reminder">تذكير</string>
