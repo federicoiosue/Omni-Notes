@@ -23,16 +23,13 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.DatePicker;
-
-import com.fourmob.datetimepicker.date.DatePickerDialog;
-import com.sleepbot.datetimepicker.time.RadialPickerLayout;
-import com.sleepbot.datetimepicker.time.TimePickerDialog;
-
-import java.util.Calendar;
-
 import be.billington.calendar.recurrencepicker.RecurrencePickerDialog;
+import com.fourmob.datetimepicker.date.DatePickerDialog;
+import com.sleepbot.datetimepicker.time.TimePickerDialog;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.utils.Constants;
+
+import java.util.Calendar;
 
 
 public class ReminderPickers implements OnDateSetListener, OnTimeSetListener, RecurrencePickerDialog.OnRecurrenceSetListener {

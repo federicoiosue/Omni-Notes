@@ -125,21 +125,15 @@ public class DatePickerDialogFragment extends DialogFragment {
         if (hasJellyBeanAndAbove()) {
             picker.setButton(DialogInterface.BUTTON_POSITIVE,
                     getActivity().getString(android.R.string.ok),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            DatePicker dp = picker.getDatePicker();
-                            mListener.onDateSet(dp,
-                                    dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
-                        }
-                    });
+					(dialog, which) -> {
+						DatePicker dp = picker.getDatePicker();
+						mListener.onDateSet(dp,
+								dp.getYear(), dp.getMonth(), dp.getDayOfMonth());
+					});
             picker.setButton(DialogInterface.BUTTON_NEGATIVE,
                     getActivity().getString(android.R.string.cancel),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
+					(dialog, which) -> {
+					});
         }
 
         return picker;
