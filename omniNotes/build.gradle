@@ -62,6 +62,7 @@ android {
 final GPS_VERSION = '6.5.87'
 
 dependencies {
+
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
 
