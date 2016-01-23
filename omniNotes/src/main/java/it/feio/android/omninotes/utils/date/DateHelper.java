@@ -27,11 +27,13 @@ import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import net.fortuna.ical4j.model.property.RRule;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -313,5 +315,21 @@ public class DateHelper {
             return false;
         }
     }
+
+
+	public static String prettyTime(Long timeInMillisec) {
+		return prettyTime(timeInMillisec, OmniNotes.getAppContext().getResources().getConfiguration().locale);
+	}
+
+
+	public static String prettyTime(Long timeInMillisec, Locale locale) {
+		if (timeInMillisec == null) return "";
+		Date d = new Date(timeInMillisec);
+		PrettyTime pt = new PrettyTime();
+		if (locale != null) {
+			pt.setLocale(locale);
+		}
+		return pt.format(d);
+	}
 
 }

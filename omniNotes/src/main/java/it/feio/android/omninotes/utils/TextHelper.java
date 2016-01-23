@@ -25,6 +25,7 @@ import android.text.SpannedString;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.date.DateHelper;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -130,7 +131,7 @@ public class TextHelper {
 
 
     /**
-     * Choosing which date must be shown depending on sorting criteria     *
+     * Choosing which date must be shown depending on sorting criteria
      * @return String ith formatted date
      */
     public static String getDateText(Context mContext, Note note, int navigation) {
@@ -145,25 +146,19 @@ public class TextHelper {
             sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
         }
 
-        // Creation
         switch (sort_column) {
             case DbHelper.KEY_CREATION:
-                dateText = mContext.getString(R.string.creation) + " " + note.getCreationShort(mContext);
+                dateText = mContext.getString(R.string.creation) + " " + DateHelper.prettyTime(note.getCreation());
                 break;
-            // Reminder
             case DbHelper.KEY_REMINDER:
-                String alarmShort = note.getAlarmShort(mContext);
-
-                if (alarmShort.length() == 0) {
-                    dateText = mContext.getString(R.string.no_reminder_set);
-                } else {
-                    dateText = mContext.getString(R.string.alarm_set_on) + " " + note.getAlarmShort(mContext);
-                }
-                break;
-            // Others
+                String alarmShort = DateHelper.prettyTime(Long.parseLong(note.getAlarm()));
+				dateText = alarmShort.length() == 0 ? mContext.getString(R.string.no_reminder_set) : mContext
+						.getString(R.string.alarm_set_on) + " " + alarmShort;
+				break;
             default:
-                dateText = mContext.getString(R.string.last_update) + " " + note.getLastModificationShort(mContext);
-                break;
+				dateText = mContext.getString(R.string.last_update) + " " + DateHelper.prettyTime(note
+						.getLastModification());
+				break;
         }
         return dateText;
     }
