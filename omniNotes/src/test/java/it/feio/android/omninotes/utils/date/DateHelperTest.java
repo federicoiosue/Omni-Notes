@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2016 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundatibehaon, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -15,10 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.test.utils.date;
+package it.feio.android.omninotes.utils.date;
 
-import android.test.InstrumentationTestCase;
-import it.feio.android.omninotes.utils.date.DateHelper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,35 +24,27 @@ import java.util.Calendar;
 import java.util.Locale;
 
 
-public class DateHelperTest extends InstrumentationTestCase {
-
-	long TEN_MINUTES = 10 * 60 * 1000;
-
-
-	public void testNextReminderFromRecurrenceRule() {
-		long currentTime = Calendar.getInstance().getTimeInMillis();
-		long reminder = Calendar.getInstance().getTimeInMillis() + TEN_MINUTES;
-
-		// Daily test
-		String rruleDaily = "FREQ=DAILY;COUNT=30;WKST=MO";
-		long nextReminder = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily);
-		Assert.assertNotEquals(nextReminder, 0);
-		Assert.assertEquals((nextReminder - reminder) / 60 / 60 / 1000, 24-1);
-
-		// 3-Daily test
-		String rruleDaily2 = "FREQ=DAILY;COUNT=30;INTERVAL=3";
-		long nextReminder2 = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily2);
-		Assert.assertNotEquals(nextReminder2, 0);
-		Assert.assertEquals((nextReminder2 - reminder) / 60 / 60 / 1000, 3*24 - 1);
-
-	}
-
+public class DateHelperTest {
 
 	@Test
 	public void prettyTime() {
 		long now = Calendar.getInstance().getTimeInMillis();
-		String prettyNow = DateHelper.prettyTime(now, Locale.ENGLISH);
-		assertEquals(prettyNow.toLowerCase(), "moments ago");
+
+		String prettyTime = DateHelper.prettyTime(now, Locale.ENGLISH);
+		Assert.assertEquals(prettyTime.toLowerCase(), "moments ago");
+
+		prettyTime = DateHelper.prettyTime(now + 10*60*1000, Locale.ENGLISH);
+		Assert.assertEquals(prettyTime.toLowerCase(), "10 minutes from now");
+
+		prettyTime = DateHelper.prettyTime(now + 24*60*60*1000, Locale.ITALIAN);
+		Assert.assertEquals(prettyTime.toLowerCase(), "fra 24 ore");
+
+		prettyTime = DateHelper.prettyTime(now + 25*60*60*1000, Locale.ITALIAN);
+		Assert.assertEquals(prettyTime.toLowerCase(), "fra 1 giorno");
+
+		prettyTime = DateHelper.prettyTime(null, Locale.JAPANESE);
+		Assert.assertNotNull(prettyTime.toLowerCase());
+		Assert.assertEquals(prettyTime.toLowerCase().length(), 0);
 	}
 
 }
