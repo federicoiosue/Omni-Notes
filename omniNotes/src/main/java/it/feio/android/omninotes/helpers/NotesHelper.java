@@ -62,7 +62,7 @@ public class NotesHelper {
 				mergedNote.setTitle(note.getTitle());
 				content.append(note.getContent());
 			} else {
-                content = appendContent(mergedNote, content);
+                content = appendContent(note, content);
 			}
 
 			locked = locked || note.isLocked();
