@@ -531,13 +531,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void initViewFooter() {
 		// Footer dates of creation...
-		String creation = noteTmp.getCreationShort(mainActivity);
+		String creation = DateHelper.prettyTime(noteTmp.getCreation());
 		creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
 		if (creationTextView.getText().length() == 0)
 			creationTextView.setVisibility(View.GONE);
 
 		// ... and last modification
-		String lastModification = noteTmp.getLastModificationShort(mainActivity);
+		String lastModification = DateHelper.prettyTime(noteTmp.getLastModification());
 		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " + lastModification : "");
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
