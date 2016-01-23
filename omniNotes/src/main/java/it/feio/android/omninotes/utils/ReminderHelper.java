@@ -82,8 +82,7 @@ public class ReminderHelper {
 			long reminder = Long.parseLong(reminderString);
 			if (reminder > Calendar.getInstance().getTimeInMillis()) {
 				new Handler(OmniNotes.getAppContext().getMainLooper()).post(() -> Toast.makeText(OmniNotes.getAppContext(),
-						OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort
-								(OmniNotes.getAppContext(), reminder), Toast.LENGTH_LONG).show());
+						OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateHelper.prettyTime(reminder), Toast.LENGTH_LONG).show());
 			}
 		}
 	}
