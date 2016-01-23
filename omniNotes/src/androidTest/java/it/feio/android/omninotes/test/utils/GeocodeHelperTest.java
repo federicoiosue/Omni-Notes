@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes.test.utils;
 
+import android.test.InstrumentationTestCase;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.GeocodeHelper;
@@ -26,7 +27,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 
-public class GeocodeHelperTest {
+public class GeocodeHelperTest extends InstrumentationTestCase {
 
     @Test
     public void testGetAddressFromCoordinates() throws IOException {
