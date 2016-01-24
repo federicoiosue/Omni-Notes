@@ -151,7 +151,7 @@ public class TextHelper {
                 dateText = mContext.getString(R.string.creation) + " " + DateHelper.prettyTime(note.getCreation());
                 break;
             case DbHelper.KEY_REMINDER:
-                String alarmShort = DateHelper.prettyTime(Long.parseLong(note.getAlarm()));
+                String alarmShort = DateHelper.prettyTime(note.getAlarm());
 				dateText = alarmShort.length() == 0 ? mContext.getString(R.string.no_reminder_set) : mContext
 						.getString(R.string.alarm_set_on) + " " + alarmShort;
 				break;

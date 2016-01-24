@@ -36,8 +36,7 @@ public class NotificationListener extends NotificationListenerService {
 
 	@Override
 	public void onNotificationPosted(StatusBarNotification sbn) {
-
-		super.onNotificationPosted(sbn);
+		Log.d(Constants.TAG, "Notification posted for note: " + sbn.getId());
 	}
 
 

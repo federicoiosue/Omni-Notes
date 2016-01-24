@@ -283,7 +283,7 @@ public class DateHelper {
 
     public static String getNoteReminderText(long reminder) {
         return OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + getDateTimeShort(OmniNotes
-                        .getAppContext(), reminder);
+				.getAppContext(), reminder);
     }
 
 
@@ -315,6 +315,14 @@ public class DateHelper {
             return false;
         }
     }
+
+
+	public static String prettyTime(String timeInMillisec) {
+		if (timeInMillisec == null) {
+			return "";
+		}
+		return prettyTime(Long.parseLong(timeInMillisec), OmniNotes.getAppContext().getResources().getConfiguration().locale);
+	}
 
 
 	public static String prettyTime(Long timeInMillisec) {
