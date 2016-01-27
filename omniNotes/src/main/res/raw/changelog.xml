@@ -17,6 +17,10 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.2" changeDate="Jan 24, 2015">
+        <changelogtext>[u]Fix[/u] Crash when sorting by reminder</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.1" changeDate="Jan 23, 2015">
         <changelogtext>[i]Improved[/i] Prettified dates</changelogtext>
         <changelogtext>[u]Fix[/u] Notes merging</changelogtext>
