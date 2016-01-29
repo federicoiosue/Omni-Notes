@@ -21,7 +21,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.3.0'
+        classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'me.tatarka:gradle-retrolambda:3.2.2'
     }
 }
@@ -35,17 +35,9 @@ allprojects {
     }
 }
 
-
-
-
-
-
-
 apply plugin: "sonar-runner"
-
 sonarRunner {
     sonarProperties {
-        // can be also set on command line like -Dsonar.analysis.mode=incremental
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.analysis.mode", "incremental"
         property 'sonar.sourceEncoding', 'UTF-8'
@@ -53,7 +45,6 @@ sonarRunner {
         property 'sonar.profile', 'Default'
     }
 }
-
 subprojects {
     sonarRunner {
         sonarProperties {
