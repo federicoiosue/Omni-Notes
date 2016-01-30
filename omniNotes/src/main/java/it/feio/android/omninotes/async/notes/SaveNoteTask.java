@@ -28,7 +28,7 @@ import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
-import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DateUtils;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	protected Note doInBackground(Note... params) {
 		Note note = params[0];
 		purgeRemovedAttachments(note);
-		boolean reminderMustBeSet = DateHelper.isFuture(note.getAlarm());
+		boolean reminderMustBeSet = DateUtils.isFuture(note.getAlarm());
 		if (reminderMustBeSet) {
 			note.setReminderFired(false);
 		}

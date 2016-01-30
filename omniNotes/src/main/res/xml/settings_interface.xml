@@ -58,4 +58,11 @@
             android:title="@string/settings_attachments_on_bottom"
             android:defaultValue="false"/>
 
+    <SwitchPreference
+            android:key="settings_prettified_dates"
+            android:summaryOn="@string/settings_prettified_dates_summary_on"
+            android:summaryOff="@string/settings_prettified_dates_summary_off"
+            android:title="@string/settings_prettified_dates"
+            android:defaultValue="true"/>
+
 </PreferenceScreen>

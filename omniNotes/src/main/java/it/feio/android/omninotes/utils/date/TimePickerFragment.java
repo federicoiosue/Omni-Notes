@@ -58,12 +58,12 @@ public class TimePickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        Calendar cal = DateHelper.getCalendar(defaultTime);
+        Calendar cal = DateUtils.getCalendar(defaultTime);
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         int minute = cal.get(Calendar.MINUTE);
 
         // Create a new instance of TimePickerDialog and return it
-        boolean is24HourMode = DateHelper.is24HourMode(mActivity);
+        boolean is24HourMode = DateUtils.is24HourMode(mActivity);
         TimePickerDialog tpd = new TimePickerDialog(mActivity, R.style.Theme_AppCompat_Dialog_NoBackgroundOrDim, mListener, hour, minute, is24HourMode);
         tpd.setTitle("");
         return tpd;

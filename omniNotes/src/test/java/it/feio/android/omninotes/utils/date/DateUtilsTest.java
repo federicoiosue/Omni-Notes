@@ -24,25 +24,25 @@ import java.util.Calendar;
 import java.util.Locale;
 
 
-public class DateHelperTest {
+public class DateUtilsTest {
 
 	@Test
 	public void prettyTime() {
 		long now = Calendar.getInstance().getTimeInMillis();
 
-		String prettyTime = DateHelper.prettyTime(now, Locale.ENGLISH);
+		String prettyTime = DateUtils.prettyTime(now, Locale.ENGLISH);
 		Assert.assertEquals(prettyTime.toLowerCase(), "moments ago");
 
-		prettyTime = DateHelper.prettyTime(now + 10*60*1000, Locale.ENGLISH);
+		prettyTime = DateUtils.prettyTime(now + 10 * 60 * 1000, Locale.ENGLISH);
 		Assert.assertEquals(prettyTime.toLowerCase(), "10 minutes from now");
 
-		prettyTime = DateHelper.prettyTime(now + 24*60*60*1000, Locale.ITALIAN);
+		prettyTime = DateUtils.prettyTime(now + 24 * 60 * 60 * 1000, Locale.ITALIAN);
 		Assert.assertEquals(prettyTime.toLowerCase(), "fra 24 ore");
 
-		prettyTime = DateHelper.prettyTime(now + 25*60*60*1000, Locale.ITALIAN);
+		prettyTime = DateUtils.prettyTime(now + 25 * 60 * 60 * 1000, Locale.ITALIAN);
 		Assert.assertEquals(prettyTime.toLowerCase(), "fra 1 giorno");
 
-		prettyTime = DateHelper.prettyTime(null, Locale.JAPANESE);
+		prettyTime = DateUtils.prettyTime(null, Locale.JAPANESE);
 		Assert.assertNotNull(prettyTime.toLowerCase());
 		Assert.assertEquals(prettyTime.toLowerCase().length(), 0);
 	}

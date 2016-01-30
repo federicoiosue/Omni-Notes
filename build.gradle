@@ -35,17 +35,9 @@ allprojects {
     }
 }
 
-
-
-
-
-
-
 apply plugin: "sonar-runner"
-
 sonarRunner {
     sonarProperties {
-        // can be also set on command line like -Dsonar.analysis.mode=incremental
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.analysis.mode", "incremental"
         property 'sonar.sourceEncoding', 'UTF-8'
@@ -53,7 +45,6 @@ sonarRunner {
         property 'sonar.profile', 'Default'
     }
 }
-
 subprojects {
     sonarRunner {
         sonarProperties {

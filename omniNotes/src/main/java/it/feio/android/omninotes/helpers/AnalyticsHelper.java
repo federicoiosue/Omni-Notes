@@ -19,11 +19,14 @@ public class AnalyticsHelper {
 
 	private static Tracker tracker;
 
+	private static boolean enabled;
+
 	public enum CATEGORIES {ACTION, SETTING, UPDATE}
 
 
-	public static void init(Application application) {
-		if (tracker == null) {
+	public static void init(Application application, boolean enableAnalytics) {
+		enabled = enableAnalytics;
+		if (tracker == null && enableAnalytics) {
 			try {
 				tracker = Piwik.getInstance(application).newTracker(ANALYTICS_URL, 1);
 				tracker.setUserId(Settings.Secure.getString(application.getContentResolver(), Settings.Secure
@@ -42,30 +45,34 @@ public class AnalyticsHelper {
 
 
 	public static void trackScreenView(String screenName) {
-		checkInit();
-		tracker.trackScreenView(screenName);
+		if (checkInit()) {
+			tracker.trackScreenView(screenName);
+		}
 	}
 
 
 	public static void trackEvent(CATEGORIES category, String action) {
-		checkInit();
-		tracker.trackEvent(category.name(), action);
+		if (checkInit()) {
+			tracker.trackEvent(category.name(), action);
+		}
 	}
 
 
 	public static void trackActionFromResourceId(Activity activity, int resourceId) {
-		checkInit();
-		try {
-			tracker.trackEvent(CATEGORIES.ACTION.name(), activity.getResources().getResourceEntryName(resourceId));
-		} catch (Resources.NotFoundException e) {
-			Log.w(Constants.TAG, "No resource name found for request id");
+		if (checkInit()) {
+			try {
+				tracker.trackEvent(CATEGORIES.ACTION.name(), activity.getResources().getResourceEntryName(resourceId));
+			} catch (Resources.NotFoundException e) {
+				Log.w(Constants.TAG, "No resource name found for request id");
+			}
 		}
 	}
 
 
-	private static void checkInit() {
-		if (tracker == null) {
+	private static boolean checkInit() {
+		if (enabled && tracker == null) {
 			throw new NullPointerException("Call AnalyticsHelper.init() before using analytics tracker");
 		}
+		return enabled;
 	}
 }

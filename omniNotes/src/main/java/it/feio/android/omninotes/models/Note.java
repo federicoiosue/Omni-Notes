@@ -19,7 +19,8 @@ package it.feio.android.omninotes.models;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.helpers.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,22 +69,6 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
         setLocked(in.readInt());
         setChecklist(in.readInt());
         in.readList(getAttachmentsList(), Attachment.class.getClassLoader());
-    }
-
-
-    public String getCreationShort(Context mContext) {
-        return DateHelper.getDateTimeShort(mContext, getCreation());
-    }
-
-
-    public String getLastModificationShort(Context mContext) {
-        return DateHelper.getDateTimeShort(mContext, getLastModification());
-    }
-
-
-    public String getAlarmShort(Context mContext) {
-        if (getAlarm() == null) return "";
-        return DateHelper.getDateTimeShort(mContext, Long.parseLong(getAlarm()));
     }
 
 

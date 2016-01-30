@@ -13,7 +13,7 @@ import it.feio.android.omninotes.async.bus.NotificationRemovedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DateUtils;
 
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -36,8 +36,7 @@ public class NotificationListener extends NotificationListenerService {
 
 	@Override
 	public void onNotificationPosted(StatusBarNotification sbn) {
-
-		super.onNotificationPosted(sbn);
+		Log.d(Constants.TAG, "Notification posted for note: " + sbn.getId());
 	}
 
 
@@ -53,7 +52,7 @@ public class NotificationListener extends NotificationListenerService {
 	public void onEventAsync(NotificationRemovedEvent event) {
 		Long nodeId = Long.valueOf(event.statusBarNotification.getTag());
 		Note note = DbHelper.getInstance().getNote(nodeId);
-		if (!DateHelper.isFuture(note.getAlarm())) {
+		if (!DateUtils.isFuture(note.getAlarm())) {
 			DbHelper.getInstance().setReminderFired(nodeId, true);
 		}
 	}

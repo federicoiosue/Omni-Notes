@@ -98,7 +98,7 @@ public class DatePickerDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
-        Calendar cal = DateHelper.getCalendar(defaultDate);
+        Calendar cal = DateUtils.getCalendar(defaultDate);
         int y = cal.get(Calendar.YEAR);
         int m = cal.get(Calendar.MONTH);
         int d = cal.get(Calendar.DAY_OF_MONTH);

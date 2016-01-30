@@ -509,7 +509,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void onDateSet(DatePicker view, int year, int monthOfYear,
                           int dayOfMonth) {
         DetailFragment f = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
-        if (f != null && f.isAdded()) {
+        if (f != null && f.isAdded() && f.onDateSetListener != null) {
             f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
         }
     }

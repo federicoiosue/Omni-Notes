@@ -85,6 +85,7 @@ import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
+import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
@@ -93,17 +94,14 @@ import it.feio.android.omninotes.models.listeners.*;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
-import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
@@ -531,13 +529,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void initViewFooter() {
 		// Footer dates of creation...
-		String creation = DateHelper.prettyTime(noteTmp.getCreation());
+		String creation = DateHelper.getFormattedDate(noteTmp.getCreation(), prefs.getBoolean(Constants
+				.PREF_PRETTIFIED_DATES, true));
 		creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
 		if (creationTextView.getText().length() == 0)
 			creationTextView.setVisibility(View.GONE);
 
 		// ... and last modification
-		String lastModification = DateHelper.prettyTime(noteTmp.getLastModification());
+		String lastModification = DateHelper.getFormattedDate(noteTmp.getLastModification(), prefs.getBoolean(Constants
+				.PREF_PRETTIFIED_DATES, true));
 		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " + lastModification : "");
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
@@ -551,7 +551,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
 					ReminderPickers.TYPE_GOOGLE;
 			ReminderPickers reminderPicker = new ReminderPickers(mainActivity, mFragment, pickerType);
-			Long presetDateTime = noteTmp.getAlarm() != null ? Long.parseLong(noteTmp.getAlarm()) : DateHelper
+			Long presetDateTime = noteTmp.getAlarm() != null ? Long.parseLong(noteTmp.getAlarm()) : DateUtils
 					.getNextMinute();
 			reminderPicker.pick(presetDateTime, noteTmp.getRecurrenceRule());
 			onDateSetListener = reminderPicker;
@@ -639,6 +639,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			builder.callback(new MaterialDialog.ButtonCallback() {
 				@Override
 				public void onPositive(MaterialDialog materialDialog) {
+
 					noteTmp.setLatitude("");
 					noteTmp.setLongitude("");
 					fade(locationTextView, false);
@@ -824,10 +825,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
 	/**
-	 * Force focus and shows soft keyboard
+	 * Force focus and shows soft keyboard. Only happens if it's a new note, without shared content.
+	 * {@link afterSavedReturnsToList} is used to check if the note is created from shared content.
 	 */
 	private void requestFocus(final EditText view) {
-		if (note.get_id() == null && !noteTmp.isChanged(note)) {
+		if (note.get_id() == null && !noteTmp.isChanged(note) && afterSavedReturnsToList) {
 			KeyboardUtils.showKeyboard(view);
 		}
 	}
