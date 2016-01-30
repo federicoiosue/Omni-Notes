@@ -76,6 +76,7 @@ public class OmniNotes extends Application {
 		return BuildConfig.BUILD_TYPE.equals("debug");
 	}
 
+
 	@Override
 	// Used to restore user selected locale when configuration changes
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -122,6 +123,15 @@ public class OmniNotes extends Application {
 		} else {
 			return new Locale(lang);
 		}
+	}
+
+
+	/**
+	 * Statically returns app's default SharedPreferences instance
+	 * @return SharedPreferences object instance
+	 */
+	public static SharedPreferences getSharedPreferences(){
+		return getAppContext().getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 	}
 
 }

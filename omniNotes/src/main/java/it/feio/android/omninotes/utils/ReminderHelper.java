@@ -27,6 +27,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.date.DateUtils;
@@ -81,8 +82,10 @@ public class ReminderHelper {
 		if (reminderString != null) {
 			long reminder = Long.parseLong(reminderString);
 			if (reminder > Calendar.getInstance().getTimeInMillis()) {
-				new Handler(OmniNotes.getAppContext().getMainLooper()).post(() -> Toast.makeText(OmniNotes.getAppContext(),
-						OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateUtils.prettyTime(reminder), Toast.LENGTH_LONG).show());
+				new Handler(OmniNotes.getAppContext().getMainLooper()).post(() -> Toast.makeText(OmniNotes
+								.getAppContext(),
+						OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort
+								(OmniNotes.getAppContext(), reminder), Toast.LENGTH_LONG).show());
 			}
 		}
 	}

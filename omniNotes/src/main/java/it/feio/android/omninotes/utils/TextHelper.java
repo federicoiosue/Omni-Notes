@@ -22,8 +22,11 @@ import android.content.SharedPreferences;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.SpannedString;
+import android.text.TextUtils;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.date.DateUtils;
 
@@ -77,9 +80,9 @@ public class TextHelper {
             titleSpanned = Html.fromHtml(titleText);
             contentText = contentText
                     .replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
-                            it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
+							it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
                     .replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
-                            it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY)
+							it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY)
                     .replace(System.getProperty("line.separator"), "<br/>");
             contentSpanned = Html.fromHtml(contentText);
         } else {
@@ -109,7 +112,7 @@ public class TextHelper {
 
 
     public static String capitalize(String string) {
-        return string.substring(0, 1).toUpperCase(Locale.getDefault()) + string.substring(1, 
+        return string.substring(0, 1).toUpperCase(Locale.getDefault()) + string.substring(1,
                 string.length()).toLowerCase(Locale.getDefault());
     }
 
@@ -148,16 +151,21 @@ public class TextHelper {
 
         switch (sort_column) {
             case DbHelper.KEY_CREATION:
-                dateText = mContext.getString(R.string.creation) + " " + DateUtils.prettyTime(note.getCreation());
-                break;
+				dateText = mContext.getString(R.string.creation) + " " + DateHelper.getFormattedDate(note.getCreation
+						(), prefs.getBoolean(Constants.PREF_PRETTIFIED_DATES, true));
+				break;
             case DbHelper.KEY_REMINDER:
-                String alarmShort = DateUtils.prettyTime(note.getAlarm());
-				dateText = alarmShort.length() == 0 ? mContext.getString(R.string.no_reminder_set) : mContext
-						.getString(R.string.alarm_set_on) + " " + alarmShort;
+				String noteReminder = note.getAlarm();
+				if (TextUtils.isEmpty(noteReminder)) {
+					dateText = mContext.getString(R.string.no_reminder_set);
+				} else {
+					dateText = mContext.getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(mContext,
+							Long.parseLong(noteReminder));
+				}
 				break;
             default:
-				dateText = mContext.getString(R.string.last_update) + " " + DateUtils.prettyTime(note
-						.getLastModification());
+				dateText = mContext.getString(R.string.last_update) + " " + DateHelper.getFormattedDate(note
+						.getLastModification(), prefs.getBoolean(Constants.PREF_PRETTIFIED_DATES, true));
 				break;
         }
         return dateText;
@@ -175,8 +183,8 @@ public class TextHelper {
 		if (spanned.length() > 0) {
 			return spanned.toString();
 		}
-		return context.getString(R.string.note) + " " + context.getString(R.string.creation) + " " + note
-				.getCreationShort(context);
+		return context.getString(R.string.note) + " " + context.getString(R.string.creation) + " " + DateHelper
+				.getDateTimeShort(context, note.getCreation());
 	}
 
 }

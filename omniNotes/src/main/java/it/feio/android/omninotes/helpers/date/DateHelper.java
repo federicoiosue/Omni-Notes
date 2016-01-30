@@ -168,7 +168,6 @@ public class DateHelper {
      * @return
      */
     public static String formatShortTime(Context mContext, long time) {
-//		return DateUtils.formatDateTime(mContext, time, DateUtils.FORMAT_SHOW_TIME);
         String m = String.valueOf(time / 1000 / 60);
         String s = String.format("%02d", (time / 1000) % 60);
         return m + ":" + s;
@@ -222,5 +221,14 @@ public class DateHelper {
         return DateHelper.formatRecurrence(OmniNotes.getAppContext(), rrule) + " " + OmniNotes.getAppContext().getString
                 (R.string.starting_from) + " " + DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder);
     }
+
+
+	public static String getFormattedDate(Long timestamp, boolean prettified) {
+		if(prettified) {
+			return it.feio.android.omninotes.utils.date.DateUtils.prettyTime(timestamp);
+		} else {
+			return DateHelper.getDateTimeShort(OmniNotes.getAppContext(), timestamp);
+		}
+	}
 
 }

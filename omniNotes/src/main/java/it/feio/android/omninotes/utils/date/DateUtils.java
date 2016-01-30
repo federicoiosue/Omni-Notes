@@ -24,6 +24,7 @@ import be.billington.calendar.recurrencepicker.EventRecurrence;
 import be.billington.calendar.recurrencepicker.EventRecurrenceFormatter;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.utils.Constants;
 import net.fortuna.ical4j.model.property.RRule;
 import org.ocpsoft.prettytime.PrettyTime;
@@ -184,5 +185,4 @@ public class DateUtils {
 		}
 		return pt.format(d);
 	}
-
 }

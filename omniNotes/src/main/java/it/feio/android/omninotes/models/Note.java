@@ -72,22 +72,6 @@ public class Note extends it.feio.android.omninotes.commons.models.Note implemen
     }
 
 
-    public String getCreationShort(Context mContext) {
-        return DateHelper.getDateTimeShort(mContext, getCreation());
-    }
-
-
-    public String getLastModificationShort(Context mContext) {
-        return DateHelper.getDateTimeShort(mContext, getLastModification());
-    }
-
-
-    public String getAlarmShort(Context mContext) {
-        if (getAlarm() == null) return "";
-        return DateHelper.getDateTimeShort(mContext, Long.parseLong(getAlarm()));
-    }
-
-
     public List<Attachment> getAttachmentsList() {
 //		List<Attachment> list = new ArrayList<>();
 //		for (it.feio.android.omninotes.commons.models.Attachment attachment : super.getAttachmentsList()) {
