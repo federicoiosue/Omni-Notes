@@ -21,6 +21,7 @@
         <changelogtext>[b]New![/b] New section into settings containing privacy preferences</changelogtext>
         <changelogtext>[i]Improved[/i] Option to choose between prettied or precise dates into settings</changelogtext>
         <changelogtext>[i]Improved[/i] Keyboard is not automatically shown when creating a note from shared content</changelogtext>
+        <changelogtext>[i]Fixed[/i] Numeric hashtags are now recognized</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.2" changeDate="Jan 24, 2015">
