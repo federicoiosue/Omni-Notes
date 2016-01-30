@@ -823,10 +823,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
 	/**
-	 * Force focus and shows soft keyboard
+	 * Force focus and shows soft keyboard. Only happens if it's a new note, without shared content.
+	 * {@link afterSavedReturnsToList} is used to check if the note is created from shared content.
 	 */
 	private void requestFocus(final EditText view) {
-		if (note.get_id() == null && !noteTmp.isChanged(note)) {
+		if (note.get_id() == null && !noteTmp.isChanged(note) && afterSavedReturnsToList) {
 			KeyboardUtils.showKeyboard(view);
 		}
 	}
