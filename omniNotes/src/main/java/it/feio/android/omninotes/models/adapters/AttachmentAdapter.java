@@ -27,13 +27,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
-import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DateUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -102,9 +103,9 @@ public class AttachmentAdapter extends BaseAdapter {
                 text = DateHelper.formatShortTime(mActivity, mAttachment.getLength());
             } else {
                 // Recording date otherwise
-                text = DateHelper.getLocalizedDateTime(mActivity, mAttachment
-                                .getUri().getLastPathSegment().split("\\.")[0],
-                        Constants.DATE_FORMAT_SORTABLE);
+                text = DateUtils.getLocalizedDateTime(mActivity, mAttachment
+								.getUri().getLastPathSegment().split("\\.")[0],
+						Constants.DATE_FORMAT_SORTABLE);
             }
 
             if (text == null) {

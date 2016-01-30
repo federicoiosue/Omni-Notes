@@ -20,10 +20,10 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "it.feio.android.omninotes"
+        applicationId project.PACKAGE
         minSdkVersion project.MIN_SDK
         targetSdkVersion project.TARGET_SDK
         versionName project.VERSION_NAME
@@ -42,13 +42,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
+                    def file = output.outputFile
                     output.outputFile = new File(
-                            output.outputFile.parent,
-                            output.outputFile.name.replace(".apk", "-${variant.versionName}.apk"))
+                            (String)file.parent,
+                            (String)file.name.replace("omniNotes", "Omni Notes-${variant.versionName}"))
                 }
             }
         }
     }
+
     lintOptions {
         abortOnError false
         disable 'MissingTranslation'
@@ -59,12 +61,12 @@ android {
     }
 }
 
-final GPS_VERSION = '6.5.87'
-
 dependencies {
 
     androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.5.3'
+
+    testCompile 'junit:junit:4.12'
 
     compile fileTree(include: '*.jar', dir: 'libs')
 
@@ -78,8 +80,8 @@ dependencies {
     }
     compile 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
     compile 'be.billington.calendar.recurrencepicker:library:1.1.1'
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'com.getbase:floatingactionbutton:1.10.1'
@@ -111,6 +113,5 @@ dependencies {
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'
     compile 'com.github.federicoiosue:Omni-Notes-Commons:1.1.0'
     compile 'com.github.federicoiosue:CheckListView:3.0.2'
-    compile 'com.github.federicoiosue:pixlUI:2.2'
-    testCompile 'junit:junit:4.12'
+    compile 'com.github.federicoiosue:pixlUI:2.3'
 }

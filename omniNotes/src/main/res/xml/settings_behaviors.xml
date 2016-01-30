@@ -55,11 +55,4 @@
             android:summary="@string/settings_max_video_size_summary"
             android:title="@string/settings_max_video_size"/>
 
-    <SwitchPreference
-            android:key="acra.enable"
-            android:title="@string/settings_error_reporting"
-            android:summaryOn="@string/settings_error_reporting_summary_on"
-            android:summaryOff="@string/settings_error_reporting_summary_off"
-            android:defaultValue="true"/>
-
 </PreferenceScreen>

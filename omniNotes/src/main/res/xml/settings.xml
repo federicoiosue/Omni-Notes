@@ -39,6 +39,10 @@
                 android:key="settings_notifications"
                 android:title="@string/settings_screen_notifications"/>
 
+        <PreferenceScreen
+                android:key="settings_privacy"
+                android:title="@string/settings_screen_privacy"/>
+
     </PreferenceCategory>
 
 

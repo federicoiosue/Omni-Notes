@@ -97,6 +97,8 @@ public interface Constants {
 	String PREF_SNOOZE_DEFAULT = "10";
 	String PREF_TOUR_COMPLETE = "pref_tour_complete";
 	String PREF_ENABLE_SWIPE = "settings_enable_swipe";
+	String PREF_SEND_ANALYTICS = "settings_send_analytics";
+	String PREF_PRETTIFIED_DATES = "settings_prettified_dates";
 
 	String MIME_TYPE_IMAGE = "image/jpeg";
 	String MIME_TYPE_AUDIO = "audio/amr";

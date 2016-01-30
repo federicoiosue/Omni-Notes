@@ -25,7 +25,6 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.DatePicker;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
-import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
@@ -75,7 +74,7 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener, Re
 
 
     public void pick(Long presetDateTime, String recurrenceRule) {
-        this.presetDateTime = DateHelper.getCalendar(presetDateTime).getTimeInMillis();
+        this.presetDateTime = DateUtils.getCalendar(presetDateTime).getTimeInMillis();
         this.recurrenceRule = recurrenceRule;
         if (pickerType == TYPE_AOSP) {
             timePickerCalledAlready = false;
@@ -93,7 +92,7 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener, Re
     protected void showDateTimeSelectors(long reminder) {
 
         // Sets actual time or previously saved in note
-        final Calendar now = DateHelper.getCalendar(reminder);
+        final Calendar now = DateUtils.getCalendar(reminder);
         DatePickerDialog mCalendarDatePickerDialog = DatePickerDialog.newInstance(
                 (dialog, year, monthOfYear, dayOfMonth) -> {
 					reminderYear = year;
@@ -105,7 +104,7 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener, Re
 								minutes = minute;
 								showRecurrencePickerDialog(recurrenceRule);
 							}, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE),
-							DateHelper.is24HourMode(mActivity));
+							DateUtils.is24HourMode(mActivity));
 					mRadialTimePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 				}, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
         mCalendarDatePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);

@@ -30,11 +30,12 @@ import android.text.TextUtils;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
+import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
-import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 
 import java.util.Arrays;
@@ -59,7 +60,7 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
         } else {
             Object[] notesObjs = (Object[]) getIntent().getExtras().get(Constants.INTENT_NOTE);
             notes = Arrays.copyOf(notesObjs, notesObjs.length, Note[].class);
-            postpone(getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS), DateHelper.getNextMinute(), null);
+            postpone(getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS), DateUtils.getNextMinute(), null);
         }
     }
 
@@ -132,7 +133,7 @@ public class SnoozeActivity extends ActionBarActivity implements OnReminderPicke
     public static void setNextRecurrentReminder(Note note) {
         if (!TextUtils.isEmpty(note.getRecurrenceRule())) {
             long nextReminder = DateHelper.nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()), note
-                    .getRecurrenceRule());
+					.getRecurrenceRule());
             if (nextReminder > 0) {
                 updateNoteReminder(nextReminder, note, true);
             }

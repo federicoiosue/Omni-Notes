@@ -317,9 +317,12 @@
     <string name="settings_attachments_on_bottom">Attachments on bottom</string>
     <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
     <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
+    <string name="settings_screen_privacy">Privacy</string>
     <string name="settings_error_reporting">Error reporting</string>
     <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
     <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
+    <string name="settings_send_analytics">Share anonymous data</string>
+    <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
     <string name="settings_statistics">Statistics</string>
 
 

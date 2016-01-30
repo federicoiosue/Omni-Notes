@@ -20,8 +20,11 @@ package it.feio.android.omninotes.utils;
 import android.content.Context;
 import android.content.Intent;
 import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.date.DateUtils;
 
 
 public class ShortcutHelper {
@@ -37,7 +40,9 @@ public class ShortcutHelper {
 
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : note.getCreationShort(context);
+        String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
+				.getCreation(), OmniNotes.getSharedPreferences().getBoolean(Constants
+				.PREF_PRETTIFIED_DATES, true));
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
                 Intent.ShortcutIconResource.fromContext(context, R.drawable.ic_shortcut));
@@ -56,7 +61,9 @@ public class ShortcutHelper {
 
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-        String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : note.getCreationShort(context);
+		String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
+				.getCreation(), OmniNotes.getSharedPreferences().getBoolean(Constants
+				.PREF_PRETTIFIED_DATES, true));
 
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
 
