@@ -62,7 +62,7 @@ public class OmniNotes extends Application {
 		updateLanguage(this, null);
 
 		// Analytics initialization
-		AnalyticsHelper.init(this);
+		AnalyticsHelper.init(this, prefs.getBoolean(Constants.PREF_SEND_ANALYTICS, true));
 	}
 
 	private void initAcra(Application application) {
