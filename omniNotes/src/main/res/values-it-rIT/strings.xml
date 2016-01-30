@@ -313,9 +313,12 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_attachments_on_bottom">Allegati in basso</string>
   <string name="settings_attachments_on_bottom_summary_on">Mostra gli allegati sotto il contenuto della nota</string>
   <string name="settings_attachments_on_bottom_summary_off">Mostra gli allegati sopra contenuto della nota</string>
+  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Segnalazione errori</string>
   <string name="settings_error_reporting_summary_on">Quando l\'applicazione ha un problema verrà inviata una segnalazione allo sviluppatore</string>
   <string name="settings_error_reporting_summary_off">Non verranno inviate segnalazioni per i problemi dell\'applicazione. Non lamentarti poi se qualcosa va storto!</string>
+  <string name="settings_send_analytics">Condivisione dati anonimi</string>
+  <string name="settings_send_analytics_summary">Aiuta lo sviluppatore inviando informazioni non sensibili come il modello del dispositivo, la lingua, le funzionalità più usate nell\'applicazione. Questi dati sono usati esclusivamente per migliorare l\'app open-source.</string>
   <string name="settings_statistics">Statistiche</string>
   <string name="tour_request_start">E\' la prima volta che esegui Omni Notes, vuoi effettuare un tour dell\'applicazione?</string>
   <string name="tour_listactivity_intro_title">Benvenuti in Omni Notes!</string>
