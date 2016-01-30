@@ -19,7 +19,8 @@ package it.feio.android.omninotes.models;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.helpers.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;

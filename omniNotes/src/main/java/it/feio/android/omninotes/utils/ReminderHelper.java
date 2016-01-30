@@ -29,7 +29,7 @@ import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
-import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DateUtils;
 
 import java.util.Calendar;
 
@@ -82,7 +82,7 @@ public class ReminderHelper {
 			long reminder = Long.parseLong(reminderString);
 			if (reminder > Calendar.getInstance().getTimeInMillis()) {
 				new Handler(OmniNotes.getAppContext().getMainLooper()).post(() -> Toast.makeText(OmniNotes.getAppContext(),
-						OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateHelper.prettyTime(reminder), Toast.LENGTH_LONG).show());
+						OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateUtils.prettyTime(reminder), Toast.LENGTH_LONG).show());
 			}
 		}
 	}

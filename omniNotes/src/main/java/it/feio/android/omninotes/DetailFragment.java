@@ -85,6 +85,7 @@ import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
+import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
@@ -93,7 +94,7 @@ import it.feio.android.omninotes.models.listeners.*;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
-import it.feio.android.omninotes.utils.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
 import org.apache.commons.lang.StringUtils;
@@ -531,13 +532,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void initViewFooter() {
 		// Footer dates of creation...
-		String creation = DateHelper.prettyTime(noteTmp.getCreation());
+		String creation = DateUtils.prettyTime(noteTmp.getCreation());
 		creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
 		if (creationTextView.getText().length() == 0)
 			creationTextView.setVisibility(View.GONE);
 
 		// ... and last modification
-		String lastModification = DateHelper.prettyTime(noteTmp.getLastModification());
+		String lastModification = DateUtils.prettyTime(noteTmp.getLastModification());
 		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " + lastModification : "");
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
@@ -551,7 +552,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
 					ReminderPickers.TYPE_GOOGLE;
 			ReminderPickers reminderPicker = new ReminderPickers(mainActivity, mFragment, pickerType);
-			Long presetDateTime = noteTmp.getAlarm() != null ? Long.parseLong(noteTmp.getAlarm()) : DateHelper
+			Long presetDateTime = noteTmp.getAlarm() != null ? Long.parseLong(noteTmp.getAlarm()) : DateUtils
 					.getNextMinute();
 			reminderPicker.pick(presetDateTime, noteTmp.getRecurrenceRule());
 			onDateSetListener = reminderPicker;
