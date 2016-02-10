@@ -40,6 +40,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
@@ -64,10 +65,12 @@ public class SettingsFragment extends PreferenceFragment {
 	private final int RINGTONE_REQUEST_CODE = 100;
 	public final static String XML_NAME = "xmlName";
 	private Activity activity;
+	private SettingsFragment pf;
 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		pf = this;
 		super.onCreate(savedInstanceState);
 		int xmlId = R.xml.settings;
 		if (getArguments() != null && getArguments().containsKey(XML_NAME)) {
@@ -157,6 +160,21 @@ public class SettingsFragment extends PreferenceFragment {
 						::importNotes)
 				;
 
+				return false;
+			});
+		}
+
+		// Import legacy notes
+		Preference importLegacyData = findPreference("settings_import_data_legacy");
+		if (importLegacyData != null) {
+			importLegacyData.setOnPreferenceClickListener(arg0 -> {
+
+				// Finds actually saved backups names
+				PermissionsHelper.requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE, R
+						.string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> new
+						FolderChooserDialog.Builder((SettingsActivity) getActivity())
+						.chooseButton(R.string.md_choose_label)
+						.show());
 				return false;
 			});
 		}
@@ -629,11 +647,20 @@ public class SettingsFragment extends PreferenceFragment {
 		fileNameEditText.setHint(fileName);
 		fileNameEditText.addTextChangedListener(new TextWatcher() {
 			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+			}
+
+
 			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+			}
+
+
 			@Override
 			public void afterTextChanged(Editable arg0) {
+
 				if (backups.contains(arg0.toString())) {
 					backupExistingTextView.setText(R.string.backup_existing);
 				} else {

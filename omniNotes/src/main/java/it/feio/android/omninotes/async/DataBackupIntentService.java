@@ -47,6 +47,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     public final static String INTENT_BACKUP_INCLUDE_SETTINGS = "backup_include_settings";
     public final static String ACTION_DATA_EXPORT = "action_data_export";
     public final static String ACTION_DATA_IMPORT = "action_data_import";
+    public final static String ACTION_DATA_IMPORT_LEGACY = "action_data_import_legacy";
     public final static String ACTION_DATA_DELETE = "action_data_delete";
 
     private SharedPreferences prefs;
@@ -70,7 +71,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         // If an alarm has been fired a notification must be generated
         if (ACTION_DATA_EXPORT.equals(intent.getAction())) {
             exportData(intent);
-        } else if (ACTION_DATA_IMPORT.equals(intent.getAction())) {
+        } else if (ACTION_DATA_IMPORT.equals(intent.getAction()) || ACTION_DATA_IMPORT_LEGACY.equals(intent.getAction())) {
             importData(intent);
         } else if (SpringImportHelper.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
             importDataFromSpringpad(intent, mNotificationsHelper);
@@ -120,14 +121,20 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     synchronized private void importData(Intent intent) {
 
+		boolean importLegacy = ACTION_DATA_IMPORT_LEGACY.equals(intent.getAction());
+
         // Gets backup folder
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-        File backupDir = StorageHelper.getBackupDir(backupName);
+		File backupDir = importLegacy ? new File(backupName) : StorageHelper.getBackupDir(backupName);
 
-        // Database backup
-		BackupHelper.importNotes(backupDir);
+        // Database restore
+		if (importLegacy) {
+			BackupHelper.importDB(this, backupDir);
+		} else {
+			BackupHelper.importNotes(backupDir);
+		}
 
-        // Attachments backup
+        // Attachments restore
 		BackupHelper.importAttachments(backupDir, mNotificationsHelper);
 
 		// Settings restore

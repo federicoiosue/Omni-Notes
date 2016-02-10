@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes.helpers;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import it.feio.android.omninotes.OmniNotes;
@@ -228,5 +229,20 @@ public class BackupHelper {
 		} catch (IOException e) {
 			Log.e(Constants.TAG, "Error parsing note json");
 		}
+	}
+
+
+	/**
+	 * Import database from backup folder. Used ONLY to restore legacy backup
+	 * @deprecated
+	 * {@link BackupHelper#importNotes(File)}
+	 */
+	@Deprecated
+	public static boolean importDB(Context context, File backupDir) {
+		File database = context.getDatabasePath(Constants.DATABASE_NAME);
+		if (database.exists()) {
+			database.delete();
+		}
+		return (StorageHelper.copyFile(new File(backupDir, Constants.DATABASE_NAME), database));
 	}
 }

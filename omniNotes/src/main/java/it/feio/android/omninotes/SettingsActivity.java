@@ -1,20 +1,26 @@
 package it.feio.android.omninotes;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends ActionBarActivity implements FolderChooserDialog.FolderCallback {
 
 	@Bind(R.id.toolbar) Toolbar toolbar;
 	@Bind(R.id.crouton_handle) ViewGroup croutonViewContainer;
@@ -74,5 +80,25 @@ public class SettingsActivity extends ActionBarActivity {
 	public void showMessage(String message, Style style) {
 		// ViewGroup used to show Crouton keeping compatibility with the new Toolbar
 		Crouton.makeText(this, message, style, croutonViewContainer).show();
+	}
+
+
+	@Override
+	public void onFolderSelection(File folder) {
+		new MaterialDialog.Builder(this)
+				.title(R.string.data_import_message_warning)
+				.content(folder.getName())
+				.positiveText(R.string.confirm)
+				.callback(new MaterialDialog.ButtonCallback() {
+					@Override
+					public void onPositive(MaterialDialog materialDialog) {
+						AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+								"settings_import_data");
+						Intent service = new Intent(getApplicationContext(), DataBackupIntentService.class);
+						service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_LEGACY);
+						service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, folder.getAbsolutePath());
+						startService(service);
+					}
+				}).build().show();
 	}
 }
