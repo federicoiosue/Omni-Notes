@@ -97,11 +97,16 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
 	public static synchronized DbHelper getInstance() {
-        if (instance == null) {
-            instance = new DbHelper(OmniNotes.getAppContext());
-        }
-        return instance;
-    }
+		return getInstance(false);
+	}
+
+
+	public static synchronized DbHelper getInstance(boolean forcedNewInstance) {
+		if (instance == null || forcedNewInstance) {
+			instance = new DbHelper(OmniNotes.getAppContext());
+		}
+		return instance;
+	}
 
 
     private DbHelper(Context mContext) {
@@ -225,6 +230,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.setTransactionSuccessful();
         db.endTransaction();
+		db.close();
 
         // Fill the note with correct data before returning it
         note.setCreation(note.getCreation() != null ? note.getCreation() : values.getAsLong(KEY_CREATION));

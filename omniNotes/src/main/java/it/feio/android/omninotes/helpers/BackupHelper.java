@@ -46,7 +46,7 @@ import java.util.List;
 public class BackupHelper {
 
 	public static void exportNotes(File backupDir) {
-		for (Note note : DbHelper.getInstance().getAllNotes(false)) {
+		for (Note note : DbHelper.getInstance(true).getAllNotes(false)) {
 			exportNote(backupDir, note);
 		}
 	}
