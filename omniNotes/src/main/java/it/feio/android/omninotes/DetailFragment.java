@@ -1611,8 +1611,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
 		// Saving changes to the note
-		SaveNoteTask saveNoteTask = new SaveNoteTask(mOnNoteSaved, lastModificationUpdatedNeeded());
-		saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteTmp);
+		new SaveNoteTask(mOnNoteSaved, lastModificationUpdatedNeeded()).executeOnExecutor(AsyncTask
+				.THREAD_POOL_EXECUTOR, noteTmp);
 	}
 
 
@@ -1643,8 +1643,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public void onNoteSaved(Note noteSaved) {
-		EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(noteSaved)));
 		if (!activityPausing) {
+			EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(noteSaved)));
 			MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
 			deleteMergedNotes(mergedNotesIds);
 			if (noteTmp.getAlarm() != null && !noteTmp.getAlarm().equals(note.getAlarm())) {
