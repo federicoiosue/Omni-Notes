@@ -1,33 +1,15 @@
 package it.feio.android.omninotes.test;
 
-import android.test.ActivityInstrumentationTestCase2;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.robotium.solo.Solo;
 import com.robotium.solo.Timeout;
 import it.feio.android.omninotes.MainActivity;
 
 
-public class NoteWithReminderAndSketchTest extends ActivityInstrumentationTestCase2<MainActivity> {
-
-    private Solo solo;
+public class NoteWithReminderAndSketchTest extends BaseRobotiumTest {
 
 
     public NoteWithReminderAndSketchTest() {
         super(MainActivity.class);
-    }
-
-
-    public void setUp() throws Exception {
-        super.setUp();
-        solo = new Solo(getInstrumentation());
-        getActivity();
-    }
-
-
-    @Override
-    public void tearDown() throws Exception {
-        solo.finishOpenedActivities();
-        super.tearDown();
     }
 
 

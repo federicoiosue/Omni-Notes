@@ -18,12 +18,9 @@
 package it.feio.android.omninotes.test;
 
 import android.os.AsyncTask;
-import android.test.ActivityInstrumentationTestCase2;
 import com.neopixl.pixlui.components.edittext.EditText;
-import com.robotium.solo.Solo;
 import com.robotium.solo.Timeout;
 import it.feio.android.omninotes.MainActivity;
-import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 
@@ -31,9 +28,8 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class NoteWithTitleAndContentTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class NoteWithTitleAndContentTest extends BaseRobotiumTest {
 
-    private Solo solo;
     private final String NOTE_TITLE = "new note";
     private final String NOTE_CONTENT = "some random content written at timestamp " + Calendar.getInstance()
             .getTimeInMillis();
@@ -41,20 +37,6 @@ public class NoteWithTitleAndContentTest extends ActivityInstrumentationTestCase
 
     public NoteWithTitleAndContentTest() {
         super(MainActivity.class);
-    }
-
-
-    public void setUp() throws Exception {
-        super.setUp();
-        solo = new Solo(getInstrumentation());
-        getActivity();
-    }
-
-
-    @Override
-    public void tearDown() throws Exception {
-        solo.finishOpenedActivities();
-        super.tearDown();
     }
 
 

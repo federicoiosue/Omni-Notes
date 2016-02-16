@@ -1,34 +1,17 @@
 package it.feio.android.omninotes.test;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
-
-import com.robotium.solo.Solo;
 import com.robotium.solo.Timeout;
-
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Navigation;
 
 
-public class NoteWithAudioAndCategoryTest extends ActivityInstrumentationTestCase2<MainActivity> {
-  	private Solo solo;
+public class NoteWithAudioAndCategoryTest extends BaseRobotiumTest {
 
   	public NoteWithAudioAndCategoryTest() {
 		super(MainActivity.class);
-  	}
-
-  	public void setUp() throws Exception {
-        super.setUp();
-		solo = new Solo(getInstrumentation());
-		getActivity();
-  	}
-
-   	@Override
-   	public void tearDown() throws Exception {
-        solo.finishOpenedActivities();
-        super.tearDown();
   	}
 
 	public void testNoteWithAudioAndCategory() {
@@ -49,7 +32,8 @@ public class NoteWithAudioAndCategoryTest extends ActivityInstrumentationTestCas
 		//Click on Category menu
 		solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.menu_category));
 		//Add new category
-		solo.clickOnView(solo.getView(com.afollestad.materialdialogs.R.id.buttonDefaultPositive));
+		solo.waitForDialogToOpen(1000);
+		solo.clickOnView(solo.getView(it.feio.android.omninotes.R.id.buttonDefaultPositive));
 		// Enter category name
 		solo.enterText((EditText) solo.getView(R.id.category_title), "cat123");
 		// Save category
@@ -65,7 +49,7 @@ public class NoteWithAudioAndCategoryTest extends ActivityInstrumentationTestCas
 		//Open navigation drawer
 		solo.clickOnView(solo.getView(android.widget.ImageButton.class, 0));
 		//Select notes in navigation drawer
-		solo.clickInList(0, 1);
+		solo.clickInList(0, 0);
 		solo.sleep(800);
 		assertTrue(Navigation.checkNavigation(Navigation.NOTES));
 

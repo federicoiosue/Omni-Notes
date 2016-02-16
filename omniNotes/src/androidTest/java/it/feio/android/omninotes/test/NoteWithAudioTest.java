@@ -1,29 +1,15 @@
 package it.feio.android.omninotes.test;
 
+import com.robotium.solo.Timeout;
 import it.feio.android.omninotes.MainActivity;
-import com.robotium.solo.*;
-import android.test.ActivityInstrumentationTestCase2;
 
 
-public class NoteWithAudioTest extends ActivityInstrumentationTestCase2<MainActivity> {
-  	private Solo solo;
-  	
+public class NoteWithAudioTest extends BaseRobotiumTest {
+
   	public NoteWithAudioTest() {
 		super(MainActivity.class);
   	}
 
-  	public void setUp() throws Exception {
-        super.setUp();
-		solo = new Solo(getInstrumentation());
-		getActivity();
-  	}
-  
-   	@Override
-   	public void tearDown() throws Exception {
-        solo.finishOpenedActivities();
-        super.tearDown();
-  	}
-  
 	public void testNoteWithAudio() {
         //Wait for activity: 'it.feio.android.omninotes.MainActivity'
 		solo.waitForActivity(it.feio.android.omninotes.MainActivity.class, 2000);

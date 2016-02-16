@@ -19,9 +19,7 @@ package it.feio.android.omninotes.test;
 
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
-import com.robotium.solo.Solo;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
@@ -39,28 +37,10 @@ import java.io.IOException;
 import java.util.Collections;
 
 
-public class AutoBackupFileObserverTest extends ActivityInstrumentationTestCase2<MainActivity> {
-
-	private Solo solo;
-
+public class AutoBackupFileObserverTest extends BaseRobotiumTest {
 
 	public AutoBackupFileObserverTest() {
 		super(MainActivity.class);
-	}
-
-
-	public void setUp() throws Exception {
-		super.setUp();
-		EventBus.getDefault().register(this);
-		solo = new Solo(getInstrumentation());
-		getActivity();
-	}
-
-
-	@Override
-	public void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-		super.tearDown();
 	}
 
 
