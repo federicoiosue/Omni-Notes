@@ -164,10 +164,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	// Flag to check if after editing it will return to ListActivity or not
 	// and in the last case a Toast will be shown instead than Crouton
 	private boolean afterSavedReturnsToList = true;
+	private boolean showKeyboard = false;
 	private boolean swiping;
 	private int startSwipeX;
 	private SharedPreferences prefs;
-	private boolean onCreateOptionsMenuAlreadyCalled = false;
 	private View keyboardPlaceholder;
 	private boolean orientationChanged;
 	private long audioRecordingTimeStart;
@@ -394,19 +394,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private void handleIntents() {
 		Intent i = mainActivity.getIntent();
 
-		if (Constants.ACTION_MERGE.equals(i.getAction())) {
+		if (IntentChecker.checkAction(i, Constants.ACTION_MERGE)) {
 			noteOriginal = new Note();
 			note = new Note(noteOriginal);
 			noteTmp = getArguments().getParcelable(Constants.INTENT_NOTE);
 			if (i.getStringArrayListExtra("merged_notes") != null) {
 				mergedNotesIds = i.getStringArrayListExtra("merged_notes");
 			}
-			i.setAction(null);
 		}
 
 		// Action called from home shortcut
-		if (Constants.ACTION_SHORTCUT.equals(i.getAction())
-				|| Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())) {
+		if (IntentChecker.checkAction(i, Constants.ACTION_SHORTCUT, Constants.ACTION_NOTIFICATION_CLICK)) {
 			afterSavedReturnsToList = false;
 			noteOriginal = DbHelper.getInstance().getNote(i.getLongExtra(Constants.INTENT_KEY, 0));
 			// Checks if the note pointed from the shortcut has been deleted
@@ -417,14 +415,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				mainActivity.showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
 				mainActivity.finish();
 			}
-			i.setAction(null);
 		}
 
 		// Check if is launched from a widget
-		if (Constants.ACTION_WIDGET.equals(i.getAction())
-				|| Constants.ACTION_TAKE_PHOTO.equals(i.getAction())) {
+		if (IntentChecker.checkAction(i, Constants.ACTION_WIDGET, Constants.ACTION_TAKE_PHOTO)) {
 
 			afterSavedReturnsToList = false;
+			showKeyboard = true;
 
 			//  with tags to set tag
 			if (i.hasExtra(Constants.INTENT_WIDGET)) {
@@ -446,20 +443,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			}
 
 			// Sub-action is to take a photo
-			if (Constants.ACTION_TAKE_PHOTO.equals(i.getAction())) {
+			if (IntentChecker.checkAction(i, Constants.ACTION_TAKE_PHOTO)) {
 				takePhoto();
 			}
-
-			i.setAction(null);
 		}
 
 
 		/**
 		 * Handles third party apps requests of sharing
 		 */
-		if ((Intent.ACTION_SEND.equals(i.getAction())
-				|| Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
-				|| Constants.INTENT_GOOGLE_NOW.equals(i.getAction()))
+		if (IntentChecker.checkAction(i, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE, Constants.INTENT_GOOGLE_NOW)
 				&& i.getType() != null) {
 
 			afterSavedReturnsToList = false;
@@ -498,7 +491,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				}
 			}
 
-			i.setAction(null);
+//			i.setAction(null);
+		}
+
+		if (IntentChecker.checkAction(i, Intent.ACTION_MAIN, Constants.ACTION_WIDGET_SHOW_LIST)) {
+			showKeyboard = true;
 		}
 
 	}
@@ -824,10 +821,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	/**
 	 * Force focus and shows soft keyboard. Only happens if it's a new note, without shared content.
-	 * {@link afterSavedReturnsToList} is used to check if the note is created from shared content.
+	 * {@link showKeyboard} is used to check if the note is created from shared content.
 	 */
 	private void requestFocus(final EditText view) {
-		if (note.get_id() == null && !noteTmp.isChanged(note) && afterSavedReturnsToList) {
+		if (note.get_id() == null && !noteTmp.isChanged(note) && showKeyboard) {
 			KeyboardUtils.showKeyboard(view);
 		}
 	}
