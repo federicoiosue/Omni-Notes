@@ -1862,8 +1862,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 						mRecorder = new MediaRecorder();
 						mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 						mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-						mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_WB);
-						mRecorder.setAudioEncodingBitRate(16);
+						mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+						mRecorder.setAudioEncodingBitRate(96000);
 						mRecorder.setAudioSamplingRate(44100);
 					}
 					recordName = f.getAbsolutePath();
