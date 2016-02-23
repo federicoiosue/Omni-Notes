@@ -28,6 +28,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.*;
+import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.view.ActionMode;
@@ -36,7 +37,6 @@ import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 import android.view.*;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
@@ -1718,7 +1718,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private void filterByTags() {
 
         // Retrieves all available categories
-        final List<Tag> tags = TagsHelper.getAllTags(mainActivity);
+        final List<Tag> tags = TagsHelper.getAllTags();
 
         // If there is no category a message will be shown
         if (tags.size() == 0) {

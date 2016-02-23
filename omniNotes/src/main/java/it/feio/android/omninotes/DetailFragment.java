@@ -45,6 +45,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
@@ -52,7 +53,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.Pair;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -2202,7 +2202,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		contentCursorPosition = getCursorIndex();
 
 		// Retrieves all available categories
-		final List<Tag> tags = TagsHelper.getAllTags(mainActivity);
+		final List<Tag> tags = TagsHelper.getAllTags();
 
 		// If there is no tag a message will be shown
 		if (tags.size() == 0) {

@@ -18,7 +18,7 @@
 package it.feio.android.omninotes.utils;
 
 import android.content.Context;
-import android.util.Pair;
+import android.support.v4.util.Pair;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.Tag;
@@ -34,7 +34,7 @@ import java.util.regex.Matcher;
 public class TagsHelper {
 
 
-    public static List<Tag> getAllTags(Context context) {
+    public static List<Tag> getAllTags() {
         return DbHelper.getInstance().getTags();
     }
 
@@ -71,7 +71,7 @@ public class TagsHelper {
                 }
             }
         }
-        return new Pair(sbTags.toString(), tagsToRemove);
+        return Pair.create(sbTags.toString(), tagsToRemove);
     }
 
 

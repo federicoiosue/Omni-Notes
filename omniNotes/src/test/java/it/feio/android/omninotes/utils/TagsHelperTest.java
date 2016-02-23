@@ -17,41 +17,67 @@
 
 package it.feio.android.omninotes.utils;
 
-import android.test.AndroidTestCase;
-import android.test.RenamingDelegatingContext;
-import it.feio.android.omninotes.db.DbHelper;
+import android.support.v4.util.Pair;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.TagsHelper;
+import it.feio.android.omninotes.models.Tag;
+import org.junit.Before;
+import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
-public class TagsHelperTest extends AndroidTestCase {
+public class TagsHelperTest {
 
-	private RenamingDelegatingContext context;
+	private static String TAG1 = "#mixed";
+	private static String TAG2 = "#123numbered";
+	private static String TAG3 = "#tags";
+
+	private Note note;
 
 
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		context = new RenamingDelegatingContext(getContext(), "test_");
+	@Before
+	public void setup() {
+		note = new Note();
+		note.setContent("Random content with " + TAG1 + " " + TAG2 + " " + TAG3);
 	}
 
 
-	@Override
-	protected void tearDown() throws Exception {
-		context.deleteDatabase(DbHelper.getInstance().getDatabaseName());
-		super.tearDown();
-	}
-
-
-	public void testGetAllTripDeliveries() {
-		Note note = new Note();
-		note.setContent("Random content with #mixed #123numbered #tags");
+	@Test
+	public void retrievesTagsFromNote() {
 		HashMap<String, Integer> tags = TagsHelper.retrieveTags(note);
-		assertTrue(tags.containsKey("#mixed"));
-		assertTrue(tags.containsKey("#123numbered"));
-		assertTrue(tags.containsKey("#tags"));
+		assertTrue(tags.containsKey(TAG1));
+		assertTrue(tags.containsKey(TAG2));
+		assertTrue(tags.containsKey(TAG3));
 		assertFalse(tags.containsKey("#nonExistingTag"));
+	}
+
+
+	@Test
+	public void removesTagsFromNote() {
+		Pair<String, String> pair = TagsHelper.removeTag(note.getTitle(), note.getContent(), java.util.Collections
+				.singletonList(new Tag(TAG2, 4)));
+		note.setTitle(pair.first);
+		note.setContent(pair.second);
+		HashMap<String, Integer> tags = TagsHelper.retrieveTags(note);
+		assertTrue(tags.containsKey(TAG1));
+		assertFalse(tags.containsKey(TAG2));
+		assertTrue(tags.containsKey(TAG3));
+	}
+
+
+	@Test
+	public void addsTagsToNote() {
+		String newTag = "#addedTag";
+		List<Tag> tags = new ArrayList<>();
+		tags.add(new Tag(newTag, 1));
+		tags.add(new Tag(TAG3, 1));
+		Pair<String, List<Tag>> newTags = TagsHelper.addTagToNote(tags, new Integer[]{0, 1}, note);
+		assertTrue(newTags.first.contains(newTag));
+		assertFalse(newTags.first.contains(TAG3));
 	}
 }
