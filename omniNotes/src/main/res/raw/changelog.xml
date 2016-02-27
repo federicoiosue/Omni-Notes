@@ -17,9 +17,11 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.2.4" changeDate="Feb 23 2015">
+    <changelogversion versionName="5.2.4" changeDate="Feb 28 2015">
+        <changelogtext>[b]New![/b] Checklists animations and item deletion undo action</changelogtext>
         <changelogtext>[i]Improved[/i] Audio recording quality</changelogtext>
-        <changelogtext>[i]Fixed[/i] Keyboard not shown creating note from gome widget</changelogtext>
+        <changelogtext>[i]Fixed[/i] Keyboard not shown creating note from home widget</changelogtext>
+        <changelogtext>[i]Fixed[/i] Invisible note content field when switched back from checklist</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.3" changeDate="Jan 30 2015">

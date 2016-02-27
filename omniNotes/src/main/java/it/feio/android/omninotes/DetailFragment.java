@@ -71,10 +71,10 @@ import com.neopixl.pixlui.components.textview.TextView;
 import com.pushbullet.android.extension.MessagingExtension;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.checklistview.ChecklistManager;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListViewItem;
+import it.feio.android.checklistview.models.ChecklistManager;
 import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
@@ -90,7 +90,10 @@ import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
-import it.feio.android.omninotes.models.listeners.*;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
+import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
+import it.feio.android.omninotes.models.listeners.OnNoteSaved;
+import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.utils.Display;
@@ -139,6 +142,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Bind(R.id.title_wrapper) View titleWrapperView;
 	@Bind(R.id.tag_marker) View tagMarkerView;
 	@Bind(R.id.detail_wrapper) ViewManager detailWrapperView;
+	@Bind(R.id.snackBarPlaceholder) View snackBarPlaceholder;
 
 	public OnDateSetListener onDateSetListener;
 	public OnTimeSetListener onTimeSetListener;
@@ -599,7 +603,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		DetailFragment detailFragment = this;
 
 		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION, R.string
-				.permission_coarse_location, mainActivity.findViewById(R.id.snackBarPlaceholder), () -> {
+				.permission_coarse_location, snackBarPlaceholder, () -> {
 			if (isNoteLocationValid()) {
 				if (TextUtils.isEmpty(noteTmp.getAddress())) {
 					//FIXME: What's this "sasd"?
@@ -865,7 +869,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void displayLocationDialog() {
 		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION, R.string
-				.permission_coarse_location, mainActivity.findViewById(R.id.snackBarPlaceholder), () -> GeocodeHelper
+				.permission_coarse_location, snackBarPlaceholder, () -> GeocodeHelper
 				.getLocation(new OnGeoUtilResultListener() {
 			@Override
 			public void onAddressResolved(String address) {
@@ -1193,23 +1197,19 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@SuppressLint("NewApi")
 	private void toggleChecklist2(final boolean keepChecked, final boolean showChecks) {
 		// Get instance and set options to convert EditText to CheckListView
-		mChecklistManager = ChecklistManager.getInstance(mainActivity);
-		mChecklistManager.setMoveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior",
-				String.valueOf(it.feio.android.checklistview.Settings.CHECKED_HOLD))));
-		mChecklistManager.setShowChecks(true);
-		mChecklistManager.setNewEntryHint(getString(R.string.checklist_item_hint));
+		mChecklistManager = ChecklistManager.getInstance(mainActivity)
+				.showCheckMarks(showChecks)
+				.newEntryHint(getString(R.string.checklist_item_hint))
+				.keepChecked(keepChecked)
+				.dragVibrationEnabled(true)
+				.undoBarContainerView(scrollView)
+				.moveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior", String.valueOf
+						(it.feio.android.checklistview.Settings.CHECKED_HOLD))));
 
 		// Links parsing options
 		mChecklistManager.setOnTextLinkClickListener(textLinkClickListener);
 		mChecklistManager.addTextChangedListener(mFragment);
 		mChecklistManager.setCheckListChangedListener(mFragment);
-
-		// Options for converting back to simple text
-		mChecklistManager.setKeepChecked(keepChecked);
-		mChecklistManager.setShowChecks(showChecks);
-
-		// Vibration
-		mChecklistManager.setDragVibrationEnabled(true);
 
 		// Switches the views
 		View newView = null;
@@ -1688,8 +1688,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			}
 		} else {
 			if (mChecklistManager != null) {
-				mChecklistManager.setKeepChecked(true);
-				mChecklistManager.setShowChecks(true);
+				mChecklistManager.keepChecked(true).showCheckMarks(true);
 				contentText = mChecklistManager.getText();
 			}
 		}
@@ -1846,7 +1845,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void startRecording(View v) {
 		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.RECORD_AUDIO,
-				R.string.permission_audio_recording, mainActivity.findViewById(R.id.snackBarPlaceholder), () -> {
+				R.string.permission_audio_recording, snackBarPlaceholder, () -> {
 
 					isRecording = true;
 					android.widget.TextView mTextView = (android.widget.TextView) v;
