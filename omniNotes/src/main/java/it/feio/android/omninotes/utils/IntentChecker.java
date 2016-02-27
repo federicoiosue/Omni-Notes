@@ -49,4 +49,31 @@ public class IntentChecker {
         }
         return res;
     }
+
+
+	/**
+	 * Checks Intent's action
+	 *
+	 * @param i      Intent to ckeck
+	 * @param action Action to compare with
+	 * @return
+	 */
+	public static boolean checkAction(Intent i, String action) {
+		return i.getAction().equals(action);
+	}
+
+
+	/**
+	 * Checks Intent's actions
+	 *
+	 * @param i      Intent to ckeck
+	 * @param actions Multiple actions to compare with
+	 * @return
+	 */
+	public static boolean checkAction(Intent i, String... actions) {
+		for (String action : actions) {
+			if (checkAction(i, action)) return true;
+		}
+		return false;
+	}
 }

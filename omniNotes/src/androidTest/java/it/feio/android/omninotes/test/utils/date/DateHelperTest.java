@@ -18,7 +18,7 @@
 package it.feio.android.omninotes.test.utils.date;
 
 import android.test.InstrumentationTestCase;
-import it.feio.android.omninotes.utils.date.DateUtils;
+import it.feio.android.omninotes.helpers.date.DateHelper;
 import org.junit.Assert;
 
 import java.util.Calendar;
@@ -35,13 +35,13 @@ public class DateHelperTest extends InstrumentationTestCase {
 
 		// Daily test
 		String rruleDaily = "FREQ=DAILY;COUNT=30;WKST=MO";
-		long nextReminder = DateUtils.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily);
+		long nextReminder = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily);
 		Assert.assertNotEquals(nextReminder, 0);
 		Assert.assertEquals((nextReminder - reminder) / 60 / 60 / 1000, 24-1);
 
 		// 3-Daily test
 		String rruleDaily2 = "FREQ=DAILY;COUNT=30;INTERVAL=3";
-		long nextReminder2 = DateUtils.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily2);
+		long nextReminder2 = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily2);
 		Assert.assertNotEquals(nextReminder2, 0);
 		Assert.assertEquals((nextReminder2 - reminder) / 60 / 60 / 1000, 3*24 - 1);
 
