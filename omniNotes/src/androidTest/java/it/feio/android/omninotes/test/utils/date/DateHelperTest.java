@@ -19,7 +19,6 @@ package it.feio.android.omninotes.test.utils.date;
 
 import android.test.InstrumentationTestCase;
 import it.feio.android.omninotes.helpers.date.DateHelper;
-import it.feio.android.omninotes.utils.date.DateUtils;
 import org.junit.Assert;
 
 import java.util.Calendar;

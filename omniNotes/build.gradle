@@ -126,10 +126,6 @@ dependencies {
     compile 'com.github.federicoiosue:SimpleGallery:1.2.0'
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'
     compile 'com.github.federicoiosue:Omni-Notes-Commons:1.1.2'
-    compile 'com.github.federicoiosue:CheckListView:3.0.2'
+    compile 'com.github.federicoiosue:CheckListView:3.1.1'
     compile 'com.github.federicoiosue:pixlUI:2.3'
-}
-
-dependencies{
-    androidTestCompile fileTree(dir: 'libs', include: ['robotium-solo-5.5.3.jar'])
 }
