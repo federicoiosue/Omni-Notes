@@ -57,6 +57,10 @@
                 android:background="@drawable/category_count_bg"
                 android:paddingLeft="7dp"
                 android:paddingRight="7dp"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
                 android:gravity="center"
                 android:visibility="gone"/>
 

@@ -116,7 +116,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
 
         // Set the results into ImageView checking if an icon is present before
         if (category.getColor() != null && category.getColor().length() > 0) {
-            Drawable img = mActivity.getResources().getDrawable(R.drawable.square);
+            Drawable img = mActivity.getResources().getDrawable(R.drawable.ic_folder_special_black_24dp);
             ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(category.getColor()));
             // Before API 16 the object is mutable yet
             if (Build.VERSION.SDK_INT >= 16) {
@@ -125,7 +125,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
                 img.setColorFilter(cf);
             }
             holder.imgIcon.setImageDrawable(img);
-            int padding = 12;
+            int padding = 4;
             holder.imgIcon.setPadding(padding, padding, padding, padding);
         }
 
