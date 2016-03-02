@@ -219,19 +219,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		activityPausing = false;
 	}
 
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		cleanMemoryLeaks();
-	}
-
-
-	private void cleanMemoryLeaks() {
-		ChecklistManager.unregister();
-	}
-
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_detail, container, false);
