@@ -19,5 +19,5 @@ package it.feio.android.omninotes.models.listeners;
 
 public interface OnFabItemClickedListener {
 
-    void OnFabItemClick(int id);
+    void onFabItemClick(int id);
 }

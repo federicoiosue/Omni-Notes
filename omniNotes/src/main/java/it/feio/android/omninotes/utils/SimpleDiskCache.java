@@ -39,9 +39,10 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import it.feio.android.omninotes.models.SerializableHashMap;
+import it.feio.android.omninotes.models.SerializableMap;
 
 
 public class SimpleDiskCache {
@@ -112,11 +113,11 @@ public class SimpleDiskCache {
 
 
     public OutputStream openStream(String key) throws IOException {
-        return openStream(key, new HashMap<String, Serializable>());
+        return openStream(key, new SerializableHashMap<String, Serializable>());
     }
 
 
-    public OutputStream openStream(String key, Map<String, ? extends Serializable> metadata)
+    public OutputStream openStream(String key, SerializableMap<String, ? extends Serializable> metadata)
             throws IOException {
         DiskLruCache.Editor editor = diskLruCache.edit(toInternalKey(key));
         try {
@@ -131,11 +132,11 @@ public class SimpleDiskCache {
 
 
     public void put(String key, InputStream is) throws IOException {
-        put(key, is, new HashMap<String, Serializable>());
+        put(key, is, new SerializableHashMap<String, Serializable>());
     }
 
 
-    public void put(String key, InputStream is, Map<String, Serializable> annotations)
+    public void put(String key, InputStream is, SerializableHashMap<String, Serializable> annotations)
             throws IOException {
         OutputStream os = null;
         try {
@@ -148,11 +149,11 @@ public class SimpleDiskCache {
 
 
     public void put(String key, String value) throws IOException {
-        put(key, value, new HashMap<String, Serializable>());
+        put(key, value, new SerializableHashMap<String, Serializable>());
     }
 
 
-    public void put(String key, String value, Map<String, ? extends Serializable> annotations)
+    public void put(String key, String value, SerializableMap<String, ? extends Serializable> annotations)
             throws IOException {
         OutputStream cos = null;
         try {
@@ -165,7 +166,7 @@ public class SimpleDiskCache {
     }
 
 
-    private void writeMetadata(Map<String, ? extends Serializable> metadata,
+    private void writeMetadata(SerializableMap<String, ? extends Serializable> metadata,
                                DiskLruCache.Editor editor) throws IOException {
         ObjectOutputStream oos = null;
         try {

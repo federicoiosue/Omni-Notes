@@ -37,9 +37,9 @@ import it.feio.android.omninotes.utils.Constants;
 
 public abstract class WidgetProvider extends AppWidgetProvider {
 
-    public static String EXTRA_WORD = "it.feio.android.omninotes.widget.WORD";
-    public static String TOAST_ACTION = "it.feio.android.omninotes.widget.NOTE";
-    public static String EXTRA_ITEM = "it.feio.android.omninotes.widget.EXTRA_FIELD";
+    public static final String EXTRA_WORD = "it.feio.android.omninotes.widget.WORD";
+    public static final String TOAST_ACTION = "it.feio.android.omninotes.widget.NOTE";
+    public static final String EXTRA_ITEM = "it.feio.android.omninotes.widget.EXTRA_FIELD";
 
 
     @Override
