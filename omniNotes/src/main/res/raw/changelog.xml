@@ -17,6 +17,10 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.6" changeDate="Mar 6, 2015">
+        <changelogtext>[i]Fixed[/i] Non-English-based languages hashtag recognition</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.5" changeDate="Mar 2, 2015">
         <changelogtext>[i]Improved[/i] Categories layout in navigation panel</changelogtext>
         <changelogtext>[i]Fixed[/i] Crash on checklist's items drag and drop on Android minor than KitKat</changelogtext>
