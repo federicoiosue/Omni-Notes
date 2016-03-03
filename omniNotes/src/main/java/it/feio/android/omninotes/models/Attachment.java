@@ -34,7 +34,7 @@ public class Attachment extends it.feio.android.omninotes.commons.models.Attachm
 
 
 	public Attachment(long id, Uri uri, String name, long size, long length, String mime_type) {
-		super(id, uri.getPath(), name, size, length, mime_type);
+		super(id, uri != null ? uri.getPath() : null, name, size, length, mime_type);
 		setUri(uri);
 	}
 
