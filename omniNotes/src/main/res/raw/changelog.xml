@@ -19,6 +19,7 @@
 
     <changelogversion versionName="5.2.6" changeDate="Mar 6, 2015">
         <changelogtext>[i]Improved[/i] Language translations</changelogtext>
+        <changelogtext>[i]Improved[/i] Checklist animations on Android minor than KitKat</changelogtext>
         <changelogtext>[u]Fix[/u] Non-English-based languages hashtag recognition</changelogtext>
     </changelogversion>
 
