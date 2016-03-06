@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">ノート</string>
   <string name="add_note">ノートを追加</string>
   <string name="title">タイトル</string>
@@ -196,6 +197,7 @@
   <string name="checklist">チェックリスト</string>
   <string name="text_note">テキスト ノート</string>
   <string name="photo">写真</string>
+  <!-- Settings -->
   <string name="dashclock_description">統計情報と Omni Notes から期限切れのアラームを表示します</string>
   <string name="settings">設定</string>
   <string name="settings_about">情報</string>
@@ -312,10 +314,14 @@
   <string name="settings_attachments_on_bottom">下に添付ファイル</string>
   <string name="settings_attachments_on_bottom_summary_on">ノート内容の下に添付ファイルを表示します</string>
   <string name="settings_attachments_on_bottom_summary_off">ノート内容の上に添付ファイルを表示します</string>
+  <string name="settings_screen_privacy">プライバシー</string>
   <string name="settings_error_reporting">エラー報告</string>
   <string name="settings_error_reporting_summary_on">アプリがクラッシュした時に、あなたの役に立つように開発者に通知されます</string>
   <string name="settings_error_reporting_summary_off">クラッシュ レポートは送信されません。何か問題があっても文句を言わないでくださいね!</string>
+  <string name="settings_send_analytics">匿名データを共有</string>
+  <string name="settings_send_analytics_summary">デバイスのモデル、言語、よく使われるアプリの機能など、機密ではないデータを送信することで開発者を支援します。このデータはオープンソース アプリの改善にのみ使用されます。</string>
   <string name="settings_statistics">統計情報</string>
+  <!-- Instructions -->
   <string name="tour_request_start">Omni Notes をはじめて起動しました。アプリケーション ツアーを表示しますか?</string>
   <string name="tour_listactivity_intro_title">Omni Notes へようこそ!</string>
   <string name="tour_listactivity_intro_detail">\"続行\" を押すと、ツアーを続行します</string>
@@ -340,6 +346,7 @@
   <string name="tour_listactivity_final_title">お楽しみください</string>
   <string name="tour_listactivity_final_detail">Omni Notes をご利用ありがとうございます \n効率的かつ快適にノートをとることができるオープン ソースです!</string>
   <string name="tour_community">コミュニティに登録して、参加します!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">ドロワーを開く</string>
   <string name="drawer_close">ドロワーを閉じる</string>
   <string name="reminder">アラーム</string>

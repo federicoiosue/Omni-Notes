@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">Jegyzetek</string>
   <string name="add_note">Jegyzet hozzáadása</string>
   <string name="title">Cím</string>
@@ -185,17 +186,18 @@
   <string name="use_current_location">Aktuális hely használata</string>
   <string name="filter">Szűrő</string>
   <string name="remove_filter">Szűrő eltávolítása</string>
-  <string name="filter_old_reminders">Hide old reminders</string>
-  <string name="remove_filter_old_reminders">Show old reminders</string>
-  <string name="filter_archived">Hide archived notes</string>
-  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="filter_old_reminders">Régi emlékeztetők elrejtése</string>
+  <string name="remove_filter_old_reminders">Régi emlékeztetők megjelenítése</string>
+  <string name="filter_archived">Archivált megjegyzések elrejtése</string>
+  <string name="remove_filter_archived">Archivált megjegyzések megjelenítése</string>
   <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
   <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
   <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
   <string name="permission_not_granted">Permission not granted</string>
-  <string name="checklist">Checklist</string>
-  <string name="text_note">Text note</string>
-  <string name="photo">Photo</string>
+  <string name="checklist">Ellenőrzőlista</string>
+  <string name="text_note">Szöveges megjegyzés</string>
+  <string name="photo">Fénykép</string>
+  <!-- Settings -->
   <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
   <string name="settings">Beállítások</string>
   <string name="settings_about">Információ</string>
@@ -312,10 +314,14 @@
   <string name="settings_attachments_on_bottom">Attachments on bottom</string>
   <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
   <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
+  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Hibajelentés</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
+  <string name="settings_send_analytics">Share anonymous data</string>
+  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statisztika</string>
+  <!-- Instructions -->
   <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>
   <string name="tour_listactivity_intro_title">Üdvözli az Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">press \"Proceed\" to continue the tour</string>
@@ -339,7 +345,8 @@
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Jó szórakozást</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-  <string name="tour_community">Subscribe to the community to partecipate!</string>
+  <string name="tour_community">Subscribe to the community to participate!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">fiók nyitva</string>
   <string name="drawer_close">fiók zárva</string>
   <string name="reminder">emlékeztető</string>
