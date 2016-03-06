@@ -17,23 +17,29 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.6" changeDate="Mar 6, 2015">
+        <changelogtext>[i]Improved[/i] Language translations</changelogtext>
+        <changelogtext>[i]Improved[/i] Checklist animations on Android minor than KitKat</changelogtext>
+        <changelogtext>[u]Fix[/u] Non-English-based languages hashtag recognition</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.5" changeDate="Mar 2, 2015">
         <changelogtext>[i]Improved[/i] Categories layout in navigation panel</changelogtext>
-        <changelogtext>[i]Fixed[/i] Crash on checklist's items drag and drop on Android minor than KitKat</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash on checklist's items drag and drop on Android minor than KitKat</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.4" changeDate="Feb 28, 2015">
         <changelogtext>[b]New![/b] Checklists animations and item deletion undo action</changelogtext>
         <changelogtext>[i]Improved[/i] Audio recording quality</changelogtext>
-        <changelogtext>[i]Fixed[/i] Keyboard not shown creating note from home widget</changelogtext>
-        <changelogtext>[i]Fixed[/i] Invisible note content field when switched back from checklist</changelogtext>
+        <changelogtext>[u]Fix[/u] Keyboard not shown creating note from home widget</changelogtext>
+        <changelogtext>[u]Fix[/u] Invisible note content field when switched back from checklist</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.3" changeDate="Jan 30, 2015">
         <changelogtext>[b]New![/b] New section into settings containing privacy preferences</changelogtext>
         <changelogtext>[i]Improved[/i] Option to choose between prettied or precise dates into settings</changelogtext>
         <changelogtext>[i]Improved[/i] Keyboard is not automatically shown when creating a note from shared content</changelogtext>
-        <changelogtext>[i]Fixed[/i] Numeric hashtags are now recognized</changelogtext>
+        <changelogtext>[u]Fix[/u] Numeric hashtags are now recognized</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.2" changeDate="Jan 24, 2015">

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -50,10 +51,23 @@ public class TagsHelperTest {
 	@Test
 	public void retrievesTagsFromNote() {
 		HashMap<String, Integer> tags = TagsHelper.retrieveTags(note);
+		assertEquals(tags.size(), 3);
 		assertTrue(tags.containsKey(TAG1));
 		assertTrue(tags.containsKey(TAG2));
 		assertTrue(tags.containsKey(TAG3));
 		assertFalse(tags.containsKey("#nonExistingTag"));
+	}
+
+	
+	@Test
+	public void retrievesTagsFromNoteMultilanguage() {
+		note.setContent("#привет");
+		HashMap<String, Integer> tags = TagsHelper.retrieveTags(note);
+		assertTrue(tags.containsKey("#привет"));
+
+		note.setContent("#中华人民共和国");
+		tags = TagsHelper.retrieveTags(note);
+		assertTrue(tags.containsKey("#中华人民共和国"));
 	}
 
 

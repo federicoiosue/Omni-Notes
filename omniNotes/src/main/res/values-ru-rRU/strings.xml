@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">Заметки</string>
   <string name="add_note">Создать заметку</string>
   <string name="title">Заголовок</string>
@@ -196,6 +197,7 @@
   <string name="checklist">Перечень</string>
   <string name="text_note">Запись</string>
   <string name="photo">Фотография</string>
+  <!-- Settings -->
   <string name="dashclock_description">Отображает некоторую статистику и ближайшие напоминания из Omni Notes</string>
   <string name="settings">Настройки</string>
   <string name="settings_about">Сведения</string>
@@ -312,10 +314,14 @@
   <string name="settings_attachments_on_bottom">Вложения в конце заметок</string>
   <string name="settings_attachments_on_bottom_summary_on">Вложения отображаются ниже содержаний заметок</string>
   <string name="settings_attachments_on_bottom_summary_off">Вложения отображаются выше содержаний заметок</string>
+  <string name="settings_screen_privacy">Конфиденциальность</string>
   <string name="settings_error_reporting">Отправка отчетов</string>
   <string name="settings_error_reporting_summary_on">Разработчик будет осведомлен, если в приложении произойдёт сбой и сможет его исправить</string>
   <string name="settings_error_reporting_summary_off">Отчеты не отправляются. Случится сбой - виноваты сами!</string>
+  <string name="settings_send_analytics">Отправка статистики</string>
+  <string name="settings_send_analytics_summary">Помочь разработчику путем отправки анонимных данных, таких как модель устройства, язык, наиболее используемые функции. Личные данные не собираются</string>
   <string name="settings_statistics">Статистика</string>
+  <!-- Instructions -->
   <string name="tour_request_start">Вы запустили Omni Notes впервые, желаете пройти обучение?</string>
   <string name="tour_listactivity_intro_title">Omni Notes приветствует Вас!</string>
   <string name="tour_listactivity_intro_detail">Нажмите «Продолжить» для начала обучения</string>
@@ -340,6 +346,7 @@
   <string name="tour_listactivity_final_title">Приятного пользования!</string>
   <string name="tour_listactivity_final_detail">Спасибо за использование Omni Notes\nСвободной альтернативы для производительности труда и повседневных заметок!</string>
   <string name="tour_community">Не забудьте подписаться на наше сообщество!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">сп. прил. открыт?</string>
   <string name="drawer_close">сп. прил. закрыт?</string>
   <string name="reminder">напоминание</string>

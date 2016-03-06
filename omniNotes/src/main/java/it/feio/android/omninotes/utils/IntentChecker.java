@@ -59,7 +59,7 @@ public class IntentChecker {
 	 * @return
 	 */
 	public static boolean checkAction(Intent i, String action) {
-		return i.getAction().equals(action);
+		return action.equals(i.getAction());
 	}
 
 
