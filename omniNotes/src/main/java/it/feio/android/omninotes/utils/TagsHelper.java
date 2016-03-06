@@ -17,7 +17,6 @@
 
 package it.feio.android.omninotes.utils;
 
-import android.content.Context;
 import android.support.v4.util.Pair;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
@@ -39,16 +38,16 @@ public class TagsHelper {
     }
 
 
-    public static HashMap<String, Integer> retrieveTags(Note note) {
-        HashMap<String, Integer> tagsMap = new HashMap<>();
-        Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(note.getTitle() + " " + note.getContent());
-        while (matcher.find()) {
-            String tagText = matcher.group().trim();
-            int count = tagsMap.get(tagText) == null ? 0 : tagsMap.get(tagText);
-            tagsMap.put(tagText, ++count);
-        }
-        return tagsMap;
-    }
+	public static HashMap<String, Integer> retrieveTags(Note note) {
+		HashMap<String, Integer> tagsMap = new HashMap<>();
+		for (String token : (note.getTitle() + " " + note.getContent()).replaceAll("\n", "").trim().split(" ")) {
+			if (RegexPatternsConstants.HASH_TAG.matcher(token).matches()) {
+				int count = tagsMap.get(token) == null ? 0 : tagsMap.get(token);
+				tagsMap.put(token, ++count);
+			}
+		}
+		return tagsMap;
+	}
 
 
     public static Pair<String, List<Tag>> addTagToNote(List<Tag> tags, Integer[] selectedTags, Note note) {

@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">Notas</string>
   <string name="add_note">Engadir nota</string>
   <string name="title">Título</string>
@@ -196,6 +197,7 @@
   <string name="checklist">Listaxe de verificación</string>
   <string name="text_note">Nota de texto</string>
   <string name="photo">Foto</string>
+  <!-- Settings -->
   <string name="dashclock_description">Mostrar algunhas estatísticas e recordatorios próximos de Omni Notes</string>
   <string name="settings">Axustes</string>
   <string name="settings_about">Información</string>
@@ -312,10 +314,14 @@
   <string name="settings_attachments_on_bottom">Ficheiros anexos na parte superior</string>
   <string name="settings_attachments_on_bottom_summary_on">Mostrar ficheiros anexos embaixo do contido</string>
   <string name="settings_attachments_on_bottom_summary_off">Mostrar ficheiros anexos sobre o contido</string>
+  <string name="settings_screen_privacy">Privacidade</string>
   <string name="settings_error_reporting">Erro ao enviar o informe</string>
   <string name="settings_error_reporting_summary_on">Cando o aplicativo se bloquee, o desenvolvedor será informado para poder axudarche</string>
   <string name="settings_error_reporting_summary_off">Non se enviarán informes de erros. Non te queixes se algo falla!</string>
+  <string name="settings_send_analytics">Compartir datos anónimos</string>
+  <string name="settings_send_analytics_summary">Axuda o desenvolvedor enviándolle datos non sensibles como o modelo de dispositivo, o idioma ou as funcionalidades máis empregadas. Estes datos usaranse unicamente para mellorar o aplicativo.</string>
   <string name="settings_statistics">Estatísticas</string>
+  <!-- Instructions -->
   <string name="tour_request_start">Iniciaches Omni Notes por vez primeira, gustaríache dar unha volta polo aplicativo a modo de titorial?</string>
   <string name="tour_listactivity_intro_title">Benvido/a a Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">toca \"Continuar\" para seguir vendo a introdución</string>
@@ -340,6 +346,7 @@
   <string name="tour_listactivity_final_title">Pásao ben!</string>
   <string name="tour_listactivity_final_detail">Grazas por usares Omni Notes\nA alternativa de código aberto para tomar notas no ámbito laboral ou nos momentos de lecer!</string>
   <string name="tour_community">Subscribirse á comunidade para participar!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">abrir editor</string>
   <string name="drawer_close">pechar editor</string>
   <string name="reminder">recordatorio</string>

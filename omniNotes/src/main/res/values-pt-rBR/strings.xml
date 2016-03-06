@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">Notas</string>
   <string name="add_note">Adicionar nota</string>
   <string name="title">Título</string>
@@ -61,7 +62,7 @@
   <string name="attachment">Anexo</string>
   <string name="camera">Câmera</string>
   <string name="delete_selected_image">Excluir anexo selecionado?</string>
-  <string name="delete_all_attachments">Apagar todos os anexos?</string>
+  <string name="delete_all_attachments">Excluir todos os anexos?</string>
   <string name="gallery">Galeria</string>
   <string name="location">Localização</string>
   <string name="pushbullet">Pushbullet</string>
@@ -76,7 +77,7 @@
   <string name="video">Vídeo</string>
   <string name="feature_not_available_on_this_device">Recurso não disponível neste dispositivo</string>
   <string name="error_occurred_deleting_note">Ocorreu um erro ao excluir a nota</string>
-  <string name="no_backups_available">Não existem cópias de segurança disponíveis</string>
+  <string name="no_backups_available">Backups não disponíveis</string>
   <string name="data_export_message">Insira o nome do backup</string>
   <string name="data_import_message">Toque -&gt; restaurar\nToque longo -&gt; excluir</string>
   <string name="data_import_message_warning">AVISO: isto irá substituir todos os dados atuais!</string>
@@ -195,7 +196,8 @@
   <string name="permission_not_granted">Permissão não concedida</string>
   <string name="checklist">Lista de verificação</string>
   <string name="text_note">Nota de texto</string>
-  <string name="photo">Fotografia</string>
+  <string name="photo">Foto</string>
+  <!-- Settings -->
   <string name="dashclock_description">Mostra algumas estatísticas e próximos alertas do Omni Notes</string>
   <string name="settings">Configurações</string>
   <string name="settings_about">Informação</string>
@@ -295,7 +297,7 @@
   <string name="settings_screen_behaviors">Comportamentos</string>
   <string name="settings_enable_swipe">Arrastar notas</string>
   <string name="settings_enable_swipe_summary">Arraste notas para executar ações</string>
-  <string name="settings_swipe_to_trash">Arrastar para o lixo</string>
+  <string name="settings_swipe_to_trash">Deslize para excluir</string>
   <string name="settings_swipe_to_trash_summary_1">Deslizar notas com dedo irá movê-las para a lixeira</string>
   <string name="settings_swipe_to_trash_summary_2">Deslizar notas com dedo irá excluí-las permanentemente</string>
   <string name="settings_show_uncategorized">Grupo sem categoria</string>
@@ -306,16 +308,20 @@
   <string name="settings_auto_location_summary">Adiciona automaticamente a localização para novas notas</string>
   <string name="settings_dynamic_menu">Menu dinâmico</string>
   <string name="settings_dynamic_menu_summary">Itens de menu não usados são automaticamente escondidos</string>
-  <string name="settings_fab_expansion_behavior">Botão de acção flutuante</string>
-  <string name="settings_fab_expansion_behavior_summary_on">Toque curto executa a acção</string>
+  <string name="settings_fab_expansion_behavior">Botão de ação flutuante</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Toque curto executa a ação</string>
   <string name="settings_fab_expansion_behavior_summary_off">Toque curto alterna entre as opções</string>
-  <string name="settings_attachments_on_bottom">Anexos no fim</string>
+  <string name="settings_attachments_on_bottom">Anexos na parte inferior</string>
   <string name="settings_attachments_on_bottom_summary_on">Mostra anexos abaixo do conteúdo da nota</string>
   <string name="settings_attachments_on_bottom_summary_off">Mostra anexos acima do conteúdo da nota</string>
+  <string name="settings_screen_privacy">Privacidade</string>
   <string name="settings_error_reporting">Relatório de erros</string>
-  <string name="settings_error_reporting_summary_on">Quando a aplicação bloquear o programador vai ser informado para que possa investigar o problema</string>
+  <string name="settings_error_reporting_summary_on">Quando o aplicativo travar, o desenvolvedor será informado para lhe ajudar</string>
   <string name="settings_error_reporting_summary_off">Não serão enviados relatórios de erro. Depois não se queixe quando algo correr mal!</string>
+  <string name="settings_send_analytics">Compartilhar dados anônimos</string>
+  <string name="settings_send_analytics_summary">Ajude o desenvolvedor enviando dados não sensíveis, como modelo do dispositivo, idioma, recursos frequentemente utilizados do aplicativo. Esses dados são utilizados somente para melhorar o aplicativo de código-aberto.</string>
   <string name="settings_statistics">Estatísticas</string>
+  <!-- Instructions -->
   <string name="tour_request_start">Você abriu o Omni Notes pela primeira vez, gostaria de ver o tutorial do aplicativo?</string>
   <string name="tour_listactivity_intro_title">Bem-vindo ao Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Toque em \"Próximo\" para continuar o tutorial</string>
@@ -332,7 +338,7 @@
   <string name="tour_detailactivity_reminder_title">Basta tocar</string>
   <string name="tour_detailactivity_reminder_detail">Toques curtos ou longos em objetos (anexos, locais, lembretes) têm funções diferentes!</string>
   <string name="tour_detailactivity_links_title">Links</string>
-  <string name="tour_detailactivity_links_detail">Clique num URL ou endereço de email para o copiar ou abrir</string>
+  <string name="tour_detailactivity_links_detail">Clique em uma URL ou endereço de email para copiar ou abrir</string>
   <string name="tour_detailactivity_swipe_title">Deslize</string>
   <string name="tour_detailactivity_swipe_detail">Crie novas notas sem \n
 sair daquela que você \n
@@ -341,7 +347,8 @@ está editando</string>
   <string name="tour_detailactivity_save_detail">Simplesmente pressione o ícone de navegação \'para cima\' ou o botão \'voltar\' do seu dispositivo</string>
   <string name="tour_listactivity_final_title">Aproveite</string>
   <string name="tour_listactivity_final_detail">Obrigado por usar o Omni Notes \nA alternativa de código livre para anotações de produtividade e lazer!</string>
-  <string name="tour_community">Registe-se na comunidade para ajudar!</string>
+  <string name="tour_community">Registre-se na comunidade para participar!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">gaveta aberta</string>
   <string name="drawer_close">gaveta fechada</string>
   <string name="reminder">lembrete</string>
