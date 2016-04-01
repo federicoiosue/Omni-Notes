@@ -263,7 +263,7 @@
         <!-- DashClock plugin service -->
         <service
             android:name=".extensions.ONDashClockExtension"
-            android:icon="@drawable/ic_stat_notification_icon"
+            android:icon="@drawable/ic_stat_literal_icon"
             android:label="@string/app_name"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
             <intent-filter>

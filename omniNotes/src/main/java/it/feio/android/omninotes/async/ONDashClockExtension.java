@@ -91,7 +91,7 @@ public class ONDashClockExtension extends DashClockExtension {
         // Publish the extension data update.
         publishUpdate(new ExtensionData()
                 .visible(true)
-                .icon(R.drawable.ic_stat_notification_icon)
+                .icon(R.drawable.ic_stat_literal_icon)
                 .status(String.valueOf(notesCounters.get(Counters.ACTIVE)))
                 .expandedTitle(expandedTitle.toString())
                 .expandedBody(expandedBody.toString())
