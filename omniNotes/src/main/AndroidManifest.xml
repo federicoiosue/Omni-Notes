@@ -262,7 +262,7 @@
 
         <!-- DashClock plugin service -->
         <service
-            android:name="it.feio.android.omninotes.async.ONDashClockExtension"
+            android:name=".extensions.ONDashClockExtension"
             android:icon="@drawable/ic_stat_notification_icon"
             android:label="@string/app_name"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
