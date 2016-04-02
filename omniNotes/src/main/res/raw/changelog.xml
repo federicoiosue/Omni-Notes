@@ -17,6 +17,13 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.7" changeDate="Apr 2, 2016">
+        <changelogtext>[b]New![/b] Added Latvian translation</changelogtext>
+        <changelogtext>[i]Improved[/i] Updated Chinese Traditional and Croatian</changelogtext>
+        <changelogtext>[i]Improved[/i] Changed notification icon</changelogtext>
+        <changelogtext>[u]Fix[/u] Dashclock contracted extension</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.6" changeDate="Mar 6, 2016">
         <changelogtext>[i]Improved[/i] Language translations</changelogtext>
         <changelogtext>[i]Improved[/i] Checklist animations on Android minor than KitKat</changelogtext>
