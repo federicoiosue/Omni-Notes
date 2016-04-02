@@ -28,6 +28,7 @@ android {
         targetSdkVersion project.TARGET_SDK
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
+        vectorDrawables.useSupportLibrary = true
     }
 
     packagingOptions {
@@ -80,8 +81,8 @@ dependencies {
     }
     compile 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
     compile 'be.billington.calendar.recurrencepicker:library:1.1.1'
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.android.support:design:23.2.0'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:design:23.2.1'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'com.getbase:floatingactionbutton:1.10.1'
