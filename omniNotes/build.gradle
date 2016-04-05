@@ -76,7 +76,7 @@ dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    compile('ch.acra:acra:4.7.0-RC.1') {
+    compile('ch.acra:acra:4.8.5') {
         exclude group: 'org.json'
     }
     compile 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
@@ -120,4 +120,5 @@ dependencies {
 
 android.buildTypes.each { type ->
     type.buildConfigField 'String', 'ANALYTICS_URL', '"' + ANALYTICS_URL + '"'
+    type.buildConfigField 'String', 'CRASH_REPORTING_URL', '"' + CRASH_REPORTING_URL + '"'
 }

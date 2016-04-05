@@ -36,7 +36,7 @@ import org.acra.sender.HttpSender.Type;
 
 import java.util.Locale;
 
-@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = "http://collector.tracepot.com/3f39b042", mode = ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
+@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = BuildConfig.CRASH_REPORTING_URL, mode = ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
 public class OmniNotes extends Application {
 
 	private static Context mContext;
