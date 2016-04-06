@@ -121,4 +121,5 @@ dependencies {
 android.buildTypes.each { type ->
     type.buildConfigField 'String', 'ANALYTICS_URL', '"' + ANALYTICS_URL + '"'
     type.buildConfigField 'String', 'CRASH_REPORTING_URL', '"' + CRASH_REPORTING_URL + '"'
+    type.buildConfigField 'String', 'VERSION_CHECK_URL', '"' + VERSION_CHECK_URL + '"'
 }

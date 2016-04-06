@@ -27,7 +27,6 @@ public interface Constants {
 	String DEV_EMAIL = "federico.iosue@gmail.com";
 
 	// Used for updates retrieval
-	String ON_VERSION_CHECK_URL = "http://www.iosue.it/federico/apps/ON-version-check/get_app_data.php";
 	long UPDATE_MIN_FREQUENCY = 24 * 60 * 60 * 1000; // 1 day
 	String DRIVE_FOLDER_LAST_BUILD = "https://goo.gl/gB55RE";
 
