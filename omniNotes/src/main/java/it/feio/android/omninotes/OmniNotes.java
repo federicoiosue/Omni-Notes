@@ -21,6 +21,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -65,9 +66,16 @@ public class OmniNotes extends Application {
 		AnalyticsHelper.init(this, prefs.getBoolean(Constants.PREF_SEND_ANALYTICS, true));
 	}
 
+
 	private void initAcra(Application application) {
-		ACRA.init(application);
-		ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected Void doInBackground(Void... params) {
+				ACRA.init(application);
+				ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
+				return null;
+			}
+		};
 	}
 
 
