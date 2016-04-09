@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
+import it.feio.android.omninotes.BuildConfig;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
@@ -160,7 +161,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 */
 	public String getAppData() throws IOException {
 		StringBuilder sb = new StringBuilder();
-		URLConnection conn = new URL(Constants.ON_VERSION_CHECK_URL).openConnection();
+		URLConnection conn = new URL(BuildConfig.VERSION_CHECK_URL).openConnection();
 		InputStream is = conn.getInputStream();
 		InputStreamReader inputStreamReader = new InputStreamReader(is);
 		BufferedReader br = new BufferedReader(inputStreamReader);

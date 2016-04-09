@@ -2348,7 +2348,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					MessagingExtension.mirrorMessage(mainActivity, getString(R.string.app_name),
 							getString(R.string.pushbullet),
 							getNoteContent(), BitmapFactory.decodeResource(getResources(),
-									R.drawable.ic_stat_notification_icon),
+									R.drawable.ic_stat_literal_icon),
 							null, 0);
 					attachmentDialog.dismiss();
 					break;

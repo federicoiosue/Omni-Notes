@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">筆記</string>
   <string name="add_note">新增筆記</string>
   <string name="title">標題</string>
@@ -185,7 +186,7 @@
   <string name="use_current_location">使用当前位置</string>
   <string name="filter">篩選</string>
   <string name="remove_filter">刪除篩選器</string>
-  <string name="filter_old_reminders">Hide old reminders</string>
+  <string name="filter_old_reminders">隱藏舊提醒</string>
   <string name="remove_filter_old_reminders">Show old reminders</string>
   <string name="filter_archived">Hide archived notes</string>
   <string name="remove_filter_archived">Show archived notes</string>
@@ -196,6 +197,7 @@
   <string name="checklist">Checklist</string>
   <string name="text_note">Text note</string>
   <string name="photo">Photo</string>
+  <!-- Settings -->
   <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
   <string name="settings">设置</string>
   <string name="settings_about">信息</string>
@@ -312,10 +314,14 @@
   <string name="settings_attachments_on_bottom">Attachments on bottom</string>
   <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
   <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
+  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">錯誤報告</string>
   <string name="settings_error_reporting_summary_on">當應用程式崩潰時，將通知開發者來幫助你</string>
   <string name="settings_error_reporting_summary_off">錯誤報告將不會被發送，問題可能不會被解決！</string>
+  <string name="settings_send_analytics">Share anonymous data</string>
+  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statistics</string>
+  <!-- Instructions -->
   <string name="tour_request_start">这是您第一次使用Omni Note，您是否希望观看用户引导？</string>
   <string name="tour_listactivity_intro_title">欢迎使用 Omni Notes ！</string>
   <string name="tour_listactivity_intro_detail">点击\"继续\"观看引导</string>
@@ -339,7 +345,8 @@
   <string name="tour_detailactivity_save_detail">点击“向上”导航图标或您设备的后退键即可保存</string>
   <string name="tour_listactivity_final_title">祝您使用愉快</string>
   <string name="tour_listactivity_final_detail">感謝你使用 Omni Notes \n該開源供工作效率和休閒筆記!</string>
-  <string name="tour_community">Subscribe to the community to partecipate!</string>
+  <string name="tour_community">Subscribe to the community to participate!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">抽屉打开</string>
   <string name="drawer_close">抽屉关闭</string>
   <string name="reminder">提醒</string>

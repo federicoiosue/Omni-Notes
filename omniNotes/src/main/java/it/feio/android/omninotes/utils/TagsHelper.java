@@ -40,7 +40,7 @@ public class TagsHelper {
 
 	public static HashMap<String, Integer> retrieveTags(Note note) {
 		HashMap<String, Integer> tagsMap = new HashMap<>();
-		for (String token : (note.getTitle() + " " + note.getContent()).replaceAll("\n", "").trim().split(" ")) {
+		for (String token : (note.getTitle() + " " + note.getContent()).replaceAll("\n", " ").trim().split(" ")) {
 			if (RegexPatternsConstants.HASH_TAG.matcher(token).matches()) {
 				int count = tagsMap.get(token) == null ? 0 : tagsMap.get(token);
 				tagsMap.put(token, ++count);

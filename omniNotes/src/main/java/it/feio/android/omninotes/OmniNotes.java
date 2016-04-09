@@ -21,6 +21,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -36,7 +37,7 @@ import org.acra.sender.HttpSender.Type;
 
 import java.util.Locale;
 
-@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = "http://collector.tracepot.com/3f39b042", mode = ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
+@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = BuildConfig.CRASH_REPORTING_URL, mode = ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
 public class OmniNotes extends Application {
 
 	private static Context mContext;
@@ -65,9 +66,16 @@ public class OmniNotes extends Application {
 		AnalyticsHelper.init(this, prefs.getBoolean(Constants.PREF_SEND_ANALYTICS, true));
 	}
 
+
 	private void initAcra(Application application) {
-		ACRA.init(application);
-		ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected Void doInBackground(Void... params) {
+				ACRA.init(application);
+				ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
+				return null;
+			}
+		}.execute();
 	}
 
 

@@ -54,9 +54,9 @@
     <item>最大字體</item>
   </string-array>
   <string-array name="attachments_actions">
-    <item>Share</item>
-    <item>Delete</item>
+    <item>分享</item>
+    <item>删除</item>
     <item>Delete All</item>
-    <item>Edit</item>
+    <item>編輯</item>
   </string-array>
 </resources>

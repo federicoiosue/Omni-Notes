@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">Bilješke</string>
   <string name="add_note">Dodaj Bilješku</string>
   <string name="title">Naslov</string>
@@ -196,6 +197,7 @@
   <string name="checklist">Check lista</string>
   <string name="text_note">Tekstualna bilješka</string>
   <string name="photo">Fotografija</string>
+  <!-- Settings -->
   <string name="dashclock_description">Prikazuje neke statistike i podsjetnike koji istječu u aplikaciji Omni bilješke</string>
   <string name="settings">Postavke</string>
   <string name="settings_about">Informacije</string>
@@ -312,10 +314,14 @@
   <string name="settings_attachments_on_bottom">Privitci na dnu</string>
   <string name="settings_attachments_on_bottom_summary_on">Prikaži privitke ispod sadržaja bilješke</string>
   <string name="settings_attachments_on_bottom_summary_off">Prikaži privitke iznad sadržaja bilješke</string>
+  <string name="settings_screen_privacy">Privatnost</string>
   <string name="settings_error_reporting">Izvještavanje o pogreškama</string>
   <string name="settings_error_reporting_summary_on">Kada se aplikacija sruši razvojni programer bit će obaviješten kako bi vam mogao pomoći</string>
   <string name="settings_error_reporting_summary_off">Izvješća o rušenju aplikacije neće biti poslana. Nemojte se žaliti ako nešto pođe po zlu!</string>
+  <string name="settings_send_analytics">Podijeli anonimne podatke</string>
+  <string name="settings_send_analytics_summary">Pomozite razvojnim programerima slanjem anonimnih podataka o modelu uređaja, jeziku, često korištenim značajkama aplikacije. Ti podaci se koriste samo za poboljšanje aplikacije otvorenog koda.</string>
   <string name="settings_statistics">Statistika</string>
+  <!-- Instructions -->
   <string name="tour_request_start">Pokrenuli ste Omni Bilješke po prvi puta, želite li krenuti na obilazak aplikacije?</string>
   <string name="tour_listactivity_intro_title">Dobrodošli u Omni Bilješke!</string>
   <string name="tour_listactivity_intro_detail">Pritisnite \"Nastavi\" za nastavak obilaska</string>
@@ -340,6 +346,7 @@
   <string name="tour_listactivity_final_title">Uživajte</string>
   <string name="tour_listactivity_final_detail">Hvala što koristite aplikaciju Omni bilješke, \nalternativu otvorenog programskog koda za produktivnost i jednostavno pravljenje bilježaka!</string>
   <string name="tour_community">Uključite se u zajednicu!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">ladica otvorena</string>
   <string name="drawer_close">ladica zatvorena</string>
   <string name="reminder">podsjetnik</string>

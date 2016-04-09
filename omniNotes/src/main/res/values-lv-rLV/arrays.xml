@@ -18,45 +18,45 @@
   -->
 <resources>
   <string-array name="navigation_list">
-    <item>نقط</item>
-    <item>الأرشيف</item>
-    <item>التنبيهات</item>
-    <item>نفايات</item>
-    <item>غير مصنف</item>
+    <item>Notes</item>
+    <item>Archive</item>
+    <item>Reminders</item>
+    <item>Pārvietot uz miskasti</item>
+    <item>Uncategorized</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>العنوان</item>
-    <item>تاريخ الإنشاء</item>
-    <item>تاريخ التعديل الأخير</item>
-    <item>تاريخ التذكير</item>
+    <item>Title</item>
+    <item>Creation date</item>
+    <item>Last modification date</item>
+    <item>Reminder date</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>ربط بالموقع</item>
-    <item>الانتقال إلى آخر كل العناصر</item>
-    <item>تحريك بعد حذف إختياره لكن على رأس قائمة اللامختارة</item>
+    <item>Keep position</item>
+    <item>Move to the end of the list</item>
+    <item>Move to the end of unchecked items</item>
   </string-array>
   <string-array name="colors_app">
-    <item>معطل (تعطيل)</item>
-    <item>شريط فقط</item>
-    <item>فقط قائمة الملاحظات</item>
-    <item>كامل</item>
+    <item>Disabled</item>
+    <item>Strip only</item>
+    <item>Notes list only</item>
+    <item>Complete</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>معطل (تعطيل)</item>
-    <item>شريط فقط</item>
-    <item>قائمة الملاحظات</item>
+    <item>Disabled</item>
+    <item>Strip only</item>
+    <item>Notes list</item>
   </string-array>
   <string-array name="text_size">
-    <item>أصغر</item>
-    <item>صغير</item>
-    <item>افتراضي</item>
-    <item>كبير</item>
-    <item>أكبر</item>
+    <item>Smallest</item>
+    <item>Small</item>
+    <item>Default</item>
+    <item>Large</item>
+    <item>Largest</item>
   </string-array>
   <string-array name="attachments_actions">
-    <item>إشراك</item>
-    <item>حذف</item>
-    <item>حذف الكل</item>
-    <item>صحح</item>
+    <item>Kopīgot</item>
+    <item>Dzēst</item>
+    <item>Delete All</item>
+    <item>Rediģēt</item>
   </string-array>
 </resources>

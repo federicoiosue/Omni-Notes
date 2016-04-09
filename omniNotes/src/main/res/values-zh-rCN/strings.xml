@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">记事</string>
   <string name="add_note">添加记事</string>
   <string name="title">标题</string>
@@ -196,6 +197,7 @@
   <string name="checklist">待办事项列表</string>
   <string name="text_note">文本注释</string>
   <string name="photo">照片</string>
+  <!-- Settings -->
   <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
   <string name="settings">设置</string>
   <string name="settings_about">信息</string>
@@ -312,10 +314,14 @@
   <string name="settings_attachments_on_bottom">底部显示附件</string>
   <string name="settings_attachments_on_bottom_summary_on">在内容下方显示附件</string>
   <string name="settings_attachments_on_bottom_summary_off">在内容上方显示附件</string>
+  <string name="settings_screen_privacy">隐私</string>
   <string name="settings_error_reporting">错误报告</string>
   <string name="settings_error_reporting_summary_on">当程序崩溃时,将通知开发人员来帮助你</string>
   <string name="settings_error_reporting_summary_off">错误报告将不会被发送,问题可能不会被解决!</string>
+  <string name="settings_send_analytics">共享匿名数据</string>
+  <string name="settings_send_analytics_summary">向开发者发送设备型号, 语言设置, 常用软件功能等非敏感信息. 这些数据仅用于开源软件的改进和开发.</string>
   <string name="settings_statistics">统计</string>
+  <!-- Instructions -->
   <string name="tour_request_start">这是您第一次使用Omni Note，您是否希望观看用户引导？</string>
   <string name="tour_listactivity_intro_title">欢迎使用 Omni Notes ！</string>
   <string name="tour_listactivity_intro_detail">点击\"继续\"观看引导</string>
@@ -340,6 +346,7 @@
   <string name="tour_listactivity_final_title">祝您使用愉快</string>
   <string name="tour_listactivity_final_detail">感谢您使用 Omni Notes\n\n一款帮助您提高工作效率\n记录生活中精彩时刻的\n开源笔记应用！</string>
   <string name="tour_community">加入社区!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">抽屉打开</string>
   <string name="drawer_close">抽屉关闭</string>
   <string name="reminder">提醒</string>
