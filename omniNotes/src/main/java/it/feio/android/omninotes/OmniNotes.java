@@ -75,7 +75,7 @@ public class OmniNotes extends Application {
 				ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
 				return null;
 			}
-		};
+		}.execute();
 	}
 
 
