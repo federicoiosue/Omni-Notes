@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">نقط</string>
   <string name="add_note">إضافة نقطة</string>
   <string name="title">العنوان</string>
@@ -61,7 +62,7 @@
   <string name="attachment">مرفق</string>
   <string name="camera">الكاميرا</string>
   <string name="delete_selected_image">حذف المرفق المحدد؟</string>
-  <string name="delete_all_attachments">Delete all the attachments?</string>
+  <string name="delete_all_attachments">حذف جميع المرفقات؟</string>
   <string name="gallery">معرض الصور</string>
   <string name="location">موقع</string>
   <string name="pushbullet">بوشبوليت</string>
@@ -76,7 +77,7 @@
   <string name="video">فيديو</string>
   <string name="feature_not_available_on_this_device">الميزة غير متوفر على هذا الجهاز</string>
   <string name="error_occurred_deleting_note">حدث خطأ أثناء حذف النقطة</string>
-  <string name="no_backups_available">No backups available</string>
+  <string name="no_backups_available">لا تتوفر نسخة احتياطية</string>
   <string name="data_export_message">إدراج اسم النسخة الاحتياطية</string>
   <string name="data_import_message">انقر فوق--&gt;نقر -&gt; إسترجاع\n نقر طويل-&gt; حذف</string>
   <string name="data_import_message_warning">تحذير: سيؤدي ذلك إلى استبدال كافة البيانات الحالية!</string>
@@ -185,17 +186,19 @@
   <string name="use_current_location">استخدام الموقع الحالي</string>
   <string name="filter">فلتر</string>
   <string name="remove_filter">إزالة عامل التصفية</string>
-  <string name="filter_old_reminders">Hide old reminders</string>
-  <string name="remove_filter_old_reminders">Show old reminders</string>
-  <string name="filter_archived">Hide archived notes</string>
-  <string name="remove_filter_archived">Show archived notes</string>
-  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
-  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
-  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
-  <string name="permission_not_granted">Permission not granted</string>
-  <string name="checklist">Checklist</string>
-  <string name="text_note">Text note</string>
-  <string name="photo">Photo</string>
+  <string name="filter_old_reminders">إخفاء التذكيرات القديمة</string>
+  <string name="remove_filter_old_reminders">إظهار التذكيرات القديمة
+</string>
+  <string name="filter_archived">إخفاء الملاحظات المؤرشفة</string>
+  <string name="remove_filter_archived">إظهار الملاحظات المؤرشفة</string>
+  <string name="permission_external_storage">هناك حاجة إلى الإذن للكتابة على وحدة التخزين الخارجية للسماح للنسخ الاحتياطي في المجلدات العمومية</string>
+  <string name="permission_audio_recording">هناك حاجة الى إذن استخدام الميكروفون لتسجيل الملاحظات الصوتية</string>
+  <string name="permission_coarse_location">هناك حاجة الى هذا الإذن للوصول إلى الموقع لإضافة معلومات الموقف إلى الملاحظات الخاصة بك</string>
+  <string name="permission_not_granted">لم يمنح الإذن</string>
+  <string name="checklist">قائمة التدقيق</string>
+  <string name="text_note">ملاحظة نصية</string>
+  <string name="photo">صور</string>
+  <!-- Settings -->
   <string name="dashclock_description">عرض بعض الاحصائيات و المذكرات المنتهية من مدونات أومني</string>
   <string name="settings">إعدادات</string>
   <string name="settings_about">معلومات</string>
@@ -225,8 +228,9 @@
   <string name="settings_screen_backup">النسخ الاحتياطي</string>
   <string name="settings_screen_notifications">التنبيهات</string>
   <string name="settings_enable_vibration">الاهتزاز</string>
-  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
-  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
+  <string name="settings_notification_enable_boot_persistence">تمكين استمرار الإشعارات
+</string>
+  <string name="settings_notification_enable_boot_persistence_summary">السماح بالوصول الى الاشعارات وابقائه في المقدمة</string>
   <string name="settings_screen_navigation">تصفح</string>
   <string name="settings_changelog">سِجل التغييرات</string>
   <string name="settings_enable_editor_links">التعرف على الروابط</string>
@@ -254,15 +258,15 @@
   <string name="confirm_removing_backup">تأكيد إزالة النسخ الاحتياطي</string>
   <string name="confirm_restoring_backup">تأكيد استعادة المدونات من النسخة الاحتياطية؟</string>
   <string name="data_deletion_completed">تم حذف البيانات بنجاح</string>
-  <string name="settings_checked_items_behavior">Checklists</string>
+  <string name="settings_checked_items_behavior">قوائم مرجعية</string>
   <string name="settings_checked_items_behavior_summary">ماهو السلوك عندما يتم إختيار عنصر؟</string>
   <string name="settings_category_preferences">خيارات</string>
   <string name="settings_category_beta">الإصدار بيتا</string>
   <string name="settings_category_about">حول</string>
   <string name="settings_beta">جوجل +</string>
-  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
+  <string name="settings_beta_summary">الاشتراك في البرنامج التجريبي ومواكبة أحدث الميزات</string>
   <string name="donate">تبرع</string>
-  <string name="donate_summary">Support the development of this app with a non-profit donation</string>
+  <string name="donate_summary">دعم تطوير هذا التطبيق الغير ربحي بالتبرع</string>
   <string name="settings_choose_language">اختر اللغة</string>
   <string name="settings_notification_ringtone">النغمة</string>
   <string name="settings_enable_tag_marker_full">لون كامل</string>
@@ -289,14 +293,14 @@
   <string name="colors_app">تطبيق نظام الاوان</string>
   <string name="colors_widget">Widget color scheme</string>
   <string name="settings_instant_search">البحث الفوري</string>
-  <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
-  <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
+  <string name="settings_navdrawer_on_exit">اظهار قائمة جانبية عند اغلاق التطبيق</string>
+  <string name="settings_navdrawer_on_exit_summary">اظهار القائمة الجانبية عند الضغط على زر الرجوع قبل الخروج من التطبيق</string>
   <string name="settings_text_size">حجم الخط</string>
   <string name="settings_screen_behaviors">السلوكيات</string>
-  <string name="settings_enable_swipe">Swipe notes</string>
-  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
-  <string name="settings_swipe_to_trash">Swipe to trash</string>
-  <string name="settings_swipe_to_trash_summary_1">Swiping notes with finger will archive them</string>
+  <string name="settings_enable_swipe">مرر الملاحظات</string>
+  <string name="settings_enable_swipe_summary">مرر الى الجوانب لحذف الملاحظة</string>
+  <string name="settings_swipe_to_trash">مرر إلى سلة المهملات</string>
+  <string name="settings_swipe_to_trash_summary_1">مرر لحذف الملاحظات من الارشيف</string>
   <string name="settings_swipe_to_trash_summary_2">Swiping notes with finger will trash them</string>
   <string name="settings_show_uncategorized">Group not categorized</string>
   <string name="settings_show_uncategorized_summary">Adds a new item in navigation menu for not categorized notes</string>
@@ -312,10 +316,14 @@
   <string name="settings_attachments_on_bottom">Attachments on bottom</string>
   <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
   <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
-  <string name="settings_error_reporting">Error reporting</string>
+  <string name="settings_screen_privacy">الخصوصية</string>
+  <string name="settings_error_reporting">الإبلاغ عن الأخطاء</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
+  <string name="settings_send_analytics">Share anonymous data</string>
+  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statistics</string>
+  <!-- Instructions -->
   <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>
   <string name="tour_listactivity_intro_title">Welcome to Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">press \"Proceed\" to continue the tour</string>
@@ -339,7 +347,8 @@
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-  <string name="tour_community">Subscribe to the community to partecipate!</string>
+  <string name="tour_community">Subscribe to the community to participate!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">درج مفتوح</string>
   <string name="drawer_close">درج مغلق</string>
   <string name="reminder">تذكير</string>
