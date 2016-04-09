@@ -22,7 +22,7 @@
     <item>الأرشيف</item>
     <item>التنبيهات</item>
     <item>نفايات</item>
-    <item>Uncategorized</item>
+    <item>غير مصنف</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>العنوان</item>
@@ -36,27 +36,27 @@
     <item>تحريك بعد حذف إختياره لكن على رأس قائمة اللامختارة</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list only</item>
-    <item>Complete</item>
+    <item>معطل (تعطيل)</item>
+    <item>شريط فقط</item>
+    <item>فقط قائمة الملاحظات</item>
+    <item>كامل</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list</item>
+    <item>معطل (تعطيل)</item>
+    <item>شريط فقط</item>
+    <item>قائمة الملاحظات</item>
   </string-array>
   <string-array name="text_size">
-    <item>Smallest</item>
-    <item>Small</item>
-    <item>Default</item>
-    <item>Large</item>
-    <item>Largest</item>
+    <item>أصغر</item>
+    <item>صغير</item>
+    <item>افتراضي</item>
+    <item>كبير</item>
+    <item>أكبر</item>
   </string-array>
   <string-array name="attachments_actions">
-    <item>Share</item>
-    <item>Delete</item>
-    <item>Delete All</item>
-    <item>Edit</item>
+    <item>إشراك</item>
+    <item>حذف</item>
+    <item>حذف الكل</item>
+    <item>صحح</item>
   </string-array>
 </resources>
