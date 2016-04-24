@@ -524,7 +524,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		for (Note note : notesUpdatedEvent.notes) {
 			BackupHelper.exportNote(autoBackupDir, note);
 			BackupHelper.exportAttachments(null, new File(autoBackupDir, StorageHelper.getAttachmentDir().getName()),
-					note.getAttachmentsList());
+					note.getAttachmentsList(), note.getAttachmentsListOld());
 		}
 		initNotesList(getIntent());
 	}

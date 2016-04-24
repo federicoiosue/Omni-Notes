@@ -34,13 +34,14 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import rx.*;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 public class BackupHelper {
@@ -80,13 +81,14 @@ public class BackupHelper {
 	public static boolean exportAttachments(File backupDir, NotificationsHelper notificationsHelper) {
 		File destinationattachmentsDir = new File(backupDir, StorageHelper.getAttachmentDir().getName());
 		ArrayList<Attachment> list = DbHelper.getInstance().getAllAttachments();
-		exportAttachments(notificationsHelper, destinationattachmentsDir, list);
+		exportAttachments(notificationsHelper, destinationattachmentsDir, list, null);
 		return true;
 	}
 
 
 	public static void exportAttachments(NotificationsHelper notificationsHelper, File destinationattachmentsDir,
-										  List<Attachment> list) {
+										 List<Attachment> list, List<Attachment> listOld) {
+		listOld = listOld == null ? Collections.EMPTY_LIST : listOld;
 		int exported = 0;
 		for (Attachment attachment : list) {
 			StorageHelper.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri().getPath()));
@@ -95,6 +97,11 @@ public class BackupHelper {
 						.attachment)) + " " + exported++ + "/" + list.size()).show();
 			}
 		}
+		Observable.from(listOld)
+				.filter(attachment -> !list.contains(attachment))
+				.forEach(attachment -> StorageHelper.delete(OmniNotes.getAppContext(), new File
+						(destinationattachmentsDir.getAbsolutePath(),
+						attachment.getUri().getLastPathSegment()).getAbsolutePath()));
 	}
 
 
@@ -180,7 +187,7 @@ public class BackupHelper {
 
 		for (Attachment attachment : note.getAttachmentsList()) {
 			String attachmentFileName = FilenameUtils.getName(attachment.getUriPath());
-			File attachmentFile = new File (backupAttachmentsDir, attachmentFileName);
+			File attachmentFile = new File(backupAttachmentsDir, attachmentFileName);
 			if (attachmentFile.exists()) {
 				FileUtils.copyFileToDirectory(attachmentFile, StorageHelper.getAttachmentDir(), true);
 			} else {
@@ -215,7 +222,8 @@ public class BackupHelper {
 		result = result && noteFile.delete();
 		File attachmentBackup = new File(backupDir, StorageHelper.getAttachmentDir().getName());
 		for (Attachment attachment : note.getAttachmentsList()) {
-			result = result && new File(attachmentBackup, FilenameUtils.getName(attachment.getUri().getPath())).delete();
+			result = result && new File(attachmentBackup, FilenameUtils.getName(attachment.getUri().getPath()))
+					.delete();
 		}
 		return result;
 	}
@@ -234,8 +242,8 @@ public class BackupHelper {
 
 	/**
 	 * Import database from backup folder. Used ONLY to restore legacy backup
-	 * @deprecated
-	 * {@link BackupHelper#importNotes(File)}
+	 *
+	 * @deprecated {@link BackupHelper#importNotes(File)}
 	 */
 	@Deprecated
 	public static boolean importDB(Context context, File backupDir) {

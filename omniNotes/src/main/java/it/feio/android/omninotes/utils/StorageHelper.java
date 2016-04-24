@@ -196,7 +196,7 @@ public class StorageHelper {
 	}
 
 
-    public static boolean delete(Context mContext, String name) {
+    public static boolean delete(Context mContext, String path) {
         boolean res = false;
 
         // Checks for external storage availability
@@ -205,7 +205,7 @@ public class StorageHelper {
             return false;
         }
 
-        File file = new File(name);
+        File file = new File(path);
         if (file.isFile()) {
             res = file.delete();
         } else if (file.isDirectory()) {
