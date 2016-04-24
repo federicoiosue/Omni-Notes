@@ -212,6 +212,8 @@
     <string name="settings_export">Backup</string>
     <string name="settings_sync_import_export">Sync and Backups</string>
     <string name="settings_import">Restore or delete backups</string>
+    <string name="settings_import_legacy">Restore legacy backup</string>
+    <string name="settings_import_legacy_summary">Allows to restore old backups made with versions of Omni Notes prior to version 6</string>
     <string name="settings_import_from_springpad">Import notes from Springpad</string>
     <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>
     <string name="settings_sync_drive">Sync with Google Drive</string>
@@ -317,6 +319,9 @@
     <string name="settings_attachments_on_bottom">Attachments on bottom</string>
     <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
     <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
+    <string name="settings_prettified_dates">Prettified dates</string>
+    <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
+    <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
     <string name="settings_screen_privacy">Privacy</string>
     <string name="settings_error_reporting">Error reporting</string>
     <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
