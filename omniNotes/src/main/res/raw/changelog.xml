@@ -17,6 +17,14 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.10" changeDate="May 3, 2016">
+        <changelogtext>[i]Improved[/i] Is now possible to create tags using any kind of words. For example you can use "#thisIsA_tag!" and it'll be correctly recognized</changelogtext>
+        <changelogtext>[i]Improved[/i] Changed selected notes colorization</changelogtext>
+        <changelogtext>[i]Improved[/i] Disabled checklist items'vibration on drag</changelogtext>
+        <changelogtext>[i]Improved[/i] Updated French, Galician, Hungarian, Italian, Japanese translations (very thanks to translators)</changelogtext>
+        <changelogtext>[u]Fix[/u] Search by tags will now make search by match and no more by prefix (ex. searching for "#tag" will no more find "#tagged")</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.9" changeDate="Apr 9, 2016">
         <changelogtext>[i]Improved[/i] Updated Arabian and Chinese Traditional translations</changelogtext>
         <changelogtext>[u]Fix[/u] Crash reporting</changelogtext>
