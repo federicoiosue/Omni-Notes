@@ -83,7 +83,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String KEY_CATEGORY_DESCRIPTION = "description";
     public static final String KEY_CATEGORY_COLOR = "color";
 
-    // Queries    
+    // Queries
     private static final String CREATE_QUERY = "create.sql";
     private static final String UPGRADE_QUERY_PREFIX = "upgrade-";
     private static final String UPGRADE_QUERY_SUFFIX = ".sql";
@@ -275,7 +275,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.insertWithOnConflict(TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID, valuesAttachments, SQLiteDatabase.CONFLICT_REPLACE);
         return attachment;
     }
-      
+
 
     /**
      * Getting single note
