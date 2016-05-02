@@ -1191,7 +1191,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				.showCheckMarks(showChecks)
 				.newEntryHint(getString(R.string.checklist_item_hint))
 				.keepChecked(keepChecked)
-				.dragVibrationEnabled(true)
 				.undoBarContainerView(scrollView)
 				.moveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior", String.valueOf
 						(it.feio.android.checklistview.Settings.CHECKED_HOLD))));
