@@ -209,6 +209,8 @@
   <string name="settings_export">Copia de seguranza</string>
   <string name="settings_sync_import_export">Sincronización e copias de seguranza</string>
   <string name="settings_import">Restaurar ou eliminar copias de seguranza</string>
+  <string name="settings_import_legacy">Restaurar copia de seguranza herdada</string>
+  <string name="settings_import_legacy_summary">Permite restaurar copias de seguranza antigas, feitas con versións de Omni Notes anteriores á versión 6</string>
   <string name="settings_import_from_springpad">Importar notas do Springpad</string>
   <string name="settings_import_from_springpad_summary">Selecciona o teu ficheiro exportado do Springpad e asegúrate de ter conexión á internet</string>
   <string name="settings_sync_drive">Sincronizar co Google Drive</string>
@@ -314,6 +316,9 @@
   <string name="settings_attachments_on_bottom">Ficheiros anexos na parte superior</string>
   <string name="settings_attachments_on_bottom_summary_on">Mostrar ficheiros anexos embaixo do contido</string>
   <string name="settings_attachments_on_bottom_summary_off">Mostrar ficheiros anexos sobre o contido</string>
+  <string name="settings_prettified_dates">Detalle das datas</string>
+  <string name="settings_prettified_dates_summary_on">As datas móstranse nun formato máis simple</string>
+  <string name="settings_prettified_dates_summary_off">As datas móstranse nun formato con máis detalles</string>
   <string name="settings_screen_privacy">Privacidade</string>
   <string name="settings_error_reporting">Erro ao enviar o informe</string>
   <string name="settings_error_reporting_summary_on">Cando o aplicativo se bloquee, o desenvolvedor será informado para poder axudarche</string>

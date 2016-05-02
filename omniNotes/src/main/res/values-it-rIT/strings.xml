@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">Note</string>
   <string name="add_note">Aggiungi nota</string>
   <string name="title">Titolo</string>
@@ -197,6 +198,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="checklist">Lista di controllo</string>
   <string name="text_note">Nota testuale</string>
   <string name="photo">Foto</string>
+  <!-- Settings -->
   <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
   <string name="settings">Impostazioni</string>
   <string name="settings_about">Info</string>
@@ -208,6 +210,8 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_export">Backup</string>
   <string name="settings_sync_import_export">Sincronizzazione e backup</string>
   <string name="settings_import">Ripristina o cancella backup</string>
+  <string name="settings_import_legacy">Ripristino vecchio backup</string>
+  <string name="settings_import_legacy_summary">Consente il ripristino di backup effettuati con versioni di Omni Notes precedenti la 6</string>
   <string name="settings_import_from_springpad">Importa le note da Springpad</string>
   <string name="settings_import_from_springpad_summary">Seleziona l\'archivio delle note esportate da Springpad ed assicurati di essere connesso ad internet</string>
   <string name="settings_sync_drive">Sincronizzazione con Google Drive</string>
@@ -313,6 +317,9 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_attachments_on_bottom">Allegati in basso</string>
   <string name="settings_attachments_on_bottom_summary_on">Mostra gli allegati sotto il contenuto della nota</string>
   <string name="settings_attachments_on_bottom_summary_off">Mostra gli allegati sopra contenuto della nota</string>
+  <string name="settings_prettified_dates">Date più leggibili</string>
+  <string name="settings_prettified_dates_summary_on">Le date sono mostrate in un formato semplificato</string>
+  <string name="settings_prettified_dates_summary_off">Le date sono mostrate in un formato più dettagliato</string>
   <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Segnalazione errori</string>
   <string name="settings_error_reporting_summary_on">Quando l\'applicazione ha un problema verrà inviata una segnalazione allo sviluppatore</string>
@@ -320,6 +327,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_send_analytics">Condivisione dati anonimi</string>
   <string name="settings_send_analytics_summary">Aiuta lo sviluppatore inviando informazioni non sensibili come il modello del dispositivo, la lingua, le funzionalità più usate nell\'applicazione. Questi dati sono usati esclusivamente per migliorare l\'app open-source.</string>
   <string name="settings_statistics">Statistiche</string>
+  <!-- Instructions -->
   <string name="tour_request_start">E\' la prima volta che esegui Omni Notes, vuoi effettuare un tour dell\'applicazione?</string>
   <string name="tour_listactivity_intro_title">Benvenuti in Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Premere \"Prosegui\" per continuare il tour</string>
@@ -344,6 +352,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="tour_listactivity_final_title">Divertiti</string>
   <string name="tour_listactivity_final_detail">Grazie per aver scelto Omni Notes \n L\'alternativa open source per le tue note nei momenti di lavoro o svago!</string>
   <string name="tour_community">Non dimenticare di iscriverti alla nostra community!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">drawer aperto</string>
   <string name="drawer_close">drawer chiuso</string>
   <string name="reminder">promemoria</string>

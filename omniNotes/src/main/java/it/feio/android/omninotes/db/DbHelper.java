@@ -97,8 +97,12 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
 	public static synchronized DbHelper getInstance() {
+		return getInstance(OmniNotes.getAppContext());
+	}
+
+	public static synchronized DbHelper getInstance(Context context) {
         if (instance == null) {
-            instance = new DbHelper(OmniNotes.getAppContext());
+            instance = new DbHelper(context);
         }
         return instance;
     }
@@ -737,22 +741,19 @@ public class DbHelper extends SQLiteOpenHelper {
      * Retrieves all notes with specified tags
      */
     public List<Note> getNotesByTag(String[] tags) {
-        // Select All Query
         StringBuilder whereCondition = new StringBuilder();
         whereCondition.append(" WHERE ");
         for (int i = 0; i < tags.length; i++) {
             if (i != 0) {
                 whereCondition.append(" AND ");
             }
-            whereCondition.append("(" + KEY_CONTENT + " LIKE '%").append(tags[i]).append("%' OR ").append(KEY_TITLE)
-                    .append(" LIKE '%").append(tags[i]).append("%')");
+            whereCondition.append("(" + KEY_CONTENT + " REGEXP '.*").append(tags[i]).append("(\\s.*)*$' OR ").append(KEY_TITLE)
+                    .append(" REGEXP '.*").append(tags[i]).append("(\\s.*)*$')");
         }
-
         // Trashed notes must be included in search results only if search if performed from trash
         whereCondition.append(" AND " + KEY_TRASHED + " IS ").append(Navigation.checkNavigation(Navigation.TRASH) ? 
                 "" : "" +
                 " NOT ").append(" 1");
-
         return getNotes(whereCondition.toString(), true);
     }
 

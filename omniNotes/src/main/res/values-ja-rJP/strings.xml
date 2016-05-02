@@ -209,6 +209,8 @@
   <string name="settings_export">バックアップ</string>
   <string name="settings_sync_import_export">同期とバックアップ</string>
   <string name="settings_import">バックアップを復元または削除</string>
+  <string name="settings_import_legacy">従来のバックアップを復元</string>
+  <string name="settings_import_legacy_summary">Omni Notes のバージョン 6 より前のバージョンで作成された、古いバックアップを復元することができます</string>
   <string name="settings_import_from_springpad">Springpad からノートをインポート</string>
   <string name="settings_import_from_springpad_summary">Springpad でエクスポートしたアーカイブを選択して、インターネットに接続されていることを確認してください</string>
   <string name="settings_sync_drive">Google ドライブと同期</string>
@@ -314,6 +316,9 @@
   <string name="settings_attachments_on_bottom">下に添付ファイル</string>
   <string name="settings_attachments_on_bottom_summary_on">ノート内容の下に添付ファイルを表示します</string>
   <string name="settings_attachments_on_bottom_summary_off">ノート内容の上に添付ファイルを表示します</string>
+  <string name="settings_prettified_dates">装飾された日付</string>
+  <string name="settings_prettified_dates_summary_on">シンプルな形式で日付を表示します</string>
+  <string name="settings_prettified_dates_summary_off">詳細な形式で日付を表示します</string>
   <string name="settings_screen_privacy">プライバシー</string>
   <string name="settings_error_reporting">エラー報告</string>
   <string name="settings_error_reporting_summary_on">アプリがクラッシュした時に、あなたの役に立つように開発者に通知されます</string>
