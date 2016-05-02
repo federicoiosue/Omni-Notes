@@ -2,6 +2,7 @@
 [![Stories in In Progress](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=In%20Progress&title=In Progress)](https://waffle.io/federicoiosue/Omni-Notes)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/omni-notes/localized.png)](https://crowdin.com/project/omni-notes)
 [![Build Status](https://travis-ci.org/federicoiosue/Omni-Notes.svg?branch=develop)](https://travis-ci.org/federicoiosue/Omni-Notes)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/federicoiosue/omni-notes/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 Omni-Notes
 ==========
 
