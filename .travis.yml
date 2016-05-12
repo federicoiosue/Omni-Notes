@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 
 language: android
 
@@ -35,6 +35,6 @@ android:
 
 
 # Build
-script: ./gradlew --stacktrace clean build
+script: ./gradlew build
 
 
