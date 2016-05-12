@@ -17,6 +17,11 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.11" changeDate="May 12, 2016">
+        <changelogtext>[i]Improved[/i] Updated hungarian and simplified chinese translations</changelogtext>
+        <changelogtext>[u]Fix[/u] Search by tag</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.10" changeDate="May 3, 2016">
         <changelogtext>[i]Improved[/i] Is now possible to create tags using any kind of words. For example you can use "#thisIsA_tag!" and it'll be correctly recognized</changelogtext>
         <changelogtext>[i]Improved[/i] Changed selected notes colorization</changelogtext>

@@ -55,7 +55,7 @@ public class DbHelperTest extends AndroidTestCase {
 		dbHelper.updateNote(note1, true);
 		Note note2 = new Note();
 		note2.setTitle("title without tags in it");
-		note2.setContent("some #tagged content");
+		note2.setContent("some \n #tagged content");
 		dbHelper.updateNote(note2, true);
 		assertEquals(dbHelper.getNotesByTag("#tag").size(), 2);
 		assertEquals(dbHelper.getNotesByTag("#tagged").size(), 1);
