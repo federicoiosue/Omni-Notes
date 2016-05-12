@@ -33,6 +33,7 @@ import it.feio.android.omninotes.utils.*;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -83,7 +84,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String KEY_CATEGORY_DESCRIPTION = "description";
     public static final String KEY_CATEGORY_COLOR = "color";
 
-    // Queries    
+    // Queries
     private static final String CREATE_QUERY = "create.sql";
     private static final String UPGRADE_QUERY_PREFIX = "upgrade-";
     private static final String UPGRADE_QUERY_SUFFIX = ".sql";
@@ -275,7 +276,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.insertWithOnConflict(TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID, valuesAttachments, SQLiteDatabase.CONFLICT_REPLACE);
         return attachment;
     }
-      
+
 
     /**
      * Getting single note
@@ -747,15 +748,26 @@ public class DbHelper extends SQLiteOpenHelper {
             if (i != 0) {
                 whereCondition.append(" AND ");
             }
-            whereCondition.append("(" + KEY_CONTENT + " REGEXP '.*").append(tags[i]).append("(\\s.*)*$' OR ").append(KEY_TITLE)
-                    .append(" REGEXP '.*").append(tags[i]).append("(\\s.*)*$')");
+			whereCondition.append("(" + KEY_CONTENT + " LIKE '%").append(tags[i]).append("%' OR ").append(KEY_TITLE)
+					.append(" LIKE '%").append(tags[i]).append("%')");
         }
         // Trashed notes must be included in search results only if search if performed from trash
-        whereCondition.append(" AND " + KEY_TRASHED + " IS ").append(Navigation.checkNavigation(Navigation.TRASH) ? 
+        whereCondition.append(" AND " + KEY_TRASHED + " IS ").append(Navigation.checkNavigation(Navigation.TRASH) ?
                 "" : "" +
                 " NOT ").append(" 1");
-        return getNotes(whereCondition.toString(), true);
-    }
+
+		return rx.Observable.from(getNotes(whereCondition.toString(), true))
+				.map(note -> {
+					boolean matches = rx.Observable.from(tags)
+							.all(tag -> {
+								Pattern p = Pattern.compile(".*(\\s|^)" + tag + "(\\s|$).*", Pattern.MULTILINE);
+								return p.matcher((note.getTitle() + " " + note.getContent())).find();
+							}).toBlocking().single();
+					return matches ? note : null;
+				})
+				.filter(note -> note != null)
+				.toList().toBlocking().single();
+	}
 
 
     /**

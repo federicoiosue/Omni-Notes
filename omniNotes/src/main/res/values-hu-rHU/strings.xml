@@ -103,17 +103,17 @@
   <string name="categorize_as">Kategorizál mint</string>
   <string name="title_activity_category">Kategória szerkesztése</string>
   <string name="delete_unused_category_confirmation">Megerősítés kérése a ktegória törlésekor?</string>
-  <string name="delete_category_confirmation">This category is used by $1$ note/s.\nConfirm notes un-categorization and category deletion?</string>
+  <string name="delete_category_confirmation">Ebbe a kategóriába $1$ db jegyzet tartozik.\nBiztos megszünteti a használatát és törli?</string>
   <string name="discard">Elvetés</string>
   <string name="remove_category">Kategória eltávolítása</string>
   <string name="no_tags_created">Nincsenek címkék létrehozva</string>
   <string name="no_categories_created">Nincsenek kategóriák létrehozva</string>
-  <string name="notes_category_removed">Category removed from notes</string>
-  <string name="notes_categorized_as">Notes categorized as</string>
+  <string name="notes_category_removed">Kategória eltávolítva a jegyzetekről</string>
+  <string name="notes_categorized_as">Kategorizálva mint</string>
   <string name="insert_security_password">Írja be a jelszót</string>
   <string name="lock">Zárolás</string>
-  <string name="save_note_to_lock_it">Save note to lock it</string>
-  <string name="save_note_to_unlock_it">Save note to unlock it</string>
+  <string name="save_note_to_lock_it">Mentse el a zároláshoz</string>
+  <string name="save_note_to_unlock_it">Mentse el a feloldáshoz</string>
   <string name="unlock">Feloldás</string>
   <string name="title_activity_password">Biztonsági jelszó szerkesztése</string>
   <string name="title_activity_about">Információ</string>
@@ -149,7 +149,7 @@
   <string name="expanded_view">Bővített nézet</string>
   <string name="add_shortcut">Parancsikon létrehozása</string>
   <string name="shortcut_added">Parancsikon létrehozása a kezdő képernyőn</string>
-  <string name="shortcut_note_deleted">Shortcut points to deleted note</string>
+  <string name="shortcut_note_deleted">Hivatkozás törölt jegyzethez</string>
   <string name="widget_simple_description">Egyszerű widget gombokkal</string>
   <string name="widget_list_description">Gördülő lista widget gombokkal</string>
   <string name="notes">jegyzetek</string>
@@ -190,15 +190,15 @@
   <string name="remove_filter_old_reminders">Régi emlékeztetők megjelenítése</string>
   <string name="filter_archived">Archivált megjegyzések elrejtése</string>
   <string name="remove_filter_archived">Archivált megjegyzések megjelenítése</string>
-  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
-  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_external_storage">Biztonsági mentéshez engedélyezni kell a külső tárolókba való írást</string>
+  <string name="permission_audio_recording">Hangfelvételekhez engedélyezni kell a mikrofont</string>
   <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
-  <string name="permission_not_granted">Permission not granted</string>
+  <string name="permission_not_granted">Hozzáférés megtagadva</string>
   <string name="checklist">Ellenőrzőlista</string>
   <string name="text_note">Szöveges megjegyzés</string>
   <string name="photo">Fénykép</string>
   <!-- Settings -->
-  <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
+  <string name="dashclock_description">Statisztikák és lejáró emlékeztetők megjelenítése az Omni Notes-ból</string>
   <string name="settings">Beállítások</string>
   <string name="settings_about">Információ</string>
   <string name="settings_category_other">Egyéb</string>
@@ -209,8 +209,8 @@
   <string name="settings_export">Biztonsági mentés</string>
   <string name="settings_sync_import_export">Szinkronizálás és biztonsági mentés</string>
   <string name="settings_import">Biztonsági mentés visszaállítás vagy törlés</string>
-  <string name="settings_import_legacy">Restore legacy backup</string>
-  <string name="settings_import_legacy_summary">Allows to restore old backups made with versions of Omni Notes prior to version 6</string>
+  <string name="settings_import_legacy">Régebbi biztonsági másolat visszaállítása</string>
+  <string name="settings_import_legacy_summary">Lehetővé teszi a 6-os verziószámú Omni Notes előtt készült biztonsági mentések visszaállítását</string>
   <string name="settings_import_from_springpad">Jegyzetek importálása Springpadból</string>
   <string name="settings_import_from_springpad_summary">Válassza ki az exportált Springpad archívot, és ellenőrizze van-e internet kapcsolata</string>
   <string name="settings_sync_drive">Google Drive fiók szinkronizálás</string>
@@ -253,8 +253,8 @@
   <string name="settings_max_video_size_summary">Megengedett maximális méret megabájtban</string>
   <string name="settings_password_summary">Biztonsági jelszó szerkesztése</string>
   <string name="settings_enable_animations_summary">Animációk engedélyezése/tiltása a jegyzet listában</string>
-  <string name="settings_enable_tag_marker_summary">Show/hide colored markers for categories</string>
-  <string name="settings_enable_editor_links_summary">Make typed URLs and e-mail addresses automatically clickable</string>
+  <string name="settings_enable_tag_marker_summary">Kategóriák színjelöléseinek mutatása/elrejtése</string>
+  <string name="settings_enable_editor_links_summary">Beírt URL-ek és e-mail címek automatikus kattinthatóvá tétele</string>
   <string name="confirm_removing_backup">Biztos törli a biztonsági másolatot?</string>
   <string name="confirm_restoring_backup">Biztos visszaállítja a biztonsági mentésből?</string>
   <string name="data_deletion_completed">Adatok törlése befejeződött</string>
@@ -264,7 +264,7 @@
   <string name="settings_category_beta">Béta</string>
   <string name="settings_category_about">Névjegy</string>
   <string name="settings_beta">Google+</string>
-  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
+  <string name="settings_beta_summary">Iratkozzon fel a bétára, hogy naprakész legyen a legújabb funkciókkal</string>
   <string name="donate">Támogatás</string>
   <string name="donate_summary">Support the development of this app with a non-profit donation</string>
   <string name="settings_choose_language">Nyelv</string>
@@ -281,7 +281,7 @@
   <string name="settings_tour_show_again_summary">Show me the application tour again</string>
   <string name="backup_include_settings">Include settings and password</string>
   <string name="settings_included">beállítások tartalmazza</string>
-  <string name="settings_password_question_instructions">Insert a question and a secret answer in case you forget the password</string>
+  <string name="settings_password_question_instructions">Írjon be egy kérdést és hozzá egy titkos választ, arra az esetre, ha elfelejtené a jelszót</string>
   <string name="settings_password_question">Kérdés</string>
   <string name="settings_password_answer">Válasz</string>
   <string name="settings_password_answer_check">Válasz megerősítése</string>
@@ -293,7 +293,7 @@
   <string name="colors_app">Alkalmazás színséma</string>
   <string name="colors_widget">Widget színséma</string>
   <string name="settings_instant_search">Azonnali keresés</string>
-  <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
+  <string name="settings_navdrawer_on_exit">Navigációs menü kilépés helyett</string>
   <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
   <string name="settings_text_size">Szövegméret</string>
   <string name="settings_screen_behaviors">Viselkedés</string>
@@ -323,7 +323,7 @@
   <string name="settings_error_reporting">Hibajelentés</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
-  <string name="settings_send_analytics">Share anonymous data</string>
+  <string name="settings_send_analytics">Névtelen adatok megosztása</string>
   <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statisztika</string>
   <!-- Instructions -->
