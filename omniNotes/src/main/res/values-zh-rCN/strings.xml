@@ -209,8 +209,6 @@
   <string name="settings_export">备份</string>
   <string name="settings_sync_import_export">同步和备份</string>
   <string name="settings_import">还原或删除备份</string>
-  <string name="settings_import_legacy">恢复旧版备份</string>
-  <string name="settings_import_legacy_summary">允许恢复 Omni Note 6 之前的旧版备份</string>
   <string name="settings_import_from_springpad">从Sringpad导入记事</string>
   <string name="settings_import_from_springpad_summary">选择您的Springpad导出存档并确保已连接至网络</string>
   <string name="settings_sync_drive">与Google Drive同步</string>
