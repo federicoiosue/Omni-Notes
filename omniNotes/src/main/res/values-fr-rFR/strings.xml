@@ -209,8 +209,6 @@
   <string name="settings_export">Sauvegarder</string>
   <string name="settings_sync_import_export">Synchro et sauvegarde</string>
   <string name="settings_import">Restaurer ou supprimer les sauvegardes</string>
-  <string name="settings_import_legacy">Restaurer une ancienne sauvegarde</string>
-  <string name="settings_import_legacy_summary">Permettre de restaurer les sauvegardes effectuées avec les versions de Omni Notes antérieures à la version 6</string>
   <string name="settings_import_from_springpad">Importer les notes de Springpad</string>
   <string name="settings_import_from_springpad_summary">Sélectionner votre archive Springpad exportée et s\'assurer d\'être connecté à internet</string>
   <string name="settings_sync_drive">Synchronisation avec Google Drive</string>

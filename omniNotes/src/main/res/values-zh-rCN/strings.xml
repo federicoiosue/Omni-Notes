@@ -314,6 +314,9 @@
   <string name="settings_attachments_on_bottom">底部显示附件</string>
   <string name="settings_attachments_on_bottom_summary_on">在内容下方显示附件</string>
   <string name="settings_attachments_on_bottom_summary_off">在内容上方显示附件</string>
+  <string name="settings_prettified_dates">美化日期格式</string>
+  <string name="settings_prettified_dates_summary_on">简洁格式显示日期</string>
+  <string name="settings_prettified_dates_summary_off">详细格式显示日期</string>
   <string name="settings_screen_privacy">隐私</string>
   <string name="settings_error_reporting">错误报告</string>
   <string name="settings_error_reporting_summary_on">当程序崩溃时,将通知开发人员来帮助你</string>
