@@ -27,9 +27,14 @@
         android:title="@string/settings_import" />
 
     <Preference
-        android:key="settings_import_data_legacy"
-        android:title="@string/settings_import_legacy"
-        android:summary="@string/settings_import_legacy_summary"  />
+            android:key="settings_import_data_legacy"
+            android:title="@string/settings_import_legacy"
+            android:summary="@string/settings_import_legacy_summary"  />
+
+    <Preference
+            android:key="settings_backup_integrity_check"
+            android:title="Backup Integrity Check"
+            android:summary="Checks everything is ok with new auto-backup alpha feature (this option will be removed)"  />
 
     <Preference
             android:key="settings_import_from_springpad"

@@ -34,17 +34,22 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import rx.*;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
 
 public class BackupHelper {
+
+	private static String TAG = BackupHelper.class.getSimpleName();
+
 
 	public static void exportNotes(File backupDir) {
 		for (Note note : DbHelper.getInstance(true).getAllNotes(false)) {
@@ -101,7 +106,7 @@ public class BackupHelper {
 				.filter(attachment -> !list.contains(attachment))
 				.forEach(attachment -> StorageHelper.delete(OmniNotes.getAppContext(), new File
 						(destinationattachmentsDir.getAbsolutePath(),
-						attachment.getUri().getLastPathSegment()).getAbsolutePath()));
+								attachment.getUri().getLastPathSegment()).getAbsolutePath()));
 	}
 
 
@@ -253,4 +258,40 @@ public class BackupHelper {
 		}
 		return (StorageHelper.copyFile(new File(backupDir, Constants.DATABASE_NAME), database));
 	}
+
+
+	public static List<LinkedList<DiffMatchPatch.Diff>> integrityCheck(Context context, File backupDir) {
+		List<LinkedList<DiffMatchPatch.Diff>> errors = new ArrayList<>();
+		for (Note note : DbHelper.getInstance(true).getAllNotes(false)) {
+			File noteFile = new File(backupDir, String.valueOf(note.get_id()));
+			try {
+				String noteString = note.toJSON();
+				String noteFileString = FileUtils.readFileToString(noteFile);
+				if (noteString.equals(noteFileString)) {
+					File backupAttachmentsDir = new File(backupDir, StorageHelper.getAttachmentDir().getName());
+					for (Attachment attachment : note.getAttachmentsList()) {
+						if (!new File(backupAttachmentsDir, FilenameUtils.getName(attachment.getUriPath())).exists()) {
+							addIntegrityCheckError(errors, new FileNotFoundException("Attachment " + attachment
+									.getUriPath() + " missing"));
+						}
+					}
+				} else {
+					errors.add(new DiffMatchPatch().diffMain(noteString, noteFileString));
+				}
+			} catch (IOException e) {
+				Log.e(TAG, e.getMessage(), e);
+				addIntegrityCheckError(errors, e);
+			}
+		}
+		return errors;
+	}
+
+
+	private static void addIntegrityCheckError(List<LinkedList<DiffMatchPatch.Diff>> errors, IOException e) {
+		LinkedList l = new LinkedList();
+		l.add(new DiffMatchPatch.Diff(DiffMatchPatch.Operation.DELETE, e.getMessage()));
+		errors.add(l);
+	}
+
+
 }

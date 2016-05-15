@@ -124,6 +124,7 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
     compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
     compile 'org.piwik.sdk:piwik-sdk:0.0.4'
+    compile 'org.bitbucket.cowwoc:diff-match-patch:1.1'
 
     compile 'com.github.federicoiosue:SimpleGallery:1.2.0'
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'

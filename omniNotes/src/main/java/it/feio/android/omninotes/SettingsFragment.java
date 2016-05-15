@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 Federico Iosue (federico.iosue@gmail.com)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.*;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -35,25 +36,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
+import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.listeners.OnPermissionRequestedListener;
 import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.StringUtils;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
+import rx.Observable;
+import rx.functions.Func1;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -175,6 +182,33 @@ public class SettingsFragment extends PreferenceFragment {
 						FolderChooserDialog.Builder((SettingsActivity) getActivity())
 						.chooseButton(R.string.md_choose_label)
 						.show());
+				return false;
+			});
+		}
+
+
+		// Autobackup feature integrity check
+		Preference backupIntegrityCheck = findPreference("settings_backup_integrity_check");
+		if (backupIntegrityCheck != null) {
+			backupIntegrityCheck.setOnPreferenceClickListener(arg0 -> {
+				List<LinkedList<DiffMatchPatch.Diff>> errors = BackupHelper.integrityCheck(activity, StorageHelper
+						.getBackupDir(Constants.AUTO_BACKUP_DIR));
+				if (!errors.isEmpty()) {
+					DiffMatchPatch diffMatchPatch = new DiffMatchPatch();
+					String content = Observable.from(errors).map(diffs -> diffMatchPatch.diffPrettyHtml(diffs) +
+							"<br/>").toList().toBlocking().first().toString();
+					View v = getActivity().getLayoutInflater().inflate(R.layout.webview, null);
+					((WebView) v.findViewById(R.id.webview)).loadData(content, "text/html", null);
+					new MaterialDialog.Builder(activity)
+							.customView(v, true)
+							.positiveText(R.string.ok)
+							.negativeText("Copy to clipboard")
+							.onNegative((dialog, which) -> {
+								SystemHelper.copyToClipboard(activity, content);
+								Toast.makeText(activity, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+							})
+							.build().show();
+				}
 				return false;
 			});
 		}
@@ -410,7 +444,8 @@ public class SettingsFragment extends PreferenceFragment {
 
 
 		// NotificationServiceListener shortcut
-		final Preference norificationServiceListenerPreference = findPreference("settings_notification_service_listener");
+		final Preference norificationServiceListenerPreference = findPreference
+				("settings_notification_service_listener");
 		if (norificationServiceListenerPreference != null) {
 			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
 				getPreferenceScreen().removePreference(norificationServiceListenerPreference);
@@ -431,9 +466,9 @@ public class SettingsFragment extends PreferenceFragment {
 						.build().show();
 				return false;
 			});
-			// Retrieval of installed app version to write it as summary
 			PackageInfo pInfo;
 			String versionString = "";
+			// Retrieval of installed app version to write it as summary
 			try {
 				pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
 				versionString = pInfo.versionName;
@@ -483,7 +518,8 @@ public class SettingsFragment extends PreferenceFragment {
 							@Override
 							public void onPositive(MaterialDialog materialDialog) {
 
-								AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
+								AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+										"settings_tour_show_again");
 
 								prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
 								MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
@@ -542,7 +578,7 @@ public class SettingsFragment extends PreferenceFragment {
 		final CharSequence[] backups = StorageHelper.getExternalStoragePublicDir().list();
 
 		if (backups.length == 0) {
-			((SettingsActivity)getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
+			((SettingsActivity) getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
 		} else {
 
 			MaterialDialog importDialog = new MaterialDialog.Builder(getActivity())
