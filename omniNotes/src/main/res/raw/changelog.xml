@@ -17,6 +17,11 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.12" changeDate="May 15, 2016">
+        <changelogtext>[u]Fix[/u] New note creation by using home shortcut when rotating the device</changelogtext>
+        <changelogtext>[u]Fix[/u] Trashed notes'reminders are now correctly removed</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.11" changeDate="May 12, 2016">
         <changelogtext>[i]Improved[/i] Updated hungarian and simplified chinese translations</changelogtext>
         <changelogtext>[u]Fix[/u] Search by tag</changelogtext>
