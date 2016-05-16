@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.test.utils;
+package it.feio.android.omninotes.utils;
 
 import android.test.InstrumentationTestCase;
 
-import it.feio.android.omninotes.utils.Security;
 
 public class SecurityTest extends InstrumentationTestCase {
 

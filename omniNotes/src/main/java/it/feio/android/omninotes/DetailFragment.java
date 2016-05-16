@@ -124,25 +124,45 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private static final int DETAIL = 6;
 	private static final int FILES = 7;
 
-	@Bind(R.id.detail_root) ViewGroup root;
-	@Bind(R.id.detail_title) EditText title;
-	@Bind(R.id.detail_content) EditText content;
-	@Bind(R.id.detail_attachments_above) ViewStub attachmentsAbove;
-	@Bind(R.id.detail_attachments_below) ViewStub attachmentsBelow;
-	@Nullable @Bind(R.id.gridview) ExpandableHeightGridView mGridView;
-	@Bind(R.id.location) TextView locationTextView;
-	@Bind(R.id.detail_timestamps) View timestampsView;
-	@Bind(R.id.reminder_layout) LinearLayout reminder_layout;
-	@Bind(R.id.reminder_icon) ImageView reminderIcon;
-	@Bind(R.id.datetime) TextView datetime;
-	@Bind(R.id.detail_tile_card) View titleCardView;
-	@Bind(R.id.content_wrapper) ScrollView scrollView;
-	@Bind(R.id.creation) TextView creationTextView;
-	@Bind(R.id.last_modification) TextView lastModificationTextView;
-	@Bind(R.id.title_wrapper) View titleWrapperView;
-	@Bind(R.id.tag_marker) View tagMarkerView;
-	@Bind(R.id.detail_wrapper) ViewManager detailWrapperView;
-	@Bind(R.id.snackBarPlaceholder) View snackBarPlaceholder;
+	@Bind(R.id.detail_root)
+	ViewGroup root;
+	@Bind(R.id.detail_title)
+	EditText title;
+	@Bind(R.id.detail_content)
+	EditText content;
+	@Bind(R.id.detail_attachments_above)
+	ViewStub attachmentsAbove;
+	@Bind(R.id.detail_attachments_below)
+	ViewStub attachmentsBelow;
+	@Nullable
+	@Bind(R.id.gridview)
+	ExpandableHeightGridView mGridView;
+	@Bind(R.id.location)
+	TextView locationTextView;
+	@Bind(R.id.detail_timestamps)
+	View timestampsView;
+	@Bind(R.id.reminder_layout)
+	LinearLayout reminder_layout;
+	@Bind(R.id.reminder_icon)
+	ImageView reminderIcon;
+	@Bind(R.id.datetime)
+	TextView datetime;
+	@Bind(R.id.detail_tile_card)
+	View titleCardView;
+	@Bind(R.id.content_wrapper)
+	ScrollView scrollView;
+	@Bind(R.id.creation)
+	TextView creationTextView;
+	@Bind(R.id.last_modification)
+	TextView lastModificationTextView;
+	@Bind(R.id.title_wrapper)
+	View titleWrapperView;
+	@Bind(R.id.tag_marker)
+	View tagMarkerView;
+	@Bind(R.id.detail_wrapper)
+	ViewManager detailWrapperView;
+	@Bind(R.id.snackBarPlaceholder)
+	View snackBarPlaceholder;
 
 	public OnDateSetListener onDateSetListener;
 	public OnTimeSetListener onTimeSetListener;
@@ -219,7 +239,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		activityPausing = false;
 	}
 
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_detail, container, false);
@@ -298,9 +318,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		activityPausing = true;
 
 		// Checks "goBack" value to avoid performing a double saving
-        if (!goBack) {
-            saveNote(this);
-        }
+		if (!goBack) {
+			saveNote(this);
+		}
 
 		if (mRecorder != null) {
 			mRecorder.release();
@@ -483,13 +503,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				}
 			}
 
-//			i.setAction(null);
 		}
 
-		if (IntentChecker.checkAction(i, Intent.ACTION_MAIN, Constants.ACTION_WIDGET_SHOW_LIST)) {
+		if (IntentChecker.checkAction(i, Intent.ACTION_MAIN, Constants.ACTION_WIDGET_SHOW_LIST, Constants
+				.ACTION_SHORTCUT_WIDGET, Constants.ACTION_WIDGET)) {
 			showKeyboard = true;
 		}
 
+		i.setAction(null);
 	}
 
 
@@ -530,7 +551,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// ... and last modification
 		String lastModification = DateHelper.getFormattedDate(noteTmp.getLastModification(), prefs.getBoolean(Constants
 				.PREF_PRETTIFIED_DATES, true));
-		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " + lastModification : "");
+		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " +
+				lastModification : "");
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
 	}
@@ -578,8 +600,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Bottom padding set for translucent navbar in Kitkat
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			int navBarHeight = Display.getNavigationBarHeightKitkat(mainActivity);
-			int negativePadding = navBarHeight >= 27*3 ? - 27 : 0;
-			int timestampsViewPaddingBottom = navBarHeight > 0 ? navBarHeight + negativePadding : timestampsView.getPaddingBottom();
+			int negativePadding = navBarHeight >= 27 * 3 ? -27 : 0;
+			int timestampsViewPaddingBottom = navBarHeight > 0 ? navBarHeight + negativePadding : timestampsView
+					.getPaddingBottom();
 			timestampsView.setPadding(timestampsView.getPaddingStart(), timestampsView.getPaddingTop(),
 					timestampsView.getPaddingEnd(), timestampsViewPaddingBottom);
 		}
@@ -634,8 +657,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				MaterialDialog dialog = builder.build();
 				dialog.show();
 				return true;
-					});
-				});
+			});
+		});
 	}
 
 
@@ -733,8 +756,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	/**
 	 * Performs an action when long-click option is selected
+	 *
 	 * @param attachmentPosition
-	 * @param i item index
+	 * @param i                  item index
 	 */
 	private void performAttachmentAction(int attachmentPosition, int i) {
 		switch (getResources().getStringArray(R.array.attachments_actions_values)[i]) {
@@ -859,80 +883,81 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION, R.string
 				.permission_coarse_location, snackBarPlaceholder, () -> GeocodeHelper
 				.getLocation(new OnGeoUtilResultListener() {
-			@Override
-			public void onAddressResolved(String address) {
-			}
+					@Override
+					public void onAddressResolved(String address) {
+					}
 
 
-			@Override
-			public void onCoordinatesResolved(Location location, String address) {
-			}
+					@Override
+					public void onCoordinatesResolved(Location location, String address) {
+					}
 
 
-			@Override
-			public void onLocationUnavailable() {
-				mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
-			}
+					@Override
+					public void onLocationUnavailable() {
+						mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
+					}
 
 
-			@Override
-			public void onLocationRetrieved(Location location) {
-				if (location == null) {
-					return;
-				}
-				if (!ConnectionManager.internetAvailable(mainActivity)) {
-					noteTmp.setLatitude(location.getLatitude());
-					noteTmp.setLongitude(location.getLongitude());
-					onAddressResolved("");
-					return;
-				}
-				LayoutInflater inflater = mainActivity.getLayoutInflater();
-				View v = inflater.inflate(R.layout.dialog_location, null);
-				final AutoCompleteTextView autoCompView = (AutoCompleteTextView) v.findViewById(R.id
-						.auto_complete_location);
-				autoCompView.setHint(getString(R.string.search_location));
-				autoCompView.setAdapter(new PlacesAutoCompleteAdapter(mainActivity, R.layout
-						.simple_text_layout));
-				final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
-						.customView(autoCompView, false)
-						.positiveText(R.string.use_current_location)
-						.callback(new MaterialDialog.ButtonCallback() {
-							@Override
-							public void onPositive(MaterialDialog materialDialog) {
-								if (TextUtils.isEmpty(autoCompView.getText().toString())) {
-									noteTmp.setLatitude(location.getLatitude());
-									noteTmp.setLongitude(location.getLongitude());
+					@Override
+					public void onLocationRetrieved(Location location) {
+						if (location == null) {
+							return;
+						}
+						if (!ConnectionManager.internetAvailable(mainActivity)) {
+							noteTmp.setLatitude(location.getLatitude());
+							noteTmp.setLongitude(location.getLongitude());
+							onAddressResolved("");
+							return;
+						}
+						LayoutInflater inflater = mainActivity.getLayoutInflater();
+						View v = inflater.inflate(R.layout.dialog_location, null);
+						final AutoCompleteTextView autoCompView = (AutoCompleteTextView) v.findViewById(R.id
+								.auto_complete_location);
+						autoCompView.setHint(getString(R.string.search_location));
+						autoCompView.setAdapter(new PlacesAutoCompleteAdapter(mainActivity, R.layout
+								.simple_text_layout));
+						final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
+								.customView(autoCompView, false)
+								.positiveText(R.string.use_current_location)
+								.callback(new MaterialDialog.ButtonCallback() {
+									@Override
+									public void onPositive(MaterialDialog materialDialog) {
+										if (TextUtils.isEmpty(autoCompView.getText().toString())) {
+											noteTmp.setLatitude(location.getLatitude());
+											noteTmp.setLongitude(location.getLongitude());
 //									GeocodeHelper.getAddressFromCoordinates(location, mFragment);
+										} else {
+											GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(),
+													mFragment);
+										}
+									}
+								})
+								.build();
+						autoCompView.addTextChangedListener(new TextWatcher() {
+							@Override
+							public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+							}
+
+
+							@Override
+							public void onTextChanged(CharSequence s, int start, int before, int count) {
+								if (s.length() != 0) {
+									dialog.setActionButton(DialogAction.POSITIVE, getString(R.string.confirm));
 								} else {
-									GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(), mFragment);
+									dialog.setActionButton(DialogAction.POSITIVE, getString(R.string
+											.use_current_location));
 								}
 							}
-						})
-						.build();
-				autoCompView.addTextChangedListener(new TextWatcher() {
-					@Override
-					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+
+							@Override
+							public void afterTextChanged(Editable s) {
+							}
+						});
+						dialog.show();
 					}
-
-
-					@Override
-					public void onTextChanged(CharSequence s, int start, int before, int count) {
-						if (s.length() != 0) {
-							dialog.setActionButton(DialogAction.POSITIVE, getString(R.string.confirm));
-						} else {
-							dialog.setActionButton(DialogAction.POSITIVE, getString(R.string
-									.use_current_location));
-						}
-					}
-
-
-					@Override
-					public void afterTextChanged(Editable s) {
-					}
-				});
-				dialog.show();
-			}
-		}));
+				}));
 	}
 
 
@@ -1553,7 +1578,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
 	public void saveAndExit(OnNoteSaved mOnNoteSaved) {
-		 if (isAdded()) {
+		if (isAdded()) {
 			exitMessage = getString(R.string.note_updated);
 			exitCroutonStyle = ONStyle.CONFIRM;
 			goBack = true;
@@ -1784,12 +1809,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
-	private void replacePlayingAudioBitmap (View v) {
+	private void replacePlayingAudioBitmap(View v) {
 		Drawable d = ((ImageView) v.findViewById(R.id.gridview_item_picture)).getDrawable();
 		if (BitmapDrawable.class.isAssignableFrom(d.getClass())) {
-			recordingBitmap =  ((BitmapDrawable) d).getBitmap();
+			recordingBitmap = ((BitmapDrawable) d).getBitmap();
 		} else {
-			recordingBitmap =  ((GlideBitmapDrawable)d.getCurrent()).getBitmap();
+			recordingBitmap = ((GlideBitmapDrawable) d.getCurrent()).getBitmap();
 		}
 		((ImageView) v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils
 				.extractThumbnail(BitmapFactory.decodeResource(mainActivity.getResources(),
@@ -2056,7 +2081,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		detailWrapperView.removeView(timestampsView);
 		keyboardPlaceholder = new View(mainActivity);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Display.orientationLandscape(mainActivity))) {
+			if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Display.orientationLandscape(mainActivity)
+			)) {
 				root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
 			}
 		}
@@ -2130,6 +2156,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			datetime.setText(DateHelper.getNoteReminderText(reminder));
 		}
 	}
+
 
 	@Override
 	public void onRecurrenceReminderPicked(String recurrenceRule) {
