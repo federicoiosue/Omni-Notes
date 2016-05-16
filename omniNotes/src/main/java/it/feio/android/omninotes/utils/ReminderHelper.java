@@ -58,12 +58,18 @@ public class ReminderHelper {
 	}
 
 
-	private static int getRequestCode(Note note) {
-		if (note.getCreation() != null) {
-			return note.getCreation().intValue();
-		} else {
-			return Long.valueOf(Calendar.getInstance().getTimeInMillis()).intValue();
-		}
+	/**
+	 * Checks if exists any reminder for given note
+	 */
+	public static boolean checkReminder(Context context, Note note) {
+		return PendingIntent.getBroadcast(context, getRequestCode(note), new Intent(context, AlarmReceiver
+				.class), PendingIntent.FLAG_NO_CREATE) != null;
+	}
+
+
+	static int getRequestCode(Note note) {
+		Long longCode = note.getCreation() != null ? note.getCreation() : Calendar.getInstance().getTimeInMillis();
+		return Long.valueOf(longCode / 1000).intValue();
 	}
 
 
@@ -71,7 +77,7 @@ public class ReminderHelper {
 		if (!TextUtils.isEmpty(note.getAlarm())) {
 			AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, AlarmReceiver.class);
-			PendingIntent p = PendingIntent.getBroadcast(context, note.getCreation().intValue(), intent, 0);
+			PendingIntent p = PendingIntent.getBroadcast(context, getRequestCode(note), intent, 0);
 			am.cancel(p);
 			p.cancel();
 		}

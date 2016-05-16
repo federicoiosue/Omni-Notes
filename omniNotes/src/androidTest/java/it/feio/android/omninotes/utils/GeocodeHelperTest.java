@@ -15,12 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.test.utils;
+package it.feio.android.omninotes.utils;
 
 import android.test.InstrumentationTestCase;
 import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.utils.ConnectionManager;
-import it.feio.android.omninotes.utils.GeocodeHelper;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.test.utils.date;
+package it.feio.android.omninotes.utils.date;
 
 import android.test.InstrumentationTestCase;
 import it.feio.android.omninotes.helpers.date.DateHelper;

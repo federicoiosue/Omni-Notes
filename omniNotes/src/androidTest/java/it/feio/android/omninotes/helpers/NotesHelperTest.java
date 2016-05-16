@@ -15,10 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.test.helpers;
+package it.feio.android.omninotes.helpers;
 
 import android.test.InstrumentationTestCase;
-import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import org.apache.commons.lang.StringUtils;
