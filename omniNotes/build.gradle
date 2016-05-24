@@ -19,9 +19,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
+    signingConfigs {
+        signConfig {
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId project.PACKAGE
         minSdkVersion project.MIN_SDK
@@ -30,12 +33,10 @@ android {
         versionCode Integer.parseInt(project.VERSION_CODE)
         vectorDrawables.useSupportLibrary = true
     }
-
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
     buildTypes {
         release {
             minifyEnabled true
@@ -45,13 +46,13 @@ android {
                 variant.outputs.each { output ->
                     def file = output.outputFile
                     output.outputFile = new File(
-                            (String)file.parent,
-                            (String)file.name.replace("omniNotes", "Omni Notes-${variant.versionName}"))
+                            (String) file.parent,
+                            (String) file.name.replace("omniNotes", "Omni Notes-${variant.versionName}"))
                 }
             }
+            signingConfig signingConfigs.signConfig
         }
     }
-
     lintOptions {
         abortOnError false
         disable 'MissingTranslation'
@@ -63,14 +64,10 @@ android {
 }
 
 dependencies {
-
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.5.3'
-
     testCompile 'junit:junit:4.12'
-
     compile fileTree(include: '*.jar', dir: 'libs')
-
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile 'com.larswerkman:HoloColorPicker:1.4'
     compile 'com.jakewharton:disklrucache:2.0.2'
@@ -90,10 +87,10 @@ dependencies {
     compile 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile('com.github.afollestad.material-dialogs:core:0.8.5.6@aar') {
-        transitive=true
+        transitive = true
     }
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.6@aar') {
-        transitive=true
+        transitive = true
     }
     compile 'com.jakewharton:butterknife:7.0.1'
     compile('org.mnode.ical4j:ical4j:1.0.6') {
@@ -110,7 +107,6 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
     compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
     compile 'org.piwik.sdk:piwik-sdk:0.0.4'
-
     compile 'com.github.federicoiosue:SimpleGallery:1.2.0'
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'
     compile 'com.github.federicoiosue:Omni-Notes-Commons:1.1.0'

@@ -275,7 +275,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (jinglesAnimation != null) {
             jinglesAnimation.stop();
             jinglesAnimation = null;
-            empyListItem.setCompoundDrawablesWithIntrinsicBounds(0, R.animator.jingles_animation, 0, 0);
+            empyListItem.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.jingles_animation, 0, 0);
 
         }
     }

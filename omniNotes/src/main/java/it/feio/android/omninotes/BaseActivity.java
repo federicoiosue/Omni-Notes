@@ -222,12 +222,12 @@ public class BaseActivity extends ActionBarActivity {
     @SuppressLint("InlinedApi")
     protected void animateTransition(FragmentTransaction transaction, int direction) {
         if (direction == TRANSITION_HORIZONTAL) {
-            transaction.setCustomAnimations(R.animator.fade_in_support, R.animator.fade_out_support,
-                    R.animator.fade_in_support, R.animator.fade_out_support);
+            transaction.setCustomAnimations(R.anim.fade_in_support, R.anim.fade_out_support,
+                    R.anim.fade_in_support, R.anim.fade_out_support);
         }
         if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             transaction.setCustomAnimations(
-                    R.animator.anim_in, R.animator.anim_out, R.animator.anim_in_pop, R.animator.anim_out_pop);
+                    R.anim.anim_in, R.anim.anim_out, R.anim.anim_in_pop, R.anim.anim_out_pop);
         }
     }
 

@@ -17,6 +17,7 @@
 
 package it.feio.android;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
@@ -24,10 +25,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.MediumTest;
-
 import it.feio.android.omninotes.MainActivity;
 
-import static org.junit.Assert.assertNotNull;
+import static junit.framework.Assert.assertNotNull;
 
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -57,6 +57,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 }
 
 
+@SuppressLint("ValidFragment")
 class TestFragment extends Fragment {
     private String tag;
 
