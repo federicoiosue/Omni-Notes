@@ -55,3 +55,4 @@ captures
 
 # private properties file
 omniNotes/gradle.properties
+/omniNotes/signing.properties
