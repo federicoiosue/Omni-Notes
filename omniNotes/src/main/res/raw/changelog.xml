@@ -19,6 +19,7 @@
 
     <changelogversion versionName="5.2.13" changeDate="Jun 01, 2016">
         <changelogtext>[i]Improved[/i] Archived notes are now hidden within home widgets</changelogtext>
+        <changelogtext>[i]Improved[/i] Updated Dutch, Polish and Spanish translations (thanks translators!)</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.12" changeDate="May 15, 2016">
