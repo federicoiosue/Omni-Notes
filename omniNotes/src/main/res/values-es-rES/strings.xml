@@ -210,8 +210,6 @@
   <string name="settings_export">Copia de seguridad</string>
   <string name="settings_sync_import_export">Sincronización y copias de seguridad</string>
   <string name="settings_import">Restaurar o eliminar copias de seguridad</string>
-  <string name="settings_import_legacy">Restore legacy backup</string>
-  <string name="settings_import_legacy_summary">Allows to restore old backups made with versions of Omni Notes prior to version 6</string>
   <string name="settings_import_from_springpad">Importar notas de Springpad</string>
   <string name="settings_import_from_springpad_summary">Selecciona tu archivo exportado de Springpad y asegúrate de estar conectado a Internet</string>
   <string name="settings_sync_drive">Sincronizar con Google Drive</string>

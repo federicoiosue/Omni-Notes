@@ -209,8 +209,6 @@
   <string name="settings_export">Back-up</string>
   <string name="settings_sync_import_export">Synchronisatie en back-ups</string>
   <string name="settings_import">Terugplaatsen of verwijderen van back-ups</string>
-  <string name="settings_import_legacy">Oudere back-up terugzetten</string>
-  <string name="settings_import_legacy_summary">Maakt het mogelijk om oude back-ups te herstellen die zijn gemaakt met versies ouder dan Omni Notes 6</string>
   <string name="settings_import_from_springpad">Notities importeren uit Springpad</string>
   <string name="settings_import_from_springpad_summary">Selecteer uw uit Springpad geëxporteerd archief en zorg ervoor dat u verbonden bent met internet</string>
   <string name="settings_sync_drive">Synchroniseer met Google Drive</string>
