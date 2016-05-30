@@ -180,15 +180,15 @@ public class BaseActivity extends ActionBarActivity {
     }
 
 
-    public boolean updateNavigation(String nav) {
-		if (Navigation.getNavigationText().equals(nav)) {
+	public boolean updateNavigation(String nav) {
+		if (nav.equals(navigationTmp) || (navigationTmp == null && Navigation.getNavigationText().equals(nav))) {
 			return false;
 		}
-        prefs.edit().putString(Constants.PREF_NAVIGATION, nav).apply();
-        navigation = nav;
-        navigationTmp = null;
+		prefs.edit().putString(Constants.PREF_NAVIGATION, nav).apply();
+		navigation = nav;
+		navigationTmp = null;
 		return true;
-    }
+	}
 
 
     /**
