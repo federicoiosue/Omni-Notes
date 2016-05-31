@@ -21,6 +21,7 @@
         <changelogtext>[i]Improved[/i] Archived notes are now hidden within home widgets</changelogtext>
         <changelogtext>[i]Improved[/i] Updated Dutch, Polish and Spanish translations (thanks translators!)</changelogtext>
         <changelogtext>[u]Fix[/u] Navigation change issue when app is opened from home widget</changelogtext>
+        <changelogtext>[u]Fix[/u] Broken share with ON function when attachments are included on Android Marshmallow</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.12" changeDate="May 15, 2016">

@@ -153,7 +153,7 @@
     <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:id="@+id/snackBarPlaceholder"
+            android:id="@+id/snackbar_placeholder"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/navigation_bar_height"/>
 
