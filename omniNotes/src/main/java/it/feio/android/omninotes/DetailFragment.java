@@ -497,7 +497,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			if (uris != null) {
 				for (Uri uriSingle : uris) {
 					String name = FileHelper.getNameFromUri(mainActivity, uriSingle);
-					new AttachmentTask(this, uri, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+					new AttachmentTask(this, uriSingle, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 				}
 			}
 		}
