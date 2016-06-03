@@ -2339,7 +2339,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					} else {
 						isRecording = false;
 						stopRecording();
-						Attachment attachment = new Attachment(Uri.parse(recordName), Constants.MIME_TYPE_AUDIO);
+						Attachment attachment = new Attachment(Uri.fromFile(new File(recordName)), Constants.MIME_TYPE_AUDIO);
 						attachment.setLength(audioRecordingTime);
 						addAttachment(attachment);
 						mAttachmentAdapter.notifyDataSetChanged();

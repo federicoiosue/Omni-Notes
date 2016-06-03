@@ -17,12 +17,13 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.2.13" changeDate="Jun 01, 2016">
+    <changelogversion versionName="5.2.13" changeDate="Jun 03, 2016">
         <changelogtext>[i]Improved[/i] Archived notes are now hidden within home widgets</changelogtext>
         <changelogtext>[i]Improved[/i] Updated Dutch, Polish and Spanish translations (thanks translators!)</changelogtext>
         <changelogtext>[u]Fix[/u] Navigation change issue when app is opened from home widget</changelogtext>
         <changelogtext>[u]Fix[/u] Broken share with ON function when attachments are included on Android Marshmallow</changelogtext>
         <changelogtext>[u]Fix[/u] Geolocation runtime permission request when not needed</changelogtext>
+        <changelogtext>[u]Fix[/u] Sharing notes with audio recordings (to fix previously created notes with audio simply share that notes with ON itself: this will create a new fixed note)</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.12" changeDate="May 15, 2016">
