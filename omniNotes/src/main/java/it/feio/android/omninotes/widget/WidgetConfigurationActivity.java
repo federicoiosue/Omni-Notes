@@ -92,7 +92,8 @@ public class WidgetConfigurationActivity extends Activity {
                     Category tag = (Category) categorySpinner.getSelectedItem();
                     sqlCondition = " WHERE " + DbHelper.TABLE_NOTES + "."
                             + DbHelper.KEY_CATEGORY + " = " + tag.getId()
-                            + " AND " + DbHelper.KEY_TRASHED + " IS NOT 1";
+							+ " AND " + DbHelper.KEY_ARCHIVED + " IS NOT 1"
+							+ " AND " + DbHelper.KEY_TRASHED + " IS NOT 1";
                 }
 
                 CheckBox showThumbnailsCheckBox = (CheckBox) findViewById(R.id.show_thumbnails);

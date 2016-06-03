@@ -87,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="10dp"
-                        android:drawableTop="@animator/jingles_animation"
+                        android:drawableTop="@drawable/jingles_animation"
                         android:gravity="center"
                         android:text="@string/no_items_in_list"
                         android:textColor="@color/list_note_dates"
@@ -122,5 +122,12 @@
             android:layout_width="match_parent"
             android:scaleType="centerCrop"
             android:layout_height="match_parent"/>
+
+    <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/snackbar_placeholder"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/navigation_bar_height"/>
 
 </FrameLayout>

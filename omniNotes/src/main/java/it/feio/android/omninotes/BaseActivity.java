@@ -180,15 +180,15 @@ public class BaseActivity extends ActionBarActivity {
     }
 
 
-    public boolean updateNavigation(String nav) {
-		if (Navigation.getNavigationText().equals(nav)) {
+	public boolean updateNavigation(String nav) {
+		if (nav.equals(navigationTmp) || (navigationTmp == null && Navigation.getNavigationText().equals(nav))) {
 			return false;
 		}
-        prefs.edit().putString(Constants.PREF_NAVIGATION, nav).apply();
-        navigation = nav;
-        navigationTmp = null;
+		prefs.edit().putString(Constants.PREF_NAVIGATION, nav).apply();
+		navigation = nav;
+		navigationTmp = null;
 		return true;
-    }
+	}
 
 
     /**
@@ -222,12 +222,12 @@ public class BaseActivity extends ActionBarActivity {
     @SuppressLint("InlinedApi")
     protected void animateTransition(FragmentTransaction transaction, int direction) {
         if (direction == TRANSITION_HORIZONTAL) {
-            transaction.setCustomAnimations(R.animator.fade_in_support, R.animator.fade_out_support,
-                    R.animator.fade_in_support, R.animator.fade_out_support);
+            transaction.setCustomAnimations(R.anim.fade_in_support, R.anim.fade_out_support,
+                    R.anim.fade_in_support, R.anim.fade_out_support);
         }
         if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             transaction.setCustomAnimations(
-                    R.animator.anim_in, R.animator.anim_out, R.animator.anim_in_pop, R.animator.anim_out_pop);
+                    R.anim.anim_in, R.anim.anim_out, R.anim.anim_in_pop, R.anim.anim_out_pop);
         }
     }
 

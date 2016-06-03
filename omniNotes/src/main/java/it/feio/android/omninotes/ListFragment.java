@@ -16,6 +16,7 @@
  */
 package it.feio.android.omninotes;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
@@ -59,10 +60,12 @@ import it.feio.android.omninotes.async.notes.*;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.helpers.NotesHelper;
+import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
+import it.feio.android.omninotes.models.listeners.OnPermissionRequestedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
@@ -93,8 +96,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     @Bind(R.id.fab)  View fabView;
     @Bind(R.id.undobar) View undoBarView;
     @Bind(R.id.progress_wheel) ProgressWheel progress_wheel;
+	@Bind(R.id.snackbar_placeholder) View snackBarPlaceholder;
 
-    NoteViewHolder noteViewHolder;
+	NoteViewHolder noteViewHolder;
 
     private List<Note> selectedNotes = new ArrayList<>();
     private SearchView searchView;
@@ -182,17 +186,32 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (savedInstanceState != null) {
             mainActivity.navigationTmp = savedInstanceState.getString("navigationTmp");
         }
-        initEasterEgg();
-        initListView();
-        ubc = new UndoBarController(undoBarView, this);
-
-        initNotesList(mainActivity.getIntent());
-        initFab();
-        initTitle();
-
-        // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
-        prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, mainActivity.MODE_MULTI_PROCESS);
+		init();
     }
+
+
+	private void init() {
+		initEasterEgg();
+		initListView();
+		ubc = new UndoBarController(undoBarView, this);
+
+		initNotesList(mainActivity.getIntent());
+		initFab();
+		initTitle();
+
+		// Restores again DefaultSharedPreferences too reload in case of data erased from Settings
+		prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+
+		requestReadStoragePermission();
+	}
+
+
+	private void requestReadStoragePermission() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			PermissionsHelper.requestPermission(mainActivity, Manifest.permission.READ_EXTERNAL_STORAGE, R
+					.string.permission_external_storage, snackBarPlaceholder, () -> {});
+		}
+	}
 
 
     private void initFab() {
@@ -275,7 +294,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (jinglesAnimation != null) {
             jinglesAnimation.stop();
             jinglesAnimation = null;
-            empyListItem.setCompoundDrawablesWithIntrinsicBounds(0, R.animator.jingles_animation, 0, 0);
+            empyListItem.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.jingles_animation, 0, 0);
 
         }
     }

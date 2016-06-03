@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">Notities</string>
   <string name="add_note">Notitie toevoegen</string>
   <string name="title">Titel</string>
@@ -40,7 +41,7 @@
   <string name="last_update">Bijgewerkt</string>
   <string name="delete_note_confirmation">Bevestig Notitie Verwijdering?</string>
   <string name="confirm">Bevestig</string>
-  <string name="ok">Oké</string>
+  <string name="ok">OK</string>
   <string name="no">Nee</string>
   <string name="cancel">Annuleer</string>
   <string name="note_updated">Notitie bijgewerkt</string>
@@ -55,13 +56,13 @@
   <string name="select_sorting_column">Sorteer op</string>
   <string name="tap_to_undo">Tik om ongedaan te maken</string>
   <string name="alarm_set_on">Alarm ingesteld op</string>
-  <string name="starting_from">Begint van</string>
+  <string name="starting_from">vanaf</string>
   <string name="at_time">om</string>
   <string name="discard_changes">Veranderingen negeren</string>
   <string name="attachment">Bijlage</string>
   <string name="camera">Camera</string>
   <string name="delete_selected_image">Geselecteerde bijlage verwijderen?</string>
-  <string name="delete_all_attachments">Delete all the attachments?</string>
+  <string name="delete_all_attachments">Alle bijlagen verwijderen?</string>
   <string name="gallery">Galerij</string>
   <string name="location">Locatie</string>
   <string name="pushbullet">Pushbullet</string>
@@ -76,7 +77,7 @@
   <string name="video">Video</string>
   <string name="feature_not_available_on_this_device">Functie niet beschikbaar op dit toestel</string>
   <string name="error_occurred_deleting_note">Fout tijdens het verwijderen van de notitie</string>
-  <string name="no_backups_available">No backups available</string>
+  <string name="no_backups_available">Geen back-ups beschikbaar</string>
   <string name="data_export_message">Geef backup naam in</string>
   <string name="data_import_message">Klik -&gt; herstel\nLang-klik -&gt; verwijder</string>
   <string name="data_import_message_warning">WAARSCHUWING: Dit zal alle huidige data vervangen!</string>
@@ -110,9 +111,9 @@
   <string name="notes_category_removed">Categorie verwijderd uit notities</string>
   <string name="notes_categorized_as">Notities gecategoriseerd als</string>
   <string name="insert_security_password">Geef beveiligingswachtwoord op</string>
-  <string name="lock">Vergrendel</string>
-  <string name="save_note_to_lock_it">Sla notitie op om te vergrendelen</string>
-  <string name="save_note_to_unlock_it">Sla notitie op om te ontgrendelen</string>
+  <string name="lock">Vergrendelen</string>
+  <string name="save_note_to_lock_it">Sla de notitie op om deze te vergrendelen</string>
+  <string name="save_note_to_unlock_it">Sla de notitie op om deze te ontgrendelen</string>
   <string name="unlock">Ontgrendelen</string>
   <string name="title_activity_password">Bewerk beveiligingswachtwoord</string>
   <string name="title_activity_about">Info</string>
@@ -185,17 +186,18 @@
   <string name="use_current_location">Gebruik huidige locatie</string>
   <string name="filter">Filter</string>
   <string name="remove_filter">Verwijder filter</string>
-  <string name="filter_old_reminders">Hide old reminders</string>
-  <string name="remove_filter_old_reminders">Show old reminders</string>
-  <string name="filter_archived">Hide archived notes</string>
-  <string name="remove_filter_archived">Show archived notes</string>
-  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
-  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
-  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
-  <string name="permission_not_granted">Permission not granted</string>
+  <string name="filter_old_reminders">Oude herinneringen verbergen</string>
+  <string name="remove_filter_old_reminders">Oude herinneringen weergeven</string>
+  <string name="filter_archived">Gearchiveerde notities verbergen</string>
+  <string name="remove_filter_archived">Gearchiveerde notities weergeven</string>
+  <string name="permission_external_storage">Een machtiging om te schrijven naar externe opslag is nodig voor back-ups in openbare mappen</string>
+  <string name="permission_audio_recording">Toestemming voor het gebruik van de microfoon is nodig om audionotities te kunnen opnemen</string>
+  <string name="permission_coarse_location">Toestemming voor locatietoegang is nodig om de locatie aan uw notities te kunnen toevoegen</string>
+  <string name="permission_not_granted">Toestemming niet verleend</string>
   <string name="checklist">Checklist</string>
-  <string name="text_note">Text note</string>
-  <string name="photo">Photo</string>
+  <string name="text_note">Tekstnotitie</string>
+  <string name="photo">Foto</string>
+  <!-- Settings -->
   <string name="dashclock_description">Sommige statistieken en de naderende herinneringen van Omni notities worden weergegeven</string>
   <string name="settings">Instellingen</string>
   <string name="settings_about">Informatie</string>
@@ -225,9 +227,9 @@
   <string name="settings_screen_backup">Back-up</string>
   <string name="settings_screen_notifications">Notificaties</string>
   <string name="settings_enable_vibration">Vibratie</string>
-  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
-  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
-  <string name="settings_screen_navigation">Navigation</string>
+  <string name="settings_notification_enable_boot_persistence">Voortdurende meldingen inschakelen</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Maakt de melding weer beschikbaar voor de app na een herstart</string>
+  <string name="settings_screen_navigation">Navigatie</string>
   <string name="settings_changelog">Wijzigingen</string>
   <string name="settings_enable_editor_links">Links herkennen</string>
   <string name="settings_max_video_size">Video bijlagen</string>
@@ -260,7 +262,7 @@
   <string name="settings_category_beta">Beta </string>
   <string name="settings_category_about">Over </string>
   <string name="settings_beta">Google+ </string>
-  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
+  <string name="settings_beta_summary">Abonneer je op het bètaprogramma steeds te beschikken over de nieuwste functies</string>
   <string name="donate">Doneren</string>
   <string name="donate_summary">Ondersteun de ontwikkeling van deze app met een non-profit donatie</string>
   <string name="settings_choose_language">Taal</string>
@@ -293,9 +295,9 @@
   <string name="settings_navdrawer_on_exit_summary">De \"terug\" knop indrukken in notities lijst opent het navigatie menu in plaats van te sluiten</string>
   <string name="settings_text_size">Tekstgrootte</string>
   <string name="settings_screen_behaviors">Gedrag</string>
-  <string name="settings_enable_swipe">Swipe notes</string>
-  <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
-  <string name="settings_swipe_to_trash">Swipe to trash</string>
+  <string name="settings_enable_swipe">Notities vegen</string>
+  <string name="settings_enable_swipe_summary">Notities vegen om acties uit te voeren</string>
+  <string name="settings_swipe_to_trash">Naar prullenmand vegen</string>
   <string name="settings_swipe_to_trash_summary_1">Notities met vinger verslepen zal hen archiveren</string>
   <string name="settings_swipe_to_trash_summary_2">Notities met je vinger verslepen zal ze verwijderen</string>
   <string name="settings_show_uncategorized">Groep niet gecategoriseerd</string>
@@ -306,16 +308,23 @@
   <string name="settings_auto_location_summary">Automatisch locatie toevoegen aan nieuwe notities</string>
   <string name="settings_dynamic_menu">Dynamisch menu</string>
   <string name="settings_dynamic_menu_summary">Ongebruikte menu-items worden automatisch verborgen</string>
-  <string name="settings_fab_expansion_behavior">Floating action button</string>
-  <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
-  <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
-  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
-  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
-  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
+  <string name="settings_fab_expansion_behavior">Zwevende actieknop</string>
+  <string name="settings_fab_expansion_behavior_summary_on">Korte aanraking om een actie uit te voeren</string>
+  <string name="settings_fab_expansion_behavior_summary_off">Korte aanraking om een optie te schakelen</string>
+  <string name="settings_attachments_on_bottom">Bijlagen onderaan</string>
+  <string name="settings_attachments_on_bottom_summary_on">Bijlagen onder de notitietekst weergeven</string>
+  <string name="settings_attachments_on_bottom_summary_off">Bijlagen boven de notitietekst weergeven</string>
+  <string name="settings_prettified_dates">Verfraaide datums</string>
+  <string name="settings_prettified_dates_summary_on">Datums worden vereenvoudigd weergegeven</string>
+  <string name="settings_prettified_dates_summary_off">Datums worden meer gedetailleerd weergegeven</string>
+  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Foutrapportage</string>
-  <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
-  <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
-  <string name="settings_statistics">Statistics</string>
+  <string name="settings_error_reporting_summary_on">Wanneer de app crasht wordt de ontwikkelaar op de hoogte gesteld om u te helpen</string>
+  <string name="settings_error_reporting_summary_off">Geen crashrapporten worden verzonden. Niet klagen als er iets misgaat!</string>
+  <string name="settings_send_analytics">Anonieme gegevens delen</string>
+  <string name="settings_send_analytics_summary">Help de ontwikkelaar met het verzenden van niet-gevoelige gegevens zoals apparaat model, taal en veel veelgebruikte app functies. Deze gegevens worden alleen gebruikt voor het verbeteren van de open-bron app.</string>
+  <string name="settings_statistics">Statistieken</string>
+  <!-- Instructions -->
   <string name="tour_request_start">U startte Omni Notes voor de eerste keer, zou u een rondleiding willen van de toepassing?</string>
   <string name="tour_listactivity_intro_title">Welkom bij Omni notities!</string>
   <string name="tour_listactivity_intro_detail">Druk op \"Verdergaan\" om door te gaan met de tour</string>
@@ -332,14 +341,15 @@
   <string name="tour_detailactivity_reminder_title">Druk gewoon op</string>
   <string name="tour_detailactivity_reminder_detail">Korte of lange drukken op objecten (bijlagen, locatie, herinnering) hebben verschillende effecten!</string>
   <string name="tour_detailactivity_links_title">Links</string>
-  <string name="tour_detailactivity_links_detail">Click on an URL or e-mail address to copy or open it</string>
+  <string name="tour_detailactivity_links_detail">Klik op een URL of e-mailadres om het te kopiëren of te openen</string>
   <string name="tour_detailactivity_swipe_title">Veeg</string>
   <string name="tour_detailactivity_swipe_detail">Nieuwe notities maken zonder\ndegene die u aan het bewerken\n bent te verlaten</string>
   <string name="tour_detailactivity_save_title">Opslaan</string>
   <string name="tour_detailactivity_save_detail">Druk gewoon op \"op\" navigatie pictogram of ga terug met uw knop van het apparaat</string>
   <string name="tour_listactivity_final_title">Geniet</string>
-  <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-  <string name="tour_community">Subscribe to the community to partecipate!</string>
+  <string name="tour_listactivity_final_detail">Bedankt voor het gebruik van Omni Notes \nHet open source alternatief voor productiviteit en vrije tijd notities!</string>
+  <string name="tour_community">Abonneer je op de Gemeenschap om deel te nemen!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">lade open</string>
   <string name="drawer_close">lade dicht</string>
   <string name="reminder">herinnering</string>
