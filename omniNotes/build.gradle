@@ -20,21 +20,6 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
 
-//if (project.hasProperty("signing.properties")
-//        && new File(project.property("signing.properties").toString()).exists()) {
-//
-//}
-    Properties props = new Properties()
-    props.load(new FileInputStream(file(project.property("SIGN_PROPERTY_FILE"))))
-    signingConfigs {
-        signConfig {
-            storeFile file(props['keystore'])
-            storePassword props['keystore.password']
-            keyAlias props['keystore.alias']
-            keyPassword props['keystore.alias.password']
-        }
-    }
-
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     defaultConfig {
@@ -62,7 +47,6 @@ android {
                             (String) file.name.replace("omniNotes", "Omni Notes-${variant.versionName}"))
                 }
             }
-            signingConfig signingConfigs.signConfig
         }
     }
     lintOptions {
