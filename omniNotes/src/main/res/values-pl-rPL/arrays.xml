@@ -54,9 +54,9 @@
     <item>Największa</item>
   </string-array>
   <string-array name="attachments_actions">
-    <item>Share</item>
-    <item>Delete</item>
-    <item>Delete All</item>
-    <item>Edit</item>
+    <item>Udostepnij</item>
+    <item>Usuń</item>
+    <item>Usuń wszystko</item>
+    <item>Edytuj</item>
   </string-array>
 </resources>

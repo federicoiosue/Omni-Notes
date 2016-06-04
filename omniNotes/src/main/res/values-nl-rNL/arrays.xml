@@ -54,9 +54,9 @@
     <item>Grootste</item>
   </string-array>
   <string-array name="attachments_actions">
-    <item>Share</item>
-    <item>Delete</item>
-    <item>Delete All</item>
-    <item>Edit</item>
+    <item>Delen</item>
+    <item>Verwijderen</item>
+    <item>Alles verwijderen</item>
+    <item>Bewerken</item>
   </string-array>
 </resources>
