@@ -17,6 +17,10 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.14" changeDate="Jun 04, 2016">
+        <changelogtext>[u]Fix[/u] Broken build due to inclusion of testing component, sorry!</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.13" changeDate="Jun 03, 2016">
         <changelogtext>[i]Improved[/i] Archived notes are now hidden within home widgets</changelogtext>
         <changelogtext>[i]Improved[/i] Updated Dutch, Polish and Spanish translations (thanks translators!)</changelogtext>
