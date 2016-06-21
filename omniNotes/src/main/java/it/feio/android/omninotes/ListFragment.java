@@ -952,6 +952,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             listViewPositionOffset = 16;
             listViewPosition = 0;
             restoreListScrollPosition();
+			toggleSearchLabel(false);
             // Updates app widgets
             BaseActivity.notifyAppWidgets(mainActivity);
         }
