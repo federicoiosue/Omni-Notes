@@ -17,6 +17,11 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.16" changeDate="Jun 21, 2016">
+        <changelogtext>[u]Fix[/u] Opening the same note twice from home widget broke the navigation</changelogtext>
+        <changelogtext>[u]Fix[/u] Removed searched string label when changing sort order</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.15" changeDate="Jun 05, 2016">
         <changelogtext>[u]Fix[/u] Navigation panel after opening a note starting from Dashclock widget works again</changelogtext>
     </changelogversion>
