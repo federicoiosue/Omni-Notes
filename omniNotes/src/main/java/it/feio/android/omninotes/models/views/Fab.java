@@ -19,7 +19,6 @@ import it.feio.android.omninotes.models.listeners.AbsListViewScrollDetector;
 import it.feio.android.omninotes.models.listeners.OnFabItemClickedListener;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
-import it.feio.android.omninotes.utils.Navigation;
 
 import static android.support.v4.view.ViewCompat.animate;
 
@@ -104,7 +103,7 @@ public class Fab {
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            onFabItemClickedListener.OnFabItemClick(v.getId());
+            onFabItemClickedListener.onFabItemClick(v.getId());
         }
     };
 
@@ -130,7 +129,7 @@ public class Fab {
             fab.toggle();
             fabExpanded = false;
         } else {
-            onFabItemClickedListener.OnFabItemClick(v.getId());
+            onFabItemClickedListener.onFabItemClick(v.getId());
         }
     }
 
