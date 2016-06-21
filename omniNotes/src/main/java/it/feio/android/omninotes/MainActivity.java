@@ -368,7 +368,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     private boolean noteAlreadyOpened(Note note) {
         DetailFragment detailFragment = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
         return detailFragment != null && detailFragment.getCurrentNote() != null && detailFragment.getCurrentNote()
-                .get_id() == note.get_id();
+				.get_id().equals(note.get_id());
     }
 
 
