@@ -1137,6 +1137,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			case R.id.menu_delete:
 				deleteNote();
 				break;
+			default: Log.w(Constants.TAG, "Invalid menu option selected");
 		}
 
 		AnalyticsHelper.trackActionFromResourceId(getActivity(), item.getItemId());

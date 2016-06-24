@@ -288,7 +288,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         int calcProgress = progress > 1 ? progress : 1;
 
         int newSize = Math.round((size / 100f) * calcProgress);
-        int offset = Math.round((size - newSize) / 2);
+        int offset = (size - newSize) / 2;
         Log.v(Constants.TAG, "Stroke size " + newSize + " (" + calcProgress + "%)");
 
         LayoutParams lp = new LayoutParams(newSize, newSize);
