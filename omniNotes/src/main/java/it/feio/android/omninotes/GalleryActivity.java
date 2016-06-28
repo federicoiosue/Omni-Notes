@@ -66,10 +66,6 @@ public class GalleryActivity extends ActionBarActivity {
      */
     private static final boolean TOGGLE_ON_CLICK = true;
 
-    /**
-     * The flags to pass to {@link SystemUiHider#getInstance}.
-     */
-
     @Bind(R.id.gallery_root) InterceptorFrameLayout galleryRootView;
     @Bind(R.id.fullscreen_content)  GalleryViewPager mViewPager;
 
@@ -138,10 +134,9 @@ public class GalleryActivity extends ActionBarActivity {
         images = getIntent().getParcelableArrayListExtra(Constants.GALLERY_IMAGES);
         int clickedImage = getIntent().getIntExtra(Constants.GALLERY_CLICKED_IMAGE, 0);
 
-        ArrayList<String> imagesPaths = new ArrayList<>();
+        ArrayList<Uri> imagesPaths = new ArrayList<>();
         for (Attachment mAttachment : images) {
-            Uri uri = mAttachment.getUri();
-            imagesPaths.add(FileHelper.getPath(this, uri));
+            imagesPaths.add(mAttachment.getUri());
         }
 
 		GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, imagesPaths);

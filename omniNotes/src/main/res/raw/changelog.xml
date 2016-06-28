@@ -17,6 +17,10 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.3.0" changeDate="Jun 30, 2016">
+        <changelogtext>[b]New![/b] Gifs animation support within internal gallery</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.16" changeDate="Jun 21, 2016">
         <changelogtext>[u]Fix[/u] Opening the same note twice from home widget broke the navigation</changelogtext>
         <changelogtext>[u]Fix[/u] Removed searched string label when changing sort order</changelogtext>
