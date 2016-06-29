@@ -110,6 +110,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
+import static java.lang.Integer.parseInt;
 
 
 public class DetailFragment extends BaseFragment implements OnReminderPickedListener, OnTouchListener,
@@ -870,7 +871,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			// Coloring the target
 			if (tag != null && tag.getColor() != null) {
 				for (View view : target) {
-					view.setBackgroundColor(Integer.parseInt(tag.getColor()));
+					view.setBackgroundColor(parseInt(tag.getColor()));
 				}
 			} else {
 				for (View view : target) {
@@ -1216,7 +1217,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				.newEntryHint(getString(R.string.checklist_item_hint))
 				.keepChecked(keepChecked)
 				.undoBarContainerView(scrollView)
-				.moveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior", String.valueOf
+				.moveCheckedOnBottom(parseInt(prefs.getString("settings_checked_items_behavior", String.valueOf
 						(it.feio.android.checklistview.Settings.CHECKED_HOLD))));
 
 		// Links parsing options
@@ -1387,7 +1388,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 		String maxVideoSizeStr = "".equals(prefs.getString("settings_max_video_size",
 				"")) ? "0" : prefs.getString("settings_max_video_size", "");
-		int maxVideoSize = Integer.parseInt(maxVideoSizeStr);
+		int maxVideoSize = parseInt(maxVideoSizeStr);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Long.valueOf(maxVideoSize * 1024 * 1024));
 		startActivityForResult(takeVideoIntent, TAKE_VIDEO);
 	}
@@ -1466,6 +1467,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				case DETAIL:
 					mainActivity.showMessage(R.string.note_updated, ONStyle.CONFIRM);
 					break;
+				default:
+					Log.e(Constants.TAG, "Wrong element choosen: " + requestCode);
 			}
 		}
 	}
@@ -2057,6 +2060,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					}
 				}
 				break;
+
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + event.getAction());
 		}
 
 		return true;
@@ -2377,6 +2383,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 							null, 0);
 					attachmentDialog.dismiss();
 					break;
+				default:
+					Log.e(Constants.TAG, "Wrong element choosen: " + v.getId());
 			}
 		}
 	}

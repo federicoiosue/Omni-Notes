@@ -199,6 +199,8 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
             case android.R.id.home:
                 getActivity().onBackPressed();
                 break;
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
     }

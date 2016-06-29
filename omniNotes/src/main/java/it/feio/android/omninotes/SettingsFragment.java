@@ -107,6 +107,8 @@ public class SettingsFragment extends PreferenceFragment {
 			case android.R.id.home:
 				getActivity().onBackPressed();
 				break;
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -681,6 +683,9 @@ public class SettingsFragment extends PreferenceFragment {
 					String notificationSound = uri == null ? null : uri.toString();
 					prefs.edit().putString("settings_notification_ringtone", notificationSound).apply();
 					break;
+
+				default:
+					Log.e(Constants.TAG, "Wrong element choosen: " + requestCode);
 			}
 		}
 	}

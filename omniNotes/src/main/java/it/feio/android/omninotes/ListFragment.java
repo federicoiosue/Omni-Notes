@@ -790,6 +790,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 case R.id.menu_empty_trash:
                     emptyTrash();
                     break;
+				default:
+					Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
             }
         } else {
             switch (item.getItemId()) {

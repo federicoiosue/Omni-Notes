@@ -23,6 +23,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -138,6 +139,8 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
                 if (dynamicMenu && dynamicNavigationLookupTable.getTrashed() == 0)
                     skippable = true;
                 break;
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + i);
         }
         return skippable;
     }

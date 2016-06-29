@@ -160,14 +160,14 @@ public class GalleryActivity extends ActionBarActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.menu_gallery_share: {
+            case R.id.menu_gallery_share:
                 shareMedia();
                 break;
-            }
-            case R.id.menu_gallery: {
+            case R.id.menu_gallery:
                 viewMedia();
                 break;
-            }
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
     }
