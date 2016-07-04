@@ -84,6 +84,7 @@ import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
+import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.*;
@@ -570,7 +571,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			onTimeSetListener = reminderPicker;
 		});
 
-
 		reminder_layout.setOnLongClickListener(v -> {
 			MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
 					.content(R.string.remove_reminder)
@@ -736,17 +736,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		});
 
 		mGridView.setOnItemLongClickListener((parent, v, position, id) -> {
-
 			// To avoid deleting audio attachment during playback
 			if (mPlayer != null) return false;
-
 			List<String> items = Arrays.asList(getResources().getStringArray(R.array.attachments_actions));
 			if (!Constants.MIME_TYPE_SKETCH.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
 				items = items.subList(0, items.size() - 1);
 			}
-
+			Attachment attachment = mAttachmentAdapter.getItem(position);
 			new MaterialDialog.Builder(mainActivity)
-					.title(mAttachmentAdapter.getItem(position).getName())
+					.title(attachment.getName() + " (" + AttachmentsHelper.getSize(attachment) + ")")
 					.items(items.toArray(new String[items.size()]))
 					.itemsCallback((materialDialog, view, i, charSequence) ->
 							performAttachmentAction(position, i))
