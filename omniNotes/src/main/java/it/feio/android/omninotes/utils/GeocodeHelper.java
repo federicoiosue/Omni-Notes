@@ -20,7 +20,6 @@ package it.feio.android.omninotes.utils;
 import android.content.Context;
 import android.location.*;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationParams;
@@ -115,7 +114,6 @@ public class GeocodeHelper implements LocationListener {
 
 
 	public static void stop() {
-
 		SmartLocation.with(OmniNotes.getAppContext()).location().stop();
 		if (Geocoder.isPresent()) {
 			SmartLocation.with(OmniNotes.getAppContext()).geocoding().stop();
@@ -123,8 +121,8 @@ public class GeocodeHelper implements LocationListener {
 	}
 
 
-	public static String getAddressFromCoordinates(Context mContext, double latitude,
-												   double longitude) throws IOException {
+	static String getAddressFromCoordinates(Context mContext, double latitude,
+											double longitude) throws IOException {
 		String addressString = "";
 		Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
 		List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
@@ -177,48 +175,41 @@ public class GeocodeHelper implements LocationListener {
 
 
 	public static ArrayList<String> autocomplete(String input) {
-		ArrayList<String> resultList = null;
-
+		ArrayList<String> resultList = new ArrayList<>();
 		HttpURLConnection conn = null;
 		StringBuilder jsonResults = new StringBuilder();
+		InputStreamReader in = null;
 		try {
 			URL url = new URL(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON + "?key=" + API_KEY + "&input=" +
 					URLEncoder.encode(input, "utf8"));
 			conn = (HttpURLConnection) url.openConnection();
-			InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
+			in = new InputStreamReader(conn.getInputStream());
 			// Load the results into a StringBuilder
 			int read;
 			char[] buff = new char[1024];
 			while ((read = in.read(buff)) != -1) {
 				jsonResults.append(buff, 0, read);
 			}
-		} catch (MalformedURLException e) {
-			Log.e(Constants.TAG, "Error processing Places API URL");
-			return resultList;
-		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error connecting to Places API");
-			return resultList;
-		} finally {
-			if (conn != null) {
-				conn.disconnect();
-			}
-		}
-
-		try {
 			// Create a JSON object hierarchy from the results
 			JSONObject jsonObj = new JSONObject(jsonResults.toString());
 			JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
-
 			// Extract the Place descriptions from the results
 			resultList = new ArrayList<>(predsJsonArray.length());
 			for (int i = 0; i < predsJsonArray.length(); i++) {
 				resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
 			}
+		} catch (MalformedURLException e) {
+			Log.e(Constants.TAG, "Error processing Places API URL");
+		} catch (IOException e) {
+			Log.e(Constants.TAG, "Error connecting to Places API");
 		} catch (JSONException e) {
 			Log.e(Constants.TAG, "Cannot process JSON results", e);
+		} finally {
+			if (conn != null) {
+				conn.disconnect();
+			}
+			SystemHelper.closeCloseable(in);
 		}
-
 		return resultList;
 	}
 

@@ -23,7 +23,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -52,7 +51,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.MiscUtils;
+import it.feio.android.omninotes.utils.SystemHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -300,7 +299,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (i.getAction() == null) return;
 
         if (Constants.ACTION_RESTART_APP.equals(i.getAction())) {
-            MiscUtils.restartApp(getApplicationContext(), MainActivity.class);
+            SystemHelper.restartApp(getApplicationContext(), MainActivity.class);
         }
 
         if (receivedIntent(i)) {

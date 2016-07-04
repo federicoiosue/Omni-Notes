@@ -32,6 +32,7 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.SystemHelper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,7 +46,7 @@ import java.net.URLConnection;
 
 public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
-	private final String BETA = " Beta ";
+	private static final String BETA = " Beta ";
 	private final WeakReference<Activity> mActivityReference;
 	private final Activity mActivity;
 	private final SharedPreferences prefs;
@@ -136,7 +137,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 						.build().show();
 				mActivity.getSharedPreferences(Constants.PREFS_NAME,
 						Context.MODE_MULTI_PROCESS).edit().putString(Constants.PREF_CURRENT_APP_VERSION,
-						newVersion).commit();
+						newVersion).apply();
 			}
 		} catch (NameNotFoundException e) {
 			Log.e(Constants.TAG, "Error retrieving app version", e);
@@ -144,12 +145,6 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	}
 
 
-	/**
-	 * Cheks if activity is still alive and not finishing
-	 *
-	 * @param weakActivityReference
-	 * @return True or false
-	 */
 	private boolean isAlive(WeakReference<Activity> weakActivityReference) {
 		return !(weakActivityReference.get() == null || weakActivityReference.get().isFinishing());
 	}
@@ -158,21 +153,25 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	/**
 	 * Fetches application data from internet
 	 */
-	public String getAppData() throws IOException {
-		StringBuilder sb = new StringBuilder();
-		URLConnection conn = new URL(BuildConfig.VERSION_CHECK_URL).openConnection();
-		InputStream is = conn.getInputStream();
-		InputStreamReader inputStreamReader = new InputStreamReader(is);
-		BufferedReader br = new BufferedReader(inputStreamReader);
+	private String getAppData() throws IOException {
+		InputStream is = null;
+		InputStreamReader inputStreamReader = null;
+		try {
+			StringBuilder sb = new StringBuilder();
+			URLConnection conn = new URL(BuildConfig.VERSION_CHECK_URL).openConnection();
+			is = conn.getInputStream();
+			inputStreamReader = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(inputStreamReader);
 
-		String inputLine;
-		while ((inputLine = br.readLine()) != null) {
-			sb.append(inputLine);
+			String inputLine;
+			while ((inputLine = br.readLine()) != null) {
+				sb.append(inputLine);
+			}
+
+			return sb.toString();
+		} finally {
+			SystemHelper.closeCloseable(inputStreamReader, is);
 		}
-		inputStreamReader.close();
-		is.close();
-
-		return sb.toString();
 	}
 
 

@@ -44,7 +44,6 @@ import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.listeners.OnPermissionRequestedListener;
 import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.StringUtils;
 
@@ -292,7 +291,7 @@ public class SettingsFragment extends PreferenceFragment {
 					+ languageName.substring(1, languageName.length()));
 			lang.setOnPreferenceChangeListener((preference, value) -> {
 				OmniNotes.updateLanguage(getActivity(), value.toString());
-				MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+				SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 				return false;
 			});
 		}
@@ -439,7 +438,7 @@ public class SettingsFragment extends PreferenceFragment {
 								StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
 								File cacheDir = StorageHelper.getCacheDir(getActivity());
 								StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
-								MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 							}
 						})
 						.build().show();
@@ -463,7 +462,7 @@ public class SettingsFragment extends PreferenceFragment {
 								AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
 
 								prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
-								MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 							}
 						}).build().show();
 				return false;
