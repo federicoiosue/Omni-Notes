@@ -926,7 +926,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 								if (TextUtils.isEmpty(autoCompView.getText().toString())) {
 									noteTmp.setLatitude(location.getLatitude());
 									noteTmp.setLongitude(location.getLongitude());
-//									GeocodeHelper.getAddressFromCoordinates(location, mFragment);
+									GeocodeHelper.getAddressFromCoordinates(location, mFragment);
 								} else {
 									GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(),
 											mFragment);
