@@ -82,7 +82,6 @@ public interface Constants {
 	String PREF_PASSWORD_ANSWER = "password_answer";
 	String PREF_KEEP_CHECKED = "keep_checked";
 	String PREF_KEEP_CHECKMARKS = "show_checkmarks";
-	String PREF_EXPANDED_VIEW = "expanded_view";
 	String PREF_COLORS_APP_DEFAULT = "strip";
 	String PREF_WIDGET_PREFIX = "widget_";
 	String PREF_SHOW_UNCATEGORIZED = "settings_show_uncategorized";
@@ -117,4 +116,10 @@ public interface Constants {
 	int MENU_SORT_GROUP_ID = 11998811;
 
 	String MERGED_NOTES_SEPARATOR = "----------------------";
+
+	// View modes
+	String PREF_VIEW_MODE = "pref_view_mode";
+	int VIEW_MODE_CONTRACTED = 1;
+	int VIEW_MODE_EXPANDED = 2;
+	int VIEW_MODE_GRID = 3;
 }

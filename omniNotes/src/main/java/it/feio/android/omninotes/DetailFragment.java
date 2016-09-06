@@ -1923,13 +1923,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			mAnimation.setAnimationListener(new AnimationListener() {
 				@Override
 				public void onAnimationStart(Animation animation) {
-					// Nothind to do
+					// Nothing to do
 				}
 
 
 				@Override
 				public void onAnimationRepeat(Animation animation) {
-					// Nothind to do
+					// Nothing to do
 				}
 
 

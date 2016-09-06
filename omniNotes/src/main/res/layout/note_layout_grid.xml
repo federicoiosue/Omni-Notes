@@ -15,33 +15,34 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    android:id="@+id/root"
+
     android:layout_width="match_parent"
-    android:layout_height="@dimen/note_item_min_height"
-    android:paddingBottom="2dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+
+    android:minHeight="@dimen/note_item_min_height_inner"
     android:background="@drawable/bg_card">
 
     <LinearLayout
         android:id="@+id/card_layout"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:minHeight="@dimen/note_item_min_height_inner">
-
+        >
 
         <View
             android:id="@+id/category_marker"
             android:layout_width="7dp"
             android:minHeight="@dimen/note_item_min_height_inner"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:background="@null" />
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:minHeight="@dimen/note_item_min_height_inner"
             android:orientation="vertical"
@@ -64,10 +65,9 @@
             <com.neopixl.pixlui.components.textview.TextView
                 android:id="@+id/note_content"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:maxLines="@integer/textview_max_lines_expanded"
                 android:textAppearance="@style/Text.Normal"
                 android:visibility="invisible"
                 pixlui:typeface="RobotoSlab-Regular.ttf" />
@@ -96,7 +96,7 @@
                     android:layout_gravity="bottom|right"
                     android:contentDescription="@string/note_reminder_symbol"
                     android:src="@drawable/ic_alarm_black_18dp"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/locationIcon"
