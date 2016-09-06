@@ -62,15 +62,14 @@
                 android:textAppearance="@style/Text.Big"
                 pixlui:typeface="RobotoSlab-Bold.ttf" />
 
-            <com.neopixl.pixlui.components.textview.TextView
+            <TextView
                 android:id="@+id/note_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:textAppearance="@style/Text.Normal"
-                android:visibility="invisible"
-                pixlui:typeface="RobotoSlab-Regular.ttf" />
+                android:visibility="invisible" />
 
             <LinearLayout
                 android:layout_width="match_parent"

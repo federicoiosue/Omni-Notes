@@ -40,7 +40,7 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
 	@Bind(R.id.category_marker) public View categoryMarker;
 
 	@Bind(R.id.note_title) public TextView title;
-	@Bind(R.id.note_content) public TextView content;
+	@Bind(R.id.note_content) public android.widget.TextView content;
 	@Bind(R.id.note_date) public TextView date;
 
 	@Bind(R.id.archivedIcon) public ImageView archiveIcon;
