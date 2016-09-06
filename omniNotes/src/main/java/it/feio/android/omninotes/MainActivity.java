@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -36,6 +37,10 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -53,15 +58,13 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SystemHelper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
 
     @Bind(R.id.crouton_handle) ViewGroup croutonViewContainer;
-    @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @Bind(R.id.outer_toolbar) AppBarLayout outerToolbar;
+    Toolbar toolbar;
 
     public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
     public final String FRAGMENT_LIST_TAG = "fragment_list";
@@ -76,7 +79,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         super.onCreate(savedInstanceState);
 		setTheme(R.style.OmniNotesTheme_ApiSpec);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
+        toolbar = (Toolbar) outerToolbar.findViewById(R.id.toolbar);
 
         // This method starts the bootstrap chain.
         checkPassword();

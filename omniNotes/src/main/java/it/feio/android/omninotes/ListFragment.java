@@ -1134,7 +1134,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     public void onEvent(NotesLoadedEvent notesLoadedEvent) {
         ExStaggeredGridLayoutManager layoutManager = (ExStaggeredGridLayoutManager)list.getLayoutManager();
 
-        int layoutSelected;
+        int layoutSelected = R.layout.note_layout;
         switch (prefs.getInt(Constants.PREF_VIEW_MODE, Constants.VIEW_MODE_CONTRACTED)) {
             case Constants.VIEW_MODE_EXPANDED:
                 layoutManager.setSpanCount(1);
@@ -1145,10 +1145,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 layoutSelected = R.layout.note_layout_grid;
                 break;
             case Constants.VIEW_MODE_CONTRACTED:
-				break;
 			default:
                 layoutManager.setSpanCount(1);
-                layoutSelected = R.layout.note_layout;
         }
 
         View noteLayout = LayoutInflater.from(mainActivity).inflate(layoutSelected, null, false);
@@ -1159,17 +1157,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             listAdapter = new NoteAdapter(mainActivity, layoutSelected, notesLoadedEvent.notes);
             list.setAdapter(listAdapter);
             isNewList = true;
-
-            // If device runs KitKat a footer is added to list to avoid
-            // navigation bar transparency covering items
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                int navBarHeight = Display.getNavigationBarHeightKitkat(mainActivity);
-                listFooter = new TextView(mainActivity.getApplicationContext());
-                listFooter.setHeight(navBarHeight);
-                // To avoid useless events on footer
-                listFooter.setOnClickListener(null);
-                list.setFooterView(listFooter);
-            }
         } else {
             listAdapter.setLayout(layoutSelected);
             listAdapter.setNotes(notesLoadedEvent.notes);
