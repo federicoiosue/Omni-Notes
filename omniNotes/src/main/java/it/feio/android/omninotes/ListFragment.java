@@ -1145,7 +1145,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 layoutSelected = R.layout.note_layout_grid;
                 break;
             case Constants.VIEW_MODE_CONTRACTED:
-            default:
+				break;
+			default:
                 layoutManager.setSpanCount(1);
                 layoutSelected = R.layout.note_layout;
         }
