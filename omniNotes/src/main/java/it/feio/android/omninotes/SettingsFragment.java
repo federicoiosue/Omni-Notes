@@ -332,6 +332,41 @@ public class SettingsFragment extends PreferenceFragment {
 		}
 
 
+		// First day of week
+		final ListPreference firstDayOfWeek = (ListPreference) findPreference("settings_first_day_of_week");
+		if (firstDayOfWeek != null) {
+			int firstDayOfWeekIndex = firstDayOfWeek.findIndexOfValue(prefs.getString("settings_first_day_of_week",
+					Constants.PREF_FIRST_DAY_OF_WEEK_DEFAULT));
+			String firstDayOfWeekString = getResources().getStringArray(R.array.first_day_of_week)[firstDayOfWeekIndex];
+			firstDayOfWeek.setSummary(firstDayOfWeekString);
+			firstDayOfWeek.setOnPreferenceChangeListener((preference, newValue) -> {
+				int firstDayOfWeekIndex1 = firstDayOfWeek.findIndexOfValue(newValue.toString());
+				String firstDayOfWeekString1 = getResources().getStringArray(R.array.first_day_of_week)[firstDayOfWeekIndex1];
+				firstDayOfWeek.setSummary(firstDayOfWeekString1);
+				prefs.edit().putString("settings_first_day_of_week", newValue.toString()).commit();
+				firstDayOfWeek.setValueIndex(firstDayOfWeekIndex1);
+				return false;
+			});
+		}
+
+
+		// Simple calendar
+		final SwitchPreference simpleCalendar = (SwitchPreference) findPreference("settings_simple_calendar");
+		if (simpleCalendar != null) {
+			if (firstDayOfWeek != null) {
+				firstDayOfWeek.setEnabled(!simpleCalendar.isChecked());
+			}
+			simpleCalendar.setOnPreferenceChangeListener((preference, newValue) -> {
+				boolean value = (Boolean) newValue;
+				simpleCalendar.setChecked(value);
+				if (firstDayOfWeek != null) {
+					firstDayOfWeek.setEnabled(!value);
+				}
+				return false;
+			});
+		}
+
+
 		// Checklists
 		final ListPreference checklist = (ListPreference) findPreference("settings_checked_items_behavior");
 		if (checklist != null) {

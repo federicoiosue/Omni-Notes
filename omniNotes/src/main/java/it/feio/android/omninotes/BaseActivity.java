@@ -54,7 +54,7 @@ public class BaseActivity extends ActionBarActivity {
     protected final int TRANSITION_VERTICAL = 0;
     protected final int TRANSITION_HORIZONTAL = 1;
 
-    protected SharedPreferences prefs;
+    public SharedPreferences prefs;
 
     protected String navigation;
     protected String navigationTmp; // used for widget navigation
