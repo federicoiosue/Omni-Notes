@@ -2,6 +2,7 @@ package it.feio.android.omninotes.models.views;
 
 import android.os.Build;
 import android.support.v4.view.ViewPropertyAnimatorListener;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -28,14 +29,14 @@ public class Fab {
     private boolean fabAllowed;
     private boolean fabHidden;
     private boolean fabExpanded;
-    private final ListView listView;
+    private final RecyclerView listView;
     private boolean expandOnLongClick;
     private View overlay;
 
     OnFabItemClickedListener onFabItemClickedListener;
 
 
-    public Fab(View fabView, ListView listView, boolean expandOnLongClick) {
+    public Fab(View fabView, RecyclerView listView, boolean expandOnLongClick) {
         this.fab = (FloatingActionsMenu) fabView;
         this.listView = listView;
         this.expandOnLongClick = expandOnLongClick;
@@ -63,7 +64,7 @@ public class Fab {
 			}
 			return true;
 		});
-        listView.setOnScrollListener(
+        listView.setOnScrollChangeListener(
                 new AbsListViewScrollDetector() {
                     public void onScrollUp() {
                         if (fab != null) {
