@@ -11,7 +11,7 @@ Note taking <b>open-source</b> application aimed to have both a <b>simple interf
 The project was created by the absence of such applications compatible with old phones and old versions of Android that would propose, however, an attractive look and aligned with the most recent design of the Google operating system
 
 
-**Follow the developments and post your comments and advice on Google+ Beta Comunity at http://goo.gl/eF6qqF**
+**Follow the developments and post your comments and advice on Google+ Beta Community at http://goo.gl/eF6qqF**
 
 *Help to keep translations updated is always welcome, if you want give an hand checkout the translation project at [Crowdin][2]*
 
