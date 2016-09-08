@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">Notlar</string>
   <string name="add_note">Not Ekle</string>
   <string name="title">Not Başlığı</string>
@@ -146,6 +147,7 @@
   <string name="proceed">İlerle</string>
   <string name="contracted_view">Dar görünüm</string>
   <string name="expanded_view">Geniş görünüm</string>
+  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Kısayol ekle</string>
   <string name="shortcut_added">Ana ekrana kısayol eklendi</string>
   <string name="shortcut_note_deleted">Silinen not kısayol noktaları</string>
@@ -196,6 +198,7 @@
   <string name="checklist">Yapılacaklar listesi</string>
   <string name="text_note">Metin Notu</string>
   <string name="photo">Fotoğraf</string>
+  <!-- Settings -->
   <string name="dashclock_description">Yaklaşan hatırlatmalarınızı ve not sayılarınızı görüntüleyebirsiniz</string>
   <string name="settings">Ayarlar</string>
   <string name="settings_about">Omni Notes\'a Katkı Yapanlar</string>
@@ -273,6 +276,7 @@
   <string name="minutes">dakika</string>
   <string name="settings_simple_calendar">Sade takvim ve saat</string>
   <string name="settings_simple_calendar_summary">Daha sade ve basit olan Android takvim ve saat gösterimini kullanın</string>
+  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Uygulamayı keşfet</string>
   <string name="settings_tour_show_again_summary">Uygulamayı bir kez daha keşfe çık</string>
   <string name="backup_include_settings">Ayarları içerir (şifreler ile)</string>
@@ -312,10 +316,17 @@
   <string name="settings_attachments_on_bottom">Alttaki ekler</string>
   <string name="settings_attachments_on_bottom_summary_on">Not içeriği aşağıdaki ekleri gösterir</string>
   <string name="settings_attachments_on_bottom_summary_off">Ekleri not içeriğinin üstünde gösterir</string>
+  <string name="settings_prettified_dates">Prettified dates</string>
+  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
+  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
+  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Hata bildirimi</string>
   <string name="settings_error_reporting_summary_on">Uygulama çökerse, geliştiricinin yardımcı olabilmesi için çökme rapor edilir</string>
   <string name="settings_error_reporting_summary_off">Çökme olmayan raporlar gönderilecek . Birşeyler yanlış giderse şikayet etmeyin!</string>
+  <string name="settings_send_analytics">Share anonymous data</string>
+  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">İstatistikler</string>
+  <!-- Instructions -->
   <string name="tour_request_start">Omni Notes\'u yeni yükledin, uygulamayı keşfetmeye ne dersin?</string>
   <string name="tour_listactivity_intro_title">Omni Notes\'a hoş geldiniz!</string>
   <string name="tour_listactivity_intro_detail">Devam etmek için \"İlerle\'ye\" dokun</string>
@@ -340,6 +351,7 @@
   <string name="tour_listactivity_final_title">Keyfini Çıkarın</string>
   <string name="tour_listactivity_final_detail">Omni Notes uygulamasını kullandığınız için teşekkürler \nVerimlilik ve eğlenceli not alma için açık kaynaklı bir alternatif uygulama!</string>
   <string name="tour_community">Topluluğumuza abone olun!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">çekmece açık</string>
   <string name="drawer_close">çekmece kapalı</string>
   <string name="reminder">hatırlatma</string>

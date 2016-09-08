@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">ບັນທຶກ</string>
   <string name="add_note">ເພີ່ມບັນທຶກ</string>
   <string name="title">ຫົວຂໍ້</string>
@@ -146,6 +147,7 @@
   <string name="proceed">ດຳເນີນການ</string>
   <string name="contracted_view">ມູມມອງທີ່ນ້ອຍລົງ</string>
   <string name="expanded_view">ມູມມອງແບບຂະຫຍາຍ</string>
+  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">ເພີ່ມທາງລັດ</string>
   <string name="shortcut_added">ທາງລັດຖືກເພີ່ມໄປຍັງໜ້າຈໍຫຼັກ</string>
   <string name="shortcut_note_deleted">ທາງລັດເຊື່ອມຕໍ່ໄປຍັງບັນທຶກທີ່ຖືກລຶບ</string>
@@ -196,6 +198,7 @@
   <string name="checklist">Checklist</string>
   <string name="text_note">Text note</string>
   <string name="photo">Photo</string>
+  <!-- Settings -->
   <string name="dashclock_description">ສະແດງສະຖິຕິຈຳນວນໜຶ່ງ ແລະ ເຂົ້າເຖິງໂຕເຕືອນຄວາມຈຳຈາກ Omni Notes</string>
   <string name="settings">ການ​ຕັ້ງຄ່າ</string>
   <string name="settings_about">ຂໍ້​ມູນ</string>
@@ -273,6 +276,7 @@
   <string name="minutes">ນາທີ</string>
   <string name="settings_simple_calendar">ປະຕິທິນ ແລະ ເວລາແບບທຳມະດາ</string>
   <string name="settings_simple_calendar_summary">ໃຊ້ໂຕເລືອກປະຕິທິນ ແລະ ເວລາແບບທຳມະດາກວ່າແທນໂຕເລືອກຂອງ Google</string>
+  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">ການແນະນຳແອັບຯ</string>
   <string name="settings_tour_show_again_summary">ສະແດງການແນະນຳການໃຊ້ງານແອັບຯອີກຄັ້ງໜຶ່ງ</string>
   <string name="backup_include_settings">ຮວມທັງການຕັ້ງຄ່າ (ພ້ອມທັງລະຫັດຜ່ານ)</string>
@@ -312,10 +316,17 @@
   <string name="settings_attachments_on_bottom">Attachments on bottom</string>
   <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
   <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
+  <string name="settings_prettified_dates">Prettified dates</string>
+  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
+  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
+  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Error reporting</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
+  <string name="settings_send_analytics">Share anonymous data</string>
+  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statistics</string>
+  <!-- Instructions -->
   <string name="tour_request_start">ທ່ານເປີດໃຊ້ງານ Omni Notes ເປັນຄັ້ງທຳອິດ, ທ່ານຕ້ອງການເບິ່ງການແນະນຳແອັບພຼິເຄຊັນບໍ່?</string>
   <string name="tour_listactivity_intro_title">ຍິນດີຕ້ອນຮັບສູ່ Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">ກົດ \"ດຳເນີນການ\" ເພື່ອເບິ່ງການແນະນຳແອັບຯ</string>
@@ -339,7 +350,8 @@
   <string name="tour_detailactivity_save_detail">ພຽງແຕ່ກົດໄອຄອນຄວບຄຸມ \"ຂຶ້ນ\" ຫຼື ກັບຄືນດ້ວຍປຸ່ມກົດຂອງອຸປະກອນທ່ານ</string>
   <string name="tour_listactivity_final_title">ຂໍໃຫ້ມີຄວາມສຸກ</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-  <string name="tour_community">Subscribe to the community to partecipate!</string>
+  <string name="tour_community">Subscribe to the community to participate!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">drawer open</string>
   <string name="drawer_close">drawer close</string>
   <string name="reminder">ການແຈ້ງເຕືອນ</string>

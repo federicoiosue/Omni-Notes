@@ -147,6 +147,7 @@
   <string name="proceed">Continuar</string>
   <string name="contracted_view">Vista contraída</string>
   <string name="expanded_view">Vista expandida</string>
+  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Engadir atallo</string>
   <string name="shortcut_added">O atallo engadiuse á pantalla de inicio</string>
   <string name="shortcut_note_deleted">O atalla apunta a unha nota xa eliminada</string>
@@ -275,6 +276,7 @@
   <string name="minutes">minutos</string>
   <string name="settings_simple_calendar">Hora e calendario simples</string>
   <string name="settings_simple_calendar_summary">Utilizar o calendario e selector de hora do Android máis simple no canto do de Google</string>
+  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Introdución ao aplicativo</string>
   <string name="settings_tour_show_again_summary">Mostrar novamente a introdución coas instrucións do aplicativo</string>
   <string name="backup_include_settings">Incluír axustes (con contrasinal)</string>
