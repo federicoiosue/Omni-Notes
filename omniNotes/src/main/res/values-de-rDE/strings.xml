@@ -147,6 +147,7 @@
   <string name="proceed">Weiter</string>
   <string name="contracted_view">Einfache Ansicht</string>
   <string name="expanded_view">Erweiterte Ansicht</string>
+  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Verknüpfung hinzufügen</string>
   <string name="shortcut_added">Verknüpfung wurde dem Startbildschirm hinzugefügt</string>
   <string name="shortcut_note_deleted">Die Verknüpfung verweist auf eine gelöschte Notiz</string>
@@ -275,6 +276,7 @@
   <string name="minutes">Minuten</string>
   <string name="settings_simple_calendar">Einfacher Kalender und Uhrzeit</string>
   <string name="settings_simple_calendar_summary">Einfachen Kalender und Zeitauswahl für Erinnerungen benutzen</string>
+  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Anwendungstour</string>
   <string name="settings_tour_show_again_summary">Anwendungstour erneut zeigen</string>
   <string name="backup_include_settings">Einstellungen mit einbeziehen (mit Passwort)</string>
@@ -314,6 +316,9 @@
   <string name="settings_attachments_on_bottom">Anhänge am unteren Rand</string>
   <string name="settings_attachments_on_bottom_summary_on">Anhänge unterhalb der Notiz anzeigen</string>
   <string name="settings_attachments_on_bottom_summary_off">Anhänge überhalb der Notiz anzeigen</string>
+  <string name="settings_prettified_dates">Prettified dates</string>
+  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
+  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
   <string name="settings_screen_privacy">Datenschutz</string>
   <string name="settings_error_reporting">Fehlerberichte</string>
   <string name="settings_error_reporting_summary_on">Sollte die App abstürzen, wird der Entwickler informiert um Ihnen zu helfen</string>
