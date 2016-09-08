@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">កំណត់ត្រា</string>
   <string name="add_note">បង្កើត</string>
   <string name="title">ចំណងជើង</string>
@@ -150,6 +151,7 @@ Send automatic report to developer?\"</string>
   <string name="proceed">បន្ត</string>
   <string name="contracted_view">បង្ហាញសង្ខេបខ្លី</string>
   <string name="expanded_view">បង្ហាញពេញ</string>
+  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">ថែម shortcut នៅលើ Screen</string>
   <string name="shortcut_added">Shortcut added to home screen</string>
   <string name="shortcut_note_deleted">Shortcut points to deleted note</string>
@@ -200,6 +202,7 @@ Send automatic report to developer?\"</string>
   <string name="checklist">Checklist</string>
   <string name="text_note">Text note</string>
   <string name="photo">Photo</string>
+  <!-- Settings -->
   <string name="dashclock_description">Displays some statistics and expiring reminders from Khmer Notes</string>
   <string name="settings">ការកំណត់</string>
   <string name="settings_about">អំពី</string>
@@ -277,6 +280,7 @@ Send automatic report to developer?\"</string>
   <string name="minutes">minutes</string>
   <string name="settings_simple_calendar">Simple calendar and time</string>
   <string name="settings_simple_calendar_summary">Use the (simpler) Android interface for date/time selection, instead of Google interface</string>
+  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">ការណែនាំ</string>
   <string name="settings_tour_show_again_summary">បង្ហាញពីរបៀបប្រើម្តងទៀត</string>
   <string name="backup_include_settings">Include settings and password</string>
@@ -316,10 +320,17 @@ Send automatic report to developer?\"</string>
   <string name="settings_attachments_on_bottom">Attachments on bottom</string>
   <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
   <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
+  <string name="settings_prettified_dates">Prettified dates</string>
+  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
+  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
+  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Error reporting</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
+  <string name="settings_send_analytics">Share anonymous data</string>
+  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statistics</string>
+  <!-- Instructions -->
   <string name="tour_request_start">អ្នកប្រើ កម្មវិធីនេះជាលើកទី១ តើអ្នក តើអ្នកចង់មើលការណែនាំសង្ខេប ពី របៀបប្រើដែលឬទេ?</string>
   <string name="tour_listactivity_intro_title">Khmer Note សូមស្វាគមន៍ !</string>
   <string name="tour_listactivity_intro_detail">ចុច\"បន្ត\" ដើម្បីបន្ត ការណែនាំ</string>
@@ -344,7 +355,8 @@ Send automatic report to developer?\"</string>
   <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-  <string name="tour_community">Subscribe to the community to partecipate!</string>
+  <string name="tour_community">Subscribe to the community to participate!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">drawer open</string>
   <string name="drawer_close">drawer closed</string>
   <string name="reminder">reminder</string>

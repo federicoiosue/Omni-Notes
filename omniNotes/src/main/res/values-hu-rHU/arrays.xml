@@ -19,7 +19,7 @@
 <resources>
   <string-array name="navigation_list">
     <item>Jegyzetek</item>
-    <item>Archív</item>
+    <item>Archívum</item>
     <item>Emlékeztetők</item>
     <item>Lomtár</item>
     <item>Kategorizálatlan</item>
@@ -39,7 +39,7 @@
     <item>Letiltva</item>
     <item>Csak szalag</item>
     <item>Csak a jegyzetek listája</item>
-    <item>Befejezve</item>
+    <item>Teljes</item>
   </string-array>
   <string-array name="colors_widget">
     <item>Letiltva</item>

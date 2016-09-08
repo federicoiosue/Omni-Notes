@@ -148,6 +148,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="proceed">Prosegui</string>
   <string name="contracted_view">Visualizzazione contratta</string>
   <string name="expanded_view">Visualizzazione espansa</string>
+  <string name="grid_view">Vista a griglia</string>
   <string name="add_shortcut">Aggiungi collegamento</string>
   <string name="shortcut_added">Collegamento aggiunto alla home</string>
   <string name="shortcut_note_deleted">Il collegamento è riferito ad una nota cancellata</string>
@@ -276,6 +277,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="minutes">minuti</string>
   <string name="settings_simple_calendar">Calendario e orologio semplici</string>
   <string name="settings_simple_calendar_summary">Usa i più semplici popup di Android per la selezione di data e ora invece di quelli di Google</string>
+  <string name="settings_first_day_of_week">Primo giorno della settimana</string>
   <string name="settings_tour_show_again">Tour dell\'applicazione</string>
   <string name="settings_tour_show_again_summary">Mostra di nuovo il tour dell\'applicazione</string>
   <string name="backup_include_settings">Includi le impostazioni (con password di sicurezza)</string>

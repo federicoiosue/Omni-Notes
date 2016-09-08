@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">Catatan</string>
   <string name="add_note">Tambahkan Catatan</string>
   <string name="title">Judul</string>
@@ -146,6 +147,7 @@
   <string name="proceed">Diproses</string>
   <string name="contracted_view">Kurangi penglihatan</string>
   <string name="expanded_view">Perluas penglihatkan</string>
+  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Tambahkan jalan pintas</string>
   <string name="shortcut_added">Jalan pintas ditambahkan ke homescreen</string>
   <string name="shortcut_note_deleted">Titik jalan pintas untuk menghapus catatan</string>
@@ -196,6 +198,7 @@
   <string name="checklist">Checklist</string>
   <string name="text_note">Text note</string>
   <string name="photo">Photo</string>
+  <!-- Settings -->
   <string name="dashclock_description">Tampilkan beberapa statistik dan mengakhiri pengingat dari Omni Notes</string>
   <string name="settings">Setelan</string>
   <string name="settings_about">Info</string>
@@ -273,6 +276,7 @@
   <string name="minutes">menit</string>
   <string name="settings_simple_calendar">waktu dan kalender simpel</string>
   <string name="settings_simple_calendar_summary">Gunakan antarmuka Android yang lebih simpel untuk pilihan waktu, daripada antarmuka Google</string>
+  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Tur aplikasi</string>
   <string name="settings_tour_show_again_summary">Tunjukkan saya tur aplikasi lagi</string>
   <string name="backup_include_settings">Termasuk pengaturan dan sandi</string>
@@ -312,10 +316,17 @@
   <string name="settings_attachments_on_bottom">Attachments on bottom</string>
   <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
   <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
+  <string name="settings_prettified_dates">Prettified dates</string>
+  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
+  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
+  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Pelaporan kesalahan</string>
   <string name="settings_error_reporting_summary_on">Ketika apl berhenti dg tidak wajar pengembang akan memberi informasi untuk membantu Anda</string>
   <string name="settings_error_reporting_summary_off">Tidak ada laporan kerusakan akan dikirim. Jangan mengeluh jika terjadi sesuatu kesalahan!</string>
+  <string name="settings_send_analytics">Share anonymous data</string>
+  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statistics</string>
+  <!-- Instructions -->
   <string name="tour_request_start">Anda meluncurkan Omni Note untuk pertama kali, Anda ingin mengambil tur dalam aplikasi?</string>
   <string name="tour_listactivity_intro_title">Selamat datang di Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Tekan \"Lanjut\" untuk melanjutkan tur</string>
@@ -339,7 +350,8 @@
   <string name="tour_detailactivity_save_detail">Untuk kembali, tekan ikon navigasi \"up\", atau tombol kembali di perangkat Anda</string>
   <string name="tour_listactivity_final_title">Enjoy</string>
   <string name="tour_listactivity_final_detail">Terima kasih telah menggunakan Omni Notes \nAplikasi catatan alternatif bersumber terbuka yang cocok untuk kerja maupun rekreasi!</string>
-  <string name="tour_community">Subscribe to the community to partecipate!</string>
+  <string name="tour_community">Subscribe to the community to participate!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">drawer terbuka</string>
   <string name="drawer_close">drawer tertutup</string>
   <string name="reminder">pengingat</string>

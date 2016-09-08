@@ -147,6 +147,7 @@
   <string name="proceed">Продолжить</string>
   <string name="contracted_view">Упрощенный вид</string>
   <string name="expanded_view">Развернутый вид</string>
+  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Вывести ярлык</string>
   <string name="shortcut_added">Ярлык вынесен на главный экран</string>
   <string name="shortcut_note_deleted">Ярлык ссылается на отсутствующую заметку</string>
@@ -275,6 +276,7 @@
   <string name="minutes">минут (-ы)</string>
   <string name="settings_simple_calendar">Упрощенный выбор</string>
   <string name="settings_simple_calendar_summary">Использовать упрощенный ввод даты и времени вместо современного от Google</string>
+  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Обучение</string>
   <string name="settings_tour_show_again_summary">Повторно пройти обучающую инструкцию</string>
   <string name="backup_include_settings">Запомнить настройки и пароль</string>
@@ -314,6 +316,9 @@
   <string name="settings_attachments_on_bottom">Вложения в конце заметок</string>
   <string name="settings_attachments_on_bottom_summary_on">Вложения отображаются ниже содержаний заметок</string>
   <string name="settings_attachments_on_bottom_summary_off">Вложения отображаются выше содержаний заметок</string>
+  <string name="settings_prettified_dates">Prettified dates</string>
+  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
+  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
   <string name="settings_screen_privacy">Конфиденциальность</string>
   <string name="settings_error_reporting">Отправка отчетов</string>
   <string name="settings_error_reporting_summary_on">Разработчик будет осведомлен, если в приложении произойдёт сбой и сможет его исправить</string>
