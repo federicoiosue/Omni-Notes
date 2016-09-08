@@ -31,6 +31,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -44,31 +45,59 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import android.view.animation.Transformation;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.Toast;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.pushbullet.android.extension.MessagingExtension;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
@@ -87,7 +116,11 @@ import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
-import it.feio.android.omninotes.models.*;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
@@ -96,27 +129,30 @@ import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.AlphaManager;
+import it.feio.android.omninotes.utils.ConnectionManager;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.GeocodeHelper;
+import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.ShortcutHelper;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.TagsHelper;
+import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
-import org.apache.commons.lang.StringUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import static java.lang.Integer.parseInt;
 
 
 public class DetailFragment extends BaseFragment implements OnReminderPickedListener, OnTouchListener,
-		OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved,
-		OnGeoUtilResultListener {
+		OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved, OnGeoUtilResultListener {
 
 	private static final int TAKE_PHOTO = 1;
 	private static final int TAKE_VIDEO = 2;
@@ -126,45 +162,26 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private static final int DETAIL = 6;
 	private static final int FILES = 7;
 
-	@Bind(R.id.detail_root)
-	ViewGroup root;
-	@Bind(R.id.detail_title)
+	@Bind(R.id.detail_root) ViewGroup root;
+	@Bind(R.id.detail_content) EditText content;
+	@Bind(R.id.detail_attachments_above) ViewStub attachmentsAbove;
+	@Bind(R.id.detail_attachments_below) ViewStub attachmentsBelow;
+	@Nullable @Bind(R.id.gridview) ExpandableHeightGridView mGridView;
+	@Bind(R.id.location) TextView locationTextView;
+	@Bind(R.id.reminder_layout) LinearLayout reminder_layout;
+	@Bind(R.id.reminder_icon) ImageView reminderIcon;
+	@Bind(R.id.datetime) TextView datetime;
+	@Bind(R.id.content_wrapper) NestedScrollView scrollView;
+	@Bind(R.id.snackbar_placeholder) View snackBarPlaceholder;
+	@Bind(R.id.bottomSpacer) View bottomSpacer;
+
+    LinearLayout titleWrapperView;
 	EditText title;
-	@Bind(R.id.detail_content)
-	EditText content;
-	@Bind(R.id.detail_attachments_above)
-	ViewStub attachmentsAbove;
-	@Bind(R.id.detail_attachments_below)
-	ViewStub attachmentsBelow;
-	@Nullable
-	@Bind(R.id.gridview)
-	ExpandableHeightGridView mGridView;
-	@Bind(R.id.location)
-	TextView locationTextView;
-	@Bind(R.id.detail_timestamps)
+    TextView detailTitleText;
 	View timestampsView;
-	@Bind(R.id.reminder_layout)
-	LinearLayout reminder_layout;
-	@Bind(R.id.reminder_icon)
-	ImageView reminderIcon;
-	@Bind(R.id.datetime)
-	TextView datetime;
-	@Bind(R.id.detail_tile_card)
-	View titleCardView;
-	@Bind(R.id.content_wrapper)
-	ScrollView scrollView;
-	@Bind(R.id.creation)
 	TextView creationTextView;
-	@Bind(R.id.last_modification)
 	TextView lastModificationTextView;
-	@Bind(R.id.title_wrapper)
-	View titleWrapperView;
-	@Bind(R.id.tag_marker)
-	View tagMarkerView;
-	@Bind(R.id.detail_wrapper)
-	ViewManager detailWrapperView;
-	@Bind(R.id.snackbar_placeholder)
-	View snackBarPlaceholder;
+    View detailLineSeperator;
 
 	public OnDateSetListener onDateSetListener;
 	public OnTimeSetListener onTimeSetListener;
@@ -176,6 +193,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private Note note;
 	private Note noteTmp;
 	private Note noteOriginal;
+
 	// Audio recording
 	private String recordName;
 	private MediaRecorder mRecorder = null;
@@ -184,9 +202,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private View isPlayingView = null;
 	private Bitmap recordingBitmap;
 	private ChecklistManager mChecklistManager;
+
 	// Values to print result
 	private String exitMessage;
 	private Style exitCroutonStyle = ONStyle.CONFIRM;
+
 	// Flag to check if after editing it will return to ListActivity or not
 	// and in the last case a Toast will be shown instead than Crouton
 	private boolean afterSavedReturnsToList = true;
@@ -206,8 +226,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private MainActivity mainActivity;
 	private boolean activityPausing;
 
+    private static boolean goneHome;
 
-	@Override
+
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mFragment = this;
@@ -233,11 +255,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public void onResume() {
 		super.onResume();
-		// Adding a layout observer to perform calculus when showing keyboard
-		if (root != null) {
-			root.getViewTreeObserver().addOnGlobalLayoutListener(this);
-		}
-
 		activityPausing = false;
 	}
 
@@ -246,7 +263,79 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_detail, container, false);
 		ButterKnife.bind(this, view);
-		return view;
+
+        MainActivity activity = (MainActivity) getActivity();
+        ViewGroup collapsingToolbar =  ButterKnife.findById(activity.outerToolbar, R.id.collapsing_toolbar);
+
+
+        View toolbarView = ButterKnife.findById(collapsingToolbar, R.id.title_wrapper);
+        if (toolbarView == null ) {
+            toolbarView = inflater.inflate(R.layout.fragment_detail_toolbar, collapsingToolbar, true);
+        }
+
+        titleWrapperView = ButterKnife.findById(toolbarView, R.id.title_wrapper);
+        title = ButterKnife.findById(toolbarView, R.id.detail_title);
+        detailTitleText = ButterKnife.findById(toolbarView, R.id.detail_title_text);
+        timestampsView = ButterKnife.findById(toolbarView, R.id.detail_timestamps);
+        creationTextView = ButterKnife.findById(toolbarView, R.id.creation);
+        lastModificationTextView = ButterKnife.findById(toolbarView, R.id.last_modification);
+        detailLineSeperator = ButterKnife.findById(toolbarView, R.id.detail_line_seperator);
+
+        AppBarLayout appBarLayout = activity.outerToolbar;
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                float v = 1.0f + (float) verticalOffset / appBarLayout.getTotalScrollRange();
+                if (verticalOffset == 0.0f) {
+                    v = 1.0f;
+                }
+
+                if (DetailFragment.goneHome && v <= 0.0f) {
+                    titleWrapperView.setVisibility(View.GONE);
+                }
+
+                detailTitleText.setAlpha(v);
+                detailLineSeperator.setAlpha(v);
+                creationTextView.setAlpha(v);
+                lastModificationTextView.setAlpha(v);
+            }
+        });
+
+
+        // set a global layout listener which will be called when the layout pass is completed and the view is drawn
+        creationTextView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    public void onGlobalLayout() {
+                        //Remove the listener before proceeding
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        } else {
+                            view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }
+
+                        ViewGroup collapsingToolbar =  ButterKnife.findById(mainActivity.outerToolbar, R.id.collapsing_toolbar);
+
+                        // measure your views here
+                        Rect titleRect = new Rect();
+                        title.getGlobalVisibleRect(titleRect);
+
+                        Rect toolbarRect = new Rect();
+                        collapsingToolbar.getGlobalVisibleRect(toolbarRect);
+
+                        float titleHeight = titleRect.bottom - titleRect.top;
+                        float toolbarHeight = toolbarRect.bottom - toolbarRect.top;
+                        float navHeight = Display.getNavigationBarHeightStandard(getContext());
+                        float parallaxMultiplier =
+                                1.0f - (titleRect.bottom - (titleHeight / 2.0f) - DensityUtil.dpToPx(2, getContext())) / (toolbarRect.bottom);
+
+                        CollapsingToolbarLayout.LayoutParams titleLayoutParams =
+                                (CollapsingToolbarLayout.LayoutParams) titleWrapperView.getLayoutParams();
+                        titleLayoutParams.setParallaxMultiplier(parallaxMultiplier);
+                    }
+                });
+
+
+        return view;
 	}
 
 
@@ -293,6 +382,28 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		setHasOptionsMenu(true);
 		setRetainInstance(false);
+
+		if (mainActivity != null && mainActivity.getSupportActionBar() != null) {
+			mainActivity.getSupportActionBar().setElevation(0);
+		}
+
+//        ViewGroup collapsingToolbar =  ButterKnife.findById(mainActivity.outerToolbar, R.id.collapsing_toolbar);
+//        View toolbarView = ButterKnife.findById(collapsingToolbar, R.id.title_wrapper);
+//        mainActivity.outerToolbar.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        android.support.v7.widget.Toolbar innerToolbar = ButterKnife.findById(toolbarView, R.id.toolbar);
+//        float titleHeight = titleWrapperView.getMeasuredHeight();
+//        float toolbarHeight = innerToolbar.getHeight(); // - getStatusBarHeight();
+//
+//        CollapsingToolbarLayout.LayoutParams titleLayoutParams =
+//                (CollapsingToolbarLayout.LayoutParams) titleWrapperView.getLayoutParams();
+//        titleLayoutParams.setParallaxMultiplier(toolbarHeight / titleHeight);
+//
+//        Log.e("Bla", String.valueOf(titleHeight) + " / " + toolbarHeight + " = " + (toolbarHeight / titleHeight));
+
+
+        titleWrapperView.setVisibility(View.VISIBLE);
+        DetailFragment.goneHome = false;
+        mainActivity.outerToolbar.setExpanded(true, true);
 	}
 
 
@@ -327,15 +438,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (mRecorder != null) {
 			mRecorder.release();
 			mRecorder = null;
-		}
-
-		// Unregistering layout observer
-		if (root != null) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-			} else {
-				root.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-			}
 		}
 
 		// Closes keyboard on exit
@@ -543,14 +645,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Footer dates of creation...
 		String creation = DateHelper.getFormattedDate(noteTmp.getCreation(), prefs.getBoolean(Constants
 				.PREF_PRETTIFIED_DATES, true));
-		creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
+		creationTextView.setText(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
 		if (creationTextView.getText().length() == 0)
 			creationTextView.setVisibility(View.GONE);
 
 		// ... and last modification
 		String lastModification = DateHelper.getFormattedDate(noteTmp.getLastModification(), prefs.getBoolean(Constants
 				.PREF_PRETTIFIED_DATES, true));
-		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " +
+		lastModificationTextView.setText(lastModification.length() > 0 ? getString(R.string.last_update) + " " +
 				lastModification : "");
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
@@ -594,15 +696,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			datetime.setText(reminderString);
 		}
 
-		// Timestamps view
 		// Bottom padding set for translucent navbar in Kitkat
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			int navBarHeight = Display.getNavigationBarHeightKitkat(mainActivity);
 			int negativePadding = navBarHeight >= 27 * 3 ? -27 : 0;
-			int timestampsViewPaddingBottom = navBarHeight > 0 ? navBarHeight + negativePadding : timestampsView
+			int bottomSpacerViewPaddingBottom = navBarHeight > 0 ? navBarHeight + negativePadding : bottomSpacer
 					.getPaddingBottom();
-			timestampsView.setPadding(timestampsView.getPaddingStart(), timestampsView.getPaddingTop(),
-					timestampsView.getPaddingEnd(), timestampsViewPaddingBottom);
+			bottomSpacer.setPadding(bottomSpacer.getPaddingStart(), bottomSpacer.getPaddingTop(),
+					bottomSpacer.getPaddingEnd(), bottomSpacerViewPaddingBottom);
 		}
 	}
 
@@ -668,7 +769,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private void initViewAttachments() {
 
 		// Attachments position based on preferences
-		if (prefs.getBoolean(Constants.PREF_ATTANCHEMENTS_ON_BOTTOM, false)) {
+		if (prefs.getBoolean(Constants.PREF_ATTANCHEMENTS_ON_BOTTOM, true)) {
 			attachmentsBelow.inflate();
 		} else {
 			attachmentsAbove.inflate();
@@ -838,7 +939,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	/**
 	 * Force focus and shows soft keyboard. Only happens if it's a new note, without shared content.
-	 * {@link showKeyboard} is used to check if the note is created from shared content.
+	 * showKeyboard is used to check if the note is created from shared content.
 	 */
 	private void requestFocus(final EditText view) {
 		if (note.get_id() == null && !noteTmp.isChanged(note) && showKeyboard) {
@@ -863,7 +964,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				target.add(titleWrapperView);
 				target.add(scrollView);
 			} else {
-				target.add(tagMarkerView);
+				//target.add(tagMarkerView);
 			}
 
 			// Coloring the target
@@ -958,6 +1059,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			}
 		});
 	}
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
 
 
 	@Override
@@ -1084,8 +1194,66 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			}
 		}
 
+        //collapse(titleWrapperView);
+        DetailFragment.goneHome = true;
+        mainActivity.outerToolbar.setExpanded(false, true);
+
 		return true;
 	}
+
+    public static void collapse(final View v) {
+        final int initialHeight = v.getMeasuredHeight();
+
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                if(interpolatedTime == 1){
+                    v.setVisibility(View.GONE);
+                }else{
+                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                    v.requestLayout();
+                }
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // 5dp/ms
+        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density) * 5);
+        v.startAnimation(a);
+    }
+
+    public static void expand(final View v) {
+        v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final int targetHeight = v.getMeasuredHeight();
+
+        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+        v.getLayoutParams().height = 1;
+        v.setVisibility(View.VISIBLE);
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                v.getLayoutParams().height = interpolatedTime == 1
+                        ? ViewGroup.LayoutParams.WRAP_CONTENT
+                        : (int)(targetHeight * interpolatedTime);
+                v.requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // 3dp/ms
+        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density) * 3);
+        v.startAnimation(a);
+    }
 
 
 	@Override
@@ -1904,7 +2072,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
-	private void fade(final View v, boolean fadeIn) {
+	@SuppressWarnings("ResourceType")
+    private void fade(final View v, boolean fadeIn) {
 
 		int anim = R.animator.fade_out_support;
 		int visibilityTemp = View.GONE;
@@ -2064,47 +2233,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 
 		return true;
-	}
-
-
-	@Override
-	public void onGlobalLayout() {
-		int screenHeight = Display.getUsableSize(mainActivity).y;
-		int navBarOffset = Display.orientationLandscape(mainActivity) ? 0 : DensityUtil.pxToDp(Display
-				.getNavigationBarHeight(mainActivity.getWindow().getDecorView()), mainActivity);
-		int heightDiff = screenHeight - Display.getVisibleSize(mainActivity).y + navBarOffset;
-		boolean keyboardVisible = heightDiff > 150;
-		if (keyboardVisible && keyboardPlaceholder == null) {
-			shrinkLayouts(heightDiff);
-		} else if (!keyboardVisible && keyboardPlaceholder != null) {
-			restoreLayouts();
-		}
-	}
-
-
-	private void shrinkLayouts(int heightDiff) {
-		detailWrapperView.removeView(timestampsView);
-		keyboardPlaceholder = new View(mainActivity);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Display.orientationLandscape(mainActivity)
-			)) {
-				root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
-			}
-		}
-	}
-
-
-	private void restoreLayouts() {
-		if (root != null) {
-			ViewGroup wrapper = (ViewGroup) root.findViewById(R.id.detail_wrapper);
-			if (root.indexOfChild(keyboardPlaceholder) != -1) {
-				root.removeView(keyboardPlaceholder);
-			}
-			keyboardPlaceholder = null;
-			if (wrapper.indexOfChild(timestampsView) == -1) {
-				wrapper.addView(timestampsView);
-			}
-		}
 	}
 
 

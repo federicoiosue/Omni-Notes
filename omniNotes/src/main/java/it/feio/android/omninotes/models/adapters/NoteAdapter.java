@@ -24,7 +24,9 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.LeadingMarginSpan;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -158,8 +160,6 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
             } else {
                 Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
-                holder.title.setText(titleAndContent[0]);
-                holder.content.setText(titleAndContent[1]);
                 holder.title.setText(titleAndContent[0]);
                 if (titleAndContent[1].length() > 0) {
                     holder.content.setText(titleAndContent[1]);

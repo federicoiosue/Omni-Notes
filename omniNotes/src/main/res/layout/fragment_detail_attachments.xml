@@ -23,4 +23,7 @@
         android:drawSelectorOnTop="true"
         android:listSelector="@drawable/icon_selector"
         android:numColumns="2"
+        android:padding="16dp"
+        android:horizontalSpacing="12dp"
+        android:verticalSpacing="12dp"
         android:stretchMode="columnWidth"/>
