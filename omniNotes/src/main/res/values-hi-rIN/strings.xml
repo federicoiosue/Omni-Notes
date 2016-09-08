@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
+  <!-- Activities -->
   <string name="title_item_list">नोट्स</string>
   <string name="add_note">नोट जोड़ें</string>
   <string name="title">शीर्षक</string>
@@ -146,6 +147,7 @@
   <string name="proceed">आगे बढे</string>
   <string name="contracted_view">अनुबंधित दृश्य</string>
   <string name="expanded_view">विस्तृत दृश्य</string>
+  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">शॉर्टकट जोड़ें</string>
   <string name="shortcut_added">शॉर्टकट घर स्क्रीन में जुड़ गया हे</string>
   <string name="shortcut_note_deleted">ये शॉर्टकट हटाये गए नोट को पॉइंट कर रहा हे</string>
@@ -196,6 +198,7 @@
   <string name="checklist">Checklist</string>
   <string name="text_note">Text note</string>
   <string name="photo">Photo</string>
+  <!-- Settings -->
   <string name="dashclock_description">रिमाइंडर और कुछ आंकड़े ओमनी नोटस कि और से दिखाए</string>
   <string name="settings">सेटिंग्स</string>
   <string name="settings_about">जानकारी</string>
@@ -273,6 +276,7 @@
   <string name="minutes">मिनट</string>
   <string name="settings_simple_calendar">सरल कैलेंडर और समय</string>
   <string name="settings_simple_calendar_summary">सरल Android कैलेंडर और समय का उपयोग करें  ना कि गूगल का</string>
+  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">एप्लीकेशन टूर</string>
   <string name="settings_tour_show_again_summary">एक बार फिर से एप्लीकेशन के निर्देश का टूर देखाए</string>
   <string name="backup_include_settings">सेटिंग्स (पासवर्ड) के साथ शामिल करें</string>
@@ -312,10 +316,17 @@
   <string name="settings_attachments_on_bottom">Attachments on bottom</string>
   <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
   <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
+  <string name="settings_prettified_dates">Prettified dates</string>
+  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
+  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
+  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Error reporting</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
+  <string name="settings_send_analytics">Share anonymous data</string>
+  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statistics</string>
+  <!-- Instructions -->
   <string name="tour_request_start">आपने ओमनी नोट पहला बार खोला हे, क्या आप एप्लीकेशन का टूर लेना चाहते हे ?</string>
   <string name="tour_listactivity_intro_title">ओमनी नोट्स में आपका स्वागत है!</string>
   <string name="tour_listactivity_intro_detail">टूर जारी रखने के लिए \"आगे बढ़ें\" दबाएँ</string>
@@ -339,7 +350,8 @@
   <string name="tour_detailactivity_save_detail">सरलता से \"उप\" बटन दबाये के पीछे जाइए आपले मोबाइल के बटन से</string>
   <string name="tour_listactivity_final_title">आनंद लें</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-  <string name="tour_community">Subscribe to the community to partecipate!</string>
+  <string name="tour_community">Subscribe to the community to participate!</string>
+  <!-- Accessibility -->
   <string name="drawer_open">ड्रावर खुला</string>
   <string name="drawer_close">ड्रावर बंद करें</string>
   <string name="reminder">रिमाइंडर</string>

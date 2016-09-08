@@ -54,9 +54,9 @@
     <item>Största</item>
   </string-array>
   <string-array name="attachments_actions">
-    <item>Share</item>
-    <item>Delete</item>
-    <item>Delete All</item>
-    <item>Edit</item>
+    <item>Dela</item>
+    <item>Radera</item>
+    <item>Radera alla</item>
+    <item>Ändra</item>
   </string-array>
 </resources>
