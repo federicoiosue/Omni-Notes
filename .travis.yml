@@ -18,7 +18,7 @@ android:
     - tools
 
     # The BuildTools version used by your project
-    - build-tools-24.2.0
+    - build-tools-24.0.2
 
     # The SDK version used to compile your project
     - android-24
