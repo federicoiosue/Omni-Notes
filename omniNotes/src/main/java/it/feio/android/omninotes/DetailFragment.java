@@ -83,6 +83,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.google.android.gms.common.data.DataHolder;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.pushbullet.android.extension.MessagingExtension;
@@ -229,7 +230,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     private static boolean goneHome;
 
 
-    @Override
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mFragment = this;
@@ -313,20 +314,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                             view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                         }
 
-                        ViewGroup collapsingToolbar =  ButterKnife.findById(mainActivity.outerToolbar, R.id.collapsing_toolbar);
+                        ViewGroup toolbar =  ButterKnife.findById(mainActivity.outerToolbar, R.id.toolbar);
 
-                        // measure your views here
                         Rect titleRect = new Rect();
                         title.getGlobalVisibleRect(titleRect);
+                        float parallaxMultiplier = 1.0f -
+								((float) titleRect.top - toolbar.getHeight()/2.0f - title.getHeight()/2.0f + DensityUtil.dpToPx(3, getContext())) /
+								((float) mainActivity.outerToolbar.getHeight() - toolbar.getHeight());
 
-                        Rect toolbarRect = new Rect();
-                        collapsingToolbar.getGlobalVisibleRect(toolbarRect);
-
-                        float titleHeight = titleRect.bottom - titleRect.top;
-                        float toolbarHeight = toolbarRect.bottom - toolbarRect.top;
-                        float navHeight = Display.getNavigationBarHeightStandard(getContext());
-                        float parallaxMultiplier =
-                                1.0f - (titleRect.bottom - (titleHeight / 2.0f) - DensityUtil.dpToPx(2, getContext())) / (toolbarRect.bottom);
 
                         CollapsingToolbarLayout.LayoutParams titleLayoutParams =
                                 (CollapsingToolbarLayout.LayoutParams) titleWrapperView.getLayoutParams();
@@ -386,20 +381,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (mainActivity != null && mainActivity.getSupportActionBar() != null) {
 			mainActivity.getSupportActionBar().setElevation(0);
 		}
-
-//        ViewGroup collapsingToolbar =  ButterKnife.findById(mainActivity.outerToolbar, R.id.collapsing_toolbar);
-//        View toolbarView = ButterKnife.findById(collapsingToolbar, R.id.title_wrapper);
-//        mainActivity.outerToolbar.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        android.support.v7.widget.Toolbar innerToolbar = ButterKnife.findById(toolbarView, R.id.toolbar);
-//        float titleHeight = titleWrapperView.getMeasuredHeight();
-//        float toolbarHeight = innerToolbar.getHeight(); // - getStatusBarHeight();
-//
-//        CollapsingToolbarLayout.LayoutParams titleLayoutParams =
-//                (CollapsingToolbarLayout.LayoutParams) titleWrapperView.getLayoutParams();
-//        titleLayoutParams.setParallaxMultiplier(toolbarHeight / titleHeight);
-//
-//        Log.e("Bla", String.valueOf(titleHeight) + " / " + toolbarHeight + " = " + (toolbarHeight / titleHeight));
-
 
         titleWrapperView.setVisibility(View.VISIBLE);
         DetailFragment.goneHome = false;

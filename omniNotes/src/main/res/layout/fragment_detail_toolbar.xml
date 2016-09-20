@@ -19,6 +19,7 @@
         android:id="@+id/detail_title_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="6dp"
         android:text="@string/title"
         android:textColor="@color/text_color_rev"
         pixlui:typeface="Roboto-Regular.ttf" />
@@ -33,8 +34,6 @@
         android:hint="@string/title"
         android:inputType="textCapSentences"
         android:linksClickable="false"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp"
         android:textAppearance="@style/Text.Large"
         android:textColor="@color/text_color_rev"
         android:textColorHint="@color/text_color_rev_darker"
@@ -46,6 +45,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_weight="1"
+        android:paddingTop="6dp"
         android:background="@color/text_color_rev" />
 
     <LinearLayout
