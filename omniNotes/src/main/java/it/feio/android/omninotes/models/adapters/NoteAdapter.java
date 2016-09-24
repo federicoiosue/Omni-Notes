@@ -258,12 +258,15 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 if (colorsPref.equals("complete") || colorsPref.equals("list")) {
                     v.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
                 } else {
-                    if (holder != null) {
-                        holder.categoryMarker.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
-                    } else {
-                        v.findViewById(R.id.category_marker).setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
-                    }
-                }
+					View categoryMarkerView = holder != null ? holder.categoryMarker : v.findViewById(R.id
+							.category_marker);
+					categoryMarkerView.setVisibility(View.VISIBLE);
+					if (holder != null) {
+						categoryMarkerView.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
+					} else {
+						categoryMarkerView.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
+					}
+				}
             } else {
                 v.findViewById(R.id.category_marker).setBackgroundColor(0);
             }
