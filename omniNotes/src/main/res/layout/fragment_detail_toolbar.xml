@@ -24,21 +24,25 @@
         android:textColor="@color/text_color_rev"
         pixlui:typeface="Roboto-Regular.ttf" />
 
-    <com.neopixl.pixlui.components.edittext.EditText
-        android:id="@+id/detail_title"
-        paddingEnd="16dp"
-        paddingStart="6dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@null"
-        android:hint="@string/title"
-        android:inputType="textCapSentences"
-        android:linksClickable="false"
-        android:textAppearance="@style/Text.Large"
-        android:textColor="@color/text_color_rev"
-        android:textColorHint="@color/text_color_rev_darker"
-        android:textCursorDrawable="@null"
-        pixlui:typeface="RobotoSlab-Bold.ttf" />
+    <LinearLayout android:id="@+id/detail_title_wrapper"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+        <com.neopixl.pixlui.components.edittext.EditText
+                android:id="@+id/detail_title"
+                paddingEnd="16dp"
+                paddingStart="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/title"
+                android:inputType="textCapSentences"
+                android:linksClickable="false"
+                android:textAppearance="@style/Text.Large"
+                android:textColor="@color/text_color_rev"
+                android:textColorHint="@color/text_color_rev_darker"
+                android:textCursorDrawable="@null"
+                pixlui:typeface="RobotoSlab-Bold.ttf" />
+    </LinearLayout>
 
     <View
         android:id="@+id/detail_line_seperator"

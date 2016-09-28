@@ -178,6 +178,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     LinearLayout titleWrapperView;
 	EditText title;
+	View detailTitleWrapper;
     TextView detailTitleText;
 	View timestampsView;
 	TextView creationTextView;
@@ -228,6 +229,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private boolean activityPausing;
 
     private static boolean goneHome;
+	private int detailTitleWrapperInitialWidth;
 
 
 	@Override
@@ -276,6 +278,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
         titleWrapperView = ButterKnife.findById(toolbarView, R.id.title_wrapper);
         title = ButterKnife.findById(toolbarView, R.id.detail_title);
+		detailTitleWrapper = ButterKnife.findById(toolbarView, R.id.detail_title_wrapper);
+		detailTitleWrapperInitialWidth = detailTitleWrapper.getWidth();
         detailTitleText = ButterKnife.findById(toolbarView, R.id.detail_title_text);
         timestampsView = ButterKnife.findById(toolbarView, R.id.detail_timestamps);
         creationTextView = ButterKnife.findById(toolbarView, R.id.creation);
@@ -283,24 +287,23 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         detailLineSeperator = ButterKnife.findById(toolbarView, R.id.detail_line_seperator);
 
         AppBarLayout appBarLayout = activity.outerToolbar;
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                float v = 1.0f + (float) verticalOffset / appBarLayout.getTotalScrollRange();
-                if (verticalOffset == 0.0f) {
-                    v = 1.0f;
-                }
+		detailTitleWrapperInitialWidth = appBarLayout.getWidth();
+        appBarLayout.addOnOffsetChangedListener((appBarLayout1, verticalOffset) -> {
+			float v = 1.0f + (float) verticalOffset / appBarLayout1.getTotalScrollRange();
+			if (verticalOffset == 0.0f) {
+				v = 1.0f;
+			}
+			if (DetailFragment.goneHome && v <= 0.0f) {
+				titleWrapperView.setVisibility(View.GONE);
+			}
 
-                if (DetailFragment.goneHome && v <= 0.0f) {
-                    titleWrapperView.setVisibility(View.GONE);
-                }
+			collapseDetailTitle(appBarLayout1, verticalOffset, title);
 
-                detailTitleText.setAlpha(v);
-                detailLineSeperator.setAlpha(v);
-                creationTextView.setAlpha(v);
-                lastModificationTextView.setAlpha(v);
-            }
-        });
+			detailTitleText.setAlpha(v);
+			detailLineSeperator.setAlpha(v);
+			creationTextView.setAlpha(v);
+			lastModificationTextView.setAlpha(v);
+		});
 
 
         // set a global layout listener which will be called when the layout pass is completed and the view is drawn
@@ -331,6 +334,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
         return view;
+	}
+
+
+	private void collapseDetailTitle(AppBarLayout appBarLayout1, int verticalOffset, EditText title) {
+		ViewGroup.LayoutParams lp = detailTitleWrapper.getLayoutParams();
+		lp.width = (int) (280 + (detailTitleWrapperInitialWidth - 280) * (1- (float)Math.abs(verticalOffset) / appBarLayout1.getTotalScrollRange()));
+		detailTitleWrapper.setLayoutParams(lp);
+		title.setEnabled(lp.width == detailTitleWrapperInitialWidth);
 	}
 
 
