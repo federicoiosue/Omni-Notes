@@ -147,7 +147,7 @@
   <string name="proceed">Continua</string>
   <string name="contracted_view">Visualització reduïda</string>
   <string name="expanded_view">Visualització ampliada</string>
-  <string name="grid_view">Grid view</string>
+  <string name="grid_view">Vista de graella</string>
   <string name="add_shortcut">Afegeix una drecera</string>
   <string name="shortcut_added">S\'ha afegit una drecera a la pantalla d\'inici</string>
   <string name="shortcut_note_deleted">La drecera apunta a una nota suprimida</string>
@@ -276,7 +276,7 @@
   <string name="minutes">minuts</string>
   <string name="settings_simple_calendar">Calendari i rellotge simple</string>
   <string name="settings_simple_calendar_summary">Usa la interfície (més simple) de l\'Android per a la selecció de data i hora, en comptes de la interfície de Google</string>
-  <string name="settings_first_day_of_week">First day of week</string>
+  <string name="settings_first_day_of_week">Primer dia de la setmana</string>
   <string name="settings_tour_show_again">Gira de l\'aplicació</string>
   <string name="settings_tour_show_again_summary">Mostra\'m la gira de l\'aplicació una altra vegada</string>
   <string name="backup_include_settings">Inclou la configuració i la contrasenya</string>

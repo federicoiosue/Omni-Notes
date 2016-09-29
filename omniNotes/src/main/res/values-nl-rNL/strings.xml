@@ -58,7 +58,7 @@
   <string name="alarm_set_on">Alarm ingesteld op</string>
   <string name="starting_from">vanaf</string>
   <string name="at_time">om</string>
-  <string name="discard_changes">Veranderingen negeren</string>
+  <string name="discard_changes">Sluiten zonder opslaan</string>
   <string name="attachment">Bijlage</string>
   <string name="camera">Camera</string>
   <string name="delete_selected_image">Geselecteerde bijlage verwijderen?</string>
@@ -147,7 +147,7 @@
   <string name="proceed">Doorgaan</string>
   <string name="contracted_view">Compacte weergave</string>
   <string name="expanded_view">Uitgebreide weergave</string>
-  <string name="grid_view">Grid view</string>
+  <string name="grid_view">Rasterweergave</string>
   <string name="add_shortcut">Snelkoppeling toevoegen</string>
   <string name="shortcut_added">Snelkoppeling toegevoegd aan het thuisscherm</string>
   <string name="shortcut_note_deleted">De snelkoppeling verwijst naar een verwijderde notitie</string>
@@ -176,7 +176,7 @@
   <string name="empty_trash">Prullenbak legen</string>
   <string name="empty_trash_confirmation">Bevestig alle weggegooide notities verwijderen?</string>
   <string name="help">Help</string>
-  <string name="online_manual">Online handboek</string>
+  <string name="online_manual">Online handleiding</string>
   <string name="tags_added">Tags toegevoegd</string>
   <string name="working">Werken...</string>
   <string name="imported">geïmporteerd</string>
@@ -201,7 +201,7 @@
   <!-- Settings -->
   <string name="dashclock_description">Sommige statistieken en de naderende herinneringen van Omni notities worden weergegeven</string>
   <string name="settings">Instellingen</string>
-  <string name="settings_about">Informatie</string>
+  <string name="settings_about">Over de app</string>
   <string name="settings_category_other">Overig</string>
   <string name="settings_reset_all_data">Wis alle data</string>
   <string name="reset_all_data_confirmation">Bevestig verwijdering van alle app data (backups worden behouden)?</string>
@@ -263,7 +263,7 @@
   <string name="settings_category_beta">Beta </string>
   <string name="settings_category_about">Over </string>
   <string name="settings_beta">Google+ </string>
-  <string name="settings_beta_summary">Abonneer je op het bètaprogramma steeds te beschikken over de nieuwste functies</string>
+  <string name="settings_beta_summary">Meld je aan voor het bètaprogramma om over de nieuwste functies te beschikken</string>
   <string name="donate">Doneren</string>
   <string name="donate_summary">Ondersteun de ontwikkeling van deze app met een non-profit donatie</string>
   <string name="settings_choose_language">Taal</string>
@@ -276,9 +276,9 @@
   <string name="minutes">minutes</string>
   <string name="settings_simple_calendar">Eenvoudige kalender en tijd</string>
   <string name="settings_simple_calendar_summary">Gebruik een simpele Android kalender en tijd kiezer in plaats van deze van Google</string>
-  <string name="settings_first_day_of_week">First day of week</string>
+  <string name="settings_first_day_of_week">Eerste dag van de week</string>
   <string name="settings_tour_show_again">App tour</string>
-  <string name="settings_tour_show_again_summary">Toon nogmaals toepassing instructies toer</string>
+  <string name="settings_tour_show_again_summary">Nogmaals de app tour tonen</string>
   <string name="backup_include_settings">Instellingen en wachtwoord ook backuppen</string>
   <string name="settings_included">instellingen opgenomen</string>
   <string name="settings_password_question_instructions">Invoegen van een vraag en een geheim antwoord om vergeten wachtwoord opnieuw in te stellen</string>
