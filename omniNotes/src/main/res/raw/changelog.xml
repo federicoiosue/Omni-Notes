@@ -20,6 +20,7 @@
     <changelogversion versionName="5.2.18" changeDate="Sep 29, 2016">
         <changelogtext>[i]Improved[/i] Updated translations</changelogtext>
         <changelogtext>[u]Fix[/u] Reminders now work again on Android Nougat</changelogtext>
+        <changelogtext>[u]Fix[/u] Protected notes are no more updated rotating screen without inserting password before</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.17" changeDate="Sep 09, 2016">
