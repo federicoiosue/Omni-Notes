@@ -60,29 +60,29 @@ public class ONDashClockExtension extends DashClockExtension {
     @Override
     protected void onUpdateData(int reason) {
 
-        Map<String, List<Note>> notesCounters = getNotesCounters();
-        int reminders = notesCounters.get(Counters.REMINDERS.name()).size();
+        Map<Counters, List<Note>> notesCounters = getNotesCounters();
+        int reminders = notesCounters.get(Counters.REMINDERS).size();
 
         StringBuilder expandedTitle = new StringBuilder();
-        expandedTitle.append(notesCounters.get(Counters.ACTIVE.name()).size()).append(" ").append(getString(R.string.notes).toLowerCase());
+        expandedTitle.append(notesCounters.get(Counters.ACTIVE).size()).append(" ").append(getString(R.string.notes).toLowerCase());
         if (reminders > 0) {
             expandedTitle.append(", ").append(reminders).append(" ").append(getString(R.string.reminders));
         }
 
         StringBuilder expandedBody = new StringBuilder();
 
-		if (notesCounters.get(Counters.TODAY.name()).size() > 0) {
-			expandedBody.append(notesCounters.get(Counters.TODAY.name()).size()).append(" ").append(getString(R.string.today)).append(":");
-			for (Note todayReminder : notesCounters.get(Counters.TODAY.name())) {
+		if (notesCounters.get(Counters.TODAY).size() > 0) {
+			expandedBody.append(notesCounters.get(Counters.TODAY).size()).append(" ").append(getString(R.string.today)).append(":");
+			for (Note todayReminder : notesCounters.get(Counters.TODAY)) {
 				expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(getNoteTitle(this,
 						todayReminder));
 			}
 			expandedBody.append("\n");
 		}
 
-		if (notesCounters.get(Counters.TOMORROW.name()).size() > 0) {
-			expandedBody.append(notesCounters.get(Counters.TOMORROW.name()).size()).append(" ").append(getString(R.string.tomorrow)).append(":");
-			for (Note tomorrowReminder : notesCounters.get(Counters.TOMORROW.name())) {
+		if (notesCounters.get(Counters.TOMORROW).size() > 0) {
+			expandedBody.append(notesCounters.get(Counters.TOMORROW).size()).append(" ").append(getString(R.string.tomorrow)).append(":");
+			for (Note tomorrowReminder : notesCounters.get(Counters.TOMORROW)) {
 				expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(getNoteTitle(this,
 						tomorrowReminder));
 			}
@@ -94,7 +94,7 @@ public class ONDashClockExtension extends DashClockExtension {
         publishUpdate(new ExtensionData()
                 .visible(true)
                 .icon(R.drawable.ic_stat_literal_icon)
-                .status(String.valueOf(notesCounters.get(Counters.ACTIVE.name()).size()))
+                .status(String.valueOf(notesCounters.get(Counters.ACTIVE).size()))
                 .expandedTitle(expandedTitle.toString())
                 .expandedBody(expandedBody.toString())
                 .clickIntent(launchIntent));
@@ -106,7 +106,7 @@ public class ONDashClockExtension extends DashClockExtension {
 	}
 
 
-	private Map<String, List<Note>> getNotesCounters() {
+	private Map<Counters, List<Note>> getNotesCounters() {
         Map noteCounters = new HashMap<>();
         List<Note> activeNotes = new ArrayList<>();
         List<Note> reminders = new ArrayList<>();

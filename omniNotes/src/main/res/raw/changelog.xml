@@ -22,6 +22,12 @@
         <changelogtext>[i]Improved[/i] Added file size to attachments'action dialog</changelogtext>
     </changelogversion>
 
+    <changelogversion versionName="5.2.17" changeDate="Sep 09, 2016">
+        <changelogtext>[i]Improved[/i] Updated translations</changelogtext>
+        <changelogtext>[u]Fix[/u] Location retrieval should work again thanks to new API key</changelogtext>
+    </changelogversion>
+
+
     <changelogversion versionName="5.2.16" changeDate="Jun 21, 2016">
         <changelogtext>[u]Fix[/u] Opening the same note twice from home widget broke the navigation</changelogtext>
         <changelogtext>[u]Fix[/u] Removed searched string label when changing sort order</changelogtext>

@@ -18,8 +18,15 @@
 package it.feio.android.omninotes.async;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.AsyncTask;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.LeadingMarginSpan;
 import android.view.View;
 import android.widget.TextView;
 import it.feio.android.omninotes.models.Note;
@@ -58,8 +65,10 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
         if (isAlive()) {
             titleTextView.setText(titleAndContent[0]);
             if (titleAndContent[1].length() > 0) {
-                contentTextView.setText(titleAndContent[1]);
-                contentTextView.setVisibility(View.VISIBLE);
+                contentTextView.setText("✓ ");
+                contentTextView.measure(0, 0);
+
+                contentTextView.setText(createIndentedText(SpannableString.valueOf(titleAndContent[1]), 0, contentTextView.getMeasuredWidth()));contentTextView.setVisibility(View.VISIBLE);
             } else {
                 if (expandedView) {
                     contentTextView.setVisibility(View.INVISIBLE);
@@ -72,15 +81,31 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
 
 
     /**
-     * Cheks if activity is still alive and not finishing
+     * Checks if activity is still alive and not finishing
      *
-     * @param weakDetailFragmentReference
      * @return True or false
      */
     private boolean isAlive() {
         return mActivityWeakReference != null
                 && mActivityWeakReference.get() != null;
 
+    }
+
+    static SpannableString createIndentedText(SpannableString text, int marginFirstLine, int marginNextLines) {
+        final int color = Color.rgb(128, 128, 128);
+
+        text.setSpan(new LeadingMarginSpan.Standard(marginFirstLine, marginNextLines),0,text.length(),0);
+
+        String t = text.toString();
+        int index = 0;
+        while (index >= 0) {
+            ForegroundColorSpan fcs = new ForegroundColorSpan(color);
+            text.setSpan(fcs, index, index + 2, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            index = t.indexOf('\n', index + 2);
+        }
+
+
+        return text;
     }
 
 }

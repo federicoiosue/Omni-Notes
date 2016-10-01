@@ -2,10 +2,10 @@ package it.feio.android.omninotes;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -14,14 +14,18 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class SettingsActivity extends AppCompatActivity {
 
-	@Bind(R.id.toolbar) Toolbar toolbar;
-	@Bind(R.id.crouton_handle) ViewGroup croutonViewContainer;
+    @Bind(R.id.crouton_handle) ViewGroup croutonViewContainer;
+    @Bind(R.id.outer_toolbar) AppBarLayout outerToolbar;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
 		ButterKnife.bind(this);
+        toolbar = (Toolbar) outerToolbar.findViewById(R.id.toolbar);
+
         initUI();
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
     }

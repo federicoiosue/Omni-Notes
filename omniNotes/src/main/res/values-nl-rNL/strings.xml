@@ -147,6 +147,7 @@
   <string name="proceed">Doorgaan</string>
   <string name="contracted_view">Compacte weergave</string>
   <string name="expanded_view">Uitgebreide weergave</string>
+  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Snelkoppeling toevoegen</string>
   <string name="shortcut_added">Snelkoppeling toegevoegd aan het thuisscherm</string>
   <string name="shortcut_note_deleted">De snelkoppeling verwijst naar een verwijderde notitie</string>
@@ -275,6 +276,7 @@
   <string name="minutes">minutes</string>
   <string name="settings_simple_calendar">Eenvoudige kalender en tijd</string>
   <string name="settings_simple_calendar_summary">Gebruik een simpele Android kalender en tijd kiezer in plaats van deze van Google</string>
+  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">App tour</string>
   <string name="settings_tour_show_again_summary">Toon nogmaals toepassing instructies toer</string>
   <string name="backup_include_settings">Instellingen en wachtwoord ook backuppen</string>

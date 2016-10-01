@@ -230,4 +230,18 @@
         <item>edit</item>
     </string-array>
 
+    <string-array name="first_day_of_week">
+        <item>Locale default</item>
+        <item>Sunday</item>
+        <item>Saturday</item>
+        <item>Monday</item>
+    </string-array>
+
+    <string-array name="first_day_of_week_values">
+        <item>locale_default</item>
+        <item>sunday</item>
+        <item>saturday</item>
+        <item>monday</item>
+    </string-array>
+
 </resources>

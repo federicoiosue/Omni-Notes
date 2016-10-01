@@ -18,6 +18,7 @@
 package it.feio.android.omninotes.models.holders;
 
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import butterknife.Bind;
@@ -27,18 +28,19 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.views.SquareImageView;
 
 
-public class NoteViewHolder {
+public class NoteViewHolder extends RecyclerView.ViewHolder {
 
 	public NoteViewHolder(View view) {
+		super(view);
+
 		ButterKnife.bind(this, view);
 	}
 
-	@Bind(R.id.root) public View root;
 	@Bind(R.id.card_layout) public View cardLayout;
 	@Bind(R.id.category_marker) public View categoryMarker;
 
 	@Bind(R.id.note_title) public TextView title;
-	@Bind(R.id.note_content) public TextView content;
+	@Bind(R.id.note_content) public android.widget.TextView content;
 	@Bind(R.id.note_date) public TextView date;
 
 	@Bind(R.id.archivedIcon) public ImageView archiveIcon;
