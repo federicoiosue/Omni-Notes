@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -29,6 +30,8 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import java.util.List;
 
@@ -142,33 +145,47 @@ public class PasswordActivity extends BaseActivity {
     }
 
 
-    private void updatePassword(String passwordText, String questionText, String answerText) {
-        if (passwordText == null) {
-            if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
-                Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
-                return;
-            }
-            new MaterialDialog.Builder(mActivity)
-                    .content(R.string.agree_unlocking_all_notes)
-                    .positiveText(R.string.ok)
-                    .callback(new MaterialDialog.ButtonCallback() {
-                        @Override
-                        public void onPositive(MaterialDialog materialDialog) {
-                            removePassword();
-                        }
-                    }).build().show();
-        } else if (passwordText.length() == 0) {
-            Crouton.makeText(mActivity, R.string.empty_password, ONStyle.WARN, crouton_handle).show();
-
-        } else {
-            prefs.edit()
-                    .putString(Constants.PREF_PASSWORD, Security.md5(passwordText))
-                    .putString(Constants.PREF_PASSWORD_QUESTION, questionText)
-                    .putString(Constants.PREF_PASSWORD_ANSWER, Security.md5(answerText))
-                    .apply();
-            Crouton.makeText(mActivity, R.string.password_successfully_changed, ONStyle.CONFIRM, crouton_handle).show();
-        }
-    }
+	@SuppressLint("CommitPrefEdits")
+	private void updatePassword(String passwordText, String questionText, String answerText) {
+		if (passwordText == null) {
+			if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
+				Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
+				return;
+			}
+			new MaterialDialog.Builder(mActivity)
+					.content(R.string.agree_unlocking_all_notes)
+					.positiveText(R.string.ok)
+					.callback(new MaterialDialog.ButtonCallback() {
+						@Override
+						public void onPositive(MaterialDialog materialDialog) {
+							removePassword();
+						}
+					}).build().show();
+		} else if (passwordText.length() == 0) {
+			Crouton.makeText(mActivity, R.string.empty_password, ONStyle.WARN, crouton_handle).show();
+		} else {
+			final boolean[] changedPassword = {false};
+			rx.Observable
+					.from(DbHelper.getInstance().getNotesWithLock(true))
+					.subscribeOn(Schedulers.newThread())
+					.observeOn(AndroidSchedulers.mainThread())
+					.doOnNext(note -> {
+						if (!changedPassword[0]) {
+							prefs.edit()
+									.putString(Constants.PREF_PASSWORD, Security.md5(passwordText))
+									.putString(Constants.PREF_PASSWORD_QUESTION, questionText)
+									.putString(Constants.PREF_PASSWORD_ANSWER, Security.md5(answerText))
+									.commit();
+							changedPassword[0] = true;
+						}
+						DbHelper.getInstance().updateNote(note, false);
+					})
+					.doOnCompleted(() -> Crouton.makeText(mActivity, R.string.password_successfully_changed, ONStyle
+									.CONFIRM,
+							crouton_handle).show())
+					.subscribe();
+		}
+	}
 
 
     private void removePassword() {
