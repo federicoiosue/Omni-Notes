@@ -135,7 +135,7 @@
   <string name="title_activity_sketch">Vázlat</string>
   <string name="redo">Mégis</string>
   <string name="colors">Színek</string>
-  <string name="stroke">Vonás</string>
+  <string name="stroke">Körvonal</string>
   <string name="erase_sketch">Törli a vázlatot?</string>
   <string name="no_reminder_set">Nincs beállítva emlékeztető</string>
   <string name="saturation">Telítettség</string>
@@ -147,7 +147,7 @@
   <string name="proceed">Folytatás</string>
   <string name="contracted_view">Csökkentett nézet</string>
   <string name="expanded_view">Bővített nézet</string>
-  <string name="grid_view">Grid view</string>
+  <string name="grid_view">Rácsnézet</string>
   <string name="add_shortcut">Parancsikon létrehozása</string>
   <string name="shortcut_added">Parancsikon létrehozása a kezdő képernyőn</string>
   <string name="shortcut_note_deleted">Hivatkozás törölt jegyzethez</string>
@@ -276,7 +276,7 @@
   <string name="minutes">perc</string>
   <string name="settings_simple_calendar">Egyszerű naptár és idő</string>
   <string name="settings_simple_calendar_summary">Az (egyszerűbb) Android megjelenítés használata a dátum/idő kiválasztásához, a Google megjelenítés helyett</string>
-  <string name="settings_first_day_of_week">First day of week</string>
+  <string name="settings_first_day_of_week">Hét első napja</string>
   <string name="settings_tour_show_again">Alkalmazás kalauz</string>
   <string name="settings_tour_show_again_summary">Az alkalmazás kalauz megtekintése újra</string>
   <string name="backup_include_settings">Beállításokkal és jelszóval együtt</string>
@@ -359,7 +359,7 @@ A nyílt forráskódú alternatíva irodai vagy személyes jegyzetek készítés
   <string name="reminder">emlékeztető</string>
   <string name="stroke_size">vonásméret</string>
   <string name="note_thumbnail">jegyzet nézőképe</string>
-  <string name="note_reminder_symbol">note reminder symbol</string>
+  <string name="note_reminder_symbol">jegyzet emlékeztető szimbólum</string>
   <string name="navigation_drawer_open">Navigációs fiók megnyitása</string>
   <string name="navigation_drawer_close">Navigációs fiók bezárása</string>
 </resources>

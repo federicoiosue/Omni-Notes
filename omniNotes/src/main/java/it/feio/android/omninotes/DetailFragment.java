@@ -1768,9 +1768,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
-		// Saving changes to the note
-		SaveNoteTask saveNoteTask = new SaveNoteTask(mOnNoteSaved, lastModificationUpdatedNeeded());
-		saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteTmp);
+		new SaveNoteTask(mOnNoteSaved, lastModificationUpdatedNeeded()).executeOnExecutor(AsyncTask
+				.THREAD_POOL_EXECUTOR, noteTmp);
 	}
 
 
@@ -1782,7 +1781,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			note.setLatitude(noteTmp.getLatitude());
 			note.setLongitude(noteTmp.getLongitude());
 		}
-		return !noteTmp.isChanged(note);
+		return !noteTmp.isChanged(note) || (noteTmp.isLocked() && !noteTmp.isPasswordChecked());
 	}
 
 
@@ -1801,8 +1800,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public void onNoteSaved(Note noteSaved) {
+		MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
 		if (!activityPausing) {
-			MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
 			EventBus.getDefault().post(new NotesUpdatedEvent());
 			deleteMergedNotes(mergedNotesIds);
 			if (noteTmp.getAlarm() != null && !noteTmp.getAlarm().equals(note.getAlarm())) {
