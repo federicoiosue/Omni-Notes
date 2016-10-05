@@ -30,10 +30,7 @@ import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.services.NotificationListener;
-import it.feio.android.omninotes.utils.BitmapHelper;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.NotificationsHelper;
-import it.feio.android.omninotes.utils.TextHelper;
+import it.feio.android.omninotes.utils.*;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -41,7 +38,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context mContext, Intent intent) {
 		try {
-			Note note = intent.getExtras().getParcelable(Constants.INTENT_NOTE);
+			Note note = ParcelableUtil.unmarshall(intent.getExtras().getByteArray(Constants.INTENT_NOTE), Note
+					.CREATOR);
 			createNotification(mContext, note);
 			SnoozeActivity.setNextRecurrentReminder(note);
 			if (Build.VERSION.SDK_INT >= 18 && !NotificationListener.isRunning()) {
@@ -110,21 +108,24 @@ public class AlarmReceiver extends BroadcastReceiver {
 						it.feio.android.omninotes.utils.TextHelper.capitalize(mContext.getString(R.string
 								.add_reminder)), piPostpone);
 
-        setRingtone(prefs, notificationsHelper);
+		setRingtone(prefs, notificationsHelper);
 
 		setVibrate(prefs, notificationsHelper);
 
 		notificationsHelper.show(note.get_id());
 	}
 
-    private void setRingtone(SharedPreferences prefs,NotificationsHelper notificationsHelper) {
-        String ringtone = prefs.getString("settings_notification_ringtone", null);
-        if (ringtone != null) notificationsHelper.setRingtone(ringtone);
-    }
 
-    private void setVibrate(SharedPreferences prefs, NotificationsHelper notificationsHelper) {
-        if (prefs.getBoolean("settings_notification_vibration", true)) notificationsHelper.setVibration();
-    }
+	private void setRingtone(SharedPreferences prefs, NotificationsHelper notificationsHelper) {
+		String ringtone = prefs.getString("settings_notification_ringtone", null);
+		if (ringtone != null) notificationsHelper.setRingtone(ringtone);
+	}
+
+
+	private void setVibrate(SharedPreferences prefs, NotificationsHelper notificationsHelper) {
+		if (prefs.getBoolean("settings_notification_vibration", true)) notificationsHelper.setVibration();
+	}
+
 
 	private int getUniqueRequestCode(Note note) {
 		return note.get_id().intValue();
