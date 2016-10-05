@@ -147,7 +147,7 @@
   <string name="proceed">نفذ</string>
   <string name="contracted_view">رؤية مصغرة</string>
   <string name="expanded_view">رؤية موسعة</string>
-  <string name="grid_view">Grid view</string>
+  <string name="grid_view">عرض الشبكة</string>
   <string name="add_shortcut">اضف اختصار</string>
   <string name="shortcut_added">تم اضافة الاختصار الي الشاشة الرئيسية</string>
   <string name="shortcut_note_deleted">الاختصار ينتمي الي مدونات محذوفة</string>
@@ -240,7 +240,7 @@
   <string name="settings_backup">النسخ الاحتياطي</string>
   <string name="settings_password">كلمة المرور</string>
   <string name="settings_password_access">مطلوب كلمة المرور للفتح</string>
-  <string name="settings_password_instructions">Password ensures that notes won\'t be viewed or modified by other persons.\n\nWhen setting a new password, the previous one will be requested.</string>
+  <string name="settings_password_instructions">تضمن كلمة المرور أن لايشاهد الملاحظات أو يعدلها أحد آخر.\n\n ستطلب كلمة المرور السابقة عند وضع كلمة جديدة.</string>
   <string name="settings_password_not_matching">كلمة المرور خاطئة او غير صحيحة</string>
   <string name="insert_new_password">أدخل كلمة مرور جديدة</string>
   <string name="confirm_new_password">تأكيد كلمة المرور الجديدة</string>
@@ -278,7 +278,7 @@
   <string name="minutes">دقائق</string>
   <string name="settings_simple_calendar">تقويم و توقيت بسيطين</string>
   <string name="settings_simple_calendar_summary">استعمال اليومية البسيطة واداة إختيار التاريخ بدل تلك التابعة لغوغل</string>
-  <string name="settings_first_day_of_week">First day of week</string>
+  <string name="settings_first_day_of_week">أول أيام الأسبوع</string>
   <string name="settings_tour_show_again">جولة في التطبيق</string>
   <string name="settings_tour_show_again_summary">اظهار جولة التطبيق مرة اخري</string>
   <string name="backup_include_settings">تضمن الاعدادات و كلمة المرور</string>
@@ -293,7 +293,7 @@
   <string name="password_not_set">لم يتم تعيين كلمة مرور</string>
   <string name="wrong_answer">جواب خاطئ</string>
   <string name="colors_app">تطبيق نظام الاوان</string>
-  <string name="colors_widget">Widget color scheme</string>
+  <string name="colors_widget">نظام ألوان الأداة</string>
   <string name="settings_instant_search">البحث الفوري</string>
   <string name="settings_navdrawer_on_exit">اظهار قائمة جانبية عند اغلاق التطبيق</string>
   <string name="settings_navdrawer_on_exit_summary">اظهار القائمة الجانبية عند الضغط على زر الرجوع قبل الخروج من التطبيق</string>
@@ -304,14 +304,14 @@
   <string name="settings_swipe_to_trash">مرر إلى سلة المهملات</string>
   <string name="settings_swipe_to_trash_summary_1">مرر لحذف الملاحظات من الارشيف</string>
   <string name="settings_swipe_to_trash_summary_2">التمرير بإصبعك يؤدي لحذف الملاحظات</string>
-  <string name="settings_show_uncategorized">Group not categorized</string>
+  <string name="settings_show_uncategorized">لم يتم تصنيف المجموعة</string>
   <string name="settings_show_uncategorized_summary">Adds a new item in navigation menu for not categorized notes</string>
   <string name="settings_show_category_count">عدّ الملاحظات</string>
   <string name="settings_show_category_count_summary">عرض عدد الملاحظات المرتبطة بجانب الفئة</string>
-  <string name="settings_auto_location">Automatic location</string>
-  <string name="settings_auto_location_summary">Automatically adds location to new notes</string>
-  <string name="settings_dynamic_menu">Dynamic menu</string>
-  <string name="settings_dynamic_menu_summary">Unused menu items are automatically hidden</string>
+  <string name="settings_auto_location">تحديد المكان آلياً</string>
+  <string name="settings_auto_location_summary">إضافة المكان آلياً إلى الملاحظات الجديدة</string>
+  <string name="settings_dynamic_menu">قائمة ديناميكية</string>
+  <string name="settings_dynamic_menu_summary">إخفاء تلقائي لبنود القائمة التي لا تستخدم</string>
   <string name="settings_fab_expansion_behavior">Floating action button</string>
   <string name="settings_fab_expansion_behavior_summary_on">Short touch performs action</string>
   <string name="settings_fab_expansion_behavior_summary_off">Short touch toggles options</string>
