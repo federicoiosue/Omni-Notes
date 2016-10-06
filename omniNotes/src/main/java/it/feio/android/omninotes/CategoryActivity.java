@@ -47,8 +47,6 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Random;
 
-import static java.lang.Integer.parseInt;
-
 
 public class CategoryActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback{
 
@@ -77,7 +75,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         } else {
             Log.d(Constants.TAG, "Editing category " + category.getName());
         }
-        selectedColor = parseInt(category.getColor());
+        selectedColor = Integer.parseInt(category.getColor());
         populateViews();
     }
 
@@ -111,7 +109,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         // Reset picker to saved color
         String color = category.getColor();
         if (color != null && color.length() > 0) {
-            colorChooser.getDrawable().mutate().setColorFilter(parseInt(color), PorterDuff.Mode.SRC_ATOP);
+            colorChooser.getDrawable().mutate().setColorFilter(Integer.valueOf(color), PorterDuff.Mode.SRC_ATOP);
         }
         deleteBtn.setVisibility(View.VISIBLE);
     }

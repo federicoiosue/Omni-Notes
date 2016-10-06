@@ -16,17 +16,17 @@
  */
 package it.feio.android.omninotes.models;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import it.feio.android.omninotes.commons.models.BaseAttachment;
-import it.feio.android.omninotes.commons.models.BaseCategory;
-import it.feio.android.omninotes.commons.models.BaseNote;
+import it.feio.android.omninotes.helpers.date.DateHelper;
+import it.feio.android.omninotes.utils.date.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Note extends BaseNote implements Parcelable {
+public class Note extends it.feio.android.omninotes.commons.models.Note implements Parcelable {
 
     // Not saved in DB
     private boolean passwordChecked = false;
@@ -65,7 +65,7 @@ public class Note extends BaseNote implements Parcelable {
         setLatitude(in.readString());
         setLongitude(in.readString());
         setAddress(in.readString());
-        super.setCategory(in.readParcelable(Category.class.getClassLoader()));
+        setCategory(in.readParcelable(Category.class.getClassLoader()));
         setLocked(in.readInt());
         setChecklist(in.readInt());
         in.readList(getAttachmentsList(), Attachment.class.getClassLoader());
@@ -137,7 +137,7 @@ public class Note extends BaseNote implements Parcelable {
 
 
 	public void setCategory(Category category) {
-		if (category != null && category.getClass().equals(BaseCategory.class)) {
+		if (category != null && category.getClass().equals(it.feio.android.omninotes.commons.models.Category.class)) {
 			setCategory(new Category(category));
 		}
 		super.setCategory(category);
@@ -148,7 +148,7 @@ public class Note extends BaseNote implements Parcelable {
 	public void buildFromJson(String jsonNote) {
 		super.buildFromJson(jsonNote);
 		List<Attachment> attachments = new ArrayList<>();
-		for (BaseAttachment attachment : getAttachmentsList()) {
+		for (it.feio.android.omninotes.commons.models.Attachment attachment : getAttachmentsList()) {
 			attachments.add(new Attachment(attachment));
 		}
 		this.setAttachmentsList(attachments);

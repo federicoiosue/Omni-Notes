@@ -147,7 +147,6 @@
   <string name="proceed">Turpināt</string>
   <string name="contracted_view">Vienkāršs skats</string>
   <string name="expanded_view">Izvērsts skats</string>
-  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Pievienot saīsni</string>
   <string name="shortcut_added">Saīsne pievienota sākuma ekrānam</string>
   <string name="shortcut_note_deleted">Saīsne norāda uz izdzēstu piezīmi</string>
@@ -223,17 +222,17 @@
   <string name="export_warning">Eksportējamais fails pārrakstīs esošo. Vai turpināt?</string>
   <string name="settings_category_gestures">Gestures</string>
   <string name="settings_enable_swype">Enable swype</string>
-  <string name="settings_screen_interface">Saskarne</string>
-  <string name="settings_enable_animations">Animācijas</string>
+  <string name="settings_screen_interface">Interface</string>
+  <string name="settings_enable_animations">Animations</string>
   <string name="settings_screen_backup">Backup</string>
-  <string name="settings_screen_notifications">Paziņojumi</string>
+  <string name="settings_screen_notifications">Notifications</string>
   <string name="settings_enable_vibration">Vibration</string>
   <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
   <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">Navigation</string>
-  <string name="settings_changelog">Izmaiņu žurnāls</string>
+  <string name="settings_changelog">Changelog</string>
   <string name="settings_enable_editor_links">Links recognition</string>
-  <string name="settings_max_video_size">Video pielikumi</string>
+  <string name="settings_max_video_size">Video attachments</string>
   <string name="settings_screen_data">Data</string>
   <string name="settings_backup">Backup</string>
   <string name="settings_password">Password</string>
@@ -266,7 +265,7 @@
   <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Donate</string>
   <string name="donate_summary">Support the development of this app with a non-profit donation</string>
-  <string name="settings_choose_language">Valoda</string>
+  <string name="settings_choose_language">Language</string>
   <string name="settings_notification_ringtone">Ringtone</string>
   <string name="settings_enable_tag_marker_full">Full color</string>
   <string name="settings_enable_tag_marker_full_summary">Fully colored notes in list view and detail view</string>
@@ -276,7 +275,6 @@
   <string name="minutes">minūtes</string>
   <string name="settings_simple_calendar">Vienkāršs kalendārs un laiks</string>
   <string name="settings_simple_calendar_summary">Lietot (vienkāršāko) Android saskarni datuma/laika izvēlei Google saskarnes vietā</string>
-  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Lietotnes ekskursija</string>
   <string name="settings_tour_show_again_summary">Vēlreiz parādīt lietotnes lietošanas pamācību</string>
   <string name="backup_include_settings">Iekļaut iestatījumus un paroli</string>
@@ -316,9 +314,6 @@
   <string name="settings_attachments_on_bottom">Pielikumi apakšā</string>
   <string name="settings_attachments_on_bottom_summary_on">Rāda pielikumus zem piezīmes satura</string>
   <string name="settings_attachments_on_bottom_summary_off">Rāda pielikumus virs piezīmes satura</string>
-  <string name="settings_prettified_dates">Prettified dates</string>
-  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
-  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
   <string name="settings_screen_privacy">Privātums</string>
   <string name="settings_error_reporting">Kļūdu ziņojumu sūtīšana</string>
   <string name="settings_error_reporting_summary_on">Kad lietotne avarē, izstrādātājam tas tiks paziņots, lai varētu Jums palīdzēt</string>

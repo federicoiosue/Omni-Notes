@@ -17,7 +17,6 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <!-- Activities -->
   <string name="title_item_list">הערות</string>
   <string name="add_note">הוספת הערה</string>
   <string name="title">כותרת</string>
@@ -147,7 +146,6 @@
   <string name="proceed">הבא</string>
   <string name="contracted_view">תצוגה מצומצמת</string>
   <string name="expanded_view">תצוגה מורחבת</string>
-  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">הוספת קיצור דרך</string>
   <string name="shortcut_added">קיצור דרך התווסף לעמוד הבית</string>
   <string name="shortcut_note_deleted">קיצור הדרך מוביל להערה שנמחקה</string>
@@ -198,7 +196,6 @@
   <string name="checklist">Checklist</string>
   <string name="text_note">Text note</string>
   <string name="photo">Photo</string>
-  <!-- Settings -->
   <string name="dashclock_description">הצגת נתונים סטטיסטיים ותזכורות שתוקפן עומד לפוג מ-Omni Notes</string>
   <string name="settings">הגדרות</string>
   <string name="settings_about">מידע</string>
@@ -276,7 +273,6 @@
   <string name="minutes">דקות</string>
   <string name="settings_simple_calendar">לוח שנה וזמן פשוטים</string>
   <string name="settings_simple_calendar_summary">שימוש בממשק (פשוט יותר) של אנדרואיד עבור תאריך/שעה, במקום הממשק של גוגל</string>
-  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">סיור באפליקציה</string>
   <string name="settings_tour_show_again_summary">הצגת סיור האפליקציה שוב</string>
   <string name="backup_include_settings">לכלול הגדרות וסיסמה</string>
@@ -316,17 +312,10 @@
   <string name="settings_attachments_on_bottom">Attachments on bottom</string>
   <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
   <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
-  <string name="settings_prettified_dates">Prettified dates</string>
-  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
-  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
-  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Error reporting</string>
   <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
   <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
-  <string name="settings_send_analytics">Share anonymous data</string>
-  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statistics</string>
-  <!-- Instructions -->
   <string name="tour_request_start">זוהי הפעם הראשונה שאתם משתמשים ב-Omni Note, ברצונכם לעשות סיור באפליקציה?</string>
   <string name="tour_listactivity_intro_title">ברוך הבא ל-Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">לחצו על \"הבא\" להמשך הסיור</string>
@@ -350,8 +339,7 @@
   <string name="tour_detailactivity_save_detail">כדי לחזור, הקישו על אייקון הניווט \"למעלה\", או על הכפתור במכשיר שלכם</string>
   <string name="tour_listactivity_final_title">תהנו</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-  <string name="tour_community">Subscribe to the community to participate!</string>
-  <!-- Accessibility -->
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">המגירה פתוחה</string>
   <string name="drawer_close">המגירה סגורה</string>
   <string name="reminder">תזכורת</string>

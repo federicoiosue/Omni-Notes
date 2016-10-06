@@ -17,7 +17,6 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <!-- Activities -->
   <string name="title_item_list">Beležke</string>
   <string name="add_note">Dodaj beležko</string>
   <string name="title">Naslov</string>
@@ -147,7 +146,6 @@
   <string name="proceed">Nadaljuj</string>
   <string name="contracted_view">Skrčen izgled</string>
   <string name="expanded_view">Razširjen izgled</string>
-  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Dodaj bližnjico</string>
   <string name="shortcut_added">Bližnjica dodana na namizje</string>
   <string name="shortcut_note_deleted">Ta bližnjica vodi do izbrisane beležke</string>
@@ -198,7 +196,6 @@
   <string name="checklist">Checklist</string>
   <string name="text_note">Text note</string>
   <string name="photo">Photo</string>
-  <!-- Settings -->
   <string name="dashclock_description">Prikaz nekaterih statistik in bližnjih opomnikov iz Omni Notes</string>
   <string name="settings">Nastavitve</string>
   <string name="settings_about">Info</string>
@@ -276,7 +273,6 @@
   <string name="minutes">minut</string>
   <string name="settings_simple_calendar">Enostavna koledar in čas</string>
   <string name="settings_simple_calendar_summary">Izberi bolj enostavna Androidna koledar in čas namesto Googlovih</string>
-  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Predstavitev aplikacije</string>
   <string name="settings_tour_show_again_summary">Ponovi predstavitev aplikacije</string>
   <string name="backup_include_settings">Vključi nastavitve (z geslom)</string>
@@ -316,17 +312,10 @@
   <string name="settings_attachments_on_bottom">Attachments on bottom</string>
   <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
   <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
-  <string name="settings_prettified_dates">Prettified dates</string>
-  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
-  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
-  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Poročanje o napakah</string>
   <string name="settings_error_reporting_summary_on">Čas uporaba tresk razvijalec boste obveščeni, da vam pomaga</string>
   <string name="settings_error_reporting_summary_off">Poročila ne tresk hoteti obstati odposlati. Se ne pritožujejo, če gre kaj narobe!</string>
-  <string name="settings_send_analytics">Share anonymous data</string>
-  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statistics</string>
-  <!-- Instructions -->
   <string name="tour_request_start">Si želite ob prvem zagonu ogledati krajšo predstavitev aplikacije?</string>
   <string name="tour_listactivity_intro_title">Dobrodošli v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">klikni \'Nadaljuj\' za nadaljevanje predstavitve</string>
@@ -350,8 +339,7 @@
   <string name="tour_detailactivity_save_detail">Preprosto pritisnite navigacijsko ikono \"gor\" ali pojdite nazaj z navigacijsko tipko</string>
   <string name="tour_listactivity_final_title">Uživajte</string>
   <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-  <string name="tour_community">Subscribe to the community to participate!</string>
-  <!-- Accessibility -->
+  <string name="tour_community">Subscribe to the community to partecipate!</string>
   <string name="drawer_open">poteznik odprt</string>
   <string name="drawer_close">poteznik zaprt</string>
   <string name="reminder">opomnik</string>

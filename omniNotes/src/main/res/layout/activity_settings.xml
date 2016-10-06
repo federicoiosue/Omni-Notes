@@ -6,7 +6,7 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="false">
 
-    <include android:id="@+id/outer_toolbar" layout="@layout/toolbar" />
+    <include android:id="@+id/toolbar" layout="@layout/toolbar" />
 
     <FrameLayout
         android:id="@+id/content_frame"

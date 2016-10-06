@@ -76,6 +76,5 @@
     <dimen name="intro_top_padding">32dp</dimen>
     <dimen name="intro_bottom_padding">24dp</dimen>
     <dimen name="intro_side_padding">64dp</dimen>
-    <dimen name="spacing">4dp</dimen>
 
 </resources>

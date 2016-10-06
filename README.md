@@ -1,11 +1,8 @@
-[![SLicense](https://img.shields.io/badge/License-GPLv3-red.svg)
 [![Stories in Ready](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=ready&title=Ready)](https://waffle.io/federicoiosue/Omni-Notes)
-[![Stories in In Progress](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=In%20Progress&title=InProgress)](https://waffle.io/federicoiosue/Omni-Notes)
+[![Stories in In Progress](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=In%20Progress&title=In Progress)](https://waffle.io/federicoiosue/Omni-Notes)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/omni-notes/localized.png)](https://crowdin.com/project/omni-notes)
 [![Build Status](https://travis-ci.org/federicoiosue/Omni-Notes.svg?branch=develop)](https://travis-ci.org/federicoiosue/Omni-Notes)
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/federicoiosue/omni-notes/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8ade707d00ef468fa79d3f6b622444b5)](https://www.codacy.com/app/federico-iosue/Omni-Notes?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=federicoiosue/Omni-Notes&amp;utm_campaign=Badge_Grade)
-
 Omni-Notes
 ==========
 
@@ -14,7 +11,7 @@ Note taking <b>open-source</b> application aimed to have both a <b>simple interf
 The project was created by the absence of such applications compatible with old phones and old versions of Android that would propose, however, an attractive look and aligned with the most recent design of the Google operating system
 
 
-**Follow the developments and post your comments and advice on Google+ Beta Community at http://goo.gl/eF6qqF**
+**Follow the developments and post your comments and advice on Google+ Beta Comunity at http://goo.gl/eF6qqF**
 
 *Help to keep translations updated is always welcome, if you want give an hand checkout the translation project at [Crowdin][2]*
 

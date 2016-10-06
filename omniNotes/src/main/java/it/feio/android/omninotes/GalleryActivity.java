@@ -66,6 +66,10 @@ public class GalleryActivity extends ActionBarActivity {
      */
     private static final boolean TOGGLE_ON_CLICK = true;
 
+    /**
+     * The flags to pass to {@link SystemUiHider#getInstance}.
+     */
+
     @Bind(R.id.gallery_root) InterceptorFrameLayout galleryRootView;
     @Bind(R.id.fullscreen_content)  GalleryViewPager mViewPager;
 
@@ -134,9 +138,10 @@ public class GalleryActivity extends ActionBarActivity {
         images = getIntent().getParcelableArrayListExtra(Constants.GALLERY_IMAGES);
         int clickedImage = getIntent().getIntExtra(Constants.GALLERY_CLICKED_IMAGE, 0);
 
-        ArrayList<Uri> imagesPaths = new ArrayList<>();
+        ArrayList<String> imagesPaths = new ArrayList<>();
         for (Attachment mAttachment : images) {
-            imagesPaths.add(mAttachment.getUri());
+            Uri uri = mAttachment.getUri();
+            imagesPaths.add(FileHelper.getPath(this, uri));
         }
 
 		GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, imagesPaths);
@@ -160,14 +165,14 @@ public class GalleryActivity extends ActionBarActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.menu_gallery_share:
+            case R.id.menu_gallery_share: {
                 shareMedia();
                 break;
-            case R.id.menu_gallery:
+            }
+            case R.id.menu_gallery: {
                 viewMedia();
                 break;
-			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+            }
         }
         return super.onOptionsItemSelected(item);
     }

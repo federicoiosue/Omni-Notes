@@ -148,7 +148,6 @@
   <string name="proceed">Continuar</string>
   <string name="contracted_view">Vista contraída</string>
   <string name="expanded_view">Vista expandida</string>
-  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Agregar un acceso directo</string>
   <string name="shortcut_added">Atajo añadido a pantalla de inicio</string>
   <string name="shortcut_note_deleted">El acceso directo apunta a una nota eliminada</string>
@@ -277,7 +276,6 @@
   <string name="minutes">minutos</string>
   <string name="settings_simple_calendar">Calendario y tiempo simple</string>
   <string name="settings_simple_calendar_summary">Usar selector simple de calendario y tiempo en lugar de los de Google</string>
-  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Tour de aplicación</string>
   <string name="settings_tour_show_again_summary">Mostrar de nuevo el tour de las instrucciones de la aplicación</string>
   <string name="backup_include_settings">Incluir ajustes (con contraseña)</string>

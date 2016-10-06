@@ -15,7 +15,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:id="@+id/root"
     android:layout_width="match_parent"
@@ -25,9 +25,8 @@
 
     <LinearLayout
         android:id="@+id/card_layout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:orientation="horizontal"
         android:minHeight="@dimen/note_item_min_height_inner">
 
@@ -131,4 +130,4 @@
             android:contentDescription="@string/note_thumbnail"
             android:layout_gravity="center_vertical" />
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>

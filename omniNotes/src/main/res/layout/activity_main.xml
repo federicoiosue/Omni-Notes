@@ -18,10 +18,10 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="false"
     tools:context="it.feio.android.omninotes.MainActivity">
 
     <android.support.v4.widget.DrawerLayout
@@ -29,33 +29,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.CoordinatorLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/overview_coordinator_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/padding_top_kitkat">
 
-            <include android:id="@+id/outer_toolbar" layout="@layout/toolbar" />
-
+            <include android:id="@+id/toolbar" layout="@layout/toolbar" />
 
             <FrameLayout
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/outer_toolbar"
-                android:background="@color/gray_bg"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                android:layout_below="@id/toolbar"
+                android:background="@color/gray_bg"/>
 
-<!--            <View
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:background="@drawable/toolbar_dropshadow"
-                android:layout_below="@id/toolbar"/>-->
+                android:layout_below="@id/toolbar"/>
 
             <include android:id="@+id/crouton_handle" layout="@layout/crouton_handle" />
 
-        </android.support.design.widget.CoordinatorLayout>
+        </RelativeLayout>
 
         <fragment
             android:id="@+id/navigation_drawer"
@@ -64,8 +61,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="left|start"
             android:fitsSystemWindows="true"
-            android:orientation="vertical"
-            tools:layout="@layout/toolbar" />
+            android:orientation="vertical"/>
 
     </android.support.v4.widget.DrawerLayout>
 

@@ -19,12 +19,11 @@ package it.feio.android.omninotes.models;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import it.feio.android.omninotes.commons.models.BaseAttachment;
 
 import java.util.Calendar;
 
 
-public class Attachment extends BaseAttachment implements Parcelable {
+public class Attachment extends it.feio.android.omninotes.commons.models.Attachment implements Parcelable {
 
 	private Uri uri;
 
@@ -40,7 +39,7 @@ public class Attachment extends BaseAttachment implements Parcelable {
 	}
 
 
-	public Attachment(BaseAttachment attachment) {
+	public Attachment(it.feio.android.omninotes.commons.models.Attachment attachment) {
 		super(attachment.getId(), attachment.getUriPath(), attachment.getName(), attachment.getSize(), attachment
 				.getLength(), attachment.getMime_type());
 		this.uri = Uri.parse(attachment.getUriPath());

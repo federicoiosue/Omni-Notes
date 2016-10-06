@@ -21,7 +21,6 @@ import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -33,7 +32,6 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
-import it.feio.android.omninotes.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -70,9 +68,6 @@ public class WidgetConfigurationActivity extends Activity {
                     case R.id.widget_config_categories:
                         categorySpinner.setEnabled(true);
                         break;
-
-					default:
-						Log.e(Constants.TAG, "Wrong element choosen: " + checkedId);
                 }
             }
         });

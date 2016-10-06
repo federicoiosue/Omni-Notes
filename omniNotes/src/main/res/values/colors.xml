@@ -57,9 +57,6 @@
     <color name="text_color">#b9000000</color>
     <color name="text_color_lighter">#9b000000</color>
 
-    <color name="text_color_rev">#fafafa</color>
-    <color name="text_color_rev_darker">#f1f1f1</color>
-
     <!-- toasts -->
     <color name="confirm">#303F9F</color>
     <color name="warning">#ff9800</color>

@@ -17,7 +17,6 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <!-- Activities -->
   <string name="title_item_list">Notas</string>
   <string name="add_note">Adicionar nota</string>
   <string name="title">Título</string>
@@ -147,7 +146,6 @@
   <string name="proceed">Prosseguir</string>
   <string name="contracted_view">Vista compactada</string>
   <string name="expanded_view">Vista expandida</string>
-  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Adicionar atalho</string>
   <string name="shortcut_added">Atalho adicionado ao ecrã inicial</string>
   <string name="shortcut_note_deleted">O atalho aponta para uma nota eliminada</string>
@@ -198,7 +196,6 @@
   <string name="checklist">Lista de verificação</string>
   <string name="text_note">Nota de texto</string>
   <string name="photo">Fotografia</string>
-  <!-- Settings -->
   <string name="dashclock_description">Mostra algumas estatísticas e próximos alertas do Omni Notes</string>
   <string name="settings">Definições</string>
   <string name="settings_about">Informações</string>
@@ -276,7 +273,6 @@
   <string name="minutes">minutos</string>
   <string name="settings_simple_calendar">Hora e calendário simples</string>
   <string name="settings_simple_calendar_summary">Usar o calendário e selector de hora do Android, que são mais simples, em vez dos da Google</string>
-  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Apresentação da aplicação</string>
   <string name="settings_tour_show_again_summary">Mostrar novamente a apresentação das instruções da aplicação</string>
   <string name="backup_include_settings">Incluir definições (com palavra-passe)</string>
@@ -316,17 +312,10 @@
   <string name="settings_attachments_on_bottom">Anexos no fim</string>
   <string name="settings_attachments_on_bottom_summary_on">Mostra anexos abaixo do conteúdo da nota</string>
   <string name="settings_attachments_on_bottom_summary_off">Mostra anexos acima do conteúdo da nota</string>
-  <string name="settings_prettified_dates">Datas embelezadas</string>
-  <string name="settings_prettified_dates_summary_on">As datas são mostradas num formato mais simples</string>
-  <string name="settings_prettified_dates_summary_off">As datas são mostradas num formato mais detalhado</string>
-  <string name="settings_screen_privacy">Privacidade</string>
   <string name="settings_error_reporting">Comunicação de erros</string>
   <string name="settings_error_reporting_summary_on">Quando a aplicação bloquear o programador vai ser informado para que possa investigar o problema</string>
   <string name="settings_error_reporting_summary_off">Não serão enviados relatórios de erro. Depois não se queixe quando algo correr mal!</string>
-  <string name="settings_send_analytics">Partilhar dados anonimizados</string>
-  <string name="settings_send_analytics_summary">Ajude o desenvolvedor enviando dados não sensíveis como modelo de dispositivo, linguagem e funcionalidades da app frequentemente usadas. Esses dados são utilizados apenas para melhorar a app de código aberto.</string>
   <string name="settings_statistics">Estatísticas</string>
-  <!-- Instructions -->
   <string name="tour_request_start">Abriu o Omni Notes pela primeira vez, deseja ver uma apresentação da aplicação?</string>
   <string name="tour_listactivity_intro_title">Bem-vindo ao Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">pressione \"Continuar\" para retomar a apresentação</string>
@@ -351,7 +340,6 @@
   <string name="tour_listactivity_final_title">Desfrute</string>
   <string name="tour_listactivity_final_detail">Obrigado por usar o Omni Notes \nA alternativa de código aberto para anotações de produtividade e lazer!</string>
   <string name="tour_community">Registe-se na comunidade para ajudar!</string>
-  <!-- Accessibility -->
   <string name="drawer_open">gaveta aberta</string>
   <string name="drawer_close">gaveta fechada</string>
   <string name="reminder">alerta</string>

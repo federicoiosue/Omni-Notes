@@ -62,7 +62,7 @@
   <string name="attachment">附件</string>
   <string name="camera">相機</string>
   <string name="delete_selected_image">刪除己選的附件?</string>
-  <string name="delete_all_attachments">刪除所有附件？</string>
+  <string name="delete_all_attachments">Delete all the attachments?</string>
   <string name="gallery">圖庫</string>
   <string name="location">位置</string>
   <string name="pushbullet">Pushbullet</string>
@@ -77,7 +77,7 @@
   <string name="video">视频</string>
   <string name="feature_not_available_on_this_device">功能在此设备上不可用</string>
   <string name="error_occurred_deleting_note">删除记事时发生错误</string>
-  <string name="no_backups_available">沒有可用的備份</string>
+  <string name="no_backups_available">No backups available</string>
   <string name="data_export_message">输入备份名称</string>
   <string name="data_import_message">点击 -&gt; 还原\n长按 -&gt; 删除</string>
   <string name="data_import_message_warning">警告：此操作将覆盖所有当前数据！</string>
@@ -147,7 +147,6 @@
   <string name="proceed">继续</string>
   <string name="contracted_view">缩略视图</string>
   <string name="expanded_view">扩展视图</string>
-  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">添加快捷方式</string>
   <string name="shortcut_added">快捷方式已添加到桌面</string>
   <string name="shortcut_note_deleted">快捷方式指向的记事已删除</string>
@@ -187,17 +186,17 @@
   <string name="use_current_location">使用当前位置</string>
   <string name="filter">篩選</string>
   <string name="remove_filter">刪除篩選器</string>
-  <string name="filter_old_reminders">隱藏舊的提醒事項</string>
-  <string name="remove_filter_old_reminders">顯示舊的提醒</string>
-  <string name="filter_archived">隱藏已歸檔的筆記</string>
-  <string name="remove_filter_archived">顯示已歸檔的筆記</string>
-  <string name="permission_external_storage">需要寫入外部儲存的權限，用來備份在公用資料夾</string>
-  <string name="permission_audio_recording">需要麥克風使用權限，用來錄製聲音筆記</string>
-  <string name="permission_coarse_location">需要辨識位置的權限，在您的筆記裡添加位置資訊</string>
-  <string name="permission_not_granted">未獲取權限</string>
-  <string name="checklist">清單</string>
-  <string name="text_note">文本注釋</string>
-  <string name="photo">照片</string>
+  <string name="filter_old_reminders">隱藏舊提醒</string>
+  <string name="remove_filter_old_reminders">Show old reminders</string>
+  <string name="filter_archived">Hide archived notes</string>
+  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
+  <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
+  <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+  <string name="permission_not_granted">Permission not granted</string>
+  <string name="checklist">Checklist</string>
+  <string name="text_note">Text note</string>
+  <string name="photo">Photo</string>
   <!-- Settings -->
   <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
   <string name="settings">设置</string>
@@ -228,8 +227,8 @@
   <string name="settings_screen_backup">備份</string>
   <string name="settings_screen_notifications">通知。</string>
   <string name="settings_enable_vibration">振动</string>
-  <string name="settings_notification_enable_boot_persistence">啟用常駐通知</string>
-  <string name="settings_notification_enable_boot_persistence_summary">讓app的通知在重開機之後依然保存</string>
+  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
   <string name="settings_screen_navigation">導航</string>
   <string name="settings_changelog">更新日志</string>
   <string name="settings_enable_editor_links">链接识别</string>
@@ -263,7 +262,7 @@
   <string name="settings_category_beta">测试版</string>
   <string name="settings_category_about">关于 </string>
   <string name="settings_beta">Goggle+</string>
-  <string name="settings_beta_summary">參與Beta測試以便獲得最新功能</string>
+  <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">捐赠</string>
   <string name="donate_summary">请考虑为我们提供非盈利性捐赠以支持本应用后续开发</string>
   <string name="settings_choose_language">选择语言</string>
@@ -276,7 +275,6 @@
   <string name="minutes">分钟</string>
   <string name="settings_simple_calendar">简洁日历与时间</string>
   <string name="settings_simple_calendar_summary">使用与Google软件相比更加简洁的安卓日历与时间选择器</string>
-  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">用户引导</string>
   <string name="settings_tour_show_again_summary">再次显示用户引导</string>
   <string name="backup_include_settings">包括设置 （带密码）</string>
@@ -299,7 +297,7 @@
   <string name="settings_screen_behaviors">行為</string>
   <string name="settings_enable_swipe">滑動筆記</string>
   <string name="settings_enable_swipe_summary">在筆記上滑動以執行操作</string>
-  <string name="settings_swipe_to_trash">滑動來刪除</string>
+  <string name="settings_swipe_to_trash">Swipe to trash</string>
   <string name="settings_swipe_to_trash_summary_1">滑动以将记事归档</string>
   <string name="settings_swipe_to_trash_summary_2">滑动以删除记事</string>
   <string name="settings_show_uncategorized">未分类组</string>
@@ -313,19 +311,16 @@
   <string name="settings_fab_expansion_behavior">浮動操作按鈕</string>
   <string name="settings_fab_expansion_behavior_summary_on">短按觸摸進行操作</string>
   <string name="settings_fab_expansion_behavior_summary_off">短按觸摸切換選項</string>
-  <string name="settings_attachments_on_bottom">在底部顯是附件</string>
-  <string name="settings_attachments_on_bottom_summary_on">在筆記內容下方顯示附件</string>
-  <string name="settings_attachments_on_bottom_summary_off">在筆記內容上方顯示附件</string>
-  <string name="settings_prettified_dates">Prettified dates</string>
-  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
-  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
-  <string name="settings_screen_privacy">隱私</string>
+  <string name="settings_attachments_on_bottom">Attachments on bottom</string>
+  <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
+  <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
+  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">錯誤報告</string>
   <string name="settings_error_reporting_summary_on">當應用程式崩潰時，將通知開發者來幫助你</string>
   <string name="settings_error_reporting_summary_off">錯誤報告將不會被發送，問題可能不會被解決！</string>
-  <string name="settings_send_analytics">分享匿名數據</string>
-  <string name="settings_send_analytics_summary">傳送非敏感數據以協助開發者，例如裝置型號、語言、常用app功能等。本資料將只會用來改善開源app。</string>
-  <string name="settings_statistics">統計</string>
+  <string name="settings_send_analytics">Share anonymous data</string>
+  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
+  <string name="settings_statistics">Statistics</string>
   <!-- Instructions -->
   <string name="tour_request_start">这是您第一次使用Omni Note，您是否希望观看用户引导？</string>
   <string name="tour_listactivity_intro_title">欢迎使用 Omni Notes ！</string>
@@ -350,7 +345,7 @@
   <string name="tour_detailactivity_save_detail">点击“向上”导航图标或您设备的后退键即可保存</string>
   <string name="tour_listactivity_final_title">祝您使用愉快</string>
   <string name="tour_listactivity_final_detail">感謝你使用 Omni Notes \n該開源供工作效率和休閒筆記!</string>
-  <string name="tour_community">登記以參加社群！</string>
+  <string name="tour_community">Subscribe to the community to participate!</string>
   <!-- Accessibility -->
   <string name="drawer_open">抽屉打开</string>
   <string name="drawer_close">抽屉关闭</string>

@@ -76,13 +76,13 @@ public class TextHelper {
             titleText = titleText.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
                     it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY).replace(
                     it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
-                    "&#x2395;&nbsp;");
+                    it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY);
             titleSpanned = Html.fromHtml(titleText);
             contentText = contentText
                     .replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
 							it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
                     .replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
-							"&#x2395;&nbsp;")
+							it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY)
                     .replace(System.getProperty("line.separator"), "<br/>");
             contentSpanned = Html.fromHtml(contentText);
         } else {

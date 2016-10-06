@@ -147,7 +147,6 @@
   <string name="proceed">Próximo</string>
   <string name="contracted_view">Vista Compacta</string>
   <string name="expanded_view">Vista expandida</string>
-  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Adicionar atalho</string>
   <string name="shortcut_added">Atalho adicionado à tela inicial</string>
   <string name="shortcut_note_deleted">Este atalho aponta para uma nota excluída</string>
@@ -276,7 +275,6 @@
   <string name="minutes">minutos</string>
   <string name="settings_simple_calendar">Data e hora simples</string>
   <string name="settings_simple_calendar_summary">Usar um seletor de data e hora mais simples do Android, ao invés dos do Google</string>
-  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Tour pelo app</string>
   <string name="settings_tour_show_again_summary">Mostrar o tutorial do aplicativo novamente?</string>
   <string name="backup_include_settings">Incluir configurações (com senha)</string>
@@ -316,9 +314,6 @@
   <string name="settings_attachments_on_bottom">Anexos na parte inferior</string>
   <string name="settings_attachments_on_bottom_summary_on">Mostra anexos abaixo do conteúdo da nota</string>
   <string name="settings_attachments_on_bottom_summary_off">Mostra anexos acima do conteúdo da nota</string>
-  <string name="settings_prettified_dates">Datas embelezadas</string>
-  <string name="settings_prettified_dates_summary_on">As datas são mostradas num formato mais simples</string>
-  <string name="settings_prettified_dates_summary_off">As datas são mostradas num formato mais detalhado</string>
   <string name="settings_screen_privacy">Privacidade</string>
   <string name="settings_error_reporting">Relatório de erros</string>
   <string name="settings_error_reporting_summary_on">Quando o aplicativo travar, o desenvolvedor será informado para lhe ajudar</string>

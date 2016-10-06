@@ -17,33 +17,6 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.3.0" changeDate="Jun 30, 2016">
-        <changelogtext>[b]New![/b] Gifs animation support within internal gallery</changelogtext>
-        <changelogtext>[i]Improved[/i] Added file size to attachments'action dialog</changelogtext>
-    </changelogversion>
-
-    <changelogversion versionName="5.2.18" changeDate="Oct 5, 2016">
-        <changelogtext>[i]Improved[/i] Updated translations</changelogtext>
-        <changelogtext>[u]Fix[/u] Reminders now work again on Android Nougat</changelogtext>
-        <changelogtext>[u]Fix[/u] Protected notes are no more updated rotating screen without inserting password before</changelogtext>
-        <changelogtext>[u]Fix[/u] Encrypted notes are now reprocessed on security password change</changelogtext>
-    </changelogversion>
-
-    <changelogversion versionName="5.2.17" changeDate="Sep 09, 2016">
-        <changelogtext>[i]Improved[/i] Updated translations</changelogtext>
-        <changelogtext>[u]Fix[/u] Location retrieval should work again thanks to new API key</changelogtext>
-    </changelogversion>
-
-
-    <changelogversion versionName="5.2.16" changeDate="Jun 21, 2016">
-        <changelogtext>[u]Fix[/u] Opening the same note twice from home widget broke the navigation</changelogtext>
-        <changelogtext>[u]Fix[/u] Removed searched string label when changing sort order</changelogtext>
-    </changelogversion>
-
-    <changelogversion versionName="5.2.15" changeDate="Jun 05, 2016">
-        <changelogtext>[u]Fix[/u] Navigation panel after opening a note starting from Dashclock widget works again</changelogtext>
-    </changelogversion>
-
     <changelogversion versionName="5.2.14" changeDate="Jun 04, 2016">
         <changelogtext>[u]Fix[/u] Broken build due to inclusion of testing component, sorry!</changelogtext>
     </changelogversion>

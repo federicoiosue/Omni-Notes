@@ -28,11 +28,9 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.*;
 import android.widget.EditText;
@@ -51,12 +49,12 @@ import java.util.Arrays;
 import java.util.List;
 
 @SuppressLint("Registered")
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends ActionBarActivity {
 
     protected final int TRANSITION_VERTICAL = 0;
     protected final int TRANSITION_HORIZONTAL = 1;
 
-    public SharedPreferences prefs;
+    protected SharedPreferences prefs;
 
     protected String navigation;
     protected String navigationTmp; // used for widget navigation
@@ -239,19 +237,13 @@ public class BaseActivity extends AppCompatActivity {
         int actionBarTitle = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
         android.widget.TextView actionBarTitleView = (android.widget.TextView) getWindow().findViewById(actionBarTitle);
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
-        //if (actionBarTitleView != null) {
-        //    actionBarTitleView.setTypeface(font);
-        //}
+        if (actionBarTitleView != null) {
+            actionBarTitleView.setTypeface(font);
+        }
 
-//        CollapsingToolbarLayout collapsingToolbar =
-//                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-//        collapsingToolbar.setCollapsedTitleTypeface(font);
-//        collapsingToolbar.setTitle("Title");
-
-
-        //if (getSupportActionBar() != null) {
-        //    getSupportActionBar().setTitle(title);
-        //}
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
     }
 
 

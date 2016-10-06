@@ -18,13 +18,14 @@
 package it.feio.android.omninotes.models.listeners;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AbsListView;
 
 
-public abstract class AbsListViewScrollDetector implements RecyclerView.OnScrollChangeListener {
+public abstract class AbsListViewScrollDetector implements AbsListView.OnScrollListener {
 
+    private int mLastScrollY;
+    private int mPreviousFirstVisibleItem;
     private AbsListView mListView;
     private int mScrollThreshold;
 
@@ -33,17 +34,37 @@ public abstract class AbsListViewScrollDetector implements RecyclerView.OnScroll
 
     public abstract void onScrollDown();
 
+
     @Override
-    public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-        boolean isSignificantDelta = Math.abs(oldScrollY - scrollY) > mScrollThreshold;
-        if (isSignificantDelta) {
-            if (oldScrollY > scrollY) {
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+    }
+
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if (isSameRow(firstVisibleItem)) {
+            int newScrollY = getTopItemScrollY();
+            boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
+            if (isSignificantDelta) {
+                if (mLastScrollY > newScrollY) {
+                    onScrollUp();
+                } else {
+                    onScrollDown();
+                }
+            }
+            mLastScrollY = newScrollY;
+        } else {
+            if (firstVisibleItem > mPreviousFirstVisibleItem) {
                 onScrollUp();
             } else {
                 onScrollDown();
             }
+
+            mLastScrollY = getTopItemScrollY();
+            mPreviousFirstVisibleItem = firstVisibleItem;
         }
     }
+
 
     public void setScrollThreshold(int scrollThreshold) {
         mScrollThreshold = scrollThreshold;
@@ -54,6 +75,10 @@ public abstract class AbsListViewScrollDetector implements RecyclerView.OnScroll
         mListView = listView;
     }
 
+
+    private boolean isSameRow(int firstVisibleItem) {
+        return firstVisibleItem == mPreviousFirstVisibleItem;
+    }
 
 
     private int getTopItemScrollY() {

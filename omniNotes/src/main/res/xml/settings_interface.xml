@@ -51,13 +51,6 @@
             android:summary="@string/settings_simple_calendar_summary"
             android:title="@string/settings_simple_calendar"/>
 
-    <ListPreference
-            android:entries="@array/first_day_of_week"
-            android:entryValues="@array/first_day_of_week_values"
-            android:key="settings_first_day_of_week"
-            android:title="@string/settings_first_day_of_week"
-            android:defaultValue="locale_default"/>
-
     <SwitchPreference
             android:key="settings_attachments_on_bottom"
             android:summaryOn="@string/settings_attachments_on_bottom_summary_on"

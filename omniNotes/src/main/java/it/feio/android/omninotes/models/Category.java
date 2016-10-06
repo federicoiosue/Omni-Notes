@@ -18,10 +18,9 @@ package it.feio.android.omninotes.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import it.feio.android.omninotes.commons.models.BaseCategory;
 
 
-public class Category extends BaseCategory implements Parcelable {
+public class Category extends it.feio.android.omninotes.commons.models.Category implements Parcelable {
 
     private Category(Parcel in) {
         setId(in.readLong());
@@ -36,7 +35,7 @@ public class Category extends BaseCategory implements Parcelable {
     }
 
 
-    public Category(BaseCategory category) {
+    public Category(it.feio.android.omninotes.commons.models.Category category) {
         super(category.getId(), category.getName(), category.getDescription(), category.getColor());
     }
 

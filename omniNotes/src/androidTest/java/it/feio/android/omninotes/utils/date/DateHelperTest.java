@@ -26,7 +26,7 @@ import java.util.Calendar;
 
 public class DateHelperTest extends InstrumentationTestCase {
 
-	private long TEN_MINUTES = 10 * 60 * 1000;
+	long TEN_MINUTES = 10 * 60 * 1000;
 
 
 	public void testNextReminderFromRecurrenceRule() {

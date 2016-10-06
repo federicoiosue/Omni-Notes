@@ -137,25 +137,25 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
         // action of a given item
         row.setOnClickFillInIntent(R.id.root, fillInIntent);
 
-        return row;
+        return (row);
     }
 
 
     @Override
     public RemoteViews getLoadingView() {
-        return null;
+        return (null);
     }
 
 
     @Override
     public int getViewTypeCount() {
-        return 1;
+        return (1);
     }
 
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return (position);
     }
 
 

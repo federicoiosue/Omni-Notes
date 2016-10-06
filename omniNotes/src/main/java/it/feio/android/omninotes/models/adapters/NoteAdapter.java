@@ -22,11 +22,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.LeadingMarginSpan;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -37,53 +33,60 @@ import com.bumptech.glide.Glide;
 import com.nhaarman.listviewanimations.util.Insertable;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.TextWorkerTask;
-import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.holders.EmptyHolder;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.utils.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.RejectedExecutionException;
 
 
-public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Insertable {
+public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
     private final Activity mActivity;
     private final int navigation;
     private List<Note> notes = new ArrayList<>();
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     private boolean expandedView;
-    private boolean gridView;
     private int layout;
     private LayoutInflater inflater;
     private long closestNoteReminder = Long.parseLong(Constants.TIMESTAMP_UNIX_EPOCH_FAR);
     private int closestNotePosition;
 
-    private static final int TYPE_HEADER_VIEW = Integer.MIN_VALUE;
-    private static final int TYPE_FOOTER_VIEW = Integer.MIN_VALUE + 1;
-
-    private ArrayList<View> mHeaderViews = new ArrayList<>();
-    private ArrayList<View> mFooterViews = new ArrayList<>();
-    private int layoutID;
 
     public NoteAdapter(Activity activity, int layout, List<Note> notes) {
-        super();
-
+        super(activity, R.layout.note_layout_expanded, notes);
         this.mActivity = activity;
+        this.notes = notes;
+        this.layout = layout;
 
+        expandedView = layout == R.layout.note_layout_expanded;
         inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         navigation = Navigation.getNavigation();
-
-        this.notes = notes;
         manageCloserNote(notes, navigation);
-        setLayout(layout);
+    }
 
-        this.setHasStableIds(true);
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Note note = notes.get(position);
+        NoteViewHolder holder;
+        if (convertView == null) {
+            convertView = inflater.inflate(layout, parent, false);
+            holder = buildHolder(convertView, parent);
+            convertView.setTag(holder);
+        } else {
+            holder = (NoteViewHolder) convertView.getTag();
+        }
+        initText(note, holder);
+        initIcons(note, holder);
+        initDates(note, holder);
+        initThumbnail(note, holder);
+        manageSelectionColor(position, note, holder);
+        return convertView;
     }
 
 
@@ -102,7 +105,7 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     private void initThumbnail(Note note, NoteViewHolder holder) {
         // Attachment thumbnail
-        if (expandedView || gridView) {
+        if (expandedView) {
             // If note is locked or without attachments nothing is shown
             if ((note.isLocked() && !mActivity.getSharedPreferences(Constants.PREFS_NAME,
                     Context.MODE_MULTI_PROCESS).getBoolean("settings_password_access", false))
@@ -147,7 +150,7 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         // ...the locked with password state
         holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
         // ...the attachment icon for contracted view
-        if (!expandedView && !gridView) {
+        if (!expandedView) {
             holder.attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
         }
     }
@@ -160,6 +163,8 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
             } else {
                 Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
+                holder.title.setText(titleAndContent[0]);
+                holder.content.setText(titleAndContent[1]);
                 holder.title.setText(titleAndContent[0]);
                 if (titleAndContent[1].length() > 0) {
                     holder.content.setText(titleAndContent[1]);
@@ -274,66 +279,25 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     /**
      * Replaces notes
      */
-    public void replace(@NonNull Note note, int index) {
+    public void replace(Note note, int index) {
         if (notes.indexOf(note) != -1) {
-            remove(note);
+            notes.remove(index);
         } else {
             index = notes.size();
         }
-        add(index, note);
+        notes.add(index, note);
     }
 
 
     @Override
-    public void add(int index, @NonNull Object o) {
-        notes.add(index, (Note) o);
-        notifyItemInserted(index);
+    public void add(int i, @NonNull Object o) {
+        insert((Note) o, i);
     }
 
 
     public void remove(List<Note> notes) {
         for (Note note : notes) {
             remove(note);
-        }
-    }
-
-    public void remove(@NonNull Note note) {
-        int pos = getPosition(note);
-        if (pos >= 0) {
-            notes.remove(note);
-            notifyItemRemoved(pos);
-        }
-    }
-
-    public int getPosition(@NonNull Note note) {
-        return notes.indexOf(note);
-    }
-
-    public Note getItem(int index) {
-        return notes.get(index);
-    }
-
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        int innerCount = getItemCount() - getHeaderViewsCount() - getFooterViewsCount();
-        int headerViewsCountCount = getHeaderViewsCount();
-        if (position < headerViewsCountCount) {
-            return TYPE_HEADER_VIEW + position;
-        } else if (headerViewsCountCount <= position && position < headerViewsCountCount + innerCount) {
-
-            int innerItemViewType = layoutID; // to re-inflate views when layout changed (@see setLayout)
-            if(innerItemViewType >= Integer.MAX_VALUE / 2) {
-                throw new IllegalArgumentException("your adapter's return value of getViewTypeCount() must < Integer.MAX_VALUE / 2");
-            }
-            return innerItemViewType + Integer.MAX_VALUE / 2;
-        } else {
-            return TYPE_FOOTER_VIEW + position - headerViewsCountCount - innerCount;
         }
     }
 
@@ -345,140 +309,7 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         return new NoteViewHolder(convertView);
     }
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        int headerViewsCountCount = getHeaderViewsCount();
-        if (viewType < TYPE_HEADER_VIEW + headerViewsCountCount) {
-            return new EmptyHolder(mHeaderViews.get(viewType - TYPE_HEADER_VIEW));
-        } else if (viewType >= TYPE_FOOTER_VIEW && viewType < Integer.MAX_VALUE / 2) {
-            return new EmptyHolder(mFooterViews.get(viewType - TYPE_FOOTER_VIEW));
-        } else {
-            NoteViewHolder holder;
-            View newview = inflater.inflate(layout, parent, false);
-            holder = buildHolder(newview, parent);
-            newview.setTag(holder);
-
-            return holder;
-        }
-    }
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        int headerViewsCountCount = getHeaderViewsCount();
-        if (position >= headerViewsCountCount && position < headerViewsCountCount + (getItemCount() - getHeaderViewsCount() - getFooterViewsCount())) {
-            Note note = notes.get(position);
-            NoteViewHolder holderT = (NoteViewHolder) holder;
-
-            initText(note, holderT);
-            initIcons(note, holderT);
-            initDates(note, holderT);
-            initThumbnail(note, holderT);
-            manageSelectionColor(position, note, holderT);
-        } else {
-            ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
-            if(layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
-                ((StaggeredGridLayoutManager.LayoutParams) layoutParams).setFullSpan(true);
-            }
-        }
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return notes.size() + getHeaderViewsCount() + getFooterViewsCount();
-    }
-
-    public int getInnerItemCount() {
-        return notes.size();
-    }
-
-
-    public boolean isEmpty() {
-        return getItemCount() == 0;
-    }
-
-    public void setNotes(ArrayList<Note> newNotes) {
-        int oldSize = getItemCount();
-
-        this.notes = newNotes;
-        manageCloserNote(notes, navigation);
-
-        notifyItemRangeRemoved(0, oldSize);
-        notifyItemRangeChanged(0, getItemCount());
-    }
-
-    public void setLayout(int layout) {
-        this.layout = layout;
-
-        expandedView = gridView = false;
-        switch (layout) {
-            case R.layout.note_layout_expanded:
-                expandedView = true;
-                layoutID = 1;
-                break;
-            case R.layout.note_layout_grid:
-                gridView = true;
-                layoutID = 2;
-                break;
-            default:
-                layoutID = 0;
-                break;
-        }
-    }
-
-    /* Header / footer */
-    public void addHeaderView(View header) {
-
-        if (header == null) {
-            throw new RuntimeException("header is null");
-        }
-
-        mHeaderViews.add(header);
-        this.notifyDataSetChanged();
-    }
-
-    public void addFooterView(View footer) {
-
-        if (footer == null) {
-            throw new RuntimeException("footer is null");
-        }
-
-        mFooterViews.add(footer);
-        this.notifyDataSetChanged();
-    }
-
-    public View getFooterView() {
-        return  getFooterViewsCount()>0 ? mFooterViews.get(0) : null;
-    }
-
-    public View getHeaderView() {
-        return  getHeaderViewsCount()>0 ? mHeaderViews.get(0) : null;
-    }
-
-    public void removeHeaderView(View view) {
-        mHeaderViews.remove(view);
-        this.notifyDataSetChanged();
-    }
-
-    public void removeFooterView(View view) {
-        mFooterViews.remove(view);
-        this.notifyDataSetChanged();
-    }
-
-    public int getHeaderViewsCount() {
-        return mHeaderViews.size();
-    }
-
-    public int getFooterViewsCount() {
-        return mFooterViews.size();
-    }
-
-    public boolean isHeader(int position) {
-        return getHeaderViewsCount() > 0 && position == 0;
-    }
-
-    public boolean isFooter(int position) {
-        int lastPosition = getItemCount() - 1;
-        return getFooterViewsCount() > 0 && position == lastPosition;
-    }
 }
+
+
+

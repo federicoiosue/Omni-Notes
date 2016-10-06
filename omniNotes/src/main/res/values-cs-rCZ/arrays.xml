@@ -54,9 +54,9 @@
     <item>Největší</item>
   </string-array>
   <string-array name="attachments_actions">
-    <item>Sdílet</item>
-    <item>Smazat</item>
-    <item>Smazat vše</item>
-    <item>Upravit</item>
+    <item>Share</item>
+    <item>Delete</item>
+    <item>Delete All</item>
+    <item>Edit</item>
   </string-array>
 </resources>

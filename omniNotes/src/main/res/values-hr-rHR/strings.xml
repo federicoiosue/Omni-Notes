@@ -147,7 +147,6 @@
   <string name="proceed">Nastavi</string>
   <string name="contracted_view">Smanjen prikaz</string>
   <string name="expanded_view">Proširen prikaz</string>
-  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Dodaj prečac</string>
   <string name="shortcut_added">Prečac dodan na početni zaslon</string>
   <string name="shortcut_note_deleted">Prečac vodi do obrisane bilješke</string>
@@ -276,7 +275,6 @@
   <string name="minutes">minute</string>
   <string name="settings_simple_calendar">Jednostavan kalendar i vrijeme</string>
   <string name="settings_simple_calendar_summary">Korištenje (jednostavnijeg) Android sučelja za odabir datuma/vremena, umjesto Google sučelja</string>
-  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Obilazak aplikacije</string>
   <string name="settings_tour_show_again_summary">Odvedi me ponovno na obilazak aplikacije</string>
   <string name="backup_include_settings">Uključi postavke i lozinku</string>
@@ -316,9 +314,6 @@
   <string name="settings_attachments_on_bottom">Privitci na dnu</string>
   <string name="settings_attachments_on_bottom_summary_on">Prikaži privitke ispod sadržaja bilješke</string>
   <string name="settings_attachments_on_bottom_summary_off">Prikaži privitke iznad sadržaja bilješke</string>
-  <string name="settings_prettified_dates">Prettified dates</string>
-  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
-  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
   <string name="settings_screen_privacy">Privatnost</string>
   <string name="settings_error_reporting">Izvještavanje o pogreškama</string>
   <string name="settings_error_reporting_summary_on">Kada se aplikacija sruši razvojni programer bit će obaviješten kako bi vam mogao pomoći</string>

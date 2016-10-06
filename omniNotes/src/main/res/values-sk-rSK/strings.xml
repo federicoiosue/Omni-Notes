@@ -17,7 +17,6 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <!-- Activities -->
   <string name="title_item_list">Poznámky</string>
   <string name="add_note">Pridať poznámku</string>
   <string name="title">Názov</string>
@@ -147,7 +146,6 @@
   <string name="proceed">Pokračovať</string>
   <string name="contracted_view">Zjednodušené zobrazenie</string>
   <string name="expanded_view">Rozšírené zobrazenie</string>
-  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Pridať odkaz</string>
   <string name="shortcut_added">Odkaz bol pridaný na domovskú obrazovku</string>
   <string name="shortcut_note_deleted">Odkaz odkazuje na vymazanú poznámku</string>
@@ -198,7 +196,6 @@
   <string name="checklist">Zoznam úloh</string>
   <string name="text_note">Textová poznámka</string>
   <string name="photo">Fotografia</string>
-  <!-- Settings -->
   <string name="dashclock_description">Zobrazí niektoré štatistiky a blížiace sa pripomienky z Omni Notes</string>
   <string name="settings">Nastavenia</string>
   <string name="settings_about">Informácie</string>
@@ -276,7 +273,6 @@
   <string name="minutes">min.</string>
   <string name="settings_simple_calendar">Jednoduchý kalendár a čas</string>
   <string name="settings_simple_calendar_summary">Použiť jednoduchší dialóg na výber dátumu a času</string>
-  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Prehliadka aplikácie</string>
   <string name="settings_tour_show_again_summary">Zobraziť znovu prehliadku aplikácie s pokynmi</string>
   <string name="backup_include_settings">Zahrnúť nastavenia (s heslom)</string>
@@ -316,17 +312,10 @@
   <string name="settings_attachments_on_bottom">Prílohy na spodku</string>
   <string name="settings_attachments_on_bottom_summary_on">Zobraziť prílohy pod obsahom poznámky</string>
   <string name="settings_attachments_on_bottom_summary_off">Zobraziť prílohy nad obsahom poznámky</string>
-  <string name="settings_prettified_dates">Prettified dates</string>
-  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
-  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
-  <string name="settings_screen_privacy">Privacy</string>
   <string name="settings_error_reporting">Hlásenie chýb</string>
   <string name="settings_error_reporting_summary_on">Po páde aplikácie informovať vývojára o chybe, aby vám mohol pomôcť</string>
   <string name="settings_error_reporting_summary_off">Neposielať žiadne hlásenia o pádoch. Nesťažujte sa, ak sa niečo pokazí!</string>
-  <string name="settings_send_analytics">Share anonymous data</string>
-  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Štatistiky</string>
-  <!-- Instructions -->
   <string name="tour_request_start">Spustili ste Omni Notes po prvý krát. Chcete si prezieť prehliadku aplikácie?</string>
   <string name="tour_listactivity_intro_title">Vitajte v Omni Notes!</string>
   <string name="tour_listactivity_intro_detail">Stlačte \"Pokračovať\" pre pokračovanie v prehliadke</string>
@@ -351,7 +340,6 @@
   <string name="tour_listactivity_final_title">Užívajte</string>
   <string name="tour_listactivity_final_detail">Ďakujeme, že používate Omni Notes. \n\nAlternatíva s otvoreným zdrojovým kódom pre produktivitu a písanie poznámok vo voľnom čase!</string>
   <string name="tour_community">Prihlásiť sa ku komunite Omni Notes!</string>
-  <!-- Accessibility -->
   <string name="drawer_open">Otvoriť ponuku</string>
   <string name="drawer_close">Zavrieť ponuku</string>
   <string name="reminder">Pripomienka</string>

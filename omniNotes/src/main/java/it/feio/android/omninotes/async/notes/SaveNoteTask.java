@@ -88,14 +88,12 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 	}
 
 
-    private Attachment getFixedAttachmentInstance(List<Attachment> deletedAttachments, Attachment attachment) {
-        for (Attachment deletedAttachment : deletedAttachments) {
-            if (deletedAttachment.getId().equals(attachment.getId())) {
-				return deletedAttachment;
-			}
-        }
-        return attachment;
-    }
+	private Attachment getFixedAttachmentInstance(List<Attachment> deletedAttachments, Attachment attachment) {
+		for (Attachment deletedAttachment : deletedAttachments) {
+			if (deletedAttachment.getId() == attachment.getId()) return deletedAttachment;
+		}
+		return attachment;
+	}
 
 
 	@Override

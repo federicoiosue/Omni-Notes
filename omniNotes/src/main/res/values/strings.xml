@@ -163,7 +163,6 @@
     <string name="proceed">Proceed</string>
     <string name="contracted_view">Reduced view</string>
     <string name="expanded_view">Expanded view</string>
-    <string name="grid_view">Grid view</string>
     <string name="add_shortcut">Add shortcut</string>
     <string name="shortcut_added">Shortcut added to home screen</string>
     <string name="shortcut_note_deleted">Shortcut points to deleted note</string>
@@ -295,7 +294,6 @@
     <string name="minutes">minutes</string>
     <string name="settings_simple_calendar">Simple calendar and time</string>
     <string name="settings_simple_calendar_summary">Use the (simpler) Android interface for date/time selection, instead of Google interface</string>
-    <string name="settings_first_day_of_week">First day of week</string>
     <string name="settings_tour_show_again">App tour</string>
     <string name="settings_tour_show_again_summary">Show me the application tour again</string>
     <string name="backup_include_settings">Include settings and password</string>
