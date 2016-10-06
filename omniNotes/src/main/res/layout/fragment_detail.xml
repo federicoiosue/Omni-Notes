@@ -15,146 +15,84 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
-            android:id="@+id/detail_root"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical"
-            android:layout_marginLeft="@dimen/activity_additional_margin"
-            android:layout_marginRight="@dimen/activity_additional_margin">
+        android:id="@+id/detail_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/activity_additional_margin"
+        android:layout_marginRight="@dimen/activity_additional_margin"
+        android:animateLayoutChanges="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
 
         <LinearLayout
-                android:id="@+id/detail_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:animateLayoutChanges="true"
-                android:background="@color/gray_bg"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/padding_half"
-                android:paddingRight="@dimen/padding_half"
-                android:paddingTop="@dimen/padding_half">
+            android:id="@+id/detail_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:animateLayoutChanges="true"
+            android:background="@color/gray_bg"
+            android:orientation="vertical">
 
-            <LinearLayout
-                    android:id="@+id/detail_tile_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:background="@drawable/bg_card"
-                    android:paddingBottom="2dp">
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/content_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbarSize="4dp"
+                android:scrollbarStyle="outsideOverlay"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:scrollbarThumbVertical="@drawable/scroll_bar">
 
                 <LinearLayout
-                        android:id="@+id/title_wrapper"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                    <View
-                            android:id="@+id/tag_marker"
-                            android:layout_width="7dp"
-                            android:layout_height="match_parent"
-                            android:background="@null"/>
-
-                    <com.neopixl.pixlui.components.edittext.EditText
-                            android:id="@+id/detail_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/title"
-                            android:inputType="textCapSentences"
-                            android:linksClickable="false"
-                            android:paddingBottom="6dp"
-                            paddingStart="6dp"
-                            android:paddingLeft="6dp"
-                            paddingEnd="16dp"
-                            android:paddingRight="16dp"
-                            android:paddingTop="6dp"
-                            android:textAppearance="@style/Text.Big"
-                            android:textColorHint="@color/text_color_lighter"
-                            android:textColor="@color/text_color"
-                            pixlui:typeface="RobotoSlab-Bold.ttf"
-                            android:textCursorDrawable="@null"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <android.support.design.widget.CoordinatorLayout
-                    android:id="@+id/detail_content_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_card"
-                    android:paddingBottom="2dp">
-
-                <ScrollView
-                        android:id="@+id/content_wrapper"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scrollbarSize="4dp"
-                        android:scrollbarStyle="outsideOverlay"
-                        android:scrollbarThumbVertical="@drawable/scroll_bar">
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                        <ViewStub android:id="@+id/detail_attachments_above" android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:layout="@layout/fragment_detail_attachments"/>
-
-                        <include layout="@layout/fragment_detail_content"/>
-
-                        <ViewStub android:id="@+id/detail_attachments_below" android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:layout="@layout/fragment_detail_attachments"/>
-
-                    </LinearLayout>
-                </ScrollView>
-            </android.support.design.widget.CoordinatorLayout>
-
-            <LinearLayout
-                    android:id="@+id/detail_timestamps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="3dp"
-                    android:paddingTop="3dp">
+                    android:orientation="vertical">
 
-                <com.neopixl.pixlui.components.textview.TextView
-                        android:id="@+id/creation"
-                        android:layout_width="0dp"
+                    <ViewStub
+                        android:id="@+id/detail_attachments_above"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|start"
-                        android:padding="0dp"
-                        android:textAppearance="@style/Text.Small"
-                        pixlui:typeface="Roboto-Regular.ttf"/>
+                        android:layout="@layout/fragment_detail_attachments" />
 
-                <com.neopixl.pixlui.components.textview.TextView
-                        android:id="@+id/last_modification"
-                        android:layout_width="0dp"
+                    <include layout="@layout/fragment_detail_content" />
+
+                    <ViewStub
+                        android:id="@+id/detail_attachments_below"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:padding="0dp"
-                        android:textAppearance="@style/Text.Small"
-                        pixlui:typeface="Roboto-Regular.ttf"/>
-            </LinearLayout>
+                        android:layout="@layout/fragment_detail_attachments" />
+
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+
         </LinearLayout>
-
     </LinearLayout>
 
     <android.support.design.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/snackbar_placeholder"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/navigation_bar_height"/>
+        android:id="@+id/snackbar_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/navigation_bar_height">
+
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom|right"-->
+            <!--android:layout_margin="16dp"-->
+            <!--android:src="@drawable/ic_check"-->
+            <!--app:layout_anchorGravity="bottom|right|end"/>-->
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <View
+        android:id="@+id/bottomSpacer"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 
 </RelativeLayout>

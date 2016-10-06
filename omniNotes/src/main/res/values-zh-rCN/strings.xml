@@ -147,6 +147,7 @@
   <string name="proceed">继续</string>
   <string name="contracted_view">缩略视图</string>
   <string name="expanded_view">扩展视图</string>
+  <string name="grid_view">网格视图</string>
   <string name="add_shortcut">添加快捷方式</string>
   <string name="shortcut_added">快捷方式已添加到桌面</string>
   <string name="shortcut_note_deleted">快捷方式指向的记事已删除</string>
@@ -275,6 +276,7 @@
   <string name="minutes">分钟</string>
   <string name="settings_simple_calendar">简洁日历与时间</string>
   <string name="settings_simple_calendar_summary">使用与Google软件相比更加简洁的安卓日历与时间选择器</string>
+  <string name="settings_first_day_of_week">星期起始日</string>
   <string name="settings_tour_show_again">用户引导</string>
   <string name="settings_tour_show_again_summary">再次显示用户引导</string>
   <string name="backup_include_settings">包括设置 （带密码）</string>

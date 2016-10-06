@@ -147,6 +147,7 @@
   <string name="proceed">続行</string>
   <string name="contracted_view">縮小表示</string>
   <string name="expanded_view">展開表示</string>
+  <string name="grid_view">グリッド表示</string>
   <string name="add_shortcut">ショートカットを追加</string>
   <string name="shortcut_added">ホーム画面にショートカットを追加しました</string>
   <string name="shortcut_note_deleted">ショートカットは削除済のノートを指しています</string>
@@ -275,6 +276,7 @@
   <string name="minutes">分</string>
   <string name="settings_simple_calendar">シンプルなカレンダーと時間</string>
   <string name="settings_simple_calendar_summary">日付/時刻の選択に、Google インターフェイスの代わりに、(シンプルな) Android インターフェイスを使用します</string>
+  <string name="settings_first_day_of_week">週の開始日</string>
   <string name="settings_tour_show_again">アプリ ツアー</string>
   <string name="settings_tour_show_again_summary">もう一度、アプリケーション ツアーを表示します</string>
   <string name="backup_include_settings">設定およびパスワードを含める</string>

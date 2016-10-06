@@ -26,6 +26,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -39,6 +40,10 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -62,17 +67,18 @@ import it.feio.android.omninotes.services.AutoBackupFileModificationService;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.MiscUtils;
 import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.SystemHelper;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
 
     @Bind(R.id.crouton_handle) ViewGroup croutonViewContainer;
-    @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @Bind(R.id.outer_toolbar) AppBarLayout outerToolbar;
+    Toolbar toolbar;
 
     public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
     public final String FRAGMENT_LIST_TAG = "fragment_list";
@@ -87,7 +93,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         super.onCreate(savedInstanceState);
 		setTheme(R.style.OmniNotesTheme_ApiSpec);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
+        toolbar = (Toolbar) outerToolbar.findViewById(R.id.toolbar);
 		EventBus.getDefault().register(this);
 
         // This method starts the bootstrap chain.
@@ -322,7 +330,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (i.getAction() == null) return;
 
         if (Constants.ACTION_RESTART_APP.equals(i.getAction())) {
-            MiscUtils.restartApp(getApplicationContext(), MainActivity.class);
+            SystemHelper.restartApp(getApplicationContext(), MainActivity.class);
         }
 
         if (receivedIntent(i)) {
@@ -390,7 +398,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     private boolean noteAlreadyOpened(Note note) {
         DetailFragment detailFragment = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
         return detailFragment != null && detailFragment.getCurrentNote() != null && detailFragment.getCurrentNote()
-                .get_id() == note.get_id();
+				.get_id().equals(note.get_id());
     }
 
 

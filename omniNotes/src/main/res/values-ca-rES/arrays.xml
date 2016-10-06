@@ -54,9 +54,9 @@
     <item>Més gran</item>
   </string-array>
   <string-array name="attachments_actions">
-    <item>Share</item>
-    <item>Delete</item>
-    <item>Delete All</item>
-    <item>Edit</item>
+    <item>Comparteix</item>
+    <item>Suprimeix</item>
+    <item>Suprimeix-ho tot</item>
+    <item>Edita</item>
   </string-array>
 </resources>

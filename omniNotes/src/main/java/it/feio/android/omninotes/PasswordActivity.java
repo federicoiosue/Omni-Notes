@@ -17,20 +17,27 @@
 
 package it.feio.android.omninotes;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
+import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.LifecycleCallback;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;
-
-import java.util.List;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 
 public class PasswordActivity extends BaseActivity {
@@ -130,63 +137,97 @@ public class PasswordActivity extends BaseActivity {
     }
 
 
-    /**
-     * Removes the lock from all notes
-     */
-    private void unlockAllNotes() {
-        List<Note> lockedNotes = DbHelper.getInstance().getNotesWithLock(true);
-        for (Note lockedNote : lockedNotes) {
-            lockedNote.setLocked(false);
-            DbHelper.getInstance().updateNote(lockedNote, false);
-        }
-    }
+	@SuppressLint("CommitPrefEdits")
+	private void updatePassword(String passwordText, String questionText, String answerText) {
+		if (passwordText == null) {
+			if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
+				Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
+				return;
+			}
+			new MaterialDialog.Builder(mActivity)
+					.content(R.string.agree_unlocking_all_notes)
+					.positiveText(R.string.ok)
+					.callback(new MaterialDialog.ButtonCallback() {
+						@Override
+						public void onPositive(MaterialDialog materialDialog) {
+							removePassword();
+						}
+					}).build().show();
+		} else if (passwordText.length() == 0) {
+			Crouton.makeText(mActivity, R.string.empty_password, ONStyle.WARN, crouton_handle).show();
+		} else {
+			Observable
+					.from(DbHelper.getInstance().getNotesWithLock(true))
+					.subscribeOn(Schedulers.newThread())
+					.observeOn(AndroidSchedulers.mainThread())
+					.doOnSubscribe(() -> prefs.edit()
+							.putString(Constants.PREF_PASSWORD, Security.md5(passwordText))
+							.putString(Constants.PREF_PASSWORD_QUESTION, questionText)
+							.putString(Constants.PREF_PASSWORD_ANSWER, Security.md5(answerText))
+							.commit())
+					.doOnNext(note -> DbHelper.getInstance().updateNote(note, false))
+					.doOnCompleted(() -> {
+						Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_changed, ONStyle
+										.CONFIRM, crouton_handle);
+						crouton.setLifecycleCallback(new LifecycleCallback() {
+							@Override
+							public void onDisplayed() {
+								// Does nothing!
+							}
 
 
-    private void updatePassword(String passwordText, String questionText, String answerText) {
-        if (passwordText == null) {
-            if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
-                Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
-                return;
-            }
-            new MaterialDialog.Builder(mActivity)
-                    .content(R.string.agree_unlocking_all_notes)
-                    .positiveText(R.string.ok)
-                    .callback(new MaterialDialog.ButtonCallback() {
-                        @Override
-                        public void onPositive(MaterialDialog materialDialog) {
-                            removePassword();
-                        }
-                    }).build().show();
-        } else if (passwordText.length() == 0) {
-            Crouton.makeText(mActivity, R.string.empty_password, ONStyle.WARN, crouton_handle).show();
-
-        } else {
-            prefs.edit()
-                    .putString(Constants.PREF_PASSWORD, Security.md5(passwordText))
-                    .putString(Constants.PREF_PASSWORD_QUESTION, questionText)
-                    .putString(Constants.PREF_PASSWORD_ANSWER, Security.md5(answerText))
-                    .apply();
-            Crouton.makeText(mActivity, R.string.password_successfully_changed, ONStyle.CONFIRM, crouton_handle).show();
-        }
-    }
+							@Override
+							public void onRemoved() {
+								onBackPressed();
+							}
+						});
+						crouton.show();
+					})
+					.subscribe();
+		}
+	}
 
 
-    private void removePassword() {
-        unlockAllNotes();
-        passwordCheck.setText("");
-        password.setText("");
-        question.setText("");
-        answer.setText("");
-        answerCheck.setText("");
-        prefs.edit()
-                .remove(Constants.PREF_PASSWORD)
-                .remove(Constants.PREF_PASSWORD_QUESTION)
-                .remove(Constants.PREF_PASSWORD_ANSWER)
-                .remove("settings_password_access")
-                .apply();
-        Crouton.makeText(mActivity, R.string.password_successfully_removed,
-                ONStyle.ALERT, crouton_handle).show();
-    }
+	private void removePassword() {
+		Observable
+				.from(DbHelper.getInstance().getNotesWithLock(true))
+				.subscribeOn(Schedulers.newThread())
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnNext(note -> {
+					note.setLocked(false);
+					DbHelper.getInstance().updateNote(note, false);
+				})
+				.doOnCompleted(() -> {
+					passwordCheck.setText("");
+					password.setText("");
+					question.setText("");
+					answer.setText("");
+					answerCheck.setText("");
+					prefs.edit()
+							.remove(Constants.PREF_PASSWORD)
+							.remove(Constants.PREF_PASSWORD_QUESTION)
+							.remove(Constants.PREF_PASSWORD_ANSWER)
+							.remove("settings_password_access")
+							.apply();
+					Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle
+							.ALERT,
+							crouton_handle);
+					crouton.setLifecycleCallback(new LifecycleCallback() {
+						@Override
+						public void onDisplayed() {
+							// Does nothing!
+						}
+
+
+						@Override
+						public void onRemoved() {
+							onBackPressed();
+						}
+					});
+					crouton.show();
+
+				}).subscribe();
+	}
 
 
     /**

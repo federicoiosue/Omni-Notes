@@ -1,5 +1,6 @@
 package it.feio.android.omninotes.utils;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -10,6 +11,9 @@ import it.feio.android.omninotes.MainActivity;
 import java.util.Calendar;
 
 
+/**
+ * Created by fede on 29/05/15.
+ */
 public class MiscUtils {
 
 	/**
@@ -29,13 +33,13 @@ public class MiscUtils {
 
 
 	/**
-	 * Checks Google Play Store availability
-	 * @param context Application context
-	 * @return True if Play Store is installed on the device
+	 * Searches for Google Play app package
+	 * @param mActivity
+	 * @return
 	 */
-	public static boolean isGooglePlayAvailable(Context context) {
+	public static boolean isGooglePlayAvailable(Activity mActivity) {
 		try {
-			context.getPackageManager().getPackageInfo("com.android.vending", 0);
+			mActivity.getPackageManager().getPackageInfo("com.android.vending", 0);
 			return true;
 		} catch (PackageManager.NameNotFoundException e) {
 			return false;

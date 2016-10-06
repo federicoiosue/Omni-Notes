@@ -19,6 +19,7 @@ package it.feio.android.omninotes.utils.date;
 
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -26,6 +27,11 @@ import android.widget.DatePicker;
 import be.billington.calendar.recurrencepicker.RecurrencePickerDialog;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
+
+import java.util.Calendar;
+
+import be.billington.calendar.recurrencepicker.RecurrencePickerDialog;
+import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -105,6 +111,24 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener, Re
 							DateUtils.is24HourMode(mActivity));
 					mRadialTimePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
 				}, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+
+        SharedPreferences prefs = ((MainActivity) mActivity).prefs;
+        String firstDayOfWeekString = prefs.getString("settings_first_day_of_week",
+                Constants.PREF_FIRST_DAY_OF_WEEK_DEFAULT);
+        switch (firstDayOfWeekString) {
+            case "saturday":
+                mCalendarDatePickerDialog.setFirstDayOfWeek(Calendar.SATURDAY);
+                break;
+
+            case "sunday":
+                mCalendarDatePickerDialog.setFirstDayOfWeek(Calendar.SUNDAY);
+                break;
+
+            case "monday":
+                mCalendarDatePickerDialog.setFirstDayOfWeek(Calendar.MONDAY);
+                break;
+        }
+
         mCalendarDatePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
     }
 

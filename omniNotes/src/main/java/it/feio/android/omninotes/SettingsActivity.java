@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
@@ -23,22 +24,24 @@ import java.util.List;
 
 public class SettingsActivity extends ActionBarActivity implements FolderChooserDialog.FolderCallback {
 
-	@Bind(R.id.toolbar)
-	Toolbar toolbar;
-	@Bind(R.id.crouton_handle)
-	ViewGroup croutonViewContainer;
+    @Bind(R.id.crouton_handle) ViewGroup croutonViewContainer;
+    @Bind(R.id.outer_toolbar) AppBarLayout outerToolbar;
+    Toolbar toolbar;
 
 	private List<Fragment> backStack = new ArrayList<>();
 
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_settings);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
+
 		ButterKnife.bind(this);
-		initUI();
-		getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
-	}
+        toolbar = (Toolbar) outerToolbar.findViewById(R.id.toolbar);
+
+        initUI();
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
+    }
 
 
 	void initUI() {

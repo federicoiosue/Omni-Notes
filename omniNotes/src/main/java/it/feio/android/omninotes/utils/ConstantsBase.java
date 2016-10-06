@@ -26,7 +26,6 @@ public interface ConstantsBase {
 	String DEV_EMAIL = "federico.iosue@gmail.com";
 
 	// Used for updates retrieval
-	String ON_VERSION_CHECK_URL = "http://www.iosue.it/federico/apps/ON-version-check/get_app_data.php";
 	long UPDATE_MIN_FREQUENCY = 24 * 60 * 60 * 1000; // 1 day
 	String DRIVE_FOLDER_LAST_BUILD = "https://goo.gl/gB55RE";
 
@@ -84,6 +83,7 @@ public interface ConstantsBase {
 	String PREF_KEEP_CHECKMARKS = "show_checkmarks";
 	String PREF_EXPANDED_VIEW = "expanded_view";
 	String PREF_COLORS_APP_DEFAULT = "strip";
+	String PREF_FIRST_DAY_OF_WEEK_DEFAULT = "locale_default";
 	String PREF_WIDGET_PREFIX = "widget_";
 	String PREF_SHOW_UNCATEGORIZED = "settings_show_uncategorized";
 	String PREF_AUTO_LOCATION = "settings_auto_location";
@@ -119,4 +119,10 @@ public interface ConstantsBase {
 	String MERGED_NOTES_SEPARATOR = "----------------------";
 
 	String AUTO_BACKUP_DIR = "_autobackup";
+
+	// View modes
+	String PREF_VIEW_MODE = "pref_view_mode";
+	int VIEW_MODE_CONTRACTED = 1;
+	int VIEW_MODE_EXPANDED = 2;
+	int VIEW_MODE_GRID = 3;
 }

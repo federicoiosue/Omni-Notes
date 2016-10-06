@@ -147,6 +147,7 @@
   <string name="proceed">Weiter</string>
   <string name="contracted_view">Einfache Ansicht</string>
   <string name="expanded_view">Erweiterte Ansicht</string>
+  <string name="grid_view">Kachel Ansicht</string>
   <string name="add_shortcut">Verknüpfung hinzufügen</string>
   <string name="shortcut_added">Verknüpfung wurde dem Startbildschirm hinzugefügt</string>
   <string name="shortcut_note_deleted">Die Verknüpfung verweist auf eine gelöschte Notiz</string>

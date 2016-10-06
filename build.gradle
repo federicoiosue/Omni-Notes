@@ -21,12 +21,16 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
         classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
     }
     // Exclude the version that the android plugin depends on.
     configurations.classpath.exclude group: 'com.android.tools.external.lombok'
+}
+
+plugins {
+    id "org.sonarqube" version "2.0.1"
 }
 
 allprojects {
@@ -38,9 +42,9 @@ allprojects {
     }
 }
 
-apply plugin: "sonar-runner"
-sonarRunner {
-    sonarProperties {
+apply plugin: 'org.sonarqube'
+sonarqube {
+    properties {
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.analysis.mode", "incremental"
         property 'sonar.sourceEncoding', 'UTF-8'
@@ -49,8 +53,8 @@ sonarRunner {
     }
 }
 subprojects {
-    sonarRunner {
-        sonarProperties {
+    sonarqube {
+        properties {
             properties["sonar.sources"] += "omniNotes/src/main/java"
         }
     }

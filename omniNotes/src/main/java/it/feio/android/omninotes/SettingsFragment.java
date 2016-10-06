@@ -118,6 +118,8 @@ public class SettingsFragment extends PreferenceFragment {
 			case android.R.id.home:
 				getActivity().onBackPressed();
 				break;
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -343,7 +345,7 @@ public class SettingsFragment extends PreferenceFragment {
 					+ languageName.substring(1, languageName.length()));
 			lang.setOnPreferenceChangeListener((preference, value) -> {
 				OmniNotes.updateLanguage(getActivity(), value.toString());
-				MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+				SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 				return false;
 			});
 		}
@@ -379,6 +381,41 @@ public class SettingsFragment extends PreferenceFragment {
 				colorsApp.setSummary(colorsAppString1);
 				prefs.edit().putString("settings_colors_app", newValue.toString()).commit();
 				colorsApp.setValueIndex(colorsAppIndex1);
+				return false;
+			});
+		}
+
+
+		// First day of week
+		final ListPreference firstDayOfWeek = (ListPreference) findPreference("settings_first_day_of_week");
+		if (firstDayOfWeek != null) {
+			int firstDayOfWeekIndex = firstDayOfWeek.findIndexOfValue(prefs.getString("settings_first_day_of_week",
+					Constants.PREF_FIRST_DAY_OF_WEEK_DEFAULT));
+			String firstDayOfWeekString = getResources().getStringArray(R.array.first_day_of_week)[firstDayOfWeekIndex];
+			firstDayOfWeek.setSummary(firstDayOfWeekString);
+			firstDayOfWeek.setOnPreferenceChangeListener((preference, newValue) -> {
+				int firstDayOfWeekIndex1 = firstDayOfWeek.findIndexOfValue(newValue.toString());
+				String firstDayOfWeekString1 = getResources().getStringArray(R.array.first_day_of_week)[firstDayOfWeekIndex1];
+				firstDayOfWeek.setSummary(firstDayOfWeekString1);
+				prefs.edit().putString("settings_first_day_of_week", newValue.toString()).commit();
+				firstDayOfWeek.setValueIndex(firstDayOfWeekIndex1);
+				return false;
+			});
+		}
+
+
+		// Simple calendar
+		final SwitchPreference simpleCalendar = (SwitchPreference) findPreference("settings_simple_calendar");
+		if (simpleCalendar != null) {
+			if (firstDayOfWeek != null) {
+				firstDayOfWeek.setEnabled(!simpleCalendar.isChecked());
+			}
+			simpleCalendar.setOnPreferenceChangeListener((preference, newValue) -> {
+				boolean value = (Boolean) newValue;
+				simpleCalendar.setChecked(value);
+				if (firstDayOfWeek != null) {
+					firstDayOfWeek.setEnabled(!value);
+				}
 				return false;
 			});
 		}
@@ -491,7 +528,7 @@ public class SettingsFragment extends PreferenceFragment {
 								StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
 								File cacheDir = StorageHelper.getCacheDir(getActivity());
 								StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
-								MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 							}
 						})
 						.build().show();
@@ -516,7 +553,7 @@ public class SettingsFragment extends PreferenceFragment {
 										"settings_tour_show_again");
 
 								prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
-								MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 							}
 						}).build().show();
 				return false;
@@ -745,6 +782,9 @@ public class SettingsFragment extends PreferenceFragment {
 					String notificationSound = uri == null ? null : uri.toString();
 					prefs.edit().putString("settings_notification_ringtone", notificationSound).apply();
 					break;
+
+				default:
+					Log.e(Constants.TAG, "Wrong element choosen: " + requestCode);
 			}
 		}
 	}

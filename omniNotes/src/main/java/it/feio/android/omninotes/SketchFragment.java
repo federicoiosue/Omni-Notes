@@ -199,6 +199,8 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
             case android.R.id.home:
                 getActivity().onBackPressed();
                 break;
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
     }
@@ -288,7 +290,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         int calcProgress = progress > 1 ? progress : 1;
 
         int newSize = Math.round((size / 100f) * calcProgress);
-        int offset = Math.round((size - newSize) / 2);
+        int offset = (size - newSize) / 2;
         Log.v(Constants.TAG, "Stroke size " + newSize + " (" + calcProgress + "%)");
 
         LayoutParams lp = new LayoutParams(newSize, newSize);
