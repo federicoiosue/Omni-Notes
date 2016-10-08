@@ -63,7 +63,6 @@ import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.services.AutoBackupFileModificationService;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.MiscUtils;
 import it.feio.android.omninotes.utils.StorageHelper;
@@ -141,8 +140,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     private void init() {
-
-		startService(new Intent(getApplicationContext(), AutoBackupFileModificationService.class));
 
         mFragmentManager = getSupportFragmentManager();
 

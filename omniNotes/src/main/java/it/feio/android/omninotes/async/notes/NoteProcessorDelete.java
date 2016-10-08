@@ -59,7 +59,6 @@ public class NoteProcessorDelete extends NoteProcessor {
 
 	@Override
 	protected void afterProcess(List<Note> notes) {
-		super.afterProcess(notes);
 		EventBus.getDefault().post(new NotesDeletedEvent(notes));
 	}
 

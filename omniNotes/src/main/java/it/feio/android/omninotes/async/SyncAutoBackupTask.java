@@ -78,7 +78,6 @@ public class SyncAutoBackupTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean refreshNotes) {
-
 		if (refreshNotes) {
 			EventBus.getDefault().post(new NotesUpdatedEvent(Collections.emptyList()));
 		}
