@@ -17,6 +17,10 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.2.19" changeDate="Oct 17, 2016">
+        <changelogtext>[i]Improved[/i] Password forgotten? Use your personal question/answer to reset it!</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.2.18" changeDate="Oct 5, 2016">
         <changelogtext>[i]Improved[/i] Updated translations</changelogtext>
         <changelogtext>[u]Fix[/u] Reminders now work again on Android Nougat</changelogtext>
