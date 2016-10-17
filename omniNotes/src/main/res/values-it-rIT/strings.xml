@@ -299,7 +299,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_text_size">Dimensione testo</string>
   <string name="settings_screen_behaviors">Comportamenti</string>
   <string name="settings_enable_swipe">Trascina note</string>
-  <string name="settings_enable_swipe_summary">Trascina orizontalmente una nota per compiere delle azioni</string>
+  <string name="settings_enable_swipe_summary">Trascina orizzontalmente una nota per compiere delle azioni</string>
   <string name="settings_swipe_to_trash">Scorri per cancellare</string>
   <string name="settings_swipe_to_trash_summary_1">Scorrendo le note con il dito, verranno archiviate</string>
   <string name="settings_swipe_to_trash_summary_2">Scorrendo le note con il dito, verranno spostate nel cestino</string>

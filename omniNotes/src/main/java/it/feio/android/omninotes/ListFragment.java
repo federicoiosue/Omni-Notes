@@ -29,6 +29,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.*;
+import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -45,6 +46,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
@@ -861,7 +863,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     void editNote(final Note note, final View view) {
         if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
-            BaseActivity.requestPassword(mainActivity, passwordConfirmed -> {
+            PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
 				if (passwordConfirmed) {
 					note.setPasswordChecked(true);
 					AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
@@ -1263,22 +1265,19 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     /**
      * Batch note permanent deletion
      */
-    private void deleteNotes() {
-        new MaterialDialog.Builder(mainActivity)
-                .content(R.string.delete_note_confirmation)
-                .positiveText(R.string.ok)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog materialDialog) {
-                        mainActivity.requestPassword(mainActivity, getSelectedNotes(),
-                                passwordConfirmed -> {
-                                    if (passwordConfirmed) {
-                                        deleteNotesExecute();
-                                    }
-                                });
-                    }
-                }).build().show();
-    }
+	private void deleteNotes() {
+		new MaterialDialog.Builder(mainActivity)
+				.content(R.string.delete_note_confirmation)
+				.positiveText(R.string.ok)
+				.onPositive((dialog, which) -> mainActivity.requestPassword(mainActivity, getSelectedNotes(),
+						passwordConfirmed -> {
+							if (passwordConfirmed) {
+								deleteNotesExecute();
+							}
+						}))
+				.build()
+				.show();
+	}
 
 
     /**
