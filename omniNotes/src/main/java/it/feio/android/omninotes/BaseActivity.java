@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
@@ -37,13 +38,12 @@ import android.util.Log;
 import android.view.*;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.KeyboardUtils;
-import it.feio.android.omninotes.utils.Navigation;
-import it.feio.android.omninotes.utils.Security;
+import it.feio.android.omninotes.utils.*;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
 
 import java.lang.reflect.Field;
@@ -104,82 +104,31 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Method to validate security password to protect notes.
-     * It uses an interface callback.
-     */
-    public static void requestPassword(final Activity mActivity, final PasswordValidator mPasswordValidator) {
+	/**
+	 * Method to validate security password to protect a list of notes.
+	 * When "Request password on access" in switched on this check not required all the times.
+	 * It uses an interface callback.
+	 */
+	public void requestPassword(final Activity mActivity, List<Note> notes,
+								final PasswordValidator mPasswordValidator) {
+		if (prefs.getBoolean("settings_password_access", false)) {
+			mPasswordValidator.onPasswordValidated(true);
+			return;
+		}
 
-        // Inflate layout
-        LayoutInflater inflater = mActivity.getLayoutInflater();
-        final View v = inflater.inflate(R.layout.password_request_dialog_layout, null);
-        final EditText passwordEditText = (EditText) v.findViewById(R.id.password_request);
-
-        MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
-                .autoDismiss(false)
-                .title(R.string.insert_security_password)
-                .customView(v, false)
-                .positiveText(R.string.ok)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        // When positive button is pressed password correctness is checked
-                        String oldPassword = mActivity.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS)
-                                .getString(Constants.PREF_PASSWORD, "");
-                        String password = passwordEditText.getText().toString();
-                        // The check is done on password's hash stored in preferences
-                        boolean result = Security.md5(password).equals(oldPassword);
-
-                        // In case password is ok dialog is dismissed and result sent to callback
-                        if (result) {
-                            KeyboardUtils.hideKeyboard(passwordEditText);
-                            dialog.dismiss();
-                            mPasswordValidator.onPasswordValidated(true);
-                            // If password is wrong the auth flow is not interrupted and simply a message is shown
-                        } else {
-                            passwordEditText.setError(mActivity.getString(R.string.wrong_password));
-                        }
-                    }
-                }).build();
-
-        dialog.setOnCancelListener(dialog1 -> {
-			KeyboardUtils.hideKeyboard(passwordEditText);
-			dialog1.dismiss();
-			mPasswordValidator.onPasswordValidated(false);
-		});
-
-        dialog.show();
-
-        // Force focus and shows soft keyboard
-		new Handler().postDelayed(() -> KeyboardUtils.showKeyboard(passwordEditText), 100);
-    }
-
-
-    /**
-     * Method to validate security password to protect a list of notes.
-     * When "Request password on access" in switched on this check not required all the times.
-     * It uses an interface callback.
-     */
-    public void requestPassword(final Activity mActivity, List<Note> notes, 
-                                final PasswordValidator mPasswordValidator) {
-        if (prefs.getBoolean("settings_password_access", false)) {
-            mPasswordValidator.onPasswordValidated(true);
-            return;
-        }
-
-        boolean askForPassword = false;
-        for (Note note : notes) {
-            if (note.isLocked()) {
-                askForPassword = true;
-                break;
-            }
-        }
-        if (askForPassword) {
-            BaseActivity.requestPassword(mActivity, mPasswordValidator::onPasswordValidated);
-        } else {
-            mPasswordValidator.onPasswordValidated(true);
-        }
-    }
+		boolean askForPassword = false;
+		for (Note note : notes) {
+			if (note.isLocked()) {
+				askForPassword = true;
+				break;
+			}
+		}
+		if (askForPassword) {
+			PasswordHelper.requestPassword(mActivity, mPasswordValidator);
+		} else {
+			mPasswordValidator.onPasswordValidated(true);
+		}
+	}
 
 
 	public boolean updateNavigation(String nav) {
