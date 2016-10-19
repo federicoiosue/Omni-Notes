@@ -147,7 +147,7 @@
   <string name="proceed">Folytatás</string>
   <string name="contracted_view">Csökkentett nézet</string>
   <string name="expanded_view">Bővített nézet</string>
-  <string name="grid_view">Rácsnézet</string>
+  <string name="grid_view">Rács nézet</string>
   <string name="add_shortcut">Parancsikon létrehozása</string>
   <string name="shortcut_added">Parancsikon létrehozása a kezdő képernyőn</string>
   <string name="shortcut_note_deleted">Hivatkozás törölt jegyzethez</string>

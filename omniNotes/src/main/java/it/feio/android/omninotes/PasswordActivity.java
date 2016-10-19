@@ -20,23 +20,19 @@ package it.feio.android.omninotes;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
-import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.LifecycleCallback;
-import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.Security;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 
@@ -75,7 +71,7 @@ public class PasswordActivity extends BaseActivity {
 
         findViewById(R.id.password_remove).setOnClickListener(v -> {
 			if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
-				requestPassword(mActivity, passwordConfirmed -> {
+				PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
 					if (passwordConfirmed) {
 						updatePassword(null, null, null);
 					}
@@ -91,7 +87,7 @@ public class PasswordActivity extends BaseActivity {
 				final String questionText = question.getText().toString();
 				final String answerText = answer.getText().toString();
 				if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
-					requestPassword(mActivity, passwordConfirmed -> {
+					PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
 						if (passwordConfirmed) {
 							updatePassword(passwordText, questionText, answerText);
 						}
@@ -107,34 +103,35 @@ public class PasswordActivity extends BaseActivity {
 				Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
 				return;
 			}
-			// Inflate layout
-			View layout = getLayoutInflater().inflate(R.layout.password_reset_dialog_layout, null);
-			final EditText answerEditText = (EditText) layout.findViewById(R.id.reset_password_answer);
-
-			new MaterialDialog.Builder(mActivity)
-					.title(prefs.getString(Constants.PREF_PASSWORD_QUESTION, ""))
-					.customView(layout, false)
-					.autoDismiss(false)
-					.contentColorRes(R.color.text_color)
-					.positiveText(R.string.ok)
-					.callback(new MaterialDialog.ButtonCallback() {
-						@Override
-						public void onPositive(MaterialDialog materialDialog) {
-							// When positive button is pressed answer correctness is checked
-							String oldAnswer = prefs.getString(Constants.PREF_PASSWORD_ANSWER, "");
-							String answer1 = answerEditText.getText().toString();
-							// The check is done on password's hash stored in preferences
-							boolean result = Security.md5(answer1).equals(oldAnswer);
-
-							if (result) {
-								removePassword();
-							} else {
-								answerEditText.setError(getString(R.string.wrong_answer));
-							}
-						}
-					}).build().show();
+			PasswordHelper.resetPassword(this);
 		});
     }
+
+
+
+	public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+			passwordCheck.setText("");
+			password.setText("");
+			question.setText("");
+			answer.setText("");
+			answerCheck.setText("");
+			Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle
+							.ALERT,
+					crouton_handle);
+			crouton.setLifecycleCallback(new LifecycleCallback() {
+				@Override
+				public void onDisplayed() {
+					// Does nothing!
+				}
+
+
+				@Override
+				public void onRemoved() {
+					onBackPressed();
+				}
+			});
+			crouton.show();
+	}
 
 
 	@SuppressLint("CommitPrefEdits")
@@ -150,7 +147,7 @@ public class PasswordActivity extends BaseActivity {
 					.callback(new MaterialDialog.ButtonCallback() {
 						@Override
 						public void onPositive(MaterialDialog materialDialog) {
-							removePassword();
+							PasswordHelper.removePassword();
 						}
 					}).build().show();
 		} else if (passwordText.length() == 0) {
@@ -185,48 +182,6 @@ public class PasswordActivity extends BaseActivity {
 					})
 					.subscribe();
 		}
-	}
-
-
-	private void removePassword() {
-		Observable
-				.from(DbHelper.getInstance().getNotesWithLock(true))
-				.subscribeOn(Schedulers.newThread())
-				.observeOn(AndroidSchedulers.mainThread())
-				.doOnNext(note -> {
-					note.setLocked(false);
-					DbHelper.getInstance().updateNote(note, false);
-				})
-				.doOnCompleted(() -> {
-					passwordCheck.setText("");
-					password.setText("");
-					question.setText("");
-					answer.setText("");
-					answerCheck.setText("");
-					prefs.edit()
-							.remove(Constants.PREF_PASSWORD)
-							.remove(Constants.PREF_PASSWORD_QUESTION)
-							.remove(Constants.PREF_PASSWORD_ANSWER)
-							.remove("settings_password_access")
-							.apply();
-					Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle
-							.ALERT,
-							crouton_handle);
-					crouton.setLifecycleCallback(new LifecycleCallback() {
-						@Override
-						public void onDisplayed() {
-							// Does nothing!
-						}
-
-
-						@Override
-						public void onRemoved() {
-							onBackPressed();
-						}
-					});
-					crouton.show();
-
-				}).subscribe();
 	}
 
 
