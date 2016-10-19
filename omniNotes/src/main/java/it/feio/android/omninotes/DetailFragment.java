@@ -391,8 +391,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		if (noteTmp != null) {
-			noteTmp.setTitle(getNoteTitle());
-			noteTmp.setContent(getNoteContent());
+			// If note is locked then we don't need to update any fields.
+			if (!noteTmp.isLocked() || noteTmp.isPasswordChecked()) {
+				noteTmp.setTitle(getNoteTitle());
+				noteTmp.setContent(getNoteContent());
+			}
 			outState.putParcelable("noteTmp", noteTmp);
 			outState.putParcelable("note", note);
 			outState.putParcelable("noteOriginal", noteOriginal);
@@ -412,7 +415,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		activityPausing = true;
 
 		// Checks "goBack" value to avoid performing a double saving
-		if (!goBack) {
+		// and checks whether note is locked currently by showing pop-up dialog if so avoid saving the note.
+		if (!goBack && (!noteTmp.isLocked() || noteTmp.isPasswordChecked())) {
 			saveNote(this);
 		}
 

@@ -26,25 +26,26 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.*;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.afollestad.materialdialogs.MaterialDialog;
-import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.helpers.AnalyticsHelper;
-import it.feio.android.omninotes.helpers.PermissionsHelper;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.utils.*;
+
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
@@ -52,6 +53,17 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
+import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.AnalyticsHelper;
+import it.feio.android.omninotes.helpers.PermissionsHelper;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.ResourcesUtils;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.SystemHelper;
 
 
 public class SettingsFragment extends PreferenceFragment {
@@ -75,15 +87,18 @@ public class SettingsFragment extends PreferenceFragment {
 		addPreferencesFromResource(xmlId);
 	}
 
-
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		this.activity = activity;
 		prefs = activity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-		setTitle();
 	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		setTitle();
+	}
 
 	private void setTitle() {
 		String title = getString(R.string.settings);
@@ -98,20 +113,6 @@ public class SettingsFragment extends PreferenceFragment {
 		Toolbar toolbar = ((Toolbar) getActivity().findViewById(R.id.toolbar));
 		if (toolbar != null) toolbar.setTitle(title);
 	}
-
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				getActivity().onBackPressed();
-				break;
-			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 
 	@Override
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
