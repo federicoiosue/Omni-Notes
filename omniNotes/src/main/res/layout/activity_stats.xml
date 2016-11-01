@@ -41,7 +41,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Total notes"
+                android:text="@string/stats_total_notes"
                 android:textStyle="bold" >
             </TextView>
 
@@ -64,7 +64,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Active notes"
+                android:text="@string/stats_active_notes"
                 android:textStyle="bold" >
             </TextView>
 
@@ -87,7 +87,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Archived notes"
+                android:text="@string/stats_archived_notes"
                 android:textStyle="bold" >
             </TextView>
 
@@ -110,7 +110,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Trashed notes"
+                android:text="@string/stats_trashed_notes"
                 android:textStyle="bold" >
             </TextView>
 
@@ -133,7 +133,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Reminders"
+                android:text="@string/stats_reminders"
                 android:textStyle="bold" >
             </TextView>
 
@@ -156,7 +156,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Futures reminders"
+                android:text="@string/stats_future_reminders"
                 android:textStyle="bold" >
             </TextView>
 
@@ -179,7 +179,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Checklists"
+                android:text="@string/stats_checklists"
                 android:textStyle="bold" >
             </TextView>
 
@@ -202,7 +202,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Masked notes"
+                android:text="@string/stats_masked_notes"
                 android:textStyle="bold" >
             </TextView>
 
@@ -225,7 +225,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Categories"
+                android:text="@string/stats_categories"
                 android:textStyle="bold" >
             </TextView>
 
@@ -248,7 +248,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Tags"
+                android:text="@string/stats_tags"
                 android:textStyle="bold" >
             </TextView>
 
@@ -271,7 +271,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Attachments"
+                android:text="@string/stats_attachments"
                 android:textStyle="bold" >
             </TextView>
 
@@ -294,7 +294,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Images"
+                android:text="@string/stats_attachments"
                 android:textStyle="bold" >
             </TextView>
 
@@ -317,7 +317,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Videos"
+                android:text="@string/stats_videos"
                 android:textStyle="bold" >
             </TextView>
 
@@ -340,7 +340,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Audio recordings"
+                android:text="@string/stats_audio_recordings"
                 android:textStyle="bold" >
             </TextView>
 
@@ -363,7 +363,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Sketches"
+                android:text="@string/stats_sketches"
                 android:textStyle="bold" >
             </TextView>
 
@@ -386,7 +386,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Files"
+                android:text="@string/stats_files"
                 android:textStyle="bold" >
             </TextView>
 
@@ -409,7 +409,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Locations"
+                android:text="@string/stats_locations"
                 android:textStyle="bold" >
             </TextView>
 
@@ -432,7 +432,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Words"
+                android:text="@string/stats_words"
                 android:textStyle="bold" >
             </TextView>
 
@@ -455,7 +455,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Max words"
+                android:text="@string/stats_max_words"
                 android:textStyle="bold" >
             </TextView>
 
@@ -478,7 +478,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Average words"
+                android:text="@string/stats_avg_words"
                 android:textStyle="bold" >
             </TextView>
 
@@ -501,7 +501,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Chars"
+                android:text="@string/stats_characters"
                 android:textStyle="bold" >
             </TextView>
 
@@ -524,7 +524,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Max chars"
+                android:text="@string/stats_max_characters"
                 android:textStyle="bold" >
             </TextView>
 
@@ -547,7 +547,7 @@
                 android:gravity="end|right"
                 android:paddingEnd="5dp"
                 android:paddingRight="7dp"
-                android:text="Average chars"
+                android:text="@string/stats_avg_characters"
                 android:textStyle="bold" >
             </TextView>
 
