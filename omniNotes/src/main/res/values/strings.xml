@@ -334,7 +334,7 @@
     <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
     <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
     <string name="settings_prettified_dates">Prettified dates</string>
-    <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
+    <string name="settings_prettified_dates_summary_on">Dates are shown in a simpler format</string>
     <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
     <string name="settings_screen_privacy">Privacy</string>
     <string name="settings_error_reporting">Error reporting</string>
