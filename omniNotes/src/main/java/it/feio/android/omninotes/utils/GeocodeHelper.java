@@ -25,6 +25,7 @@ import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationParams;
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider;
 import io.nlopez.smartlocation.rx.ObservableFactory;
+import it.feio.android.omninotes.BuildConfig;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import org.json.JSONArray;
@@ -40,6 +41,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -53,7 +55,6 @@ public class GeocodeHelper implements LocationListener {
 	private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
 	private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
 	private static final String OUT_JSON = "/json";
-	private static final String API_KEY = "AIzaSyBq_nZEz9sZMwEJ28qmbg20CFG1Xo1JGp0";
 
 	private static GeocodeHelper instance;
 	private static LocationManager locationManager;
@@ -121,8 +122,8 @@ public class GeocodeHelper implements LocationListener {
 	}
 
 
-	static String getAddressFromCoordinates(Context mContext, double latitude,
-											double longitude) throws IOException {
+	public static String getAddressFromCoordinates(Context mContext, double latitude,
+												   double longitude) throws IOException {
 		String addressString = "";
 		Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
 		List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
@@ -174,13 +175,18 @@ public class GeocodeHelper implements LocationListener {
 	}
 
 
-	public static ArrayList<String> autocomplete(String input) {
-		ArrayList<String> resultList = new ArrayList<>();
+	public static List<String> autocomplete(String input) {
+		String MAPS_API_KEY = BuildConfig.MAPS_API_KEY;
+		if (TextUtils.isEmpty(MAPS_API_KEY)) {
+			return Collections.emptyList();
+		}
+		ArrayList<String> resultList = null;
+
 		HttpURLConnection conn = null;
 		StringBuilder jsonResults = new StringBuilder();
 		InputStreamReader in = null;
 		try {
-			URL url = new URL(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON + "?key=" + API_KEY + "&input=" +
+			URL url = new URL(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON + "?key=" + MAPS_API_KEY + "&input=" +
 					URLEncoder.encode(input, "utf8"));
 			conn = (HttpURLConnection) url.openConnection();
 			in = new InputStreamReader(conn.getInputStream());
@@ -190,6 +196,19 @@ public class GeocodeHelper implements LocationListener {
 			while ((read = in.read(buff)) != -1) {
 				jsonResults.append(buff, 0, read);
 			}
+		} catch (MalformedURLException e) {
+			Log.e(Constants.TAG, "Error processing Places API URL");
+			return null;
+		} catch (IOException e) {
+			Log.e(Constants.TAG, "Error connecting to Places API");
+			return null;
+		} finally {
+			if (conn != null) {
+				conn.disconnect();
+			}
+		}
+
+		try {
 			// Create a JSON object hierarchy from the results
 			JSONObject jsonObj = new JSONObject(jsonResults.toString());
 			JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
