@@ -20,6 +20,7 @@ package it.feio.android.omninotes.utils;
 import android.content.Context;
 import android.location.*;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationParams;
@@ -198,7 +199,7 @@ public class GeocodeHelper implements LocationListener {
 			}
 		} catch (MalformedURLException e) {
 			Log.e(Constants.TAG, "Error processing Places API URL");
-			return null;
+			return null;conn
 		} catch (IOException e) {
 			Log.e(Constants.TAG, "Error connecting to Places API");
 			return null;
@@ -217,10 +218,6 @@ public class GeocodeHelper implements LocationListener {
 			for (int i = 0; i < predsJsonArray.length(); i++) {
 				resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
 			}
-		} catch (MalformedURLException e) {
-			Log.e(Constants.TAG, "Error processing Places API URL");
-		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error connecting to Places API");
 		} catch (JSONException e) {
 			Log.e(Constants.TAG, "Cannot process JSON results", e);
 		} finally {
