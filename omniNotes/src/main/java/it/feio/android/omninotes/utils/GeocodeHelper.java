@@ -199,7 +199,7 @@ public class GeocodeHelper implements LocationListener {
 			}
 		} catch (MalformedURLException e) {
 			Log.e(Constants.TAG, "Error processing Places API URL");
-			return null;conn
+			return null;
 		} catch (IOException e) {
 			Log.e(Constants.TAG, "Error connecting to Places API");
 			return null;

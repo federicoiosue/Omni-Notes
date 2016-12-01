@@ -1633,7 +1633,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			note.setLatitude(noteTmp.getLatitude());
 			note.setLongitude(noteTmp.getLongitude());
 		}
-		return !noteTmp.isChanged(note);
+		return !noteTmp.isChanged(note) || (noteTmp.isLocked() && !noteTmp.isPasswordChecked());
 	}
 
 
