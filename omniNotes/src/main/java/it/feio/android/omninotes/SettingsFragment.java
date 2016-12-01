@@ -273,7 +273,7 @@ public class SettingsFragment extends PreferenceFragment {
 				passwordAccess.setEnabled(true);
 			}
 			passwordAccess.setOnPreferenceChangeListener((preference, newValue) -> {
-				BaseActivity.requestPassword(getActivity(), passwordConfirmed -> {
+				PasswordHelper.requestPassword(getActivity(), passwordConfirmed -> {
 					if (passwordConfirmed) {
 						passwordAccess.setChecked((Boolean) newValue);
 					}

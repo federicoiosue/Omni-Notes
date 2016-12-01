@@ -43,6 +43,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import it.feio.android.omninotes.async.UpdaterTask;
+import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
@@ -51,6 +52,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 
 import java.util.ArrayList;
@@ -77,6 +79,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		setTheme(R.style.OmniNotesTheme_ApiSpec);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+		EventBus.getDefault().register(this);
 
         // This method starts the bootstrap chain.
         checkPassword();
@@ -98,10 +101,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
-    private void checkPassword() {
-        if (prefs.getString(Constants.PREF_PASSWORD, null) != null
-                && prefs.getBoolean("settings_password_access", false)) {
-            requestPassword(this, passwordConfirmed -> {
+	private void checkPassword() {
+		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
+				&& prefs.getBoolean("settings_password_access", false)) {
+            PasswordHelper.requestPassword(this, passwordConfirmed -> {
 				if (passwordConfirmed) {
 					init();
 				} else {
@@ -110,11 +113,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			});
         } else {
             init();
-        }
-    }
+		}
+	}
 
 
-    private void init() {
+	public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+		init();
+	}
+
+
+	private void init() {
         mFragmentManager = getSupportFragmentManager();
 
         NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager

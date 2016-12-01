@@ -389,7 +389,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (note.isLocked()
 				&& prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& !prefs.getBoolean("settings_password_access", false)) {
-			BaseActivity.requestPassword(mainActivity, passwordConfirmed -> {
+			PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
 				if (passwordConfirmed) {
 					noteTmp.setPasswordChecked(true);
 					init();
@@ -1740,7 +1740,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 
 		// Password will be requested here
-		BaseActivity.requestPassword(mainActivity, passwordConfirmed -> {
+		PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
 			if (passwordConfirmed) {
 				lockUnlock();
 			}
