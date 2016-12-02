@@ -84,6 +84,7 @@ import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.AnalyticsHelper;
+import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.*;
@@ -107,6 +108,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
+import static java.lang.Integer.parseInt;
 
 
 public class DetailFragment extends BaseFragment implements OnReminderPickedListener, OnTouchListener,
@@ -384,7 +386,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (note.isLocked()
 				&& prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& !prefs.getBoolean("settings_password_access", false)) {
-			BaseActivity.requestPassword(mainActivity, passwordConfirmed -> {
+			PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
 				if (passwordConfirmed) {
 					noteTmp.setPasswordChecked(true);
 					init();
@@ -566,7 +568,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			onTimeSetListener = reminderPicker;
 		});
 
-
 		reminder_layout.setOnLongClickListener(v -> {
 			MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
 					.content(R.string.remove_reminder)
@@ -732,17 +733,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		});
 
 		mGridView.setOnItemLongClickListener((parent, v, position, id) -> {
-
 			// To avoid deleting audio attachment during playback
 			if (mPlayer != null) return false;
-
 			List<String> items = Arrays.asList(getResources().getStringArray(R.array.attachments_actions));
 			if (!Constants.MIME_TYPE_SKETCH.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
 				items = items.subList(0, items.size() - 1);
 			}
-
+			Attachment attachment = mAttachmentAdapter.getItem(position);
 			new MaterialDialog.Builder(mainActivity)
-					.title(mAttachmentAdapter.getItem(position).getName())
+					.title(attachment.getName() + " (" + AttachmentsHelper.getSize(attachment) + ")")
 					.items(items.toArray(new String[items.size()]))
 					.itemsCallback((materialDialog, view, i, charSequence) ->
 							performAttachmentAction(position, i))
@@ -867,7 +866,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			// Coloring the target
 			if (tag != null && tag.getColor() != null) {
 				for (View view : target) {
-					view.setBackgroundColor(Integer.parseInt(tag.getColor()));
+					view.setBackgroundColor(parseInt(tag.getColor()));
 				}
 			} else {
 				for (View view : target) {
@@ -923,7 +922,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 								if (TextUtils.isEmpty(autoCompView.getText().toString())) {
 									noteTmp.setLatitude(location.getLatitude());
 									noteTmp.setLongitude(location.getLongitude());
-//									GeocodeHelper.getAddressFromCoordinates(location, mFragment);
+									GeocodeHelper.getAddressFromCoordinates(location, mFragment);
 								} else {
 									GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(),
 											mFragment);
@@ -1134,6 +1133,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			case R.id.menu_delete:
 				deleteNote();
 				break;
+			default: Log.w(Constants.TAG, "Invalid menu option selected");
 		}
 
 		AnalyticsHelper.trackActionFromResourceId(getActivity(), item.getItemId());
@@ -1212,7 +1212,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				.newEntryHint(getString(R.string.checklist_item_hint))
 				.keepChecked(keepChecked)
 				.undoBarContainerView(scrollView)
-				.moveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior", String.valueOf
+				.moveCheckedOnBottom(parseInt(prefs.getString("settings_checked_items_behavior", String.valueOf
 						(it.feio.android.checklistview.Settings.CHECKED_HOLD))));
 
 		// Links parsing options
@@ -1383,7 +1383,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 		String maxVideoSizeStr = "".equals(prefs.getString("settings_max_video_size",
 				"")) ? "0" : prefs.getString("settings_max_video_size", "");
-		int maxVideoSize = Integer.parseInt(maxVideoSizeStr);
+		int maxVideoSize = parseInt(maxVideoSizeStr);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Long.valueOf(maxVideoSize * 1024 * 1024));
 		startActivityForResult(takeVideoIntent, TAKE_VIDEO);
 	}
@@ -1462,6 +1462,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				case DETAIL:
 					mainActivity.showMessage(R.string.note_updated, ONStyle.CONFIRM);
 					break;
+				default:
+					Log.e(Constants.TAG, "Wrong element choosen: " + requestCode);
 			}
 		}
 	}
@@ -1614,7 +1616,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
-		// Saving changes to the note
 		new SaveNoteTask(mOnNoteSaved, lastModificationUpdatedNeeded()).executeOnExecutor(AsyncTask
 				.THREAD_POOL_EXECUTOR, noteTmp);
 	}
@@ -1628,7 +1629,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			note.setLatitude(noteTmp.getLatitude());
 			note.setLongitude(noteTmp.getLongitude());
 		}
-		return !noteTmp.isChanged(note);
+		return !noteTmp.isChanged(note) || (noteTmp.isLocked() && !noteTmp.isPasswordChecked());
 	}
 
 
@@ -1647,9 +1648,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public void onNoteSaved(Note noteSaved) {
+		MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
 		if (!activityPausing) {
 			EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(noteSaved)));
-			MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
 			deleteMergedNotes(mergedNotesIds);
 			if (noteTmp.getAlarm() != null && !noteTmp.getAlarm().equals(note.getAlarm())) {
 				ReminderHelper.showReminderMessage(noteTmp.getAlarm());
@@ -1736,7 +1737,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 
 		// Password will be requested here
-		BaseActivity.requestPassword(mainActivity, passwordConfirmed -> {
+		PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
 			if (passwordConfirmed) {
 				lockUnlock();
 			}
@@ -2053,6 +2054,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					}
 				}
 				break;
+
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + event.getAction());
 		}
 
 		return true;
@@ -2373,6 +2377,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 							null, 0);
 					attachmentDialog.dismiss();
 					break;
+				default:
+					Log.e(Constants.TAG, "Wrong element choosen: " + v.getId());
 			}
 		}
 	}

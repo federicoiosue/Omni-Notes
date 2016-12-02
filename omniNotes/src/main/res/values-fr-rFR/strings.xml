@@ -147,6 +147,7 @@
   <string name="proceed">Continuer</string>
   <string name="contracted_view">Vue réduite</string>
   <string name="expanded_view">Vue étendue</string>
+  <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Ajouter un raccourci</string>
   <string name="shortcut_added">Raccourci ajouté à l\'écran d\'accueil</string>
   <string name="shortcut_note_deleted">Le raccourci pointe vers une note supprimée</string>
@@ -275,6 +276,7 @@
   <string name="minutes">minutes</string>
   <string name="settings_simple_calendar">Date et heure simplifiées</string>
   <string name="settings_simple_calendar_summary">Utiliser l\'interface Android (plus simple) pour la sélection de la date/heure au lieu de l\'interface Google</string>
+  <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Présentation</string>
   <string name="settings_tour_show_again_summary">Afficher à nouveau la présentation de l\'application</string>
   <string name="backup_include_settings">Inclure paramètres et mot de passe</string>

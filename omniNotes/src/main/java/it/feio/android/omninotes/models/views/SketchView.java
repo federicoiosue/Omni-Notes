@@ -21,11 +21,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
+import it.feio.android.omninotes.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -44,7 +46,6 @@ public class SketchView extends View implements OnTouchListener {
     private float eraserSize = DEFAULT_ERASER_SIZE;
     private int background = Color.WHITE;
 
-    //	private Canvas mCanvas;
     private Path m_Path;
     private Paint m_Paint;
     private float mX, mY;
@@ -81,7 +82,6 @@ public class SketchView extends View implements OnTouchListener {
         m_Paint.setStrokeCap(Paint.Cap.ROUND);
         m_Paint.setStrokeWidth(strokeSize);
         m_Path = new Path();
-        Paint newPaint = new Paint(m_Paint);
         invalidate();
     }
 
@@ -156,6 +156,8 @@ public class SketchView extends View implements OnTouchListener {
                 touch_up();
                 invalidate();
                 break;
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + event.getAction());
         }
         return true;
     }
@@ -187,11 +189,9 @@ public class SketchView extends View implements OnTouchListener {
             m_Paint.setStrokeWidth(strokeSize);
         }
 
-        Paint newPaint = new Paint(m_Paint); // Clones the mPaint object
-
         // Avoids that a sketch with just erasures is saved
         if (!(paths.size() == 0 && mode == ERASER && bitmap == null)) {
-            paths.add(new Pair<>(m_Path, newPaint));
+            paths.add(new Pair<>(m_Path, new Paint(m_Paint)));
         }
 
         m_Path.reset();
@@ -202,8 +202,6 @@ public class SketchView extends View implements OnTouchListener {
 
 
     private void touch_move(float x, float y) {
-        float dx = Math.abs(x - mX);
-        float dy = Math.abs(y - mY);
         m_Path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
         mX = x;
         mY = y;
@@ -212,13 +210,10 @@ public class SketchView extends View implements OnTouchListener {
 
     private void touch_up() {
         m_Path.lineTo(mX, mY);
-        Paint newPaint = new Paint(m_Paint); // Clones the mPaint object
-
         // Avoids that a sketch with just erasures is saved
         if (!(paths.size() == 0 && mode == ERASER && bitmap == null)) {
-            paths.add(new Pair<>(m_Path, newPaint));
+            paths.add(new Pair<>(m_Path, new Paint(m_Paint)));
         }
-
         // kill this so we don't double draw
         m_Path = new Path();
     }
@@ -302,6 +297,8 @@ public class SketchView extends View implements OnTouchListener {
             case ERASER:
                 eraserSize = size;
                 break;
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + eraserOrStroke);
         }
 
     }

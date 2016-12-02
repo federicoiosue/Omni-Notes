@@ -60,7 +60,9 @@ public class DynamicNavigationLookupTable {
 				if (notes.get(i).isTrashed()) trashed++;
 				else if (notes.get(i).isArchived()) archived++;
 				else if (notes.get(i).getAlarm() != null) reminders++;
-				if (notes.get(i).getCategory() == null || notes.get(i).getCategory().getId() == 0) uncategorized++;
+				if (notes.get(i).getCategory() == null || notes.get(i).getCategory().getId().equals(0L)) {
+					uncategorized++;
+				}
 			}
 			EventBus.getDefault().post(new DynamicNavigationReadyEvent());
 			Log.d(Constants.TAG, "Dynamic menu finished counting items");

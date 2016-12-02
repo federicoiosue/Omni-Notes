@@ -18,9 +18,10 @@ package it.feio.android.omninotes.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import it.feio.android.omninotes.commons.models.BaseTag;
 
 
-public class Tag extends it.feio.android.omninotes.commons.models.Tag implements Parcelable {
+public class Tag extends BaseTag implements Parcelable {
 
     private Tag(Parcel in) {
         setText(in.readString());

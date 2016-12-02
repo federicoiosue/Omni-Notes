@@ -18,45 +18,45 @@
   -->
 <resources>
   <string-array name="navigation_list">
-    <item>Notes</item>
-    <item>Archive</item>
-    <item>Reminders</item>
-    <item>Pārvietot uz miskasti</item>
-    <item>Uncategorized</item>
+    <item>Piezīmes</item>
+    <item>Arhīvs</item>
+    <item>Atgādinājumi</item>
+    <item>Miskaste</item>
+    <item>Bez kategorijas</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Title</item>
-    <item>Creation date</item>
-    <item>Last modification date</item>
-    <item>Reminder date</item>
+    <item>Nosaukums</item>
+    <item>Izveidošanas datums</item>
+    <item>Modificēšanas datums</item>
+    <item>Atgādinājuma datums</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Keep position</item>
-    <item>Move to the end of the list</item>
-    <item>Move to the end of unchecked items</item>
+    <item>Paturēt pozīciju</item>
+    <item>Pārvietot uz saraksta beigām</item>
+    <item>Pārvietot zem neatzīmētajiem vienumiem</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list only</item>
-    <item>Complete</item>
+    <item>Atspējota</item>
+    <item>Tikai sāna strēmelē</item>
+    <item>Tikai piezīmju sarakstā</item>
+    <item>Visur</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Disabled</item>
-    <item>Strip only</item>
-    <item>Notes list</item>
+    <item>Atspējota</item>
+    <item>Tikai sāna strēmelē</item>
+    <item>Piezīmju saraksts</item>
   </string-array>
   <string-array name="text_size">
-    <item>Smallest</item>
-    <item>Small</item>
-    <item>Default</item>
-    <item>Large</item>
-    <item>Largest</item>
+    <item>Vismazākais</item>
+    <item>Mazs</item>
+    <item>Noklusētais</item>
+    <item>Liels</item>
+    <item>Vislielākais</item>
   </string-array>
   <string-array name="attachments_actions">
     <item>Kopīgot</item>
     <item>Dzēst</item>
-    <item>Delete All</item>
+    <item>Dzēst visus</item>
     <item>Rediģēt</item>
   </string-array>
 </resources>

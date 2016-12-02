@@ -118,6 +118,8 @@ public class SettingsFragment extends PreferenceFragment {
 			case android.R.id.home:
 				getActivity().onBackPressed();
 				break;
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -325,7 +327,7 @@ public class SettingsFragment extends PreferenceFragment {
 				passwordAccess.setEnabled(true);
 			}
 			passwordAccess.setOnPreferenceChangeListener((preference, newValue) -> {
-				BaseActivity.requestPassword(getActivity(), passwordConfirmed -> {
+				PasswordHelper.requestPassword(getActivity(), passwordConfirmed -> {
 					if (passwordConfirmed) {
 						passwordAccess.setChecked((Boolean) newValue);
 					}
@@ -343,7 +345,7 @@ public class SettingsFragment extends PreferenceFragment {
 					+ languageName.substring(1, languageName.length()));
 			lang.setOnPreferenceChangeListener((preference, value) -> {
 				OmniNotes.updateLanguage(getActivity(), value.toString());
-				MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+				SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 				return false;
 			});
 		}
@@ -491,7 +493,7 @@ public class SettingsFragment extends PreferenceFragment {
 								StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
 								File cacheDir = StorageHelper.getCacheDir(getActivity());
 								StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
-								MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 							}
 						})
 						.build().show();
@@ -516,7 +518,7 @@ public class SettingsFragment extends PreferenceFragment {
 										"settings_tour_show_again");
 
 								prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
-								MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 							}
 						}).build().show();
 				return false;
@@ -745,6 +747,9 @@ public class SettingsFragment extends PreferenceFragment {
 					String notificationSound = uri == null ? null : uri.toString();
 					prefs.edit().putString("settings_notification_ringtone", notificationSound).apply();
 					break;
+
+				default:
+					Log.e(Constants.TAG, "Wrong element choosen: " + requestCode);
 			}
 		}
 	}

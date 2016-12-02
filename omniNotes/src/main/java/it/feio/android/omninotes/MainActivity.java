@@ -47,6 +47,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import it.feio.android.omninotes.async.SyncAutoBackupTask;
 import it.feio.android.omninotes.async.UpdaterTask;
+import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
@@ -59,8 +60,9 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.MiscUtils;
+import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.SystemHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -115,10 +117,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
-    private void checkPassword() {
-        if (prefs.getString(Constants.PREF_PASSWORD, null) != null
-                && prefs.getBoolean("settings_password_access", false)) {
-            requestPassword(this, passwordConfirmed -> {
+	private void checkPassword() {
+		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
+				&& prefs.getBoolean("settings_password_access", false)) {
+            PasswordHelper.requestPassword(this, passwordConfirmed -> {
 				if (passwordConfirmed) {
 					init();
 				} else {
@@ -127,12 +129,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			});
         } else {
             init();
-        }
-    }
+		}
+	}
 
 
-    private void init() {
+	public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+		init();
+	}
 
+
+	private void init() {
         mFragmentManager = getSupportFragmentManager();
 
         NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager
@@ -319,7 +325,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (i.getAction() == null) return;
 
         if (Constants.ACTION_RESTART_APP.equals(i.getAction())) {
-            MiscUtils.restartApp(getApplicationContext(), MainActivity.class);
+            SystemHelper.restartApp(getApplicationContext(), MainActivity.class);
         }
 
         if (receivedIntent(i)) {
@@ -387,7 +393,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     private boolean noteAlreadyOpened(Note note) {
         DetailFragment detailFragment = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
         return detailFragment != null && detailFragment.getCurrentNote() != null && detailFragment.getCurrentNote()
-                .get_id() == note.get_id();
+				.get_id().equals(note.get_id());
     }
 
 
