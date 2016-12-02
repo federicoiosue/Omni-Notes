@@ -20,6 +20,24 @@ package it.feio.android.omninotes.helpers;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.RegexFileFilter;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
@@ -29,21 +47,7 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.NotificationsHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TextHelper;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.io.filefilter.RegexFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
-import rx.*;
 import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.*;
 
 
 public class BackupHelper {
@@ -59,7 +63,7 @@ public class BackupHelper {
 
 
 	public static void exportNote(File backupDir, Note note) {
-		File noteFile = new File(backupDir, String.valueOf(note.get_id()));
+		File noteFile = new File(backupDir, String.valueOf(note.get_id()) + ".json");
 		try {
 			FileUtils.write(noteFile, note.toJSON());
 		} catch (IOException e) {
