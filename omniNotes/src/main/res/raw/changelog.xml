@@ -17,7 +17,8 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.3.0" changeDate="Jun 30, 2016">
+    <changelogversion versionName="5.3.0" changeDate="4 30, 2016">
+        <changelogtext>[b]New![/b] Automatic JSON export: your notes and attachments are now kept in sync into "_autobackup" folder within default backup folder.</changelogtext>
         <changelogtext>[b]New![/b] Gifs animation support within internal gallery</changelogtext>
         <changelogtext>[i]Improved[/i] Added file size to attachments'action dialog</changelogtext>
     </changelogversion>
