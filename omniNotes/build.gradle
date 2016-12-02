@@ -52,6 +52,7 @@ android {
 
     productFlavors {
         prod {}
+        beta {}
         alpha {
             applicationId project.PACKAGE + ".alpha"
         }
