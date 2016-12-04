@@ -25,7 +25,6 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -45,7 +44,6 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
-import it.feio.android.omninotes.async.SyncAutoBackupTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
@@ -104,8 +102,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			}
 
 			new UpdaterTask(this).execute();
-
-			new SyncAutoBackupTask().execute();
 		}
 
 
