@@ -67,14 +67,16 @@ public class UpgradeProcessor {
     }
 
 
-    public static void process(int dbOldVersion, int dbNewVersion) {
+    public static void process(int dbOldVersion, int dbNewVersion) throws InvocationTargetException, IllegalAccessException {
         try {
             List<Method> methodsToLaunch = getInstance().getMethodsToLaunch(dbOldVersion, dbNewVersion);
             for (Method methodToLaunch : methodsToLaunch) {
+				Log.d(Constants.TAG, "Running upgrade processing method: " + methodToLaunch.getName());
                 methodToLaunch.invoke(getInstance());
             }
         } catch (SecurityException | IllegalAccessException | InvocationTargetException e) {
-            Log.d(Constants.TAG, "Explosion processing upgrade!", e);
+            Log.e(Constants.TAG, "Explosion processing upgrade!", e);
+			throw e;
         }
     }
 

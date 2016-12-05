@@ -32,6 +32,7 @@ import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.utils.*;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -165,9 +166,10 @@ public class DbHelper extends SQLiteOpenHelper {
 		this.db = db;
         Log.i(Constants.TAG, "Upgrading database version from " + oldVersion + " to " + newVersion);
 
-        UpgradeProcessor.process(oldVersion, newVersion);
-
         try {
+
+            UpgradeProcessor.process(oldVersion, newVersion);
+
             for (String sqlFile : AssetUtils.list(SQL_DIR, mContext.getAssets())) {
                 if (sqlFile.startsWith(UPGRADE_QUERY_PREFIX)) {
                     int fileVersion = Integer.parseInt(sqlFile.substring(UPGRADE_QUERY_PREFIX.length(),
@@ -179,7 +181,7 @@ public class DbHelper extends SQLiteOpenHelper {
             }
             Log.i(Constants.TAG, "Database upgrade successful");
 
-        } catch (IOException e) {
+        } catch (IOException |InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException("Database upgrade failed", e);
         }
     }

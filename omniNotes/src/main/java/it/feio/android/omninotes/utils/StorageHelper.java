@@ -137,7 +137,7 @@ public class StorageHelper {
                     file = null;
                 }
             } catch (FileNotFoundException e2) {
-                Log.e(Constants.TAG, "Error writing " + file, e2);
+                Log.e(StorageHelper.class.getName(), "Error writing " + file, e2);
                 file = null;
             }
         } finally {
@@ -148,7 +148,7 @@ public class StorageHelper {
 						os.close();
 					}
 				} catch (IOException e) {
-					Log.e(Constants.TAG, "Error writing " + file, e);
+					Log.e(StorageHelper.class.getName(), "Error writing " + file, e);
 				}
 			}
 		}
@@ -161,7 +161,7 @@ public class StorageHelper {
 			FileUtils.copyFile(source, destination);
 			return true;
 		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error copying file", e);
+			Log.e(StorageHelper.class.getName(), "Error copying file", e);
 			return false;
 		}
 	}
@@ -179,7 +179,7 @@ public class StorageHelper {
 			IOUtils.copy(is, os);
 			return true;
 		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error copying file", e);
+			Log.e(StorageHelper.class.getName(), "Error copying file", e);
 			return false;
 		}
 	}
@@ -243,7 +243,7 @@ public class StorageHelper {
     }
 
 
-    public static synchronized String createNewAttachmentName(String extension) {
+    private static synchronized String createNewAttachmentName(String extension) {
         Calendar now = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
         String name = sdf.format(now.getTime());
@@ -259,10 +259,6 @@ public class StorageHelper {
 
     /**
      * Create a path where we will place our private file on external
-     *
-     * @param mContext
-     * @param uri
-     * @return
      */
     public static File copyToBackupDir(File backupDir, File file) {
 
@@ -276,7 +272,7 @@ public class StorageHelper {
         }
 
         File destination = new File(backupDir, file.getName());
-		copyFile(file, destination);
+        copyFile(file, destination);
 
         return destination;
     }
@@ -291,7 +287,7 @@ public class StorageHelper {
 
 
     public static File getExternalStoragePublicDir() {
-        File dir = new File(Environment.getExternalStorageDirectory() + File.separator + Constants.TAG + File
+        File dir = new File(Environment.getExternalStorageDirectory() + File.separator + Constants.EXTERNAL_STORAGE_FOLDER + File
                 .separator);
         if (!dir.exists())
             dir.mkdirs();
@@ -334,7 +330,7 @@ public class StorageHelper {
             }
             // Can't understand why on some devices this fails
         } catch (NoSuchMethodError e) {
-            Log.e(Constants.TAG, "Mysterious error", e);
+            Log.e(StorageHelper.class.getName(), "Mysterious error", e);
         }
         return getSize(directory, blockSize);
     }
@@ -385,7 +381,7 @@ public class StorageHelper {
             try {
                 res = res && copyFile(new FileInputStream(sourceLocation), new FileOutputStream(targetLocation));
             } catch (FileNotFoundException e) {
-                Log.e(Constants.TAG, "Error copying directory");
+                Log.e(StorageHelper.class.getName(), "Error copying directory");
                 res = false;
             }
         }
@@ -484,7 +480,7 @@ public class StorageHelper {
             try {
                 FileUtils.moveFile(new File(uri.getPath()), f);
             } catch (IOException e) {
-                Log.e(Constants.TAG, "Can't move file " + uri.getPath());
+                Log.e(StorageHelper.class.getName(), "Can't move file " + uri.getPath());
             }
         } else {
             f = StorageHelper.createExternalStoragePrivateFile(mContext, uri, extension);
