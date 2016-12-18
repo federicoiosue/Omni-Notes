@@ -227,9 +227,8 @@ public class BackupHelper {
 
 
 	public static boolean deleteNoteBackup(File backupDir, Note note) {
-		boolean result = true;
 		File noteFile = new File(backupDir, String.valueOf(note.get_id()));
-		result = result && noteFile.delete();
+		boolean result = noteFile.delete();
 		File attachmentBackup = new File(backupDir, StorageHelper.getAttachmentDir().getName());
 		for (Attachment attachment : note.getAttachmentsList()) {
 			result = result && new File(attachmentBackup, FilenameUtils.getName(attachment.getUri().getPath()))
