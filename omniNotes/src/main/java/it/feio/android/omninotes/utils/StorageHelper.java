@@ -297,9 +297,19 @@ public class StorageHelper {
 
     public static File getBackupDir(String backupName) {
         File backupDir = new File(getExternalStoragePublicDir(), backupName);
-        if (!backupDir.exists())
-            backupDir.mkdirs();
+        if (!backupDir.exists() && backupDir.mkdirs()) {
+            createNoMediaFile(backupDir);
+        }
         return backupDir;
+    }
+
+
+    private static void createNoMediaFile(File folder) {
+        try {
+            new File(folder, ".nomedia").createNewFile();
+        } catch (IOException e) {
+            Log.w(StorageHelper.class.getSimpleName(), "Error creating .nomedia file into backup folder");
+        }
     }
 
 
