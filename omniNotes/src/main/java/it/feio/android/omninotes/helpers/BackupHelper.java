@@ -267,7 +267,7 @@ public class BackupHelper {
 	public static List<LinkedList<DiffMatchPatch.Diff>> integrityCheck(Context context, File backupDir) {
 		List<LinkedList<DiffMatchPatch.Diff>> errors = new ArrayList<>();
 		for (Note note : DbHelper.getInstance(true).getAllNotes(false)) {
-			File noteFile = new File(backupDir, String.valueOf(note.get_id()));
+			File noteFile = new File(backupDir, String.valueOf(note.get_id()) + ".json");
 			try {
 				String noteString = note.toJSON();
 				String noteFileString = FileUtils.readFileToString(noteFile);
