@@ -20,8 +20,8 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
 
-    compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId project.PACKAGE
         minSdkVersion project.MIN_SDK
@@ -90,8 +90,8 @@ dependencies {
     }
     compile 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
     compile 'be.billington.calendar.recurrencepicker:library:1.1.1'
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile 'com.android.support:design:25.0.1'
+    compile 'com.android.support:appcompat-v7:23.0.2'
+    compile 'com.android.support:design:23.0.2'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'com.getbase:floatingactionbutton:1.10.1'
