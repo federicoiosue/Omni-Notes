@@ -56,6 +56,10 @@ If you need some help on how to use the application you'll find everything you n
 
 [<img src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png">][1]
 
+## User guide
+
+Look into the wiki for GIFs-based tutorials: [LINK](https://github.com/federicoiosue/Omni-Notes/wiki)
+
 
 ##Build the app
 
