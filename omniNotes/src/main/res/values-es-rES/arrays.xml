@@ -56,7 +56,7 @@
   <string-array name="attachments_actions">
     <item>Compartir</item>
     <item>Borrar</item>
-    <item>Delete All</item>
+    <item>Borrar todo</item>
     <item>Editar</item>
   </string-array>
 </resources>

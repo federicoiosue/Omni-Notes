@@ -36,9 +36,9 @@
     <item>تحريك بعد حذف إختياره لكن على رأس قائمة اللامختارة</item>
   </string-array>
   <string-array name="colors_app">
-    <item>معطل (تعطيل)</item>
+    <item>معطل</item>
     <item>شريط فقط</item>
-    <item>فقط قائمة الملاحظات</item>
+    <item>قائمة الملاحظات فقط</item>
     <item>كامل</item>
   </string-array>
   <string-array name="colors_widget">
@@ -49,7 +49,7 @@
   <string-array name="text_size">
     <item>أصغر</item>
     <item>صغير</item>
-    <item>افتراضي</item>
+    <item>إعتيادي</item>
     <item>كبير</item>
     <item>أكبر</item>
   </string-array>
