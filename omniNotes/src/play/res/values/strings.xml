@@ -18,6 +18,7 @@
   -->
 <resources>
 
+    <string name="app_name">Omni Notes</string>
     <string name="version_postfix"></string>
 
 </resources>
