@@ -52,7 +52,7 @@ android {
     productFlavors {
         play {}
         foss {
-//            packageName "de.janusz.journeyman.zinsrechner.pro"
+            applicationId project.PACKAGE + ".foss"
         }
     }
     lintOptions {
