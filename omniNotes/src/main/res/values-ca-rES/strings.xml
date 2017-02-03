@@ -77,7 +77,7 @@
   <string name="video">Vídeo</string>
   <string name="feature_not_available_on_this_device">Aquesta característica no és disponible en aquest dispositiu</string>
   <string name="error_occurred_deleting_note">S\'ha produït un error en suprimir una nota</string>
-  <string name="no_backups_available">No hi han còpies de seguretat disponibles</string>
+  <string name="no_backups_available">No hi ha cap còpia de seguretat disponible</string>
   <string name="data_export_message">Inseriu un nom per a la còpia de seguretat</string>
   <string name="data_import_message">Feu clic per a-&gt; restaura\nFeu clic llarg per a-&gt; suprimeix</string>
   <string name="data_import_message_warning">ATENCIÓ: això substituirà totes les dades actuals!</string>
@@ -191,9 +191,9 @@
   <string name="remove_filter_old_reminders">Mostra els recordatoris antics</string>
   <string name="filter_archived">Amaga les notes arxivades</string>
   <string name="remove_filter_archived">Mostra les notes arxivades</string>
-  <string name="permission_external_storage">Es necessiten permissos d\'escriptura a l\'emmagatzematge extern per crear còpies de seguretat en carpetes públiques</string>
-  <string name="permission_audio_recording">Es necessita permís d\'utilització del micròfon per enregistrar notes d\'àudio</string>
-  <string name="permission_coarse_location">Es necessita permís d\'accés a la ubicació per afegir la informació de la posició a les notes</string>
+  <string name="permission_external_storage">Cal permís d\'escriptura a l\'emmagatzematge extern per crear còpies de seguretat en carpetes públiques</string>
+  <string name="permission_audio_recording">Cal permís d\'ús del micròfon per a enregistrar notes d\'àudio</string>
+  <string name="permission_coarse_location">Cal permís d\'accés a la ubicació per afegir la informació de la posició a les notes</string>
   <string name="permission_not_granted">No s\'ha concedit el permís</string>
   <string name="checklist">Llista de verificació</string>
   <string name="text_note">Nota de text</string>

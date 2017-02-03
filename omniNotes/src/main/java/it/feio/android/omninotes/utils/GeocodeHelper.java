@@ -24,10 +24,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationParams;
-import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider;
 import io.nlopez.smartlocation.rx.ObservableFactory;
 import it.feio.android.omninotes.BuildConfig;
 import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.helpers.GeoCodeProviderFactory;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,9 +88,9 @@ public class GeocodeHelper implements LocationListener {
 
 
 	public static void getLocation(OnGeoUtilResultListener onGeoUtilResultListener) {
-		SmartLocation.LocationControl bod = SmartLocation.with(OmniNotes.getAppContext()).location(new
-				LocationGooglePlayServicesWithFallbackProvider(OmniNotes.getAppContext())).config(LocationParams
-				.NAVIGATION).oneFix();
+		SmartLocation.LocationControl bod = SmartLocation.with(OmniNotes.getAppContext())
+				.location(GeoCodeProviderFactory.getProvider(OmniNotes.getAppContext()))
+				.config(LocationParams.NAVIGATION).oneFix();
 
 		Observable<Location> locations = ObservableFactory.from(bod).timeout(2, TimeUnit.SECONDS);
 		locations.subscribe(new Subscriber<Location>() {
