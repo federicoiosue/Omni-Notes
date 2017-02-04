@@ -19,6 +19,7 @@
 
     <changelogversion versionName="5.2.20" changeDate="Feb 3, 2017">
         <changelogtext>[b]New![/b] From now on ON will be available also as completelly open-source (no more inherited closed dependencies too). News on the G+ community.</changelogtext>
+        <changelogtext>[b]New![/b] Enjoy the refreshed help page full of animated tutorials</changelogtext>
         <changelogtext>[i]Improved[/i] Updated translations</changelogtext>
     </changelogversion>
 
