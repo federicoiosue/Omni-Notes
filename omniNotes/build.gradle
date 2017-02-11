@@ -18,8 +18,24 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
-android {
+boolean signConfigExists = project.hasProperty("SIGN_PROPS") && new File(project.property("SIGN_PROPS")).exists()
+if(signConfigExists) {
+    Properties props = new Properties()
+    props.load(new FileInputStream(file(project.property("SIGN_PROPS"))))
 
+    android {
+        signingConfigs {
+            release {
+                storeFile file(props['keystore'])
+                storePassword props['keystore.password']
+                keyAlias props['keystore.alias']
+                keyPassword props['keystore.alias.password']
+            }
+        }
+    }
+}
+
+android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     defaultConfig {
@@ -47,6 +63,9 @@ android {
                             (String) file.name.replace("omniNotes", "Omni Notes-${variant.versionName}"))
                 }
             }
+            if(signConfigExists) {
+                signingConfig signingConfigs.release
+            }
         }
     }
     productFlavors {
@@ -63,12 +82,10 @@ android {
         abortOnError false
         disable 'MissingTranslation'
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     sourceSets {
         androidTest {
             java.srcDirs = ['src/androidTest/java']
@@ -122,7 +139,6 @@ dependencies {
     compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
     compile 'org.piwik.sdk:piwik-sdk:0.0.4'
     compile 'org.bitbucket.cowwoc:diff-match-patch:1.1'
-
     compile 'com.github.federicoiosue:simplegallery:2.0.0'
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'
     compile 'com.github.federicoiosue:Omni-Notes-Commons:develop-SNAPSHOT'
