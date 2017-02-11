@@ -45,6 +45,7 @@ public interface Constants {
 	String DATE_FORMAT_SORTABLE = "yyyyMMdd_HHmmss_SSS";
 	String DATE_FORMAT_SORTABLE_OLD = "yyyyMMddHHmmss";
 	String DATE_FORMAT_EXPORT = "yyyy.MM.dd-HH.mm";
+	String DATE_FORMAT_EDITOR_TIMESTAMP = "M/dd/yy HH:mm";
 
 	String INTENT_KEY = "note_id";
 	String INTENT_NOTE = "note";
