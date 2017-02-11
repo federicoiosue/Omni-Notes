@@ -17,10 +17,15 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.3.0" changeDate="4 30, 2016">
+    <changelogversion versionName="5.3.0" changeDate="Feb 9, 2017">
         <changelogtext>[b]New![/b] Automatic JSON export: your notes and attachments are now kept in sync into "_autobackup" folder within default backup folder.</changelogtext>
         <changelogtext>[b]New![/b] Gifs animation support within internal gallery</changelogtext>
         <changelogtext>[i]Improved[/i] Added file size to attachments'action dialog</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="5.2.20" changeDate="Feb 3, 2017">
+        <changelogtext>[b]New![/b] From now on ON will be available also as completelly open-source (no more inherited closed dependencies too). News on the G+ community.</changelogtext>
+        <changelogtext>[i]Improved[/i] Updated translations</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.19" changeDate="Oct 17, 2016">

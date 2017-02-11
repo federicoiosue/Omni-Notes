@@ -467,7 +467,7 @@ public class SettingsFragment extends PreferenceFragment {
 			// Retrieval of installed app version to write it as summary
 			try {
 				pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-				versionString = pInfo.versionName;
+				versionString = pInfo.versionName + getString(R.string.version_postfix);
 			} catch (NameNotFoundException e) {
 				Log.e(Constants.TAG, "Error retrieving version", e);
 			}

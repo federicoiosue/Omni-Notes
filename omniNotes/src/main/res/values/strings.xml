@@ -18,8 +18,8 @@
   -->
 <resources>
 
-    <string name="app_name">Omni Notes</string>
     <string name="logo">Logo</string>
+    <string name="version_postfix"></string>
     <string name="copyleft">Copyleft Feio 2015</string>
     <string name="dev_site">http://www.iosue.it/federico</string>
     <string name="dev_googleplus">https://plus.google.com/102629628248642947234/posts</string>

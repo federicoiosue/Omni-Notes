@@ -135,7 +135,7 @@
   <string name="title_activity_sketch">Vázlat</string>
   <string name="redo">Mégis</string>
   <string name="colors">Színek</string>
-  <string name="stroke">Vonás</string>
+  <string name="stroke">Körvonal</string>
   <string name="erase_sketch">Törli a vázlatot?</string>
   <string name="no_reminder_set">Nincs beállítva emlékeztető</string>
   <string name="saturation">Telítettség</string>
@@ -147,7 +147,7 @@
   <string name="proceed">Folytatás</string>
   <string name="contracted_view">Csökkentett nézet</string>
   <string name="expanded_view">Bővített nézet</string>
-  <string name="grid_view">Grid view</string>
+  <string name="grid_view">Rács nézet</string>
   <string name="add_shortcut">Parancsikon létrehozása</string>
   <string name="shortcut_added">Parancsikon létrehozása a kezdő képernyőn</string>
   <string name="shortcut_note_deleted">Hivatkozás törölt jegyzethez</string>
@@ -276,7 +276,7 @@
   <string name="minutes">perc</string>
   <string name="settings_simple_calendar">Egyszerű naptár és idő</string>
   <string name="settings_simple_calendar_summary">Az (egyszerűbb) Android megjelenítés használata a dátum/idő kiválasztásához, a Google megjelenítés helyett</string>
-  <string name="settings_first_day_of_week">First day of week</string>
+  <string name="settings_first_day_of_week">Hét első napja</string>
   <string name="settings_tour_show_again">Alkalmazás kalauz</string>
   <string name="settings_tour_show_again_summary">Az alkalmazás kalauz megtekintése újra</string>
   <string name="backup_include_settings">Beállításokkal és jelszóval együtt</string>
@@ -294,16 +294,16 @@
   <string name="colors_widget">Widget színséma</string>
   <string name="settings_instant_search">Azonnali keresés</string>
   <string name="settings_navdrawer_on_exit">Navigációs menü kilépés helyett</string>
-  <string name="settings_navdrawer_on_exit_summary">A „Vissza” gomb megnyomása a jegyzet listában megnyitja a navigációs menüt kilépés helyett</string>
+  <string name="settings_navdrawer_on_exit_summary">A „Vissza” gomb megnyomása a jegyzet listában a navigációs menüt nyitja meg kilépés helyett</string>
   <string name="settings_text_size">Szövegméret</string>
   <string name="settings_screen_behaviors">Viselkedés</string>
-  <string name="settings_enable_swipe">Húzzon jegyzeteket</string>
-  <string name="settings_enable_swipe_summary">Húzzon az ujjával műveletek végrehajtásához</string>
-  <string name="settings_swipe_to_trash">Húzzon a lomtárba</string>
+  <string name="settings_enable_swipe">Jegyzetek húzása</string>
+  <string name="settings_enable_swipe_summary">Jegyzetek archívumba vagy lomtárba húzásának engedélyezése</string>
+  <string name="settings_swipe_to_trash">Húzás az archívumba vagy a lomtárba</string>
   <string name="settings_swipe_to_trash_summary_1">A jegyzetek ujjal történő húzása archiválja őket</string>
   <string name="settings_swipe_to_trash_summary_2">A jegyzetek ujjal történő húzása a lomtárba teszi őket</string>
   <string name="settings_show_uncategorized">Csoport nincs kategorizálva</string>
-  <string name="settings_show_uncategorized_summary">Új elemet add a navigációs menühöz a kategorizálatlan jegyzetek számára</string>
+  <string name="settings_show_uncategorized_summary">Új elemet ad a navigációs menühöz a kategorizálatlan jegyzetek számára</string>
   <string name="settings_show_category_count">Jegyzet száma</string>
   <string name="settings_show_category_count_summary">Társított jegyzetek számának megjelenítése a kategória mellett</string>
   <string name="settings_auto_location">Automatikus helyszín</string>
@@ -324,7 +324,7 @@
   <string name="settings_error_reporting_summary_on">Amikor az alkalmazás összeomlik, a fejlesztő értesítést kap, hogy segíthessen önnek</string>
   <string name="settings_error_reporting_summary_off">Összeomlási jelentések nem kerülnek küldésre. Ne panaszkodjon, ha valami balul sül el!</string>
   <string name="settings_send_analytics">Névtelen adatok megosztása</string>
-  <string name="settings_send_analytics_summary">Segítse a fejlesztőt olyan nem személyes adatok elküldésével, mint az eszköz típusa, nyelv, gyakran használt funkciók. Ezen adatok csak ennek a nyílt-forráskódú alkalmazásnak a javításához kerülnek felhasználásra.</string>
+  <string name="settings_send_analytics_summary">Segítse a fejlesztőt olyan nem személyes adatok elküldésével, mint az eszköz típusa, a nyelv, a gyakran használt funkciók. Ezeket az adatokat csak ennek a nyílt forráskódú alkalmazásnak a javításához használjuk fel.</string>
   <string name="settings_statistics">Statisztika</string>
   <!-- Instructions -->
   <string name="tour_request_start">Most indította el az Omni Notes alkalmazást először, szeretné megtekinteni az alkalmazás kalauzt?</string>
@@ -341,14 +341,14 @@
   <string name="tour_detailactivity_action_title">Többet</string>
   <string name="tour_detailactivity_action_detail">Ossza meg, címkézze fel, archiválja, védje meg a jegyzeteit&#8230;</string>
   <string name="tour_detailactivity_reminder_title">Csak nyomja meg</string>
-  <string name="tour_detailactivity_reminder_detail">Long pression have different effects on an object (attachment, location, reminder) than short pression!</string>
+  <string name="tour_detailactivity_reminder_detail">A hosszú érintés más műveletet eredményez az objektumokon (csatolmány, hely, emlékeztető), mint a rövid érintés!</string>
   <string name="tour_detailactivity_links_title">Linkek</string>
   <string name="tour_detailactivity_links_detail">Kattintson egy URL-re vagy e-mail címre a másolásához vagy megnyitásához</string>
   <string name="tour_detailactivity_swipe_title">Húzás</string>
   <string name="tour_detailactivity_swipe_detail">Hozzon létre új jegyzeteket\n
 az éppen szerkesztett elhagyása nélkül</string>
   <string name="tour_detailactivity_save_title">Mentés</string>
-  <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
+  <string name="tour_detailactivity_save_detail">A visszatéréshez érintsd meg a \"fel\" ikont, vagy nyomd meg a készüléked gombját</string>
   <string name="tour_listactivity_final_title">Jó szórakozást</string>
   <string name="tour_listactivity_final_detail">Köszönjük, hogy az Omni Notes alkalmazást használja.\n
 A nyílt forráskódú alternatíva irodai vagy személyes jegyzetek készítéséhez.</string>
@@ -359,7 +359,7 @@ A nyílt forráskódú alternatíva irodai vagy személyes jegyzetek készítés
   <string name="reminder">emlékeztető</string>
   <string name="stroke_size">vonásméret</string>
   <string name="note_thumbnail">jegyzet nézőképe</string>
-  <string name="note_reminder_symbol">note reminder symbol</string>
+  <string name="note_reminder_symbol">jegyzet emlékeztető szimbólum</string>
   <string name="navigation_drawer_open">Navigációs fiók megnyitása</string>
   <string name="navigation_drawer_close">Navigációs fiók bezárása</string>
 </resources>

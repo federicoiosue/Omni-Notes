@@ -54,9 +54,9 @@
     <item>Τεράστιο</item>
   </string-array>
   <string-array name="attachments_actions">
-    <item>Share</item>
-    <item>Delete</item>
-    <item>Delete All</item>
-    <item>Edit</item>
+    <item>Κοινή χρήση</item>
+    <item>Διαγραφή</item>
+    <item>Διαγραφή όλων</item>
+    <item>Επεξεργασία</item>
   </string-array>
 </resources>
