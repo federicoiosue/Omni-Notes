@@ -133,7 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/icon_selector"
-            android:drawableLeft="@drawable/ic_pin_drop_black_24dp"
+            android:drawableLeft="@drawable/ic_access_time_black_24dp"
             android:drawablePadding="@dimen/attachment_dialog_drawable_padding"
             android:padding="@dimen/attachment_dialog_items_padding"
             android:text="@string/timestamp"
