@@ -916,10 +916,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 	private void appendTimestamp() {
-		content.setText(String.format("%s %s ",
-				getNoteContent(),
-				DateUtils.getString(new Date(), Constants.DATE_FORMAT_EDITOR_TIMESTAMP)));
-		content.setSelection(content.getText().length());
+		String currentTimestamp = " " + DateUtils.getString(new Date(), Constants.DATE_FORMAT_EDITOR_TIMESTAMP) + " ";
+
+		int start = Math.max(content.getSelectionStart(), 0);
+		int end = Math.max(content.getSelectionEnd(), 0);
+		content.getText().replace(Math.min(start, end), Math.max(start, end),
+				currentTimestamp, 0, currentTimestamp.length());
 	}
 
 
@@ -2419,7 +2421,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					attachmentDialog.dismiss();
 					break;
 				case R.id.timestamp:
-					// todo add timestamp
 					appendTimestamp();
 					attachmentDialog.dismiss();
 					break;
