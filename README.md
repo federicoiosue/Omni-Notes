@@ -67,7 +67,9 @@ Look into the wiki for GIFs-based tutorials: [LINK](https://github.com/federicoi
 ##Build the app
 
 Look to the following terminal session recording to compile distributable files
-[![asciicast](https://asciinema.org/a/102898.png)](https://asciinema.org/a/102898)
+<a href="https://asciinema.org/a/102898?speed=2&autoplay=1" target="_blank">
+    <img src="https://asciinema.org/a/102898.png" width="734"/>
+</a>
 
 ####Dependences
 

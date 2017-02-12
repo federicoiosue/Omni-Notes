@@ -134,7 +134,7 @@ dependencies {
     compile 'com.artemzin.rxjava:proguard-rules:1.0.14.2'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
     compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
-    compile 'org.piwik.sdk:piwik-sdk:0.0.4'
+    compile 'org.piwik.sdk:piwik-sdk:1.0.2'
     compile 'org.bitbucket.cowwoc:diff-match-patch:1.1'
 
     playCompile 'io.nlopez.smartlocation:library:3.2.4'
