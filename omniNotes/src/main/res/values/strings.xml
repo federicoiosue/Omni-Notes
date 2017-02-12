@@ -82,6 +82,7 @@
     <string name="gallery">Gallery</string>
     <string name="location">Location</string>
     <string name="pushbullet">Pushbullet</string>
+    <string name="timestamp">Timestamp</string>
     <string name="remove_location">Remove location?</string>
     <string name="remove_reminder">Remove reminder?</string>
     <string name="add_reminder">Add reminder</string>

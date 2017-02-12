@@ -127,6 +127,19 @@
             android:textSize="@dimen/attachment_dialog_text_size"
             pixlui:typeface="Roboto-Regular.ttf"
             android:textColor="@color/text_gray" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_selector"
+            android:drawableLeft="@drawable/ic_access_time_black_24dp"
+            android:drawablePadding="@dimen/attachment_dialog_drawable_padding"
+            android:padding="@dimen/attachment_dialog_items_padding"
+            android:text="@string/timestamp"
+            android:textSize="@dimen/attachment_dialog_text_size"
+            pixlui:typeface="Roboto-Regular.ttf"
+            android:textColor="@color/text_gray" />
     </LinearLayout>
 
 </ScrollView>
