@@ -100,7 +100,6 @@ dependencies {
     compile fileTree(include: '*.jar', dir: 'libs')
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile 'com.larswerkman:HoloColorPicker:1.4'
-    compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
     compile('ch.acra:acra:4.8.5') {
