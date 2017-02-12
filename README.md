@@ -66,23 +66,48 @@ Look into the wiki for GIFs-based tutorials: [LINK](https://github.com/federicoi
 
 ##Build the app
 
-Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as code versioning methodology (even before it was formalized) you, as developer should **always** start working on [develop branch](https://github.com/federicoiosue/Omni-Notes/tree/develop) that contains the most recent changes.
-
-To simplify the approach with the app code I switched to the new Android Studio IDE (BETAs are ready to be daily used) and I created a personal [Maven repository](https://github.com/federicoiosue/repository) to avoid you to download all the libraries and sub-projects Omni Notes depends on.
-
-Short story long: you have to clone from Omni Notes' develop branch on GitHub the code into Android Studio, wait for all dependencies have been downloaded and start coding!
-
-**Don't forget to contribute to original code! Don't be selfish or lazy!**
+Look to the following terminal session recording to compile distributable files
+[![asciicast](https://asciinema.org/a/102898.png)](https://asciinema.org/a/102898)
 
 ####Dependences
 
 They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni-Notes/blob/develop/omniNotes/build.gradle) file but due to the fact that many of the dependences have been customized by me I'd like to say thanks here to the original developers of these great libraries:
 
-* https://github.com/derekbrameyer/android-betterpickers
-* https://github.com/gabrielemariotti/changeloglib
+* https://github.com/RobotiumTech/robotium
+* https://github.com/flavienlaurent/datetimepicker
 * https://github.com/LarsWerkman/HoloColorPicker
+* https://github.com/keyboardsurfer/Crouton
+* https://github.com/romannurik/dashclock/wiki/API
+* https://github.com/ACRA/acra
+* https://github.com/Shusshu/Android-RecurrencePicker
+* https://github.com/gabrielemariotti/changeloglib
+* https://github.com/greenrobot/EventBus
+* https://github.com/futuresimple/android-floating-action-button
 * https://github.com/keyboardsurfer
+* https://github.com/nhaarman/ListViewAnimations
+* https://github.com/bumptech/glide
 * https://github.com/neopixl/PixlUI
+* https://github.com/afollestad/material-dialogs
+* https://github.com/JakeWharton/butterknife
+* https://github.com/ical4j
+* https://github.com/square/leakcanary
+* https://github.com/pnikosis/materialish-progress
+* https://github.com/apl-devs/AppIntro
+* https://github.com/ReactiveX/RxAndroid
+* https://github.com/artem-zinnatullin/RxJavaProGuardRules
+* https://github.com/tbruyelle/RxPermissions
+* https://github.com/ocpsoft/prettytime
+* https://github.com/piwik/piwik-sdk-android
+* https://github.com/mrmans0n/smart-location-lib
+
+
+##Contributing
+
+Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as code versioning methodology you, as developer should **always** start working on [develop branch](https://github.com/federicoiosue/Omni-Notes/tree/develop) that contains the most recent changes.
+
+Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/contributors.md) file.
+
+**Don't forget to contribute to original code! Don't be selfish or lazy!**
 
 
 ##Developed with love and passion by
