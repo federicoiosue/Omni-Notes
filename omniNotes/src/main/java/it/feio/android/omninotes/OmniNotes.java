@@ -27,7 +27,10 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
-import it.feio.android.omninotes.helpers.AnalyticsHelper;
+import it.feio.android.analitica.AnalyticsHelper;
+import it.feio.android.analitica.AnalyticsHelperFactory;
+import it.feio.android.analitica.exceptions.AnalyticsInstantiationException;
+import it.feio.android.analitica.exceptions.InvalidIdentifierException;
 import it.feio.android.omninotes.utils.Constants;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -45,6 +48,7 @@ public class OmniNotes extends Application {
 	private final static String PREF_LANG = "settings_language";
 	static SharedPreferences prefs;
 	private static RefWatcher refWatcher;
+	private AnalyticsHelper analyticsHelper;
 
 	@Override
 	public void onCreate() {
@@ -61,9 +65,6 @@ public class OmniNotes extends Application {
 
 		// Checks selected locale or default one
 		updateLanguage(this, null);
-
-		// Analytics initialization
-		AnalyticsHelper.init(this, prefs.getBoolean(Constants.PREF_SEND_ANALYTICS, true));
 	}
 
 
@@ -111,10 +112,10 @@ public class OmniNotes extends Application {
 
 		if (TextUtils.isEmpty(language) && lang == null) {
 			cfg.locale = Locale.getDefault();
-			prefs.edit().putString(PREF_LANG, cfg.locale.toString()).commit();
+			prefs.edit().putString(PREF_LANG, cfg.locale.toString()).apply();
 		} else if (lang != null) {
 			cfg.locale = getLocale(lang);
-			prefs.edit().putString(PREF_LANG, lang).commit();
+			prefs.edit().putString(PREF_LANG, lang).apply();
 		} else if (!TextUtils.isEmpty(language)) {
 			cfg.locale = getLocale(language);
 		}
@@ -142,4 +143,17 @@ public class OmniNotes extends Application {
 		return getAppContext().getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 	}
 
+
+	public AnalyticsHelper getAnalyticsHelper() {
+		if (analyticsHelper == null) {
+			boolean enableAnalytics = prefs.getBoolean(Constants.PREF_SEND_ANALYTICS, true);
+			try {
+				String[] analyticsParams = BuildConfig.ANALYTICS_PARAMS.split(Constants.PROPERTIES_PARAMS_SEPARATOR);
+				analyticsHelper = new AnalyticsHelperFactory().getAnalyticsHelper(this, enableAnalytics, analyticsParams);
+			} catch (AnalyticsInstantiationException | InvalidIdentifierException e) {
+				e.printStackTrace();
+			}
+		}
+		return analyticsHelper;
+	}
 }

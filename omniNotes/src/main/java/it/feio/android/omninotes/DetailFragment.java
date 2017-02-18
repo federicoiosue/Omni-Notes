@@ -83,7 +83,6 @@ import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.*;
@@ -1139,7 +1138,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				break;
 		}
 
-		AnalyticsHelper.trackActionFromResourceId(getActivity(), item.getItemId());
+		((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackActionFromResourceId(getActivity(), item.getItemId());
 
 		return super.onOptionsItemSelected(item);
 	}
