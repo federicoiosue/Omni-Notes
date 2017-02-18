@@ -20,11 +20,13 @@ package it.feio.android.omninotes.utils;
 import android.test.InstrumentationTestCase;
 import it.feio.android.omninotes.OmniNotes;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
 
 
+@Ignore
 public class GeocodeHelperTest extends InstrumentationTestCase {
 
     @Test

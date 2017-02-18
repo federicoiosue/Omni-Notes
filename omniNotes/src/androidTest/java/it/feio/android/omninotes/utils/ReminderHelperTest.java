@@ -17,20 +17,20 @@
 
 package it.feio.android.omninotes.utils;
 
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.ReminderHelper;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Calendar;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
-
-public class ReminderHelperTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ReminderHelperTest {
 
 	@Test
 	public void testGetRequestCode() {
@@ -46,21 +46,24 @@ public class ReminderHelperTest extends InstrumentationTestCase {
 
 	public void testAddReminder() {
 		Note note = buildNote();
-		ReminderHelper.addReminder(getInstrumentation().getTargetContext(), note);
-		boolean reminderActive = ReminderHelper.checkReminder(getInstrumentation().getTargetContext(), note);
+		ReminderHelper.addReminder(InstrumentationRegistry.getTargetContext(), note);
+		boolean reminderActive = ReminderHelper.checkReminder(InstrumentationRegistry.getTargetContext(), note);
 		assertTrue(reminderActive);
 	}
 
 
 	public void testRemoveReminder() {
 		Note note = buildNote();
-		ReminderHelper.addReminder(getInstrumentation().getTargetContext(), note);
-		boolean reminderActive = ReminderHelper.checkReminder(getInstrumentation().getTargetContext(), note);
-		ReminderHelper.removeReminder(getInstrumentation().getTargetContext(), note);
-		boolean reminderRemoved = ReminderHelper.checkReminder(getInstrumentation().getTargetContext(), note);
+		ReminderHelper.addReminder(InstrumentationRegistry.getTargetContext(), note);
+		boolean reminderActive = ReminderHelper.checkReminder(InstrumentationRegistry.getTargetContext(), note);
+		ReminderHelper.removeReminder(InstrumentationRegistry.getTargetContext(), note);
+		boolean reminderRemoved = ReminderHelper.checkReminder(InstrumentationRegistry.getTargetContext(), note);
 		assertTrue(reminderActive);
 		assertFalse(reminderRemoved);
 	}
+
+
+
 
 
 	private Note buildNote() {
