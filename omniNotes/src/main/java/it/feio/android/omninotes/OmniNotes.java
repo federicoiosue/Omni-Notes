@@ -40,7 +40,9 @@ import org.acra.sender.HttpSender.Type;
 
 import java.util.Locale;
 
-@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = BuildConfig.CRASH_REPORTING_URL, mode = ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
+
+@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = BuildConfig.CRASH_REPORTING_URL, mode =
+		ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
 public class OmniNotes extends Application {
 
 	private static Context mContext;
@@ -50,12 +52,12 @@ public class OmniNotes extends Application {
 	private static RefWatcher refWatcher;
 	private AnalyticsHelper analyticsHelper;
 
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		mContext = getApplicationContext();
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-		refWatcher = LeakCanary.install(this);
 
 		if (isDebugBuild()) {
 			StrictMode.enableDefaults();
@@ -63,8 +65,17 @@ public class OmniNotes extends Application {
 
 		initAcra(this);
 
+		initLeakCanary();
+
 		// Checks selected locale or default one
 		updateLanguage(this, null);
+	}
+
+
+	private void initLeakCanary() {
+		if (!LeakCanary.isInAnalyzerProcess(this)) {
+			refWatcher = LeakCanary.install(this);
+		}
 	}
 
 
@@ -95,13 +106,16 @@ public class OmniNotes extends Application {
 		updateLanguage(this, language);
 	}
 
+
 	public static Context getAppContext() {
 		return OmniNotes.mContext;
 	}
 
+
 	public static RefWatcher getRefWatcher() {
 		return OmniNotes.refWatcher;
 	}
+
 
 	/**
 	 * Updates default language with forced one
@@ -137,9 +151,10 @@ public class OmniNotes extends Application {
 
 	/**
 	 * Statically returns app's default SharedPreferences instance
+	 *
 	 * @return SharedPreferences object instance
 	 */
-	public static SharedPreferences getSharedPreferences(){
+	public static SharedPreferences getSharedPreferences() {
 		return getAppContext().getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 	}
 
@@ -149,7 +164,8 @@ public class OmniNotes extends Application {
 			boolean enableAnalytics = prefs.getBoolean(Constants.PREF_SEND_ANALYTICS, true);
 			try {
 				String[] analyticsParams = BuildConfig.ANALYTICS_PARAMS.split(Constants.PROPERTIES_PARAMS_SEPARATOR);
-				analyticsHelper = new AnalyticsHelperFactory().getAnalyticsHelper(this, enableAnalytics, analyticsParams);
+				analyticsHelper = new AnalyticsHelperFactory().getAnalyticsHelper(this, enableAnalytics,
+						analyticsParams);
 			} catch (AnalyticsInstantiationException | InvalidIdentifierException e) {
 				e.printStackTrace();
 			}

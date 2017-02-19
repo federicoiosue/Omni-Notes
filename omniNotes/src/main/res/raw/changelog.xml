@@ -17,7 +17,7 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.3.0" changeDate="Feb 18, 2017">
+    <changelogversion versionName="5.3.0" changeDate="Feb 19, 2017">
         <changelogtext>[b]New![/b] From now on the app will be available also as completely open-source (no more inherited closed dependencies too). News on the G+ community!</changelogtext>
         <changelogtext>[b]New![/b] Enjoy the renewed help page (accessible from inside settings) that makes use of animated tutorials</changelogtext>
         <changelogtext>[b]Improved![/b] New checklist items are now capitalized</changelogtext>
