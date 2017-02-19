@@ -1209,13 +1209,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@SuppressLint("NewApi")
 	private void toggleChecklist2(final boolean keepChecked, final boolean showChecks) {
 		// Get instance and set options to convert EditText to CheckListView
-		mChecklistManager = ChecklistManager.getInstance(mainActivity)
+
+		mChecklistManager = mChecklistManager == null ? new ChecklistManager(mainActivity) : mChecklistManager;
+		int checkedItemsBehavior = Integer.valueOf(prefs.getString("settings_checked_items_behavior", String.valueOf
+				(it.feio.android.checklistview.Settings.CHECKED_HOLD)));
+		mChecklistManager
 				.showCheckMarks(showChecks)
 				.newEntryHint(getString(R.string.checklist_item_hint))
 				.keepChecked(keepChecked)
 				.undoBarContainerView(scrollView)
-				.moveCheckedOnBottom(Integer.valueOf(prefs.getString("settings_checked_items_behavior", String.valueOf
-						(it.feio.android.checklistview.Settings.CHECKED_HOLD))));
+				.moveCheckedOnBottom(checkedItemsBehavior);
 
 		// Links parsing options
 		mChecklistManager.setOnTextLinkClickListener(textLinkClickListener);
