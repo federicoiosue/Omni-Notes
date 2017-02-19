@@ -103,6 +103,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -881,82 +882,107 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
 	private void displayLocationDialog() {
-		getLocation(new OnGeoUtilResultListener() {
-			@Override
-			public void onAddressResolved(String address) {
+		getLocation(new OnGeoUtilResultListenerImpl(mainActivity, mFragment, noteTmp));
+	}
+
+	private static class OnGeoUtilResultListenerImpl implements OnGeoUtilResultListener {
+
+		private final WeakReference<MainActivity> mainActivityWeakReference;
+		private final WeakReference<DetailFragment> detailFragmentWeakReference;
+		private final WeakReference<Note> noteTmpWeakReference;
+
+
+		OnGeoUtilResultListenerImpl(MainActivity activity, DetailFragment mFragment, Note noteTmp) {
+			this.mainActivityWeakReference = new WeakReference<>(activity);
+			this.detailFragmentWeakReference = new WeakReference<>(mFragment);
+			this.noteTmpWeakReference = new WeakReference<>(noteTmp);
+		}
+
+		@Override
+		public void onAddressResolved(String address) {
+		}
+
+
+		@Override
+		public void onCoordinatesResolved(Location location, String address) {
+		}
+
+
+		@Override
+		public void onLocationUnavailable() {
+			mainActivityWeakReference.get().showMessage(R.string.location_not_found, ONStyle.ALERT);
+		}
+
+
+		@Override
+		public void onLocationRetrieved(Location location) {
+
+			if (!checkWeakReferences()) {
+				return;
 			}
 
-
-			@Override
-			public void onCoordinatesResolved(Location location, String address) {
+			if (location == null) {
+				return;
 			}
-
-
-			@Override
-			public void onLocationUnavailable() {
-				mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
+			if (!ConnectionManager.internetAvailable(mainActivityWeakReference.get())) {
+				noteTmpWeakReference.get().setLatitude(location.getLatitude());
+				noteTmpWeakReference.get().setLongitude(location.getLongitude());
+				onAddressResolved("");
+				return;
 			}
-
-
-			@Override
-			public void onLocationRetrieved(Location location) {
-				if (location == null) {
-					return;
-				}
-				if (!ConnectionManager.internetAvailable(mainActivity)) {
-					noteTmp.setLatitude(location.getLatitude());
-					noteTmp.setLongitude(location.getLongitude());
-					onAddressResolved("");
-					return;
-				}
-				LayoutInflater inflater = mainActivity.getLayoutInflater();
-				View v = inflater.inflate(R.layout.dialog_location, null);
-				final AutoCompleteTextView autoCompView = (AutoCompleteTextView) v.findViewById(R.id
-						.auto_complete_location);
-				autoCompView.setHint(getString(R.string.search_location));
-				autoCompView.setAdapter(new PlacesAutoCompleteAdapter(mainActivity, R.layout
-						.simple_text_layout));
-				final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
-						.customView(autoCompView, false)
-						.positiveText(R.string.use_current_location)
-						.callback(new MaterialDialog.ButtonCallback() {
-							@Override
-							public void onPositive(MaterialDialog materialDialog) {
-								if (TextUtils.isEmpty(autoCompView.getText().toString())) {
-									noteTmp.setLatitude(location.getLatitude());
-									noteTmp.setLongitude(location.getLongitude());
-									GeocodeHelper.getAddressFromCoordinates(location, mFragment);
-								} else {
-									GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(),
-											mFragment);
-								}
+			LayoutInflater inflater = mainActivityWeakReference.get().getLayoutInflater();
+			View v = inflater.inflate(R.layout.dialog_location, null);
+			final AutoCompleteTextView autoCompView = (AutoCompleteTextView) v.findViewById(R.id
+					.auto_complete_location);
+			autoCompView.setHint(mainActivityWeakReference.get().getString(R.string.search_location));
+			autoCompView.setAdapter(new PlacesAutoCompleteAdapter(mainActivityWeakReference.get(), R.layout
+					.simple_text_layout));
+			final MaterialDialog dialog = new MaterialDialog.Builder(mainActivityWeakReference.get())
+					.customView(autoCompView, false)
+					.positiveText(R.string.use_current_location)
+					.callback(new MaterialDialog.ButtonCallback() {
+						@Override
+						public void onPositive(MaterialDialog materialDialog) {
+							if (TextUtils.isEmpty(autoCompView.getText().toString())) {
+								noteTmpWeakReference.get().setLatitude(location.getLatitude());
+								noteTmpWeakReference.get().setLongitude(location.getLongitude());
+								GeocodeHelper.getAddressFromCoordinates(location, detailFragmentWeakReference.get());
+							} else {
+								GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(),
+										detailFragmentWeakReference.get());
 							}
-						})
-						.build();
-				autoCompView.addTextChangedListener(new TextWatcher() {
-					@Override
-					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-					}
-
-
-					@Override
-					public void onTextChanged(CharSequence s, int start, int before, int count) {
-						if (s.length() != 0) {
-							dialog.setActionButton(DialogAction.POSITIVE, getString(R.string.confirm));
-						} else {
-							dialog.setActionButton(DialogAction.POSITIVE, getString(R.string
-									.use_current_location));
 						}
-					}
+					})
+					.build();
+			autoCompView.addTextChangedListener(new TextWatcher() {
+				@Override
+				public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				}
 
 
-					@Override
-					public void afterTextChanged(Editable s) {
+				@Override
+				public void onTextChanged(CharSequence s, int start, int before, int count) {
+					if (s.length() != 0) {
+						dialog.setActionButton(DialogAction.POSITIVE, mainActivityWeakReference.get().getString(R.string.confirm));
+					} else {
+						dialog.setActionButton(DialogAction.POSITIVE, mainActivityWeakReference.get().getString(R.string
+								.use_current_location));
 					}
-				});
-				dialog.show();
-			}
-		});
+				}
+
+
+				@Override
+				public void afterTextChanged(Editable s) {
+				}
+			});
+			dialog.show();
+		}
+
+
+		private boolean checkWeakReferences() {
+			return mainActivityWeakReference.get() != null && !mainActivityWeakReference.get().isFinishing()
+					&& detailFragmentWeakReference.get() != null && noteTmpWeakReference.get() != null;
+		}
 	}
 
 
