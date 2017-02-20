@@ -16,9 +16,8 @@
  */
 package it.feio.android.omninotes.utils;
 
-public interface Constants {
+public interface ConstantsBase {
 
-	String TAG = "Omni Notes";
 	String DATABASE_NAME = "omni-notes";
 	String PACKAGE = "it.feio.android.omninotes";
 	String PREFS_NAME = PACKAGE + "_preferences";

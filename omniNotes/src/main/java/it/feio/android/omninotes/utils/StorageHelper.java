@@ -293,7 +293,7 @@ public class StorageHelper {
 
 
     public static File getExternalStoragePublicDir() {
-        File dir = new File(Environment.getExternalStorageDirectory() + File.separator + Constants.TAG + File
+        File dir = new File(Environment.getExternalStorageDirectory() + File.separator + Constants.EXTERNAL_STORAGE_FOLDER + File
                 .separator);
         if (!dir.exists())
             dir.mkdirs();
