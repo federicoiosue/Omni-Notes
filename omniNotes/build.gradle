@@ -20,8 +20,9 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
 
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion Integer.parseInt(project.TARGET_SDK)
+    buildToolsVersion project.BUILD_TOOLS
+
     defaultConfig {
         applicationId project.PACKAGE
         minSdkVersion project.MIN_SDK
@@ -31,10 +32,12 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
+
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -50,20 +53,24 @@ android {
             }
         }
     }
+
     productFlavors {
         play {}
         foss {
             applicationId project.PACKAGE + ".foss"
         }
     }
+
     lintOptions {
         abortOnError false
         disable 'MissingTranslation'
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
@@ -117,7 +124,7 @@ dependencies {
     compile 'com.github.federicoiosue:SimpleGallery:1.2.0'
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'
     compile 'com.github.federicoiosue:Omni-Notes-Commons:1.1.0'
-    compile ('com.github.federicoiosue:checklistview:3.2.0') {
+    compile ('com.github.federicoiosue:checklistview:3.2.1') {
         transitive=false
     }
     compile 'com.github.federicoiosue:pixlui:2.6'
