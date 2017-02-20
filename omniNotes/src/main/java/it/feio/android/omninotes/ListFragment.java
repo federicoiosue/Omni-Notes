@@ -830,8 +830,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             }
         }
 
-		((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackActionFromResourceId(getActivity(), item.getItemId());
-
         checkSortActionPerformed(item);
 
         return super.onOptionsItemSelected(item);
@@ -944,7 +942,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private void checkSortActionPerformed(MenuItem item) {
         if (item.getGroupId() == Constants.MENU_SORT_GROUP_ID) {
             final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
-            prefs.edit().putString(Constants.PREF_SORTING_COLUMN, arrayDb[item.getOrder()]).commit();
+            prefs.edit().putString(Constants.PREF_SORTING_COLUMN, arrayDb[item.getOrder()]).apply();
             initNotesList(mainActivity.getIntent());
             // Resets list scrolling position
             listViewPositionOffset = 16;
@@ -953,7 +951,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 			toggleSearchLabel(false);
             // Updates app widgets
             BaseActivity.notifyAppWidgets(mainActivity);
-        }
+        } else {
+			((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackActionFromResourceId(getActivity(),
+					item.getItemId());
+		}
     }
 
 
