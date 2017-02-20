@@ -25,6 +25,7 @@
         <changelogtext>[i]Improved[/i] Notes without title are now shown as they into list instead of using part of the content to improve performances</changelogtext>
         <changelogtext>[i]Improved[/i] Updated translations</changelogtext>
         <changelogtext>[u]Fix[/u] Memory leaks related to checklists and geolocation</changelogtext>
+        <changelogtext>[u]Fix[/u] Hidden attachments from locked notes into home widget</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.19" changeDate="Oct 17, 2016">

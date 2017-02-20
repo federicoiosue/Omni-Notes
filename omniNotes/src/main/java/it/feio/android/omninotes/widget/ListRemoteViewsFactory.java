@@ -116,10 +116,10 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
         color(note, row);
 
-        if (note.getAttachmentsList().size() > 0 && showThumbnails) {
-            Attachment mAttachment = note.getAttachmentsList().get(0);
-            Bitmap bmp = BitmapHelper.getBitmapFromAttachment(app, mAttachment, WIDTH, HEIGHT);
-            row.setBitmap(R.id.attachmentThumbnail, "setImageBitmap", bmp);
+        if (!note.isLocked() && showThumbnails && note.getAttachmentsList().size() > 0) {
+			Attachment mAttachment = note.getAttachmentsList().get(0);
+			Bitmap bmp = BitmapHelper.getBitmapFromAttachment(app, mAttachment, WIDTH, HEIGHT);
+			row.setBitmap(R.id.attachmentThumbnail, "setImageBitmap", bmp);
             row.setInt(R.id.attachmentThumbnail, "setVisibility", View.VISIBLE);
         } else {
             row.setInt(R.id.attachmentThumbnail, "setVisibility", View.GONE);
