@@ -14,17 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package it.feio.android.omninotes.utils;
 
-package it.feio.android.omninotes.widget;
+public interface Constants extends ConstantsBase {
 
-import android.content.Intent;
-import android.widget.RemoteViewsService;
-
-
-public class ListWidgetService extends RemoteViewsService {
-
-    @Override
-    public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new ListRemoteViewsFactory(this.getApplication(), intent);
-    }
+  String TAG = "Omni Notes FOSS"; 
+  String EXTERNAL_STORAGE_FOLDER = "Omni Notes Foss";
+  String PACKAGE = "it.feio.android.omninotes.foss";
+  String PREFS_NAME = PACKAGE + "_preferences";
 }

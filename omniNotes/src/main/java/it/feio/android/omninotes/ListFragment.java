@@ -29,7 +29,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.*;
-import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -46,7 +45,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
@@ -60,14 +58,12 @@ import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.async.bus.NotesMergeEvent;
 import it.feio.android.omninotes.async.notes.*;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
-import it.feio.android.omninotes.models.listeners.OnPermissionRequestedListener;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
@@ -834,8 +830,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             }
         }
 
-		AnalyticsHelper.trackActionFromResourceId(getActivity(), item.getItemId());
-
         checkSortActionPerformed(item);
 
         return super.onOptionsItemSelected(item);
@@ -948,7 +942,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private void checkSortActionPerformed(MenuItem item) {
         if (item.getGroupId() == Constants.MENU_SORT_GROUP_ID) {
             final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
-            prefs.edit().putString(Constants.PREF_SORTING_COLUMN, arrayDb[item.getOrder()]).commit();
+            prefs.edit().putString(Constants.PREF_SORTING_COLUMN, arrayDb[item.getOrder()]).apply();
             initNotesList(mainActivity.getIntent());
             // Resets list scrolling position
             listViewPositionOffset = 16;
@@ -957,7 +951,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 			toggleSearchLabel(false);
             // Updates app widgets
             BaseActivity.notifyAppWidgets(mainActivity);
-        }
+        } else {
+			((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackActionFromResourceId(getActivity(),
+					item.getItemId());
+		}
     }
 
 

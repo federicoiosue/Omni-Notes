@@ -151,6 +151,7 @@
         <item>Português (Portuguese Brazil)</item>
         <item>Português (Portuguese Portugal)</item>
         <item>Русский (Russian)</item>
+        <item>Српски (Serbian Cyrillic)</item>
         <item>Slovenčina (Slovak)</item>
         <item>Slovenščina (Slovenian)</item>
         <item>Español (Spanish)</item>
@@ -186,6 +187,7 @@
         <item>pt_BR</item>
         <item>pt_PT</item>
         <item>ru_RU</item>
+        <item>sr_SP</item>
         <item>sk_SK</item>
         <item>sl_SL</item>
         <item>es_ES</item>
