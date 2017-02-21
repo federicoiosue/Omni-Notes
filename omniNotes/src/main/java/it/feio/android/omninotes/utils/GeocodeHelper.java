@@ -186,7 +186,6 @@ public class GeocodeHelper implements LocationListener {
 		HttpURLConnection conn = null;
 		InputStreamReader in = null;
 		StringBuilder jsonResults = new StringBuilder();
-		InputStreamReader in = null;
 		try {
 			URL url = new URL(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON + "?key=" + MAPS_API_KEY + "&input=" +
 					URLEncoder.encode(input, "utf8"));

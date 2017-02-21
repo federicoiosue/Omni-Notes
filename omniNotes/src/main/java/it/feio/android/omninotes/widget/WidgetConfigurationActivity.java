@@ -67,7 +67,6 @@ public class WidgetConfigurationActivity extends Activity {
 					default:
 						Log.e(Constants.TAG, "Wrong element choosen: " + checkedId);
                 }
-            }
         });
 
         categorySpinner = (Spinner) findViewById(R.id.widget_config_spinner);
