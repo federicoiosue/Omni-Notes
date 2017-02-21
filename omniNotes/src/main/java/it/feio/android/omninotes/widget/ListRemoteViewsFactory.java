@@ -17,20 +17,21 @@
 
 package it.feio.android.omninotes.widget;
 
-import android.annotation.TargetApi;
 import android.app.Application;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
+
+import java.util.List;
+
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
@@ -41,10 +42,7 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.TextHelper;
 
-import java.util.List;
 
-
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     private final int WIDTH = 80;
