@@ -23,12 +23,10 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextUtils;
-import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.date.DateUtils;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -44,20 +42,9 @@ public class TextHelper {
     public static Spanned[] parseTitleAndContent(Context mContext, Note note) {
 
         final int CONTENT_SUBSTRING_LENGTH = 300;
-        final int TITLE_SUBSTRING_OF_CONTENT_LIMIT = 50;
 
-        // Defining title and content texts
-        String titleText, contentText;
-
-        String content = note.getContent().trim();
-
-        if (note.getTitle().length() > 0) {
-            titleText = note.getTitle();
-            contentText = limit(note.getContent().trim(), 0, CONTENT_SUBSTRING_LENGTH, false, true);
-        } else {
-            titleText = limit(content, 0, TITLE_SUBSTRING_OF_CONTENT_LIMIT, true, false);
-            contentText = limit(content.replace(titleText, "").trim(), 0, CONTENT_SUBSTRING_LENGTH, false, false);
-        }
+		String titleText = note.getTitle();
+		String contentText = limit(note.getContent().trim(), 0, CONTENT_SUBSTRING_LENGTH, false, true);
 
         // Masking title and content string if note is locked
         if (note.isLocked()
@@ -71,30 +58,23 @@ public class TextHelper {
         }
 
         // Replacing checkmarks symbols with html entities
-        Spanned titleSpanned, contentSpanned;
-        if (note.isChecklist()) {
-            titleText = titleText.replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
-                    it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY).replace(
-                    it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
-                    it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY);
-            titleSpanned = Html.fromHtml(titleText);
-            contentText = contentText
+        Spanned contentSpanned;
+        if (note.isChecklist() && !TextUtils.isEmpty(contentText)) {
+			contentSpanned = Html.fromHtml(contentText
                     .replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
 							it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
                     .replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
 							it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY)
-                    .replace(System.getProperty("line.separator"), "<br/>");
-            contentSpanned = Html.fromHtml(contentText);
+                    .replace(System.getProperty("line.separator"), "<br/>"));
         } else {
-            titleSpanned = new SpannedString(titleText);
             contentSpanned = new SpannedString(contentText);
         }
 
-        return new Spanned[]{titleSpanned, contentSpanned};
+        return new Spanned[]{new SpannedString(titleText), contentSpanned};
     }
 
 
-    public static String limit(String value, int start, int length, boolean singleLine, boolean elipsize) {
+    private static String limit(String value, int start, int length, boolean singleLine, boolean elipsize) {
         if (start > value.length()) {
             return null;
         }

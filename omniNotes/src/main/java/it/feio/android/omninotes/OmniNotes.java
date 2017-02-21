@@ -27,7 +27,10 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
-import it.feio.android.omninotes.helpers.AnalyticsHelper;
+import it.feio.android.analitica.AnalyticsHelper;
+import it.feio.android.analitica.AnalyticsHelperFactory;
+import it.feio.android.analitica.exceptions.AnalyticsInstantiationException;
+import it.feio.android.analitica.exceptions.InvalidIdentifierException;
 import it.feio.android.omninotes.utils.Constants;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -37,7 +40,9 @@ import org.acra.sender.HttpSender.Type;
 
 import java.util.Locale;
 
-@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = BuildConfig.CRASH_REPORTING_URL, mode = ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
+
+@ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = BuildConfig.CRASH_REPORTING_URL, mode =
+		ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
 public class OmniNotes extends Application {
 
 	private static Context mContext;
@@ -45,13 +50,14 @@ public class OmniNotes extends Application {
 	private final static String PREF_LANG = "settings_language";
 	static SharedPreferences prefs;
 	private static RefWatcher refWatcher;
+	private AnalyticsHelper analyticsHelper;
+
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		mContext = getApplicationContext();
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-		refWatcher = LeakCanary.install(this);
 
 		if (isDebugBuild()) {
 			StrictMode.enableDefaults();
@@ -59,11 +65,17 @@ public class OmniNotes extends Application {
 
 		initAcra(this);
 
+		initLeakCanary();
+
 		// Checks selected locale or default one
 		updateLanguage(this, null);
+	}
 
-		// Analytics initialization
-		AnalyticsHelper.init(this, prefs.getBoolean(Constants.PREF_SEND_ANALYTICS, true));
+
+	private void initLeakCanary() {
+		if (!LeakCanary.isInAnalyzerProcess(this)) {
+			refWatcher = LeakCanary.install(this);
+		}
 	}
 
 
@@ -94,13 +106,16 @@ public class OmniNotes extends Application {
 		updateLanguage(this, language);
 	}
 
+
 	public static Context getAppContext() {
 		return OmniNotes.mContext;
 	}
 
+
 	public static RefWatcher getRefWatcher() {
 		return OmniNotes.refWatcher;
 	}
+
 
 	/**
 	 * Updates default language with forced one
@@ -111,10 +126,10 @@ public class OmniNotes extends Application {
 
 		if (TextUtils.isEmpty(language) && lang == null) {
 			cfg.locale = Locale.getDefault();
-			prefs.edit().putString(PREF_LANG, cfg.locale.toString()).commit();
+			prefs.edit().putString(PREF_LANG, cfg.locale.toString()).apply();
 		} else if (lang != null) {
 			cfg.locale = getLocale(lang);
-			prefs.edit().putString(PREF_LANG, lang).commit();
+			prefs.edit().putString(PREF_LANG, lang).apply();
 		} else if (!TextUtils.isEmpty(language)) {
 			cfg.locale = getLocale(language);
 		}
@@ -136,10 +151,25 @@ public class OmniNotes extends Application {
 
 	/**
 	 * Statically returns app's default SharedPreferences instance
+	 *
 	 * @return SharedPreferences object instance
 	 */
-	public static SharedPreferences getSharedPreferences(){
+	public static SharedPreferences getSharedPreferences() {
 		return getAppContext().getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 	}
 
+
+	public AnalyticsHelper getAnalyticsHelper() {
+		if (analyticsHelper == null) {
+			boolean enableAnalytics = prefs.getBoolean(Constants.PREF_SEND_ANALYTICS, true);
+			try {
+				String[] analyticsParams = BuildConfig.ANALYTICS_PARAMS.split(Constants.PROPERTIES_PARAMS_SEPARATOR);
+				analyticsHelper = new AnalyticsHelperFactory().getAnalyticsHelper(this, enableAnalytics,
+						analyticsParams);
+			} catch (AnalyticsInstantiationException | InvalidIdentifierException e) {
+				e.printStackTrace();
+			}
+		}
+		return analyticsHelper;
+	}
 }

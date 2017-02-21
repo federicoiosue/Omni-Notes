@@ -94,6 +94,13 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
+	@Override
+	protected void onStop() {
+		super.onStop();
+		EventBus.getDefault().unregister(this);
+	}
+
+
 	private void initUI() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -16,15 +16,12 @@
  */
 package it.feio.android.omninotes.utils;
 
-public interface Constants {
+public interface ConstantsBase {
 
-	String TAG = "Omni Notes";
 	String DATABASE_NAME = "omni-notes";
-	String PACKAGE = "it.feio.android.omninotes";
-	String PREFS_NAME = PACKAGE + "_preferences";
 	String APP_STORAGE_DIRECTORY_SB_SYNC = "db_sync";
 
-	String DEV_EMAIL = "federico.iosue@gmail.com";
+	String DEV_EMAIL = "omninotes@iosue.it";
 
 	// Used for updates retrieval
 	long UPDATE_MIN_FREQUENCY = 24 * 60 * 60 * 1000; // 1 day
@@ -117,4 +114,5 @@ public interface Constants {
 	int MENU_SORT_GROUP_ID = 11998811;
 
 	String MERGED_NOTES_SEPARATOR = "----------------------";
+	String PROPERTIES_PARAMS_SEPARATOR = ",";
 }

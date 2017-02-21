@@ -33,7 +33,7 @@ Actually the following functions are implemented:
 * Export/import notes to backup
 * Google Now integration: just tell "write a note" followed by the content
 * Multiple widgets, DashClock extension, Android 4.2 lockscreen compatibility
-* Multilanguage: 30 languages supported: https://crowdin.com/project/omni-notes
+* Multilanguage: 30+ languages supported: https://crowdin.com/project/omni-notes
 
 
 Further developments will include:
@@ -58,6 +58,10 @@ If you need some help on how to use the application you'll find everything you n
 ![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/12.png)
 
 [<img src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png">][1]
+
+## User guide
+
+Look into the wiki for GIFs-based tutorials: [LINK](https://github.com/federicoiosue/Omni-Notes/wiki)
 
 
 ##Build the app

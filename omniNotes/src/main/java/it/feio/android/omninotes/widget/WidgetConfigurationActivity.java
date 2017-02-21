@@ -23,28 +23,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
+
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.utils.Constants;
 
-import java.util.ArrayList;
-
 
 public class WidgetConfigurationActivity extends Activity {
 
-    private Activity mActivity;
-    private Button configOkButton;
     private Spinner categorySpinner;
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-    private ArrayList<Category> categories;
     private String sqlCondition;
     private RadioGroup mRadioGroup;
 
@@ -52,20 +48,17 @@ public class WidgetConfigurationActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mActivity = this;
 
         setResult(RESULT_CANCELED);
 
         setContentView(R.layout.activity_widget_configuration);
 
         mRadioGroup = (RadioGroup) findViewById(R.id.widget_config_radiogroup);
-        mRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.widget_config_notes:
-                        categorySpinner.setEnabled(false);
-                        break;
+        mRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.widget_config_notes:
+                    categorySpinner.setEnabled(false);
+                    break;
 
                     case R.id.widget_config_categories:
                         categorySpinner.setEnabled(true);
@@ -80,41 +73,37 @@ public class WidgetConfigurationActivity extends Activity {
         categorySpinner = (Spinner) findViewById(R.id.widget_config_spinner);
         categorySpinner.setEnabled(false);
         DbHelper db = DbHelper.getInstance();
-        categories = db.getCategories();
-        categorySpinner.setAdapter(new NavDrawerCategoryAdapter(mActivity, categories));
+        ArrayList<Category> categories = db.getCategories();
+        categorySpinner.setAdapter(new NavDrawerCategoryAdapter(this, categories));
 
-        configOkButton = (Button) findViewById(R.id.widget_config_confirm);
-        configOkButton.setOnClickListener(new OnClickListener() {
+        Button configOkButton = (Button) findViewById(R.id.widget_config_confirm);
+        configOkButton.setOnClickListener(v -> {
 
-            @Override
-            public void onClick(View v) {
+            if (mRadioGroup.getCheckedRadioButtonId() == R.id.widget_config_notes) {
+                sqlCondition = " WHERE " + DbHelper.KEY_ARCHIVED + " IS NOT 1 AND " + DbHelper.KEY_TRASHED + " IS" +
+                        " NOT 1 ";
 
-                if (mRadioGroup.getCheckedRadioButtonId() == R.id.widget_config_notes) {
-                    sqlCondition = " WHERE " + DbHelper.KEY_ARCHIVED + " IS NOT 1 AND " + DbHelper.KEY_TRASHED + " IS" +
-                            " NOT 1 ";
-
-                } else {
-                    Category tag = (Category) categorySpinner.getSelectedItem();
-                    sqlCondition = " WHERE " + DbHelper.TABLE_NOTES + "."
-                            + DbHelper.KEY_CATEGORY + " = " + tag.getId()
-							+ " AND " + DbHelper.KEY_ARCHIVED + " IS NOT 1"
-							+ " AND " + DbHelper.KEY_TRASHED + " IS NOT 1";
-                }
-
-                CheckBox showThumbnailsCheckBox = (CheckBox) findViewById(R.id.show_thumbnails);
-
-                // Updating the ListRemoteViewsFactory parameter to get the list
-                // of notes
-                ListRemoteViewsFactory.updateConfiguration(mActivity, mAppWidgetId,
-                        sqlCondition, showThumbnailsCheckBox.isChecked());
-
-                Intent resultValue = new Intent();
-                resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                        mAppWidgetId);
-                setResult(RESULT_OK, resultValue);
-
-                finish();
+            } else {
+                Category tag = (Category) categorySpinner.getSelectedItem();
+                sqlCondition = " WHERE " + DbHelper.TABLE_NOTES + "."
+                        + DbHelper.KEY_CATEGORY + " = " + tag.getId()
+                        + " AND " + DbHelper.KEY_ARCHIVED + " IS NOT 1"
+                        + " AND " + DbHelper.KEY_TRASHED + " IS NOT 1";
             }
+
+            CheckBox showThumbnailsCheckBox = (CheckBox) findViewById(R.id.show_thumbnails);
+
+            // Updating the ListRemoteViewsFactory parameter to get the list
+            // of notes
+            ListRemoteViewsFactory.updateConfiguration(getApplicationContext(), mAppWidgetId,
+                    sqlCondition, showThumbnailsCheckBox.isChecked());
+
+            Intent resultValue = new Intent();
+            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    mAppWidgetId);
+            setResult(RESULT_OK, resultValue);
+
+            finish();
         });
 
         // Checks if no tags are available and then disable that option

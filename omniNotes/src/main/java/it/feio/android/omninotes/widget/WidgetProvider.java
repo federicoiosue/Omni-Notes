@@ -18,7 +18,6 @@
 package it.feio.android.omninotes.widget;
 
 
-import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -30,6 +29,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
+
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
@@ -64,7 +64,6 @@ public abstract class WidgetProvider extends AppWidgetProvider {
     }
 
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void setLayout(Context context, AppWidgetManager appWidgetManager, int widgetId) {
 
         // Create an Intent to launch DetailActivity
@@ -107,8 +106,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
         RemoteViews views = getRemoteViews(context, widgetId, isSmall, isSingleLine, map);
 
-        // Tell the AppWidgetManager to perform an update on the current app
-        // widget
+        // Tell the AppWidgetManager to perform an update on the current app widget
         appWidgetManager.updateAppWidget(widgetId, views);
     }
 

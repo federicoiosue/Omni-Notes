@@ -40,8 +40,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
+import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.*;
@@ -399,7 +399,7 @@ public class SettingsFragment extends PreferenceFragment {
 		if (changelog != null) {
 			changelog.setOnPreferenceClickListener(arg0 -> {
 
-				AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_changelog");
+				((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_changelog");
 
 				new MaterialDialog.Builder(activity)
 						.customView(R.layout.activity_changelog, false)
@@ -412,7 +412,7 @@ public class SettingsFragment extends PreferenceFragment {
 			String versionString = "";
 			try {
 				pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-				versionString = pInfo.versionName;
+				versionString = pInfo.versionName + getString(R.string.version_postfix);
 			} catch (NameNotFoundException e) {
 				Log.e(Constants.TAG, "Error retrieving version", e);
 			}
@@ -459,7 +459,7 @@ public class SettingsFragment extends PreferenceFragment {
 							@Override
 							public void onPositive(MaterialDialog materialDialog) {
 
-								AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
+								((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
 
 								prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
 								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
@@ -561,7 +561,7 @@ public class SettingsFragment extends PreferenceFragment {
 								@Override
 								public void onPositive(MaterialDialog materialDialog) {
 
-									AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+									((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
 											"settings_import_data");
 
 									importDialog.dismiss();
@@ -643,7 +643,7 @@ public class SettingsFragment extends PreferenceFragment {
 				.callback(new MaterialDialog.ButtonCallback() {
 					@Override
 					public void onPositive(MaterialDialog materialDialog) {
-						AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
+						((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
 						// An IntentService will be launched to accomplish the export task
 						Intent service = new Intent(getActivity(), DataBackupIntentService.class);
 						service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
@@ -658,7 +658,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	@Override
 	public void onStart() {
-		AnalyticsHelper.trackScreenView(getClass().getName());
+		((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
 		super.onStart();
 	}
 

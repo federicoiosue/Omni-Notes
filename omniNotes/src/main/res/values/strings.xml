@@ -18,7 +18,6 @@
   -->
 <resources>
 
-    <string name="app_name">Omni Notes</string>
     <string name="logo">Logo</string>
     <string name="copyleft">Copyleft Feio 2015</string>
     <string name="dev_site">http://www.iosue.it/federico</string>
@@ -30,7 +29,7 @@
     <string name="paypal_url">http://goo.gl/ZXgBhz</string>
     <string name="bitcoin">Bitcoin</string>
     <string name="bitcoin_url">http://goo.gl/I6Xboe</string>
-    <string name="help_online_url">http://goo.gl/Q0aBoS</string>
+    <string name="help_online_url">https://goo.gl/Q843oh</string>
 
 
     <!-- Activities -->
@@ -235,7 +234,7 @@
     <string name="export_fail">File export failed</string>
     <string name="import_success">File imported successfully</string>
     <string name="import_fail">File import failed</string>
-    <string name="file_not_exists">File to be imported doesn\'t exists</string>
+    <string name="file_not_exists">File to be imported doesn\'t exist</string>
     <string name="import_warning">Importing data could overwrite current notes. Proceed?</string>
     <string name="export_warning">Exported file will overwrite existing one. Proceed?</string>
     <string name="settings_category_gestures">Gestures</string>

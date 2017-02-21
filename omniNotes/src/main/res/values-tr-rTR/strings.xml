@@ -147,7 +147,7 @@
   <string name="proceed">İlerle</string>
   <string name="contracted_view">Dar görünüm</string>
   <string name="expanded_view">Geniş görünüm</string>
-  <string name="grid_view">Grid view</string>
+  <string name="grid_view">Izgara görünümü</string>
   <string name="add_shortcut">Kısayol ekle</string>
   <string name="shortcut_added">Ana ekrana kısayol eklendi</string>
   <string name="shortcut_note_deleted">Silinen not kısayol noktaları</string>
@@ -229,7 +229,7 @@
   <string name="settings_screen_notifications">Bildirimler</string>
   <string name="settings_enable_vibration">Titreşim</string>
   <string name="settings_notification_enable_boot_persistence">Bildirimleri kalıcı yap</string>
-  <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
+  <string name="settings_notification_enable_boot_persistence_summary">Yeniden başlatmaları atlatması için uygulamanın bildirimlere erişimine izin ver</string>
   <string name="settings_screen_navigation">Gezinti</string>
   <string name="settings_changelog">Değişiklik kayıtları</string>
   <string name="settings_enable_editor_links">Bağlantıları kabul et</string>
@@ -276,7 +276,7 @@
   <string name="minutes">dakika</string>
   <string name="settings_simple_calendar">Sade takvim ve saat</string>
   <string name="settings_simple_calendar_summary">Daha sade ve basit olan Android takvim ve saat gösterimini kullanın</string>
-  <string name="settings_first_day_of_week">First day of week</string>
+  <string name="settings_first_day_of_week">Haftanın ilk günü</string>
   <string name="settings_tour_show_again">Uygulamayı keşfet</string>
   <string name="settings_tour_show_again_summary">Uygulamayı bir kez daha keşfe çık</string>
   <string name="backup_include_settings">Ayarları içerir (şifreler ile)</string>
@@ -316,15 +316,15 @@
   <string name="settings_attachments_on_bottom">Alttaki ekler</string>
   <string name="settings_attachments_on_bottom_summary_on">Not içeriği aşağıdaki ekleri gösterir</string>
   <string name="settings_attachments_on_bottom_summary_off">Ekleri not içeriğinin üstünde gösterir</string>
-  <string name="settings_prettified_dates">Prettified dates</string>
-  <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
-  <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
-  <string name="settings_screen_privacy">Privacy</string>
+  <string name="settings_prettified_dates">Süslenmiş tarihler</string>
+  <string name="settings_prettified_dates_summary_on">Tarihler daha kolay bir biçimde gösterilir</string>
+  <string name="settings_prettified_dates_summary_off">Tarihler daha detaylı bir biçimde gösterilir</string>
+  <string name="settings_screen_privacy">Gizlilik</string>
   <string name="settings_error_reporting">Hata bildirimi</string>
   <string name="settings_error_reporting_summary_on">Uygulama çökerse, geliştiricinin yardımcı olabilmesi için çökme rapor edilir</string>
   <string name="settings_error_reporting_summary_off">Çökme olmayan raporlar gönderilecek . Birşeyler yanlış giderse şikayet etmeyin!</string>
-  <string name="settings_send_analytics">Share anonymous data</string>
-  <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
+  <string name="settings_send_analytics">İsimsiz veri paylaş</string>
+  <string name="settings_send_analytics_summary">Aygıt modeli, dili, sık kullanılan uygulama özellikleri gibi hassas olamayan bilgileri göndererek geliştiriciye yardım edin. Bu veriler yalnızca açık kaynaklı uygulamayı iyileştirmek için kullanılır.</string>
   <string name="settings_statistics">İstatistikler</string>
   <!-- Instructions -->
   <string name="tour_request_start">Omni Notes\'u yeni yükledin, uygulamayı keşfetmeye ne dersin?</string>

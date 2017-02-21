@@ -42,7 +42,6 @@ import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
 import it.feio.android.checklistview.utils.AlphaManager;
-import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 import it.feio.android.omninotes.models.views.SketchView;
@@ -79,8 +78,9 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
     @Override
     public void onStart() {
-		AnalyticsHelper.trackScreenView(getClass().getName());
-        super.onStart();
+		((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+
+		super.onStart();
     }
 
 
