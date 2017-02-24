@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2017 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,13 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package it.feio.android.omninotes.utils;
-
 
 public interface Constants extends ConstantsBase {
 
-	String TAG = "Omni Notes";
-	String EXTERNAL_STORAGE_FOLDER = "Omni Notes";
-
+  String TAG = "Omni Notes";
+  String EXTERNAL_STORAGE_FOLDER = "Omni Notes";
+  String PACKAGE = "it.feio.android.omninotes";
+  String PREFS_NAME = PACKAGE + "_preferences";
 }

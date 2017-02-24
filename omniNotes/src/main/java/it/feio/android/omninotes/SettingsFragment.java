@@ -26,8 +26,12 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.*;
-import android.support.annotation.NonNull;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -41,20 +45,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.afollestad.materialdialogs.DialogAction;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
-import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.helpers.AnalyticsHelper;
-import it.feio.android.omninotes.helpers.BackupHelper;
-import it.feio.android.omninotes.helpers.PermissionsHelper;
-import it.feio.android.omninotes.helpers.SpringImportHelper;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.utils.*;
+
 import org.apache.commons.lang.StringUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
-import rx.Observable;
-import rx.functions.Func1;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -62,6 +58,22 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+
+import it.feio.android.analitica.AnalyticsHelper;
+import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.helpers.PermissionsHelper;
+import it.feio.android.omninotes.helpers.SpringImportHelper;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ConstantsBase;
+import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.ResourcesUtils;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.SystemHelper;
+import rx.Observable;
 
 
 public class SettingsFragment extends PreferenceFragment {
@@ -188,7 +200,7 @@ public class SettingsFragment extends PreferenceFragment {
 		if (backupIntegrityCheck != null) {
 			backupIntegrityCheck.setOnPreferenceClickListener(arg0 -> {
 				List<LinkedList<DiffMatchPatch.Diff>> errors = BackupHelper.integrityCheck(activity, StorageHelper
-						.getBackupDir(Constants.AUTO_BACKUP_DIR));
+						.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
 				if (!errors.isEmpty()) {
 					DiffMatchPatch diffMatchPatch = new DiffMatchPatch();
 					String content = Observable.from(errors).map(diffs -> diffMatchPatch.diffPrettyHtml(diffs) +
@@ -454,7 +466,7 @@ public class SettingsFragment extends PreferenceFragment {
 		if (changelog != null) {
 			changelog.setOnPreferenceClickListener(arg0 -> {
 
-				AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_changelog");
+				((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_changelog");
 
 				new MaterialDialog.Builder(activity)
 						.customView(R.layout.activity_changelog, false)
@@ -514,8 +526,7 @@ public class SettingsFragment extends PreferenceFragment {
 							@Override
 							public void onPositive(MaterialDialog materialDialog) {
 
-								AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
-										"settings_tour_show_again");
+								((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
 
 								prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
 								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
@@ -617,7 +628,7 @@ public class SettingsFragment extends PreferenceFragment {
 								@Override
 								public void onPositive(MaterialDialog materialDialog) {
 
-									AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+									((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
 											"settings_import_data");
 
 									importDialog.dismiss();
@@ -708,7 +719,7 @@ public class SettingsFragment extends PreferenceFragment {
 				.callback(new MaterialDialog.ButtonCallback() {
 					@Override
 					public void onPositive(MaterialDialog materialDialog) {
-						AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
+						((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
 						// An IntentService will be launched to accomplish the export task
 						Intent service = new Intent(getActivity(), DataBackupIntentService.class);
 						service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
@@ -723,7 +734,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	@Override
 	public void onStart() {
-		AnalyticsHelper.trackScreenView(getClass().getName());
+		((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
 		super.onStart();
 	}
 

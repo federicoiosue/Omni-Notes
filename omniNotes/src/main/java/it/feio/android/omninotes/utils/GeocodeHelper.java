@@ -184,8 +184,8 @@ public class GeocodeHelper implements LocationListener {
 		ArrayList<String> resultList = null;
 
 		HttpURLConnection conn = null;
-		StringBuilder jsonResults = new StringBuilder();
 		InputStreamReader in = null;
+		StringBuilder jsonResults = new StringBuilder();
 		try {
 			URL url = new URL(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON + "?key=" + MAPS_API_KEY + "&input=" +
 					URLEncoder.encode(input, "utf8"));
@@ -206,6 +206,13 @@ public class GeocodeHelper implements LocationListener {
 		} finally {
 			if (conn != null) {
 				conn.disconnect();
+			}
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					Log.e(Constants.TAG, "Error closing address autocompletion InputStream");
+				}
 			}
 		}
 

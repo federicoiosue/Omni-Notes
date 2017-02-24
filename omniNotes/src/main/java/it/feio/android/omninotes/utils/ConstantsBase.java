@@ -19,14 +19,11 @@ package it.feio.android.omninotes.utils;
 public interface ConstantsBase {
 
 	String DATABASE_NAME = "omni-notes";
-	String PACKAGE = "it.feio.android.omninotes";
-	String PREFS_NAME = PACKAGE + "_preferences";
 	String APP_STORAGE_DIRECTORY_SB_SYNC = "db_sync";
 
-	String DEV_EMAIL = "federico.iosue@gmail.com";
+	String DEV_EMAIL = "omninotes@iosue.it";
 
 	// Used for updates retrieval
-	String ON_VERSION_CHECK_URL = "http://www.iosue.it/federico/apps/ON-version-check/get_app_data.php";
 	long UPDATE_MIN_FREQUENCY = 24 * 60 * 60 * 1000; // 1 day
 	String DRIVE_FOLDER_LAST_BUILD = "https://goo.gl/gB55RE";
 
@@ -117,6 +114,7 @@ public interface ConstantsBase {
 	int MENU_SORT_GROUP_ID = 11998811;
 
 	String MERGED_NOTES_SEPARATOR = "----------------------";
+	String PROPERTIES_PARAMS_SEPARATOR = ",";
 
 	String AUTO_BACKUP_DIR = "_autobackup";
 }

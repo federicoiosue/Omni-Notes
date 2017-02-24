@@ -33,7 +33,7 @@ Actually the following functions are implemented:
 * Export/import notes to backup
 * Google Now integration: just tell "write a note" followed by the content
 * Multiple widgets, DashClock extension, Android 4.2 lockscreen compatibility
-* Multilanguage: 30 languages supported: https://crowdin.com/project/omni-notes
+* Multilanguage: 30+ languages supported: https://crowdin.com/project/omni-notes
 
 
 Further developments will include:

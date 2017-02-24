@@ -17,15 +17,22 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.3.0" changeDate="Feb 9, 2017">
+    <changelogversion versionName="5.4.0" changeDate="Feb XX, 2017">
         <changelogtext>[b]New![/b] Automatic JSON export: your notes and attachments are now kept in sync into "_autobackup" folder within default backup folder.</changelogtext>
         <changelogtext>[b]New![/b] Gifs animation support within internal gallery</changelogtext>
         <changelogtext>[i]Improved[/i] Added file size to attachments'action dialog</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="5.2.20" changeDate="Feb 3, 2017">
-        <changelogtext>[b]New![/b] From now on ON will be available also as completelly open-source (no more inherited closed dependencies too). News on the G+ community.</changelogtext>
+    <changelogversion versionName="5.3.0" changeDate="Feb 21, 2017">
+        <changelogtext>[b]New![/b] From now on the app will be available also as completely open-source (no more inherited closed dependencies too). News on the G+ community!</changelogtext>
+        <changelogtext>[b]New![/b] Enjoy the renewed help page (accessible from inside settings) that makes use of animated tutorials</changelogtext>
+        <changelogtext>[b]New![/b] Added Serbian Cyrillic language (thanks [a href='https://crowdin.com/profile/slsimic']Slobodan Simic[/a])</changelogtext>
+        <changelogtext>[b]Improved![/b] New checklist items are now capitalized</changelogtext>
+        <changelogtext>[i]Improved[/i] Category deletion button no more shown on creation</changelogtext>
+        <changelogtext>[i]Improved[/i] Notes without title are now shown as they into list instead of using part of the content to improve performances</changelogtext>
         <changelogtext>[i]Improved[/i] Updated translations</changelogtext>
+        <changelogtext>[u]Fix[/u] Memory leaks related to checklists and geolocation</changelogtext>
+        <changelogtext>[u]Fix[/u] Hidden attachments from locked notes into home widget</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.2.19" changeDate="Oct 17, 2016">

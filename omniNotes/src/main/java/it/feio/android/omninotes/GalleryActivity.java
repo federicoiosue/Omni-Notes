@@ -29,7 +29,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import it.feio.android.omninotes.helpers.AnalyticsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
@@ -84,7 +83,7 @@ public class GalleryActivity extends ActionBarActivity {
 
     @Override
     public void onStart() {
-		AnalyticsHelper.trackScreenView(getClass().getName());
+		((OmniNotes)getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
         super.onStart();
     }
 

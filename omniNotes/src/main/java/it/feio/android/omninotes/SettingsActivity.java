@@ -13,8 +13,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.helpers.AnalyticsHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -95,7 +95,7 @@ public class SettingsActivity extends ActionBarActivity implements FolderChooser
 				.callback(new MaterialDialog.ButtonCallback() {
 					@Override
 					public void onPositive(MaterialDialog materialDialog) {
-						AnalyticsHelper.trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+						((OmniNotes)getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
 								"settings_import_data");
 						Intent service = new Intent(getApplicationContext(), DataBackupIntentService.class);
 						service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_LEGACY);

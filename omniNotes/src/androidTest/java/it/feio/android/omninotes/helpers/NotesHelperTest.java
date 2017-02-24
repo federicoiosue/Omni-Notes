@@ -17,17 +17,21 @@
 
 package it.feio.android.omninotes.helpers;
 
-import android.test.InstrumentationTestCase;
+import android.support.test.runner.AndroidJUnit4;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.Assert.*;
 
-public class NotesHelperTest extends InstrumentationTestCase {
+
+@RunWith(AndroidJUnit4.class)
+public class NotesHelperTest {
 
 	@Test
 	public void mergeNotes() {
