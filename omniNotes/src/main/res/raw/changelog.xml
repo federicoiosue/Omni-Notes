@@ -17,6 +17,11 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.3.1" changeDate="Feb 26, 2017">
+        <changelogtext>[b]New![/b] GIFs support into internal gallery</changelogtext>
+        <changelogtext>[u]Fix[/u] Minor bug fixes</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.3.0" changeDate="Feb 21, 2017">
         <changelogtext>[b]New![/b] From now on the app will be available also as completely open-source (no more inherited closed dependencies too). News on the G+ community!</changelogtext>
         <changelogtext>[b]New![/b] Enjoy the renewed help page (accessible from inside settings) that makes use of animated tutorials</changelogtext>
