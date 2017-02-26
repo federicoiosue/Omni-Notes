@@ -103,7 +103,6 @@
   <string name="categorize_as">Zařadit jako</string>
   <string name="title_activity_category">Upravit kategorii</string>
   <string name="delete_unused_category_confirmation">Opravdu chcete kategorii smazat?</string>
-  <string name="delete_category_confirmation">Počet poznámek v této kategorii: $1$\nOpravdu chcete zrušit zařezení poznámek do této kategorie a kategorii smazat?</string>
   <string name="discard">Zahodit</string>
   <string name="remove_category">Odstranit kategorii</string>
   <string name="no_tags_created">Ještě nebyly vytvořeny žádné značky</string>

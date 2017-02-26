@@ -103,7 +103,6 @@
   <string name="categorize_as">Categoritza com a</string>
   <string name="title_activity_category">Edita la categoria</string>
   <string name="delete_unused_category_confirmation">Esteu segur de voler suprimir la categoria?</string>
-  <string name="delete_category_confirmation">Aquesta categoria és usada per $1$ notes.\nConfirmeu que voleu treure la categoria de les notes i suprimir la categoria?</string>
   <string name="discard">Descarta</string>
   <string name="remove_category">Suprimeix la categoria</string>
   <string name="no_tags_created">Encara no s\'han creat etiquetes</string>

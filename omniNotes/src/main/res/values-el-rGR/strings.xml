@@ -103,7 +103,6 @@
   <string name="categorize_as">Κατηγοριοποίηση ως</string>
   <string name="title_activity_category">Επεξεργασία κατηγορίας</string>
   <string name="delete_unused_category_confirmation">Επιβεβαίωση διαγραφής κατηγορίας;</string>
-  <string name="delete_category_confirmation">Αυτή η κατηγορία χρησιμοποιείται από $1$ σημείωση/s.\nΕπιβεβαίωση αποκατηγοριοποίησης σημειώσεων και αφαίρεσή της;</string>
   <string name="discard">Απόρριψη</string>
   <string name="remove_category">Αφαίρεση κατηγορίας</string>
   <string name="no_tags_created">Δεν έχουν δημιουργηθεί ετικέτες ακόμη</string>

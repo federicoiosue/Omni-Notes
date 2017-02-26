@@ -103,7 +103,6 @@
   <string name="categorize_as">Pārvietot zem kategorijas</string>
   <string name="title_activity_category">Labot kategoriju</string>
   <string name="delete_unused_category_confirmation">Apstiprināt kategorijas dzēšanu?</string>
-  <string name="delete_category_confirmation">Zem šīs kategorijas ir $1$ piezīme(s).\nApstiprināt šīs kategorijas noņemšanu no šīm piezīmēm un dzēšanu?</string>
   <string name="discard">Atmest</string>
   <string name="remove_category">Noņemt kategoriju</string>
   <string name="no_tags_created">Neviena birka vēl nav izveidota</string>

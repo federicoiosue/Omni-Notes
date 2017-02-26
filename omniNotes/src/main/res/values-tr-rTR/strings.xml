@@ -103,7 +103,6 @@
   <string name="categorize_as">Kategorize et</string>
   <string name="title_activity_category">Kategoriyi düzenle</string>
   <string name="delete_unused_category_confirmation">Kategoriyi silme işlemini onayla ?</string>
-  <string name="delete_category_confirmation">Bu kategori notları $1$ tarafından kullanılır.\nKategorize olmuş veya olmamış notların silme işlemini onaylıyor musun?</string>
   <string name="discard">İptal et</string>
   <string name="remove_category">Kategoriyi kaldır</string>
   <string name="no_tags_created">Oluşturulmuş bir etiket yok</string>

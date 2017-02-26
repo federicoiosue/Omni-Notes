@@ -103,7 +103,6 @@
   <string name="categorize_as">Katagorisera som</string>
   <string name="title_activity_category">Ändra kategori</string>
   <string name="delete_unused_category_confirmation">Bekräfta borttagning av kategori?</string>
-  <string name="delete_category_confirmation">$1$ anteckning(ar) använder denna kategori. \n bekräfta okatagorisering av dessa anteckningar och borttagning av kategori</string>
   <string name="discard">Kasta bort</string>
   <string name="remove_category">Ta bort kategori</string>
   <string name="no_tags_created">Inga taggar har skapats ännu</string>

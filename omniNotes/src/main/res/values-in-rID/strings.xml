@@ -103,7 +103,6 @@
   <string name="categorize_as">kategorikan sebagai</string>
   <string name="title_activity_category">Sunting kategori</string>
   <string name="delete_unused_category_confirmation">Konfirmasikan penghapusan kategori?</string>
-  <string name="delete_category_confirmation">Kategori ini digunakan oleh catatan $1$.\n Konfirmasi catatan tidak terkategori dan penghapusan kategori?</string>
   <string name="discard">Buang</string>
   <string name="remove_category">Hapus kategori</string>
   <string name="no_tags_created">Tidak ada tag yang sudah dibuat</string>

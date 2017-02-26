@@ -103,7 +103,6 @@
   <string name="categorize_as">Categorize as</string>
   <string name="title_activity_category">Edit category</string>
   <string name="delete_unused_category_confirmation">Confirm category deletion?</string>
-  <string name="delete_category_confirmation">This category is used by $1$ note/s.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">ຍົກເລີກ</string>
   <string name="remove_category">Remove category</string>
   <string name="no_tags_created">ບໍ່ມີປ້າຍທີ່ຖືກສ້າງຂຶ້ນເທື່ອ</string>

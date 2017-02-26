@@ -103,7 +103,7 @@
   <string name="categorize_as">Категориши као</string>
   <string name="title_activity_category">Уреди категорију</string>
   <string name="delete_unused_category_confirmation">Потврђујете брисање категорије?</string>
-  <string name="delete_category_confirmation">This category is used by $1$ note/s.\nConfirm notes un-categorization and category deletion?</string>
+  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">Одбаци</string>
   <string name="remove_category">Уклони категорију</string>
   <string name="no_tags_created">Још нема направљених ознака</string>

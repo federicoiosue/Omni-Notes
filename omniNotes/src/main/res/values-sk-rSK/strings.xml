@@ -103,7 +103,6 @@
   <string name="categorize_as">Kategorizovať ako</string>
   <string name="title_activity_category">Upraviť kategóriu</string>
   <string name="delete_unused_category_confirmation">Potvrdzujete vymazanie kategórie?</string>
-  <string name="delete_category_confirmation">Táto kategória je používaná $1$ poznámkami.\nPotvrdzujete zrušenie kategorizácie poznámok a vymazanie kategórie?</string>
   <string name="discard">Zahodiť</string>
   <string name="remove_category">Odstrániť kategóriu</string>
   <string name="no_tags_created">Žiadne značky ešte neboli vytvorené</string>

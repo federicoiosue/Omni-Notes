@@ -103,7 +103,6 @@
   <string name="categorize_as">Kategorisieren als</string>
   <string name="title_activity_category">Kategorie bearbeiten</string>
   <string name="delete_unused_category_confirmation">Löschen der Kategorie bestätigen</string>
-  <string name="delete_category_confirmation">Diese Kategorie wird von $1$ Notiz(en) verwendet.\nUnkategorisieren der Notiz(en) und löschen der Kategorie bestätigen?</string>
   <string name="discard">Verwerfen</string>
   <string name="remove_category">Kategorie entfernen</string>
   <string name="no_tags_created">Es wurden noch keine Stichworte erstellt</string>

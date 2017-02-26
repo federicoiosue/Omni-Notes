@@ -103,7 +103,6 @@
   <string name="categorize_as">के रूप में वर्गीकृत</string>
   <string name="title_activity_category">वर्ग संशोधित करें</string>
   <string name="delete_unused_category_confirmation">श्रेणी हटाने की पुष्टि?</string>
-  <string name="delete_category_confirmation">इस श्रेणी के $1$ note/s.\nConfirm नोट्स संयुक्त राष्ट्र-वर्गीकरण और श्रेणी हटाने के द्वारा प्रयोग किया जाता है?</string>
   <string name="discard">त्यागें</string>
   <string name="remove_category">श्रेणी हटाएँ</string>
   <string name="no_tags_created">कोई टैग नहीं बनाया गया</string>

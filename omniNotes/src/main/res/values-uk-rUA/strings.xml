@@ -103,7 +103,6 @@
   <string name="categorize_as">Класифікувати за</string>
   <string name="title_activity_category">Змінити категорію</string>
   <string name="delete_unused_category_confirmation">Ви дійсно хочете видалити категорію?</string>
-  <string name="delete_category_confirmation">Ця категорія використовується $1$ нотаткою.\nПідтверджуєте видалення категорії?</string>
   <string name="discard">Відхилити</string>
   <string name="remove_category">Вилучити категорію</string>
   <string name="no_tags_created">Немає створених ярличків</string>

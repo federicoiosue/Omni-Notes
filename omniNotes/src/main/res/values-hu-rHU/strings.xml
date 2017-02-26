@@ -103,7 +103,6 @@
   <string name="categorize_as">Kategorizál mint</string>
   <string name="title_activity_category">Kategória szerkesztése</string>
   <string name="delete_unused_category_confirmation">Megerősíti a kategória törlését?</string>
-  <string name="delete_category_confirmation">Ebbe a kategóriába $1$ db jegyzet tartozik.\nBiztos megszünteti a használatát és törli?</string>
   <string name="discard">Elvetés</string>
   <string name="remove_category">Kategória eltávolítása</string>
   <string name="no_tags_created">Nincsenek címkék létrehozva</string>

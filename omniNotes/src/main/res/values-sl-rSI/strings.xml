@@ -103,7 +103,6 @@
   <string name="categorize_as">Kategorizira kot</string>
   <string name="title_activity_category">Urejanje kategorije</string>
   <string name="delete_unused_category_confirmation">Potrdi brisanje kategorije?</string>
-  <string name="delete_category_confirmation">Ta kategorija se uporablja z $1$ note/s.\n potrudi beležko nekategorizacijo in kategorijo izbris?</string>
   <string name="discard">Zavrzi</string>
   <string name="remove_category">Odstranite kategorijo</string>
   <string name="no_tags_created">Narejena ni bila še nobena značka</string>

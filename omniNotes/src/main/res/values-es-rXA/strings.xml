@@ -103,7 +103,6 @@
   <string name="categorize_as">Categorizar como</string>
   <string name="title_activity_category">Editar categoría</string>
   <string name="delete_unused_category_confirmation">Confirmar desaniciu de categoría?</string>
-  <string name="delete_category_confirmation">Esta categoría ta usada por $1$ nota/es.\nDe xuru que quies retirala de les notes y desaniciala?</string>
   <string name="discard">Descartar</string>
   <string name="remove_category">Desaniciar categoría</string>
   <string name="no_tags_created">Entá nun hai etiquetes creaes</string>

@@ -103,7 +103,6 @@
   <string name="categorize_as">分类为</string>
   <string name="title_activity_category">编辑类别</string>
   <string name="delete_unused_category_confirmation">确认删除类别？</string>
-  <string name="delete_category_confirmation">此类别已被用于标记 $1$ 条记事.\n确认移除记事中的分类并删除此类别？</string>
   <string name="discard">取消</string>
   <string name="remove_category">移除类别</string>
   <string name="no_tags_created">尚未创建标签</string>

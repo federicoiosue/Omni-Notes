@@ -103,7 +103,6 @@
   <string name="categorize_as">Categoriseren als</string>
   <string name="title_activity_category">Bewerk categorie</string>
   <string name="delete_unused_category_confirmation">Categorie verwijdering bevestigen?</string>
-  <string name="delete_category_confirmation">Deze categorie wordt gebruikt door $1$ notities.\nBevestig notities on-categorisatie en categorie verwijderen?</string>
   <string name="discard">Negeer</string>
   <string name="remove_category">Verwijder categorie</string>
   <string name="no_tags_created">Er werden nog geen tags gemaakt</string>

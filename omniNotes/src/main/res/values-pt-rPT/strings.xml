@@ -103,7 +103,6 @@
   <string name="categorize_as">Adicionar a uma categoria</string>
   <string name="title_activity_category">Editar categoria</string>
   <string name="delete_unused_category_confirmation">Confirma eliminação da categoria?</string>
-  <string name="delete_category_confirmation">Esta categoria contém $1$ nota/s.\nConfirma a remoção de categoria das notas e a respectiva eliminação?</string>
   <string name="discard">Rejeitar</string>
   <string name="remove_category">Remover categoria</string>
   <string name="no_tags_created">Não foram criadas nenhumas etiquetas ainda</string>

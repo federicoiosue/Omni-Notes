@@ -103,7 +103,6 @@
   <string name="categorize_as">סווג כ</string>
   <string name="title_activity_category">עריכת קטגוריה</string>
   <string name="delete_unused_category_confirmation">וידוא מחיקת קטגוריה?</string>
-  <string name="delete_category_confirmation">$1$ הערות משתמשות בקטגוריה זו.\nהאם לאשר הסרת סיווג ההערות ומחיקת הקטגוריה?</string>
   <string name="discard">ביטול</string>
   <string name="remove_category">הסרת קטגוריה</string>
   <string name="no_tags_created">לא נוצרו עדיין תגיות</string>

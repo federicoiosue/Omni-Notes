@@ -103,7 +103,6 @@
   <string name="categorize_as">Adicionar a uma categoria</string>
   <string name="title_activity_category">Editar categorias</string>
   <string name="delete_unused_category_confirmation">Excluir categoria?</string>
-  <string name="delete_category_confirmation">Essa categoria está sendo usada por $1$ nota(s).\nDesassociá-la dessas notas e excluí-la?</string>
   <string name="discard">Descartar</string>
   <string name="remove_category">Remover categoria</string>
   <string name="no_tags_created">Nenhuma marca foi criada ainda</string>

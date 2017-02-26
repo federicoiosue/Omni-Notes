@@ -104,7 +104,6 @@
   <string name="categorize_as">Categorizar como</string>
   <string name="title_activity_category">Editar categoría</string>
   <string name="delete_unused_category_confirmation">¿Eliminar categoría?</string>
-  <string name="delete_category_confirmation">Esta categoría está en uso por $1$ nota(s).\n¿Descategorizar las notas y eliminar la categoría?</string>
   <string name="discard">Descartar</string>
   <string name="remove_category">Eliminar categoría</string>
   <string name="no_tags_created">No se ha creado ninguna etiqueta todavía</string>

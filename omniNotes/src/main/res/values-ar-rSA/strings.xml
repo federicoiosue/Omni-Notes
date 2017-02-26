@@ -103,7 +103,6 @@
   <string name="categorize_as">صنف</string>
   <string name="title_activity_category">صحح الفئة</string>
   <string name="delete_unused_category_confirmation">تأكيد حذف الفئة؟</string>
-  <string name="delete_category_confirmation">هذه الفئة مستخدمة في $1$ مدونات. \n هل تريد الغاء التصنيف و حذف الفئة؟</string>
   <string name="discard">رفض</string>
   <string name="remove_category">ازالة فئة</string>
   <string name="no_tags_created">لم يتم إنشاء وسوم بعد</string>

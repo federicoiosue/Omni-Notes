@@ -103,7 +103,6 @@
   <string name="categorize_as">Выберите категорию</string>
   <string name="title_activity_category">Изменение категории</string>
   <string name="delete_unused_category_confirmation">Удаление категории</string>
-  <string name="delete_category_confirmation">Данная категория включает $1$ заметку(-ок).\nПодтвердить исключение категории из всех заметок?</string>
   <string name="discard">Отмена</string>
   <string name="remove_category">Удалить категорию</string>
   <string name="no_tags_created">Не создано ни одной метки</string>

@@ -105,8 +105,6 @@ Long-click -&gt; delete\"</string>
   <string name="categorize_as">ចាត់ចូលក្នុងជំពូក</string>
   <string name="title_activity_category">កែ ជំពូក</string>
   <string name="delete_unused_category_confirmation">អះអាងពីការ លប់ជំពូក?</string>
-  <string name="delete_category_confirmation">\"This category is used by $1$ note/s.
-Confirm notes un-categorization and category deletion?\"</string>
   <string name="discard">បោះបង់</string>
   <string name="remove_category">លប់ជំពូក</string>
   <string name="no_tags_created">No tags have been created yet</string>

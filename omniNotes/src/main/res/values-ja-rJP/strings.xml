@@ -103,7 +103,6 @@
   <string name="categorize_as">...のカテゴリーに分類</string>
   <string name="title_activity_category">カテゴリーを編集</string>
   <string name="delete_unused_category_confirmation">カテゴリーを削除してもよろしいですか?</string>
-  <string name="delete_category_confirmation">このカテゴリーは $1$ のノートで使用されています。 \nノートのカテゴリーを未分類にして、カテゴリーを削除してもよろしいですか?</string>
   <string name="discard">破棄</string>
   <string name="remove_category">カテゴリーを削除</string>
   <string name="no_tags_created">タグはまだ作成されていません</string>

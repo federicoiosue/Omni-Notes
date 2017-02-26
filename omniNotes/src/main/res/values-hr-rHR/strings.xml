@@ -103,7 +103,6 @@
   <string name="categorize_as">Kategoriziraj kao</string>
   <string name="title_activity_category">Uredi kategoriju</string>
   <string name="delete_unused_category_confirmation">Potvrdite brisanje kategorije?</string>
-  <string name="delete_category_confirmation">Ovu kategoriju koristi $1$ bilješka/e.\nPotvrdite odkategoriziranje bilježaka i brisanje kategorije?</string>
   <string name="discard">Odbaci</string>
   <string name="remove_category">Ukloni kategoriju</string>
   <string name="no_tags_created">Nema tagova zasad</string>

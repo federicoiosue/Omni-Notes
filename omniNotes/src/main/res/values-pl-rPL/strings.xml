@@ -103,7 +103,6 @@
   <string name="categorize_as">Sklasyfikować jako</string>
   <string name="title_activity_category">Edytuj kategorię</string>
   <string name="delete_unused_category_confirmation">Potwierdź usunięcie kategorii?</string>
-  <string name="delete_category_confirmation">Ta kategoria jest używana przez notatkę $1$ note/s.\nOdznaczyć kategorię i ją usunąć?</string>
   <string name="discard">Odrzuć</string>
   <string name="remove_category">Usuń kategorię</string>
   <string name="no_tags_created">Nie ma jeszcze utworzonych znaczników</string>
