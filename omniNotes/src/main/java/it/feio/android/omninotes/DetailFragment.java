@@ -1859,10 +1859,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			mPlayer.start();
 			mPlayer.setOnCompletionListener(mp -> {
 				mPlayer = null;
-				((ImageView) isPlayingView.findViewById(R.id.gridview_item_picture)).setImageBitmap
-						(recordingBitmap);
-				recordingBitmap = null;
-				isPlayingView = null;
+				if (isPlayingView != null) {
+					((ImageView) isPlayingView.findViewById(R.id.gridview_item_picture)).setImageBitmap
+							(recordingBitmap);
+					recordingBitmap = null;
+					isPlayingView = null;
+				}
 			});
 		} catch (IOException e) {
 			Log.e(Constants.TAG, "prepare() failed", e);
@@ -1873,7 +1875,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void stopPlaying() {
 		if (mPlayer != null) {
-			((ImageView) isPlayingView.findViewById(R.id.gridview_item_picture)).setImageBitmap(recordingBitmap);
+			if (isPlayingView != null) {
+				((ImageView) isPlayingView.findViewById(R.id.gridview_item_picture)).setImageBitmap(recordingBitmap);
+			}
 			isPlayingView = null;
 			recordingBitmap = null;
 			mPlayer.release();
