@@ -28,7 +28,8 @@
   <string name="save">Opslaan</string>
   <string name="share">AandeelDelen</string>
   <string name="undo">Ongedaan maken</string>
-  <string name="trash">Rommel</string>
+  <string name="trash">Prullenbak</string>
+  <string name="trash_action">Verwijderen</string>
   <string name="trashed">verwijderd</string>
   <string name="note_trashed">Verwijderde notitie(s)</string>
   <string name="note_untrashed">Notitie(s) hersteld uit de Prullenbak</string>
