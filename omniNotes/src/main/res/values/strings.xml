@@ -44,6 +44,7 @@
     <string name="share">Share</string>
     <string name="undo">Undo</string>
     <string name="trash">Trash</string>
+    <string name="trash_action">Trash</string>
     <string name="trashed">trashed</string>
     <string name="note_trashed">Note(s) trashed</string>
     <string name="note_untrashed">Note(s) restored from trash</string>

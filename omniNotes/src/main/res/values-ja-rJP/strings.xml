@@ -29,6 +29,7 @@
   <string name="share">共有</string>
   <string name="undo">元に戻す</string>
   <string name="trash">ごみ箱</string>
+  <string name="trash_action">ごみ箱</string>
   <string name="trashed">ごみ箱に移動しました</string>
   <string name="note_trashed">ノートをゴミ箱に移動しました</string>
   <string name="note_untrashed">ノートをごみ箱から元に戻しました</string>
@@ -103,6 +104,7 @@
   <string name="categorize_as">...のカテゴリーに分類</string>
   <string name="title_activity_category">カテゴリーを編集</string>
   <string name="delete_unused_category_confirmation">カテゴリーを削除してもよろしいですか?</string>
+  <string name="delete_category_confirmation">このカテゴリーはいくつかのノートで使用されています。\nノートのカテゴリーを未分類にして、カテゴリーを削除してもよろしいですか?</string>
   <string name="discard">破棄</string>
   <string name="remove_category">カテゴリーを削除</string>
   <string name="no_tags_created">タグはまだ作成されていません</string>
@@ -325,6 +327,30 @@
   <string name="settings_send_analytics">匿名データを共有</string>
   <string name="settings_send_analytics_summary">デバイスのモデル、言語、よく使われるアプリの機能など、機密ではないデータを送信することで開発者を支援します。このデータはオープンソース アプリの改善にのみ使用されます。</string>
   <string name="settings_statistics">統計情報</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">合計ノート</string>
+  <string name="stats_active_notes">アクティブなノート</string>
+  <string name="stats_archived_notes">アーカイブされたノート</string>
+  <string name="stats_trashed_notes">ごみ箱のノート</string>
+  <string name="stats_reminders">アラーム</string>
+  <string name="stats_future_reminders">将来のアラーム</string>
+  <string name="stats_checklists">チェックリスト</string>
+  <string name="stats_locked_notes">ロックされたノート</string>
+  <string name="stats_categories">カテゴリー</string>
+  <string name="stats_tags">タグ</string>
+  <string name="stats_attachments">添付</string>
+  <string name="stats_images">画像</string>
+  <string name="stats_videos">ビデオ</string>
+  <string name="stats_audio_recordings">オーディオの録音</string>
+  <string name="stats_sketches">スケッチ</string>
+  <string name="stats_files">ファイル</string>
+  <string name="stats_locations">場所</string>
+  <string name="stats_words">語数</string>
+  <string name="stats_max_words">最大語数</string>
+  <string name="stats_avg_words">平均語数</string>
+  <string name="stats_characters">文字数</string>
+  <string name="stats_max_characters">最大文字数</string>
+  <string name="stats_avg_characters">平均文字数</string>
   <!-- Instructions -->
   <string name="tour_request_start">Omni Notes をはじめて起動しました。アプリケーション ツアーを表示しますか?</string>
   <string name="tour_listactivity_intro_title">Omni Notes へようこそ!</string>

@@ -29,6 +29,7 @@
   <string name="share">Comparteix</string>
   <string name="undo">Desfés</string>
   <string name="trash">Paperera</string>
+  <string name="trash_action">Paperera</string>
   <string name="trashed">moguda a la paperera</string>
   <string name="note_trashed">Notes mogudes a la paperera</string>
   <string name="note_untrashed">Notes recuperades de la paperera</string>
@@ -103,6 +104,7 @@
   <string name="categorize_as">Categoritza com a</string>
   <string name="title_activity_category">Edita la categoria</string>
   <string name="delete_unused_category_confirmation">Esteu segur de voler suprimir la categoria?</string>
+  <string name="delete_category_confirmation">Aquesta categoria és usada per algunes notes.\nConfirmeu que voleu treure la categoria de les notes i suprimir la categoria?</string>
   <string name="discard">Descarta</string>
   <string name="remove_category">Suprimeix la categoria</string>
   <string name="no_tags_created">Encara no s\'han creat etiquetes</string>
@@ -325,6 +327,30 @@
   <string name="settings_send_analytics">Comparteix dades anònimes</string>
   <string name="settings_send_analytics_summary">Ajudeu al desenvolupador enviant informació no sensible, com ara el model del dispositiu, idioma i programari d\'ús freqüent. Aquesta informació s\'utilitza només per millorar l\'aplicació.</string>
   <string name="settings_statistics">Estadístiques</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Notes totals</string>
+  <string name="stats_active_notes">Notes actives</string>
+  <string name="stats_archived_notes">Notes arxivades</string>
+  <string name="stats_trashed_notes">Notes suprimides</string>
+  <string name="stats_reminders">Recordatoris</string>
+  <string name="stats_future_reminders">Propers recordatoris</string>
+  <string name="stats_checklists">Llistes de comprovació</string>
+  <string name="stats_locked_notes">Notes blocades</string>
+  <string name="stats_categories">Categories</string>
+  <string name="stats_tags">Etiquetes</string>
+  <string name="stats_attachments">Adjunts</string>
+  <string name="stats_images">Imatges</string>
+  <string name="stats_videos">Vídeos</string>
+  <string name="stats_audio_recordings">Enregistraments d\'àudio</string>
+  <string name="stats_sketches">Esbossos</string>
+  <string name="stats_files">Fitxers</string>
+  <string name="stats_locations">Ubicacions</string>
+  <string name="stats_words">Paraules</string>
+  <string name="stats_max_words">Paraules màx.</string>
+  <string name="stats_avg_words">Mitjana de paralules</string>
+  <string name="stats_characters">Caràcters</string>
+  <string name="stats_max_characters">Caràcters màx.</string>
+  <string name="stats_avg_characters">Mitjana de caràcters</string>
   <!-- Instructions -->
   <string name="tour_request_start">Heu executat l\'Omni Notes per primera vegada, voleu fer la gira de l\'aplicació?</string>
   <string name="tour_listactivity_intro_title">Us donem la benvinguda a l\'Omni Notes!</string>

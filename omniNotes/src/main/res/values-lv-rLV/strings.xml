@@ -29,6 +29,7 @@
   <string name="share">Kopīgot</string>
   <string name="undo">Atsaukt</string>
   <string name="trash">Pārvietot uz miskasti</string>
+  <string name="trash_action">Pārvietot uz miskasti</string>
   <string name="trashed">pārvietota uz miskasti</string>
   <string name="note_trashed">Piezīme(s) pārvietota(s) uz miskasti</string>
   <string name="note_untrashed">Piezīme(s) atjaunota(s) no miskastes</string>
@@ -103,6 +104,7 @@
   <string name="categorize_as">Pārvietot zem kategorijas</string>
   <string name="title_activity_category">Labot kategoriju</string>
   <string name="delete_unused_category_confirmation">Apstiprināt kategorijas dzēšanu?</string>
+  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">Atmest</string>
   <string name="remove_category">Noņemt kategoriju</string>
   <string name="no_tags_created">Neviena birka vēl nav izveidota</string>
@@ -325,6 +327,30 @@
   <string name="settings_send_analytics">Kopīgot anonīmus datus</string>
   <string name="settings_send_analytics_summary">Palīdzēt izstrādātājam, sūtot tādus nesensitīvus datus kā ierīces modelis, valoda, bieži lietotas lietotnes iespējas. Šī informācija tiks lietota tikai, lai uzlabotu šo atvērtā koda lietotni.</string>
   <string name="settings_statistics">Statistika</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Total notes</string>
+  <string name="stats_active_notes">Active notes</string>
+  <string name="stats_archived_notes">Archived notes</string>
+  <string name="stats_trashed_notes">Trashed notes</string>
+  <string name="stats_reminders">Atgādinājumi</string>
+  <string name="stats_future_reminders">Future reminders</string>
+  <string name="stats_checklists">Checklists</string>
+  <string name="stats_locked_notes">Locked notes</string>
+  <string name="stats_categories">Kategorijas</string>
+  <string name="stats_tags">Birkas</string>
+  <string name="stats_attachments">Attachments</string>
+  <string name="stats_images">Images</string>
+  <string name="stats_videos">Videos</string>
+  <string name="stats_audio_recordings">Audio recordings</string>
+  <string name="stats_sketches">Sketches</string>
+  <string name="stats_files">Faili</string>
+  <string name="stats_locations">Locations</string>
+  <string name="stats_words">Words</string>
+  <string name="stats_max_words">Max words</string>
+  <string name="stats_avg_words">Average words</string>
+  <string name="stats_characters">Chars</string>
+  <string name="stats_max_characters">Max chars</string>
+  <string name="stats_avg_characters">Average chars</string>
   <!-- Instructions -->
   <string name="tour_request_start">Jūs esat pirmo reizi atvēris lietotni Omni Notes. Vai vēlaties veikt lietotnes ekskursiju?</string>
   <string name="tour_listactivity_intro_title">Esat sveicināti Omni Notes!</string>

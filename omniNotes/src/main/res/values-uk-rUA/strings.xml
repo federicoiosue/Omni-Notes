@@ -29,6 +29,7 @@
   <string name="share">Поділитись</string>
   <string name="undo">Скасувати</string>
   <string name="trash">Сміття</string>
+  <string name="trash_action">Сміття</string>
   <string name="trashed">у смітнику</string>
   <string name="note_trashed">Нотатка(-и) у смітнику</string>
   <string name="note_untrashed">Нотатку(-и) відновлено зі смітника</string>
@@ -103,6 +104,7 @@
   <string name="categorize_as">Класифікувати за</string>
   <string name="title_activity_category">Змінити категорію</string>
   <string name="delete_unused_category_confirmation">Ви дійсно хочете видалити категорію?</string>
+  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">Відхилити</string>
   <string name="remove_category">Вилучити категорію</string>
   <string name="no_tags_created">Немає створених ярличків</string>
@@ -330,6 +332,30 @@
   <string name="settings_send_analytics">Share anonymous data</string>
   <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statistics</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Total notes</string>
+  <string name="stats_active_notes">Active notes</string>
+  <string name="stats_archived_notes">Archived notes</string>
+  <string name="stats_trashed_notes">Trashed notes</string>
+  <string name="stats_reminders">Нагадування</string>
+  <string name="stats_future_reminders">Future reminders</string>
+  <string name="stats_checklists">Контрольні списки</string>
+  <string name="stats_locked_notes">Locked notes</string>
+  <string name="stats_categories">Категорії</string>
+  <string name="stats_tags">Ярлички</string>
+  <string name="stats_attachments">Вкладення</string>
+  <string name="stats_images">Images</string>
+  <string name="stats_videos">Videos</string>
+  <string name="stats_audio_recordings">Audio recordings</string>
+  <string name="stats_sketches">Sketches</string>
+  <string name="stats_files">Файли</string>
+  <string name="stats_locations">Locations</string>
+  <string name="stats_words">Words</string>
+  <string name="stats_max_words">Max words</string>
+  <string name="stats_avg_words">Average words</string>
+  <string name="stats_characters">Chars</string>
+  <string name="stats_max_characters">Max chars</string>
+  <string name="stats_avg_characters">Average chars</string>
   <!-- Instructions -->
   <string name="tour_request_start">Ви запустили Omni Notes вперше, бажаєте ознайомитись з коротким довідником?</string>
   <string name="tour_listactivity_intro_title">Ласкаво просимо до Omni Notes!</string>
