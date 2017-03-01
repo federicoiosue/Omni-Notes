@@ -29,6 +29,7 @@
   <string name="share">Megosztás</string>
   <string name="undo">Visszavonás</string>
   <string name="trash">Lomtár</string>
+  <string name="trash_action">Lomtár</string>
   <string name="trashed">törölt</string>
   <string name="note_trashed">Jegyzet(ek) Lomtárba</string>
   <string name="note_untrashed">Jegyzet(ek) visszaállítása a Lomtárból</string>
@@ -103,7 +104,7 @@
   <string name="categorize_as">Kategorizál mint</string>
   <string name="title_activity_category">Kategória szerkesztése</string>
   <string name="delete_unused_category_confirmation">Megerősíti a kategória törlését?</string>
-  <string name="delete_category_confirmation">Ebbe a kategóriába $1$ db jegyzet tartozik.\nBiztos megszünteti a használatát és törli?</string>
+  <string name="delete_category_confirmation">Ebbe a kategóriába néhány jegyzet tartozik.\nBiztos megszünteti a használatát és törli?</string>
   <string name="discard">Elvetés</string>
   <string name="remove_category">Kategória eltávolítása</string>
   <string name="no_tags_created">Nincsenek címkék létrehozva</string>
@@ -326,6 +327,30 @@
   <string name="settings_send_analytics">Névtelen adatok megosztása</string>
   <string name="settings_send_analytics_summary">Segítse a fejlesztőt olyan nem személyes adatok elküldésével, mint az eszköz típusa, a nyelv, a gyakran használt funkciók. Ezeket az adatokat csak ennek a nyílt forráskódú alkalmazásnak a javításához használjuk fel.</string>
   <string name="settings_statistics">Statisztika</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Összes jegyzet</string>
+  <string name="stats_active_notes">Aktív jegyzetek</string>
+  <string name="stats_archived_notes">Archivált jegyzetek</string>
+  <string name="stats_trashed_notes">Törölt jegyzetek</string>
+  <string name="stats_reminders">Emlékeztetők</string>
+  <string name="stats_future_reminders">Jövőbeli emlékeztetők</string>
+  <string name="stats_checklists">Ellenőrzőlista</string>
+  <string name="stats_locked_notes">Zárolt jegyzetek</string>
+  <string name="stats_categories">Kategóriák</string>
+  <string name="stats_tags">Címkék</string>
+  <string name="stats_attachments">Mellékletek</string>
+  <string name="stats_images">Képek</string>
+  <string name="stats_videos">Videók</string>
+  <string name="stats_audio_recordings">Audió felvételek</string>
+  <string name="stats_sketches">Vázlatok</string>
+  <string name="stats_files">Fájlok</string>
+  <string name="stats_locations">Helyek</string>
+  <string name="stats_words">Szavak</string>
+  <string name="stats_max_words">Szavak maximális száma</string>
+  <string name="stats_avg_words">Szavak átlagos száma</string>
+  <string name="stats_characters">Karakter</string>
+  <string name="stats_max_characters">Karakterek maximális száma</string>
+  <string name="stats_avg_characters">Karakterek átlagos száma</string>
   <!-- Instructions -->
   <string name="tour_request_start">Most indította el az Omni Notes alkalmazást először, szeretné megtekinteni az alkalmazás kalauzt?</string>
   <string name="tour_listactivity_intro_title">Üdvözli az Omni Notes!</string>

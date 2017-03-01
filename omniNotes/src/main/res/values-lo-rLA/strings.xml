@@ -29,6 +29,7 @@
   <string name="share">ແບ່ງປັນ</string>
   <string name="undo">ຍົກເລີກ</string>
   <string name="trash">ຖັງຂີ້ເຫຍື່ອ</string>
+  <string name="trash_action">ຖັງຂີ້ເຫຍື່ອ</string>
   <string name="trashed">ຖິ້ມລົງຖັງຂີ້ເຫຍື່ອແລ້ວ</string>
   <string name="note_trashed">ບັນທຶກຖືກຖິ້ມ</string>
   <string name="note_untrashed">Note(s) restored from trash</string>
@@ -103,7 +104,7 @@
   <string name="categorize_as">Categorize as</string>
   <string name="title_activity_category">Edit category</string>
   <string name="delete_unused_category_confirmation">Confirm category deletion?</string>
-  <string name="delete_category_confirmation">This category is used by $1$ note/s.\nConfirm notes un-categorization and category deletion?</string>
+  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">ຍົກເລີກ</string>
   <string name="remove_category">Remove category</string>
   <string name="no_tags_created">ບໍ່ມີປ້າຍທີ່ຖືກສ້າງຂຶ້ນເທື່ອ</string>
@@ -326,6 +327,30 @@
   <string name="settings_send_analytics">Share anonymous data</string>
   <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statistics</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Total notes</string>
+  <string name="stats_active_notes">Active notes</string>
+  <string name="stats_archived_notes">Archived notes</string>
+  <string name="stats_trashed_notes">Trashed notes</string>
+  <string name="stats_reminders">ໂຕເຕືອນຄວາມຈຳ</string>
+  <string name="stats_future_reminders">Future reminders</string>
+  <string name="stats_checklists">ລາຍການເລືອກ</string>
+  <string name="stats_locked_notes">Locked notes</string>
+  <string name="stats_categories">Categories</string>
+  <string name="stats_tags">ປ້າຍ</string>
+  <string name="stats_attachments">ໄຟລ໌ແນບ</string>
+  <string name="stats_images">Images</string>
+  <string name="stats_videos">Videos</string>
+  <string name="stats_audio_recordings">Audio recordings</string>
+  <string name="stats_sketches">Sketches</string>
+  <string name="stats_files">Files</string>
+  <string name="stats_locations">Locations</string>
+  <string name="stats_words">Words</string>
+  <string name="stats_max_words">Max words</string>
+  <string name="stats_avg_words">Average words</string>
+  <string name="stats_characters">Chars</string>
+  <string name="stats_max_characters">Max chars</string>
+  <string name="stats_avg_characters">Average chars</string>
   <!-- Instructions -->
   <string name="tour_request_start">ທ່ານເປີດໃຊ້ງານ Omni Notes ເປັນຄັ້ງທຳອິດ, ທ່ານຕ້ອງການເບິ່ງການແນະນຳແອັບພຼິເຄຊັນບໍ່?</string>
   <string name="tour_listactivity_intro_title">ຍິນດີຕ້ອນຮັບສູ່ Omni Notes!</string>

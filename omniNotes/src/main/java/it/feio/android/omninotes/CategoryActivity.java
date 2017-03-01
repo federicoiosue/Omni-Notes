@@ -149,16 +149,9 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     @OnClick(R.id.delete)
     public void deleteCategory() {
 
-        // Retrieving how many notes are categorized with category to be deleted
-        DbHelper db = DbHelper.getInstance();
-        int count = db.getCategorizedCount(category);
-        String msg = "";
-        if (count > 0)
-            msg = getString(R.string.delete_category_confirmation).replace("$1$", String.valueOf(count));
-
         new MaterialDialog.Builder(this)
 				.title(R.string.delete_unused_category_confirmation)
-                .content(msg)
+                .content(R.string.delete_category_confirmation)
                 .positiveText(R.string.confirm)
                 .positiveColorRes(R.color.colorAccent)
                 .callback(new MaterialDialog.ButtonCallback() {

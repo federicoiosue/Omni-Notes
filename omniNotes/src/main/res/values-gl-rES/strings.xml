@@ -29,6 +29,7 @@
   <string name="share">Compartir</string>
   <string name="undo">Desfacer</string>
   <string name="trash">Eliminar</string>
+  <string name="trash_action">Eliminar</string>
   <string name="trashed">eliminada</string>
   <string name="note_trashed">Nota(s) eliminada(s)</string>
   <string name="note_untrashed">Nota(s) restaurada(s) desde a papeleira</string>
@@ -103,7 +104,7 @@
   <string name="categorize_as">Categorizar como</string>
   <string name="title_activity_category">Editar categoría</string>
   <string name="delete_unused_category_confirmation">Tes a certeza de querer eliminar a nota?</string>
-  <string name="delete_category_confirmation">Esta categoría está usada por $1$ nota/s.\nTes a certeza de querer retirala da(s) nota(s) e eliminala?</string>
+  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">Descartar</string>
   <string name="remove_category">Eliminar categoría</string>
   <string name="no_tags_created">Aínda non se crearon etiquetas</string>
@@ -326,6 +327,30 @@
   <string name="settings_send_analytics">Compartir datos anónimos</string>
   <string name="settings_send_analytics_summary">Axuda o desenvolvedor enviándolle datos non sensibles como o modelo de dispositivo, o idioma ou as funcionalidades máis empregadas. Estes datos usaranse unicamente para mellorar o aplicativo.</string>
   <string name="settings_statistics">Estatísticas</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Total notes</string>
+  <string name="stats_active_notes">Active notes</string>
+  <string name="stats_archived_notes">Archived notes</string>
+  <string name="stats_trashed_notes">Trashed notes</string>
+  <string name="stats_reminders">Recordatorios</string>
+  <string name="stats_future_reminders">Future reminders</string>
+  <string name="stats_checklists">Listaxes de verificación</string>
+  <string name="stats_locked_notes">Locked notes</string>
+  <string name="stats_categories">Categorías</string>
+  <string name="stats_tags">Etiquetas</string>
+  <string name="stats_attachments">Ficheiros anexos</string>
+  <string name="stats_images">Images</string>
+  <string name="stats_videos">Videos</string>
+  <string name="stats_audio_recordings">Audio recordings</string>
+  <string name="stats_sketches">Sketches</string>
+  <string name="stats_files">Ficheiros</string>
+  <string name="stats_locations">Locations</string>
+  <string name="stats_words">Words</string>
+  <string name="stats_max_words">Max words</string>
+  <string name="stats_avg_words">Average words</string>
+  <string name="stats_characters">Chars</string>
+  <string name="stats_max_characters">Max chars</string>
+  <string name="stats_avg_characters">Average chars</string>
   <!-- Instructions -->
   <string name="tour_request_start">Iniciaches Omni Notes por vez primeira, gustaríache dar unha volta polo aplicativo a modo de titorial?</string>
   <string name="tour_listactivity_intro_title">Benvido/a a Omni Notes!</string>
