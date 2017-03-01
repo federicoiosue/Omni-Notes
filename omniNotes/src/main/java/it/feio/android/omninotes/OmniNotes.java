@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -120,16 +121,17 @@ public class OmniNotes extends Application {
 	/**
 	 * Updates default language with forced one
 	 */
+	@SuppressLint("CommitPrefEdits")
 	public static void updateLanguage(Context ctx, String lang) {
 		Configuration cfg = new Configuration();
 		String language = prefs.getString(PREF_LANG, "");
 
 		if (TextUtils.isEmpty(language) && lang == null) {
 			cfg.locale = Locale.getDefault();
-			prefs.edit().putString(PREF_LANG, cfg.locale.toString()).apply();
+			prefs.edit().putString(PREF_LANG, cfg.locale.toString()).commit();
 		} else if (lang != null) {
 			cfg.locale = getLocale(lang);
-			prefs.edit().putString(PREF_LANG, lang).apply();
+			prefs.edit().putString(PREF_LANG, lang).commit();
 		} else if (!TextUtils.isEmpty(language)) {
 			cfg.locale = getLocale(language);
 		}

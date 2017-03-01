@@ -133,12 +133,12 @@ public class GalleryActivity extends ActionBarActivity {
         images = getIntent().getParcelableArrayListExtra(Constants.GALLERY_IMAGES);
         int clickedImage = getIntent().getIntExtra(Constants.GALLERY_CLICKED_IMAGE, 0);
 
-        ArrayList<Uri> imagesPaths = new ArrayList<>();
+        ArrayList<Uri> imageUris = new ArrayList<>();
         for (Attachment mAttachment : images) {
-            imagesPaths.add(mAttachment.getUri());
+            imageUris.add(mAttachment.getUri());
         }
 
-		GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, imagesPaths);
+		GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, imageUris);
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.setCurrentItem(clickedImage);

@@ -44,6 +44,7 @@
     <string name="share">Share</string>
     <string name="undo">Undo</string>
     <string name="trash">Trash</string>
+    <string name="trash_action">Trash</string>
     <string name="trashed">trashed</string>
     <string name="note_trashed">Note(s) trashed</string>
     <string name="note_untrashed">Note(s) restored from trash</string>
@@ -118,7 +119,7 @@
     <string name="categorize_as">Categorize as</string>
     <string name="title_activity_category">Edit category</string>
     <string name="delete_unused_category_confirmation">Confirm category deletion?</string>
-    <string name="delete_category_confirmation">This category is used by $1$ note/s.\nConfirm notes un-categorization and category deletion?</string>
+    <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
     <string name="discard">Discard</string>
     <string name="remove_category">Remove category</string>
     <string name="no_tags_created">No tags have been created yet</string>
@@ -343,6 +344,30 @@
     <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
     <string name="settings_statistics">Statistics</string>
 
+    <!-- Stats -->
+    <string name="stats_total_notes">Total notes</string>
+    <string name="stats_active_notes">Active notes</string>
+    <string name="stats_archived_notes">Archived notes</string>
+    <string name="stats_trashed_notes">Trashed notes</string>
+    <string name="stats_reminders">Reminders</string>
+    <string name="stats_future_reminders">Future reminders</string>
+    <string name="stats_checklists">Checklists</string>
+    <string name="stats_locked_notes">Locked notes</string>
+    <string name="stats_categories">Categories</string>
+    <string name="stats_tags">Tags</string>
+    <string name="stats_attachments">Attachments</string>
+    <string name="stats_images">Images</string>
+    <string name="stats_videos">Videos</string>
+    <string name="stats_audio_recordings">Audio recordings</string>
+    <string name="stats_sketches">Sketches</string>
+    <string name="stats_files">Files</string>
+    <string name="stats_locations">Locations</string>
+    <string name="stats_words">Words</string>
+    <string name="stats_max_words">Max words</string>
+    <string name="stats_avg_words">Average words</string>
+    <string name="stats_characters">Chars</string>
+    <string name="stats_max_characters">Max chars</string>
+    <string name="stats_avg_characters">Average chars</string>
 
     <!-- Instructions -->
     <string name="tour_request_start">You launched Omni Note for the first time, would you like to take the application tour?</string>

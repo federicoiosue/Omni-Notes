@@ -29,6 +29,7 @@
   <string name="share">Paylaş</string>
   <string name="undo">Geri al</string>
   <string name="trash">Çöp kutusu</string>
+  <string name="trash_action">Çöpe at</string>
   <string name="trashed">Çöp kutusuna atıldı</string>
   <string name="note_trashed">Not çöp kutusuna gönderildi</string>
   <string name="note_untrashed">Not geri yüklendi</string>
@@ -103,7 +104,7 @@
   <string name="categorize_as">Kategorize et</string>
   <string name="title_activity_category">Kategoriyi düzenle</string>
   <string name="delete_unused_category_confirmation">Kategoriyi silme işlemini onayla ?</string>
-  <string name="delete_category_confirmation">Bu kategori notları $1$ tarafından kullanılır.\nKategorize olmuş veya olmamış notların silme işlemini onaylıyor musun?</string>
+  <string name="delete_category_confirmation">Bu kategori bazı notlar tarafından kullanılıyor.\nNotların kategoriden çıkışını ve kategorinin silinmesini onayla?</string>
   <string name="discard">İptal et</string>
   <string name="remove_category">Kategoriyi kaldır</string>
   <string name="no_tags_created">Oluşturulmuş bir etiket yok</string>
@@ -326,6 +327,30 @@
   <string name="settings_send_analytics">İsimsiz veri paylaş</string>
   <string name="settings_send_analytics_summary">Aygıt modeli, dili, sık kullanılan uygulama özellikleri gibi hassas olamayan bilgileri göndererek geliştiriciye yardım edin. Bu veriler yalnızca açık kaynaklı uygulamayı iyileştirmek için kullanılır.</string>
   <string name="settings_statistics">İstatistikler</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Toplam notlar</string>
+  <string name="stats_active_notes">Etkin notlar</string>
+  <string name="stats_archived_notes">Arşivlenmiş notlar</string>
+  <string name="stats_trashed_notes">Çöpteki notlar</string>
+  <string name="stats_reminders">Hatırlatmalar</string>
+  <string name="stats_future_reminders">Gelecekteki hatırlatmalar</string>
+  <string name="stats_checklists">Yapılacaklar listesi</string>
+  <string name="stats_locked_notes">Kilitli notlar</string>
+  <string name="stats_categories">Kategoriler</string>
+  <string name="stats_tags">Etiketler</string>
+  <string name="stats_attachments">Ekler</string>
+  <string name="stats_images">Resimler</string>
+  <string name="stats_videos">Videolar</string>
+  <string name="stats_audio_recordings">Ses kayıtları</string>
+  <string name="stats_sketches">Çizimler</string>
+  <string name="stats_files">Dosyalar</string>
+  <string name="stats_locations">Konumlar</string>
+  <string name="stats_words">Kelimeler</string>
+  <string name="stats_max_words">Maks. kelime</string>
+  <string name="stats_avg_words">Ortalama kelime</string>
+  <string name="stats_characters">Karakter</string>
+  <string name="stats_max_characters">Maks. karakter</string>
+  <string name="stats_avg_characters">Ortalama karakter</string>
   <!-- Instructions -->
   <string name="tour_request_start">Omni Notes\'u yeni yükledin, uygulamayı keşfetmeye ne dersin?</string>
   <string name="tour_listactivity_intro_title">Omni Notes\'a hoş geldiniz!</string>

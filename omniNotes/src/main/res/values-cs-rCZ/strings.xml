@@ -29,6 +29,7 @@
   <string name="share">Sdílet</string>
   <string name="undo">Vrátit zpět</string>
   <string name="trash">Přesunout do koše</string>
+  <string name="trash_action">Přesunout do koše</string>
   <string name="trashed">přesunuto do koše</string>
   <string name="note_trashed">Přesunuto do koše</string>
   <string name="note_untrashed">Obnoveno z koše</string>
@@ -103,7 +104,7 @@
   <string name="categorize_as">Zařadit jako</string>
   <string name="title_activity_category">Upravit kategorii</string>
   <string name="delete_unused_category_confirmation">Opravdu chcete kategorii smazat?</string>
-  <string name="delete_category_confirmation">Počet poznámek v této kategorii: $1$\nOpravdu chcete zrušit zařezení poznámek do této kategorie a kategorii smazat?</string>
+  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">Zahodit</string>
   <string name="remove_category">Odstranit kategorii</string>
   <string name="no_tags_created">Ještě nebyly vytvořeny žádné značky</string>
@@ -326,6 +327,30 @@
   <string name="settings_send_analytics">Sdílet anonymní údaje</string>
   <string name="settings_send_analytics_summary">Pomoc vývojáři odesíláním dat bez citlivého obsahu jako je model zařízení, jazyk, často používané funkce aplikace. Tyto údaje se používají pouze pro zlepšení open-source aplikace.</string>
   <string name="settings_statistics">Statistika</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Total notes</string>
+  <string name="stats_active_notes">Active notes</string>
+  <string name="stats_archived_notes">Archived notes</string>
+  <string name="stats_trashed_notes">Trashed notes</string>
+  <string name="stats_reminders">Upomínky</string>
+  <string name="stats_future_reminders">Future reminders</string>
+  <string name="stats_checklists">Seznamy</string>
+  <string name="stats_locked_notes">Locked notes</string>
+  <string name="stats_categories">Kategorie</string>
+  <string name="stats_tags">Značky</string>
+  <string name="stats_attachments">Přílohy</string>
+  <string name="stats_images">Images</string>
+  <string name="stats_videos">Videos</string>
+  <string name="stats_audio_recordings">Audio recordings</string>
+  <string name="stats_sketches">Sketches</string>
+  <string name="stats_files">Soubory</string>
+  <string name="stats_locations">Locations</string>
+  <string name="stats_words">Words</string>
+  <string name="stats_max_words">Max words</string>
+  <string name="stats_avg_words">Average words</string>
+  <string name="stats_characters">Chars</string>
+  <string name="stats_max_characters">Max chars</string>
+  <string name="stats_avg_characters">Average chars</string>
   <!-- Instructions -->
   <string name="tour_request_start">Spustili jste Omni Notes poprvé. Chcete spustit prohlídku aplikace?</string>
   <string name="tour_listactivity_intro_title">Vítejte v Omni Notes!</string>

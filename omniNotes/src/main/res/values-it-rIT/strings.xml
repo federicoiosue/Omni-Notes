@@ -29,6 +29,7 @@
   <string name="share">Condividi</string>
   <string name="undo">Ripristina</string>
   <string name="trash">Cestino</string>
+  <string name="trash_action">Cestino</string>
   <string name="trashed">nel cestino</string>
   <string name="note_trashed">Nota(e) nel cestino</string>
   <string name="note_untrashed">Nota(e) ripristinata(e)</string>
@@ -103,7 +104,7 @@
   <string name="categorize_as">Categorizza come</string>
   <string name="title_activity_category">Modifica categoria</string>
   <string name="delete_unused_category_confirmation">Confermi la cancellazione della categoria?</string>
-  <string name="delete_category_confirmation">Questa categoria è utilizzata da $1$ nota/e.\nConfermi la decategorizzazione della note a la cancellazione della categoria?</string>
+  <string name="delete_category_confirmation">Questa categoria è usata da alcune note.\nConfermi la decategorizzazione della note a la cancellazione della categoria?</string>
   <string name="discard">Indietro</string>
   <string name="remove_category">Rimuovere la categoria</string>
   <string name="no_tags_created">Nessun tag è stato ancora creato</string>
@@ -327,6 +328,30 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="settings_send_analytics">Condivisione dati anonimi</string>
   <string name="settings_send_analytics_summary">Aiuta lo sviluppatore inviando informazioni non sensibili come il modello del dispositivo, la lingua, le funzionalità più usate nell\'applicazione. Questi dati sono usati esclusivamente per migliorare l\'app open-source.</string>
   <string name="settings_statistics">Statistiche</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Note totali</string>
+  <string name="stats_active_notes">Note attive</string>
+  <string name="stats_archived_notes">Note archiviate</string>
+  <string name="stats_trashed_notes">Note nel cestino</string>
+  <string name="stats_reminders">Promemoria</string>
+  <string name="stats_future_reminders">Promemoria futuri</string>
+  <string name="stats_checklists">Liste di controllo</string>
+  <string name="stats_locked_notes">Note bloccate</string>
+  <string name="stats_categories">Categorie</string>
+  <string name="stats_tags">Tag</string>
+  <string name="stats_attachments">Allegati</string>
+  <string name="stats_images">Immagini</string>
+  <string name="stats_videos">Video</string>
+  <string name="stats_audio_recordings">Registrazioni audio</string>
+  <string name="stats_sketches">Disegni</string>
+  <string name="stats_files">File</string>
+  <string name="stats_locations">Posizioni</string>
+  <string name="stats_words">Parole</string>
+  <string name="stats_max_words">Parole massime</string>
+  <string name="stats_avg_words">Parole medie</string>
+  <string name="stats_characters">Caratteri</string>
+  <string name="stats_max_characters">Caratteri massimi</string>
+  <string name="stats_avg_characters">Caratteri medi</string>
   <!-- Instructions -->
   <string name="tour_request_start">E\' la prima volta che esegui Omni Notes, vuoi effettuare un tour dell\'applicazione?</string>
   <string name="tour_listactivity_intro_title">Benvenuti in Omni Notes!</string>
