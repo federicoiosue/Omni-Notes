@@ -17,8 +17,10 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.3.1" changeDate="Feb 26, 2017">
-        <changelogtext>[b]New![/b] GIFs support into internal gallery</changelogtext>
+    <changelogversion versionName="5.3.1" changeDate="Mar 1, 2017">
+        <changelogtext>[b]New![/b] GIFs support into attachments' gallery</changelogtext>
+        <changelogtext>[i]Improved![/i] Statistics labels translated</changelogtext>
+        <changelogtext>[u]Fix[/u] Language change issue</changelogtext>
         <changelogtext>[u]Fix[/u] Minor bug fixes</changelogtext>
     </changelogversion>
 
@@ -26,7 +28,7 @@
         <changelogtext>[b]New![/b] From now on the app will be available also as completely open-source (no more inherited closed dependencies too). News on the G+ community!</changelogtext>
         <changelogtext>[b]New![/b] Enjoy the renewed help page (accessible from inside settings) that makes use of animated tutorials</changelogtext>
         <changelogtext>[b]New![/b] Added Serbian Cyrillic language (thanks [a href='https://crowdin.com/profile/slsimic']Slobodan Simic[/a])</changelogtext>
-        <changelogtext>[b]Improved![/b] New checklist items are now capitalized</changelogtext>
+        <changelogtext>[i]Improved[/i] New checklist items are now capitalized</changelogtext>
         <changelogtext>[i]Improved[/i] Category deletion button no more shown on creation</changelogtext>
         <changelogtext>[i]Improved[/i] Notes without title are now shown as they into list instead of using part of the content to improve performances</changelogtext>
         <changelogtext>[i]Improved[/i] Updated translations</changelogtext>
