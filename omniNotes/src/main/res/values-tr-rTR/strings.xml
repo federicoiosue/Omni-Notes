@@ -29,7 +29,7 @@
   <string name="share">Paylaş</string>
   <string name="undo">Geri al</string>
   <string name="trash">Çöp kutusu</string>
-  <string name="trash_action">Çöp kutusu</string>
+  <string name="trash_action">Çöpe at</string>
   <string name="trashed">Çöp kutusuna atıldı</string>
   <string name="note_trashed">Not çöp kutusuna gönderildi</string>
   <string name="note_untrashed">Not geri yüklendi</string>
