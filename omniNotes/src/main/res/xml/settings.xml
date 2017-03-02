@@ -84,13 +84,13 @@
 
         <Preference
                 android:title="@string/settings_statistics">
-            <intent android:targetPackage="it.feio.android.omninotes"
+            <intent android:targetPackage="@string/app_package"
                     android:targetClass="it.feio.android.omninotes.StatsActivity"/>
         </Preference>
 
         <Preference
                 android:title="@string/settings_about">
-            <intent android:targetPackage="it.feio.android.omninotes"
+            <intent android:targetPackage="@string/app_package"
                     android:targetClass="it.feio.android.omninotes.AboutActivity"/>
         </Preference>
 
