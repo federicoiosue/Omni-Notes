@@ -25,6 +25,7 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -44,7 +45,7 @@ import java.util.Locale;
 
 @ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = BuildConfig.CRASH_REPORTING_URL, mode =
 		ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
-public class OmniNotes extends Application {
+public class OmniNotes extends MultiDexApplication {
 
 	private static Context mContext;
 

@@ -31,6 +31,7 @@ android {
         versionCode Integer.parseInt(project.VERSION_CODE)
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        multiDexEnabled true
     }
 
     packagingOptions {
@@ -44,7 +45,7 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             applicationVariants.all { variant ->
-                variant.outputs.each { output ->
+                variant.outputs.each { output ->omn
                     def file = output.outputFile
                     output.outputFile = new File(
                             (String) file.parent,
@@ -94,6 +95,7 @@ dependencies {
     compile 'be.billington.calendar.recurrencepicker:library:1.1.1'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'com.getbase:floatingactionbutton:1.10.1'
