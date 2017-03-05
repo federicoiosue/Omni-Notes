@@ -76,11 +76,12 @@ android {
 
 dependencies {
     androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.5.3'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.6.1'
     testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:24.0.0'
-    androidTestCompile 'com.android.support.test:runner:0.4'
-    androidTestCompile 'com.android.support.test:rules:0.4'
+    androidTestCompile 'com.android.support:support-annotations:23.4.0'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
 
     compile fileTree(include: '*.jar', dir: 'libs')
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'

@@ -29,7 +29,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.*;
-import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -46,7 +45,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
@@ -1164,15 +1162,24 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             restoreListScrollPosition();
         }
 
-        // Fade in the list view
-        animate(progress_wheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
-        animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+		animateListView();
 
-        closeFab();
+		closeFab();
     }
 
 
-    private void restoreListScrollPosition() {
+	private void animateListView() {
+		if (!OmniNotes.isDebugBuild()) {
+			animate(progress_wheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
+			animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+		} else {
+			progress_wheel.setVisibility(View.INVISIBLE);
+			list.setAlpha(1);
+		}
+	}
+
+
+	private void restoreListScrollPosition() {
         if (list.getCount() > listViewPosition) {
             list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
             new Handler().postDelayed(fab::showFab, 150);
