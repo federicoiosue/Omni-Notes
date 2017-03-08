@@ -32,22 +32,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.utils.BitmapHelper;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.simplegallery.util.BitmapUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Random;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.simplegallery.util.BitmapUtils;
 
 public class CategoryActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback{
 
@@ -167,6 +169,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
                         DbHelper db = DbHelper.getInstance();
                         db.deleteCategory(category);
 
+                        EventBus.getDefault().post(new CategoriesUpdatedEvent());
                         BaseActivity.notifyAppWidgets(OmniNotes.getAppContext());
 
                         setResult(RESULT_FIRST_USER);
