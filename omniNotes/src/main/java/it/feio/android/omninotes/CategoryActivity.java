@@ -51,6 +51,8 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.simplegallery.util.BitmapUtils;
 
+import static java.lang.Integer.parseInt;
+
 
 public class CategoryActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback{
 
