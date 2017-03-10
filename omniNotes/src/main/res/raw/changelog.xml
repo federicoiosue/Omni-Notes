@@ -17,6 +17,11 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.3.2" changeDate="Mar 10, 2017">
+        <changelogtext>[u]Fix[/u] F-Droid broken build</changelogtext>
+        <changelogtext>[u]Fix[/u] Missing sidenav update on category deletion</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.3.1" changeDate="Mar 1, 2017">
         <changelogtext>[b]New![/b] GIFs support into attachments' gallery</changelogtext>
         <changelogtext>[i]Improved![/i] Statistics labels translated</changelogtext>
