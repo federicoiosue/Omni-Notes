@@ -31,6 +31,7 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.analitica.AnalyticsHelperFactory;
+import it.feio.android.analitica.MockAnalyticsHelper;
 import it.feio.android.analitica.exceptions.AnalyticsInstantiationException;
 import it.feio.android.analitica.exceptions.InvalidIdentifierException;
 import it.feio.android.omninotes.utils.Constants;
@@ -170,7 +171,7 @@ public class OmniNotes extends MultiDexApplication {
 				analyticsHelper = new AnalyticsHelperFactory().getAnalyticsHelper(this, enableAnalytics,
 						analyticsParams);
 			} catch (AnalyticsInstantiationException | InvalidIdentifierException e) {
-				e.printStackTrace();
+				analyticsHelper = new MockAnalyticsHelper();
 			}
 		}
 		return analyticsHelper;

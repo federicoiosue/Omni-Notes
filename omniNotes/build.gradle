@@ -20,6 +20,20 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
 
+    if (project.hasProperty("SIGN_PROPS")
+            && new File(project.property("SIGN_PROPS").toString()).exists()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(file(project.property("SIGN_PROPS"))))
+        signingConfigs {
+            signConfig {
+                storeFile file(props['keystore'])
+                storePassword props['keystore.password']
+                keyAlias props['keystore.alias']
+                keyPassword props['keystore.alias.password']
+            }
+        }
+    }
+
     compileSdkVersion Integer.parseInt(project.TARGET_SDK)
     buildToolsVersion project.BUILD_TOOLS
 
@@ -52,6 +66,12 @@ android {
                             (String) file.name.replace("omniNotes", "Omni Notes-${variant.versionName}"))
                 }
             }
+
+            if (project.hasProperty("SIGN_PROPS")
+                    && new File(project.property("SIGN_PROPS").toString()).exists()) {
+                signingConfig signingConfigs.signConfig
+            }
+
         }
     }
 
@@ -72,6 +92,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    buildToolsVersion '25.0.0'
 }
 
 dependencies {
@@ -137,10 +158,10 @@ dependencies {
     // Flavors specific dependecies
     playCompile 'io.nlopez.smartlocation:library:3.2.4'
     fossCompile 'com.github.federicoiosue:smart-location-lib:3.2.5'
-    playCompile ('com.github.federicoiosue:analitica:0.0.2:googleAnalyticsRelease@aar'){
+    playCompile ('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar'){
         transitive=true
     }
-    fossCompile ('com.github.federicoiosue:analitica:0.0.2:piwikRelease@aar'){
+    fossCompile ('com.github.federicoiosue:analitica:0.0.3:piwikRelease@aar'){
         transitive=true
     }
     playCompile 'com.google.android.gms:play-services-analytics:9.0.2'
