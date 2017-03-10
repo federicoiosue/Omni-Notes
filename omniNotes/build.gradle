@@ -155,10 +155,10 @@ dependencies {
     // Flavors specific dependecies
     playCompile 'io.nlopez.smartlocation:library:3.2.4'
     fossCompile 'com.github.federicoiosue:smart-location-lib:3.2.5'
-    playCompile ('com.github.federicoiosue:analitica:0.0.2:googleAnalyticsRelease@aar'){
+    playCompile ('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar'){
         transitive=true
     }
-    fossCompile ('com.github.federicoiosue:analitica:0.0.2:piwikRelease@aar'){
+    fossCompile ('com.github.federicoiosue:analitica:0.0.3:piwikRelease@aar'){
         transitive=true
     }
     playCompile 'com.google.android.gms:play-services-analytics:9.0.2'
