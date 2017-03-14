@@ -24,7 +24,7 @@ import it.feio.android.omninotes.db.DbHelper;
 
 public class BaseAndroidTestCase extends AndroidTestCase {
 
-	private RenamingDelegatingContext context;
+	protected RenamingDelegatingContext context;
 
 
 	@Override
