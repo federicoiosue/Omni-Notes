@@ -16,7 +16,6 @@
  */
 package it.feio.android.omninotes;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
@@ -28,7 +27,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.*;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Parcelable;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -38,17 +42,36 @@ import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.SubMenu;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
+
+import org.apache.commons.lang.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -56,24 +79,34 @@ import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.NavigationUpdatedNavDrawerClosedEvent;
 import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.async.bus.NotesMergeEvent;
-import it.feio.android.omninotes.async.notes.*;
+import it.feio.android.omninotes.async.notes.NoteLoaderTask;
+import it.feio.android.omninotes.async.notes.NoteProcessorArchive;
+import it.feio.android.omninotes.async.notes.NoteProcessorCategorize;
+import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
+import it.feio.android.omninotes.async.notes.NoteProcessorTrash;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.NotesHelper;
-import it.feio.android.omninotes.helpers.PermissionsHelper;
-import it.feio.android.omninotes.models.*;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.models.UndoBarController;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.AnimationsHelper;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.TagsHelper;
+import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
 import it.feio.android.simplegallery.util.BitmapUtils;
-import org.apache.commons.lang.ObjectUtils;
-
-import java.util.*;
 
 import static android.support.v4.view.ViewCompat.animate;
 
@@ -199,16 +232,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 		// Restores again DefaultSharedPreferences too reload in case of data erased from Settings
 		prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-
-		requestReadStoragePermission();
-	}
-
-
-	private void requestReadStoragePermission() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			PermissionsHelper.requestPermission(mainActivity, Manifest.permission.READ_EXTERNAL_STORAGE, R
-					.string.permission_external_storage, snackBarPlaceholder, () -> {});
-		}
 	}
 
 
