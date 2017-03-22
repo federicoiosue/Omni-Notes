@@ -23,15 +23,6 @@ import it.feio.android.omninotes.models.Note;
 
 public class DbHelperTest extends BaseAndroidTestCase {
 
-    private DbHelper dbHelper;
-
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        dbHelper = DbHelper.getInstance(context);
-        cleanDatabase();
-    }
 
     public void testGetNotesByTag() {
         Note note = new Note();
@@ -48,11 +39,5 @@ public class DbHelperTest extends BaseAndroidTestCase {
         dbHelper.updateNote(note2, true);
         assertEquals(2, dbHelper.getNotesByTag("#tag").size());
         assertEquals(1, dbHelper.getNotesByTag("#tagged").size());
-    }
-
-    private void cleanDatabase() {
-        dbHelper.getDatabase().delete(DbHelper.TABLE_NOTES, null, null);
-        dbHelper.getDatabase().delete(DbHelper.TABLE_CATEGORY, null, null);
-        dbHelper.getDatabase().delete(DbHelper.TABLE_ATTACHMENTS, null, null);
     }
 }
