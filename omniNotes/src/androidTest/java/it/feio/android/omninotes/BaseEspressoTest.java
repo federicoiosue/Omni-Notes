@@ -11,15 +11,21 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
 
-public class BaseEspressoTest {
+public class BaseEspressoTest extends BaseAndroidTestCase {
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class, false, false);
 
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        mActivityTestRule.launchActivity(null);
+    }
 
     protected static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {

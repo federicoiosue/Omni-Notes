@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes;
 
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
@@ -26,21 +27,23 @@ import it.feio.android.omninotes.db.DbHelper;
 public class BaseAndroidTestCase extends AndroidTestCase {
 
     protected DbHelper dbHelper;
-    protected RenamingDelegatingContext context;
+    protected RenamingDelegatingContext testContext;
+    private final String DB_PATH_REGEX = ".*it\\.feio\\.android\\.omninotes.*\\/databases\\/test_omni-notes.*";
 
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        context = new RenamingDelegatingContext(getContext(), "test_");
-        dbHelper = DbHelper.getInstance(context);
+        testContext = new RenamingDelegatingContext(InstrumentationRegistry.getTargetContext(), "test_");
+        dbHelper = DbHelper.getInstance(testContext);
+        assertTrue(dbHelper.getDatabase().getPath().matches(DB_PATH_REGEX));
         cleanDatabase();
     }
 
 
     @Override
     protected void tearDown() throws Exception {
-        context.deleteDatabase(DbHelper.getInstance().getDatabaseName());
+        testContext.deleteDatabase(DbHelper.getInstance().getDatabaseName());
         super.tearDown();
     }
 
