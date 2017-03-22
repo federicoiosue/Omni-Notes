@@ -16,10 +16,10 @@ import android.view.View;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
+
+import java.util.Calendar;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -38,13 +38,14 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CategoryLifecycleTest extends BaseEspressoTest {
 
-    private final String CATEGORY_NAME = "Cat_1488909966110";
+    private String categoryName;
 
     @Test
-    public void test01AddNewCategory() {
+    public void addNewCategory() {
+
+        categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
 
         ViewInteraction viewInteraction = onView(
                 allOf(withId(R.id.fab_expand_menu_button),
@@ -68,7 +69,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
 
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.category_title), isDisplayed()));
-        appCompatEditText.perform(replaceText(CATEGORY_NAME), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText(categoryName), closeSoftKeyboard());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.save), withText("Ok"), isDisplayed()));
@@ -97,7 +98,9 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
     }
 
     @Test
-    public void test02CheckCategoryCreation() {
+    public void checkCategoryCreation() {
+
+        addNewCategory();
 
         ViewInteraction drawerToggle = onView(
                 allOf(withContentDescription("drawer open"),
@@ -105,13 +108,15 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
                         isDisplayed()));
         drawerToggle.perform(click());
 
-        ViewInteraction textView = onView(allOf(withId(R.id.title), withText(CATEGORY_NAME)));
-        textView.check(matches(withText(CATEGORY_NAME)));
+        ViewInteraction textView = onView(allOf(withId(R.id.title), withText(categoryName)));
+        textView.check(matches(withText(categoryName)));
 
     }
 
     @Test
-    public void test03CategoryColorChange() {
+    public void categoryColorChange() {
+
+        addNewCategory();
 
         ViewInteraction drawerToggle = onView(
                 allOf(withContentDescription("drawer open"),
@@ -119,7 +124,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
                         isDisplayed()));
         drawerToggle.perform(click());
 
-        ViewInteraction categoryView = onView(allOf(withId(R.id.title), withText(CATEGORY_NAME)));
+        ViewInteraction categoryView = onView(allOf(withId(R.id.title), withText(categoryName)));
         categoryView.perform(longClick());
 
         ViewInteraction imageView = onView(allOf(withId(R.id.color_chooser), isDisplayed()));
@@ -167,7 +172,9 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
     }
 
     @Test
-    public void test04CategoryDeletion() {
+    public void categoryDeletion() {
+
+        addNewCategory();
 
         ViewInteraction drawerToggle = onView(
                 allOf(withContentDescription("drawer open"),
@@ -175,7 +182,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
                         isDisplayed()));
         drawerToggle.perform(click());
 
-        ViewInteraction categoryView = onView(allOf(withId(R.id.title), withText(CATEGORY_NAME)));
+        ViewInteraction categoryView = onView(allOf(withId(R.id.title), withText(categoryName)));
         categoryView.perform(longClick());
 
         ViewInteraction deleteBtn = onView(
@@ -193,7 +200,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
             e.printStackTrace();
         }
 
-        ViewInteraction categoryDeletedView = onView(allOf(withId(R.id.title), withText(CATEGORY_NAME)));
+        ViewInteraction categoryDeletedView = onView(allOf(withId(R.id.title), withText(categoryName)));
         categoryDeletedView.check(doesNotExist());
 
     }
