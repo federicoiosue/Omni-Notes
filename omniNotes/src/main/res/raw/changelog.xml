@@ -17,17 +17,28 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.4.0" changeDate="Feb XX, 2017">
+    <changelogversion versionName="5.4.0" changeDate="Mar XX, 2017">
         <changelogtext>[b]New![/b] Automatic JSON export: your notes and attachments are now kept in sync into "_autobackup" folder within default backup folder.</changelogtext>
-        <changelogtext>[b]New![/b] Gifs animation support within internal gallery</changelogtext>
         <changelogtext>[i]Improved[/i] Added file size to attachments'action dialog</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="5.3.2" changeDate="Mar 10, 2017">
+        <changelogtext>[u]Fix[/u] F-Droid broken build</changelogtext>
+        <changelogtext>[u]Fix[/u] Missing sidenav update on category deletion</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="5.3.1" changeDate="Mar 1, 2017">
+        <changelogtext>[b]New![/b] GIFs support into attachments' gallery</changelogtext>
+        <changelogtext>[i]Improved![/i] Statistics labels translated</changelogtext>
+        <changelogtext>[u]Fix[/u] Language change issue</changelogtext>
+        <changelogtext>[u]Fix[/u] Minor bug fixes</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.3.0" changeDate="Feb 21, 2017">
         <changelogtext>[b]New![/b] From now on the app will be available also as completely open-source (no more inherited closed dependencies too). News on the G+ community!</changelogtext>
         <changelogtext>[b]New![/b] Enjoy the renewed help page (accessible from inside settings) that makes use of animated tutorials</changelogtext>
         <changelogtext>[b]New![/b] Added Serbian Cyrillic language (thanks [a href='https://crowdin.com/profile/slsimic']Slobodan Simic[/a])</changelogtext>
-        <changelogtext>[b]Improved![/b] New checklist items are now capitalized</changelogtext>
+        <changelogtext>[i]Improved[/i] New checklist items are now capitalized</changelogtext>
         <changelogtext>[i]Improved[/i] Category deletion button no more shown on creation</changelogtext>
         <changelogtext>[i]Improved[/i] Notes without title are now shown as they into list instead of using part of the content to improve performances</changelogtext>
         <changelogtext>[i]Improved[/i] Updated translations</changelogtext>

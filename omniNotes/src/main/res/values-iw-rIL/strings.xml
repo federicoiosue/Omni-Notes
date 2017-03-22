@@ -29,6 +29,7 @@
   <string name="share">שיתוף</string>
   <string name="undo">שחזור</string>
   <string name="trash">אשפה</string>
+  <string name="trash_action">אשפה</string>
   <string name="trashed">הושלך</string>
   <string name="note_trashed">הערות הושלכו</string>
   <string name="note_untrashed">הערות שוחזרו מהאשפה</string>
@@ -103,7 +104,7 @@
   <string name="categorize_as">סווג כ</string>
   <string name="title_activity_category">עריכת קטגוריה</string>
   <string name="delete_unused_category_confirmation">וידוא מחיקת קטגוריה?</string>
-  <string name="delete_category_confirmation">$1$ הערות משתמשות בקטגוריה זו.\nהאם לאשר הסרת סיווג ההערות ומחיקת הקטגוריה?</string>
+  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">ביטול</string>
   <string name="remove_category">הסרת קטגוריה</string>
   <string name="no_tags_created">לא נוצרו עדיין תגיות</string>
@@ -326,6 +327,30 @@
   <string name="settings_send_analytics">Share anonymous data</string>
   <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Statistics</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Total notes</string>
+  <string name="stats_active_notes">Active notes</string>
+  <string name="stats_archived_notes">Archived notes</string>
+  <string name="stats_trashed_notes">Trashed notes</string>
+  <string name="stats_reminders">תזכורות</string>
+  <string name="stats_future_reminders">Future reminders</string>
+  <string name="stats_checklists">רשימות סימון</string>
+  <string name="stats_locked_notes">Locked notes</string>
+  <string name="stats_categories">קטגוריות</string>
+  <string name="stats_tags">תגיות</string>
+  <string name="stats_attachments">קבצים מצורפים</string>
+  <string name="stats_images">Images</string>
+  <string name="stats_videos">Videos</string>
+  <string name="stats_audio_recordings">Audio recordings</string>
+  <string name="stats_sketches">Sketches</string>
+  <string name="stats_files">קבצים</string>
+  <string name="stats_locations">Locations</string>
+  <string name="stats_words">Words</string>
+  <string name="stats_max_words">Max words</string>
+  <string name="stats_avg_words">Average words</string>
+  <string name="stats_characters">Chars</string>
+  <string name="stats_max_characters">Max chars</string>
+  <string name="stats_avg_characters">Average chars</string>
   <!-- Instructions -->
   <string name="tour_request_start">זוהי הפעם הראשונה שאתם משתמשים ב-Omni Note, ברצונכם לעשות סיור באפליקציה?</string>
   <string name="tour_listactivity_intro_title">ברוך הבא ל-Omni Notes!</string>

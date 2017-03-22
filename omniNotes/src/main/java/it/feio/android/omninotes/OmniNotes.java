@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,11 +25,13 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.analitica.AnalyticsHelperFactory;
+import it.feio.android.analitica.MockAnalyticsHelper;
 import it.feio.android.analitica.exceptions.AnalyticsInstantiationException;
 import it.feio.android.analitica.exceptions.InvalidIdentifierException;
 import it.feio.android.omninotes.utils.Constants;
@@ -43,7 +46,7 @@ import java.util.Locale;
 
 @ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = BuildConfig.CRASH_REPORTING_URL, mode =
 		ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
-public class OmniNotes extends Application {
+public class OmniNotes extends MultiDexApplication {
 
 	private static Context mContext;
 
@@ -120,16 +123,17 @@ public class OmniNotes extends Application {
 	/**
 	 * Updates default language with forced one
 	 */
+	@SuppressLint("CommitPrefEdits")
 	public static void updateLanguage(Context ctx, String lang) {
 		Configuration cfg = new Configuration();
 		String language = prefs.getString(PREF_LANG, "");
 
 		if (TextUtils.isEmpty(language) && lang == null) {
 			cfg.locale = Locale.getDefault();
-			prefs.edit().putString(PREF_LANG, cfg.locale.toString()).apply();
+			prefs.edit().putString(PREF_LANG, cfg.locale.toString()).commit();
 		} else if (lang != null) {
 			cfg.locale = getLocale(lang);
-			prefs.edit().putString(PREF_LANG, lang).apply();
+			prefs.edit().putString(PREF_LANG, lang).commit();
 		} else if (!TextUtils.isEmpty(language)) {
 			cfg.locale = getLocale(language);
 		}
@@ -167,7 +171,7 @@ public class OmniNotes extends Application {
 				analyticsHelper = new AnalyticsHelperFactory().getAnalyticsHelper(this, enableAnalytics,
 						analyticsParams);
 			} catch (AnalyticsInstantiationException | InvalidIdentifierException e) {
-				e.printStackTrace();
+				analyticsHelper = new MockAnalyticsHelper();
 			}
 		}
 		return analyticsHelper;

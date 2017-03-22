@@ -29,6 +29,7 @@
   <string name="share">Zdieľať</string>
   <string name="undo">Späť</string>
   <string name="trash">Zahodiť do kôša</string>
+  <string name="trash_action">Zahodiť do kôša</string>
   <string name="trashed">zahodené do koša</string>
   <string name="note_trashed">Poznámky boli zahodené do koša</string>
   <string name="note_untrashed">Poznámky boli obnovené z koša</string>
@@ -103,7 +104,7 @@
   <string name="categorize_as">Kategorizovať ako</string>
   <string name="title_activity_category">Upraviť kategóriu</string>
   <string name="delete_unused_category_confirmation">Potvrdzujete vymazanie kategórie?</string>
-  <string name="delete_category_confirmation">Táto kategória je používaná $1$ poznámkami.\nPotvrdzujete zrušenie kategorizácie poznámok a vymazanie kategórie?</string>
+  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">Zahodiť</string>
   <string name="remove_category">Odstrániť kategóriu</string>
   <string name="no_tags_created">Žiadne značky ešte neboli vytvorené</string>
@@ -326,6 +327,30 @@
   <string name="settings_send_analytics">Share anonymous data</string>
   <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
   <string name="settings_statistics">Štatistiky</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Total notes</string>
+  <string name="stats_active_notes">Active notes</string>
+  <string name="stats_archived_notes">Archived notes</string>
+  <string name="stats_trashed_notes">Trashed notes</string>
+  <string name="stats_reminders">Pripomienky</string>
+  <string name="stats_future_reminders">Future reminders</string>
+  <string name="stats_checklists">Zaškrtávacie zoznamy</string>
+  <string name="stats_locked_notes">Locked notes</string>
+  <string name="stats_categories">Kategórie</string>
+  <string name="stats_tags">Značky</string>
+  <string name="stats_attachments">Prílohy</string>
+  <string name="stats_images">Images</string>
+  <string name="stats_videos">Videos</string>
+  <string name="stats_audio_recordings">Audio recordings</string>
+  <string name="stats_sketches">Sketches</string>
+  <string name="stats_files">Súbory</string>
+  <string name="stats_locations">Locations</string>
+  <string name="stats_words">Words</string>
+  <string name="stats_max_words">Max words</string>
+  <string name="stats_avg_words">Average words</string>
+  <string name="stats_characters">Chars</string>
+  <string name="stats_max_characters">Max chars</string>
+  <string name="stats_avg_characters">Average chars</string>
   <!-- Instructions -->
   <string name="tour_request_start">Spustili ste Omni Notes po prvý krát. Chcete si prezieť prehliadku aplikácie?</string>
   <string name="tour_listactivity_intro_title">Vitajte v Omni Notes!</string>

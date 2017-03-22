@@ -32,9 +32,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import it.feio.android.omninotes.db.DbHelper;
@@ -46,6 +44,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Random;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.simplegallery.util.BitmapUtils;
 
 import static java.lang.Integer.parseInt;
 
@@ -150,16 +158,9 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     @OnClick(R.id.delete)
     public void deleteCategory() {
 
-        // Retrieving how many notes are categorized with category to be deleted
-        DbHelper db = DbHelper.getInstance();
-        int count = db.getCategorizedCount(category);
-        String msg = "";
-        if (count > 0)
-            msg = getString(R.string.delete_category_confirmation).replace("$1$", String.valueOf(count));
-
         new MaterialDialog.Builder(this)
 				.title(R.string.delete_unused_category_confirmation)
-                .content(msg)
+                .content(R.string.delete_category_confirmation)
                 .positiveText(R.string.confirm)
                 .positiveColorRes(R.color.colorAccent)
                 .callback(new MaterialDialog.ButtonCallback() {
@@ -175,6 +176,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
                         DbHelper db = DbHelper.getInstance();
                         db.deleteCategory(category);
 
+                        EventBus.getDefault().post(new CategoriesUpdatedEvent());
                         BaseActivity.notifyAppWidgets(OmniNotes.getAppContext());
 
                         setResult(RESULT_FIRST_USER);

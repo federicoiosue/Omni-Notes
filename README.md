@@ -3,7 +3,6 @@
 [![Stories in In Progress](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=In%20Progress&title=InProgress)](https://waffle.io/federicoiosue/Omni-Notes)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/omni-notes/localized.png)](https://crowdin.com/project/omni-notes)
 [![Build Status](https://travis-ci.org/federicoiosue/Omni-Notes.svg?branch=develop)](https://travis-ci.org/federicoiosue/Omni-Notes)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/federicoiosue/omni-notes/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8ade707d00ef468fa79d3f6b622444b5)](https://www.codacy.com/app/federico-iosue/Omni-Notes?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=federicoiosue/Omni-Notes&amp;utm_campaign=Badge_Grade)
 
 Omni-Notes
@@ -17,6 +16,11 @@ The project was created by the absence of such applications compatible with old 
 **Follow the developments and post your comments and advice on Google+ Beta Community at http://goo.gl/eF6qqF**
 
 *Help to keep translations updated is always welcome, if you want give an hand checkout the translation project at [Crowdin][2]*
+
+<a href="https://f-droid.org/repository/browse/?fdid=it.feio.android.omninotes.foss" target="_blank">
+<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>
+<a href="https://play.google.com/store/apps/details?id=it.feio.android.omninotes" target="_blank">
+<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/></a>
 
 ##Features
 
@@ -56,8 +60,6 @@ If you need some help on how to use the application you'll find everything you n
 ![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/10.png)
 ![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/11.png)
 ![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/12.png)
-
-[<img src="https://developer.android.com/images/brand/en_generic_rgb_wo_45.png">][1]
 
 ## User guide
 
@@ -140,7 +142,4 @@ Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/
 
 
 
-
-
- [1]: https://play.google.com/store/apps/details?id=it.feio.android.omninotes
  [2]: https://crowdin.net/project/omni-notes/

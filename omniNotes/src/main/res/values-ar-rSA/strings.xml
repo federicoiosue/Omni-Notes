@@ -29,6 +29,7 @@
   <string name="share">إشراك</string>
   <string name="undo">تراجع</string>
   <string name="trash">نفايات</string>
+  <string name="trash_action">نفايات</string>
   <string name="trashed">تم الحذف</string>
   <string name="note_trashed">تم حذف المدونات</string>
   <string name="note_untrashed">تم استرجاع المدونات</string>
@@ -103,7 +104,7 @@
   <string name="categorize_as">صنف</string>
   <string name="title_activity_category">صحح الفئة</string>
   <string name="delete_unused_category_confirmation">تأكيد حذف الفئة؟</string>
-  <string name="delete_category_confirmation">هذه الفئة مستخدمة في $1$ مدونات. \n هل تريد الغاء التصنيف و حذف الفئة؟</string>
+  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">رفض</string>
   <string name="remove_category">ازالة فئة</string>
   <string name="no_tags_created">لم يتم إنشاء وسوم بعد</string>
@@ -328,6 +329,30 @@
   <string name="settings_send_analytics">مشاركة البيانات مُغفَلَة المصدر</string>
   <string name="settings_send_analytics_summary">ساعد المطوّر بإرسال البيانات غير الحسّاسة كنوع الجهاز واللغة و ميزات التطبيق متكررة الاستخدام. ستستخدم هذه البيانات لتحسين التطبيق مفتوح المصدر ليس إلا.</string>
   <string name="settings_statistics">إحصاءات</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Total notes</string>
+  <string name="stats_active_notes">Active notes</string>
+  <string name="stats_archived_notes">Archived notes</string>
+  <string name="stats_trashed_notes">Trashed notes</string>
+  <string name="stats_reminders">التنبيهات</string>
+  <string name="stats_future_reminders">Future reminders</string>
+  <string name="stats_checklists">قوائم مرجعية</string>
+  <string name="stats_locked_notes">Locked notes</string>
+  <string name="stats_categories">فئات</string>
+  <string name="stats_tags">الوسوم</string>
+  <string name="stats_attachments">المرفقات</string>
+  <string name="stats_images">Images</string>
+  <string name="stats_videos">Videos</string>
+  <string name="stats_audio_recordings">Audio recordings</string>
+  <string name="stats_sketches">Sketches</string>
+  <string name="stats_files">ملفات</string>
+  <string name="stats_locations">Locations</string>
+  <string name="stats_words">Words</string>
+  <string name="stats_max_words">Max words</string>
+  <string name="stats_avg_words">Average words</string>
+  <string name="stats_characters">Chars</string>
+  <string name="stats_max_characters">Max chars</string>
+  <string name="stats_avg_characters">Average chars</string>
   <!-- Instructions -->
   <string name="tour_request_start">هذه أول مرة تشغّل فيها تطبيق Omni Note ، هل تود أخذ جولة التطبيق ؟</string>
   <string name="tour_listactivity_intro_title">مرحباً بك في Omni Notes!</string>

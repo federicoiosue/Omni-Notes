@@ -37,6 +37,20 @@ if(signConfigExists) {
 
 android {
 
+    if (project.hasProperty("SIGN_PROPS")
+            && new File(project.property("SIGN_PROPS").toString()).exists()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(file(project.property("SIGN_PROPS"))))
+        signingConfigs {
+            signConfig {
+                storeFile file(props['keystore'])
+                storePassword props['keystore.password']
+                keyAlias props['keystore.alias']
+                keyPassword props['keystore.alias.password']
+            }
+        }
+    }
+
     compileSdkVersion Integer.parseInt(project.TARGET_SDK)
     buildToolsVersion project.BUILD_TOOLS
 
@@ -48,6 +62,7 @@ android {
         versionCode Integer.parseInt(project.VERSION_CODE)
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        multiDexEnabled true
     }
 
     packagingOptions {
@@ -61,7 +76,7 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             applicationVariants.all { variant ->
-                variant.outputs.each { output ->
+                variant.outputs.each { output ->omn
                     def file = output.outputFile
                     output.outputFile = new File(
                             (String) file.parent,
@@ -103,7 +118,7 @@ dependencies {
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.5.3'
     testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:24.0.0'
+    androidTestCompile 'com.android.support:support-annotations:23.4.0'
     androidTestCompile 'com.android.support.test:runner:0.4'
     androidTestCompile 'com.android.support.test:rules:0.4'
 
@@ -119,6 +134,7 @@ dependencies {
     compile 'be.billington.calendar.recurrencepicker:library:1.1.1'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.pushbullet:android-extensions:1.0.4@aar'
     compile 'com.getbase:floatingactionbutton:1.10.1'
@@ -152,7 +168,9 @@ dependencies {
     alphaCompile 'io.nlopez.smartlocation:library:3.2.4'
     fossCompile 'com.github.federicoiosue:smart-location-lib:3.2.6'
 
-    compile 'com.github.federicoiosue:simplegallery:2.0.0'
+    compile ('com.github.federicoiosue:SimpleGallery:2.0.0') {
+        exclude group: 'com.android.support'
+    }
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'
     compile 'com.github.federicoiosue:Omni-Notes-Commons:develop-SNAPSHOT'
     compile ('com.github.federicoiosue:checklistview:3.2.1') {
@@ -165,16 +183,10 @@ dependencies {
     alphaCompile 'io.nlopez.smartlocation:library:3.2.4'
     betaCompile 'io.nlopez.smartlocation:library:3.2.4'
     fossCompile 'com.github.federicoiosue:smart-location-lib:3.2.5'
-    playCompile ('com.github.federicoiosue:analitica:0.0.2:googleAnalyticsRelease@aar'){
+    playCompile ('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar'){
         transitive=true
     }
-    alphaCompile ('com.github.federicoiosue:analitica:0.0.2:googleAnalyticsRelease@aar'){
-        transitive=true
-    }
-    betaCompile ('com.github.federicoiosue:analitica:0.0.2:googleAnalyticsRelease@aar'){
-        transitive=true
-    }
-    fossCompile ('com.github.federicoiosue:analitica:0.0.2:piwikRelease@aar'){
+    fossCompile ('com.github.federicoiosue:analitica:0.0.3:piwikRelease@aar'){
         transitive=true
     }
     playCompile 'com.google.android.gms:play-services-analytics:9.0.2'

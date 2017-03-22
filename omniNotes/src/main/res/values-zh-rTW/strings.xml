@@ -29,6 +29,7 @@
   <string name="share">分享</string>
   <string name="undo">重做</string>
   <string name="trash">資源回收桶</string>
+  <string name="trash_action">資源回收桶</string>
   <string name="trashed">已回收</string>
   <string name="note_trashed">筆記已移入回收桶</string>
   <string name="note_untrashed">筆記從回收桶還原</string>
@@ -103,7 +104,7 @@
   <string name="categorize_as">分类为</string>
   <string name="title_activity_category">编辑类别</string>
   <string name="delete_unused_category_confirmation">确认删除类别？</string>
-  <string name="delete_category_confirmation">此类别已被用于标记 $1$ 条记事.\n确认移除记事中的分类并删除此类别？</string>
+  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">取消</string>
   <string name="remove_category">移除类别</string>
   <string name="no_tags_created">尚未创建标签</string>
@@ -326,6 +327,30 @@
   <string name="settings_send_analytics">分享匿名數據</string>
   <string name="settings_send_analytics_summary">傳送非敏感數據以協助開發者，例如裝置型號、語言、常用app功能等。本資料將只會用來改善開源app。</string>
   <string name="settings_statistics">統計</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Total notes</string>
+  <string name="stats_active_notes">Active notes</string>
+  <string name="stats_archived_notes">Archived notes</string>
+  <string name="stats_trashed_notes">Trashed notes</string>
+  <string name="stats_reminders">提醒</string>
+  <string name="stats_future_reminders">Future reminders</string>
+  <string name="stats_checklists">待办事项列表</string>
+  <string name="stats_locked_notes">Locked notes</string>
+  <string name="stats_categories">类别</string>
+  <string name="stats_tags">标签</string>
+  <string name="stats_attachments">Attachments</string>
+  <string name="stats_images">Images</string>
+  <string name="stats_videos">Videos</string>
+  <string name="stats_audio_recordings">Audio recordings</string>
+  <string name="stats_sketches">Sketches</string>
+  <string name="stats_files">文件</string>
+  <string name="stats_locations">Locations</string>
+  <string name="stats_words">Words</string>
+  <string name="stats_max_words">Max words</string>
+  <string name="stats_avg_words">Average words</string>
+  <string name="stats_characters">Chars</string>
+  <string name="stats_max_characters">Max chars</string>
+  <string name="stats_avg_characters">Average chars</string>
   <!-- Instructions -->
   <string name="tour_request_start">这是您第一次使用Omni Note，您是否希望观看用户引导？</string>
   <string name="tour_listactivity_intro_title">欢迎使用 Omni Notes ！</string>

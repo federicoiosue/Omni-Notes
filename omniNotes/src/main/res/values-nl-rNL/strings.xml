@@ -28,7 +28,8 @@
   <string name="save">Opslaan</string>
   <string name="share">AandeelDelen</string>
   <string name="undo">Ongedaan maken</string>
-  <string name="trash">Rommel</string>
+  <string name="trash">Prullenbak</string>
+  <string name="trash_action">Verwijderen</string>
   <string name="trashed">verwijderd</string>
   <string name="note_trashed">Verwijderde notitie(s)</string>
   <string name="note_untrashed">Notitie(s) hersteld uit de Prullenbak</string>
@@ -103,7 +104,7 @@
   <string name="categorize_as">Categoriseren als</string>
   <string name="title_activity_category">Bewerk categorie</string>
   <string name="delete_unused_category_confirmation">Categorie verwijdering bevestigen?</string>
-  <string name="delete_category_confirmation">Deze categorie wordt gebruikt door $1$ notities.\nBevestig notities on-categorisatie en categorie verwijderen?</string>
+  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">Negeer</string>
   <string name="remove_category">Verwijder categorie</string>
   <string name="no_tags_created">Er werden nog geen tags gemaakt</string>
@@ -326,6 +327,30 @@
   <string name="settings_send_analytics">Anonieme gegevens delen</string>
   <string name="settings_send_analytics_summary">Help de ontwikkelaar met het verzenden van niet-gevoelige gegevens zoals apparaat model, taal en veel veelgebruikte app functies. Deze gegevens worden alleen gebruikt voor het verbeteren van de open-bron app.</string>
   <string name="settings_statistics">Statistieken</string>
+  <!-- Stats -->
+  <string name="stats_total_notes">Total notes</string>
+  <string name="stats_active_notes">Active notes</string>
+  <string name="stats_archived_notes">Archived notes</string>
+  <string name="stats_trashed_notes">Trashed notes</string>
+  <string name="stats_reminders">Herinneringen</string>
+  <string name="stats_future_reminders">Future reminders</string>
+  <string name="stats_checklists">Checklists</string>
+  <string name="stats_locked_notes">Locked notes</string>
+  <string name="stats_categories">Categorieën</string>
+  <string name="stats_tags">Tags</string>
+  <string name="stats_attachments">Bijlagen</string>
+  <string name="stats_images">Images</string>
+  <string name="stats_videos">Videos</string>
+  <string name="stats_audio_recordings">Audio recordings</string>
+  <string name="stats_sketches">Sketches</string>
+  <string name="stats_files">Bestanden</string>
+  <string name="stats_locations">Locations</string>
+  <string name="stats_words">Words</string>
+  <string name="stats_max_words">Max words</string>
+  <string name="stats_avg_words">Average words</string>
+  <string name="stats_characters">Chars</string>
+  <string name="stats_max_characters">Max chars</string>
+  <string name="stats_avg_characters">Average chars</string>
   <!-- Instructions -->
   <string name="tour_request_start">U startte Omni Notes voor de eerste keer, zou u een rondleiding willen van de toepassing?</string>
   <string name="tour_listactivity_intro_title">Welkom bij Omni notities!</string>
