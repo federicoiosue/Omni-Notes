@@ -16,14 +16,30 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
-import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.Matchers.allOf;
 
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FabActionsTest extends BaseEspressoTest {
+public class FabLifecycleTest extends BaseEspressoTest {
 
+    @Test
+    public void fabOpenCloseTest() {
+
+        ViewInteraction viewInteraction = onView(
+                allOf(withId(R.id.fab_expand_menu_button),
+                        withParent(withId(R.id.fab)),
+                        isDisplayed()));
+        viewInteraction.perform(click());
+
+
+        ViewInteraction viewInteraction2 = onView(
+                allOf(withId(R.id.fab_expand_menu_button),
+                        withParent(withId(R.id.fab)),
+                        isDisplayed()));
+        viewInteraction2.perform(click());
+    }
+    
     @Test
     public void fabActionsTest() throws IOException {
 
@@ -54,7 +70,5 @@ public class FabActionsTest extends BaseEspressoTest {
                                 1),
                         isDisplayed()));
         assertNotNull(cameraFabAction);
-
     }
-
 }
