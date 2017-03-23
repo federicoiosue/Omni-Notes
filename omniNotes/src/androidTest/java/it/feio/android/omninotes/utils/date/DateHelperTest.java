@@ -26,8 +26,8 @@ import java.util.Calendar;
 
 public class DateHelperTest extends InstrumentationTestCase {
 
-	private long TEN_MINUTES = 10 * 60 * 1000;
-
+	private int TEN_MINUTES = 10 * 60 * 1000;
+	private int MILLISEC_TO_HOURS_RATIO = 60 * 60 * 1000;
 
 	public void testNextReminderFromRecurrenceRule() {
 		long currentTime = Calendar.getInstance().getTimeInMillis();
@@ -36,14 +36,14 @@ public class DateHelperTest extends InstrumentationTestCase {
 		// Daily test
 		String rruleDaily = "FREQ=DAILY;COUNT=30;WKST=MO";
 		long nextReminder = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily);
-		Assert.assertNotEquals(nextReminder, 0);
-		Assert.assertEquals((nextReminder - reminder) / 60 / 60 / 1000, 24-1);
+		Assert.assertNotEquals(0, nextReminder);
+		Assert.assertEquals(24-1, (nextReminder - reminder) / MILLISEC_TO_HOURS_RATIO);
 
 		// 3-Daily test
 		String rruleDaily2 = "FREQ=DAILY;COUNT=30;INTERVAL=3";
 		long nextReminder2 = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily2);
-		Assert.assertNotEquals(nextReminder2, 0);
-		Assert.assertEquals((nextReminder2 - reminder) / 60 / 60 / 1000, 3*24 - 1);
+		Assert.assertNotEquals(0, nextReminder2);
+		Assert.assertEquals(3*24 - 2, (nextReminder2 - reminder) / MILLISEC_TO_HOURS_RATIO);
 
 
 	}

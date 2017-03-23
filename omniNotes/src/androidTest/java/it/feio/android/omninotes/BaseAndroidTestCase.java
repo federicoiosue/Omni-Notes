@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes;
 
+import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
@@ -27,7 +28,7 @@ import it.feio.android.omninotes.db.DbHelper;
 public class BaseAndroidTestCase extends AndroidTestCase {
 
     protected DbHelper dbHelper;
-    protected RenamingDelegatingContext testContext;
+    protected Context testContext;
     private final String DB_PATH_REGEX = ".*it\\.feio\\.android\\.omninotes.*\\/databases\\/test_omni-notes.*";
 
 
