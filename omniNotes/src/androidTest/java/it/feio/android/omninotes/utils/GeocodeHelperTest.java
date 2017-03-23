@@ -26,7 +26,6 @@ import org.junit.Test;
 import java.io.IOException;
 
 
-@Ignore
 public class GeocodeHelperTest extends InstrumentationTestCase {
 
     @Test

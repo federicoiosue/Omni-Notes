@@ -100,11 +100,9 @@ public class GeocodeHelper implements LocationListener {
 				unsubscribe();
 			}
 
-
 			@Override
 			public void onCompleted() {
 			}
-
 
 			@Override
 			public void onError(Throwable e) {
