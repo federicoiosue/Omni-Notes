@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/federicoiosue/Omni-Notes.svg?branch=develop)](https://travis-ci.org/federicoiosue/Omni-Notes)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8ade707d00ef468fa79d3f6b622444b5)](https://www.codacy.com/app/federico-iosue/Omni-Notes?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=federicoiosue/Omni-Notes&amp;utm_campaign=Badge_Grade)
 
+
 Omni-Notes
 ==========
 
@@ -27,7 +28,7 @@ The project was created by the absence of such applications compatible with old 
 Actually the following functions are implemented:
 
 * Material Design interface
-*Basic add, modify, archive, trash and delete notes actions
+  *Basic add, modify, archive, trash and delete notes actions
 * Share, merge and search notes
 * Image, audio and generic file attachments
 * Manage your notes using tags and categories
@@ -65,13 +66,20 @@ If you need some help on how to use the application you'll find everything you n
 
 Look into the wiki for GIFs-based tutorials: [LINK](https://github.com/federicoiosue/Omni-Notes/wiki)
 
-
-##Build the app
+## Build
 
 Look to the following terminal session recording to compile distributable files
 [![asciicast](https://asciinema.org/a/102898.png)](https://asciinema.org/a/102898)
 
-####Dependences
+## Test
+
+To execute all tests included into the project connect a device or emulator, then launch the following command:
+
+```shell
+./gradlew connectedAndroidTest
+```
+
+#### Dependences
 
 They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni-Notes/blob/develop/omniNotes/build.gradle) file but due to the fact that many of the dependences have been customized by me I'd like to say thanks here to the original developers of these great libraries:
 
@@ -129,15 +137,15 @@ Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-
+    
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-
+    
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
- [2]: https://crowdin.net/project/omni-notes/
+[2]: https://crowdin.net/project/omni-notes/
