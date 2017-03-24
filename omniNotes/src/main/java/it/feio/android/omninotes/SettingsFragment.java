@@ -32,6 +32,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -46,9 +47,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 
+import it.feio.android.omninotes.models.listeners.OnPermissionRequestedListener;
 import org.apache.commons.lang.StringUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
@@ -216,6 +219,37 @@ public class SettingsFragment extends PreferenceFragment {
 								Toast.makeText(activity, "Copied to clipboard", Toast.LENGTH_SHORT).show();
 							})
 							.build().show();
+				}
+				return false;
+			});
+		}
+
+		// Autobackup
+		final SwitchPreference enableAutobackup = (SwitchPreference) findPreference("settings_enable_autobackup");
+		if (enableAutobackup != null) {
+			enableAutobackup.setOnPreferenceChangeListener((preference, newValue) -> {
+				if ((Boolean) newValue) {
+					new MaterialDialog.Builder(activity)
+							.content(R.string.settings_enable_automatic_backup_dialog)
+							.positiveText(R.string.confirm)
+							.negativeText(R.string.cancel)
+							.onPositive((dialog, which) -> {
+								PermissionsHelper.requestPermission(getActivity(), Manifest.permission
+										.WRITE_EXTERNAL_STORAGE, R
+										.string.permission_external_storage, activity.findViewById(R.id
+										.crouton_handle), () -> {
+									Intent service = new Intent(OmniNotes.getAppContext(), DataBackupIntentService
+											.class);
+									service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
+									service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, Constants
+											.AUTO_BACKUP_DIR);
+									OmniNotes.getAppContext().startService(service);
+									enableAutobackup.setChecked(true);
+								});
+							})
+							.build().show();
+				} else {
+					enableAutobackup.setChecked(false);
 				}
 				return false;
 			});

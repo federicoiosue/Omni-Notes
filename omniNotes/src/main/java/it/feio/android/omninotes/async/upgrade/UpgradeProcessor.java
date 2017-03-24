@@ -18,18 +18,10 @@
 package it.feio.android.omninotes.async.upgrade;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.ReminderHelper;
-import it.feio.android.omninotes.utils.StorageHelper;
+
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -37,6 +29,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.StorageHelper;
 
 
 /**
@@ -177,17 +177,6 @@ public class UpgradeProcessor {
 			}
 			creations.add(note.getCreation());
 		}
-	}
-
-
-	/**
-	 * Performs a full app backup using the new {@link Constants#AUTO_BACKUP_DIR} destination to prepare to sync
-	 */
-	private void onUpgradeTo502() {
-		Intent service = new Intent(OmniNotes.getAppContext(), DataBackupIntentService.class);
-		service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
-		service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, Constants.AUTO_BACKUP_DIR);
-		OmniNotes.getAppContext().startService(service);
 	}
 
 }

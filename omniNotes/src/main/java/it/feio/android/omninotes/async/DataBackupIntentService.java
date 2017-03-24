@@ -147,10 +147,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         createNotification(intent, this, title, text, backupDir);
 
 		// Performs auto-backup filling after backup restore
-		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
-		BackupHelper.exportNotes(autoBackupDir);
-		BackupHelper.exportAttachments(autoBackupDir);
-    }
+		if (prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
+			File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+			BackupHelper.exportNotes(autoBackupDir);
+			BackupHelper.exportAttachments(autoBackupDir);
+		}
+	}
 
 
     synchronized private void deleteData(Intent intent) {

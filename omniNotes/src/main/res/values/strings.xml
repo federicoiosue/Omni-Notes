@@ -256,6 +256,9 @@
     <string name="settings_max_video_size">Video attachments</string>
     <string name="settings_screen_data">Data</string>
     <string name="settings_backup">Backup</string>
+    <string name="settings_enable_automatic_backup">Enable automatic backup</string>
+    <string name="settings_enable_automatic_backup_summary">Notes will be stored into "_autobackup" backup folder</string>
+    <string name="settings_enable_automatic_backup_dialog">By activating this feature a full data backup will be performed</string>
     <string name="settings_password">Password</string>
     <string name="settings_password_access">Request password on access</string>
     <string name="settings_password_instructions">Password ensures that notes won\'t be viewed or modified by other persons.\n\nWhen setting a new password, the previous one will be requested.</string>

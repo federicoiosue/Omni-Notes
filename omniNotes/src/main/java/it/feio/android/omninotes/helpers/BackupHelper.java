@@ -18,6 +18,7 @@
 package it.feio.android.omninotes.helpers;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -63,12 +64,17 @@ public class BackupHelper {
 
 
 	public static void exportNote(File backupDir, Note note) {
-		File noteFile = new File(backupDir, String.valueOf(note.get_id()) + ".json");
+		File noteFile = getBackupNoteFile(backupDir, note);
 		try {
 			FileUtils.write(noteFile, note.toJSON());
 		} catch (IOException e) {
 			Log.e(Constants.TAG, "Error backupping note: " + note.get_id());
 		}
+	}
+
+	@NonNull
+	public static File getBackupNoteFile(File backupDir, Note note) {
+		return new File(backupDir, String.valueOf(note.get_id()) + ".json");
 	}
 
 
@@ -226,7 +232,7 @@ public class BackupHelper {
 
 
 	public static boolean deleteNoteBackup(File backupDir, Note note) {
-		File noteFile = new File(backupDir, String.valueOf(note.get_id()));
+		File noteFile = getBackupNoteFile(backupDir, note);
 		boolean result = noteFile.delete();
 		File attachmentBackup = new File(backupDir, StorageHelper.getAttachmentDir().getName());
 		for (Attachment attachment : note.getAttachmentsList()) {
@@ -266,7 +272,7 @@ public class BackupHelper {
 	public static List<LinkedList<DiffMatchPatch.Diff>> integrityCheck(Context context, File backupDir) {
 		List<LinkedList<DiffMatchPatch.Diff>> errors = new ArrayList<>();
 		for (Note note : DbHelper.getInstance(true).getAllNotes(false)) {
-			File noteFile = new File(backupDir, String.valueOf(note.get_id()) + ".json");
+			File noteFile = getBackupNoteFile(backupDir, note);
 			try {
 				String noteString = note.toJSON();
 				String noteFileString = FileUtils.readFileToString(noteFile);

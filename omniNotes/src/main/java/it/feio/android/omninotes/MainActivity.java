@@ -65,6 +65,7 @@ import it.feio.android.omninotes.utils.SystemHelper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
@@ -89,20 +90,17 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         ButterKnife.bind(this);
 		EventBus.getDefault().register(this);
 
-        // This method starts the bootstrap chain.
-        checkPassword();
+		// This method starts the bootstrap chain.
+		checkPassword();
 
-        initUI();
+		initUI();
 
-		PermissionsHelper.requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-				.string.permission_external_storage, croutonViewContainer, null);
-
-			if (IntroActivity.mustRun()) {
-				startActivity(new Intent(this.getApplicationContext(), IntroActivity.class));
-			}
-
-			new UpdaterTask(this).execute();
+		if (IntroActivity.mustRun()) {
+			startActivity(new Intent(this.getApplicationContext(), IntroActivity.class));
 		}
+
+		new UpdaterTask(this).execute();
+	}
 
 
 
@@ -528,23 +526,35 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	 * @param notesUpdatedEvent Event containing updated note
 	 */
 	public void onEventAsync(NotesUpdatedEvent notesUpdatedEvent) {
-		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
-		for (Note note : notesUpdatedEvent.notes) {
-			BackupHelper.exportNote(autoBackupDir, note);
-			BackupHelper.exportAttachments(null, new File(autoBackupDir, StorageHelper.getAttachmentDir().getName()),
-					note.getAttachmentsList(), note.getAttachmentsListOld());
-		}
-	}
+        autobackupUpdate(notesUpdatedEvent.notes);
+    }
+
+    private void autobackupUpdate(List<Note> updatedNotes) {
+        if (prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
+            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+            for (Note note : updatedNotes) {
+                BackupHelper.exportNote(autoBackupDir, note);
+                BackupHelper.exportAttachments(null, new File(autoBackupDir, StorageHelper.getAttachmentDir().getName()),
+                        note.getAttachmentsList(), note.getAttachmentsListOld());
+            }
+        }
+    }
 
 
-	/**
+    /**
 	 * Performs deletion from auto-backup folder of a permanently deleted note
 	 * @param notesDeletedEvent Event containing deleted note
 	 */
 	public void onEventAsync(NotesDeletedEvent notesDeletedEvent) {
-		File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
-		for (Note note : notesDeletedEvent.notes) {
-			BackupHelper.deleteNoteBackup(autoBackupDir, note);
-		}
-	}
+        autobackupDeletion(notesDeletedEvent.notes);
+    }
+
+    private void autobackupDeletion(List<Note> deletedNotes) {
+        if (prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
+            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+            for (Note note : deletedNotes) {
+                BackupHelper.deleteNoteBackup(autoBackupDir, note);
+            }
+        }
+    }
 }
