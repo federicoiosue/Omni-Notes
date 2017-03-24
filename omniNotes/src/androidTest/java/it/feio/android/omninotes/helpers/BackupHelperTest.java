@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2017 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.test.helpers;
+package it.feio.android.omninotes.helpers;
 
 import android.net.Uri;
 import android.test.InstrumentationTestCase;
@@ -66,7 +66,7 @@ public class BackupHelperTest extends InstrumentationTestCase {
 		BackupHelper.exportNote(targetDir, note);
 		Collection<File> noteFiles = FileUtils.listFiles(targetDir, new RegexFileFilter("\\d{13}"),
 				TrueFileFilter.INSTANCE);
-		assertEquals(noteFiles.size(), 1);
+		assertEquals(1, noteFiles.size());
 		Note retrievedNote = rx.Observable.from(noteFiles).map(BackupHelper::importNote).toBlocking().first();
 		assertTrue(note.equals(retrievedNote));
 	}
@@ -99,7 +99,7 @@ public class BackupHelperTest extends InstrumentationTestCase {
 				return "bau";
 			}
 		}).toBlocking().first();
-		assertEquals(files.size(), 2);
+		assertEquals(2, files.size());
 		assertTrue(note.equals(retrievedNote));
 		assertEquals(retrievedAttachmentContent, FileUtils.readFileToString(new File(attachment.getUri().getPath())));
 	}

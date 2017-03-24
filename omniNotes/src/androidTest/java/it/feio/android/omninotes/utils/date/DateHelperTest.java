@@ -43,8 +43,7 @@ public class DateHelperTest extends InstrumentationTestCase {
 		String rruleDaily2 = "FREQ=DAILY;COUNT=30;INTERVAL=3";
 		long nextReminder2 = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily2);
 		Assert.assertNotEquals(0, nextReminder2);
-		Assert.assertEquals(3*24 - 2, (nextReminder2 - reminder) / MILLISEC_TO_HOURS_RATIO);
-
+		Assert.assertEquals(3*24-1, (nextReminder2 - reminder) / MILLISEC_TO_HOURS_RATIO);
 
 	}
 
