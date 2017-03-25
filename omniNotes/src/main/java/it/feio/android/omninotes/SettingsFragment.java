@@ -26,13 +26,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
-import android.support.annotation.NonNull;
+import android.preference.*;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -46,14 +40,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
-
-import it.feio.android.omninotes.models.listeners.OnPermissionRequestedListener;
+import it.feio.android.analitica.AnalyticsHelper;
+import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.helpers.PermissionsHelper;
+import it.feio.android.omninotes.helpers.SpringImportHelper;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.StringUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
+import rx.Observable;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -61,22 +59,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-
-import it.feio.android.analitica.AnalyticsHelper;
-import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.helpers.BackupHelper;
-import it.feio.android.omninotes.helpers.PermissionsHelper;
-import it.feio.android.omninotes.helpers.SpringImportHelper;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.ConstantsBase;
-import it.feio.android.omninotes.utils.FileHelper;
-import it.feio.android.omninotes.utils.IntentChecker;
-import it.feio.android.omninotes.utils.PasswordHelper;
-import it.feio.android.omninotes.utils.ResourcesUtils;
-import it.feio.android.omninotes.utils.StorageHelper;
-import it.feio.android.omninotes.utils.SystemHelper;
-import rx.Observable;
 
 
 public class SettingsFragment extends PreferenceFragment {

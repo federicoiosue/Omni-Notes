@@ -2,5 +2,7 @@
 <resources>
 
     <string name="app_name">Omni Notes Alpha</string>
+    <string name="app_package">it.feio.android.omninotes.alpha</string>
+    <string name="version_postfix">.ALPHA</string>
 
 </resources>

@@ -163,11 +163,6 @@ dependencies {
     compile 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
     compile 'org.bitbucket.cowwoc:diff-match-patch:1.1'
 
-    playCompile 'io.nlopez.smartlocation:library:3.2.4'
-    betaCompile 'io.nlopez.smartlocation:library:3.2.4'
-    alphaCompile 'io.nlopez.smartlocation:library:3.2.4'
-    fossCompile 'com.github.federicoiosue:smart-location-lib:3.2.6'
-
     compile ('com.github.federicoiosue:SimpleGallery:2.0.0') {
         exclude group: 'com.android.support'
     }
@@ -180,18 +175,25 @@ dependencies {
 
     // Flavors specific dependecies
     playCompile 'io.nlopez.smartlocation:library:3.2.4'
-    alphaCompile 'io.nlopez.smartlocation:library:3.2.4'
     betaCompile 'io.nlopez.smartlocation:library:3.2.4'
-    fossCompile 'com.github.federicoiosue:smart-location-lib:3.2.5'
+    alphaCompile 'io.nlopez.smartlocation:library:3.2.4'
+    fossCompile 'com.github.federicoiosue:smart-location-lib:3.2.6'
+
     playCompile ('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar'){
+        transitive=true
+    }
+    betaCompile ('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar'){
+        transitive=true
+    }
+    alphaCompile ('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar'){
         transitive=true
     }
     fossCompile ('com.github.federicoiosue:analitica:0.0.3:piwikRelease@aar'){
         transitive=true
     }
     playCompile 'com.google.android.gms:play-services-analytics:9.0.2'
-    alphaCompile 'com.google.android.gms:play-services-analytics:9.0.2'
     betaCompile 'com.google.android.gms:play-services-analytics:9.0.2'
+    alphaCompile 'com.google.android.gms:play-services-analytics:9.0.2'
     fossCompile 'org.piwik.sdk:piwik-sdk:1.0.2'
 
 }
