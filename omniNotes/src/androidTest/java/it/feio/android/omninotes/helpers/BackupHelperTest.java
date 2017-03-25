@@ -18,8 +18,8 @@
 package it.feio.android.omninotes.helpers;
 
 import android.net.Uri;
-import android.test.InstrumentationTestCase;
-import it.feio.android.omninotes.helpers.BackupHelper;
+import android.support.test.InstrumentationRegistry;
+import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.StorageHelper;
@@ -38,16 +38,16 @@ import java.util.Collection;
 import java.util.Collections;
 
 
-public class BackupHelperTest extends InstrumentationTestCase {
+public class BackupHelperTest extends BaseAndroidTestCase {
 
 	private File targetDir;
 	private File targetAttachmentsDir;
 
 
 	@Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		super.setUp();
-		targetDir = new File(StorageHelper.getCacheDir(getInstrumentation().getContext()), "_autobackupTest");
+		targetDir = new File(StorageHelper.getCacheDir(InstrumentationRegistry.getTargetContext()), "_autobackupTest");
 		if (targetDir.exists()) {
 			FileUtils.forceDelete(targetDir);
 		}
@@ -64,7 +64,7 @@ public class BackupHelperTest extends InstrumentationTestCase {
 		note.setCreation(now);
 		note.setLastModification(now);
 		BackupHelper.exportNote(targetDir, note);
-		Collection<File> noteFiles = FileUtils.listFiles(targetDir, new RegexFileFilter("\\d{13}"),
+		Collection<File> noteFiles = FileUtils.listFiles(targetDir, new RegexFileFilter("\\d{13}.json"),
 				TrueFileFilter.INSTANCE);
 		assertEquals(1, noteFiles.size());
 		Note retrievedNote = rx.Observable.from(noteFiles).map(BackupHelper::importNote).toBlocking().first();
@@ -90,7 +90,7 @@ public class BackupHelperTest extends InstrumentationTestCase {
 		Collection<File> files = FileUtils.listFiles(targetDir, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
 
 		Note retrievedNote = rx.Observable.from(files).filter(file -> file.getName().equals(String.valueOf(note
-				.getCreation()))).map(BackupHelper::importNote).toBlocking().first();
+				.getCreation() + ".json"))).map(BackupHelper::importNote).toBlocking().first();
 		String retrievedAttachmentContent = Observable.from(files).filter(file -> file.getName().equals(FilenameUtils
 				.getName(attachment.getUriPath()))).map(file -> {
 			try {
