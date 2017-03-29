@@ -92,13 +92,12 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    buildToolsVersion '25.0.0'
 }
 
 dependencies {
     androidTestCompile 'junit:junit:4.12'
     testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:23.4.0'
+    androidTestCompile 'com.android.support:support-annotations:25.1.0'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
@@ -129,7 +128,8 @@ dependencies {
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.6@aar') {
         transitive = true
     }
-    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile('org.mnode.ical4j:ical4j:1.0.6') {
         exclude group: 'commons.io'
     }
@@ -157,6 +157,7 @@ dependencies {
     // Flavors specific dependecies
     playCompile 'io.nlopez.smartlocation:library:3.2.4'
     fossCompile 'com.github.federicoiosue:smart-location-lib:3.2.5'
+
     playCompile ('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar'){
         transitive=true
     }
@@ -164,7 +165,10 @@ dependencies {
         transitive=true
     }
     playCompile 'com.google.android.gms:play-services-analytics:9.0.2'
-    fossCompile 'org.piwik.sdk:piwik-sdk:1.0.2'
+    fossCompile ('org.piwik.sdk:piwik-sdk:1.0.2'){
+        exclude group: 'com.jakewharton.timber', module: 'timber'
+    }
+    fossCompile 'com.jakewharton.timber:timber:4.5.1'
 
 }
 

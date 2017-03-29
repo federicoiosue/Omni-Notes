@@ -5,19 +5,20 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 
 public class SettingsActivity extends ActionBarActivity {
 
-	@Bind(R.id.toolbar) Toolbar toolbar;
-	@Bind(R.id.crouton_handle) ViewGroup croutonViewContainer;
+	@BindView(R.id.toolbar) Toolbar toolbar;
+	@BindView(R.id.crouton_handle) ViewGroup croutonViewContainer;
 
     private List<Fragment> backStack = new ArrayList<>();
 

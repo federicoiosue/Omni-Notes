@@ -28,38 +28,44 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SVBar;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 import it.feio.android.omninotes.models.views.SketchView;
 import it.feio.android.omninotes.utils.Constants;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
 
 public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
-    @Bind(R.id.sketch_stroke) ImageView stroke;
-    @Bind(R.id.sketch_eraser) ImageView eraser;
-    @Bind(R.id.drawing) SketchView mSketchView;
-    @Bind(R.id.sketch_undo) ImageView undo;
-    @Bind(R.id.sketch_redo) ImageView redo;
-    @Bind(R.id.sketch_erase) ImageView erase;
+    @BindView(R.id.sketch_stroke) ImageView stroke;
+    @BindView(R.id.sketch_eraser) ImageView eraser;
+    @BindView(R.id.drawing) SketchView mSketchView;
+    @BindView(R.id.sketch_undo) ImageView undo;
+    @BindView(R.id.sketch_redo) ImageView redo;
+    @BindView(R.id.sketch_erase) ImageView erase;
     private int seekBarStrokeProgress, seekBarEraserProgress;
     private View popupLayout, popupEraserLayout;
     private ImageView strokeImageView, eraserImageView;

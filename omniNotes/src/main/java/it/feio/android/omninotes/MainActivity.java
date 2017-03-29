@@ -36,7 +36,11 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import butterknife.Bind;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -55,15 +59,12 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
 
-    @Bind(R.id.crouton_handle) ViewGroup croutonViewContainer;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.crouton_handle) ViewGroup croutonViewContainer;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
 
     public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
     public final String FRAGMENT_LIST_TAG = "fragment_list";

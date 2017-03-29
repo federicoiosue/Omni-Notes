@@ -41,7 +41,7 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Random;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
@@ -56,11 +56,11 @@ import static java.lang.Integer.parseInt;
 
 public class CategoryActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback{
 
-    @Bind(R.id.category_title) EditText title;
-    @Bind(R.id.category_description) EditText description;
-    @Bind(R.id.delete) Button deleteBtn;
-    @Bind(R.id.save) Button saveBtn;
-    @Bind(R.id.color_chooser) ImageView colorChooser;
+    @BindView(R.id.category_title) EditText title;
+    @BindView(R.id.category_description) EditText description;
+    @BindView(R.id.delete) Button deleteBtn;
+    @BindView(R.id.save) Button saveBtn;
+    @BindView(R.id.color_chooser) ImageView colorChooser;
 
     Category category;
     private int selectedColor;
