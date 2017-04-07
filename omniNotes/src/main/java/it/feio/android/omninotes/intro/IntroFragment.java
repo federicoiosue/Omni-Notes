@@ -7,26 +7,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import butterknife.Bind;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.feio.android.omninotes.R;
 
 
 public class IntroFragment extends Fragment {
 
-	@Bind(R.id.intro_background)
+	@BindView(R.id.intro_background)
 	View background;
 
-	@Bind(R.id.intro_title)
+	@BindView(R.id.intro_title)
 	TextView title;
 
-	@Bind(R.id.intro_image)
+	@BindView(R.id.intro_image)
 	ImageView image;
 
-	@Bind(R.id.intro_image_small)
+	@BindView(R.id.intro_image_small)
 	ImageView image_small;
 
-	@Bind(R.id.intro_description)
+	@BindView(R.id.intro_description)
 	TextView description;
 
 

@@ -24,7 +24,12 @@ import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import butterknife.Bind;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
@@ -37,17 +42,13 @@ import it.feio.android.omninotes.models.views.NonScrollableListView;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
     private final WeakReference<Fragment> mFragmentWeakReference;
     private final MainActivity mainActivity;
-    @Bind(R.id.drawer_nav_list) NonScrollableListView mDrawerList;
-    @Bind(R.id.drawer_tag_list) NonScrollableListView mDrawerCategoriesList;
+    @BindView(R.id.drawer_nav_list) NonScrollableListView mDrawerList;
+    @BindView(R.id.drawer_tag_list) NonScrollableListView mDrawerCategoriesList;
 
 
     public MainMenuTask(Fragment mFragment) {

@@ -7,7 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
-import butterknife.Bind;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
@@ -23,10 +27,8 @@ import java.util.List;
 
 public class SettingsActivity extends ActionBarActivity implements FolderChooserDialog.FolderCallback {
 
-	@Bind(R.id.toolbar)
-	Toolbar toolbar;
-	@Bind(R.id.crouton_handle)
-	ViewGroup croutonViewContainer;
+	@BindView(R.id.toolbar) Toolbar toolbar;
+	@BindView(R.id.crouton_handle) ViewGroup croutonViewContainer;
 
 	private List<Fragment> backStack = new ArrayList<>();
 

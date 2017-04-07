@@ -12,29 +12,23 @@ branches:
 
 android:
   components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
     - platform-tools
     - tools
-
-    # The BuildTools version used by your project
-    - build-tools-25.0.1
-
-    # The SDK version used to compile your project
-    - android-25
-
-    # Additional components
+    - build-tools-25.0.0
+    - android-22
+    - android-23
     #- extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
     #- addon-google_apis-google-19
-
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    #- sys-img-armeabi-v7a-android-19
-
+    - sys-img-armeabi-v7a-android-22
+before_script:
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
 
 # Build
-script: ./gradlew build
+script: ./gradlew build connectedAndroidTest
 
 

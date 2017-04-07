@@ -53,22 +53,49 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.ViewManager;
+import android.view.ViewStub;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.*;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.ScrollView;
+import android.widget.Toast;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.pushbullet.android.extension.MessagingExtension;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
@@ -86,7 +113,11 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
-import it.feio.android.omninotes.models.*;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
@@ -95,12 +126,24 @@ import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.AlphaManager;
+import it.feio.android.omninotes.utils.ConnectionManager;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.GeocodeHelper;
+import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.ShortcutHelper;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.TagsHelper;
+import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
-import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -127,44 +170,44 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private static final int DETAIL = 6;
 	private static final int FILES = 7;
 
-	@Bind(R.id.detail_root)
+	@BindView(R.id.detail_root)
 	ViewGroup root;
-	@Bind(R.id.detail_title)
+	@BindView(R.id.detail_title)
 	EditText title;
-	@Bind(R.id.detail_content)
+	@BindView(R.id.detail_content)
 	EditText content;
-	@Bind(R.id.detail_attachments_above)
+	@BindView(R.id.detail_attachments_above)
 	ViewStub attachmentsAbove;
-	@Bind(R.id.detail_attachments_below)
+	@BindView(R.id.detail_attachments_below)
 	ViewStub attachmentsBelow;
 	@Nullable
-	@Bind(R.id.gridview)
+	@BindView(R.id.gridview)
 	ExpandableHeightGridView mGridView;
-	@Bind(R.id.location)
+	@BindView(R.id.location)
 	TextView locationTextView;
-	@Bind(R.id.detail_timestamps)
+	@BindView(R.id.detail_timestamps)
 	View timestampsView;
-	@Bind(R.id.reminder_layout)
+	@BindView(R.id.reminder_layout)
 	LinearLayout reminder_layout;
-	@Bind(R.id.reminder_icon)
+	@BindView(R.id.reminder_icon)
 	ImageView reminderIcon;
-	@Bind(R.id.datetime)
+	@BindView(R.id.datetime)
 	TextView datetime;
-	@Bind(R.id.detail_tile_card)
+	@BindView(R.id.detail_tile_card)
 	View titleCardView;
-	@Bind(R.id.content_wrapper)
+	@BindView(R.id.content_wrapper)
 	ScrollView scrollView;
-	@Bind(R.id.creation)
+	@BindView(R.id.creation)
 	TextView creationTextView;
-	@Bind(R.id.last_modification)
+	@BindView(R.id.last_modification)
 	TextView lastModificationTextView;
-	@Bind(R.id.title_wrapper)
+	@BindView(R.id.title_wrapper)
 	View titleWrapperView;
-	@Bind(R.id.tag_marker)
+	@BindView(R.id.tag_marker)
 	View tagMarkerView;
-	@Bind(R.id.detail_wrapper)
+	@BindView(R.id.detail_wrapper)
 	ViewManager detailWrapperView;
-	@Bind(R.id.snackbar_placeholder)
+	@BindView(R.id.snackbar_placeholder)
 	View snackBarPlaceholder;
 
 	public OnDateSetListener onDateSetListener;

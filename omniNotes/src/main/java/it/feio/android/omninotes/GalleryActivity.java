@@ -27,7 +27,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import butterknife.Bind;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
@@ -36,9 +40,6 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.simplegallery.models.GalleryPagerAdapter;
 import it.feio.android.simplegallery.views.GalleryViewPager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -64,8 +65,8 @@ public class GalleryActivity extends ActionBarActivity {
      */
     private static final boolean TOGGLE_ON_CLICK = true;
 
-    @Bind(R.id.gallery_root) InterceptorFrameLayout galleryRootView;
-    @Bind(R.id.fullscreen_content)  GalleryViewPager mViewPager;
+    @BindView(R.id.gallery_root) InterceptorFrameLayout galleryRootView;
+    @BindView(R.id.fullscreen_content)  GalleryViewPager mViewPager;
 
     private List<Attachment> images;
 

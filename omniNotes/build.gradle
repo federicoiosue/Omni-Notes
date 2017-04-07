@@ -147,7 +147,10 @@ dependencies {
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.6@aar') {
         transitive = true
     }
-    compile 'com.jakewharton:butterknife:7.0.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile ('com.jakewharton:butterknife:8.5.1'){
+        exclude group: 'com.android.support'
+    }
     compile('org.mnode.ical4j:ical4j:1.0.6') {
         exclude group: 'commons.io'
     }
@@ -194,7 +197,10 @@ dependencies {
     playCompile 'com.google.android.gms:play-services-analytics:9.0.2'
     betaCompile 'com.google.android.gms:play-services-analytics:9.0.2'
     alphaCompile 'com.google.android.gms:play-services-analytics:9.0.2'
-    fossCompile 'org.piwik.sdk:piwik-sdk:1.0.2'
+    fossCompile ('org.piwik.sdk:piwik-sdk:1.0.2'){
+        exclude group: 'com.jakewharton.timber', module: 'timber'
+    }
+    fossCompile 'com.jakewharton.timber:timber:4.5.1'
 
 }
 

@@ -70,7 +70,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -117,17 +117,17 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private static final int REQUEST_CODE_CATEGORY_NOTES = 2;
     private static final int REQUEST_CODE_ADD_ALARMS = 3;
 
-    @Bind(R.id.list_root) InterceptorLinearLayout listRoot;
-    @Bind(R.id.list) DynamicListView list;
-    @Bind(R.id.search_layout) View searchLayout;
-    @Bind(R.id.search_query) android.widget.TextView searchQueryView;
-    @Bind(R.id.search_cancel) ImageView searchCancel;
-    @Bind(R.id.empty_list) TextView empyListItem;
-    @Bind(R.id.expanded_image) ImageView expandedImageView;
-    @Bind(R.id.fab)  View fabView;
-    @Bind(R.id.undobar) View undoBarView;
-    @Bind(R.id.progress_wheel) ProgressWheel progress_wheel;
-	@Bind(R.id.snackbar_placeholder) View snackBarPlaceholder;
+    @BindView(R.id.list_root) InterceptorLinearLayout listRoot;
+    @BindView(R.id.list) DynamicListView list;
+    @BindView(R.id.search_layout) View searchLayout;
+    @BindView(R.id.search_query) android.widget.TextView searchQueryView;
+    @BindView(R.id.search_cancel) ImageView searchCancel;
+    @BindView(R.id.empty_list) TextView empyListItem;
+    @BindView(R.id.expanded_image) ImageView expandedImageView;
+    @BindView(R.id.fab)  View fabView;
+    @BindView(R.id.undobar) View undoBarView;
+    @BindView(R.id.progress_wheel) ProgressWheel progress_wheel;
+	@BindView(R.id.snackbar_placeholder) View snackBarPlaceholder;
 
 	NoteViewHolder noteViewHolder;
 
