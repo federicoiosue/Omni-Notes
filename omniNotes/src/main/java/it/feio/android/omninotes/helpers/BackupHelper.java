@@ -125,10 +125,12 @@ public class BackupHelper {
 	 *
 	 * @param backupDir
 	 */
-	public static void importNotes(File backupDir) {
-		for (File file : FileUtils.listFiles(backupDir, new RegexFileFilter("\\d{13}"), TrueFileFilter.INSTANCE)) {
-			importNote(file);
+	public static List<Note> importNotes(File backupDir) {
+		List<Note> notes = new ArrayList<>();
+		for (File file : FileUtils.listFiles(backupDir, new RegexFileFilter("\\d{13}.json"), TrueFileFilter.INSTANCE)) {
+			notes.add(importNote(file));
 		}
+		return notes;
 	}
 
 

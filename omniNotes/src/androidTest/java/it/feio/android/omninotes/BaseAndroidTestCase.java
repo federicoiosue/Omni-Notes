@@ -18,17 +18,20 @@
 package it.feio.android.omninotes;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.utils.Constants;
 
 
 public class BaseAndroidTestCase extends AndroidTestCase {
 
     protected DbHelper dbHelper;
     protected Context testContext;
+    protected SharedPreferences prefs;
     private final String DB_PATH_REGEX = ".*it\\.feio\\.android\\.omninotes.*\\/databases\\/test_omni-notes.*";
 
 
@@ -36,6 +39,7 @@ public class BaseAndroidTestCase extends AndroidTestCase {
     public void setUp() throws Exception {
         super.setUp();
         testContext = new RenamingDelegatingContext(InstrumentationRegistry.getTargetContext(), "test_");
+        prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
         dbHelper = DbHelper.getInstance(testContext);
         assertTrue(dbHelper.getDatabase().getPath().matches(DB_PATH_REGEX));
         cleanDatabase();
