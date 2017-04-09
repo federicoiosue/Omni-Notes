@@ -18,10 +18,12 @@
 package it.feio.android.omninotes.helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.utils.Constants;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -138,16 +140,26 @@ public class BackupHelper {
 	 * Imports single note from its file
 	 */
 	public static Note importNote(File file) {
+		Note note = getImportNote(file);
+		if (note.getCategory() != null) {
+			DbHelper.getInstance().updateCategory(note.getCategory());
+		}
+		note.setAttachmentsListOld(DbHelper.getInstance().getNoteAttachments(note));
+		DbHelper.getInstance().updateNote(note, false);
+		return note;
+	}
+
+
+	/**
+	 * Retrieves single note from its file
+	 */
+	public static Note getImportNote(File file) {
 		try {
 			Note note = new Note();
 			String jsonString = FileUtils.readFileToString(file);
 			if (!TextUtils.isEmpty(jsonString)) {
 				note.buildFromJson(jsonString);
-				if (note.getCategory() != null) {
-					DbHelper.getInstance().updateCategory(note.getCategory());
-				}
 				note.setAttachmentsListOld(DbHelper.getInstance().getNoteAttachments(note));
-				DbHelper.getInstance().updateNote(note, false);
 			}
 			return note;
 		} catch (IOException e) {
@@ -211,6 +223,18 @@ public class BackupHelper {
 				Log.e(Constants.TAG, "Attachment file not found: " + attachmentFileName);
 			}
 		}
+	}
+
+
+	/**
+	 * Starts backup service
+	 * @param backupFolderName subfolder of the app's external sd folder where notes will be stored
+	 */
+	public static void startBackupService(String backupFolderName) {
+		Intent service = new Intent(OmniNotes.getAppContext(), DataBackupIntentService.class);
+		service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
+		service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupFolderName);
+		OmniNotes.getAppContext().startService(service);
 	}
 
 

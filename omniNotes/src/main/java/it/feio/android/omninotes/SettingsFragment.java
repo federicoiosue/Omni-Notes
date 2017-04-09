@@ -220,12 +220,7 @@ public class SettingsFragment extends PreferenceFragment {
 										.WRITE_EXTERNAL_STORAGE, R
 										.string.permission_external_storage, activity.findViewById(R.id
 										.crouton_handle), () -> {
-									Intent service = new Intent(OmniNotes.getAppContext(), DataBackupIntentService
-											.class);
-									service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
-									service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, Constants
-											.AUTO_BACKUP_DIR);
-									OmniNotes.getAppContext().startService(service);
+									BackupHelper.startBackupService(Constants.AUTO_BACKUP_DIR);
 									enableAutobackup.setChecked(true);
 								});
 							})
@@ -736,13 +731,9 @@ public class SettingsFragment extends PreferenceFragment {
 					@Override
 					public void onPositive(MaterialDialog materialDialog) {
 						((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
-						// An IntentService will be launched to accomplish the export task
-						Intent service = new Intent(getActivity(), DataBackupIntentService.class);
-						service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
 						String backupName = StringUtils.isEmpty(fileNameEditText.getText().toString()) ?
 								fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
-						service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupName);
-						getActivity().startService(service);
+						BackupHelper.startBackupService(backupName);
 					}
 				}).build().show();
 	}
