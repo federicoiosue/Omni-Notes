@@ -8,18 +8,17 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.List;
-import java.util.Observable;
 
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
-import rx.functions.Func1;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -39,6 +38,13 @@ import static org.hamcrest.Matchers.is;
 @RunWith(AndroidJUnit4.class)
 public class AutoBackupTest extends BaseEspressoTest {
 
+    @Before
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        prefs.edit().putBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false).apply();
+    }
+
     @After
     @Override
     public void tearDown() throws Exception {
@@ -48,74 +54,39 @@ public class AutoBackupTest extends BaseEspressoTest {
     }
 
     @Test
-    public void autoBackupTest() {
-
-        createsSomeNotes();
-
+    public void autoBackupActivationTest() {
+        assertFalse(prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false));
         autoBackupActivationFromPreferences();
+        assertTrue(prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false));
+    }
 
-        addAnotherNoteAfterAutobackupActivation();
+    @Test
+    public void autoBackupTest() {
+        createNote("A Title", "A content");
+        createNote("B Title", "B content");
+        createNote("C Title", "C content");
+        prefs.edit().putBoolean(Constants.PREF_ENABLE_AUTOBACKUP, true).apply();
+        BackupHelper.startBackupService(Constants.AUTO_BACKUP_DIR);
+        createNote("D Title", "D content");
 
-        // Waiting a little to ensure Eventbus post propagation
+        // Waiting a little to ensure background service completes auto backup
         try {
-            Thread.sleep(1000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         List<Note> currentNotes = dbHelper.getAllNotes(false);
         assertEquals(4, currentNotes.size());
-        List<Note> backupNotes = BackupHelper.importNotes(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR));
-        assertEquals(4, backupNotes.size());
-        currentNotes.containsAll(backupNotes);
-    }
-
-    private void addAnotherNoteAfterAutobackupActivation() {
-
-        ViewInteraction viewInteraction4 = onView(
-                allOf(withId(R.id.fab_expand_menu_button),
-                        withParent(withId(R.id.fab)),
-                        isDisplayed()));
-        viewInteraction4.perform(click());
-
-        if (mActivityTestRule.getActivity().getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
-            viewInteraction4.perform(click());
+        for (Note currentNote : currentNotes) {
+            File backupNoteFile = BackupHelper.getBackupNoteFile(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR), currentNote);
+            assertTrue(backupNoteFile.exists());
+            Note backupNote = BackupHelper.getImportNote(backupNoteFile);
+            assertEquals(backupNote, currentNote);
         }
-
-        ViewInteraction viewInteraction = onView(
-                allOf(withId(R.id.fab_expand_menu_button),
-                        withParent(withId(R.id.fab)),
-                        isDisplayed()));
-        viewInteraction.perform(click());
-
-        ViewInteraction floatingActionButton = onView(
-                allOf(withId(R.id.fab_note),
-                        withParent(withId(R.id.fab)),
-                        isDisplayed()));
-        floatingActionButton.perform(click());
-
-        ViewInteraction editText8 = onView(
-                allOf(withId(R.id.detail_title),
-                        withParent(allOf(withId(R.id.title_wrapper),
-                                withParent(withId(R.id.detail_tile_card)))),
-                        isDisplayed()));
-        editText8.perform(replaceText("D"), closeSoftKeyboard());
-
-        ViewInteraction editText9 = onView(
-                withId(R.id.detail_content));
-        editText9.perform(scrollTo(), replaceText("D1"), closeSoftKeyboard());
-
-        ViewInteraction imageButton8 = onView(
-                allOf(withContentDescription("drawer open"),
-                        withParent(withId(R.id.toolbar)),
-                        isDisplayed()));
-        imageButton8.perform(click());
     }
 
     private void autoBackupActivationFromPreferences() {
-
-        // Automatic backup preference must be turned off before testing its reactivation
-        prefs.edit().putBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false).apply();
 
         ViewInteraction imageButton4 = onView(
                 allOf(withContentDescription("drawer open"),
@@ -176,11 +147,15 @@ public class AutoBackupTest extends BaseEspressoTest {
         imageButton7.perform(click());
     }
 
-    private void createsSomeNotes() {
+    private void createNote(String title, String content) {
         ViewInteraction viewInteraction = onView(
                 allOf(withId(R.id.fab_expand_menu_button),
                         withParent(withId(R.id.fab)),
                         isDisplayed()));
+
+        if (mActivityTestRule.getActivity().getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+            viewInteraction.perform(click());
+        }
         viewInteraction.perform(click());
 
         ViewInteraction floatingActionButton = onView(
@@ -201,74 +176,16 @@ public class AutoBackupTest extends BaseEspressoTest {
                         withParent(allOf(withId(R.id.title_wrapper),
                                 withParent(withId(R.id.detail_tile_card)))),
                         isDisplayed()));
-        editText2.perform(replaceText("A"), closeSoftKeyboard());
+        editText2.perform(replaceText(title), closeSoftKeyboard());
 
         ViewInteraction editText3 = onView(
                 withId(R.id.detail_content));
-        editText3.perform(scrollTo(), replaceText("A1"), closeSoftKeyboard());
+        editText3.perform(scrollTo(), replaceText(content), closeSoftKeyboard());
 
         ViewInteraction imageButton = onView(
                 allOf(withContentDescription("drawer open"),
                         withParent(withId(R.id.toolbar)),
                         isDisplayed()));
         imageButton.perform(click());
-
-        ViewInteraction viewInteraction2 = onView(
-                allOf(withId(R.id.fab_expand_menu_button),
-                        withParent(withId(R.id.fab)),
-                        isDisplayed()));
-        viewInteraction2.perform(click());
-
-        ViewInteraction floatingActionButton2 = onView(
-                allOf(withId(R.id.fab_note),
-                        withParent(withId(R.id.fab)),
-                        isDisplayed()));
-        floatingActionButton2.perform(click());
-
-        ViewInteraction editText4 = onView(
-                allOf(withId(R.id.detail_title),
-                        withParent(allOf(withId(R.id.title_wrapper),
-                                withParent(withId(R.id.detail_tile_card)))),
-                        isDisplayed()));
-        editText4.perform(replaceText("B"), closeSoftKeyboard());
-
-        ViewInteraction editText5 = onView(
-                withId(R.id.detail_content));
-        editText5.perform(scrollTo(), replaceText("B1"), closeSoftKeyboard());
-
-        ViewInteraction imageButton2 = onView(
-                allOf(withContentDescription("drawer open"),
-                        withParent(withId(R.id.toolbar)),
-                        isDisplayed()));
-        imageButton2.perform(click());
-
-        ViewInteraction viewInteraction3 = onView(
-                allOf(withId(R.id.fab_expand_menu_button),
-                        withParent(withId(R.id.fab)),
-                        isDisplayed()));
-        viewInteraction3.perform(click());
-
-        ViewInteraction floatingActionButton3 = onView(
-                allOf(withId(R.id.fab_note),
-                        withParent(withId(R.id.fab)),
-                        isDisplayed()));
-        floatingActionButton3.perform(click());
-
-        ViewInteraction editText6 = onView(
-                allOf(withId(R.id.detail_title),
-                        withParent(allOf(withId(R.id.title_wrapper),
-                                withParent(withId(R.id.detail_tile_card)))),
-                        isDisplayed()));
-        editText6.perform(replaceText("C"), closeSoftKeyboard());
-
-        ViewInteraction editText7 = onView(
-                withId(R.id.detail_content));
-        editText7.perform(scrollTo(), replaceText("C1"), closeSoftKeyboard());
-
-        ViewInteraction imageButton3 = onView(
-                allOf(withContentDescription("drawer open"),
-                        withParent(withId(R.id.toolbar)),
-                        isDisplayed()));
-        imageButton3.perform(click());
     }
 }
