@@ -113,7 +113,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	public static synchronized DbHelper getInstance(boolean forcedNewInstance) {
 		if (instance == null || forcedNewInstance) {
-			instance = new DbHelper(OmniNotes.getAppContext());
+            Context context = instance.mContext == null ? OmniNotes.getAppContext() : instance.mContext;
+			instance = new DbHelper(context);
 		}
 		return instance;
 	}
