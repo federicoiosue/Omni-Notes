@@ -29,6 +29,7 @@ import java.io.IOException;
 public class GeocodeHelperTest extends InstrumentationTestCase {
 
     @Test
+	@Ignore("Not reliable on emulator")
     public void testGetAddressFromCoordinates() throws IOException {
         if (ConnectionManager.internetAvailable(OmniNotes.getAppContext())) {
             Double LAT = 43.799328;
