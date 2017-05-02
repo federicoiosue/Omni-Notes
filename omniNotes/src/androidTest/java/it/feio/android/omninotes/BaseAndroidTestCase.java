@@ -39,7 +39,7 @@ public class BaseAndroidTestCase extends AndroidTestCase {
         dbHelper = DbHelper.getInstance(testContext);
         assertTrue("Database used for tests MUST not be the default one but prefixed by '" + DB_PREFIX + "'", dbHelper.getDatabase().getPath().matches(DB_PATH_REGEX));
         assertFalse("Database MUST be writable", dbHelper.getDatabase().isReadOnly());
-        cleanDatabase();
+//        cleanDatabase();
     }
 
 

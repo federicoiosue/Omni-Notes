@@ -42,6 +42,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.*;
@@ -290,7 +291,7 @@ public class SettingsFragment extends PreferenceFragment {
 			lang.setSummary(languageName.substring(0, 1).toUpperCase(getResources().getConfiguration().locale)
 					+ languageName.substring(1, languageName.length()));
 			lang.setOnPreferenceChangeListener((preference, value) -> {
-				OmniNotes.updateLanguage(getActivity(), value.toString());
+				LanguageHelper.updateLanguage(getActivity(), value.toString());
 				SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 				return false;
 			});
