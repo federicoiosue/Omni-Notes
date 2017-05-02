@@ -17,10 +17,10 @@
 
 package it.feio.android.omninotes.async;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.IBinder;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.OmniNotes;
@@ -32,27 +32,24 @@ import it.feio.android.omninotes.utils.ReminderHelper;
 import java.util.List;
 
 
-public class AlarmRestoreOnRebootService extends Service {
+public class AlarmRestoreOnRebootService extends IntentService {
 
-    @Override
-    public IBinder onBind(Intent arg0) {
-        return null;
-    }
+	public AlarmRestoreOnRebootService() {
+		super("AlarmRestoreOnRebootService");
+	}
 
+	@Override
+	protected void onHandleIntent(@Nullable Intent intent) {
+		Log.i(Constants.TAG, "System rebooted: service refreshing reminders");
+		Context mContext = getApplicationContext();
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(Constants.TAG, "System rebooted: service refreshing reminders");
-        Context mContext = getApplicationContext();
+		BaseActivity.notifyAppWidgets(mContext);
 
-        BaseActivity.notifyAppWidgets(mContext);
-
-        List<Note> notes = DbHelper.getInstance().getNotesWithReminderNotFired();
-        Log.d(Constants.TAG, "Found " + notes.size() + " reminders");
-        for (Note note : notes) {
-            ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
-        }
-        return Service.START_NOT_STICKY;
-    }
+		List<Note> notes = DbHelper.getInstance().getNotesWithReminderNotFired();
+		Log.d(Constants.TAG, "Found " + notes.size() + " reminders");
+		for (Note note : notes) {
+			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+		}
+	}
 
 }
