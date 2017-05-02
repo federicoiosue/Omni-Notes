@@ -18,18 +18,21 @@
 package it.feio.android.omninotes.utils;
 
 import android.test.InstrumentationTestCase;
-import it.feio.android.omninotes.OmniNotes;
+import android.test.suitebuilder.annotation.Suppress;
+
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+
+import it.feio.android.omninotes.OmniNotes;
 
 
 @Ignore("Unreliable Genymotion emulator results")
 public class GeocodeHelperTest extends InstrumentationTestCase {
 
     @Test
+	@Suppress
     public void testGetAddressFromCoordinates() throws IOException {
         if (ConnectionManager.internetAvailable(OmniNotes.getAppContext())) {
             Double LAT = 43.799328;

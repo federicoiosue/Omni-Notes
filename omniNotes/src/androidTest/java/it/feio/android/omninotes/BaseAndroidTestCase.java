@@ -32,17 +32,18 @@ public class BaseAndroidTestCase extends AndroidTestCase {
     protected DbHelper dbHelper;
     protected Context testContext;
     protected SharedPreferences prefs;
-    private final String DB_PATH_REGEX = ".*it\\.feio\\.android\\.omninotes.*\\/databases\\/test_omni-notes.*";
-
+    private final static String DB_PATH_REGEX = ".*it\\.feio\\.android\\.omninotes.*\\/databases\\/test_omni-notes.*";
+    private final static String DB_PREFIX = "test_";
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        testContext = new RenamingDelegatingContext(InstrumentationRegistry.getTargetContext(), "test_");
+        testContext = new RenamingDelegatingContext(InstrumentationRegistry.getTargetContext(), DB_PREFIX);
         prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
         dbHelper = DbHelper.getInstance(testContext);
-        assertTrue(dbHelper.getDatabase().getPath().matches(DB_PATH_REGEX));
-        cleanDatabase();
+        assertTrue("Database used for tests MUST not be the default one but prefixed by '" + DB_PREFIX + "'", dbHelper.getDatabase().getPath().matches(DB_PATH_REGEX));
+        assertFalse("Database MUST be writable", dbHelper.getDatabase().isReadOnly());
+//        cleanDatabase();
     }
 
 
@@ -53,9 +54,9 @@ public class BaseAndroidTestCase extends AndroidTestCase {
     }
 
     protected void cleanDatabase() {
-        dbHelper.getDatabase().delete(DbHelper.TABLE_NOTES, null, null);
-        dbHelper.getDatabase().delete(DbHelper.TABLE_CATEGORY, null, null);
-        dbHelper.getDatabase().delete(DbHelper.TABLE_ATTACHMENTS, null, null);
+        dbHelper.getDatabase(true).delete(DbHelper.TABLE_NOTES, null, null);
+        dbHelper.getDatabase(true).delete(DbHelper.TABLE_CATEGORY, null, null);
+        dbHelper.getDatabase(true).delete(DbHelper.TABLE_ATTACHMENTS, null, null);
     }
 
 }

@@ -23,7 +23,7 @@ The project was created by the absence of such applications compatible with old 
 <a href="https://play.google.com/store/apps/details?id=it.feio.android.omninotes" target="_blank">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/></a>
 
-##Features
+## Features
 
 Actually the following functions are implemented:
 
@@ -113,7 +113,7 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 * https://github.com/mrmans0n/smart-location-lib
 
 
-##Contributing
+## Contributing
 
 Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as code versioning methodology you, as developer should **always** start working on [develop branch](https://github.com/federicoiosue/Omni-Notes/tree/develop) that contains the most recent changes.
 
@@ -122,7 +122,7 @@ Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/
 **Don't forget to contribute to original code! Don't be selfish or lazy!**
 
 
-##Developed with love and passion by
+## Developed with love and passion by
 
 
 * Federico Iosue - [Website](http://www.iosue.it/federico)
@@ -130,7 +130,7 @@ Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/
 
 
 
-##License
+## License
 
 
     Copyright 2015 Federico Iosue

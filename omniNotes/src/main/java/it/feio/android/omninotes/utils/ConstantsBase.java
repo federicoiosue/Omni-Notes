@@ -71,6 +71,7 @@ public interface ConstantsBase {
 	 */
 	String ACTION_SEND_AND_EXIT = "action_send_and_exit";
 
+	String PREF_LANG = "settings_language";
 	String PREF_LAST_UPDATE_CHECK = "last_update_check";
 	String PREF_NAVIGATION = "navigation";
 	String PREF_SORTING_COLUMN = "sorting_column";
