@@ -25,7 +25,7 @@
     <item>Senza categoria</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Titolo</item>
+    <item>Per titolo</item>
     <item>Creazione</item>
     <item>Ultima modifica</item>
     <item>Promemoria</item>

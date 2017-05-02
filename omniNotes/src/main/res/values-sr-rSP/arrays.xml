@@ -25,10 +25,10 @@
     <item>Некатегорисано</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>Наслов</item>
-    <item>Датум стварања</item>
-    <item>Датум последње измене</item>
-    <item>Датум подсетника</item>
+    <item>по наслову</item>
+    <item>по датуму стварања</item>
+    <item>по датуму измене</item>
+    <item>по датуму подсетника</item>
   </string-array>
   <string-array name="checked_items_behavior">
     <item>задржи позицију</item>
