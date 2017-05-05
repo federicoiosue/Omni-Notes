@@ -118,30 +118,24 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			if (promptUpdate) {
 				promptUpdate();
 			} else {
-				showChangelog();
+				try {
+					boolean appVersionUpdated = AppVersionHelper.isAppUpdated(mActivity);
+					if (appVersionUpdated) {
+						showChangelog();
+					}
+				} catch (NameNotFoundException e) {
+					Log.e(Constants.TAG, "Error retrieving app version", e);
+				}
 			}
 		}
 	}
 
 
 	private void showChangelog() {
-		try {
-			String newVersion = mActivity.getPackageManager().getPackageInfo(mActivity.getPackageName(), 0)
-					.versionName;
-			String currentVersion = mActivity.getSharedPreferences(Constants.PREFS_NAME,
-					Context.MODE_MULTI_PROCESS).getString(Constants.PREF_CURRENT_APP_VERSION, "");
-			if (!newVersion.equals(currentVersion)) {
-				new MaterialDialog.Builder(mActivity)
-						.customView(R.layout.activity_changelog, false)
-						.positiveText(R.string.ok)
-						.build().show();
-				mActivity.getSharedPreferences(Constants.PREFS_NAME,
-						Context.MODE_MULTI_PROCESS).edit().putString(Constants.PREF_CURRENT_APP_VERSION,
-						newVersion).apply();
-			}
-		} catch (NameNotFoundException e) {
-			Log.e(Constants.TAG, "Error retrieving app version", e);
-		}
+		new MaterialDialog.Builder(mActivity)
+				.customView(R.layout.activity_changelog, false)
+				.positiveText(R.string.ok)
+				.build().show();
 	}
 
 

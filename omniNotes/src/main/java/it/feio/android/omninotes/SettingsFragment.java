@@ -42,6 +42,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.models.ONStyle;
@@ -408,16 +409,11 @@ public class SettingsFragment extends PreferenceFragment {
 						.build().show();
 				return false;
 			});
-			// Retrieval of installed app version to write it as summary
-			PackageInfo pInfo;
-			String versionString = "";
 			try {
-				pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-				versionString = pInfo.versionName + getString(R.string.version_postfix);
+				changelog.setSummary(AppVersionHelper.getCurrentAppVersionName(getActivity()));
 			} catch (NameNotFoundException e) {
 				Log.e(Constants.TAG, "Error retrieving version", e);
 			}
-			changelog.setSummary(versionString);
 		}
 
 
