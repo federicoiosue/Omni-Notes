@@ -153,6 +153,16 @@ public class DateUtils {
         return Calendar.getInstance().getTimeInMillis() + 1000 * 60;
     }
 
+	/**
+	 * Returns actually set reminder if that is on the future, next-minute-reminder otherwise
+	 * @param currentReminder
+	 * @return
+	 */
+	public static long getPresetReminder(long currentReminder) {
+		long now = Calendar.getInstance().getTimeInMillis();
+		return now > currentReminder ? getNextMinute() : currentReminder;
+	}
+
 
     public static boolean isFuture(String timestamp) {
         try {
