@@ -20,7 +20,7 @@ package it.feio.android.omninotes.helpers;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
+
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 
@@ -36,26 +36,24 @@ public class AppVersionHelper {
 		return currentAppVersion > savedAppVersion;
 	}
 
-	@NonNull
-	private static int getAppVersionFromPreferences(Context context) {
-		return Integer.parseInt(context.getSharedPreferences(Constants.PREFS_NAME,
-				Context.MODE_MULTI_PROCESS).getString(Constants.PREF_CURRENT_APP_VERSION, ""));
+	public static int getAppVersionFromPreferences(Context context) {
+		return context.getSharedPreferences(Constants.PREFS_NAME,
+				Context.MODE_MULTI_PROCESS).getInt(Constants.PREF_CURRENT_APP_VERSION, 1);
 	}
 
 	public static void updateAppVersionInPreferences(Context context) throws PackageManager.NameNotFoundException {
 		context.getSharedPreferences(Constants.PREFS_NAME,
-				Context.MODE_MULTI_PROCESS).edit().putString(Constants.PREF_CURRENT_APP_VERSION,
-				String.valueOf(getCurrentAppVersion(context))).apply();
+				Context.MODE_MULTI_PROCESS).edit().putInt(Constants.PREF_CURRENT_APP_VERSION,
+				getCurrentAppVersion(context)).apply();
 	}
 
 	public static int getCurrentAppVersion(Context context) throws PackageManager.NameNotFoundException {
-		return Integer.parseInt(context.getPackageManager().getPackageInfo(context.getPackageName(), 0)
-				.versionName);
+		return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
 	}
 
 	public static String getCurrentAppVersionName(Context context) throws PackageManager.NameNotFoundException {
 		PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-		return pInfo.versionName + context.getString(R.string.version_postfix);
+		return pInfo.versionName;
 	}
 
 }

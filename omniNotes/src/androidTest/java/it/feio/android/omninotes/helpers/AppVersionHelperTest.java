@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2017 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,40 +17,42 @@
 
 package it.feio.android.omninotes.helpers;
 
-import android.support.test.runner.AndroidJUnit4;
-import it.feio.android.omninotes.models.Note;
+import android.content.pm.PackageManager;
+
+import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.utils.Constants;
-import org.apache.commons.lang.StringUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static junit.framework.Assert.*;
 
 
-@RunWith(AndroidJUnit4.class)
-public class NotesHelperTest {
+public class AppVersionHelperTest extends BaseAndroidTestCase {
 
-	@Test
-	public void mergeNotes() {
+    private static final String VERSION_NAME_REGEX = "\\d{1}(\\.\\d)*( Beta \\d+){0,1}";
 
-		int notesNumber = 3;
-		List<Note> notes = new ArrayList<>();
-		for (int i = 0; i < notesNumber; i++) {
-			Note note = new Note();
-			note.setTitle("Merged note " + i + " title");
-			note.setContent("Merged note " + i + " content");
-			notes.add(note);
-		}
-		Note mergeNote = NotesHelper.mergeNotes(notes, false);
+    public void testGetCurrentAppVersion() throws PackageManager.NameNotFoundException {
+        int currentAppVersion = AppVersionHelper.getCurrentAppVersion(testContext);
+        assertTrue(currentAppVersion > 0);
+        assertTrue(currentAppVersion < Integer.MAX_VALUE);
+    }
 
-		assertNotNull(mergeNote);
-		assertTrue(mergeNote.getTitle().equals("Merged note 0 title"));
-		assertTrue(mergeNote.getContent().contains("Merged note 0 content"));
-		assertTrue(mergeNote.getContent().contains("Merged note 1 content"));
-		assertTrue(mergeNote.getContent().contains("Merged note 2 content"));
-		assertEquals(StringUtils.countMatches(mergeNote.getContent(), Constants.MERGED_NOTES_SEPARATOR), 2);
-	}
+    public void testIsAppUpdatedFalse() throws PackageManager.NameNotFoundException {
+        AppVersionHelper.updateAppVersionInPreferences(testContext);
+        assertFalse(AppVersionHelper.isAppUpdated(testContext));
+    }
+
+    public void testIsAppUpdatedTrue() throws PackageManager.NameNotFoundException {
+        int currentAppVersion = AppVersionHelper.getCurrentAppVersion(testContext);
+        prefs.edit().putInt(Constants.PREF_CURRENT_APP_VERSION, currentAppVersion - 1).commit();
+        assertTrue(AppVersionHelper.isAppUpdated(testContext));
+    }
+
+    public void testGetAppVersionFromPreferences() throws PackageManager.NameNotFoundException {
+        prefs.edit().clear().commit();
+        assertEquals(1, AppVersionHelper.getAppVersionFromPreferences(testContext));
+    }
+
+    public void testGetCurrentAppVersionName() throws PackageManager.NameNotFoundException {
+        String currentAppVersionName = AppVersionHelper.getCurrentAppVersionName(testContext);
+        assertTrue(currentAppVersionName.matches(VERSION_NAME_REGEX));
+    }
+
+
 }
