@@ -30,6 +30,7 @@ import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.BuildConfig;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SystemHelper;
@@ -122,6 +123,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 					boolean appVersionUpdated = AppVersionHelper.isAppUpdated(mActivity);
 					if (appVersionUpdated) {
 						showChangelog();
+						restoreReminders();
 					}
 				} catch (NameNotFoundException e) {
 					Log.e(Constants.TAG, "Error retrieving app version", e);
@@ -130,6 +132,10 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 		}
 	}
 
+	private void restoreReminders() {
+		Intent service = new Intent(mActivity, AlarmRestoreOnRebootService.class);
+		mActivity.startService(service);
+	}
 
 	private void showChangelog() {
 		new MaterialDialog.Builder(mActivity)
