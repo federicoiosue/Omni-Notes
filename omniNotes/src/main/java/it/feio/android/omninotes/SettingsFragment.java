@@ -369,6 +369,16 @@ public class SettingsFragment extends PreferenceFragment {
 			});
 		}
 
+		// Update widget when last modification display for widget is toggled
+		final SwitchPreference widgetLastModification = (SwitchPreference) findPreference("settings_display_last_modified");
+		if (widgetLastModification != null) {
+			widgetLastModification.setOnPreferenceChangeListener((preference, newValue) -> {
+				widgetLastModification.setChecked((Boolean) newValue);
+				MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
+				return false;
+			});
+		}
+
 
 		// Notification snooze delay
 		final EditTextPreference snoozeDelay = (EditTextPreference) findPreference

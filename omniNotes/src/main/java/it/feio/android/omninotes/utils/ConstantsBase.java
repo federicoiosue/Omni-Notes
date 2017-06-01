@@ -96,6 +96,7 @@ public interface ConstantsBase {
 	String PREF_ENABLE_SWIPE = "settings_enable_swipe";
 	String PREF_SEND_ANALYTICS = "settings_send_analytics";
 	String PREF_PRETTIFIED_DATES = "settings_prettified_dates";
+	String PREF_DISPLAY_LAST_MODIFICATION = "settings_display_last_modified";
 
 	String MIME_TYPE_IMAGE = "image/jpeg";
 	String MIME_TYPE_AUDIO = "audio/amr";

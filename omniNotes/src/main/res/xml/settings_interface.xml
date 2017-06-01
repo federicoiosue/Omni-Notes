@@ -65,4 +65,11 @@
             android:title="@string/settings_prettified_dates"
             android:defaultValue="true"/>
 
+    <SwitchPreference
+            android:key="settings_display_last_modified"
+            android:summaryOn="@string/settings_display_last_modified_summary_on"
+            android:summaryOff="@string/settings_display_last_modified_summary_off"
+            android:title="@string/settings_display_last_modified"
+            android:defaultValue="true"/>
+
 </PreferenceScreen>
