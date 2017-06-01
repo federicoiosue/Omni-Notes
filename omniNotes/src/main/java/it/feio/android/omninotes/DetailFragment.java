@@ -587,7 +587,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				.PREF_PRETTIFIED_DATES, true));
 		lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " +
 				lastModification : "");
-		lastModificationTextView.append("blablabla");
 		if (lastModificationTextView.getText().length() == 0)
 			lastModificationTextView.setVisibility(View.GONE);
 	}
