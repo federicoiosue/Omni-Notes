@@ -149,7 +149,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'
-    compile 'com.github.federicoiosue:Omni-Notes-Commons:develop-SNAPSHOT'
+    compile 'com.github.federicoiosue:Omni-Notes-Commons:1.2.0'
     compile ('com.github.federicoiosue:checklistview:3.2.1') {
         transitive=false
     }
