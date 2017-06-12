@@ -17,7 +17,7 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.4.0" changeDate="May XX, 2017">
+    <changelogversion versionName="5.4.0" changeDate="Jun 13, 2017">
         <changelogtext>[i]Improved[/i] Refactored all test suite and switched from Robotium to Espresso for UI tests</changelogtext>
         <changelogtext>[i]Improved[/i] Added file size to attachments'action dialog</changelogtext>
         <changelogtext>[i]Improved[/i] Removed persistent service from background to reduce memory usage</changelogtext>
