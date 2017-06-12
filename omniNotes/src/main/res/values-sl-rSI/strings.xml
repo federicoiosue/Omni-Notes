@@ -63,7 +63,7 @@
   <string name="attachment">Priponka</string>
   <string name="camera">Kamera</string>
   <string name="delete_selected_image">Izbrišem izbrane priponke?</string>
-  <string name="delete_all_attachments">Delete all the attachments?</string>
+  <string name="delete_all_attachments">Ali želite izbrisati vse priloge?</string>
   <string name="gallery">Galerija</string>
   <string name="location">Lokacija</string>
   <string name="pushbullet">Pushbullet (aplikacija)</string>
@@ -78,7 +78,7 @@
   <string name="video">Video</string>
   <string name="feature_not_available_on_this_device">Funkcija ni na voljo na tej napravi</string>
   <string name="error_occurred_deleting_note">Napaka pri brisanju beležke</string>
-  <string name="no_backups_available">No backups available</string>
+  <string name="no_backups_available">Na voljo ni nobena varnostna kopija</string>
   <string name="data_export_message">Vstavi ime varnostne kopije</string>
   <string name="data_import_message">Klik -&gt; obnovi\nDolg-klik-&gt; izbriše</string>
   <string name="data_import_message_warning">OPOZORILO: to bo zamenjalo vse trenutne podatke!</string>
@@ -148,7 +148,7 @@
   <string name="proceed">Nadaljuj</string>
   <string name="contracted_view">Skrčen izgled</string>
   <string name="expanded_view">Razširjen izgled</string>
-  <string name="grid_view">Grid view</string>
+  <string name="grid_view">Mrežni pogled</string>
   <string name="add_shortcut">Dodaj bližnjico</string>
   <string name="shortcut_added">Bližnjica dodana na namizje</string>
   <string name="shortcut_note_deleted">Ta bližnjica vodi do izbrisane beležke</string>
@@ -162,7 +162,7 @@
   <string name="not_expired">ni potečeno</string>
   <string name="expired">potečeno</string>
   <string name="today">danes</string>
-  <string name="tomorrow">tomorrow</string>
+  <string name="tomorrow">jutri</string>
   <string name="open">Odpri</string>
   <string name="copy">Kopiraj</string>
   <string name="no_application_can_perform_this_action">Tega ravnanja ne podpira nobena aplikacija</string>
@@ -188,17 +188,17 @@
   <string name="use_current_location">Uporaba trenutno lokacijo</string>
   <string name="filter">Filter</string>
   <string name="remove_filter">Odstranite filter</string>
-  <string name="filter_old_reminders">Hide old reminders</string>
-  <string name="remove_filter_old_reminders">Show old reminders</string>
-  <string name="filter_archived">Hide archived notes</string>
-  <string name="remove_filter_archived">Show archived notes</string>
+  <string name="filter_old_reminders">Skrij stare opomnike</string>
+  <string name="remove_filter_old_reminders">Prikaži stare opomnike</string>
+  <string name="filter_archived">Skrij arhivirane opombe</string>
+  <string name="remove_filter_archived">Prikaži arhivirane opombe</string>
   <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
   <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
   <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
-  <string name="permission_not_granted">Permission not granted</string>
+  <string name="permission_not_granted">Dovoljenje ni odobreno</string>
   <string name="checklist">Checklist</string>
-  <string name="text_note">Text note</string>
-  <string name="photo">Photo</string>
+  <string name="text_note">Besedilna opomba</string>
+  <string name="photo">Slika</string>
   <!-- Settings -->
   <string name="dashclock_description">Prikaz nekaterih statistik in bližnjih opomnikov iz Omni Notes</string>
   <string name="settings">Nastavitve</string>
@@ -229,9 +229,9 @@
   <string name="settings_screen_backup">Varnostno kopiranje</string>
   <string name="settings_screen_notifications">Obvestila</string>
   <string name="settings_enable_vibration">Vibriranje</string>
-  <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
+  <string name="settings_notification_enable_boot_persistence">Omogoči obstojnost obvestil</string>
   <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
-  <string name="settings_screen_navigation">Navigation</string>
+  <string name="settings_screen_navigation">Krmarjenje</string>
   <string name="settings_changelog">Seznam sprememb</string>
   <string name="settings_enable_editor_links">Potrditev povezav</string>
   <string name="settings_max_video_size">Video priponke</string>
@@ -277,7 +277,7 @@
   <string name="minutes">minut</string>
   <string name="settings_simple_calendar">Enostavna koledar in čas</string>
   <string name="settings_simple_calendar_summary">Izberi bolj enostavna Androidna koledar in čas namesto Googlovih</string>
-  <string name="settings_first_day_of_week">First day of week</string>
+  <string name="settings_first_day_of_week">Prvi dan v tednu</string>
   <string name="settings_tour_show_again">Predstavitev aplikacije</string>
   <string name="settings_tour_show_again_summary">Ponovi predstavitev aplikacije</string>
   <string name="backup_include_settings">Vključi nastavitve (z geslom)</string>
@@ -326,7 +326,7 @@
   <string name="settings_error_reporting_summary_off">Poročila ne tresk hoteti obstati odposlati. Se ne pritožujejo, če gre kaj narobe!</string>
   <string name="settings_send_analytics">Share anonymous data</string>
   <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
-  <string name="settings_statistics">Statistics</string>
+  <string name="settings_statistics">Statistika</string>
   <!-- Stats -->
   <string name="stats_total_notes">Total notes</string>
   <string name="stats_active_notes">Active notes</string>
@@ -339,10 +339,10 @@
   <string name="stats_categories">Kategorije</string>
   <string name="stats_tags">Značke</string>
   <string name="stats_attachments">Priključki</string>
-  <string name="stats_images">Images</string>
-  <string name="stats_videos">Videos</string>
+  <string name="stats_images">Slike</string>
+  <string name="stats_videos">Videi</string>
   <string name="stats_audio_recordings">Audio recordings</string>
-  <string name="stats_sketches">Sketches</string>
+  <string name="stats_sketches">Skice</string>
   <string name="stats_files">Datoteke</string>
   <string name="stats_locations">Locations</string>
   <string name="stats_words">Words</string>
