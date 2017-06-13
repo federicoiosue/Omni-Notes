@@ -163,6 +163,11 @@ public class DateUtils {
 		return now > currentReminder ? getNextMinute() : currentReminder;
 	}
 
+    public static Long getPresetReminder(String alarm) {
+        long alarmChecked = alarm == null ? 0 : Long.parseLong(alarm);
+        return getPresetReminder(alarmChecked);
+    }
+
 
     public static boolean isFuture(String timestamp) {
         try {
