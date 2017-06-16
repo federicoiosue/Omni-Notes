@@ -171,6 +171,7 @@
     <string name="widget_list_description">Scrolling list widget with buttons</string>
     <string name="notes">notes</string>
     <string name="show_thumbnails">Show attachment\'s thumbnails</string>
+    <string name="show_timestamps">Show \"Last updated\" timestamps</string>
     <string name="choose_action">Choose action</string>
     <string name="edit">Edit</string>
     <string name="reminders">reminders</string>
@@ -336,9 +337,6 @@
     <string name="settings_prettified_dates">Prettified dates</string>
     <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
     <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
-    <string name="settings_display_last_modified">Last modification on widget</string>
-    <string name="settings_display_last_modified_summary_on">Last modified timestamp shown on notes</string>
-    <string name="settings_display_last_modified_summary_off">Last modified timestamp hidden</string>
     <string name="settings_screen_privacy">Privacy</string>
     <string name="settings_error_reporting">Error reporting</string>
     <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>

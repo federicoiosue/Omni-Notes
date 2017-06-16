@@ -91,11 +91,12 @@ public class WidgetConfigurationActivity extends Activity {
             }
 
             CheckBox showThumbnailsCheckBox = (CheckBox) findViewById(R.id.show_thumbnails);
+            CheckBox showTimestampsCheckBox = (CheckBox) findViewById(R.id.show_timestamps);
 
             // Updating the ListRemoteViewsFactory parameter to get the list
             // of notes
             ListRemoteViewsFactory.updateConfiguration(getApplicationContext(), mAppWidgetId,
-                    sqlCondition, showThumbnailsCheckBox.isChecked());
+                    sqlCondition, showThumbnailsCheckBox.isChecked(), showTimestampsCheckBox.isChecked());
 
             Intent resultValue = new Intent();
             resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,

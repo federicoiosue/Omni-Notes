@@ -21,7 +21,6 @@ import android.app.Application;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -50,11 +49,11 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     private final int HEIGHT = 80;
 
     private static boolean showThumbnails = true;
+    private static boolean showTimestamps = true;
 
     private OmniNotes app;
     private int appWidgetId;
     private List<Note> notes;
-    private boolean show_last_modified;
     private int navigation;
 
 
@@ -67,12 +66,11 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     @Override
     public void onCreate() {
         Log.d(Constants.TAG, "Created widget " + appWidgetId);
-
-        SharedPreferences prefs = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-        notes = DbHelper.getInstance().getNotes(
-                prefs.getString(Constants.PREF_WIDGET_PREFIX
-                        + String.valueOf(appWidgetId), ""), true);
-        show_last_modified = prefs.getBoolean(Constants.PREF_DISPLAY_LAST_MODIFICATION, true);
+        String condition = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
+                .getString(
+                        Constants.PREF_WIDGET_PREFIX
+                                + String.valueOf(appWidgetId), "");
+        notes = DbHelper.getInstance().getNotes(condition, true);
     }
 
 
@@ -80,12 +78,12 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     public void onDataSetChanged() {
         Log.d(Constants.TAG, "onDataSetChanged widget " + appWidgetId);
         navigation = Navigation.getNavigation();
-
-        SharedPreferences prefs = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-        notes = DbHelper.getInstance().getNotes(
-                prefs.getString(Constants.PREF_WIDGET_PREFIX
-                                + String.valueOf(appWidgetId), ""), true);
-        show_last_modified = prefs.getBoolean(Constants.PREF_DISPLAY_LAST_MODIFICATION, true);
+        
+        String condition = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
+                .getString(
+                        Constants.PREF_WIDGET_PREFIX
+                                + String.valueOf(appWidgetId), "");
+        notes = DbHelper.getInstance().getNotes(condition, true);
     }
 
 
@@ -118,17 +116,18 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
         color(note, row);
 
         if (!note.isLocked() && showThumbnails && note.getAttachmentsList().size() > 0) {
-			Attachment mAttachment = note.getAttachmentsList().get(0);
-			Bitmap bmp = BitmapHelper.getBitmapFromAttachment(app, mAttachment, WIDTH, HEIGHT);
-			row.setBitmap(R.id.attachmentThumbnail, "setImageBitmap", bmp);
+      			Attachment mAttachment = note.getAttachmentsList().get(0);
+      			Bitmap bmp = BitmapHelper.getBitmapFromAttachment(app, mAttachment, WIDTH, HEIGHT);
+      			row.setBitmap(R.id.attachmentThumbnail, "setImageBitmap", bmp);
             row.setInt(R.id.attachmentThumbnail, "setVisibility", View.VISIBLE);
         } else {
             row.setInt(R.id.attachmentThumbnail, "setVisibility", View.GONE);
         }
-        if(show_last_modified)
-            row.setTextViewText(R.id.note_date, TextHelper.getDateText(app, note, navigation));
-        else
-            row.setTextViewText(R.id.note_date, "");
+        if(showTimestamps) {
+          row.setTextViewText(R.id.note_date, TextHelper.getDateText(app, note, navigation));
+        } else {
+          row.setTextViewText(R.id.note_date, "");
+        }
 
         // Next, set a fill-intent, which will be used to fill in the pending intent template
         // that is set on the collection view in StackWidgetProvider.
@@ -168,12 +167,13 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     }
 
 
-    public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition, 
-                                           boolean thumbnails) {
+    public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition,
+                                           boolean thumbnails, boolean timestamps) {
         Log.d(Constants.TAG, "Widget configuration updated");
         mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
                 .putString(Constants.PREF_WIDGET_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).commit();
         showThumbnails = thumbnails;
+        showTimestamps = timestamps;
     }
 
 

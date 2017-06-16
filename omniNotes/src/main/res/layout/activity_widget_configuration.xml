@@ -62,6 +62,14 @@
         android:checked="true"
         android:text="@string/show_thumbnails" />
 
+    <CheckBox
+        android:id="@+id/show_timestamps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:checked="true"
+        android:text="@string/show_timestamps" />
+
     <Button
         android:id="@+id/widget_config_confirm"
         style="@style/Button.Dialog"
