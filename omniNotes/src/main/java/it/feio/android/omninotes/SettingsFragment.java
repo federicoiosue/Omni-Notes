@@ -152,7 +152,8 @@ public class SettingsFragment extends PreferenceFragment {
 		Preference importData = findPreference("settings_import_data");
 		if (importData != null) {
 			importData.setOnPreferenceClickListener(arg0 -> {
-				importNotes();
+				PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+						.string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> importNotes());
 				return false;
 			});
 		}
