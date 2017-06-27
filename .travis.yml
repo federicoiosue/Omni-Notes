@@ -1,38 +1,32 @@
 sudo: true
-
 language: android
-
+dist: trusty
+install: true
+addons:
+  sonarcloud:
+    organization: federicoiosue-github
+    token: $SONAR_TOKEN
+    branches:
+    - develop
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 branches:
   only:
-    - develop
-    - master
-
+  - develop
+  - master
 android:
   components:
-    - tools
-    - tools
-    - platform-tools
-    - build-tools-25.0.2
-    - android-23
-    #- extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
-    #- addon-google_apis-google-19
-#    - sys-img-armeabi-v7a-android-24
+  - tools
+  - tools
+  - platform-tools
+  - build-tools-25.0.2
+  - android-23
+  - extra-google-m2repository
+  - extra-android-m2repository
   licenses:
-      - 'android-sdk-preview-license-.+'
-      - 'android-sdk-license-.+'
-      - 'google-gdk-license-.+'
-#before_script:
-#  - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
-#  - emulator -avd test -no-skin -no-audio -no-window &
-#  - android-wait-for-emulator
-#  - adb shell input keyevent 82 &
-
-# Build
-script: ./gradlew clean build
-
-
+  - android-sdk-preview-license-.+
+  - android-sdk-license-.+
+  - google-gdk-license-.+
+script: 
+  - ./gradlew clean build
+  - sonar-scanner
