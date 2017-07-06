@@ -90,7 +90,7 @@ Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/
 ### Test code contributions
 
 All code changes and additions **must** be tested.
-See the [related section](#Test) about this.
+See the [related section](#test) about this.
 
 ### Fork project
 

@@ -57,9 +57,10 @@ android {
         release {
             minifyEnabled true
             shrinkResources false
+            multiDexEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             applicationVariants.all { variant ->
-                variant.outputs.each { output ->omn
+                variant.outputs.each { output ->
                     def file = output.outputFile
                     output.outputFile = new File(
                             (String) file.parent,
@@ -100,7 +101,6 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4:1.6.5'
     testCompile 'org.powermock:powermock-api-mockito:1.6.5'
 
-    androidTestCompile 'com.android.support:support-annotations:23.4.0'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
@@ -178,8 +178,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-configurations {
-    all*.exclude group: 'commons-logging', module: 'commons-logging'
+configurations.all {
+    exclude group: 'commons-logging', module: 'commons-logging'
+    resolutionStrategy.force 'com.android.support:support-annotations:24.0.0'
 }
 
 android.productFlavors.each { flavor ->
