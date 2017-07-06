@@ -168,15 +168,23 @@ public class DateUtils {
         return getPresetReminder(alarmChecked);
     }
 
-
+    /**
+     * Checks if a epoch-date timestamp is in the future
+     */
     public static boolean isFuture(String timestamp) {
+        return isFuture(Long.parseLong(timestamp));
+    }
+
+    /**
+     * Checks if a epoch-date timestamp is in the future
+     */
+    public static boolean isFuture(long timestamp) {
         try {
-            return Long.parseLong(timestamp) >  Calendar.getInstance().getTimeInMillis();
+            return timestamp >  Calendar.getInstance().getTimeInMillis();
         } catch (Exception e) {
             return false;
         }
     }
-
 
 	public static String prettyTime(String timeInMillisec) {
 		if (timeInMillisec == null) {
