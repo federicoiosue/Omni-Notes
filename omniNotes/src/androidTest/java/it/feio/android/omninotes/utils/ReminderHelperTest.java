@@ -54,7 +54,7 @@ public class ReminderHelperTest {
     }
 
     @Test
-    public void ShouldNotAddReminderWithPassedTime() {
+    public void shouldNotAddReminderWithPassedTime() {
         Note note = buildNote();
         note.setAlarm(Calendar.getInstance().getTimeInMillis());
         ReminderHelper.addReminder(InstrumentationRegistry.getTargetContext(), note);
