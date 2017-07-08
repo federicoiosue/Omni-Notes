@@ -28,5 +28,5 @@ android:
   - android-sdk-license-.+
   - google-gdk-license-.+
 script: 
-  - ./gradlew clean build
+  - ./gradlew clean build jacocoTestReport
   - sonar-scanner
