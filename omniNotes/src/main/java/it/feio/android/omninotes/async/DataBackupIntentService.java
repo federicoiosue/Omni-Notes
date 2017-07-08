@@ -562,12 +562,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     /**
      * Import attachments from backup folder
      */
-    private boolean importAttachments(File backupDir) {
+    private void importAttachments(File backupDir) {
         File attachmentsDir = StorageHelper.getAttachmentDir(this);
-        // Moving back
         File backupAttachmentsDir = new File(backupDir, attachmentsDir.getName());
-        if (!backupAttachmentsDir.exists()) return true;
-        boolean result = true;
+        if (!backupAttachmentsDir.exists()) {
+			return;
+		}
         Collection list = FileUtils.listFiles(backupAttachmentsDir, FileFilterUtils.trueFileFilter(),
                 TrueFileFilter.INSTANCE);
         Iterator i = list.iterator();
@@ -580,25 +580,21 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
                 mNotificationsHelper.setMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + imported++ + "/" + list.size())
                         .show();
             } catch (IOException e) {
-                result = false;
                 Log.e(Constants.TAG, "Error importing the attachment " + file.getName());
             }
         }
-        return result;
     }
 
 
     @Override
     public void onAttachingFileErrorOccurred(Attachment mAttachment) {
         // TODO Auto-generated method stub
-
     }
 
 
     @Override
     public void onAttachingFileFinished(Attachment mAttachment) {
         // TODO Auto-generated method stub
-
     }
 
 }

@@ -57,3 +57,5 @@ captures
 omniNotes/gradle.properties
 
 *.log
+
+\.directory

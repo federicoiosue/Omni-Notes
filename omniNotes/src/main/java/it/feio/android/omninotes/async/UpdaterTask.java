@@ -218,11 +218,13 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 
 	private boolean isGooglePlayAvailable() {
+		boolean available = true;
 		try {
 			mActivity.getPackageManager().getPackageInfo("com.android.vending", 0);
-			return true;
 		} catch (NameNotFoundException e) {
-			return false;
+			Log.d(getClass().getName(), "Google Play app not available on device");
+			available = false;
 		}
+		return available;
 	}
 }
