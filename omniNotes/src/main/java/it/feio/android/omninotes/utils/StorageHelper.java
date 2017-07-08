@@ -99,10 +99,6 @@ public class StorageHelper {
 
     /**
      * Create a path where we will place our private file on external
-     *
-     * @param mContext
-     * @param uri
-     * @return
      */
     public static File createExternalStoragePrivateFile(Context mContext, Uri uri, String extension) {
 
@@ -113,8 +109,8 @@ public class StorageHelper {
         }
         File file = createNewAttachmentFile(mContext, extension);
 
-        InputStream is;
-        OutputStream os;
+        InputStream is = null;
+        OutputStream os = null;
         try {
             is = mContext.getContentResolver().openInputStream(uri);
             os = new FileOutputStream(file);
@@ -138,19 +134,46 @@ public class StorageHelper {
                 Log.e(Constants.TAG, "Error writing " + file, e2);
                 file = null;
             }
-        }
-        return file;
+        } finally {
+			try {
+				if (is != null) {
+					is.close();
+				}
+				if (os != null) {
+					os.close();
+				}
+			} catch (IOException e) {
+				Log.e(Constants.TAG, "Error closing streams", e);
+			}
+
+		}
+		return file;
     }
 
 
     public static boolean copyFile(File source, File destination) {
+		FileInputStream is = null;
+		FileOutputStream os = null;
         try {
-            return copyFile(new FileInputStream(source), new FileOutputStream(destination));
+			is = new FileInputStream(source);
+			os = new FileOutputStream(destination);
+            return copyFile(is, os);
         } catch (FileNotFoundException e) {
             Log.e(Constants.TAG, "Error copying file", e);
             return false;
-        }
-    }
+        } finally {
+			try {
+				if (is != null) {
+					is.close();
+				}
+				if (os != null) {
+					os.close();
+				}
+			} catch (IOException e) {
+				Log.e(Constants.TAG, "Error closing streams", e);
+			}
+		}
+	}
 
 
     /**
@@ -257,31 +280,16 @@ public class StorageHelper {
 
     /**
      * Create a path where we will place our private file on external
-     *
-     * @param mContext
-     * @param uri
-     * @return
      */
     public static File copyToBackupDir(File backupDir, File file) {
-
-        // Checks for external storage availability
         if (!checkStorage()) {
             return null;
         }
-
         if (!backupDir.exists()) {
             backupDir.mkdirs();
         }
-
         File destination = new File(backupDir, file.getName());
-
-        try {
-            copyFile(new FileInputStream(file), new FileOutputStream(destination));
-        } catch (FileNotFoundException e) {
-            Log.e(Constants.TAG, "Error copying file to backup", e);
-            destination = null;
-        }
-
+        copyFile(file, destination);
         return destination;
     }
 
@@ -386,12 +394,7 @@ public class StorageHelper {
 
             // Otherwise a file copy will be performed
         } else {
-            try {
-                res = res && copyFile(new FileInputStream(sourceLocation), new FileOutputStream(targetLocation));
-            } catch (FileNotFoundException e) {
-                Log.e(Constants.TAG, "Error copying directory");
-                res = false;
-            }
+			res = copyFile(sourceLocation, targetLocation);
         }
         return res;
     }

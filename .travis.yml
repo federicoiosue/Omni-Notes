@@ -14,6 +14,7 @@ branches:
   only:
   - develop
   - master
+  - feature/sonarqube-optimizations
 android:
   components:
   - tools
@@ -28,5 +29,5 @@ android:
   - android-sdk-license-.+
   - google-gdk-license-.+
 script: 
-  - ./gradlew clean build
+  - ./gradlew clean build jacocoTestReport
   - sonar-scanner
