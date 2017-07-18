@@ -31,3 +31,5 @@ android:
 script: 
   - ./gradlew clean build jacocoTestReport
   - sonar-scanner
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
