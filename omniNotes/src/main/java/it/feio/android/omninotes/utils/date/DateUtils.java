@@ -17,6 +17,7 @@
 package it.feio.android.omninotes.utils.date;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.utils.Constants;
@@ -165,7 +166,7 @@ public class DateUtils {
      * Checks if a epoch-date timestamp is in the future
      */
     public static boolean isFuture(String timestamp) {
-        return isFuture(Long.parseLong(timestamp));
+        return !TextUtils.isEmpty(timestamp) && isFuture(Long.parseLong(timestamp));
     }
 
     /**
