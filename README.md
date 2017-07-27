@@ -81,7 +81,35 @@ To execute all tests included into the project connect a device or emulator, the
 ./gradlew connectedAndroidTest
 ```
 
-#### Dependences
+## Contributing
+
+Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as code versioning methodology you, as developer should **always** start working on [develop branch](https://github.com/federicoiosue/Omni-Notes/tree/develop) that contains the most recent changes.
+
+Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/contributors.md) file.
+
+**Don't forget to contribute to original code! Don't be selfish or lazy!**
+
+### Test code contributions
+
+All code changes and additions **must** be tested.
+See the [related section](#test) about this.
+
+### Fork project
+
+When forking the project you'll have to modify some files that are strictly dependent from my own development / build / third-party-services environment. Files that need some attention are the following:
+
+- *gradle.properties*: this is overridden by another file with the same name inside the *omniNotes* module. You can do the same or leave as it is, any missing property will let the app gracefully fallback on a default behavior.
+- *.travis.yml*: if you use [TravisCI](https://travis-ci.org/) as continuous integration platform and a SonarQUBE instance for code quality analysis you'll have to modify this file according to your needs.
+
+## Code quality
+
+A public instance of SonarQube is available both to encourage other developers to improve their code contributions (and existing code obviously) and to move the project even further into transparency and openness.
+
+Checkout for it [here](https://sonarcloud.io/dashboard?id=omni-notes)
+
+Pull requests will be automatically analyzed and rejected if they'll rise the code technical debt.
+
+## Dependences
 
 They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni-Notes/blob/develop/omniNotes/build.gradle) file but due to the fact that many of the dependences have been customized by me I'd like to say thanks here to the original developers of these great libraries:
 
@@ -112,14 +140,6 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 * https://github.com/piwik/piwik-sdk-android
 * https://github.com/mrmans0n/smart-location-lib
 
-
-## Contributing
-
-Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as code versioning methodology you, as developer should **always** start working on [develop branch](https://github.com/federicoiosue/Omni-Notes/tree/develop) that contains the most recent changes.
-
-Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/contributors.md) file.
-
-**Don't forget to contribute to original code! Don't be selfish or lazy!**
 
 
 ## Developed with love and passion by

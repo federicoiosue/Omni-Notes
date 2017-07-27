@@ -44,6 +44,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
@@ -160,7 +161,8 @@ public class SettingsFragment extends PreferenceFragment {
 		Preference importData = findPreference("settings_import_data");
 		if (importData != null) {
 			importData.setOnPreferenceClickListener(arg0 -> {
-				importNotes();
+				PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+						.string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> importNotes());
 				return false;
 			});
 		}
@@ -486,16 +488,11 @@ public class SettingsFragment extends PreferenceFragment {
 						.build().show();
 				return false;
 			});
-			PackageInfo pInfo;
-			String versionString = "";
-			// Retrieval of installed app version to write it as summary
 			try {
-				pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-				versionString = pInfo.versionName + getString(R.string.version_postfix);
+				changelog.setSummary(AppVersionHelper.getCurrentAppVersionName(getActivity()));
 			} catch (NameNotFoundException e) {
 				Log.e(Constants.TAG, "Error retrieving version", e);
 			}
-			changelog.setSummary(versionString);
 		}
 
 

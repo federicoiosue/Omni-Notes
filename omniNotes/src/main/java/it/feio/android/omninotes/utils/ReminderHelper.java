@@ -30,6 +30,7 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
+import it.feio.android.omninotes.utils.date.DateUtils;
 
 import java.util.Calendar;
 
@@ -44,15 +45,17 @@ public class ReminderHelper {
 
 
 	public static void addReminder(Context context, Note note, long reminder) {
-		Intent intent = new Intent(context, AlarmReceiver.class);
-		intent.putExtra(Constants.INTENT_NOTE, ParcelableUtil.marshall(note));
-		PendingIntent sender = PendingIntent.getBroadcast(context, getRequestCode(note), intent,
-				PendingIntent.FLAG_CANCEL_CURRENT);
-		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
-		} else {
-			am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
+		if (DateUtils.isFuture(reminder)) {
+			Intent intent = new Intent(context, AlarmReceiver.class);
+			intent.putExtra(Constants.INTENT_NOTE, ParcelableUtil.marshall(note));
+			PendingIntent sender = PendingIntent.getBroadcast(context, getRequestCode(note), intent,
+					PendingIntent.FLAG_CANCEL_CURRENT);
+			AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+				am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
+			} else {
+				am.set(AlarmManager.RTC_WAKEUP, reminder, sender);
+			}
 		}
 	}
 

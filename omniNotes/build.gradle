@@ -71,12 +71,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled true
             shrinkResources false
+            multiDexEnabled false
+            testCoverageEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             applicationVariants.all { variant ->
-                variant.outputs.each { output ->omn
+                variant.outputs.each { output ->
                     def file = output.outputFile
                     output.outputFile = new File(
                             (String) file.parent,
@@ -115,9 +120,12 @@ android {
 }
 
 dependencies {
-    androidTestCompile 'junit:junit:4.12'
     testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:23.4.0'
+    testCompile 'org.mockito:mockito-all:1.9.5'
+    testCompile 'org.powermock:powermock:1.6.5'
+    testCompile 'org.powermock:powermock-module-junit4:1.6.5'
+    testCompile 'org.powermock:powermock-api-mockito:1.6.5'
+
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
@@ -170,7 +178,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     compile 'com.github.federicoiosue:Springpad-Importer:1.0.1'
-    compile 'com.github.federicoiosue:Omni-Notes-Commons:develop-SNAPSHOT'
+    compile 'com.github.federicoiosue:Omni-Notes-Commons:1.2.0'
     compile ('com.github.federicoiosue:checklistview:3.2.1') {
         transitive=false
     }
@@ -202,10 +210,12 @@ dependencies {
     }
     fossCompile 'com.jakewharton.timber:timber:4.5.1'
 
+    testCompile 'junit:junit:4.12'
 }
 
-configurations {
-    all*.exclude group: 'commons-logging', module: 'commons-logging'
+configurations.all {
+    exclude group: 'commons-logging', module: 'commons-logging'
+    resolutionStrategy.force 'com.android.support:support-annotations:24.0.0'
 }
 
 android.productFlavors.each { flavor ->
@@ -214,4 +224,14 @@ android.productFlavors.each { flavor ->
     flavor.buildConfigField 'String', 'CRASH_REPORTING_URL', '"' + CRASH_REPORTING_URL + '"'
     flavor.buildConfigField 'String', 'VERSION_CHECK_URL', '"' + VERSION_CHECK_URL + '"'
     flavor.buildConfigField 'String', 'MAPS_API_KEY', '"' + MAPS_API_KEY + '"'
+}
+
+apply plugin: 'jacoco-android'
+jacocoAndroidUnitTestReport {
+    csv.enabled false
+    html.enabled true
+    xml.enabled true
+}
+jacoco {
+    toolVersion = "0.7.5.201505241946"
 }

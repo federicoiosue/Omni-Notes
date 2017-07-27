@@ -57,6 +57,7 @@ import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -391,8 +392,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     private boolean noteAlreadyOpened(Note note) {
         DetailFragment detailFragment = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
-        return detailFragment != null && detailFragment.getCurrentNote() != null && detailFragment.getCurrentNote()
-				.get_id().equals(note.get_id());
+        return detailFragment != null && NotesHelper.haveSameId(note, detailFragment.getCurrentNote());
     }
 
 

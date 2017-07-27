@@ -15,6 +15,13 @@ import java.util.List;
 
 public class NotesHelper {
 
+    public static boolean haveSameId(Note note, Note currentNote) {
+            return currentNote != null
+            && currentNote.get_id() != null
+            && currentNote.get_id().equals(note.get_id());
+
+    }
+
     public static StringBuilder appendContent(Note note, StringBuilder content) {
         if (content.length() > 0
                 && (!TextUtils.isEmpty(note.getTitle()) || !TextUtils.isEmpty(note.getContent()))) {

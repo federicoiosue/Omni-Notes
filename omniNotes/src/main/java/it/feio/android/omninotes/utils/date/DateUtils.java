@@ -146,15 +146,38 @@ public class DateUtils {
         return Calendar.getInstance().getTimeInMillis() + 1000 * 60;
     }
 
+	/**
+	 * Returns actually set reminder if that is on the future, next-minute-reminder otherwise
+	 * @param currentReminder
+	 * @return
+	 */
+	public static long getPresetReminder(long currentReminder) {
+		long now = Calendar.getInstance().getTimeInMillis();
+		return now > currentReminder ? getNextMinute() : currentReminder;
+	}
 
+    public static Long getPresetReminder(String alarm) {
+        long alarmChecked = alarm == null ? 0 : Long.parseLong(alarm);
+        return getPresetReminder(alarmChecked);
+    }
+
+    /**
+     * Checks if a epoch-date timestamp is in the future
+     */
     public static boolean isFuture(String timestamp) {
+        return isFuture(Long.parseLong(timestamp));
+    }
+
+    /**
+     * Checks if a epoch-date timestamp is in the future
+     */
+    public static boolean isFuture(long timestamp) {
         try {
-            return Long.parseLong(timestamp) >  Calendar.getInstance().getTimeInMillis();
+            return timestamp >  Calendar.getInstance().getTimeInMillis();
         } catch (Exception e) {
             return false;
         }
     }
-
 
 	public static String prettyTime(String timeInMillisec) {
 		if (timeInMillisec == null) {

@@ -29,11 +29,12 @@ import it.feio.android.omninotes.utils.Constants;
 
 public class BaseAndroidTestCase extends AndroidTestCase {
 
+    private final static String DB_PATH_REGEX = ".*it\\.feio\\.android\\.omninotes.*\\/databases\\/test_omni-notes.*";
+    private final static String DB_PREFIX = "test_";
+
     protected DbHelper dbHelper;
     protected Context testContext;
     protected SharedPreferences prefs;
-    private final static String DB_PATH_REGEX = ".*it\\.feio\\.android\\.omninotes.*\\/databases\\/test_omni-notes.*";
-    private final static String DB_PREFIX = "test_";
 
     @Override
     public void setUp() throws Exception {
@@ -41,6 +42,7 @@ public class BaseAndroidTestCase extends AndroidTestCase {
         testContext = new RenamingDelegatingContext(InstrumentationRegistry.getTargetContext(), DB_PREFIX);
         prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
         dbHelper = DbHelper.getInstance(testContext);
+        prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
         assertTrue("Database used for tests MUST not be the default one but prefixed by '" + DB_PREFIX + "'", dbHelper.getDatabase().getPath().matches(DB_PATH_REGEX));
         assertFalse("Database MUST be writable", dbHelper.getDatabase().isReadOnly());
 //        cleanDatabase();

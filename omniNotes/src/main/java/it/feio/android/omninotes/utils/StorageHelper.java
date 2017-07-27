@@ -101,10 +101,6 @@ public class StorageHelper {
 
     /**
      * Create a path where we will place our private file on external
-     *
-     * @param mContext
-     * @param uri
-     * @return
      */
     public static File createExternalStoragePrivateFile(Context mContext, Uri uri, String extension) {
 
@@ -141,28 +137,43 @@ public class StorageHelper {
                 file = null;
             }
         } finally {
-			if (is != null) {
-				try {
+			try {
+				if (is != null) {
 					is.close();
-					if (os != null) {
-						os.close();
-					}
-				} catch (IOException e) {
-					Log.e(StorageHelper.class.getName(), "Error writing " + file, e);
 				}
+				if (os != null) {
+					os.close();
+				}
+			} catch (IOException e) {
+				Log.e(Constants.TAG, "Error closing streams", e);
 			}
+
 		}
 		return file;
     }
 
 
     public static boolean copyFile(File source, File destination) {
-		try {
-			FileUtils.copyFile(source, destination);
-			return true;
-		} catch (IOException e) {
-			Log.e(StorageHelper.class.getName(), "Error copying file", e);
-			return false;
+		FileInputStream is = null;
+		FileOutputStream os = null;
+        try {
+			is = new FileInputStream(source);
+			os = new FileOutputStream(destination);
+            return copyFile(is, os);
+        } catch (FileNotFoundException e) {
+            Log.e(Constants.TAG, "Error copying file", e);
+            return false;
+        } finally {
+			try {
+				if (is != null) {
+					is.close();
+				}
+				if (os != null) {
+					os.close();
+				}
+			} catch (IOException e) {
+				Log.e(Constants.TAG, "Error closing streams", e);
+			}
 		}
 	}
 
@@ -261,19 +272,14 @@ public class StorageHelper {
      * Create a path where we will place our private file on external
      */
     public static File copyToBackupDir(File backupDir, File file) {
-
-        // Checks for external storage availability
         if (!checkStorage()) {
             return null;
         }
-
         if (!backupDir.exists()) {
             backupDir.mkdirs();
         }
-
         File destination = new File(backupDir, file.getName());
         copyFile(file, destination);
-
         return destination;
     }
 
@@ -388,12 +394,7 @@ public class StorageHelper {
 
             // Otherwise a file copy will be performed
         } else {
-            try {
-                res = res && copyFile(new FileInputStream(sourceLocation), new FileOutputStream(targetLocation));
-            } catch (FileNotFoundException e) {
-                Log.e(StorageHelper.class.getName(), "Error copying directory");
-                res = false;
-            }
+			res = copyFile(sourceLocation, targetLocation);
         }
         return res;
     }
