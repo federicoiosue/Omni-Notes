@@ -133,7 +133,18 @@ public class StorageHelper {
             } catch (FileNotFoundException e2) {
                 Log.e(Constants.TAG, "Error writing " + file, e2);
                 file = null;
-            }
+			} finally {
+				try {
+					if (is != null) {
+						is.close();
+					}
+					if (os != null) {
+						os.close();
+					}
+				} catch (IOException e3) {
+					Log.e(Constants.TAG, "Error closing streams", e3);
+				}
+			}
         } finally {
 			try {
 				if (is != null) {
