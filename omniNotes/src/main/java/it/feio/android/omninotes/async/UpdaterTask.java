@@ -127,6 +127,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 					if (appVersionUpdated) {
 						showChangelog();
 						restoreReminders();
+						AppVersionHelper.updateAppVersionInPreferences(mActivity);
 					}
 				} catch (NameNotFoundException e) {
 					Log.e(Constants.TAG, "Error retrieving app version", e);
