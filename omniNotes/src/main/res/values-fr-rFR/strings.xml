@@ -104,7 +104,7 @@
   <string name="categorize_as">Catégoriser comme</string>
   <string name="title_activity_category">Modifier la catégorie</string>
   <string name="delete_unused_category_confirmation">Confirmer la suppression de la catégorie ?</string>
-  <string name="delete_category_confirmation">Cette catégorie est utilisée par certaines notes.\nConfirmez-vous le déclassement des notes et la suppression de la catégorie ?</string>
+  <string name="delete_category_confirmation">Cette catégorie est utilisée par quelques notes.\nConfirmez-vous le déclassement des notes et la suppression de la catégorie ?</string>
   <string name="discard">Annuler</string>
   <string name="remove_category">Supprimer la catégorie</string>
   <string name="no_tags_created">Aucun mot-clé n\'a été créé</string>
@@ -331,7 +331,7 @@
   <string name="stats_total_notes">Total notes</string>
   <string name="stats_active_notes">Notes actives</string>
   <string name="stats_archived_notes">Notes archivées</string>
-  <string name="stats_trashed_notes">Notes dans la corbeille</string>
+  <string name="stats_trashed_notes">Notes à la corbeille</string>
   <string name="stats_reminders">Rappels</string>
   <string name="stats_future_reminders">Futurs rappels</string>
   <string name="stats_checklists">Listes à cocher</string>
@@ -342,15 +342,15 @@
   <string name="stats_images">Images</string>
   <string name="stats_videos">Vidéos</string>
   <string name="stats_audio_recordings">Enregistrements audio</string>
-  <string name="stats_sketches">Esquisses</string>
+  <string name="stats_sketches">Dessins</string>
   <string name="stats_files">Fichiers</string>
-  <string name="stats_locations">Emplacements</string>
+  <string name="stats_locations">Localisations</string>
   <string name="stats_words">Mots</string>
-  <string name="stats_max_words">Max words</string>
-  <string name="stats_avg_words">Average words</string>
+  <string name="stats_max_words">Max mots</string>
+  <string name="stats_avg_words">Moy mots</string>
   <string name="stats_characters">Caractères</string>
-  <string name="stats_max_characters">Max chars</string>
-  <string name="stats_avg_characters">Average chars</string>
+  <string name="stats_max_characters">Max caractères</string>
+  <string name="stats_avg_characters">Moy caractères</string>
   <!-- Instructions -->
   <string name="tour_request_start">Vous lancez Omni Note pour la première fois, souhaitez-vous voir la présentation de l\'application ?</string>
   <string name="tour_listactivity_intro_title">Bienvenue sur Omni Notes !</string>
