@@ -29,7 +29,6 @@ android:
   - android-sdk-license-.+
   - google-gdk-license-.+
 script: 
-  - ./gradlew clean build jacocoTestReport
-  - sonar-scanner
+  - ./gradlew clean build jacocoTestReport sonarqube
 after_success:
   - bash <(curl -s https://codecov.io/bash)
