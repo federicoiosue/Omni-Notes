@@ -26,14 +26,17 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.gson.Gson;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.BuildConfig;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.AppVersionHelper;
+import it.feio.android.omninotes.models.misc.PlayStoreMetadataFetcherResult;
 import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.SystemHelper;
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -153,7 +156,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	/**
 	 * Fetches application data from internet
 	 */
-	private String getAppData() throws IOException {
+	private PlayStoreMetadataFetcherResult getAppData() throws IOException, JSONException {
 		InputStream is = null;
 		InputStreamReader inputStreamReader = null;
 		try {
@@ -168,7 +171,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 				sb.append(inputLine);
 			}
 
-			return sb.toString();
+			return new Gson().fromJson(sb.toString(), PlayStoreMetadataFetcherResult.class);
 		} finally {
 			SystemHelper.closeCloseable(inputStreamReader, is);
 		}
@@ -180,8 +183,10 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	 *
 	 * @throws NameNotFoundException
 	 */
-	private boolean isVersionUpdated(String playStoreVersion)
+	private boolean isVersionUpdated(PlayStoreMetadataFetcherResult playStoreMetadataFetcherResult)
 			throws NameNotFoundException {
+
+		String playStoreVersion = playStoreMetadataFetcherResult.getSoftwareVersion();
 
 		boolean result = false;
 
