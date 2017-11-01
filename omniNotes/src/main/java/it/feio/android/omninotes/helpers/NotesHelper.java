@@ -62,10 +62,10 @@ public class NotesHelper {
 
 		Note mergedNote = new Note();
 		mergedNote.setTitle(notes.get(0).getTitle());
-		StringBuilder content = new StringBuilder(notes.get(0).getContent());
+		StringBuilder content = new StringBuilder();
 
 		for (Note note : notes) {
-			content = appendContent(note, content);
+			appendContent(note, content);
 			locked = locked || note.isLocked();
 			category = (Category) ObjectUtils.defaultIfNull(category, note.getCategory());
 			String currentReminder = note.getAlarm();
