@@ -825,7 +825,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
 	private void initViewTitle() {
-		title.setText(noteTmp.getTitle());
+			title.setText(noteTmp.getTitle());
 		title.gatherLinksForText();
 		title.setOnTextLinkClickListener(textLinkClickListener);
 		// To avoid dropping here the  dragged checklist items
@@ -1799,17 +1799,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Empty password has been set
 		if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
 			mainActivity.showMessage(R.string.password_not_set, ONStyle.WARN);
-
 			return;
 		}
-		// Otherwise locking is performed
-		if (noteTmp.isLocked()) {
-			mainActivity.showMessage(R.string.save_note_to_lock_it, ONStyle.INFO);
-			mainActivity.supportInvalidateOptionsMenu();
-		} else {
-			mainActivity.showMessage(R.string.save_note_to_lock_it, ONStyle.INFO);
-			mainActivity.supportInvalidateOptionsMenu();
-		}
+		mainActivity.showMessage(R.string.save_note_to_lock_it, ONStyle.INFO);
+		mainActivity.supportInvalidateOptionsMenu();
 		noteTmp.setLocked(!noteTmp.isLocked());
 		noteTmp.setPasswordChecked(true);
 	}

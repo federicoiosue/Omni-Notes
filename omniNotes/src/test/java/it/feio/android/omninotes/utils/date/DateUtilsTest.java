@@ -24,9 +24,13 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
+import static android.test.MoreAsserts.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -73,10 +77,19 @@ public class DateUtilsTest {
 
 	@Test
 	public void isSameDay() {
-    	long today = Calendar.getInstance().getTimeInMillis();
-    	long tomorrow = today + (1000 * 60 * 60 * 24);
-    	assertTrue(DateUtils.isSameDay(today, today));
-    	assertFalse(DateUtils.isSameDay(today, tomorrow));
+		long today = Calendar.getInstance().getTimeInMillis();
+		long tomorrow = today + (1000 * 60 * 60 * 24);
+		assertTrue(DateUtils.isSameDay(today, today));
+		assertFalse(DateUtils.isSameDay(today, tomorrow));
 	}
+
+//	@Test
+//	public void getString() throws ParseException {
+//    	String desiderDate = "";
+//		new SimpleDateFormat().parse(desiderDate);
+//		Date date = new SimpleDateFormat("dd/MM/yyyy").parse("15/05/2012");
+//		D
+//		assertEquals(DateUtils.getString(today, today));
+//	}
 
 }

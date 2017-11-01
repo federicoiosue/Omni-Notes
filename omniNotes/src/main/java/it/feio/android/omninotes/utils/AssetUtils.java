@@ -48,12 +48,18 @@ public class AssetUtils {
      * Loads a file into string
      */
     public static String readFile(String fileName, AssetManager assetManager) throws IOException {
-        InputStream input;
-        input = assetManager.open(fileName);
-        int size = input.available();
-        byte[] buffer = new byte[size];
-        input.read(buffer);
-        input.close();
-        return new String(buffer);
-    }
+        InputStream input = null;
+        try {
+			input = assetManager.open(fileName);
+			int size = input.available();
+			byte[] buffer = new byte[size];
+			input.read(buffer);
+			input.close();
+			return new String(buffer);
+		} finally {
+			if (input != null) {
+				input.close();
+			}
+		}
+	}
 }

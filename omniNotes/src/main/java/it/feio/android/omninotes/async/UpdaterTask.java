@@ -180,15 +180,11 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 	/**
 	 * Checks parsing "android:versionName" if app has been updated
-	 *
-	 * @throws NameNotFoundException
 	 */
 	private boolean isVersionUpdated(PlayStoreMetadataFetcherResult playStoreMetadataFetcherResult)
 			throws NameNotFoundException {
 
 		String playStoreVersion = playStoreMetadataFetcherResult.getSoftwareVersion();
-
-		boolean result = false;
 
 		// Retrieval of installed app version
 		PackageInfo pInfo = mActivity.getPackageManager().getPackageInfo(
@@ -207,18 +203,11 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			installedVersionString += String.format("%02d", Integer.parseInt(installedVersionArray[i]));
 		}
 
-		// And then compared
-		if (Integer.parseInt(playStoreVersionString) > Integer.parseInt(installedVersionString)) {
-			result = true;
-		}
+		boolean playStoreHasMoreRecentVersion = Integer.parseInt(playStoreVersionString) > Integer.parseInt(installedVersionString);
+		boolean outOfBeta = Integer.parseInt(playStoreVersionString) == Integer.parseInt(installedVersionString)
+				&& playStoreVersion.split("b").length == 1 && installedVersion.split("b").length == 2;
 
-		// And then compared again to check if we're out of Beta
-		else if (Integer.parseInt(playStoreVersionString) == Integer.parseInt(installedVersionString)
-				&& playStoreVersion.split("b").length == 1 && installedVersion.split("b").length == 2) {
-			result = true;
-		}
-
-		return result;
+		return playStoreHasMoreRecentVersion || outOfBeta;
 	}
 
 

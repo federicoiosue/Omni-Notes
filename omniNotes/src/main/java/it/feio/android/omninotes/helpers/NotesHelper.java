@@ -53,38 +53,28 @@ public class NotesHelper {
     }
 
 	public static Note mergeNotes(List<Note> notes, boolean keepMergedNotes) {
-		Note mergedNote = null;
 		boolean locked = false;
-		StringBuilder content = new StringBuilder();
 		ArrayList<Attachment> attachments = new ArrayList<Attachment>();
 		Category category = null;
 		String reminder = null;
 		String reminderRecurrenceRule = null;
 		Double latitude = null, longitude = null;
 
+		Note mergedNote = new Note();
+		mergedNote.setTitle(notes.get(0).getTitle());
+		StringBuilder content = new StringBuilder(notes.get(0).getContent());
+
 		for (Note note : notes) {
-
-			if (mergedNote == null) {
-				mergedNote = new Note();
-				mergedNote.setTitle(note.getTitle());
-				content.append(note.getContent());
-			} else {
-                content = appendContent(note, content);
-			}
-
+			content = appendContent(note, content);
 			locked = locked || note.isLocked();
-
 			category = (Category) ObjectUtils.defaultIfNull(category, note.getCategory());
-
 			String currentReminder = note.getAlarm();
 			if (!TextUtils.isEmpty(currentReminder) && reminder == null) {
 				reminder = currentReminder;
 				reminderRecurrenceRule = note.getRecurrenceRule();
 			}
-
 			latitude = (Double) ObjectUtils.defaultIfNull(latitude, note.getLatitude());
 			longitude = (Double) ObjectUtils.defaultIfNull(longitude, note.getLongitude());
-
 			addAttachments(keepMergedNotes, note, attachments);
 		}
 
