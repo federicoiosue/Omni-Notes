@@ -120,8 +120,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
 
         ViewInteraction drawerToggle = onView(
                 allOf(withContentDescription("drawer open"),
-                        withParent(withId(R.id.toolbar)),
-                        isDisplayed()));
+                        withParent(withId(R.id.toolbar))));
         drawerToggle.perform(click());
 
         ViewInteraction categoryView = onView(allOf(withId(R.id.title), withText(categoryName)));
