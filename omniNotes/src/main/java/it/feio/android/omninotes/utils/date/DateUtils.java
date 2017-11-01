@@ -17,10 +17,10 @@
 package it.feio.android.omninotes.utils.date;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.utils.Constants;
+import org.apache.commons.lang.StringUtils;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.text.ParseException;
@@ -32,10 +32,12 @@ import java.util.Locale;
 
 /**
  * Helper per la generazione di date nel formato specificato nelle costanti
- *
- * @author 17000026
  */
 public class DateUtils {
+
+	private DateUtils() {
+		throw new IllegalStateException("Utility class");
+	}
 
     public static String getString(long date, String format) {
         Date d = new Date(date);
@@ -166,7 +168,7 @@ public class DateUtils {
      * Checks if a epoch-date timestamp is in the future
      */
     public static boolean isFuture(String timestamp) {
-        return !TextUtils.isEmpty(timestamp) && isFuture(Long.parseLong(timestamp));
+        return !StringUtils.isEmpty(timestamp) && isFuture(Long.parseLong(timestamp));
     }
 
     /**

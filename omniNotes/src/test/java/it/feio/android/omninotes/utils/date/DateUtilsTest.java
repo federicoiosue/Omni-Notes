@@ -27,6 +27,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({DateUtils.class})
 public class DateUtilsTest {
@@ -52,11 +56,27 @@ public class DateUtilsTest {
         Assert.assertEquals(prettyTime.toLowerCase().length(), 0);
     }
 
-    @Test
-    public void getPresetReminder() {
-        long mockedNextMinute = 1497315847L;
-        PowerMockito.stub(PowerMockito.method(DateUtils.class, "getNextMinute")).toReturn(mockedNextMinute);
-        Assert.assertTrue(mockedNextMinute == DateUtils.getPresetReminder(null));
-    }
+	@Test
+	public void getPresetReminder() {
+		long mockedNextMinute = 1497315847L;
+		PowerMockito.stub(PowerMockito.method(DateUtils.class, "getNextMinute")).toReturn(mockedNextMinute);
+		assertTrue(mockedNextMinute == DateUtils.getPresetReminder(null));
+	}
+
+	@Test
+	public void isFuture() {
+		String nextMinute = String.valueOf(Calendar.getInstance().getTimeInMillis() + 60000);
+		String previousMinute = String.valueOf(Calendar.getInstance().getTimeInMillis() - 60000);
+		assertTrue(DateUtils.isFuture(nextMinute));
+		assertFalse(DateUtils.isFuture(previousMinute));
+	}
+
+	@Test
+	public void isSameDay() {
+    	long today = Calendar.getInstance().getTimeInMillis();
+    	long tomorrow = today + (1000 * 60 * 60 * 24);
+    	assertTrue(DateUtils.isSameDay(today, today));
+    	assertFalse(DateUtils.isSameDay(today, tomorrow));
+	}
 
 }
