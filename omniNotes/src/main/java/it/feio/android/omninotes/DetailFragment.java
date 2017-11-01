@@ -366,11 +366,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		// Unregistering layout observer
 		if (root != null) {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-			} else {
-				root.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-			}
+			root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 		}
 
 		// Closes keyboard on exit
@@ -829,17 +825,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
 	private void initViewTitle() {
-
 		title.setText(noteTmp.getTitle());
 		title.gatherLinksForText();
 		title.setOnTextLinkClickListener(textLinkClickListener);
 		// To avoid dropping here the  dragged checklist items
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			title.setOnDragListener((v, event) -> {
+		title.setOnDragListener((v, event) -> {
 //					((View)event.getLocalState()).setVisibility(View.VISIBLE);
-				return true;
-			});
-		}
+			return true;
+		});
 		//When editor action is pressed focus is moved to last character in content field
 		title.setOnEditorActionListener((v, actionId, event) -> {
 			content.requestFocus();
@@ -1532,7 +1525,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void onActivityResultManageReceivedFiles(Intent intent) {
 		List<Uri> uris = new ArrayList<>();
 		if (Build.VERSION.SDK_INT > 16 && intent.getClipData() != null) {
@@ -1571,12 +1563,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				mainActivity.deleteNote(noteTmp);
 				goHome();
 			} else {
-				SaveNoteTask saveNoteTask = new SaveNoteTask(this, false);
-				if (Build.VERSION.SDK_INT >= 11) {
-					saveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
-				} else {
-					saveNoteTask.execute(noteOriginal);
-				}
+				new SaveNoteTask(this, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
 			}
 			MainActivity.notifyAppWidgets(mainActivity);
 		} else {
