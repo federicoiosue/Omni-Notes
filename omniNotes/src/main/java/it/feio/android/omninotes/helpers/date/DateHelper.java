@@ -85,33 +85,6 @@ public class DateHelper {
         return sdf.format(cal.getTime());
     }
 
-
-    public static String getLocalizedDateTime(Context mContext,
-                                              String dateString, String format) {
-        String res = null;
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        Date date = null;
-        try {
-            date = sdf.parse(dateString);
-        } catch (ParseException e) {
-            sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE_OLD);
-            try {
-                date = sdf.parse(dateString);
-            } catch (ParseException e1) {
-                Log.e(Constants.TAG, "String is not formattable into date");
-            }
-        }
-
-        if (date != null) {
-            String dateFormatted = DateUtils.formatDateTime(mContext, date.getTime(), DateUtils.FORMAT_ABBREV_MONTH);
-            String timeFormatted = DateUtils.formatDateTime(mContext, date.getTime(), DateUtils.FORMAT_SHOW_TIME);
-            res = dateFormatted + " " + timeFormatted;
-        }
-
-        return res;
-    }
-
-
     /**
      * @param mContext
      * @param date

@@ -70,8 +70,8 @@ public class ReminderHelper {
 
 
 	static int getRequestCode(Note note) {
-		Long longCode = note.getCreation() != null ? note.getCreation() : Calendar.getInstance().getTimeInMillis();
-		return Long.valueOf(longCode / 1000).intValue();
+		Long longCode = note.getCreation() != null ? note.getCreation() : Calendar.getInstance().getTimeInMillis() / 1000L;
+		return longCode.intValue();
 	}
 
 

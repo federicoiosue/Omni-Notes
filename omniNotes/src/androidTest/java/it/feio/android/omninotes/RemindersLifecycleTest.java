@@ -66,7 +66,7 @@ public class RemindersLifecycleTest {
         appCompatButton3.perform(click());
 
         ViewInteraction textView = onView(withId(R.id.datetime));
-        textView.check(matches(withText(startsWith("Reminder set for"))));
+        textView.check(matches(withText(startsWith(OmniNotes.getAppContext().getResources().getString(R.string.alarm_set_on)))));
     }
 
     private static Matcher<View> childAtPosition(

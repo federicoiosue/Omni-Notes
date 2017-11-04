@@ -28,15 +28,13 @@ public class FabLifecycleTest extends BaseEspressoTest {
 
         ViewInteraction viewInteraction = onView(
                 allOf(withId(R.id.fab_expand_menu_button),
-                        withParent(withId(R.id.fab)),
-                        isDisplayed()));
+                        withParent(withId(R.id.fab))));
         viewInteraction.perform(click());
 
 
         ViewInteraction viewInteraction2 = onView(
                 allOf(withId(R.id.fab_expand_menu_button),
-                        withParent(withId(R.id.fab)),
-                        isDisplayed()));
+                        withParent(withId(R.id.fab))));
         viewInteraction2.perform(click());
     }
     
