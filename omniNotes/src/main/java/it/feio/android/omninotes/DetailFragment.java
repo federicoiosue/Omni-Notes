@@ -487,7 +487,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			// audio recording attached the case must be handled in specific way
 			if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {
 				String name = FileHelper.getNameFromUri(mainActivity, uri);
-				new AttachmentTask(this, uri, name, this).execute();
+				new AttachmentTask(this, uri, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 			}
 
 			// Multiple attachment data
@@ -495,7 +495,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			if (uris != null) {
 				for (Uri uriSingle : uris) {
 					String name = FileHelper.getNameFromUri(mainActivity, uriSingle);
-					new AttachmentTask(this, uriSingle, name, this).execute();
+					new AttachmentTask(this, uriSingle, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 				}
 			}
 		}
@@ -1501,7 +1501,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 		for (Uri uri : uris) {
 			String name = FileHelper.getNameFromUri(mainActivity, uri);
-			new AttachmentTask(this, uri, name, this).execute();
+			new AttachmentTask(this, uri, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		}
 	}
 
@@ -1509,7 +1509,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	/**
 	 * Discards changes done to the note and eventually delete new attachments
 	 */
-	@SuppressLint("NewApi")
 	private void discard() {
 		// Checks if some new files have been attached and must be removed
 		if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
