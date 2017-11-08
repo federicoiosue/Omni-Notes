@@ -55,7 +55,7 @@ android {
 
     buildTypes {
         debug {
-            testCoverageEnabled true
+            testCoverageEnabled false
         }
         release {
             minifyEnabled true
@@ -63,12 +63,9 @@ android {
             multiDexEnabled false
             testCoverageEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def file = output.outputFile
-                    output.outputFile = new File(
-                            (String) file.parent,
-                            (String) file.name.replace("omniNotes", "Omni Notes-${variant.versionName}"))
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "OmniNotes-${variant.name}-${variant.versionName}.apk"
                 }
             }
 
@@ -80,9 +77,13 @@ android {
         }
     }
 
+    flavorDimensions "standard"
     productFlavors {
-        play {}
+        play {
+            dimension "standard"
+        }
         foss {
+            dimension "standard"
             applicationId project.PACKAGE + ".foss"
         }
     }

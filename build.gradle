@@ -18,12 +18,13 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
         classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.2.1"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6"
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
     }
     // Exclude the version that the android plugin depends on.
@@ -36,6 +37,7 @@ allprojects {
         jcenter()
         maven {url "https://jitpack.io"}
         maven {url "http://dl.bintray.com/tbruyelle/tbruyelle" }
+        google()
     }
 }
 
