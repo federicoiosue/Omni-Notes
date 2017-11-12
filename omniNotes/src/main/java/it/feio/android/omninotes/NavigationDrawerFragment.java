@@ -113,11 +113,11 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     public void onEvent(NotesLoadedEvent event) {
-//        if (mDrawerLayout != null) {  // Uncomment this code when double panel feature will be developed!
-//			if (!isDoublePanelActive()) {
-//				mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-//			}
-//		}
+        if (mDrawerLayout != null) {
+			if (!isDoublePanelActive()) {
+				mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+			}
+		}
         if (getMainActivity().getSupportFragmentManager().getBackStackEntryCount() == 0) {
             init();
         }
@@ -144,9 +144,9 @@ public class NavigationDrawerFragment extends Fragment {
             mActivity.getSupportActionBar().setTitle(((Category) navigationUpdatedEvent.navigationItem).getName());
         }
         if (mDrawerLayout != null) {
-//			if (!isDoublePanelActive()) { // Uncomment this code when double panel feature will be developed!
-//				mDrawerLayout.closeDrawer(GravityCompat.START);
-//			}
+			if (!isDoublePanelActive()) {
+				mDrawerLayout.closeDrawer(GravityCompat.START);
+			}
             new Handler().postDelayed(() -> EventBus.getDefault().post(new NavigationUpdatedNavDrawerClosedEvent
                     (navigationUpdatedEvent.navigationItem)), 400);
         }
@@ -186,9 +186,9 @@ public class NavigationDrawerFragment extends Fragment {
             }
         };
 
-//        if (isDoublePanelActive()) {// Uncomment this code when double panel feature will be developed!
-//            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
-//        }
+        if (isDoublePanelActive()) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+        }
 
         // Styling options
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);

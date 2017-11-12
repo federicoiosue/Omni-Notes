@@ -1031,6 +1031,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             goBackOnToggleSearchLabel = true;
         }
 
+        if (Constants.ACTION_SHORTCUT_WIDGET.equals(intent.getAction())) {
+        	return;
+		}
+
         // Searching
         searchQuery = searchQueryInstant;
         searchQueryInstant = null;
