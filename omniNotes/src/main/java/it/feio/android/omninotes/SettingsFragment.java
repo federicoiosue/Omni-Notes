@@ -204,8 +204,8 @@ public class SettingsFragment extends PreferenceFragment {
 				swipeToTrash.setChecked(true);
 				swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
 			} else {
-				swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
 				swipeToTrash.setChecked(false);
+				swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
 			}
 			swipeToTrash.setOnPreferenceChangeListener((preference, newValue) -> {
 				if ((Boolean) newValue) {
@@ -213,8 +213,7 @@ public class SettingsFragment extends PreferenceFragment {
 				} else {
 					swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
 				}
-				swipeToTrash.setChecked((Boolean) newValue);
-				return false;
+				return true;
 			});
 		}
 
@@ -224,8 +223,7 @@ public class SettingsFragment extends PreferenceFragment {
 				.PREF_SHOW_UNCATEGORIZED);
 		if (showUncategorized != null) {
 			showUncategorized.setOnPreferenceChangeListener((preference, newValue) -> {
-				showUncategorized.setChecked((Boolean) newValue);
-				return false;
+				return true;
 			});
 		}
 
@@ -234,8 +232,7 @@ public class SettingsFragment extends PreferenceFragment {
 		final SwitchPreference autoLocation = (SwitchPreference) findPreference(Constants.PREF_AUTO_LOCATION);
 		if (autoLocation != null) {
 			autoLocation.setOnPreferenceChangeListener((preference, newValue) -> {
-				autoLocation.setChecked((Boolean) newValue);
-				return false;
+				return true;
 			});
 		}
 
@@ -281,7 +278,7 @@ public class SettingsFragment extends PreferenceFragment {
 						passwordAccess.setChecked((Boolean) newValue);
 					}
 				});
-				return false;
+				return true;
 			});
 		}
 
