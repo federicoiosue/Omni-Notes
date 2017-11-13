@@ -1151,6 +1151,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                         Log.d(Constants.TAG, "Please stop swiping in the zone beneath the last card");
                         continue;
                     }
+
+					if (note != null && note.isLocked()) {
+						PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
+							if (!passwordConfirmed) {
+								onUndo(null);
+							}
+						});
+					}
+
                     getSelectedNotes().add(note);
 
                     // Depending on settings and note status this action will...
