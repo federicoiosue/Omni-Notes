@@ -157,6 +157,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="widget_list_description">Widget con pulsanti e lista</string>
   <string name="notes">note</string>
   <string name="show_thumbnails">Mostra le miniature degli allegati</string>
+  <string name="show_timestamps">Mostra data e ora</string>
   <string name="choose_action">Scegli l\'azione da eseguire</string>
   <string name="edit">Modifica</string>
   <string name="reminders">promemoria</string>
