@@ -17,7 +17,7 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.4.0" changeDate="Nov 2, 2017">
+    <changelogversion versionName="5.4.0" changeDate="Nov 13, 2017">
         <changelogtext>[b]New![/b] Added file size to attachments'action dialog</changelogtext>
         <changelogtext>[b]New![/b] When editing a note's reminder, if that's in the past, a future date will be proposed</changelogtext>
         <changelogtext>[i]Improved[/i] When selecting notes from the list now 3 contextual actions will be available instead of 2 and their order is changed</changelogtext>
@@ -25,6 +25,7 @@
         <changelogtext>[i]Improved[/i] Removed persistent service from background to reduce memory usage</changelogtext>
         <changelogtext>[i]Improved[/i] Updated translations</changelogtext>
         <changelogtext>[u]Fix[/u] Slovenian language selection</changelogtext>
+        <changelogtext>[u]Fix[/u] Fixed a problem with settings in Kitkat (thanks [a href='https://github.com/Dima-1']Dima-1[/a])</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.3.2" changeDate="Mar 10, 2017">
