@@ -171,6 +171,7 @@
     <string name="widget_list_description">Scrolling list widget with buttons</string>
     <string name="notes">notes</string>
     <string name="show_thumbnails">Show attachment\'s thumbnails</string>
+    <string name="show_timestamps">Show \"Last updated\" timestamps</string>
     <string name="choose_action">Choose action</string>
     <string name="edit">Edit</string>
     <string name="reminders">reminders</string>

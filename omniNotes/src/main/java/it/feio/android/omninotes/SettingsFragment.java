@@ -367,7 +367,6 @@ public class SettingsFragment extends PreferenceFragment {
 			});
 		}
 
-
 		// Notification snooze delay
 		final EditTextPreference snoozeDelay = (EditTextPreference) findPreference
 				("settings_notification_snooze_delay");
