@@ -20,6 +20,7 @@
     <changelogversion versionName="5.4.0" changeDate="Nov 13, 2017">
         <changelogtext>[b]New![/b] Added file size to attachments'action dialog</changelogtext>
         <changelogtext>[b]New![/b] When editing a note's reminder, if that's in the past, a future date will be proposed</changelogtext>
+        <changelogtext>[b]New![/b] Added an option to switch timestamps ON or OFF into home widget (thanks [a href='https://github.com/marceldallagnol']Marcel de Sena Dall'Agnol[/a])</changelogtext>
         <changelogtext>[i]Improved[/i] When selecting notes from the list now 3 contextual actions will be available instead of 2 and their order is changed</changelogtext>
         <changelogtext>[i]Improved[/i] Refactored all test suite and switched from Robotium to Espresso for UI tests</changelogtext>
         <changelogtext>[i]Improved[/i] Removed persistent service from background to reduce memory usage</changelogtext>
