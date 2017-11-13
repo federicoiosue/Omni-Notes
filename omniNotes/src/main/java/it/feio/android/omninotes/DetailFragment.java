@@ -245,6 +245,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_detail, container, false);
+		// Bottom padding set for translucent navigation bar since Kitkat
+		int softButtonHeight=Display.getSoftButtonsBarHeight( getActivity());
+		view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(),
+				view.getPaddingBottom() + softButtonHeight);
 		ButterKnife.bind(this, view);
 		return view;
 	}
@@ -587,17 +591,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (!StringUtils.isEmpty(reminderString)) {
 			reminderIcon.setImageResource(R.drawable.ic_alarm_add_black_18dp);
 			datetime.setText(reminderString);
-		}
-
-		// Timestamps view
-		// Bottom padding set for translucent navbar in Kitkat
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			int navBarHeight = Display.getNavigationBarHeightKitkat(mainActivity);
-			int negativePadding = navBarHeight >= 27 * 3 ? -27 : 0;
-			int timestampsViewPaddingBottom = navBarHeight > 0 ? navBarHeight + negativePadding : timestampsView
-					.getPaddingBottom();
-			timestampsView.setPadding(timestampsView.getPaddingStart(), timestampsView.getPaddingTop(),
-					timestampsView.getPaddingEnd(), timestampsViewPaddingBottom);
 		}
 	}
 
