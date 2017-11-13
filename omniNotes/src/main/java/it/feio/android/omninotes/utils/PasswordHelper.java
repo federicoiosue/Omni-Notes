@@ -51,6 +51,7 @@ public class PasswordHelper {
 				.title(R.string.insert_security_password)
 				.customView(v, false)
 				.positiveText(R.string.ok)
+				.positiveColorRes(R.color.colorPrimary)
 				.onPositive((dialog12, which) -> {
 					// When positive button is pressed password correctness is checked
 					String oldPassword = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context
