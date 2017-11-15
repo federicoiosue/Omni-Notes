@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Questa categoria è usata da alcune note.\nConfermi la decategorizzazione della note a la cancellazione della categoria?</string>
   <string name="discard">Indietro</string>
   <string name="remove_category">Rimuovere la categoria</string>
-  <string name="no_tags_created">Nessun tag è stato ancora creato</string>
+  <string name="no_tags_created">Nessun tag disponibile\nCreane inserendo degli hashtag nelle tue note</string>
   <string name="no_categories_created">Nessuna categoria è stata creata ancora</string>
   <string name="notes_category_removed">Categoria rimossa dalle note</string>
   <string name="notes_categorized_as">Note categorizzate come</string>

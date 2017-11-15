@@ -924,7 +924,7 @@
         <changelogtext>[b]New![/b] Heavy images caching will speedup all the application, you will notice really faster image loading!</changelogtext>
         <changelogtext>[b]New![/b] Application [b]tour[/b] to show basic Omni Notes' features</changelogtext>
         <changelogtext>[b]New![/b] You can create shortcut to saved notes on launcher home</changelogtext>
-        <changelogtext>[b]New![/b] Experimental images editing: long-press on image attachments will prompt to cancel but now a new option "sketch" is available to draw it. For now no transformation or scaling is done so it's usefull only with previously created sketches</changelogtext>
+        <changelogtext>[b]New![/b] Experimental images editing: long-press on image attachments will prompt to cancel but now a new option "sketch" is available to draw it. For now no transformation or scaling is done so it's useful only with previously created sketches</changelogtext>
         <changelogtext>[b]New![/b] Dates are now correctly formatted according to user language</changelogtext>
         <changelogtext>When entering end exiting a note detail the list position will stay as you left and will not be reset to the first item all the times</changelogtext>
         <changelogtext>On password requests the focus will be acquired from the password field and the keyboard will appear automatically</changelogtext>
