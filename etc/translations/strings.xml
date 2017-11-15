@@ -109,7 +109,7 @@
     <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
     <string name="discard">Discard</string>
     <string name="remove_category">Remove category</string>
-    <string name="no_tags_created">No tags have been created yet</string>
+    <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
     <string name="no_categories_created">No categories have been created yet</string>
     <string name="notes_category_removed">Category removed from notes</string>
     <string name="notes_categorized_as">Notes categorized as</string>
