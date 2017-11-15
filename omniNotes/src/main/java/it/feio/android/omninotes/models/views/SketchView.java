@@ -44,7 +44,7 @@ public class SketchView extends View implements OnTouchListener {
     private float strokeSize = DEFAULT_STROKE_SIZE;
     private int strokeColor = Color.BLACK;
     private float eraserSize = DEFAULT_ERASER_SIZE;
-    private int background = Color.WHITE;
+    private int backgroundColor = Color.WHITE;
 
     private Path m_Path;
     private Paint m_Paint;
@@ -69,7 +69,7 @@ public class SketchView extends View implements OnTouchListener {
 
         setFocusable(true);
         setFocusableInTouchMode(true);
-        setBackgroundColor(Color.WHITE);
+        setBackgroundColor(backgroundColor);
 
         this.setOnTouchListener(this);
 
@@ -100,7 +100,7 @@ public class SketchView extends View implements OnTouchListener {
     /**
      * Change canvass background and force redraw
      *
-     * @param bitmap
+     * @param bitmap saved sketch
      */
     public void setBackgroundBitmap(Activity mActivity, Bitmap bitmap) {
         if (!bitmap.isMutable()) {
@@ -153,7 +153,6 @@ public class SketchView extends View implements OnTouchListener {
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
-                touch_up();
                 invalidate();
                 break;
 			default:
@@ -182,7 +181,7 @@ public class SketchView extends View implements OnTouchListener {
         undonePaths.clear();
 
         if (mode == ERASER) {
-            m_Paint.setColor(Color.WHITE);
+            m_Paint.setColor(backgroundColor);
             m_Paint.setStrokeWidth(eraserSize);
         } else {
             m_Paint.setColor(strokeColor);
@@ -191,11 +190,12 @@ public class SketchView extends View implements OnTouchListener {
 
         // Avoids that a sketch with just erasures is saved
         if (!(paths.size() == 0 && mode == ERASER && bitmap == null)) {
+            m_Path=new Path();
             paths.add(new Pair<>(m_Path, new Paint(m_Paint)));
         }
 
-        m_Path.reset();
         m_Path.moveTo(x, y);
+        m_Path.lineTo(++x, y); // for draw a one touch path
         mX = x;
         mY = y;
     }
@@ -208,21 +208,10 @@ public class SketchView extends View implements OnTouchListener {
     }
 
 
-    private void touch_up() {
-        m_Path.lineTo(mX, mY);
-        // Avoids that a sketch with just erasures is saved
-        if (!(paths.size() == 0 && mode == ERASER && bitmap == null)) {
-            paths.add(new Pair<>(m_Path, new Paint(m_Paint)));
-        }
-        // kill this so we don't double draw
-        m_Path = new Path();
-    }
-
-
     /**
-     * Returns a new bitmap associated with drawed canvas
+     * Returns a new bitmap associated with a drawn canvas
      *
-     * @return
+     * @return background bitmap with a paths drawn on it
      */
     public Bitmap getBitmap() {
         if (paths.size() == 0)
@@ -230,7 +219,7 @@ public class SketchView extends View implements OnTouchListener {
 
         if (bitmap == null) {
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            bitmap.eraseColor(background);
+            bitmap.eraseColor(backgroundColor);
         }
         Canvas canvas = new Canvas(bitmap);
         for (Pair<Path, Paint> p : paths) {
@@ -241,9 +230,7 @@ public class SketchView extends View implements OnTouchListener {
 
 
     public void undo() {
-        if (paths.size() >= 2) {
-            undonePaths.add(paths.remove(paths.size() - 1));
-            // If there is not only one path remained both touch and move paths are removed
+         if (!paths.isEmpty()) {
             undonePaths.add(paths.remove(paths.size() - 1));
             invalidate();
         }
@@ -251,8 +238,7 @@ public class SketchView extends View implements OnTouchListener {
 
 
     public void redo() {
-        if (undonePaths.size() > 0) {
-            paths.add(undonePaths.remove(undonePaths.size() - 1));
+        if (!undonePaths.isEmpty()) {
             paths.add(undonePaths.remove(undonePaths.size() - 1));
             invalidate();
         }
