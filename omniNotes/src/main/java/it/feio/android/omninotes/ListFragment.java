@@ -898,6 +898,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 	void editNote2(Note note) {
         if (note.get_id() == null) {
+            mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
             Log.d(Constants.TAG, "Adding new note");
             // if navigation is a category it will be set into note
             try {
