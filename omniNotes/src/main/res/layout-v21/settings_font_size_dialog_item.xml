@@ -3,12 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeightSmall"
     android:height="48dp"
+    android:drawablePadding="20dip"
+    android:drawableStart="?android:attr/listChoiceIndicatorSingle"
     android:gravity="center_vertical"
-    android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
-    android:drawableRight="?android:attr/listChoiceIndicatorSingle"
     android:paddingEnd="?android:attr/listPreferredItemPaddingRight"
-    android:paddingLeft="20dip"
-    android:paddingRight="?android:attr/listPreferredItemPaddingRight"
     android:paddingStart="20dip"
     android:textAppearance="?android:attr/textAppearanceListItemSmall" />
-
