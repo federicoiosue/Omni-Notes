@@ -1678,8 +1678,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
             ubc.hideUndoBar(false);
             fab.showFab();
-
-            BaseActivity.notifyAppWidgets(mainActivity);
             Log.d(Constants.TAG, "Changes committed");
         }
     }
