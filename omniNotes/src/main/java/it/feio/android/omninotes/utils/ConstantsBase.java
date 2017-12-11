@@ -24,7 +24,7 @@ public interface ConstantsBase {
 	String DEV_EMAIL = "omninotes@iosue.it";
 
 	// Used for updates retrieval
-	long UPDATE_MIN_FREQUENCY = 24 * 60 * 60 * 1000; // 1 day
+	long UPDATE_MIN_FREQUENCY = 24L * 60L * 60L * 1000L; // 1 day
 	String DRIVE_FOLDER_LAST_BUILD = "https://goo.gl/gB55RE";
 
 	// Notes swipe
@@ -71,6 +71,7 @@ public interface ConstantsBase {
 	 */
 	String ACTION_SEND_AND_EXIT = "action_send_and_exit";
 
+	String PREF_LANG = "settings_language";
 	String PREF_LAST_UPDATE_CHECK = "last_update_check";
 	String PREF_NAVIGATION = "navigation";
 	String PREF_SORTING_COLUMN = "sorting_column";

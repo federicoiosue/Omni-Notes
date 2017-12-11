@@ -54,9 +54,9 @@
     <item>Največji</item>
   </string-array>
   <string-array name="attachments_actions">
-    <item>Share</item>
-    <item>Delete</item>
-    <item>Delete All</item>
-    <item>Edit</item>
+    <item>Deli</item>
+    <item>Izbriši</item>
+    <item>Izbriši vse</item>
+    <item>Uredi</item>
   </string-array>
 </resources>

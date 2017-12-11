@@ -17,27 +17,47 @@
 
 package it.feio.android.omninotes;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.test.InstrumentationRegistry;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
+
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.utils.Constants;
 
 
 public class BaseAndroidTestCase extends AndroidTestCase {
 
-	private RenamingDelegatingContext context;
+    private final static String DB_PATH_REGEX = ".*it\\.feio\\.android\\.omninotes.*\\/databases\\/test_omni-notes.*";
+    private final static String DB_PREFIX = "test_";
+
+    protected DbHelper dbHelper;
+    protected Context testContext;
+    protected SharedPreferences prefs;
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        testContext = new RenamingDelegatingContext(InstrumentationRegistry.getTargetContext(), DB_PREFIX);
+        dbHelper = DbHelper.getInstance(testContext);
+        prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+        assertTrue("Database used for tests MUST not be the default one but prefixed by '" + DB_PREFIX + "'", dbHelper.getDatabase().getPath().matches(DB_PATH_REGEX));
+        assertFalse("Database MUST be writable", dbHelper.getDatabase().isReadOnly());
+//        cleanDatabase();
+    }
 
 
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		context = new RenamingDelegatingContext(getContext(), "test_");
-	}
+    @Override
+    protected void tearDown() throws Exception {
+        testContext.deleteDatabase(DbHelper.getInstance().getDatabaseName());
+        super.tearDown();
+    }
 
-
-	@Override
-	protected void tearDown() throws Exception {
-		context.deleteDatabase(DbHelper.getInstance().getDatabaseName());
-		super.tearDown();
-	}
+    protected void cleanDatabase() {
+        dbHelper.getDatabase(true).delete(DbHelper.TABLE_NOTES, null, null);
+        dbHelper.getDatabase(true).delete(DbHelper.TABLE_CATEGORY, null, null);
+        dbHelper.getDatabase(true).delete(DbHelper.TABLE_ATTACHMENTS, null, null);
+    }
 
 }

@@ -17,16 +17,10 @@
 package it.feio.android.omninotes.utils.date;
 
 import android.content.Context;
-import android.text.TextUtils;
-import android.text.format.Time;
 import android.util.Log;
-import be.billington.calendar.recurrencepicker.EventRecurrence;
-import be.billington.calendar.recurrencepicker.EventRecurrenceFormatter;
 import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.utils.Constants;
-import net.fortuna.ical4j.model.property.RRule;
+import org.apache.commons.lang.StringUtils;
 import org.ocpsoft.prettytime.PrettyTime;
 
 import java.text.ParseException;
@@ -38,10 +32,12 @@ import java.util.Locale;
 
 /**
  * Helper per la generazione di date nel formato specificato nelle costanti
- *
- * @author 17000026
  */
 public class DateUtils {
+
+	private DateUtils() {
+		throw new IllegalStateException("Utility class");
+	}
 
     public static String getString(long date, String format) {
         Date d = new Date(date);
@@ -153,15 +149,38 @@ public class DateUtils {
         return Calendar.getInstance().getTimeInMillis() + 1000 * 60;
     }
 
+	/**
+	 * Returns actually set reminder if that is on the future, next-minute-reminder otherwise
+	 * @param currentReminder
+	 * @return
+	 */
+	public static long getPresetReminder(long currentReminder) {
+		long now = Calendar.getInstance().getTimeInMillis();
+		return now > currentReminder ? getNextMinute() : currentReminder;
+	}
 
+    public static Long getPresetReminder(String alarm) {
+        long alarmChecked = alarm == null ? 0 : Long.parseLong(alarm);
+        return getPresetReminder(alarmChecked);
+    }
+
+    /**
+     * Checks if a epoch-date timestamp is in the future
+     */
     public static boolean isFuture(String timestamp) {
+        return !StringUtils.isEmpty(timestamp) && isFuture(Long.parseLong(timestamp));
+    }
+
+    /**
+     * Checks if a epoch-date timestamp is in the future
+     */
+    public static boolean isFuture(long timestamp) {
         try {
-            return Long.parseLong(timestamp) >  Calendar.getInstance().getTimeInMillis();
+            return timestamp >  Calendar.getInstance().getTimeInMillis();
         } catch (Exception e) {
             return false;
         }
     }
-
 
 	public static String prettyTime(String timeInMillisec) {
 		if (timeInMillisec == null) {

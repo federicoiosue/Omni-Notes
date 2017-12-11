@@ -26,12 +26,17 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.gson.Gson;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.BuildConfig;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.AppVersionHelper;
+import it.feio.android.omninotes.models.misc.PlayStoreMetadataFetcherResult;
 import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.SystemHelper;
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -45,7 +50,7 @@ import java.net.URLConnection;
 
 public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
-	private final String BETA = " Beta ";
+	private static final String BETA = " Beta ";
 	private final WeakReference<Activity> mActivityReference;
 	private final Activity mActivity;
 	private final SharedPreferences prefs;
@@ -117,39 +122,33 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			if (promptUpdate) {
 				promptUpdate();
 			} else {
-				showChangelog();
+				try {
+					boolean appVersionUpdated = AppVersionHelper.isAppUpdated(mActivity);
+					if (appVersionUpdated) {
+						showChangelog();
+						restoreReminders();
+						AppVersionHelper.updateAppVersionInPreferences(mActivity);
+					}
+				} catch (NameNotFoundException e) {
+					Log.e(Constants.TAG, "Error retrieving app version", e);
+				}
 			}
 		}
 	}
 
+	private void restoreReminders() {
+		Intent service = new Intent(mActivity, AlarmRestoreOnRebootService.class);
+		mActivity.startService(service);
+	}
 
 	private void showChangelog() {
-		try {
-			String newVersion = mActivity.getPackageManager().getPackageInfo(mActivity.getPackageName(), 0)
-					.versionName;
-			String currentVersion = mActivity.getSharedPreferences(Constants.PREFS_NAME,
-					Context.MODE_MULTI_PROCESS).getString(Constants.PREF_CURRENT_APP_VERSION, "");
-			if (!newVersion.equals(currentVersion)) {
-				new MaterialDialog.Builder(mActivity)
-						.customView(R.layout.activity_changelog, false)
-						.positiveText(R.string.ok)
-						.build().show();
-				mActivity.getSharedPreferences(Constants.PREFS_NAME,
-						Context.MODE_MULTI_PROCESS).edit().putString(Constants.PREF_CURRENT_APP_VERSION,
-						newVersion).commit();
-			}
-		} catch (NameNotFoundException e) {
-			Log.e(Constants.TAG, "Error retrieving app version", e);
-		}
+		new MaterialDialog.Builder(mActivity)
+				.customView(R.layout.activity_changelog, false)
+				.positiveText(R.string.ok)
+				.build().show();
 	}
 
 
-	/**
-	 * Cheks if activity is still alive and not finishing
-	 *
-	 * @param weakActivityReference
-	 * @return True or false
-	 */
 	private boolean isAlive(WeakReference<Activity> weakActivityReference) {
 		return !(weakActivityReference.get() == null || weakActivityReference.get().isFinishing());
 	}
@@ -158,33 +157,35 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	/**
 	 * Fetches application data from internet
 	 */
-	public String getAppData() throws IOException {
-		StringBuilder sb = new StringBuilder();
-		URLConnection conn = new URL(BuildConfig.VERSION_CHECK_URL).openConnection();
-		InputStream is = conn.getInputStream();
-		InputStreamReader inputStreamReader = new InputStreamReader(is);
-		BufferedReader br = new BufferedReader(inputStreamReader);
+	private PlayStoreMetadataFetcherResult getAppData() throws IOException, JSONException {
+		InputStream is = null;
+		InputStreamReader inputStreamReader = null;
+		try {
+			StringBuilder sb = new StringBuilder();
+			URLConnection conn = new URL(BuildConfig.VERSION_CHECK_URL).openConnection();
+			is = conn.getInputStream();
+			inputStreamReader = new InputStreamReader(is);
+			BufferedReader br = new BufferedReader(inputStreamReader);
 
-		String inputLine;
-		while ((inputLine = br.readLine()) != null) {
-			sb.append(inputLine);
+			String inputLine;
+			while ((inputLine = br.readLine()) != null) {
+				sb.append(inputLine);
+			}
+
+			return new Gson().fromJson(sb.toString(), PlayStoreMetadataFetcherResult.class);
+		} finally {
+			SystemHelper.closeCloseable(inputStreamReader, is);
 		}
-		inputStreamReader.close();
-		is.close();
-
-		return sb.toString();
 	}
 
 
 	/**
 	 * Checks parsing "android:versionName" if app has been updated
-	 *
-	 * @throws NameNotFoundException
 	 */
-	private boolean isVersionUpdated(String playStoreVersion)
+	private boolean isVersionUpdated(PlayStoreMetadataFetcherResult playStoreMetadataFetcherResult)
 			throws NameNotFoundException {
 
-		boolean result = false;
+		String playStoreVersion = playStoreMetadataFetcherResult.getSoftwareVersion();
 
 		// Retrieval of installed app version
 		PackageInfo pInfo = mActivity.getPackageManager().getPackageInfo(
@@ -203,27 +204,22 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 			installedVersionString += String.format("%02d", Integer.parseInt(installedVersionArray[i]));
 		}
 
-		// And then compared
-		if (Integer.parseInt(playStoreVersionString) > Integer.parseInt(installedVersionString)) {
-			result = true;
-		}
+		boolean playStoreHasMoreRecentVersion = Integer.parseInt(playStoreVersionString) > Integer.parseInt(installedVersionString);
+		boolean outOfBeta = Integer.parseInt(playStoreVersionString) == Integer.parseInt(installedVersionString)
+				&& playStoreVersion.split("b").length == 1 && installedVersion.split("b").length == 2;
 
-		// And then compared again to check if we're out of Beta
-		else if (Integer.parseInt(playStoreVersionString) == Integer.parseInt(installedVersionString)
-				&& playStoreVersion.split("b").length == 1 && installedVersion.split("b").length == 2) {
-			result = true;
-		}
-
-		return result;
+		return playStoreHasMoreRecentVersion || outOfBeta;
 	}
 
 
 	private boolean isGooglePlayAvailable() {
+		boolean available = true;
 		try {
 			mActivity.getPackageManager().getPackageInfo("com.android.vending", 0);
-			return true;
 		} catch (NameNotFoundException e) {
-			return false;
+			Log.d(getClass().getName(), "Google Play app not available on device");
+			available = false;
 		}
+		return available;
 	}
 }

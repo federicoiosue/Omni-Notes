@@ -3,7 +3,7 @@
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundatibehaon, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -60,7 +60,7 @@ public class ONDashClockExtension extends DashClockExtension {
     @Override
     protected void onUpdateData(int reason) {
 
-        Map<String, List<Note>> notesCounters = getNotesCounters();
+        Map<Counters, List<Note>> notesCounters = getNotesCounters();
         int reminders = notesCounters.get(Counters.REMINDERS).size();
 
         StringBuilder expandedTitle = new StringBuilder();
@@ -106,7 +106,7 @@ public class ONDashClockExtension extends DashClockExtension {
 	}
 
 
-	private Map<String, List<Note>> getNotesCounters() {
+	private Map<Counters, List<Note>> getNotesCounters() {
         Map noteCounters = new HashMap<>();
         List<Note> activeNotes = new ArrayList<>();
         List<Note> reminders = new ArrayList<>();

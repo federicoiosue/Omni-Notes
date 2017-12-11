@@ -1,18 +1,16 @@
 package it.feio.android.omninotes.utils;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import it.feio.android.omninotes.MainActivity;
+import android.util.Log;
 
-import java.util.Calendar;
+import java.io.Closeable;
+import java.io.IOException;
 
 
 /**
- * Created by fede on 29/05/15.
+ * Various utility methods
  */
-public class MiscUtils {
+public class SystemHelper {
 
 	/**
 	 * Performs a full app restart
@@ -27,5 +25,23 @@ public class MiscUtils {
 //		AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
 //		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
 		System.exit(0);
+	}
+
+
+	/**
+	 * Performs closure of multiple closeables objects
+	 *
+	 * @param closeables Objects to close
+	 */
+	public static void closeCloseable(Closeable... closeables) {
+		for (Closeable closeable : closeables) {
+			if (closeable != null) {
+				try {
+					closeable.close();
+				} catch (IOException e) {
+					Log.w(Constants.TAG, "Can't close " + closeable, e);
+				}
+			}
+		}
 	}
 }

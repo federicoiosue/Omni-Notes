@@ -100,11 +100,9 @@ public class GeocodeHelper implements LocationListener {
 				unsubscribe();
 			}
 
-
 			@Override
 			public void onCompleted() {
 			}
-
 
 			@Override
 			public void onError(Throwable e) {
@@ -191,7 +189,6 @@ public class GeocodeHelper implements LocationListener {
 					URLEncoder.encode(input, "utf8"));
 			conn = (HttpURLConnection) url.openConnection();
 			in = new InputStreamReader(conn.getInputStream());
-
 			// Load the results into a StringBuilder
 			int read;
 			char[] buff = new char[1024];
@@ -221,7 +218,6 @@ public class GeocodeHelper implements LocationListener {
 			// Create a JSON object hierarchy from the results
 			JSONObject jsonObj = new JSONObject(jsonResults.toString());
 			JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
-
 			// Extract the Place descriptions from the results
 			resultList = new ArrayList<>(predsJsonArray.length());
 			for (int i = 0; i < predsJsonArray.length(); i++) {
@@ -229,8 +225,12 @@ public class GeocodeHelper implements LocationListener {
 			}
 		} catch (JSONException e) {
 			Log.e(Constants.TAG, "Cannot process JSON results", e);
+		} finally {
+			if (conn != null) {
+				conn.disconnect();
+			}
+			SystemHelper.closeCloseable(in);
 		}
-
 		return resultList;
 	}
 

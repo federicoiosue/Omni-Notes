@@ -174,7 +174,7 @@ public class BaseActivity extends ActionBarActivity {
             transaction.setCustomAnimations(R.anim.fade_in_support, R.anim.fade_out_support,
                     R.anim.fade_in_support, R.anim.fade_out_support);
         }
-        if (direction == TRANSITION_VERTICAL && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (direction == TRANSITION_VERTICAL) {
             transaction.setCustomAnimations(
                     R.anim.anim_in, R.anim.anim_out, R.anim.anim_in_pop, R.anim.anim_out_pop);
         }

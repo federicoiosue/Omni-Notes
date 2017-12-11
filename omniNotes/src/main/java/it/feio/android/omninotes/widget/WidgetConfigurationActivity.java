@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -33,6 +34,7 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
+import it.feio.android.omninotes.utils.Constants;
 
 
 public class WidgetConfigurationActivity extends Activity {
@@ -58,10 +60,13 @@ public class WidgetConfigurationActivity extends Activity {
                     categorySpinner.setEnabled(false);
                     break;
 
-                case R.id.widget_config_categories:
-                    categorySpinner.setEnabled(true);
-                    break;
-            }
+                    case R.id.widget_config_categories:
+                        categorySpinner.setEnabled(true);
+                        break;
+
+					default:
+						Log.e(Constants.TAG, "Wrong element choosen: " + checkedId);
+                }
         });
 
         categorySpinner = (Spinner) findViewById(R.id.widget_config_spinner);
@@ -86,11 +91,12 @@ public class WidgetConfigurationActivity extends Activity {
             }
 
             CheckBox showThumbnailsCheckBox = (CheckBox) findViewById(R.id.show_thumbnails);
+            CheckBox showTimestampsCheckBox = (CheckBox) findViewById(R.id.show_timestamps);
 
             // Updating the ListRemoteViewsFactory parameter to get the list
             // of notes
             ListRemoteViewsFactory.updateConfiguration(getApplicationContext(), mAppWidgetId,
-                    sqlCondition, showThumbnailsCheckBox.isChecked());
+                    sqlCondition, showThumbnailsCheckBox.isChecked(), showTimestampsCheckBox.isChecked());
 
             Intent resultValue = new Intent();
             resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,

@@ -34,6 +34,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.net.URL;
+import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -99,58 +100,75 @@ public class StorageHelper {
 
     /**
      * Create a path where we will place our private file on external
-     *
-     * @param mContext
-     * @param uri
-     * @return
      */
     public static File createExternalStoragePrivateFile(Context mContext, Uri uri, String extension) {
 
-        // Checks for external storage availability
         if (!checkStorage()) {
             Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
             return null;
         }
         File file = createNewAttachmentFile(mContext, extension);
 
-        InputStream is;
-        OutputStream os;
+        InputStream contentResolverInputStream = null;
+        OutputStream contentResolverOutputStream = null;
         try {
-            is = mContext.getContentResolver().openInputStream(uri);
-            os = new FileOutputStream(file);
-            copyFile(is, os);
+            contentResolverInputStream = mContext.getContentResolver().openInputStream(uri);
+            contentResolverOutputStream = new FileOutputStream(file);
+            copyFile(contentResolverInputStream, contentResolverOutputStream);
         } catch (IOException e) {
             try {
-                is = new FileInputStream(FileHelper.getPath(mContext, uri));
-                os = new FileOutputStream(file);
-                copyFile(is, os);
+            	FileUtils.copyFile(new File(FileHelper.getPath(mContext, uri)), file);
                 // It's a path!!
             } catch (NullPointerException e1) {
                 try {
-                    is = new FileInputStream(uri.getPath());
-                    os = new FileOutputStream(file);
-                    copyFile(is, os);
-                } catch (FileNotFoundException e2) {
+					FileUtils.copyFile(new File(uri.getPath()), file);
+                } catch (IOException e2) {
                     Log.e(Constants.TAG, "Error writing " + file, e2);
                     file = null;
                 }
-            } catch (FileNotFoundException e2) {
+            } catch (IOException e2) {
                 Log.e(Constants.TAG, "Error writing " + file, e2);
                 file = null;
-            }
-        }
-        return file;
+			}
+        } finally {
+			try {
+				if (contentResolverInputStream != null) {
+					contentResolverInputStream.close();
+				}
+				if (contentResolverOutputStream != null) {
+					contentResolverOutputStream.close();
+				}
+			} catch (IOException e) {
+				Log.e(Constants.TAG, "Error closing streams", e);
+			}
+
+		}
+		return file;
     }
 
-
     public static boolean copyFile(File source, File destination) {
+		FileInputStream is = null;
+		FileOutputStream os = null;
         try {
-            return copyFile(new FileInputStream(source), new FileOutputStream(destination));
+			is = new FileInputStream(source);
+			os = new FileOutputStream(destination);
+            return copyFile(is, os);
         } catch (FileNotFoundException e) {
             Log.e(Constants.TAG, "Error copying file", e);
             return false;
-        }
-    }
+        } finally {
+			try {
+				if (is != null) {
+					is.close();
+				}
+				if (os != null) {
+					os.close();
+				}
+			} catch (IOException e) {
+				Log.e(Constants.TAG, "Error closing streams", e);
+			}
+		}
+	}
 
 
     /**
@@ -226,7 +244,9 @@ public class StorageHelper {
 		}
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
-        return cursor.getString(column_index);
+		String path = cursor.getString(column_index);
+		cursor.close();
+        return path;
     }
 
 
@@ -255,31 +275,16 @@ public class StorageHelper {
 
     /**
      * Create a path where we will place our private file on external
-     *
-     * @param mContext
-     * @param uri
-     * @return
      */
     public static File copyToBackupDir(File backupDir, File file) {
-
-        // Checks for external storage availability
         if (!checkStorage()) {
             return null;
         }
-
         if (!backupDir.exists()) {
             backupDir.mkdirs();
         }
-
         File destination = new File(backupDir, file.getName());
-
-        try {
-            copyFile(new FileInputStream(file), new FileOutputStream(destination));
-        } catch (FileNotFoundException e) {
-            Log.e(Constants.TAG, "Error copying file to backup", e);
-            destination = null;
-        }
-
+        copyFile(file, destination);
         return destination;
     }
 
@@ -343,6 +348,9 @@ public class StorageHelper {
 
 
     private static long getSize(File directory, long blockSize) {
+    	if (blockSize == 0) {
+    		throw new InvalidParameterException("Blocksize can't be 0");
+		}
         File[] files = directory.listFiles();
         if (files != null) {
 
@@ -384,12 +392,7 @@ public class StorageHelper {
 
             // Otherwise a file copy will be performed
         } else {
-            try {
-                res = res && copyFile(new FileInputStream(sourceLocation), new FileOutputStream(targetLocation));
-            } catch (FileNotFoundException e) {
-                Log.e(Constants.TAG, "Error copying directory");
-                res = false;
-            }
+			res = copyFile(sourceLocation, targetLocation);
         }
         return res;
     }

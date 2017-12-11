@@ -41,7 +41,7 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Random;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
@@ -51,13 +51,16 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.simplegallery.util.BitmapUtils;
 
+import static java.lang.Integer.parseInt;
+
+
 public class CategoryActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback{
 
-    @Bind(R.id.category_title) EditText title;
-    @Bind(R.id.category_description) EditText description;
-    @Bind(R.id.delete) Button deleteBtn;
-    @Bind(R.id.save) Button saveBtn;
-    @Bind(R.id.color_chooser) ImageView colorChooser;
+    @BindView(R.id.category_title) EditText title;
+    @BindView(R.id.category_description) EditText description;
+    @BindView(R.id.delete) Button deleteBtn;
+    @BindView(R.id.save) Button saveBtn;
+    @BindView(R.id.color_chooser) ImageView colorChooser;
 
     Category category;
     private int selectedColor;
@@ -78,7 +81,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         } else {
             Log.d(Constants.TAG, "Editing category " + category.getName());
         }
-        selectedColor = Integer.parseInt(category.getColor());
+        selectedColor = parseInt(category.getColor());
         populateViews();
     }
 
@@ -112,7 +115,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         // Reset picker to saved color
         String color = category.getColor();
         if (color != null && color.length() > 0) {
-            colorChooser.getDrawable().mutate().setColorFilter(Integer.valueOf(color), PorterDuff.Mode.SRC_ATOP);
+            colorChooser.getDrawable().mutate().setColorFilter(parseInt(color), PorterDuff.Mode.SRC_ATOP);
         }
         deleteBtn.setVisibility(TextUtils.isEmpty(category.getName()) ? View.INVISIBLE : View.VISIBLE);
     }

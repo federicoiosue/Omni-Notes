@@ -36,7 +36,11 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import butterknife.Bind;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -47,23 +51,21 @@ import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.MiscUtils;
 import it.feio.android.omninotes.utils.PasswordHelper;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import it.feio.android.omninotes.utils.SystemHelper;
 
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
 
-    @Bind(R.id.crouton_handle) ViewGroup croutonViewContainer;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.crouton_handle) ViewGroup croutonViewContainer;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
 
     public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
     public final String FRAGMENT_LIST_TAG = "fragment_list";
@@ -314,7 +316,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (i.getAction() == null) return;
 
         if (Constants.ACTION_RESTART_APP.equals(i.getAction())) {
-            MiscUtils.restartApp(getApplicationContext(), MainActivity.class);
+            SystemHelper.restartApp(getApplicationContext(), MainActivity.class);
         }
 
         if (receivedIntent(i)) {
@@ -381,8 +383,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     private boolean noteAlreadyOpened(Note note) {
         DetailFragment detailFragment = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
-        return detailFragment != null && detailFragment.getCurrentNote() != null && detailFragment.getCurrentNote()
-				.get_id().equals(note.get_id());
+        return detailFragment != null && NotesHelper.haveSameId(note, detailFragment.getCurrentNote());
     }
 
 

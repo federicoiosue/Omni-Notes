@@ -42,6 +42,8 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.AppVersionHelper;
+import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.*;
@@ -106,6 +108,8 @@ public class SettingsFragment extends PreferenceFragment {
 			case android.R.id.home:
 				getActivity().onBackPressed();
 				break;
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -148,7 +152,8 @@ public class SettingsFragment extends PreferenceFragment {
 		Preference importData = findPreference("settings_import_data");
 		if (importData != null) {
 			importData.setOnPreferenceClickListener(arg0 -> {
-				importNotes();
+				PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+						.string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> importNotes());
 				return false;
 			});
 		}
@@ -199,8 +204,8 @@ public class SettingsFragment extends PreferenceFragment {
 				swipeToTrash.setChecked(true);
 				swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
 			} else {
-				swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
 				swipeToTrash.setChecked(false);
+				swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
 			}
 			swipeToTrash.setOnPreferenceChangeListener((preference, newValue) -> {
 				if ((Boolean) newValue) {
@@ -208,8 +213,7 @@ public class SettingsFragment extends PreferenceFragment {
 				} else {
 					swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
 				}
-				swipeToTrash.setChecked((Boolean) newValue);
-				return false;
+				return true;
 			});
 		}
 
@@ -219,8 +223,7 @@ public class SettingsFragment extends PreferenceFragment {
 				.PREF_SHOW_UNCATEGORIZED);
 		if (showUncategorized != null) {
 			showUncategorized.setOnPreferenceChangeListener((preference, newValue) -> {
-				showUncategorized.setChecked((Boolean) newValue);
-				return false;
+				return true;
 			});
 		}
 
@@ -229,8 +232,7 @@ public class SettingsFragment extends PreferenceFragment {
 		final SwitchPreference autoLocation = (SwitchPreference) findPreference(Constants.PREF_AUTO_LOCATION);
 		if (autoLocation != null) {
 			autoLocation.setOnPreferenceChangeListener((preference, newValue) -> {
-				autoLocation.setChecked((Boolean) newValue);
-				return false;
+				return true;
 			});
 		}
 
@@ -276,7 +278,7 @@ public class SettingsFragment extends PreferenceFragment {
 						passwordAccess.setChecked((Boolean) newValue);
 					}
 				});
-				return false;
+				return true;
 			});
 		}
 
@@ -288,8 +290,8 @@ public class SettingsFragment extends PreferenceFragment {
 			lang.setSummary(languageName.substring(0, 1).toUpperCase(getResources().getConfiguration().locale)
 					+ languageName.substring(1, languageName.length()));
 			lang.setOnPreferenceChangeListener((preference, value) -> {
-				OmniNotes.updateLanguage(getActivity(), value.toString());
-				MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+				LanguageHelper.updateLanguage(getActivity(), value.toString());
+				SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 				return false;
 			});
 		}
@@ -365,7 +367,6 @@ public class SettingsFragment extends PreferenceFragment {
 			});
 		}
 
-
 		// Notification snooze delay
 		final EditTextPreference snoozeDelay = (EditTextPreference) findPreference
 				("settings_notification_snooze_delay");
@@ -405,16 +406,11 @@ public class SettingsFragment extends PreferenceFragment {
 						.build().show();
 				return false;
 			});
-			// Retrieval of installed app version to write it as summary
-			PackageInfo pInfo;
-			String versionString = "";
 			try {
-				pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-				versionString = pInfo.versionName + getString(R.string.version_postfix);
+				changelog.setSummary(AppVersionHelper.getCurrentAppVersionName(getActivity()));
 			} catch (NameNotFoundException e) {
 				Log.e(Constants.TAG, "Error retrieving version", e);
 			}
-			changelog.setSummary(versionString);
 		}
 
 
@@ -436,7 +432,7 @@ public class SettingsFragment extends PreferenceFragment {
 								StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
 								File cacheDir = StorageHelper.getCacheDir(getActivity());
 								StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
-								MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 							}
 						})
 						.build().show();
@@ -460,7 +456,7 @@ public class SettingsFragment extends PreferenceFragment {
 								((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
 
 								prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
-								MiscUtils.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 							}
 						}).build().show();
 				return false;
@@ -680,6 +676,9 @@ public class SettingsFragment extends PreferenceFragment {
 					String notificationSound = uri == null ? null : uri.toString();
 					prefs.edit().putString("settings_notification_ringtone", notificationSound).apply();
 					break;
+
+				default:
+					Log.e(Constants.TAG, "Wrong element choosen: " + requestCode);
 			}
 		}
 	}

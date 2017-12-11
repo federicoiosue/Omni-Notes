@@ -1,40 +1,34 @@
 sudo: true
-
 language: android
-
+dist: trusty
+install: true
+addons:
+  sonarcloud:
+    organization: federicoiosue-github
+    token: $SONAR_TOKEN
+    branches:
+    - develop
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 branches:
   only:
-    - develop
-    - master
-
+  - develop
+  - master
+  - feature/sonarqube-optimizations
 android:
   components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    - platform-tools
-    - tools
-
-    # The BuildTools version used by your project
-    - build-tools-23.0.2
-
-    # The SDK version used to compile your project
-    - android-23
-
-    # Additional components
-    #- extra-google-google_play_services
-    - extra-google-m2repository
-    - extra-android-m2repository
-    #- addon-google_apis-google-19
-
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    #- sys-img-armeabi-v7a-android-19
-
-
-# Build
-script: ./gradlew build
-
-
+  - tools
+  - tools
+  - platform-tools
+  - build-tools-26.0.2
+  - android-23
+  - extra-google-m2repository
+  - extra-android-m2repository
+  licenses:
+  - android-sdk-preview-license-.+
+  - android-sdk-license-.+
+  - google-gdk-license-.+
+script: 
+  - ./gradlew clean build jacocoTestReport sonarqube
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

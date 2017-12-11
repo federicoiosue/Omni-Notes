@@ -33,6 +33,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static java.lang.Long.parseLong;
+
 
 public class FileHelper {
 
@@ -68,11 +70,8 @@ public class FileHelper {
             }
             // DownloadsProvider
             else if (isDownloadsDocument(uri)) {
-
-                final String id = DocumentsContract.getDocumentId(uri);
 				final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),
-						Long.valueOf(id));
-
+						parseLong(DocumentsContract.getDocumentId(uri)));
                 return getDataColumn(context, contentUri, null, null);
             }
             // MediaProvider

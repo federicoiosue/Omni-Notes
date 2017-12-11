@@ -16,7 +16,6 @@
  */
 package it.feio.android.omninotes;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
@@ -28,7 +27,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.os.*;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Parcelable;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -38,17 +42,36 @@ import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.SubMenu;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
+
+import org.apache.commons.lang.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -56,24 +79,34 @@ import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.NavigationUpdatedNavDrawerClosedEvent;
 import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.async.bus.NotesMergeEvent;
-import it.feio.android.omninotes.async.notes.*;
+import it.feio.android.omninotes.async.notes.NoteLoaderTask;
+import it.feio.android.omninotes.async.notes.NoteProcessorArchive;
+import it.feio.android.omninotes.async.notes.NoteProcessorCategorize;
+import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
+import it.feio.android.omninotes.async.notes.NoteProcessorTrash;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.NotesHelper;
-import it.feio.android.omninotes.helpers.PermissionsHelper;
-import it.feio.android.omninotes.models.*;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.models.UndoBarController;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.AnimationsHelper;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.TagsHelper;
+import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
 import it.feio.android.simplegallery.util.BitmapUtils;
-import org.apache.commons.lang.ObjectUtils;
-
-import java.util.*;
 
 import static android.support.v4.view.ViewCompat.animate;
 
@@ -84,17 +117,17 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private static final int REQUEST_CODE_CATEGORY_NOTES = 2;
     private static final int REQUEST_CODE_ADD_ALARMS = 3;
 
-    @Bind(R.id.list_root) InterceptorLinearLayout listRoot;
-    @Bind(R.id.list) DynamicListView list;
-    @Bind(R.id.search_layout) View searchLayout;
-    @Bind(R.id.search_query) android.widget.TextView searchQueryView;
-    @Bind(R.id.search_cancel) ImageView searchCancel;
-    @Bind(R.id.empty_list) TextView empyListItem;
-    @Bind(R.id.expanded_image) ImageView expandedImageView;
-    @Bind(R.id.fab)  View fabView;
-    @Bind(R.id.undobar) View undoBarView;
-    @Bind(R.id.progress_wheel) ProgressWheel progress_wheel;
-	@Bind(R.id.snackbar_placeholder) View snackBarPlaceholder;
+    @BindView(R.id.list_root) InterceptorLinearLayout listRoot;
+    @BindView(R.id.list) DynamicListView list;
+    @BindView(R.id.search_layout) View searchLayout;
+    @BindView(R.id.search_query) android.widget.TextView searchQueryView;
+    @BindView(R.id.search_cancel) ImageView searchCancel;
+    @BindView(R.id.empty_list) TextView empyListItem;
+    @BindView(R.id.expanded_image) ImageView expandedImageView;
+    @BindView(R.id.fab)  View fabView;
+    @BindView(R.id.undobar) View undoBarView;
+    @BindView(R.id.progress_wheel) ProgressWheel progress_wheel;
+	@BindView(R.id.snackbar_placeholder) View snackBarPlaceholder;
 
 	NoteViewHolder noteViewHolder;
 
@@ -199,16 +232,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 		// Restores again DefaultSharedPreferences too reload in case of data erased from Settings
 		prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-
-		requestReadStoragePermission();
-	}
-
-
-	private void requestReadStoragePermission() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			PermissionsHelper.requestPermission(mainActivity, Manifest.permission.READ_EXTERNAL_STORAGE, R
-					.string.permission_external_storage, snackBarPlaceholder, () -> {});
-		}
 	}
 
 
@@ -788,6 +811,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 case R.id.menu_empty_trash:
                     emptyTrash();
                     break;
+				default:
+					Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
             }
         } else {
             switch (item.getItemId()) {
@@ -873,6 +898,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 	void editNote2(Note note) {
         if (note.get_id() == null) {
+            mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
             Log.d(Constants.TAG, "Adding new note");
             // if navigation is a category it will be set into note
             try {
@@ -1006,6 +1032,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             goBackOnToggleSearchLabel = true;
         }
 
+        if (Constants.ACTION_SHORTCUT_WIDGET.equals(intent.getAction())) {
+        	return;
+		}
+
         // Searching
         searchQuery = searchQueryInstant;
         searchQueryInstant = null;
@@ -1122,6 +1152,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                         Log.d(Constants.TAG, "Please stop swiping in the zone beneath the last card");
                         continue;
                     }
+
+					if (note != null && note.isLocked()) {
+						PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
+							if (!passwordConfirmed) {
+								onUndo(null);
+							}
+						});
+					}
+
                     getSelectedNotes().add(note);
 
                     // Depending on settings and note status this action will...
@@ -1160,15 +1199,24 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             restoreListScrollPosition();
         }
 
-        // Fade in the list view
-        animate(progress_wheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
-        animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+		animateListView();
 
-        closeFab();
+		closeFab();
     }
 
 
-    private void restoreListScrollPosition() {
+	private void animateListView() {
+		if (!OmniNotes.isDebugBuild()) {
+			animate(progress_wheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
+			animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+		} else {
+			progress_wheel.setVisibility(View.INVISIBLE);
+			list.setAlpha(1);
+		}
+	}
+
+
+	private void restoreListScrollPosition() {
         if (list.getCount() > listViewPosition) {
             list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
             new Handler().postDelayed(fab::showFab, 150);
