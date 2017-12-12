@@ -1,4 +1,4 @@
-[![SLicense](https://img.shields.io/badge/License-GPLv3-red.svg)
+![SLicense](https://img.shields.io/badge/License-GPLv3-red.svg)
 [![Stories in Ready](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=ready&title=Ready)](https://waffle.io/federicoiosue/Omni-Notes)
 [![Stories in In Progress](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=In%20Progress&title=InProgress)](https://waffle.io/federicoiosue/Omni-Notes)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/omni-notes/localized.png)](https://crowdin.com/project/omni-notes)
@@ -11,12 +11,11 @@ Omni-Notes
 
 Note taking <b>open-source</b> application aimed to have both a <b>simple interface</b> but keeping <b>smart</b> behavior.
 
-The project was created by the absence of such applications compatible with old phones and old versions of Android that would propose, however, an attractive look and aligned with the most recent design of the Google operating system
-
+The project was inspired by the absence of such applications compatible with old phones and old versions of Android. It aims to provide an attractive look and follow the most recent design guidelines of the Google operating system.
 
 **Follow the developments and post your comments and advice on Google+ Beta Community at http://goo.gl/eF6qqF**
 
-*Help to keep translations updated is always welcome, if you want give an hand checkout the translation project at [Crowdin][2]*
+*Help to keep translations updated is always welcome, if you want give a hand checkout the translation project at [Crowdin][2].*
 
 <a href="https://f-droid.org/repository/browse/?fdid=it.feio.android.omninotes.foss" target="_blank">
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>
@@ -25,7 +24,7 @@ The project was created by the absence of such applications compatible with old 
 
 ## Features
 
-Actually the following functions are implemented:
+Currently the following functions are implemented:
 
 * Material Design interface
   *Basic add, modify, archive, trash and delete notes actions
@@ -48,7 +47,7 @@ Further developments will include:
 
 You can find a complete changelog inside the application settings menu!
 
-If you need some help on how to use the application you'll find everything you need into the [Help Online](etc/help/help.md)
+If you need some help on how to use the application you'll find everything you need in the [Help Online](etc/help/help.md) section.
 
 ![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/02.png)
 ![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/03.png)
@@ -68,14 +67,12 @@ Look into the wiki for GIFs-based tutorials: [LINK](https://github.com/federicoi
 
 ## Build
 
-Look to the following terminal session recording to compile distributable files
-<a href="https://asciinema.org/a/102898?speed=2&autoplay=1" target="_blank">
-    <img src="https://asciinema.org/a/102898.png" width="734"/>
-</a>
+Watch the following terminal session recording on how to compile distributable files
+[![asciicast](https://asciinema.org/a/102898.png)](https://asciinema.org/a/102898)
 
 ## Test
 
-To execute all tests included into the project connect a device or emulator, then launch the following command:
+To execute all tests included into the project connect a device or emulator, then run the following command:
 
 ```shell
 ./gradlew connectedAndroidTest
@@ -83,7 +80,7 @@ To execute all tests included into the project connect a device or emulator, the
 
 ## Contributing
 
-Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as code versioning methodology you, as developer should **always** start working on [develop branch](https://github.com/federicoiosue/Omni-Notes/tree/develop) that contains the most recent changes.
+Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as code versioning methodology, you as developer should **always** start working on [develop branch](https://github.com/federicoiosue/Omni-Notes/tree/develop) that contains the most recent changes.
 
 Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/contributors.md) file.
 
@@ -109,7 +106,7 @@ Checkout for it [here](https://sonarcloud.io/dashboard?id=omni-notes)
 
 Pull requests will be automatically analyzed and rejected if they'll rise the code technical debt.
 
-## Dependences
+## Dependencies
 
 They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni-Notes/blob/develop/omniNotes/build.gradle) file but due to the fact that many of the dependences have been customized by me I'd like to say thanks here to the original developers of these great libraries:
 

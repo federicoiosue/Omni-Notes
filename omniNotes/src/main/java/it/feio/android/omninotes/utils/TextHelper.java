@@ -44,7 +44,7 @@ public class TextHelper {
         final int CONTENT_SUBSTRING_LENGTH = 300;
 
 		String titleText = note.getTitle();
-		String contentText = limit(note.getContent().trim(), 0, CONTENT_SUBSTRING_LENGTH, false, true);
+		String contentText = limit(note.getContent().trim(), CONTENT_SUBSTRING_LENGTH, false, true);
 
         // Masking title and content string if note is locked
         if (note.isLocked()
@@ -52,7 +52,7 @@ public class TextHelper {
                 "settings_password_access", false)) {
             // This checks if a part of content is used as title and should be partially masked
             if (!note.getTitle().equals(titleText) && titleText.length() > 3) {
-                titleText = limit(titleText, 0, 4, false, false);
+                titleText = limit(titleText, 4, false, false);
             }
             contentText = "";
         }
@@ -74,11 +74,8 @@ public class TextHelper {
     }
 
 
-    private static String limit(String value, int start, int length, boolean singleLine, boolean elipsize) {
-        if (start > value.length()) {
-            return null;
-        }
-        StringBuilder buf = new StringBuilder(value.substring(start));
+    private static String limit(String value, int length, boolean singleLine, boolean elipsize) {
+        StringBuilder buf = new StringBuilder(value);
         int indexNewLine = buf.indexOf(System.getProperty("line.separator"));
         int endIndex = singleLine && indexNewLine < length ? indexNewLine : length < buf.length() ? length : -1;
         if (endIndex != -1) {

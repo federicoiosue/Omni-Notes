@@ -1,10 +1,10 @@
-Note taking open-source application aimed to have both a lightweight footprint on system performances and simple interface but keeping smart behavior.
+Open-source note taking application, designed to be lightweight and simple without giving up smart behavior.
 
 Follow the developments and post your comments and advice on Google+ Beta Community at https://plus.google.com/u/0/communities/112276053772152071903
 
-Help to complete translations is needed, if you want give me an hand please send me an e-mail!
+Your help in translating the app is welcome. Send me an e-mail If you want to lend a hand !
 
-Actually the following functions are implemented:
+Current features:
 ☆ Material Design interface
 ☆ Basic add, modify, archive, trash and delete notes actions
 ☆ Share, merge and search notes
@@ -16,4 +16,4 @@ Actually the following functions are implemented:
 ☆ Export/import notes to backup
 ☆ Google Now integration: just tell "write a note" followed by the content
 ☆ Multiple widgets, DashClock extension, Android 4.2 lockscreen compatibility
-☆ Multilanguage: 30+ languages supported: https://crowdin.com/project/omni-notes
+☆ Multilanguage: 30 languages supported: https://crowdin.com/project/omni-notes

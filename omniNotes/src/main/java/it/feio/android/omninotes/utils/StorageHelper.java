@@ -36,6 +36,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
+import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -104,45 +105,40 @@ public class StorageHelper {
      */
     public static File createExternalStoragePrivateFile(Context mContext, Uri uri, String extension) {
 
-        // Checks for external storage availability
         if (!checkStorage()) {
             Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
             return null;
         }
         File file = createNewAttachmentFile(mContext, extension);
 
-        InputStream is = null;
-        OutputStream os = null;
+        InputStream contentResolverInputStream = null;
+        OutputStream contentResolverOutputStream = null;
         try {
-            is = mContext.getContentResolver().openInputStream(uri);
-            os = new FileOutputStream(file);
-            copyFile(is, os);
+            contentResolverInputStream = mContext.getContentResolver().openInputStream(uri);
+            contentResolverOutputStream = new FileOutputStream(file);
+            copyFile(contentResolverInputStream, contentResolverOutputStream);
         } catch (IOException e) {
             try {
-                is = new FileInputStream(FileHelper.getPath(mContext, uri));
-                os = new FileOutputStream(file);
-                copyFile(is, os);
+            	FileUtils.copyFile(new File(FileHelper.getPath(mContext, uri)), file);
                 // It's a path!!
             } catch (NullPointerException e1) {
                 try {
-                    is = new FileInputStream(uri.getPath());
-                    os = new FileOutputStream(file);
-                    copyFile(is, os);
-                } catch (FileNotFoundException e2) {
+					FileUtils.copyFile(new File(uri.getPath()), file);
+                } catch (IOException e2) {
                     Log.e(Constants.TAG, "Error writing " + file, e2);
                     file = null;
                 }
-            } catch (FileNotFoundException e2) {
-                Log.e(StorageHelper.class.getName(), "Error writing " + file, e2);
+            } catch (IOException e2) {
+                Log.e(Constants.TAG, "Error writing " + file, e2);
                 file = null;
-            }
+			}
         } finally {
 			try {
-				if (is != null) {
-					is.close();
+				if (contentResolverInputStream != null) {
+					contentResolverInputStream.close();
 				}
-				if (os != null) {
-					os.close();
+				if (contentResolverOutputStream != null) {
+					contentResolverOutputStream.close();
 				}
 			} catch (IOException e) {
 				Log.e(Constants.TAG, "Error closing streams", e);
@@ -151,7 +147,6 @@ public class StorageHelper {
 		}
 		return file;
     }
-
 
     public static boolean copyFile(File source, File destination) {
 		FileInputStream is = null;
@@ -353,6 +348,9 @@ public class StorageHelper {
 
 
     private static long getSize(File directory, long blockSize) {
+    	if (blockSize == 0) {
+    		throw new InvalidParameterException("Blocksize can't be 0");
+		}
         File[] files = directory.listFiles();
         if (files != null) {
 

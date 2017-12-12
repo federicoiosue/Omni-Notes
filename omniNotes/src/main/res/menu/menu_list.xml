@@ -55,26 +55,26 @@
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/menu_category"
-        android:icon="@drawable/ic_folder_special_white_24dp"
-        android:orderInCategory="175"
-        android:title="@string/category"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_tags"
-        android:icon="@drawable/ic_loyalty_white_24dp"
-        android:orderInCategory="200"
-        android:title="@string/tags"
-        android:visible="false"
-        app:showAsAction="always"/>
-    <item
         android:id="@+id/menu_select_all"
         android:icon="@drawable/ic_select_all_white_24dp"
-        android:orderInCategory="250"
+        android:orderInCategory="175"
         app:showAsAction="always"
         android:title="@string/select_all"
         android:visible="false"/>
+    <item
+        android:id="@+id/menu_category"
+        android:icon="@drawable/ic_folder_special_white_24dp"
+        android:orderInCategory="200"
+        android:title="@string/category"
+        android:visible="false"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_tags"
+        android:icon="@drawable/ic_loyalty_white_24dp"
+        android:orderInCategory="250"
+        android:title="@string/tags"
+        android:visible="false"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_add_reminder"
         android:orderInCategory="250"

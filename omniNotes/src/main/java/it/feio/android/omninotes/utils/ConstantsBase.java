@@ -24,7 +24,7 @@ public interface ConstantsBase {
 	String DEV_EMAIL = "omninotes@iosue.it";
 
 	// Used for updates retrieval
-	long UPDATE_MIN_FREQUENCY = 24 * 60 * 60 * 1000; // 1 day
+	long UPDATE_MIN_FREQUENCY = 24L * 60L * 60L * 1000L; // 1 day
 	String DRIVE_FOLDER_LAST_BUILD = "https://goo.gl/gB55RE";
 
 	// Notes swipe

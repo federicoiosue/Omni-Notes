@@ -24,11 +24,12 @@
             android:key="settings_language"
             android:title="@string/settings_choose_language"/>
 
-    <ListPreference
+    <it.feio.android.omninotes.FontSizeListPreference
             android:entries="@array/text_size"
             android:entryValues="@array/text_size_values"
             android:key="settings_text_size"
             android:title="@string/settings_text_size"
+            android:layout="@layout/settings_font_size_item"
             android:defaultValue="default"/>
 
     <ListPreference

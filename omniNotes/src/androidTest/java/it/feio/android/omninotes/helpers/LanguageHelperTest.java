@@ -27,10 +27,6 @@ import java.util.Locale;
 
 public class LanguageHelperTest extends BaseAndroidTestCase {
 
-	public void testUseUSAsDefaultLanguage() {
-		assertEquals(Locale.US.toString(), Locale.getDefault().toString());
-	}
-
 	public void testShouldChangeSharedPrefrencesLanguage() {
 		LanguageHelper.updateLanguage(testContext, Locale.ITALY.toString());
 		SharedPreferences prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, testContext

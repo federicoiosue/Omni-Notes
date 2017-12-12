@@ -1,2 +1,0 @@
-**Contributors**
-Suraj Patil (@thewhitetulip)

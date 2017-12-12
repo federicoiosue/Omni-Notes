@@ -898,6 +898,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 	void editNote2(Note note) {
         if (note.get_id() == null) {
+            mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
             Log.d(Constants.TAG, "Adding new note");
             // if navigation is a category it will be set into note
             try {
@@ -1031,6 +1032,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             goBackOnToggleSearchLabel = true;
         }
 
+        if (Constants.ACTION_SHORTCUT_WIDGET.equals(intent.getAction())) {
+        	return;
+		}
+
         // Searching
         searchQuery = searchQueryInstant;
         searchQueryInstant = null;
@@ -1147,6 +1152,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                         Log.d(Constants.TAG, "Please stop swiping in the zone beneath the last card");
                         continue;
                     }
+
+					if (note != null && note.isLocked()) {
+						PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
+							if (!passwordConfirmed) {
+								onUndo(null);
+							}
+						});
+					}
+
                     getSelectedNotes().add(note);
 
                     // Depending on settings and note status this action will...

@@ -54,19 +54,19 @@ public class RemindersLifecycleTest {
         linearLayout.perform(scrollTo(), click());
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.done), withText("Done"), isDisplayed()));
+                allOf(withId(R.id.done), withText(R.string.done_label), isDisplayed()));
         appCompatButton.perform(click());
 
         ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.done_button), withText("Done"), isDisplayed()));
+                allOf(withId(R.id.done_button), withText(R.string.done_label), isDisplayed()));
         appCompatButton2.perform(click());
 
         ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.done), withText("Done"), isDisplayed()));
+                allOf(withId(R.id.done), withText(R.string.save_label), isDisplayed()));
         appCompatButton3.perform(click());
 
         ViewInteraction textView = onView(withId(R.id.datetime));
-        textView.check(matches(withText(startsWith("Reminder set for"))));
+        textView.check(matches(withText(startsWith(OmniNotes.getAppContext().getResources().getString(R.string.alarm_set_on)))));
     }
 
     private static Matcher<View> childAtPosition(

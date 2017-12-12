@@ -18,6 +18,7 @@
 package it.feio.android.omninotes;
 
 import android.animation.ValueAnimator;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -236,9 +237,9 @@ public class NavigationDrawerFragment extends Fragment {
 
 
 	public static boolean isDoublePanelActive() {
-//		Resources resources = OmniNotes.getAppContext().getResources();
-//		return resources.getDimension(R.dimen.navigation_drawer_width) == resources.getDimension(R.dimen
-//				.navigation_drawer_reserved_space);
-		return false;
+		Resources resources = OmniNotes.getAppContext().getResources();
+		return resources.getDimension(R.dimen.navigation_drawer_width) == resources.getDimension(R.dimen
+				.navigation_drawer_reserved_space);
 	}
+
 }
