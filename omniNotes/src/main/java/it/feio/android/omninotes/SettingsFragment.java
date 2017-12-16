@@ -589,8 +589,8 @@ public class SettingsFragment extends PreferenceFragment {
 	private void importNotes() {
 		final CharSequence[] backups = StorageHelper.getExternalStoragePublicDir().list();
 
-		if (backups.length == 0) {
-			((SettingsActivity) getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
+		if (backups != null && backups.length == 0) {
+			((SettingsActivity)getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
 		} else {
 
 			MaterialDialog importDialog = new MaterialDialog.Builder(getActivity())

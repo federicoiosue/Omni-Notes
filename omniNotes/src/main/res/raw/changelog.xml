@@ -17,7 +17,12 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.4.0" changeDate="Nov 13, 2017">
+    <changelogversion versionName="5.4.1" changeDate="Dec 16, 2017">
+        <changelogtext>[u]Fix[/u] Navigation drawer stuck opened on tablets and phablets</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash when trying to restore backup when no backups are available</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="5.4.0" changeDate="Dec 11, 2017">
         <changelogtext>[b]New![/b] Added file size to attachments'action dialog</changelogtext>
         <changelogtext>[b]New![/b] When editing a note's reminder, if that's in the past, a future date will be proposed</changelogtext>
         <changelogtext>[b]New![/b] Added an option to switch timestamps ON or OFF into home widget (thanks [a href='https://github.com/marceldallagnol']Marcel de Sena Dall'Agnol[/a])</changelogtext>
