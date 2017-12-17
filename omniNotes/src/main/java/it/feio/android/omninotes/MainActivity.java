@@ -22,6 +22,7 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -46,6 +47,7 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
+import it.feio.android.omninotes.async.UpdateWidgetsTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
@@ -477,6 +479,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         new NoteProcessorDelete(Arrays.asList(new Note[]{note})).process();
         BaseActivity.notifyAppWidgets(this);
         Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
+    }
+
+
+    public void updateWidgets() {
+        UpdateWidgetsTask taskWidget = new UpdateWidgetsTask(getApplicationContext());
+        taskWidget.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
