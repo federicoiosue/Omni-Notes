@@ -483,8 +483,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     public void updateWidgets() {
-        UpdateWidgetsTask taskWidget = new UpdateWidgetsTask(getApplicationContext());
-        taskWidget.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new UpdateWidgetsTask(getApplicationContext())
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 
