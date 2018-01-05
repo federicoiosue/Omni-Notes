@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">Atmest</string>
   <string name="remove_category">Noņemt kategoriju</string>
-  <string name="no_tags_created">Neviena birka vēl nav izveidota</string>
+  <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
   <string name="no_categories_created">Neviena kategorija vēl nav izveidota</string>
   <string name="notes_category_removed">Kategorija noņemta no piezīmēm</string>
   <string name="notes_categorized_as">Piezīmes atrodas zem šādām kategorijām</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Ritināma saraksta logrīks ar pogām</string>
   <string name="notes">piezīmes</string>
   <string name="show_thumbnails">Rādīt pielikumu sīktēlus</string>
+  <string name="show_timestamps">Show timestamps</string>
   <string name="choose_action">Izvēlēties darbību</string>
   <string name="edit">Rediģēt</string>
   <string name="reminders">atgādinājumi</string>

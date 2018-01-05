@@ -63,7 +63,7 @@
   <string name="attachment">Anexo</string>
   <string name="camera">Câmara</string>
   <string name="delete_selected_image">Eliminar o anexo seleccionado?</string>
-  <string name="delete_all_attachments">Apagar todos os anexos?</string>
+  <string name="delete_all_attachments">Eliminar todos os anexos?</string>
   <string name="gallery">Galeria</string>
   <string name="location">Localização</string>
   <string name="pushbullet">Pushbullet</string>
@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Esta categoria é usada em algumas notas.\nConfirma a remoção da mesma nessas notas e a eliminação da categoria?</string>
   <string name="discard">Rejeitar</string>
   <string name="remove_category">Remover categoria</string>
-  <string name="no_tags_created">Não foram criadas nenhumas etiquetas ainda</string>
+  <string name="no_tags_created">Não existem etiquetas ainda\nPode criá-las usando hashtags nas suas notas</string>
   <string name="no_categories_created">Não foram criadas categorias ainda</string>
   <string name="notes_category_removed">Categoria removida das notas</string>
   <string name="notes_categorized_as">Notas adicionadas à categoria</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Widget de lista deslocável com botões</string>
   <string name="notes">notas</string>
   <string name="show_thumbnails">Mostrar miniaturas dos anexos</string>
+  <string name="show_timestamps">Mostrar datas</string>
   <string name="choose_action">Escolha a acção a executar</string>
   <string name="edit">Editar</string>
   <string name="reminders">alertas</string>

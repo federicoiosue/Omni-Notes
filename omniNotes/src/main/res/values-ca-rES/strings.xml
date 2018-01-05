@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Aquesta categoria és usada per algunes notes.\nConfirmeu que voleu treure la categoria de les notes i suprimir la categoria?</string>
   <string name="discard">Descarta</string>
   <string name="remove_category">Suprimeix la categoria</string>
-  <string name="no_tags_created">Encara no s\'han creat etiquetes</string>
+  <string name="no_tags_created">No hi ha etiquetes disponibles\nCreeu-les inserint etiquetes a les vostres notes</string>
   <string name="no_categories_created">Encara no s\'han creat categories</string>
   <string name="notes_category_removed">S\'ha suprimit la categoria de les notes</string>
   <string name="notes_categorized_as">Notes categoritzades com a</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Giny de llistat desplaçable amb botons</string>
   <string name="notes">notes</string>
   <string name="show_thumbnails">Mostra les imatges en miniatura dels adjunts</string>
+  <string name="show_timestamps">Mostra l\'hora</string>
   <string name="choose_action">Trieu una acció</string>
   <string name="edit">Edita</string>
   <string name="reminders">recordatoris</string>

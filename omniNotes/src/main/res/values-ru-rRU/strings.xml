@@ -40,7 +40,7 @@
   <string name="unarchive">Восстановить из архива</string>
   <string name="creation">Создано:</string>
   <string name="last_update">Обновлено:</string>
-  <string name="delete_note_confirmation">Вы согласны безвозвратно удалить заметку?</string>
+  <string name="delete_note_confirmation">Удалить заметку навсегда?</string>
   <string name="confirm">Подтвердить</string>
   <string name="ok">ОК</string>
   <string name="no">Heт</string>
@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Данная категория включает несколько заметок.\nПодтвердить исключение категории из всех заметок?</string>
   <string name="discard">Отмена</string>
   <string name="remove_category">Удалить категорию</string>
-  <string name="no_tags_created">Не создано ни одной метки</string>
+  <string name="no_tags_created">У вас пока нет меток.\nОни появляются, когда вы добавляете хэштэги в текст заметок</string>
   <string name="no_categories_created">Не создано ни одной категории</string>
   <string name="notes_category_removed">Категория исключена из заметок</string>
   <string name="notes_categorized_as">Заметки в категории</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Прокручиваемый список с кнопками</string>
   <string name="notes">заметки (-ок)</string>
   <string name="show_thumbnails">Отображать миниатюры вложений</string>
+  <string name="show_timestamps">Показывать временные метки</string>
   <string name="choose_action">Выберите действие</string>
   <string name="edit">Редактировать</string>
   <string name="reminders">напоминаний</string>

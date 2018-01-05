@@ -46,8 +46,8 @@
   <string name="no">Non</string>
   <string name="cancel">Annuler</string>
   <string name="note_updated">Note mise à jour</string>
-  <string name="empty_note_not_saved">Note vide non enregistrée</string>
-  <string name="empty_note_not_shared">Note vide non partagée</string>
+  <string name="empty_note_not_saved">Impossible d\'enregistrer une note vide</string>
+  <string name="empty_note_not_shared">Impossible de partager une note vide</string>
   <string name="note_archived">Note archivée</string>
   <string name="note_unarchived">Note restaurée depuis l\'archive</string>
   <string name="note">Note</string>
@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Cette catégorie est utilisée par quelques notes.\nConfirmez-vous le déclassement des notes et la suppression de la catégorie ?</string>
   <string name="discard">Annuler</string>
   <string name="remove_category">Supprimer la catégorie</string>
-  <string name="no_tags_created">Aucun mot-clé n\'a été créé</string>
+  <string name="no_tags_created">Aucun mot-clé disponible\nCréez-les en écrivant des mots-dièse (hashtags) dans vos notes</string>
   <string name="no_categories_created">Aucune catégorie n\'a été créée</string>
   <string name="notes_category_removed">Catégorie des notes supprimée</string>
   <string name="notes_categorized_as">Notes catégorisées comme</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Widget avec liste déroulante et boutons</string>
   <string name="notes">notes</string>
   <string name="show_thumbnails">Afficher les miniatures des pièces jointes</string>
+  <string name="show_timestamps">Afficher l\'horodatage</string>
   <string name="choose_action">Choisir une action</string>
   <string name="edit">Modifier</string>
   <string name="reminders">rappels</string>
@@ -213,7 +214,7 @@
   <string name="settings_import">Restaurer ou supprimer les sauvegardes</string>
   <string name="settings_import_from_springpad">Importer les notes de Springpad</string>
   <string name="settings_import_from_springpad_summary">Sélectionner votre archive Springpad exportée et s\'assurer d\'être connecté à internet</string>
-  <string name="settings_sync_drive">Synchronisation avec Google Drive</string>
+  <string name="settings_sync_drive">Synchroniser avec Google Drive</string>
   <string name="settings_sync_drive_summary">Enregistrer l\'application pour synchroniser les données sur le service de stockage Google Drive</string>
   <string name="export_success">Fichier exporté avec succès dans le dossier</string>
   <string name="export_fail">Exportation du fichier échouée</string>
@@ -254,7 +255,7 @@
   <string name="settings_password_summary">Modifier le mot de passe de sécurité</string>
   <string name="settings_enable_animations_summary">Activer/désactiver les animations dans la liste de notes</string>
   <string name="settings_enable_tag_marker_summary">Afficher/masquer les marqueurs de couleur pour les catégories</string>
-  <string name="settings_enable_editor_links_summary">Rendre les liens et les adresses e-mail automatiquement cliquable</string>
+  <string name="settings_enable_editor_links_summary">Rendre les adresses internet et courriel automatiquement cliquable</string>
   <string name="confirm_removing_backup">Certain de supprimer la sauvegarde ?</string>
   <string name="confirm_restoring_backup">Certain de restaurer la sauvegarde ?</string>
   <string name="data_deletion_completed">Suppression des données terminée</string>
@@ -368,7 +369,7 @@
   <string name="tour_detailactivity_reminder_title">Appuyez juste</string>
   <string name="tour_detailactivity_reminder_detail">Des appuis courts ou longs sur un élément (pièce jointe, localisation, rappel) ont des effets différents !</string>
   <string name="tour_detailactivity_links_title">Liens</string>
-  <string name="tour_detailactivity_links_detail">Appuyez sur une adresse URL ou e-mail pour la copier ou l\'ouvrir</string>
+  <string name="tour_detailactivity_links_detail">Appuyer sur une adresse internet ou courriel pour la copier ou l\'ouvrir</string>
   <string name="tour_detailactivity_swipe_title">Glisser</string>
   <string name="tour_detailactivity_swipe_detail">Créer de nouvelles notes sans \nquitter celle que vous modifiez</string>
   <string name="tour_detailactivity_save_title">Enregistrer</string>

@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">ביטול</string>
   <string name="remove_category">הסרת קטגוריה</string>
-  <string name="no_tags_created">לא נוצרו עדיין תגיות</string>
+  <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
   <string name="no_categories_created">לא נוצרו קטגוריות עדיין</string>
   <string name="notes_category_removed">קטגוריה הוסרה מההערות</string>
   <string name="notes_categorized_as">הערות סווגו כ</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">וידג\'ט עם כפתורים ורשימה נגללת</string>
   <string name="notes">הערות</string>
   <string name="show_thumbnails">הצגת תמונות ממוזערות לקבצים המצורפים</string>
+  <string name="show_timestamps">Show timestamps</string>
   <string name="choose_action">בחירת פעולה לביצוע</string>
   <string name="edit">עריכה</string>
   <string name="reminders">תזכורות</string>
