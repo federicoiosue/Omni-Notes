@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">このカテゴリーはいくつかのノートで使用されています。\nノートのカテゴリーを未分類にして、カテゴリーを削除してもよろしいですか?</string>
   <string name="discard">破棄</string>
   <string name="remove_category">カテゴリーを削除</string>
-  <string name="no_tags_created">タグはまだ作成されていません</string>
+  <string name="no_tags_created">まだタグは利用できません\nノートにハッシュタグを書いて作成してください</string>
   <string name="no_categories_created">カテゴリーはまだ作成されていません</string>
   <string name="notes_category_removed">ノートからカテゴリーを削除</string>
   <string name="notes_categorized_as">ノートを...のカテゴリーに分類</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">ボタンのあるスクロール リスト ウィジェット</string>
   <string name="notes">ノート</string>
   <string name="show_thumbnails">添付ファイルのサムネイルを表示</string>
+  <string name="show_timestamps">更新日時を表示</string>
   <string name="choose_action">アクションの選択</string>
   <string name="edit">ドキュメント編集</string>
   <string name="reminders">アラーム</string>

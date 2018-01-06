@@ -164,10 +164,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (intent.getAction() == null) {
             intent.setAction(Constants.ACTION_START_APP);
         }
+        super.onNewIntent(intent);
         setIntent(intent);
         handleIntents();
         Log.d(Constants.TAG, "onNewIntent");
-        super.onNewIntent(intent);
     }
 
 
@@ -418,11 +418,14 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         b.putParcelable(Constants.INTENT_NOTE, note);
         mDetailFragment.setArguments(b);
         if (mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
-            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack
-                    (FRAGMENT_LIST_TAG).commitAllowingStateLoss();
+            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
+                    .addToBackStack(FRAGMENT_LIST_TAG)
+                    .commitAllowingStateLoss();
         } else {
-            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack
-                    (FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
+            mFragmentManager.popBackStackImmediate();
+            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
+                    .addToBackStack(FRAGMENT_DETAIL_TAG)
+                    .commitAllowingStateLoss();
         }
     }
 

@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">Zahodiť</string>
   <string name="remove_category">Odstrániť kategóriu</string>
-  <string name="no_tags_created">Žiadne značky ešte neboli vytvorené</string>
+  <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
   <string name="no_categories_created">Zatiaľ nebola vytvorená žiadna kategória</string>
   <string name="notes_category_removed">Kategória bola odstránená z poznámok</string>
   <string name="notes_categorized_as">Poznámky boli kategorizovaná ako</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Miniaplikácia s posuvným zoznamom a tlačidlami</string>
   <string name="notes">poznámky</string>
   <string name="show_thumbnails">Zobraziť náhľady príloh</string>
+  <string name="show_timestamps">Show timestamps</string>
   <string name="choose_action">Vyberte akciu na vykonanie</string>
   <string name="edit">Upraviť</string>
   <string name="reminders">pripomienky</string>

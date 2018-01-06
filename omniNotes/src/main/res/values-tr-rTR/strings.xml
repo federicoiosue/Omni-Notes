@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Bu kategori bazı notlar tarafından kullanılıyor.\nNotların kategoriden çıkışını ve kategorinin silinmesini onayla?</string>
   <string name="discard">İptal et</string>
   <string name="remove_category">Kategoriyi kaldır</string>
-  <string name="no_tags_created">Oluşturulmuş bir etiket yok</string>
+  <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
   <string name="no_categories_created">Henüz oluşturulmuş bir kategori yok</string>
   <string name="notes_category_removed">Kategori notları kaldırıldı</string>
   <string name="notes_categorized_as">Notlar kategorize edildi </string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Kaydırma listesi widget\'i ile butonlar</string>
   <string name="notes">notlar</string>
   <string name="show_thumbnails">Ekli dosyaların küçük resimlerini göster</string>
+  <string name="show_timestamps">Show timestamps</string>
   <string name="choose_action">Eylem seç</string>
   <string name="edit">Düzenle</string>
   <string name="reminders">hatırlatmalar</string>

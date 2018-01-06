@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Категорију користе неке белешке.\nТе белешке ће бити некатегорисане.\nПотврђујете брисање категорије?</string>
   <string name="discard">Одбаци</string>
   <string name="remove_category">Уклони категорију</string>
-  <string name="no_tags_created">Још нема направљених ознака</string>
+  <string name="no_tags_created">Још немате ознаке\nНаправите их уписујући хештагове унутар својих белешки</string>
   <string name="no_categories_created">Још нема направљених категорија</string>
   <string name="notes_category_removed">Категорија уклоњена из белешки</string>
   <string name="notes_categorized_as">Белешка категорисана као</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Клизајућа листа са дугмадима</string>
   <string name="notes">белешке</string>
   <string name="show_thumbnails">Прикажи сличице прилога</string>
+  <string name="show_timestamps">Прикажи времена</string>
   <string name="choose_action">Изаберите радњу</string>
   <string name="edit">Уреди</string>
   <string name="reminders">подсетници</string>
