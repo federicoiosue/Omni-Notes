@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">This category is used by some notes.\nConfirm un-categorization of the notes and deletion of the category?</string>
   <string name="discard">Discard</string>
   <string name="remove_category">Remove category</string>
-  <string name="no_tags_created">No tags have been created yet</string>
+  <string name="no_tags_created">No tags available yet\nCreate some by writing hashtags into your notes</string>
   <string name="no_categories_created">No categories have been created yet</string>
   <string name="notes_category_removed">Category removed from notes</string>
   <string name="notes_categorized_as">Notes categorized as</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Scrolling list widget with buttons</string>
   <string name="notes">notes</string>
   <string name="show_thumbnails">Show attachment\'s thumbnails</string>
+  <string name="show_timestamps">Show timestamps</string>
   <string name="choose_action">Choose action</string>
   <string name="edit">Edit</string>
   <string name="reminders">reminders</string>

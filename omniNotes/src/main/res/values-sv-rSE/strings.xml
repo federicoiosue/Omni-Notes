@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Denna kategorin används av några anteckningar.\nBekräfta att du vill ta bort deras kategoriseringar?</string>
   <string name="discard">Kasta bort</string>
   <string name="remove_category">Ta bort kategori</string>
-  <string name="no_tags_created">Inga taggar har skapats ännu</string>
+  <string name="no_tags_created">Inga taggar tillgängliga än\nSkapa dem genom att använda hashtags i dina anteckningar</string>
   <string name="no_categories_created">Inga kategorier har skapats ännu</string>
   <string name="notes_category_removed">Kategori borttagen från anteckningar</string>
   <string name="notes_categorized_as">Anteckningar katagoriserade som</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Scrollbar listwidget med knappar</string>
   <string name="notes">anteckningar</string>
   <string name="show_thumbnails">Visa bifogningars miniatyrer</string>
+  <string name="show_timestamps">Visa tidsstämplar</string>
   <string name="choose_action">Välj vad du vill göra</string>
   <string name="edit">Ändra</string>
   <string name="reminders">Påminnelser</string>

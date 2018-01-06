@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Ebbe a kategóriába néhány jegyzet tartozik.\nBiztos megszünteti a használatát és törli?</string>
   <string name="discard">Elvetés</string>
   <string name="remove_category">Kategória eltávolítása</string>
-  <string name="no_tags_created">Nincsenek címkék létrehozva</string>
+  <string name="no_tags_created">Nincsenek elérhető címkék\nA jegyzetekbe írt hashtagekkel lehet létrehozni őket</string>
   <string name="no_categories_created">Nincsenek kategóriák létrehozva</string>
   <string name="notes_category_removed">Kategória eltávolítva a jegyzetekről</string>
   <string name="notes_categorized_as">Kategorizálva mint</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Gördülő lista widget gombokkal</string>
   <string name="notes">jegyzetek</string>
   <string name="show_thumbnails">Mutassa a mellékletet nézőképként</string>
+  <string name="show_timestamps">Időbélyegek mutatása</string>
   <string name="choose_action">Válasszon műveletet</string>
   <string name="edit">Szerkesztés</string>
   <string name="reminders">emlékeztetők</string>

@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">取消</string>
   <string name="remove_category">移除类别</string>
-  <string name="no_tags_created">尚未创建标签</string>
+  <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
   <string name="no_categories_created">尚未创建类别</string>
   <string name="notes_category_removed">类别已从记事中移除</string>
   <string name="notes_categorized_as">记事已分类为</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">带按钮的可滚动列表小部件</string>
   <string name="notes">记事</string>
   <string name="show_thumbnails">显示附件缩略图</string>
+  <string name="show_timestamps">Show timestamps</string>
   <string name="choose_action">选择要执行的操作</string>
   <string name="edit">编辑</string>
   <string name="reminders">提醒</string>
