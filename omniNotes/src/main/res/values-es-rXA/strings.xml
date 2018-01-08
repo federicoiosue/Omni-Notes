@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Esta categoría úsase pa dalgunes notes.\nConfirmes que quies quitar la categoría de les notes y desaniciar la categoría?</string>
   <string name="discard">Descartar</string>
   <string name="remove_category">Desaniciar categoría</string>
-  <string name="no_tags_created">Entá nun hai etiquetes creaes</string>
+  <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
   <string name="no_categories_created">Entá nun se crearon categoríes</string>
   <string name="notes_category_removed">Categoría desaniciada de les notes</string>
   <string name="notes_categorized_as">Notes categorizaes como</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Widget de llista desplazable con botones</string>
   <string name="notes">notes</string>
   <string name="show_thumbnails">Amosar miniatures d\'axuntos</string>
+  <string name="show_timestamps">Show timestamps</string>
   <string name="choose_action">Esbillar aición</string>
   <string name="edit">Editar</string>
   <string name="reminders">avisos</string>

@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
   <string name="discard">Відхилити</string>
   <string name="remove_category">Вилучити категорію</string>
-  <string name="no_tags_created">Немає створених ярличків</string>
+  <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
   <string name="no_categories_created">Поки що категорії відсутні</string>
   <string name="notes_category_removed">Категорію вилучено з нотаток</string>
   <string name="notes_categorized_as">Нотататки класифіковані як</string>
@@ -148,7 +148,7 @@
   <string name="proceed">Продовжити</string>
   <string name="contracted_view">Компактний вигляд</string>
   <string name="expanded_view">Розширений вигляд</string>
-  <string name="grid_view">Grid view</string>
+  <string name="grid_view">У вигляді сітки</string>
   <string name="add_shortcut">Додати ярличок</string>
   <string name="shortcut_added">Ярличок додано на робочий стіл</string>
   <string name="shortcut_note_deleted">Ярличок пов\'язаний із видаленою нотаткою</string>
@@ -348,7 +348,7 @@
   <string name="stats_images">Зображення</string>
   <string name="stats_videos">Відео</string>
   <string name="stats_audio_recordings">Аудіозаписи</string>
-  <string name="stats_sketches">Sketches</string>
+  <string name="stats_sketches">Ескізи</string>
   <string name="stats_files">Файли</string>
   <string name="stats_locations">Місця</string>
   <string name="stats_words">Слова</string>

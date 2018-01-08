@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Een aantal notities valt in deze categorie.\nWeet u zeker dat u het categorie-label van deze notities af wilt halen en de categorie wilt verwijderen?</string>
   <string name="discard">Negeer</string>
   <string name="remove_category">Verwijder categorie</string>
-  <string name="no_tags_created">Er werden nog geen tags gemaakt</string>
+  <string name="no_tags_created">Nog geen tags beschikbaar\nMaak ze aan door ze aan een notitie toe te voegen</string>
   <string name="no_categories_created">Er werden nog geen categorieën aangemaakt</string>
   <string name="notes_category_removed">Categorie verwijderd uit notities</string>
   <string name="notes_categorized_as">Notities gecategoriseerd als</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Doorbladerbare lijst widget met knoppen</string>
   <string name="notes">notities</string>
   <string name="show_thumbnails">Toon miniaturen van bijlagen</string>
+  <string name="show_timestamps">Toon tijdsaanduiding</string>
   <string name="choose_action">Kies uit te voeren actie</string>
   <string name="edit">Bewerken</string>
   <string name="reminders">herinneringen</string>

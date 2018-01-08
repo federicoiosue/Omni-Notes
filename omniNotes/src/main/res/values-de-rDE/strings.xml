@@ -104,10 +104,10 @@
   <string name="categorize_as">Kategorisieren als</string>
   <string name="title_activity_category">Kategorie bearbeiten</string>
   <string name="delete_unused_category_confirmation">Löschen der Kategorie bestätigen</string>
-  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
+  <string name="delete_category_confirmation">Diese Kategorie wird von einer oder mehreren Notiz(en) verwendet.\nKategoriezugehörigkeit der Notiz(en) entfernen und löschen der Kategorie bestätigen?</string>
   <string name="discard">Verwerfen</string>
   <string name="remove_category">Kategorie entfernen</string>
-  <string name="no_tags_created">Es wurden noch keine Stichworte erstellt</string>
+  <string name="no_tags_created">Keine Tags vorhanden\nErstelle sie, indem du Hashtags verwendest</string>
   <string name="no_categories_created">Es wurden bisher noch keine Kategorien erstellt</string>
   <string name="notes_category_removed">Kategorie von den Notizen entfernt</string>
   <string name="notes_categorized_as">Notizen kategorisiert als</string>
@@ -148,7 +148,7 @@
   <string name="proceed">Weiter</string>
   <string name="contracted_view">Einfache Ansicht</string>
   <string name="expanded_view">Erweiterte Ansicht</string>
-  <string name="grid_view">Raster-Ansicht</string>
+  <string name="grid_view">Rasteransicht</string>
   <string name="add_shortcut">Verknüpfung hinzufügen</string>
   <string name="shortcut_added">Verknüpfung wurde dem Startbildschirm hinzugefügt</string>
   <string name="shortcut_note_deleted">Die Verknüpfung verweist auf eine gelöschte Notiz</string>
@@ -156,6 +156,7 @@
   <string name="widget_list_description">Scrollbare Liste mit Tasten</string>
   <string name="notes">Notizen</string>
   <string name="show_thumbnails">Vorschaubild der Anhänge anzeigen</string>
+  <string name="show_timestamps">Zeitstempel anzeigen</string>
   <string name="choose_action">Wählen Sie die auszuführende Aktion</string>
   <string name="edit">Bearbeiten</string>
   <string name="reminders">Erinnerungen</string>
@@ -317,7 +318,7 @@
   <string name="settings_attachments_on_bottom">Anhänge am unteren Rand</string>
   <string name="settings_attachments_on_bottom_summary_on">Anhänge unterhalb der Notiz anzeigen</string>
   <string name="settings_attachments_on_bottom_summary_off">Anhänge überhalb der Notiz anzeigen</string>
-  <string name="settings_prettified_dates">Prettified dates</string>
+  <string name="settings_prettified_dates">Relative Zeitangaben</string>
   <string name="settings_prettified_dates_summary_on">Termine werden in einem einfacheren Format angezeigt</string>
   <string name="settings_prettified_dates_summary_off">Termine werden in einem detaillierteren Format angezeigt</string>
   <string name="settings_screen_privacy">Datenschutz</string>
