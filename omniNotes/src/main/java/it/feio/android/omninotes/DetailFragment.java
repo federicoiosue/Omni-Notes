@@ -577,7 +577,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					.callback(new MaterialDialog.ButtonCallback() {
 						@Override
 						public void onPositive(MaterialDialog materialDialog) {
-							noteTmp.setAlarm(null);
+							ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
 							reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
 							datetime.setText("");
 						}
