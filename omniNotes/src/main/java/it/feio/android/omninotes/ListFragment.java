@@ -103,6 +103,7 @@ import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.TagsHelper;
 import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
@@ -1237,6 +1238,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             trackModifiedNotes(getSelectedNotes());
             for (Note note : getSelectedNotes()) {
                 listAdapter.remove(note);
+                ReminderHelper.removeReminder(OmniNotes.getAppContext(), note);
             }
         } else {
             trashNote(getSelectedNotes(), false);
