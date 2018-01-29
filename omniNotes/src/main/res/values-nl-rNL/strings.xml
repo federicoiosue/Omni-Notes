@@ -28,7 +28,7 @@
   <string name="save">Opslaan</string>
   <string name="share">Delen</string>
   <string name="undo">Ongedaan maken</string>
-  <string name="trash">Prullenbak</string>
+  <string name="trash">Verwijderen</string>
   <string name="trash_action">Verwijderen</string>
   <string name="trashed">verwijderd</string>
   <string name="note_trashed">Verwijderde notitie(s)</string>
@@ -295,7 +295,7 @@
   <string name="colors_app">Toepassing kleuren</string>
   <string name="colors_widget">Widget kleuren</string>
   <string name="settings_instant_search">Direct zoeken</string>
-  <string name="settings_navdrawer_on_exit">Navigatiemenu op exit.</string>
+  <string name="settings_navdrawer_on_exit">Toon navigatiemenu voor afsluiten</string>
   <string name="settings_navdrawer_on_exit_summary">De \"terug\" knop indrukken in notities lijst opent het navigatie menu in plaats van te sluiten</string>
   <string name="settings_text_size">Tekstgrootte</string>
   <string name="settings_screen_behaviors">Gedrag</string>
