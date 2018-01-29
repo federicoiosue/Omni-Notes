@@ -30,7 +30,7 @@
   <string name="undo">Αναίρεση</string>
   <string name="trash">Διαγραμμένα</string>
   <string name="trash_action">Διαγραμμένα</string>
-  <string name="trashed">αποστολή στα διεγραμμένα</string>
+  <string name="trashed">στο καλάθι διεγραμμένων</string>
   <string name="note_trashed">Σημείωση (εις) στα διεγραμμένα</string>
   <string name="note_untrashed">Σημείωση(εις) που επαναφέρθηκαν από τα διεγραμμένα</string>
   <string name="untrash">Επαναφορά από διεγραμμένα</string>

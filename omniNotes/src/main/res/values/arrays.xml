@@ -127,6 +127,7 @@
     <string-array name="languages">
         <item>العربية (Arabic)</item>
         <item>Asturianu (Asturian)</item>
+        <item>Euskara (Basque)</item>
         <item>Català (Catalan)</item>
         <item>中文 (Chinese Simplified)</item>
         <item>臺灣話 (Chinese Traditional)</item>
@@ -163,6 +164,7 @@
     <string-array name="languages_codes">
         <item>ar_SA</item>
         <item>es_XA</item>
+        <item>eu_ES</item>
         <item>ca_ES</item>
         <item>zh_CN</item>
         <item>zh_TW</item>
