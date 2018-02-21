@@ -71,6 +71,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public final String FRAGMENT_LIST_TAG = "fragment_list";
     public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
     public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
+    private static boolean isPasswordAccepted = false;
     private FragmentManager mFragmentManager;
     public Uri sketchUri;
 
@@ -83,8 +84,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         ButterKnife.bind(this);
 		EventBus.getDefault().register(this);
 
-        // This method starts the bootstrap chain.
-        checkPassword();
+		if (!isPasswordAccepted) {
+            // This method starts the bootstrap chain.
+            checkPassword();
+        }
 
         initUI();
 
@@ -132,8 +135,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
 	private void init() {
-        mFragmentManager = getSupportFragmentManager();
+        isPasswordAccepted = true;
 
+        mFragmentManager = getSupportFragmentManager();
+        
         NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager
                 .findFragmentById(R.id.navigation_drawer);
         if (mNavigationDrawerFragment == null) {
