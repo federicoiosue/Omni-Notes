@@ -135,8 +135,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
 	private void init() {
-        mFragmentManager = getSupportFragmentManager();
         isPasswordAccepted = true;
+
+        mFragmentManager = getSupportFragmentManager();
+        
         NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager
                 .findFragmentById(R.id.navigation_drawer);
         if (mNavigationDrawerFragment == null) {
