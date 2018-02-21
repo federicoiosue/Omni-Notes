@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingBottom="12dp"
+            android:paddingBottom="2dp"
             android:paddingLeft="6dp"
             android:paddingRight="16dp"
             android:paddingTop="4dp" >
