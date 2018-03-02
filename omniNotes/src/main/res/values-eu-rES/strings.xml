@@ -198,7 +198,7 @@
   <string name="permission_coarse_location">Kokapena atzitzeko baimena behar da kokalekuaren informazioa oharretara gehitu ahal izateko</string>
   <string name="permission_not_granted">Baimena ukatuta</string>
   <string name="checklist">Egiaztapen-zerrenda</string>
-  <string name="text_note">Testu oharra</string>
+  <string name="text_note">Testu-oharra</string>
   <string name="photo">Argazkia</string>
   <!-- Settings -->
   <string name="dashclock_description">Erakutsi Omni Notes aplikazioko estatistika batzuk eta iraungitze datak</string>
@@ -322,11 +322,11 @@
   <string name="settings_prettified_dates_summary_on">Datak formatu sinpleagoan erakusten dira</string>
   <string name="settings_prettified_dates_summary_off">Datak formatu xehetsuagoan erakusten dira</string>
   <string name="settings_screen_privacy">Pribatutasuna</string>
-  <string name="settings_error_reporting">Erroren berri ematea</string>
+  <string name="settings_error_reporting">Erroreen berri-ematea</string>
   <string name="settings_error_reporting_summary_on">Aplikazioa kraskatzen denean garatzaileari jakinaraziko zaio zu laguntzeko</string>
   <string name="settings_error_reporting_summary_off">Ez da kraskatze txostenik bidaliko. Ez kexatu zerbait gaizki badabil gero!</string>
   <string name="settings_send_analytics">Partekatu datu anonimoak</string>
-  <string name="settings_send_analytics_summary">Lagundu garatzailea pribatua ez den informazioa bidaliz, gailuaren modeloa, hizkuntza, maiz erabilitako aplikazioaren ezaugarriak. Datu hauek kode irekiko aplikazioa hobetzeko besterik ez dira erabiltzen.</string>
+  <string name="settings_send_analytics_summary">Lagundu garatzailea kontuzkoa ez den informazioa bidaliz, adibidez gailuaren modeloa, hizkuntza, maiz erabilitako aplikazioaren ezaugarriak. Datu hauek kode irekiko aplikazioa hobetzeko besterik ez dira erabiltzen.</string>
   <string name="settings_statistics">Estatistikak</string>
   <!-- Stats -->
   <string name="stats_total_notes">Oharrak guztira</string>
@@ -359,7 +359,7 @@
   <string name="tour_listactivity_actions_title">Ekintzak</string>
   <string name="tour_listactivity_actions_detail">Sortu ohar berriak, ordenatu itzazu, sartu hobespenetan</string>
   <string name="tour_listactivity_home_title">Nabigatu</string>
-  <string name="tour_listactivity_home_detail">Nabigazio menuak oharretatik iragazki eta etiketen bidez mugitzea ahalbidetzen dizu</string>
+  <string name="tour_listactivity_home_detail">Nabigazio menuak oharretatik mugitzea ahalbidetzen dizu iragazki eta etiketen bidez</string>
   <string name="tour_listactivity_tag_title">Etiketak</string>
   <string name="tour_listactivity_tag_detail">Gehitu kolorezko etiketak oharrak berehala aurkitzeko</string>
   <string name="tour_detailactivity_attachment_title">Hobetu</string>
