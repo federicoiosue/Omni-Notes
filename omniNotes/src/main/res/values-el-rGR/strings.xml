@@ -30,7 +30,7 @@
   <string name="undo">Αναίρεση</string>
   <string name="trash">Διαγραμμένα</string>
   <string name="trash_action">Διαγραμμένα</string>
-  <string name="trashed">αποστολή στα διεγραμμένα</string>
+  <string name="trashed">στο καλάθι διεγραμμένων</string>
   <string name="note_trashed">Σημείωση (εις) στα διεγραμμένα</string>
   <string name="note_untrashed">Σημείωση(εις) που επαναφέρθηκαν από τα διεγραμμένα</string>
   <string name="untrash">Επαναφορά από διεγραμμένα</string>
@@ -107,7 +107,7 @@
   <string name="delete_category_confirmation">Αυτή η κατηγορία χρησιμοποιείται από ορισμένες σημειώσεις. \nΕγκρίνετε απο-κατηγοριοποίηση και διαγραφή κατηγορίας;</string>
   <string name="discard">Απόρριψη</string>
   <string name="remove_category">Αφαίρεση κατηγορίας</string>
-  <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
+  <string name="no_tags_created">Δεν υπάρχει ακόμη ετικέτα\nΔημιουργήστε με το σύμβολο δίεσης μέσα στις σημειώσεις</string>
   <string name="no_categories_created">Δεν έχουν ακόμη δημιουργηθεί κατηγορίες ακόμη</string>
   <string name="notes_category_removed">Η κατηγορία αφαιρέθηκε από τις σημειώσεις</string>
   <string name="notes_categorized_as">Σημειώσεις κατηγοριοποιημένες ως</string>
@@ -156,7 +156,7 @@
   <string name="widget_list_description">Γραφικό οθόνης κυλιόμενης λίστας με κουμπιά</string>
   <string name="notes">σημειώσεις</string>
   <string name="show_thumbnails">Εμφάνιση μικρογραφιών του συνημμένου</string>
-  <string name="show_timestamps">Show timestamps</string>
+  <string name="show_timestamps">Εμφάνιση χρονικής σήμανσης</string>
   <string name="choose_action">Επιλέξτε ενέργεια</string>
   <string name="edit">Επεξεργασία</string>
   <string name="reminders">υπενθυμίσεις</string>
