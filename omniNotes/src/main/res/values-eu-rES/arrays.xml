@@ -31,7 +31,7 @@
     <item>Oroigarriaren data</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Mantendu kokalekua</item>
+    <item>Mantendu posizioa</item>
     <item>Mugitu zerrendaren amaierara</item>
     <item>Mugitu markatu gabeko elementuen amaierara</item>
   </string-array>
@@ -39,7 +39,7 @@
     <item>Desgaituta</item>
     <item>Marratxoa besterik ez</item>
     <item>Ohar-zerrenda bakarrik</item>
-    <item>Eginda</item>
+    <item>Osoa</item>
   </string-array>
   <string-array name="colors_widget">
     <item>Desgaituta</item>

@@ -17,6 +17,12 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.4.4" changeDate="Mar 02, 2018">
+        <changelogtext>[i]Improved![/i] Updated translations</changelogtext>
+        <changelogtext>[i]Improved![/i] Added full description and screenshots for F-Droid users</changelogtext>
+        <changelogtext>[u]Fix[/u] When screen is rotated password will be asked no more after first time now</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.4.3" changeDate="Jan 29, 2018">
         <changelogtext>[b]New![/b] Added Basque language</changelogtext>
         <changelogtext>[i]Improved![/i] Updated translations</changelogtext>

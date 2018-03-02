@@ -1,0 +1,4 @@
+5.4.3
+★ Added Basque language
+☆ Updated translations
+✓ Reminders are not fired again after notes deletion

@@ -1,0 +1,4 @@
+5.4.2
+☆ Updated translations
+☆ Widget showing two lines of content and top-aligned
+✓ Bugfixes
