@@ -128,8 +128,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	public SQLiteDatabase getDatabase(boolean forceWritable) {
 		try {
 			SQLiteDatabase db = getReadableDatabase();
-			if (forceWritable && db.isReadOnly()) {
-				throw new SQLiteReadOnlyDatabaseException("Required writable database, obtained read-only");
+			if (db.isReadOnly() && forceWritable) {
+				db = getWritableDatabase();
 			}
 			return db;
 		} catch (IllegalStateException e) {
@@ -150,7 +150,6 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		this.db = db;
