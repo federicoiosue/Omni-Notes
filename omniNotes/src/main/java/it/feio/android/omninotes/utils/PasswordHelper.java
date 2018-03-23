@@ -17,15 +17,12 @@
 
 package it.feio.android.omninotes.utils;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.OmniNotes;

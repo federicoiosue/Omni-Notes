@@ -56,6 +56,7 @@ import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
@@ -137,6 +138,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
 	public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+		showMessage(R.string.password_successfully_removed, ONStyle.ALERT);
 		init();
 	}
 
