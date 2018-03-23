@@ -2415,7 +2415,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void askReadExternalStoragePermission(){
 		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE,
-				R.string.permission_audio_recording,
+				R.string.permission_external_storage_detail_attachment,
 				snackBarPlaceholder, () -> startGetContentAction());
 	}
 
