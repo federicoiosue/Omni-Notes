@@ -432,7 +432,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 
 		// Check if is launched from a widget
-		if (IntentChecker.checkAction(i, Constants.ACTION_WIDGET, Constants.ACTION_TAKE_PHOTO)) {
+		if (IntentChecker.checkAction(i, Constants.ACTION_WIDGET, Constants.ACTION_WIDGET_TAKE_PHOTO)) {
 
 			afterSavedReturnsToList = false;
 			showKeyboard = true;
@@ -457,9 +457,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			}
 
 			// Sub-action is to take a photo
-			if (IntentChecker.checkAction(i, Constants.ACTION_TAKE_PHOTO)) {
+			if (IntentChecker.checkAction(i, Constants.ACTION_WIDGET_TAKE_PHOTO)) {
 				takePhoto();
 			}
+		}
+
+		if (IntentChecker.checkAction(i, Constants.ACTION_FAB_TAKE_PHOTO)) {
+			takePhoto();
 		}
 
 

@@ -377,7 +377,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         return Constants.ACTION_SHORTCUT.equals(i.getAction())
                 || Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())
                 || Constants.ACTION_WIDGET.equals(i.getAction())
-                || Constants.ACTION_TAKE_PHOTO.equals(i.getAction())
+                || Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
                 || ((Intent.ACTION_SEND.equals(i.getAction())
                 || Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
                 || Constants.INTENT_GOOGLE_NOW.equals(i.getAction()))

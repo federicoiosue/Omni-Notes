@@ -61,11 +61,12 @@ public interface ConstantsBase {
 	String ACTION_POSTPONE = "action_postpone";
 	String ACTION_SHORTCUT = "action_shortcut";
 	String ACTION_WIDGET = "action_widget";
-	String ACTION_TAKE_PHOTO = "action_widget_take_photo";
+	String ACTION_WIDGET_TAKE_PHOTO = "action_widget_take_photo";
 	String ACTION_WIDGET_SHOW_LIST = "action_widget_show_list";
 	String ACTION_SHORTCUT_WIDGET = "action_shortcut_widget";
 	String ACTION_NOTIFICATION_CLICK = "action_notification_click";
 	String ACTION_MERGE = "action_merge";
+	String ACTION_FAB_TAKE_PHOTO = "action_fab_take_photo";
 	/**
 	 * Used to quickly add a note, save, and perform backPress (eg. Tasker+Pushbullet) *
 	 */
