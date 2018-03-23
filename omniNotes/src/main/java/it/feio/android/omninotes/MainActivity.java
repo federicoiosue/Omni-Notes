@@ -84,11 +84,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         ButterKnife.bind(this);
 		EventBus.getDefault().register(this);
 
-		if (!isPasswordAccepted) {
-            // This method starts the bootstrap chain.
-            checkPassword();
-        }
-
         initUI();
 
 		if (IntroActivity.mustRun()) {
@@ -98,6 +93,15 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         new UpdaterTask(this).execute();
     }
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (isPasswordAccepted) {
+			init();
+		} else {
+			checkPassword();
+		}
+	}
 
 	@Override
 	protected void onStop() {
@@ -113,6 +117,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
+	/**
+	 * This method starts the bootstrap chain.
+	 */
 	private void checkPassword() {
 		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& prefs.getBoolean("settings_password_access", false)) {
@@ -227,10 +234,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
      */
     public void onBackPressed() {
 
-        Fragment f;
-
         // SketchFragment
-        f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
+		Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
         if (f != null) {
             ((SketchFragment) f).save();
 
@@ -262,7 +267,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
                 getDrawerLayout().closeDrawer(GravityCompat.START);
             } else {
                 if (!((ListFragment)f).closeFab()) {
-                    super.onBackPressed();
+					isPasswordAccepted = false;
+					super.onBackPressed();
                 }
             }
             return;
