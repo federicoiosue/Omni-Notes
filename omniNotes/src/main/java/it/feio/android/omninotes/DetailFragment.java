@@ -337,12 +337,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			mRecorder = null;
 		}
 
-		// Unregistering layout observer
 		if (root != null) {
 			root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 		}
 
-		// Closes keyboard on exit
 		if (toggleChecklistView != null) {
 			KeyboardUtils.hideKeyboard(toggleChecklistView);
 			content.clearFocus();
@@ -1507,18 +1505,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 	}
 
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if(requestCode == RC_READ_EXTERNAL_STORAGE_PERMISSION){
-			if(grantResults.length > 1 && permissions[0] == Manifest.permission.READ_EXTERNAL_STORAGE){
-
-			}else{
-
-			}
-		}
-	}
-
 	/**
 	 * Discards changes done to the note and eventually delete new attachments
 	 */
@@ -1622,8 +1608,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		noteTmp.setTitle(getNoteTitle());
 		noteTmp.setContent(getNoteContent());
 
-		// Check if some text or attachments of any type have been inserted or
-		// is an empty note
+		// Check if some text or attachments of any type have been inserted or is an empty note
 		if (goBack && TextUtils.isEmpty(noteTmp.getTitle()) && TextUtils.isEmpty(noteTmp.getContent())
 				&& noteTmp.getAttachmentsList().size() == 0) {
 			Log.d(Constants.TAG, "Empty note not saved");
@@ -1943,13 +1928,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			mAnimation.setAnimationListener(new AnimationListener() {
 				@Override
 				public void onAnimationStart(Animation animation) {
-					// Nothind to do
+					// Nothing to do
 				}
 
 
 				@Override
 				public void onAnimationRepeat(Animation animation) {
-					// Nothind to do
+					// Nothing to do
 				}
 
 
@@ -2022,12 +2007,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			View clickedView = noteTmp.isChecklist() ? toggleChecklistView : content;
 			clickedView.clearFocus();
 			KeyboardUtils.hideKeyboard(clickedView);
-			new Handler().post(new Runnable() {
-				@Override
-				public void run() {
-					View clickedView = noteTmp.isChecklist() ? toggleChecklistView : content;
-					KeyboardUtils.hideKeyboard(clickedView);
-				}
+			new Handler().post(() -> {
+				View clickedView1 = noteTmp.isChecklist() ? toggleChecklistView : content;
+				KeyboardUtils.hideKeyboard(clickedView1);
 			});
 		}
 	};
@@ -2141,19 +2123,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	private void addAttachment(Attachment attachment) {
 		noteTmp.addAttachment(attachment);
-//		mAttachmentAdapter.getAttachmentsList().add(attachment);
 	}
 
 
 	private void removeAttachment(Attachment mAttachment) {
 		noteTmp.removeAttachment(mAttachment);
-//		mAttachmentAdapter.getAttachmentsList().remove(mAttachment);
 	}
 
 
 	private void removeAttachment(int position) {
 		noteTmp.removeAttachment(noteTmp.getAttachmentsList().get(position));
-//		mAttachmentAdapter.getAttachmentsList().remove(position);
 	}
 
 
@@ -2378,12 +2357,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					attachmentDialog.dismiss();
 					break;
 				case R.id.files:
-					if (ContextCompat.checkSelfPermission(getActivity(),
-							Manifest.permission.READ_EXTERNAL_STORAGE)
-							== PackageManager.PERMISSION_GRANTED) {
+					if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ==
+							PackageManager.PERMISSION_GRANTED) {
 						startGetContentAction();
-					}
-					else {
+					} else {
 						askReadExternalStoragePermission();
 					}
 					attachmentDialog.dismiss();
@@ -2422,12 +2399,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private void askReadExternalStoragePermission(){
 		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE,
 				R.string.permission_external_storage_detail_attachment,
-				snackBarPlaceholder, () -> startGetContentAction());
+				snackBarPlaceholder, this::startGetContentAction);
 	}
 
 
 	public void onEventMainThread(PushbulletReplyEvent pushbulletReplyEvent) {
-		content.setText(getNoteContent() + System.getProperty("line.separator") + pushbulletReplyEvent.message);
+		String text = getNoteContent() + System.getProperty("line.separator") + pushbulletReplyEvent.message;
+		content.setText(text);
 	}
 }
 
