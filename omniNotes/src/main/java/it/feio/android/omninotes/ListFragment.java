@@ -976,7 +976,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             restoreListScrollPosition();
 			toggleSearchLabel(false);
             // Updates app widgets
-            BaseActivity.notifyAppWidgets(mainActivity);
+            mainActivity.updateWidgets();
         } else {
 			((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackActionFromResourceId(getActivity(),
 					item.getItemId());
@@ -1680,9 +1680,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             ubc.hideUndoBar(false);
             fab.showFab();
 
-            BaseActivity.notifyAppWidgets(mainActivity);
             Log.d(Constants.TAG, "Changes committed");
         }
+        mainActivity.updateWidgets();
     }
 
 
