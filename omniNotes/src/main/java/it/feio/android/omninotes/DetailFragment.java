@@ -128,7 +128,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private static final int CATEGORY = 5;
 	private static final int DETAIL = 6;
 	private static final int FILES = 7;
-	private final int RC_READ_EXTERNAL_STORAGE_PERMISSION = 1;
+	private static final int RC_READ_EXTERNAL_STORAGE_PERMISSION = 1;
 
 	@BindView(R.id.detail_root)
 	ViewGroup root;
@@ -2380,10 +2380,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				case R.id.files:
 					if (ContextCompat.checkSelfPermission(getActivity(),
 							Manifest.permission.READ_EXTERNAL_STORAGE)
-							== PackageManager.PERMISSION_GRANTED)
+							== PackageManager.PERMISSION_GRANTED) {
 						startGetContentAction();
-					else
+					}
+					else {
 						askReadExternalStoragePermission();
+					}
 					attachmentDialog.dismiss();
 					break;
 				case R.id.sketch:
