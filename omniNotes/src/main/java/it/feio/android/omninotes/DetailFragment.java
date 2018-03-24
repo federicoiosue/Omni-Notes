@@ -42,8 +42,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -125,6 +128,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private static final int CATEGORY = 5;
 	private static final int DETAIL = 6;
 	private static final int FILES = 7;
+	private final int RC_READ_EXTERNAL_STORAGE_PERMISSION = 1;
 
 	@BindView(R.id.detail_root)
 	ViewGroup root;
@@ -1503,6 +1507,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 	}
 
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if(requestCode == RC_READ_EXTERNAL_STORAGE_PERMISSION){
+			if(grantResults.length > 1 && permissions[0] == Manifest.permission.READ_EXTERNAL_STORAGE){
+
+			}else{
+
+			}
+		}
+	}
 
 	/**
 	 * Discards changes done to the note and eventually delete new attachments
@@ -2337,6 +2352,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		@Override
 		public void onClick(View v) {
+
 			switch (v.getId()) {
 				// Photo from camera
 				case R.id.camera:
@@ -2362,12 +2378,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					attachmentDialog.dismiss();
 					break;
 				case R.id.files:
-					Intent filesIntent;
-					filesIntent = new Intent(Intent.ACTION_GET_CONTENT);
-					filesIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-					filesIntent.addCategory(Intent.CATEGORY_OPENABLE);
-					filesIntent.setType("*/*");
-					startActivityForResult(filesIntent, FILES);
+					if (ContextCompat.checkSelfPermission(getActivity(),
+							Manifest.permission.READ_EXTERNAL_STORAGE)
+							== PackageManager.PERMISSION_GRANTED)
+						startGetContentAction();
+					else
+						askReadExternalStoragePermission();
 					attachmentDialog.dismiss();
 					break;
 				case R.id.sketch:
@@ -2390,6 +2406,21 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					Log.e(Constants.TAG, "Wrong element choosen: " + v.getId());
 			}
 		}
+	}
+
+	public void startGetContentAction() {
+		Intent filesIntent;
+		filesIntent = new Intent(Intent.ACTION_GET_CONTENT);
+		filesIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+		filesIntent.addCategory(Intent.CATEGORY_OPENABLE);
+		filesIntent.setType("*/*");
+		startActivityForResult(filesIntent, FILES);
+	}
+
+	private void askReadExternalStoragePermission(){
+		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE,
+				R.string.permission_external_storage_detail_attachment,
+				snackBarPlaceholder, () -> startGetContentAction());
 	}
 
 
