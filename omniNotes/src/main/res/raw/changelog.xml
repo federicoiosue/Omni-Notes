@@ -17,9 +17,17 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.4.4" changeDate="Mar 02, 2018">
+    <changelogversion versionName="5.4.5" changeDate="Mar 28, 2018">
         <changelogtext>[i]Improved![/i] Updated translations</changelogtext>
         <changelogtext>[i]Improved![/i] Added full description and screenshots for F-Droid users</changelogtext>
+        <changelogtext>[u]Fix[/u] Blank screen after leaving app by back-button pressure</changelogtext>
+        <changelogtext>[u]Fix[/u] Attachments addition from external memory</changelogtext>
+        <changelogtext>[u]Fix[/u] Widget update when archiving/deleting</changelogtext>
+        <changelogtext>[u]Fix[/u] Broken "new note with camera" shortcut</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="5.4.4" changeDate="Mar 02, 2018">
+        <changelogtext>[i]Improved![/i] Updated translations</changelogtext>
         <changelogtext>[u]Fix[/u] When screen is rotated password will be asked no more after first time now</changelogtext>
     </changelogversion>
 

@@ -22,6 +22,7 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -46,6 +47,7 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
+import it.feio.android.omninotes.async.UpdateWidgetsTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
@@ -56,6 +58,7 @@ import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
@@ -84,11 +87,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         ButterKnife.bind(this);
 		EventBus.getDefault().register(this);
 
-		if (!isPasswordAccepted) {
-            // This method starts the bootstrap chain.
-            checkPassword();
-        }
-
         initUI();
 
 		if (IntroActivity.mustRun()) {
@@ -98,6 +96,15 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         new UpdaterTask(this).execute();
     }
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (isPasswordAccepted) {
+			init();
+		} else {
+			checkPassword();
+		}
+	}
 
 	@Override
 	protected void onStop() {
@@ -113,6 +120,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
+	/**
+	 * This method starts the bootstrap chain.
+	 */
 	private void checkPassword() {
 		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& prefs.getBoolean("settings_password_access", false)) {
@@ -130,6 +140,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
 	public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+		showMessage(R.string.password_successfully_removed, ONStyle.ALERT);
 		init();
 	}
 
@@ -227,10 +238,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
      */
     public void onBackPressed() {
 
-        Fragment f;
-
         // SketchFragment
-        f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
+		Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
         if (f != null) {
             ((SketchFragment) f).save();
 
@@ -262,7 +271,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
                 getDrawerLayout().closeDrawer(GravityCompat.START);
             } else {
                 if (!((ListFragment)f).closeFab()) {
-                    super.onBackPressed();
+					isPasswordAccepted = false;
+					super.onBackPressed();
                 }
             }
             return;
@@ -377,7 +387,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         return Constants.ACTION_SHORTCUT.equals(i.getAction())
                 || Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())
                 || Constants.ACTION_WIDGET.equals(i.getAction())
-                || Constants.ACTION_TAKE_PHOTO.equals(i.getAction())
+                || Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
                 || ((Intent.ACTION_SEND.equals(i.getAction())
                 || Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
                 || Constants.INTENT_GOOGLE_NOW.equals(i.getAction()))
@@ -485,6 +495,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         new NoteProcessorDelete(Arrays.asList(new Note[]{note})).process();
         BaseActivity.notifyAppWidgets(this);
         Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
+    }
+
+
+    public void updateWidgets() {
+        new UpdateWidgetsTask(getApplicationContext())
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 

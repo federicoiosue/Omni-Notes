@@ -29,7 +29,6 @@
   <string name="share">Condividi</string>
   <string name="undo">Ripristina</string>
   <string name="trash">Cestino</string>
-  <string name="trash_action">Cestino</string>
   <string name="trashed">nel cestino</string>
   <string name="note_trashed">Nota(e) nel cestino</string>
   <string name="note_untrashed">Nota(e) ripristinata(e)</string>
@@ -195,6 +194,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="filter_archived">Nascondi le note archiviate</string>
   <string name="remove_filter_archived">Mostra le note archiviate</string>
   <string name="permission_external_storage">Il permesso alla scrittura su memoria esterna è necessaria per consentire i backup in cartelle pubbliche</string>
+  <string name="permission_external_storage_detail_attachment">L\'autorizzazione alla lettura della memoria esterna è necessaria per consentire allegati caricati da lì</string>
   <string name="permission_audio_recording">È necessario il permesso di utilizzare il microfono per registrare note audio</string>
   <string name="permission_coarse_location">Il permesso di accesso alla geolocalizzazione è necessario per aggiungere informazioni di posizione per le note</string>
   <string name="permission_not_granted">Permesso non concesso</string>
@@ -246,7 +246,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="insert_new_password">Inserire una nuova password</string>
   <string name="confirm_new_password">Confermare la nuova password</string>
   <string name="password_successfully_changed">Password modificata con successo</string>
-  <string name="password_successfully_removed">Password rimossa con successo</string>
+  <string name="password_successfully_removed">Password rimossa: tutte le note sono state sbloccate</string>
   <string name="wrong_password">Password errata</string>
   <string name="empty_password">La password è vuota</string>
   <string name="agree_unlocking_all_notes">Rimuovere la password\ne sbloccare tutte le note bloccate?</string>

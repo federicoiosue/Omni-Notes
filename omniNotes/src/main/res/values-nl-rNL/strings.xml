@@ -29,7 +29,6 @@
   <string name="share">Delen</string>
   <string name="undo">Ongedaan maken</string>
   <string name="trash">Verwijderen</string>
-  <string name="trash_action">Verwijderen</string>
   <string name="trashed">verwijderd</string>
   <string name="note_trashed">Verwijderde notitie(s)</string>
   <string name="note_untrashed">Notitie(s) hersteld uit de Prullenbak</string>
@@ -194,6 +193,7 @@
   <string name="filter_archived">Gearchiveerde notities verbergen</string>
   <string name="remove_filter_archived">Gearchiveerde notities weergeven</string>
   <string name="permission_external_storage">Een machtiging om te schrijven naar externe opslag is nodig voor back-ups in openbare mappen</string>
+  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
   <string name="permission_audio_recording">Toestemming voor het gebruik van de microfoon is nodig om audionotities te kunnen opnemen</string>
   <string name="permission_coarse_location">Toestemming voor locatietoegang is nodig om de locatie aan uw notities te kunnen toevoegen</string>
   <string name="permission_not_granted">Toestemming niet verleend</string>
@@ -245,7 +245,7 @@
   <string name="insert_new_password">Geef een nieuw wachtwoord in</string>
   <string name="confirm_new_password">Bevestig het nieuwe wachtwoord</string>
   <string name="password_successfully_changed">Wachtwoord succesvol gewijzigd</string>
-  <string name="password_successfully_removed">Wachtwoord succesvol verwijderd</string>
+  <string name="password_successfully_removed">Password removed: all notes have been unlocked</string>
   <string name="wrong_password">Verkeerd paswoord</string>
   <string name="empty_password">Het wachtwoord is leeg</string>
   <string name="agree_unlocking_all_notes">Verwijder wachtwoord\nen ontgrendel alle vergrendelde notities?</string>

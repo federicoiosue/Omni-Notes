@@ -29,7 +29,6 @@
   <string name="share">Comparteix</string>
   <string name="undo">Desfés</string>
   <string name="trash">Paperera</string>
-  <string name="trash_action">Paperera</string>
   <string name="trashed">moguda a la paperera</string>
   <string name="note_trashed">Notes mogudes a la paperera</string>
   <string name="note_untrashed">Notes recuperades de la paperera</string>
@@ -194,6 +193,7 @@
   <string name="filter_archived">Amaga les notes arxivades</string>
   <string name="remove_filter_archived">Mostra les notes arxivades</string>
   <string name="permission_external_storage">Cal permís d\'escriptura a l\'emmagatzematge extern per crear còpies de seguretat en carpetes públiques</string>
+  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
   <string name="permission_audio_recording">Cal permís d\'ús del micròfon per a enregistrar notes d\'àudio</string>
   <string name="permission_coarse_location">Cal permís d\'accés a la ubicació per afegir la informació de la posició a les notes</string>
   <string name="permission_not_granted">No s\'ha concedit el permís</string>
@@ -245,7 +245,7 @@
   <string name="insert_new_password">Introduïu una contrasenya nova</string>
   <string name="confirm_new_password">Confirmeu la contrasenya nova</string>
   <string name="password_successfully_changed">La contrasenya s\'han canviat correctament</string>
-  <string name="password_successfully_removed">La contrasenya s\'ha suprimit correctament</string>
+  <string name="password_successfully_removed">S\'ha suprimit la contrasenya; s\'han desblocat totes les notes</string>
   <string name="wrong_password">La contrasenya no és correcta</string>
   <string name="empty_password">La contrasenya és buida</string>
   <string name="agree_unlocking_all_notes">Suprimeix la contrasenhya\ni desbloca totes les notes blocades?</string>

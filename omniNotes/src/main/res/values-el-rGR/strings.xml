@@ -29,7 +29,6 @@
   <string name="share">Κοινή χρήση</string>
   <string name="undo">Αναίρεση</string>
   <string name="trash">Διαγραμμένα</string>
-  <string name="trash_action">Διαγραμμένα</string>
   <string name="trashed">στο καλάθι διεγραμμένων</string>
   <string name="note_trashed">Σημείωση (εις) στα διεγραμμένα</string>
   <string name="note_untrashed">Σημείωση(εις) που επαναφέρθηκαν από τα διεγραμμένα</string>
@@ -194,6 +193,7 @@
   <string name="filter_archived">Απόκρυψη αρχειοθετημένων σημειώσεων</string>
   <string name="remove_filter_archived">Εμφάνιση αρχειοθετημένων σημειώσεων</string>
   <string name="permission_external_storage">Δικαίωμα εγγραφής σε εξωτερικό χώρο αποθήκευσης είναι απαραίτητη για να επιτρέψει τα αντίγραφα ασφαλείας σε δημόσιους φακέλους</string>
+  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
   <string name="permission_audio_recording">Απαιτείται άδεια για να χρησιμοποιήσετε μικρόφωνο για την καταγραφή σημειώσεων ήχου</string>
   <string name="permission_coarse_location">Άδεια πρόσβασης στην τοποθεσία είναι απαραίτητη για να προσθέσετε πληροφορίες θέσης στις σημειώσεις σας</string>
   <string name="permission_not_granted">Δεν χορηγήθηκαν δικαιώματα</string>
@@ -245,7 +245,7 @@
   <string name="insert_new_password">Εισαγάγετε ένα νέο κωδικό πρόσβασης</string>
   <string name="confirm_new_password">Επιβεβαιώστε το νέο κωδικό πρόσβασης</string>
   <string name="password_successfully_changed">Ο κωδικός πρόσβασης άλλαξε επιτυχώς</string>
-  <string name="password_successfully_removed">Ο κωδικός πρόσβασης αφαιρέθηκε επιτυχώς</string>
+  <string name="password_successfully_removed">Password removed: all notes have been unlocked</string>
   <string name="wrong_password">Λάθος κωδικός</string>
   <string name="empty_password">Ο κωδικός πρόσβασης είναι κενός</string>
   <string name="agree_unlocking_all_notes">Αφαίρεση κωδικού και\n ξεκλείδωμα όλων των κλειδωμένων σημειώσεων;</string>

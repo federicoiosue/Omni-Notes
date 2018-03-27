@@ -249,7 +249,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                     break;
                 case R.id.fab_camera:
                     Intent i = mainActivity.getIntent();
-                    i.setAction(Constants.ACTION_TAKE_PHOTO);
+                    i.setAction(Constants.ACTION_FAB_TAKE_PHOTO);
                     mainActivity.setIntent(i);
                     editNote(new Note(), v);
                     break;
@@ -899,7 +899,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 	void editNote2(Note note) {
         if (note.get_id() == null) {
-            mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
             Log.d(Constants.TAG, "Adding new note");
             // if navigation is a category it will be set into note
             try {
@@ -977,7 +976,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             restoreListScrollPosition();
 			toggleSearchLabel(false);
             // Updates app widgets
-            BaseActivity.notifyAppWidgets(mainActivity);
+            mainActivity.updateWidgets();
         } else {
 			((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackActionFromResourceId(getActivity(),
 					item.getItemId());
@@ -1681,9 +1680,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             ubc.hideUndoBar(false);
             fab.showFab();
 
-            BaseActivity.notifyAppWidgets(mainActivity);
             Log.d(Constants.TAG, "Changes committed");
         }
+        mainActivity.updateWidgets();
     }
 
 
