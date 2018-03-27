@@ -29,7 +29,6 @@
   <string name="share">शेयर</string>
   <string name="undo">पूर्ववत् करें</string>
   <string name="trash">कचरा पेटी</string>
-  <string name="trash_action">कचरा पेटी</string>
   <string name="trashed">ट्रैश किए गए</string>
   <string name="note_trashed">ट्रैश किए गए note(s)</string>
   <string name="note_untrashed">Note(s) कचरा से लौटी</string>
@@ -196,6 +195,7 @@
   <string name="filter_archived">संग्रहीत नोट्स छुपाएं</string>
   <string name="remove_filter_archived">संग्रहीत नोट्स दिखाएं</string>
   <string name="permission_external_storage">सार्वजनिक फ़ोल्डरों पर बैकअप की अनुमति देने के लिए बाह्य संग्रह पर लिखने की अनुमति की आवश्यकता है</string>
+  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
   <string name="permission_audio_recording">ऑडियो नोट्स रिकॉर्ड करने के लिए माइक्रोफ़ोन का उपयोग करने की अनुमति आवश्यक है</string>
   <string name="permission_coarse_location">स्थान पर पहुंचने की अनुमति आपके नोट्स में स्थिति जानकारी जोड़ने के लिए आवश्यक है</string>
   <string name="permission_not_granted">अनुमति नहीं दी गयी</string>
@@ -247,7 +247,7 @@
   <string name="insert_new_password">एक नया पासवर्ड डाले</string>
   <string name="confirm_new_password">नए पासवर्ड की पुष्टि करें</string>
   <string name="password_successfully_changed">पासवर्ड सफलतापूर्वक परिवर्तित कर दिया</string>
-  <string name="password_successfully_removed">पासवर्ड सफलतापूर्वक हटाया</string>
+  <string name="password_successfully_removed">Password removed: all notes have been unlocked</string>
   <string name="wrong_password">गलत पासवर्ड</string>
   <string name="empty_password">पासवर्ड खाली है</string>
   <string name="agree_unlocking_all_notes">पासवर्ड हटाएं \ n और सभी लॉक किए गए नोट अनलॉक करें</string>

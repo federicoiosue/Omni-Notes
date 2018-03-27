@@ -18,7 +18,7 @@
   -->
 <resources>
   <!-- Activities -->
-  <string name="title_item_list">نقط</string>
+  <string name="title_item_list">ملاحظات</string>
   <string name="add_note">إضافة نقطة</string>
   <string name="title">العنوان</string>
   <string name="title_activity_list">أومني نوت</string>
@@ -29,7 +29,6 @@
   <string name="share">إشراك</string>
   <string name="undo">تراجع</string>
   <string name="trash">نفايات</string>
-  <string name="trash_action">نفايات</string>
   <string name="trashed">تم الحذف</string>
   <string name="note_trashed">تم حذف المدونات</string>
   <string name="note_untrashed">تم استرجاع المدونات</string>
@@ -104,7 +103,7 @@
   <string name="categorize_as">صنف</string>
   <string name="title_activity_category">صحح الفئة</string>
   <string name="delete_unused_category_confirmation">تأكيد حذف الفئة؟</string>
-  <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
+  <string name="delete_category_confirmation">هذه الفئة مستخدمة في بعض الملاحظات. \nهل أنت متأكد من رغبتك إلغاء التصنيف وحذف الفئة؟</string>
   <string name="discard">رفض</string>
   <string name="remove_category">ازالة فئة</string>
   <string name="no_tags_created">لايوجد أي وسوم حتى الآن\nأنشئ وسوماً بكتابتها مسبوقة بعلامة المربع ضمن ملاحظاتك</string>
@@ -195,6 +194,7 @@
   <string name="filter_archived">إخفاء الملاحظات المؤرشفة</string>
   <string name="remove_filter_archived">إظهار الملاحظات المؤرشفة</string>
   <string name="permission_external_storage">هناك حاجة إلى الإذن للكتابة على وحدة التخزين الخارجية للسماح للنسخ الاحتياطي في المجلدات العمومية</string>
+  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
   <string name="permission_audio_recording">هناك حاجة الى إذن استخدام الميكروفون لتسجيل الملاحظات الصوتية</string>
   <string name="permission_coarse_location">هناك حاجة الى هذا الإذن للوصول إلى الموقع لإضافة معلومات الموقف إلى الملاحظات الخاصة بك</string>
   <string name="permission_not_granted">لم يمنح الإذن</string>
@@ -247,7 +247,7 @@
   <string name="insert_new_password">أدخل كلمة مرور جديدة</string>
   <string name="confirm_new_password">تأكيد كلمة المرور الجديدة</string>
   <string name="password_successfully_changed">تم تغيير كلمة المرور بنجاح</string>
-  <string name="password_successfully_removed">تم حذف كلمة المرور بنجاح</string>
+  <string name="password_successfully_removed">تم حذف كلمة المرور: تم فك القفل عن جميع الملاحظات</string>
   <string name="wrong_password">كلمة مرور خاطئة</string>
   <string name="empty_password">كلمة المرور فارغة</string>
   <string name="agree_unlocking_all_notes">إزالة كلمة المرور \nفتح الملاحظات؟</string>
@@ -314,7 +314,7 @@
   <string name="settings_auto_location_summary">إضافة المكان آلياً إلى الملاحظات الجديدة</string>
   <string name="settings_dynamic_menu">قائمة ديناميكية</string>
   <string name="settings_dynamic_menu_summary">إخفاء تلقائي لبنود القائمة التي لا تستخدم</string>
-  <string name="settings_fab_expansion_behavior">Floating action button</string>
+  <string name="settings_fab_expansion_behavior">زر المهام العائم</string>
   <string name="settings_fab_expansion_behavior_summary_on">لمسة قصيرة للتنفيذ</string>
   <string name="settings_fab_expansion_behavior_summary_off">خيارات تبديل اللمس القصير</string>
   <string name="settings_attachments_on_bottom">المرفقات في الأسفل</string>
@@ -345,7 +345,7 @@
   <string name="stats_images">الصور</string>
   <string name="stats_videos">الفيديو</string>
   <string name="stats_audio_recordings">تسجيلات صوتية</string>
-  <string name="stats_sketches">Sketches</string>
+  <string name="stats_sketches">مسودّات</string>
   <string name="stats_files">ملفات</string>
   <string name="stats_locations">المواقع</string>
   <string name="stats_words">الكلمات</string>

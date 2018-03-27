@@ -29,7 +29,6 @@
   <string name="share">Дели</string>
   <string name="undo">Опозови</string>
   <string name="trash">Смеће</string>
-  <string name="trash_action">Смеће</string>
   <string name="trashed">у смећу</string>
   <string name="note_trashed">Белешке бачене</string>
   <string name="note_untrashed">Белешке враћене из смећа</string>
@@ -194,6 +193,7 @@
   <string name="filter_archived">Сакриј архивиране белешке</string>
   <string name="remove_filter_archived">Прикажи архивиране белешке</string>
   <string name="permission_external_storage">Дозвола за упис на спољно складиште је потребна за прављење резервне копије</string>
+  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
   <string name="permission_audio_recording">Дозвола за микрофон је потребна за снимање звучних белешки</string>
   <string name="permission_coarse_location">Дозвола за приступ локацији је потребна за додавање позиције у ваше белешке</string>
   <string name="permission_not_granted">Дозволе нису добијене</string>
@@ -245,7 +245,7 @@
   <string name="insert_new_password">Унесите нову лозинку</string>
   <string name="confirm_new_password">Потврдите нову лозинку</string>
   <string name="password_successfully_changed">Лозинка успешно измењена</string>
-  <string name="password_successfully_removed">Лозинка успешно уклоњена</string>
+  <string name="password_successfully_removed">Лозинка уклоњена: све белешке су откључане</string>
   <string name="wrong_password">Погрешна лозинка</string>
   <string name="empty_password">Лозинка је празна</string>
   <string name="agree_unlocking_all_notes">Уклонити лозинку и\nоткључати закључане белешке?</string>

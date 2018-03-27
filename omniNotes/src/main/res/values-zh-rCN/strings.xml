@@ -29,7 +29,6 @@
   <string name="share">共享</string>
   <string name="undo">撤销</string>
   <string name="trash">删除记事</string>
-  <string name="trash_action">删除记事</string>
   <string name="trashed">已回收</string>
   <string name="note_trashed">记事已移入回收站</string>
   <string name="note_untrashed">记事已从回收站恢复</string>
@@ -194,6 +193,7 @@
   <string name="filter_archived">隐藏已归档记事</string>
   <string name="remove_filter_archived">显示已归档记事</string>
   <string name="permission_external_storage">外部储存权限用于在公共文件夹进行备份</string>
+  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
   <string name="permission_audio_recording">麦克风权限用于录制音频记事</string>
   <string name="permission_coarse_location">位置权限用于在您的记事中加入位置信息</string>
   <string name="permission_not_granted">权限未被授予</string>
@@ -245,7 +245,7 @@
   <string name="insert_new_password">输入新密码</string>
   <string name="confirm_new_password">确认新密码</string>
   <string name="password_successfully_changed">密码修改成功</string>
-  <string name="password_successfully_removed">密码移除成功</string>
+  <string name="password_successfully_removed">Password removed: all notes have been unlocked</string>
   <string name="wrong_password">密码错误</string>
   <string name="empty_password">密码为空</string>
   <string name="agree_unlocking_all_notes">移除密码\n并解锁所有已锁定的记事?</string>

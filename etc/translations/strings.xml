@@ -31,7 +31,6 @@
     <string name="share">Share</string>
     <string name="undo">Undo</string>
     <string name="trash">Trash</string>
-    <string name="trash_action">Trash</string>
     <string name="trashed">trashed</string>
     <string name="note_trashed">Note(s) trashed</string>
     <string name="note_untrashed">Note(s) restored from trash</string>
@@ -196,7 +195,7 @@
     <string name="filter_archived">Hide archived notes</string>
     <string name="remove_filter_archived">Show archived notes</string>
     <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
-    <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow read content from public folders</string>
+    <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
     <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
     <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
     <string name="permission_not_granted">Permission not granted</string>

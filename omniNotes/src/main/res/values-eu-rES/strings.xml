@@ -29,7 +29,6 @@
   <string name="share">Partekatu</string>
   <string name="undo">Desegin</string>
   <string name="trash">Zakarrontzia</string>
-  <string name="trash_action">Zakarrontzia</string>
   <string name="trashed">zakarrontzian</string>
   <string name="note_trashed">Zakarrontzira botatako oharra(k)</string>
   <string name="note_untrashed">Zakarrontzitik berreskuratutako oharra(k)</string>
@@ -194,6 +193,7 @@
   <string name="filter_archived">Ezkutatu artxibatutako oharrak</string>
   <string name="remove_filter_archived">Erakutsi artxibatutako oharrak</string>
   <string name="permission_external_storage">Kanpo biltegiratzean idazteko baimena behar da babeskopiak karpeta publikoetan egin ahal izateko</string>
+  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
   <string name="permission_audio_recording">Mikrofonoa erabiltzeko baimena behar da audio-oharrak grabatzeko</string>
   <string name="permission_coarse_location">Kokapena atzitzeko baimena behar da kokalekuaren informazioa oharretara gehitu ahal izateko</string>
   <string name="permission_not_granted">Baimena ukatuta</string>
@@ -245,7 +245,7 @@
   <string name="insert_new_password">Sartu pasahitz berri bat</string>
   <string name="confirm_new_password">Berretsi pasahitz berria</string>
   <string name="password_successfully_changed">Pasahitza ongi aldatu da</string>
-  <string name="password_successfully_removed">Pasahitza ongi kendu da</string>
+  <string name="password_successfully_removed">Pasahitza kendu da: ohar guztiak desblokeatu dira</string>
   <string name="wrong_password">Pasahitz okerra</string>
   <string name="empty_password">Pasahitza hutsik dago</string>
   <string name="agree_unlocking_all_notes">Kendu pasahitza\neta desblokeatu blokeatutako ohar guztiak?</string>
