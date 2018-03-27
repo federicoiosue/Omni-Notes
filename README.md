@@ -83,6 +83,8 @@ To execute all tests included into the project connect a device or emulator, the
 
 Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as code versioning methodology, you as developer should **always** start working on [develop branch](https://github.com/federicoiosue/Omni-Notes/tree/develop) that contains the most recent changes.
 
+There are many features/improvements that are not on **my** roadmap but someone else could decide to work on them anyway: hunt for issues tagged as [Help Wanted](https://github.com/federicoiosue/Omni-Notes/issues?utf8=✓&q=label%3A"Help+wanted") to find them!
+
 Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/contributors.md) file.
 
 **Don't forget to contribute to original code! Don't be selfish or lazy!**
@@ -152,7 +154,7 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 
 
     Copyright 2015 Federico Iosue
-
+    
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -165,7 +167,7 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
     
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    
 
-
-
+[2]: https://crowdin.net/project/omni-notes/
 [2]: https://crowdin.net/project/omni-notes/

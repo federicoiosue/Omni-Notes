@@ -29,7 +29,6 @@
   <string name="share">Partager</string>
   <string name="undo">Annuler</string>
   <string name="trash">Corbeille</string>
-  <string name="trash_action">Corbeille</string>
   <string name="trashed">mise à la corbeille</string>
   <string name="note_trashed">Note(s) mise(s) à la corbeille</string>
   <string name="note_untrashed">Note(s) restaurée(s) depuis la corbeille</string>
@@ -194,6 +193,7 @@
   <string name="filter_archived">Masquer les notes archivées</string>
   <string name="remove_filter_archived">Afficher les notes archivées</string>
   <string name="permission_external_storage">L\'autorisation d\'écrire sur le stockage externe est nécessaire pour permettre des sauvegardes sur des dossiers publics</string>
+  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
   <string name="permission_audio_recording">L\'autorisation d\'utiliser le microphone est nécessaire pour enregistrer des notes audio</string>
   <string name="permission_coarse_location">L\'autorisation d’accéder à la localisation est nécessaire pour ajouter des informations de position à vos notes</string>
   <string name="permission_not_granted">Autorisation non accordée</string>
@@ -245,7 +245,7 @@
   <string name="insert_new_password">Entrer un nouveau mot de passe</string>
   <string name="confirm_new_password">Confirmer le nouveau mot de passe</string>
   <string name="password_successfully_changed">Mot de passe modifié avec succès</string>
-  <string name="password_successfully_removed">Mot de passe supprimé avec succès</string>
+  <string name="password_successfully_removed">Password removed: all notes have been unlocked</string>
   <string name="wrong_password">Mot de passe incorrect</string>
   <string name="empty_password">Mot de passe vide</string>
   <string name="agree_unlocking_all_notes">Supprimer le mot de passe\net déverrouiller toutes les notes ?</string>

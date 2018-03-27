@@ -29,7 +29,6 @@
   <string name="share">Teilen</string>
   <string name="undo">Rückgängig</string>
   <string name="trash">Papierkorb</string>
-  <string name="trash_action">Papierkorb</string>
   <string name="trashed">entsorgt</string>
   <string name="note_trashed">Notiz(en) entsorgt</string>
   <string name="note_untrashed">Notiz(en) aus dem Papierkorb wiederhergestellt</string>
@@ -194,6 +193,7 @@
   <string name="filter_archived">Archivierte Notizen ausblenden</string>
   <string name="remove_filter_archived">Archivierte Notizen anzeigen</string>
   <string name="permission_external_storage">Das Zugriffsrecht auf den externen Speicher wird benötigt, um Backups in öffentlichen Ordnern zu erlauben</string>
+  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
   <string name="permission_audio_recording">Das Zugriffsrecht auf das Mikrofon wird benötigt, um Audio-Notizen aufzunehmen</string>
   <string name="permission_coarse_location">Der Zugriffsrecht auf den Standort wird benötigt, um Standortinformationen ihrer Notiz hinzuzufügen</string>
   <string name="permission_not_granted">Zugriffsrecht nicht bewilligt</string>
@@ -245,7 +245,7 @@
   <string name="insert_new_password">Neues Passwort eingeben</string>
   <string name="confirm_new_password">Passwort bestätigen</string>
   <string name="password_successfully_changed">Passwort erfolgreich geändert</string>
-  <string name="password_successfully_removed">Passwort erfolgreich entfernt</string>
+  <string name="password_successfully_removed">Password removed: all notes have been unlocked</string>
   <string name="wrong_password">Passwort falsch!</string>
   <string name="empty_password">Passwort ist leer</string>
   <string name="agree_unlocking_all_notes">Passwort entfernen\nund alle gesperrten Notizen freischalten?</string>

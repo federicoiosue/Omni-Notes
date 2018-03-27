@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes.utils;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,29 +28,35 @@ import java.util.List;
 
 public class IntentChecker {
 
-    /**
-     * Checks intent and features availability
-     *
-     * @param ctx
-     * @param intent
-     * @param features
-     * @return
-     */
-    public static boolean isAvailable(Context ctx, Intent intent, String[] features) {
-        boolean res = true;
-        final PackageManager mgr = ctx.getPackageManager();
-        // Intent resolver
-        List<ResolveInfo> list = mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        res = list.size() > 0;
-        // Features
-        if (features != null) {
-            for (String feature : features) {
-                res = res && mgr.hasSystemFeature(feature);
-            }
-        }
-        return res;
-    }
+	/**
+	 * Retrieves
+	 * @param ctx
+	 * @param intent
+	 * @return
+	 */
+	public static String resolveActivityPackage(Context ctx, Intent intent) {
+		ComponentName activity= intent.resolveActivity(ctx.getPackageManager());
+		return activity != null ? activity.getPackageName() : "";
+	}
 
+	/**
+	 * Checks intent and features availability
+	 *
+	 * @param features
+	 * @param ctx
+	 * @param intent
+	 * @return
+	 */
+	public static boolean isAvailable(Context ctx, Intent intent, String[] features) {
+		boolean res = getCompatiblePackages(ctx, intent).size() > 0;
+
+		if (features != null) {
+			for (String feature : features) {
+				res = res && ctx.getPackageManager().hasSystemFeature(feature);
+			}
+		}
+		return res;
+	}
 
 	/**
 	 * Checks Intent's action
@@ -75,5 +82,10 @@ public class IntentChecker {
 			if (checkAction(i, action)) return true;
 		}
 		return false;
+	}
+
+	private static List<ResolveInfo> getCompatiblePackages(Context ctx, Intent intent) {
+		final PackageManager mgr = ctx.getPackageManager();
+		return mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 	}
 }

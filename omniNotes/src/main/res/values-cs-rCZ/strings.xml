@@ -29,7 +29,6 @@
   <string name="share">Sdílet</string>
   <string name="undo">Vrátit zpět</string>
   <string name="trash">Přesunout do koše</string>
-  <string name="trash_action">Přesunout do koše</string>
   <string name="trashed">přesunuto do koše</string>
   <string name="note_trashed">Přesunuto do koše</string>
   <string name="note_untrashed">Obnoveno z koše</string>
@@ -194,6 +193,7 @@
   <string name="filter_archived">Skrýt archivované poznámky</string>
   <string name="remove_filter_archived">Zobrazit archivované poznámky</string>
   <string name="permission_external_storage">Oprávnění k zápisu na externí úložiště je nutné pro povolení záloh do veřejných složek</string>
+  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
   <string name="permission_audio_recording">Je potřeba oprávnění používat mikrofon k nahrávání zvukových poznámek</string>
   <string name="permission_coarse_location">Oprávnění k přístupu k umístění je zapotřebí pro přidání informace o pozici do poznámek</string>
   <string name="permission_not_granted">Oprávnění není uděleno</string>
@@ -245,7 +245,7 @@
   <string name="insert_new_password">Zadejte nové heslo</string>
   <string name="confirm_new_password">Potvrďte nové heslo</string>
   <string name="password_successfully_changed">Heslo bylo úspěšně změněno</string>
-  <string name="password_successfully_removed">Heslo úspěšně odstraněno</string>
+  <string name="password_successfully_removed">Password removed: all notes have been unlocked</string>
   <string name="wrong_password">Chybné heslo</string>
   <string name="empty_password">Heslo je prázdné</string>
   <string name="agree_unlocking_all_notes">Odebrat heslo\na odemknout všechny uzamčené poznámky?</string>
