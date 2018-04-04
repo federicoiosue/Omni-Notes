@@ -22,37 +22,62 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Build;
+import android.os.LocaleList;
 import android.support.annotation.NonNull;
-import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Locale;
 
+import static android.content.Context.MODE_MULTI_PROCESS;
 
-public class LanguageHelper extends MultiDexApplication {
+
+public class LanguageHelper {
 
 	/**
 	 * Updates default language with forced one
 	 */
-	@SuppressLint("CommitPrefEdits")
-	public static void updateLanguage(Context ctx, String lang) {
-		Configuration cfg = new Configuration();
+	@SuppressLint("ApplySharedPref")
+	public static Context updateLanguage(Context ctx, String lang) {
 		SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 		String language = prefs.getString(Constants.PREF_LANG, "");
 
+		Locale locale = null;
 		if (TextUtils.isEmpty(language) && lang == null) {
-			cfg.locale = Locale.getDefault();
-			prefs.edit().putString(Constants.PREF_LANG, cfg.locale.toString()).commit();
+			locale = Locale.getDefault();
+			prefs.edit().putString(Constants.PREF_LANG, locale.toString()).commit();
 		} else if (lang != null) {
-			cfg.locale = getLocale(lang);
+			locale = getLocale(lang);
 			prefs.edit().putString(Constants.PREF_LANG, lang).commit();
 		} else if (!TextUtils.isEmpty(language)) {
-			cfg.locale = getLocale(language);
+			locale = getLocale(language);
 		}
-		ctx.getResources().updateConfiguration(cfg, null);
+
+		return setLocale(ctx, locale);
+	}
+
+	@SuppressWarnings("deprecation")
+	private static Context setLocale(Context context, Locale locale){
+		Configuration configuration = context.getResources().getConfiguration();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			configuration.setLocale(locale);
+
+			LocaleList localeList = new LocaleList(locale);
+			LocaleList.setDefault(localeList);
+			configuration.setLocales(localeList);
+
+			context.createConfigurationContext(configuration);
+
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			configuration.setLocale(locale);
+			context.createConfigurationContext(configuration);
+
+		} else {
+			configuration.locale = locale;
+			context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+		}
+		return context;
 	}
 
 	/**

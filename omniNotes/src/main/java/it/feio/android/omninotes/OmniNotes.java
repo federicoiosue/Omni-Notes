@@ -64,9 +64,6 @@ public class OmniNotes extends MultiDexApplication {
 		initAcra(this);
 
 		initLeakCanary();
-
-		// Checks selected locale or default one
-		LanguageHelper.updateLanguage(this, null);
 	}
 
 	private void initLeakCanary() {
@@ -92,11 +89,9 @@ public class OmniNotes extends MultiDexApplication {
 	}
 
 	@Override
-	// Used to restore user selected locale when configuration changes
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		String language = prefs.getString(Constants.PREF_LANG, "");
-		super.onConfigurationChanged(newConfig);
 		LanguageHelper.updateLanguage(this, language);
 	}
 
