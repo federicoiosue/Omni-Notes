@@ -21,7 +21,7 @@ android:
   - tools
   - platform-tools
   - build-tools-26.0.2
-  - android-23
+  - android-27
   - extra-google-m2repository
   - extra-android-m2repository
   licenses:
