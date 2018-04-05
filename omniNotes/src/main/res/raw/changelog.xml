@@ -17,6 +17,14 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.5.0" changeDate="Apr 10, 2018">
+        <changelogtext>[b]New![/b] New "attachment" available to easily add the current timestamp</changelogtext>
+        <changelogtext>[i]Improved![/i] Removed outdated transparent navigation bar: this will save a lot of CPU avoiding calculating dynamic layout, after all today all devides are very much bigger than when this optimization has been introduced</changelogtext>
+        <changelogtext>[i]Improved![/i] Removed semi-transparent overlay when using floating action button to speed-up the flow</changelogtext>
+        <changelogtext>[u]Fix[/u] Notes list update after password reset and password request bypass using swipe actions</changelogtext>
+        <changelogtext>[u]Fix[/u] Language switching on Android Oreo and later versions</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.4.5" changeDate="Mar 28, 2018">
         <changelogtext>[i]Improved![/i] Updated translations</changelogtext>
         <changelogtext>[i]Improved![/i] Added full description and screenshots for F-Droid users</changelogtext>
