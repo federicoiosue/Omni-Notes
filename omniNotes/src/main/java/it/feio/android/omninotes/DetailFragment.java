@@ -49,6 +49,7 @@ import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
+import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -72,6 +73,7 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
+import it.feio.android.checklistview.models.CheckListView;
 import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.checklistview.models.ChecklistManager;
 import it.feio.android.omninotes.async.AttachmentTask;
@@ -103,9 +105,11 @@ import org.apache.commons.lang.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
@@ -812,6 +816,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	 * Force focus and shows soft keyboard. Only happens if it's a new note, without shared content.
 	 * {@link showKeyboard} is used to check if the note is created from shared content.
 	 */
+	@SuppressWarnings("JavadocReference")
 	private void requestFocus(final EditText view) {
 		if (note.get_id() == null && !noteTmp.isChanged(note) && showKeyboard) {
 			KeyboardUtils.showKeyboard(view);
@@ -1328,6 +1333,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Location
 		android.widget.TextView locationSelection = (android.widget.TextView) layout.findViewById(R.id.location);
 		locationSelection.setOnClickListener(new AttachmentOnClickListener());
+		// Time
+		android.widget.TextView timeStampSelection = (android.widget.TextView) layout.findViewById(R.id.timestamp);
+		timeStampSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Desktop note with PushBullet
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			android.widget.TextView pushbulletSelection = (android.widget.TextView) layout.findViewById(R.id
@@ -1416,6 +1424,26 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		mSketchFragment.setArguments(b);
 		transaction.replace(R.id.fragment_container, mSketchFragment, mainActivity.FRAGMENT_SKETCH_TAG)
 				.addToBackStack(mainActivity.FRAGMENT_DETAIL_TAG).commit();
+	}
+
+	private void addTimestamp() {
+		Editable editable = content.getText();
+		int position = content.getSelectionStart();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+		String dateStamp = dateFormat.format(new Date().getTime()) + " ";
+		if (noteTmp.isChecklist()) {
+			if (mChecklistManager.getFocusedItemView() != null) {
+				editable = mChecklistManager.getFocusedItemView().getEditText().getEditableText();
+				position = mChecklistManager.getFocusedItemView().getEditText().getSelectionStart();
+			} else {
+				((CheckListView) toggleChecklistView)
+						.addItem(dateStamp, false, mChecklistManager.getCount());
+			}
+		}
+		String leadSpace = position == 0 ? "" : " ";
+		dateStamp = leadSpace + dateStamp;
+		editable.insert(position, dateStamp);
+		Selection.setSelection(editable, position + dateStamp.length());
 	}
 
 
@@ -2276,7 +2304,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				// Photo from camera
 				case R.id.camera:
 					takePhoto();
-					attachmentDialog.dismiss();
 					break;
 				case R.id.recording:
 					if (!isRecording) {
@@ -2289,12 +2316,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 						addAttachment(attachment);
 						mAttachmentAdapter.notifyDataSetChanged();
 						mGridView.autoresize();
-						attachmentDialog.dismiss();
 					}
 					break;
 				case R.id.video:
 					takeVideo();
-					attachmentDialog.dismiss();
 					break;
 				case R.id.files:
 					if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ==
@@ -2303,15 +2328,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					} else {
 						askReadExternalStoragePermission();
 					}
-					attachmentDialog.dismiss();
 					break;
 				case R.id.sketch:
 					takeSketch(null);
-					attachmentDialog.dismiss();
 					break;
 				case R.id.location:
 					displayLocationDialog();
-					attachmentDialog.dismiss();
+					break;
+				case R.id.timestamp:
+					addTimestamp();
 					break;
 				case R.id.pushbullet:
 					MessagingExtension.mirrorMessage(mainActivity, getString(R.string.app_name),
@@ -2319,11 +2344,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 							getNoteContent(), BitmapFactory.decodeResource(getResources(),
 									R.drawable.ic_stat_literal_icon),
 							null, 0);
-					attachmentDialog.dismiss();
 					break;
 				default:
 					Log.e(Constants.TAG, "Wrong element choosen: " + v.getId());
 			}
+			if(!isRecording)attachmentDialog.dismiss();
 		}
 	}
 
