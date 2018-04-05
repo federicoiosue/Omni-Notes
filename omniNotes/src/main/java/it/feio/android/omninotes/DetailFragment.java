@@ -43,6 +43,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
@@ -169,6 +170,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	ViewManager detailWrapperView;
 	@BindView(R.id.snackbar_placeholder)
 	View snackBarPlaceholder;
+	@BindView(R.id.done_fab)
+	FloatingActionButton doneFab;
 
 	public OnDateSetListener onDateSetListener;
 	public OnTimeSetListener onTimeSetListener;
@@ -528,8 +531,18 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		initViewReminder();
 
 		initViewFooter();
+
+		initViewDoneFab();
 	}
 
+	private void initViewDoneFab(){
+		doneFab.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				saveAndExit(DetailFragment.this);
+			}
+		});
+	}
 
 	private void initViewFooter() {
 		// Footer dates of creation...
