@@ -89,14 +89,6 @@ public class Fab {
             noteBtn.setOnClickListener(onClickListener);
         }
 
-        // In KitKat bottom padding is added by navbar height
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            int navBarHeight = Display.getNavigationBarHeightKitkat(OmniNotes.getAppContext());
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fab.getLayoutParams();
-            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin,
-                    navBarHeight + DensityUtil.pxToDp(params.bottomMargin, OmniNotes.getAppContext()));
-            fab.setLayoutParams(params);
-        }
     }
 
 

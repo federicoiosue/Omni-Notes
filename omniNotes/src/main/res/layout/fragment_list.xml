@@ -127,7 +127,6 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/snackbar_placeholder"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/navigation_bar_height"/>
+            android:layout_gravity="bottom"/>
 
 </FrameLayout>

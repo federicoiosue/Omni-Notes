@@ -144,7 +144,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private ListFragment mFragment;
     private android.support.v7.view.ActionMode actionMode;
     private boolean keepActionMode = false;
-    private TextView listFooter;
 
     // Undo archive/trash
     private boolean undoTrash = false;
@@ -475,20 +474,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         list.setItemsCanFocus(false);
 
-        // If device runs KitKat a footer is added to list to avoid
-        // navigation bar transparency covering items
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            int navBarHeight = Display.getNavigationBarHeightKitkat(mainActivity);
-            listFooter = new TextView(mainActivity.getApplicationContext());
-            listFooter.setHeight(navBarHeight);
-            // To avoid useless events on footer
-            listFooter.setOnClickListener(null);
-            list.addFooterView(listFooter);
-        }
-
         // Note long click to start CAB mode
         list.setOnItemLongClickListener((arg0, view, position, arg3) -> {
-            if (view.equals(listFooter)) return true;
             if (getActionMode() != null) {
                 return false;
             }
@@ -501,7 +488,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
         // Note single click listener managed by the activity itself
         list.setOnItemClickListener((arg0, view, position, arg3) -> {
-            if (view.equals(listFooter)) return;
             if (getActionMode() == null) {
                 editNote(listAdapter.getItem(position), view);
                 return;
@@ -1292,11 +1278,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
      */
     private void selectAllNotes() {
         for (int i = 0; i < list.getChildCount(); i++) {
-            LinearLayout v = (LinearLayout) list.getChildAt(i).findViewById(R.id.card_layout);
-            // Checks null to avoid the footer
-            if (v != null) {
-                v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
-            }
+            LinearLayout v = list.getChildAt(i).findViewById(R.id.card_layout);
+			v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
         }
         selectedNotes.clear();
         for (int i = 0; i < listAdapter.getCount(); i++) {

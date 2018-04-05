@@ -42,9 +42,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
@@ -58,7 +56,6 @@ import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -77,7 +74,6 @@ import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.checklistview.models.ChecklistManager;
-import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
@@ -118,7 +114,7 @@ import static java.lang.Long.parseLong;
 
 
 public class DetailFragment extends BaseFragment implements OnReminderPickedListener, OnTouchListener,
-		OnGlobalLayoutListener, OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved,
+		OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved,
 		OnGeoUtilResultListener {
 
 	private static final int TAKE_PHOTO = 1;
@@ -198,7 +194,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private boolean swiping;
 	private int startSwipeX;
 	private SharedPreferences prefs;
-	private View keyboardPlaceholder;
 	private boolean orientationChanged;
 	private long audioRecordingTimeStart;
 	private long audioRecordingTime;
@@ -237,11 +232,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public void onResume() {
 		super.onResume();
-		// Adding a layout observer to perform calculus when showing keyboard
-		if (root != null) {
-			root.getViewTreeObserver().addOnGlobalLayoutListener(this);
-		}
-
 		activityPausing = false;
 	}
 
@@ -249,10 +239,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_detail, container, false);
-		// Bottom padding set for translucent navigation bar since Kitkat
-		int softButtonHeight=Display.getSoftButtonsBarHeight( getActivity());
-		view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(),
-				view.getPaddingBottom() + softButtonHeight);
 		ButterKnife.bind(this, view);
 		return view;
 	}
@@ -335,10 +321,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (mRecorder != null) {
 			mRecorder.release();
 			mRecorder = null;
-		}
-
-		if (root != null) {
-			root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 		}
 
 		if (toggleChecklistView != null) {
@@ -2067,48 +2049,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		return true;
 	}
-
-
-	@Override
-	public void onGlobalLayout() {
-		int screenHeight = Display.getUsableSize(mainActivity).y;
-		int navBarOffset = Display.orientationLandscape(mainActivity) ? 0 : DensityUtil.pxToDp(Display
-				.getNavigationBarHeight(mainActivity.getWindow().getDecorView()), mainActivity);
-		int heightDiff = screenHeight - Display.getVisibleSize(mainActivity).y + navBarOffset;
-		boolean keyboardVisible = heightDiff > 150;
-		if (keyboardVisible && keyboardPlaceholder == null) {
-			shrinkLayouts(heightDiff);
-		} else if (!keyboardVisible && keyboardPlaceholder != null) {
-			restoreLayouts();
-		}
-	}
-
-
-	private void shrinkLayouts(int heightDiff) {
-		detailWrapperView.removeView(timestampsView);
-		keyboardPlaceholder = new View(mainActivity);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Display.orientationLandscape(mainActivity)
-			)) {
-				root.addView(keyboardPlaceholder, LinearLayout.LayoutParams.MATCH_PARENT, heightDiff);
-			}
-		}
-	}
-
-
-	private void restoreLayouts() {
-		if (root != null) {
-			ViewGroup wrapper = (ViewGroup) root.findViewById(R.id.detail_wrapper);
-			if (root.indexOfChild(keyboardPlaceholder) != -1) {
-				root.removeView(keyboardPlaceholder);
-			}
-			keyboardPlaceholder = null;
-			if (wrapper.indexOfChild(timestampsView) == -1) {
-				wrapper.addView(timestampsView);
-			}
-		}
-	}
-
 
 	@Override
 	public void onAttachingFileErrorOccurred(Attachment mAttachment) {

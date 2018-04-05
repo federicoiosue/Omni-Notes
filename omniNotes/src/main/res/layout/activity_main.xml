@@ -20,9 +20,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:fitsSystemWindows="false"
-    tools:context="it.feio.android.omninotes.MainActivity">
+    tools:context=".MainActivity">
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -32,8 +30,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/padding_top_kitkat">
+            android:orientation="vertical">
 
             <include android:id="@+id/toolbar" layout="@layout/toolbar" />
 
