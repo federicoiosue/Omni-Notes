@@ -41,7 +41,7 @@ public class PasswordHelper {
 	public static void requestPassword(final Activity mActivity, final PasswordValidator mPasswordValidator) {
 		LayoutInflater inflater = mActivity.getLayoutInflater();
 		final View v = inflater.inflate(R.layout.password_request_dialog_layout, null);
-		final EditText passwordEditText = (EditText) v.findViewById(R.id.password_request);
+		final EditText passwordEditText = v.findViewById(R.id.password_request);
 
 		MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
 				.autoDismiss(false)
@@ -71,6 +71,7 @@ public class PasswordHelper {
 				.neutralText(mActivity.getResources().getString(R.string.password_forgot))
 				.onNeutral((dialog13, which) -> {
 					PasswordHelper.resetPassword(mActivity);
+					mPasswordValidator.onPasswordValidated(false);
 					dialog13.dismiss();
 				})
 				.build();
