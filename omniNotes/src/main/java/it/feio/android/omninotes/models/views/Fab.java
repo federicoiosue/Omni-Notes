@@ -1,24 +1,18 @@
 package it.feio.android.omninotes.models.views;
 
-import android.os.Build;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-
-import it.feio.android.checklistview.utils.DensityUtil;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.listeners.AbsListViewScrollDetector;
 import it.feio.android.omninotes.models.listeners.OnFabItemClickedListener;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Display;
 
 import static android.support.v4.view.ViewCompat.animate;
 
@@ -47,7 +41,7 @@ public class Fab {
         this.fabHidden = true;
         this.fabExpanded = false;
 
-        AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(R.id.fab_expand_menu_button);
+        AddFloatingActionButton fabAddButton = fab.findViewById(R.id.fab_expand_menu_button);
         fabAddButton.setOnClickListener(v -> {
 			if (!isExpanded() && expandOnLongClick) {
 				performAction(v);
@@ -102,7 +96,6 @@ public class Fab {
     public void performToggle() {
         fabExpanded = !fabExpanded;
         fab.toggle();
-        toggleOverlay();
     }
 
 
@@ -140,7 +133,6 @@ public class Fab {
             animateFab(fab.getHeight() + getMarginBottom(fab), View.VISIBLE, View.INVISIBLE);
             fabHidden = true;
             fabExpanded = false;
-            toggleOverlay();
         }
     }
 

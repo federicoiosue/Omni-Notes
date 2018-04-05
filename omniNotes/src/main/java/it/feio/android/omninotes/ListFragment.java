@@ -259,7 +259,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                     break;
             }
         });
-        fab.setOverlay(R.color.white_overlay);
     }
 
 
