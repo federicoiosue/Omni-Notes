@@ -60,6 +60,7 @@ import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
+import it.feio.android.omninotes.async.bus.*;
 import org.apache.commons.lang.ObjectUtils;
 
 import java.util.ArrayList;
@@ -75,10 +76,6 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
-import it.feio.android.omninotes.async.bus.NavigationUpdatedNavDrawerClosedEvent;
-import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
-import it.feio.android.omninotes.async.bus.NotesMergeEvent;
 import it.feio.android.omninotes.async.notes.NoteLoaderTask;
 import it.feio.android.omninotes.async.notes.NoteProcessorArchive;
 import it.feio.android.omninotes.async.notes.NoteProcessorCategorize;
@@ -1189,6 +1186,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 		closeFab();
     }
 
+	public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+		initNotesList(mainActivity.getIntent());
+	}
 
 	private void animateListView() {
 		if (!OmniNotes.isDebugBuild()) {

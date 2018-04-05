@@ -163,7 +163,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG).commit();
         }
 
-        // Handling of Intent actions
         handleIntents();
     }
 
