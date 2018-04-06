@@ -19,7 +19,12 @@ package it.feio.android.omninotes;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.view.View;
+import android.widget.TextView;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -67,4 +72,44 @@ public class AddAndEditNoteTest extends BaseEspressoTest {
 
     }
 
+    /**
+     * Given I'm at note list (MainActivity)
+     * When I press add new note
+     * Then I can see empty fields and focus is on content field (keyboard is shown.
+     */
+    @Test
+    public void AddNote_ShouldFocusOnContent(){
+
+        onView(allOf(withId(R.id.fab_expand_menu_button),
+                withParent(withId(R.id.fab)),
+                isDisplayed()))
+                .perform(click());
+
+        onView(allOf(withId(R.id.fab_note),
+                withParent(withId(R.id.fab)),
+                isDisplayed()))
+                .perform(click());
+
+        onView(withId(R.id.detail_content))
+                .check(matches(isTextFocused()));
+
+    }
+
+
+    public static Matcher<View> isTextFocused() {
+        return new TypeSafeMatcher<View>() {
+
+            @Override
+            public boolean matchesSafely(View view) {
+                if (!(view instanceof TextView)) {
+                    return false;
+                }
+                return (view).isFocused();
+            }
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("is-focused=true");
+            }
+        };
+    }
 }

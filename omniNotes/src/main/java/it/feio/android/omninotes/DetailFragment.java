@@ -21,6 +21,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -61,6 +62,7 @@ import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -369,6 +371,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 
 		initViews();
+
+		if(content.getText().length()==0)
+			focusOnContent();
+	}
+
+	private void focusOnContent(){
+		Log.e(Constants.TAG, "focusing on note content EditText (and showing keyboard)");
+		content.setFocusableInTouchMode(true);
+		content.requestFocus();
+		InputMethodManager inputMethodManager=(InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMethodManager.showSoftInput(content,0);
 	}
 
 
