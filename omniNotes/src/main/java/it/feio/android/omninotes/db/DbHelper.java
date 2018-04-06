@@ -23,7 +23,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteReadOnlyDatabaseException;
 import android.net.Uri;
 import android.util.Log;
 import it.feio.android.omninotes.OmniNotes;
@@ -766,6 +765,15 @@ public class DbHelper extends SQLiteOpenHelper {
 				})
 				.filter(note -> note != null)
 				.toList().toBlocking().single();
+	}
+
+    /**
+     * Retrieves all uncompleted checklists
+     */
+    public List<Note> getNotesByUncompleteChecklist() {
+		String whereCondition = " WHERE " + KEY_CHECKLIST + " = 1 AND " + KEY_CONTENT + " LIKE '%" + it.feio.android
+				.checklistview.interfaces.Constants.UNCHECKED_SYM + "%'";
+		return getNotes(whereCondition, true);
 	}
 
 

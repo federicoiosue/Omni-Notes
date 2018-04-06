@@ -69,6 +69,13 @@
         android:visible="false"
         app:showAsAction="always"/>
     <item
+        android:id="@+id/menu_uncomplete_checklists"
+        android:icon="@drawable/ic_format_list_checks_white_24dp"
+        android:orderInCategory="225"
+        android:title="@string/checklist"
+        android:visible="false"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/menu_tags"
         android:icon="@drawable/ic_loyalty_white_24dp"
         android:orderInCategory="250"

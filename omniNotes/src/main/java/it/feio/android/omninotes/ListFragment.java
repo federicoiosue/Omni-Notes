@@ -28,7 +28,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -61,6 +60,7 @@ import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import it.feio.android.omninotes.async.bus.*;
+import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.ObjectUtils;
 
 import java.util.ArrayList;
@@ -94,15 +94,6 @@ import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
-import it.feio.android.omninotes.utils.AnimationsHelper;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Display;
-import it.feio.android.omninotes.utils.KeyboardUtils;
-import it.feio.android.omninotes.utils.Navigation;
-import it.feio.android.omninotes.utils.PasswordHelper;
-import it.feio.android.omninotes.utils.ReminderHelper;
-import it.feio.android.omninotes.utils.TagsHelper;
-import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
 import it.feio.android.simplegallery.util.BitmapUtils;
 
@@ -603,6 +594,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             }
             menu.findItem(R.id.menu_add_reminder).setVisible(true);
             menu.findItem(R.id.menu_category).setVisible(true);
+			menu.findItem(R.id.menu_uncomplete_checklists).setVisible(true);
             menu.findItem(R.id.menu_tags).setVisible(true);
             menu.findItem(R.id.menu_trash).setVisible(true);
         }
@@ -734,6 +726,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView && !searchViewHasFocus);
         menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView && !searchViewHasFocus);
         menu.findItem(R.id.menu_empty_trash).setVisible(!drawerOpen && navigationTrash);
+		menu.findItem(R.id.menu_uncomplete_checklists).setVisible(searchViewHasFocus);
         menu.findItem(R.id.menu_tags).setVisible(searchViewHasFocus);
     }
 
@@ -778,6 +771,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 					break;
 				case R.id.menu_filter_category_remove:
 					filterCategoryArchived(false);
+				case R.id.menu_uncomplete_checklists:
+					filterByUncompleteChecklists();
 					break;
                 case R.id.menu_tags:
                     filterByTags();
@@ -999,6 +994,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     /**
      * Notes list adapter initialization and association to view
+	 * @FIXME: This method is a divine opprobrium and MUST be refactored. I'm ashamed by myself.
      */
     void initNotesList(Intent intent) {
         Log.d(Constants.TAG, "initNotesList intent: " + intent.getAction());
@@ -1021,13 +1017,17 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         // Searching
         searchQuery = searchQueryInstant;
         searchQueryInstant = null;
-        if (searchTags != null || searchQuery != null || Intent.ACTION_SEARCH.equals(intent.getAction())) {
+        if (searchTags != null || searchQuery != null
+				|| IntentChecker.checkAction(intent, Intent.ACTION_SEARCH, Constants.ACTION_SEARCH_UNCOMPLETE_CHECKLISTS)) {
 
             // Using tags
             if (searchTags != null && intent.getStringExtra(SearchManager.QUERY) == null) {
                 searchQuery = searchTags;
                 NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByTag",
                         searchQuery);
+            } else if (Constants.ACTION_SEARCH_UNCOMPLETE_CHECKLISTS.equals(intent.getAction())) {
+				searchQuery = getContext().getResources().getString(R.string.uncompleted_checklists);
+				NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByUncompleteChecklist");
             } else {
                 // Get the intent, verify the action and get the query
                 if (intent.getStringExtra(SearchManager.QUERY) != null) {
@@ -1759,9 +1759,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
 
 
-    /**
-     * Search notes by tags
-     */
+	private void filterByUncompleteChecklists() {
+		initNotesList(new Intent(Constants.ACTION_SEARCH_UNCOMPLETE_CHECKLISTS));
+	}
+
     private void filterByTags() {
 
         // Retrieves all available categories

@@ -201,6 +201,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="checklist">Lista di controllo</string>
   <string name="text_note">Nota testuale</string>
   <string name="photo">Foto</string>
+  <string name="uncompleted_checklists">Liste di controllo incomplete</string>
   <!-- Settings -->
   <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
   <string name="settings">Impostazioni</string>

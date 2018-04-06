@@ -217,6 +217,7 @@
     <string name="checklist">Checklist</string>
     <string name="text_note">Text note</string>
     <string name="photo">Photo</string>
+    <string name="uncompleted_checklists">Incompleted checklists</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>

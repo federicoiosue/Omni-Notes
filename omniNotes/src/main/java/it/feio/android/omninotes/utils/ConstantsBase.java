@@ -71,6 +71,7 @@ public interface ConstantsBase {
 	 * Used to quickly add a note, save, and perform backPress (eg. Tasker+Pushbullet) *
 	 */
 	String ACTION_SEND_AND_EXIT = "action_send_and_exit";
+	String ACTION_SEARCH_UNCOMPLETE_CHECKLISTS = "action_search_uncomplete_checklists";
 
 	String PREF_LANG = "settings_language";
 	String PREF_LAST_UPDATE_CHECK = "last_update_check";
