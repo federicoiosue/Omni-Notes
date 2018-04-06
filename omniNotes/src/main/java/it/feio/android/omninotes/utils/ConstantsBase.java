@@ -22,6 +22,8 @@ public interface ConstantsBase {
 	String APP_STORAGE_DIRECTORY_SB_SYNC = "db_sync";
 
 	String DEV_EMAIL = "omninotes@iosue.it";
+	String GOOGLE_PLUS_COMMUNITY = "https://plus.google.com/communities/112276053772152071903";
+	String FACEBOOK_COMMUNITY = "https://www.facebook.com/OmniNotes/";
 
 	// Used for updates retrieval
 	long UPDATE_MIN_FREQUENCY = 24L * 60L * 60L * 1000L; // 1 day
