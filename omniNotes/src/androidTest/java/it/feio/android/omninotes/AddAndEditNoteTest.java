@@ -47,7 +47,7 @@ import static org.hamcrest.Matchers.allOf;
 public class AddAndEditNoteTest extends BaseEspressoTest {
 
     @Test
-    public void AddNote(){
+    public void addNote(){
         onView(allOf(withId(R.id.fab_expand_menu_button),
                 withParent(withId(R.id.fab)),
                 isDisplayed()))
@@ -78,7 +78,7 @@ public class AddAndEditNoteTest extends BaseEspressoTest {
      * Then I can see empty fields and focus is on content field (keyboard is shown.
      */
     @Test
-    public void AddNote_ShouldFocusOnContent(){
+    public void addNoteShouldFocusOnContent(){
 
         onView(allOf(withId(R.id.fab_expand_menu_button),
                 withParent(withId(R.id.fab)),

@@ -372,8 +372,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		initViews();
 
-		if(content.getText().length()==0)
+		if(content.getText().length()==0){
 			focusOnContent();
+		}
 	}
 
 	private void focusOnContent(){
