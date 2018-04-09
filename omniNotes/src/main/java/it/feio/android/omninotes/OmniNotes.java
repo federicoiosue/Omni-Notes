@@ -85,7 +85,8 @@ public class OmniNotes extends MultiDexApplication {
 
 	@NonNull
 	public static boolean isDebugBuild() {
-		return BuildConfig.BUILD_TYPE.equals("debug");
+//		return BuildConfig.BUILD_TYPE.equals("debug");
+		return false;
 	}
 
 	@Override

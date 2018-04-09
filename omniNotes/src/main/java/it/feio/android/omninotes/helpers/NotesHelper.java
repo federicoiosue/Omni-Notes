@@ -8,6 +8,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,20 +23,20 @@ public class NotesHelper {
 
     }
 
-    public static StringBuilder appendContent(Note note, StringBuilder content) {
+    public static StringBuilder appendContent(Note note, StringBuilder content, boolean includeTitle) {
         if (content.length() > 0
-                && (!TextUtils.isEmpty(note.getTitle()) || !TextUtils.isEmpty(note.getContent()))) {
+                && (!StringUtils.isEmpty(note.getTitle()) || !StringUtils.isEmpty(note.getContent()))) {
             content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"))
                     .append(Constants.MERGED_NOTES_SEPARATOR).append(System.getProperty("line.separator"))
                     .append(System.getProperty("line.separator"));
         }
-        if (!TextUtils.isEmpty(note.getTitle())) {
+        if (includeTitle && !StringUtils.isEmpty(note.getTitle())) {
             content.append(note.getTitle());
         }
-        if (!TextUtils.isEmpty(note.getTitle()) && !TextUtils.isEmpty(note.getContent())) {
+        if (!StringUtils.isEmpty(note.getTitle()) && !StringUtils.isEmpty(note.getContent())) {
             content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"));
         }
-        if (!TextUtils.isEmpty(note.getContent())) {
+        if (!StringUtils.isEmpty(note.getContent())) {
             content.append(note.getContent());
         }
         return content;
@@ -63,19 +64,22 @@ public class NotesHelper {
 		Note mergedNote = new Note();
 		mergedNote.setTitle(notes.get(0).getTitle());
 		StringBuilder content = new StringBuilder();
+		// Just first note title must not be included into the content
+		boolean includeTitle = false;
 
 		for (Note note : notes) {
-			appendContent(note, content);
+			appendContent(note, content, includeTitle);
 			locked = locked || note.isLocked();
 			category = (Category) ObjectUtils.defaultIfNull(category, note.getCategory());
 			String currentReminder = note.getAlarm();
-			if (!TextUtils.isEmpty(currentReminder) && reminder == null) {
+			if (!StringUtils.isEmpty(currentReminder) && reminder == null) {
 				reminder = currentReminder;
 				reminderRecurrenceRule = note.getRecurrenceRule();
 			}
 			latitude = (Double) ObjectUtils.defaultIfNull(latitude, note.getLatitude());
 			longitude = (Double) ObjectUtils.defaultIfNull(longitude, note.getLongitude());
 			addAttachments(keepMergedNotes, note, attachments);
+			includeTitle = true;
 		}
 
         mergedNote.setContent(content.toString());

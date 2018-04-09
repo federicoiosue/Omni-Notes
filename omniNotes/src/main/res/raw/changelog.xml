@@ -24,6 +24,7 @@
         <changelogtext>[i]Improved![/i] Removed semi-transparent overlay when using floating action button to speed-up the flow</changelogtext>
         <changelogtext>[u]Fix[/u] Notes list update after password reset and password request bypass using swipe actions</changelogtext>
         <changelogtext>[u]Fix[/u] Language switching on Android Oreo and later versions</changelogtext>
+        <changelogtext>[u]Fix[/u] First title duplication during notes' merging</changelogtext>
     </changelogversion>
 
     <changelogversion versionName="5.4.5" changeDate="Mar 28, 2018">

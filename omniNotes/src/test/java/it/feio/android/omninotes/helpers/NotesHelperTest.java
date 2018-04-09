@@ -21,6 +21,9 @@ import org.junit.Test;
 
 import it.feio.android.omninotes.models.Note;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -34,12 +37,21 @@ public class NotesHelperTest {
         assertFalse(NotesHelper.haveSameId(note1, note2));
     }
 
-    @Test
-    public void haveSameIdShouldSucceed() {
-        Note note1 = getNote(3L, "test title", "test content");
-        Note note2 = getNote(3L, "different test title", "different test content");
-        assertTrue(NotesHelper.haveSameId(note1, note2));
-    }
+	@Test
+	public void haveSameIdShouldSucceed() {
+		Note note1 = getNote(3L, "test title", "test content");
+		Note note2 = getNote(4L, "different test title", "different test content");
+		assertTrue(NotesHelper.haveSameId(note1, note2));
+	}
+
+	@Test
+	public void mergingNotesDoesntDuplicateFirstTitle() {
+    	final String FIRST_NOTE_TITLE = "test title 1";
+		Note note1 = getNote(5L, FIRST_NOTE_TITLE, "");
+		Note note2 = getNote(6L, "test title 2", "");
+		Note mergedNote = NotesHelper.mergeNotes(Arrays.asList(note1, note2), false);
+		assertFalse(mergedNote.getContent().contains(FIRST_NOTE_TITLE));
+	}
 
     private Note getNote(Long id, String title, String content) {
         Note note = new Note();
