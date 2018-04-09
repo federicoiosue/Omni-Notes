@@ -29,9 +29,6 @@ public class NotesHelper {
                     .append(Constants.MERGED_NOTES_SEPARATOR).append(System.getProperty("line.separator"))
                     .append(System.getProperty("line.separator"));
         }
-        if (!TextUtils.isEmpty(note.getTitle())) {
-            content.append(note.getTitle());
-        }
         if (!TextUtils.isEmpty(note.getTitle()) && !TextUtils.isEmpty(note.getContent())) {
             content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"));
         }
