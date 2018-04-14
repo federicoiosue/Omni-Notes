@@ -108,5 +108,10 @@
         android:orderInCategory="1000"
         android:title="@string/discard_changes"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/menu_note_info"
+        android:orderInCategory="1100"
+        android:title="@string/info"
+        app:showAsAction="ifRoom"/>
 
 </menu>

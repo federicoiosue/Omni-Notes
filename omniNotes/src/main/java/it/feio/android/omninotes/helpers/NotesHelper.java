@@ -1,12 +1,13 @@
 package it.feio.android.omninotes.helpers;
 
-import android.text.TextUtils;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.StatsSingleNote;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.TagsHelper;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -92,6 +93,87 @@ public class NotesHelper {
         mergedNote.setAttachmentsList(attachments);
 
         return mergedNote;
+	}
+
+	/**
+	 * Retrieves statistics data for a single note
+	 */
+	public static StatsSingleNote getNoteInfos(Note note) {
+		StatsSingleNote infos = new StatsSingleNote();
+
+		int words, chars;
+		if (note.isChecklist()) {
+			infos.setChecklistCompletedItemsNumber(StringUtils.countMatches(note.getContent(), it.feio.android.checklistview
+					.interfaces.Constants.CHECKED_SYM));
+			infos.setChecklistItemsNumber(infos.getChecklistCompletedItemsNumber() +
+					StringUtils.countMatches(note.getContent(), it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM));
+		}
+		infos.setTags(TagsHelper.retrieveTags(note).size());
+		words = getWords(note);
+		chars = getChars(note);
+		infos.setWords(words);
+		infos.setChars(chars);
+
+		int attachmentsAll = 0, images = 0, videos = 0, audioRecordings = 0, sketches = 0, files = 0;
+		for (Attachment attachment : note.getAttachmentsList()) {
+			if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
+				images++;
+			} else if (Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
+				videos++;
+			} else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
+				audioRecordings++;
+			} else if (Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {
+				sketches++;
+			} else if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
+				files++;
+			}
+		}
+		infos.setAttachments(attachmentsAll);
+		infos.setImages(images);
+		infos.setVideos(videos);
+		infos.setAudioRecordings(audioRecordings);
+		infos.setSketches(sketches);
+		infos.setFiles(files);
+
+		return infos;
+	}
+
+	/**
+	 * Counts words in a note
+	 */
+	public static int getWords(Note note) {
+		int count = 0;
+		String[] fields = {note.getTitle(), note.getContent()};
+		for (String field : fields) {
+			boolean word = false;
+			int endOfLine = field.length() - 1;
+			for (int i = 0; i < field.length(); i++) {
+				// if the char is a letter, word = true.
+				if (Character.isLetter(field.charAt(i)) && i != endOfLine) {
+					word = true;
+					// if char isn't a letter and there have been letters before,
+					// counter goes up.
+				} else if (!Character.isLetter(field.charAt(i)) && word) {
+					count++;
+					word = false;
+					// last word of String; if it doesn't end with a non letter, it
+					// wouldn't count without this.
+				} else if (Character.isLetter(field.charAt(i)) && i == endOfLine) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * Counts chars in a note
+	 */
+	public static int getChars(Note note) {
+		int count = 0;
+		count += note.getTitle().length();
+		count += note.getContent().length();
+		return count;
 	}
 
 }

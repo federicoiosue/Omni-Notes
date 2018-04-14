@@ -1138,6 +1138,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			case R.id.menu_delete:
 				deleteNote();
 				break;
+			case R.id.menu_note_info:
+				showNoteInfo();
+				break;
 			default: Log.w(Constants.TAG, "Invalid menu option selected");
 		}
 
@@ -1146,6 +1149,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void showNoteInfo() {
+		noteTmp.setTitle(getNoteTitle());
+		noteTmp.setContent(getNoteContent());
+		Intent intent = new Intent(getContext(), NoteInfosActivity.class);
+		intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable)noteTmp);
+		startActivity(intent);
+
+	}
 
 	private void navigateUp() {
 		afterSavedReturnsToList = true;

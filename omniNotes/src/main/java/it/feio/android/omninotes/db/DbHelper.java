@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.util.Log;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
+import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.utils.*;
 
@@ -359,46 +360,6 @@ public class DbHelper extends SQLiteOpenHelper {
         String whereCondition = " WHERE " + KEY_LONGITUDE + " IS NOT NULL "
                 + "AND " + KEY_LONGITUDE + " != 0 ";
         return getNotes(whereCondition, true);
-    }
-
-
-    /**
-     * Counts words in a note
-     */
-    public int getWords(Note note) {
-        int count = 0;
-        String[] fields = {note.getTitle(), note.getContent()};
-        for (String field : fields) {
-            boolean word = false;
-            int endOfLine = field.length() - 1;
-            for (int i = 0; i < field.length(); i++) {
-                // if the char is a letter, word = true.
-                if (Character.isLetter(field.charAt(i)) && i != endOfLine) {
-                    word = true;
-                    // if char isn't a letter and there have been letters before,
-                    // counter goes up.
-                } else if (!Character.isLetter(field.charAt(i)) && word) {
-                    count++;
-                    word = false;
-                    // last word of String; if it doesn't end with a non letter, it
-                    // wouldn't count without this.
-                } else if (Character.isLetter(field.charAt(i)) && i == endOfLine) {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
-
-    /**
-     * Counts chars in a note
-     */
-    public int getChars(Note note) {
-        int count = 0;
-        count += note.getTitle().length();
-        count += note.getContent().length();
-        return count;
     }
 
 
@@ -1012,8 +973,8 @@ public class DbHelper extends SQLiteOpenHelper {
             if (note.getLongitude() != null && note.getLongitude() != 0) {
                 locations++;
             }
-            words = getWords(note);
-            chars = getChars(note);
+            words = NotesHelper.getWords(note);
+            chars = NotesHelper.getChars(note);
             if (words > maxWords) {
                 maxWords = words;
             }
