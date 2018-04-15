@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes.helpers;
 
+import it.feio.android.checklistview.models.ChecklistManager;
 import it.feio.android.omninotes.utils.Constants;
 import junit.framework.Assert;
 import org.apache.commons.lang.StringUtils;
@@ -77,6 +78,38 @@ public class NotesHelperTest {
 		Assert.assertTrue(mergeNote.getContent().contains("Merged note 1 content"));
 		Assert.assertTrue(mergeNote.getContent().contains("Merged note 2 content"));
 		assertEquals(StringUtils.countMatches(mergeNote.getContent(), Constants.MERGED_NOTES_SEPARATOR), 2);
+	}
+
+	@Test
+	public void getChars() {
+		Note note = getNote(1L, "one two", "three four five\nAnother line");
+		assertEquals(35, NotesHelper.getChars(note));
+	}
+
+	@Test
+	public void getChecklistChars() {
+		String content = it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM + "done\n" + it.feio.android
+				.checklistview.interfaces.Constants.UNCHECKED_SYM + "undone yet";
+		Note note = getNote(1L, "checklist", content);
+		note.setChecklist(true);
+		assertEquals(24, NotesHelper.getChars(note));
+	}
+
+	@Test
+	public void getWords() {
+		Note note = getNote(1L, "one two", "three four five");
+		assertEquals(5, NotesHelper.getWords(note));
+		note.setTitle("singleword");
+		assertEquals(4, NotesHelper.getWords(note));
+	}
+
+	@Test
+	public void getChecklistWords() {
+    	String content = it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM + "done\n" + it.feio.android
+				.checklistview.interfaces.Constants.UNCHECKED_SYM + "undone yet";
+		Note note = getNote(1L, "checklist", content);
+		note.setChecklist(true);
+		assertEquals(4, NotesHelper.getWords(note));
 	}
 
     private Note getNote(Long id, String title, String content) {

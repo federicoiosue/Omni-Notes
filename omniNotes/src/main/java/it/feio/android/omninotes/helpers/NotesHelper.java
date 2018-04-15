@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 public class NotesHelper {
@@ -145,6 +146,7 @@ public class NotesHelper {
 		int count = 0;
 		String[] fields = {note.getTitle(), note.getContent()};
 		for (String field : fields) {
+			field = sanitizeTextForWordsAndCharsCount(note, field);
 			boolean word = false;
 			int endOfLine = field.length() - 1;
 			for (int i = 0; i < field.length(); i++) {
@@ -166,13 +168,21 @@ public class NotesHelper {
 		return count;
 	}
 
+	private static String sanitizeTextForWordsAndCharsCount(Note note, String field) {
+		if (note.isChecklist()) {
+			String regex = "(" + Pattern.quote(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM) + "|"
+					+ Pattern.quote(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM) + ")";
+			field = field.replaceAll(regex, "");
+		}
+		return field;
+	}
+
 	/**
 	 * Counts chars in a note
 	 */
 	public static int getChars(Note note) {
-		int count = 0;
-		count += note.getTitle().length();
-		count += note.getContent().length();
+		int count = sanitizeTextForWordsAndCharsCount(note, note.getTitle()).length();
+		count += sanitizeTextForWordsAndCharsCount(note, note.getContent()).length();
 		return count;
 	}
 
