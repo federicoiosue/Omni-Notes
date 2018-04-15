@@ -200,6 +200,7 @@
   <string name="checklist">Checklist</string>
   <string name="text_note">Besedilna opomba</string>
   <string name="photo">Slika</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Prikaz nekaterih statistik in bližnjih opomnikov iz Omni Notes</string>
   <string name="settings">Nastavitve</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Navigacija</string>
   <string name="tour_listactivity_home_detail">Navigacijski meni omogoča premikanje med beležkami s filtri in značkami</string>
   <string name="tour_listactivity_tag_title">Značke</string>
-  <string name="tour_listactivity_tag_detail">Za boljšo preglednost dodaj obarvene značke</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Izboljšave</string>
   <string name="tour_detailactivity_attachment_detail">Vašim beležkam lahko dodate več vrst priponk!</string>
   <string name="tour_detailactivity_action_title">Še več</string>

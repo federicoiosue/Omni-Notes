@@ -202,6 +202,7 @@
   <string name="checklist">चेकलिस्ट</string>
   <string name="text_note">टेक्स्ट नोट</string>
   <string name="photo">तस्वीरें</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">रिमाइंडर और कुछ आंकड़े ओमनी नोटस कि और से दिखाए</string>
   <string name="settings">सेटिंग्स</string>
@@ -364,7 +365,7 @@
   <string name="tour_listactivity_home_title">नेविगेट करें</string>
   <string name="tour_listactivity_home_detail">नेविगेशन मेनू आप नोट्स के माध्यम से फिल्टर और टैग के साथ ले जाने के लिए अनुमति देता है</string>
   <string name="tour_listactivity_tag_title">टैग</string>
-  <string name="tour_listactivity_tag_detail">आपके विचार हमेशा कुशल रखने के लिए रंग का टैग जोड़ें</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">सुधार</string>
   <string name="tour_detailactivity_attachment_detail">अलग अलग प्रकारों कीअ टैचमेंट अपने नोट् से जोड़ें!</string>
   <string name="tour_detailactivity_action_title">अधिक करो</string>

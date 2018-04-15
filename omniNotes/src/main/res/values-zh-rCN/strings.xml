@@ -200,6 +200,7 @@
   <string name="checklist">待办事项列表</string>
   <string name="text_note">文本注释</string>
   <string name="photo">照片</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
   <string name="settings">设置</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">导航</string>
   <string name="tour_listactivity_home_detail">使用导航菜单筛选并分类查看记事</string>
   <string name="tour_listactivity_tag_title">标签</string>
-  <string name="tour_listactivity_tag_detail">添加不同颜色的标签以便更加有效的管理您的记事</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">改进</string>
   <string name="tour_detailactivity_attachment_detail">为您的记事添加不同类型的附件！</string>
   <string name="tour_detailactivity_action_title">更多功能</string>

@@ -200,6 +200,7 @@
   <string name="checklist">Llista de comprobación</string>
   <string name="text_note">Nota de testu</string>
   <string name="photo">Semeya</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Amuesa dalgunes estadístiques y avisos cercanos d\'Omni Notes</string>
   <string name="settings">Axustes</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Navegar</string>
   <string name="tour_listactivity_home_detail">El menú de navegación permítete movete al traviés de les notes con etiquetes y filtros</string>
   <string name="tour_listactivity_tag_title">Etiquetes</string>
-  <string name="tour_listactivity_tag_detail">Amiesta etiquetes de color pa caltener los pensamientos d\'un xeitu eficiente</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Ameyora</string>
   <string name="tour_detailactivity_attachment_detail">Puedes amestar axuntos de distintos tipos a les notes!</string>
   <string name="tour_detailactivity_action_title">Facer más</string>

@@ -200,6 +200,7 @@
   <string name="checklist">Λίστα ελέγχου</string>
   <string name="text_note">Σημείωση κειμένου</string>
   <string name="photo">Φωτογραφία</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Εμφανίζει κάποια στατιστικά στοιχεία και ληγμένες υπενθυμίσεις από τις σημειώσεις Omni</string>
   <string name="settings">Ρυθμίσεις</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Πλοήγηση</string>
   <string name="tour_listactivity_home_detail">Το μενού πλοήγησης σας επιτρέπει να μετακινηθείτε μεταξύ σημειώσεων με φίλτρα και Ετικετών</string>
   <string name="tour_listactivity_tag_title">Ετικέτες</string>
-  <string name="tour_listactivity_tag_detail">Προσθήκη έγχρωμων ετικετών για να βρίσκετε σημειώσεις με μια ματιά</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Βελτίωση</string>
   <string name="tour_detailactivity_attachment_detail">Προσθήκη συνημμένων διαφόρων ειδών στις σημειώσεις σας!</string>
   <string name="tour_detailactivity_action_title">Κάντε περισσότερα</string>

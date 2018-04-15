@@ -200,6 +200,7 @@
   <string name="checklist">Yapılacaklar listesi</string>
   <string name="text_note">Metin Notu</string>
   <string name="photo">Fotoğraf</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Yaklaşan hatırlatmalarınızı ve not sayılarınızı görüntüleyebirsiniz</string>
   <string name="settings">Ayarlar</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Ana Menü</string>
   <string name="tour_listactivity_home_detail">Ana Menü sayesinde not ve etiketlere kolayca ulaşabilirsiniz</string>
   <string name="tour_listactivity_tag_title">Etiketler</string>
-  <string name="tour_listactivity_tag_detail">Notlarını verimli kullanmak için etiketle ve renklindir</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Geliştir</string>
   <string name="tour_detailactivity_attachment_detail">Notlarınıza farklı ekler ekliyebilirsiniz</string>
   <string name="tour_detailactivity_action_title">Daha fazla</string>

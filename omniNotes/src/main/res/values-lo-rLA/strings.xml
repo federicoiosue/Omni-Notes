@@ -200,6 +200,7 @@
   <string name="checklist">Checklist</string>
   <string name="text_note">Text note</string>
   <string name="photo">Photo</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">ສະແດງສະຖິຕິຈຳນວນໜຶ່ງ ແລະ ເຂົ້າເຖິງໂຕເຕືອນຄວາມຈຳຈາກ Omni Notes</string>
   <string name="settings">ການ​ຕັ້ງຄ່າ</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">ການຄວບຄຸມ</string>
   <string name="tour_listactivity_home_detail">ເມນູການຄວບຄຸມເຮັດໃຫ້ທ່ານສາມາດຈັດການບັນທຶກດ້ວຍໂຕຄັດກອງ ແລະ ປ້າຍ</string>
   <string name="tour_listactivity_tag_title">ປ້າຍ</string>
-  <string name="tour_listactivity_tag_detail">ເພີ່ມປ້າຍສີເພື່ອເຮັດໃຫ້ຄວາມຈື່ຈຳຂອງທ່ານມີປະສິດທິຜົນ</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">ປັບປຸງ</string>
   <string name="tour_detailactivity_attachment_detail">ເພີ່ມຮຟລ໌ແນບຫຼາກຫຼາຍຮູບແບບໃສ່ບັນທຶກຂອງທ່ານ!</string>
   <string name="tour_detailactivity_action_title">ເຮັດໄດ້ອີກຫຼາຍຢ່າງ</string>

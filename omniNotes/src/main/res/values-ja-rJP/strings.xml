@@ -193,13 +193,14 @@
   <string name="filter_archived">アーカイブしたノートを非表示</string>
   <string name="remove_filter_archived">アーカイブしたノートを表示</string>
   <string name="permission_external_storage">パブリック フォルダーのバックアップを許可するために、外部ストレージに書き込みのアクセス許可が必要です</string>
-  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
+  <string name="permission_external_storage_detail_attachment">そこからの添付を可能にするために、外部ストレージの読み込みアクセス許可が必要です</string>
   <string name="permission_audio_recording">オーディオ ノートを録音するために、マイクを使用するアクセス許可が必要です</string>
   <string name="permission_coarse_location">ノートに位置情報を追加するために、場所にアクセスするアクセス許可が必要です</string>
   <string name="permission_not_granted">アクセス許可が与えられていません</string>
   <string name="checklist">チェックリスト</string>
   <string name="text_note">テキスト ノート</string>
   <string name="photo">写真</string>
+  <string name="uncompleted_checklists">チェックリストが未完です</string>
   <!-- Settings -->
   <string name="dashclock_description">統計情報と Omni Notes から期限切れのアラームを表示します</string>
   <string name="settings">設定</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">ナビゲーション</string>
   <string name="tour_listactivity_home_detail">ナビゲーション メニューでは、フィルターとタグでノートを移動することができます</string>
   <string name="tour_listactivity_tag_title">タグ</string>
-  <string name="tour_listactivity_tag_detail">ノートに一目でわかる色のタグを追加します</string>
+  <string name="tour_listactivity_tag_detail">色付きのカテゴリーを追加してノートを一目で整理します</string>
   <string name="tour_detailactivity_attachment_title">改善</string>
   <string name="tour_detailactivity_attachment_detail">ノートにいくつかの種類の添付ファイルを追加します!</string>
   <string name="tour_detailactivity_action_title">さらに</string>

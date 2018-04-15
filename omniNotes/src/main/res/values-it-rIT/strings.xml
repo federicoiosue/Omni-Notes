@@ -363,7 +363,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="tour_listactivity_home_title">Naviga</string>
   <string name="tour_listactivity_home_detail">Il menu di navigazione consente di spostarsi attraverso le note con filtri e tag</string>
   <string name="tour_listactivity_tag_title">Tag</string>
-  <string name="tour_listactivity_tag_detail">Aggiungi tag colorati per mantenere sempre efficienti i tuoi pensieri</string>
+  <string name="tour_listactivity_tag_detail">Aggiungi categorie colorate per mantenere sempre organizzati i tuoi pensieri</string>
   <string name="tour_detailactivity_attachment_title">Migliora</string>
   <string name="tour_detailactivity_attachment_detail">Aggiungi molti diversi tipi di allegato alle tue note!</string>
   <string name="tour_detailactivity_action_title">Fai di più</string>

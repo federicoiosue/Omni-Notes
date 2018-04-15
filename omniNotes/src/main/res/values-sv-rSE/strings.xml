@@ -200,6 +200,7 @@
   <string name="checklist">Checklista</string>
   <string name="text_note">Textanteckning</string>
   <string name="photo">Bild</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Visar statistik och närliggande påminnelser från Omni Tools</string>
   <string name="settings">Inställningar</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Navigera</string>
   <string name="tour_listactivity_home_detail">Navigeringsmenyn låter dig bläddra igenom anteckningar med filter och etiketter</string>
   <string name="tour_listactivity_tag_title">Ettiktetter</string>
-  <string name="tour_listactivity_tag_detail">Lägg till färgade etiketter göra dina tankar alltid effektiva</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Förbättra</string>
   <string name="tour_detailactivity_attachment_detail">Lägg till en mängd olika typer av bifogningar till dina anteckningar!</string>
   <string name="tour_detailactivity_action_title">Gör mer</string>

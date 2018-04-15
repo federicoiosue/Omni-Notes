@@ -200,6 +200,7 @@
   <string name="checklist">Daftar nama</string>
   <string name="text_note">Catatan teks</string>
   <string name="photo">Foto</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Tampilkan beberapa statistik dan mengakhiri pengingat dari Omni Notes</string>
   <string name="settings">Setelan</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Navigasi</string>
   <string name="tour_listactivity_home_detail">Menu navigasi memungkinkan anda untuk bergerak di catatan dengan filter dan tag</string>
   <string name="tour_listactivity_tag_title">Tag</string>
-  <string name="tour_listactivity_tag_detail">Tambah tag berwarna untuk mencari catatan at-a-glance</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Tingkatkan</string>
   <string name="tour_detailactivity_attachment_detail">Tambahkan lampiran dari beberapa jenis untuk catatan anda!</string>
   <string name="tour_detailactivity_action_title">Lakukan lebih banyak</string>

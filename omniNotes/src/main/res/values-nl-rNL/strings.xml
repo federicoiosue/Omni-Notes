@@ -200,6 +200,7 @@
   <string name="checklist">Checklist</string>
   <string name="text_note">Tekstnotitie</string>
   <string name="photo">Foto</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Sommige statistieken en de naderende herinneringen van Omni notities worden weergegeven</string>
   <string name="settings">Instellingen</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Navigatie</string>
   <string name="tour_listactivity_home_detail">Navigatie-menu laat toe u te verplaatsen door notities met filters en labels</string>
   <string name="tour_listactivity_tag_title">Tags</string>
-  <string name="tour_listactivity_tag_detail">Voeg gekleurde tags toe om uw bedenkingen efficiënt bij te houden</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Verbeteren</string>
   <string name="tour_detailactivity_attachment_detail">Een heleboel verschillende bijlagentypen aan uw notities toevoegen!</string>
   <string name="tour_detailactivity_action_title">Meer doen</string>

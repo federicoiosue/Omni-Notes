@@ -200,6 +200,7 @@
   <string name="checklist">Zoznam úloh</string>
   <string name="text_note">Textová poznámka</string>
   <string name="photo">Fotografia</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Zobrazí niektoré štatistiky a blížiace sa pripomienky z Omni Notes</string>
   <string name="settings">Nastavenia</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Navigujte</string>
   <string name="tour_listactivity_home_detail">Navigačná ponuka umožňuje prechádzať medzi poznámkami pomocou filtrov a značiek</string>
   <string name="tour_listactivity_tag_title">Značky</string>
-  <string name="tour_listactivity_tag_detail">Pridávajte farebné značky pre rýchle nájdenie poznámok</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Zlepšite</string>
   <string name="tour_detailactivity_attachment_detail">Pridajte mnoho rôznych typov príloh do vašich poznámok!</string>
   <string name="tour_detailactivity_action_title">Urobte viac</string>

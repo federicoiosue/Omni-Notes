@@ -200,6 +200,7 @@
   <string name="checklist">Список</string>
   <string name="text_note">Текстова нотатка</string>
   <string name="photo">Фото</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Відображає деяку статистику і найближчі події в Omni Notes</string>
   <string name="settings">Налаштування</string>
@@ -366,7 +367,7 @@
   <string name="tour_listactivity_home_title">Навігація</string>
   <string name="tour_listactivity_home_detail">Меню навігації дозволяє вам переглядати нотатки за допомогою фільтрів та ярличків</string>
   <string name="tour_listactivity_tag_title">Ярлички</string>
-  <string name="tour_listactivity_tag_detail">Додавайте кольорові ярлички, щоб зберігати ваші думки ефективно</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Покращення</string>
   <string name="tour_detailactivity_attachment_detail">Додавайте різноманітні вкладення до ваших нотаток!</string>
   <string name="tour_detailactivity_action_title">Ще більше</string>

@@ -200,6 +200,7 @@
   <string name="checklist">Llista de verificació</string>
   <string name="text_note">Nota de text</string>
   <string name="photo">Foto</string>
+  <string name="uncompleted_checklists">Llistes incompletes</string>
   <!-- Settings -->
   <string name="dashclock_description">Mostra algunes estadístiques i recordatoris expirats de l\'Omni Notes</string>
   <string name="settings">Configuració</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Navega</string>
   <string name="tour_listactivity_home_detail">El menú de navegació us permet moure per les notes amb filtres i etiquetes</string>
   <string name="tour_listactivity_tag_title">Etiquetes</string>
-  <string name="tour_listactivity_tag_detail">Afegiu etiquetes de colros per trobar les notes fàcilment</string>
+  <string name="tour_listactivity_tag_detail">Afegiu categories amb colors per organitzar les notes fàcilment</string>
   <string name="tour_detailactivity_attachment_title">Millora</string>
   <string name="tour_detailactivity_attachment_detail">Afegiu adjunts de diferents tipus a les notes!</string>
   <string name="tour_detailactivity_action_title">Feu més</string>

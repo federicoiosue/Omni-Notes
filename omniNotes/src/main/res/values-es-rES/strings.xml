@@ -201,6 +201,7 @@
   <string name="checklist">Lista de comprobación</string>
   <string name="text_note">Nota de texto</string>
   <string name="photo">Foto</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Muestra algunas estadísticas y recordatorios cercanos de Omni Notes</string>
   <string name="settings">Configuración</string>
@@ -362,7 +363,7 @@
   <string name="tour_listactivity_home_title">Navegar</string>
   <string name="tour_listactivity_home_detail">El menú de navegación le permite moverse a través de las notas con etiquetas y filtros</string>
   <string name="tour_listactivity_tag_title">Etiquetas</string>
-  <string name="tour_listactivity_tag_detail">Agregar etiquetas de color para mantener sus pensamientos siempre eficientes</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Mejorar</string>
   <string name="tour_detailactivity_attachment_detail">Añadir un montón de tipos diferentes de archivos adjuntos a sus notas!</string>
   <string name="tour_detailactivity_action_title">Hacer más</string>

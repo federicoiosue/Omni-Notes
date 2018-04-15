@@ -200,6 +200,7 @@
   <string name="checklist">Списак</string>
   <string name="text_note">Текст</string>
   <string name="photo">Фото</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Приказује статистику и истекле подсетнике из Омни белешки</string>
   <string name="settings">Поставке</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Крећите се</string>
   <string name="tour_listactivity_home_detail">Навигациони мени омогућава кретање кроз белешке помоћу филтера и ознака</string>
   <string name="tour_listactivity_tag_title">Ознаке</string>
-  <string name="tour_listactivity_tag_detail">Обојите ознаке да бисте препознали белешке на први поглед</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Побољшајте</string>
   <string name="tour_detailactivity_attachment_detail">Додајте разноврсне прилоге вашим белешкама!</string>
   <string name="tour_detailactivity_action_title">Урадите више</string>

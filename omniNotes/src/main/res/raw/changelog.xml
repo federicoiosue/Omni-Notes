@@ -21,6 +21,7 @@
         <changelogtext>[b]New![/b] Rapidly search your unfinished to-do lists</changelogtext>
         <changelogtext>[b]New![/b] New "attachment" available to easily add the current timestamp</changelogtext>
         <changelogtext>[b]New![/b] Now an option is available into the editor to check currently edited note's informations</changelogtext>
+        <changelogtext>[b]New![/b] Persian translation</changelogtext>
         <changelogtext>[i]Improved![/i] Removed outdated transparent navigation bar: this will save a lot of CPU avoiding calculating dynamic layout, after all today all devides are very much bigger than when this optimization has been introduced</changelogtext>
         <changelogtext>[i]Improved![/i] Removed semi-transparent overlay when using floating action button to speed-up the flow</changelogtext>
         <changelogtext>[u]Fix[/u] Notes list update after password reset and password request bypass using swipe actions</changelogtext>

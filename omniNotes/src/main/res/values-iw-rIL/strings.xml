@@ -200,6 +200,7 @@
   <string name="checklist">Checklist</string>
   <string name="text_note">Text note</string>
   <string name="photo">Photo</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">הצגת נתונים סטטיסטיים ותזכורות שתוקפן עומד לפוג מ-Omni Notes</string>
   <string name="settings">הגדרות</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">ניווט</string>
   <string name="tour_listactivity_home_detail">תפריט ניווט מאפשר לכם לנוע מבעד להערות עם מסננים ותגיות</string>
   <string name="tour_listactivity_tag_title">תגיות</string>
-  <string name="tour_listactivity_tag_detail">הוספת צבע לתגיות כדי שרעיונותיכם יהיו מאורגנים</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">שיפור</string>
   <string name="tour_detailactivity_attachment_detail">הוספת מספר סוגים של קבצים מצורפים להערות שלכם!</string>
   <string name="tour_detailactivity_action_title">עשו עוד</string>

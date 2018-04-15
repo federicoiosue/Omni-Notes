@@ -200,6 +200,7 @@
   <string name="checklist">Check lista</string>
   <string name="text_note">Tekstualna bilješka</string>
   <string name="photo">Fotografija</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Prikazuje neke statistike i podsjetnike koji istječu u aplikaciji Omni bilješke</string>
   <string name="settings">Postavke</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Navigacija</string>
   <string name="tour_listactivity_home_detail">Navigacijski izbornik omogućuje vam navigaciju kroz bilješke pomoću filtera i tagova</string>
   <string name="tour_listactivity_tag_title">Tagovi</string>
-  <string name="tour_listactivity_tag_detail">Dodajte obojene tagove kako biste lakše pronašli bilješke</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Poboljšanja</string>
   <string name="tour_detailactivity_attachment_detail">Dodajte privitke različitih vrsta svojim bilješkama!</string>
   <string name="tour_detailactivity_action_title">Napravite više</string>

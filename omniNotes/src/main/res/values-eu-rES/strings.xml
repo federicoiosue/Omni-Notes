@@ -200,6 +200,7 @@
   <string name="checklist">Egiaztapen-zerrenda</string>
   <string name="text_note">Testu-oharra</string>
   <string name="photo">Argazkia</string>
+  <string name="uncompleted_checklists">Incompleted checklists</string>
   <!-- Settings -->
   <string name="dashclock_description">Erakutsi Omni Notes aplikazioko estatistika batzuk eta iraungitze datak</string>
   <string name="settings">Ezarpenak</string>
@@ -361,7 +362,7 @@
   <string name="tour_listactivity_home_title">Nabigatu</string>
   <string name="tour_listactivity_home_detail">Nabigazio menuak oharretatik mugitzea ahalbidetzen dizu iragazki eta etiketen bidez</string>
   <string name="tour_listactivity_tag_title">Etiketak</string>
-  <string name="tour_listactivity_tag_detail">Gehitu kolorezko etiketak oharrak berehala aurkitzeko</string>
+  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Hobetu</string>
   <string name="tour_detailactivity_attachment_detail">Gehitu mota desberdinetako eranskinak zure oharretara!</string>
   <string name="tour_detailactivity_action_title">Egin gehiago</string>
