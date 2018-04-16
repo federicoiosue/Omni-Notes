@@ -21,6 +21,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -43,6 +44,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
@@ -60,6 +62,7 @@ import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -169,6 +172,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	ViewManager detailWrapperView;
 	@BindView(R.id.snackbar_placeholder)
 	View snackBarPlaceholder;
+	@BindView(R.id.done_fab)
+	FloatingActionButton doneFab;
 
 	public OnDateSetListener onDateSetListener;
 	public OnTimeSetListener onTimeSetListener;
@@ -366,6 +371,18 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 
 		initViews();
+
+		if(content.getText().length()==0){
+			focusOnContent();
+		}
+	}
+
+	private void focusOnContent(){
+		Log.e(Constants.TAG, "focusing on note content EditText (and showing keyboard)");
+		content.setFocusableInTouchMode(true);
+		content.requestFocus();
+		InputMethodManager inputMethodManager=(InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMethodManager.showSoftInput(content,0);
 	}
 
 
@@ -528,8 +545,18 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		initViewReminder();
 
 		initViewFooter();
+
+		initViewDoneFab();
 	}
 
+	private void initViewDoneFab(){
+		doneFab.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				saveAndExit(DetailFragment.this);
+			}
+		});
+	}
 
 	private void initViewFooter() {
 		// Footer dates of creation...
