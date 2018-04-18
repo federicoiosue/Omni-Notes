@@ -146,14 +146,14 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 
 
 * Federico Iosue - [Website](http://www.iosue.it/federico)
-* [Other contributors](https://github.com/federicoiosue/Omni-Notes/blob/master/contributors.md)
+* [Other contributors](https://github.com/federicoiosue/Omni-Notes/blob/master/https://github.com/federicoiosue/Omni-Notes/blob/master/CONTRIBUTORS.md)
 
 
 
 ## License
 
 
-    Copyright 2015 Federico Iosue
+    Copyright 2013-2018 Federico Iosue
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
