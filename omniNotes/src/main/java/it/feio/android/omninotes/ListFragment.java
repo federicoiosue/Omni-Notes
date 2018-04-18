@@ -148,6 +148,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private String searchQuery;
     private String searchQueryInstant;
     private String searchTags;
+    private boolean searchUncompleteChecklists;
     private boolean goBackOnToggleSearchLabel = false;
     private boolean searchLabelActive = false;
 
@@ -1017,7 +1018,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         // Searching
         searchQuery = searchQueryInstant;
         searchQueryInstant = null;
-        if (searchTags != null || searchQuery != null
+        if (searchTags != null || searchQuery != null || searchUncompleteChecklists
 				|| IntentChecker.checkAction(intent, Intent.ACTION_SEARCH, Constants.ACTION_SEARCH_UNCOMPLETE_CHECKLISTS)) {
 
             // Using tags
@@ -1025,8 +1026,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 searchQuery = searchTags;
                 NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByTag",
                         searchQuery);
-            } else if (Constants.ACTION_SEARCH_UNCOMPLETE_CHECKLISTS.equals(intent.getAction())) {
+            } else if (searchUncompleteChecklists || Constants.ACTION_SEARCH_UNCOMPLETE_CHECKLISTS.equals(intent.getAction())) {
 				searchQuery = getContext().getResources().getString(R.string.uncompleted_checklists);
+				searchUncompleteChecklists = true;
 				NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByUncompleteChecklist");
             } else {
                 // Get the intent, verify the action and get the query
@@ -1080,6 +1082,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 AnimationsHelper.expandOrCollapse(searchLayout, false);
                 searchTags = null;
                 searchQuery = null;
+				searchUncompleteChecklists = false;
                 if (!goBackOnToggleSearchLabel) {
                     mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
                     if (searchView != null) {
