@@ -22,7 +22,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.OmniNotes;
@@ -82,36 +84,54 @@ public class PasswordHelper {
 			mPasswordValidator.onPasswordValidated(false);
 		});
 
+		passwordEditText.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+			if (actionId == EditorInfo.IME_ACTION_DONE) {
+				dialog.getActionButton(DialogAction.POSITIVE).callOnClick();
+				return true;
+			}
+			return false;
+		});
+
 		dialog.show();
 
-		// Force focus and shows soft keyboard
 		new Handler().postDelayed(() -> KeyboardUtils.showKeyboard(passwordEditText), 100);
 	}
 
 
 	public static void resetPassword(final Activity mActivity) {
 		View layout = mActivity.getLayoutInflater().inflate(R.layout.password_reset_dialog_layout, null);
-		final EditText answerEditText = (EditText) layout.findViewById(R.id.reset_password_answer);
+		final EditText answerEditText = layout.findViewById(R.id.reset_password_answer);
 
-		new MaterialDialog.Builder(mActivity)
+		MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
 				.title(OmniNotes.getSharedPreferences().getString(Constants.PREF_PASSWORD_QUESTION, ""))
 				.customView(layout, false)
 				.autoDismiss(false)
 				.contentColorRes(R.color.text_color)
 				.positiveText(R.string.ok)
-				.onPositive((dialog, which) -> {
+				.onPositive((dialogElement, which) -> {
 					// When positive button is pressed answer correctness is checked
 					String oldAnswer = OmniNotes.getSharedPreferences().getString(Constants.PREF_PASSWORD_ANSWER, "");
 					String answer1 = answerEditText.getText().toString();
 					// The check is done on password's hash stored in preferences
 					boolean result = Security.md5(answer1).equals(oldAnswer);
 					if (result) {
-						dialog.dismiss();
+						dialogElement.dismiss();
 						removePassword();
 					} else {
 						answerEditText.setError(mActivity.getString(R.string.wrong_answer));
 					}
-				}).build().show();
+				}).build();
+		dialog.show();
+
+		answerEditText.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+			if (actionId == EditorInfo.IME_ACTION_DONE) {
+				dialog.getActionButton(DialogAction.POSITIVE).callOnClick();
+				return true;
+			}
+			return false;
+		});
+
+		new Handler().postDelayed(() -> KeyboardUtils.showKeyboard(answerEditText), 100);
 	}
 
 
