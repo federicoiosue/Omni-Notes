@@ -18,7 +18,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="match_parent"
+    android:minHeight="80dp"
     android:background="@drawable/bg_card"
     android:paddingBottom="2dp" >
 
@@ -32,6 +33,7 @@
             android:id="@+id/tag_marker"
             android:layout_width="10dp"
             android:layout_height="match_parent"
+            android:minHeight="80dp"
             android:background="@null"
             android:orientation="vertical" />
 
