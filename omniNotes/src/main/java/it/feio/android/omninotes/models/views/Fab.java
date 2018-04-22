@@ -58,7 +58,7 @@ public class Fab {
         this.fabHidden = true;
         this.fabExpanded = false;
 
-        AddFloatingActionButton fabAddButton = fab.findViewById(R.id.fab_expand_menu_button);
+        AddFloatingActionButton fabAddButton = (AddFloatingActionButton) fab.findViewById(R.id.fab_expand_menu_button);
         fabAddButton.setOnClickListener(v -> {
 			if (!isExpanded() && expandOnLongClick) {
 				performAction(v);

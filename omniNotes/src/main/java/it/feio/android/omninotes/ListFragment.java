@@ -1280,7 +1280,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
      */
     private void selectAllNotes() {
         for (int i = 0; i < list.getChildCount(); i++) {
-            LinearLayout v = list.getChildAt(i).findViewById(R.id.card_layout);
+            LinearLayout v = (LinearLayout) list.getChildAt(i).findViewById(R.id.card_layout);
 			v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
         }
         selectedNotes.clear();

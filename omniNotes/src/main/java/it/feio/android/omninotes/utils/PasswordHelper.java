@@ -43,7 +43,7 @@ public class PasswordHelper {
 	public static void requestPassword(final Activity mActivity, final PasswordValidator mPasswordValidator) {
 		LayoutInflater inflater = mActivity.getLayoutInflater();
 		final View v = inflater.inflate(R.layout.password_request_dialog_layout, null);
-		final EditText passwordEditText = v.findViewById(R.id.password_request);
+		final EditText passwordEditText = (EditText) v.findViewById(R.id.password_request);
 
 		MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
 				.autoDismiss(false)
@@ -100,7 +100,7 @@ public class PasswordHelper {
 
 	public static void resetPassword(final Activity mActivity) {
 		View layout = mActivity.getLayoutInflater().inflate(R.layout.password_reset_dialog_layout, null);
-		final EditText answerEditText = layout.findViewById(R.id.reset_password_answer);
+		final EditText answerEditText = (EditText) layout.findViewById(R.id.reset_password_answer);
 
 		MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
 				.title(OmniNotes.getSharedPreferences().getString(Constants.PREF_PASSWORD_QUESTION, ""))
