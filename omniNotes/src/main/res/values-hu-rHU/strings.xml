@@ -203,6 +203,8 @@
   <string name="text_note">Szöveges megjegyzés</string>
   <string name="photo">Fénykép</string>
   <string name="uncompleted_checklists">Befejezetlen feladatlisták</string>
+  <string name="info">Információ</string>
+  <string name="completed">Kész</string>
   <!-- Settings -->
   <string name="dashclock_description">Statisztikák és lejáró emlékeztetők megjelenítése az Omni Notes-ból</string>
   <string name="settings">Beállítások</string>
@@ -362,7 +364,7 @@
   <string name="tour_listactivity_actions_title">Műveletek</string>
   <string name="tour_listactivity_actions_detail">Hozzon létre új jegyzeteket, rendezze őket, férjen hozzá a beállításokhoz</string>
   <string name="tour_listactivity_home_title">Navigáció</string>
-  <string name="tour_listactivity_home_detail">A navigációs menü lehetővé teszi a jegyzetek közötti mozgást kategóriák és címkék segítségével</string>
+  <string name="tour_listactivity_home_detail">A navigációs menü lehetővé teszi a jegyzetek átnézését szűrők és kategóriák segítségével</string>
   <string name="tour_listactivity_tag_title">Címkék</string>
   <string name="tour_listactivity_tag_detail">Használjon színekkel jelölt kategóriákat a jegyzetek villámgyors szervezéséhez</string>
   <string name="tour_detailactivity_attachment_title">Javítás</string>
@@ -372,7 +374,7 @@
   <string name="tour_detailactivity_reminder_title">Csak nyomja meg</string>
   <string name="tour_detailactivity_reminder_detail">A hosszú érintés más műveletet eredményez az objektumokon (csatolmány, hely, emlékeztető), mint a rövid érintés!</string>
   <string name="tour_detailactivity_links_title">Linkek</string>
-  <string name="tour_detailactivity_links_detail">Kattintson egy URL-re vagy e-mail címre a másolásához vagy megnyitásához</string>
+  <string name="tour_detailactivity_links_detail">URL címek, e-mail címek és telefonszámok felismerése</string>
   <string name="tour_detailactivity_swipe_title">Húzás</string>
   <string name="tour_detailactivity_swipe_detail">Hozzon létre új jegyzeteket\n
 az éppen szerkesztett elhagyása nélkül</string>

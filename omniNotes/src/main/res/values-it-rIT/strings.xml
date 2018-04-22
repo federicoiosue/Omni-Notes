@@ -204,6 +204,8 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="text_note">Nota testuale</string>
   <string name="photo">Foto</string>
   <string name="uncompleted_checklists">Liste di controllo incomplete</string>
+  <string name="info">Info</string>
+  <string name="completed">Completate</string>
   <!-- Settings -->
   <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
   <string name="settings">Impostazioni</string>
@@ -363,7 +365,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="tour_listactivity_actions_title">Azioni</string>
   <string name="tour_listactivity_actions_detail">Crea nuove note, ordinale, accedi alle preferenze</string>
   <string name="tour_listactivity_home_title">Naviga</string>
-  <string name="tour_listactivity_home_detail">Il menu di navigazione consente di spostarsi attraverso le note con filtri e tag</string>
+  <string name="tour_listactivity_home_detail">Il menu di navigazione consente di spostarsi attraverso le note con filtri e categorie</string>
   <string name="tour_listactivity_tag_title">Tag</string>
   <string name="tour_listactivity_tag_detail">Aggiungi categorie colorate per mantenere sempre organizzati i tuoi pensieri</string>
   <string name="tour_detailactivity_attachment_title">Migliora</string>
@@ -373,7 +375,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
   <string name="tour_detailactivity_reminder_title">Basta premere</string>
   <string name="tour_detailactivity_reminder_detail">Pressioni brevi o lunghe sugli oggetti (allegati, località, promemoria) hanno effetti diverso!</string>
   <string name="tour_detailactivity_links_title">Links</string>
-  <string name="tour_detailactivity_links_detail">Fai click su un URL o un indirizzo e-mail per copiarlo o aprirlo</string>
+  <string name="tour_detailactivity_links_detail">Riconoscimento di URL, indirizzi di posta elettronica e il numeri di telefono</string>
   <string name="tour_detailactivity_swipe_title">Scorrimento</string>
   <string name="tour_detailactivity_swipe_detail">Crea nuove note senza \n lasciare quella che stai modificando</string>
   <string name="tour_detailactivity_save_title">Salva</string>

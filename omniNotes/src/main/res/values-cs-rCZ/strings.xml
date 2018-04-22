@@ -203,6 +203,8 @@
   <string name="text_note">Textová poznámka</string>
   <string name="photo">Fotka</string>
   <string name="uncompleted_checklists">Incompleted checklists</string>
+  <string name="info">Informace</string>
+  <string name="completed">Completed</string>
   <!-- Settings -->
   <string name="dashclock_description">Zobrazí statistiky a připomenutí kterým brzy vyprší platnost z Omni Notes</string>
   <string name="settings">Nastavení</string>
@@ -362,7 +364,7 @@
   <string name="tour_listactivity_actions_title">Akce</string>
   <string name="tour_listactivity_actions_detail">Vytváření nových poznámek, řazení a vlastnosti</string>
   <string name="tour_listactivity_home_title">Navigace</string>
-  <string name="tour_listactivity_home_detail">Navigační menu umožňuje procházení poznámek pomocí filtrů a značek</string>
+  <string name="tour_listactivity_home_detail">Navigation menu allows you to move through notes with filters and categories</string>
   <string name="tour_listactivity_tag_title">Značky</string>
   <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">Vylepšení</string>
@@ -372,7 +374,7 @@
   <string name="tour_detailactivity_reminder_title">Stačí stisknout</string>
   <string name="tour_detailactivity_reminder_detail">Podržení má na objekt (příloha, poloha, připomenutí) jiné účinky, než krátké stisknutí!</string>
   <string name="tour_detailactivity_links_title">Odkazy</string>
-  <string name="tour_detailactivity_links_detail">Kliknout na URL, nebo emailovou adresu pro její zkopírování, nebo otevření</string>
+  <string name="tour_detailactivity_links_detail">URL, e-mail addresses and telephone numbers recognition</string>
   <string name="tour_detailactivity_swipe_title">Tažení prstem</string>
   <string name="tour_detailactivity_swipe_detail">Vytvořte novou poznámku \nbez opuštění té, kterou \nprávě upravujete</string>
   <string name="tour_detailactivity_save_title">Uložit</string>

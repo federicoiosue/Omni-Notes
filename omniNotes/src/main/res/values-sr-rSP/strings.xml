@@ -195,14 +195,16 @@
   <string name="filter_archived">Сакриј архивиране белешке</string>
   <string name="remove_filter_archived">Прикажи архивиране белешке</string>
   <string name="permission_external_storage">Дозвола за упис на спољно складиште је потребна за прављење резервне копије</string>
-  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
+  <string name="permission_external_storage_detail_attachment">Дозвола за читање спољног складишта је неопходна како би се прилози могли узимати одатле</string>
   <string name="permission_audio_recording">Дозвола за микрофон је потребна за снимање звучних белешки</string>
   <string name="permission_coarse_location">Дозвола за приступ локацији је потребна за додавање позиције у ваше белешке</string>
   <string name="permission_not_granted">Дозволе нису добијене</string>
   <string name="checklist">Списак</string>
   <string name="text_note">Текст</string>
   <string name="photo">Фото</string>
-  <string name="uncompleted_checklists">Incompleted checklists</string>
+  <string name="uncompleted_checklists">Незавршени спискови</string>
+  <string name="info">Инфо</string>
+  <string name="completed">Завршени</string>
   <!-- Settings -->
   <string name="dashclock_description">Приказује статистику и истекле подсетнике из Омни белешки</string>
   <string name="settings">Поставке</string>
@@ -362,9 +364,9 @@
   <string name="tour_listactivity_actions_title">Радње</string>
   <string name="tour_listactivity_actions_detail">Направи нове белешке, сортирај, приступи подешавањима</string>
   <string name="tour_listactivity_home_title">Крећите се</string>
-  <string name="tour_listactivity_home_detail">Навигациони мени омогућава кретање кроз белешке помоћу филтера и ознака</string>
+  <string name="tour_listactivity_home_detail">Навигациони мени омогућава кретање кроз белешке помоћу филтера и категорија</string>
   <string name="tour_listactivity_tag_title">Ознаке</string>
-  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
+  <string name="tour_listactivity_tag_detail">Обојене категорије помажу у организовању белешки</string>
   <string name="tour_detailactivity_attachment_title">Побољшајте</string>
   <string name="tour_detailactivity_attachment_detail">Додајте разноврсне прилоге вашим белешкама!</string>
   <string name="tour_detailactivity_action_title">Урадите више</string>
@@ -372,7 +374,7 @@
   <string name="tour_detailactivity_reminder_title">Само притисните</string>
   <string name="tour_detailactivity_reminder_detail">Дуг додир има различито деловање на објекте (прилоге, локацију, подсетник) од кратког додира!</string>
   <string name="tour_detailactivity_links_title">Везе</string>
-  <string name="tour_detailactivity_links_detail">Додирните УРЛ или адресу е-поште да је копирате или отворите</string>
+  <string name="tour_detailactivity_links_detail">Препознавање УРЛ, е-поште и телефонских бројева</string>
   <string name="tour_detailactivity_swipe_title">Превлачење</string>
   <string name="tour_detailactivity_swipe_detail">Направите нове белешке\nбез напуштања текуће</string>
   <string name="tour_detailactivity_save_title">Сачувај</string>

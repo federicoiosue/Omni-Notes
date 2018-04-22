@@ -203,6 +203,8 @@
   <string name="text_note">یادداشت متنی</string>
   <string name="photo">تصویر</string>
   <string name="uncompleted_checklists">چک لیست‌های کامل نشده</string>
+  <string name="info">اطلاعات</string>
+  <string name="completed">کامل شد</string>
   <!-- Settings -->
   <string name="dashclock_description">برخی آمارها و یادآورهای منقضی از یادداشت های Omni را نمایش می دهد</string>
   <string name="settings">تنظیمات</string>
@@ -362,7 +364,7 @@
   <string name="tour_listactivity_actions_title">عملیات</string>
   <string name="tour_listactivity_actions_detail">ایجاد یادداشت جدید، مرتب کردن آنها، دسترسی به تنظیمات</string>
   <string name="tour_listactivity_home_title">پیمایش</string>
-  <string name="tour_listactivity_home_detail">منوی تنظیمات اجازه می دهد تا از طریق یادداشت ها با فیلتر ها و برچسب ها حرکت کنید</string>
+  <string name="tour_listactivity_home_detail">منو امکان جابجایی بین یادداشت با فیلترها و موضوع‌ها را میدهد</string>
   <string name="tour_listactivity_tag_title">برچسب‌ها</string>
   <string name="tour_listactivity_tag_detail">افزودن دسته های رنگی برای سازماندهی یادداشت در--نگاه</string>
   <string name="tour_detailactivity_attachment_title">بهبود</string>
@@ -372,7 +374,7 @@
   <string name="tour_detailactivity_reminder_title">فقط بفشارید</string>
   <string name="tour_detailactivity_reminder_detail">لمس طولانی تاثیر متفاوتی روی هر شی(پیوست،مکان،یادآور) در قیاس با لمس کوتاه دارد!</string>
   <string name="tour_detailactivity_links_title">پیوند‌ها</string>
-  <string name="tour_detailactivity_links_detail">روی آدرس سایت یا ایمیل آدرس کلیک کنید تا آن را باز یا کپی کنید</string>
+  <string name="tour_detailactivity_links_detail">تشخیص  آدرس سایت ،شماره تلفن و آدرس های ایمیل</string>
   <string name="tour_detailactivity_swipe_title">کشیدن</string>
   <string name="tour_detailactivity_swipe_detail">ایجاد یادداشت جدید بدون \n ترک یادداشتی که در حال ویرایش هستید</string>
   <string name="tour_detailactivity_save_title">ذخیره</string>

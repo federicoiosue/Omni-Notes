@@ -203,6 +203,8 @@
   <string name="text_note">文本注釋</string>
   <string name="photo">照片</string>
   <string name="uncompleted_checklists">Incompleted checklists</string>
+  <string name="info">信息</string>
+  <string name="completed">Completed</string>
   <!-- Settings -->
   <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
   <string name="settings">设置</string>
@@ -362,7 +364,7 @@
   <string name="tour_listactivity_actions_title">操作</string>
   <string name="tour_listactivity_actions_detail">创建新记事并排序，访问首选项</string>
   <string name="tour_listactivity_home_title">导航</string>
-  <string name="tour_listactivity_home_detail">使用导航菜单筛选并分类查看记事</string>
+  <string name="tour_listactivity_home_detail">Navigation menu allows you to move through notes with filters and categories</string>
   <string name="tour_listactivity_tag_title">标签</string>
   <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
   <string name="tour_detailactivity_attachment_title">改进</string>
@@ -372,7 +374,7 @@
   <string name="tour_detailactivity_reminder_title">只需点击</string>
   <string name="tour_detailactivity_reminder_detail">在附件，地点及提醒上点击或长按会有不同的效果！</string>
   <string name="tour_detailactivity_links_title">链接</string>
-  <string name="tour_detailactivity_links_detail">點擊網址或電子郵件地址來複製或打開它</string>
+  <string name="tour_detailactivity_links_detail">URL, e-mail addresses and telephone numbers recognition</string>
   <string name="tour_detailactivity_swipe_title">滑动手势</string>
   <string name="tour_detailactivity_swipe_detail">在当前记事编辑视图下 \n 创建新记事</string>
   <string name="tour_detailactivity_save_title">保存</string>

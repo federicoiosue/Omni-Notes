@@ -203,6 +203,8 @@
   <string name="text_note">テキスト ノート</string>
   <string name="photo">写真</string>
   <string name="uncompleted_checklists">チェックリストが未完です</string>
+  <string name="info">情報</string>
+  <string name="completed">完了</string>
   <!-- Settings -->
   <string name="dashclock_description">統計情報と Omni Notes から期限切れのアラームを表示します</string>
   <string name="settings">設定</string>
@@ -362,7 +364,7 @@
   <string name="tour_listactivity_actions_title">アクション</string>
   <string name="tour_listactivity_actions_detail">新しいノートの作成、並べ替え、プリファレンスにアクセス</string>
   <string name="tour_listactivity_home_title">ナビゲーション</string>
-  <string name="tour_listactivity_home_detail">ナビゲーション メニューでは、フィルターとタグでノートを移動することができます</string>
+  <string name="tour_listactivity_home_detail">ナビゲーション メニューでは、フィルターとカテゴリーでノートを移動することができます</string>
   <string name="tour_listactivity_tag_title">タグ</string>
   <string name="tour_listactivity_tag_detail">色付きのカテゴリーを追加してノートを一目で整理します</string>
   <string name="tour_detailactivity_attachment_title">改善</string>
@@ -372,7 +374,7 @@
   <string name="tour_detailactivity_reminder_title">押すだけで</string>
   <string name="tour_detailactivity_reminder_detail">オブジェクトで長押しすると、短く押した時と異なる効果があります (添付、場所、アラーム)</string>
   <string name="tour_detailactivity_links_title">リンク</string>
-  <string name="tour_detailactivity_links_detail">URL や電子メール アドレスををクリックすると、コピーまたは開きます</string>
+  <string name="tour_detailactivity_links_detail">URL、メールアドレス、電話番号の認識</string>
   <string name="tour_detailactivity_swipe_title">スワイプ</string>
   <string name="tour_detailactivity_swipe_detail">編集中のノートから離れることなく\n新しいノートを作成することができます</string>
   <string name="tour_detailactivity_save_title">保存</string>
