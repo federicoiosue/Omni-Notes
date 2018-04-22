@@ -50,6 +50,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     private static boolean showThumbnails = true;
     private static boolean showTimestamps = true;
+    private static boolean showFullSizeNotes = false;
 
     private OmniNotes app;
     private int appWidgetId;
@@ -57,11 +58,15 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     private int navigation;
 
 
-    public ListRemoteViewsFactory(Application app, Intent intent) {
+    ListRemoteViewsFactory(Application app, Intent intent) {
         this.app = (OmniNotes) app;
-        appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
+    public static void setShowFullSizeNotes(boolean showFullSizeNotes) {
+        ListRemoteViewsFactory.showFullSizeNotes = showFullSizeNotes;
+    }
 
     @Override
     public void onCreate() {
@@ -92,7 +97,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
         app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
                 .edit()
                 .remove(Constants.PREF_WIDGET_PREFIX
-                        + String.valueOf(appWidgetId)).commit();
+                        + String.valueOf(appWidgetId)).apply();
     }
 
 
@@ -124,9 +129,14 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
             row.setInt(R.id.attachmentThumbnail, "setVisibility", View.GONE);
         }
         if(showTimestamps) {
-          row.setTextViewText(R.id.note_date, TextHelper.getDateText(app, note, navigation));
+            row.setTextViewText(R.id.note_date, TextHelper.getDateText(app, note, navigation));
         } else {
-          row.setTextViewText(R.id.note_date, "");
+            row.setTextViewText(R.id.note_date, "");
+        }
+        if(showFullSizeNotes) {
+            row.setInt(R.id.note_content,"setMaxLines",Integer.MAX_VALUE);
+        } else {
+            row.setInt(R.id.note_content,"setMaxLines",2);
         }
 
         // Next, set a fill-intent, which will be used to fill in the pending intent template
@@ -170,8 +180,10 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition,
                                            boolean thumbnails, boolean timestamps) {
         Log.d(Constants.TAG, "Widget configuration updated");
-        mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
-                .putString(Constants.PREF_WIDGET_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).commit();
+        mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
+                .edit()
+                .putString(Constants.PREF_WIDGET_PREFIX
+                        + String.valueOf(mAppWidgetId), sqlCondition).apply();
         showThumbnails = thumbnails;
         showTimestamps = timestamps;
     }

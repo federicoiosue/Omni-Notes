@@ -60,12 +60,12 @@ public class WidgetConfigurationActivity extends Activity {
                     categorySpinner.setEnabled(false);
                     break;
 
-                    case R.id.widget_config_categories:
-                        categorySpinner.setEnabled(true);
-                        break;
+                case R.id.widget_config_categories:
+                    categorySpinner.setEnabled(true);
+                    break;
 
-					default:
-						Log.e(Constants.TAG, "Wrong element choosen: " + checkedId);
+                default:
+                    Log.e(Constants.TAG, "Wrong element choosen: " + checkedId);
                 }
         });
 
@@ -92,11 +92,13 @@ public class WidgetConfigurationActivity extends Activity {
 
             CheckBox showThumbnailsCheckBox = (CheckBox) findViewById(R.id.show_thumbnails);
             CheckBox showTimestampsCheckBox = (CheckBox) findViewById(R.id.show_timestamps);
+            CheckBox showFullSizeNotesCheckBox = (CheckBox) findViewById(R.id.show_full_size_notes);
 
             // Updating the ListRemoteViewsFactory parameter to get the list
             // of notes
             ListRemoteViewsFactory.updateConfiguration(getApplicationContext(), mAppWidgetId,
                     sqlCondition, showThumbnailsCheckBox.isChecked(), showTimestampsCheckBox.isChecked());
+            ListRemoteViewsFactory.setShowFullSizeNotes(showFullSizeNotesCheckBox.isChecked());
 
             Intent resultValue = new Intent();
             resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,

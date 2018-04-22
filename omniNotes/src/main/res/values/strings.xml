@@ -172,6 +172,7 @@
     <string name="notes">notes</string>
     <string name="show_thumbnails">Show attachment\'s thumbnails</string>
     <string name="show_timestamps">Show timestamps</string>
+    <string name="show_full_size_notes">Show full size notes</string>
     <string name="choose_action">Choose action</string>
     <string name="edit">Edit</string>
     <string name="reminders">reminders</string>
