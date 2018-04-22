@@ -91,17 +91,9 @@ public class DateHelper {
      * @return
      */
     public static String getDateTimeShort(Context mContext, Long date) {
-        if (date == null)
-            return "";
-
-        Calendar now = Calendar.getInstance();
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(date);
-
-        int flags = DateUtils.FORMAT_ABBREV_MONTH;
-        if (c.get(Calendar.YEAR) != now.get(Calendar.YEAR))
-            flags = flags | DateUtils.FORMAT_SHOW_YEAR;
-        return DateUtils.formatDateTime(mContext, date, flags)
+        int flags = DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_WEEKDAY
+                | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_SHOW_DATE;
+        return (date == null) ? "" : DateUtils.formatDateTime(mContext, date, flags)
                 + " " + DateUtils.formatDateTime(mContext, date, DateUtils.FORMAT_SHOW_TIME);
     }
 
