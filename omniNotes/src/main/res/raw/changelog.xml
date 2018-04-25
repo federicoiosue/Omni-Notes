@@ -17,7 +17,7 @@
   -->
 <changelog bulletedList="true">
 
-    <changelogversion versionName="5.5.0" changeDate="Apr 16, 2018">
+    <changelogversion versionName="5.5.0" changeDate="Apr 26, 2018">
         <changelogtext>[b]New![/b] Rapidly search your unfinished to-do lists</changelogtext>
         <changelogtext>[b]New![/b] New "attachment" available to easily add the current timestamp</changelogtext>
         <changelogtext>[b]New![/b] Now an option is available into the editor to check currently edited note's informations</changelogtext>
