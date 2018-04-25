@@ -296,8 +296,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		super.onSaveInstanceState(outState);
 	}
 
-	@SuppressLint("NewApi")
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -307,11 +305,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Checks "goBack" value to avoid performing a double saving
 		if (!goBack) {
 			saveNote(this);
-		}
-
-		if (mRecorder != null) {
-			mRecorder.release();
-			mRecorder = null;
 		}
 
 		if (toggleChecklistView != null) {
@@ -1256,7 +1249,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		final View layout = inflater.inflate(R.layout.attachment_dialog, null);
 
 		attachmentDialog = new MaterialDialog.Builder(mainActivity)
-				.customView(layout, false).build();
+				.autoDismiss(false)
+				.customView(layout, false)
+				.build();
 		attachmentDialog.show();
 
 		// Camera
@@ -1264,6 +1259,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Audio recording
 		android.widget.TextView recordingSelection = (android.widget.TextView) layout.findViewById(R.id.recording);
+		toggleAudioRecordingStop(recordingSelection);
 		recordingSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Video recording
 		android.widget.TextView videoSelection = (android.widget.TextView) layout.findViewById(R.id.video);
@@ -1783,9 +1779,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				R.string.permission_audio_recording, snackBarPlaceholder, () -> {
 
 					isRecording = true;
-					android.widget.TextView mTextView = (android.widget.TextView) v;
-					mTextView.setText(getString(R.string.stop));
-					mTextView.setTextColor(Color.parseColor("#ff0000"));
+					toggleAudioRecordingStop(v);
 
 					File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_AUDIO_EXT);
 					if (f == null) {
@@ -1814,7 +1808,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				});
 	}
 
+	private void toggleAudioRecordingStop(View v) {
+		if (isRecording) {
+			((android.widget.TextView) v).setText(getString(R.string.stop));
+			((android.widget.TextView) v).setTextColor(Color.parseColor("#ff0000"));
+		}
+	}
+
 	private void stopRecording() {
+		isRecording = false;
 		if (mRecorder != null) {
 			mRecorder.stop();
 			audioRecordingTime = Calendar.getInstance().getTimeInMillis() - audioRecordingTimeStart;
@@ -2188,7 +2190,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					if (!isRecording) {
 						startRecording(v);
 					} else {
-						isRecording = false;
 						stopRecording();
 						Attachment attachment = new Attachment(Uri.fromFile(new File(recordName)), Constants
 								.MIME_TYPE_AUDIO);
