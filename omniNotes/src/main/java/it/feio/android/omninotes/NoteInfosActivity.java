@@ -27,12 +27,17 @@ import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.StatsSingleNote;
 import it.feio.android.omninotes.utils.Constants;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Objects;
 
 
 public class NoteInfosActivity extends Activity {
 
+	@BindView(R.id.note_infos_category)
+	TextView category;
+	@BindView(R.id.note_infos_tags)
+	TextView tags;
 	@BindView(R.id.note_infos_chars)
 	TextView chars;
 	@BindView(R.id.note_infos_words)
@@ -63,6 +68,8 @@ public class NoteInfosActivity extends Activity {
 
 	private void populateViews(Note note) {
 		StatsSingleNote infos = NotesHelper.getNoteInfos(note);
+		populateView(category, infos.getCategoryName());
+		populateView(tags, infos.getTags());
 		populateView(chars, infos.getChars());
 		populateView(words, infos.getWords());
 		populateView(checklistItems, infos.getChecklistItemsNumber());
@@ -75,8 +82,13 @@ public class NoteInfosActivity extends Activity {
 	}
 
 	private void populateView(TextView textView, int numberValue) {
-		if (numberValue > 0) {
-			textView.setText(String.valueOf(numberValue));
+		String stringValue = numberValue > 0 ? String.valueOf(numberValue) : "";
+		populateView(textView, stringValue);
+	}
+
+	private void populateView(TextView textView, String value) {
+		if (!StringUtils.isEmpty(value)) {
+			textView.setText(value);
 		} else {
 			((View) textView.getParent()).setVisibility(View.GONE);
 		}

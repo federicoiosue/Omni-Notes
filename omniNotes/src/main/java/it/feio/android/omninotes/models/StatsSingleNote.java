@@ -27,6 +27,7 @@ public class StatsSingleNote {
 	protected int audioRecordings;
 	protected int sketches;
 	protected int files;
+	protected String categoryName;
 
 	protected int words;
 	protected int chars;
@@ -104,6 +105,14 @@ public class StatsSingleNote {
 
 	public void setFiles(int files) {
 		this.files = files;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 
 	public int getChecklistItemsNumber() {
