@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
-import android.os.LocaleList;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import it.feio.android.omninotes.utils.Constants;
@@ -57,19 +56,9 @@ public class LanguageHelper {
 		return setLocale(ctx, locale);
 	}
 
-	@SuppressWarnings("deprecation")
-	private static Context setLocale(Context context, Locale locale){
+	private static Context setLocale(Context context, Locale locale) {
 		Configuration configuration = context.getResources().getConfiguration();
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			configuration.setLocale(locale);
-
-			LocaleList localeList = new LocaleList(locale);
-			LocaleList.setDefault(localeList);
-			configuration.setLocales(localeList);
-
-			context.createConfigurationContext(configuration);
-
-		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			configuration.setLocale(locale);
 			context.createConfigurationContext(configuration);
 

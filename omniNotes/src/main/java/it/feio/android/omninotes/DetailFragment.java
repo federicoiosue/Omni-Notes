@@ -52,7 +52,6 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -106,11 +105,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import static java.lang.Integer.parseInt;
@@ -176,7 +171,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	View toggleChecklistView;
 	private Uri attachmentUri;
 	private AttachmentAdapter mAttachmentAdapter;
-	private PopupWindow attachmentDialog;
+	private MaterialDialog attachmentDialog;
 	private Note note;
 	private Note noteTmp;
 	private Note noteOriginal;
@@ -301,8 +296,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		super.onSaveInstanceState(outState);
 	}
 
-	@SuppressLint("NewApi")
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -312,11 +305,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Checks "goBack" value to avoid performing a double saving
 		if (!goBack) {
 			saveNote(this);
-		}
-
-		if (mRecorder != null) {
-			mRecorder.release();
-			mRecorder = null;
 		}
 
 		if (toggleChecklistView != null) {
@@ -1054,7 +1042,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_attachment:
-				showPopup(mainActivity.findViewById(R.id.menu_attachment));
+				showAttachmentsPopup();
 				break;
 			case R.id.menu_tag:
 				addTags();
@@ -1256,37 +1244,22 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		dialog.show();
 	}
 
-	// The method that displays the popup.
-	@SuppressWarnings("deprecation")
-	private void showPopup(View anchor) {
-		DisplayMetrics metrics = new DisplayMetrics();
-		mainActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+	private void showAttachmentsPopup() {
+		LayoutInflater inflater = mainActivity.getLayoutInflater();
+		final View layout = inflater.inflate(R.layout.attachment_dialog, null);
 
-		// Inflate the popup_layout.xml
-		LayoutInflater inflater = (LayoutInflater) mainActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		View layout = inflater.inflate(R.layout.attachment_dialog, null);
-
-		// Creating the PopupWindow
-		attachmentDialog = new PopupWindow(mainActivity);
-		attachmentDialog.setContentView(layout);
-		attachmentDialog.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-		attachmentDialog.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-		attachmentDialog.setFocusable(true);
-		attachmentDialog.setOnDismissListener(() -> {
-			if (isRecording) {
-				isRecording = false;
-				stopRecording();
-			}
-		});
-
-		// Clear the default translucent background
-		attachmentDialog.setBackgroundDrawable(new BitmapDrawable());
+		attachmentDialog = new MaterialDialog.Builder(mainActivity)
+				.autoDismiss(false)
+				.customView(layout, false)
+				.build();
+		attachmentDialog.show();
 
 		// Camera
 		android.widget.TextView cameraSelection = (android.widget.TextView) layout.findViewById(R.id.camera);
 		cameraSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Audio recording
 		android.widget.TextView recordingSelection = (android.widget.TextView) layout.findViewById(R.id.recording);
+		toggleAudioRecordingStop(recordingSelection);
 		recordingSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Video recording
 		android.widget.TextView videoSelection = (android.widget.TextView) layout.findViewById(R.id.video);
@@ -1304,19 +1277,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		android.widget.TextView timeStampSelection = (android.widget.TextView) layout.findViewById(R.id.timestamp);
 		timeStampSelection.setOnClickListener(new AttachmentOnClickListener());
 		// Desktop note with PushBullet
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-			android.widget.TextView pushbulletSelection = (android.widget.TextView) layout.findViewById(R.id
-					.pushbullet);
-			pushbulletSelection.setVisibility(View.VISIBLE);
-			pushbulletSelection.setOnClickListener(new AttachmentOnClickListener());
-		}
-
-		try {
-			attachmentDialog.showAsDropDown(anchor);
-		} catch (Exception e) {
-			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
-
-		}
+		android.widget.TextView pushbulletSelection = (android.widget.TextView) layout.findViewById(R.id.pushbullet);
+		pushbulletSelection.setVisibility(View.VISIBLE);
+		pushbulletSelection.setOnClickListener(new AttachmentOnClickListener());
 	}
 
 	private void takePhoto() {
@@ -1347,16 +1310,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			return;
 		}
 		// File is stored in custom ON folder to speedup the attachment
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-			File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_VIDEO_EXT);
-			if (f == null) {
-				mainActivity.showMessage(R.string.error, ONStyle.ALERT);
-
-				return;
-			}
-			attachmentUri = Uri.fromFile(f);
-			takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
+		File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_VIDEO_EXT);
+		if (f == null) {
+			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
+			return;
 		}
+		attachmentUri = Uri.fromFile(f);
+		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		String maxVideoSizeStr = "".equals(prefs.getString("settings_max_video_size",
 				"")) ? "0" : prefs.getString("settings_max_video_size", "");
 		long maxVideoSize = parseLong(maxVideoSizeStr) * 1024L * 1024L;
@@ -1819,9 +1779,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				R.string.permission_audio_recording, snackBarPlaceholder, () -> {
 
 					isRecording = true;
-					android.widget.TextView mTextView = (android.widget.TextView) v;
-					mTextView.setText(getString(R.string.stop));
-					mTextView.setTextColor(Color.parseColor("#ff0000"));
+					toggleAudioRecordingStop(v);
 
 					File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_AUDIO_EXT);
 					if (f == null) {
@@ -1850,7 +1808,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				});
 	}
 
+	private void toggleAudioRecordingStop(View v) {
+		if (isRecording) {
+			((android.widget.TextView) v).setText(getString(R.string.stop));
+			((android.widget.TextView) v).setTextColor(Color.parseColor("#ff0000"));
+		}
+	}
+
 	private void stopRecording() {
+		isRecording = false;
 		if (mRecorder != null) {
 			mRecorder.stop();
 			audioRecordingTime = Calendar.getInstance().getTimeInMillis() - audioRecordingTimeStart;
@@ -2224,7 +2190,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					if (!isRecording) {
 						startRecording(v);
 					} else {
-						isRecording = false;
 						stopRecording();
 						Attachment attachment = new Attachment(Uri.fromFile(new File(recordName)), Constants
 								.MIME_TYPE_AUDIO);

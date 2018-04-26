@@ -62,8 +62,8 @@
 
     <!-- Attachment dialog -->
     <dimen name="attachment_dialog_text_size">16sp</dimen>
-    <dimen name="attachment_dialog_drawable_padding">10dp</dimen>
-    <dimen name="attachment_dialog_items_padding">10dp</dimen>
+    <dimen name="attachment_dialog_drawable_padding">12dp</dimen>
+    <dimen name="attachment_dialog_items_padding">12dp</dimen>
 
     <!-- FAB -->
     <dimen name="fab_right_margin">8dp</dimen>

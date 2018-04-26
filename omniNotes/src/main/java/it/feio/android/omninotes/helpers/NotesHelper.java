@@ -153,6 +153,10 @@ public class NotesHelper {
 		infos.setSketches(sketches);
 		infos.setFiles(files);
 
+		if (note.getCategory() != null) {
+			infos.setCategoryName(note.getCategory().getName());
+		}
+
 		return infos;
 	}
 

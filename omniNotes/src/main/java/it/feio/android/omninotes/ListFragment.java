@@ -595,7 +595,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             }
             menu.findItem(R.id.menu_add_reminder).setVisible(true);
             menu.findItem(R.id.menu_category).setVisible(true);
-			menu.findItem(R.id.menu_uncomplete_checklists).setVisible(true);
+			menu.findItem(R.id.menu_uncomplete_checklists).setVisible(false);
             menu.findItem(R.id.menu_tags).setVisible(true);
             menu.findItem(R.id.menu_trash).setVisible(true);
         }
@@ -1280,7 +1280,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
      */
     private void selectAllNotes() {
         for (int i = 0; i < list.getChildCount(); i++) {
-            LinearLayout v = list.getChildAt(i).findViewById(R.id.card_layout);
+            LinearLayout v = (LinearLayout) list.getChildAt(i).findViewById(R.id.card_layout);
 			v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
         }
         selectedNotes.clear();
