@@ -20,14 +20,16 @@ android:
   - tools
   - tools
   - platform-tools
-  - build-tools-26.0.2
-  - android-23
+  - build-tools-27.0.3
+  - android-27
   - extra-google-m2repository
   - extra-android-m2repository
   licenses:
   - android-sdk-preview-license-.+
   - android-sdk-license-.+
   - google-gdk-license-.+
+before_install:
+  - yes | sdkmanager "platforms;android-27"
 script: 
   - ./gradlew clean build jacocoTestReport sonarqube
 after_success:

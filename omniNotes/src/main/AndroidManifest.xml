@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -179,6 +179,9 @@
         <!-- Stats -->
         <activity
             android:name="it.feio.android.omninotes.StatsActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name="it.feio.android.omninotes.NoteInfosActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <!-- ACRA -->

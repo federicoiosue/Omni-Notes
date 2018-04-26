@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2016 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundatibehaon, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -91,17 +91,9 @@ public class DateHelper {
      * @return
      */
     public static String getDateTimeShort(Context mContext, Long date) {
-        if (date == null)
-            return "";
-
-        Calendar now = Calendar.getInstance();
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(date);
-
-        int flags = DateUtils.FORMAT_ABBREV_MONTH;
-        if (c.get(Calendar.YEAR) != now.get(Calendar.YEAR))
-            flags = flags | DateUtils.FORMAT_SHOW_YEAR;
-        return DateUtils.formatDateTime(mContext, date, flags)
+        int flags = DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_WEEKDAY
+                | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_SHOW_DATE;
+        return (date == null) ? "" : DateUtils.formatDateTime(mContext, date, flags)
                 + " " + DateUtils.formatDateTime(mContext, date, DateUtils.FORMAT_SHOW_TIME);
     }
 

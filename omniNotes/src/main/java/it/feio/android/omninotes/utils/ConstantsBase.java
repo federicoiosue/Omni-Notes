@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@ public interface ConstantsBase {
 	String APP_STORAGE_DIRECTORY_SB_SYNC = "db_sync";
 
 	String DEV_EMAIL = "omninotes@iosue.it";
+	String GOOGLE_PLUS_COMMUNITY = "https://plus.google.com/communities/112276053772152071903";
+	String FACEBOOK_COMMUNITY = "https://www.facebook.com/OmniNotes/";
 
 	// Used for updates retrieval
 	long UPDATE_MIN_FREQUENCY = 24L * 60L * 60L * 1000L; // 1 day
@@ -71,6 +73,7 @@ public interface ConstantsBase {
 	 * Used to quickly add a note, save, and perform backPress (eg. Tasker+Pushbullet) *
 	 */
 	String ACTION_SEND_AND_EXIT = "action_send_and_exit";
+	String ACTION_SEARCH_UNCOMPLETE_CHECKLISTS = "action_search_uncomplete_checklists";
 
 	String PREF_LANG = "settings_language";
 	String PREF_LAST_UPDATE_CHECK = "last_update_check";

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -148,27 +148,32 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 	private void init() {
         isPasswordAccepted = true;
 
-        mFragmentManager = getSupportFragmentManager();
-        
-        NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) mFragmentManager
+		getFragmentManagerInstance();
+
+		NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManagerInstance()
                 .findFragmentById(R.id.navigation_drawer);
         if (mNavigationDrawerFragment == null) {
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            FragmentTransaction fragmentTransaction = getFragmentManagerInstance().beginTransaction();
             fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment(), 
                     FRAGMENT_DRAWER_TAG).commit();
         }
 
-        if (mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        if (getFragmentManagerInstance().findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
+            FragmentTransaction fragmentTransaction = getFragmentManagerInstance().beginTransaction();
             fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG).commit();
         }
 
-        // Handling of Intent actions
         handleIntents();
     }
 
+	private FragmentManager getFragmentManagerInstance() {
+		if (mFragmentManager == null) {
+			mFragmentManager = getSupportFragmentManager();
+		}
+		return mFragmentManager;
+	}
 
-    @Override
+	@Override
     protected void onNewIntent(Intent intent) {
         if (intent.getAction() == null) {
             intent.setAction(Constants.ACTION_START_APP);
@@ -220,12 +225,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
      */
     private Fragment checkFragmentInstance(int id, Object instanceClass) {
         Fragment result = null;
-        if (mFragmentManager != null) {
-            Fragment fragment = mFragmentManager.findFragmentById(id);
-            if (instanceClass.equals(fragment.getClass())) {
-                result = fragment;
-            }
-        }
+		Fragment fragment = getFragmentManagerInstance().findFragmentById(id);
+		if (instanceClass.equals(fragment.getClass())) {
+			result = fragment;
+		}
         return result;
     }
 
@@ -247,7 +250,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             setRequestedOrientation(
                     ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
-            mFragmentManager.popBackStack();
+            getFragmentManagerInstance().popBackStack();
             return;
         }
 
@@ -301,8 +304,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     public ActionBarDrawerToggle getDrawerToggle() {
-        if (mFragmentManager != null && mFragmentManager.findFragmentById(R.id.navigation_drawer) != null) {
-            return ((NavigationDrawerFragment) mFragmentManager.findFragmentById(R.id.navigation_drawer)).mDrawerToggle;
+        if (getFragmentManagerInstance().findFragmentById(R.id.navigation_drawer) != null) {
+            return ((NavigationDrawerFragment) getFragmentManagerInstance().findFragmentById(R.id.navigation_drawer)).mDrawerToggle;
         } else {
             return null;
         }
@@ -313,7 +316,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
      * Finishes multiselection mode started by ListFragment
      */
     public void finishActionMode() {
-        ListFragment fragment = (ListFragment) mFragmentManager.findFragmentByTag(FRAGMENT_LIST_TAG);
+        ListFragment fragment = (ListFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_LIST_TAG);
         if (fragment != null) {
             fragment.finishActionMode();
         }
@@ -397,13 +400,13 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     private boolean noteAlreadyOpened(Note note) {
-        DetailFragment detailFragment = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
+        DetailFragment detailFragment = (DetailFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG);
         return detailFragment != null && NotesHelper.haveSameId(note, detailFragment.getCurrentNote());
     }
 
 
     public void switchToList() {
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        FragmentTransaction transaction = getFragmentManagerInstance().beginTransaction();
         animateTransition(transaction, TRANSITION_HORIZONTAL);
         ListFragment mListFragment = new ListFragment();
         transaction.replace(R.id.fragment_container, mListFragment, FRAGMENT_LIST_TAG).addToBackStack
@@ -411,24 +414,24 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (getDrawerToggle() != null) {
             getDrawerToggle().setDrawerIndicatorEnabled(false);
         }
-        mFragmentManager.getFragments();
+		getFragmentManagerInstance().getFragments();
         EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
     }
 
 
     public void switchToDetail(Note note) {
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        FragmentTransaction transaction = getFragmentManagerInstance().beginTransaction();
         animateTransition(transaction, TRANSITION_HORIZONTAL);
         DetailFragment mDetailFragment = new DetailFragment();
         Bundle b = new Bundle();
         b.putParcelable(Constants.INTENT_NOTE, note);
         mDetailFragment.setArguments(b);
-        if (mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
+        if (getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
             transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
                     .addToBackStack(FRAGMENT_LIST_TAG)
                     .commitAllowingStateLoss();
         } else {
-            mFragmentManager.popBackStackImmediate();
+			getFragmentManagerInstance().popBackStackImmediate();
             transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
                     .addToBackStack(FRAGMENT_DETAIL_TAG)
                     .commitAllowingStateLoss();
@@ -517,7 +520,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        DetailFragment f = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
+        DetailFragment f = (DetailFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG);
         if (f != null && f.isAdded()) {
             f.onTimeSetListener.onTimeSet(view, hourOfDay, minute);
         }
@@ -527,7 +530,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear,
                           int dayOfMonth) {
-        DetailFragment f = (DetailFragment) mFragmentManager.findFragmentByTag(FRAGMENT_DETAIL_TAG);
+        DetailFragment f = (DetailFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG);
         if (f != null && f.isAdded() && f.onDateSetListener != null) {
             f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,9 +64,6 @@ public class OmniNotes extends MultiDexApplication {
 		initAcra(this);
 
 		initLeakCanary();
-
-		// Checks selected locale or default one
-		LanguageHelper.updateLanguage(this, null);
 	}
 
 	private void initLeakCanary() {
@@ -92,11 +89,9 @@ public class OmniNotes extends MultiDexApplication {
 	}
 
 	@Override
-	// Used to restore user selected locale when configuration changes
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		String language = prefs.getString(Constants.PREF_LANG, "");
-		super.onConfigurationChanged(newConfig);
 		LanguageHelper.updateLanguage(this, language);
 	}
 

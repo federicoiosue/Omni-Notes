@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,6 +16,20 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <changelog bulletedList="true">
+
+    <changelogversion versionName="5.5.0" changeDate="Apr 26, 2018">
+        <changelogtext>[b]New![/b] Rapidly search your unfinished to-do lists</changelogtext>
+        <changelogtext>[b]New![/b] New "attachment" available to easily add the current timestamp</changelogtext>
+        <changelogtext>[b]New![/b] Now an option is available into the editor to check currently edited note's informations</changelogtext>
+        <changelogtext>[b]New![/b] Persian translation</changelogtext>
+        <changelogtext>[i]Improved![/i] Attachment's menu graphical overhaul</changelogtext>
+        <changelogtext>[i]Improved![/i] Removed outdated transparent navigation bar: this will save a lot of CPU avoiding calculating dynamic layout, after all today all devides are very much bigger than when this optimization has been introduced</changelogtext>
+        <changelogtext>[i]Improved![/i] Removed semi-transparent overlay when using floating action button to speed-up the flow</changelogtext>
+        <changelogtext>[i]Improved![/i] Faster password and security question validations by using the keyboard "done" button</changelogtext>
+        <changelogtext>[u]Fix[/u] Notes list update after password reset and password request bypass using swipe actions</changelogtext>
+        <changelogtext>[u]Fix[/u] Language switching on Android Oreo and later versions</changelogtext>
+        <changelogtext>[u]Fix[/u] First title duplication during notes' merging</changelogtext>
+    </changelogversion>
 
     <changelogversion versionName="5.4.5" changeDate="Mar 28, 2018">
         <changelogtext>[i]Improved![/i] Updated translations</changelogtext>

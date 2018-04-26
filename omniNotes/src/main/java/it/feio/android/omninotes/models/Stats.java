@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,33 +17,24 @@
 
 package it.feio.android.omninotes.models;
 
-public class Stats {
+public class Stats extends StatsSingleNote {
 
-    int notesActive;
-    int notesArchived;
-    int notesTrashed;
-    int reminders;
-    int remindersFutures;
-    int notesChecklist;
-    int notesMasked;
-    int categories;
-    int tags;
+    private int notesActive;
+    private int notesArchived;
+    private int notesTrashed;
+    private int reminders;
+    private int remindersFutures;
+    private int notesChecklist;
+    private int notesMasked;
+    private int categories;
 
-    int attachments;
-    int images;
-    int videos;
-    int audioRecordings;
-    int sketches;
-    int files;
-    int location;
+	private int location;
 
-    int words;
-    int wordsMax;
-    int wordsAvg;
-    int chars;
-    int charsMax;
-    int charsAvg;
-    long usageTime;
+    private int wordsMax;
+    private int wordsAvg;
+    private int charsMax;
+    private int charsAvg;
+    private long usageTime;
 
 
     public int getNotesTotalNumber() {
@@ -201,72 +192,12 @@ public class Stats {
     }
 
 
-    public int getAttachments() {
-        return attachments;
-    }
+	public int getLocation() {
+		return location;
+	}
 
 
-    public void setAttachments(int attachments) {
-        this.attachments = attachments;
-    }
-
-
-    public int getImages() {
-        return images;
-    }
-
-
-    public void setImages(int images) {
-        this.images = images;
-    }
-
-
-    public int getVideos() {
-        return videos;
-    }
-
-
-    public void setVideos(int videos) {
-        this.videos = videos;
-    }
-
-
-    public int getAudioRecordings() {
-        return audioRecordings;
-    }
-
-
-    public void setAudioRecordings(int audioRecordings) {
-        this.audioRecordings = audioRecordings;
-    }
-
-
-    public int getSketches() {
-        return sketches;
-    }
-
-
-    public void setSketches(int sketches) {
-        this.sketches = sketches;
-    }
-
-
-    public int getFiles() {
-        return files;
-    }
-
-
-    public void setFiles(int files) {
-        this.files = files;
-    }
-
-
-    public int getLocation() {
-        return location;
-    }
-
-
-    public void setLocation(int location) {
+	public void setLocation(int location) {
         this.location = location;
     }
 
