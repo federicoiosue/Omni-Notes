@@ -106,7 +106,7 @@
   <string name="delete_category_confirmation">Diese Kategorie wird von einer oder mehreren Notiz(en) verwendet.\nKategoriezugehörigkeit der Notiz(en) entfernen und löschen der Kategorie bestätigen?</string>
   <string name="discard">Verwerfen</string>
   <string name="remove_category">Kategorie entfernen</string>
-  <string name="no_tags_created">Keine Tags vorhanden\nErstelle sie, indem du Hashtags verwendest</string>
+  <string name="no_tags_created">Keine Tags vorhanden\nErstelle sie, indem du Hashtags in deinen Notizen verwendest</string>
   <string name="no_categories_created">Es wurden bisher noch keine Kategorien erstellt</string>
   <string name="notes_category_removed">Kategorie von den Notizen entfernt</string>
   <string name="notes_categorized_as">Notizen kategorisiert als</string>
