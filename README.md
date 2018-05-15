@@ -145,7 +145,7 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 ## Developed with love and passion by
 
 
-* Federico Iosue - [Website](http://www.iosue.it/federico)
+* Federico Iosue - [Website](https://federico.iosue.it)
 * [Other contributors](https://github.com/federicoiosue/Omni-Notes/blob/master/https://github.com/federicoiosue/Omni-Notes/blob/master/CONTRIBUTORS.md)
 
 
