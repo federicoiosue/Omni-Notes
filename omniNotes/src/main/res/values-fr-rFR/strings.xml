@@ -372,7 +372,7 @@
   <string name="tour_detailactivity_reminder_title">Appuyez juste</string>
   <string name="tour_detailactivity_reminder_detail">Des appuis courts ou longs sur un élément (pièce jointe, localisation, rappel) ont des effets différents !</string>
   <string name="tour_detailactivity_links_title">Liens</string>
-  <string name="tour_detailactivity_links_detail">URL, adresses courriel et reconnaissance de numéros de téléphone</string>
+  <string name="tour_detailactivity_links_detail">Adresses internet, courriel et reconnaissance de numéros de téléphone</string>
   <string name="tour_detailactivity_swipe_title">Glisser</string>
   <string name="tour_detailactivity_swipe_detail">Créer de nouvelles notes sans \nquitter celle que vous modifiez</string>
   <string name="tour_detailactivity_save_title">Enregistrer</string>

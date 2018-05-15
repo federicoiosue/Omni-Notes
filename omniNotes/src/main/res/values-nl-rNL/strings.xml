@@ -193,16 +193,16 @@
   <string name="filter_archived">Gearchiveerde notities verbergen</string>
   <string name="remove_filter_archived">Gearchiveerde notities weergeven</string>
   <string name="permission_external_storage">Een machtiging om te schrijven naar externe opslag is nodig voor back-ups in openbare mappen</string>
-  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
+  <string name="permission_external_storage_detail_attachment">Een machtiging is nodig om vanuit externe opslag bestanden te kunnen toevoegen als bijlage</string>
   <string name="permission_audio_recording">Toestemming voor het gebruik van de microfoon is nodig om audionotities te kunnen opnemen</string>
   <string name="permission_coarse_location">Toestemming voor locatietoegang is nodig om de locatie aan uw notities te kunnen toevoegen</string>
   <string name="permission_not_granted">Toestemming niet verleend</string>
   <string name="checklist">Checklist</string>
   <string name="text_note">Tekstnotitie</string>
   <string name="photo">Foto</string>
-  <string name="uncompleted_checklists">Incompleted checklists</string>
+  <string name="uncompleted_checklists">Nog niet voltooide checklist</string>
   <string name="info">Info</string>
-  <string name="completed">Completed</string>
+  <string name="completed">Voltooid</string>
   <!-- Settings -->
   <string name="dashclock_description">Sommige statistieken en de naderende herinneringen van Omni notities worden weergegeven</string>
   <string name="settings">Instellingen</string>
@@ -248,7 +248,7 @@
   <string name="insert_new_password">Geef een nieuw wachtwoord in</string>
   <string name="confirm_new_password">Bevestig het nieuwe wachtwoord</string>
   <string name="password_successfully_changed">Wachtwoord succesvol gewijzigd</string>
-  <string name="password_successfully_removed">Password removed: all notes have been unlocked</string>
+  <string name="password_successfully_removed">Wachtwoord verwijderd: alle notities zijn ontgrendeld</string>
   <string name="wrong_password">Verkeerd paswoord</string>
   <string name="empty_password">Het wachtwoord is leeg</string>
   <string name="agree_unlocking_all_notes">Verwijder wachtwoord\nen ontgrendel alle vergrendelde notities?</string>
@@ -362,9 +362,9 @@
   <string name="tour_listactivity_actions_title">acties</string>
   <string name="tour_listactivity_actions_detail">Nieuwe notities maken, ze sorteren, toegang tot Voorkeuren</string>
   <string name="tour_listactivity_home_title">Navigatie</string>
-  <string name="tour_listactivity_home_detail">Navigation menu allows you to move through notes with filters and categories</string>
+  <string name="tour_listactivity_home_detail">Met het navigatie-menu kunt u door notities navigeren via filters en categoriën</string>
   <string name="tour_listactivity_tag_title">Tags</string>
-  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
+  <string name="tour_listactivity_tag_detail">Gekleurde categorie toevoegen om notities snel en visueel te organiseren</string>
   <string name="tour_detailactivity_attachment_title">Verbeteren</string>
   <string name="tour_detailactivity_attachment_detail">Een heleboel verschillende bijlagentypen aan uw notities toevoegen!</string>
   <string name="tour_detailactivity_action_title">Meer doen</string>
@@ -372,7 +372,7 @@
   <string name="tour_detailactivity_reminder_title">Druk gewoon op</string>
   <string name="tour_detailactivity_reminder_detail">Korte of lange drukken op objecten (bijlagen, locatie, herinnering) hebben verschillende effecten!</string>
   <string name="tour_detailactivity_links_title">Links</string>
-  <string name="tour_detailactivity_links_detail">URL, e-mail addresses and telephone numbers recognition</string>
+  <string name="tour_detailactivity_links_detail">URL, e-mail adressen en telefoonnummer-herkenning</string>
   <string name="tour_detailactivity_swipe_title">Veeg</string>
   <string name="tour_detailactivity_swipe_detail">Nieuwe notities maken zonder\ndegene die u aan het bewerken\n bent te verlaten</string>
   <string name="tour_detailactivity_save_title">Opslaan</string>
