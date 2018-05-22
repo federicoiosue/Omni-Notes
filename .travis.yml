@@ -14,7 +14,9 @@ branches:
   only:
   - develop
   - master
-  - feature/sonarqube-optimizations
+  - /^feature/.*$/
+  - /^hotfix/.*$/
+  - /^release/.*$/
 android:
   components:
   - tools
