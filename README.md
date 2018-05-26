@@ -1,4 +1,4 @@
- ![icon](etc/logo.png)
+ ![icon](assets/logo.png)
 
 Omni-Notes
 ==========
@@ -49,19 +49,19 @@ Further developments will include:
 
 You can find a complete changelog inside the application settings menu!
 
-If you need some help on how to use the application you'll find everything you need in the [Help Online](etc/help/help.md) section.
+If you need some help on how to use the application you'll find everything you need in the [Help Online](assets/help/help.md) section.
 
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/02.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/03.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/04.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/05.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/06.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/07.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/08.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/09.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/10.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/11.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/12.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/02.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/03.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/04.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/05.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/06.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/07.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/08.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/09.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/10.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/11.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/12.png)
 
 ## User guide
 
