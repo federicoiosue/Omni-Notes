@@ -450,23 +450,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				noteTmp.setContent(content);
 			}
 
-			// Single attachment data
-			Uri uri = i.getParcelableExtra(Intent.EXTRA_STREAM);
-			// Due to the fact that Google Now passes intent as text but with
-			// audio recording attached the case must be handled in specific way
-			if (uri != null && !Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {
-				String name = FileHelper.getNameFromUri(mainActivity, uri);
-				new AttachmentTask(this, uri, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-			}
+			importAttachments(i);
 
-			// Multiple attachment data
-			ArrayList<Uri> uris = i.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-			if (uris != null) {
-				for (Uri uriSingle : uris) {
-					String name = FileHelper.getNameFromUri(mainActivity, uriSingle);
-					new AttachmentTask(this, uriSingle, name, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-				}
-			}
 		}
 
 		if (IntentChecker.checkAction(i, Intent.ACTION_MAIN, Constants.ACTION_WIDGET_SHOW_LIST, Constants
@@ -475,6 +460,26 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		}
 
 		i.setAction(null);
+	}
+
+	private void importAttachments(Intent i) {
+
+		if (!i.hasExtra(Intent.EXTRA_STREAM)) return;
+
+		if (i.getExtras().get(Intent.EXTRA_STREAM) instanceof Uri) {
+			Uri uri = i.getParcelableExtra(Intent.EXTRA_STREAM);
+			// Google Now passes Intent as text but with audio recording attached the case must be handled like this
+			if (!Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {
+				String name = FileHelper.getNameFromUri(mainActivity, uri);
+				new AttachmentTask(this, uri, name, this).execute();
+			}
+		} else {
+			ArrayList<Uri> uris = i.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+			for (Uri uriSingle :uris) {
+				String name = FileHelper.getNameFromUri(mainActivity, uriSingle);
+				new AttachmentTask(this, uriSingle, name, this).execute();
+			}
+		}
 	}
 
 	@SuppressLint("NewApi")
