@@ -30,6 +30,7 @@ import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.*;
 import it.feio.android.omninotes.utils.*;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -536,6 +537,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return Notes list
      */
     public List<Note> getNotesByPattern(String pattern) {
+    	String escapedPattern = StringEscapeUtils.escapeSql(pattern);
         int navigation = Navigation.getNavigation();
         String whereCondition = " WHERE "
                 + KEY_TRASHED + (navigation == Navigation.TRASH ? " IS 1" : " IS NOT 1")
@@ -545,9 +547,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " == 0) " : "")
                 + (Navigation.checkNavigation(Navigation.REMINDERS) ? " AND " + KEY_REMINDER + " IS NOT NULL" : "")
                 + " AND ("
-                + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + pattern + "%' " + " OR " +
-                KEY_CONTENT + " LIKE '%" + pattern + "%' ))"
-                + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + pattern + "%' )"
+                + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern + "%' " + " OR " +
+                KEY_CONTENT + " LIKE '%" + escapedPattern + "%' ))"
+                + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + escapedPattern + "%' )"
                 + ")";
         return getNotes(whereCondition, true);
     }
