@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,11 @@ import android.util.Log;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.exceptions.NotesLoadingException;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
@@ -55,23 +57,28 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 
 		ArrayList<Note> notes = new ArrayList<>();
 		String methodName = params[0].toString();
-		Object methodArgs = params[1];
 		DbHelper db = DbHelper.getInstance();
 
-		// If null argument an empty list will be returned
-		if (methodArgs == null) {
-			return notes;
-		}
-
-		// Checks the argument class with reflection
-		Class[] paramClass = new Class[]{methodArgs.getClass()};
-
-		// Retrieves and calls the right method
-		try {
-			Method method = db.getClass().getDeclaredMethod(methodName, paramClass);
-			notes = (ArrayList<Note>) method.invoke(db, paramClass[0].cast(methodArgs));
-		} catch (Exception e) {
-			Log.e(Constants.TAG, "Error retrieving notes", e);
+		if (params.length < 2 || params[1] == null) {
+			try {
+				Method method = db.getClass().getDeclaredMethod(methodName);
+				notes = (ArrayList<Note>)method.invoke(db);
+			} catch (NoSuchMethodException e) {
+				return notes;
+			} catch (IllegalAccessException e) {
+				throw new NotesLoadingException("Error retrieving notes", e);
+			} catch (InvocationTargetException e) {
+				throw new NotesLoadingException("Error retrieving notes", e);
+			}
+		} else {
+			Object methodArgs = params[1];
+			Class[] paramClass = new Class[]{methodArgs.getClass()};
+			try {
+				Method method = db.getClass().getDeclaredMethod(methodName, paramClass);
+				notes = (ArrayList<Note>) method.invoke(db, paramClass[0].cast(methodArgs));
+			} catch (Exception e) {
+				throw new NotesLoadingException("Error retrieving notes", e);
+			}
 		}
 
 		return notes;

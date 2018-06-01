@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -137,7 +137,6 @@
         <item name="android:layout_gravity">bottom</item>
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginRight">16dp</item>
-        <item name="android:layout_marginBottom">@dimen/undobar_margin_bottom</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:background">@color/card_undobar_material_background_color</item>
         <item name="android:clickable">true</item>

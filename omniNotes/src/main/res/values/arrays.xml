@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -127,6 +127,7 @@
     <string-array name="languages">
         <item>العربية (Arabic)</item>
         <item>Asturianu (Asturian)</item>
+        <item>Euskara (Basque)</item>
         <item>Català (Catalan)</item>
         <item>中文 (Chinese Simplified)</item>
         <item>臺灣話 (Chinese Traditional)</item>
@@ -163,6 +164,7 @@
     <string-array name="languages_codes">
         <item>ar_SA</item>
         <item>es_XA</item>
+        <item>eu_ES</item>
         <item>ca_ES</item>
         <item>zh_CN</item>
         <item>zh_TW</item>

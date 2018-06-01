@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2017 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundatibehaon, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -22,37 +22,51 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Locale;
 
+import static android.content.Context.MODE_MULTI_PROCESS;
 
-public class LanguageHelper extends MultiDexApplication {
+
+public class LanguageHelper {
 
 	/**
 	 * Updates default language with forced one
 	 */
-	@SuppressLint("CommitPrefEdits")
-	public static void updateLanguage(Context ctx, String lang) {
-		Configuration cfg = new Configuration();
+	@SuppressLint("ApplySharedPref")
+	public static Context updateLanguage(Context ctx, String lang) {
 		SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 		String language = prefs.getString(Constants.PREF_LANG, "");
 
+		Locale locale = null;
 		if (TextUtils.isEmpty(language) && lang == null) {
-			cfg.locale = Locale.getDefault();
-			prefs.edit().putString(Constants.PREF_LANG, cfg.locale.toString()).commit();
+			locale = Locale.getDefault();
+			prefs.edit().putString(Constants.PREF_LANG, locale.toString()).commit();
 		} else if (lang != null) {
-			cfg.locale = getLocale(lang);
+			locale = getLocale(lang);
 			prefs.edit().putString(Constants.PREF_LANG, lang).commit();
 		} else if (!TextUtils.isEmpty(language)) {
-			cfg.locale = getLocale(language);
+			locale = getLocale(language);
 		}
-		ctx.getResources().updateConfiguration(cfg, null);
+
+		return setLocale(ctx, locale);
+	}
+
+	private static Context setLocale(Context context, Locale locale) {
+		Configuration configuration = context.getResources().getConfiguration();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			configuration.setLocale(locale);
+			context.createConfigurationContext(configuration);
+
+		} else {
+			configuration.locale = locale;
+			context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
+		}
+		return context;
 	}
 
 	/**

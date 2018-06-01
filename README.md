@@ -1,13 +1,15 @@
+ ![icon](assets/logo.png)
+
+Omni-Notes
+==========
+
 ![SLicense](https://img.shields.io/badge/License-GPLv3-red.svg)
 [![Stories in Ready](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=ready&title=Ready)](https://waffle.io/federicoiosue/Omni-Notes)
 [![Stories in In Progress](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=In%20Progress&title=InProgress)](https://waffle.io/federicoiosue/Omni-Notes)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/omni-notes/localized.png)](https://crowdin.com/project/omni-notes)
 [![Build Status](https://travis-ci.org/federicoiosue/Omni-Notes.svg?branch=develop)](https://travis-ci.org/federicoiosue/Omni-Notes)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8ade707d00ef468fa79d3f6b622444b5)](https://www.codacy.com/app/federico-iosue/Omni-Notes?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=federicoiosue/Omni-Notes&amp;utm_campaign=Badge_Grade)
-
-
-Omni-Notes
-==========
+[![GitHub release](https://img.shields.io/github/release/federicoiosue/omni-notes.svg)](https://github.com/federicoiosue/Omni-Notes/releases/latest)
 
 Note taking <b>open-source</b> application aimed to have both a <b>simple interface</b> but keeping <b>smart</b> behavior.
 
@@ -47,19 +49,19 @@ Further developments will include:
 
 You can find a complete changelog inside the application settings menu!
 
-If you need some help on how to use the application you'll find everything you need in the [Help Online](etc/help/help.md) section.
+If you need some help on how to use the application you'll find everything you need in the [Help Online](assets/help/help.md) section.
 
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/02.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/03.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/04.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/05.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/06.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/07.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/08.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/09.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/10.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/11.png)
-![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/etc/play_store_pics/12.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/02.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/03.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/04.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/05.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/06.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/07.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/08.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/09.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/10.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/11.png)
+![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/12.png)
 
 ## User guide
 
@@ -81,6 +83,8 @@ To execute all tests included into the project connect a device or emulator, the
 ## Contributing
 
 Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as code versioning methodology, you as developer should **always** start working on [develop branch](https://github.com/federicoiosue/Omni-Notes/tree/develop) that contains the most recent changes.
+
+There are many features/improvements that are not on **my** roadmap but someone else could decide to work on them anyway: hunt for issues tagged as [Help Wanted](https://github.com/federicoiosue/Omni-Notes/issues?utf8=✓&q=label%3A"Help+wanted") to find them!
 
 Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/contributors.md) file.
 
@@ -142,16 +146,16 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 ## Developed with love and passion by
 
 
-* Federico Iosue - [Website](http://www.iosue.it/federico)
-* [Other contributors](https://github.com/federicoiosue/Omni-Notes/blob/master/contributors.md)
+* Federico Iosue - [Website](https://federico.iosue.it)
+* [Other contributors](https://github.com/federicoiosue/Omni-Notes/blob/master/https://github.com/federicoiosue/Omni-Notes/blob/master/CONTRIBUTORS.md)
 
 
 
 ## License
 
 
-    Copyright 2015 Federico Iosue
-
+    Copyright 2013-2018 Federico Iosue
+    
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -166,5 +170,5 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
+[2]: https://crowdin.net/project/omni-notes/
 [2]: https://crowdin.net/project/omni-notes/

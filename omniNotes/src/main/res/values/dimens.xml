@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -52,10 +52,6 @@
 
     <!-- Height of the status bar -->
     <dimen name="status_bar_height">24dp</dimen>
-    <!-- Height of the bottom navigation / system bar. -->
-    <dimen name="navigation_bar_height">48dp</dimen>
-    <!-- Height of the bottom navigation bar in portrait; often the same as @dimen/navigation_bar_height -->
-    <!--<dimen name="navigation_bar_height_landscape">48dp</dimen>-->
     <!-- Width of the navigation bar when it is placed vertically on the screen -->
     <dimen name="navigation_bar_width">42dp</dimen>
     
@@ -66,8 +62,8 @@
 
     <!-- Attachment dialog -->
     <dimen name="attachment_dialog_text_size">16sp</dimen>
-    <dimen name="attachment_dialog_drawable_padding">10dp</dimen>
-    <dimen name="attachment_dialog_items_padding">10dp</dimen>
+    <dimen name="attachment_dialog_drawable_padding">12dp</dimen>
+    <dimen name="attachment_dialog_items_padding">12dp</dimen>
 
     <!-- FAB -->
     <dimen name="fab_right_margin">8dp</dimen>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,23 +25,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.*;
-import android.widget.EditText;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.ViewConfiguration;
 import android.widget.Toast;
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.MaterialDialog.SingleButtonCallback;
+import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
 
 import java.lang.reflect.Field;
@@ -67,11 +66,16 @@ public class BaseActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+	@Override
+	protected void attachBaseContext(Context newBase) {
+		Context context = LanguageHelper.updateLanguage(newBase, null);
+		super.attachBaseContext(context);
+	}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-        // Force menu overflow icon
+        // Forces menu overflow icon
         try {
             ViewConfiguration config = ViewConfiguration.get(this.getApplicationContext());
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");

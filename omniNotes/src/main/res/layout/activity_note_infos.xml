@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_margin="16dp"
+              android:padding="16dp"
+              android:orientation="vertical">
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_information_outline_grey600_24dp"/>
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:shrinkColumns="*"
+            android:stretchColumns="*"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="2dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/category"
+                    android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/note_infos_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="2dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/tag"
+                    android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/note_infos_tags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="2dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/stats_characters"
+                    android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/note_infos_chars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="2dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/stats_words"
+                    android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/note_infos_words"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="2dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/stats_checklists"
+                    android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/note_infos_checklist_items"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="2dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/completed"
+                    android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/note_infos_completed_checklist_items"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="2dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/stats_images"
+                    android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/note_infos_images"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="2dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/stats_videos"
+                    android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/note_infos_videos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="2dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/stats_audio_recordings"
+                    android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/note_infos_audiorecordings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="2dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/stats_sketches"
+                    android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/note_infos_sketches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingBottom="2dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:text="@string/stats_files"
+                    android:textStyle="bold">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/note_infos_files"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+            </TextView>
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>
