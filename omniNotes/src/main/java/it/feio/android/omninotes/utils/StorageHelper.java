@@ -203,26 +203,17 @@ public class StorageHelper {
 
 
     public static boolean delete(Context mContext, String path) {
-        boolean res = false;
-
-        // Checks for external storage availability
         if (!checkStorage()) {
             Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
             return false;
         }
-
-        File file = new File(path);
-        if (file.isFile()) {
-            res = file.delete();
-        } else if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            for (File file2 : files) {
-                res = delete(mContext, file2.getAbsolutePath());
-            }
-            res = file.delete();
-        }
-
-        return res;
+		try {
+			FileUtils.forceDelete(new File(path));
+		} catch (IOException e) {
+			Log.w(StorageHelper.class.getSimpleName(), "Can't delete '" + path + "': " + e.getMessage());
+			return false;
+		}
+		return true;
     }
 
 
