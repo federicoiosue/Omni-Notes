@@ -295,7 +295,7 @@ public class BackupHelper {
 	}
 
 
-	public static List<LinkedList<DiffMatchPatch.Diff>> integrityCheck(Context context, File backupDir) {
+	public static List<LinkedList<DiffMatchPatch.Diff>> integrityCheck(File backupDir) {
 		List<LinkedList<DiffMatchPatch.Diff>> errors = new ArrayList<>();
 		for (Note note : DbHelper.getInstance(true).getAllNotes(false)) {
 			File noteFile = getBackupNoteFile(backupDir, note);

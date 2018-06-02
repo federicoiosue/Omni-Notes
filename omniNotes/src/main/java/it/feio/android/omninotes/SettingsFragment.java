@@ -21,7 +21,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -45,11 +44,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.helpers.AppVersionHelper;
-import it.feio.android.omninotes.helpers.BackupHelper;
-import it.feio.android.omninotes.helpers.LanguageHelper;
-import it.feio.android.omninotes.helpers.PermissionsHelper;
-import it.feio.android.omninotes.helpers.SpringImportHelper;
+import it.feio.android.omninotes.helpers.*;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.StringUtils;
@@ -188,7 +183,7 @@ public class SettingsFragment extends PreferenceFragment {
 		Preference backupIntegrityCheck = findPreference("settings_backup_integrity_check");
 		if (backupIntegrityCheck != null) {
 			backupIntegrityCheck.setOnPreferenceClickListener(arg0 -> {
-				List<LinkedList<DiffMatchPatch.Diff>> errors = BackupHelper.integrityCheck(activity, StorageHelper
+				List<LinkedList<DiffMatchPatch.Diff>> errors = BackupHelper.integrityCheck(StorageHelper
 						.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
 				if (!errors.isEmpty()) {
 					DiffMatchPatch diffMatchPatch = new DiffMatchPatch();
