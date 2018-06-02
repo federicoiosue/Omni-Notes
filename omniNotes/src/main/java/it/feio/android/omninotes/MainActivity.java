@@ -91,7 +91,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		setTheme(R.style.OmniNotesTheme_ApiSpec);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-		EventBus.getDefault().register(this);
 
         initUI();
 
@@ -100,6 +99,12 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		}
 
 		new UpdaterTask(this).execute();
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		EventBus.getDefault().register(this);
 	}
 
 	@Override

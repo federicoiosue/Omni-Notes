@@ -21,6 +21,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -106,15 +107,6 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.util.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import static java.lang.Integer.parseInt;
@@ -219,8 +211,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 	@Override
-	public void onStart() {
-		super.onStart();
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
 		EventBus.getDefault().register(this);
 	}
@@ -228,7 +220,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public void onStop() {
 		super.onStop();
-		EventBus.getDefault().unregister(this);
 		GeocodeHelper.stop();
 	}
 
