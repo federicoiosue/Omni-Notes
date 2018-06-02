@@ -139,18 +139,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	public SQLiteDatabase getDatabase(boolean forceWritable) {
 		try {
-			SQLiteDatabase db = getReadableDatabase();
-			if (db.isReadOnly() && forceWritable) {
-				db = getWritableDatabase();
-			}
-			return db;
+			return forceWritable ? getWritableDatabase() : getReadableDatabase();
 		} catch (IllegalStateException e) {
 			return this.db;
 		}
 	}
 
 
-    // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
