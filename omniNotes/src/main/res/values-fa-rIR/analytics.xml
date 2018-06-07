@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -14,45 +15,15 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
 
+    <!-- Replace placeholder ID with your tracking ID -->
+    <string name="ga_trackingId">UA-45502770-1</string>
 
+    <!-- Enable automatic activity tracking -->
+    <bool name="ga_autoActivityTracking">true</bool>
 
-    <integer-array name="navigation_list_icons">
-    </integer-array>
-
-    <integer-array name="navigation_list_icons_selected">
-    </integer-array>
-
-
-
-
-
-    <string-array name="colors_app">
-        <item>غیر فعال</item>
-        <item>فقط نوار</item>
-        <item>فقط لیست یادداشت ها</item>
-        <item>تکمیل شد</item>
-    </string-array>
-
-
-    <string-array name="colors_widget">
-        <item>غیر فعال</item>
-        <item>فقط نوار</item>
-        <item>فهرست یادداشتها</item>
-    </string-array>
-
-
-
-
-    <integer-array name="text_size_offset">
-    </integer-array>
-
-
-
-    <array name="material_colors">
-    </array>
-
-
+    <!-- Enable automatic exception tracking -->
+    <bool name="ga_reportUncaughtExceptions">true</bool>
 
 </resources>

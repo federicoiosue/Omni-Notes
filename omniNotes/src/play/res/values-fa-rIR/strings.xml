@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
   ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -16,43 +18,8 @@
   -->
 <resources>
 
-
-
-    <integer-array name="navigation_list_icons">
-    </integer-array>
-
-    <integer-array name="navigation_list_icons_selected">
-    </integer-array>
-
-
-
-
-
-    <string-array name="colors_app">
-        <item>غیر فعال</item>
-        <item>فقط نوار</item>
-        <item>فقط لیست یادداشت ها</item>
-        <item>تکمیل شد</item>
-    </string-array>
-
-
-    <string-array name="colors_widget">
-        <item>غیر فعال</item>
-        <item>فقط نوار</item>
-        <item>فهرست یادداشتها</item>
-    </string-array>
-
-
-
-
-    <integer-array name="text_size_offset">
-    </integer-array>
-
-
-
-    <array name="material_colors">
-    </array>
-
-
+    <string name="app_name">Omni Notes</string>
+    <string name="app_package">it.feio.android.omninotes</string>
+    <string name="version_postfix"/>
 
 </resources>
