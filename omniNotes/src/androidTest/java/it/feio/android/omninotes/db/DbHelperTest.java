@@ -17,13 +17,17 @@
 
 package it.feio.android.omninotes.db;
 
+import android.support.test.runner.AndroidJUnit4;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.models.Note;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 
+@RunWith(AndroidJUnit4.class)
 public class DbHelperTest extends BaseAndroidTestCase {
 
-
+	@Test
     public void testGetNotesByTag() {
         Note note = new Note();
         note.setTitle("title with #tag inside");
