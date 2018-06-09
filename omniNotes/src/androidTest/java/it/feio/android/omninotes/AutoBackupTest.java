@@ -75,7 +75,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 	}
 
 	@Test
-	public void everyUpdateToNotesShouldTriggerAutobackup() {
+	public void everyUpdateToNotesShouldTriggerAutobackup() throws InterruptedException {
 
 		enableAutobackup();
 
@@ -135,93 +135,88 @@ public class AutoBackupTest extends BaseEspressoTest {
 								1),
 						2))).perform(scrollTo(), click());
 
-		ViewInteraction appCompatButton2 = onView(
-				allOf(withId(R.id.done), withText("Done"),
+		onView(allOf(withId(R.id.done), withText("Done"),
+				childAtPosition(
 						childAtPosition(
-								childAtPosition(
-										withClassName(is("android.widget.LinearLayout")),
-										3),
-								0),
-						isDisplayed()));
-		appCompatButton2.perform(click());
+								withClassName(is("android.widget.LinearLayout")),
+								3),
+						0),
+				isDisplayed())).perform(click());
 
-		ViewInteraction appCompatButton3 = onView(
-				allOf(withId(R.id.done_button), withText("Done"),
+		onView(allOf(withId(R.id.done_button), withText("Done"),
+				childAtPosition(
 						childAtPosition(
-								childAtPosition(
-										withId(R.id.time_picker_dialog),
-										3),
-								0),
-						isDisplayed()));
-		appCompatButton3.perform(click());
+								withId(R.id.time_picker_dialog),
+								3),
+						0),
+				isDisplayed())).perform(click());
 
-		ViewInteraction appCompatButton4 = onView(
-				allOf(withId(R.id.done), withText("Done"),
+		onView(allOf(withId(R.id.done), withText("Done"),
+				childAtPosition(
 						childAtPosition(
-								childAtPosition(
-										withClassName(is("android.widget.LinearLayout")),
-										2),
-								0),
-						isDisplayed()));
-		appCompatButton4.perform(click());
+								withClassName(is("android.widget.LinearLayout")),
+								2),
+						0),
+				isDisplayed())).perform(click());
 
-		ViewInteraction imageButton4 = onView(
-				allOf(withContentDescription("drawer open"),
-						childAtPosition(
-								allOf(withId(R.id.toolbar),
-										childAtPosition(
-												withClassName(is("android.widget.RelativeLayout")),
-												0)),
-								0),
-						isDisplayed()));
-		imageButton4.perform(click());
+		onView(allOf(withContentDescription("drawer open"),
+				childAtPosition(
+						allOf(withId(R.id.toolbar),
+								childAtPosition(
+										withClassName(is("android.widget.RelativeLayout")),
+										0)),
+						0),
+				isDisplayed())).perform(click());
 
 		assertAutobackupIsCorrect();
 
 		onData(anything()).inAdapterView(withId(R.id.list)).atPosition(0).perform(click());
 
-		ViewInteraction actionMenuItemView3 = onView(
-				allOf(withId(R.id.menu_attachment), withContentDescription("Attachment"),
+		onView(allOf(withId(R.id.menu_attachment), withContentDescription("Attachment"),
+				childAtPosition(
 						childAtPosition(
+								withId(R.id.toolbar),
+								1),
+						0),
+				isDisplayed())).perform(click());
+
+		onView(allOf(withId(R.id.recording), withText("Record"),
+				childAtPosition(
+						allOf(withId(R.id.attachment_dialog_root),
 								childAtPosition(
-										withId(R.id.toolbar),
-										1),
-								0),
-						isDisplayed()));
-		actionMenuItemView3.perform(click());
+										withId(R.id.customViewFrame),
+										0)),
+						3),
+				isDisplayed())).perform(click());
 
-		ViewInteraction textView7 = onView(
-				allOf(withId(R.id.sketch), withText("Sketch"),
-						childAtPosition(
-								allOf(withId(R.id.attachment_dialog_root),
-										childAtPosition(
-												withId(R.id.customViewFrame),
-												0)),
-								4),
-						isDisplayed()));
-		textView7.perform(click());
+		Thread.sleep(1000);
 
-		ViewInteraction imageButton5 = onView(
-				allOf(withContentDescription("drawer open"),
-						childAtPosition(
-								allOf(withId(R.id.toolbar),
-										childAtPosition(
-												withClassName(is("android.widget.RelativeLayout")),
-												0)),
-								0),
-						isDisplayed()));
-		imageButton5.perform(click());
+		onView(allOf(withId(R.id.recording), withText("Stop"),
+				childAtPosition(
+						allOf(withId(R.id.attachment_dialog_root),
+								childAtPosition(
+										withId(R.id.customViewFrame),
+										0)),
+						3),
+				isDisplayed())).perform(click());
 
-		ViewInteraction imageButton6 = onView(
-				allOf(withContentDescription("drawer open"),
-						childAtPosition(
-								allOf(withId(R.id.toolbar),
-										childAtPosition(
-												withClassName(is("android.widget.RelativeLayout")),
-												0)),
-								0),
-						isDisplayed()));
-		imageButton6.perform(click());
+		onView(allOf(withContentDescription("drawer open"),
+				childAtPosition(
+						allOf(withId(R.id.toolbar),
+								childAtPosition(
+										withClassName(is("android.widget.RelativeLayout")),
+										0)),
+						0),
+				isDisplayed())).perform(click());
+
+		onView(allOf(withContentDescription("drawer open"),
+				childAtPosition(
+						allOf(withId(R.id.toolbar),
+								childAtPosition(
+										withClassName(is("android.widget.RelativeLayout")),
+										0)),
+						0),
+				isDisplayed())).perform(click());
 
 		assertAutobackupIsCorrect();
 
