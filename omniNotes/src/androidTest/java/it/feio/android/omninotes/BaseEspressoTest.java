@@ -19,6 +19,7 @@ package it.feio.android.omninotes;
 
 
 import android.Manifest;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.rule.GrantPermissionRule;
 import android.view.View;
@@ -43,12 +44,12 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
 
 
 	@Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class, false, false);
+    public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class, false, false);
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        mActivityTestRule.launchActivity(null);
+        activityRule.launchActivity(null);
     }
 
     protected static Matcher<View> childAtPosition(

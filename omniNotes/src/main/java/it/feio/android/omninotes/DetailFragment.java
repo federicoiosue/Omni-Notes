@@ -1388,12 +1388,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					mGridView.autoresize();
 					break;
 				case TAKE_VIDEO:
-					// Gingerbread doesn't allow custom folder so data are retrieved from intent
-					if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
-						attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
-					} else {
-						attachment = new Attachment(intent.getData(), Constants.MIME_TYPE_VIDEO);
-					}
+					attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
 					addAttachment(attachment);
 					mAttachmentAdapter.notifyDataSetChanged();
 					mGridView.autoresize();

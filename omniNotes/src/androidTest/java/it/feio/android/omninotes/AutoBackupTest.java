@@ -299,7 +299,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 						withParent(withId(R.id.fab)),
 						isDisplayed()));
 
-		if (mActivityTestRule.getActivity().getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+		if (activityRule.getActivity().getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
 			viewInteraction.perform(click());
 		}
 		viewInteraction.perform(click());
