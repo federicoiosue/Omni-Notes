@@ -2,13 +2,8 @@ package it.feio.android.omninotes;
 
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v4.view.GravityCompat;
 import android.test.suitebuilder.annotation.LargeTest;
-import it.feio.android.omninotes.helpers.BackupHelper;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.ConstantsBase;
-import it.feio.android.omninotes.utils.StorageHelper;
+
 import org.apache.commons.io.FileUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.junit.After;
@@ -20,11 +15,27 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ConstantsBase;
+import it.feio.android.omninotes.utils.StorageHelper;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
-import static org.hamcrest.Matchers.*;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.is;
 
 
 @LargeTest
@@ -87,7 +98,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 
 		onData(anything()).inAdapterView(withId(R.id.list)).atPosition(0).perform(click());
 
-		onView(allOf(withId(R.id.menu_category), withContentDescription("Category"),
+		onView(allOf(withId(R.id.menu_category), withContentDescription(R.string.category),
 				childAtPosition(
 						childAtPosition(
 								withId(R.id.toolbar),
@@ -95,7 +106,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 						1),
 				isDisplayed())).perform(click());
 
-		onView(allOf(withId(R.id.buttonDefaultPositive), withText("Add category"),
+		onView(allOf(withId(R.id.buttonDefaultPositive), withText(R.string.add_category),
 				childAtPosition(
 						childAtPosition(
 								withId(android.R.id.content),
@@ -113,14 +124,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 
 		onView(allOf(withId(R.id.save), withText("Ok"), isDisplayed())).perform(click());
 
-		onView(allOf(withContentDescription("drawer open"),
-				childAtPosition(
-						allOf(withId(R.id.toolbar),
-								childAtPosition(
-										withClassName(is("android.widget.RelativeLayout")),
-										0)),
-						0),
-				isDisplayed())).perform(click());
+		navigateUp();
 
 		assertAutobackupIsCorrect();
 
@@ -135,7 +139,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 								1),
 						2))).perform(scrollTo(), click());
 
-		onView(allOf(withId(R.id.done), withText("Done"),
+		onView(allOf(withId(R.id.done),
 				childAtPosition(
 						childAtPosition(
 								withClassName(is("android.widget.LinearLayout")),
@@ -143,7 +147,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 						0),
 				isDisplayed())).perform(click());
 
-		onView(allOf(withId(R.id.done_button), withText("Done"),
+		onView(allOf(withId(R.id.done_button),
 				childAtPosition(
 						childAtPosition(
 								withId(R.id.time_picker_dialog),
@@ -151,7 +155,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 						0),
 				isDisplayed())).perform(click());
 
-		onView(allOf(withId(R.id.done), withText("Done"),
+		onView(allOf(withId(R.id.done),
 				childAtPosition(
 						childAtPosition(
 								withClassName(is("android.widget.LinearLayout")),
@@ -159,20 +163,13 @@ public class AutoBackupTest extends BaseEspressoTest {
 						0),
 				isDisplayed())).perform(click());
 
-		onView(allOf(withContentDescription("drawer open"),
-				childAtPosition(
-						allOf(withId(R.id.toolbar),
-								childAtPosition(
-										withClassName(is("android.widget.RelativeLayout")),
-										0)),
-						0),
-				isDisplayed())).perform(click());
+		navigateUp();
 
 		assertAutobackupIsCorrect();
 
 		onData(anything()).inAdapterView(withId(R.id.list)).atPosition(0).perform(click());
 
-		onView(allOf(withId(R.id.menu_attachment), withContentDescription("Attachment"),
+		onView(allOf(withId(R.id.menu_attachment),
 				childAtPosition(
 						childAtPosition(
 								withId(R.id.toolbar),
@@ -180,7 +177,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 						0),
 				isDisplayed())).perform(click());
 
-		onView(allOf(withId(R.id.recording), withText("Record"),
+		onView(allOf(withId(R.id.recording), withText(R.string.record),
 				childAtPosition(
 						allOf(withId(R.id.attachment_dialog_root),
 								childAtPosition(
@@ -191,7 +188,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 
 		Thread.sleep(1000);
 
-		onView(allOf(withId(R.id.recording), withText("Stop"),
+		onView(allOf(withId(R.id.recording),
 				childAtPosition(
 						allOf(withId(R.id.attachment_dialog_root),
 								childAtPosition(
@@ -200,23 +197,8 @@ public class AutoBackupTest extends BaseEspressoTest {
 						3),
 				isDisplayed())).perform(click());
 
-		onView(allOf(withContentDescription("drawer open"),
-				childAtPosition(
-						allOf(withId(R.id.toolbar),
-								childAtPosition(
-										withClassName(is("android.widget.RelativeLayout")),
-										0)),
-						0),
-				isDisplayed())).perform(click());
-
-		onView(allOf(withContentDescription("drawer open"),
-				childAtPosition(
-						allOf(withId(R.id.toolbar),
-								childAtPosition(
-										withClassName(is("android.widget.RelativeLayout")),
-										0)),
-						0),
-				isDisplayed())).perform(click());
+		navigateUp();
+		navigateUp();
 
 		assertAutobackupIsCorrect();
 
@@ -293,45 +275,4 @@ public class AutoBackupTest extends BaseEspressoTest {
 		return existsAtLeastOneCategory ? onView(withId(R.id.drawer_tag_list)) : onView(withId(R.id.settings_view));
 	}
 
-	private void createNote(String title, String content) {
-		ViewInteraction viewInteraction = onView(
-				allOf(withId(R.id.fab_expand_menu_button),
-						withParent(withId(R.id.fab)),
-						isDisplayed()));
-
-		if (activityRule.getActivity().getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
-			viewInteraction.perform(click());
-		}
-		viewInteraction.perform(click());
-
-		ViewInteraction floatingActionButton = onView(
-				allOf(withId(R.id.fab_note),
-						withParent(withId(R.id.fab)),
-						isDisplayed()));
-		floatingActionButton.perform(click());
-
-		ViewInteraction editText = onView(
-				allOf(withId(R.id.detail_title),
-						withParent(allOf(withId(R.id.title_wrapper),
-								withParent(withId(R.id.detail_tile_card)))),
-						isDisplayed()));
-		editText.perform(click());
-
-		ViewInteraction editText2 = onView(
-				allOf(withId(R.id.detail_title),
-						withParent(allOf(withId(R.id.title_wrapper),
-								withParent(withId(R.id.detail_tile_card)))),
-						isDisplayed()));
-		editText2.perform(replaceText(title), closeSoftKeyboard());
-
-		ViewInteraction editText3 = onView(
-				withId(R.id.detail_content));
-		editText3.perform(scrollTo(), replaceText(content), closeSoftKeyboard());
-
-		ViewInteraction imageButton = onView(
-				allOf(withContentDescription("drawer open"),
-						withParent(withId(R.id.toolbar)),
-						isDisplayed()));
-		imageButton.perform(click());
-	}
 }
