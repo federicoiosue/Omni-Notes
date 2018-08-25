@@ -42,237 +42,228 @@ import static org.hamcrest.Matchers.is;
 @RunWith(AndroidJUnit4.class)
 public class AutoBackupTest extends BaseEspressoTest {
 
-	@Before
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		prefs.edit().putBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false).apply();
-	}
+    @Before
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        prefs.edit().putBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false).apply();
+    }
 
-	@After
-	@Override
-	public void tearDown() throws Exception {
-		super.tearDown();
-		File backupFolder = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
-		FileUtils.deleteDirectory(backupFolder);
-	}
+    @After
+    @Override
+    public void tearDown() throws Exception {
+        super.tearDown();
+        File backupFolder = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+        FileUtils.deleteDirectory(backupFolder);
+    }
 
-	@Test
-	public void autoBackupPreferenceActivation() {
-		assertFalse(prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false));
-		autoBackupActivationFromPreferences();
-		assertTrue(prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false));
-	}
+    @Test
+    public void autoBackupPreferenceActivation() {
+        assertFalse(prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false));
+        autoBackupActivationFromPreferences();
+        assertTrue(prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false));
+    }
 
-	@Test
-	public void autoBackupWithNotesCheck() throws InterruptedException {
-		createNote("A Title", "A content");
-		enableAutobackup();
-		createNote("B Title", "B content");
+    @Test
+    public void autoBackupWithNotesCheck() throws InterruptedException {
+        createNote("A Title", "A content");
+        enableAutobackup();
+        createNote("B Title", "B content");
 
-		// Waiting a little to ensure background service completes auto backup
-		Thread.sleep(1200);
+        // Waiting a little to ensure background service completes auto backup
+        Thread.sleep(1200);
 
-		List<Note> currentNotes = dbHelper.getAllNotes(false);
-		assertEquals(2, currentNotes.size());
-		for (Note currentNote : currentNotes) {
-			File backupNoteFile = BackupHelper.getBackupNoteFile(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR)
-					, currentNote);
-			assertTrue(backupNoteFile.exists());
-			Note backupNote = BackupHelper.getImportNote(backupNoteFile);
-			assertEquals(backupNote, currentNote);
-		}
+        List<Note> currentNotes = dbHelper.getAllNotes(false);
+        assertEquals(2, currentNotes.size());
+        for (Note currentNote : currentNotes) {
+            File backupNoteFile = BackupHelper.getBackupNoteFile(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR)
+                    , currentNote);
+            assertTrue(backupNoteFile.exists());
+            Note backupNote = BackupHelper.getImportNote(backupNoteFile);
+            assertEquals(backupNote, currentNote);
+        }
 
-	}
+    }
 
-	@Test
-	public void everyUpdateToNotesShouldTriggerAutobackup() throws InterruptedException {
+    @Test
+    public void everyUpdateToNotesShouldTriggerAutobackup() throws InterruptedException {
 
-		enableAutobackup();
+        enableAutobackup();
 
-		createNote("C Title", "C content");
+        createNote("C Title", "C content");
 
-		assertAutobackupIsCorrect();
+        assertAutobackupIsCorrect();
 
-		// Category addition
+        // Category addition
 
-		onData(anything()).inAdapterView(withId(R.id.list)).atPosition(0).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.list)).atPosition(0).perform(click());
 
-		onView(allOf(withId(R.id.menu_category), withContentDescription(R.string.category),
-				childAtPosition(
-						childAtPosition(
-								withId(R.id.toolbar),
-								1),
-						1),
-				isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.menu_category), withContentDescription(R.string.category),
+                childAtPosition(
+                        childAtPosition(
+                                withId(R.id.toolbar),
+                                1),
+                        1),
+                isDisplayed())).perform(click());
 
-		onView(allOf(withId(R.id.buttonDefaultPositive), withText(R.string.add_category),
-				childAtPosition(
-						childAtPosition(
-								withId(android.R.id.content),
-								0),
-						4),
-				isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.buttonDefaultPositive), withText(R.string.add_category),
+                childAtPosition(
+                        childAtPosition(
+                                withId(android.R.id.content),
+                                0),
+                        4),
+                isDisplayed())).perform(click());
 
-		onView(allOf(withId(R.id.category_title),
-				childAtPosition(
-						childAtPosition(
-								withId(android.R.id.content),
-								0),
-						0),
-				isDisplayed())).perform(replaceText("cat1"), closeSoftKeyboard());
+        onView(allOf(withId(R.id.category_title),
+                childAtPosition(
+                        childAtPosition(
+                                withId(android.R.id.content),
+                                0),
+                        0),
+                isDisplayed())).perform(replaceText("cat1"), closeSoftKeyboard());
 
-		onView(allOf(withId(R.id.save), withText("Ok"), isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.save), withText("Ok"), isDisplayed())).perform(click());
 
-		navigateUp();
+        navigateUp();
 
-		assertAutobackupIsCorrect();
+        assertAutobackupIsCorrect();
 
-		// Reminder addition
+        // Reminder addition
 
-		onData(anything()).inAdapterView(withId(R.id.list)).atPosition(0).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.list)).atPosition(0).perform(click());
 
-		onView(allOf(withId(R.id.reminder_layout),
-				childAtPosition(
-						childAtPosition(
-								withClassName(is("android.widget.LinearLayout")),
-								1),
-						2))).perform(scrollTo(), click());
+        onView(allOf(withId(R.id.reminder_layout),
+                childAtPosition(
+                        childAtPosition(
+                                withClassName(is("android.widget.LinearLayout")),
+                                1),
+                        2))).perform(scrollTo(), click());
 
-		onView(allOf(withId(R.id.done),
-				childAtPosition(
-						childAtPosition(
-								withClassName(is("android.widget.LinearLayout")),
-								3),
-						0),
-				isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.done),
+                childAtPosition(
+                        childAtPosition(
+                                withClassName(is("android.widget.LinearLayout")),
+                                3),
+                        0),
+                isDisplayed())).perform(click());
 
-		onView(allOf(withId(R.id.done_button),
-				childAtPosition(
-						childAtPosition(
-								withId(R.id.time_picker_dialog),
-								3),
-						0),
-				isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.done_button),
+                childAtPosition(
+                        childAtPosition(
+                                withId(R.id.time_picker_dialog),
+                                3),
+                        0),
+                isDisplayed())).perform(click());
 
-		onView(allOf(withId(R.id.done),
-				childAtPosition(
-						childAtPosition(
-								withClassName(is("android.widget.LinearLayout")),
-								2),
-						0),
-				isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.done),
+                childAtPosition(
+                        childAtPosition(
+                                withClassName(is("android.widget.LinearLayout")),
+                                2),
+                        0),
+                isDisplayed())).perform(click());
 
-		navigateUp();
+        navigateUp();
 
-		assertAutobackupIsCorrect();
+        assertAutobackupIsCorrect();
 
-		onData(anything()).inAdapterView(withId(R.id.list)).atPosition(0).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.list)).atPosition(0).perform(click());
 
-		onView(allOf(withId(R.id.menu_attachment),
-				childAtPosition(
-						childAtPosition(
-								withId(R.id.toolbar),
-								1),
-						0),
-				isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.menu_attachment),
+                childAtPosition(
+                        childAtPosition(
+                                withId(R.id.toolbar),
+                                1),
+                        0),
+                isDisplayed())).perform(click());
 
-		onView(allOf(withId(R.id.recording), withText(R.string.record),
-				childAtPosition(
-						allOf(withId(R.id.attachment_dialog_root),
-								childAtPosition(
-										withId(R.id.customViewFrame),
-										0)),
-						3),
-				isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.recording), withText(R.string.record),
+                childAtPosition(
+                        allOf(withId(R.id.attachment_dialog_root),
+                                childAtPosition(
+                                        withId(R.id.customViewFrame),
+                                        0)),
+                        3),
+                isDisplayed())).perform(click());
 
-		Thread.sleep(1000);
+        Thread.sleep(1000);
 
-		onView(allOf(withId(R.id.recording),
-				childAtPosition(
-						allOf(withId(R.id.attachment_dialog_root),
-								childAtPosition(
-										withId(R.id.customViewFrame),
-										0)),
-						3),
-				isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.recording),
+                childAtPosition(
+                        allOf(withId(R.id.attachment_dialog_root),
+                                childAtPosition(
+                                        withId(R.id.customViewFrame),
+                                        0)),
+                        3),
+                isDisplayed())).perform(click());
 
-		navigateUp();
-		navigateUp();
+        navigateUp();
+        navigateUp();
 
-		assertAutobackupIsCorrect();
+        assertAutobackupIsCorrect();
 
-	}
+    }
 
-	private void enableAutobackup() {
-		prefs.edit().putBoolean(Constants.PREF_ENABLE_AUTOBACKUP, true).apply();
-		BackupHelper.startBackupService(Constants.AUTO_BACKUP_DIR);
-	}
+    private void enableAutobackup() {
+        prefs.edit().putBoolean(Constants.PREF_ENABLE_AUTOBACKUP, true).apply();
+        BackupHelper.startBackupService(Constants.AUTO_BACKUP_DIR);
+    }
 
-	private void assertAutobackupIsCorrect() {
-		List<LinkedList<DiffMatchPatch.Diff>> autobackupDifferences = BackupHelper
-				.integrityCheck(StorageHelper.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
-		assertTrue(autobackupDifferences.size() == 0);
+    private void assertAutobackupIsCorrect() {
+        List<LinkedList<DiffMatchPatch.Diff>> autobackupDifferences = BackupHelper
+                .integrityCheck(StorageHelper.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
+        assertTrue(autobackupDifferences.size() == 0);
 
-	}
+    }
 
-	private void autoBackupActivationFromPreferences() {
+    private void autoBackupActivationFromPreferences() {
 
-		ViewInteraction imageButton4 = onView(
-				allOf(withContentDescription("drawer open"),
-						withParent(withId(R.id.toolbar)),
-						isDisplayed()));
-		imageButton4.perform(click());
+        onView(allOf(childAtPosition(allOf(withId(R.id.toolbar),
+                childAtPosition(
+                        withClassName(is("android.widget.RelativeLayout")),
+                        0)),
+                1),
+                isDisplayed())).perform(click());
 
-		getSettingsMenuItemView()
-				.perform(scrollTo(), click());
+        getSettingsMenuItemView()
+                .perform(scrollTo(), click());
 
-		onView(allOf(childAtPosition(
-				allOf(withId(android.R.id.list),
-						withParent(withClassName(is("android.widget.FrameLayout")))),
-				1), isDisplayed()))
-				.perform(click());
+        onView(allOf(childAtPosition(
+                allOf(withId(android.R.id.list),
+                        withParent(withClassName(is("android.widget.FrameLayout")))),
+                1), isDisplayed()))
+                .perform(click());
 
-		onView(allOf(childAtPosition(
-				allOf(withId(android.R.id.list),
-						withParent(withClassName(is("android.widget.FrameLayout")))),
-				0), isDisplayed()))
-				.perform(click());
+        onView(allOf(childAtPosition(
+                allOf(withId(android.R.id.list),
+                        withParent(withClassName(is("android.widget.FrameLayout")))),
+                0), isDisplayed()))
+                .perform(click());
 
-		ViewInteraction linearLayout4 = onView(
-				allOf(childAtPosition(
-						allOf(withId(android.R.id.list),
-								withParent(withClassName(is("android.widget.FrameLayout")))),
-						4),
-						isDisplayed()));
-		linearLayout4.perform(click());
+        onView(allOf(childAtPosition(
+                allOf(withId(android.R.id.list),
+                        withParent(withClassName(is("android.widget.FrameLayout")))),
+                4),
+                isDisplayed())).perform(click());
 
-		ViewInteraction mDButton = onView(
-				allOf(withId(R.id.buttonDefaultPositive), withText("Confirm"), isDisplayed()));
-		mDButton.perform(click());
+        onView(allOf(withId(R.id.buttonDefaultPositive), isDisplayed())).perform(click());
 
-		ViewInteraction imageButton5 = onView(
-				allOf(withContentDescription("Navigate up"),
-						withParent(withId(R.id.toolbar)),
-						isDisplayed()));
-		imageButton5.perform(click());
+        onView(allOf(withContentDescription("Navigate up"),
+                withParent(withId(R.id.toolbar)),
+                isDisplayed())).perform(click());
 
-		ViewInteraction imageButton6 = onView(
-				allOf(withContentDescription("Navigate up"),
-						withParent(withId(R.id.toolbar)),
-						isDisplayed()));
-		imageButton6.perform(click());
+        onView(allOf(withContentDescription("Navigate up"),
+                withParent(withId(R.id.toolbar)),
+                isDisplayed())).perform(click());
 
-		ViewInteraction imageButton7 = onView(
-				allOf(withContentDescription("Navigate up"),
-						withParent(withId(R.id.toolbar)),
-						isDisplayed()));
-		imageButton7.perform(click());
-	}
+        onView(allOf(withContentDescription("Navigate up"),
+                withParent(withId(R.id.toolbar)),
+                isDisplayed())).perform(click());
+    }
 
-	private ViewInteraction getSettingsMenuItemView() {
-		boolean existsAtLeastOneCategory = dbHelper.getCategories().size() > 0;
-		return existsAtLeastOneCategory ? onView(withId(R.id.drawer_tag_list)) : onView(withId(R.id.settings_view));
-	}
+    private ViewInteraction getSettingsMenuItemView() {
+        boolean existsAtLeastOneCategory = dbHelper.getCategories().size() > 0;
+        return existsAtLeastOneCategory ? onView(withId(R.id.drawer_tag_list)) : onView(withId(R.id.settings_view));
+    }
 
 }
