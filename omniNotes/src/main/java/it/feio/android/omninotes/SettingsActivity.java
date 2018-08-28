@@ -21,28 +21,26 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.analitica.AnalyticsHelper;
-import it.feio.android.omninotes.async.DataBackupIntentService;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+import it.feio.android.analitica.AnalyticsHelper;
+import it.feio.android.omninotes.async.DataBackupIntentService;
 
-public class SettingsActivity extends ActionBarActivity implements FolderChooserDialog.FolderCallback {
+
+public class SettingsActivity extends AppCompatActivity implements FolderChooserDialog.FolderCallback {
 
 	@BindView(R.id.toolbar) Toolbar toolbar;
 	@BindView(R.id.crouton_handle) ViewGroup croutonViewContainer;

@@ -158,7 +158,7 @@ dependencies {
         transitive = true
     }
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile ('com.jakewharton:butterknife:8.5.1'){
+    implementation ('com.jakewharton:butterknife:8.5.1'){
         exclude group: 'com.android.support'
     }
     implementation('org.mnode.ical4j:ical4j:1.0.6') {

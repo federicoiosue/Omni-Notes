@@ -28,13 +28,18 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
+
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
@@ -43,12 +48,8 @@ import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-
 @SuppressLint("Registered")
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends AppCompatActivity {
 
     protected final int TRANSITION_VERTICAL = 0;
     protected final int TRANSITION_HORIZONTAL = 1;

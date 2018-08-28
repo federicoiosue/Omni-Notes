@@ -25,7 +25,7 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -104,8 +104,8 @@ public class Display {
     @SuppressLint("NewApi")
     public static int getActionbarHeight(Object mObject) {
         int res = 0;
-		if (ActionBarActivity.class.isAssignableFrom(mObject.getClass())) {
-			res = ((ActionBarActivity) mObject).getSupportActionBar().getHeight();
+		if (AppCompatActivity.class.isAssignableFrom(mObject.getClass())) {
+			res = ((AppCompatActivity) mObject).getSupportActionBar().getHeight();
 		} else if (Activity.class.isAssignableFrom(mObject.getClass())) {
             res = ((Activity) mObject).getActionBar().getHeight();
         }

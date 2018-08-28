@@ -25,7 +25,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -171,12 +171,10 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
 
         // Inflate the popup_layout.xml
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(ActionBarActivity
-                .LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE);
         popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, null);
         // And the one for eraser
-        LayoutInflater inflaterEraser = (LayoutInflater) getActivity().getSystemService(ActionBarActivity
-                .LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflaterEraser = (LayoutInflater) getActivity().getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE);
         popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, null);
 
         // Actual stroke shape size is retrieved
