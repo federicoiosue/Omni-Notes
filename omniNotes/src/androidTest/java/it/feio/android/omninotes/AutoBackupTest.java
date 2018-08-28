@@ -248,17 +248,9 @@ public class AutoBackupTest extends BaseEspressoTest {
 
         onView(allOf(withId(R.id.buttonDefaultPositive), isDisplayed())).perform(click());
 
-        onView(allOf(withContentDescription("Navigate up"),
-                withParent(withId(R.id.toolbar)),
-                isDisplayed())).perform(click());
-
-        onView(allOf(withContentDescription("Navigate up"),
-                withParent(withId(R.id.toolbar)),
-                isDisplayed())).perform(click());
-
-        onView(allOf(withContentDescription("Navigate up"),
-                withParent(withId(R.id.toolbar)),
-                isDisplayed())).perform(click());
+        navigateUpSettings();
+        navigateUpSettings();
+        navigateUpSettings();
     }
 
     private ViewInteraction getSettingsMenuItemView() {
