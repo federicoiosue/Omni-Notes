@@ -26,7 +26,6 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.analitica.AnalyticsHelperFactory;
 import it.feio.android.analitica.MockAnalyticsHelper;
@@ -48,7 +47,6 @@ public class OmniNotes extends MultiDexApplication {
 	private static Context mContext;
 
 	static SharedPreferences prefs;
-	private static RefWatcher refWatcher;
 	private AnalyticsHelper analyticsHelper;
 
 	@Override
@@ -68,7 +66,7 @@ public class OmniNotes extends MultiDexApplication {
 
 	private void initLeakCanary() {
 		if (!LeakCanary.isInAnalyzerProcess(this)) {
-			refWatcher = LeakCanary.install(this);
+			LeakCanary.install(this);
 		}
 	}
 
@@ -97,10 +95,6 @@ public class OmniNotes extends MultiDexApplication {
 
 	public static Context getAppContext() {
 		return OmniNotes.mContext;
-	}
-
-	public static RefWatcher getRefWatcher() {
-		return OmniNotes.refWatcher;
 	}
 
 	/**
