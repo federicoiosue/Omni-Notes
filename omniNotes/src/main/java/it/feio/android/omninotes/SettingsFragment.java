@@ -185,7 +185,12 @@ public class SettingsFragment extends PreferenceFragment {
 			backupIntegrityCheck.setOnPreferenceClickListener(arg0 -> {
 				List<LinkedList<DiffMatchPatch.Diff>> errors = BackupHelper.integrityCheck(StorageHelper
 						.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
-				if (!errors.isEmpty()) {
+				if (errors.isEmpty()) {
+					new MaterialDialog.Builder(activity)
+							.content("Everything is ok")
+							.positiveText(R.string.ok)
+							.build().show();
+				} else {
 					DiffMatchPatch diffMatchPatch = new DiffMatchPatch();
 					String content = Observable.from(errors).map(diffs -> diffMatchPatch.diffPrettyHtml(diffs) +
 							"<br/>").toList().toBlocking().first().toString();
