@@ -18,24 +18,24 @@
 package it.feio.android.omninotes;
 
 import android.support.v4.app.Fragment;
-import com.squareup.leakcanary.RefWatcher;
+
+import com.squareup.leakcanary.LeakCanary;
 
 
 public class BaseFragment extends Fragment {
 
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
-	}
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+    }
 
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		RefWatcher refWatcher = OmniNotes.getRefWatcher();
-		refWatcher.watch(this);
-	}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LeakCanary.installedRefWatcher().watch(this);
+    }
 
 }
