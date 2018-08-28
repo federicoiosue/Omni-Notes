@@ -141,15 +141,15 @@ dependencies {
     }
     implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
     implementation 'be.billington.calendar.recurrencepicker:library:1.1.1'
-    implementation 'com.android.support:appcompat-v7:23.4.0'
-    implementation 'com.android.support:design:23.4.0'
-    implementation 'com.android.support:multidex:1.0.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'de.greenrobot:eventbus:2.4.0'
     implementation 'com.pushbullet:android-extensions:1.0.4@aar'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
     implementation 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
-    implementation 'com.github.bumptech.glide:glide:3.6.1'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation('com.github.afollestad.material-dialogs:core:0.8.5.6@aar') {
         transitive = true
     }
