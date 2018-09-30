@@ -28,6 +28,7 @@ import de.keyboardsurfer.android.widget.crouton.LifecycleCallback;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.Security;
@@ -72,7 +73,7 @@ public class PasswordActivity extends BaseActivity {
         findViewById(R.id.password_remove).setOnClickListener(v -> {
 			if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
 				PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
-					if (passwordConfirmed) {
+					if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 						updatePassword(null, null, null);
 					}
 				});
@@ -88,7 +89,7 @@ public class PasswordActivity extends BaseActivity {
 				final String answerText = answer.getText().toString();
 				if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
 					PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
-						if (passwordConfirmed) {
+						if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 							updatePassword(passwordText, questionText, answerText);
 						}
 					});

@@ -355,12 +355,20 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				&& prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& !prefs.getBoolean("settings_password_access", false)) {
 			PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
-				if (passwordConfirmed) {
-					noteTmp.setPasswordChecked(true);
-					init();
-				} else {
-					goBack = true;
-					goHome();
+				switch (passwordConfirmed) {
+					case SUCCEED:
+						noteTmp.setPasswordChecked(true);
+						init();
+						break;
+					case FAIL:
+						goBack = true;
+						goHome();
+						break;
+					case RESTORE:
+						goBack = true;
+						goHome();
+						PasswordHelper.resetPassword(mainActivity);
+						break;
 				}
 			});
 		} else {
@@ -1674,8 +1682,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 		// Password will be requested here
 		PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
-			if (passwordConfirmed) {
-				lockUnlock();
+			switch (passwordConfirmed) {
+				case SUCCEED:
+					lockUnlock();
+					break;
+				default:
+					break;
 			}
 		});
 	}

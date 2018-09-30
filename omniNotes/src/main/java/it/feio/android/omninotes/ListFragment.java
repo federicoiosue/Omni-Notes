@@ -60,6 +60,7 @@ import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import it.feio.android.omninotes.async.bus.*;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.ObjectUtils;
 
@@ -411,7 +412,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             if (!Arrays.asList(protectedActions).contains(item.getItemId())) {
                 mainActivity.requestPassword(mainActivity, getSelectedNotes(),
                         passwordConfirmed -> {
-                            if (passwordConfirmed) {
+                            if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
                                 performAction(item, mode);
                             }
                         });
@@ -737,7 +738,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         Integer[] protectedActions = {R.id.menu_empty_trash};
         if (Arrays.asList(protectedActions).contains(item.getItemId())) {
             mainActivity.requestPassword(mainActivity, getSelectedNotes(), passwordConfirmed -> {
-                if (passwordConfirmed) {
+                if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)  ) {
                     performAction(item, null);
                 }
             });
@@ -862,7 +863,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     void editNote(final Note note, final View view) {
         if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
             PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
-				if (passwordConfirmed) {
+                if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 					note.setPasswordChecked(true);
 					AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
 							listRoot, buildAnimatorListenerAdapter(note));
@@ -980,9 +981,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 						}
 						if (mustDeleteLockedNotes) {
 							mainActivity.requestPassword(mainActivity, getSelectedNotes(),
-									passwordConfirmed -> {
-										if (passwordConfirmed) {
-											deleteNotesExecute();
+                                    passwordConfirmed -> {
+                                        if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)  ) {
+                                            deleteNotesExecute();
 										}
 									});
 						} else {
@@ -1140,7 +1141,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 					if (note != null && note.isLocked()) {
 						PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
-							if (!passwordConfirmed) {
+                            if (!passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 								onUndo(null);
 							}
 						});
@@ -1301,8 +1302,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 				.content(R.string.delete_note_confirmation)
 				.positiveText(R.string.ok)
 				.onPositive((dialog, which) -> mainActivity.requestPassword(mainActivity, getSelectedNotes(),
-						passwordConfirmed -> {
-							if (passwordConfirmed) {
+                        passwordConfirmed -> {
+							if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)  ) {
 								deleteNotesExecute();
 							}
 						}))

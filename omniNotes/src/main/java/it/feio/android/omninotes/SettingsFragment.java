@@ -47,6 +47,7 @@ import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.StringUtils;
 
@@ -275,7 +276,7 @@ public class SettingsFragment extends PreferenceFragment {
 			}
 			passwordAccess.setOnPreferenceChangeListener((preference, newValue) -> {
 				PasswordHelper.requestPassword(getActivity(), passwordConfirmed -> {
-					if (passwordConfirmed) {
+					if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 						passwordAccess.setChecked((Boolean) newValue);
 					}
 				});

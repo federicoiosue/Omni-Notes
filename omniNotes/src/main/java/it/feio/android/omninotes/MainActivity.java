@@ -127,11 +127,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& prefs.getBoolean("settings_password_access", false)) {
             PasswordHelper.requestPassword(this, passwordConfirmed -> {
-				if (passwordConfirmed) {
-					init();
-				} else {
-					finish();
-				}
+                switch (passwordConfirmed) {
+                    case SUCCEED:
+                        init();
+                        break;
+                    case FAIL:
+                        finish();
+                        break;
+                    case RESTORE:
+                        PasswordHelper.resetPassword(this);
+                }
 			});
         } else {
             init();
@@ -226,7 +231,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     private Fragment checkFragmentInstance(int id, Object instanceClass) {
         Fragment result = null;
 		Fragment fragment = getFragmentManagerInstance().findFragmentById(id);
-		if (instanceClass.equals(fragment.getClass())) {
+		if (fragment!= null && instanceClass.equals(fragment.getClass())) {
 			result = fragment;
 		}
         return result;
