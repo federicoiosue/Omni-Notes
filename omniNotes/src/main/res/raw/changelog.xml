@@ -17,6 +17,12 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.6.0" changeDate="Oct 15, 2018">
+        <changelogtext>[b]New![/b] Added finnish translation (thanks to Arttu Ylhävuori) </changelogtext>
+        <changelogtext>[i]Improved![/i] Moved to SDK 27 to include framework fixed and improvements</changelogtext>
+        <changelogtext>[i]Improved![/i] Translations additions</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.5.2" changeDate="May 25, 2018">
         <changelogtext>[u]Fix[/u] Various minor fixes</changelogtext>
     </changelogversion>
