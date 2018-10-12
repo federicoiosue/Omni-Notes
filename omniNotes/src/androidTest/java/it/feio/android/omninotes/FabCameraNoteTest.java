@@ -80,7 +80,6 @@ public class FabCameraNoteTest extends BaseEspressoTest {
 				isDisplayed())).perform(click());
 
 		pressBack();
-
 	}
 
 	public void onEvent(NotesUpdatedEvent notesUpdatedEvent) {

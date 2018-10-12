@@ -17,6 +17,23 @@
 
 apply plugin: 'com.android.application'
 
+boolean signConfigExists = project.hasProperty("SIGN_PROPS") && new File(project.property("SIGN_PROPS")).exists()
+if(signConfigExists) {
+    Properties props = new Properties()
+    props.load(new FileInputStream(file(project.property("SIGN_PROPS"))))
+
+    android {
+        signingConfigs {
+            release {
+                storeFile file(props['keystore'])
+                storePassword props['keystore.password']
+                keyAlias props['keystore.alias']
+                keyPassword props['keystore.alias.password']
+            }
+        }
+    }
+}
+
 android {
 
     if (project.hasProperty("SIGN_PROPS")
@@ -67,12 +84,9 @@ android {
                     outputFileName = "OmniNotes-${variant.name}-${variant.versionName}.apk"
                 }
             }
-
-            if (project.hasProperty("SIGN_PROPS")
-                    && new File(project.property("SIGN_PROPS").toString()).exists()) {
-                signingConfig signingConfigs.signConfig
+            if(signConfigExists) {
+                signingConfig signingConfigs.release
             }
-
         }
     }
 
@@ -85,8 +99,14 @@ android {
             dimension "standard"
             applicationId project.PACKAGE + ".foss"
         }
+        beta {
+            dimension "standard"
+        }
+        alpha {
+            dimension "standard"
+            applicationId project.PACKAGE + ".alpha"
+        }
     }
-
     lintOptions {
         abortOnError false
         disable 'MissingTranslation'

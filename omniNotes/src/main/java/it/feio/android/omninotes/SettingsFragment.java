@@ -430,7 +430,7 @@ public class SettingsFragment extends PreferenceFragment {
 								prefs.edit().clear().commit();
 								File db = getActivity().getDatabasePath(Constants.DATABASE_NAME);
 								StorageHelper.delete(getActivity(), db.getAbsolutePath());
-								File attachmentsDir = StorageHelper.getAttachmentDir(getActivity());
+								File attachmentsDir = StorageHelper.getAttachmentDir();
 								StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
 								File cacheDir = StorageHelper.getCacheDir(getActivity());
 								StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());

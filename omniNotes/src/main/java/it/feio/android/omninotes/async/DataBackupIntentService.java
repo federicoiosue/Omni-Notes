@@ -482,7 +482,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
      * @return True if success, false otherwise
      */
     private boolean exportAttachments(File backupDir) {
-        File attachmentsDir = StorageHelper.getAttachmentDir(this);
+        File attachmentsDir = StorageHelper.getAttachmentDir();
         File destinationattachmentsDir = new File(backupDir, attachmentsDir.getName());
 
         DbHelper db = DbHelper.getInstance();
@@ -563,7 +563,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
      * Import attachments from backup folder
      */
     private void importAttachments(File backupDir) {
-        File attachmentsDir = StorageHelper.getAttachmentDir(this);
+        File attachmentsDir = StorageHelper.getAttachmentDir();
         File backupAttachmentsDir = new File(backupDir, attachmentsDir.getName());
         if (!backupAttachmentsDir.exists()) {
 			return;
