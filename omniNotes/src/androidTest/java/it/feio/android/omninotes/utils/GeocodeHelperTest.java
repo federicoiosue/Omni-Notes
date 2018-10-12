@@ -21,6 +21,7 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.Suppress;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
