@@ -77,6 +77,17 @@ public class LanguageHelper {
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@NonNull
 	public static String getLocalizedString(Context context, String desiredLocale, int resourceId) {
+		String currentLocale;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+			currentLocale = context.getResources().getConfiguration().getLocales().get(0).toString();
+		} else {
+			currentLocale = context.getResources().getConfiguration().locale.toString();
+		}
+
+		if (desiredLocale.equals(currentLocale)) {
+			return context.getResources().getString(resourceId);
+		}
+
 		Configuration conf = context.getResources().getConfiguration();
 		conf = new Configuration(conf);
 		conf.setLocale(getLocale(desiredLocale));

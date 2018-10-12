@@ -50,7 +50,8 @@ import static org.hamcrest.Matchers.is;
 
 public class BaseEspressoTest extends BaseAndroidTestCase {
 
-    @Rule public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
+    @Rule
+    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -123,11 +124,15 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
 
     void navigateUp() {
         onView(allOf(childAtPosition(allOf(withId(R.id.toolbar),
-                childAtPosition(
-                        withClassName(is("android.widget.RelativeLayout")),
-                        0)),
-                0),
-                isDisplayed())).perform(click());
+                childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)
+        ), 0), isDisplayed())).perform(click());
+    }
+
+    void navigateUpSettings() {
+        onView(allOf(withContentDescription(R.string.abc_action_bar_up_description),
+                childAtPosition(allOf(withId(R.id.toolbar),
+                        childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)),
+                        1), isDisplayed())).perform(click());
     }
 
 }
