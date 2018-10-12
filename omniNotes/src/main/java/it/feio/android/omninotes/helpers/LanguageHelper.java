@@ -58,14 +58,8 @@ public class LanguageHelper {
 
 	private static Context setLocale(Context context, Locale locale) {
 		Configuration configuration = context.getResources().getConfiguration();
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			configuration.setLocale(locale);
-			context.createConfigurationContext(configuration);
-
-		} else {
-			configuration.locale = locale;
-			context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
-		}
+		configuration.locale = locale;
+		context.getResources().updateConfiguration(configuration, null);
 		return context;
 	}
 
