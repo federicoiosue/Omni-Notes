@@ -17,108 +17,75 @@
 
 package it.feio.android.omninotes;
 
-
-import android.support.test.espresso.DataInteraction;
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.rule.ActivityTestRule;
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.provider.MediaStore;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.espresso.Espresso.onData;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-import static android.support.test.espresso.action.ViewActions.*;
-import static android.support.test.espresso.assertion.ViewAssertions.*;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
-
-import it.feio.android.omninotes.R;
-
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
-import org.junit.Rule;
+import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
+import it.feio.android.omninotes.utils.Constants;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
+
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FabCameraNoteTest {
+public class FabCameraNoteTest extends BaseEspressoTest {
 
-    @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+	@Test
+	public void fabCameraNoteTest() {
+		EventBus.getDefault().register(this);
+		Intents.init();
+		Bitmap icon = BitmapFactory.decodeResource(
+				InstrumentationRegistry.getTargetContext().getResources(),
+				R.mipmap.ic_launcher);
 
-    @Test
-    public void fabCameraNoteTest() {
-         // Added a sleep statement to match the app's execution delay.
- // The recommended way to handle such scenarios is to use Espresso idling resources:
-  // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-try {
- Thread.sleep(5000);
- } catch (InterruptedException e) {
- e.printStackTrace();
- }
-        
-        ViewInteraction viewInteraction = onView(
-allOf(withId(R.id.fab_expand_menu_button),
-childAtPosition(
-allOf(withId(R.id.fab),
-childAtPosition(
-withClassName(is("android.widget.FrameLayout")),
-3)),
-3),
-isDisplayed()));
-        viewInteraction.perform(click());
-        
-        ViewInteraction floatingActionButton = onView(
-allOf(withId(R.id.fab_camera),
-childAtPosition(
-allOf(withId(R.id.fab),
-childAtPosition(
-withClassName(is("android.widget.FrameLayout")),
-3)),
-0),
-isDisplayed()));
-        floatingActionButton.perform(click());
-        
-         // Added a sleep statement to match the app's execution delay.
- // The recommended way to handle such scenarios is to use Espresso idling resources:
-  // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-try {
- Thread.sleep(1749896);
- } catch (InterruptedException e) {
- e.printStackTrace();
- }
-        
-        pressBack();
-        
-        }
+		Intent resultData = new Intent();
+		resultData.putExtra("data", icon);
+		Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
-        private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
+		intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(result);
 
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
+		onView(allOf(withId(R.id.fab_expand_menu_button),
+				childAtPosition(
+						allOf(withId(R.id.fab),
+								childAtPosition(
+										withClassName(is("android.widget.FrameLayout")),
+										2)),
+						3),
+				isDisplayed())).perform(click());
 
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup)parent).getChildAt(position));
-            }
-        };
-    }
-    }
+		onView(allOf(withId(R.id.fab_camera),
+				childAtPosition(
+						allOf(withId(R.id.fab),
+								childAtPosition(
+										withClassName(is("android.widget.FrameLayout")),
+										2)),
+						0),
+				isDisplayed())).perform(click());
+
+		pressBack();
+
+	}
+
+	public void onEvent(NotesUpdatedEvent notesUpdatedEvent) {
+		assertEquals(0, notesUpdatedEvent.notes.get(0).getAttachmentsList().size());
+		assertEquals(Constants.MIME_TYPE_IMAGE, notesUpdatedEvent.notes.get(0).getAttachmentsList().get(0).getMime_type());
+	}
+
+}
