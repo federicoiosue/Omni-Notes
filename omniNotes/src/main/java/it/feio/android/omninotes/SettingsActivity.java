@@ -1,5 +1,4 @@
-/*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+/* Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +18,7 @@ package it.feio.android.omninotes;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 
@@ -32,9 +31,10 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends AppCompatActivity {
 
-	@BindView(R.id.toolbar) Toolbar toolbar;
+	@BindView(R.id.toolbar)
+    Toolbar toolbar;
 	@BindView(R.id.crouton_handle) ViewGroup croutonViewContainer;
 
     private List<Fragment> backStack = new ArrayList<>();

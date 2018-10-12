@@ -238,12 +238,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     }
 
 
-    /*
-     * (non-Javadoc)
-     * @see android.support.v7.app.ActionBarActivity#onBackPressed()
-     *
-     * Overrides the onBackPressed behavior for the attached fragments
-     */
     public void onBackPressed() {
 
         // SketchFragment

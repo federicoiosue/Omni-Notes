@@ -21,7 +21,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,7 +46,7 @@ import it.feio.android.simplegallery.views.GalleryViewPager;
  * An example full-screen activity that shows and hides the system UI (i.e. status bar and navigation/system bar) 
  * * with user interaction.
  */
-public class GalleryActivity extends ActionBarActivity {
+public class GalleryActivity extends AppCompatActivity {
 
     /**
      * Whether or not the system UI should be auto-hidden after {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
