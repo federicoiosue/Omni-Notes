@@ -22,14 +22,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import java.util.List;
+
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
-
-import java.util.List;
 
 
 public class AlarmRestoreOnRebootService extends IntentService {

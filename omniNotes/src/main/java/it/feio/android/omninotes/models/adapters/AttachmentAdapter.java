@@ -25,7 +25,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
+
+import java.util.Collections;
+import java.util.List;
+
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -35,9 +40,6 @@ import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.date.DateUtils;
-
-import java.util.Collections;
-import java.util.List;
 
 
 public class AttachmentAdapter extends BaseAdapter {

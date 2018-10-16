@@ -27,11 +27,12 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
 import android.util.Log;
-import it.feio.android.omninotes.factory.MediaStoreFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import it.feio.android.omninotes.factory.MediaStoreFactory;
 
 import static java.lang.Long.parseLong;
 

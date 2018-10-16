@@ -18,10 +18,11 @@
 package it.feio.android.omninotes.helpers;
 
 
-import it.feio.android.omninotes.models.Attachment;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+
+import it.feio.android.omninotes.models.Attachment;
 
 
 public class AttachmentsHelper {

@@ -28,16 +28,24 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.Attachment;
+
 import org.apache.commons.io.FileUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.models.Attachment;
 
 
 public class StorageHelper {

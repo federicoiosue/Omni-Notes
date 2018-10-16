@@ -20,12 +20,12 @@ package it.feio.android.omninotes.utils;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import it.feio.android.omninotes.models.Note;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Calendar;
+
+import it.feio.android.omninotes.models.Note;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;

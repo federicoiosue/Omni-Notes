@@ -22,7 +22,9 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
 import com.afollestad.materialdialogs.MaterialDialog;
+
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.LifecycleCallback;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;

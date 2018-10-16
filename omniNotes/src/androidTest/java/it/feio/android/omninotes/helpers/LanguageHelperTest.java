@@ -18,11 +18,12 @@
 package it.feio.android.omninotes.helpers;
 
 import android.content.SharedPreferences;
+
+import java.util.Locale;
+
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
-
-import java.util.Locale;
 
 
 public class LanguageHelperTest extends BaseAndroidTestCase {

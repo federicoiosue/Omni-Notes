@@ -19,6 +19,7 @@ package it.feio.android.omninotes.models;
 
 import android.view.Gravity;
 import android.widget.LinearLayout.LayoutParams;
+
 import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.omninotes.R;

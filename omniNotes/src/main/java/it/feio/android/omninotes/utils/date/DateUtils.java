@@ -18,8 +18,7 @@ package it.feio.android.omninotes.utils.date;
 
 import android.content.Context;
 import android.util.Log;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.utils.Constants;
+
 import org.apache.commons.lang.StringUtils;
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -28,6 +27,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.utils.Constants;
 
 
 /**

@@ -17,17 +17,16 @@
 package it.feio.android.omninotes.async.notes;
 
 import android.os.AsyncTask;
-import android.util.Log;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.exceptions.NotesLoadingException;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 
 public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {

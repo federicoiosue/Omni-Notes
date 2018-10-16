@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
 import it.feio.android.omninotes.async.AlarmRestoreOnRebootService;
 import it.feio.android.omninotes.utils.Constants;
 

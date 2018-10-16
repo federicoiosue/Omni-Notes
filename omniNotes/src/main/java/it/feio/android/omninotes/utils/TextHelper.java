@@ -23,14 +23,15 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextUtils;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.helpers.date.DateHelper;
-import it.feio.android.omninotes.models.Note;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.date.DateHelper;
+import it.feio.android.omninotes.models.Note;
 
 
 public class TextHelper {

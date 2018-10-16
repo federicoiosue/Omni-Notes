@@ -19,6 +19,7 @@ package it.feio.android.omninotes.async.bus;
 
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
+
 import it.feio.android.omninotes.utils.Constants;
 
 

@@ -18,6 +18,7 @@
 package it.feio.android.omninotes;
 
 import android.support.v4.app.Fragment;
+
 import com.squareup.leakcanary.RefWatcher;
 
 

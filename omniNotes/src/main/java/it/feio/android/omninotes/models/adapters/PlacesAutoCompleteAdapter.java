@@ -21,9 +21,10 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import it.feio.android.omninotes.utils.GeocodeHelper;
 
 import java.util.List;
+
+import it.feio.android.omninotes.utils.GeocodeHelper;
 
 
 public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {

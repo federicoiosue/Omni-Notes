@@ -28,6 +28,21 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.RegexFileFilter;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
 import exceptions.ImportException;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.OmniNotes;
@@ -37,21 +52,17 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.GeocodeHelper;
+import it.feio.android.omninotes.utils.NotificationsHelper;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
 import it.feio.android.springpadimporter.models.SpringpadComment;
 import it.feio.android.springpadimporter.models.SpringpadElement;
 import it.feio.android.springpadimporter.models.SpringpadItem;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.commons.io.filefilter.RegexFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.*;
 
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {

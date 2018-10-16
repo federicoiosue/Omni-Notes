@@ -19,8 +19,6 @@ package it.feio.android.omninotes;
 
 
 import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -30,7 +28,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.runner.RunWith;
 
 
 public class BaseEspressoTest extends BaseAndroidTestCase {

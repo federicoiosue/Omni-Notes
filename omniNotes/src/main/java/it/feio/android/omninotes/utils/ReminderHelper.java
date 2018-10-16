@@ -25,14 +25,15 @@ import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.widget.Toast;
+
+import java.util.Calendar;
+
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.date.DateUtils;
-
-import java.util.Calendar;
 
 
 public class ReminderHelper {

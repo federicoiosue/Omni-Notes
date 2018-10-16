@@ -18,12 +18,13 @@
 package it.feio.android.omninotes.async.notes;
 
 import android.os.AsyncTask;
-import de.greenrobot.event.EventBus;
-import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
-import it.feio.android.omninotes.models.Note;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
+import it.feio.android.omninotes.models.Note;
 
 
 public abstract class NoteProcessor {

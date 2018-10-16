@@ -17,9 +17,8 @@
 
 package it.feio.android.omninotes.factory;
 
-import android.provider.MediaStore;
-
 import android.net.Uri;
+import android.provider.MediaStore;
 
 /**
  * Created by Relf on 11/24/2015.

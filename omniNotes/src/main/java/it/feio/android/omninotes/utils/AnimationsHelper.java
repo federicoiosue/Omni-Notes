@@ -29,6 +29,7 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+
 import it.feio.android.omninotes.R;
 
 

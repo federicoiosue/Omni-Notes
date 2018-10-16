@@ -23,13 +23,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.view.ViewPropertyAnimator;
-import it.feio.android.checklistview.utils.AlphaManager;
-import it.feio.android.omninotes.R;
 
 import java.util.Locale;
+
+import it.feio.android.checklistview.utils.AlphaManager;
+import it.feio.android.omninotes.R;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 

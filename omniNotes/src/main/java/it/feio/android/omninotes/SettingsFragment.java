@@ -21,13 +21,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.*;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -40,15 +44,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.afollestad.materialdialogs.MaterialDialog;
-import it.feio.android.analitica.AnalyticsHelper;
-import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.helpers.AppVersionHelper;
-import it.feio.android.omninotes.helpers.LanguageHelper;
-import it.feio.android.omninotes.helpers.PermissionsHelper;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.utils.*;
+
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
@@ -56,6 +54,21 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
+import it.feio.android.analitica.AnalyticsHelper;
+import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.AppVersionHelper;
+import it.feio.android.omninotes.helpers.LanguageHelper;
+import it.feio.android.omninotes.helpers.PermissionsHelper;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.ResourcesUtils;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.SystemHelper;
 
 
 public class SettingsFragment extends PreferenceFragment {

@@ -18,7 +18,6 @@
 package it.feio.android.omninotes;
 
 import android.animation.ValueAnimator;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,10 +31,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.CategoryMenuTask;
 import it.feio.android.omninotes.async.MainMenuTask;
-import it.feio.android.omninotes.async.bus.*;
+import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.DynamicNavigationReadyEvent;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedNavDrawerClosedEvent;
+import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.utils.Constants;

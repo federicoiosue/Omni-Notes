@@ -24,6 +24,7 @@ import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
+
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.async.bus.NotificationRemovedEvent;

@@ -18,7 +18,9 @@
 package it.feio.android.omninotes.extensions;
 
 import android.util.Log;
+
 import com.pushbullet.android.extension.MessagingExtension;
+
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
 import it.feio.android.omninotes.utils.Constants;

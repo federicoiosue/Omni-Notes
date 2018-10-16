@@ -23,7 +23,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+
 import com.tbruyelle.rxpermissions.RxPermissions;
+
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.listeners.OnPermissionRequestedListener;
 

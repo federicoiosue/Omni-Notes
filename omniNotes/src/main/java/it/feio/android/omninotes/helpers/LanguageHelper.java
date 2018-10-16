@@ -25,9 +25,10 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Locale;
+
+import it.feio.android.omninotes.utils.Constants;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
 

@@ -23,9 +23,10 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.TextView;
-import it.feio.android.omninotes.R;
 
 import java.util.Calendar;
+
+import it.feio.android.omninotes.R;
 
 
 public class TimePickerFragment extends DialogFragment {

@@ -19,12 +19,12 @@ package it.feio.android.omninotes.utils;
 
 import android.content.Context;
 import android.content.Intent;
+
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.date.DateUtils;
 
 
 public class ShortcutHelper {

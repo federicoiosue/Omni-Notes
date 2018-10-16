@@ -23,10 +23,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import it.feio.android.checklistview.utils.DensityUtil;
-import it.feio.android.omninotes.R;
 
 import java.util.Arrays;
+
+import it.feio.android.checklistview.utils.DensityUtil;
+import it.feio.android.omninotes.R;
 
 
 public class Fonts {

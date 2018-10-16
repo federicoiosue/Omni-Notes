@@ -17,6 +17,13 @@
 
 package it.feio.android.omninotes.helpers;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -25,12 +32,6 @@ import it.feio.android.omninotes.models.StatsSingleNote;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TagsHelper;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
 
 
 public class NotesHelper {

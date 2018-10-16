@@ -19,6 +19,7 @@ package it.feio.android.omninotes.intro;
 
 import android.graphics.Color;
 import android.os.Bundle;
+
 import it.feio.android.omninotes.R;
 
 

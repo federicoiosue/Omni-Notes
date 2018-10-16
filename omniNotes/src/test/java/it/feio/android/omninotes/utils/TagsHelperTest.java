@@ -18,14 +18,16 @@
 package it.feio.android.omninotes.utils;
 
 import android.support.v4.util.Pair;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.Tag;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Tag;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

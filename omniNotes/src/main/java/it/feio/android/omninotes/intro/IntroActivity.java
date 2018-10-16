@@ -19,7 +19,9 @@ package it.feio.android.omninotes.intro;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import com.github.paolorotolo.appintro.AppIntro2;
+
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.utils.Constants;
 

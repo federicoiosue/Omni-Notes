@@ -25,8 +25,16 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
+
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+import org.acra.sender.HttpSender.Method;
+import org.acra.sender.HttpSender.Type;
+
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.analitica.AnalyticsHelperFactory;
 import it.feio.android.analitica.MockAnalyticsHelper;
@@ -34,11 +42,6 @@ import it.feio.android.analitica.exceptions.AnalyticsInstantiationException;
 import it.feio.android.analitica.exceptions.InvalidIdentifierException;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.utils.Constants;
-import org.acra.ACRA;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
-import org.acra.sender.HttpSender.Method;
-import org.acra.sender.HttpSender.Type;
 
 
 @ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = BuildConfig.CRASH_REPORTING_URL, mode =

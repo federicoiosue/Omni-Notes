@@ -29,19 +29,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
 import com.bumptech.glide.Glide;
 import com.nhaarman.listviewanimations.util.Insertable;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.TextWorkerTask;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.holders.NoteViewHolder;
-import it.feio.android.omninotes.utils.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
+
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.async.TextWorkerTask;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.holders.NoteViewHolder;
+import it.feio.android.omninotes.utils.BitmapHelper;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.TextHelper;
 
 
 public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {

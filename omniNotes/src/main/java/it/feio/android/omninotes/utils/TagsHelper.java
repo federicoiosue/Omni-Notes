@@ -18,16 +18,16 @@
 package it.feio.android.omninotes.utils;
 
 import android.support.v4.util.Pair;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.Tag;
-import it.feio.android.pixlui.links.RegexPatternsConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
+
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Tag;
+import it.feio.android.pixlui.links.RegexPatternsConstants;
 
 
 public class TagsHelper {

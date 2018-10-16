@@ -25,17 +25,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
-import it.feio.android.analitica.AnalyticsHelper;
-import it.feio.android.omninotes.BuildConfig;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.helpers.AppVersionHelper;
-import it.feio.android.omninotes.models.misc.PlayStoreMetadataFetcherResult;
-import it.feio.android.omninotes.utils.ConnectionManager;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.SystemHelper;
+
 import org.json.JSONException;
 
 import java.io.BufferedReader;
@@ -45,6 +38,16 @@ import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
+
+import it.feio.android.analitica.AnalyticsHelper;
+import it.feio.android.omninotes.BuildConfig;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.AppVersionHelper;
+import it.feio.android.omninotes.models.misc.PlayStoreMetadataFetcherResult;
+import it.feio.android.omninotes.utils.ConnectionManager;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.SystemHelper;
 
 
 

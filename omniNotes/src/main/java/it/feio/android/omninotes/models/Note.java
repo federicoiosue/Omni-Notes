@@ -18,11 +18,12 @@ package it.feio.android.omninotes.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import it.feio.android.omninotes.commons.models.BaseCategory;
-import it.feio.android.omninotes.commons.models.BaseNote;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import it.feio.android.omninotes.commons.models.BaseCategory;
+import it.feio.android.omninotes.commons.models.BaseNote;
 
 
 public class Note extends BaseNote implements Parcelable {

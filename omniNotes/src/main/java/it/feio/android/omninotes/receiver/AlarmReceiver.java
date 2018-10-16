@@ -25,12 +25,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.util.Log;
+
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.services.NotificationListener;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.BitmapHelper;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.NotificationsHelper;
+import it.feio.android.omninotes.utils.ParcelableUtil;
+import it.feio.android.omninotes.utils.TextHelper;
 
 
 public class AlarmReceiver extends BroadcastReceiver {

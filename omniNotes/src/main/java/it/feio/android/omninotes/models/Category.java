@@ -18,6 +18,7 @@ package it.feio.android.omninotes.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import it.feio.android.omninotes.commons.models.BaseCategory;
 
 

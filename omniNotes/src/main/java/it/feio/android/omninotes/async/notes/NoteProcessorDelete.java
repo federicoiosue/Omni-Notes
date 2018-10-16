@@ -17,13 +17,13 @@
 
 package it.feio.android.omninotes.async.notes;
 
+import java.util.List;
+
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.StorageHelper;
-
-import java.util.List;
 
 
 public class NoteProcessorDelete extends NoteProcessor {

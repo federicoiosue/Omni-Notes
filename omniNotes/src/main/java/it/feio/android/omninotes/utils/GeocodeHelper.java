@@ -18,22 +18,18 @@
 package it.feio.android.omninotes.utils;
 
 import android.content.Context;
-import android.location.*;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import io.nlopez.smartlocation.SmartLocation;
-import io.nlopez.smartlocation.location.config.LocationParams;
-import io.nlopez.smartlocation.rx.ObservableFactory;
-import it.feio.android.omninotes.BuildConfig;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.helpers.GeoCodeProviderFactory;
-import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import rx.Observable;
-import rx.Subscriber;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,6 +44,16 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import io.nlopez.smartlocation.SmartLocation;
+import io.nlopez.smartlocation.location.config.LocationParams;
+import io.nlopez.smartlocation.rx.ObservableFactory;
+import it.feio.android.omninotes.BuildConfig;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.helpers.GeoCodeProviderFactory;
+import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
+import rx.Observable;
+import rx.Subscriber;
 
 
 public class GeocodeHelper implements LocationListener {

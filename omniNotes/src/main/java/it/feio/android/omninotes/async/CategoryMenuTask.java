@@ -23,6 +23,10 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
+
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
@@ -33,9 +37,6 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
-
-import java.lang.ref.WeakReference;
-import java.util.List;
 
 
 public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
