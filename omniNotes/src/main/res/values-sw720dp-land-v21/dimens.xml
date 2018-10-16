@@ -21,8 +21,6 @@
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     -->
 
-    <dimen name="padding_top_kitkat">0dp</dimen>
-
     <dimen name="activity_horizontal_margin">128dp</dimen>
 
 </resources>

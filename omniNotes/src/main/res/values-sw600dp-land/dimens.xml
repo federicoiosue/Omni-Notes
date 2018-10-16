@@ -22,6 +22,5 @@
     -->
 
     <!--<dimen name="activity_additional_margin">64dp</dimen>-->
-    <dimen name="navigation_drawer_reserved_space">@dimen/navigation_drawer_width</dimen>
 
 </resources>

@@ -81,14 +81,6 @@
         <item name="closeIcon">@drawable/ic_cancel_white_24dp</item>
     </style>
 
-    <style name="AppTheme.ActionBar.Fullscreen.TitleTextStyle" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="Theme.AppCompat.Dialog.About" parent="Theme.AppCompat.Dialog">
-        <item name="android:windowBackground">@color/about_bg</item>
-    </style>
-
     <style name="Button.Dialog" parent="MD_ActionButton">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:background">@null</item>
