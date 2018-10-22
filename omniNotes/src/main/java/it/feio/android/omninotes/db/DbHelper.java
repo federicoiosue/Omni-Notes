@@ -412,7 +412,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " FROM " + TABLE_NOTES
                 + " LEFT JOIN " + TABLE_CATEGORY + " USING( " + KEY_CATEGORY + ") "
                 + whereCondition
-                + (order ? " ORDER BY " + sort_column + sort_order : "");
+                + (order ? " ORDER BY " + sort_column + " COLLATE NOCASE " + sort_order : "");
 
         Log.v(Constants.TAG, "Query: " + query);
 
