@@ -147,13 +147,13 @@ public class PasswordHelper {
                     DbHelper.getInstance().updateNote(note, false);
                 })
                 .doOnCompleted(() -> {
-                    EventBus.getDefault().post(new PasswordRemovedEvent());
                     OmniNotes.getSharedPreferences().edit()
                             .remove(Constants.PREF_PASSWORD)
                             .remove(Constants.PREF_PASSWORD_QUESTION)
                             .remove(Constants.PREF_PASSWORD_ANSWER)
                             .remove("settings_password_access")
                             .apply();
+                    EventBus.getDefault().post(new PasswordRemovedEvent());
                 })
                 .subscribe();
     }

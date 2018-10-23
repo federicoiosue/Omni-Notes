@@ -165,19 +165,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         mFragment = this;
         setHasOptionsMenu(true);
         setRetainInstance(false);
-    }
-
-
-    @Override
-    public void onStart() {
-		super.onStart();
         EventBus.getDefault().register(this, 1);
     }
 
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 
