@@ -254,19 +254,22 @@ public class StorageHelper {
         return createNewAttachmentFile(mContext, null);
     }
 
-
     /**
      * Create a path where we will place our private file on external
      */
-    public static File copyToBackupDir(File backupDir, File file) {
+    public static File copyToBackupDir(File backupDir, String fileName, InputStream fileInputStream) {
         if (!checkStorage()) {
             return null;
         }
         if (!backupDir.exists()) {
             backupDir.mkdirs();
         }
-        File destination = new File(backupDir, file.getName());
-        copyFile(file, destination);
+        File destination = new File(backupDir, fileName);
+        try {
+            copyFile(fileInputStream, new FileOutputStream(destination));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         return destination;
     }
 
@@ -522,18 +525,7 @@ public class StorageHelper {
      */
     public static File getFromHttp(String url, File file) throws IOException {
         URL imageUrl = new URL(url);
-        // HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
-        // conn.setConnectTimeout(30000);
-        // conn.setReadTimeout(30000);
-        // conn.setInstanceFollowRedirects(true);
-        // InputStream is=conn.getInputStream();
-        // OutputStream os = new FileOutputStream(f);
-        // Utils.CopyStream(is, os);
-
-        // File file = File.createTempFile("img", ".jpg");
-
         FileUtils.copyURLToFile(imageUrl, file);
-        // os.close();
         return file;
     }
 

@@ -28,30 +28,44 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
-import exceptions.ImportException;
-import it.feio.android.omninotes.MainActivity;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
-import it.feio.android.omninotes.utils.*;
-import it.feio.android.springpadimporter.Importer;
-import it.feio.android.springpadimporter.models.SpringpadAttachment;
-import it.feio.android.springpadimporter.models.SpringpadComment;
-import it.feio.android.springpadimporter.models.SpringpadElement;
-import it.feio.android.springpadimporter.models.SpringpadItem;
+
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+import exceptions.ImportException;
+import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.exceptions.BackupException;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.GeocodeHelper;
+import it.feio.android.omninotes.utils.NotificationsHelper;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.TextHelper;
+import it.feio.android.springpadimporter.Importer;
+import it.feio.android.springpadimporter.models.SpringpadAttachment;
+import it.feio.android.springpadimporter.models.SpringpadComment;
+import it.feio.android.springpadimporter.models.SpringpadElement;
+import it.feio.android.springpadimporter.models.SpringpadItem;
 
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
@@ -114,7 +128,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 //		exportNotes(backupDir);
 
         // Attachments backup
-        exportAttachments(backupDir);
+        try {
+            exportAttachments(backupDir);
+        } catch (FileNotFoundException e) {
+            throw new BackupException("Error during attachments backup: " + e.getMessage(), e);
+        }
 
         // Settings
         if (intent.getBooleanExtra(INTENT_BACKUP_INCLUDE_SETTINGS, true)) {
@@ -481,7 +499,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
      *
      * @return True if success, false otherwise
      */
-    private boolean exportAttachments(File backupDir) {
+    private boolean exportAttachments(File backupDir) throws FileNotFoundException {
         File attachmentsDir = StorageHelper.getAttachmentDir();
         File destinationattachmentsDir = new File(backupDir, attachmentsDir.getName());
 
@@ -490,7 +508,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         int exported = 0;
         for (Attachment attachment : list) {
-            StorageHelper.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri().getPath()));
+            StorageHelper.copyToBackupDir(destinationattachmentsDir, FilenameUtils.getName(attachment.getUriPath()), getContentResolver().openInputStream(attachment.getUri()));
             mNotificationsHelper.setMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + exported++ + "/" + list.size())
                     .show();
         }
