@@ -23,6 +23,10 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
+
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
@@ -33,9 +37,6 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
-
-import java.lang.ref.WeakReference;
-import java.util.List;
 
 
 public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
@@ -118,7 +119,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
 
     private List<Category> buildCategoryMenu() {
-        // Retrieves data to fill tags list
+
         List<Category> categories = DbHelper.getInstance().getCategories();
 
         View settings = categories.isEmpty() ? settingsView : settingsViewCat;
@@ -126,39 +127,42 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 //        Fonts.overrideTextSize(mainActivity,
 //                mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
 //                settings);
-        settings.setOnClickListener(v -> {
-			Intent settingsIntent = new Intent(mainActivity, SettingsActivity.class);
-			mainActivity.startActivity(settingsIntent);
-		});
 
-        // Sets click events
-        mDrawerCategoriesList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+        mainActivity.runOnUiThread(() -> {
+            settings.setOnClickListener(v -> {
+                Intent settingsIntent = new Intent(mainActivity, SettingsActivity.class);
+                mainActivity.startActivity(settingsIntent);
+            });
 
-			Object item = mDrawerCategoriesList.getAdapter().getItem(position);
-			if (mainActivity.updateNavigation(String.valueOf(((Category) item).getId()))) {
-                mDrawerCategoriesList.setItemChecked(position, true);
-                // Forces redraw
-                if (mDrawerList != null) {
-                    mDrawerList.setItemChecked(0, false);
-                    EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
-                            (position)));
+            // Sets click events
+            mDrawerCategoriesList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+
+                Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+                if (mainActivity.updateNavigation(String.valueOf(((Category) item).getId()))) {
+                    mDrawerCategoriesList.setItemChecked(position, true);
+                    // Forces redraw
+                    if (mDrawerList != null) {
+                        mDrawerList.setItemChecked(0, false);
+                        EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
+                                (position)));
+                    }
                 }
-			}
-		});
+            });
 
-        // Sets long click events
-        mDrawerCategoriesList.setOnItemLongClickListener((arg0, view, position, arg3) -> {
-			if (mDrawerCategoriesList.getAdapter() != null) {
-				Object item = mDrawerCategoriesList.getAdapter().getItem(position);
-				// Ensuring that clicked item is not the ListView header
-				if (item != null) {
-					mainActivity.editTag((Category) item);
-				}
-			} else {
-				mainActivity.showMessage(R.string.category_deleted, ONStyle.ALERT);
-			}
-			return true;
-		});
+            // Sets long click events
+            mDrawerCategoriesList.setOnItemLongClickListener((arg0, view, position, arg3) -> {
+                if (mDrawerCategoriesList.getAdapter() != null) {
+                    Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+                    // Ensuring that clicked item is not the ListView header
+                    if (item != null) {
+                        mainActivity.editTag((Category) item);
+                    }
+                } else {
+                    mainActivity.showMessage(R.string.category_deleted, ONStyle.ALERT);
+                }
+                return true;
+            });
+        });
 
         return categories;
     }
