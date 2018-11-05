@@ -57,10 +57,11 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.GeocodeHelper;
-import it.feio.android.omninotes.utils.NotificationsHelper;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TextHelper;
+import it.feio.android.omninotes.utils.notifications.NotificationChannels;
+import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
 import it.feio.android.springpadimporter.models.SpringpadComment;
@@ -95,7 +96,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         // Creates an indeterminate processing notification until the work is complete
         mNotificationsHelper = new NotificationsHelper(this)
-                .createNotification(R.drawable.ic_content_save_white_24dp, getString(R.string.working), null)
+                .createNotification(NotificationChannels.NotificationChannelNames.Backups,
+                        R.drawable.ic_content_save_white_24dp, getString(R.string.working),
+                        null)
                 .setIndeterminate().setOngoing().show();
 
         // If an alarm has been fired a notification must be generated
@@ -113,7 +116,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     synchronized private void exportData(Intent intent) {
 
-        // Gets backup folder
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
         File backupDir = StorageHelper.getBackupDir(backupName);
 
@@ -123,51 +125,38 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         // Directory is re-created in case of previously used backup name (removed above)
         backupDir = StorageHelper.getBackupDir(backupName);
 
-        // Database backup
         exportDB(backupDir);
 //		exportNotes(backupDir);
 
-        // Attachments backup
         try {
             exportAttachments(backupDir);
         } catch (FileNotFoundException e) {
             throw new BackupException("Error during attachments backup: " + e.getMessage(), e);
         }
 
-        // Settings
         if (intent.getBooleanExtra(INTENT_BACKUP_INCLUDE_SETTINGS, true)) {
             exportSettings(backupDir);
         }
 
-        // Notification of operation ended
-        String title = getString(R.string.data_export_completed);
-        String text = backupDir.getPath();
-        createNotification(intent, this, title, text, backupDir);
+        createNotification(intent, this, getString(R.string.data_export_completed), backupDir.getPath(), backupDir);
     }
 
 
     synchronized private void importData(Intent intent) {
 
-        // Gets backup folder
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
         File backupDir = StorageHelper.getBackupDir(backupName);
 
-        // Database backup
         importDB(backupDir);
 //        importNotes(backupDir);
 
-        // Attachments backup
         importAttachments(backupDir);
 
-		// Settings restore
 		importSettings(backupDir);
 
-		// Reminders restore
 		resetReminders();
 
-        String title = getString(R.string.data_import_completed);
-        String text = getString(R.string.click_to_refresh_application);
-        createNotification(intent, this, title, text, backupDir);
+        createNotification(intent, this, getString(R.string.data_import_completed), getString(R.string.click_to_refresh_application), backupDir);
     }
 
 
@@ -186,7 +175,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
             updateImportNotification(importer);
         } catch (ImportException e) {
             new NotificationsHelper(this)
-                    .createNotification(R.drawable.ic_emoticon_sad_white_24dp,
+                    .createNotification(NotificationChannels.NotificationChannelNames.Backups, R.drawable.ic_emoticon_sad_white_24dp,
                             getString(R.string.import_fail) + ": " + e.getMessage(), null).setLedActive().show();
             return;
         }
@@ -433,7 +422,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
         File backupDir = StorageHelper.getBackupDir(backupName);
 
-        // Backup directory removal
+        // Backups directory removal
         StorageHelper.delete(this, backupDir.getAbsolutePath());
 
         String title = getString(R.string.data_deletion_completed);
@@ -464,7 +453,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationsHelper mNotificationsHelper = new NotificationsHelper(mContext);
-        mNotificationsHelper.createNotification(R.drawable.ic_content_save_white_24dp, title, notifyIntent)
+        mNotificationsHelper.createNotification(NotificationChannels.NotificationChannelNames.Backups, R.drawable.ic_content_save_white_24dp, title, notifyIntent)
                 .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null))
                 .setLedActive();
         if (prefs.getBoolean("settings_notification_vibration", true)) mNotificationsHelper.setVibration();
