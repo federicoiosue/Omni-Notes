@@ -131,6 +131,7 @@ import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
@@ -816,7 +817,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				Intent shareIntent = new Intent(Intent.ACTION_SEND);
 				Attachment attachment = mAttachmentAdapter.getItem(attachmentPosition);
 				shareIntent.setType(StorageHelper.getMimeType(OmniNotes.getAppContext(), attachment.getUri()));
-				shareIntent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
+				shareIntent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
 				if (IntentChecker.isAvailable(OmniNotes.getAppContext(), shareIntent, null)) {
 					startActivity(shareIntent);
 				} else {
@@ -1305,7 +1306,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
 			return;
 		}
-		attachmentUri = StorageHelper.getFileProvider(f);
+		attachmentUri = FileProviderHelper.getFileProvider(f);
 		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		startActivityForResult(intent, TAKE_PHOTO);
@@ -1324,7 +1325,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
 			return;
 		}
-		attachmentUri = StorageHelper.getFileProvider(f);
+		attachmentUri = FileProviderHelper.getFileProvider(f);
 		takeVideoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		String maxVideoSizeStr = "".equals(prefs.getString("settings_max_video_size",
@@ -1604,7 +1605,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 	private void deleteMergedNotes(List<String> mergedNotesIds) {
-		ArrayList<Note> notesToDelete = new ArrayList<Note>();
+		ArrayList<Note> notesToDelete = new ArrayList<>();
 		if (mergedNotesIds != null) {
 			for (String mergedNoteId : mergedNotesIds) {
 				Note note = new Note();
@@ -2152,9 +2153,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		private final WeakReference<Note> noteTmpWeakReference;
 
 		OnGeoUtilResultListenerImpl(MainActivity activity, DetailFragment mFragment, Note noteTmp) {
-			this.mainActivityWeakReference = new WeakReference<>(activity);
-			this.detailFragmentWeakReference = new WeakReference<>(mFragment);
-			this.noteTmpWeakReference = new WeakReference<>(noteTmp);
+			mainActivityWeakReference = new WeakReference<>(activity);
+			detailFragmentWeakReference = new WeakReference<>(mFragment);
+			noteTmpWeakReference = new WeakReference<>(noteTmp);
 		}
 
 		@Override
