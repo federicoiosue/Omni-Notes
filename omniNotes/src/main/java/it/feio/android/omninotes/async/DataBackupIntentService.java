@@ -125,8 +125,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         // Directory is re-created in case of previously used backup name (removed above)
         backupDir = StorageHelper.getBackupDir(backupName);
 
-        exportDB(backupDir);
-//		exportNotes(backupDir);
+//        exportDB(backupDir);
+        exportNotes(backupDir);
 
         try {
             exportAttachments(backupDir);
@@ -147,8 +147,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
         File backupDir = StorageHelper.getBackupDir(backupName);
 
-        importDB(backupDir);
-//        importNotes(backupDir);
+//        importDB(backupDir);
+        importNotes(backupDir);
 
         importAttachments(backupDir);
 
@@ -555,6 +555,14 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 				if (note.getCategory() != null) {
 					DbHelper.getInstance().updateCategory(note.getCategory());
 				}
+//                Observable.from(note.getAttachmentsList())
+//                        .map((Func1<BaseAttachment, Attachment>) Attachment::new)
+//                        .flatMap((Func1<Attachment, Observable<?>>) attachment -> {
+//                            DbHelper.getInstance().updateAttachment(attachment);
+//                            return Observable.just(attachment);
+//                        })
+//                        .doOnCompleted(() -> DbHelper.getInstance().updateNote(note, false))
+//                        .subscribe();
 				for (Attachment attachment : note.getAttachmentsList()) {
 					DbHelper.getInstance().updateAttachment(attachment);
 				}
