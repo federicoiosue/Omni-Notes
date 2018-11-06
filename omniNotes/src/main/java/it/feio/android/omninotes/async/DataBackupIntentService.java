@@ -50,7 +50,6 @@ import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.exceptions.BackupException;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -116,6 +115,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     synchronized private void exportData(Intent intent) {
 
+        boolean result = true;
+
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
         File backupDir = StorageHelper.getBackupDir(backupName);
 
@@ -128,17 +129,14 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 //        exportDB(backupDir);
         exportNotes(backupDir);
 
-        try {
-            exportAttachments(backupDir);
-        } catch (FileNotFoundException e) {
-            throw new BackupException("Error during attachments backup: " + e.getMessage(), e);
-        }
+        result = exportAttachments(backupDir);
 
         if (intent.getBooleanExtra(INTENT_BACKUP_INCLUDE_SETTINGS, true)) {
             exportSettings(backupDir);
         }
 
-        createNotification(intent, this, getString(R.string.data_export_completed), backupDir.getPath(), backupDir);
+        String notificationMessage = result ? getString(R.string.data_export_completed) : getString(R.string.data_export_failed);
+        createNotification(intent, this, notificationMessage, backupDir.getPath(), backupDir);
     }
 
 
@@ -477,7 +475,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 			try {
 				FileUtils.write(noteFile, note.toJSON());
 			} catch (IOException e) {
-				Log.e(Constants.TAG, "Error backupping note: " + note.get_id());
+                Log.e(Constants.TAG, "Error creating backup for note: " + note.get_id());
 			}
 		}
 	}
@@ -488,7 +486,10 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
      *
      * @return True if success, false otherwise
      */
-    private boolean exportAttachments(File backupDir) throws FileNotFoundException {
+    private boolean exportAttachments(File backupDir) {
+
+        boolean result = true;
+
         File attachmentsDir = StorageHelper.getAttachmentDir();
         File destinationattachmentsDir = new File(backupDir, attachmentsDir.getName());
 
@@ -497,11 +498,16 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         int exported = 0;
         for (Attachment attachment : list) {
-            StorageHelper.copyToBackupDir(destinationattachmentsDir, FilenameUtils.getName(attachment.getUriPath()), getContentResolver().openInputStream(attachment.getUri()));
-            mNotificationsHelper.setMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + exported++ + "/" + list.size())
-                    .show();
+            try {
+                StorageHelper.copyToBackupDir(destinationattachmentsDir, FilenameUtils.getName(attachment.getUriPath()), getContentResolver().openInputStream(attachment.getUri()));
+                mNotificationsHelper.setMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + exported++ + "/" + list.size())
+                        .show();
+            } catch (FileNotFoundException e) {
+                Log.w(Constants.TAG, "Attachment not found during backup: " + attachment.getUriPath());
+                result = false;
+            }
         }
-        return true;
+        return result;
     }
 
 
