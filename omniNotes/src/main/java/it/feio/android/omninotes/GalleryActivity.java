@@ -37,6 +37,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.simplegallery.models.GalleryPagerAdapter;
 import it.feio.android.simplegallery.views.GalleryViewPager;
@@ -69,127 +70,6 @@ public class GalleryActivity extends AppCompatActivity {
     @BindView(R.id.fullscreen_content)  GalleryViewPager mViewPager;
 
     private List<Attachment> images;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gallery);
-        ButterKnife.bind(this);
-
-        initViews();
-        initData();
-    }
-
-
-    @Override
-    public void onStart() {
-		((OmniNotes)getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
-        super.onStart();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_gallery, menu);
-        return true;
-    }
-
-
-    private void initViews() {
-        // Show the Up button in the action bar.
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        galleryRootView.setOnViewTouchedListener(screenTouches);
-
-        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int arg0) {
-                getSupportActionBar().setSubtitle("(" + (arg0 + 1) + "/" + images.size() + ")");
-            }
-
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
-    }
-
-
-    /**
-     * Initializes data received from note detail screen
-     */
-    private void initData() {
-        String title = getIntent().getStringExtra(Constants.GALLERY_TITLE);
-        images = getIntent().getParcelableArrayListExtra(Constants.GALLERY_IMAGES);
-        int clickedImage = getIntent().getIntExtra(Constants.GALLERY_CLICKED_IMAGE, 0);
-
-        ArrayList<Uri> imageUris = new ArrayList<>();
-        for (Attachment mAttachment : images) {
-            imageUris.add(mAttachment.getUri());
-        }
-
-		GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, imageUris);
-        mViewPager.setOffscreenPageLimit(3);
-        mViewPager.setAdapter(pagerAdapter);
-        mViewPager.setCurrentItem(clickedImage);
-
-        getSupportActionBar().setTitle(title);
-        getSupportActionBar().setSubtitle("(" + (clickedImage + 1) + "/" + images.size() + ")");
-
-        // If selected attachment is a video it will be immediately played
-        if (images.get(clickedImage).getMime_type().equals(Constants.MIME_TYPE_VIDEO)) {
-            viewMedia();
-        }
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            case R.id.menu_gallery_share:
-                shareMedia();
-                break;
-            case R.id.menu_gallery:
-                viewMedia();
-                break;
-			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    private void viewMedia() {
-        Attachment attachment = images.get(mViewPager.getCurrentItem());
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(attachment.getUri(),
-                StorageHelper.getMimeType(this, attachment.getUri()));
-        startActivity(intent);
-    }
-
-
-    private void shareMedia() {
-        Attachment attachment = images.get(mViewPager.getCurrentItem());
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType(StorageHelper.getMimeType(this, attachment.getUri()));
-        intent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
-        startActivity(intent);
-    }
-
-
     OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
         private final int MOVING_THRESHOLD = 30;
         float x;
@@ -229,4 +109,116 @@ public class GalleryActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_gallery);
+        ButterKnife.bind(this);
+
+        initViews();
+        initData();
+    }
+
+    @Override
+    public void onStart() {
+		((OmniNotes)getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+        super.onStart();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_gallery, menu);
+        return true;
+    }
+
+    private void initViews() {
+        // Show the Up button in the action bar.
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        galleryRootView.setOnViewTouchedListener(screenTouches);
+
+        mViewPager.addOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int arg0) {
+                getSupportActionBar().setSubtitle("(" + (arg0 + 1) + "/" + images.size() + ")");
+            }
+
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
+    }
+
+    /**
+     * Initializes data received from note detail screen
+     */
+    private void initData() {
+        String title = getIntent().getStringExtra(Constants.GALLERY_TITLE);
+        images = getIntent().getParcelableArrayListExtra(Constants.GALLERY_IMAGES);
+        int clickedImage = getIntent().getIntExtra(Constants.GALLERY_CLICKED_IMAGE, 0);
+
+        ArrayList<Uri> imageUris = new ArrayList<>();
+        for (Attachment mAttachment : images) {
+            imageUris.add(mAttachment.getUri());
+        }
+
+		GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, imageUris);
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setAdapter(pagerAdapter);
+        mViewPager.setCurrentItem(clickedImage);
+
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setSubtitle("(" + (clickedImage + 1) + "/" + images.size() + ")");
+
+        // If selected attachment is a video it will be immediately played
+        if (images.get(clickedImage).getMime_type().equals(Constants.MIME_TYPE_VIDEO)) {
+            viewMedia();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.menu_gallery_share:
+                shareMedia();
+                break;
+            case R.id.menu_gallery:
+                viewMedia();
+                break;
+			default:
+				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void viewMedia() {
+        Attachment attachment = images.get(mViewPager.getCurrentItem());
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(FileProviderHelper.getShareableUri(attachment),
+                StorageHelper.getMimeType(this, attachment.getUri()));
+        startActivity(intent);
+    }
+
+    private void shareMedia() {
+        Attachment attachment = images.get(mViewPager.getCurrentItem());
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType(StorageHelper.getMimeType(this, attachment.getUri()));
+        intent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
+        startActivity(intent);
+    }
 }
