@@ -18,45 +18,45 @@
   -->
 <resources>
   <string-array name="navigation_list">
-    <item>Заметки</item>
-    <item>Архив</item>
-    <item>Напоминания</item>
-    <item>Корзина</item>
-    <item>Без категории</item>
+    <item>Merkinnät</item>
+    <item>Arkistoi</item>
+    <item>Muistutukset</item>
+    <item>Roskakori</item>
+    <item>Luokittelemattomat</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
-    <item>По заголовкам</item>
-    <item>По дате создания</item>
-    <item>По дате посл. изменения</item>
-    <item>По дате напоминания</item>
+    <item>Otsikko</item>
+    <item>Luontipvm</item>
+    <item>Viimeisin muokkauspvm</item>
+    <item>Muistutuspvm</item>
   </string-array>
   <string-array name="checked_items_behavior">
-    <item>Сохранять положение</item>
-    <item>Помещать в конец списка</item>
-    <item>Помещать после невыбранных пунктов</item>
+    <item>Pidä paikallaan</item>
+    <item>Siirrä luettelon loppuun</item>
+    <item>Siirrä valitsemattomien kohteiden loppuun</item>
   </string-array>
   <string-array name="colors_app">
-    <item>Отключено</item>
-    <item>Небольшой индикатор</item>
-    <item>Только списка заметок</item>
-    <item>Полноценное</item>
+    <item>Pois käytöstä</item>
+    <item>Vain liuska</item>
+    <item>Vain merkintälista</item>
+    <item>Valmis</item>
   </string-array>
   <string-array name="colors_widget">
-    <item>Отключено</item>
-    <item>Небольшой индикатор</item>
-    <item>В списке заметок</item>
+    <item>Pois käytöstä</item>
+    <item>Vain liuska</item>
+    <item>Merkintälista</item>
   </string-array>
   <string-array name="text_size">
-    <item>Наименьший</item>
-    <item>Небольшой</item>
-    <item>Обычный</item>
-    <item>Крупный</item>
-    <item>Огромный</item>
+    <item>Pienin</item>
+    <item>Pieni</item>
+    <item>Oletus</item>
+    <item>Suuri</item>
+    <item>Suurin</item>
   </string-array>
   <string-array name="attachments_actions">
-    <item>Поделиться</item>
-    <item>Удалить</item>
-    <item>Убрать все</item>
-    <item>Редактировать</item>
+    <item>Jaa</item>
+    <item>Poista</item>
+    <item>Poista kaikki</item>
+    <item>Muokkaa</item>
   </string-array>
 </resources>

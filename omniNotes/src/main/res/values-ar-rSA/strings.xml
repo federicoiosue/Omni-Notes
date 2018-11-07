@@ -203,7 +203,7 @@
   <string name="photo">صور</string>
   <string name="uncompleted_checklists">قوائم التدقيق الناقصة</string>
   <string name="info">معلومات</string>
-  <string name="completed">Completed</string>
+  <string name="completed">مكتمل</string>
   <!-- Settings -->
   <string name="dashclock_description">عرض بعض الاحصائيات و المذكرات المنتهية من مدونات أومني</string>
   <string name="settings">إعدادات</string>
@@ -364,7 +364,7 @@
   <string name="tour_listactivity_actions_title">الإجراءات</string>
   <string name="tour_listactivity_actions_detail">أنشئ ملاحظات جديدة ، رتبها أو تصفح الخيارات</string>
   <string name="tour_listactivity_home_title">الملاحة</string>
-  <string name="tour_listactivity_home_detail">Navigation menu allows you to move through notes with filters and categories</string>
+  <string name="tour_listactivity_home_detail">تتيح لك قائمة التصفح التنقل عبر الملاحظات باستخدام المرشحات والفئات</string>
   <string name="tour_listactivity_tag_title">الوسوم</string>
   <string name="tour_listactivity_tag_detail">أضف تلوين الفئات لتنظيم الملاحظات بلمحة</string>
   <string name="tour_detailactivity_attachment_title">تحسين</string>
@@ -374,7 +374,7 @@
   <string name="tour_detailactivity_reminder_title">أنقر فقط</string>
   <string name="tour_detailactivity_reminder_detail">تختلف الضغطة القصيرة على عنصر ما (المرفق ، المكان أو التنبيه) عن الضغطة الطويلة!</string>
   <string name="tour_detailactivity_links_title">روابط</string>
-  <string name="tour_detailactivity_links_detail">URL, e-mail addresses and telephone numbers recognition</string>
+  <string name="tour_detailactivity_links_detail">التعرّف على عناوين URL والبريد الإلكتروني وأرقام الهاتف</string>
   <string name="tour_detailactivity_swipe_title">تمرير</string>
   <string name="tour_detailactivity_swipe_detail">أنشئ ملاحظات جديدة\nدون ترك الملاحظة التي تحررها حالياً</string>
   <string name="tour_detailactivity_save_title">حفظ</string>
