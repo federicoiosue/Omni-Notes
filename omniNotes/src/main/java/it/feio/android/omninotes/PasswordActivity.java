@@ -23,11 +23,14 @@ import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
+
+import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.LifecycleCallback;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.Security;
@@ -61,18 +64,32 @@ public class PasswordActivity extends BaseActivity {
     }
 
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+		EventBus.getDefault().register(this, 1);
+	}
+
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EventBus.getDefault().unregister(this);
+	}
+
+
     private void initViews() {
-        crouton_handle = (ViewGroup) findViewById(R.id.crouton_handle);
-        password = (EditText) findViewById(R.id.password);
-        passwordCheck = (EditText) findViewById(R.id.password_check);
-        question = (EditText) findViewById(R.id.question);
-        answer = (EditText) findViewById(R.id.answer);
-        answerCheck = (EditText) findViewById(R.id.answer_check);
+        crouton_handle = findViewById(R.id.crouton_handle);
+        password = findViewById(R.id.password);
+        passwordCheck = findViewById(R.id.password_check);
+        question = findViewById(R.id.question);
+        answer = findViewById(R.id.answer);
+        answerCheck = findViewById(R.id.answer_check);
 
         findViewById(R.id.password_remove).setOnClickListener(v -> {
 			if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
 				PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
-					if (passwordConfirmed) {
+					if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 						updatePassword(null, null, null);
 					}
 				});
@@ -88,7 +105,7 @@ public class PasswordActivity extends BaseActivity {
 				final String answerText = answer.getText().toString();
 				if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
 					PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
-						if (passwordConfirmed) {
+						if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 							updatePassword(passwordText, questionText, answerText);
 						}
 					});
@@ -115,9 +132,8 @@ public class PasswordActivity extends BaseActivity {
 			question.setText("");
 			answer.setText("");
 			answerCheck.setText("");
-			Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_removed, ONStyle
-							.ALERT,
-					crouton_handle);
+			Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_removed,
+					ONStyle.ALERT, crouton_handle);
 			crouton.setLifecycleCallback(new LifecycleCallback() {
 				@Override
 				public void onDisplayed() {

@@ -25,24 +25,30 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
-import exceptions.ImportException;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.*;
-import it.feio.android.springpadimporter.Importer;
-import it.feio.android.springpadimporter.models.SpringpadAttachment;
-import it.feio.android.springpadimporter.models.SpringpadComment;
-import it.feio.android.springpadimporter.models.SpringpadElement;
-import it.feio.android.springpadimporter.models.SpringpadItem;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
+
+import exceptions.ImportException;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.GeocodeHelper;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.notifications.NotificationChannels;
+import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
+import it.feio.android.springpadimporter.Importer;
+import it.feio.android.springpadimporter.models.SpringpadAttachment;
+import it.feio.android.springpadimporter.models.SpringpadComment;
+import it.feio.android.springpadimporter.models.SpringpadElement;
+import it.feio.android.springpadimporter.models.SpringpadItem;
 
 
 public class SpringImportHelper {
@@ -76,7 +82,8 @@ public class SpringImportHelper {
 			updateImportNotification(importer, mNotificationsHelper);
 		} catch (ImportException e) {
 			new NotificationsHelper(context)
-					.createNotification(R.drawable.ic_emoticon_sad_white_24dp,
+					.createNotification(NotificationChannels.NotificationChannelNames.Backups,
+							R.drawable.ic_emoticon_sad_white_24dp,
 							context.getString(R.string.import_fail) + ": " + e.getMessage(), null).setLedActive().show();
 			return;
 		}

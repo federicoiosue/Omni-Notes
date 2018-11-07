@@ -66,24 +66,26 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 
 public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
 
-    @BindView(R.id.crouton_handle) ViewGroup croutonViewContainer;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
-
+    private static boolean isPasswordAccepted = false;
     public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
     public final String FRAGMENT_LIST_TAG = "fragment_list";
     public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
     public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
-    private static boolean isPasswordAccepted = false;
-    private FragmentManager mFragmentManager;
     public Uri sketchUri;
-
+    @BindView(R.id.crouton_handle)
+    ViewGroup croutonViewContainer;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         initUI();
 
 		if (IntroActivity.mustRun()) {
-			startActivity(new Intent(this.getApplicationContext(), IntroActivity.class));
+            startActivity(new Intent(getApplicationContext(), IntroActivity.class));
 		}
 
 		new UpdaterTask(this).execute();
@@ -139,11 +141,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& prefs.getBoolean("settings_password_access", false)) {
             PasswordHelper.requestPassword(this, passwordConfirmed -> {
-				if (passwordConfirmed) {
-					init();
-				} else {
-					finish();
-				}
+                switch (passwordConfirmed) {
+                    case SUCCEED:
+                        init();
+                        break;
+                    case FAIL:
+                        finish();
+                        break;
+                    case RESTORE:
+                        PasswordHelper.resetPassword(this);
+                }
 			});
         } else {
             init();
@@ -240,7 +247,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     private Fragment checkFragmentInstance(int id, Object instanceClass) {
         Fragment result = null;
 		Fragment fragment = getFragmentManagerInstance().findFragmentById(id);
-		if (instanceClass.equals(fragment.getClass())) {
+		if (fragment!= null && instanceClass.equals(fragment.getClass())) {
 			result = fragment;
 		}
         return result;
@@ -332,7 +339,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     Toolbar getToolbar() {
-        return this.toolbar;
+        return toolbar;
     }
 
 
@@ -468,8 +475,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             // Intent with single image attachment
         } else if (note.getAttachmentsList().size() == 1) {
             shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.setType(note.getAttachmentsList().get(0).getMime_type());
-            shareIntent.putExtra(Intent.EXTRA_STREAM, note.getAttachmentsList().get(0).getUri());
+            Attachment attachment = note.getAttachmentsList().get(0);
+            shareIntent.setType(attachment.getMime_type());
+            shareIntent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
 
             // Intent with multiple images
         } else if (note.getAttachmentsList().size() > 1) {
@@ -478,7 +486,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             // A check to decide the mime type of attachments to share is done here
             HashMap<String, Boolean> mimeTypes = new HashMap<>();
             for (Attachment attachment : note.getAttachmentsList()) {
-                uris.add(attachment.getUri());
+                uris.add(FileProviderHelper.getShareableUri(attachment));
                 mimeTypes.put(attachment.getMime_type(), true);
             }
             // If many mime types are present a general type is assigned to intent

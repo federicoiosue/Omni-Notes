@@ -81,7 +81,9 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	protected Void doInBackground(String... params) {
 		if (!isCancelled()) {
 			try {
-				promptUpdate = isVersionUpdated(getAppData());
+				// Temporary disabled untill MetadataFetcher will work again
+				// promptUpdate = isVersionUpdated(getAppData());
+				promptUpdate = false;
 				if (promptUpdate) {
 					prefs.edit().putLong(Constants.PREF_LAST_UPDATE_CHECK, now).apply();
 				}

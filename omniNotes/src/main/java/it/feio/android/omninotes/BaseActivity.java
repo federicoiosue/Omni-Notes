@@ -115,7 +115,7 @@ public class BaseActivity extends AppCompatActivity {
 	public void requestPassword(final Activity mActivity, List<Note> notes,
 								final PasswordValidator mPasswordValidator) {
 		if (prefs.getBoolean("settings_password_access", false)) {
-			mPasswordValidator.onPasswordValidated(true);
+			mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
 			return;
 		}
 
@@ -129,7 +129,7 @@ public class BaseActivity extends AppCompatActivity {
 		if (askForPassword) {
 			PasswordHelper.requestPassword(mActivity, mPasswordValidator);
 		} else {
-			mPasswordValidator.onPasswordValidated(true);
+			mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
 		}
 	}
 

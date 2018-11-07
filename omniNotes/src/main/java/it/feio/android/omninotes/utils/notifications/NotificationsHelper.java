@@ -15,9 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.utils;
+package it.feio.android.omninotes.utils.notifications;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -29,6 +31,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationCompat.Builder;
+
 import it.feio.android.omninotes.R;
 
 
@@ -38,17 +41,36 @@ public class NotificationsHelper {
     private Builder mBuilder;
     private NotificationManager mNotificationManager;
 
-
     public NotificationsHelper(Context mContext) {
         this.mContext = mContext.getApplicationContext();
+        if (mNotificationManager == null) {
+            mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        }
     }
 
+    /**
+     * Create the NotificationChannel, but only on API 26+ because the NotificationChannel class is new and not in
+     * the support library
+     */
+    @TargetApi(Build.VERSION_CODES.O)
+    public void initNotificationChannels() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return;
+        }
+        for (it.feio.android.omninotes.utils.notifications.NotificationChannel notificationChannel : NotificationChannels.getChannels()) {
+            NotificationChannel channel = new NotificationChannel(notificationChannel.name, notificationChannel
+                    .name, notificationChannel.importance);
+            channel.setDescription(notificationChannel.description);
+            mNotificationManager.createNotificationChannel(channel);
+        }
+    }
 
     /**
      * Creation of notification on operations completed
      */
-    public NotificationsHelper createNotification(int smallIcon, String title, PendingIntent notifyIntent) {
-        mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(smallIcon).setContentTitle(title)
+    public NotificationsHelper createNotification(NotificationChannels.NotificationChannelNames channelId, int
+            smallIcon, String title, PendingIntent notifyIntent) {
+        mBuilder = new NotificationCompat.Builder(mContext, channelId.name()).setSmallIcon(smallIcon).setContentTitle(title)
                 .setAutoCancel(true).setColor(mContext.getResources().getColor(R.color.colorAccent));
         mBuilder.setContentIntent(notifyIntent);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -60,37 +82,30 @@ public class NotificationsHelper {
         return this;
     }
 
-
     public Builder getBuilder() {
         return mBuilder;
     }
-
 
     public NotificationsHelper setLargeIcon(Bitmap largeIconBitmap) {
         mBuilder.setLargeIcon(largeIconBitmap);
         return this;
     }
 
-
     public NotificationsHelper setLargeIcon(int largeIconResource) {
         Bitmap largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), largeIconResource);
         return setLargeIcon(largeIconBitmap);
     }
 
-
     public NotificationsHelper setRingtone(String ringtone) {
-        // Ringtone options
         if (ringtone != null) {
             mBuilder.setSound(Uri.parse(ringtone));
         }
         return this;
     }
 
-
     public NotificationsHelper setVibration() {
         return setVibration(null);
     }
-
 
     public NotificationsHelper setVibration(long[] pattern) {
         if (pattern == null || pattern.length == 0) {
@@ -100,47 +115,37 @@ public class NotificationsHelper {
         return this;
     }
 
-
     public NotificationsHelper setLedActive() {
         mBuilder.setLights(Color.BLUE, 1000, 1000);
         return this;
     }
-
 
     public NotificationsHelper setIcon(int icon) {
         mBuilder.setSmallIcon(icon);
         return this;
     }
 
-
     public NotificationsHelper setMessage(String message) {
         mBuilder.setContentText(message);
         return this;
     }
-
 
     public NotificationsHelper setIndeterminate() {
         mBuilder.setProgress(0, 0, true);
         return this;
     }
 
-
     public NotificationsHelper setOngoing() {
         mBuilder.setOngoing(true);
         return this;
     }
-
 
     public NotificationsHelper show() {
         show(0);
         return this;
     }
 
-
     public NotificationsHelper show(long id) {
-        if (mNotificationManager == null) {
-            mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        }
         Notification mNotification = mBuilder.build();
         if (mNotification.contentIntent == null) {
             // Creates a dummy PendingIntent

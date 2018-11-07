@@ -1,21 +1,5 @@
-/*
- * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package it.feio.android.omninotes.helpers;
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,8 +7,6 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.utils.Constants;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -44,14 +26,32 @@ import java.util.List;
 
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.NotificationsHelper;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TextHelper;
+import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 import rx.Observable;
 
+/*
+ * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 public class BackupHelper {
 
@@ -103,15 +103,24 @@ public class BackupHelper {
 	}
 
 
-	public static void exportAttachments(NotificationsHelper notificationsHelper, File destinationattachmentsDir,
-										 List<Attachment> list, List<Attachment> listOld) {
+	public static boolean exportAttachments(NotificationsHelper notificationsHelper, File destinationattachmentsDir,
+											List<Attachment> list, List<Attachment> listOld) {
+
+		boolean result = true;
+
 		listOld = listOld == null ? Collections.EMPTY_LIST : listOld;
 		int exported = 0;
 		for (Attachment attachment : list) {
-			StorageHelper.copyToBackupDir(destinationattachmentsDir, new File(attachment.getUri().getPath()));
-			if (notificationsHelper != null) {
-				notificationsHelper.setMessage(TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string
-						.attachment)) + " " + exported++ + "/" + list.size()).show();
+			try {
+				StorageHelper.copyToBackupDir(destinationattachmentsDir, FilenameUtils.getName(attachment.getUriPath()), OmniNotes.getAppContext().getContentResolver().openInputStream(attachment.getUri()));
+				if (notificationsHelper != null) {
+					notificationsHelper.setMessage(TextHelper.capitalize(OmniNotes.getAppContext()
+							.getString(R.string.attachment)) + " " + exported++ + "/" + list.size())
+							.show();
+				}
+			} catch (FileNotFoundException e) {
+				Log.w(Constants.TAG, "Attachment not found during backup: " + attachment.getUriPath());
+				result = false;
 			}
 		}
 		Observable.from(listOld)
@@ -119,6 +128,8 @@ public class BackupHelper {
 				.forEach(attachment -> StorageHelper.delete(OmniNotes.getAppContext(), new File
 						(destinationattachmentsDir.getAbsolutePath(),
 								attachment.getUri().getLastPathSegment()).getAbsolutePath()));
+
+		return result;
 	}
 
 

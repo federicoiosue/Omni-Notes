@@ -25,7 +25,15 @@ import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
+
 import com.squareup.leakcanary.LeakCanary;
+
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+import org.acra.sender.HttpSender.Method;
+import org.acra.sender.HttpSender.Type;
+
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.analitica.AnalyticsHelperFactory;
 import it.feio.android.analitica.MockAnalyticsHelper;
@@ -33,21 +41,34 @@ import it.feio.android.analitica.exceptions.AnalyticsInstantiationException;
 import it.feio.android.analitica.exceptions.InvalidIdentifierException;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.utils.Constants;
-import org.acra.ACRA;
-import org.acra.ReportingInteractionMode;
-import org.acra.annotation.ReportsCrashes;
-import org.acra.sender.HttpSender.Method;
-import org.acra.sender.HttpSender.Type;
+import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 
 
 @ReportsCrashes(httpMethod = Method.POST, reportType = Type.FORM, formUri = BuildConfig.CRASH_REPORTING_URL, mode =
 		ReportingInteractionMode.TOAST, forceCloseDialogAfterToast = false, resToastText = R.string.crash_toast)
 public class OmniNotes extends MultiDexApplication {
 
-	private static Context mContext;
-
 	static SharedPreferences prefs;
+	private static Context mContext;
 	private AnalyticsHelper analyticsHelper;
+
+	@NonNull
+	public static boolean isDebugBuild() {
+		return BuildConfig.BUILD_TYPE.equals("debug");
+	}
+
+	public static Context getAppContext() {
+		return OmniNotes.mContext;
+	}
+
+	/**
+	 * Statically returns app's default SharedPreferences instance
+	 *
+	 * @return SharedPreferences object instance
+	 */
+	public static SharedPreferences getSharedPreferences() {
+		return getAppContext().getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+	}
 
 	@Override
 	public void onCreate() {
@@ -62,6 +83,8 @@ public class OmniNotes extends MultiDexApplication {
 		initAcra(this);
 
 		initLeakCanary();
+
+		new NotificationsHelper(this).initNotificationChannels();
 	}
 
 	private void initLeakCanary() {
@@ -81,29 +104,11 @@ public class OmniNotes extends MultiDexApplication {
 		}.execute();
 	}
 
-	@NonNull
-	public static boolean isDebugBuild() {
-		return BuildConfig.BUILD_TYPE.equals("debug");
-	}
-
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		String language = prefs.getString(Constants.PREF_LANG, "");
 		LanguageHelper.updateLanguage(this, language);
-	}
-
-	public static Context getAppContext() {
-		return OmniNotes.mContext;
-	}
-
-	/**
-	 * Statically returns app's default SharedPreferences instance
-	 *
-	 * @return SharedPreferences object instance
-	 */
-	public static SharedPreferences getSharedPreferences() {
-		return getAppContext().getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 	}
 
 	public AnalyticsHelper getAnalyticsHelper() {

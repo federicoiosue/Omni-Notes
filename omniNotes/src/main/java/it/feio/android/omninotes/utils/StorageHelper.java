@@ -35,12 +35,22 @@ import it.feio.android.omninotes.models.Attachment;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.models.Attachment;
 
 
 public class StorageHelper {
@@ -120,11 +130,11 @@ public class StorageHelper {
             copyFile(contentResolverInputStream, contentResolverOutputStream);
         } catch (IOException e) {
             try {
-            	FileUtils.copyFile(new File(FileHelper.getPath(mContext, uri)), file);
+                FileUtils.copyFile(new File(FileHelper.getPath(mContext, uri)), file);
                 // It's a path!!
             } catch (NullPointerException e1) {
                 try {
-					FileUtils.copyFile(new File(uri.getPath()), file);
+                    FileUtils.copyFile(new File(uri.getPath()), file);
                 } catch (IOException e2) {
                     Log.e(Constants.TAG, "Error writing " + file, e2);
                     file = null;
@@ -132,46 +142,46 @@ public class StorageHelper {
             } catch (IOException e2) {
                 Log.e(Constants.TAG, "Error writing " + file, e2);
                 file = null;
-			}
+            }
         } finally {
-			try {
-				if (contentResolverInputStream != null) {
-					contentResolverInputStream.close();
-				}
-				if (contentResolverOutputStream != null) {
-					contentResolverOutputStream.close();
-				}
-			} catch (IOException e) {
-				Log.e(Constants.TAG, "Error closing streams", e);
-			}
+            try {
+                if (contentResolverInputStream != null) {
+                    contentResolverInputStream.close();
+                }
+                if (contentResolverOutputStream != null) {
+                    contentResolverOutputStream.close();
+                }
+            } catch (IOException e) {
+                Log.e(Constants.TAG, "Error closing streams", e);
+            }
 
-		}
-		return file;
+        }
+        return file;
     }
 
     public static boolean copyFile(File source, File destination) {
-		FileInputStream is = null;
-		FileOutputStream os = null;
+        FileInputStream is = null;
+        FileOutputStream os = null;
         try {
-			is = new FileInputStream(source);
-			os = new FileOutputStream(destination);
+            is = new FileInputStream(source);
+            os = new FileOutputStream(destination);
             return copyFile(is, os);
         } catch (FileNotFoundException e) {
             Log.e(Constants.TAG, "Error copying file", e);
             return false;
         } finally {
-			try {
-				if (is != null) {
-					is.close();
-				}
-				if (os != null) {
-					os.close();
-				}
-			} catch (IOException e) {
-				Log.e(Constants.TAG, "Error closing streams", e);
-			}
-		}
-	}
+            try {
+                if (is != null) {
+                    is.close();
+                }
+                if (os != null) {
+                    os.close();
+                }
+            } catch (IOException e) {
+                Log.e(Constants.TAG, "Error closing streams", e);
+            }
+        }
+    }
 
 
     /**
@@ -181,26 +191,26 @@ public class StorageHelper {
      * @param os Output
      * @return True if copy is done, false otherwise
      */
-	public static boolean copyFile(InputStream is, OutputStream os) {
-		try {
-			IOUtils.copy(is, os);
-			return true;
-		} catch (IOException e) {
-			Log.e(StorageHelper.class.getName(), "Error copying file", e);
-			return false;
-		}
-	}
+    public static boolean copyFile(InputStream is, OutputStream os) {
+        try {
+            IOUtils.copy(is, os);
+            return true;
+        } catch (IOException e) {
+            Log.e(StorageHelper.class.getName(), "Error copying file", e);
+            return false;
+        }
+    }
 
 
-	public static boolean deleteExternalStoragePrivateFile(Context mContext, String name) {
-		// Checks for external storage availability
-		if (!checkStorage()) {
-			Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
-			return false;
-		}
-		File file = new File(mContext.getExternalFilesDir(null), name);
-		return file.delete();
-	}
+    public static boolean deleteExternalStoragePrivateFile(Context mContext, String name) {
+        // Checks for external storage availability
+        if (!checkStorage()) {
+            Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        File file = new File(mContext.getExternalFilesDir(null), name);
+        return file.delete();
+    }
 
 
     public static boolean delete(Context mContext, String path) {
@@ -208,26 +218,26 @@ public class StorageHelper {
             Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
             return false;
         }
-		try {
-			FileUtils.forceDelete(new File(path));
-		} catch (IOException e) {
-			Log.w(StorageHelper.class.getSimpleName(), "Can't delete '" + path + "': " + e.getMessage());
-			return false;
-		}
-		return true;
+        try {
+            FileUtils.forceDelete(new File(path));
+        } catch (IOException e) {
+            Log.w(StorageHelper.class.getSimpleName(), "Can't delete '" + path + "': " + e.getMessage());
+            return false;
+        }
+        return true;
     }
 
 
     public static String getRealPathFromURI(Context mContext, Uri contentUri) {
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = mContext.getContentResolver().query(contentUri, proj, null, null, null);
-		if (cursor == null) {
-			return null;
-		}
+        if (cursor == null) {
+            return null;
+        }
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
-		String path = cursor.getString(column_index);
-		cursor.close();
+        String path = cursor.getString(column_index);
+        cursor.close();
         return path;
     }
 
@@ -254,19 +264,22 @@ public class StorageHelper {
         return createNewAttachmentFile(mContext, null);
     }
 
-
     /**
      * Create a path where we will place our private file on external
      */
-    public static File copyToBackupDir(File backupDir, File file) {
+    public static File copyToBackupDir(File backupDir, String fileName, InputStream fileInputStream) {
         if (!checkStorage()) {
             return null;
         }
         if (!backupDir.exists()) {
             backupDir.mkdirs();
         }
-        File destination = new File(backupDir, file.getName());
-        copyFile(file, destination);
+        File destination = new File(backupDir, fileName);
+        try {
+            copyFile(fileInputStream, new FileOutputStream(destination));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         return destination;
     }
 
@@ -340,13 +353,13 @@ public class StorageHelper {
 
 
     private static long getSize(File directory, long blockSize) {
-    	if (blockSize == 0) {
-    		throw new InvalidParameterException("Blocksize can't be 0");
-		}
+        if (blockSize == 0) {
+            throw new InvalidParameterException("Blocksize can't be 0");
+        }
         File[] files = directory.listFiles();
         if (files != null) {
 
-            // space used by directory itself 
+            // space used by directory itself
             long size = directory.length();
 
             for (File file : files) {
@@ -356,7 +369,7 @@ public class StorageHelper {
                 } else {
                     // file size need to rounded up to full block sizes
                     // (not a perfect function, it adds additional block to 0 sized files
-                    // and file who perfectly fill their blocks) 
+                    // and file who perfectly fill their blocks)
                     size += (file.length() / blockSize + 1) * blockSize;
                 }
             }
@@ -378,13 +391,13 @@ public class StorageHelper {
 
             String[] children = sourceLocation.list();
             for (int i = 0; i < sourceLocation.listFiles().length; i++) {
-                res = res && copyDirectory(new File(sourceLocation, children[i]), new File(targetLocation, 
+                res = res && copyDirectory(new File(sourceLocation, children[i]), new File(targetLocation,
                         children[i]));
             }
 
             // Otherwise a file copy will be performed
         } else {
-			res = copyFile(sourceLocation, targetLocation);
+            res = copyFile(sourceLocation, targetLocation);
         }
         return res;
     }
@@ -522,23 +535,8 @@ public class StorageHelper {
      */
     public static File getFromHttp(String url, File file) throws IOException {
         URL imageUrl = new URL(url);
-        // HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
-        // conn.setConnectTimeout(30000);
-        // conn.setReadTimeout(30000);
-        // conn.setInstanceFollowRedirects(true);
-        // InputStream is=conn.getInputStream();
-        // OutputStream os = new FileOutputStream(f);
-        // Utils.CopyStream(is, os);
-
-        // File file = File.createTempFile("img", ".jpg");
-
         FileUtils.copyURLToFile(imageUrl, file);
-        // os.close();
         return file;
     }
 
-
-    public static Uri getFileProvider(File file) {
-        return FileProvider.getUriForFile(OmniNotes.getAppContext(), OmniNotes.getAppContext().getPackageName() + ".authority", file);
-    }
 }

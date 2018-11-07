@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2017 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundatibehaon, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -17,6 +17,14 @@
 
 package it.feio.android.omninotes.helpers;
 
-public class GeocodeProviderFactory extends GeocodeProviderBaseFactory {
+import android.content.Context;
 
+import io.nlopez.smartlocation.location.LocationProvider;
+import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider;
+
+public class GeocodeProviderFactory {
+
+    public static LocationProvider getProvider(Context context) {
+        return new LocationGooglePlayServicesWithFallbackProvider(context);
+    }
 }

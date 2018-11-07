@@ -46,6 +46,7 @@ import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.*;
 import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.StringUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
@@ -352,7 +353,7 @@ public class SettingsFragment extends PreferenceFragment {
 			}
 			passwordAccess.setOnPreferenceChangeListener((preference, newValue) -> {
 				PasswordHelper.requestPassword(getActivity(), passwordConfirmed -> {
-					if (passwordConfirmed) {
+					if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 						passwordAccess.setChecked((Boolean) newValue);
 					}
 				});

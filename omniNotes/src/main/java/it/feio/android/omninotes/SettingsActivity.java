@@ -1,5 +1,4 @@
-/*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+/* Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,7 +41,8 @@ import it.feio.android.omninotes.async.DataBackupIntentService;
 
 public class SettingsActivity extends AppCompatActivity implements FolderChooserDialog.FolderCallback {
 
-	@BindView(R.id.toolbar) Toolbar toolbar;
+	@BindView(R.id.toolbar)
+    Toolbar toolbar;
 	@BindView(R.id.crouton_handle) ViewGroup croutonViewContainer;
 
 	private List<Fragment> backStack = new ArrayList<>();

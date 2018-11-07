@@ -15,16 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.helpers;
+package it.feio.android.omninotes.exceptions;
 
-import android.content.Context;
+public class BackupException extends RuntimeException {
 
-import io.nlopez.smartlocation.location.LocationProvider;
-import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider;
+    private static final long serialVersionUID = 7892197590810157669L;
 
-public class GeoCodeProviderFactory {
-
-    public static LocationProvider getProvider(Context context) {
-        return new LocationGooglePlayServicesWithFallbackProvider(context);
+    public BackupException(String message, Exception e) {
+        super(message, e);
     }
+
 }

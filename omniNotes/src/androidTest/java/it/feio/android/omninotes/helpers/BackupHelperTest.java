@@ -19,16 +19,17 @@ package it.feio.android.omninotes.helpers;
 
 import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
-import it.feio.android.omninotes.BaseAndroidTestCase;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.StorageHelper;
+import android.support.test.runner.AndroidJUnit4;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
-import rx.Observable;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,14 +38,20 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 
+import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.StorageHelper;
+import rx.Observable;
 
+@RunWith(AndroidJUnit4.class)
 public class BackupHelperTest extends BaseAndroidTestCase {
 
 	private File targetDir;
 	private File targetAttachmentsDir;
 
 
-	@Override
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 		targetDir = new File(StorageHelper.getCacheDir(InstrumentationRegistry.getTargetContext()), "_autobackupTest");
@@ -55,7 +62,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 		targetAttachmentsDir.mkdirs();
 	}
 
-
+	@Test
 	public void testExportNote() throws IOException {
 		Note note = new Note();
 		note.setTitle("test title");
@@ -71,7 +78,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 		assertTrue(note.equals(retrievedNote));
 	}
 
-
+	@Test
 	public void testExportNoteWithAttachment() throws IOException {
 		Note note = new Note();
 		note.setTitle("test title");
@@ -85,8 +92,8 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 		note.setCreation(now);
 		note.setLastModification(now);
 		BackupHelper.exportNote(targetDir, note);
-		BackupHelper.exportAttachments(null, targetAttachmentsDir, note.getAttachmentsList(), note
-				.getAttachmentsListOld());
+		BackupHelper.exportAttachments(null, targetAttachmentsDir,
+				note.getAttachmentsList(), note.getAttachmentsListOld());
 		Collection<File> files = FileUtils.listFiles(targetDir, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
 
 		Note retrievedNote = rx.Observable.from(files).filter(file -> file.getName().equals(String.valueOf(note
@@ -105,8 +112,8 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 	}
 
 
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		super.tearDown();
 		FileUtils.forceDelete(targetDir);
 	}

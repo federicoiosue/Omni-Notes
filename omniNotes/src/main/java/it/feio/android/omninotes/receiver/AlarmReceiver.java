@@ -25,12 +25,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Spanned;
 import android.util.Log;
+
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.services.NotificationListener;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.BitmapHelper;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ParcelableUtil;
+import it.feio.android.omninotes.utils.TextHelper;
+import it.feio.android.omninotes.utils.notifications.NotificationChannels;
+import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -92,7 +98,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
 		NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
-		notificationsHelper.createNotification(R.drawable.ic_stat_notification, title, notifyIntent).setLedActive()
+        notificationsHelper.createNotification(NotificationChannels.NotificationChannelNames.Reminders, R.drawable.ic_stat_notification, title, notifyIntent).setLedActive()
 				.setMessage(text);
 
 		if (note.getAttachmentsList().size() > 0 && !note.getAttachmentsList().get(0).getMime_type().equals(Constants

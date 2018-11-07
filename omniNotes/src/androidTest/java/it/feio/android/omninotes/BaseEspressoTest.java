@@ -57,15 +57,8 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
             Manifest.permission.RECORD_AUDIO
     );
 
-
     @Rule
     public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class, false, false);
-
-    @Before
-    public void setUp() throws Exception {
-        super.setUp();
-        activityRule.launchActivity(null);
-    }
 
     static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
@@ -85,6 +78,12 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        super.setUp();
+        activityRule.launchActivity(null);
     }
 
     void createNote(String title, String content) {
