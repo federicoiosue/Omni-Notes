@@ -22,10 +22,18 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore.Images.Thumbnails;
 import android.text.TextUtils;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import org.apache.commons.io.FilenameUtils;
+
+import java.util.concurrent.ExecutionException;
+
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.simplegallery.util.BitmapUtils;
-import org.apache.commons.io.FilenameUtils;
 
 
 public class BitmapHelper {
@@ -57,12 +65,19 @@ public class BitmapHelper {
         } else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
                 || Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())) {
             try {
-                bmp = BitmapUtils.getThumbnail(mContext, mAttachment.getUri(), width, height);
-            } catch (NullPointerException e) {
+				RequestOptions options = new RequestOptions()
+						.centerCrop()
+						.error(R.drawable.attachment_broken);
+				bmp = Glide.with(OmniNotes.getAppContext()).asBitmap()
+						.apply(options)
+						.load(mAttachment.getUri())
+						.submit(width, height)
+						.get();
+			} catch (NullPointerException | InterruptedException | ExecutionException e) {
                 bmp = null;
-            }
+			}
 
-		// Audio
+			// Audio
         } else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
             bmp = ThumbnailUtils.extractThumbnail(
                     BitmapUtils.decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R

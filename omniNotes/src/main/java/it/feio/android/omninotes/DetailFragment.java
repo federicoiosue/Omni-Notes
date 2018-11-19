@@ -76,7 +76,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.pushbullet.android.extension.MessagingExtension;
@@ -1742,7 +1741,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (BitmapDrawable.class.isAssignableFrom(d.getClass())) {
 			recordingBitmap = ((BitmapDrawable) d).getBitmap();
 		} else {
-			recordingBitmap = ((GlideBitmapDrawable) d.getCurrent()).getBitmap();
+			recordingBitmap = ((BitmapDrawable) d.getCurrent()).getBitmap();
 		}
 		((ImageView) v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils
 				.extractThumbnail(BitmapFactory.decodeResource(mainActivity.getResources(),

@@ -149,7 +149,8 @@ dependencies {
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
     implementation 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation('com.github.afollestad.material-dialogs:core:0.8.5.6@aar') {
         transitive = true
     }
@@ -177,7 +178,7 @@ dependencies {
     implementation 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
     implementation 'org.bitbucket.cowwoc:diff-match-patch:1.1'
 
-    implementation ('com.github.federicoiosue:SimpleGallery:2.0.0') {
+    implementation('com.github.federicoiosue:simplegallery:3.0.1') {
         exclude group: 'com.android.support'
     }
     implementation 'com.github.federicoiosue:Springpad-Importer:1.0.1'
