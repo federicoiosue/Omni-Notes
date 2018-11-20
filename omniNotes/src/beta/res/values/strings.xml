@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Omni Notes Beta</string>
+    <string name="app_package">it.feio.android.omninotes.beta</string>
+    <string name="version_postfix">.BETA</string>
+
+</resources>
