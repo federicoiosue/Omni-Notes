@@ -26,6 +26,7 @@
         <changelogtext>[b]New![/b] Moved to SDK 27 to include framework fixed and improvements</changelogtext>
         <changelogtext>[b]New![/b] Added finnish translation (thanks to Arttu Ylhävuori) </changelogtext>
         <changelogtext>[i]Improved![/i] Much faster images loading</changelogtext>
+        <changelogtext>[i]Improved![/i] Easily recognizable shortcut widget</changelogtext>
         <changelogtext>[i]Improved![/i] Translations additions</changelogtext>
         <changelogtext>[u]Fix[/u] Broken share-with-ON when receiving images</changelogtext>
         <changelogtext>[u]Fix[/u] Notes are now reloaded after password reset and an explicit message is shown</changelogtext>
