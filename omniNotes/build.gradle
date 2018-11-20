@@ -136,9 +136,8 @@ dependencies {
     implementation 'com.larswerkman:HoloColorPicker:1.4'
     implementation 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    implementation('ch.acra:acra:4.8.5') {
-        exclude group: 'org.json'
-    }
+    implementation "ch.acra:acra-http:5.2.1"
+    implementation "ch.acra:acra-toast:5.2.1"
     implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
     implementation 'be.billington.calendar.recurrencepicker:library:1.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'

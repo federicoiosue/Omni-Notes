@@ -186,14 +186,6 @@
             android:name="it.feio.android.omninotes.NoteInfosActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
-        <!-- ACRA -->
-        <activity
-            android:name="org.acra.CrashReportDialog"
-            android:excludeFromRecents="true"
-            android:finishOnTaskLaunch="true"
-            android:launchMode="singleInstance"
-            android:theme="@style/Theme.AppCompat.Dialog" />
-
         <!-- Alarm broadcast receiver -->
         <receiver android:name="it.feio.android.omninotes.receiver.AlarmReceiver" />
 
