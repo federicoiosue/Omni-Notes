@@ -106,7 +106,7 @@
   <string name="delete_category_confirmation">Bu kategori bazı notlar tarafından kullanılıyor.\nNotların kategoriden çıkışını ve kategorinin silinmesini onayla?</string>
   <string name="discard">İptal et</string>
   <string name="remove_category">Kategoriyi kaldır</string>
-  <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
+  <string name="no_tags_created">Henüz etiket yok\n Notlarınıza # ekleyerek etiket oluşturabilirsiniz</string>
   <string name="no_categories_created">Henüz oluşturulmuş bir kategori yok</string>
   <string name="notes_category_removed">Kategori notları kaldırıldı</string>
   <string name="notes_categorized_as">Notlar kategorize edildi </string>
@@ -155,7 +155,7 @@
   <string name="widget_list_description">Kaydırma listesi widget\'i ile butonlar</string>
   <string name="notes">notlar</string>
   <string name="show_thumbnails">Ekli dosyaların küçük resimlerini göster</string>
-  <string name="show_timestamps">Show timestamps</string>
+  <string name="show_timestamps">Damgaları göster</string>
   <string name="choose_action">Eylem seç</string>
   <string name="edit">Düzenle</string>
   <string name="reminders">hatırlatmalar</string>
@@ -193,16 +193,16 @@
   <string name="filter_archived">Arşivlenmiş notları gizle</string>
   <string name="remove_filter_archived">Arşivlenmiş notları göster</string>
   <string name="permission_external_storage">Harici depolama yazma izni ortak klasörler üzerinde yedekleme izini vermek için gerekir</string>
-  <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
+  <string name="permission_external_storage_detail_attachment">Harici depolamadan dosya eklemek için, harici depolama okuma izni gereklidir</string>
   <string name="permission_audio_recording">Mikrofon kullanma izni sesli notları kaydetmek için gerekli</string>
   <string name="permission_coarse_location">Konuma erişim izni notlarınıza konum bilgisi eklemek için gerekli</string>
   <string name="permission_not_granted">İzin verilmedi</string>
   <string name="checklist">Yapılacaklar listesi</string>
   <string name="text_note">Metin Notu</string>
   <string name="photo">Fotoğraf</string>
-  <string name="uncompleted_checklists">Incompleted checklists</string>
+  <string name="uncompleted_checklists">Tamamlanmamış kontrol listesi</string>
   <string name="info">Omni Notes\'a Katkı Yapanlar</string>
-  <string name="completed">Completed</string>
+  <string name="completed">Tamamlanmış</string>
   <!-- Settings -->
   <string name="dashclock_description">Yaklaşan hatırlatmalarınızı ve not sayılarınızı görüntüleyebirsiniz</string>
   <string name="settings">Ayarlar</string>
@@ -248,7 +248,7 @@
   <string name="insert_new_password">Yeni şifre ekle</string>
   <string name="confirm_new_password">Yeni şifreyi onayla</string>
   <string name="password_successfully_changed">Şifre başarıyla değiştirildi</string>
-  <string name="password_successfully_removed">Password removed: all notes have been unlocked</string>
+  <string name="password_successfully_removed">Şifre kaldırıldı: tüm notların kilidi açıldı</string>
   <string name="wrong_password">Yanlış şifre</string>
   <string name="empty_password">Parola boş</string>
   <string name="agree_unlocking_all_notes">Parolayı kaldır\nve bütün kilitli notların kilidini aç?</string>
@@ -362,9 +362,9 @@
   <string name="tour_listactivity_actions_title">Eylemler</string>
   <string name="tour_listactivity_actions_detail">Yeni not oluştur, sırala ve tercihlere git</string>
   <string name="tour_listactivity_home_title">Ana Menü</string>
-  <string name="tour_listactivity_home_detail">Navigation menu allows you to move through notes with filters and categories</string>
+  <string name="tour_listactivity_home_detail">Gezinme menüsü, filtreler ve kategoriler içeren notlarda gezinmenizi sağlar</string>
   <string name="tour_listactivity_tag_title">Etiketler</string>
-  <string name="tour_listactivity_tag_detail">Add colored categories to organize notes at-a-glance</string>
+  <string name="tour_listactivity_tag_detail">Bir bakışta notları düzenlemek için renk kategorileri ekleyin</string>
   <string name="tour_detailactivity_attachment_title">Geliştir</string>
   <string name="tour_detailactivity_attachment_detail">Notlarınıza farklı ekler ekliyebilirsiniz</string>
   <string name="tour_detailactivity_action_title">Daha fazla</string>
@@ -372,7 +372,7 @@
   <string name="tour_detailactivity_reminder_title">Sadece dokunun</string>
   <string name="tour_detailactivity_reminder_detail">Uzun veya kısa dokunuşlar farklı işlevlere sahiptir(konum, hatırlatma)</string>
   <string name="tour_detailactivity_links_title">Bağlantılar</string>
-  <string name="tour_detailactivity_links_detail">URL, e-mail addresses and telephone numbers recognition</string>
+  <string name="tour_detailactivity_links_detail">URL, e-posta adresleri ve telefon numaraları tanıma</string>
   <string name="tour_detailactivity_swipe_title">Kaydır</string>
   <string name="tour_detailactivity_swipe_detail">Düzenlediğiniz bir nottan ayrılmadan \n yeni notlar oluştur</string>
   <string name="tour_detailactivity_save_title">Kaydet</string>

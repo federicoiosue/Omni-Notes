@@ -17,46 +17,46 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string-array name="navigation_list">
-    <item>記事</item>
-    <item>歸檔</item>
-    <item>提醒</item>
-    <item>回收站</item>
-    <item>未分類</item>
-  </string-array>
-  <string-array name="sortable_columns_human_readable">
-    <item>標題</item>
-    <item>創建日期</item>
-    <item>最後修改日期</item>
-    <item>提醒日期</item>
-  </string-array>
-  <string-array name="checked_items_behavior">
-    <item>保持原位</item>
-    <item>移動至所有事項末尾</item>
-    <item>取消勾選後移動至未勾選事項頂端</item>
-  </string-array>
-  <string-array name="colors_app">
-    <item>禁用</item>
-    <item>僅條狀顏色標識</item>
-    <item>僅記事列表全彩</item>
-    <item>全彩</item>
-  </string-array>
-  <string-array name="colors_widget">
-    <item>禁用</item>
-    <item>僅條狀顏色標識</item>
-    <item>記事列表全彩</item>
-  </string-array>
-  <string-array name="text_size">
-    <item>最小字體</item>
-    <item>小字體</item>
-    <item>默認</item>
-    <item>大字體</item>
-    <item>最大字體</item>
-  </string-array>
-  <string-array name="attachments_actions">
-    <item>分享</item>
-    <item>删除</item>
-    <item>Delete All</item>
-    <item>編輯</item>
-  </string-array>
+    <string-array name="navigation_list">
+        <item>筆記</item>
+        <item>封存</item>
+        <item>提醒</item>
+        <item>回收桶</item>
+        <item>未分類</item>
+    </string-array>
+    <string-array name="sortable_columns_human_readable">
+        <item>標題</item>
+        <item>建立日期</item>
+        <item>最後修改日期</item>
+        <item>提醒日期</item>
+    </string-array>
+    <string-array name="checked_items_behavior">
+        <item>保持原位</item>
+        <item>移動至清單結尾</item>
+        <item>取消勾選後移動至未勾選事項頂端</item>
+    </string-array>
+    <string-array name="colors_app">
+        <item>停用</item>
+        <item>僅條狀顏色標識</item>
+        <item>僅記事列表全彩</item>
+        <item>全彩</item>
+    </string-array>
+    <string-array name="colors_widget">
+        <item>停用</item>
+        <item>僅條狀顏色標識</item>
+        <item>筆記清單</item>
+    </string-array>
+    <string-array name="text_size">
+        <item>最小</item>
+        <item>小</item>
+        <item>預設</item>
+        <item>大</item>
+        <item>最大</item>
+    </string-array>
+    <string-array name="attachments_actions">
+        <item>分享</item>
+        <item>刪除</item>
+        <item>全部刪除</item>
+        <item>編輯</item>
+    </string-array>
 </resources>

@@ -192,17 +192,17 @@
   <string name="remove_filter_old_reminders">Показать старые напоминания</string>
   <string name="filter_archived">Скрыть архивные заметки</string>
   <string name="remove_filter_archived">Показать архивные заметки</string>
-  <string name="permission_external_storage">Предоставьте разрешение для записи на внешний накопитель для создания резервных копий в пользовательских папках</string>
-  <string name="permission_external_storage_detail_attachment">Предоставьте разрешение на чтение внешнего накопителя для создания резервных копий в пользовательских папках</string>
-  <string name="permission_audio_recording">Предоставьте разрешение на использование микрофона для записи аудиозаметок</string>
-  <string name="permission_coarse_location">Предоставьте разрешение на определение расположения для добавления координат в заметки</string>
+  <string name="permission_external_storage">Разрешение на запись на внешний накопитель: создание резервных копий в пользовательских папках</string>
+  <string name="permission_external_storage_detail_attachment">Разрешение на чтение с внешнего накопителя: прикреплять к заметкам файлы из этого источника</string>
+  <string name="permission_audio_recording">Разрешение использовать микрофон: создавать аудио заметки</string>
+  <string name="permission_coarse_location">Разрешение на доступ к местоположению: добавлять координаты в заметки</string>
   <string name="permission_not_granted">Разрешение не предоставлено</string>
   <string name="checklist">Перечень</string>
   <string name="text_note">Запись</string>
   <string name="photo">Фотография</string>
-  <string name="uncompleted_checklists">Неполные списки</string>
+  <string name="uncompleted_checklists">Незавершенные списки дел</string>
   <string name="info">Информация</string>
-  <string name="completed">Завершенные</string>
+  <string name="completed">Завершено</string>
   <!-- Settings -->
   <string name="dashclock_description">Отображает некоторую статистику и ближайшие напоминания из Omni Notes</string>
   <string name="settings">Настройки</string>
@@ -248,7 +248,7 @@
   <string name="insert_new_password">Введите новый пароль</string>
   <string name="confirm_new_password">Подтвердите новый пароль</string>
   <string name="password_successfully_changed">Пароль успешно изменен</string>
-  <string name="password_successfully_removed">Пароль убран: все заметки разблокированы</string>
+  <string name="password_successfully_removed">Пароль удален: все заметки разблокированы</string>
   <string name="wrong_password">Пароль набран неправильно</string>
   <string name="empty_password">Пароль не установлен</string>
   <string name="agree_unlocking_all_notes">Удалить пароль и разблокировать заметки?</string>
@@ -364,7 +364,7 @@
   <string name="tour_listactivity_home_title">Навигация</string>
   <string name="tour_listactivity_home_detail">Меню навигации упрощает переход между заметками по фильтрам и категориям</string>
   <string name="tour_listactivity_tag_title">Категории</string>
-  <string name="tour_listactivity_tag_detail">Создайте цветные категории, чтобы не терять заметки из виду</string>
+  <string name="tour_listactivity_tag_detail">Создавайте цветные категории, чтобы не терять заметки из виду</string>
   <string name="tour_detailactivity_attachment_title">Дополняйте</string>
   <string name="tour_detailactivity_attachment_detail">Добавляя множество различных вложений!</string>
   <string name="tour_detailactivity_action_title">Дальше - больше</string>

@@ -29,19 +29,6 @@
     public void set*(...);
 }
 
-#ACRA specifics
-# Restore some Source file names and restore approximate line numbers in the stack traces,
-# otherwise the stack traces are pretty useless
--keepattributes SourceFile,LineNumberTable
-
-# ACRA needs "annotations" so add this...
-# Note: This may already be defined in the default "proguard-android-optimize.txt"
-# file in the SDK. If it is, then you don't need to duplicate it. See your
-# "project.properties" file to get the path to the default "proguard-android-optimize.txt".
--keepattributes *Annotation*
-
-# Keep all the ACRA classes
--keep class org.acra.** { *; }
 
 # Fix reflection obfuscation
 -keep class it.feio.android.omninotes.db.DbHelper { *; }
@@ -114,14 +101,33 @@
 
 ###############
 # Glide
-
-#-keep public class * implements com.bumptech.glide.module.GlideModule
-#-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-#    **[] $VALUES;
-#    public *;
-#}
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+# Uncomment for DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 
 ###############
 # Prettytime
 -keep class org.ocpsoft.prettytime.i18n.**
+
+
+###############
+# ACRA
+# Restore some Source file names and restore approximate line numbers in the stack traces,
+# otherwise the stack traces are pretty useless
+-keepattributes SourceFile,LineNumberTable
+# ACRA needs "annotations" so add this...
+# Note: This may already be defined in the default "proguard-android-optimize.txt"
+# file in the SDK. If it is, then you don't need to duplicate it. See your
+# "project.properties" file to get the path to the default "proguard-android-optimize.txt".
+-keepattributes *Annotation*
+# ACRA loads Plugins using reflection, so we need to keep all Plugin classes
+-keep class * extends org.acra.plugins.Plugin {*;}
+# ACRA uses enum fields in annotations, so we have to keep those
+-keep enum org.acra.** {*;}
+-dontwarn android.support.**

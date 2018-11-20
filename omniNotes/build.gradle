@@ -136,9 +136,8 @@ dependencies {
     implementation 'com.larswerkman:HoloColorPicker:1.4'
     implementation 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    implementation('ch.acra:acra:4.8.5') {
-        exclude group: 'org.json'
-    }
+    implementation "ch.acra:acra-http:5.2.1"
+    implementation "ch.acra:acra-toast:5.2.1"
     implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
     implementation 'be.billington.calendar.recurrencepicker:library:1.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
@@ -149,7 +148,8 @@ dependencies {
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
     implementation 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation('com.github.afollestad.material-dialogs:core:0.8.5.6@aar') {
         transitive = true
     }
@@ -177,7 +177,7 @@ dependencies {
     implementation 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
     implementation 'org.bitbucket.cowwoc:diff-match-patch:1.1'
 
-    implementation ('com.github.federicoiosue:SimpleGallery:2.0.0') {
+    implementation('com.github.federicoiosue:simplegallery:3.0.1') {
         exclude group: 'com.android.support'
     }
     implementation 'com.github.federicoiosue:Springpad-Importer:1.0.1'

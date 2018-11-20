@@ -202,7 +202,7 @@
   <string name="photo">Bild</string>
   <string name="uncompleted_checklists">Incompleted checklists</string>
   <string name="info">Information</string>
-  <string name="completed">Completed</string>
+  <string name="completed">Slutförd</string>
   <!-- Settings -->
   <string name="dashclock_description">Visar statistik och närliggande påminnelser från Omni Tools</string>
   <string name="settings">Inställningar</string>
