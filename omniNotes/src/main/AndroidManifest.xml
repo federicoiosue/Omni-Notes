@@ -47,9 +47,9 @@
     <application
         android:name="it.feio.android.omninotes.OmniNotes"
         android:allowBackup="true"
-        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/OmniNotesTheme.ApiSpec.Branded"
         tools:replace="android:theme">
@@ -144,8 +144,8 @@
         <!-- Password -->
         <activity
             android:name="it.feio.android.omninotes.PasswordActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:theme="@style/OmniNotesTheme.ApiSpec.Dialog" />
+            android:theme="@style/OmniNotesTheme.ApiSpec.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <!-- Info -->
         <activity
@@ -169,7 +169,9 @@
 
         <!-- Home launcher shortcut -->
         <activity
-            android:name="it.feio.android.omninotes.ShortcutActivity">
+            android:name="it.feio.android.omninotes.ShortcutActivity"
+            android:icon="@drawable/shortcut_icon"
+            android:label="@string/add_note">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
                 <category android:name="android.intent.category.DEFAULT"/>
