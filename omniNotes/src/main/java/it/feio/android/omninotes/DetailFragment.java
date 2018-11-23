@@ -144,6 +144,8 @@ import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
+import rx.Observable;
+import rx.functions.Func1;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import static java.lang.Integer.parseInt;
@@ -1216,10 +1218,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	 * Categorize note choosing from a list of previously created categories
 	 */
 	private void categorizeNote() {
-		// Retrieves all available categories
-		final ArrayList<Category> categories = DbHelper.getInstance().getCategories();
 
 		String currentCategory = noteTmp.getCategory() != null ? String.valueOf(noteTmp.getCategory().getId()) : null;
+        final List<Category> categories = Observable.from(DbHelper.getInstance().getCategories()).map(category -> {
+            if (String.valueOf(category.getId()).equals(currentCategory)) {
+                category.setCount(category.getCount() + 1);
+            }
+            return category;
+        }).toList().toBlocking().single();
+
 
 		final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
 				.title(R.string.categorize_as)

@@ -18,6 +18,14 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="Nov 23, 2018"
+        versionName="6.0.0 Beta 3">
+        <changelogtext>[u]Fix[/u] Stats and Info sections of settings are now correctly working</changelogtext>
+        <changelogtext>[u]Fix[/u] Preferences are effective as soon as settings screen is closed</changelogtext>
+        <changelogtext>[u]Fix[/u] Categories count updated when adding/removing note from its detail</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="Nov 20, 2018"
         versionName="6.0.0 Beta 2">
         <changelogtext>[b]New![/b] New backup mode using JSON - WARNING: old backups will be no more
