@@ -20,10 +20,12 @@ package it.feio.android.omninotes;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -79,6 +81,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    boolean prefsChanged = false;
     private FragmentManager mFragmentManager;
 
     @Override
@@ -88,6 +91,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 		EventBus.getDefault().register(this);
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> prefsChanged = true);
 
         initUI();
 
