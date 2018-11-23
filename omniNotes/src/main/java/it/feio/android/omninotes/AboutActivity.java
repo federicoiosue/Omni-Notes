@@ -27,7 +27,7 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        WebView webview = (WebView) findViewById(R.id.webview);
+        WebView webview = findViewById(R.id.webview);
         webview.loadUrl("file:///android_asset/html/about.html");
 
         initUI();
@@ -49,7 +49,7 @@ public class AboutActivity extends BaseActivity {
 
 
     private void initUI() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

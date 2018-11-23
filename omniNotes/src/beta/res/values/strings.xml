@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Omni Notes Beta</string>
-    <string name="app_package">it.feio.android.omninotes.beta</string>
+    <string name="app_package">it.feio.android.omninotes</string>
     <string name="version_postfix">.BETA</string>
 
 </resources>
