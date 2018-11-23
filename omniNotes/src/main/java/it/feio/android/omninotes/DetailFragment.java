@@ -743,7 +743,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 				attachmentIntent = new Intent(Intent.ACTION_VIEW);
 				attachmentIntent.setDataAndType(uri, StorageHelper.getMimeType(mainActivity,
-						attachment.getUri()));
+						FileProviderHelper.getShareableUri(attachment)));
 				attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
 						.FLAG_GRANT_WRITE_URI_PERMISSION);
 				if (IntentChecker.isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
