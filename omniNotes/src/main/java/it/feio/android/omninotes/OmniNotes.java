@@ -52,7 +52,6 @@ public class OmniNotes extends MultiDexApplication {
 	private static Context mContext;
 	private AnalyticsHelper analyticsHelper;
 
-	@NonNull
 	public static boolean isDebugBuild() {
 		return BuildConfig.BUILD_TYPE.equals("debug");
 	}

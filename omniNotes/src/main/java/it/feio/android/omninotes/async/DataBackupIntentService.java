@@ -94,11 +94,15 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
         // Creates an indeterminate processing notification until the work is complete
-        mNotificationsHelper = new NotificationsHelper(this)
-                .createNotification(NotificationChannels.NotificationChannelNames.Backups,
-                        R.drawable.ic_content_save_white_24dp, getString(R.string.working),
-                        null)
-                .setIndeterminate().setOngoing().show();
+//        mNotificationsHelper = new NotificationsHelper(this)
+//                .createNotification(NotificationChannels.NotificationChannelNames.Backups,
+//                        R.drawable.ic_content_save_white_24dp, getString(R.string.working),
+//                        null)
+//                .setIndeterminate().setOngoing();
+
+                mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannels.NotificationChannelNames.Backups,
+                        R.drawable.ic_content_save_white_24dp, getString(R.string.working));
+
 
         // If an alarm has been fired a notification must be generated
         if (ACTION_DATA_EXPORT.equals(intent.getAction())) {
@@ -136,7 +140,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         }
 
         String notificationMessage = result ? getString(R.string.data_export_completed) : getString(R.string.data_export_failed);
-        createNotification(intent, this, notificationMessage, backupDir.getPath(), backupDir);
+        mNotificationsHelper.finish(intent, notificationMessage);
     }
 
 
@@ -500,8 +504,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         for (Attachment attachment : list) {
             try {
                 StorageHelper.copyToBackupDir(destinationattachmentsDir, FilenameUtils.getName(attachment.getUriPath()), getContentResolver().openInputStream(attachment.getUri()));
-                mNotificationsHelper.setMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + exported++ + "/" + list.size())
-                        .show();
+                mNotificationsHelper.updateMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + exported++ + "/" + list.size());
             } catch (FileNotFoundException e) {
                 Log.w(Constants.TAG, "Attachment not found during backup: " + attachment.getUriPath());
                 result = false;
@@ -598,8 +601,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
             try {
                 file = (File) i.next();
                 FileUtils.copyFileToDirectory(file, attachmentsDir, true);
-                mNotificationsHelper.setMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + imported++ + "/" + list.size())
-                        .show();
+                mNotificationsHelper.updateMessage(TextHelper.capitalize(getString(R.string.attachment)) + " " + imported++ + "/" + list.size());
             } catch (IOException e) {
                 Log.e(Constants.TAG, "Error importing the attachment " + file.getName());
             }
