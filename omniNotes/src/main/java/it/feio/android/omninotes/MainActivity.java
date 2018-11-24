@@ -67,7 +67,7 @@ import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 
 
-public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
+public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static boolean isPasswordAccepted = false;
     public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 		EventBus.getDefault().register(this);
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> prefsChanged = true);
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
         initUI();
 
@@ -541,4 +541,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
         }
     }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        prefsChanged = true;
+    }
+
 }
