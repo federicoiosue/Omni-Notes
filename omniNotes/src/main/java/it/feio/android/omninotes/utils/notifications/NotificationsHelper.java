@@ -177,7 +177,15 @@ public class NotificationsHelper {
     }
 
     public void finish(int id, Intent intent, String message) {
-        mBuilder.setContentText(message).setProgress(0,0,false).setOngoing(false);
+        mBuilder.setContentTitle(message).setProgress(0,0,false).setOngoing(false);
         mNotificationManager.notify(id, mBuilder.build());
+    }
+
+    public void cancel() {
+        mNotificationManager.cancel(0);
+    }
+
+    public void cancel(int id) {
+        mNotificationManager.cancel(id);
     }
 }
