@@ -41,6 +41,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AppVersionHelper;
@@ -56,6 +58,9 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.reverse;
 
 
 public class SettingsFragment extends PreferenceFragment {
@@ -511,9 +516,10 @@ public class SettingsFragment extends PreferenceFragment {
 
 
 	private void importNotes() {
-		final CharSequence[] backups = StorageHelper.getExternalStoragePublicDir().list();
+		final List<String> backups = asList(StorageHelper.getExternalStoragePublicDir().list());
+		reverse(backups);
 
-		if (backups != null && backups.length == 0) {
+		if (backups.size() == 0) {
 			((SettingsActivity)getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
 		} else {
 
@@ -536,7 +542,7 @@ public class SettingsFragment extends PreferenceFragment {
 				lv.setOnItemClickListener((parent, view, position, id) -> {
 
 					// Retrieves backup size
-					File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+					File backupDir = StorageHelper.getBackupDir(backups.get(position));
 					long size = StorageHelper.getSize(backupDir) / 1024;
 					String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
@@ -544,7 +550,7 @@ public class SettingsFragment extends PreferenceFragment {
 					String prefName = StorageHelper.getSharedPreferencesFile(getActivity()).getName();
 					boolean hasPreferences = (new File(backupDir, prefName)).exists();
 
-					String message = backups[position]
+					String message = backups.get(position)
 							+ " (" + sizeString
 							+ (hasPreferences ? " " + getString(R.string.settings_included) : "")
 							+ ")";
@@ -567,7 +573,7 @@ public class SettingsFragment extends PreferenceFragment {
 											DataBackupIntentService.class);
 									service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
 									service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-											backups[position]);
+											backups.get(position));
 									getActivity().startService(service);
 								}
 							}).build().show();
@@ -577,13 +583,13 @@ public class SettingsFragment extends PreferenceFragment {
 				lv.setOnItemLongClickListener((parent, view, position, id) -> {
 
 					// Retrieves backup size
-					File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+					File backupDir = StorageHelper.getBackupDir(backups.get(position));
 					long size = StorageHelper.getSize(backupDir) / 1024;
 					String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
 					new MaterialDialog.Builder(getActivity())
 							.title(R.string.confirm_removing_backup)
-							.content(backups[position] + "" + " (" + sizeString + ")")
+							.content(backups.get(position) + "" + " (" + sizeString + ")")
 							.positiveText(R.string.confirm)
 							.callback(new MaterialDialog.ButtonCallback() {
 								@Override
@@ -594,7 +600,7 @@ public class SettingsFragment extends PreferenceFragment {
 											DataBackupIntentService.class);
 									service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
 									service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-											backups[position]);
+											backups.get(position));
 									getActivity().startService(service);
 								}
 							}).build().show();
@@ -609,13 +615,13 @@ public class SettingsFragment extends PreferenceFragment {
 
 
 	private void export(View v) {
-		final List<String> backups = Arrays.asList(StorageHelper.getExternalStoragePublicDir().list());
+		final List<String> backups = asList(StorageHelper.getExternalStoragePublicDir().list());
 
 		// Sets default export file name
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EXPORT);
 		String fileName = sdf.format(Calendar.getInstance().getTime());
-		final EditText fileNameEditText = (EditText) v.findViewById(R.id.export_file_name);
-		final TextView backupExistingTextView = (TextView) v.findViewById(R.id.backup_existing);
+		final EditText fileNameEditText = v.findViewById(R.id.export_file_name);
+		final TextView backupExistingTextView = v.findViewById(R.id.backup_existing);
 		fileNameEditText.setHint(fileName);
 		fileNameEditText.addTextChangedListener(new TextWatcher() {
 			@Override
