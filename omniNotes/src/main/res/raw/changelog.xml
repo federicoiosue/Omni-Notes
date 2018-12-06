@@ -18,6 +18,14 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="Dec 6, 2018"
+        versionName="6.0.0 Beta 4">
+        <changelogtext>[i]Improved![/i] Reversed backups list into restore setting to be in descendant order</changelogtext>
+        <changelogtext>[u]Fix[/u] Doubled notification on backup restore finish</changelogtext>
+        <changelogtext>[u]Fix[/u] Issue when importing backups with locked notes</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="Nov 23, 2018"
         versionName="6.0.0 Beta 3">
         <changelogtext>[u]Fix[/u] Stats and Info sections of settings are now correctly working</changelogtext>
