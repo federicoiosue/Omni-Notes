@@ -149,12 +149,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
         File backupDir = StorageHelper.getBackupDir(backupName);
 
+        importSettings(backupDir);
+
 //        importDB(backupDir);
         importNotes(backupDir);
 
         importAttachments(backupDir);
-
-		importSettings(backupDir);
 
 		resetReminders();
 
@@ -477,12 +477,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     private void exportNotes(File backupDir) {
 		for (Note note : DbHelper.getInstance().getAllNotes(false)) {
-			File noteFile = new File(backupDir, String.valueOf(note.get_id()));
+			File noteFile = new File(backupDir, note.get_id() + ".json");
 			try {
 				FileUtils.write(noteFile, note.toJSON());
 			} catch (IOException e) {
                 Log.e(Constants.TAG, "Error creating backup for note: " + note.get_id());
-			}
+            }
 		}
 	}
 
@@ -531,7 +531,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     private boolean importSettings(File backupDir) {
         File preferences = StorageHelper.getSharedPreferencesFile(this);
         File preferenceBackup = new File(backupDir, preferences.getName());
-        return (StorageHelper.copyFile(preferenceBackup, preferences));
+        boolean result = (StorageHelper.copyFile(preferenceBackup, preferences));
+        OmniNotes.getSharedPreferences();
+        return result;
     }
 
 
@@ -559,7 +561,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
 
     private void importNotes(File backupDir) {
-		for (File file : FileUtils.listFiles(backupDir, new RegexFileFilter("\\d{13}"), TrueFileFilter.INSTANCE)) {
+		for (File file : FileUtils.listFiles(backupDir, new RegexFileFilter("\\d{13}.json"), TrueFileFilter.INSTANCE)) {
 			try {
 				Note note = new Note();
 				note.buildFromJson(FileUtils.readFileToString(file));

@@ -25,16 +25,30 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
-import it.feio.android.omninotes.helpers.NotesHelper;
-import it.feio.android.omninotes.models.*;
-import it.feio.android.omninotes.utils.*;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
+import it.feio.android.omninotes.helpers.NotesHelper;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Stats;
+import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.utils.AssetUtils;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.Security;
+import it.feio.android.omninotes.utils.TagsHelper;
 
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -175,12 +189,9 @@ public class DbHelper extends SQLiteOpenHelper {
     public Note updateNote(Note note, boolean updateLastModification) {
         SQLiteDatabase db = getDatabase(true);
 
-        String content;
-        if (note.isLocked()) {
-            content = Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""));
-        } else {
-            content = note.getContent();
-        }
+        String content = note.isLocked()
+                ? Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""))
+                : note.getContent();
 
         // To ensure note and attachments insertions are atomical and boost performances transaction are used
         db.beginTransaction();
