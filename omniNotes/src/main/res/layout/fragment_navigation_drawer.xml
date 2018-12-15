@@ -25,7 +25,7 @@
         android:id="@+id/left_drawer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|start"
+        android:layout_gravity="start"
         android:orientation="vertical">
 
         <!--<ImageView-->
@@ -53,6 +53,8 @@
                     android:layout_alignParentBottom="true"
                     android:paddingLeft="@dimen/horizontal_margin"
                     android:paddingStart="@dimen/horizontal_margin"
+                    android:paddingRight="@dimen/horizontal_margin"
+                    android:paddingEnd="@dimen/horizontal_margin"
                     android:paddingBottom="@dimen/padding_half"
                     android:textColor="@color/white"
                     android:textSize="30sp"

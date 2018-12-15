@@ -34,6 +34,7 @@
             android:paddingStart="@dimen/horizontal_margin"
             android:paddingLeft="@dimen/horizontal_margin"
             android:paddingEnd="@dimen/horizontal_margin"
+            android:paddingRight="@dimen/horizontal_margin"
             android:text="@string/camera"
             android:textSize="@dimen/attachment_dialog_text_size"
             pixlui:typeface="Roboto-Regular.ttf"

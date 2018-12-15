@@ -82,8 +82,9 @@
                     android:id="@+id/note_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|left"
+                    android:layout_gravity="bottom|start"
                     android:layout_marginRight="15dp"
+                    android:layout_marginEnd="15dp"
                     android:gravity="bottom|start"
                     android:textAppearance="@style/Text.Small"
                     pixlui:typeface="Roboto-Regular.ttf" />
@@ -92,7 +93,7 @@
                     android:id="@+id/alarmIcon"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_gravity="bottom|right"
+                    android:layout_gravity="bottom|end"
                     android:contentDescription="@string/note_reminder_symbol"
                     android:src="@drawable/ic_alarm_black_18dp"
                     android:visibility="gone" />
@@ -101,7 +102,7 @@
                     android:id="@+id/locationIcon"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_gravity="bottom|right"
+                    android:layout_gravity="bottom|end"
                     android:src="@drawable/ic_pin_drop_black_18dp"
                     android:visibility="gone" />
 
@@ -109,7 +110,7 @@
                     android:id="@+id/archivedIcon"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_gravity="bottom|right"
+                    android:layout_gravity="bottom|end"
                     android:src="@drawable/ic_archive_black_18dp"
                     android:visibility="gone" />
 
