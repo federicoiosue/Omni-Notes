@@ -543,7 +543,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return Notes list
      */
     public List<Note> getNotesByPattern(String pattern) {
-    	String escapedPattern = StringEscapeUtils.escapeSql(pattern);
+    	String escapedPattern = escapeSql(pattern);
         int navigation = Navigation.getNavigation();
         String whereCondition = " WHERE "
                 + KEY_TRASHED + (navigation == Navigation.TRASH ? " IS 1" : " IS NOT 1")
@@ -553,11 +553,15 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " == 0) " : "")
                 + (Navigation.checkNavigation(Navigation.REMINDERS) ? " AND " + KEY_REMINDER + " IS NOT NULL" : "")
                 + " AND ("
-                + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern + "%' " + " OR " +
-                KEY_CONTENT + " LIKE '%" + escapedPattern + "%' ))"
-                + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + escapedPattern + "%' )"
+                + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' " + " OR " +
+                KEY_CONTENT + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' ))"
+                + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' )"
                 + ")";
         return getNotes(whereCondition, true);
+    }
+
+    static String escapeSql(String pattern) {
+        return StringEscapeUtils.escapeSql(pattern).replace("%", "\\%").replace("_", "\\_");
     }
 
 
