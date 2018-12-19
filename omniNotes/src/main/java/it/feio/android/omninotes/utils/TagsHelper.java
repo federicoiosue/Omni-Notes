@@ -87,8 +87,9 @@ public class TagsHelper {
     public static Pair<String, String> removeTag(String noteTitle, String noteContent, List<Tag> tagsToRemove) {
         String title = noteTitle, content = noteContent;
         for (Tag tagToRemove : tagsToRemove) {
-            title = title.replaceAll(tagToRemove.getText(), "");
-            content = content.replaceAll(tagToRemove.getText(), "");
+            String tagRegex = tagToRemove.getText() + "(\\s)|" + tagToRemove.getText() + "$";
+            title = title.replaceAll(tagRegex, "");
+            content = content.replaceAll(tagRegex, "");
         }
         return new Pair<>(title, content);
     }
