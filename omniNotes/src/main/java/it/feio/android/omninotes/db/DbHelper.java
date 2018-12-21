@@ -537,8 +537,22 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return Notes list
      */
     public List<Note> getNotesByPattern(String pattern) {
-    	String escapedPattern = StringEscapeUtils.escapeSql(pattern);
+        String escapedPattern ;
+        String set_escape="'\\'";
+        //the problem is that StringEscapeUtils.escapeSql does not handle the cases of percent (%) or underscore (_) for use in LIKE clauses.
+
+        //check if the pattern equals '%' or '_'
+        if (pattern.equals("%") || pattern.equals("_"))
+        {
+            //adds a character before the pattern so that the SQL engine understands that the upcoming character is a special character and should be handled differently
+            escapedPattern="\\"+pattern;
+        }
+        else
+        {
+            escapedPattern = StringEscapeUtils.escapeSql(pattern);
+        }
         int navigation = Navigation.getNavigation();
+
         String whereCondition = " WHERE "
                 + KEY_TRASHED + (navigation == Navigation.TRASH ? " IS 1" : " IS NOT 1")
                 + (navigation == Navigation.ARCHIVE ? " AND " + KEY_ARCHIVED + " IS 1" : "")
@@ -547,10 +561,18 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " == 0) " : "")
                 + (Navigation.checkNavigation(Navigation.REMINDERS) ? " AND " + KEY_REMINDER + " IS NOT NULL" : "")
                 + " AND ("
-                + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern + "%' " + " OR " +
-                KEY_CONTENT + " LIKE '%" + escapedPattern + "%' ))"
-                + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + escapedPattern + "%' )"
-                + ")";
+                + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern + "%' "
+                +" ESCAPE "+set_escape
+                + " OR "
+                + KEY_CONTENT + " LIKE '%" + escapedPattern + "%' "
+                +" ESCAPE "+set_escape
+                +"))"
+                + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + escapedPattern + "%' "
+                +" ESCAPE "+set_escape
+                + ")"
+                + ")"
+
+                ;
         return getNotes(whereCondition, true);
     }
 
