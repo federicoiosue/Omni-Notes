@@ -18,16 +18,21 @@
 package it.feio.android.omninotes.utils;
 
 import android.support.v4.util.Pair;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.Tag;
-import it.feio.android.pixlui.links.RegexPatternsConstants;
+
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
+
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Tag;
+import it.feio.android.pixlui.links.UrlCompleter;
+import rx.Observable;
+
+import static it.feio.android.omninotes.utils.ConstantsBase.TAG_SPECIAL_CHARS_TO_REMOVE;
 
 
 public class TagsHelper {
@@ -40,10 +45,12 @@ public class TagsHelper {
 
 	public static HashMap<String, Integer> retrieveTags(Note note) {
 		HashMap<String, Integer> tagsMap = new HashMap<>();
-		for (String token : (note.getTitle() + " " + note.getContent()).replaceAll("\n", " ").trim().split(" ")) {
-			if (RegexPatternsConstants.HASH_TAG.matcher(token).matches()) {
-				int count = tagsMap.get(token) == null ? 0 : tagsMap.get(token);
-				tagsMap.put(token, ++count);
+        String[] words = (note.getTitle() + " " + note.getContent()).replaceAll("\n", " ").trim().split(" ");
+		for (String word: words) {
+            String parsedHashtag = UrlCompleter.parseHashtag(word);
+		    if (StringUtils.isNotEmpty(parsedHashtag)) {
+				int count = tagsMap.get(parsedHashtag) == null ? 0 : tagsMap.get(parsedHashtag);
+				tagsMap.put(parsedHashtag, ++count);
 			}
 		}
 		return tagsMap;
@@ -87,9 +94,23 @@ public class TagsHelper {
     public static Pair<String, String> removeTag(String noteTitle, String noteContent, List<Tag> tagsToRemove) {
         String title = noteTitle, content = noteContent;
         for (Tag tagToRemove : tagsToRemove) {
-            String tagRegex = tagToRemove.getText() + "(\\s)|" + tagToRemove.getText() + "$";
-            title = title.replaceAll(tagRegex, "");
-            content = content.replaceAll(tagRegex, "");
+            if (StringUtils.isNotEmpty(title)) {
+                title = Observable.from(title.replaceAll(TAG_SPECIAL_CHARS_TO_REMOVE, " ").split("\\s"))
+                        .map(String::trim)
+                        .filter(s -> !s.matches(tagToRemove.getText()))
+                        .reduce((s, s2) -> s + " " + s2)
+                        .toBlocking()
+                        .singleOrDefault("");
+            }
+            if (StringUtils.isNotEmpty(content)) {
+                content = Observable.from(content.replaceAll(TAG_SPECIAL_CHARS_TO_REMOVE, " ").split("\\s"))
+                        .map(String::trim)
+                        .filter(s -> !s.matches(tagToRemove.getText()))
+                        .reduce((s, s2) -> s + " " + s2)
+                        .toBlocking()
+                        .singleOrDefault("");
+            }
+
         }
         return new Pair<>(title, content);
     }
