@@ -91,17 +91,15 @@
                     android:background="@drawable/bg_card"
                     android:paddingBottom="2dp">
 
-                <ScrollView
-                        android:id="@+id/content_wrapper"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scrollbarSize="4dp"
-                        android:scrollbarStyle="outsideOverlay"
-                        android:scrollbarThumbVertical="@drawable/scroll_bar">
+                <it.feio.android.omninotes.mypackage.FastScrollScrollView
+                    android:id="@+id/content_wrapper"
+                    android:layout_width="match_parent"
+                    android:fillViewport="true"
+                    android:layout_height="match_parent">
 
                     <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="vertical">
 
                         <ViewStub android:id="@+id/detail_attachments_above" android:layout_width="match_parent"
@@ -115,7 +113,7 @@
                                   android:layout="@layout/fragment_detail_attachments"/>
 
                     </LinearLayout>
-                </ScrollView>
+                </it.feio.android.omninotes.mypackage.FastScrollScrollView>
             </android.support.design.widget.CoordinatorLayout>
 
             <LinearLayout

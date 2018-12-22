@@ -16,13 +16,16 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="match_parent"
               android:orientation="vertical"
+    android:weightSum="10"
               android:paddingStart="@dimen/padding_half"
               android:paddingEnd="@dimen/padding_half">
+
 
     <com.neopixl.pixlui.components.textview.TextView
             android:id="@+id/location"
@@ -41,7 +44,8 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="9"
             android:paddingTop="@dimen/padding_half"
             android:paddingLeft="6dp">
 
@@ -64,7 +68,8 @@
 
     <LinearLayout
             android:id="@+id/reminder_layout"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_marginBottom="5dp"
             android:background="@drawable/icon_selector"
@@ -96,4 +101,5 @@
                 android:textColor="@color/text_color_lighter"
                 pixlui:typeface="Roboto-Regular.ttf"/>
     </LinearLayout>
-</LinearLayout>
+
+    </LinearLayout>
