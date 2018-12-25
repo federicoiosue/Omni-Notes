@@ -117,11 +117,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     @BindView(R.id.fab)  View fabView;
     @BindView(R.id.undobar) View undoBarView;
     @BindView(R.id.progress_wheel) ProgressWheel progress_wheel;
-	@BindView(R.id.snackbar_placeholder) View snackBarPlaceholder;
+    @BindView(R.id.snackbar_placeholder) View snackBarPlaceholder;
 
-	NoteViewHolder noteViewHolder;
+    NoteViewHolder noteViewHolder;
 
-    private List<Note> selectedNotes = new ArrayList<>();
+    public static List<Note> selectedNotes = new ArrayList<>();
     private SearchView searchView;
     private MenuItem searchMenuItem;
     private Menu menu;
@@ -170,7 +170,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     @Override
     public void onStart() {
-		super.onStart();
+        super.onStart();
         EventBus.getDefault().register(this, 1);
     }
 
@@ -207,22 +207,22 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (savedInstanceState != null) {
             mainActivity.navigationTmp = savedInstanceState.getString("navigationTmp");
         }
-		init();
+        init();
     }
 
 
-	private void init() {
-		initEasterEgg();
-		initListView();
-		ubc = new UndoBarController(undoBarView, this);
+    private void init() {
+        initEasterEgg();
+        initListView();
+        ubc = new UndoBarController(undoBarView, this);
 
-		initNotesList(mainActivity.getIntent());
-		initFab();
-		initTitle();
+        initNotesList(mainActivity.getIntent());
+        initFab();
+        initTitle();
 
-		// Restores again DefaultSharedPreferences too reload in case of data erased from Settings
-		prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-	}
+        // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
+        prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+    }
 
 
     private void initFab() {
@@ -596,7 +596,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             }
             menu.findItem(R.id.menu_add_reminder).setVisible(true);
             menu.findItem(R.id.menu_category).setVisible(true);
-			menu.findItem(R.id.menu_uncomplete_checklists).setVisible(false);
+            menu.findItem(R.id.menu_uncomplete_checklists).setVisible(false);
             menu.findItem(R.id.menu_tags).setVisible(true);
             menu.findItem(R.id.menu_trash).setVisible(true);
         }
@@ -643,70 +643,70 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
         MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
 
-			boolean searchPerformed = false;
+            boolean searchPerformed = false;
 
 
-			@Override
-			public boolean onMenuItemActionCollapse(MenuItem item) {
-				// Reinitialize notes list to all notes when search is collapsed
-				searchQuery = null;
-				if (searchLayout.getVisibility() == View.VISIBLE) {
-					toggleSearchLabel(false);
-				}
-				mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
-				initNotesList(mainActivity.getIntent());
-				mainActivity.supportInvalidateOptionsMenu();
-				return true;
-			}
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Reinitialize notes list to all notes when search is collapsed
+                searchQuery = null;
+                if (searchLayout.getVisibility() == View.VISIBLE) {
+                    toggleSearchLabel(false);
+                }
+                mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
+                initNotesList(mainActivity.getIntent());
+                mainActivity.supportInvalidateOptionsMenu();
+                return true;
+            }
 
 
-			@Override
-			public boolean onMenuItemActionExpand(MenuItem item) {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
 
-				searchView.setOnQueryTextListener(new OnQueryTextListener() {
-					@Override
-					public boolean onQueryTextSubmit(String arg0) {
+                searchView.setOnQueryTextListener(new OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String arg0) {
 
-						return prefs.getBoolean("settings_instant_search", false);
-					}
+                        return prefs.getBoolean("settings_instant_search", false);
+                    }
 
 
-					@Override
-					public boolean onQueryTextChange(String pattern) {
+                    @Override
+                    public boolean onQueryTextChange(String pattern) {
 
-						if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null &&
-								searchPerformed && mFragment.isAdded()) {
-							searchTags = null;
-							searchQuery = pattern;
-							NoteLoaderTask.getInstance().execute("getNotesByPattern", pattern);
-							return true;
-						} else {
-							searchPerformed = true;
-							return false;
-						}
-					}
-				});
-				return true;
-			}
-		});
+                        if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null &&
+                                searchPerformed && mFragment.isAdded()) {
+                            searchTags = null;
+                            searchQuery = pattern;
+                            NoteLoaderTask.getInstance().execute("getNotesByPattern", pattern);
+                            return true;
+                        } else {
+                            searchPerformed = true;
+                            return false;
+                        }
+                    }
+                });
+                return true;
+            }
+        });
     }
 
 
     private void setActionItemsVisibility(Menu menu, boolean searchViewHasFocus) {
 
-		boolean drawerOpen = mainActivity.getDrawerLayout() != null && mainActivity.getDrawerLayout().isDrawerOpen
-				(GravityCompat.START);
-		boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
+        boolean drawerOpen = mainActivity.getDrawerLayout() != null && mainActivity.getDrawerLayout().isDrawerOpen
+                (GravityCompat.START);
+        boolean expandedView = prefs.getBoolean(Constants.PREF_EXPANDED_VIEW, true);
 
-		int navigation = Navigation.getNavigation();
-		boolean navigationReminders = navigation == Navigation.REMINDERS;
-		boolean navigationArchive = navigation == Navigation.ARCHIVE;
-		boolean navigationTrash = navigation == Navigation.TRASH;
-		boolean navigationCategory = navigation == Navigation.CATEGORY;
+        int navigation = Navigation.getNavigation();
+        boolean navigationReminders = navigation == Navigation.REMINDERS;
+        boolean navigationArchive = navigation == Navigation.ARCHIVE;
+        boolean navigationTrash = navigation == Navigation.TRASH;
+        boolean navigationCategory = navigation == Navigation.CATEGORY;
 
-		boolean filterPastReminders = prefs.getBoolean(Constants.PREF_FILTER_PAST_REMINDERS, true);
-		boolean filterArchivedInCategory = navigationCategory && prefs.getBoolean(Constants
-				.PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false);
+        boolean filterPastReminders = prefs.getBoolean(Constants.PREF_FILTER_PAST_REMINDERS, true);
+        boolean filterArchivedInCategory = navigationCategory && prefs.getBoolean(Constants
+                .PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false);
 
         if (isFabAllowed()) {
             fab.setAllowed(true);
@@ -716,19 +716,19 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             fab.hideFab();
         }
         menu.findItem(R.id.menu_search).setVisible(!drawerOpen);
-		menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders &&
-				!searchViewHasFocus);
-		menu.findItem(R.id.menu_filter_remove).setVisible(!drawerOpen && filterPastReminders && navigationReminders
-				&& !searchViewHasFocus);
-		menu.findItem(R.id.menu_filter_category).setVisible(!drawerOpen && !filterArchivedInCategory &&
-				navigationCategory && !searchViewHasFocus);
-		menu.findItem(R.id.menu_filter_category_remove).setVisible(!drawerOpen && filterArchivedInCategory &&
-				navigationCategory && !searchViewHasFocus);
-		menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !navigationReminders && !searchViewHasFocus);
+        menu.findItem(R.id.menu_filter).setVisible(!drawerOpen && !filterPastReminders && navigationReminders &&
+                !searchViewHasFocus);
+        menu.findItem(R.id.menu_filter_remove).setVisible(!drawerOpen && filterPastReminders && navigationReminders
+                && !searchViewHasFocus);
+        menu.findItem(R.id.menu_filter_category).setVisible(!drawerOpen && !filterArchivedInCategory &&
+                navigationCategory && !searchViewHasFocus);
+        menu.findItem(R.id.menu_filter_category_remove).setVisible(!drawerOpen && filterArchivedInCategory &&
+                navigationCategory && !searchViewHasFocus);
+        menu.findItem(R.id.menu_sort).setVisible(!drawerOpen && !navigationReminders && !searchViewHasFocus);
         menu.findItem(R.id.menu_expanded_view).setVisible(!drawerOpen && !expandedView && !searchViewHasFocus);
         menu.findItem(R.id.menu_contracted_view).setVisible(!drawerOpen && expandedView && !searchViewHasFocus);
         menu.findItem(R.id.menu_empty_trash).setVisible(!drawerOpen && navigationTrash);
-		menu.findItem(R.id.menu_uncomplete_checklists).setVisible(searchViewHasFocus);
+        menu.findItem(R.id.menu_uncomplete_checklists).setVisible(searchViewHasFocus);
         menu.findItem(R.id.menu_tags).setVisible(searchViewHasFocus);
     }
 
@@ -762,20 +762,20 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                         mainActivity.getDrawerLayout().openDrawer(GravityCompat.START);
                     }
                     break;
-				case R.id.menu_filter:
-					filterReminders(true);
-					break;
-				case R.id.menu_filter_remove:
-					filterReminders(false);
-					break;
-				case R.id.menu_filter_category:
-					filterCategoryArchived(true);
-					break;
-				case R.id.menu_filter_category_remove:
-					filterCategoryArchived(false);
-				case R.id.menu_uncomplete_checklists:
-					filterByUncompleteChecklists();
-					break;
+                case R.id.menu_filter:
+                    filterReminders(true);
+                    break;
+                case R.id.menu_filter_remove:
+                    filterReminders(false);
+                    break;
+                case R.id.menu_filter_category:
+                    filterCategoryArchived(true);
+                    break;
+                case R.id.menu_filter_category_remove:
+                    filterCategoryArchived(false);
+                case R.id.menu_uncomplete_checklists:
+                    filterByUncompleteChecklists();
+                    break;
                 case R.id.menu_tags:
                     filterByTags();
                     break;
@@ -791,8 +791,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 case R.id.menu_empty_trash:
                     emptyTrash();
                     break;
-				default:
-					Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+                default:
+                    Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
             }
         } else {
             switch (item.getItemId()) {
@@ -864,27 +864,27 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
             PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
                 if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
-					note.setPasswordChecked(true);
-					AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
-							listRoot, buildAnimatorListenerAdapter(note));
-				}
-			});
+                    note.setPasswordChecked(true);
+                    AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
+                            listRoot, buildAnimatorListenerAdapter(note));
+                }
+            });
         } else {
             AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
-					listRoot, buildAnimatorListenerAdapter(note));
+                    listRoot, buildAnimatorListenerAdapter(note));
         }
     }
 
 
-	void editNote2(Note note) {
+    void editNote2(Note note) {
         if (note.get_id() == null) {
             Log.d(Constants.TAG, "Adding new note");
             // if navigation is a category it will be set into note
             try {
                 if (Navigation.checkNavigation(Navigation.CATEGORY) || !TextUtils.isEmpty(mainActivity.navigationTmp)) {
-					String categoryId = (String) ObjectUtils.defaultIfNull(mainActivity.navigationTmp,
-							Navigation.getCategory().toString());
-					note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
+                    String categoryId = (String) ObjectUtils.defaultIfNull(mainActivity.navigationTmp,
+                            Navigation.getCategory().toString());
+                    note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
                 }
             } catch (NumberFormatException e) {
                 Log.v(Constants.TAG, "Maybe was not a category!");
@@ -953,13 +953,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             listViewPositionOffset = 16;
             listViewPosition = 0;
             restoreListScrollPosition();
-			toggleSearchLabel(false);
+            toggleSearchLabel(false);
             // Updates app widgets
             mainActivity.updateWidgets();
         } else {
-			((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackActionFromResourceId(getActivity(),
-					item.getItemId());
-		}
+            ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackActionFromResourceId(getActivity(),
+                    item.getItemId());
+        }
     }
 
 
@@ -971,32 +971,32 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 .content(R.string.empty_trash_confirmation)
                 .positiveText(R.string.ok)
                 .callback(new MaterialDialog.ButtonCallback() {
-					@Override
-					public void onPositive(MaterialDialog materialDialog) {
+                    @Override
+                    public void onPositive(MaterialDialog materialDialog) {
 
-						boolean mustDeleteLockedNotes = false;
-						for (int i = 0; i < listAdapter.getCount(); i++) {
-							selectedNotes.add(listAdapter.getItem(i));
-							mustDeleteLockedNotes = mustDeleteLockedNotes || listAdapter.getItem(i).isLocked();
-						}
-						if (mustDeleteLockedNotes) {
-							mainActivity.requestPassword(mainActivity, getSelectedNotes(),
+                        boolean mustDeleteLockedNotes = false;
+                        for (int i = 0; i < listAdapter.getCount(); i++) {
+                            selectedNotes.add(listAdapter.getItem(i));
+                            mustDeleteLockedNotes = mustDeleteLockedNotes || listAdapter.getItem(i).isLocked();
+                        }
+                        if (mustDeleteLockedNotes) {
+                            mainActivity.requestPassword(mainActivity, getSelectedNotes(),
                                     passwordConfirmed -> {
                                         if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)  ) {
                                             deleteNotesExecute();
-										}
-									});
-						} else {
-							deleteNotesExecute();
-						}
-					}
-				}).build().show();
+                                        }
+                                    });
+                        } else {
+                            deleteNotesExecute();
+                        }
+                    }
+                }).build().show();
     }
 
 
     /**
      * Notes list adapter initialization and association to view
-	 * @FIXME: This method is a divine opprobrium and MUST be refactored. I'm ashamed by myself.
+     * @FIXME: This method is a divine opprobrium and MUST be refactored. I'm ashamed by myself.
      */
     void initNotesList(Intent intent) {
         Log.d(Constants.TAG, "initNotesList intent: " + intent.getAction());
@@ -1013,14 +1013,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         }
 
         if (Constants.ACTION_SHORTCUT_WIDGET.equals(intent.getAction())) {
-        	return;
-		}
+            return;
+        }
 
         // Searching
         searchQuery = searchQueryInstant;
         searchQueryInstant = null;
         if (searchTags != null || searchQuery != null || searchUncompleteChecklists
-				|| IntentChecker.checkAction(intent, Intent.ACTION_SEARCH, Constants.ACTION_SEARCH_UNCOMPLETE_CHECKLISTS)) {
+                || IntentChecker.checkAction(intent, Intent.ACTION_SEARCH, Constants.ACTION_SEARCH_UNCOMPLETE_CHECKLISTS)) {
 
             // Using tags
             if (searchTags != null && intent.getStringExtra(SearchManager.QUERY) == null) {
@@ -1028,9 +1028,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByTag",
                         searchQuery);
             } else if (searchUncompleteChecklists || Constants.ACTION_SEARCH_UNCOMPLETE_CHECKLISTS.equals(intent.getAction())) {
-				searchQuery = getContext().getResources().getString(R.string.uncompleted_checklists);
-				searchUncompleteChecklists = true;
-				NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByUncompleteChecklist");
+                searchQuery = getContext().getResources().getString(R.string.uncompleted_checklists);
+                searchUncompleteChecklists = true;
+                NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByUncompleteChecklist");
             } else {
                 // Get the intent, verify the action and get the query
                 if (intent.getStringExtra(SearchManager.QUERY) != null) {
@@ -1056,13 +1056,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                     mainActivity.navigationTmp = !TextUtils.isEmpty(categoryId) ? categoryId : null;
                 }
                 intent.removeExtra(Constants.INTENT_WIDGET);
-				if (mainActivity.navigationTmp != null) {
+                if (mainActivity.navigationTmp != null) {
                     Long categoryId = Long.parseLong(mainActivity.navigationTmp);
                     NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                             "getNotesByCategory", categoryId);
-				} else {
+                } else {
                     NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
-				}
+                }
 
             } else {
                 NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
@@ -1083,7 +1083,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 AnimationsHelper.expandOrCollapse(searchLayout, false);
                 searchTags = null;
                 searchQuery = null;
-				searchUncompleteChecklists = false;
+                searchUncompleteChecklists = false;
                 if (!goBackOnToggleSearchLabel) {
                     mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
                     if (searchView != null) {
@@ -1123,9 +1123,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         View noteLayout = LayoutInflater.from(mainActivity).inflate(layoutSelected, null, false);
         noteViewHolder = new NoteViewHolder(noteLayout);
 
-		if (Navigation.getNavigation() != Navigation.UNCATEGORIZED && prefs.getBoolean(Constants.PREF_ENABLE_SWIPE,
-				true)) {
-			list.enableSwipeToDismiss((viewGroup, reverseSortedPositions) -> {
+        if (Navigation.getNavigation() != Navigation.UNCATEGORIZED && prefs.getBoolean(Constants.PREF_ENABLE_SWIPE,
+                true)) {
+            list.enableSwipeToDismiss((viewGroup, reverseSortedPositions) -> {
 
                 // Avoids conflicts with action mode
                 finishActionMode();
@@ -1139,13 +1139,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                         continue;
                     }
 
-					if (note != null && note.isLocked()) {
-						PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
+                    if (note != null && note.isLocked()) {
+                        PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
                             if (!passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
-								onUndo(null);
-							}
-						});
-					}
+                                onUndo(null);
+                            }
+                        });
+                    }
 
                     getSelectedNotes().add(note);
 
@@ -1185,27 +1185,27 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             restoreListScrollPosition();
         }
 
-		animateListView();
+        animateListView();
 
-		closeFab();
+        closeFab();
     }
 
-	public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
-		initNotesList(mainActivity.getIntent());
-	}
+    public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+        initNotesList(mainActivity.getIntent());
+    }
 
-	private void animateListView() {
-		if (!OmniNotes.isDebugBuild()) {
-			animate(progress_wheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
-			animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
-		} else {
-			progress_wheel.setVisibility(View.INVISIBLE);
-			list.setAlpha(1);
-		}
-	}
+    private void animateListView() {
+        if (!OmniNotes.isDebugBuild()) {
+            animate(progress_wheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
+            animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+        } else {
+            progress_wheel.setVisibility(View.INVISIBLE);
+            list.setAlpha(1);
+        }
+    }
 
 
-	private void restoreListScrollPosition() {
+    private void restoreListScrollPosition() {
         if (list.getCount() > listViewPosition) {
             list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
             new Handler().postDelayed(fab::showFab, 150);
@@ -1282,7 +1282,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     private void selectAllNotes() {
         for (int i = 0; i < list.getChildCount(); i++) {
             LinearLayout v = (LinearLayout) list.getChildAt(i).findViewById(R.id.card_layout);
-			v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
+            v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
         }
         selectedNotes.clear();
         for (int i = 0; i < listAdapter.getCount(); i++) {
@@ -1297,19 +1297,19 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     /**
      * Batch note permanent deletion
      */
-	private void deleteNotes() {
-		new MaterialDialog.Builder(mainActivity)
-				.content(R.string.delete_note_confirmation)
-				.positiveText(R.string.ok)
-				.onPositive((dialog, which) -> mainActivity.requestPassword(mainActivity, getSelectedNotes(),
+    private void deleteNotes() {
+        new MaterialDialog.Builder(mainActivity)
+                .content(R.string.delete_note_confirmation)
+                .positiveText(R.string.ok)
+                .onPositive((dialog, which) -> mainActivity.requestPassword(mainActivity, getSelectedNotes(),
                         passwordConfirmed -> {
-							if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)  ) {
-								deleteNotesExecute();
-							}
-						}))
-				.build()
-				.show();
-	}
+                            if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)  ) {
+                                deleteNotesExecute();
+                            }
+                        }))
+                .build()
+                .show();
+    }
 
 
     /**
@@ -1351,10 +1351,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
             // If actual navigation is not "Notes" the item will not be removed but replaced to fit the new state
             if (Navigation.checkNavigation(Navigation.NOTES)
-					|| (Navigation.checkNavigation(Navigation.ARCHIVE) && !archive)
-					|| (Navigation.checkNavigation(Navigation.CATEGORY) && prefs.getBoolean(Constants
-					.PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false))) {
-				listAdapter.remove(note);
+                    || (Navigation.checkNavigation(Navigation.ARCHIVE) && !archive)
+                    || (Navigation.checkNavigation(Navigation.CATEGORY) && prefs.getBoolean(Constants
+                    .PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false))) {
+                listAdapter.remove(note);
             } else {
                 note.setArchived(archive);
                 listAdapter.replace(note, listAdapter.getPosition(note));
@@ -1533,7 +1533,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 .itemsCallbackMultiChoice(preSelectedTags, (dialog, which, text) -> {
                     dialog.dismiss();
                     tagNotesExecute(tags, which, preSelectedTags);
-					return false;
+                    return false;
                 }).build().show();
     }
 
@@ -1702,8 +1702,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
                     @Override
                     public void onNegative(MaterialDialog dialog) {
-						EventBus.getDefault().post(new NotesMergeEvent(true));
-					}
+                        EventBus.getDefault().post(new NotesMergeEvent(true));
+                    }
                 }).build().show();
     }
 
@@ -1713,8 +1713,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
      */
     public void onEventAsync(NotesMergeEvent notesMergeEvent) {
 
-		final Note finalMergedNote = NotesHelper.mergeNotes(getSelectedNotes(), notesMergeEvent.keepMergedNotes);
-		new Handler(Looper.getMainLooper()).post(() -> {
+        final Note finalMergedNote = NotesHelper.mergeNotes(getSelectedNotes(), notesMergeEvent.keepMergedNotes);
+        new Handler(Looper.getMainLooper()).post(() -> {
 
             if (!notesMergeEvent.keepMergedNotes) {
                 ArrayList<String> notesIds = new ArrayList<>();
@@ -1735,7 +1735,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
 
 
-	/**
+    /**
      * Excludes past reminders
      */
     private void filterReminders(boolean filter) {
@@ -1747,15 +1747,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
 
 
-	/**
+    /**
      * Excludes archived notes in categories navigation
      */
     private void filterCategoryArchived(boolean filter) {
-		if (filter) {
-			prefs.edit().putBoolean(Constants.PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), true).apply();
-		} else {
-			prefs.edit().remove(Constants.PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory()).apply();
-		}
+        if (filter) {
+            prefs.edit().putBoolean(Constants.PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), true).apply();
+        } else {
+            prefs.edit().remove(Constants.PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory()).apply();
+        }
         // Change list view
         initNotesList(mainActivity.getIntent());
         // Called to switch menu voices
@@ -1763,9 +1763,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
 
 
-	private void filterByUncompleteChecklists() {
-		initNotesList(new Intent(Constants.ACTION_SEARCH_UNCOMPLETE_CHECKLISTS));
-	}
+    private void filterByUncompleteChecklists() {
+        initNotesList(new Intent(Constants.ACTION_SEARCH_UNCOMPLETE_CHECKLISTS));
+    }
 
     private void filterByTags() {
 
@@ -1801,7 +1801,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
                     intent.removeExtra(SearchManager.QUERY);
                     initNotesList(intent);
-					return false;
+                    return false;
                 }).build().show();
     }
 
