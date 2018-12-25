@@ -17,29 +17,50 @@
 
 package it.feio.android.omninotes;
 
+import android.Manifest;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Base64InputStream;
+import android.util.Base64OutputStream;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.squareup.haha.perflib.Main;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +68,8 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
+import it.feio.android.analitica.AnalyticsHelper;
+import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.async.UpdateWidgetsTask;
 import it.feio.android.omninotes.async.UpdaterTask;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
@@ -54,6 +77,7 @@ import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.NotesHelper;
+import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -61,6 +85,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 
 
@@ -82,50 +107,53 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		setTheme(R.style.OmniNotesTheme_ApiSpec);
+        setTheme(R.style.OmniNotesTheme_ApiSpec);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-		EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
 
         initUI();
 
-		if (IntroActivity.mustRun()) {
-			startActivity(new Intent(this.getApplicationContext(), IntroActivity.class));
-		}
+        if (IntroActivity.mustRun()) {
+            startActivity(new Intent(this.getApplicationContext(), IntroActivity.class));
+        }else{
+            loadFromPreferenes();
+        }
 
         new UpdaterTask(this).execute();
     }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (isPasswordAccepted) {
-			init();
-		} else {
-			checkPassword();
-		}
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isPasswordAccepted) {
+            init();
+        } else {
+            checkPassword();
+        }
+    }
 
-	@Override
-	protected void onStop() {
-		super.onStop();
-		EventBus.getDefault().unregister(this);
-	}
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+        saveToPreferences();
+    }
 
 
-	private void initUI() {
+    private void initUI() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
 
-	/**
-	 * This method starts the bootstrap chain.
-	 */
-	private void checkPassword() {
-		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
-				&& prefs.getBoolean("settings_password_access", false)) {
+    /**
+     * This method starts the bootstrap chain.
+     */
+    private void checkPassword() {
+        if (prefs.getString(Constants.PREF_PASSWORD, null) != null
+                && prefs.getBoolean("settings_password_access", false)) {
             PasswordHelper.requestPassword(this, passwordConfirmed -> {
                 switch (passwordConfirmed) {
                     case SUCCEED:
@@ -137,29 +165,29 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
                     case RESTORE:
                         PasswordHelper.resetPassword(this);
                 }
-			});
+            });
         } else {
             init();
-		}
-	}
+        }
+    }
 
 
-	public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
-		showMessage(R.string.password_successfully_removed, ONStyle.ALERT);
-		init();
-	}
+    public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+        showMessage(R.string.password_successfully_removed, ONStyle.ALERT);
+        init();
+    }
 
 
-	private void init() {
+    private void init() {
         isPasswordAccepted = true;
 
-		getFragmentManagerInstance();
+        getFragmentManagerInstance();
 
-		NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManagerInstance()
+        NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManagerInstance()
                 .findFragmentById(R.id.navigation_drawer);
         if (mNavigationDrawerFragment == null) {
             FragmentTransaction fragmentTransaction = getFragmentManagerInstance().beginTransaction();
-            fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment(), 
+            fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment(),
                     FRAGMENT_DRAWER_TAG).commit();
         }
 
@@ -169,16 +197,17 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         }
 
         handleIntents();
+
     }
 
-	private FragmentManager getFragmentManagerInstance() {
-		if (mFragmentManager == null) {
-			mFragmentManager = getSupportFragmentManager();
-		}
-		return mFragmentManager;
-	}
+    private FragmentManager getFragmentManagerInstance() {
+        if (mFragmentManager == null) {
+            mFragmentManager = getSupportFragmentManager();
+        }
+        return mFragmentManager;
+    }
 
-	@Override
+    @Override
     protected void onNewIntent(Intent intent) {
         if (intent.getAction() == null) {
             intent.setAction(Constants.ACTION_START_APP);
@@ -230,10 +259,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
      */
     private Fragment checkFragmentInstance(int id, Object instanceClass) {
         Fragment result = null;
-		Fragment fragment = getFragmentManagerInstance().findFragmentById(id);
-		if (fragment!= null && instanceClass.equals(fragment.getClass())) {
-			result = fragment;
-		}
+        Fragment fragment = getFragmentManagerInstance().findFragmentById(id);
+        if (fragment!= null && instanceClass.equals(fragment.getClass())) {
+            result = fragment;
+        }
         return result;
     }
 
@@ -247,7 +276,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void onBackPressed() {
 
         // SketchFragment
-		Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
+        Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
         if (f != null) {
             ((SketchFragment) f).save();
 
@@ -271,16 +300,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
         if (f != null) {
             // Before exiting from app the navigation drawer is opened
-            if (prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null && 
+            if (prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
                     !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
                 getDrawerLayout().openDrawer(GravityCompat.START);
-            } else if (!prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null && 
+            } else if (!prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
                     getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
                 getDrawerLayout().closeDrawer(GravityCompat.START);
             } else {
                 if (!((ListFragment)f).closeFab()) {
-					isPasswordAccepted = false;
-					super.onBackPressed();
+                    isPasswordAccepted = false;
+                    super.onBackPressed();
                 }
             }
             return;
@@ -419,7 +448,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (getDrawerToggle() != null) {
             getDrawerToggle().setDrawerIndicatorEnabled(false);
         }
-		getFragmentManagerInstance().getFragments();
+        getFragmentManagerInstance().getFragments();
         EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
     }
 
@@ -436,7 +465,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
                     .addToBackStack(FRAGMENT_LIST_TAG)
                     .commitAllowingStateLoss();
         } else {
-			getFragmentManagerInstance().popBackStackImmediate();
+            getFragmentManagerInstance().popBackStackImmediate();
             transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
                     .addToBackStack(FRAGMENT_DETAIL_TAG)
                     .commitAllowingStateLoss();
@@ -519,7 +548,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     public void showMessage(String message, Style style) {
         // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
-		runOnUiThread(() -> Crouton.makeText(this, message, style, croutonViewContainer).show());
+        runOnUiThread(() -> Crouton.makeText(this, message, style, croutonViewContainer).show());
     }
 
 
@@ -539,5 +568,217 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (f != null && f.isAdded() && f.onDateSetListener != null) {
             f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
         }
+    }
+
+
+    private void importNotes() {
+        final CharSequence[] backups = StorageHelper.getExternalStoragePublicDir().list();
+
+        if (backups != null && backups.length == 0) {
+            (MainActivity.this).showMessage(R.string.no_backups_available, ONStyle.WARN);
+        } else {
+
+            MaterialDialog importDialog = new MaterialDialog.Builder(MainActivity.this)
+                    .title(R.string.data_import_message)
+                    .items(backups)
+                    .positiveText(R.string.confirm)
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog materialDialog) {
+
+                        }
+                    }).build();
+
+            // OnShow is overridden to allow long-click on item so user can remove them
+            importDialog.setOnShowListener(dialog -> {
+
+                ListView lv = importDialog.getListView();
+                assert lv != null;
+                lv.setOnItemClickListener((parent, view, position, id) -> {
+
+                    // Retrieves backup size
+                    File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+                    long size = StorageHelper.getSize(backupDir) / 1024;
+                    String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
+
+                    // Check preference presence
+                    String prefName = StorageHelper.getSharedPreferencesFile(MainActivity.this).getName();
+                    boolean hasPreferences = (new File(backupDir, prefName)).exists();
+
+                    String message = backups[position]
+                            + " (" + sizeString
+                            + (hasPreferences ? " " + getString(R.string.settings_included) : "")
+                            + ")";
+
+                    new MaterialDialog.Builder(MainActivity.this)
+                            .title(R.string.confirm_restoring_backup)
+                            .content(message)
+                            .positiveText(R.string.confirm)
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog materialDialog) {
+
+                                    ((OmniNotes)MainActivity.this.getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+                                            "settings_import_data");
+
+                                    importDialog.dismiss();
+
+                                    // An IntentService will be launched to accomplish the import task
+                                    Intent service = new Intent(MainActivity.this,
+                                            DataBackupIntentService.class);
+                                    service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
+                                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+                                            backups[position]);
+                                    MainActivity.this.startService(service);
+                                }
+                            }).build().show();
+                });
+
+                // Creation of backup removal dialog
+                lv.setOnItemLongClickListener((parent, view, position, id) -> {
+
+                    // Retrieves backup size
+                    File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+                    long size = StorageHelper.getSize(backupDir) / 1024;
+                    String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
+
+                    new MaterialDialog.Builder(MainActivity.this)
+                            .title(R.string.confirm_removing_backup)
+                            .content(backups[position] + "" + " (" + sizeString + ")")
+                            .positiveText(R.string.confirm)
+                            .callback(new MaterialDialog.ButtonCallback() {
+                                @Override
+                                public void onPositive(MaterialDialog materialDialog) {
+                                    importDialog.dismiss();
+                                    // An IntentService will be launched to accomplish the deletion task
+                                    Intent service = new Intent(MainActivity.this,
+                                            DataBackupIntentService.class);
+                                    service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
+                                    service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+                                            backups[position]);
+                                    MainActivity.this.startService(service);
+                                }
+                            }).build().show();
+
+                    return true;
+                });
+            });
+
+            importDialog.show();
+        }
+    }
+
+    public void loadFromPreferenes(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you want to Load your saved data!?");
+        // add a button
+        builder.setPositiveButton("yes",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Preference importData = null;
+                Context context = MainActivity.this;
+                SharedPreferences sharedPref = context.getSharedPreferences(
+                        getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                if (sharedPref != null) {
+
+                    PermissionsHelper.requestPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+                            .string.permission_external_storage, MainActivity.this.findViewById(R.id.crouton_handle), () -> importNotes());
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("mypreferences", Context.MODE_PRIVATE);
+
+                    byte[] bytes = sharedPreferences.getString("selectedNotesList", "{}").getBytes();
+                    if (bytes.length == 0) {
+                        Toast.makeText(MainActivity.this, "No Data stored to be loaded", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    ByteArrayInputStream byteArray = new ByteArrayInputStream(bytes);
+                    Base64InputStream base64InputStream = new Base64InputStream(byteArray, Base64.DEFAULT);
+                    ObjectInputStream objectInputStream;
+                    try {
+                        objectInputStream = new ObjectInputStream(base64InputStream);
+                        ListFragment.selectedNotes = (List<Note>) objectInputStream.readObject();
+                        Toast.makeText(MainActivity.this, "Load Successful" + ListFragment.selectedNotes.size(), Toast.LENGTH_LONG).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+
+        builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void saveToPreferences(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("Do you want to upload data!?");
+//        // add a button
+//        builder.setPositiveButton("yes",new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Preference importData = null;
+//                Context context = MainActivity.this;
+//                SharedPreferences sharedPref = context.getSharedPreferences(
+//                        getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+//                if (sharedPref != null) {
+//
+//                    PermissionsHelper.requestPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+//                            .string.permission_external_storage, MainActivity.this.findViewById(R.id.crouton_handle), () -> importNotes());
+//
+//
+//                }
+//            }
+//        });
+//
+//        builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                dialogInterface.cancel();
+//            }
+//        });
+//        // create and show the alert dialog
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("mypreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
+
+        ObjectOutputStream objectOutput;
+
+        try {
+            objectOutput = new ObjectOutputStream(arrayOutputStream);
+            objectOutput.writeObject(ListFragment.selectedNotes);
+            byte[] data = arrayOutputStream.toByteArray();
+            objectOutput.close();
+            arrayOutputStream.close();
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            Base64OutputStream b64 = new Base64OutputStream(out, Base64.DEFAULT);
+            b64.write(data);
+            b64.close();
+            out.close();
+
+            editor.putString("selectedNotesList", new String(out.toByteArray()));
+
+            editor.commit();
+            Toast.makeText(MainActivity.this, "List Saved" + ListFragment.selectedNotes.size(), Toast.LENGTH_LONG).show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
