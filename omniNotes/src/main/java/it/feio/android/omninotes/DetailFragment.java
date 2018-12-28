@@ -125,6 +125,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private static final int FILES = 7;
 	private static final int RC_READ_EXTERNAL_STORAGE_PERMISSION = 1;
 
+	private static final int MIN_CLICK_DELAY_TIME = 1000; 
+	private static long lastClickTime;
+
 	@BindView(R.id.detail_root)
 	ViewGroup root;
 	@BindView(R.id.detail_title)
@@ -1051,14 +1054,27 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		return true;
 	}
 
+	public static boolean isFastClick() {
+		boolean flag = true;
+		long curClickTime = System.currentTimeMillis();
+		if ((curClickTime - lastClickTime) >= MIN_CLICK_DELAY_TIME) {
+			flag = false;
+			lastClickTime = curClickTime;
+		}
+		return flag;
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
 		switch (item.getItemId()) {
 			case R.id.menu_attachment:
 				showAttachmentsPopup();
 				break;
 			case R.id.menu_tag:
-				addTags();
+				if (!isFastClick()) {
+					addTags();
+				}
 				break;
 			case R.id.menu_category:
 				categorizeNote();
