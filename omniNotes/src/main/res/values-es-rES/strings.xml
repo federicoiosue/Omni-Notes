@@ -390,4 +390,5 @@
   <string name="note_reminder_symbol">símbolo de recordatorio de nota</string>
   <string name="navigation_drawer_open">Abrir cajón de navegación</string>
   <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
+    <string name="search_in_note">Search</string>
 </resources>

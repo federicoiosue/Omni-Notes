@@ -391,4 +391,5 @@
   <string name="note_reminder_symbol">رمز تذكير الملاحظة</string>
   <string name="navigation_drawer_open">فتح قائمة الملاحة</string>
   <string name="navigation_drawer_close">إغلاق قائمة الملاحة</string>
+    <string name="search_in_note">Search</string>
 </resources>

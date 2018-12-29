@@ -389,4 +389,5 @@
   <string name="note_reminder_symbol">símbol de recordatori de nota</string>
   <string name="navigation_drawer_open">Obre el tauler de navegació</string>
   <string name="navigation_drawer_close">Tanca el tauler de navegació</string>
+    <string name="search_in_note">Search</string>
 </resources>

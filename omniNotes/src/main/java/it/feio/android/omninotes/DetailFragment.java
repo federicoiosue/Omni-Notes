@@ -20,7 +20,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.SearchManager;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -48,6 +50,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
@@ -59,6 +62,7 @@ import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -1102,6 +1106,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			case R.id.menu_note_info:
 				showNoteInfo();
 				break;
+			case R.id.menu_note_search:
+				searchInNote(item);
+				break;
 			default:
 				Log.w(Constants.TAG, "Invalid menu option selected");
 		}
@@ -1120,8 +1127,53 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		startActivity(intent);
 
 	}
+	private void searchInNote(MenuItem item) {
 
-	private void navigateUp() {
+
+		noteTmp.setTitle(getNoteTitle());
+		noteTmp.setContent(getNoteContent());
+
+		android.support.v7.widget.SearchView search = (android.support.v7.widget.SearchView) item.getActionView();
+		search.requestFocus();
+		SearchManager searchManager = (SearchManager) mainActivity.getSystemService(Context.SEARCH_SERVICE);
+		search.setSearchableInfo(searchManager.getSearchableInfo(mainActivity.getComponentName()));
+		search.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+		search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+
+				return false;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				if (!newText.isEmpty()) {
+					String NewNoteContent = search(newText);
+
+					noteTmp.setContent(NewNoteContent);
+					//View contentView = root.findViewById(R.id.detail_content);
+
+					//((EditText)contentView).setText(NewNoteContent);
+				}
+				noteTmp.setContent(newText);
+				return true;
+			}
+		});
+	}
+	private String search(String Searchkey)
+	{
+		String NoteContent= noteTmp.getContent();
+		Boolean check;
+		check= NoteContent.matches("(?i).*Searchkey.*");
+		if (check==true)
+		{
+			String newString = NoteContent.replaceAll(Searchkey, "<font color='red'>"+Searchkey+"</font>");
+			return newString;
+		}
+		else
+			return NoteContent;
+	}
+		private void navigateUp() {
 		afterSavedReturnsToList = true;
 		saveAndExit(this);
 	}
