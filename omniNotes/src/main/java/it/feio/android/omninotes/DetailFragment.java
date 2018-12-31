@@ -1171,7 +1171,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			return newString;
 		}
 		else
-			return NoteContent;
+        {
+            return NoteContent;
+        }
 	}
 		private void navigateUp() {
 		afterSavedReturnsToList = true;
