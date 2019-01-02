@@ -18,31 +18,31 @@
   -->
 <resources>
     <string-array name="navigation_list">
-        <item>Notes</item>
-        <item>Archive</item>
-        <item>Reminders</item>
-        <item>Trash</item>
-        <item>Uncategorized</item>
+        <item>Notater</item>
+        <item>Arkiv</item>
+        <item>Påminnelser</item>
+        <item>Papirkurv</item>
+        <item>Ukategorisert</item>
     </string-array>
     <string-array name="sortable_columns_human_readable">
-        <item>Title</item>
-        <item>Creation date</item>
-        <item>Last modification date</item>
+        <item>Tittel</item>
+        <item>Opprettelsesdato</item>
+        <item>Endringsdato</item>
         <item>Reminder date</item>
     </string-array>
     <string-array name="checked_items_behavior">
-        <item>Keep position</item>
-        <item>Move to the end of the list</item>
-        <item>Move to the end of unchecked items</item>
+        <item>Behold posisjon</item>
+        <item>Flytt til slutten av listen</item>
+        <item>Flytt til slutten av umerkede elementer</item>
     </string-array>
     <string-array name="colors_app">
-        <item>Disabled</item>
+        <item>Deaktivert</item>
         <item>Strip only</item>
         <item>Notes list only</item>
         <item>Complete</item>
     </string-array>
     <string-array name="colors_widget">
-        <item>Disabled</item>
+        <item>Deaktivert</item>
         <item>Strip only</item>
         <item>Notes list</item>
     </string-array>
@@ -54,9 +54,9 @@
         <item>Largest</item>
     </string-array>
     <string-array name="attachments_actions">
-        <item>Share</item>
-        <item>Delete</item>
-        <item>Delete All</item>
-        <item>Edit</item>
+        <item>Del</item>
+        <item>Slett</item>
+        <item>Slett alle</item>
+        <item>Rediger</item>
     </string-array>
 </resources>
