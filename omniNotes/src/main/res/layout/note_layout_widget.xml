@@ -42,7 +42,9 @@
             android:orientation="vertical"
             android:paddingBottom="12dp"
             android:paddingLeft="6dp"
+            android:paddingStart="6dp"
             android:paddingRight="16dp"
+            android:paddingEnd="16dp"
             android:paddingTop="4dp" >
 
             <LinearLayout
@@ -54,7 +56,7 @@
                     android:id="@+id/note_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="top|left"
+                    android:gravity="top|start"
                     android:singleLine="true"
                     android:textAppearance="@style/Text.Big.Widget"
                     android:textColor="@color/list_note_title"
@@ -65,7 +67,7 @@
                 android:id="@+id/note_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
+                android:layout_gravity="bottom|end"
                 android:maxLines="2"
                 android:textAppearance="@style/Text.Normal.Widget"
                 android:textColor="@color/list_note_title" />
@@ -74,7 +76,7 @@
                 android:id="@+id/note_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|left"
+                android:layout_gravity="bottom|start"
                 android:alpha="0.5"
                 android:singleLine="true"
                 android:textAppearance="@style/Text.Small.Widget" />

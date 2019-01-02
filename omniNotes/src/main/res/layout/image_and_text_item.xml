@@ -26,7 +26,8 @@
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/horizontal_margin" />
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingStart="@dimen/horizontal_margin"/>
 
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/text"
@@ -34,6 +35,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingStart="@dimen/horizontal_margin"
         android:textAppearance="@style/Text.Big"
         android:textColor="@color/drawer_text"
         pixlui:typeface="Roboto-Regular.ttf" />

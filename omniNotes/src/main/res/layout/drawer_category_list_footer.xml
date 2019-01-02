@@ -30,7 +30,8 @@
     android:background="@drawable/icon_selector"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/horizontal_margin" >
+    android:paddingLeft="@dimen/horizontal_margin"
+    android:paddingStart="@dimen/horizontal_margin">
 
     <ImageView
         android:layout_width="24dp"
@@ -57,6 +58,7 @@
         android:layout_height="50dp"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/icon_text_margin"
+        android:paddingStart="@dimen/icon_text_margin"
         android:text="@string/settings"
         android:textAllCaps="true"
         android:textAppearance="@style/Text.Normal"

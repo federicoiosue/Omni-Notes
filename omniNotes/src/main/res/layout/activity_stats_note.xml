@@ -38,8 +38,8 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="end|right"
-                    android:paddingEnd="5dp"
+                    android:gravity="end"
+                    android:paddingEnd="7dp"
                     android:paddingRight="7dp"
                     android:text="@string/stats_characters"
                     android:textStyle="bold" >
@@ -61,8 +61,8 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="end|right"
-                    android:paddingEnd="5dp"
+                    android:gravity="end"
+                    android:paddingEnd="7dp"
                     android:paddingRight="7dp"
                     android:text="@string/stats_images"
                     android:textStyle="bold" >
