@@ -79,6 +79,11 @@ public class OmniNotes extends MultiDexApplication {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		if (initLeakCanary()) {
+			return;
+		}
+
 		mContext = getApplicationContext();
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
@@ -86,15 +91,19 @@ public class OmniNotes extends MultiDexApplication {
 			StrictMode.enableDefaults();
 		}
 
-		initLeakCanary();
-
 		new NotificationsHelper(this).initNotificationChannels();
 	}
 
-	private void initLeakCanary() {
+	/**
+	 * Returns true if the process dedicated to LeakCanary for heap analysis is running
+	 * and app's init must be skipped
+	 */
+	private boolean initLeakCanary() {
 		if (!LeakCanary.isInAnalyzerProcess(this)) {
 			LeakCanary.install(this);
+			return false;
 		}
+		return true;
 	}
 
 	@Override
