@@ -30,6 +30,8 @@ android:
   - android-sdk-preview-license-.+
   - android-sdk-license-.+
   - google-gdk-license-.+
+before_install:
+  - yes | sdkmanager "platforms;android-27"
 script: 
   - ./gradlew clean build jacocoTestReport sonarqube
 after_success:
