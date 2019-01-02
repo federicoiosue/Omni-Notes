@@ -749,7 +749,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     /**
      * Performs one of the ActionBar button's actions after checked notes protection
      */
-    public boolean performAction(MenuItem item, ActionMode actionMode) {
+    public void performAction(MenuItem item, ActionMode actionMode) {
+
+        if (isOptionsItemFastClick()) return;
+
         if (actionMode == null) {
             switch (item.getItemId()) {
                 case android.R.id.home:
@@ -770,6 +773,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 					break;
 				case R.id.menu_filter_category_remove:
 					filterCategoryArchived(false);
+                    break;
 				case R.id.menu_uncomplete_checklists:
 					filterByUncompleteChecklists();
 					break;
@@ -829,12 +833,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 //                case R.id.menu_synchronize:
 //                    synchronizeSelectedNotes();
 //                    break;
+                default:
+                    Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
             }
         }
 
         checkSortActionPerformed(item);
-
-        return super.onOptionsItemSelected(item);
     }
 
 

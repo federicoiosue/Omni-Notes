@@ -145,7 +145,6 @@ import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
 import rx.Observable;
-import rx.functions.Func1;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import static java.lang.Integer.parseInt;
@@ -1051,6 +1050,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
+		if (isOptionsItemFastClick()) return true;
+
 		switch (item.getItemId()) {
 			case R.id.menu_attachment:
 				showAttachmentsPopup();
