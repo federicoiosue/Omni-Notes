@@ -74,14 +74,16 @@ public class NotesHelper {
 
 	public static Note mergeNotes(List<Note> notes, boolean keepMergedNotes) {
 		boolean locked = false;
-		ArrayList<Attachment> attachments = new ArrayList<Attachment>();
-		Category category = null;
+		ArrayList<Attachment> attachments = new ArrayList<>();
 		String reminder = null;
 		String reminderRecurrenceRule = null;
-		Double latitude = null, longitude = null;
+		Double latitude = null;
+		Double longitude = null;
 
 		Note mergedNote = new Note();
 		mergedNote.setTitle(notes.get(0).getTitle());
+		mergedNote.setArchived(notes.get(0).isArchived());
+		mergedNote.setCategory(notes.get(0).getCategory());
 		StringBuilder content = new StringBuilder();
 		// Just first note title must not be included into the content
 		boolean includeTitle = false;
@@ -89,7 +91,6 @@ public class NotesHelper {
 		for (Note note : notes) {
 			appendContent(note, content, includeTitle);
 			locked = locked || note.isLocked();
-			category = (Category) ObjectUtils.defaultIfNull(category, note.getCategory());
 			String currentReminder = note.getAlarm();
 			if (!StringUtils.isEmpty(currentReminder) && reminder == null) {
 				reminder = currentReminder;
@@ -103,7 +104,6 @@ public class NotesHelper {
 
         mergedNote.setContent(content.toString());
         mergedNote.setLocked(locked);
-        mergedNote.setCategory(category);
         mergedNote.setAlarm(reminder);
         mergedNote.setRecurrenceRule(reminderRecurrenceRule);
         mergedNote.setLatitude(latitude);
