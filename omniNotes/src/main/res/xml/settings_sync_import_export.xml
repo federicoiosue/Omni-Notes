@@ -31,16 +31,16 @@
             android:title="@string/settings_import_legacy"
             android:summary="@string/settings_import_legacy_summary"  />
 
-    <Preference
-            android:key="settings_backup_integrity_check"
-            android:title="Backup Integrity Check"
-            android:summary="Checks everything is ok with new auto-backup alpha feature (this option will be removed)"  />
+    <!--<Preference-->
+            <!--android:key="settings_backup_integrity_check"-->
+            <!--android:title="Backup Integrity Check"-->
+            <!--android:summary="Checks everything is ok with new auto-backup alpha feature (this option will be removed)"  />-->
 
-    <SwitchPreference
-        android:key="settings_enable_autobackup"
-        android:defaultValue="false"
-        android:title="@string/settings_enable_automatic_backup"
-        android:summary="@string/settings_enable_automatic_backup_summary" />
+    <!--<SwitchPreference-->
+        <!--android:key="settings_enable_autobackup"-->
+        <!--android:defaultValue="false"-->
+        <!--android:title="@string/settings_enable_automatic_backup"-->
+        <!--android:summary="@string/settings_enable_automatic_backup_summary" />-->
 
     <Preference
             android:key="settings_import_from_springpad"

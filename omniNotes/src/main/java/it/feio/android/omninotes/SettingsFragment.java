@@ -185,62 +185,62 @@ public class SettingsFragment extends PreferenceFragment {
 		}
 
 
-		// Autobackup feature integrity check
-		Preference backupIntegrityCheck = findPreference("settings_backup_integrity_check");
-		if (backupIntegrityCheck != null) {
-			backupIntegrityCheck.setOnPreferenceClickListener(arg0 -> {
-				List<LinkedList<DiffMatchPatch.Diff>> errors = BackupHelper.integrityCheck(StorageHelper
-						.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
-				if (errors.isEmpty()) {
-					new MaterialDialog.Builder(activity)
-							.content("Everything is ok")
-							.positiveText(R.string.ok)
-							.build().show();
-				} else {
-					DiffMatchPatch diffMatchPatch = new DiffMatchPatch();
-					String content = Observable.from(errors).map(diffs -> diffMatchPatch.diffPrettyHtml(diffs) +
-							"<br/>").toList().toBlocking().first().toString();
-					View v = getActivity().getLayoutInflater().inflate(R.layout.webview, null);
-					((WebView) v.findViewById(R.id.webview)).loadData(content, "text/html", null);
-					new MaterialDialog.Builder(activity)
-							.customView(v, true)
-							.positiveText(R.string.ok)
-							.negativeText("Copy to clipboard")
-							.onNegative((dialog, which) -> {
-								SystemHelper.copyToClipboard(activity, content);
-								Toast.makeText(activity, "Copied to clipboard", Toast.LENGTH_SHORT).show();
-							})
-							.build().show();
-				}
-				return false;
-			});
-		}
-
-		// Autobackup
-		final SwitchPreference enableAutobackup = (SwitchPreference) findPreference("settings_enable_autobackup");
-		if (enableAutobackup != null) {
-			enableAutobackup.setOnPreferenceChangeListener((preference, newValue) -> {
-				if ((Boolean) newValue) {
-					new MaterialDialog.Builder(activity)
-							.content(R.string.settings_enable_automatic_backup_dialog)
-							.positiveText(R.string.confirm)
-							.negativeText(R.string.cancel)
-							.onPositive((dialog, which) -> {
-								PermissionsHelper.requestPermission(getActivity(), Manifest.permission
-										.WRITE_EXTERNAL_STORAGE, R
-										.string.permission_external_storage, activity.findViewById(R.id
-										.crouton_handle), () -> {
-									BackupHelper.startBackupService(Constants.AUTO_BACKUP_DIR);
-									enableAutobackup.setChecked(true);
-								});
-							})
-							.build().show();
-				} else {
-					enableAutobackup.setChecked(false);
-				}
-				return false;
-			});
-		}
+//		// Autobackup feature integrity check
+//		Preference backupIntegrityCheck = findPreference("settings_backup_integrity_check");
+//		if (backupIntegrityCheck != null) {
+//			backupIntegrityCheck.setOnPreferenceClickListener(arg0 -> {
+//				List<LinkedList<DiffMatchPatch.Diff>> errors = BackupHelper.integrityCheck(StorageHelper
+//						.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
+//				if (errors.isEmpty()) {
+//					new MaterialDialog.Builder(activity)
+//							.content("Everything is ok")
+//							.positiveText(R.string.ok)
+//							.build().show();
+//				} else {
+//					DiffMatchPatch diffMatchPatch = new DiffMatchPatch();
+//					String content = Observable.from(errors).map(diffs -> diffMatchPatch.diffPrettyHtml(diffs) +
+//							"<br/>").toList().toBlocking().first().toString();
+//					View v = getActivity().getLayoutInflater().inflate(R.layout.webview, null);
+//					((WebView) v.findViewById(R.id.webview)).loadData(content, "text/html", null);
+//					new MaterialDialog.Builder(activity)
+//							.customView(v, true)
+//							.positiveText(R.string.ok)
+//							.negativeText("Copy to clipboard")
+//							.onNegative((dialog, which) -> {
+//								SystemHelper.copyToClipboard(activity, content);
+//								Toast.makeText(activity, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+//							})
+//							.build().show();
+//				}
+//				return false;
+//			});
+//		}
+//
+//		// Autobackup
+//		final SwitchPreference enableAutobackup = (SwitchPreference) findPreference("settings_enable_autobackup");
+//		if (enableAutobackup != null) {
+//			enableAutobackup.setOnPreferenceChangeListener((preference, newValue) -> {
+//				if ((Boolean) newValue) {
+//					new MaterialDialog.Builder(activity)
+//							.content(R.string.settings_enable_automatic_backup_dialog)
+//							.positiveText(R.string.confirm)
+//							.negativeText(R.string.cancel)
+//							.onPositive((dialog, which) -> {
+//								PermissionsHelper.requestPermission(getActivity(), Manifest.permission
+//										.WRITE_EXTERNAL_STORAGE, R
+//										.string.permission_external_storage, activity.findViewById(R.id
+//										.crouton_handle), () -> {
+//									BackupHelper.startBackupService(Constants.AUTO_BACKUP_DIR);
+//									enableAutobackup.setChecked(true);
+//								});
+//							})
+//							.build().show();
+//				} else {
+//					enableAutobackup.setChecked(false);
+//				}
+//				return false;
+//			});
+//		}
 
 
 		// Import notes from Springpad export zip file
