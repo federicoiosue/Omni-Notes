@@ -18,6 +18,12 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="Jan 19, 2019"
+        versionName="6.0.0 Beta 7">
+        <changelogtext>[i]Improved![/i] Backup notification contains now missing attachments number</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="Jan 13, 2019"
         versionName="6.0.0 Beta 6">
         <changelogtext>[i]Improved![/i] Merging notes result will keep archived status and category of first note selected</changelogtext>
