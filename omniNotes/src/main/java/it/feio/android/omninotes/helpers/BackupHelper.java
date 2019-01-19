@@ -109,20 +109,25 @@ public class BackupHelper {
 		boolean result = true;
 
 		listOld = listOld == null ? Collections.EMPTY_LIST : listOld;
-		int count = 0;
+		int exported = 0;
+		int failed = 0;
 		for (Attachment attachment : list) {
 			try {
 				StorageHelper.copyToBackupDir(destinationattachmentsDir, FilenameUtils.getName(attachment.getUriPath()), OmniNotes.getAppContext().getContentResolver().openInputStream(attachment.getUri()));
-				if (notificationsHelper != null) {
-					notificationsHelper.setMessage(TextHelper.capitalize(OmniNotes.getAppContext()
-							.getString(R.string.attachment)) + " " + count + "/" + list.size())
-							.show();
-				}
+				++exported;
 			} catch (FileNotFoundException e) {
 				Log.w(Constants.TAG, "Attachment not found during backup: " + attachment.getUriPath());
+				++failed;
 				result = false;
 			}
-			count++;
+
+			String failedString = failed > 0 ? " (" + failed + " " + OmniNotes.getAppContext().getString(R.string.failed) + ")" : "";
+			if (notificationsHelper != null) {
+				notificationsHelper.updateMessage(
+						TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment))
+								+ " " + exported + "/" + list.size() + failedString
+				);
+			}
 		}
 		
 		Observable.from(listOld)
@@ -208,8 +213,10 @@ public class BackupHelper {
 				file = (File) i.next();
 				FileUtils.copyFileToDirectory(file, attachmentsDir, true);
 				if (notificationsHelper != null) {
-					notificationsHelper.setMessage(TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string
-							.attachment)) + " " + imported++ + "/" + list.size()).show();
+					notificationsHelper.updateMessage(
+							TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment))
+									+ " " + imported++ + "/" + list.size()
+					);
 				}
 			} catch (IOException e) {
 				result = false;

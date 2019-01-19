@@ -75,8 +75,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 //                        null)
 //                .setIndeterminate().setOngoing();
 
-                mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannels.NotificationChannelNames.Backups,
-                        R.drawable.ic_content_save_white_24dp, getString(R.string.working));
+        mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannels.NotificationChannelNames.Backups,
+                R.drawable.ic_content_save_white_24dp, getString(R.string.working));
 
 
         // If an alarm has been fired a notification must be generated
