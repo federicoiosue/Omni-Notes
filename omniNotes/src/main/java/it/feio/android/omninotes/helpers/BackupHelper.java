@@ -109,20 +109,22 @@ public class BackupHelper {
 		boolean result = true;
 
 		listOld = listOld == null ? Collections.EMPTY_LIST : listOld;
-		int exported = 0;
+		int count = 0;
 		for (Attachment attachment : list) {
 			try {
 				StorageHelper.copyToBackupDir(destinationattachmentsDir, FilenameUtils.getName(attachment.getUriPath()), OmniNotes.getAppContext().getContentResolver().openInputStream(attachment.getUri()));
 				if (notificationsHelper != null) {
 					notificationsHelper.setMessage(TextHelper.capitalize(OmniNotes.getAppContext()
-							.getString(R.string.attachment)) + " " + exported++ + "/" + list.size())
+							.getString(R.string.attachment)) + " " + count + "/" + list.size())
 							.show();
 				}
 			} catch (FileNotFoundException e) {
 				Log.w(Constants.TAG, "Attachment not found during backup: " + attachment.getUriPath());
 				result = false;
 			}
+			count++;
 		}
+		
 		Observable.from(listOld)
 				.filter(attachment -> !list.contains(attachment))
 				.forEach(attachment -> StorageHelper.delete(OmniNotes.getAppContext(), new File
